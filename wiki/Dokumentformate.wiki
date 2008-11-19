@@ -1,5 +1,3 @@
-== Dokumentformate ==
-
 Alle Dokumente werden aus Kompatibilitätsgründen mit dem *UTF-8* - Zeichensatz erstellt
 
 || *Typ*  || *Dateiendung* || *Programm* ||
