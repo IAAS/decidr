@@ -2,3 +2,5 @@
 
 || *Verwendungszweck* || *Programmname* || *Version* ||
 || Zeiterfassung || Fred2008 || 1.4 ||
+|| Terminverwaltung || Google Calendar || xxx ||
+|| Mailingliste || Google Groups || xxx ||
