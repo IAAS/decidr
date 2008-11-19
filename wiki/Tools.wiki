@@ -1,5 +1,3 @@
-== Verwendete Tools ==
-
 || *Verwendungszweck* || *Programmname* || *Version* ||
 || Zeiterfassung || Fred2008 || 1.4 ||
 || Terminverwaltung || Google Calendar || immer aktuellste Version ||
