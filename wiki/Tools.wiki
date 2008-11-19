@@ -2,5 +2,6 @@
 
 || *Verwendungszweck* || *Programmname* || *Version* ||
 || Zeiterfassung || Fred2008 || 1.4 ||
-|| Terminverwaltung || Google Calendar || xxx ||
-|| Mailingliste || Google Groups || xxx ||
+|| Terminverwaltung || Google Calendar || immer aktuellste Version ||
+|| Mailingliste || Google Groups || immer aktuellste Version ||
+|| Online-Konferenzen || Skype || immer aktuellste Version ||
