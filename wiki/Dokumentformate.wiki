@@ -1,6 +1,6 @@
 Alle Dokumente werden aus Kompatibilitätsgründen mit dem *UTF-8* - Zeichensatz erstellt
 
-|| *Typ*  || *Dateiendung* || *Programm* ||
-|| Textdokumente  || .lyx || Lyx ||
-|| Rastergrafiken || .png || diverse ||
-|| Vektorgrafiken || .svg || diverse ||
+|| *type*  || *Dateiendung* || *programm* ||
+|| text documents  || .doc || Word 2003 ||
+|| raster graphics || .png || diverse ||
+|| vector graphics || .svg || diverse ||
