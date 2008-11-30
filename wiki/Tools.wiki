@@ -1,6 +1,6 @@
 || *usage* || *programm* || *version* ||
-|| calendar management || Google Calendar || newest ||
+|| calendar management || Google Calendar || latest ||
 || creating official documents || Microsoft Word || 2003 ||
-|| mailinglist || Google Groups || newest ||
-|| online-meetings || Skype || newest ||
+|| mailinglist || Google Groups || latest ||
+|| online-meetings || Skype || latest ||
 || time recording || Fred2008 || 1.4 ||
