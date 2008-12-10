@@ -1,0 +1,10 @@
+The Fred-Service is reachable at the following address:
+
+*http://iaassrv7.informatik.uni-stuttgart.de:8080/Sopra06Server/Sopra06Server
+
+
+You have to be be connected either to infVPN (extern and intern) or to the RUS-VPN (intern only) to reach the server.
+
+- 
+
+- 
