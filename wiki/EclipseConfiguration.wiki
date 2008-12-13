@@ -6,8 +6,10 @@ On this page you'll get all information on how to set up Eclipse to work with th
 
 == Configuration for Prototype Developement ==
 
-For the Prototype, Eclipse Ganymede is used.
-The Following Packages are needed for prototype developement:
+For the Prototype, Eclipse Ganymede (_Eclipse IDE for Java EE Developers_) will be used.
+Download: http://www.eclipse.org/downloads/
+
+The following additional packages are needed for prototype developement:
 
 === Subclipse ===
 
@@ -19,8 +21,7 @@ You'll need at least the Subclipse and the Java HL Adapter package.
 === Ganymede ===
 
 Eclipse Update Site:
-Should already exist (name: "Ganymemede").
+Should already exist (name: "Ganymede").
 Otherwise, the update site is: http://download.eclipse.org/releases/ganymede
 
-You'll need all "SOA Developement" and all "Web and JavaEE Developement" packages.
-Additionally, under the "Uncategorized" category, install all WSDL and WST packages.
+You'll need all "SOA Developement" packages.
