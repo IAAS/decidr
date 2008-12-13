@@ -18,10 +18,11 @@ http://subclipse.tigris.org/update_1.4.x
 
 You'll need at least the Subclipse and the Java HL Adapter package.
 
-=== Ganymede ===
+=== SOA Developement ===
 
 Eclipse Update Site:
-Should already exist (name: "Ganymede").
+The SOA Developement packages can be found within the Ganymede Update Site
+(Should already exist, named "Ganymede").
 Otherwise, the update site is: http://download.eclipse.org/releases/ganymede
 
 You'll need all "SOA Developement" packages.
