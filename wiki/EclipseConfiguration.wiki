@@ -1,0 +1,22 @@
+#summary Eclipse Configuration Manual.
+
+= Configuration for Prototype Developement =
+
+For the Prototype, Eclipse Ganymede is used.
+The Following Packages are needed for prototype developement:
+
+== Subclipse ==
+
+Eclipse Update Site:
+http://subclipse.tigris.org/update_1.4.x
+
+You'll need at least the Subclipse and the Java HL Adapter package.
+
+== Ganymede ==
+
+Eclipse Update Site:
+Should already exist (name: "Ganymemede").
+Otherwise, the update site is: http://download.eclipse.org/releases/ganymede
+
+You'll need all "SOA Developement" and all "Web and JavaEE Developement" packages.
+Additionally, under the "Uncategorized" category, install all WSDL and WST packages.
