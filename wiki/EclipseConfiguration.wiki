@@ -4,19 +4,19 @@
 
 On this page you'll get all information on how to set up Eclipse to work with this project.
 
-= Configuration for Prototype Developement =
+== Configuration for Prototype Developement ==
 
 For the Prototype, Eclipse Ganymede is used.
 The Following Packages are needed for prototype developement:
 
-== Subclipse ==
+=== Subclipse ===
 
 Eclipse Update Site:
 http://subclipse.tigris.org/update_1.4.x
 
 You'll need at least the Subclipse and the Java HL Adapter package.
 
-== Ganymede ==
+=== Ganymede ===
 
 Eclipse Update Site:
 Should already exist (name: "Ganymemede").
