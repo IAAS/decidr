@@ -9,23 +9,25 @@ You have to be be connected either to infVPN (extern and intern) or to the RUS-V
 ==Milestones in Fred==
 
 ===Communication===
-Treffen u. Meetings, die keinem Meilenstein direkt angehören (z.B. Mi-Meetings).
-Alle Meetings, die ein konkretes Thema behandeln, z.B. Entwurf oder Spezifikation gehören nicht dazu.
+Meetings, which can't be allocated to a particular milestone (e.g. Mi-Meetings)
+Meetings around Specs or Design don't belong to this milestone.
+
 ===Training===
-Dieser Meilenstein ist optional, d.h. wenn sich jemand in das Thema bei dem Prototypen einliest, kann derjenige diese Aktivitäten hier oder beim Prototypen eintragen (natürlich nicht beides gleichzeitig :-)
+This Milestone is free to choose. e.g. If you want to read literature&docs in the preparation phase in the prototype milestone, you can choose this section or the prototype section (but not both at the same time :-) 
 ===Prototype===
-Alles was mit der Vorbereitung u. Umsetzung des Prototypen zu tun hat.
+Preparation & implementation of the prototype
 ===Project Management===
-Alles was mit der Organisation, Planung im Team zu tun hat und nicht direkt einem bestimmten Meilenstein zugewiesen werden kann.
-===Specification===
-Alles was mit der Vorbereitung u. Umsetzung der Spezikation zu tun hat.Ausnahme: Specification Reviews.
-===Specification Reviews===
-Alle Reviews, die im Rahmen der Spezifikation durchgeführt werden. Die Vorbereitungen für die Review-Sitzungen gehören auch dazu.
-===Infrastructure===
-Infrastructure ist nicht nur alles was mit der Infrastruktur zu tun hat, sondern auch alles was für den problemlosen Betrieb in dem Projekt beiträgt (z.B. Word-Vorlagen oder SVN aufsetzten)
+Organization & Planning in the team, that doesn't belong to any particular milestone.
 ===Analysis===
 Die Vorstufe der Spezifikation
+===Specification===
+Preparation & writing of the specs. Exception: 
+Specification Reviews.
+===Specification Reviews===
+All specification reviews and their preparation.
+===Infrastructure===
+infrastructure is not only about infrastructure in the project, but also everything, that makes make the project "smooth and simple" (e.g. Word-teplates, SVN etc) 
 ===Seminar===
-Seminare..
+Seminars
 
 Bei Fragen bitte hier Kommentare hinterlassen.
