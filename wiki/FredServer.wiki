@@ -12,7 +12,7 @@ You have to be be connected either to infVPN (extern and intern) or to the RUS-V
 Treffen u. Meetings, die keinem Meilenstein direkt angehören (z.B. Mi-Meetings).
 Alle Meetings, die ein konkretes Thema behandeln, z.B. Entwurf oder Spezifikation gehören nicht dazu.
 ===Training===
-Dieser Meilenstein ist optional, d.h. wenn sich jemand in das Thema bei dem Prototypen einliest, kann diese Aktivitäten hier oder beim Prototypen eintragen (natürlich nicht beides gleichzeitig :-)
+Dieser Meilenstein ist optional, d.h. wenn sich jemand in das Thema bei dem Prototypen einliest, kann derjenige diese Aktivitäten hier oder beim Prototypen eintragen (natürlich nicht beides gleichzeitig :-)
 ===Prototype===
 Alles was mit der Vorbereitung u. Umsetzung des Prototypen zu tun hat.
 ===Project Management===
