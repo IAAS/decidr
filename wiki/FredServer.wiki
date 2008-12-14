@@ -19,7 +19,7 @@ Preparation & implementation of the prototype
 ===Project Management===
 Organization & planning in the team, that doesn't belong to any particular milestone.
 ===Analysis===
-Die Vorstufe der Spezifikation
+Preliminary phase of the specification
 ===Specification===
 Preparation & writing of the specs. Exception: 
 Specification Reviews.
