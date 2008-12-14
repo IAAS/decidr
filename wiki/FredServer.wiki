@@ -16,7 +16,7 @@ Dieser Meilenstein ist optional, d.h. wenn sich jemand in das Thema bei dem Prot
 ===Prototype===
 Alles was mit der Vorbereitung u. Umsetzung des Prototypen zu tun hat.
 ===Project Management===
-Alles was mit der Organisation, Planung im Team zu tun hat und nicht direkt einenm bestimmten Meilenstein zugewiesen werden kann.
+Alles was mit der Organisation, Planung im Team zu tun hat und nicht direkt einem bestimmten Meilenstein zugewiesen werden kann.
 ===Specification===
 Alles was mit der Vorbereitung u. Umsetzung der Spezikation zu tun hat.Ausnahme: Specification Reviews.
 ===Specification Reviews===
