@@ -9,15 +9,15 @@ You have to be be connected either to infVPN (extern and intern) or to the RUS-V
 ==Milestones in Fred==
 
 ===Communication===
-Meetings, which can't be allocated to a particular milestone (e.g. Mi-Meetings)
+Meetings, which can't be allocated to a particular milestone (e.g. Mi-Meetings).
 Meetings around Specs or Design don't belong to this milestone.
 
 ===Training===
-This Milestone is free to choose. e.g. If you want to read literature&docs in the preparation phase in the prototype milestone, you can choose this section or the prototype section (but not both at the same time :-) 
+This Milestone is free to choose. e.g. If you want to read literature&docs in the preparation phase for your prototype, you can choose this section or the prototype section (but not both at the same time :-) 
 ===Prototype===
 Preparation & implementation of the prototype
 ===Project Management===
-Organization & Planning in the team, that doesn't belong to any particular milestone.
+Organization & planning in the team, that doesn't belong to any particular milestone.
 ===Analysis===
 Die Vorstufe der Spezifikation
 ===Specification===
@@ -26,7 +26,7 @@ Specification Reviews.
 ===Specification Reviews===
 All specification reviews and their preparation.
 ===Infrastructure===
-infrastructure is not only about infrastructure in the project, but also everything, that makes make the project "smooth and simple" (e.g. Word-teplates, SVN etc) 
+Infrastructure is not only about infrastructure in the project, but also everything, that makes make the project "smooth and simple" (e.g. Word-teplates, SVN etc) 
 ===Seminar===
 Seminars
 
