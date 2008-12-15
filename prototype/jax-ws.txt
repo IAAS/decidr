@@ -1,0 +1,29 @@
+2 Alternativen vom crashkurs:
+ 1. Sun JAX-WS reference implementation
+ 2. Apache CXF
++ 3. Apache Axis2
+
+Pros:
+ 1. Sun JAX-WS RI
+  * Unterstützt die meisten WS-*-Standards von Haus aus
+
+ 2. Apache CXF
+  * garantiert Apache-Licence-kompatibel
+  * schlank und einfach
+
+ 2. Apache Axis2
+  * garantiert Apache-Licence-kompatibel
+  * modular
+
+
+Cons:
+ 1. Sun JAX-WS RI
+  * License: CDDL 1.0 & GPL 2
+
+ 2. Apache CXF
+  * Proprietäres API + JAX-WS-Schnittstelle
+  * Unterstützt die wenigsten WS-*-Standards von Haus aus
+
+ 2. Apache Axis2
+  * benötigt detailliertes Wissen über Ant
+  * schlechte JAX-WS-Unterstützung
