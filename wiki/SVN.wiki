@@ -1,0 +1,21 @@
+#summary One-sentence summary of this page.
+
+= SVN =
+Checkout, beim ersten Mal, um die Ordnerstruktur zu erhalten:
+*svn checkout https://decidr.googlecode.com/svn/trunk/ Projektordner --username username_von_google
+
+Add, markieren der Files, die ins Repository aufgenommen werden sollen:
+*svn add Projektordner
+
+Update, um sich die neuesten Files vom Repository zu holen:
+*svn update Projektordner
+
+Commit, die Markierungen ins Repository aufnehmen:
+*svn commit Projektordner
+ 
+Delete, Files zum Löschen markieren:
+svn delete File
+
+
+
+
