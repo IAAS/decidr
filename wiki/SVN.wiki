@@ -1,21 +1,21 @@
 #summary One-sentence summary of this page.
 
 = SVN =
-Checkout, beim ersten Mal, um die Ordnerstruktur zu erhalten:
-*svn checkout https://decidr.googlecode.com/svn/trunk/ Projektordner --username username_von_google
+The first time you have to checkout, to get the structure from SVN on your system:
+*svn checkout https://decidr.googlecode.com/svn/trunk/ project_folder --username username_for_google_account
 
-Add, markieren der Files, die ins Repository aufgenommen werden sollen:
-*svn add Projektordner
+If you want to upload a new file you have to mark it first:
+*svn add file_to_add
 
-Update, um sich die neuesten Files vom Repository zu holen:
-*svn update Projektordner
+To get the latest version you can update your project's folder:
+*svn update project_folder
 
-Commit, die Markierungen ins Repository aufnehmen:
-*svn commit Projektordner
+To upload all marked files in your project's folder you have to commit your changes:
+*svn commit project_folder
  
-Delete, Files zum Löschen markieren:
-svn delete File
+Deleting a file in the repository:
+*svn delete file_to_delete
 
 
-
-
+The first thing you have to do is to checkout. Create a folder where you want to save the project and use the command above (my operating system is Linux, for other distribution or operating systems there are other tools, but ask me if you have questions). When you work on a new file and you want to add it, use svn add and then commit the added file. DON'T FORGET TO COMMIT IF YOU ADD A NEW FILE!!!! Also you should update your project's folder once a day. I suggest that deleting a file must not be used by a regular user. It should be discussed in the group and with the project leader. WRITE COMMENTS IF YOU COMMIT NEW FILES! THE COMMENTS SHOULD BE WELL DECLARED SELF-EXPLANATORY!!!!!
+If you have question ask me! 
