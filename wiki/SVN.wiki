@@ -12,6 +12,7 @@ To get the latest version you can update your project's folder:
 
 To upload all marked files in your project's folder you have to commit your changes:
 *svn commit project_folder
+
  
 Deleting a file in the repository:
 *svn delete file_to_delete
