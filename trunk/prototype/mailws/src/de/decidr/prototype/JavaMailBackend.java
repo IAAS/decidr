@@ -28,7 +28,7 @@ import javax.swing.JPasswordField;
  * 
  * @author RR
  */
-public class JavaMailDemo {
+public class JavaMailBackend {
 
 	/**
 	 * Header <code>{@link String strings}</code>.
@@ -71,7 +71,7 @@ public class JavaMailDemo {
 	 * @param subject
 	 * @throws MessagingException
 	 */
-	public JavaMailDemo(String to, String from, String subject)
+	public JavaMailBackend(String to, String from, String subject)
 			throws MessagingException {
 		super();
 		this.headerTo = to;
@@ -308,7 +308,7 @@ public class JavaMailDemo {
 
 	public static void main(String[] args) throws AddressException,
 			MessagingException, IOException {
-		JavaMailDemo demo = new JavaMailDemo(
+		JavaMailBackend demo = new JavaMailBackend(
 				"rumberrd@studi.informatik.uni-stuttgart.de",
 				"rumbergerr@yahoo.de", "testDemoMail");
 		JPasswordField passField = new JPasswordField();
