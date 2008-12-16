@@ -20,8 +20,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
 
 /**
  * JavaMail demo class for the Decidr prototype.
@@ -304,32 +302,5 @@ public class JavaMailBackend {
 		message.saveChanges();
 		SMTPTransport.sendMessage(message, message.getAllRecipients());
 		SMTPTransport.close();
-	}
-
-	public static void main(String[] args) throws AddressException,
-			MessagingException, IOException {
-		JavaMailBackend demo = new JavaMailBackend(
-				"rumberrd@studi.informatik.uni-stuttgart.de",
-				"rumbergerr@yahoo.de", "testDemoMail");
-		JPasswordField passField = new JPasswordField();
-		String pwd;
-		if (JOptionPane.showConfirmDialog(null, passField, "password input",
-				JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
-			pwd = new String(passField.getPassword());
-		else {
-			System.exit(1);
-			return;
-		}
-
-		demo.setBodyText("testestest");
-		demo.setHostname("smtp.mail.yahoo.de");
-		demo.setCC("rumbergerr@gmail.com");
-		demo.addCC("rrumberger@gmx.de, rrumberger@web.de");
-		demo.setPortNum((char) 25);
-		demo.setAuthInfo("rumbergerr", pwd);
-		demo.addHeader("X-Test-Header", "stupidcontent");
-		demo.setXMailer("testmailer");
-
-		demo.sendMessage();
 	}
 }
