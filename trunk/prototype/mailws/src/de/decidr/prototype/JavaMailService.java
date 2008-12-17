@@ -13,7 +13,7 @@ import javax.jws.soap.SOAPBinding.Style;
  * @author RR
  * 
  */
-@WebService(serviceName = "eMailWS", name = "eMailWSPT", targetNamespace = "http://decidr.org/mailws")
+@WebService(serviceName = "eMailWS", name = "eMailWSPT", targetNamespace = "http://decidr.org/mailws", wsdlLocation="mailws.wsdl")
 @SOAPBinding(style = Style.RPC)
 public class JavaMailService {
 	/**
