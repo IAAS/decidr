@@ -1,0 +1,12 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+All features & hacks around Google helpful for our project
+
+Please feel free to add content
+
+= GoogleMail =
+
+==Keyboard shortcuts==
+[http://mail.google.com/support/bin/answer.py?hl=en&answer=6594]
