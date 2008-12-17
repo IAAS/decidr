@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary all about svn.
 
 = SVN =
 The first time you have to checkout, to get the structure from SVN on your system:
