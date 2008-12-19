@@ -14,12 +14,14 @@ import java.util.Vector;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+
+import com.sun.mail.smtp.SMTPSSLTransport;
+import com.sun.mail.smtp.SMTPTransport;
 
 /**
  * JavaMail demo class for the Decidr prototype.
@@ -45,9 +47,10 @@ public class JavaMailBackend {
 	private String SMTPServerHost = "localhost";
 
 	/**
-	 * The port numer of the SMTP server. Defaults to 25.
+	 * The port numer of the SMTP server. Defaults to whatever the protocol
+	 * specifies.
 	 */
-	private char SMTPPortNum = 25;
+	private int SMTPPortNum = -1;
 
 	/**
 	 * The authentification information. If unset, the server is assumed not to
@@ -60,6 +63,11 @@ public class JavaMailBackend {
 	 * constructed.
 	 */
 	private List<MimeBodyPart> messageParts = new Vector<MimeBodyPart>();
+
+	/**
+	 * Whether to use TLS for the mail transfer. Defaults to <code>false</code>.
+	 */
+	private boolean useTLS = false;
 
 	/**
 	 * 
@@ -214,7 +222,7 @@ public class JavaMailBackend {
 	/**
 	 * @param portNum
 	 */
-	public void setPortNum(char portNum) {
+	public void setPortNum(int portNum) {
 		SMTPPortNum = portNum;
 	}
 
@@ -242,6 +250,13 @@ public class JavaMailBackend {
 	}
 
 	/**
+	 * @param use
+	 */
+	public void useTLS(boolean use) {
+		useTLS = use;
+	}
+
+	/**
 	 * @throws MessagingException
 	 * @throws AddressException
 	 * @throws IOException
@@ -249,8 +264,20 @@ public class JavaMailBackend {
 	 */
 	public void sendMessage() throws AddressException, MessagingException,
 			IOException {
+		if (SMTPServerHost == null)
+			SMTPServerHost = "localhost";
+		String protocol;
+		if (useTLS)
+			protocol = "smtps";
+		else
+			protocol = "smtp";
+
 		Properties sysProps = System.getProperties();
-		Session session = Session.getInstance(sysProps);
+		sysProps.setProperty("mail." + protocol + ".host", SMTPServerHost);
+		if (username != null && !username.isEmpty()) {
+			sysProps.setProperty("mail." + protocol + ".auth", "true");
+		}
+		Session session = Session.getInstance(sysProps, null);
 
 		Message message = new MimeMessage(session);
 		if (headerTo == null || headerTo.isEmpty())
@@ -295,12 +322,19 @@ public class JavaMailBackend {
 		message.setHeader("X-Mailer", headerXMailer);
 		message.setSentDate(new Date());
 
-		Transport SMTPTransport = session.getTransport("smtp");
-		if (SMTPServerHost == null)
-			SMTPServerHost = "localhost";
-		SMTPTransport.connect(SMTPServerHost, SMTPPortNum, username, password);
-		message.saveChanges();
-		SMTPTransport.sendMessage(message, message.getAllRecipients());
-		SMTPTransport.close();
+		SMTPTransport transport = (SMTPTransport) session
+				.getTransport(protocol);
+		try {
+			if (username != null && !username.isEmpty())
+				// transport.connect(SMTPServerHost, username, password);
+				// XXX: doesn't encrypt properly
+				transport.connect(SMTPServerHost, SMTPPortNum, username,
+						password);
+			else
+				transport.connect();
+			transport.sendMessage(message, message.getAllRecipients());
+		} finally {
+			transport.close();
+		}
 	}
 }
