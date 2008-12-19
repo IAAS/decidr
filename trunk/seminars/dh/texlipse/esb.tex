@@ -1,0 +1,111 @@
+%%%%%%%%%%%%%%%%%%%%% esb.tex %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% The main chapters.
+%
+%%%%%%%%%%%%%%%%%%%% Springer-Verlag template %%%%%%%%%%%%%%%%%
+
+%% Reminder to self: use lots of diagrams; don't make this thing a boring wall
+%% of text; don't discuss things if you don't have a clue what the hell you're
+%% talking about; cite your sources.
+
+%% Document status: planning body structure
+
+%% Assuming I'll be able to squeeze out an entire page per heading we're going
+%% to end up with approximately 12 pages in total. 
+
+\chapter{Enterprise Service Bus}
+\label{chap:enterprise-service-bus}
+%% What IS an ESB?
+%% - message broker
+%% - mediator pattern
+
+What is or what are the definition(s) of an ESB, if there are any. Explain the
+mediator pattern, message brokerage( message transformation / protocol
+transformation). Maybe explain the historical context in which ESBs have
+emerged.
+
+%\newpage
+\section{ESB Tasks}
+\label{sec:esb-tasks}
+%% What makes an ESB useful?
+%% - service orchestration
+%% - location transparency
+%% - even more buzzwords, make sure this doesn't turn into an advertisement!
+What makes an ESB useful? Explain service orchestration, location transparency
+and other buzzwords.
+
+%\newpage
+\subsection{ESB Usage in Decidr}
+\label{subsec:esb-usage-in-decidr}
+%% What are the requirements of the Decidr appliaction?
+Which requirements justify the usage of an ESB in the Decidr application? 
+Will Decidr benefit from an ESB?
+
+%\newpage
+\subsubsection{Load Balancing and Service Availability}
+\label{subsubsec:load-balancing-and-service-availability}
+%%
+What role will the ESB play in increasing robustness, response times and
+availability of the Decidr application?
+
+%\newpage
+\subsubsection{Message Transformation / Protocol Transformation}
+\label{subsubsec:message-transformation-protocol-transformation}
+%%
+MT / PT explained (again) in the Decidr context. If it turns out that there are
+more tasks each will get its own subsection.
+
+%\newpage
+\section{A Lightweight ESB - Apache Synapse}
+\label{sec:a-lightweight-esb-apache-synapse}
+
+%% Assessment of the Synapse ESB. Will it fulfill the Decidr requirements?
+An assessment of the Synapse ESB (preceded by a \emph{short} introduction).
+(How) does it fulfill the requirements set by the Decidr application? 
+
+%\newpage
+\subsection{Deployment}
+\label{subsec:deployment}
+%% What do I have to do to install Synapse?
+Describes the installation and configuration of Synapse.
+
+%\newpage
+\chapter{Example ESB Usage}
+\label{chap:example-esb-usage}
+
+%% Demonstration of Synapse using Reinhold's Web Services and Modood's
+%% Client.
+Demonstration of the Synapse ESB using Reinhold's web services and Modood's
+client.
+
+\section{Example 1: Foo}
+
+\section{Example 2: Bar}
+
+%\newpage
+\chapter{Web Services Security}
+\label{chap:web-services-security}
+%% What the hell is WS-Security?
+Explain what WS-Security is. Who developed it? What does it
+specify? Explain how it is related to WS-* and web service
+technology in general.
+
+%\newpage
+\section{Comparison to Transport Layer Security}
+\label{sec:comparison-to-transport-layer-securtiy}
+%% Can't we just use TLS instead?
+What's the difference between using WS-Security and using HTTPS?
+
+%\newpage
+\subsection{WS-Security Usage in Decidr}
+\label{subsec:ws-security-usage-in-decidr}
+%% (Where, why) does Decdir require the usage of WSS?
+Why and where does Decidr require the usage of WSS?
+
+%\newpage
+\subsection{Example WS-Security Usage}
+\label{subsec:example-ws-security-usage}
+%% Well it's in the message header, so I'm not really sure if this deserves its
+%% own subsection.
+Shows how WS-Security is applied to SOAP messages to provide end-to-end
+security, referencing the chapter \ref{chap:example-esb-usage}. 

@@ -1,0 +1,13 @@
+#TeXlipse project settings
+#Wed Nov 26 17:49:17 CET 2008
+builderNum=2
+outputDir=
+makeIndSty=svind.ist
+bibrefDir=
+outputFormat=pdf
+tempDir=tmp
+mainTexFile=seminar.tex
+outputFile=seminar.pdf
+langSpell=en
+markDer=true
+srcDir=
