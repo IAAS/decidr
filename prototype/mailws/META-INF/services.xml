@@ -1,4 +1,4 @@
-<service>
+<service name="eMailWS">
   <Description>
     An e-mail sending web service for the Decidr prototype
   </Description>
