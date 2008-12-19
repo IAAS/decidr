@@ -6,6 +6,7 @@ package de.decidr.prototype;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
+import javax.jws.WebParam.Mode;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 
@@ -13,7 +14,8 @@ import javax.jws.soap.SOAPBinding.Style;
  * @author RR
  * 
  */
-@WebService(serviceName = "eMailWS", name = "eMailWSPT", targetNamespace = "http://decidr.org/mailws", wsdlLocation="mailws.wsdl")
+//, wsdlLocation = "mailws.wsdl"
+@WebService(serviceName = "eMailWS", name = "eMailWSPT", targetNamespace = "http://decidr.org/mailws")
 @SOAPBinding(style = Style.RPC)
 public class JavaMailService {
 	/**
@@ -24,18 +26,22 @@ public class JavaMailService {
 	 * @return
 	 */
 	@WebMethod(operationName = "sendEmail")
-	public boolean sendEmail(@WebParam(name = "subject") String subject,
-			@WebParam(name = "message") String body,
-			@WebParam(name = "recipient") String tos,
-			@WebParam(name = "sender") String from) {
+	public boolean sendEmail(@WebParam(name = "subject", mode=Mode.IN) String subject,
+			@WebParam(name = "message", mode=Mode.IN) String body,
+			@WebParam(name = "recipient", mode=Mode.IN) String tos,
+			@WebParam(name = "sender", mode=Mode.IN) String from) {
 		try {
 			JavaMailBackend mail = new JavaMailBackend(tos, from, subject);
 			mail.setBodyText(body);
-			mail.setHostname("mx2.informatik.uni-stuttgart.de");
+			
+			mail.setHostname("smtp.googlemail.com");
+			mail.useTLS(true);
+			mail.setAuthInfo("decidr.iaas@googlemail.com", "DecidR0809");
+			
 			mail.sendMessage();
 		} catch (Exception e) {
 			// TODO Log failure
-			// e.printStackTrace();
+			e.printStackTrace();
 			return false;
 		}
 		// TODO Log success
