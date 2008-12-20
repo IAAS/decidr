@@ -11,20 +11,20 @@
 	xmlns:tns="http://decidr.org/mailws" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://decidr.org/mailws"
 	name="eMailWS">
-	<types></types>
+	<types />
 	<message name="sendEmail">
-		<part name="subject" type="xsd:string"></part>
-		<part name="message" type="xsd:string"></part>
-		<part name="recipient" type="xsd:string"></part>
-		<part name="sender" type="xsd:string"></part>
+		<part name="subject" type="xsd:string" />
+		<part name="message" type="xsd:string" />
+		<part name="recipient" type="xsd:string" />
+		<part name="sender" type="xsd:string" />
 	</message>
 	<message name="sendEmailResponse">
-		<part name="return" type="xsd:boolean"></part>
+		<part name="return" type="xsd:boolean" />
 	</message>
 	<portType name="eMailWSPT">
 		<operation name="sendEmail" parameterOrder="subject message recipient sender">
-			<input message="tns:sendEmail"></input>
-			<output message="tns:sendEmailResponse"></output>
+			<input message="tns:sendEmail" />
+			<output message="tns:sendEmailResponse" />
 		</operation>
 	</portType>
 	<binding name="eMailWSPTPortBinding" type="tns:eMailWSPT">

@@ -7,7 +7,7 @@
     <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-out"  class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
   </messageReceivers>
   <parameter name="ServiceClass">
-    de.decidr.prototype.JavaMailService
+    de.decidr.prototype.MailService
   </parameter>
   <!-- <parameter name="useOriginalwsdl">false</parameter> -->
 </service>

@@ -1,5 +1,17 @@
-/**
- * 
+/*
+ * The Decidr Development Team licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package de.decidr.prototype;
 
@@ -27,7 +39,7 @@ import com.sun.mail.smtp.SMTPTransport;
  * 
  * @author RR
  */
-public class JavaMailBackend {
+public class MailBackend {
 
 	/**
 	 * Header <code>{@link String strings}</code>.
@@ -69,19 +81,30 @@ public class JavaMailBackend {
 	private boolean useTLS = false;
 
 	/**
-	 * 
-	 * 
 	 * @param to
+	 *            The recipients of the Email as a comma separated list of
+	 *            addresses.
 	 * @param from
+	 *            The sender of the Email. May be overwritten by the mail
+	 *            transport agent.
 	 * @param subject
-	 * @throws MessagingException
+	 *            The subject of the Email.
 	 */
-	public JavaMailBackend(String to, String from, String subject)
+	public MailBackend(String to, String from, String subject)
 			throws MessagingException {
 		super();
 		this.headerTo = to;
 		this.headerFrom = from;
 		this.headerSubject = subject;
+
+		if (to == null || to.isEmpty())
+			throw new IllegalArgumentException(
+					"Please specify some recipients!");
+		if (from == null || from.isEmpty())
+			throw new IllegalArgumentException("Please specify a sender!");
+
+		if (subject == null || subject.isEmpty())
+			this.headerSubject = "<no subject>";
 
 		// make sure there is at least a body
 		messageParts.add(0, new MimeBodyPart());
@@ -90,10 +113,12 @@ public class JavaMailBackend {
 
 	/**
 	 * @param message
-	 * @throws MessagingException
+	 *            The primary text message of the Email.
 	 */
-	public void setBodyText(String message) throws MessagingException {
-		if (messageParts.isEmpty()) {
+	public void setBodyText(String message) throws MessagingException,
+			IOException {
+		if (messageParts.isEmpty()
+				|| messageParts.get(0).getContent() instanceof String) {
 			messageParts.add(0, new MimeBodyPart());
 		}
 
@@ -102,23 +127,19 @@ public class JavaMailBackend {
 
 	/**
 	 * @param part
+	 *            Adds a mime part to the message. Can be used to attach files
+	 *            and other content.
 	 */
 	public void addMimePart(MimeBodyPart part) {
-		if (messageParts.isEmpty()) {
-			messageParts.add(0, new MimeBodyPart());
-		}
-
 		messageParts.add(part);
 	}
 
 	/**
 	 * @param parts
+	 *            Adds a list mime parta to the message. Can be used to attach
+	 *            files and other content.
 	 */
 	public void addMimeParts(List<MimeBodyPart> parts) {
-		if (messageParts.isEmpty()) {
-			messageParts.add(0, new MimeBodyPart());
-		}
-
 		messageParts.addAll(parts);
 	}
 
@@ -325,8 +346,6 @@ public class JavaMailBackend {
 				.getTransport(protocol);
 		try {
 			if (username != null && !username.isEmpty())
-				// transport.connect(SMTPServerHost, username, password);
-				// XXX: doesn't encrypt properly
 				transport.connect(SMTPServerHost, SMTPPortNum, username,
 						password);
 			else
