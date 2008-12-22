@@ -88,7 +88,8 @@ public class MailBackend {
 	 *            The sender of the Email. May be overwritten by the mail
 	 *            transport agent.
 	 * @param subject
-	 *            The subject of the Email.
+	 *            The subject of the Email. If <code>null</code> or empty, this
+	 *            will be set to <code>&lt;no subject&gt;</code>.
 	 */
 	public MailBackend(String to, String from, String subject)
 			throws MessagingException {
@@ -112,6 +113,8 @@ public class MailBackend {
 	}
 
 	/**
+	 * Set the string content of the main body part.
+	 * 
 	 * @param message
 	 *            The primary text message of the Email.
 	 */
@@ -126,61 +129,102 @@ public class MailBackend {
 	}
 
 	/**
+	 * Adds a mime part to the message. Can be used to attach files and other
+	 * content.
+	 * 
 	 * @param part
-	 *            Adds a mime part to the message. Can be used to attach files
-	 *            and other content.
+	 *            The <code>{@link MimeBodyPart}</code> to add at the end of the
+	 *            mime parts list.
 	 */
 	public void addMimePart(MimeBodyPart part) {
 		messageParts.add(part);
 	}
 
 	/**
+	 * Adds a list mime part to the message. Can be used to attach files and
+	 * other content.
+	 * 
 	 * @param parts
-	 *            Adds a list mime parta to the message. Can be used to attach
-	 *            files and other content.
+	 *            The <code>{@link MimeBodyPart MimeBodyParts}</code> to add at
+	 *            the end of the mime parts list.
 	 */
 	public void addMimeParts(List<MimeBodyPart> parts) {
 		messageParts.addAll(parts);
 	}
 
 	/**
+	 * Removes a <code>{@link MimeBodyPart}</code> from the mime parts list.
+	 * 
 	 * @param part
+	 *            The <code>{@link MimeBodyPart}</code> to remove.
 	 */
 	public void removeMimePart(MimeBodyPart part) {
 		messageParts.remove(part);
 	}
 
 	/**
+	 * Removes a list of <code>{@link MimeBodyPart MimeBodyParts}</code> from
+	 * the mime parts list.
+	 * 
 	 * @param parts
+	 *            The <code>{@link MimeBodyPart MimeBodyParts}</code> to remove.
 	 */
 	public void removeMimeParts(List<MimeBodyPart> parts) {
 		messageParts.removeAll(parts);
 	}
 
 	/**
+	 * Adds an arbitrary header name-value tuple to the headers of the message.
+	 * Overwrites any existing existing header of the same name, if necessary.
+	 * The header may be ignored or overwritten by the mail transport agent. <br>
+	 * <br>
+	 * <em>WARNING:</em><br>
+	 * This method can be used to bypass some error checking done by this class!<br>
+	 * DO NOT ABUSE!
+	 * 
 	 * @param headerName
+	 *            The name of the header to set.
 	 * @param headerContent
+	 *            The value of the header specified by <code>headerName</code>.
 	 */
 	public void addHeader(String headerName, String headerContent) {
 		additionalHeaderMap.put(headerName, headerContent);
 	}
 
 	/**
+	 * Has the same effect as calling
+	 * <code>{@link #addHeader(String, String)}</code> for every item in the
+	 * map.<br>
+	 * <br>
+	 * <em>WARNING:</em><br>
+	 * This method can be used to bypass some error checking done by this class!<br>
+	 * DO NOT ABUSE!
+	 * 
 	 * @param headers
+	 *            A <code>{@link Map}</code> of headers to set.
 	 */
 	public void addHeaders(Map<String, String> headers) {
 		additionalHeaderMap.putAll(headers);
 	}
 
 	/**
+	 * Removes any additional headers defined by
+	 * <code>{@link #addHeader(String, String)}</code> and
+	 * <code>{@link #addHeaders(Map)}</code>.
+	 * 
 	 * @param headerName
+	 *            The name of the header to remove.
 	 */
 	public void removeHeader(String headerName) {
 		additionalHeaderMap.remove(headerName);
 	}
 
 	/**
+	 * Has the same effect as calling <code>{@link #removeHeader(String)}</code>
+	 * for every item in the list.
+	 * 
 	 * @param headers
+	 *            A <code>{@link List}</code> of headers to remove.
 	 */
 	public void removeHeaders(List<String> headers) {
 		for (String header : headers) {
@@ -189,66 +233,156 @@ public class MailBackend {
 	}
 
 	/**
+	 * Specify the subject of the Email.
+	 * 
+	 * @param subject
+	 *            The subject of the Email. If <code>null</code> or empty, this
+	 *            will be set to <code>&lt;no subject&gt;</code>.
+	 */
+	public void setSubject(String subject) {
+		if (subject == null || subject.isEmpty())
+			this.headerSubject = "<no subject>";
+		this.headerSubject = subject;
+	}
+
+	/**
+	 * Specify the sender of the Email.
+	 * 
+	 * @param from
+	 *            The sender of this Email.
+	 */
+	public void setSender(String from) {
+		if (from == null || from.isEmpty())
+			throw new IllegalArgumentException("Please specify a sender!");
+		this.headerFrom = from;
+	}
+
+	/**
+	 * Sets the current list of receivers of this Email.
+	 * 
+	 * @param to
+	 *            A comma separated list of recipients.
+	 */
+	public void setReceiver(String to) {
+		if (to == null || to.isEmpty())
+			throw new IllegalArgumentException(
+					"Please specify some recipients!");
+		headerTo = to;
+	}
+
+	/**
+	 * Adds a list of receivers to the current list of receivers.
+	 * 
+	 * @param to
+	 *            A comma separated list of recipients.
+	 */
+	public void addReceiver(String to) {
+		if (to == null || to.isEmpty())
+			return;
+		headerTo += ", " + to;
+	}
+
+	/**
+	 * Sets the current list of receivers of carbon copies of this Email.
+	 * 
 	 * @param cc
+	 *            A comma separated list of recipients.
 	 */
 	public void setCC(String cc) {
 		headerCC = cc;
 	}
 
 	/**
+	 * Adds a list of receivers to the current list of receivers of carbon
+	 * copies.
+	 * 
 	 * @param cc
+	 *            A comma separated list of recipients.
 	 */
 	public void addCC(String cc) {
+		if (cc == null || cc.isEmpty())
+			return;
 		headerCC += ", " + cc;
 	}
 
 	/**
+	 * Sets the current list of secret receivers of carbon copies of this Email.
+	 * 
 	 * @param bcc
+	 *            A comma separated list of recipients.
 	 */
 	public void setBCC(String bcc) {
 		headerBCC = bcc;
 	}
 
 	/**
+	 * Adds a list of receivers to the current list of secret receivers of
+	 * carbon copies.
+	 * 
 	 * @param bcc
+	 *            A comma separated list of recipients.
 	 */
 	public void addBCC(String bcc) {
+		if (bcc == null || bcc.isEmpty())
+			return;
 		headerBCC += ", " + bcc;
 	}
 
 	/**
+	 * Sets the &quot;<code>X-Mailer</code>&quot; header which indicates the
+	 * mail client sending this Email.
+	 * 
 	 * @param newXMailer
+	 *            The name of the sending client or whatever you want to put
+	 *            into the &quot;<code>X-Mailer</code>&quot; header.
 	 */
 	public void setXMailer(String newXMailer) {
 		headerXMailer = newXMailer;
 	}
 
 	/**
+	 * Specify the hostname and port the MTA is listening on.
+	 * 
 	 * @param hostname
+	 *            The hostname of the MTA. May also be an IP address.
 	 * @param portNum
+	 *            The port the MTA is listening on. <code>-1</code> specifies
+	 *            the protocol dependent default port.
 	 */
-	public void setServerInfo(String hostname, char portNum) {
+	public void setServerInfo(String hostname, int portNum) {
 		SMTPServerHost = hostname;
 		SMTPPortNum = portNum;
 	}
 
 	/**
+	 * Specify the host the MTA is running on.
+	 * 
 	 * @param hostname
+	 *            The hostname of the MTA. May also be an IP address.
 	 */
 	public void setHostname(String hostname) {
 		SMTPServerHost = hostname;
 	}
 
 	/**
+	 * Specify the port the MTA is listening on.
+	 * 
 	 * @param portNum
+	 *            The port the MTA is listening on. <code>-1</code> specifies
+	 *            the protocol dependent default port.
 	 */
 	public void setPortNum(int portNum) {
 		SMTPPortNum = portNum;
 	}
 
 	/**
+	 * Set the username and password needed for authentification.
+	 * 
 	 * @param username
+	 *            The username used for authentification. If <code>null</code>,
+	 *            authentification will not be used.
 	 * @param password
+	 *            The password used for authentification.
 	 */
 	public void setAuthInfo(String username, String password) {
 		this.username = username;
@@ -256,31 +390,39 @@ public class MailBackend {
 	}
 
 	/**
+	 * Set the username needed for authentification.
+	 * 
 	 * @param username
+	 *            The username used for authentification. If <code>null</code>,
+	 *            authentification will not be used.
 	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
 	/**
+	 * Set the password needed for authentification.
+	 * 
 	 * @param password
+	 *            The password used for authentification.
 	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
 	/**
+	 * Specify whether to use STARTTLS or not.
+	 * 
 	 * @param use
+	 *            If <code>true</code>, STARTTLS and SSL encryption will be
+	 *            used.
 	 */
 	public void useTLS(boolean use) {
 		useTLS = use;
 	}
 
 	/**
-	 * @throws MessagingException
-	 * @throws AddressException
-	 * @throws IOException
-	 * 
+	 * Send the message using the data specified by the user.
 	 */
 	public void sendMessage() throws AddressException, MessagingException,
 			IOException {
@@ -333,13 +475,14 @@ public class MailBackend {
 			message.setContent(multipartMessage);
 		}
 
+		if (headerXMailer != null)
+			message.setHeader("X-Mailer", headerXMailer);
 		if (additionalHeaderMap != null) {
 			for (String header : additionalHeaderMap.keySet()) {
 				message.setHeader(header, additionalHeaderMap.get(header));
 			}
 		}
 
-		message.setHeader("X-Mailer", headerXMailer);
 		message.setSentDate(new Date());
 
 		SMTPTransport transport = (SMTPTransport) session
