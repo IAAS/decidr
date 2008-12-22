@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE project SYSTEM "gtdmanager.dtd">
+<project vendor-id="Gruppe 5" version="1.3.2">
+<name>Spezifikation</name>
+<property name="view" value="0"/>
+<property name="fontsize" value="10"/>
+<property name="zoomfactor" value="100"/>
+<property name="export-width" value="29.7"/>
+<property name="export-height" value="21.0"/>
+<property name="export-dpi" value="72.0"/>
+<property name="export-standartsize" value="DIN A4 quer"/>
+<instance>
+<name>Spezifikation</name>
+<creation-date date="13" month="12" year="2008"/>
+<start-date date="12" month="12" year="2008"/>
+<end-date date="8" month="3" year="2009"/>
+<activity id="295547849">
+<name>brainstorming use-cases</name>
+<short-name>B-UC</short-name>
+<start-date date="12" month="12" year="2008"/>
+<end-date date="16" month="12" year="2008"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="-866552692" type="begin-begin"/>
+<dependency activity-id="467226525" type="begin-begin"/>
+<dependency activity-id="-1785820495" type="begin-end"/>
+</activity>
+<activity id="-866552692">
+<name>first arrangement</name>
+<short-name>GL</short-name>
+<start-date date="12" month="12" year="2008"/>
+<end-date date="16" month="12" year="2008"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="467226525" type="begin-begin"/>
+<dependency activity-id="295547849" type="begin-begin"/>
+<dependency activity-id="-1785820495" type="begin-end"/>
+</activity>
+<activity id="467226525">
+<name>planning</name>
+<short-name>PLA</short-name>
+<start-date date="12" month="12" year="2008"/>
+<end-date date="16" month="12" year="2008"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="-866552692" type="begin-begin"/>
+<dependency activity-id="295547849" type="begin-begin"/>
+<dependency activity-id="-1785820495" type="begin-end"/>
+</activity>
+<activity id="-1785820495">
+<name>statement arrangement/project schedule</name>
+<short-name>REV</short-name>
+<start-date date="16" month="12" year="2008"/>
+<end-date date="17" month="12" year="2008"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="295547849" type="end-begin"/>
+<dependency activity-id="-866552692" type="end-begin"/>
+<dependency activity-id="467226525" type="end-begin"/>
+<dependency activity-id="2031824812" type="begin-end"/>
+</activity>
+<activity id="2031824812">
+<name>correction arrangement/project schedule</name>
+<short-name>Korr</short-name>
+<start-date date="17" month="12" year="2008"/>
+<end-date date="18" month="12" year="2008"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="-1785820495" type="end-begin"/>
+<dependency activity-id="1906355235" type="begin-end"/>
+</activity>
+<activity id="1906355235">
+<name>applicable technologies</name>
+<short-name>Tech</short-name>
+<start-date date="18" month="12" year="2008"/>
+<end-date date="4" month="1" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="2031824812" type="end-begin"/>
+<dependency activity-id="1339585577" type="begin-begin"/>
+<dependency activity-id="405597414" type="begin-begin"/>
+<dependency activity-id="-1713187518" type="begin-begin"/>
+<dependency activity-id="-2014897943" type="begin-begin"/>
+<dependency activity-id="1437981935" type="begin-begin"/>
+<dependency activity-id="-2060720176" type="begin-end"/>
+<dependency activity-id="2077458871" type="begin-begin"/>
+<dependency activity-id="-1896242221" type="begin-begin"/>
+</activity>
+<activity id="1339585577">
+<name>external interfaces</name>
+<short-name>ExtIn</short-name>
+<start-date date="18" month="12" year="2008"/>
+<end-date date="4" month="1" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="1906355235" type="begin-begin"/>
+<dependency activity-id="405597414" type="begin-begin"/>
+<dependency activity-id="-1713187518" type="begin-begin"/>
+<dependency activity-id="-2014897943" type="begin-begin"/>
+<dependency activity-id="1437981935" type="begin-begin"/>
+<dependency activity-id="-2060720176" type="begin-end"/>
+<dependency activity-id="1672321078" type="begin-end"/>
+<dependency activity-id="2077458871" type="begin-begin"/>
+<dependency activity-id="-1896242221" type="begin-begin"/>
+</activity>
+<activity id="405597414">
+<name>introduction</name>
+<short-name>Intro</short-name>
+<start-date date="18" month="12" year="2008"/>
+<end-date date="4" month="1" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="1906355235" type="begin-begin"/>
+<dependency activity-id="1339585577" type="begin-begin"/>
+<dependency activity-id="-2060720176" type="begin-end"/>
+<dependency activity-id="1672321078" type="begin-end"/>
+<dependency activity-id="-1896242221" type="begin-begin"/>
+</activity>
+<activity id="2077458871">
+<name>non-functional requirements</name>
+<short-name>NFC</short-name>
+<start-date date="18" month="12" year="2008"/>
+<end-date date="4" month="1" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="1906355235" type="begin-begin"/>
+<dependency activity-id="1339585577" type="begin-begin"/>
+<dependency activity-id="-2060720176" type="begin-end"/>
+<dependency activity-id="1672321078" type="begin-end"/>
+<dependency activity-id="-1896242221" type="begin-begin"/>
+</activity>
+<activity id="-1713187518">
+<name>overall descriptopn (not operating environment)</name>
+<short-name>OpEnv</short-name>
+<start-date date="18" month="12" year="2008"/>
+<end-date date="4" month="1" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="1906355235" type="begin-begin"/>
+<dependency activity-id="1339585577" type="begin-begin"/>
+<dependency activity-id="-2060720176" type="begin-end"/>
+<dependency activity-id="1672321078" type="begin-end"/>
+<dependency activity-id="-1896242221" type="begin-begin"/>
+</activity>
+<activity id="-1197771049">
+<name>modeling semantics</name>
+<short-name>M-Sem</short-name>
+<start-date date="18" month="12" year="2008"/>
+<end-date date="13" month="2" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="-963263549" type="begin-end"/>
+<dependency activity-id="-1896242221" type="begin-begin"/>
+</activity>
+<activity id="-2014897943">
+<name>system features</name>
+<short-name>Feat</short-name>
+<start-date date="18" month="12" year="2008"/>
+<end-date date="13" month="2" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="1906355235" type="begin-begin"/>
+<dependency activity-id="1339585577" type="begin-begin"/>
+<dependency activity-id="-963263549" type="begin-end"/>
+</activity>
+<activity id="1437981935">
+<name>user interface</name>
+<short-name>UI</short-name>
+<start-date date="18" month="12" year="2008"/>
+<end-date date="13" month="2" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="1906355235" type="begin-begin"/>
+<dependency activity-id="1339585577" type="begin-begin"/>
+<dependency activity-id="-963263549" type="begin-end"/>
+</activity>
+<activity id="-1896242221">
+<name>conceptual dictionary</name>
+<short-name>Lex</short-name>
+<start-date date="18" month="12" year="2008"/>
+<end-date date="16" month="2" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="1906355235" type="begin-begin"/>
+<dependency activity-id="1339585577" type="begin-begin"/>
+<dependency activity-id="405597414" type="begin-begin"/>
+<dependency activity-id="2077458871" type="begin-begin"/>
+<dependency activity-id="-1713187518" type="begin-begin"/>
+<dependency activity-id="-1197771049" type="begin-begin"/>
+<dependency activity-id="-1495999778" type="begin-end"/>
+</activity>
+<activity id="-2060720176">
+<name>statement infrastructure</name>
+<short-name>D Inf</short-name>
+<start-date date="4" month="1" year="2009"/>
+<end-date date="7" month="1" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="1906355235" type="end-begin"/>
+<dependency activity-id="1339585577" type="end-begin"/>
+<dependency activity-id="405597414" type="end-begin"/>
+<dependency activity-id="-1713187518" type="end-begin"/>
+<dependency activity-id="1672321078" type="begin-begin"/>
+<dependency activity-id="1647635969" type="begin-end"/>
+<dependency activity-id="2077458871" type="end-begin"/>
+</activity>
+<activity id="1672321078">
+<name>statement project description</name>
+<short-name>D Pro</short-name>
+<start-date date="4" month="1" year="2009"/>
+<end-date date="7" month="1" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="1339585577" type="end-begin"/>
+<dependency activity-id="405597414" type="end-begin"/>
+<dependency activity-id="-1713187518" type="end-begin"/>
+<dependency activity-id="-2060720176" type="begin-begin"/>
+<dependency activity-id="-1428260987" type="begin-end"/>
+<dependency activity-id="2011516891" type="begin-end"/>
+<dependency activity-id="1647635969" type="begin-end"/>
+<dependency activity-id="-948056088" type="begin-end"/>
+<dependency activity-id="2077458871" type="end-begin"/>
+<dependency activity-id="410653815" type="begin-end"/>
+</activity>
+<activity id="1647635969">
+<name>correction applicable technologies</name>
+<short-name>K</short-name>
+<start-date date="7" month="1" year="2009"/>
+<end-date date="10" month="1" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="-2060720176" type="end-begin"/>
+<dependency activity-id="1672321078" type="end-begin"/>
+<dependency activity-id="-1428260987" type="begin-begin"/>
+<dependency activity-id="2011516891" type="begin-begin"/>
+<dependency activity-id="-948056088" type="begin-begin"/>
+<dependency activity-id="410653815" type="begin-begin"/>
+</activity>
+<activity id="-1428260987">
+<name>correction external interfaces</name>
+<short-name>K</short-name>
+<start-date date="7" month="1" year="2009"/>
+<end-date date="10" month="1" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="1672321078" type="end-begin"/>
+<dependency activity-id="1647635969" type="begin-begin"/>
+</activity>
+<activity id="2011516891">
+<name>correction introduction</name>
+<short-name>K</short-name>
+<start-date date="7" month="1" year="2009"/>
+<end-date date="10" month="1" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="1672321078" type="end-begin"/>
+<dependency activity-id="1647635969" type="begin-begin"/>
+</activity>
+<activity id="410653815">
+<name>correction non-functional requirements</name>
+<short-name>K</short-name>
+<start-date date="7" month="1" year="2009"/>
+<end-date date="10" month="1" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="1672321078" type="end-begin"/>
+<dependency activity-id="1647635969" type="begin-begin"/>
+</activity>
+<activity id="-948056088">
+<name>correction overall description</name>
+<short-name>K</short-name>
+<start-date date="7" month="1" year="2009"/>
+<end-date date="10" month="1" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="1672321078" type="end-begin"/>
+<dependency activity-id="1647635969" type="begin-begin"/>
+</activity>
+<activity id="-963263549">
+<name>review A</name>
+<short-name>RevA</short-name>
+<start-date date="13" month="2" year="2009"/>
+<end-date date="15" month="2" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="-2014897943" type="end-begin"/>
+<dependency activity-id="1437981935" type="end-begin"/>
+<dependency activity-id="351659346" type="begin-end"/>
+<dependency activity-id="-1197771049" type="end-begin"/>
+</activity>
+<activity id="351659346">
+<name>review modeling semantics</name>
+<short-name>R</short-name>
+<start-date date="15" month="2" year="2009"/>
+<end-date date="19" month="2" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="-963263549" type="end-begin"/>
+<dependency activity-id="-1672604432" type="begin-begin"/>
+<dependency activity-id="1588842994" type="begin-begin"/>
+<dependency activity-id="1740448247" type="begin-begin"/>
+</activity>
+<activity id="-1672604432">
+<name>review system features</name>
+<short-name>R</short-name>
+<start-date date="15" month="2" year="2009"/>
+<end-date date="19" month="2" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="351659346" type="begin-begin"/>
+</activity>
+<activity id="1588842994">
+<name>review UI</name>
+<short-name>R</short-name>
+<start-date date="15" month="2" year="2009"/>
+<end-date date="19" month="2" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="351659346" type="begin-begin"/>
+</activity>
+<activity id="1740448247">
+<name>correction A/SysFeat/UI/ModSem</name>
+<short-name>Neue</short-name>
+<start-date date="15" month="2" year="2009"/>
+<end-date date="26" month="2" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="351659346" type="begin-begin"/>
+</activity>
+<activity id="-1495999778">
+<name>final version conceptual dictionary</name>
+<short-name>final</short-name>
+<start-date date="16" month="2" year="2009"/>
+<end-date date="18" month="2" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="1779861760" type="begin-end"/>
+<dependency activity-id="-1896242221" type="end-begin"/>
+</activity>
+<activity id="1779861760">
+<name>review conceptual dictionary</name>
+<short-name>rev c</short-name>
+<start-date date="18" month="2" year="2009"/>
+<end-date date="20" month="2" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="-1495999778" type="end-begin"/>
+<dependency activity-id="536458528" type="begin-end"/>
+</activity>
+<activity id="1050302260">
+<name>review customer</name>
+<short-name>Rev C</short-name>
+<start-date date="20" month="2" year="2009"/>
+<end-date date="21" month="2" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+<activity id="536458528">
+<name>correction concept.dict.</name>
+<short-name>cor C</short-name>
+<start-date date="21" month="2" year="2009"/>
+<end-date date="26" month="2" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="1779861760" type="end-begin"/>
+</activity>
+</instance>
+</project>
