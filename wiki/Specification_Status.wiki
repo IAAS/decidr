@@ -1,9 +1,9 @@
 || *Task* || *Stauts Creation* || *Status Review* || *Status Correction* || *Actual Editors*  || *Comment* || *Status* ||
-|| *applicable technologies* || 50% || 0% || 0% || Markus || MF: first version done, waiting for information from Reinhold, Thomas || <font color="yellow">*XXXX* ||
-|| *external interfaces* || 0% || 0% || 0% || Markus ||MF: waiting for information from Reinhold || <font color="yellow">*XXXX* ||
+|| *applicable technologies* || 50% || 0% || 0% || Markus ||(23.12.08) MF: first version done, waiting for information from Reinhold, Thomas || <font color="yellow">*XXXX* ||
+|| *external interfaces* || 0% || 0% || 0% || Markus ||(23.12.08) MF: waiting for information from Reinhold || <font color="yellow">*XXXX* ||
 || *introduction* || 0% || 0% || 0% || Daniel || || <font color="grey">*XXXX* ||
 || *non-functional requirements* || 0% || 0% || 0% || Daniel || || <font color="grey">*XXXX* ||
-|| *overall description* || 0% || 0% || 0% || Daniel, Markus || MF: waiting for information from Reinhold || <font color="yellow">*XXXX* ||
+|| *overall description* || 0% || 0% || 0% || Daniel, Markus ||(23.12.08) MF: waiting for information from Reinhold || <font color="yellow">*XXXX* ||
 || *modeling sematics* || 0% || 0% || 0% || Jonas, Modood || || <font color="grey">*XXXX* ||
 || *UI* || 0% || 0% || 0% || Jonas, Modood || || <font color="grey">*XXXX* ||
 || *System Features* || 0% || 0% || 0% || Jonas, Modood || || <font color="grey">*XXXX* ||
