@@ -3,7 +3,7 @@
 || *external interfaces* || 0% || 0% || 0% || Markus || || <font color="grey">*XXXX* ||
 || *introduction* || 0% || 0% || 0% || Daniel || || <font color="grey">*XXXX* ||
 || *non-functional requirements* || 0% || 0% || 0% || Daniel || || <font color="grey">*XXXX* ||
-|| *overall description* || 0% || 0% || 0% || Daniel, Markus || MF: waiting for nformation from Reinhold || <font color="yellow">*XXXX* ||
+|| *overall description* || 0% || 0% || 0% || Daniel, Markus || MF: waiting for information from Reinhold || <font color="yellow">*XXXX* ||
 || *modeling sematics* || 0% || 0% || 0% || Jonas, Modood || || <font color="grey">*XXXX* ||
 || *UI* || 0% || 0% || 0% || Jonas, Modood || || <font color="grey">*XXXX* ||
 || *System Features* || 0% || 0% || 0% || Jonas, Modood || || <font color="grey">*XXXX* ||
@@ -18,6 +18,4 @@
 <font color="red">_red:_ problem occoured
 
 <font color="grey">_grey:_ status unknown
-
-
 
