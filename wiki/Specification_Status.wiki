@@ -1,6 +1,6 @@
 || *Task* || *Stauts Creation* || *Status Review* || *Status Correction* || *Actual Editors*  || *Comment* || *Status* ||
 || *applicable technologies* || 50% || 0% || 0% || Markus || MF: first version done, waiting for information from Reinhold, Thomas || <font color="yellow">*XXXX* ||
-|| *external interfaces* || 0% || 0% || 0% || Markus || || <font color="grey">*XXXX* ||
+|| *external interfaces* || 0% || 0% || 0% || Markus ||MF: waiting for information from Reinhold || <font color="yellow">*XXXX* ||
 || *introduction* || 0% || 0% || 0% || Daniel || || <font color="grey">*XXXX* ||
 || *non-functional requirements* || 0% || 0% || 0% || Daniel || || <font color="grey">*XXXX* ||
 || *overall description* || 0% || 0% || 0% || Daniel, Markus || MF: waiting for information from Reinhold || <font color="yellow">*XXXX* ||
@@ -18,4 +18,3 @@
 <font color="red">_red:_ problem occoured
 
 <font color="grey">_grey:_ status unknown
-
