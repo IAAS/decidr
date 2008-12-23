@@ -5,10 +5,10 @@
 <property name="view" value="0"/>
 <property name="fontsize" value="10"/>
 <property name="zoomfactor" value="100"/>
-<property name="export-width" value="29.7"/>
-<property name="export-height" value="21.0"/>
+<property name="export-width" value="42.0"/>
+<property name="export-height" value="29.7"/>
 <property name="export-dpi" value="72.0"/>
-<property name="export-standartsize" value="DIN A4 quer"/>
+<property name="export-standartsize" value="DIN A3 quer"/>
 <instance>
 <name>Spezifikation</name>
 <creation-date date="13" month="12" year="2008"/>
@@ -175,7 +175,7 @@
 <dependency activity-id="-963263549" type="begin-end"/>
 </activity>
 <activity id="-1896242221">
-<name>conceptual dictionary</name>
+<name>conceptual glossary</name>
 <short-name>Lex</short-name>
 <start-date date="18" month="12" year="2008"/>
 <end-date date="16" month="2" year="2009"/>
@@ -328,17 +328,17 @@
 <dependency activity-id="351659346" type="begin-begin"/>
 </activity>
 <activity id="-1495999778">
-<name>final version conceptual dictionary</name>
+<name>final version conceptual glossary</name>
 <short-name>final</short-name>
 <start-date date="16" month="2" year="2009"/>
 <end-date date="18" month="2" year="2009"/>
 <property name="keep-length" value="false"/>
 <property name="move-dependencies" value="true"/>
-<dependency activity-id="1779861760" type="begin-end"/>
 <dependency activity-id="-1896242221" type="end-begin"/>
+<dependency activity-id="1779861760" type="begin-end"/>
 </activity>
 <activity id="1779861760">
-<name>review conceptual dictionary</name>
+<name>review conceptual glossary</name>
 <short-name>rev c</short-name>
 <start-date date="18" month="2" year="2009"/>
 <end-date date="20" month="2" year="2009"/>
@@ -356,10 +356,10 @@
 <property name="move-dependencies" value="true"/>
 </activity>
 <activity id="536458528">
-<name>correction concept.dict.</name>
+<name>correction concept.glossary</name>
 <short-name>cor C</short-name>
-<start-date date="21" month="2" year="2009"/>
-<end-date date="26" month="2" year="2009"/>
+<start-date date="20" month="2" year="2009"/>
+<end-date date="25" month="2" year="2009"/>
 <property name="keep-length" value="false"/>
 <property name="move-dependencies" value="true"/>
 <dependency activity-id="1779861760" type="end-begin"/>
