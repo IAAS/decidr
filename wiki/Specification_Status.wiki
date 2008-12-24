@@ -9,7 +9,7 @@
 || *System Features* || 0% || 0% || 0% || Jonas, Modood || || <font color="grey">*XXXX* ||
 || *conceptional glossary* || 0% || 0% || 0% || Jonas, Modood, Daniel, Markus || || <font color="grey">*XXXX* ||
 
-*Stauts:*
+*Status:*
 
 <font color="green">_green:_ no problems, working on it
 
