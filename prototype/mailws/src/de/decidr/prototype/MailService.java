@@ -22,6 +22,9 @@ import javax.jws.WebParam.Mode;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+
 /**
  * This class provides the web service wrapper to
  * <code>{@link MailBackend}</code>.
@@ -31,6 +34,8 @@ import javax.jws.soap.SOAPBinding.Style;
 @WebService(serviceName = "eMailWS", name = "eMailWSPT", targetNamespace = "http://decidr.org/mailws", wsdlLocation = "mailws.wsdl")
 @SOAPBinding(style = Style.RPC)
 public class MailService {
+
+	private static Logger log = Logger.getLogger(MailService.class);
 
 	/**
 	 * Provides the means to send an Email.
@@ -53,21 +58,31 @@ public class MailService {
 			@WebParam(name = "message", mode = Mode.IN) String body,
 			@WebParam(name = "recipient", mode = Mode.IN) String tos,
 			@WebParam(name = "sender", mode = Mode.IN) String from) {
-		try {
-			MailBackend mail = new MailBackend(tos, from, subject);
-			mail.setBodyText(body);
+		BasicConfigurator.configure();
+		log.debug("Parameters:\n\tTo: " + tos + "\n\tFrom: " + from
+				+ "\n\tSubject: " + subject);
 
+		try {
+			// construct the mail
+			log.debug("construction mail...");
+			MailBackend mail = new MailBackend(tos, from, subject);
+			log.debug("setting body...");
+			mail.setBodyText(body);
+			log.debug("setting hostname...");
 			mail.setHostname("smtp.googlemail.com");
+			log.debug("tell mail to use ssl-based transport...");
 			mail.useTLS(true);
+			log.debug("setting authentification info...");
 			mail.setAuthInfo("decidr.iaas@googlemail.com", "DecidR0809");
 
+			// send the message
+			log.debug("sending message...");
 			mail.sendMessage();
 		} catch (Exception e) {
-			// TODO Log failure
-			// e.printStackTrace();
+			log.error("Error occurred while sending message!", e);
 			return false;
 		}
-		// TODO Log success
+		log.info("Successfully sent!");
 		return true;
 	}
 }
