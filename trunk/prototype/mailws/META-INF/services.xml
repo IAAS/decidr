@@ -9,5 +9,5 @@
   <parameter name="ServiceClass">
     de.decidr.prototype.MailService
   </parameter>
-  <!-- <parameter name="useOriginalwsdl">false</parameter> -->
+  <parameter name="useOriginalwsdl">true</parameter>
 </service>
