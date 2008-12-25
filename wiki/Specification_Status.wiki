@@ -5,9 +5,9 @@
 || *non-functional requirements* || 0% || 0% || 0% || Daniel || || <font color="red">*XXXX* ||
 || *overall description* || 1% || 0% || 0% || Daniel, Markus || || <font color="green">*XXXX* ||
 || *modeling sematics* || 0% || 0% || 0% || Jonas, Modood || || <font color="gray">*XXXX* ||
-|| *UI* || 0% || 0% || 0% || Jonas, Modood || || <font color="grey">*XXXX* ||
+|| *UI* || 0% || 0% || 0% || Jonas, Modood || || <font color="gray">*XXXX* ||
 || *System Features* || 0% || 0% || 0% || Jonas, Modood || || <font color="gray">*XXXX* ||
-|| *conceptional glossary* || 0% || 0% || 0% || Jonas, Modood, Daniel, Markus || || <font color="grey">*XXXX* ||
+|| *conceptional glossary* || 0% || 0% || 0% || Jonas, Modood, Daniel, Markus || || <font color="gray">*XXXX* ||
 
 *Status:*
 
