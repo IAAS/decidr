@@ -17,4 +17,4 @@
 
 <font color="red">_red:_ problem occoured
 
-<font color="grey">_grey:_ status unknown
+<font color="gray">_gray:_ status unknown
