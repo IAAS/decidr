@@ -5,7 +5,6 @@
 \usepackage[ngerman]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[pdftex]{graphicx}
-
 \usepackage[pdftex]{hyperref}
 
 \author{Reinhold Rumberger}
@@ -16,10 +15,38 @@
 
 \begin{document}
 
-\frontmatter
-\pagestyle{headings}
+  \frontmatter
+  \pagestyle{headings}
 
-\maketitle
-\tableofcontents
+  \maketitle
+  \tableofcontents
+  \newpage
+
+  \section{Einleitung}
+
+  \section{SOA}
+  %TODO: Literaturverzeichnis: http://en.wikipedia.org/wiki/Service-oriented_architecture, 25.12.2008
+  Eine \glqq{}SOA\grqq{} (Service Oriented Architecture) ist eine Software-Architektur, bei der loose gekoppelte Dienste miteinander kommunizieren. Die SOA definiert die verfügbaren Kommunikationsmethoden und die Methoden zum Auffinden von Diensten. So können verschiedene Dienste miteinander verbunden werden, um einen bestimmten Geschäftsprozess zu implementieren. So werden Applikationen aus Diensten zusammengestellt.
+
+  Die loose Kopplung der Dienste macht die auf ihnen implementierten Applikationen sehr flexibel. So kann relativ schnell auf veränderte Umweltbedingungen reagiert werden. [scaling through adding new services]
+
+  \section{Web Services Grundlagen}
+
+  \subsection{WSDL}
+  %TODO: Literaturverzeichnis: http://en.wikipedia.org/wiki/Web_Services_Description_Language, 20.11.2008
+  WSDL (Web Services Description Language) ist eine XML-basierte Sprache zur Beschreibung von Web Services. Sie beschreibt die öffentliche Schnittstelle des Web Services.
+  [describe parts of WSDL \& make example]
+
+  \subsection{SOAP}
+  %TODO: Literaturverzeichnis: http://en.wikipedia.org/wiki/SOAP_(protocol), 26.11.2008
+  SOAP war ursprünglich als das \glqq{}Simple Object Access Protocol\grqq{} bekannt. Dieses Akronym wurde jedoch als irreführend fallen gelassen.
+
+  \section{Java und Web Services}
+
+  \subsection{JAX-WS 2.0 (JSR-224)}
+
+  \subsection{JAXB 2.0 (JSR-222)}
+
+  \subsection{WS-Metadata 2.0 (JSR-181)}
 
 \end{document}
