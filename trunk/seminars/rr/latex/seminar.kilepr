@@ -3,7 +3,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
 kileprversion=2
 kileversion=2.0
-lastDocument=presentation.tex
+lastDocument=ausarbeitung.tex
 masterDocument=
 name=Seminar
 pkg_extIsRegExp=false
@@ -15,9 +15,18 @@ src_extensions=.tex .ltx .latex .dtx .ins
 MakeIndex=
 QuickBuild=PDFLaTeX+ViewPDF
 
-[item:llncs.sty]
+[item:ausarbeitung.tex]
 archive=true
-column=0
+column=27
+encoding=UTF-8
+highlight=LaTeX
+line=37
+open=true
+order=1
+
+[item:llncs.cls]
+archive=true
+column=146386072
 encoding=
 highlight=
 line=0
@@ -26,16 +35,16 @@ order=-1
 
 [item:presentation.tex]
 archive=true
-column=19
-encoding=UTF-8
+column=0
+encoding=ISO 8859-15
 highlight=LaTeX
-line=5
+line=74
 open=true
 order=0
 
 [item:seminar.kilepr]
 archive=true
-column=3056128400
+column=0
 encoding=
 highlight=
 line=0
