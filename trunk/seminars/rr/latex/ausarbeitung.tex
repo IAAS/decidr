@@ -1,11 +1,12 @@
-\documentclass{llncs}
+\documentclass[runningheads]{llncs}
 
 \usepackage{ucs}
 \usepackage[utf8x]{inputenc}
+\usepackage{ngerman}
 \usepackage[ngerman]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[pdftex]{graphicx}
-\usepackage[pdftex]{hyperref}
+\usepackage[pdftex, colorlinks=true, urlcolor=blue, linkcolor=black]{hyperref}
 
 \author{Reinhold Rumberger}
 \institute{Institute of Architecture of Application Systems (IAAS)
@@ -18,28 +19,42 @@
   \frontmatter
   \pagestyle{headings}
 
+  %TODO: kurze Zusammenfassung auf Titelseite
   \maketitle
+  %TODO: make decent TOC
   \tableofcontents
-  \newpage
+  \mainmatter
+  \titlerunning{Web Services}
 
   \section{Einleitung}
+  \nocite{wk_ws}
+    \glqq{}Web Service\grqq{} wird vom W3C folgendermaßen definiert:
+    \begin{quote}
+      A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards.\cite{w3c_wsgloss_ws}
+    \end{quote}
+
+    % TODO: "Big WS" vs "RESTFul WS", profiles, WS-*
+
 
   \section{SOA}
-  %TODO: Literaturverzeichnis: http://en.wikipedia.org/wiki/Service-oriented_architecture, 25.12.2008
-  Eine \glqq{}SOA\grqq{} (Service Oriented Architecture) ist eine Software-Architektur, bei der loose gekoppelte Dienste miteinander kommunizieren. Die SOA definiert die verfügbaren Kommunikationsmethoden und die Methoden zum Auffinden von Diensten. So können verschiedene Dienste miteinander verbunden werden, um einen bestimmten Geschäftsprozess zu implementieren. So werden Applikationen aus Diensten zusammengestellt.
+  \nocite{wk_soa}
+    Eine \glqq{}SOA\grqq{} (Service Oriented Architecture) ist eine Software-Architektur, bei der loose gekoppelte Dienste miteinander kommunizieren. Die SOA definiert die verfügbaren Kommunikationsmethoden und die Methoden zum Auffinden von Diensten. So können verschiedene Dienste miteinander verbunden werden, um einen bestimmten Geschäftsprozess zu implementieren. So werden Applikationen aus Diensten zusammengestellt.
 
-  Die loose Kopplung der Dienste macht die auf ihnen implementierten Applikationen sehr flexibel. So kann relativ schnell auf veränderte Umweltbedingungen reagiert werden. [scaling through adding new services]
+    Die loose Kopplung der Dienste macht die auf ihnen implementierten Applikationen sehr flexibel. So kann relativ schnell auf veränderte Umweltbedingungen reagiert werden. Wenn beispielsweise Dienste zufällig aus einer Menge geeigneter Dienste ausgewählt werden, kann man auf eine gesteigerte Nachfrage durch Hinzufügen weiterer Dienste begegnen. Dabei kann es sich sowohl um neue Instanzen vorhandener Dienste handeln als auch um komplett neu entwickelte Dienste.
+
+    %TODO: make longer
 
   \section{Web Services Grundlagen}
+    %TODO: Describe what a web service is
 
   \subsection{WSDL}
-  %TODO: Literaturverzeichnis: http://en.wikipedia.org/wiki/Web_Services_Description_Language, 20.11.2008
-  WSDL (Web Services Description Language) ist eine XML-basierte Sprache zur Beschreibung von Web Services. Sie beschreibt die öffentliche Schnittstelle des Web Services.
-  [describe parts of WSDL \& make example]
+  \nocite{wk_wsdl}
+    WSDL (Web Services Description Language) ist eine XML-basierte Sprache zur Beschreibung von Web Services. Sie beschreibt die öffentliche Schnittstelle des Web Services.
+    %TODO: describe parts of WSDL \& make example
 
   \subsection{SOAP}
-  %TODO: Literaturverzeichnis: http://en.wikipedia.org/wiki/SOAP_(protocol), 26.11.2008
-  SOAP war ursprünglich als das \glqq{}Simple Object Access Protocol\grqq{} bekannt. Dieses Akronym wurde jedoch als irreführend fallen gelassen.
+  \nocite{wk_soap}
+    %TODO: short intro, more detailed description
 
   \section{Java und Web Services}
 
@@ -48,5 +63,11 @@
   \subsection{JAXB 2.0 (JSR-222)}
 
   \subsection{WS-Metadata 2.0 (JSR-181)}
+
+  \newpage
+  \addtocmark[2]{Literatur}
+  \bibliography{literatur}
+  \bibliographystyle{splncs}
+
 
 \end{document}
