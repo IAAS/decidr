@@ -4,7 +4,7 @@ img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
 kileprversion=2
 kileversion=2.0
 lastDocument=ausarbeitung.tex
-masterDocument=
+masterDocument=ausarbeitung.tex
 name=Seminar
 pkg_extIsRegExp=false
 pkg_extensions=.cls .sty
@@ -17,12 +17,21 @@ QuickBuild=PDFLaTeX+ViewPDF
 
 [item:ausarbeitung.tex]
 archive=true
-column=27
-encoding=UTF-8
+column=45
+encoding=ISO 8859-15
 highlight=LaTeX
-line=37
+line=21
 open=true
 order=1
+
+[item:literatur.bib]
+archive=true
+column=88
+encoding=ISO 8859-15
+highlight=BibTeX
+line=10
+open=true
+order=2
 
 [item:llncs.cls]
 archive=true
