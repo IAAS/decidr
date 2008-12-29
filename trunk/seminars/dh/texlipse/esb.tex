@@ -6,23 +6,24 @@
 
 \chapter{Enterprise Service Bus}
 \label{chap:enterprise-service-bus}
-%% What IS an ESB?
-%% - message broker
-%% - mediator pattern
+In most organizations, technological heterogenity is more the rule than the
+exception. While new IT applications are often built using promising approaches
+such as service-oriented architecture (SOA), valuable business data remains
+locked up within existing applications. The Enterprise Service Bus
+(ESB) is an integration middleware that enables an SOA by coordinating the communication
+between services and those existing applications.
+There is no standardized definition of what comprises an ESB and what
+doesn't\cite{wiki-de}. However, David Chappell, a major contributor to the
+emergence of the ESB, gives us a concise set of capabilities that make the
+basis of any good ESB: 
 
-\todo{What is or what are the definition(s) of an ESB, if there are any.
-Explain the mediator pattern, message brokerage( message transformation / protocol
-transformation). Maybe explain the historical context in which ESBs have
-emerged.}
-
-The Enterprise Service Bus (ESB) is an integration middleware that aims to
-provide loose coupling even for legacy applications
-
-
-The Enterprise Service Bus (ESB) is a standards-based integration platform that
+\begin{mycite}{chappell}
+An ESB is a standards-based integration platform that
 combines messaging, web services, data transformation and intelligent routing to
-reliably connect and coordinate the interaction of significant numbers of diverse
-applications \ldots with transactional integrity.\cite{chappell}
+reliably connect and coordinate the interaction of significant numbers of
+diverse applications \ldots with transactional integrity.
+\end{mycite}
+
 
 %\newpage
 \section{ESB Tasks}
@@ -40,6 +41,15 @@ and other buzzwords.
 %% What are the requirements of the Decidr appliaction?
 Which requirements justify the usage of an ESB in the Decidr application? 
 Will Decidr benefit from an ESB?
+
+\begin{quotation}\emph{
+The ESB can be introduced at a departmental level or on a
+per-project basis. Adopting the ESB at the project level
+allows you to get accustomed to doing standards-based
+integration using ESB service containers, with full confidence
+that the project will fit into a larger integration network
+\ldots}\cite{chappell}.
+\end{quotation}
 
 %\newpage
 \subsubsection{Load Balancing and Service Availability}
