@@ -17,7 +17,11 @@
             <element name="eMailWSProcessRequest">
                 <complexType>
                     <sequence>
-                        <element name="input" type="string"/>
+                    	<element name="input" type="string" />
+
+                    	<element name="message" type="string"></element>
+                    	<element name="subject" type="string"></element>
+                    	<element name="recipient" type="string"></element>
                     </sequence>
                 </complexType>
             </element>
@@ -25,7 +29,7 @@
             <element name="eMailWSProcessResponse">
                 <complexType>
                     <sequence>
-                        <element name="result" type="string"/>
+                        <element name="result" type="boolean" />
                     </sequence>
                 </complexType>
             </element>
@@ -81,7 +85,7 @@
     </binding>
     <service name="eMailWSProcessService">
     	<port name="eMailWSProcessPort" binding="tns:emailWSProcessBinding">
-    		<soap:address location="http://localhost:8080/ode/processes/emailWS" />
+    		<soap:address location="http://localhost:8080/ode/processes/mailws" />
     	</port>
     </service>
 </definitions>
