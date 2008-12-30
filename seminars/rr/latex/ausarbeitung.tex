@@ -8,6 +8,13 @@
 \usepackage[pdftex]{graphicx}
 \usepackage[pdftex, colorlinks=true, urlcolor=blue, linkcolor=black]{hyperref}
 
+% make a proper TOC despite springer's llncs
+\setcounter{tocdepth}{2}
+\makeatletter
+\renewcommand*\l@author[2]{}
+\renewcommand*\l@title[2]{}
+\makeatletter
+
 \author{Reinhold Rumberger}
 \institute{Institute of Architecture of Application Systems (IAAS)
   \email{rumberrd@studi.informatik.uni-stuttgart.de}}
@@ -19,53 +26,63 @@
   \frontmatter
   \pagestyle{headings}
 
-  %TODO: kurze Zusammenfassung auf Titelseite
+  % TODO: make better title page
   \maketitle
-  %TODO: make decent TOC
   \tableofcontents
   \mainmatter
-  \titlerunning{Web Services}
 
+  \titlerunning{Web Services - Einleitung}
   \section{Einleitung}
-  \nocite{wk_ws}
-    \glqq{}Web Service\grqq{} wird vom W3C folgendermaßen definiert:
-    \begin{quote}
-      A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards.\cite{w3c_wsgloss_ws}
-    \end{quote}
+    Dies ist die Ausarbeitung des Seminars \glqq{}Web Services\grqq{}. Ich werde hier kurz darauf eingehen, was eine Service-orientierte Architektur ist. Danach werde ich die Grundlagen der Web Services erläutern und besonders detailliert auf WSDL und SOAP eingehen. Zum Schluss erläutere ich die Implementierung und Verwendung von Web Services in Java. Dabei werde ich gesondert auf JAX-WS 2.0 (JSR-224), WS-Metadata 2.0 (JSR-181) und JAXB 2.0 (JSR-222) eingehen.
 
-    % TODO: "Big WS" vs "RESTFul WS", profiles, WS-*
+    Zunächst sei aber noch erwähnt, dass \glqq{}JSRs\grqq{} -- Java Specification Requests -- im Rahmen des Java Community Process erstellte Java-Spezifikationen sind.
 
 
+  \titlerunning{Web Services - SOA}
   \section{SOA}
   \nocite{wk_soa}
     Eine \glqq{}SOA\grqq{} (Service Oriented Architecture) ist eine Software-Architektur, bei der loose gekoppelte Dienste miteinander kommunizieren. Die SOA definiert die verfügbaren Kommunikationsmethoden und die Methoden zum Auffinden von Diensten. So können verschiedene Dienste miteinander verbunden werden, um einen bestimmten Geschäftsprozess zu implementieren. So werden Applikationen aus Diensten zusammengestellt.
 
     Die loose Kopplung der Dienste macht die auf ihnen implementierten Applikationen sehr flexibel. So kann relativ schnell auf veränderte Umweltbedingungen reagiert werden. Wenn beispielsweise Dienste zufällig aus einer Menge geeigneter Dienste ausgewählt werden, kann man auf eine gesteigerte Nachfrage durch Hinzufügen weiterer Dienste begegnen. Dabei kann es sich sowohl um neue Instanzen vorhandener Dienste handeln als auch um komplett neu entwickelte Dienste.
 
-    %TODO: make longer
 
+  \titlerunning{Web Services - Web Services Grundlagen}
   \section{Web Services Grundlagen}
-    %TODO: Describe what a web service is
+  \nocite{wk_ws}
+    \glqq{}Web Service\grqq{} wird vom W3C folgendermaßen definiert:
+    \begin{quote}
+      A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards.\cite{w3c_wsgloss_ws}
+    \end{quote}
+
+    Es gibt zur Zeit zwei Ausprägungen von Web Services: die \glqq{}message-oriented Web Services\grqq{} und die \glqq{}RESTful Web Services\grqq{}.
+
+    Die erste Ausprägung -- message-oriented -- benutzt Nachrichten zur Kommunikation zwischen den verschiedenen Diensten. So entsteht eine loose Kopplung, da nur eine von der Implementierung unabhängige Schnittstelle nach außen hin sichtbar ist.
+
+    Die zweite Ausprägung -- RESTful -- versucht HTTP zu emulieren. Hier wird die Schnittstelle des Web Services auf wenige, häufig genutzte Operationen (z.B. GET, PUT, DELETE) beschränkt.
+    % TODO: "Big WS" vs "RESTful WS", profiles, WS-*
 
   \subsection{WSDL}
   \nocite{wk_wsdl}
-    WSDL (Web Services Description Language) ist eine XML-basierte Sprache zur Beschreibung von Web Services. Sie beschreibt die öffentliche Schnittstelle des Web Services.
+    WSDL (Web Services Description Language) ist eine XML-basierte Sprache zur Beschreibung der öffentlichen Schnittstelle von Web Services.
     %TODO: describe parts of WSDL \& make example
 
   \subsection{SOAP}
   \nocite{wk_soap}
     %TODO: short intro, more detailed description
 
+  \titlerunning{Web Services - Java und Web Services}
   \section{Java und Web Services}
 
   \subsection{JAX-WS 2.0 (JSR-224)}
-
-  \subsection{JAXB 2.0 (JSR-222)}
+  \nocite{jsr_224}
 
   \subsection{WS-Metadata 2.0 (JSR-181)}
+  \nocite{jsr_181}
+
+  \subsection{JAXB 2.0 (JSR-222)}
+  \nocite{jsr_222}
 
   \newpage
-  \addtocmark[2]{Literatur}
   \bibliography{literatur}
   \bibliographystyle{splncs}
 
