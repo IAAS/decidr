@@ -31,7 +31,7 @@ import org.apache.log4j.Logger;
  * 
  * @author RR
  */
-@WebService(serviceName = "eMailWS", name = "eMailWSPT", targetNamespace = "http://decidr.org/mailws", wsdlLocation = "mailws.wsdl")
+@WebService(serviceName = "eMailWS", name = "eMailWSPT", targetNamespace = "http://decidr.org/mailws")//, wsdlLocation = "mailws.wsdl")
 @SOAPBinding(style = Style.RPC)
 public class MailService {
 

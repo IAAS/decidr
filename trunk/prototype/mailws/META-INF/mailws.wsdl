@@ -9,6 +9,8 @@
 		An e-mail sending web service for the Decidr
 		prototype
 	</wsdl:documentation>
+
+	<!-- Abstract types -->
 	<wsdl:types>
 		<xs:schema attributeFormDefault="qualified"
 			elementFormDefault="qualified" targetNamespace="http://decidr.org/mailws">
@@ -36,6 +38,7 @@
 			</xs:element>
 		</xs:schema>
 	</wsdl:types>
+
 	<wsdl:message name="sendEmailRequest">
 		<wsdl:part name="parameters" element="ns:sendEmail" />
 	</wsdl:message>
@@ -48,7 +51,8 @@
 			<wsdl:output message="ns:sendEmailResponse" wsaw:Action="urn:sendEmailResponse" />
 		</wsdl:operation>
 	</wsdl:portType>
-	<!-- TODO: Adapt the following for deployment -->
+
+	<!-- Concrete Bindings -->
 	<wsdl:binding name="eMailWSSoap11Binding" type="ns:eMailWSPortType">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
 			style="document" />
@@ -87,6 +91,8 @@
 			</wsdl:output>
 		</wsdl:operation>
 	</wsdl:binding>
+
+	<!-- TODO: Adapt the following for deployment -->
 	<wsdl:service name="eMailWS">
 		<wsdl:port name="eMailWSHttpSoap11Endpoint" binding="ns:eMailWSSoap11Binding">
 			<soap:address
