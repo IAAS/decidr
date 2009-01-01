@@ -1,5 +1,5 @@
 || *Task* || *Stauts Creation* || *Status Review* || *Status Correction* || *Actual Editors*  || *Comment* || *Status* ||
-|| *applicable technologies* || 50% || 0% || 0% || Markus || || <font color="green">*XXXX* ||
+|| *applicable technologies* || 100% || 0% || 0% || Markus || || <font color="green">*XXXX* ||
 || *external interfaces* || 1% || 0% || 0% || Markus || || <font color="green">*XXXX* ||
 || *introduction* || 0% || 0% || 0% || Daniel || || <font color="red">*XXXX* ||
 || *non-functional requirements* || 0% || 0% || 0% || Daniel || || <font color="red">*XXXX* ||
