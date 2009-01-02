@@ -20,9 +20,9 @@ import org.apache.axiom.om.OMNamespace;
  * Servlet implementation class SendMail
  */
 public class SendMail extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
-    
 	/**
 	 * @see Servlet#init(ServletConfig)
 	 */
@@ -42,6 +42,7 @@ public class SendMail extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String mailTo = "";
+		boolean success = false;
 		try 
 		{ 
 		    mailTo = request.getParameter("mailTo"); 
@@ -74,9 +75,8 @@ public class SendMail extends HttpServlet {
 		
 		if (ErrorMsg == "")
 		{
-			String output = "";
 			 // epr to the url the webservice 
-			EndpointReference targetEPR = new EndpointReference("http://localhost:8080/axis2/services/DecidrMailDemo");
+			EndpointReference targetEPR = new EndpointReference("http://iaassrv7.informatik.uni-stuttgart.de:8080/axis2/services/eMailWS");
 			try {
 				OMFactory fac = OMAbstractFactory.getOMFactory();
 				OMNamespace ns = fac.createOMNamespace("http://prototype.decidr.de", "ns");
@@ -100,24 +100,26 @@ public class SendMail extends HttpServlet {
 				client.setOptions(options);
 				 //Blocking invocation
 				OMElement result = client.sendReceive(payload);
-				output = result.toString();
+				success = Boolean.parseBoolean(result.getFirstElement().getText());
 			
 			} catch (AxisFault axisFault) {
 				System.out.println("fault");
 				axisFault.printStackTrace();
 			}
 			
-			//if(output.equalsIgnoreCase("Mail sent to: " + mailTo))
-			//{
-				request.setAttribute("mailResult", output);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/mail_success.jsp");
-				if (dispatcher != null) dispatcher.forward(request,response);
-			//}else
-			//{
-			//	request.setAttribute("mailResult", output);
-			//	RequestDispatcher dispatcher = request.getRequestDispatcher("/mail_failure.jsp");
-			//	if (dispatcher != null) dispatcher.forward(request,response);
-			//}
+			RequestDispatcher dispatcher;
+			request.setAttribute("mailResult", String.valueOf( success));
+			
+			if(success){
+				dispatcher = request.getRequestDispatcher("/mail_success.jsp");
+			}else{
+				dispatcher = request.getRequestDispatcher("/mail_failure.jsp");
+			}
+			
+			if (dispatcher != null) 
+			{
+				dispatcher.forward(request,response);
+			}
 			
 		}else
 		{
