@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:tns="http://decidr.org/mailws" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" name="eMailWSProcess" targetNamespace="http://decidr.org/mailws" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" 
+			 xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" 
+			 xmlns:tns="http://decidr.org/mailws" 
+			 xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" 
+			 
+			 name="eMailWSProcess" targetNamespace="http://decidr.org/mailws" 
+			 xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/">
 
 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      TYPE DEFINITION - List of types participating in this BPEL process 
@@ -85,7 +91,7 @@
     </binding>
     <service name="eMailWSProcessService">
     	<port name="eMailWSProcessPort" binding="tns:emailWSProcessBinding">
-    		<soap:address location="http://localhost:8080/ode/processes/mailws" />
-    	</port>
+            <http:address location="http://localhost:8080/ode/processes/mailws"/>
+        </port>
     </service>
 </definitions>
