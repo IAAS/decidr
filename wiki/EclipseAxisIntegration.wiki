@@ -13,6 +13,7 @@
 
 == Create a Web Service using Axis2 ==
   # Create a new "Dynamic Web Project".
+    * Modify the preselected configuration by selecting the Axis2 facet
   # Create the Web Service (or at least some class annotated with `@WebService`).
   # Open "File -> New -> Other..." and select "Web Services -> Web Service".
   # Choose "Bottom up Java bean Web Service" and select the class containing your web service.
