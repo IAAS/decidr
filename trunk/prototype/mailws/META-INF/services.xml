@@ -1,7 +1,7 @@
 <service name="eMailWS">
 	<Description>
 		An e-mail sending web service for the Decidr prototype
-  </Description>
+	</Description>
 	<messageReceivers>
 		<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only"
 			class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
@@ -10,6 +10,6 @@
 	</messageReceivers>
 	<parameter name="ServiceClass">
 		de.decidr.prototype.MailService
-  </parameter>
+	</parameter>
 	<parameter name="useOriginalwsdl">true</parameter>
 </service>
