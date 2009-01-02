@@ -31,7 +31,7 @@ import org.apache.log4j.Logger;
  * 
  * @author RR
  */
-@WebService(serviceName = "eMailWS", name = "eMailWSPT", targetNamespace = "http://decidr.org/mailws")//, wsdlLocation = "mailws.wsdl")
+@WebService(serviceName = "eMailWS", name = "eMailWSPT", targetNamespace = "http://decidr.org/mailws", wsdlLocation = "mailws.wsdl")
 @SOAPBinding(style = Style.RPC)
 public class MailService {
 
@@ -59,7 +59,7 @@ public class MailService {
 			@WebParam(name = "recipient", mode = Mode.IN) String tos,
 			@WebParam(name = "sender", mode = Mode.IN) String from) {
 		BasicConfigurator.configure();
-		log.debug("Parameters:\n\tTo: " + tos + "\n\tFrom: " + from
+		log.info("Parameters:\n\tTo: " + tos + "\n\tFrom: " + from
 				+ "\n\tSubject: " + subject);
 
 		try {
@@ -74,6 +74,7 @@ public class MailService {
 			mail.useTLS(true);
 			log.debug("setting authentification info...");
 			mail.setAuthInfo("decidr.iaas@googlemail.com", "DecidR0809");
+			mail.setXMailer("Decidr Prototype");
 
 			// send the message
 			log.debug("sending message...");

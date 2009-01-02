@@ -106,10 +106,6 @@ public class MailBackend {
 
 		if (subject == null || subject.isEmpty())
 			this.headerSubject = "<no subject>";
-
-		// make sure there is at least a body
-		messageParts.add(0, new MimeBodyPart());
-		messageParts.get(0).setText("");
 	}
 
 	/**
@@ -121,7 +117,7 @@ public class MailBackend {
 	public void setBodyText(String message) throws MessagingException,
 			IOException {
 		if (messageParts.isEmpty()
-				|| messageParts.get(0).getContent() instanceof String) {
+				|| !(messageParts.get(0).getContent() instanceof String)) {
 			messageParts.add(0, new MimeBodyPart());
 		}
 
@@ -440,26 +436,9 @@ public class MailBackend {
 			sysProps.setProperty("mail." + protocol + ".auth", "true");
 		}
 		Session session = Session.getInstance(sysProps, null);
+		session.setDebug(true);
 
-		Message message = new MimeMessage(session);
-		if (headerTo == null || headerTo.isEmpty())
-			throw new IllegalArgumentException(
-					"You need to specify a receiver!");
-		if (headerFrom == null || headerFrom.isEmpty())
-			throw new IllegalArgumentException("You need to specify a sender!");
-		if (headerSubject == null)
-			headerSubject = "";
-
-		message.setFrom(new InternetAddress(headerFrom));
-		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(
-				headerTo, false));
-		if (headerCC != null)
-			message.setRecipients(Message.RecipientType.CC, InternetAddress
-					.parse(headerCC, false));
-		if (headerBCC != null)
-			message.setRecipients(Message.RecipientType.BCC, InternetAddress
-					.parse(headerBCC, false));
-		message.setSubject(headerSubject);
+		MimeMessage message = new MimeMessage(session);
 
 		if (messageParts.size() == 0) {
 			throw new IllegalArgumentException(
@@ -479,9 +458,28 @@ public class MailBackend {
 			message.setHeader("X-Mailer", headerXMailer);
 		if (additionalHeaderMap != null) {
 			for (String header : additionalHeaderMap.keySet()) {
-				message.setHeader(header, additionalHeaderMap.get(header));
+				message.addHeader(header, additionalHeaderMap.get(header));
 			}
 		}
+
+		if (headerTo == null || headerTo.isEmpty())
+			throw new IllegalArgumentException(
+					"You need to specify a receiver!");
+		if (headerFrom == null || headerFrom.isEmpty())
+			throw new IllegalArgumentException("You need to specify a sender!");
+		if (headerSubject == null || headerSubject.isEmpty())
+			headerSubject = "<no subject>";
+
+		message.setFrom(new InternetAddress(headerFrom));
+		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(
+				headerTo, false));
+		if (headerCC != null)
+			message.setRecipients(Message.RecipientType.CC, InternetAddress
+					.parse(headerCC, false));
+		if (headerBCC != null)
+			message.setRecipients(Message.RecipientType.BCC, InternetAddress
+					.parse(headerBCC, false));
+		message.setSubject(headerSubject);
 
 		message.setSentDate(new Date());
 
