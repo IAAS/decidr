@@ -1,9 +1,6 @@
 %%%%%%%%%%%%%%%%%%%% seminar.tex %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%  Springer-Verlag template %%%%%%%%%%%%%%%
-
-
-% RECOMMENDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[envcountsame,envcountchap]{svmono}
+\documentclass{llncs}
 
 % choose options for [] as required from the list
 % in the Reference Guide, Sect. 2.2
@@ -11,41 +8,40 @@
 \usepackage{makeidx}         % allows index generation
 \usepackage{graphicx}        % standard LaTeX graphics tool
                              % when including figure files
-\usepackage{multicol}        % used for the two-column index
-\usepackage[bottom]{footmisc}% places footnotes at page bottom
+%\usepackage{multicol}        % used for the two-column index
+\usepackage[bottom]{footmisc} % places footnotes at page bottom
 \usepackage[svgnames]{xcolor}
 \usepackage{url}
 
 % see the list of further useful packages
 % in the Reference Guide, Sects. 2.3, 3.1-3.3
 
-\makeindex             % used for the subject index
+%\makeindex             % used for the subject index
                        % please use the style svind.ist with
                        % your makeindex program
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{addons}
-
 \begin{document}
 \author{Daniel Huss}
-\title{Enterprise Service Bus}
-\subtitle{and Web Services Security}
+\title{Enterprise Service Bus and Web Services Security}
+\institute{University of Stuttgart, IAAS \\
+\email{hussdl@studi.informatik.uni-stuttgart.de}}
+
 \maketitle
 
 \frontmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% make a proper TOC despite llncs
+\setcounter{tocdepth}{2}
+\makeatletter
+\renewcommand*\l@author[2]{}
+\renewcommand*\l@title[2]{}
+\makeatletter
 \tableofcontents
-
 \mainmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\include{abstract}
 \include{esb}
-%\include{chapter}
-%\appendix
-%\include{appendix}
-
-\backmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\include{solutions}
 \include{referenc}
 \printindex
