@@ -1,8 +1,8 @@
 #TeXlipse project settings
-#Mon Dec 29 18:24:01 CET 2008
+#Tue Dec 30 15:30:27 CET 2008
 builderNum=2
 outputDir=
-makeIndSty=svind.ist
+makeIndSty=
 bibrefDir=
 outputFormat=pdf
 tempDir=tmp
