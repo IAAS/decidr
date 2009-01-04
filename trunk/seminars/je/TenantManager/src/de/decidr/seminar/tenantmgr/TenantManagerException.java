@@ -7,7 +7,7 @@ public class TenantManagerException extends Exception {
 	}
 	
 	public TenantManagerException(String msg) {
-		super(msg);
+		super("TenantManager error: " + msg);
 	}
 
 }
