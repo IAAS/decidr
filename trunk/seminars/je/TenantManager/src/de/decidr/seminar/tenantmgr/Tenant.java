@@ -9,7 +9,6 @@ import java.util.TreeMap;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -57,10 +56,11 @@ public class Tenant {
 	
 	public void setValue(String fieldName, String value)
 			throws TenantManagerException {
-		if (searchByName(fieldName) == null) {
+		CustomField field = searchByName(fieldName);
+		if (field == null) {
 			throw new TenantManagerException("Field doesn't exist.");
 		} else {
-			customFields.add(new CustomField(this, fieldName, value));
+			field.setValue(value);
 		}
 	}
 	

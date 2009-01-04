@@ -23,7 +23,7 @@ public class ConsoleUIMain {
 				String[] query = in.readLine().split(" ");
 				
 				if (query[0].equals("exit")) {
-					break;
+					System.exit(0);
 				}
 				
 				Object rtn;
