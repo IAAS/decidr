@@ -69,6 +69,7 @@ public class TenantManagerImpl implements TenantManager {
 			// add new custom field
 			tenant.addCustomField(fieldName, value);
 			
+			// persist tenant
 			em.getTransaction().begin();
 			em.persist(tenant);
 			em.getTransaction().commit();
@@ -81,20 +82,59 @@ public class TenantManagerImpl implements TenantManager {
 	@Override
 	public void setValue(String sid, String fieldName, String value)
 			throws Exception {
-		Tenant tenant = sessions.getTenant(sid);
-		tenant.setValue(fieldName, value);
+		String name = sessions.getTenant(sid).getName();
+
+		// get tenant from database
+		Tenant tenant = getTenantFromDB(name);
+		
+		// check if tenant exists
+		if (tenant != null) {
+			
+			// set custom field value
+			tenant.setValue(fieldName, value);
+			
+			// persist tenant
+			em.getTransaction().begin();
+			em.persist(tenant);
+			em.getTransaction().commit();
+			
+		} else {
+			throw new TenantManagerException("Tenant not found.");
+		}
 	}
 
 	@Override
 	public String getValue(String sid, String fieldName) throws Exception {
-		Tenant tenant = sessions.getTenant(sid);
-		return tenant.getValue(fieldName);
+		String name = sessions.getTenant(sid).getName();
+
+		// get tenant from database
+		Tenant tenant = getTenantFromDB(name);
+		
+		// check if tenant exists
+		if (tenant != null) {		
+			// get custom field value
+			return tenant.getValue(fieldName);
+			
+		} else {
+			throw new TenantManagerException("Tenant not found.");
+		}
 	}
 
 	@Override
 	public Map<String, String> getValues(String sid) throws Exception {
-		Tenant tenant = sessions.getTenant(sid);
-		return tenant.getValues();
+		String name = sessions.getTenant(sid).getName();
+
+		// get tenant from database
+		Tenant tenant = getTenantFromDB(name);
+		
+		// check if tenant exists
+		if (tenant != null) {		
+			// get custom field value
+			return tenant.getValues();
+			
+		} else {
+			throw new TenantManagerException("Tenant not found.");
+		}
 	}
 	
 	private Tenant getTenantFromDB(String name) {
