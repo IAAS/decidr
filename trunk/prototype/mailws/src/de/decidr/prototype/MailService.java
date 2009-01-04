@@ -59,7 +59,7 @@ public class MailService {
 			@WebParam(name = "recipient", mode = Mode.IN) String tos,
 			@WebParam(name = "sender", mode = Mode.IN) String from) {
 		BasicConfigurator.configure();
-		log.info("Parameters:\n\tTo: " + tos + "\n\tFrom: " + from
+		log.debug("Parameters:\n\tTo: " + tos + "\n\tFrom: " + from
 				+ "\n\tSubject: " + subject);
 
 		try {

@@ -94,6 +94,8 @@ public class MailBackend {
 	public MailBackend(String to, String from, String subject)
 			throws MessagingException {
 		super();
+		// System.out.println("JavaMail version: "
+		// + Message.class.getPackage().getImplementationVersion());
 		this.headerTo = to;
 		this.headerFrom = from;
 		this.headerSubject = subject;
@@ -436,7 +438,7 @@ public class MailBackend {
 			sysProps.setProperty("mail." + protocol + ".auth", "true");
 		}
 		Session session = Session.getInstance(sysProps, null);
-		session.setDebug(true);
+		// session.setDebug(true);
 
 		MimeMessage message = new MimeMessage(session);
 
@@ -480,7 +482,6 @@ public class MailBackend {
 			message.setRecipients(Message.RecipientType.BCC, InternetAddress
 					.parse(headerBCC, false));
 		message.setSubject(headerSubject);
-
 		message.setSentDate(new Date());
 
 		SMTPTransport transport = (SMTPTransport) session
