@@ -1,0 +1,461 @@
+This is pdfTeXk, Version 3.1415926-1.40.9 (Web2C 7.5.7) (format=pdflatex 2008.10.24)  4 JAN 2009 19:35
+entering extended mode
+ %&-line parsing enabled.
+**Seminar.tex
+(./Seminar.tex
+LaTeX2e <2005/12/01>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, german-x-2008-06-18, ngerman-x-2008-06-18, ancientgreek, ibycus, ar
+abic, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danish, dutc
+h, esperanto, estonian, farsi, finnish, french, galician, german, ngerman, mono
+greek, greek, hungarian, icelandic, indonesian, interlingua, irish, italian, la
+tin, mongolian, mongolian2a, bokmal, nynorsk, polish, portuguese, romanian, rus
+sian, sanskrit, serbian, slovak, slovenian, spanish, swedish, turkish, ukenglis
+h, ukrainian, uppersorbian, welsh, loaded.
+(/usr/share/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2005/09/16 v1.4f Standard LaTeX document class
+(/usr/share/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2005/09/16 v1.4f Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2006/05/05 v1.1b Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+
+(/usr/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2006/05/05 v1.1b Input encoding file
+))
+(/usr/share/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(/usr/share/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+))
+(/usr/share/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2008/07/06 v3.8l The Babel package
+
+(/usr/share/texmf-dist/tex/generic/babel/ngermanb.ldf
+Language: ngermanb 2008/07/06 v2.6n new German support from the babel system
+
+(/usr/share/texmf-dist/tex/generic/babel/babel.def
+File: babel.def 2008/07/06 v3.8l Babel common definitions
+\babel@savecnt=\count87
+\U@D=\dimen103
+)
+\l@naustrian = a dialect from \language\l@ngerman 
+Package babel Info: Making " an active character on input line 92.
+))
+(/usr/share/texmf-dist/tex/latex/tools/array.sty
+Package: array 2005/08/23 v2.4b Tabular extension package (FMi)
+\col@sep=\dimen104
+\extrarowheight=\dimen105
+\NC@list=\toks16
+\extratabsurround=\skip43
+\backup@length=\skip44
+)
+(/usr/share/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen106
+\WF@size=\dimen107
+\c@WF@wrappedlines=\count88
+\WF@box=\box26
+\WF@everypar=\toks17
+Package: wrapfig 2003/01/31  v 3.6
+)
+(/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks18
+)
+(/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2006/02/20 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 90.
+
+(/usr/share/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2008/09/08 v0.04l Graphics/color for pdfTeX
+\Gread@gobject=\count89
+))
+\Gin@req@height=\dimen108
+\Gin@req@width=\dimen109
+)
+(/usr/share/texmf-dist/tex/latex/microtype/microtype.sty
+Package: microtype 2008/11/11 v2.3c Micro-typography with pdfTeX (RS)
+\MT@toks=\toks19
+\MT@count=\count90
+LaTeX Info: Redefining \lsstyle on input line 1585.
+LaTeX Info: Redefining \lslig on input line 1585.
+\MT@outer@space=\skip45
+LaTeX Info: Redefining \textls on input line 1586.
+\MT@outer@kern=\dimen110
+LaTeX Info: Redefining \textmicrotypecontext on input line 2126.
+Package microtype Info: Loading configuration file microtype.cfg.
+
+(/usr/share/texmf-dist/tex/latex/microtype/microtype.cfg
+File: microtype.cfg 2008/11/11 v2.3c microtype main configuration file (RS)
+))
+(/usr/share/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2008/09/29 v6.78l Hypertext links for LaTeX
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2007/12/12 v1.6 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in pdf mode detected.
+)
+(/usr/share/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2007/09/09 v1.3 Switches for detecting VTeX and its modes (HO)
+Package ifvtex Info: VTeX not detected.
+)
+(/usr/share/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2008/09/18 v0.4 Provides ifxetex conditional
+)
+(/usr/share/texmf-dist/tex/latex/oberdiek/hycolor.sty
+Package: hycolor 2008/09/08 v1.4 Code for color options of hyperref/bookmark (H
+O)
+
+(/usr/share/texmf-dist/tex/latex/oberdiek/xcolor-patch.sty
+Package: xcolor-patch 2008/09/08 xcolor patch
+))
+\@linkdim=\dimen111
+\Hy@linkcounter=\count91
+\Hy@pagecounter=\count92
+
+(/usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2008/09/29 v6.78l Hyperref: PDFDocEncoding definition (HO)
+)
+(/usr/share/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2007/12/12 v1.2 Prefix for e-TeX command names (HO)
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2007/09/09 v1.2 Providing info/warning/message (HO)
+)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)
+(/usr/share/texmf/tex/latex/config/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+(/usr/share/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2007/10/18 v3.0 Keyval support for LaTeX options (HO)
+)
+Package hyperref Info: Hyper figures OFF on input line 2907.
+Package hyperref Info: Link nesting OFF on input line 2912.
+Package hyperref Info: Hyper index ON on input line 2915.
+Package hyperref Info: Plain pages OFF on input line 2922.
+Package hyperref Info: Backreferencing OFF on input line 2927.
+
+Implicit mode ON; LaTeX internals redefined
+Package hyperref Info: Bookmarks ON on input line 3117.
+(/usr/share/texmf-dist/tex/latex/ltxmisc/url.sty
+\Urlmuskip=\muskip10
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 3351.
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/bitset.sty
+Package: bitset 2007/09/28 v1.0 Data type bit set (HO)
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/intcalc.sty
+Package: intcalc 2007/09/27 v1.1 Expandable integer calculations (HO)
+)
+(/usr/share/texmf-dist/tex/generic/oberdiek/bigintcalc.sty
+Package: bigintcalc 2007/11/11 v1.1 Expandable big integer calculations (HO)
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2007/12/12 v0.3 LuaTeX support for pdfTeX utility functions
+ (HO)
+Package pdftexcmds Info: LuaTeX not detected on input line 139.
+)))
+(/usr/share/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2007/09/29 v1.3 Key value parser with default handler suppor
+t (HO)
+)
+\Fld@menulength=\count93
+\Field@Width=\dimen112
+\Fld@charsize=\dimen113
+\Field@toks=\toks20
+Package hyperref Info: Hyper figures OFF on input line 4268.
+Package hyperref Info: Link nesting OFF on input line 4273.
+Package hyperref Info: Hyper index ON on input line 4276.
+Package hyperref Info: backreferencing OFF on input line 4283.
+Package hyperref Info: Link coloring OFF on input line 4288.
+Package hyperref Info: Link coloring with OCG OFF on input line 4293.
+Package hyperref Info: PDF/A mode OFF on input line 4298.
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/atbegshi.sty
+Package: atbegshi 2008/07/31 v1.9 At begin shipout hook (HO)
+)
+\Hy@abspage=\count94
+\c@Item=\count95
+\c@Hfootnote=\count96
+)
+*hyperref using default driver hpdftex*
+(/usr/share/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2008/09/29 v6.78l Hyperref driver for pdfTeX
+\Fld@listcount=\count97
+) (./Seminar.aux
+(./Einleitung.aux) (./SVN.aux) (./SVN-Repository.aux) (./FunktionsweiseSVN.aux)
+(./Maven.aux) (./Phasen.aux) (./Vergleich.aux) (./Hudson.aux)
+(./Zusammenfassung.aux))
+\openout1 = `Seminar.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+ (/usr/share/texmf-dist/tex/context/base/supp-pdf.tex
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count98
+\scratchdimen=\dimen114
+\scratchbox=\box27
+\nofMPsegments=\count99
+\nofMParguments=\count100
+\everyMPshowfont=\toks21
+\MPscratchCnt=\count101
+\MPscratchDim=\dimen115
+\MPnumerator=\count102
+\everyMPtoPDFconversion=\toks22
+)
+LaTeX Info: Redefining \microtypecontext on input line 15.
+Package microtype Info: Generating PDF output.
+Package microtype Info: Character protrusion enabled (level 2).
+Package microtype Info: Using default protrusion set `alltext'.
+Package microtype Info: Automatic font expansion enabled (level 2),
+(microtype)             stretch: 20, shrink: 20, step: 4, non-selected.
+Package microtype Info: Using default expansion set `basictext'.
+Package microtype Info: No tracking.
+Package microtype Info: No adjustment of interword spacing.
+Package microtype Info: No adjustment of character kerning.
+ (/usr/share/texmf-dist/tex/latex/microtype/mt-cmr.cfg
+File: mt-cmr.cfg 2008/02/29 v1.9a microtype config. file: Computer Modern Roman
+ (RS)
+)
+Package hyperref Info: Link coloring OFF on input line 15.
+
+(/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
+
+(/usr/share/texmf-dist/tex/latex/oberdiek/refcount.sty
+Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
+)
+\c@section@level=\count103
+)
+LaTeX Info: Redefining \ref on input line 15.
+LaTeX Info: Redefining \pageref on input line 15.
+ (./Seminar.out)
+(./Seminar.out)
+\@outlinefile=\write3
+\openout3 = `Seminar.out'.
+
+\AtBeginShipoutBox=\box28
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 18.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 18.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 18.
+ (./Seminar.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 4.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 4.
+)
+\tf@toc=\write4
+\openout4 = `Seminar.toc'.
+
+ [1
+
+{/usr/share/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+\openout2 = `Einleitung.aux'.
+
+ (./Einleitung.tex) [2
+
+]
+\openout2 = `SVN.aux'.
+
+ (./SVN.tex [3
+
+
+]
+<subversion-diagram.png, id=86, 512.91624pt x 587.19376pt>
+File: subversion-diagram.png Graphic file (type png)
+
+<use subversion-diagram.png>
+Underfull \hbox (badness 2884) in paragraph at lines 33--33
+[]|\T1/cmr/m/n/10 (+20) Auscheken des letz-ten Bau-mes ist
+ []
+
+
+Underfull \hbox (badness 4995) in paragraph at lines 35--35
+[]|\T1/cmr/m/n/10 (+20) Repository-Backup funk-tio-niert zur
+ []
+
+
+Underfull \hbox (badness 4995) in paragraph at lines 35--35
+[]|\T1/cmr/m/n/10 (+20) Repository-Backup funk-tio-niert zur
+ []
+
+
+Overfull \hbox (21.63303pt too wide) in paragraph at lines 26--38
+ [] 
+ []
+
+[4 <./subversion-diagram.png (PNG copy)>]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 43.
+
+(/usr/share/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 43.
+) [5]
+\openout2 = `SVN-Repository.aux'.
+
+ (./SVN-Repository.tex)
+[6
+
+
+]
+\openout2 = `FunktionsweiseSVN.aux'.
+
+ (./FunktionsweiseSVN.tex
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 4.
+ (/usr/share/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+Underfull \hbox (badness 10000) in paragraph at lines 26--26
+
+ []
+
+[7
+
+
+]) [8]
+\openout2 = `Maven.aux'.
+
+ (./Maven.tex
+Underfull \hbox (badness 10000) in paragraph at lines 10--11
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--14
+
+ []
+
+
+Underfull \hbox (badness 4518) in paragraph at lines 23--23
+[]\T1/cmr/m/n/10 (+20) Was Ma-ven
+ []
+
+) [9
+
+
+] [10]
+\openout2 = `Phasen.aux'.
+
+ (./Phasen.tex
+Overfull \hbox (21.63303pt too wide) in paragraph at lines 4--16
+ [] 
+ []
+
+) [11
+
+
+]
+\openout2 = `Vergleich.aux'.
+
+ (./Vergleich.tex
+Underfull \hbox (badness 10000) in paragraph at lines 5--5
+[]\T1/cmr/m/n/10 (+20) Vor- und
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--5
+\T1/cmr/m/n/10 (+20) Nach-tei-le
+ []
+
+) [12
+
+
+]
+\openout2 = `Hudson.aux'.
+
+ (./Hudson.tex
+Overfull \hbox (14.15207pt too wide) in paragraph at lines 3--3
+[]\T1/cmr/m/n/10 (-20) Funktionalitäten 
+ []
+
+) [13
+
+
+]
+\openout2 = `Zusammenfassung.aux'.
+
+ (./Zusammenfassung.tex) [14
+
+
+] (./Seminar.bbl) [15
+
+] (./Seminar.aux
+(./Einleitung.aux) (./SVN.aux) (./SVN-Repository.aux) (./FunktionsweiseSVN.aux)
+(./Maven.aux) (./Phasen.aux) (./Vergleich.aux) (./Hudson.aux)
+(./Zusammenfassung.aux)) ) 
+Here is how much of TeX's memory you used:
+ 6303 strings out of 493886
+ 94398 string characters out of 1155674
+ 195961 words of memory out of 3000000
+ 9335 multiletter control sequences out of 10000+50000
+ 16893 words of font info for 61 fonts, out of 3000000 for 5000
+ 714 hyphenation exceptions out of 8191
+ 36i,10n,38p,2345b,360s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-su
+per-t1.enc}</usr/share/texmf-dist/fonts/type1/bluesky/cm/cmmi10.pfb></usr/share
+/texmf-dist/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1
+/bluesky/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/bluesky/cm/cmsy10.pfb><
+/usr/share/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/share/texm
+f-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf-dist/fonts/ty
+pe1/public/cm-super/sfbx1440.pfb></usr/share/texmf-dist/fonts/type1/public/cm-s
+uper/sfrm0600.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm0700.p
+fb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/
+texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf-dist/font
+s/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf-dist/fonts/type1/public/
+cm-super/sfrm1728.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfti10
+00.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb>
+Output written on Seminar.pdf (15 pages, 317948 bytes).
+PDF statistics:
+ 226 PDF objects out of 1000 (max. 8388607)
+ 40 named destinations out of 1000 (max. 131072)
+ 20082 words of extra memory for PDF output out of 20736 (max. 10000000)
+

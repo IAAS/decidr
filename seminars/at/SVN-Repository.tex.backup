@@ -1,0 +1,2 @@
+\subsection{Organisation des SVN-Repositories}
+Die Sturkturierung der Ordner ist wohl das wesentliche Hauptmerkmal des SVN. SVN kennt nur die Idee der Kopie und dementsprechend wird auch zur solch einer Ordnerstruktur geraten. Das bedeutet, man besitzt eine Hauptentwicklungslinie die den Stamm des kompletten Projektes bildet. Im Falle des Studienprojektes \flqq DecidR \frqq ist trunk der 

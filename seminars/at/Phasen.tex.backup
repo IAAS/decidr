@@ -1,0 +1,28 @@
+\subsection{Die Phasen Mavens}
+Maven geht von einem normalen Software-Lebenszyklus aus. Dieser besteht aus den folgenden Phasen:
+\begin{description}
+ \item[validate] Überprüfung der Projektstruktur 
+ \item[compile] Kompilieren des Quellcodes
+ \item[test] Testen des Codes mit einem passendem Frameworks. Maven berücksichtigt, dass Testklassen nicht in der auszuliefernden Software vorhanden sind
+ \item[package] Das kompilat wird mit ggf. anderen Dateien verpackt. In den meisten Fällen handelt es sich um eine \emph{jar-Datei}
+ \item[integration-test] Das Paket wird auf einer Umgebung geladen und seine Funktionalität getestet
+ \item[verify] Überprüfung, ob das Paket eine gültige Struktur hat und ggf. bestimmte Qualtitätskriterien erfüllt
+ \item[install] Installiert das Software-Paket im lokalen Maven-Repository
+ \item[deploy] Stabile Versionen werden auf einem entfernten Maven-Repository geladen und stehen anderen Projekten zur Verfügung 
+ \item[clean] Löscht alle Artifakten von früheren Builds
+ \item[site] Generiert eine Seite mit Informationen zum Projekt \\
+\end{description}
+Die zwei letzten Punkte gehören nicht unbedingt zum normalen Software-Lebenszyklus.
+Durch Plugins oder Archetypes kann dieser Lebenszyklus verändert und an bestimmte Projektstrukturen angepasst werden. \\
+Jedes Maven Projekt besitzt eine sogennante \emph{pom.xml}. In dieser wird die komplette Projektstruktur gespeichert. Zusätzlich wird noch die \emph{settings.xml} erstellt, in der bestimmte Einstellungen, wie Lokal-Repository, Server-Spiegel, Proxies usw.  angegeben werden. \begin{center}
+% use packages: array
+\begin{tabular}{|p{6cm}|p{6cm}|}\hline
+ Validierungsphase & Hier wird die pom.xml auf ihre Struktur überprüft, ob diese korrekt ist. Erst wenn die korrekt ist, kann der Prozess weitergeführt werden \\ \hline
+ Kompilierungsphase & Hier wird das Projekt kompiliert. Beim ersten Kompilieren, werden alle nötigen Plugins heruntergeladen. Danach greift Maven auf das lokale System zu, falls es Plugins benötigt und sucht dort nach ihnen. Maven kompiliert die Klassen, die im Standard-Verzeichnis liegen. Die werden dort beim Erstellen des Projektes hineingelegt. \\ \hline
+ Testphase & Hier werden die generierten Testklassen kompiliert und ausgeführt. Dabei werden zusätzliche Plugins für das Kompilieren der Testklassen heruntergeladen. Bevor die Testklassen ausgeführt werden, wird der Maincode kompiliert. \\ \hline
+ Paketierungsphase & In dieser Phase wird eine jar-Datei erstellt. In der pom.xml kann man angeben, was in dieser Phase erstellt werden soll. Die jar-Datei wird in einem standardisiertem Verzeichnis abgelegt. \\ \hline
+ Integrations-Test & Hier wird durch ein Plugin das fertig Paket in eine Umgebung integriert und getestet. \\ \hline
+ Verifizierungsphase & Hier wird das Paket überprüft, ob es bestimmte Dateien/Ordner erhält und prüft den Inhalt auf ihre Struktur. \\ \hline
+                                                                                                                                                                                                                                                                                   \end{tabular}
+                                                                                                                                                                                                                                                                                   \end{center}
+
