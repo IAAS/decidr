@@ -1,0 +1,40 @@
+﻿<!--    Sample synapse configuration that creates an open proxy -->
+<definitions xmlns="http://ws.apache.org/ns/synapse">
+    <!-- Every synapse config has at least main sequence and a fault squence.
+         If either is not defined in the config file (or via the registry), 
+         synapse generates default sequences instead. -->
+    <sequence name="main">
+        <!-- The in-mediator accepts only incoming messages. -->
+        <in>
+            <!-- There are also pre-defined log levels such as "debug" or
+                 "full."  -->
+            <log level="custom">
+            <property name="Text" value="Incoming message!"/>
+            </log>
+            <!-- This sends the message to its implicit destination, if
+                 known. -->
+            <send/>
+        </in>
+        <!-- The out-mediator accepts only outgoing messages. -->
+        <out>
+            <log level="custom">
+            <property name="Text" value="Outgoing message!"/>
+            </log>
+            <send/>
+        </out>
+    </sequence>
+    
+    <!-- The sequence named "fault" is executed if a fault occurs that isn't 
+         handled by another sequence. Faults are very similar to exception 
+         handling in programming languages like Java. The "fault" sequence 
+         basically represents the default handler for uncaught expections.
+         -->
+    <sequence name="fault">
+        <log level="custom">
+            <property name="text" value="An unexpected error occured"/>
+            <property name="message" expression="get-property('ERROR_MESSAGE')"/>
+        </log>
+       <!-- Discards the message. -->
+        <drop/>
+    </sequence>
+</definitions>
