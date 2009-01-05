@@ -22,7 +22,7 @@
   </extensions>
   <extensions>
     <extendedObject href="eMailWSProcess.bpel#/"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1230578088882"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1230913455124"/>
   </extensions>
   <extensions>
     <extendedObject href="eMailWSProcess.bpel#//@variables/@children.2"/>
