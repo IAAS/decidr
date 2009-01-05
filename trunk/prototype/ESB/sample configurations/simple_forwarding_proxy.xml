@@ -8,7 +8,7 @@ http(s)://localhost:8280/soap/
 **Assumptions**
 
 - There is an Axis2 server accepting connections on localhost:8080
-- Reinhold's mail WS and Daniel's time WS have been deployed on the Axis2 server.
+- Reinhold's mail WS and Daniel's time WS have been deployed to the Axis2 server.
 
  -->
 <definitions xmlns="http://ws.apache.org/ns/synapse">
