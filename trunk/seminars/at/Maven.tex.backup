@@ -1,0 +1,39 @@
+\section{Maven}
+Maven kommt aus dem Jüdischen (\emph{meyvn}) bzw. aus dem Hebräischem (\emph{mevin}) und bedeutet soviel wie Experte. Die genaue englische Übersetzung lautet accumulator of knowledge, quasi ein Speicher für Wissen. \\
+Maven wurde als Ansatz im \emph{Apache Jakarta Turbine Project} \footnote{Turbine ist ein Servlet basiertes Framework für erfahrene Java-Entwickler, um schnell Web-Applikationen zu erstellen}  benutzt, um den Build-Prozess zu vereinfachen. Es gab einige verschiedene Projekte mit ihren eigenen Ant-Buildfiles, die alle unterschiedlich waren und die Jar-Dateien wurden alle ins CVS geladen.\\
+Daraus resultierte der Wunsch eines einheitlichen automatisierten Verfahrens, um den kompletten Build-Prozess zu standardisieren. Dabei setzt sich Maven mit folgenden Zielen auseinander:
+\begin{itemize}
+ \item Vereinfachung des Build-Prozesses
+ \item Bereitstellung eines einheitlichen Build-Systems
+ \item Bereitstellung von Qualitätsinformationen bezüglich des Projektes
+ \item Bereitstellung von Richtlininen zur besten Entwicklung
+ \item Transparente Migration von neuen Features (Pklug-In)\\
+\end{itemize}
+Außerdem versucht Maven das Prinzip \emph{Convention over Configuration}\footnote{Das Ziel ist, die Zahl der Entscheidungen, die ein Entwickler trifft, zu verringern und dabei Einfachheit zu erreichen, ohne die Felxibiltät zu beeinflussen} für den gesamten Software-Lebenszyklus zu verfolgen. \\
+Die erste Version von Maven war noch stark an Ant angelehnt, sodass sich diese beiden Build-Methoden ähnelten. Die zweite Version verfolgte grundlegende neue Ansätze und ist nicht mehr mit der vorherigen Version kompatibel.\\
+
+\subsection{Die Philosophie Mavens}
+Beim Erstellen eins Maven Projektes wird ein einheitliches Projektverzeichnis und eine einhe
+Maven erstellt eine XML-Datei, die sogenannte \emph{pom.xml}. In dieser stehen wichtige Daten zum Projekt und aus ihr wird das Projekt erstellt, kompiliert, getestet usw. 
+Oben habe ich kurz einige Ziele genannt, die Maven versucht zu verfolgen, um das Projektmanagement zu vereinfachen. Nun möchte ich näher darauf eingehen. \\
+Die Vereinfachung des Build-Prozesses eliminiert nicht das Wissen über die darunter liegenden Mechnismen. Maven bietet eine große Abschirmung der Details an. Das bedeutet, das mit ein paar Konifgurationseinstellungen der Maven-Prozess verändert werden kann, jedoch standardmäßig immer ein Build-Prozess angeboten wird, der danach automatisiert abläuft. Wie dieser abläuft ist im Detail nicht angegeben. \\
+Maven erlaubt es ein Projekt durch sein eigenes Project Object Model (POM) und einer Vielzahl von Plugins zu bauen, sodass ein einheitliches Build-System zur Verfügung gestellt wird. Sobald man einmal herausgefunden hat, wie ein Maven Projekt gebaut wird, kann man dies auf alle anderen Maven Projekte übertragen. Dies führt dazu, dass man Zeit bei der Einarbeitung anderer Maven Projekte spart, da man die Bauweise kennt. \\
+Maven bietet eine Vielzahl von Informationen bezüglich des Projektes, die aus dem POM und vo Source-Code des Projektes generiert werden. Dabei bietet Maven folgende Informationen an:
+\begin{itemize}
+ \item Eine Änderungslogdatei, die direkt aus dem Source-Code erstellt wird
+ \item Projektübergreifende Sources
+ \item Mailingslisten
+ \item Abhängigkeitslisten
+ \item Unit-Test Dokumente mit Überdeckung\\
+\end{itemize}
+Weitere Plugins bieten weitere Informationen rund um das Projekt, die in Maven integriert werden können. \\
+Maven nutzt die aktuellsten Grundlagen für die Entwicklung, um so die beste Entwicklung zu gewähren. Für den Test werden zum Beispiel bestimmte Konventionen benutzt, diese wären:
+\begin{itemize}
+ \item Der Testcode wird in einem seperaten, aber parallel laufenden Sourcetree verwaltet
+ \item Konventionen für die Testfallnamen, um sie zu lokalisieren und auszuführen
+\end{itemize}
+Außerdem gibt Maven noch eine Vorgabe für die Ordner- und Projektstruktur an. Dies hat den selben Zweck, wie beim einheitlichen Buil-System. Wenn man einmal die Struktur verstanden hat, kann man jedes andere Maven Projekt darauf zurück abbilden und sofort verstehen. \\
+Maven basiert auf einer Plugin-Architektur, die es erlaubt verschiedene Plungins für verschiedene Anwendungen auf das Projekt anzuwenden, ohne diese explizit installieren zu müssen. Daher ist die Migration von Features sehr einfach gehalten und einfach möglich. \\
+\marginpar{Zentrales Repository}Ein weiterer Grundgedanke besteht darin, sämtliche Bibliotheken und Plugins an einem zentralen Ort zu verwalten. Dies vereinfacht bei vielen Projekten den Verwaltungsaufwand. Diese zentrale Repository bietet die Apache Group an. Man kann auch eigene Repositorys erstellen, der Vorteil besteht darin, dass man keine Internetverbindung benötigt und eine firmenübergreifende Bibliothek erstellen kann. Der Vorteil des zentralen Repositorys liegt darin, dass Abhängigkeiten bereits abgelegt sind, und nicht manuell mit eingebaut werden müssen.\\
+\marginpar{Was ist Maven nicht!}Zum Schluss noch einige Dinge darüber was Maven nicht ist. Maven ist keine Erweiterung des Build-Tools Ant und ebenfalls nicht nur ausschließlich ein Dokumentations-Tool. Maven stellt die besten Möglichkeiten zur Verfügung. Es kann durchaus sein, dass es manchmal nicht möglich ist mit Maven ein Projekt zu bauen, weil die Struktur des Projektes so exotisch ist, dass eine Standardisierung gar nicht möglich ist. Dann sollte man ,in diesem Fall, Maven lieber aufgeben und versuchen das Projekt auf eine andere Weise zu builden. \\
+Beim kompletten Build-Prozess durchläuft Maven verschiedene Phasen, in denen jeweils ein bestimmter Teil des Software-Lebenszyklus durchgearbeitet wird. Diese werden im nächsten Abschnitt beschrieben.

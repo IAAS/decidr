@@ -1,0 +1,25 @@
+\subsection{Vergleich mvn, make und ant}
+Maven ist das zweite Buildprojekt von Apache. Das erste Buildprojekt war \emph{ant}. Ant ist wohl das heutzutage weit verbreiteste Build-Tool. Es existiert noch ein weiteres Build-Tool und zwar \emph{make}. \emph{Make} ist Teil des POSIX-Standards, dessen gegenwärtige Bezeichnung IEEE Std 1003.1, 2004 Edition lautet.\\
+Apache Ant ist ein Java-basiertes Werkzeugt zur automatischen Erzeugung von Programmen aus Quelltext. Ant ist ein Akronym und steht für Another Neat Tool. Es wurde 1999 von James Duncan Davidson entwickelt, der ein Werkzeug wie make nur für Java benötigte. Ant wird durch eine einzige XML-Datei gesteuert, der sogenannten \emph{build.xml}. In dieser Build-Datei wird ein Project ermittelt, welches das Wurzelelement darstellt. Desweiteren besitzt die build.xml sogenannte \emph{Targets}. Diese sind vergleichbar mit Funktionen in Programmiersprachen und können von außen über die Kommandozeile aufgerufen werden. Abhängigkeiten, die in den Targets definiert werden, löst Ant auf und dient zum Bauen des Programmes. Da es sich um eine XML-Datei handelt ist diese nicht von Tabulatorzeichen oder sonstiges abhängig. Dies ist eine Verbesserung gegenüber dem alten Build-Tool make. \\
+Make liest ein sogenanntes \emph{Makefile}, in dem der Übersetzungsprozess von Programmen formalisiert erfasst ist. Diese Formalisierung beschreibt, welche Quelltextdateien der Compiler zu welchen Objektdateien verarbeitet, und welche Objektdateien vom Linker dann zu Programmbibliotheken oder ausführbaren Programmen verbunden werden. Alle Schritte erfolgen unter Beachtung der Abhängigkeiten, die möglicherweise durch die Dateiorganisation gegeben sein können. Bei der Abarbeitung wird eine Umwandlung von einer Quelldatei nur dann vorgenommen, wenn die Quelldatei neuer als die Objektdatei ist. Der Vorteil dabei ist, dass bei kleinen Veränderungen in großen Projekten nicht die komplette Kompilation durchgeführt werden muss. Jedoch müssen alle Abhängigkeiten in der Makefile beschrieben werden, was bei sehr großen Projekten nicht immer leicht zu realisieren ist.\\
+
+\begin{center}
+\begin{tabular}{|l|p{4cm}|p{4cm}|p{4cm}|} \hline
+& Maven & ant & make \\ \hline
+Vorteile & \begin{itemize}
+ \item Zentrale Verwaltung von Bibliotheken
+ \item Modularer Aufbau, leichte Erweiterbarkeit von Funktionalitäten
+ \item Einheitliche Projektstruktur
+ \item Unterstützung für eine Reihe externer Anwendungen
+ \item Automatische Erstellung einer Projektsite
+\end{itemize}
+ & \begin{itemize}
+ \item Leicht zu erlernen und oftmals leichter zu handhaben
+ \item Bewährt, viel Material und viele Dokumentationen vorhanden
+ \item Alle Konfigurationseinstellungen können in einer einzigen Datei vorgenommen werden
+\end{itemize}
+ & \\ \hline 
+Nachteile &  &  & \\ \hline
+\end{tabular}
+\end{center}
+
