@@ -10,7 +10,7 @@
 
 % Images + LaTeX = Pain
 \newcommand{\img}[3]{
-\begin{figure}[!h]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=\ScaleIfNeeded]{#1}
 \end{center}
@@ -20,7 +20,7 @@
 }
 
 \newcommand{\imgstatic}[4]{
-\begin{figure}[!h]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=#1]{#2}
 \end{center}
@@ -32,8 +32,8 @@
 
 \newcommand{\todo}[1]{\textcolor{red}{\emph{#1}}}
 
-\newenvironment{mycite}[1]{\begin{quote}\supercite{#1}\begin{itshape} ``}
-{''\end{itshape}\end{quote}}
+\newenvironment{mycite}[1]{\begin{quote}\supercite{#1} ``}
+{''\end{quote}}
 
 \newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
 
