@@ -230,13 +230,14 @@ or applications as services using the underlying Axis2 engine. Client
 applications communicate directly with the bus. The service mediation mode is
 more interesting in the DecidR context 
 
-\img{figures/synapse-service-mediation.pdf}{Synapse service mediation}{fig:synapse-service-mediation}
+\img{figures/synapse-service-mediation.pdf}{Synapse service mediation}
+{fig:synapse-service-mediation}
 
 \newpage
 \subsubsection{Deployment}
 \label{subsec:deployment}
 
-Installing the Synapse
+\todo{Installationsanweisungen\ldots wie spannend.}
 
 %\newpage
 \section{Synapse sample configurations}
@@ -296,13 +297,13 @@ the message.
   \item Run \texttt{synapse-1.2/bin/synapse -sample 1}
 \end{itemize}
 
-\lstset{caption=Open proxy configuration, label=sample-1-xml}
+\lstset{caption=, label=sample-1-xml}
 \lstinputlisting{listings/synapse_sample_1.xml}
 
-Now start up SoapUI and create a new project. Enter a project name and use
-\url{http://localhost:9000/soap/TimeService?wsdl} as the initial WSDL.
-Create a test suite for the imported WSDL. Now go to the preferences and make
-SoapUI connect through the Synapse proxy at localhost:8280.
+To test our configuration, we start up SoapUI and create a new project. Enter a
+project name and use \url{http://localhost:9000/soap/TimeService?wsdl} as the
+initial WSDL. Create a test suite for the imported WSDL. Now go to the
+preferences and make SoapUI connect through the Synapse proxy at localhost:8280.
 
 \begin{center}
 \includegraphics[width=10cm]{figures/soapui-proxy.pdf}
@@ -310,7 +311,7 @@ SoapUI connect through the Synapse proxy at localhost:8280.
 
 Now you may run the test suite. Your SOAP response should look similar to this: 
 
-\lstset{caption=Open proxy configuration, label=sample-1-xml}
+\lstset{caption=, label=sample-1-result-xml}
 \begin{lstlisting}
 <soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope">
    <soapenv:Body>
@@ -321,11 +322,21 @@ Now you may run the test suite. Your SOAP response should look similar to this:
 </soapenv:Envelope>
 \end{lstlisting}
 
-Since the other samples communicate directly with the ESB you should remove the
-proxy settings now.
+Since the other samples communicate directly with the ESB you may reset the
+SoapUI proxy settings.
 
-\subsection{Sample 2: Creating a Simple Service Gateway}
+\subsection{Sample 2: Simple Service Gateway}
 \label{sec:sample-2}
+
+
+
+\begin{itemize}
+  \item Run \texttt{synapse-1.2/bin/synapse -sample 2}
+\end{itemize}
+
+\lstset{caption=, label=sample-2-xml}
+\lstinputlisting{listings/synapse_sample_2.xml}
+
 
 \subsection{Sample 3: Service Gateyway with Load Balancing}
 \label{sec:sample-3}
@@ -334,7 +345,11 @@ proxy settings now.
 and Security}
 \label{sec:sample-4}
 
-%\newpage
+\subsection{Sample 5: Retrieval of an External Configuration via the Registry}
+\label{sec:sample-5}
+
+
+\newpage
 \section{Web Services Security}
 \label{chap:web-services-security}
 \todo{Explain what WS-Security is. Who developed it? What does it
