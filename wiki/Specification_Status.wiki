@@ -1,9 +1,9 @@
 || *Task* || *Stauts Creation* || *Status Review* || *Status Correction* || *Actual Editors*  || *Comment* || *Status* ||
 || *applicable technologies* || 100% || 0% || 0% || Markus || || <font color="green">*XXXX* ||
 || *external interfaces* || 1% || 0% || 0% || Markus || don't know anything about the interfaces, recomment to do this by prototyp team || <font color="red">*XXXX* ||
-|| *introduction* || 0% || 0% || 0% || Daniel || || <font color="red">*XXXX* ||
+|| *introduction* || 0% || 0% || 0% || Daniel || I'm stuck with my seminar at the moment. || <font color="red">*XXXX* ||
 || *non-functional requirements* || 0% || 0% || 0% || Daniel || || <font color="red">*XXXX* ||
-|| *overall description* || 0% || 0% || 0% || Daniel|| || <font color="grey">*XXXX* ||
+|| *overall description* || 0% || 0% || 0% || Daniel|| || <font color="red">*XXXX* ||
 || *operation environment* || 100% || 0% || 0% || Markus || || <font color="green">*XXXX* ||
 || *modeling sematics* || 0% || 0% || 0% || Jonas, Modood || || <font color="gray">*XXXX* ||
 || *UI* || 0% || 0% || 0% || Jonas, Modood || || <font color="gray">*XXXX* ||
