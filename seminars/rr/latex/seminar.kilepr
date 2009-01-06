@@ -17,28 +17,28 @@ QuickBuild=PDFLaTeX+ViewPDF
 
 [item:ausarbeitung.tex]
 archive=true
-column=0
+column=226
 encoding=UTF-8
 highlight=LaTeX
-line=167
+line=188
 open=true
 order=1
 
 [item:literatur.bib]
 archive=true
-column=8
+column=0
 encoding=UTF-8
 highlight=BibTeX
-line=74
+line=76
 open=true
 order=2
 
 [item:llncs.cls]
 archive=true
-column=146386072
+column=22
 encoding=
-highlight=
-line=0
+highlight=LaTeX
+line=943
 open=false
 order=-1
 
@@ -47,7 +47,7 @@ archive=true
 column=0
 encoding=ISO 8859-15
 highlight=LaTeX
-line=70
+line=5
 open=true
 order=0
 

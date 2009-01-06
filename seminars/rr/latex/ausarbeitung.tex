@@ -15,9 +15,11 @@
 \usepackage[pdftex]{graphicx}
 \usepackage[pdftex, colorlinks=true, urlcolor=blue, linkcolor=black]{hyperref}
 \usepackage{array}
+\usepackage{tabulary}
 
 \newcommand{\germanquote}[1]{\glqq{}#1\grqq{}}
 \newcommand{\decidr}{Decidr}
+\newcommand{\anntabwidth}{\textwidth}
 
 \author{Reinhold Rumberger}
 \tocauthor{\ }
@@ -27,7 +29,7 @@
 \date{27.02.2009}
 
 \begin{document}
-%FIXME: add handlers
+%FIXME: add handlers & actions
 
   \frontmatter
   \pagestyle{headings}
@@ -178,6 +180,13 @@
   \subsection{SOAP}
   \nocite{wk_soap}
     %TODO: short intro, more detailed description
+    SOAP ist ein Protokoll zum Austausch strukturierter Daten zwischen Web Services in Computernetzwerken. Es benutzt XML als Nachrichtenformat und stützt sich gewöhnlich auf andere Protokolle der Anwendungsschicht (z.B. HTTP, SMTP) zum Datentransport. SOAP stellt die Basis der Kommunikation zwischen Web Services dar.
+
+    Die Wahl von XML als Nachrichtenformat hat sowohl Vor- als auch Nachteile.
+    % FIXME: bad scentence! very bad scentence! no cookie for you!
+    Positiv sind die leichtere Lesbarkeit für Menschen, die bessere Interoperabilität und die vereinfachte Fehlersuche. Allerdings ist es etwas unhandlich und verlangsamt die Verarbeitungsgeschwindigkeit durch seine Verbosität.
+
+    Bei der Wahl des Transportprotokolls ist Vorsicht geboten; einige Protokolle werden typischerweise von Firewalls gefiltert und sollten deshalb gemieden werden.
 
   \titlerunning{Web Services - Java und Web Services}
   \label{wsj}
@@ -192,29 +201,153 @@
   \label{jsr181}
   \subsection{WS-Metadata 2.0 (JSR-181)}
   \nocite{jsr_181}
+    % TODO: content
 
-    Es folgt eine Liste der wichtigsten Annotationen mit ihren wichtigsten Parametern und deren Standard-Werten. Die Beschreibungen sind möglichst kurz gehalten. Genauere Details sind in der JSR-181-Spezifikation\cite{jsr_181} zu finden.
+    Es folgt eine Liste der wichtigsten Annotationen mit ihren wichtigsten Parametern und deren Standard-Werten. Die Beschreibungen sind gekürzt aus der JSR-\linebreak[0]181-\linebreak[0]Spezifikation\cite{jsr_181} übernommen, weshalb teilweise Informationen fehlen. Genauere Details sind in der JSR-\linebreak[0]181-\linebreak[0]Spezifikation\cite{jsr_181} zu finden.\\ \vfill
 
-    %TODO: insert rest
-    %FIXME: make look good
-    \texttt{@WebService}:\\
-    \begin{tabular}{|l|p{175pt}|p{87pt}|}
+    \subsubsection{@WebService}\ \\
+      Markiert Klassen als Web Services oder Java Interfaces als Web Service Interfaces.\\
+    \begin{tabulary}{\anntabwidth}{|l|L|L|}
     \hline
     \textbf{Parameter} & \textbf{Zweck} & \textbf{Standard} \\
     \hline
-    name              & × & Name der Klasse/\linebreak[0]des Interface \\
+      name &
+      Wird als \texttt{name}-Attribut im \texttt{wsdl:portType}-Element des generierten WSDL-\linebreak[0]Dokuments genutzt. &
+      Name der Klasse/\linebreak[0]des Interface \\
     \hline
-    serviceName       & × & Name der Klasse + \germanquote{Ser\-vice} \\
+      serviceName &
+      Wird als \texttt{name}-Attribut im \texttt{wsdl:service}-Element des generierten WSDL-\linebreak[0]Dokuments genutzt. Darf nicht in Endpoint Interfaces verwendet werden. &
+      Name der Klasse + \germanquote{Ser\-vice} \\
     \hline
-    portName          & × & \texttt{@WebService.name} + \germanquote{Port} \\
+      portName &
+      Wird als \texttt{name}-Attribut im \texttt{wsdl:port}-Element des generierten WSDL-\linebreak[0]Dokuments genutzt.\newline Darf nicht in Endpoint Interfaces verwendet werden. &
+      \texttt{@WebService.name} + \germanquote{Port} \\
     \hline
-    targetNamespace   & × & Im\-ple\-men\-tier\-ungs\-ab\-häng\-ig, siehe JAX-WS\cite{jsr_224}, Abschnitt 3.2 \\
+      targetNamespace &
+      Wird im generierten WSDL-Dokument als \texttt{targetNamespace} verwendet. Für Details bei welchen Elementen dieses Attribut gesetzt wird, siehe JSR-181\cite{jsr_181} &
+      Im\-ple\-men\-tier\-ungs\-ab\-häng\-ig, siehe JAX-WS\cite{jsr_224}, Abschnitt 3.2 \\
     \hline
-    wsdlLocation      & × & nichts \\
+      wsdlLocation &
+      Eine URL, die auf eine vordefinierte WSDL-Datei zeigt. Die URL relativ oder absolut sein. Falls Inkonsistenzen zwischen der Implementierung und dem WSDL-Dokument bestehen, wird zur Laufzeit darauf hingewiesen. &
+      nichts \\
     \hline
-    endpointInterface & × & nichts\newline \newline Wird bei Bedarf im\-ple\-men\-tier\-ungs\-ab\-häng\-ig generiert, wenn es die Zielumgebung erfordert \\
+      endpointInterface &
+      Gibt den Namen des Service Endpoint Interfaces an, das implementiert werden soll. \newline Darf nicht in Endpoint Interfaces verwendet werden. &
+      nichts\newline \newline Wird bei Bedarf im\-ple\-men\-tier\-ungs\-ab\-häng\-ig generiert, wenn es die Zielumgebung erfordert. \\
     \hline
-    \end{tabular}
+    \end{tabulary} \vfill
+
+    \subsubsection{@WebMethod}\ \\
+      Bestimmt ob und mit welchen Eigenschaften eine Methode veröffentlicht wird.\\
+    \tymin=75pt
+    \begin{tabulary}{\anntabwidth}{|l|L|L|}
+    \hline
+    \textbf{Parameter} & \textbf{Zweck} & \textbf{Standard} \\
+    \hline
+      operationName &
+      Wird als \texttt{name}-Attribut des \texttt{wsdl:operation}-Elements genutzt, das der annotierten Methode entspricht. &
+      Name der annotierten Methode. \\
+    \hline
+      action &
+      %TODO: research action & fill in
+      × &
+      \germanquote{} \\
+    \hline
+      exclude &
+      Dieser Parameter gibt an, dass die annotierte Methode \emph{nicht} veröffentlicht wird. \newline Wenn dieser Parameter auf \texttt{true} gesetzt wird, dürfen keine anderen Parameter gesetzt werden. &
+      \texttt{false} \\
+    \hline
+    \end{tabulary}
+    \tymin=10pt
+
+    \subsubsection{@Oneway}\ \\
+      Eine mit \texttt{@Oneway} annotierte \texttt{@WebMethod} hat keine Output-Message. Das bedeutet, dass der return-Typ \texttt{void} sein muss. Wenn eine mit \texttt{@Oneway} annotierte Methode einen Rückgabewert, definierte Exceptions oder OUT- bzw. INOUT-Parameter hat, muss spätestens zur Laufzeit ein Fehler gemeldet werden.
+
+
+    \subsubsection{@WebParam}\ \\
+      Bestimmt die Eigenschaften, mit denen ein Parameter veröffentlicht wird.\\
+    \begin{tabulary}{\anntabwidth}{|l|L|L|}
+    \hline
+    \textbf{Parameter} & \textbf{Zweck} & \textbf{Standard} \\
+    \hline
+      name &
+      Name des Parameters. Muss in bestimmten Umständen angegeben werden. &
+      Normalerweise \texttt{arg\textit{N}}, wobei \texttt{\textit{N}} ein Integer $\geq$ 0 ist. \\
+    \hline
+      partName &
+      Der name des \texttt{wsdl:part}s, das den Parameter repräsentiert. Wird nur in bestimmten Umständen benutzt. &
+      \texttt{@WebParam.name} \\
+    \hline
+      targetNamespace &
+      Der XML-Namespace des Parameters. Wird nur in bestimmten Umständen benutzt. &
+      Entweder der leere Namespace oder der Standard-targetNamespace. \\
+    \hline
+      mode &
+      Gibt an, ob der Parameter als Eingabe, Ausgabe oder beides dient. &
+      INOUT, wenn der Parameter von \texttt{javax.xml.ws.Holder<T>} abgeleitet ist, sonst IN. \\
+    \hline
+      header &
+      Wenn der Parameter im Nachrichtenkopf abgelegt ist, \texttt{true}, andernfalls \texttt{false}. &
+      \texttt{false} \\
+    \hline
+    \end{tabulary}
+
+    \subsubsection{@WebResult}\ \\
+      Bestimmt die Eigenschaften, mit denen der Return-Wert einer Methode veröffentlicht wird. Diese Annotation wird auf Methoden angewendet.\\
+    \begin{tabulary}{\anntabwidth}{|l|L|L|}
+    \hline
+    \textbf{Parameter} & \textbf{Zweck} & \textbf{Standard} \\
+    \hline
+      name &
+      Name der Ausgabe. Muss in bestimmten Umständen angegeben werden. &
+      Normalerweise \germanquote{return}. \\
+    \hline
+      partName &
+      Der name des \texttt{wsdl:part}s, das die Ausgabe repräsentiert. Wird nur in bestimmten Umständen benutzt. &
+      \texttt{@WebResult.name} \\
+    \hline
+      targetNamespace &
+      Der XML-Namespace der Ausgabe. Wird nur in bestimmten Umständen benutzt. &
+      Entweder der leere Namespace oder der Standard-targetNamespace. \\
+    \hline
+      header &
+      Wenn die Ausgabe im Nachrichtenkopf abgelegt ist, \texttt{true}, andernfalls \texttt{false}. &
+      \texttt{false} \\
+    \hline
+    \end{tabulary}
+
+    \subsubsection{@HandlerChain}\ \\
+    %TODO: research handler chain & fill in
+    \begin{tabulary}{\anntabwidth}{|l|L|L|}
+    \hline
+    \textbf{Parameter} & \textbf{Zweck} & \textbf{Standard} \\
+    \hline
+      File &
+      %TODO: research handler chain & fill in
+      × &
+      nichts \\
+    \hline
+    \end{tabulary}
+
+    \subsubsection{@SOAPBinding}\ \\
+      Spezifiziert, dass der Web Service auf das SOAP-Protokoll gemappt wird. Wird als \texttt{@SOAPBinding.Style} \germanquote{DOCUMENT} verwendet, dürfen Klassen und Methoden annotiert werden, andernfalls nur Klassen. Methoden, die nicht annotiert sind, verwenden die für die Klasse definierten Werte. \\
+    \begin{tabulary}{\anntabwidth}{|l|L|L|}
+    \hline
+    \textbf{Parameter} & \textbf{Zweck} & \textbf{Standard} \\
+    \hline
+      Style &
+      Der Kodierungsstil für Nachrichten von und zum Web Service. Entweder \germanquote{DOCUMENT} oder \germanquote{RPC}. &
+      DOCUMENT \\
+    \hline
+      Use &
+      Der Formattierungsstil für Nachrichten von und zum Web Service. Entweder \germanquote{LITERAL} odr \germanquote{ENCODED}. &
+      LITERAL \\
+    \hline
+      parameterStyle &
+      Gibt an, ob die Parameter den gesamten Inhalt der Nachricht wiedergeben (\germanquote{BARE}), oder ob sie in ein Element eingepackt werden (\germanquote{WRAPPED}). &
+      WRAPPED \\
+    \hline
+    \end{tabulary}
 
 
 
