@@ -6,7 +6,7 @@
     <sequence name="main">
         <!-- The in-mediator accepts only incoming messages. -->
         <in>
-            <!-- There are also pre-defined log levels such as "debug" or
+            <!-- There are also pre-defined log levels such as "simple" or
                  "full."  -->
             <log level="custom">
             <property name="Text" value="Incoming message!"/>

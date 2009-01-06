@@ -144,7 +144,7 @@ underlying protocol for its services.
 \label{subsec:management}
 
 Since the entire data flow in an SOA passes through the ESB, it is
-a fitting facility for monitoring, logging or audits.
+fit for monitoring, logging or audits.
 
 \todo{I kind of ran out of space for criticism such as \url{
 http://jim.webber.name/downloads/presentations/2005-10-Quarterly-Technology-Briefing.ppt}
@@ -240,12 +240,8 @@ applications communicate directly with the bus.
 
 To install Synapse, simply unpack the standard binary distribution from
 \url{http://synapse.apache.org/download/1.2/download.cgi} to a directory of
-your choice. Before running Synapse, you must:
-\begin{itemize}
-  \item Install the latest 32 bits JDK on your system.
-  \item On Windows, run \texttt{synapse-1.2/bin/install-synapse-service.bat} with
-admin rights.
-\end{itemize}
+your choice. Before running Synapse, you musti nstall the latest 32 bits JDK on
+your system.
 
 Alternatively you may use the package that is bundeled with this document. It
 contains the samples that are covered in the next chapter.
@@ -278,8 +274,6 @@ Before checking out the samples, please complete the following steps:
 directory.
 \item Unpack the samples package to a directory. (includes Synapse
 v1.2)
-\item On Windows, run \texttt{synapse-1.2/bin/install-synapse-service.bat} with
-admin rights.
 \item Install and run the latest version of SoapUI from
 \url{http://www.soapui.org}
 \end{enumerate}
@@ -416,10 +410,12 @@ of Structured Information Standards (OASIS) in 2004.
 \label{sec:comparison-to-transport-layer-securtiy}
 
 With WS-Security we have end-to-end security, which means that sensitive data
-stays encrypted all the way to its final destination. Transport layer
-security such as HTTPS cannot guarantee end-to-end security in an SOA, due to
-the fact that messaging between services is not necessarily bound to secure
-transport protocols.
+stays encrypted \emph{all the way} to its final destination. Transport layer
+security such as HTTPS cannot guarantee end-to-end security due to
+the fact that a message may travel through more than one logical network node.
+Not only would every network node between initial sender and ultimate reveiver
+know the secret conents of that message, but there is also no guarantee that the 
+underlying transport protocol doesn't change in between.
 
 \img{figures/tls-vs-e2e.pdf}{In an SOA transport layer security
 is not sufficient because the underlying transport protocol may

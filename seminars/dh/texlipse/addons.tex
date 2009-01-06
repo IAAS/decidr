@@ -30,7 +30,8 @@
 }
 
 
-\newcommand{\todo}[1]{\textcolor{red}{\emph{#1}}}
+\newcommand{\todo}[1]{
+\begin{quote}Comment: \\ \textcolor{red}{\emph{#1}}\end{quote}}
 
 \newenvironment{mycite}[1]{\begin{quote}\supercite{#1} ``}
 {''\end{quote}}
