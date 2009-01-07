@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03"/>
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03" xmlns:mailws="http://decidr.org/mailws">
+  <process name="mailws:eMailWSProcess">
+    <process-events generate="all"/>
+    <provide partnerLink="client">
+      <service name="mailws:eMailWSProcessService" port="eMailWSProcessPort"/>
+    </provide>
+    <invoke partnerLink="eMailPL">
+      <service name="mailws:eMailWS" port="eMailWSHttpSoap11Endpoint"/>
+    </invoke>
+  </process>
+</deploy>
