@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" 
-			 xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" 
-			 xmlns:tns="http://decidr.org/mailws" 
-			 xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" 
-			 
-			 name="eMailWSProcess" targetNamespace="http://decidr.org/mailws" 
-			 xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/">
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://decidr.org/mailws" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" name="eMailWSProcess" targetNamespace="http://decidr.org/mailws">
 
 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      TYPE DEFINITION - List of types participating in this BPEL process 
@@ -13,21 +7,17 @@
      but you can define or import any XML Schema type and use them as part 
      of the message types.
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
-    <plnk:partnerLinkType name="eMailWSPLT">
-    <plnk:role name="eMailRequester" portType="tns:eMailWSPT"/>
-  </plnk:partnerLinkType>
-    <import location="mailws.wsdl" namespace="http://decidr.org/mailws"/>
     <types>
         <schema xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://decidr.org/mailws">
 
             <element name="eMailWSProcessRequest">
                 <complexType>
                     <sequence>
-                    	<element name="input" type="string" />
+                    	<element name="input" type="string"/>
 
-                    	<element name="message" type="string"></element>
-                    	<element name="subject" type="string"></element>
-                    	<element name="recipient" type="string"></element>
+                    	<element name="message" type="string"/>
+                    	<element name="subject" type="string"/>
+                    	<element name="recipient" type="string"/>
                     </sequence>
                 </complexType>
             </element>
@@ -35,7 +25,7 @@
             <element name="eMailWSProcessResponse">
                 <complexType>
                     <sequence>
-                        <element name="result" type="boolean" />
+                        <element name="result" type="boolean"/>
                     </sequence>
                 </complexType>
             </element>
@@ -76,22 +66,20 @@
     </plnk:partnerLinkType>
     
     <binding name="emailWSProcessBinding" type="tns:eMailWSProcess">
-    	<soap:binding style="document"
-    		transport="http://schemas.xmlsoap.org/soap/http" />
+    	<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     	<operation name="process">
-    		<soap:operation
-    			soapAction="http://decidr.org/mailws/process" />
+    		<soap:operation soapAction="http://decidr.org/mailws/process"/>
     		<input>
-    			<soap:body use="literal" />
+    			<soap:body use="literal"/>
     		</input>
     		<output>
-    			<soap:body use="literal" />
+    			<soap:body use="literal"/>
     		</output>
     	</operation>
     </binding>
     <service name="eMailWSProcessService">
-    	<port name="eMailWSProcessPort" binding="tns:emailWSProcessBinding">
-            <http:address location="http://localhost:8080/ode/processes/mailws"/>
+    	<port binding="tns:emailWSProcessBinding" name="eMailWSProcessPort">
+            <soap:address location="http://localhost:8080/ode/processes/mailws"/>
         </port>
     </service>
 </definitions>
