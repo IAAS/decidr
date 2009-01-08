@@ -65,7 +65,8 @@ public class MailService {
 		try {
 			// construct the mail
 			log.debug("construction mail...");
-			MailBackend mail = new MailBackend(tos, from, subject);
+			MailBackend mail = new MailBackend(tos,
+					"decidr.iaas@googlemail.com", subject);
 			log.debug("setting body...");
 			mail.setBodyText(body);
 			log.debug("setting hostname...");
@@ -74,7 +75,7 @@ public class MailService {
 			mail.useTLS(true);
 			log.debug("setting authentification info...");
 			mail.setAuthInfo("decidr.iaas@googlemail.com", "DecidR0809");
-			mail.setXMailer("Decidr Prototype");
+			mail.setXMailer("DecidR Prototype");
 
 			// send the message
 			log.debug("sending message...");
