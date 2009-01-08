@@ -4,3 +4,5 @@
 || mailinglist || Google Groups || latest ||
 || online-meetings || Skype || latest ||
 || time recording || Fred2008 || 1.4 ||
+|| servlet container || Tomcat || 5.5.27 ||
+|| JAX-WS environment || Axis2 || 1.4.1 ||
