@@ -63,6 +63,15 @@ public class TenantManagerService {
 		getManager().setValue(sid, fieldName, value);
 	}
 
+	@WebMethod(operationName = "setFields")
+	public void setValues(@WebParam(name = "sessionID") String sid,
+			@WebParam(name = "fieldMap") Map<String, String> fields)
+			throws Exception {
+		for (String field : fields.keySet()) {
+			getManager().setValue(sid, field, fields.get(field));
+		}
+	}
+
 	@WebMethod(operationName = "getField")
 	@WebResult(name = "fieldValue")
 	public String getValue(@WebParam(name = "sessionID") String sid,
