@@ -62,7 +62,7 @@
   \nocite{wk_ws}
     \germanquote{Web Service} wird vom W3C folgendermaßen definiert:
     \begin{quote}
-      A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards.\cite{w3c_wsgloss_ws}
+      A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL).\cite{w3c_wsgloss_ws}
     \end{quote}
 
     Es gibt zur Zeit zwei Ausprägungen von Web Services: die \germanquote{message-oriented Web Services} und die \germanquote{RESTful Web Services}.
@@ -248,11 +248,6 @@
       Wird als \texttt{name}-Attribut des \texttt{wsdl:operation}-Elements genutzt, das der annotierten Methode entspricht. &
       Name der annotierten Methode. \\
     \hline
-      action &
-      %TODO: research action & fill in
-      × &
-      \germanquote{} \\
-    \hline
       exclude &
       Dieser Parameter gibt an, dass die annotierte Methode \emph{nicht} veröffentlicht wird. \newline Wenn dieser Parameter auf \texttt{true} gesetzt wird, dürfen keine anderen Parameter gesetzt werden. &
       \texttt{false} \\
@@ -331,6 +326,7 @@
 
     \subsubsection{@SOAPBinding}\ \\
       Spezifiziert, dass der Web Service auf das SOAP-Protokoll gemappt wird. Wird als \texttt{@SOAPBinding.Style} \germanquote{DOCUMENT} verwendet, dürfen Klassen und Methoden annotiert werden, andernfalls nur Klassen. Methoden, die nicht annotiert sind, verwenden die für die Klasse definierten Werte. \\
+    \tymin=75pt
     \begin{tabulary}{\anntabwidth}{|l|L|L|}
     \hline
     \textbf{Parameter} & \textbf{Zweck} & \textbf{Standard} \\
@@ -348,6 +344,7 @@
       WRAPPED \\
     \hline
     \end{tabulary}
+    \tymin=10pt
 
 
 
