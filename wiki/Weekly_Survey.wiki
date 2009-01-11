@@ -23,8 +23,9 @@ external influence (e.g. due to illness, uni..)
 ===working in team===
 how good was the collaboration with team members, I had to work or communicate with?
 ===team commitment===
+how is my impression of a team as a whole?
 ==pm==
 ===project manager guidance===
-how good was the project manager guidance
+how good was the project manager guidance?
 ===meeting proceeding===
 how good was our weekly meeting?
