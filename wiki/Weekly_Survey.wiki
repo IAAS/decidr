@@ -1,0 +1,29 @@
+#summary DecidR Weekly Survey
+
+= DecidR Weekly Survey =
+----
+*Purpose:* <br>To identify and prevent risks of dropping mood and bad collaboration<br>
+*Frequency:*<br> Weekly<br>
+*Deadline for Submission:* <br>right after the Weekly Meeting<br>
+*Supposed Time:*<br> 10-15 Sec.<br>
+----
+All 
+==personal==
+===motivation===
+how good was my own motivation?  
+===satisfaction with own work===
+how good was my own commitment?
+===time pressure/stress===
+how 
+===external influence on my commitment===
+external influence (e.g. due to illness, uni..)
+
+==team==
+===working in team===
+how good was the collaboration with team members, i had to work or communicate with?
+===team commitment===
+==pm==
+===project manager guidance===
+how good was the project manager guidance
+===meeting proceeding===
+how good was our weekly meeting?
