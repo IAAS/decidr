@@ -1,5 +1,5 @@
 #summary DecidR Weekly Survey
-#labels pm
+#labels pm,weekly
 
 = DecidR Weekly Survey =
 ----
