@@ -3,6 +3,8 @@
 
 = Weekly Meeting Issues =
 
+*Please update this wiki article with issues, which should be discussed or should be transmitted to the team* 
+
 Add your issues to be descussed in the next Weekly Meeting:
 
 
