@@ -1,4 +1,5 @@
 #summary Issues to be discussed in the Weekly Meeting.
+#labels pm
 
 = Weekly Meeting Issues =
 
@@ -11,4 +12,4 @@ Timetable for Seminars (TK)
 (due to the fact, that some person don't read their mails).
 
 2)
-"Weekly Survey"-Document explanation & diskussion
+"Weekly Survey"-Document explanation & discussion
