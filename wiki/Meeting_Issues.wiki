@@ -1,5 +1,5 @@
 #summary Issues to be discussed in the Weekly Meeting.
-#labels pm
+#labels pm,weekly
 
 = Weekly Meeting Issues =
 
