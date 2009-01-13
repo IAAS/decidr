@@ -1,0 +1,18 @@
+#summary Weekly Report
+
+= Weekly Report =
+
+Weekly Report is not supposed, as some people think, to control or even motivate the team. The main purpose is to monitor the activies according plan and to inform clients/supervisors about our work. 
+
+Weekly reports received: <br>
+
+To keep my work transperent, i'll inform you about the status (received/not received).
+
+|| *Date* || *MA* || *JE* || *MF* || *GH* || *DH* || *TK* || *RR* || *AT* ||
+|| *01/07/09* ||<font color="red">*no*</font> || <font color="green">*yes*</font> ||<font color="green">*yes*</font> ||<font color="red">*no*</font> ||<font color="green">*yes*</font>||<font color="green">*yes*</font>||<font color="green">*yes*</font>||<font color="green">*yes*</font>||
+|| *01/14/09* || *MA* || *JE* || *MF* || *GH* || *DH* ||<font color="green">*yes*</font>||<font color="green">*yes*</font>|| *AT* ||
+
+
+
+ <br>
+In case of questions, please contact me.
