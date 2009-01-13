@@ -44,5 +44,6 @@ Deleting a file in the repository:
 The first thing you have to do is to checkout. Create a folder where you want to save the project and use the command above (my operating system is Linux, for other distribution or operating systems there are other tools, but ask me if you have questions). When you work on a new file and you want to add it, use svn add and then commit the added file. DON'T FORGET TO COMMIT IF YOU ADD A NEW FILE!!!! Also you should update your project's folder once a day. I suggest that deleting a file must not be used by a regular user. It should be discussed in the group and with the project leader. WRITE COMMENTS IF YOU COMMIT NEW FILES! THE COMMENTS SHOULD BE WELL DECLARED AND SELF-EXPLANATORY!!!!!
 
 ==For the comments the following standard will be used==
-First you have to put your abbreviation in your comment. After a double dot you write your comment. If you changed files, please write which file you have changed. If you added a new file, write the filename of the newly created file. Also for deleting a file. 
+First you have to put your abbreviation in your comment. After a double dot you write your comment. If you changed files, please write which file you have changed. If you added a new file, write the filename of the newly created file. Also for deleting a file.
+*Example: AT: Added test.java. Changed test2.java, added a new function testprint().*
 If you have question ask me! 
