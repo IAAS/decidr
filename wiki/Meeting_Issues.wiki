@@ -1,5 +1,5 @@
 #summary Issues to be discussed in the Weekly Meeting.
-#labels pm,weekly
+#labels pm,weekly,meeting
 
 = Weekly Meeting Issues =
 
@@ -16,3 +16,6 @@ Timetable for Seminars (TK) <br>
 
 2)
 "Weekly Survey"-Document explanation & discussion (TK)
+
+3)
+SVN commenting rules: redundancy (DH)
