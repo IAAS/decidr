@@ -5,7 +5,7 @@
 
 *Please update this wiki article with issues, which should be discussed or should be transmitted to the team* 
 
-Add your issues to be descussed in the next Weekly Meeting:
+Add your issues to be descussed in the next "Weekly Meeting":
 
 
 == WM 01/14/09 ==
