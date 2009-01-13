@@ -1,4 +1,5 @@
-#summary Weekly Report
+#summary DecidR Weekly Report
+#labels pm,weekly
 
 = Weekly Report =
 
