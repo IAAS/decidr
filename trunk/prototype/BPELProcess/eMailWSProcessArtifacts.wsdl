@@ -13,11 +13,11 @@
             <element name="eMailWSProcessRequest">
                 <complexType>
                     <sequence>
-                    	<element name="input" type="string"/>
-
-                    	<element name="message" type="string"/>
-                    	<element name="subject" type="string"/>
-                    	<element name="recipient" type="string"/>
+                   	    <element name="subject" type="string"/>
+                   	    <element name="message" type="string"/>
+                   	    <element name="recipient" type="string"/>
+                    	<element name="sender" type="string"/>
+						
                     </sequence>
                 </complexType>
             </element>
