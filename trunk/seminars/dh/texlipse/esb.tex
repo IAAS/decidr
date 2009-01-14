@@ -83,9 +83,10 @@ defining routing rules, data transformations and business process logic. (Servic
 orchestration)
 
 \img{figures/esb-endpoints.pdf}{Everything that is connected into the bus is
-viewed as an abstract endpoint.}{fig:esb-endpoints}
+viewed as an abstract endpoint. Drawn using Sonic Software
+ESB Visio Stencils \supercite{sonic-icons}}{fig:esb-endpoints}
 
-%\newpage
+\newpage
 \subsection{ESB Tasks}
 \label{sec:esb-tasks}
 
@@ -145,11 +146,6 @@ underlying protocol for its services.
 
 Since the entire data flow in an SOA passes through the ESB, it is
 fit for monitoring, logging or audits.
-
-\todo{I kind of ran out of space for criticism such as \url{
-http://jim.webber.name/downloads/presentations/2005-10-Quarterly-Technology-Briefing.ppt}
-so the entire previous chapter may unintentionally read like an
-advertisement\ldots}
 
 %\subsubsection{Vetro integration pattern?}
 %\newpage
@@ -262,27 +258,6 @@ explore some sample configurations that are loosely based on the standard
 samples. Of course, the following samples only show the tip of the iceberg, many
 features remain unmentioned. However, the topics that are actually relevant to
 the DecidR application (load balancing, logging\ldots) are addressed.
-
-\subsection{Prerequisites}
-\label{sec:prerequisites}
-
-Before checking out the samples, please complete the following steps: 
-
-\begin{enumerate}
-\item Install the current 32 bits version of the Java Development Kit (JDK).
-\item Make sure the environment variable \texttt{JAVA\_HOME} points to your JDK
-directory.
-\item Unpack the samples package to a directory. (includes Synapse
-v1.2)
-\item Install and run the latest version of SoapUI from
-\url{http://www.soapui.org}
-\end{enumerate}
-
-You can check whether Axis2 is running properly by browsing
-\url{http://localhost:9000/soap/}
-\begin{center}
-\includegraphics[width=4cm]{figures/axis2-success.pdf}
-\end{center}
 
 \subsection{Sample 1: Open Proxy}
 \label{sec:sample-1}
