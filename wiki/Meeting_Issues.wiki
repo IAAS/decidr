@@ -19,3 +19,5 @@ Timetable for Seminars (TK) <br>
 
 3)
 SVN commenting rules: redundancy (DH)
+
+== WM 01/21/09 ==
