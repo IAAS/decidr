@@ -11,8 +11,8 @@ Weekly Report is not supposed, as some people think, to control or even motivate
 To keep my work transperent, i'll inform you about the status (*received/not received*).
 
 || *Date* || *MA* || *JE* || *MF* || *GH* || *DH* || *TK* || *RR* || *AT* ||
-|| *01/07/09* ||<font color="red">*no*</font> || <font color="green">*yes*</font> ||<font color="green">*yes*</font> ||<font color="red">*no*</font> ||<font color="green">*yes*</font>||<font color="green">*yes*</font>||<font color="green">*yes*</font>||<font color="green">*yes*</font>||
-|| *01/14/09* || *MA* || *JE* || *MF* || *GH* || *DH* ||<font color="green">*yes*</font>||<font color="green">*yes*</font>|| *AT* ||
+|| *01/07/09* ||<font color="red">*no*</font> || <font color="green">*yes*</font> ||<font color="green">*yes*</font> ||<font color="green">*yes*</font> ||<font color="green">*yes*</font>||<font color="green">*yes*</font>||<font color="green">*yes*</font>||<font color="green">*yes*</font>||
+|| *01/14/09* || <font color="green">*yes*</font>|| <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font>|| <font color="green">*yes*</font> ||<font color="green">*yes*</font>||<font color="green">*yes*</font>|| <font color="green">*yes*</font> ||
 
 
 
