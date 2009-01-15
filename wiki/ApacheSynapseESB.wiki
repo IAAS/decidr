@@ -7,7 +7,7 @@
 
 The purpose of this wiki page is to collect useful information about the Apache Synapse ESB in the context of the DecidR project. Instead of repeating what is already mentioned in the seminar composition, this page deals with solutions to actual problems that have occurred during the project.
 
-== Assumptions about the reader ==
+== Assumptions ==
 * You have read the seminar composition which can be found here: _insert link to composition_
 * You have a basic understanding of the ESB concept and web services.
 * You have a basic understanding of the Apache Synapse configuration language.
