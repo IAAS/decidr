@@ -1,0 +1,37 @@
+#summary A collection of interesting facts about the Enterprise Service Bus "Apache Synapse" and its usage in DecidR.
+#labels synapse,esb,Phase-Deploy
+
+<wiki:toc max_depth="1" />
+
+= Introduction =
+
+The purpose of this wiki page is to collect useful information about the Apache Synapse ESB in the context of the DecidR project. Instead of repeating what is already mentioned in the seminar composition, this page deals with solutions to actual problems that have occurred during the project.
+
+
+= Deployment in the Amazon EC2 =
+
+= Changing the endpoint address in a proxied web service =
+A common task is to import WSDL from an existing web service into Synapse and create a gateway proxy for that web service. In this case, Synapse will modify the port address of the proxied web service to point to the machine that Synapse is running on.
+
+For example, we create a simple proxy for our e-mail web service:
+{{{
+ <proxy name="MailProxy" transports="http,https">
+        <target>
+            <endpoint>
+                <!-- This is where the web service is actually running -->
+                <address uri="http://far-away-host:9000/soap/MailService"/>
+            </endpoint>
+            <outSequence>
+                <send/>
+            </outSequence>
+        </target>
+        <publishWSDL uri="http://far-away-host:9000/soap/MailService?wsdl"/>
+    </proxy>
+}}}
+
+Assuming that Synapse is running on the machine with the hostname "iaassrv7", the resulting WSDL as propagated by Synappse will look like this:
+
+{{{
+
+
+}}}
