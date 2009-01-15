@@ -7,10 +7,16 @@
 
 The purpose of this wiki page is to collect useful information about the Apache Synapse ESB in the context of the DecidR project. Instead of repeating what is already mentioned in the seminar composition, this page deals with solutions to actual problems that have occurred during the project.
 
+== Assumptions about the reader ==
+* You have read the seminar composition which can be found here: _insert link to composition_
+* You have a basic understanding of the ESB concept and web services.
+* You have a basic understanding of the Apache Synapse configuration language.
 
 = Deployment in the Amazon EC2 =
 
-= Changing the endpoint address in a proxied web service =
+_TODO_
+
+= Changing the WSDL port address location in a proxied web service =
 A common task is to import WSDL from an existing web service into Synapse and create a gateway proxy for that web service. In this case, Synapse will modify the port address of the proxied web service to point to the machine that Synapse is running on.
 
 For example, we create a simple proxy for our e-mail web service:
@@ -32,6 +38,33 @@ For example, we create a simple proxy for our e-mail web service:
 Assuming that Synapse is running on the machine with the hostname "iaassrv7", the resulting WSDL as propagated by Synappse will look like this:
 
 {{{
+...
 
+<wsdl:service name="MailProxy">
 
+<wsdl:port name="MailProxyHttpSoap11Endpoint" binding="ns:MailProxySoap11Binding">
+<soap:address location="http://iaassrv7:8280/soap/MailProxy.MailProxyHttpSoap11Endpoint"/>
+</wsdl:port>
+
+...
 }}}
+
+As you can see, whatever address location was declared by the original WSDL has been replaced with the hostname of the machine that Synapse is running on. This is necessary if messages sent to the proxied web service need to be processed (e.g. logged) by Synapse before they reach their ultimate receiver.
+However, what if _http://iaassrv7:8280_ is not the address that the client can use or wishes to use in order to communicate with the ESB? The automatically determined address may not even be reachable from any other computer since "localhost" is used in case Synapse cannot determine a hostname by asking the OS. So what if we want the address location to point to _http://iaassrv7.iaas.informatik.uni-stuttgart.de:8280_?
+
+The solution is *not*, as indicated by the Synapse documentation, to change the _SynapseHostName_ system property. To reach our goal, we have to modify _axis2.xml_. In the http/s transport receiver sections, uncomment the _WSDLEPRPrefix_ parameter and insert your correct custom URL.
+
+{{{
+    <!-- ================================================= -->
+    <!-- Transport Ins -->
+    <!-- ================================================= -->
+    <!-- the non blocking http transport based on HttpCore + NIO extensions -->
+    <transportReceiver name="http" class="org.apache.synapse.transport.nhttp.HttpCoreNIOListener">
+    	<parameter name="port">8280</parameter>
+    	<parameter name="non-blocking">true</parameter>
+        <!--parameter name="bind-address" locked="false">hostname or IP address</parameter-->
+        <parameter name="WSDLEPRPrefix" locked="false">http://iaassrv7.iaas.informatik.uni-stuttgart.de:8280</parameter>
+    </transportReceiver>
+}}}
+
+That's it. After restarting Synapse you can verify your changes in the WSDL of your service proxies.
