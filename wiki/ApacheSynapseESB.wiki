@@ -8,9 +8,9 @@
 The purpose of this wiki page is to collect useful information about the Apache Synapse ESB in the context of the DecidR project. Instead of repeating what is already mentioned in the seminar composition, this page deals with solutions to actual problems that have occurred during the project.
 
 == Assumptions ==
-* You have read the seminar composition which can be found here: _insert link to composition_
-* You have a basic understanding of the ESB concept and web services.
-* You have a basic understanding of the Apache Synapse configuration language.
+ * You have read the seminar composition which can be found here: _insert link to composition_
+ * You have a basic understanding of the ESB concept and web services.
+ * You have a basic understanding of the Apache Synapse configuration language.
 
 = Deployment in the Amazon EC2 =
 
@@ -52,7 +52,7 @@ Assuming that Synapse is running on the machine with the hostname "iaassrv7", th
 As you can see, whatever address location was declared by the original WSDL has been replaced with the hostname of the machine that Synapse is running on. This is necessary if messages sent to the proxied web service need to be processed (e.g. logged) by Synapse before they reach their ultimate receiver.
 However, what if _http://iaassrv7:8280_ is not the address that the client can use or wishes to use in order to communicate with the ESB? The automatically determined address may not even be reachable from any other computer since "localhost" is used in case Synapse cannot determine a hostname by asking the OS. So what if we want the address location to point to _http://iaassrv7.iaas.informatik.uni-stuttgart.de:8280_?
 
-The solution is *not*, as indicated by the Synapse documentation, to change the _SynapseHostName_ system property. To reach our goal, we have to modify _axis2.xml_. In the http/s transport receiver sections, uncomment the _WSDLEPRPrefix_ parameter and insert your correct custom URL.
+The solution is *not*, as indicated by the Synapse documentation, to change the SynapseHostName system property. To reach our goal, we have to modify _axis2.xml_. In the http/s transport receiver sections, uncomment the _WSDLEPRPrefix_ parameter and insert your correct custom URL.
 
 {{{
     <!-- ================================================= -->
