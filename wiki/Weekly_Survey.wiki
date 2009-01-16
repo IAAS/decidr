@@ -9,6 +9,8 @@
 *Supposed Time:*<br> 10-15 Sec.<br>
 *What to do?* <br> Print out the document at home and bring to the meeting. Fill out right after the meeting<br>
 ----
+*The template can be found under "docs/pm/DecidR Weekly Survey.doc" *
+----
 
 
 ==personal==
