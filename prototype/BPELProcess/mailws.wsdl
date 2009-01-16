@@ -104,15 +104,15 @@
 	<wsdl:service name="eMailWS">
 		<wsdl:port name="eMailWSHttpSoap11Endpoint" binding="ns:eMailWSSoap11Binding">
 			<soap:address
-				location="http://iaassrv7.informatik.uni-stuttgart.de:8080/axis2/services/eMailWS.eMailWSHttpSoap11Endpoint/" />
+				location="http://iaassrv7.informatik.uni-stuttgart.de:8280/soap/eMailWS.eMailWSHttpSoap11Endpoint/" />
 		</wsdl:port>
 		<wsdl:port name="eMailWSHttpSoap12Endpoint" binding="ns:eMailWSSoap12Binding">
 			<soap12:address
-				location="http://iaassrv7.informatik.uni-stuttgart.de:8080/axis2/services/eMailWS.eMailWSHttpSoap12Endpoint/" />
+				location="http://iaassrv7.informatik.uni-stuttgart.de:8280/soap/eMailWS.eMailWSHttpSoap12Endpoint/" />
 		</wsdl:port>
 		<wsdl:port name="eMailWSHttpEndpoint" binding="ns:eMailWSHttpBinding">
 			<http:address
-				location="http://iaassrv7.informatik.uni-stuttgart.de:8080/axis2/services/eMailWS.eMailWSHttpEndpoint/" />
+				location="http://iaassrv7.informatik.uni-stuttgart.de:8280/soap/eMailWS.eMailWSHttpEndpoint/" />
 		</wsdl:port>
 	</wsdl:service>
 	
