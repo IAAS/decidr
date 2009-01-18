@@ -2,10 +2,18 @@ package de.decidr.seminar.tenantmgr;
 
 import java.util.Map;
 
+/**
+ * Interface for the TenantManager. Provides functions to add tenants to the
+ * database, login by name. And some tenant-related functions. The session id
+ * returned by the login function is needed for all the tenant-related
+ * functions.
+ * @author Johannes Engelhardt
+ *
+ */
 public interface TenantManager {
 	
 	/**
-	 * Adds a new tenant to the database.
+	 * Adds a new tenant to the database
 	 * @param name			name of the new tenant
 	 * @throws Exception	if name already exists
 	 */
@@ -20,18 +28,18 @@ public interface TenantManager {
 	public String login(String name) throws Exception;
 	
 	/**
-	 * Logout
+	 * Logout, deletes the session, then the sid is invalid
 	 * @param sid			the session id
-	 * @throws Exception	if sid is wrong or logout not successful
+	 * @throws Exception	if sid is not found or logout not successful
 	 */
 	public void logout(String sid) throws Exception;
 	
 	/**
-	 * Adds a new custom field to the tenant
+	 * Adds a new custom field to the tenant.
 	 * @param sid			the session id
 	 * @param fieldName		name of the new custom field
 	 * @param value			value of the new custom field
-	 * @throws Exception	if sid is wrong or fieldName already exists
+	 * @throws Exception	if sid is not found or fieldName already exists
 	 */
 	public void addCustomField(String sid, String fieldName, String value)
 			throws Exception;
@@ -41,7 +49,7 @@ public interface TenantManager {
 	 * @param sid			the session id
 	 * @param fieldName		name of the field
 	 * @param value			field value to set
-	 * @throws Exception	if sid is wrong or fieldName doesn't exist
+	 * @throws Exception	if sid is not found or fieldName doesn't exist
 	 */
 	public void setValue(String sid, String fieldName, String value)
 			throws Exception;
@@ -51,7 +59,7 @@ public interface TenantManager {
 	 * @param sid			the session id
 	 * @param fieldName		name of the field
 	 * @return				value of the field
-	 * @throws Exception	if sid is wrong or fieldName doesn't exist
+	 * @throws Exception	if sid is not found or fieldName doesn't exist
 	 */
 	public String getValue(String sid, String fieldName) throws Exception;
 	
@@ -59,7 +67,7 @@ public interface TenantManager {
 	 * Returns all tenant fields and values
 	 * @param sid			the session id
 	 * @return				map of fields and values
-	 * @throws Exception	if sid is wrong
+	 * @throws Exception	if sid is not found
 	 */
 	public Map<String, String> getValues(String sid) throws Exception;
 	

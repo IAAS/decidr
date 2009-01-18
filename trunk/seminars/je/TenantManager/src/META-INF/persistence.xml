@@ -8,10 +8,10 @@
 
 		<properties>
 			<property name="openjpa.ConnectionURL"
-				value="jdbc:mysql://iaassrv7.informatik.uni-stuttgart.de/prototyp" />
+				value="jdbc:mysql://iaassrv7.informatik.uni-stuttgart.de/jeseminar" />
 			<property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver" />
-			<property name="openjpa.ConnectionUserName" value="proto" />
-			<property name="openjpa.ConnectionPassword" value="protosql" />
+			<property name="openjpa.ConnectionUserName" value="jeseminar" />
+			<property name="openjpa.ConnectionPassword" value="je!sem" />
 
 			<!--
 				Tell OpenJPA to automatically create tables in the database for

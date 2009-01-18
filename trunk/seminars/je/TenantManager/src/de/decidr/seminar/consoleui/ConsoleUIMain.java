@@ -9,17 +9,18 @@ import de.decidr.seminar.tenantmgr.TenantManagerFactory;
 public class ConsoleUIMain {
 	
 	static String sid = "";
+	static String tenantname = "";
 	
 	public static void main(String[] args) {
 		java.io.BufferedReader in = new java.io.BufferedReader(
 				new java.io.InputStreamReader(System.in));
-		
-		TenantManager tmgr = TenantManagerFactory.getTenantManager();
+		try {
+			TenantManager tmgr = TenantManagerFactory.getTenantManager();
 		//String sid = "";
 		
 		while (true) {
 			try {
-				System.out.print("\n>");
+				System.out.print("\n" + tenantname + ">");
 				String[] query = in.readLine().split(" ");
 				
 				if (query[0].equals("exit")) {
@@ -38,6 +39,10 @@ public class ConsoleUIMain {
 				//e.printStackTrace();
 			}
 		}
+		
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	private static Object call(TenantManager tmgr, String[] query) throws Exception {
@@ -47,11 +52,13 @@ public class ConsoleUIMain {
 			return null;
 		} else if (m.equals("login")) {
 			sid = tmgr.login(query[1]);
-			return sid;
+			tenantname = query[1];
+			return "Logged in as " + query[1] + "."; 
 		} else if (m.equals("logout")) {
 			tmgr.logout(sid);
 			sid = "";
-			return null;
+			tenantname = "";
+			return "Logout successful.";
 		} else if (m.equals("addcustomfield")) {
 			tmgr.addCustomField(sid, query[1], query[2]);
 			return null;

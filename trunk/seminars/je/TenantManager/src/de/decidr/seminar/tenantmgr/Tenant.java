@@ -12,6 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+/**
+ * Entity class to store a tenant.
+ * @author Johannes Engelhardt
+ *
+ */
 @Entity(name="tenants")
 public class Tenant {
 	
@@ -27,6 +32,7 @@ public class Tenant {
 	@OneToMany(cascade=CascadeType.PERSIST)
 	private List<CustomField> customFields = new ArrayList<CustomField>();
 	
+	/** needed by JPA */
 	protected Tenant() {}
 
 	public Tenant(String name) {
@@ -41,6 +47,12 @@ public class Tenant {
 		return name;
 	}
 
+	/**
+	 * Adds a new custom field
+	 * @param fieldName	the name of the field
+	 * @param value		the value of the field
+	 * @throws TenantManagerException	if field already exists
+	 */
 	public void addCustomField(String fieldName, String value)
 			throws TenantManagerException {
 		if (searchByName(fieldName) != null) {
@@ -50,10 +62,20 @@ public class Tenant {
 		}
 	}
 	
+	/**
+	 * Returns a collection with all custom fields
+	 * @return	the collection
+	 */
 	public Collection<CustomField> getCustomFields() {
 		return customFields;
 	}
 	
+	/**
+	 * Sets the value of the given custom field
+	 * @param fieldName	the name of the field
+	 * @param value		the value of the field
+	 * @throws TenantManagerException	if field doesn't exist
+	 */
 	public void setValue(String fieldName, String value)
 			throws TenantManagerException {
 		CustomField field = searchByName(fieldName);
@@ -64,6 +86,12 @@ public class Tenant {
 		}
 	}
 	
+	/**
+	 * Returns the value of a custom field
+	 * @param fieldName	the name of the field
+	 * @return			the value of the field
+	 * @throws TenantManagerException	if field doesn't exist
+	 */
 	public String getValue(String fieldName) throws TenantManagerException {
 		CustomField field = searchByName(fieldName);
 		if (field == null) {
@@ -73,6 +101,10 @@ public class Tenant {
 		}
 	}
 	
+	/**
+	 * Returns a map with all custom field names and the assigned values
+	 * @return	the map
+	 */
 	public Map<String, String> getValues() {
 		Map<String, String> values = new TreeMap<String, String>();
 		values.put("Name", name);
@@ -84,6 +116,11 @@ public class Tenant {
 		return values;
 	}
 	
+	/**
+	 * Returns the field with the given name
+	 * @param name	the name of the field
+	 * @return	the field. null, if no field exists with that name
+	 */
 	private CustomField searchByName(String name) {
 		for (CustomField field: customFields) {
 			if (field.getName().equals(name)) {
