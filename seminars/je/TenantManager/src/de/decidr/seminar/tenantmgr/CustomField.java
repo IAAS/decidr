@@ -4,6 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+/**
+ * Entity class for custom tenant datafields.
+ * @author Johannes Engelhardt
+ *
+ */
 @Entity(name="custom_fields")
 public class CustomField {
 
@@ -12,14 +17,13 @@ public class CustomField {
 	@GeneratedValue
 	private int id;
 	
-	//private Tenant tenant;
-	
-	/** name of th ecustom field */
+	/** name of the custom field */
 	private String name;
 	
-	/** value of th ecustom field */
+	/** value of the custom field */
 	private String value;
 	
+	/** needed by JPA */
 	protected CustomField() {}
 	
 	public CustomField(Tenant tenant, String name, String value) {
@@ -42,11 +46,5 @@ public class CustomField {
 	public void setValue(String value) {
 		this.value = value;
 	}
-	
-	/*
-	public Tenant getTenant() {
-		return tenant;
-	}
-	*/
 
 }

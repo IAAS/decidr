@@ -7,10 +7,17 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+/**
+ * Implements the TenantManager interface.
+ * @author Johannes Engelhardt
+ *
+ */
 public class TenantManagerImpl implements TenantManager {
 	
+	/** the login sessions */
 	private Sessions sessions = new Sessions();
 	
+	/** entity manager for the JPA */
 	private EntityManager em;
 	
 	public TenantManagerImpl() {
@@ -21,6 +28,7 @@ public class TenantManagerImpl implements TenantManager {
 	}
 	
 	protected void finalize() {
+		// close entity manager
 		em.close();
 	}
 
@@ -137,6 +145,11 @@ public class TenantManagerImpl implements TenantManager {
 		}
 	}
 	
+	/**
+	 * Gets the tenant with the given unique name from the database
+	 * @param name	the name of the tenant
+	 * @return	the tenant. Null, if the tenant is not found.
+	 */
 	private Tenant getTenantFromDB(String name) {
 		Query q = em.createQuery("SELECT t FROM tenants t WHERE t.name = '"
 				+ name + "'");
