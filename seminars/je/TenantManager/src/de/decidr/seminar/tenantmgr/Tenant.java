@@ -29,7 +29,7 @@ public class Tenant {
 	private String name;
 	
 	/** fields of the tenant */
-	@OneToMany(cascade=CascadeType.PERSIST)
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<CustomField> customFields = new ArrayList<CustomField>();
 	
 	/** needed by JPA */
@@ -107,7 +107,7 @@ public class Tenant {
 	 */
 	public Map<String, String> getValues() {
 		Map<String, String> values = new TreeMap<String, String>();
-		values.put("Name", name);
+		//values.put("Name", name);
 
 		for (CustomField field: customFields) {
 			values.put(field.getName(), field.getValue());
