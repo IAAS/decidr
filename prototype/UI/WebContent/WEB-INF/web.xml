@@ -25,6 +25,15 @@
 		org.apache.axis2.transport.http.AxisAdminServlet</servlet-class>
 		<load-on-startup>100</load-on-startup>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>
+		SendMail2</display-name>
+		<servlet-name>SendMail2</servlet-name>
+		<servlet-class>
+		SendMail2</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>SendMail</servlet-name>
 		<url-pattern>/SendMail</url-pattern>
@@ -44,6 +53,10 @@
 	<servlet-mapping>
 		<servlet-name>AxisAdminServlet</servlet-name>
 		<url-pattern>/axis2-admin/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SendMail2</servlet-name>
+		<url-pattern>/SendMail2</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
