@@ -22,7 +22,7 @@
 			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema" />
 			
 			<!--  Trace -->
-			<property name="openjpa.Log" value="DefaultLevel=TRACE"/>
+			<!-- <property name="openjpa.Log" value="DefaultLevel=TRACE"/> -->
 		</properties>
 	</persistence-unit>
 

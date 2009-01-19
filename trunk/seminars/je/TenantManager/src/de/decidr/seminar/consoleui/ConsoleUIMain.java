@@ -35,8 +35,7 @@ public class ConsoleUIMain {
 				}
 				
 			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				//e.printStackTrace();
+				System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			}
 		}
 		
@@ -49,7 +48,7 @@ public class ConsoleUIMain {
 		String m = query[0].toLowerCase();
 		if (m.equals("addtenant")) {
 			tmgr.addTenant(query[1]);
-			return null;
+			return "Successfully added " + query[1] + " to database.";
 		} else if (m.equals("login")) {
 			sid = tmgr.login(query[1]);
 			tenantname = query[1];
