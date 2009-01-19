@@ -5,13 +5,10 @@ package de.decidr.seminar.webservice;
 
 import java.util.Map;
 
-import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.jws.soap.SOAPBinding.Style;
 import javax.xml.bind.annotation.XmlTransient;
 
 import de.decidr.seminar.tenantmgr.TenantManager;
@@ -23,7 +20,6 @@ import de.decidr.seminar.tenantmgr.TenantManagerFactory;
  */
 // @XmlType(name = "TenantService", namespace = "http://decidr.de/seminarWS")
 @WebService(name = "TenantServicePT", serviceName = "TenantService", targetNamespace = "http://decidr.de/seminarWS")
-@SOAPBinding(style = Style.RPC)
 public class TenantManagerService {
 
 	@XmlTransient
@@ -37,16 +33,13 @@ public class TenantManagerService {
 	}
 
 	@WebMethod(operationName = "addTenant")
-	@Oneway
 	public void addTenant(@WebParam(name = "name") String name)
-			throws Exception {
-		System.out.println("\n\ncalled........\n\n");
+			 {
 		try {
 			getManager().addTenant(name);
 		} catch (Exception e) {
-			System.out.println("\n\nfailed........\n\n");
 			e.printStackTrace();
-			throw e;
+			//throw e;
 		}
 	}
 
@@ -56,15 +49,14 @@ public class TenantManagerService {
 		return getManager().login(name);
 	}
 
+	// TODO: do @Oneway
 	@WebMethod(operationName = "logout")
-	@Oneway
 	public void logout(@WebParam(name = "sessionID") String sid)
 			throws Exception {
 		getManager().logout(sid);
 	}
 
 	@WebMethod(operationName = "addField")
-	@Oneway
 	public void addCustomField(@WebParam(name = "sessionID") String sid,
 			@WebParam(name = "fieldName") String fieldName,
 			@WebParam(name = "value") String value) throws Exception {
@@ -72,7 +64,6 @@ public class TenantManagerService {
 	}
 
 	@WebMethod(operationName = "setField")
-	@Oneway
 	public void setValue(@WebParam(name = "sessionID") String sid,
 			@WebParam(name = "fieldName") String fieldName,
 			@WebParam(name = "value") String value) throws Exception {
@@ -80,7 +71,6 @@ public class TenantManagerService {
 	}
 
 	@WebMethod(operationName = "setFields")
-	@Oneway
 	public void setValues(@WebParam(name = "sessionID") String sid,
 			@WebParam(name = "fieldMap") Map<String, String> fields)
 			throws Exception {
