@@ -4,10 +4,7 @@ import java.io.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
-import javax.xml.namespace.QName;
 
-import java.net.*;
-import java.util.*;
 import org.apache.axis2.*;
 import org.apache.axis2.addressing.EndpointReference;
 import org.apache.axis2.client.OperationClient;
@@ -49,42 +46,7 @@ public class SendMail extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-		String ns1 = "";
-		try 
-		{ 
-			ns1 = request.getParameter("ns1"); 
-		}catch (Exception e) 
-		{ 
-		    e.printStackTrace(); 
-		}
-		String ns2 = "";
-		try 
-		{ 
-			ns2 = request.getParameter("ns2"); 
-		}catch (Exception e) 
-		{ 
-		    e.printStackTrace(); 
-		}
-		String paylo = "";
-		try 
-		{ 
-			paylo = request.getParameter("paylo"); 
-		}catch (Exception e) 
-		{ 
-		    e.printStackTrace(); 
-		}
-		String actio = "";
-		try 
-		{ 
-			actio = request.getParameter("actio"); 
-		}catch (Exception e) 
-		{ 
-		    e.printStackTrace(); 
-		}
-		
-		
+				
 		String mailTo = "";
 		boolean success = false;
 		try 
@@ -120,17 +82,16 @@ public class SendMail extends HttpServlet {
 		if (ErrorMsg == "")
 		{
 			 // epr to the url the webservice 
-			//EndpointReference targetEPR = new EndpointReference("http://iaassrv7.informatik.uni-stuttgart.de:8080/axis2/services/eMailWS");
-			EndpointReference targetEPR = new EndpointReference("http://iaassrv7.informatik.uni-stuttgart.de:8080/ode/processes/mailws");
+						EndpointReference targetEPR = new EndpointReference("http://iaassrv7.informatik.uni-stuttgart.de:8080/ode/processes/mailws");
 			
 			try {
-				/*SOAPFactory sfac = OMAbstractFactory.getSOAP12Factory();
+				SOAPFactory sfac = OMAbstractFactory.getSOAP12Factory();
 				SOAPEnvelope env = sfac.getDefaultEnvelope();
 				
-				//OMFactory fac = OMAbstractFactory.getOMFactory();
-				OMNamespace ns = sfac.createOMNamespace("http://decidr.org/mailws", "mail");
+				OMNamespace ns = sfac.createOMNamespace("http://decidr.org/mailws", "ns");
 				 
-
+				OMElement processElem = sfac.createOMElement("eMailWSProcessRequest",ns);
+				
 				OMElement subjElem = sfac.createOMElement("subject",ns);
 				subjElem.setText(mailSubject);
 				OMElement textElem = sfac.createOMElement("message",ns);
@@ -140,10 +101,11 @@ public class SendMail extends HttpServlet {
 				OMElement fromElem = sfac.createOMElement("sender",ns);
 				fromElem.setText("");
 				
-				env.getBody().addChild(subjElem);
-				env.getBody().addChild(textElem);
-				env.getBody().addChild(toElem);
-				env.getBody().addChild(fromElem);
+				processElem.addChild(subjElem);
+				processElem.addChild(textElem);
+				processElem.addChild(toElem);
+				processElem.addChild(fromElem);
+				env.getBody().addChild(processElem);
 				 
 				MessageContext mc = new MessageContext();
 				mc.setEnvelope(env);
@@ -151,7 +113,7 @@ public class SendMail extends HttpServlet {
 				Options options = new Options();
 				options.setTo(targetEPR);
 				options.setSoapVersionURI(SOAP12Constants.SOAP_ENVELOPE_NAMESPACE_URI);
-				options.setAction("urn:eMailWSProcessRequest");
+				options.setAction("urn:process");
 				ServiceClient client = new ServiceClient();
 				client.setOptions(options);
 				OperationClient reclient = client.createClient(ServiceClient.ANON_OUT_IN_OP);
@@ -160,68 +122,19 @@ public class SendMail extends HttpServlet {
 				MessageContext resp = reclient.getMessageContext(WSDLConstants.MESSAGE_LABEL_IN_VALUE);
 				SOAPBody body = resp.getEnvelope().getBody();
 				//Blocking invocation
-				OMElement result = body.getFirstElement().getFirstChildWithName(new QName("http://service.soapwithattachments.sample/xsd","return"));
-//client.sendReceive(payload);
-				success = Boolean.parseBoolean(result.getFirstElement().getText());*/
+				OMElement result = body.getFirstElement();
+				success = Boolean.parseBoolean(result.getFirstElement().getText());
 				
-/*  Directly ysing the WS				OMFactory fac = OMAbstractFactory.getOMFactory();
-				OMNamespace ns = fac.createOMNamespace("http://decidr.org/mailws", "ns");
-				OMElement payload = fac.createOMElement("sendEmail", ns);
-				 
-
-				OMElement subjElem = fac.createOMElement("subject",null,payload);
-				subjElem.setText(mailSubject);
-				OMElement textElem = fac.createOMElement("message",null,payload);
-				textElem.setText(mailText);
-				OMElement toElem = fac.createOMElement("recipient",null,payload);
-				toElem.setText(mailTo);
-				OMElement fromElem = fac.createOMElement("sender",null,payload);
-				fromElem.setText("");
-				
-				 
-				Options options = new Options();
-				ServiceClient client = new ServiceClient();
-				options.setTo(targetEPR);
-				options.setAction("urn:sendEmail");
-				client.setOptions(options);
-				 //Blocking invocation
-				OMElement result = client.sendReceive(payload);
-				success = Boolean.parseBoolean(result.getFirstElement().getText());*/
-				
-				OMFactory fac = OMAbstractFactory.getOMFactory();
-				//OMNamespace ns = fac.createOMNamespace("http://decidr.org/mailws/process", "mail");
-				//OMElement payload = fac.createOMElement("process", ns);
-				OMNamespace ns = fac.createOMNamespace(ns1, ns2);
-				OMElement payload = fac.createOMElement(paylo, ns);
-				 
-
-				OMElement subjElem = fac.createOMElement("subject",null,payload);
-				subjElem.setText(mailSubject);
-				OMElement textElem = fac.createOMElement("message",null,payload);
-				textElem.setText(mailText);
-				OMElement toElem = fac.createOMElement("recipient",null,payload);
-				toElem.setText(mailTo);
-				OMElement fromElem = fac.createOMElement("sender",null,payload);
-				fromElem.setText("");
-				
-				 
-				Options options = new Options();
-				ServiceClient client = new ServiceClient();
-				options.setTo(targetEPR);
-				//options.setAction("urn:process");
-				options.setAction(actio);
-				client.setOptions(options);
-				 //Blocking invocation
-				OMElement result = client.sendReceive(payload);
-				ErrorMsg = result.getFirstElement().getText();
-				success = Boolean.parseBoolean(ErrorMsg);
-		
 			
 			} catch (AxisFault axisFault) {
-				System.out.println("fault");
-				axisFault.printStackTrace();
-				ErrorMsg = axisFault.getMessage(); 
+				ErrorMsg = axisFault.getMessage() + "<br/>";
+				for (StackTraceElement fault: axisFault.getStackTrace())
+				{
+					ErrorMsg = ErrorMsg + "<br/>" + fault.toString();
+				}
 			}
+	
+
 			
 			RequestDispatcher dispatcher;
 			
