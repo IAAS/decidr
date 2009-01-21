@@ -3,8 +3,8 @@
 || *applicable technologies* || 100% || 0% || 0% || Markus || || <font color="green">*XXXX* ||
 || *external interfaces* || 1% || 0% || 0% || Markus || don't know anything about the interfaces, recomment to do this by prototyp team || <font color="red">*XXXX* ||
 || *introduction* || 80% || 0% || 0% || Daniel || || <font color="green">*XXXX* ||
-|| *non-functional requirements* || 0% || 0% || 0% || Daniel || || <font color="green">*XXXX* ||
-|| *overall description* || 0% || 0% || 0% || Daniel|| || <font color="green">*XXXX* ||
+|| *non-functional requirements* || 0% || 0% || 0% || Daniel, Markus || || <font color="green">*XXXX* ||
+|| *overall description* || 75% || 0% || 0% || Daniel|| || <font color="green">*XXXX* ||
 || *operation environment* || 100% || 0% || 0% || Markus || || <font color="green">*XXXX* ||
 || *modeling sematics* || 0% || 0% || 0% || Jonas, Modood || || <font color="gray">*XXXX* ||
 || *UI* || 0% || 0% || 0% || Jonas, Modood || || <font color="gray">*XXXX* ||
