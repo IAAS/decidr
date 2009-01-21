@@ -22,4 +22,4 @@ SVN commenting rules: redundancy (DH)
 
 == WM 01/21/09 ==
 
-1) Info: Prototype finished
+1) Info: Prototype finished (JE)
