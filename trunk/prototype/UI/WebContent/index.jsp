@@ -12,10 +12,6 @@ DecidR Prototype
 </div>
 <div style="position: absolute; width: 600px; height: 500px; background-color: #FAFAFA; border: 1px solid #000; top: 75px; left: 50%; margin-left:-300px;">
 	<form action="SendMail" method="POST">
-	<input type="text" name="ns1" value="http://decidr.org/mailws" style="border: 1px solid #0F0F0F; height: 16px; width: 200px;">
-	<input type="text" name="ns2" value="ns" style="border: 1px solid #0F0F0F; height: 16px; width: 80px;">
-	<input type="text" name="paylo" value="process" style="border: 1px solid #0F0F0F; height: 16px; width: 140px;">
-	<input type="text" name="actio" value="urn:process" style="border: 1px solid #0F0F0F; height: 16px; width: 140px;">
 		<div style="position: absolute; width: 570px; height: 470px; background-color: transparent; border: 0px solid #000; top: 15px; left: 15px;">
 		To:<br/>
 		<input type="text" name="mailTo" value="${mailTo}" style="border: 1px solid #0F0F0F; height: 16px; width: 570px;"><br/>
