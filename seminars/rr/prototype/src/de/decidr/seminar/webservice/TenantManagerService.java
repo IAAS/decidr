@@ -5,6 +5,7 @@ package de.decidr.seminar.webservice;
 
 import java.util.Map;
 
+import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -33,13 +34,12 @@ public class TenantManagerService {
 	}
 
 	@WebMethod(operationName = "addTenant")
-	public void addTenant(@WebParam(name = "name") String name)
-			 {
+	public void addTenant(@WebParam(name = "name") String name) {
 		try {
 			getManager().addTenant(name);
 		} catch (Exception e) {
 			e.printStackTrace();
-			//throw e;
+			// throw e;
 		}
 	}
 
@@ -49,46 +49,64 @@ public class TenantManagerService {
 		return getManager().login(name);
 	}
 
-	// TODO: do @Oneway
+	@Oneway
 	@WebMethod(operationName = "logout")
-	public void logout(@WebParam(name = "sessionID") String sid)
-			throws Exception {
-		getManager().logout(sid);
+	public void logout(@WebParam(name = "sessionID") String sid) {
+		try {
+			getManager().logout(sid);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// throw e;
+		}
 	}
 
 	@WebMethod(operationName = "addField")
-	public void addCustomField(@WebParam(name = "sessionID") String sid,
+	public void addField(@WebParam(name = "sessionID") String sid,
 			@WebParam(name = "fieldName") String fieldName,
-			@WebParam(name = "value") String value) throws Exception {
-		getManager().addCustomField(sid, fieldName, value);
+			@WebParam(name = "value") String value) {
+		try {
+			getManager().addCustomField(sid, fieldName, value);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// throw e;
+		}
 	}
 
 	@WebMethod(operationName = "setField")
-	public void setValue(@WebParam(name = "sessionID") String sid,
+	public void setField(@WebParam(name = "sessionID") String sid,
 			@WebParam(name = "fieldName") String fieldName,
-			@WebParam(name = "value") String value) throws Exception {
-		getManager().setValue(sid, fieldName, value);
+			@WebParam(name = "value") String value) {
+		try {
+			getManager().setValue(sid, fieldName, value);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// throw e;
+		}
 	}
 
 	@WebMethod(operationName = "setFields")
-	public void setValues(@WebParam(name = "sessionID") String sid,
-			@WebParam(name = "fieldMap") Map<String, String> fields)
-			throws Exception {
-		for (String field : fields.keySet()) {
-			getManager().setValue(sid, field, fields.get(field));
+	public void setFields(@WebParam(name = "sessionID") String sid,
+			@WebParam(name = "fieldMap") Map<String, String> fields) {
+		try {
+			for (String field : fields.keySet()) {
+				getManager().setValue(sid, field, fields.get(field));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			// throw e;
 		}
 	}
 
 	@WebMethod(operationName = "getField")
 	@WebResult(name = "fieldValue")
-	public String getValue(@WebParam(name = "sessionID") String sid,
+	public String getField(@WebParam(name = "sessionID") String sid,
 			@WebParam(name = "fieldName") String fieldName) throws Exception {
 		return getManager().getValue(sid, fieldName);
 	}
 
 	@WebMethod(operationName = "getTenantFields")
 	@WebResult(name = "fieldMap")
-	public Map<String, String> getValues(
+	public Map<String, String> getTenantFields(
 			@WebParam(name = "sessionID") String sid) throws Exception {
 		return getManager().getValues(sid);
 	}

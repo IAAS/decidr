@@ -11,7 +11,7 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <folder path="/seminarWS/lib"/>
+        <!-- folder path="/seminarWS/lib"/ -->
         <folder path="/seminarWS/META-INF"/>
         <javaElement handleIdentifier="=seminarWS/src"/>
     </selectedElements>
