@@ -9,22 +9,17 @@ Add your issues to be descussed in the next "Weekly Meeting":
 
 
 == WM 01/14/09 ==
-1)
-Timetable for Seminars (TK) <br>
-(due to the fact that some persons don't read or ignore their mails).<br>
-(also talk about distribution: currently there are too many seminars on one day (RR))
-
-2)
-"Weekly Survey"-Document explanation & discussion (TK)
-
-3)
-SVN commenting rules: redundancy (DH)
+  # Timetable for Seminars (TK) <br>
+   (due to the fact that some persons don't read or ignore their mails).<br>
+   (also talk about distribution: currently there are too many seminars on one day (RR))
+  # "Weekly Survey"-Document explanation & discussion (TK)
+  # SVN commenting rules: redundancy (DH)
 
 == WM 01/21/09 ==
 
-1) Info: Prototype finished (JE)
+  # Info: Prototype finished (JE)
 
 == WM 01/28/090 ==
 
-1) JavaScript / Servlet framework evaluation (DH)<br>
-2) Confirm seminar WS date + time (RR)
+  # JavaScript / Servlet framework evaluation (DH)<br>
+  # Confirm seminar WS date + time (RR)
