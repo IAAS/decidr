@@ -27,3 +27,4 @@ SVN commenting rules: redundancy (DH)
 == WM 01/28/090 ==
 
 1) JavaScript / Servlet framework evaluation (DH)
+2) Confirm seminar WS date + time (RR)
