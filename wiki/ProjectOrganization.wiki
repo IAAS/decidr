@@ -17,7 +17,7 @@ All explanations about the organization and responsibilities in DecidR. This wik
 
 == For the accodring time span ==
 || *Role* || *Person in Charge/Guarantor* || *Status* ||
-|| *_Technical Prototype_*|| *JE* || <font color="green">*finished*</font> ||
-|| *_Specs_*|| *MF* || <font color="red">*pending*</font> ||
-|| *_Web Services_*|| *??* || <font color="red">*pending*</font> ||
-|| *_UI Mock-Ups_*|| *GH* || <font color="red">*pending*</font> ||
+|| *_Technical Prototype_*|| *JE* || <font color="red">*finished*</font> ||
+|| *_Specs_*|| *MF* || <font color="green">*pending*</font> ||
+|| *_Web Services_*|| *??* || <font color="green">*pending*</font> ||
+|| *_UI Mock-Ups_*|| *GH* || <font color="green">*pending*</font> ||
