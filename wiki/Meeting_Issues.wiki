@@ -19,7 +19,7 @@ Add your issues to be descussed in the next "Weekly Meeting":
 
   # Info: Prototype finished (JE)
 
-== WM 01/28/090 ==
+== WM 01/28/09 ==
 
   # JavaScript / Servlet framework evaluation (DH)<br>
   # Confirm seminar WS date + time (RR)
