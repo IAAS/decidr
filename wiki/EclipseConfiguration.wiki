@@ -1,4 +1,5 @@
 #summary Eclipse Configuration Manual.
+#labels Phase-Implementation
 
 = Eclipse Configuration =
 
