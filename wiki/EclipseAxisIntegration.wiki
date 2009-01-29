@@ -1,4 +1,5 @@
 #summary How to integrate Axis2 with Eclipse
+#labels Phase-Implementation
 
 = Step-by-Step Guide =
 
