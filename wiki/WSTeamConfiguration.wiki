@@ -1,0 +1,20 @@
+#summary Configuration used by the Web Services team
+#labels pm,webservices
+
+= Software & Versions =
+
+|| *_Product_* || *_Version_* ||
+|| Apache Axis2 || 1.4.1 ||
+|| Apache Tomcat || 5.5.27 ||
+|| Fred2008 || 1.4 ||
+|| Google Groups || _(whatever google offers)_ ||
+|| Google Calendar || _(whatever google offers)_ ||
+|| Google Mail || _(whatever google offers)_ ||
+|| Microsoft Word || 2003 ||
+|| Subversion || 1.5.1 ||
+|| [TODO: online collaboration software] || XXX ||
+|| [TODO: sql database] || XXX ||
+|| Eclipse IDE for Java EE Developers || 3.4.1 (Ganymede) ||
+<wiki:comment>
+||  ||  ||
+</wiki:comment>
