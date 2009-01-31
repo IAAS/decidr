@@ -1,5 +1,5 @@
 #summary How to integrate Axis2 with Eclipse
-#labels Phase-Implementation
+#labels Phase-Implementation,webservices
 
 = Step-by-Step Guide =
 
