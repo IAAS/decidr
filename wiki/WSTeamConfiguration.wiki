@@ -1,5 +1,5 @@
 #summary Configuration used by the Web Services team
-#labels pm,webservices
+#labels pm,webservices,unfinished,draft
 
 = Software & Versions =
 
@@ -15,6 +15,15 @@
 || [TODO: online collaboration software] || XXX ||
 || [TODO: sql database] || XXX ||
 || Eclipse IDE for Java EE Developers || 3.4.1 (Ganymede) ||
+|| !SoapUi || 2.5 ||
+|| Justus || 1.0 beta 4 ||
 <wiki:comment>
 ||  ||  ||
 </wiki:comment>
+
+== Eclipse Plug-Ins ==
+ * subclipse
+
+= Important Wiki Pages =
+ * EclipseConfiguration
+ * EclipseAxisIntegration
