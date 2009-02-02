@@ -43,7 +43,7 @@ distributable infrastructure:
 \img{figures/network-bus.pdf}{The bus topology allows for
 highly distributed deployment.}{fig:network-bus}
 Unfortunately, there is no standardized definition of what comprises an ESB and
-what doesn't\supercite{wiki-de}. Some comfort can be taken from the description of a
+what doesn't. Some comfort can be taken from the description of a
 set of capabilities that make the basis of an ESB, given by David Chappell, a
 major contributor to the emergence of the term: 
 
@@ -218,12 +218,12 @@ popular programming languages such as Java, JavaScript, Ruby, Groovy, etc\ldots
 Synapse is configured using an XML file that contains the mediation rules for
 routing incoming and outgoing messages, data transformations, etc. For a
 complete description of the XML configuration language please refer to 
-\url{http://synapse.apache.org/Synapse_Configuration_Language.html}. The second
+\supercite{syncf}. The second
 releavant configuration file is axis2.xml, where the underlying Axis2 engine
 that provides the transport protocols is configured.
 
 \imgstatic{9cm}{figures/synapse-service-mediation.pdf}{Synapse service
-mediation}{fig:synapse-service-mediation}
+mediation, based on \supercite{syncf}}{fig:synapse-service-mediation}
 
 Synapse supports two modes of operation: in \emph{message mediation} mode
 the clients must be configured to use the Synapse node as a HTTP proxy.
@@ -276,7 +276,7 @@ the message.
 \lstset{caption=, label=sample-1-xml}
 \lstinputlisting{listings/synapse_sample_1.xml}
 
-To test your configuration, start up SoapUI and create a new project. Enter a
+To test this configuration, start up SoapUI and create a new project. Enter a
 project name and use \url{http://localhost:9000/soap/TimeService?wsdl} as the
 initial WSDL. Create a test suite for the imported WSDL. Now go to the
 preferences and make SoapUI connect through the Synapse proxy at localhost:8280.
@@ -285,7 +285,7 @@ preferences and make SoapUI connect through the Synapse proxy at localhost:8280.
 \includegraphics[width=8cm]{figures/soapui-proxy.pdf}
 \end{center}
 
-Now you may run the test suite. Your SOAP response should look similar to this: 
+If the test suite is run, the SOAP response should look similar to this: 
 
 \lstset{caption=, label=sample-1-result-xml}
 \begin{lstlisting}
@@ -298,9 +298,7 @@ Now you may run the test suite. Your SOAP response should look similar to this:
 </soapenv:Envelope>
 \end{lstlisting}
 
-Since the clients in all other samples communicate directly with the ESB, you
-should set the SoapUI preferences back to no proxy.
-
+\newpage
 \subsection{Sample 2: Simple Service Gateway}
 \label{sec:sample-2}
 
@@ -315,17 +313,15 @@ In this sample we turn Synapse into a gateway for an existing web service.
 \lstset{caption=, label=sample-2-xml}
 \lstinputlisting{listings/synapse_sample_2.xml}
 
-To confirm your success, open your web browser and navigate to
-\url{http://localhost:8280/soap}. The output reveals the underlying
-Axis2 server:
+Navigating to \url{http://localhost:8280/soap} with any web browser reveals the
+underlying Axis2 server. The web service it hosts simply forwards all messages
+ to \url{http://localhost:9000/soap/TimeService}.
 
 \begin{center}
 \includegraphics[width=4cm]{figures/timeproxy-success.pdf}
 \end{center}
 
-You can also use SoapUI to test the service proxy. Proceed as in sample 1 but
-make sure that no HTTP proxy is configured.
-
+\newpage
 \subsection{Sample 3: Service Gateway with Load Balancing}
 \label{sec:sample-3}
 
@@ -348,8 +344,13 @@ set of endpoints in a round-robin fashion.
 \lstset{caption=, label=sample-3-xml}
 \lstinputlisting{listings/synapse_sample_3.xml}
 
-\todo{The reader would probably like to see the load balancing in action, gotta
-think of something\ldots}
+This configuration exposes a single web service to the client, but actually
+forwards incoming messages to one of three service endpoints:
+
+\imgstatic{10cm}{figures/decidr-loadbalancing-1.pdf}{Using a
+virtual endpoint to implement load balancing.}{fig:decidr-loadbalancing-1}
+
+\newpage
 
 \subsection{Sample 4: Retrieval of an External Configuration via the Registry}
 \label{sec:sample-4}
@@ -378,7 +379,8 @@ protocol. WS-Security itself does not guarantee a secure architecture, it only
 provides the means to encrypt or sign the headers and contents of SOAP
 messages. The standard was initially developed by IBM, Microsoft, VerySign and
 Sun. The 1.0 version was released by the Organization for the Advancement
-of Structured Information Standards (OASIS) in 2004. 
+of Structured Information Standards (OASIS) in 2004. The current version 1.1
+was released in 2006.
 
 %\newpage
 \subsection{Comparison to Transport Layer Security}
@@ -400,11 +402,40 @@ change between sender and receiver of a message.}{fig:tls-vs-e2e}
 \subsection{WS-Security in DecidR}
 \label{subsec:ws-security-in-decidr}
 
-\todo{Why and where does Decidr require use of WSS? Can't think of anyting yet,
-going to ask the prototype team if they've got anything where WSS might be
-useful.}
+Security is an important requirement for DecidR, especially concerning privacy
+protection obligations and resilience to attacks on
+sensitive data \supercite{decidr-spec}. Therefore all communication between
+client applications, DecidR web services and \emph{external} web services should
+be encrypted. WS-Security supports X.509 certificate based authentication as 
+described by \supercite{x509}, which provides the DecidR project team with a 
+professional approach for secure message exchanges between the system
+components:
+
+\img{figures/decidr-security-1.pdf}{The Synapse ESB can
+act as a trusted service mediator with enabled security
+features.}{fig:decidr-security-1}
 
 %\newpage
-\subsubsection{Example WS-Security Usage}
-\label{subsec:example-ws-security-usage}
-\todo{Let's see first if we need this at all.}
+\subsection{Using WS-Security with Synapse}
+\label{subsec:using-ws-security-with Synapse}
+
+Adding WS-Security support in Synapse is done simply by
+adding the \texttt{<enableSec>} element to a \texttt{<proxy>} or
+\texttt{<address>} definition, along with a \texttt{<policy>} element that
+specifies the attached security policy.
+
+As a result, it's quite easy to create a service proxy that comes with
+WS-Security features, even though the actual service endpoint does not support
+WS-Security. The following listing shows a sample Synpase configuration file
+that achieves this. Note that this approach only makes sense if there's a need
+to provide faked security to a client, since the communication between Synapse
+and the actual service endpoint remains possibly unencrypted.
+
+\newpage
+\lstset{caption=, label=sample-security-xml}
+\lstinputlisting{listings/synapse_sample_security.xml}
+
+\img{figures/decidr-security-2.pdf}{The resulting
+configuration provides secure communication between the client and Synapse,
+although this might give the client a false impression
+of the overall security of the message exchange.}{fig:decidr-security-1}
