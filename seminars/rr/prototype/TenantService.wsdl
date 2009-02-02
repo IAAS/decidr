@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://decidr.de/seminarWS"
+	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:ax21="http://util.java/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://decidr.de/seminarWS">
+	<wsdl:documentation>
+		Sample web service for the Web Services seminar.
+	</wsdl:documentation>
+	<wsdl:types>
+		<xs:schema attributeFormDefault="qualified"
+			elementFormDefault="qualified" targetNamespace="http://util.java/xsd">
+			<xs:complexType name="Map">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="empty" type="xs:boolean" />
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+		<xs:schema xmlns:ax22="http://util.java/xsd"
+			attributeFormDefault="qualified" elementFormDefault="qualified"
+			targetNamespace="http://decidr.de/seminarWS">
+			<xs:import namespace="http://util.java/xsd" />
+			<xs:complexType name="Exception">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="Exception" nillable="true"
+						type="xs:anyType" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="Exception">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="Exception" nillable="true"
+							type="ns:Exception" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getField">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="sessionID" nillable="true"
+							type="xs:string" />
+						<xs:element minOccurs="0" name="fieldName" nillable="true"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getFieldResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="return" nillable="true"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="login">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="name" nillable="true"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="loginResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="return" nillable="true"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getTenantFields">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="sessionID" nillable="true"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getTenantFieldsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="return" nillable="true"
+							type="ax22:Map" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="addField">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="sessionID" nillable="true"
+							type="xs:string" />
+						<xs:element minOccurs="0" name="fieldName" nillable="true"
+							type="xs:string" />
+						<xs:element minOccurs="0" name="value" nillable="true"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="addTenant">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="name" nillable="true"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="logout">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="sessionID" nillable="true"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="setField">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="sessionID" nillable="true"
+							type="xs:string" />
+						<xs:element minOccurs="0" name="fieldName" nillable="true"
+							type="xs:string" />
+						<xs:element minOccurs="0" name="value" nillable="true"
+							type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="setFields">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="sessionID" nillable="true"
+							type="xs:string" />
+						<xs:element minOccurs="0" name="fieldMap" nillable="true"
+							type="ax22:Map" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="addFieldRequest">
+		<wsdl:part name="parameters" element="ns:addField" />
+	</wsdl:message>
+	<wsdl:message name="logoutRequest">
+		<wsdl:part name="parameters" element="ns:logout" />
+	</wsdl:message>
+	<wsdl:message name="getTenantFieldsRequest">
+		<wsdl:part name="parameters" element="ns:getTenantFields" />
+	</wsdl:message>
+	<wsdl:message name="getTenantFieldsResponse">
+		<wsdl:part name="parameters" element="ns:getTenantFieldsResponse" />
+	</wsdl:message>
+	<wsdl:message name="Exception">
+		<wsdl:part name="parameters" element="ns:Exception" />
+	</wsdl:message>
+	<wsdl:message name="setFieldsRequest">
+		<wsdl:part name="parameters" element="ns:setFields" />
+	</wsdl:message>
+	<wsdl:message name="loginRequest">
+		<wsdl:part name="parameters" element="ns:login" />
+	</wsdl:message>
+	<wsdl:message name="loginResponse">
+		<wsdl:part name="parameters" element="ns:loginResponse" />
+	</wsdl:message>
+	<wsdl:message name="getFieldRequest">
+		<wsdl:part name="parameters" element="ns:getField" />
+	</wsdl:message>
+	<wsdl:message name="getFieldResponse">
+		<wsdl:part name="parameters" element="ns:getFieldResponse" />
+	</wsdl:message>
+	<wsdl:message name="addTenantRequest">
+		<wsdl:part name="parameters" element="ns:addTenant" />
+	</wsdl:message>
+	<wsdl:message name="setFieldRequest">
+		<wsdl:part name="parameters" element="ns:setField" />
+	</wsdl:message>
+	<wsdl:portType name="TenantServicePortType">
+		<wsdl:operation name="addField">
+			<wsdl:input message="ns:addFieldRequest" wsaw:Action="urn:addField" />
+		</wsdl:operation>
+		<wsdl:operation name="logout">
+			<wsdl:input message="ns:logoutRequest" wsaw:Action="urn:logout" />
+		</wsdl:operation>
+		<wsdl:operation name="getTenantFields">
+			<wsdl:input message="ns:getTenantFieldsRequest"
+				wsaw:Action="urn:getTenantFields" />
+			<wsdl:output message="ns:getTenantFieldsResponse"
+				wsaw:Action="urn:getTenantFieldsResponse" />
+			<wsdl:fault message="ns:Exception" name="Exception"
+				wsaw:Action="urn:getTenantFieldsException" />
+		</wsdl:operation>
+		<wsdl:operation name="setFields">
+			<wsdl:input message="ns:setFieldsRequest" wsaw:Action="urn:setFields" />
+		</wsdl:operation>
+		<wsdl:operation name="login">
+			<wsdl:input message="ns:loginRequest" wsaw:Action="urn:login" />
+			<wsdl:output message="ns:loginResponse" wsaw:Action="urn:loginResponse" />
+			<wsdl:fault message="ns:Exception" name="Exception"
+				wsaw:Action="urn:loginException" />
+		</wsdl:operation>
+		<wsdl:operation name="getField">
+			<wsdl:input message="ns:getFieldRequest" wsaw:Action="urn:getField" />
+			<wsdl:output message="ns:getFieldResponse" wsaw:Action="urn:getFieldResponse" />
+			<wsdl:fault message="ns:Exception" name="Exception"
+				wsaw:Action="urn:getFieldException" />
+		</wsdl:operation>
+		<wsdl:operation name="addTenant">
+			<wsdl:input message="ns:addTenantRequest" wsaw:Action="urn:addTenant" />
+		</wsdl:operation>
+		<wsdl:operation name="setField">
+			<wsdl:input message="ns:setFieldRequest" wsaw:Action="urn:setField" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="TenantServiceSoap11Binding" type="ns:TenantServicePortType">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<wsdl:operation name="addField">
+			<soap:operation soapAction="urn:addField" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="logout">
+			<soap:operation soapAction="urn:logout" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="getTenantFields">
+			<soap:operation soapAction="urn:getTenantFields"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="Exception">
+				<soap:fault use="literal" name="Exception" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="setFields">
+			<soap:operation soapAction="urn:setFields" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="login">
+			<soap:operation soapAction="urn:login" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="Exception">
+				<soap:fault use="literal" name="Exception" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getField">
+			<soap:operation soapAction="urn:getField" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="Exception">
+				<soap:fault use="literal" name="Exception" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="addTenant">
+			<soap:operation soapAction="urn:addTenant" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="setField">
+			<soap:operation soapAction="urn:setField" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="TenantServiceSoap12Binding" type="ns:TenantServicePortType">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<wsdl:operation name="addField">
+			<soap12:operation soapAction="urn:addField" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="logout">
+			<soap12:operation soapAction="urn:logout" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="getTenantFields">
+			<soap12:operation soapAction="urn:getTenantFields"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="Exception">
+				<soap12:fault use="literal" name="Exception" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="setFields">
+			<soap12:operation soapAction="urn:setFields" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="login">
+			<soap12:operation soapAction="urn:login" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="Exception">
+				<soap12:fault use="literal" name="Exception" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getField">
+			<soap12:operation soapAction="urn:getField" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="Exception">
+				<soap12:fault use="literal" name="Exception" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="addTenant">
+			<soap12:operation soapAction="urn:addTenant" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="setField">
+			<soap12:operation soapAction="urn:setField" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="TenantServiceHttpBinding" type="ns:TenantServicePortType">
+		<http:binding verb="POST" />
+		<wsdl:operation name="addField">
+			<http:operation location="TenantService/addField" />
+			<wsdl:input>
+				<mime:content type="text/xml" part="addField" />
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="logout">
+			<http:operation location="TenantService/logout" />
+			<wsdl:input>
+				<mime:content type="text/xml" part="logout" />
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="getTenantFields">
+			<http:operation location="TenantService/getTenantFields" />
+			<wsdl:input>
+				<mime:content type="text/xml" part="getTenantFields" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content type="text/xml" part="getTenantFields" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="setFields">
+			<http:operation location="TenantService/setFields" />
+			<wsdl:input>
+				<mime:content type="text/xml" part="setFields" />
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="login">
+			<http:operation location="TenantService/login" />
+			<wsdl:input>
+				<mime:content type="text/xml" part="login" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content type="text/xml" part="login" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getField">
+			<http:operation location="TenantService/getField" />
+			<wsdl:input>
+				<mime:content type="text/xml" part="getField" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content type="text/xml" part="getField" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="addTenant">
+			<http:operation location="TenantService/addTenant" />
+			<wsdl:input>
+				<mime:content type="text/xml" part="addTenant" />
+			</wsdl:input>
+		</wsdl:operation>
+		<wsdl:operation name="setField">
+			<http:operation location="TenantService/setField" />
+			<wsdl:input>
+				<mime:content type="text/xml" part="setField" />
+			</wsdl:input>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="TenantService">
+		<wsdl:port name="TenantServiceHttpSoap11Endpoint" binding="ns:TenantServiceSoap11Binding">
+			<soap:address
+				location="http://192.168.2.117:8080/axis2/services/TenantService.TenantServiceHttpSoap11Endpoint/" />
+		</wsdl:port>
+		<wsdl:port name="TenantServiceHttpSoap12Endpoint" binding="ns:TenantServiceSoap12Binding">
+			<soap12:address
+				location="http://192.168.2.117:8080/axis2/services/TenantService.TenantServiceHttpSoap12Endpoint/" />
+		</wsdl:port>
+		<wsdl:port name="TenantServiceHttpEndpoint" binding="ns:TenantServiceHttpBinding">
+			<http:address
+				location="http://192.168.2.117:8080/axis2/services/TenantService.TenantServiceHttpEndpoint/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
