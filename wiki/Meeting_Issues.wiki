@@ -28,4 +28,5 @@ Add your issues to be descussed in the next "Weekly Meeting":
 
   # Info: Conflict Prevention Survey (TK)
   # Technologies: Definiton of Responsibilities for Technologies/Techniques (TK)
+  # Use Cases etc. (MA, JS)
  
