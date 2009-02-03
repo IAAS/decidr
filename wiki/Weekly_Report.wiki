@@ -10,11 +10,11 @@ Weekly Report is not supposed, as some people think, to control or even motivate
 
 To keep my work transperent, i'll inform you about the status (*received/not received*).
 
-|| *Date* || *MA* || *JE* || *MF* || *GH* || *DH* || *TK* || *RR* || *AT* ||
-|| *01/07/09* ||<font color="red">*no*</font> || <font color="green">*yes*</font> ||<font color="green">*yes*</font> ||<font color="green">*yes*</font> ||<font color="green">*yes*</font>||<font color="green">*yes*</font>||<font color="green">*yes*</font>||<font color="green">*yes*</font>||
-|| *01/14/09* || <font color="green">*yes*</font>|| <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font>|| <font color="green">*yes*</font> ||<font color="green">*yes*</font>||<font color="green">*yes*</font>|| <font color="green">*yes*</font> ||
-|| *01/21/09*  || <font color="red">*no*</font> || <font color="green">*yes*</font>|| <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> ||
-|| *01/28/09*  || <font color="red">*no*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> ||
-|| *02/04/09*  || *MA* || *JE* || *MF* || *GH* || <font color="green">*yes*</font> || <font color="green">*yes*</font> || *RR* || *AT* ||
+|| *Date* || *MA* || *JE* || *MF* || *GH* || *DH* || *TK* || *RR* || *JS* || *AT* ||
+|| *01/07/09* ||<font color="red">*no*</font> || <font color="green">*yes*</font> ||<font color="green">*yes*</font> ||<font color="green">*yes*</font> ||<font color="green">*yes*</font>||<font color="green">*yes*</font>||<font color="green">*yes*</font>||<font color="green">*yes*</font>|| <font color="green">*yes*</font> ||
+|| *01/14/09* || <font color="green">*yes*</font>|| <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font>|| <font color="green">*yes*</font> ||<font color="green">*yes*</font>||<font color="green">*yes*</font>|| <font color="green">*yes*</font> || <font color="green">*yes*</font> ||
+|| *01/21/09*  || <font color="red">*no*</font> || <font color="green">*yes*</font>|| <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> ||
+|| *01/28/09*  || <font color="red">*no*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> ||<font color="green">*yes*</font> ||
+|| *02/04/09*  || *MA* || *JE* || *MF* || *GH* || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || <font color="green">*yes*</font> || *AT* ||
  <br>
 In case of questions, please contact me.
