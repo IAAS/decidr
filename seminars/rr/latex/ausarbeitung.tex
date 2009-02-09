@@ -18,7 +18,7 @@
 \usepackage{tabulary}
 
 \newcommand{\germanquote}[1]{\glqq{}#1\grqq{}}
-\newcommand{\decidr}{Decidr}
+\newcommand{\decidr}{DecidR}
 \newcommand{\anntabwidth}{\textwidth}
 
 \author{Reinhold Rumberger}
@@ -39,12 +39,28 @@
   \tableofcontents
   \mainmatter
 
+  \nocite{bk_ralph}
+
   \titlerunning{Web Services - Einleitung}
+  \label{abstract}
+  \begin{otherlanguage}{english}
+    \begin{abstract}
+      Large present-day businesses usually use service oriented architectures (SOAs) to implement their business processes. One way to implement a SOA is through web services. This paper will provide an introduction into the basics of web services. It will then focus on the most important technologies used to implement web services in the Java programming environment.
+    \end{abstract}
+  \end{otherlanguage}
+
+
   \label{intro}
   \section{Einleitung}
-    Dies ist die Ausarbeitung des Seminars \germanquote{Web Services}. Ich werde hier kurz darauf eingehen, was eine Service-orientierte Architektur ist. Danach werde ich die Grundlagen der Web Services erläutern und besonders detailliert auf WSDL und SOAP eingehen. Zum Schluss erläutere ich die Implementierung und Verwendung von Web Services in Java. Dabei werde ich gesondert auf JAX-WS 2.0 (JSR-224), WS-Metadata 2.0 (JSR-181) und JAXB 2.0 (JSR-222) eingehen. In diesem Seminar konzentriere ich mich auf Aspekte von Web Services, die für die Entwicklung von \decidr{} relevant sind. Zudem werde ich mich besonders auf relevante Annotations konzentrieren.
+    % TODO: redo
+    In der heutigen Software-Welt wird zunehmend auf Service-Orientierte Architekturen gesetzt. Das bedeutet, dass Anwendungen aus einzelnen Diensten aufgebaut werden, die sehr loose gekoppelt sind und über eine Art Netzwerk miteinander kommunizieren können. Durch diese Eigenschaften lassen sich auf SOA basierende Anwendungen schnell und effizient an neue Marktbedingungen anpassen.
 
-    Zunächst sei aber noch erwähnt, dass \germanquote{JSRs} -- Java Specification Requests -- im Rahmen des Java Community Process erstellte Java-Spezifikationen sind.
+    SOAs können durch Web Services implementiert werden.
+
+
+%    Dies ist die Ausarbeitung des Seminars \germanquote{Web Services}. Ich werde hier kurz darauf eingehen, was eine Service-orientierte Architektur ist. Danach werde ich die Grundlagen der Web Services erläutern und besonders detailliert auf WSDL und SOAP eingehen. Zum Schluss erläutere ich die Implementierung und Verwendung von Web Services in Java. Dabei werde ich gesondert auf JAX-WS 2.0 (JSR-224), WS-Metadata 2.0 (JSR-181) und JAXB 2.0 (JSR-222) eingehen. In diesem Seminar konzentriere ich mich auf Aspekte von Web Services, die für die Entwicklung von \decidr{} relevant sind. Zudem werde ich mich besonders auf relevante Annotations konzentrieren.
+
+%    Zunächst sei aber noch erwähnt, dass \germanquote{JSRs} -- Java Specification Requests -- im Rahmen des Java Community Process erstellte Java-Spezifikationen sind.
 
 
   \titlerunning{Web Services - SOA}
@@ -215,7 +231,7 @@
 %       Name der Klasse/\linebreak[0]des Interface \\
     \hline
       serviceName &
-      Wird als \texttt{name}-Attribut im \texttt{wsdl:service}-Element des generierten WSDL-\linebreak[0]Dokuments genutzt. Darf nicht in Endpoint Interfaces verwendet werden. &
+      Wird als \texttt{name}-Attribut im \texttt{wsdl:service}-Element des generierten WSDL-\linebreak[0]Dokuments genutzt. &
       \germanquote{} \\
     \hline
       portName &
