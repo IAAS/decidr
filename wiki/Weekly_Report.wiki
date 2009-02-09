@@ -3,10 +3,22 @@
 
 = Weekly Report =
 
+==Purpose==
 Weekly Report is not supposed, as some people think, to control or even motivate the team. The main purpose is to monitor the activies according plan and to inform clients/supervisors about our work. 
 
+==How to fill out?==
 
- <br>
+e.g.
+
+|| Your Name: || Tom ||
+|| Expected Effort: || 12h ||
+|| Actual Effort: || 11h ||
+|| Activities last week: || - Specs: Review (3.5h) <br> - Mock-Up: Finishing 1.Mock-Up (6.5h) <br> - Mock-Up: Meeting with the client (1h)||
+|| Activities for the next week: || - Mock-Up: Sketches for the 2.Mock-Up <br>  ||
+|| Problems || - Mock-Up: Tomcat server is down. ||
+|| Result & Notes || - Mock-Up: The 1.Mock-Up is running. <br> - Mock-Up: Preparing the presentation for the client. ||
+
+==Status==
 
 To keep my work transperent, i'll inform you about the status (*received/not received*).
 
