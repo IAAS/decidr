@@ -30,3 +30,6 @@ Add your issues to be descussed in the next "Weekly Meeting":
   # Technologies: Definiton of Responsibilities for Technologies/Techniques (TK)
   # Use Cases etc. (MA, JS)
  
+== WM 02/11/09 ==
+  # PM: Conflict Prevention Survey (TK) 
+  # PM: Weekly Reports (TK) 
