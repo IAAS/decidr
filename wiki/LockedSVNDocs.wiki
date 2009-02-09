@@ -1,5 +1,5 @@
 #summary A list of documents that shouldn't be edited
-#labels pm,workaround
+#labels configuration,workaround
 
 = Purpose of this document =
 
