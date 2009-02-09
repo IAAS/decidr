@@ -1,4 +1,5 @@
 #summary all about svn.
+#labels configuration
 
 
 = SVN =
