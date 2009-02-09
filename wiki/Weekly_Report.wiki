@@ -15,8 +15,8 @@ e.g.
 || Actual Effort: || 11h ||
 || Activities last week: || - Specs: Review (3.5h) <br> - Mock-Up: Finishing 1.Mock-Up (6.5h) <br> - Mock-Up: Meeting with the client (1h)||
 || Activities for the next week: || - Mock-Up: Sketches for the 2.Mock-Up <br>  ||
-|| Problems || - Mock-Up: Tomcat server is down. ||
-|| Result & Notes || - Mock-Up: The 1.Mock-Up is running. <br> - Mock-Up: Preparing the presentation for the client. ||
+|| Problems: || - Mock-Up: Tomcat server is down. ||
+|| Results & Notes: || - Mock-Up: The 1.Mock-Up is running. <br> - Mock-Up: Preparing the presentation for the client. ||
 
 ==Status==
 
