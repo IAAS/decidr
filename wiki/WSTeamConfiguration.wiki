@@ -12,6 +12,7 @@
 || Google Mail || _(whatever google offers)_ ||
 || Microsoft Word || 2003 ||
 || Subversion || 1.5.1 ||
+|| Skype || Linux: 2.0; Windows: X.X; OS X: X.X ||
 || [TODO: online collaboration software] || XXX ||
 || [TODO: sql database] || XXX ||
 || Eclipse IDE for Java EE Developers || 3.4.1 (Ganymede) ||
