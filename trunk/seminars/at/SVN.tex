@@ -1,46 +1,59 @@
-\section{SVN/Subversion}
-\subsection{Definition und Geschichte des SVN}
-Der Begriff Subversion bzw. Subversion ist klar definiert. Der Begriff bezieht sich zum einen auf die politisch-soziologische Deutung der Subversion, die eine Tätigkeit im Verborgenen, deren Ziel der Umsturz einer bestehenden Ordnung durch Unterwanderung und Untergrabung ist, definiert. Desweiteren bezieht sich der Begriff auf die sub version, also Unterversion oder der früheren Version. Das bedeutet Subversion dient der Versionskontrolle. Mit SVN können verschiedene Entwickler an Dateien arbeiten. Dabei wird immer die aktuellste Version bereitgestellt, sodass alle Entwickler auf dem gleichen Stand sind. \\
-Subversion wurde seit Anfang 2000 bei CollabNet entwickelt und erreichte Februar 2004 seine stabile Version 1.0. Seitdem wurden immer neuere Versionen entwickelt, die letzte ist die Version 1.5 (Juni 2008).Folgend werden die Änderungen in den einzelnen Versionen aufgelistet:
+\section{Subversion}
+
+\subsection{Definition und Geschichte des Subversion}
+Der \marginpar{Definition von SVN} Begriff \glqq Subversion\grqq{} selbst ist klar definiert. Der Begriff bezieht sich zum einen auf die politisch-soziologische Deutung \cite{subversion} der Subversion. Diese definiert eine Tätigkeit im Verborgenen, deren Ziel der Umsturz einer bestehenden Ordnung durch Unterwanderung und Untergrabung ist. Im Bezug auf Subversion (Abkürzung: SVN) gibt es insofern einen Zusammenhang zu dieser Definition, dass die bestehende Version durch eine neue Version ersetzt wird und dabei die eigentliche Tätigkeit im Hintergrund bleibt. Desweiteren bezieht sich der Begriff auf die sub version, also Unterversion oder der früheren Version. Das bedeutet, Subversion dient der Versionskontrolle. Mit SVN können verschiedene Entwickler an Dateien arbeiten. Dabei wird immer die aktuellste Version bereitgestellt, sodass alle Entwickler auf dem gleichen Stand sind. 
+
+Subversion \marginpar{Geschichte des SVN} wurde seit Anfang 2000 bei CollabNet entwickelt und erreichte Februar 2004 seine stabile Version 1.0. Seitdem wurden immer neuere Versionen entwickelt, die derzeit aktuellste Version ist 1.5 vom Juni 2008 \cite{svn}. Folgend werden die wichtigsten Änderungen in den einzelnen Versionen aufgeführt:\cite{svn}
 \begin{description}
- \item[Version 1.1] Repositories müssen nicht mehr in einer Berkley-Datenbank verwaltet werden, sondern man kann auch direkt das Dateisystem benutzen
- \item[Version 1.2] Die Sperrung von Dateien wurde eingeführt, was vor allem für binäre Dateien hilfreich ist
+ \item[Version 1.1] Repositories müssen nicht mehr in einer Berkley-Datenbank \cite{svn} verwaltet werden, sondern man kann auch direkt das Dateisystem benutzen
+ \item[Version 1.2] Die Sperrung von Dateien wurde eingeführt
  \item[Version 1.3] Das Server-Logging, die Autorisierung, die Programmiersprachen-Anbindung, die Kommando-Option und die Leistung wurden verbessert
  \item[Version 1.4] svnsync bietet das Spiegeln von Projektarchiven an
- \item[Version 1.5] Merge-Tracking und das sparse checkout wurden eingeführt
+ \item[Version 1.5] Merge-Tracking und das sparse checkout wurden eingeführt. Das sparse checkout ermöglicht das Auschecken von einzelnen Dateien oder Ordnern
 \end{description}
-\newpage
+
 \subsection{Arbeitsweise des SVN und Vorteile}
-SVN arbeitet eigentlich wie das immer noch weitverbreitete CVS, welches viele Schwächen aufweist. SVN bietet eine Versionsverwaltung im Sinne einer einfachen Revisionszählung. Dabei werden die zu bearbeitenden Daten in einem Repository abgelegt. Falls Änderungen an den Dateien vorgenommen werden, werden lediglich die Unterschiede zwischen dem Repository und dem lokalen System übertragen. 
+SVN \marginpar{Arbeitsweise SVN} bietet eine Versionsverwaltung im Sinne einer einfachen Revisionszählung. Dabei werden die zu bearbeitenden Daten in einem Repository abgelegt. Falls Änderungen an den Dateien vorgenommen werden, werden lediglich die Unterschiede zwischen dem Repository und dem lokalen System übertragen. 
+
 \begin{center}
-\begin{figure}[!h]
+\begin{figure}[t]
+\centering
  \fbox{\includegraphics[scale=0.5]{subversion-diagram.png}}
- \caption{Subversion-Diagramm}
- \label{Subversion-Diagramm}	
+ \caption{Subversion-Infrastruktur \cite{svn}}
+ \label{fig:infra}
 \end{figure}
 \end{center}
-Das Diagramm erläutert die Vorgehensweise des SVN in allen drei Schichten (User-Schicht, SVN-Schicht und Repository-Schicht). Über eine Applikation oder über die Kommandozeile gibt der User seine Interaktion an. Daraufhin greift SVN mittels des Befehls auf das Repository zu (über DAV, SVN oder lokal) und führt den Befehl auf dem Repository aus. Je nach Befehl werden Dateien hochgeladen, runtergeladen, hinzugefügt, gelöscht, gemerged etc.\\
-SVN bietet zwei unterschiedliche Backends zur Verwaltung der Repositorys an. Das eine ist die \emph{Berkley-Datenbank} und das andere ist das \emph{fsfs-Backend}. In der folgenden Tabelle werden die Unterschiede und Gemeinsamkeiten aufgelistet:
-\begin{center}
-% use packages: array
-\begin{tabular}[c]{|p{6cm}|p{6cm}|}
-\hline
-Berkley-Datenbank & fsfs-Backend \\ \hline 
-Speichert das Repository in einer Datenbank & Speichert das Repository in einer einzigen Datei \\ \hline
-Transaktionen werden in der Datenbank gespeichert & Transaktionen werden als Unterordner gespeichert \\ \hline
-Die Größe und der Zugriff spielen keine Rolle & Die Größe ist kleiner und der Zugriff ist nicht unbegrenzt \\ \hline
-Benutzt einen $O(n²)$-Algorithmus, um den kompletten Ordner zu überschreiben & Benutzt einen O(n) -Algorithmus, um die Dateien an das Repository ranzuhängen \\ \hline
-Auscheken des letzten Baumes ist schnell & Auschecken des letzten Baumes ist etwas langsamer \\ \hline
-Beim Crash bleibt die DB unbrauchbar bis sie repariert wird & Beim Crash ist nicht das komplette Repository betroffen, sondern evtl. nur die Transaktion \\ \hline
-Repository-Backup funktioniert zur Laufzeit & Repository-Backup funktioniert zur Laufzeit \\ \hline
-Repository kann nicht auf andere OS kopiert werden & Repository kann auf andere OS portiert werden\\ \hline
-\end{tabular}
-\end{center}
-\vspace{1cm} 
+\newpage
+Das \marginpar{Infrastruktur} in Abbildung \ref{fig:infra} gezeigte Bild erläutert die Vorgehensweise des SVN in der User-Schicht, SVN-Schicht und Repository-Schicht. Die User-Schicht beschreibt die Interaktion des Users mit dem SVN-Repository mit Hilfe einer Applikation oder der Kommandozeile. Daraufhin greift SVN in der SVN-Schicht mittels des Befehls auf das Repository zu (über DAV, SVN oder lokal) und führt den Befehl auf dem Repository aus (Repository-Schicht). Je nach Befehl werden Dateien hochgeladen, heruntergeladen, hinzugefügt, gelöscht, gemerged etc.
 
-Im Gegensatz zu CVS bietet SVN einige Merkmale, die das Arbeiten sehr viel einfacher gestalten. In der folgenden Liste, sind die Vorteile gegenüber CVS aufgelistet:
+SVN versioniert die kompletten Dateien und Verzeichnisse im Repository. Außerdem ist SVN in der Lage, Kopien von Dateien zu verwalten, die die gleiche Geschichte teilen. Dadurch ist es möglich verschiedene Projektlinien zu verfolgen, ohne dabei die Hauptlinie zu beschädigen. Üblicherweise wird der Hauptzweig in den Ordner \texttt{trunk} gelegt und Abzweige davon in den Ordner \texttt{branches} (vgl. Abschnitt 2.3).
+
+SVN \marginpar{Backends für SVN} bietet zwei unterschiedliche Backends zur Verwaltung der Repositorys an. Das eine ist die \emph{Berkley-Datenbank} und das andere ist das \emph{Filesystem-Backend}. In Tabelle \ref{tab:dbvsfs} werden die Unterschiede und Gemeinsamkeiten gezeigt:
+\begin{center}
+
+\begin{table}
+\begin{tabular}[c]{|p{2cm}|p{5cm}|p{5cm}|}
+\hline
+\textbf{Kategorie} & \textbf{Berkley-Datenbank} & \textbf{fsfs-Backend} \\ \hline 
+Speicherung & Speichert das Repository in einer Datenbank & Speichert das Repository in einer einzigen Datei \\ \hline
+Transaktion & Transaktionen werden mittels der Datenbank umgesetzt & Transaktionen werden mittels Unterordner umgesetzt \\ \hline
+Zugriff & Die Größe und der Zugriff spielen keine Rolle & Die Größe ist und die Anzahl der Zugriffe sind kleiner als bei der Datenbank \\ \hline
+Algorithmus & Benutzt einen $O(n²)$-Algorithmus, um den kompletten Ordner zu überschreiben & Benutzt einen O(n) -Algorithmus, um die Dateien an das Repository ranzuhängen \\ \hline
+Checkout & Auscheken der letzten Revision ist schnell & Auschecken der letzten Revision ist langsamer als bei der DB \\ \hline
+Fehlerfall & Beim Crash bleibt die DB unbrauchbar bis sie repariert wird & Beim Crash ist nicht das komplette Repository betroffen, sondern evtl. nur die Transaktion \\ \hline
+Backup & Repository-Backup funktioniert zur Laufzeit & Repository-Backup funktioniert zur Laufzeit \\ \hline
+Portabilität & Repository kann nicht auf andere OS kopiert werden & Repository kann auf andere OS portiert werden\\ \hline
+\end{tabular}
+\label{tab:dbvsfs}
+\caption{Vergleich Berkley-Datenbank-Backend und fsfs-Backend \cite{svn}}
+\end{table}
+\end{center}
+
+
+Neben \marginpar{Vorteile} SVN gibt es das Concurrent Version System \cite{cvs} (kurz: CVS) zur Versionskontrolle. Dieses speichert alle Daten an einer zentralen Stelle, dem Repository. Im Gegensatz zu CVS bietet SVN einige Merkmale, die das Arbeiten einfacher gestalten. In der folgenden Liste, sind die Vorteile gegenüber CVS aufgelistet:
 \begin{itemize}
  \item SVN versioniert oder revisioniert grundsätzlich das gesamte Projektarchiv und damit jeweils die gesamte Verzeichnisstruktur, während CVS auf der unabhängigen Versionierung jedes einzelnen Inhalts beruht
  \item  Mit Subversion ist es möglich, Dateien oder Verzeichnisse zu verschieben oder umzubenennen, ohne die Versionsgeschichte zu verlieren
- \item Änderungen ("commits") sind  in Subversion atomar, das heißt, eine Änderung wird entweder ganz oder gar nicht ins Repository gespeichert. Verbindungsabbrüche und mehrere gleichzeitige "commits" können somit nicht zu inkonsistenten Zuständen führen
+ \item Änderungen (\glqq commits\grqq{}) sind  in Subversion atomar. Dies bedeutet,dass eine Änderung entweder ganz oder gar nicht ins Repository gespeichert wird. Verbindungsabbrüche und mehrere gleichzeitige commits können somit nicht zu inkonsistenten Zuständen führen
+ \item Subversion kann im Gegensatz zu CVS, einfacher mit Binärdateien umgehen. Bei Binärdateien werden die Differenzen übertragen. Daher wird eine Binärdatei im Laufe eines Projektes immer größer. Jedoch lassen sich die Binärdateien nicht einfach so mergen. Daher muss die zu bearbeitende Binärdatei gesperrt werden, bevor sie bearbeitet werden kann. Wenn die Bearbeitung fertig ist, wird sie wieder freigegeben und die Änderung wird beim nächsten Update übertragen.
 \end{itemize}

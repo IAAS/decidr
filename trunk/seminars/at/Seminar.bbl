@@ -1,24 +1,79 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{subversion}
+Online-Lexikon, S.M.:
+\newblock (2009)
+
+\bibitem{svn}
+Ben Collins-Sussman, Brian W.~Fitzpatrick, C.M.P.:
+\newblock Version Control with Subversion: For Subversion 1.5: (Compiled from
+  r3305).
+\newblock TBA (2008)
+
+\bibitem{cvs}
+Budszuhn, F.:
+\newblock CVS.
+\newblock (Galileo Computing)
 
 \bibitem{rapidSVN}
-http://rapidsvn.tigris.org/.
 
-\bibitem{subclipse}
-http://subclipse.tigris.org.
+\newblock (http://rapidsvn.tigris.org/)
 
 \bibitem{subcommander}
-http://subcommander.tigris.org/.
 
-\bibitem{tortoiseSVN}
-http://tortoisesvn.tigris.org/.
-
-\bibitem{versions}
-http://versionsapp.com/.
-
-\bibitem{statsvn}
-http://www.statsvn.org/.
+\newblock (http://subcommander.tigris.org/)
 
 \bibitem{smartsvn}
-http://www.syntevo.com/smartsvn/index.html.
+
+\newblock (http://www.syntevo.com/smartsvn/index.html)
+
+\bibitem{tortoiseSVN}
+
+\newblock (http://tortoisesvn.tigris.org/)
+
+\bibitem{versions}
+
+\newblock (http://versionsapp.com/)
+
+\bibitem{subclipse}
+
+\newblock (http://subclipse.tigris.org)
+
+\bibitem{maven}
+Popp, G.:
+\newblock Konfigurationsmanagement mit Subversion, Ant und Maven.
+\newblock dpunkt.verlag (2006)
+
+\bibitem{convention}
+Vincent~Massol, Jason van~Zyl, B.P.J.C.C.S.:
+\newblock Better builds with Maven.
+\newblock Exist Global (2008)
+
+\bibitem{maven-eclipse}
+
+\newblock (http://maven.apache.org/eclipse plugin.html)
+
+\bibitem{netbeans}
+
+\newblock (http://www.netbeans.org/kb/articles/subversion preview.html)
+
+\bibitem{ant}
+Matzke, B.:
+\newblock Ant.
+\newblock dpunkt.verlag (2003)
+
+\bibitem{make}
+Andrew~Oram, S.T.:
+\newblock Managing Projects with make.
+\newblock O'Reilly und Associates, Inc. (1986)
+
+\bibitem{hudson}
+
+\newblock (http://hudson.gotdns.com/wiki/display/HUDSON/Meet+Hudson)
+
+\bibitem{agil}
+Jochen~Ludewig, H.L.:
+\newblock Software Engineering.
+\newblock dpunkt.verlag (2006)
 
 \end{thebibliography}

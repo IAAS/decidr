@@ -26,7 +26,7 @@ urlcolor=black]{hyperref}
 \maketitle
 
 \begin{abstract}
- In dieser Ausarbeitung werden die zwei Werkzeuge, Subversion und Maven, behandelt. Sie werden in einem Softwareprojekt häufig zur Versionierung und zur vereinfachten Kompilierung eingesetzt.
+ Im folgenden werden die zwei Werkzeuge, Subversion und Maven, behandelt. Sie werden in einem Softwareprojekt häufig zur Versionierung und zur vereinfachten Kompilierung eingesetzt.
 \end{abstract}
 
 

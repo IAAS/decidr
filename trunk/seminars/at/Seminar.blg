@@ -1,69 +1,125 @@
 This is BibTeX, Version 0.99c (Web2C 7.5.7)
 The top-level auxiliary file: Seminar.aux
-A level-1 auxiliary file: Einleitung.aux
-A level-1 auxiliary file: SVN.aux
-A level-1 auxiliary file: SVN-Repository.aux
-A level-1 auxiliary file: FunktionsweiseSVN.aux
-A level-1 auxiliary file: Maven.aux
-A level-1 auxiliary file: Phasen.aux
-A level-1 auxiliary file: Vergleich.aux
-A level-1 auxiliary file: Hudson.aux
-A level-1 auxiliary file: Zusammenfassung.aux
-The style file: plain.bst
-Database file #1: Literaturverzeichnis.bib
+The style file: splncs.bst
+Database file #1: Seminar.bib
+I was expecting a `,' or a `}'---line 34 of file Seminar.bib
+ :   
+ :   url = {http://ant.apache.org/},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 59 of file Seminar.bib
+ :   
+ :   year = {2005},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--entry type for "hudson" isn't style-file defined
+--line 63 of file Seminar.bib
+Warning--entry type for "maven-eclipse" isn't style-file defined
+--line 69 of file Seminar.bib
+Warning--entry type for "netbeans" isn't style-file defined
+--line 75 of file Seminar.bib
 Warning--entry type for "rapidSVN" isn't style-file defined
---line 4 of file Literaturverzeichnis.bib
+--line 81 of file Seminar.bib
 Warning--entry type for "smartsvn" isn't style-file defined
---line 11 of file Literaturverzeichnis.bib
-Warning--entry type for "statsvn" isn't style-file defined
---line 18 of file Literaturverzeichnis.bib
+--line 88 of file Seminar.bib
 Warning--entry type for "subclipse" isn't style-file defined
---line 25 of file Literaturverzeichnis.bib
+--line 95 of file Seminar.bib
 Warning--entry type for "subcommander" isn't style-file defined
---line 32 of file Literaturverzeichnis.bib
+--line 102 of file Seminar.bib
+Warning--entry type for "subversion" isn't style-file defined
+--line 109 of file Seminar.bib
+I was expecting a `,' or a `}'---line 113 of file Seminar.bib
+ :   
+ :   timestamp = {2009.01.29}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
 Warning--entry type for "tortoiseSVN" isn't style-file defined
---line 39 of file Literaturverzeichnis.bib
+--line 116 of file Seminar.bib
 Warning--entry type for "versions" isn't style-file defined
---line 46 of file Literaturverzeichnis.bib
-You've used 7 entries,
-            2118 wiz_defined-function locations,
-            522 strings with 4413 characters,
-and the built_in function-call counts, 1287 in all, are:
-= -- 91
-> -- 49
+--line 123 of file Seminar.bib
+Warning--empty title in subversion
+Warning--there's no year in cvs
+You can't pop an empty literal stack for entry cvs
+while executing---line 1078 of file splncs.bst
+Warning--empty title in rapidSVN
+Warning--there's no year in rapidSVN
+You can't pop an empty literal stack for entry rapidSVN
+while executing---line 1078 of file splncs.bst
+Warning--empty title in subcommander
+Warning--there's no year in subcommander
+You can't pop an empty literal stack for entry subcommander
+while executing---line 1078 of file splncs.bst
+Warning--empty title in smartsvn
+Warning--there's no year in smartsvn
+You can't pop an empty literal stack for entry smartsvn
+while executing---line 1078 of file splncs.bst
+Warning--empty title in tortoiseSVN
+Warning--there's no year in tortoiseSVN
+You can't pop an empty literal stack for entry tortoiseSVN
+while executing---line 1078 of file splncs.bst
+Warning--empty title in versions
+Warning--there's no year in versions
+You can't pop an empty literal stack for entry versions
+while executing---line 1078 of file splncs.bst
+Warning--empty title in subclipse
+Warning--there's no year in subclipse
+You can't pop an empty literal stack for entry subclipse
+while executing---line 1078 of file splncs.bst
+Too many commas in name 1 of "Vincent Massol, Jason van Zyl, Brett Porter, John Casey, Carlos Sanchez" for entry convention
+while executing---line 1078 of file splncs.bst
+Too many commas in name 1 of "Vincent Massol, Jason van Zyl, Brett Porter, John Casey, Carlos Sanchez" for entry convention
+while executing---line 1078 of file splncs.bst
+Warning--empty title in maven-eclipse
+Warning--there's no year in maven-eclipse
+You can't pop an empty literal stack for entry maven-eclipse
+while executing---line 1078 of file splncs.bst
+Warning--empty title in netbeans
+Warning--there's no year in netbeans
+You can't pop an empty literal stack for entry netbeans
+while executing---line 1078 of file splncs.bst
+Warning--empty title in hudson
+Warning--there's no year in hudson
+You can't pop an empty literal stack for entry hudson
+while executing---line 1078 of file splncs.bst
+You've used 17 entries,
+            2062 wiz_defined-function locations,
+            537 strings with 4713 characters,
+and the built_in function-call counts, 2384 in all, are:
+= -- 185
+> -- 68
 < -- 0
-+ -- 21
-- -- 14
-* -- 37
-:= -- 205
++ -- 34
+- -- 17
+* -- 114
+:= -- 337
 add.period$ -- 7
-call.type$ -- 7
-change.case$ -- 21
+call.type$ -- 17
+change.case$ -- 0
 chr.to.int$ -- 0
-cite$ -- 7
-duplicate$ -- 49
-empty$ -- 155
-format.name$ -- 14
-if$ -- 274
+cite$ -- 37
+duplicate$ -- 137
+empty$ -- 318
+format.name$ -- 17
+if$ -- 551
 int.to.chr$ -- 0
-int.to.str$ -- 7
-missing$ -- 0
-newline$ -- 24
-num.names$ -- 14
-pop$ -- 56
+int.to.str$ -- 17
+missing$ -- 14
+newline$ -- 78
+num.names$ -- 17
+pop$ -- 83
 preamble$ -- 1
-purify$ -- 21
+purify$ -- 0
 quote$ -- 0
-skip$ -- 84
+skip$ -- 113
 stack$ -- 0
-substring$ -- 35
-swap$ -- 7
+substring$ -- 0
+swap$ -- 24
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 28
-warning$ -- 0
-while$ -- 14
-width$ -- 8
-write$ -- 37
-(There were 7 warnings)
+type$ -- 0
+warning$ -- 20
+while$ -- 17
+width$ -- 19
+write$ -- 142
+(There were 15 error messages)
