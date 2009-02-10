@@ -31,5 +31,6 @@ Add your issues to be descussed in the next "Weekly Meeting":
   # Use Cases etc. (MA, JS)
  
 == WM 02/11/09 ==
-  # PM: Conflict Prevention Survey (TK) 
-  # PM: Weekly Reports (TK) 
+  # PM: Conflict Prevention Survey, redo (TK) 
+  # PM: Weekly Reports, some minor issues (TK)
+  # Specs,Mock-Up,WS: Team Discussion (MA,TK) 
