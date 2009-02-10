@@ -1,20 +1,24 @@
 \subsection{Funktionsweise des SVN und Tools}
-Im vorigen Unterkapitel wurde erläutert, wie das SVN funktioniert. In diesem Unterkapitel wird erklärt was für Funktionalitäten SVN bietet, bzw. wie man mit SVN arbeitet. Anschließend werden Tools für die Arbeit mit SVN aufgelistet. Bei den Befehlen bezieht sich die angegeben Adresse auf das SVN-Repository vom Studienprojekt \flqq DecidR \frqq.\\
-Nachdem das SVN Repository auf einem Server angelegt und die Ordnerstruktur gewählt wurde, muss der Entwickler die gleiche Ordnerstruktur auf sein OS herstellen. Dazu bietet SVN einen Befehl an:
+
+Im \marginpar{Funktionsweise des SVN} vorigen Unterkapitel wurde erläutert, wie das SVN funktioniert. In diesem Unterkapitel wird erklärt was für Funktionalitäten SVN bietet, bzw. wie man mit SVN arbeitet. Anschließend werden Tools für die Arbeit mit SVN aufgelistet. Bei den Befehlen bezieht sich die angegebene Adresse auf das SVN-Repository vom Studienprojekt \glqq DecidR\grqq.
+
+Nachdem \marginpar{Befehle} das SVN-Repository auf einem Server angelegt und die Ordnerstruktur gewählt wurde, muss der Entwickler die gleiche Ordnerstruktur auf seinem Betriebssystem (OS) herstellen. Dazu bietet SVN einen Befehl an:
 \begin{verbatim}
  svn checkout http://decidr.googlecode.com/svn/trunk/ decidr
 \end{verbatim}
-Dieser Befehl berechtigt den Entwickler nur das Lesen der Ordnerstruktur. Falls man selber Dateien hochladen oder Änderungen vornehmen möchte, muss das Checkout verschlüsselt passieren:
+Dieser Befehl berechtigt den Entwickler nur das Lesen der Ordnerstruktur. Falls man selber Dateien hochladen oder Änderungen vornehmen möchte, muss das Checkout verschlüsselt geschehen:
 \begin{verbatim}
  svn checkout https://decidr.googlecode.com/svn/trunk/ 
  decidr --username username
 \end{verbatim}
-Man muss dabei seinen Benutzernamen und sein Passwort eingeben, erst dann erfolgt der Checkout in den Ordner, den man nach der Repository-Adresse angegeben hat. Beim ersten checkout wird in dem Ordner eine .svn Datei erstellt, in der die kompletten Daten des SVN-Repositorys stehen.\\
-Sämtliche Updates auf dem Repository kann mit dem Update-Befehl auf sein OS holen:
+Man muss dabei seinen Benutzernamen und sein Passwort eingeben, erst dann erfolgt der Checkout in den Ordner, den man nach der Repository-Adresse angegeben hat. Beim ersten Checkout wird in dem Ordner eine \texttt{.svn} Datei erstellt, in der die kompletten Daten des SVN-Repositorys stehen.
+
+Sämtliche Updates auf dem Repository kann man mit dem Update-Befehl auf sein OS holen:
 \begin{verbatim}
  svn update decidr
 \end{verbatim}
-Dabei reicht es, wenn man den Ordner angibt der erneuert werden soll. Dieser muss aber die .svn Datei erhalten.\\
+Dabei reicht es, wenn man den Ordner angibt der erneuert werden soll. Dieser muss aber die \texttt{.svn} Datei enthalten.
+
 Falls man neue Dateien in das Repository laden möchte, muss man zunächst die Dateien vormerken. Dies geschieht mit:
 \begin{verbatim}
  svn add file
@@ -23,22 +27,45 @@ Daraufhin muss dem Repository noch mitgeteilt werden, dass die markierten Dateie
 \begin{verbatim}
  svn commit decidr
 \end{verbatim}
-Beim commit ist es üblich, dass man noch Kommentare mitschreibt, zum besseren Verständnis was sich geändert hat. Das erreicht man mit dem Parameter -m \flqq Kommentar \frqq.\\ \newpage
+Beim commit ist es üblich, dass man noch Kommentare mitschreibt, zum besseren Verständnis der Änderungen. Das realisiert man mit dem Parameter -m \glqq kommentar\grqq.
+
+Um Konflikte zu vermeiden, falls zwei Entwickler gleichzeitig an einer Datei arbeiten, kann man mit Hilfe von SVN Dateien sperren lassen:
+\begin{verbatim}
+ svn lock filename
+\end{verbatim}
+Diese müssen nach Beenden der Änderung wieder entsperrt werden:
+\begin{verbatim}
+ svn unlock filename
+\end{verbatim}
 
 
+\subsection{Tools für SVN}
 
-\vspace{2cm}
+Für \marginpar{Tools} SVN gibt es eine Reihe von Tools. Hier werden welche für MacOS, Windows, Linux und plattformunabhängige Systeme vorgestellt.
+Plattformunabhängige Tools sind Tools, die auf jeder Plattform benutzt werden können. Im Studienprojekt benutzen wir das plattformunabhängige Tool smartSVN. Wir haben dieses Tool ausgewählt, damit wir ein einheitliches Tool besitzen, da unsere Teammitglieder mit Windows, Linux und MacOS arbeiten. 
 
-\textbf{Tools für SVN}
+Hier einige plattformunabhängige Tools:
 \begin{itemize}
  \item rapidSVN \cite{rapidSVN}
- \item subclipse \cite{subclipse}
  \item subcommander \cite{subcommander}
- \item TortoiseSVN \cite{tortoiseSVN}
- \item versions \cite{versions}
- \item statsvn \cite{statsvn}
  \item smartSVN \cite{smartsvn}
 \end{itemize}
+
+Ein Tool für Windows, welches nicht auf einer Applikation beruht, sondern in Form des Contextmenüs alle Funktionen verfügbar macht:
+\begin{itemize}
+ \item TortoiseSVN \cite{tortoiseSVN} 
+\end{itemize}
+
+Ein Tool für MacOS:
+\begin{itemize}
+ \item versions \cite{versions} 
+\end{itemize}
+
+Ein Tool für Eclipse, welches wir benutzen, um den Source-Code direkt in Eclipse auschecken, bzw. updaten und committen zu können:
+\begin{itemize}
+ \item subclipse \cite{subclipse} 
+\end{itemize}
+
 
 
 
