@@ -16,7 +16,7 @@
 || [TODO: online collaboration software] || XXX ||
 || MySQL || 5.1.30 ||
 || Eclipse IDE for Java EE Developers || 3.4.1 (Ganymede) ||
-|| !SoapUI || 2.5 ||
+|| SoapUI || 2.5 ||
 || Justus || 1.0 beta 4 ||
 <wiki:comment>
 ||  ||  ||
@@ -24,7 +24,11 @@
 
 == Eclipse Plug-Ins ==
  * subclipse
- * !SoapUI
+ * SoapUI
+
+= Conventions und SVN Structure =
+ * All documents created by the WS-Team should be prefixed by "`WS`" (e.g. "`WS HumanTask Specification.doc`").
+ * All documents not directly related to code should be placed in the default places.
 
 = Important Wiki Pages =
  * EclipseConfiguration
