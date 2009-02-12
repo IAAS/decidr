@@ -63,7 +63,7 @@
   \section{Einleitung}
     In der heutigen Software-Welt wird zunehmend auf Service-Orientierte Architekturen (SOAs) gesetzt. Das bedeutet, dass Anwendungen aus einzelnen Diensten aufgebaut werden, die sehr lose gekoppelt sind und über eine Art Netzwerk miteinander kommunizieren können. Durch diese Eigenschaften lassen sich auf SOA basierende Anwendungen schnell und effizient an neue Marktbedingungen anpassen.
 
-    SOAs können durch Web Services implementiert werden. Für Java-Umgebungen spielen hier vor allem JAX-WS 2.0 (Java API for XML-Based Web Services, JSR-224), WS-Metadata 2.0 (JSR-181) und JAXB 2.0 (Java Architecture for XML Binding, JSR-222) eine Rolle. Diese Spezifikationen werde den Kern der Web Services in \decidr{} bilden.
+    SOAs können durch Web Services implementiert werden. Für Java-Um\-ge\-bung\-en spielen hier vor allem JAX-WS 2.0 (Java API for XML-Based Web Services, JSR-224), WS-Metadata 2.0 (JSR-181) und JAXB 2.0 (Java Architecture for XML Binding, JSR-222) eine Rolle. Diese Spezifikationen werden den Kern der Web Services in \decidr{} bilden.
 
 
   \titlerunning{Web Services - SOA}
@@ -79,16 +79,32 @@
   \label{ws}
   \section{Web Services Grundlagen}
   \nocite{wk_ws}
-    \germanquote{Web Service} wird vom W3C folgendermaßen definiert:
+    Das W3C definiert einen \germanquote{Web Service} folgendermaßen:
     \begin{quote}
       A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL).\cite{w3c_wsgloss_ws}
     \end{quote}
 
-    Es gibt zur Zeit zwei Ausprägungen von Web Services: die \germanquote{message-oriented Web Services} und die \germanquote{RESTful Web Services}.
+   \begin{center}--- --- --- !!!Trenner: ab hier ist Baustelle!!! --- --- ---\end{center}
 
-    Die erste Ausprägung -- message-oriented -- benutzt Nachrichten zur Kommunikation zwischen den verschiedenen Diensten. So entsteht eine loose Kopplung, da nur eine von der Implementierung unabhängige Schnittstelle nach außen hin sichtbar ist. Sie werden auch \germanquote{Big Web Services} genannt. %TODO elaborate
+    Diese Definition zeigt drei Haupteigenschaften von Web Services auf:
+    \begin{description}
+      \item[interoperable]
+        Web Services sind so ausgelegt, dass sie unabhängig von ihrer Implementierung zusammenarbeiten können. Dadurch sind Web Services prinzipiell plattformunabhängig.
+      \item[machine-to-machine interaction]
+        Web Services sind nicht designed, um mit Menschen zu interagieren. Die Kommunikation findet ausschließlich zwischen Web Services statt. Dadurch ist ein aus Web Services bestehendes Softwaresystem prinzipiell vollständig automatisiert. Es ist aber selbstverständlich möglich, dass ein Web Service Aufgaben an einen Menschen weiterleitet und das System so nur teilautomatisiert ist.
+      \item[over a network]
+        Web Services kommunizieren über ein Netzwerk. Das ermöglicht eine Lastverteilung und den zielgerichteten Einsatz spezialisierter Hard- und Software. Es wirft aber auch ein Problem auf: Man kann bei der Implementierung nicht immer wissen, wo sich der Web Service befinden wird. Deshalb gibt es Dienste, die eine Liste der bekannten Web Services und ihrer Kontaktinformationen bereitstellen.
+    \end{description}
 
-    Die zweite Ausprägung -- RESTful -- versucht HTTP zu emulieren. Hier wird die Schnittstelle des Web Services auf wenige, häufig genutzte Operationen (z.B. GET, PUT, DELETE) beschränkt. Diese Web Services sind meist zustandsabhängig. Durch die Beschränkung der Operationen ist eine bessere Integration mit dem HTTP-Protokoll möglich. %TODO elaborate
+    Es gibt zur Zeit zwei Ausprägungen von Web Services: die \germanquote{message-oriented Web Services} und die \germanquote{RESTful Web Services}. In der Vergangenheit stellten RPC-basierte Web Services die einzige Ausprägung dar. Diese Web Services bauten auf \germanquote{remote procedure calls} auf. Heute ist diese Ausprägung nicht mehr relevant und wird hier ignoriert.
+
+   \begin{center}--- --- --- !!!Trenner: wird demnächst überarbeitet!!! --- --- ---\end{center}
+
+    \paragraph{message-oriented Web Services:}
+      Die erste Ausprägung -- message-oriented -- benutzt Nachrichten zur Kommunikation zwischen den verschiedenen Diensten. So entsteht eine loose Kopplung, da nur eine von der Implementierung unabhängige Schnittstelle nach außen hin sichtbar ist. Sie werden auch \germanquote{Big Web Services} genannt. %TODO elaborate
+
+    \paragraph{RESTful Web Services:}
+      Die zweite Ausprägung -- RESTful -- versucht HTTP zu emulieren. Hier wird die Schnittstelle des Web Services auf wenige, häufig genutzte Operationen (z.B. GET, PUT, DELETE) beschränkt. Diese Web Services sind meist zustandsabhängig. Durch die Beschränkung der Operationen ist eine bessere Integration mit dem HTTP-Protokoll möglich. %TODO elaborate
 
     %TODO: find out about WS-I, was sind zusätzliche Einschränkungen (Beispiele)
     Um die Interoperabilität von Web Services zu steigern, publiziert das WS-I\cite{wsi_hp} Profile. Profile bestehen aus bestimmten Spezifikationen (z.B. SOAP, WSDL) in spezifischen Versionen (z.B. SOAP 1.2, WSDL 2.0). Hinzu kommen noch zusätzliche Einschränkungen. Außderdem publiziert das WS-I Anwendungsfälle und Testwerkzeuge um beim Deployen profilkonformer Web Services zu helfen.

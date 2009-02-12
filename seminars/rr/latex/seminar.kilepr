@@ -17,19 +17,19 @@ QuickBuild=PDFLaTeX+ViewPDF
 
 [item:ausarbeitung.tex]
 archive=true
-column=28
+column=25
 encoding=UTF-8
 highlight=LaTeX
-line=57
+line=24
 open=true
 order=0
 
 [item:literatur.bib]
 archive=true
-column=0
+column=22
 encoding=UTF-8
 highlight=BibTeX
-line=95
+line=97
 open=true
 order=1
 
