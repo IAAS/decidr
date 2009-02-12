@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://decidr.org/mailws"
+	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+	targetNamespace="http://decidr.org/mailws">
+
+	<wsdl:documentation>
+		An e-mail sending web service for the Decidr
+		prototype
+	</wsdl:documentation>
+
+
+
+	<!-- Abstract types -->
+	<wsdl:types>
+		<xs:schema attributeFormDefault="qualified"
+			elementFormDefault="qualified" targetNamespace="http://decidr.org/mailws">
+			<xs:element name="sendEmail">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="subject"
+							nillable="true" type="xs:string" />
+						<xs:element minOccurs="1" maxOccurs="1" name="message"
+							type="xs:string" />
+						<xs:element minOccurs="1" maxOccurs="1" name="recipient"
+							type="xs:string" />
+						<xs:element minOccurs="0" maxOccurs="1" name="sender"
+							nillable="true" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="sendEmailResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="return"
+							type="xs:boolean" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+
+	<wsdl:message name="sendEmailRequest">
+		<wsdl:part name="parameters" element="ns:sendEmail" />
+	</wsdl:message>
+	<wsdl:message name="sendEmailResponse">
+		<wsdl:part name="parameters" element="ns:sendEmailResponse" />
+	</wsdl:message>
+
+	<wsdl:portType name="eMailWSPortType">
+		<wsdl:operation name="sendEmail">
+			<wsdl:input message="ns:sendEmailRequest" wsaw:Action="urn:sendEmail" />
+			<wsdl:output message="ns:sendEmailResponse" wsaw:Action="urn:sendEmailResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<plnk:partnerLinkType name="eMailPLT">
+		<plnk:role name="eMailProvider" portType="ns:eMailWSPortType" />
+	</plnk:partnerLinkType>
+
+	<!-- Concrete Bindings -->
+	<wsdl:binding name="eMailWSSoap11Binding" type="ns:eMailWSPortType">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<wsdl:operation name="sendEmail">
+			<soap:operation soapAction="urn:sendEmail" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="eMailWSSoap12Binding" type="ns:eMailWSPortType">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<wsdl:operation name="sendEmail">
+			<soap12:operation soapAction="urn:sendEmail" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="eMailWSHttpBinding" type="ns:eMailWSPortType">
+		<http:binding verb="POST" />
+		<wsdl:operation name="sendEmail">
+			<http:operation location="eMailWS/sendEmail" />
+			<wsdl:input>
+				<mime:content type="text/xml" part="sendEmail" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content type="text/xml" part="sendEmail" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<!-- TODO: Adapt the following for deployment -->
+	<wsdl:service name="eMailWS">
+		<wsdl:port name="eMailWSHttpSoap11Endpoint" binding="ns:eMailWSSoap11Binding">
+			<soap:address
+				location="http://iaassrv7.informatik.uni-stuttgart.de:8080/axis2/services/eMailWS.eMailWSHttpSoap11Endpoint/" />
+		</wsdl:port>
+		<wsdl:port name="eMailWSHttpSoap12Endpoint" binding="ns:eMailWSSoap12Binding">
+			<soap12:address
+				location="http://iaassrv7.informatik.uni-stuttgart.de:8080/axis2/services/eMailWS.eMailWSHttpSoap12Endpoint/" />
+		</wsdl:port>
+		<wsdl:port name="eMailWSHttpEndpoint" binding="ns:eMailWSHttpBinding">
+			<http:address
+				location="http://iaassrv7.informatik.uni-stuttgart.de:8080/axis2/services/eMailWS.eMailWSHttpEndpoint/" />
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>
+
