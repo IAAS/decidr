@@ -102,7 +102,7 @@
     \begin{quote}
       A Web service is a software system designed to support interoperable machine-to-machine interaction
       over a network. It has an interface described in a machine-processable format (specifically
-      WSDL).\cite{w3c_wsgloss_ws}
+      WSDL). [...]\cite{w3c_wsgloss_ws}
     \end{quote}
 
     Diese Definition enthält drei Haupteigenschaften von Web Services:
@@ -130,7 +130,7 @@
     Es gibt zur Zeit zwei relevante Ausprägungen von Web Services: die \germanquote{message-oriented Web Services} und die \germanquote{RESTful Web Services}. In der Vergangenheit stellten RPC-basierte Web Services die einzige Ausprägung dar. Diese Web Services bauten auf \germanquote{remote procedure calls} auf. Heute ist diese Ausprägung nicht mehr relevant und wird hier ignoriert. Es folgt eine kurze Vorstellung der beiden relevanten Ausprägungen:
 
     \paragraph{RESTful Web Services:}
-      Diese Ausprägung versucht HTTP zu emulieren. Hier wird die Schnittstelle des Web Services auf wenige, häufig genutzte Operationen (z.B. GET, PUT und DELETE) beschränkt. Diese Web Services sind oft zustandsabhängig. Durch die Beschränkung der Operationen ist eine bessere Integration mit dem HTTP-Protokoll möglich. So wird der für die Serialisierung/Deserialisierung von Konstrukten einer Hochsprache in ein XML-Format zu transportzwecken nötige Aufwand gespart. Allerdings lassen sich so mit vertretbarem Aufwand nur sehr einfache Web Services implementieren. Komplexere Web Services würden einen hohen Kommunikationsaufwand erfordern -- damit verbunden ein komplexe Implementierung. Diese Ausprägung ist nicht durch einen Standard definiert, was dazu führt, dass nicht kompltt klar ist, was einen RESTful Web Service ausmacht. Somit ist sie für \decidr uninteressant.
+      Diese Ausprägung versucht HTTP zu emulieren. Hier wird die Schnittstelle des Web Services auf wenige, häufig genutzte Operationen (z.B. GET, PUT und DELETE) beschränkt. Diese Web Services sind oft zustandsabhängig. Durch die Beschränkung der Operationen ist eine bessere Integration mit dem HTTP-Protokoll möglich. So wird der für die Serialisierung/Deserialisierung von Konstrukten einer Hochsprache in ein XML-Format zu transportzwecken nötige Aufwand gespart. Allerdings lassen sich so mit vertretbarem Aufwand nur sehr einfache Web Services implementieren. Komplexere Web Services würden einen hohen Kommunikationsaufwand erfordern -- damit verbunden ein komplexe Implementierung. Diese Ausprägung ist nicht durch einen Standard definiert, was dazu führt, dass nicht kompltt klar ist, was einen RESTful Web Service ausmacht -- manchen Definitionen zufolge, ist ein RESTful Web Service kein Web Service! Somit ist diese Ausprägung für \decidr uninteressant.
 
     \paragraph{message-oriented Web Services:}
       Diese Ausprägung wird auch \germanquote{Big Web Services} genannt. Sie benutzt -- im Gegensatz zu RPC-basierten Web Services -- Nachrichten als Kommunikationseinheit. So entsteht eine loose Kopplung, da nur eine von der Implementierung unabhängige Schnittstelle veröffentlicht wird. Diese Schnittstelle ist meist in WSDL beschrieben.
