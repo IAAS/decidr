@@ -54,25 +54,44 @@
   \label{abstract}
   \begin{otherlanguage}{english}
     \begin{abstract}
-      Large present-day businesses often use service oriented architectures (SOAs) to implement their business processes. One way to implement a SOA is through web services. This paper will provide an introduction into the basics of web services. It will then focus on the most important technologies used to implement web services in the Java programming environment.
+      Large present-day businesses often use service oriented architectures (SOAs) to implement
+      their business processes. One way to implement a SOA is through web services. This paper will
+      provide an introduction into the basics of web services. It will then focus on the most
+      important technologies used to implement web services in the Java programming environment.
     \end{abstract}
   \end{otherlanguage}
 
 
   \label{intro}
   \section{Einleitung}
-    In der heutigen Software-Welt wird zunehmend auf Service-Orientierte Architekturen (SOAs) gesetzt. Das bedeutet, dass Anwendungen aus einzelnen Diensten aufgebaut werden, die sehr lose gekoppelt sind und über eine Art Netzwerk miteinander kommunizieren können. Durch diese Eigenschaften lassen sich auf SOA basierende Anwendungen schnell und effizient an neue Marktbedingungen anpassen.
+    In der heutigen Software-Welt wird zunehmend auf Service-Orientierte Architekturen (SOAs)
+    gesetzt. Das bedeutet, dass Anwendungen aus einzelnen Diensten aufgebaut werden, die sehr lose
+    gekoppelt sind und über eine Art Netzwerk miteinander kommunizieren können. Durch diese
+    Eigenschaften lassen sich auf SOA basierende Anwendungen schnell und effizient an neue
+    Marktbedingungen anpassen.
 
-    SOAs können durch Web Services implementiert werden. Für Java-Um\-ge\-bung\-en spielen hier vor allem JAX-WS 2.0 (Java API for XML-Based Web Services, JSR-224), WS-Metadata 2.0 (JSR-181) und JAXB 2.0 (Java Architecture for XML Binding, JSR-222) eine Rolle. Diese Spezifikationen werden den Kern der Web Services in \decidr{} bilden.
+    SOAs können durch Web Services implementiert werden. Für Java-Um\-ge\-bung\-en spielen hier vor
+    allem JAX-WS 2.0 (Java API for XML-Based Web Services, JSR-224), WS-Metadata 2.0 (JSR-181) und
+    JAXB 2.0 (Java Architecture for XML Binding, JSR-222) eine Rolle. Diese Spezifikationen werden
+    den Kern der Web Services in \decidr{} bilden.
 
 
   \titlerunning{Web Services - SOA}
   \label{soa}
   \section{SOA}
   \nocite{wk_soa}
-    Eine \germanquote{SOA} (Service Oriented Architecture) ist eine Software-Architektur, bei der loose gekoppelte Dienste miteinander kommunizieren. Die SOA definiert die verfügbaren Kommunikationsmethoden und die Methoden zum Auffinden von Diensten. So können verschiedene Dienste miteinander verbunden werden, um einen bestimmten Geschäftsprozess zu implementieren. Mehrere Dienste werden kombiniert um eine Applikation zu realisieren.
+    Eine \germanquote{SOA} (Service Oriented Architecture) ist eine Software-Architektur, bei der
+    loose gekoppelte Dienste miteinander kommunizieren. Die SOA definiert die verfügbaren
+    Kommunikationsmethoden und die Methoden zum Auffinden von Diensten. So können verschiedene
+    Dienste miteinander verbunden werden, um einen bestimmten Geschäftsprozess zu implementieren.
+    Mehrere Dienste werden kombiniert um eine Applikation zu realisieren.
 
-    Die loose Kopplung der Dienste macht die durch sie implementierten Applikationen sehr flexibel. So kann relativ schnell auf veränderte Umweltbedingungen reagiert werden. Wenn beispielsweise Dienste zufällig aus einer Menge geeigneter Dienste ausgewählt werden, kann man einer gesteigerten Nachfrage durch Hinzufügen weiterer Dienste begegnen. Dabei kann es sich sowohl um neue Instanzen vorhandener Dienste handeln, als auch um komplett neu entwickelte Dienste.
+    Die loose Kopplung der Dienste macht die durch sie implementierten Applikationen sehr flexibel.
+    So kann relativ schnell auf veränderte Umweltbedingungen reagiert werden. Wenn beispielsweise
+    Dienste zufällig aus einer Menge geeigneter Dienste ausgewählt werden, kann man einer
+    gesteigerten Nachfrage durch Hinzufügen weiterer Dienste begegnen. Dabei kann es sich sowohl um
+    neue Instanzen vorhandener Dienste handeln, als auch um komplett neu entwickelte Dienste, die
+    die gleiche Aufgabe erledigen.
 
 
   \titlerunning{Web Services - Web Services Grundlagen}
@@ -81,30 +100,42 @@
   \nocite{wk_ws}
     Das W3C definiert einen \germanquote{Web Service} folgendermaßen:
     \begin{quote}
-      A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL).\cite{w3c_wsgloss_ws}
+      A Web service is a software system designed to support interoperable machine-to-machine interaction
+      over a network. It has an interface described in a machine-processable format (specifically
+      WSDL).\cite{w3c_wsgloss_ws}
     \end{quote}
+
+    Diese Definition enthält drei Haupteigenschaften von Web Services:
+    \begin{description}
+      \item[interoperable]
+        Web Services sind so ausgelegt, dass sie unabhängig von ihrer Implementierung
+        zusammenarbeiten können. Dadurch sind Web Services prinzipiell plattformunabhängig, da sie
+        jederzeit auf einer anderen Platform implementiert werden können.
+      \item[machine-to-machine interaction]
+        Web Services sind nicht designed, um mit Menschen zu interagieren. Jegliche Kommunikation
+        über das Netzwerk findet ausschließlich zwischen Web Services statt. Dadurch ist ein aus
+        Web Services bestehendes Softwaresystem prinzipiell vollständig automatisiert. Es ist
+        selbstverständlich auch möglich, dass ein Web Service Aufgaben an einen Menschen
+        weiterleitet und das System so nur teilautomatisiert ist.
+      \item[over a network]
+        Web Services kommunizieren über ein Netzwerk. Das ermöglicht eine Lastverteilung und den
+        zielgerichteten Einsatz spezialisierter Hard- und Software. Es wirft aber auch ein Problem
+        auf: Während der Implementierung ist nicht immer bekannt, wo sich der Web Service befinden
+        wird. Deshalb existieren Dienste, die eine Liste der bekannten Web Services und ihrer
+        Kontaktinformationen bereitstellen.
+    \end{description}
 
    \begin{center}--- --- --- !!!Trenner: ab hier ist Baustelle!!! --- --- ---\end{center}
 
-    Diese Definition zeigt drei Haupteigenschaften von Web Services auf:
-    \begin{description}
-      \item[interoperable]
-        Web Services sind so ausgelegt, dass sie unabhängig von ihrer Implementierung zusammenarbeiten können. Dadurch sind Web Services prinzipiell plattformunabhängig.
-      \item[machine-to-machine interaction]
-        Web Services sind nicht designed, um mit Menschen zu interagieren. Die Kommunikation findet ausschließlich zwischen Web Services statt. Dadurch ist ein aus Web Services bestehendes Softwaresystem prinzipiell vollständig automatisiert. Es ist aber selbstverständlich möglich, dass ein Web Service Aufgaben an einen Menschen weiterleitet und das System so nur teilautomatisiert ist.
-      \item[over a network]
-        Web Services kommunizieren über ein Netzwerk. Das ermöglicht eine Lastverteilung und den zielgerichteten Einsatz spezialisierter Hard- und Software. Es wirft aber auch ein Problem auf: Man kann bei der Implementierung nicht immer wissen, wo sich der Web Service befinden wird. Deshalb gibt es Dienste, die eine Liste der bekannten Web Services und ihrer Kontaktinformationen bereitstellen.
-    \end{description}
-
-    Es gibt zur Zeit zwei Ausprägungen von Web Services: die \germanquote{message-oriented Web Services} und die \germanquote{RESTful Web Services}. In der Vergangenheit stellten RPC-basierte Web Services die einzige Ausprägung dar. Diese Web Services bauten auf \germanquote{remote procedure calls} auf. Heute ist diese Ausprägung nicht mehr relevant und wird hier ignoriert.
-
-   \begin{center}--- --- --- !!!Trenner: wird demnächst überarbeitet!!! --- --- ---\end{center}
-
-    \paragraph{message-oriented Web Services:}
-      Die erste Ausprägung -- message-oriented -- benutzt Nachrichten zur Kommunikation zwischen den verschiedenen Diensten. So entsteht eine loose Kopplung, da nur eine von der Implementierung unabhängige Schnittstelle nach außen hin sichtbar ist. Sie werden auch \germanquote{Big Web Services} genannt. %TODO elaborate
+    Es gibt zur Zeit zwei relevante Ausprägungen von Web Services: die \germanquote{message-oriented Web Services} und die \germanquote{RESTful Web Services}. In der Vergangenheit stellten RPC-basierte Web Services die einzige Ausprägung dar. Diese Web Services bauten auf \germanquote{remote procedure calls} auf. Heute ist diese Ausprägung nicht mehr relevant und wird hier ignoriert. Es folgt eine kurze Vorstellung der beiden relevanten Ausprägungen:
 
     \paragraph{RESTful Web Services:}
-      Die zweite Ausprägung -- RESTful -- versucht HTTP zu emulieren. Hier wird die Schnittstelle des Web Services auf wenige, häufig genutzte Operationen (z.B. GET, PUT, DELETE) beschränkt. Diese Web Services sind meist zustandsabhängig. Durch die Beschränkung der Operationen ist eine bessere Integration mit dem HTTP-Protokoll möglich. %TODO elaborate
+      Diese Ausprägung versucht HTTP zu emulieren. Hier wird die Schnittstelle des Web Services auf wenige, häufig genutzte Operationen (z.B. GET, PUT und DELETE) beschränkt. Diese Web Services sind oft zustandsabhängig. Durch die Beschränkung der Operationen ist eine bessere Integration mit dem HTTP-Protokoll möglich. So wird der für die Serialisierung/Deserialisierung von Konstrukten einer Hochsprache in ein XML-Format zu transportzwecken nötige Aufwand gespart. Allerdings lassen sich so mit vertretbarem Aufwand nur sehr einfache Web Services implementieren. Komplexere Web Services würden einen hohen Kommunikationsaufwand erfordern -- damit verbunden ein komplexe Implementierung. Diese Ausprägung ist nicht durch einen Standard definiert, was dazu führt, dass nicht kompltt klar ist, was einen RESTful Web Service ausmacht. Somit ist sie für \decidr uninteressant.
+
+    \paragraph{message-oriented Web Services:}
+      Diese Ausprägung wird auch \germanquote{Big Web Services} genannt. Sie benutzt -- im Gegensatz zu RPC-basierten Web Services -- Nachrichten als Kommunikationseinheit. So entsteht eine loose Kopplung, da nur eine von der Implementierung unabhängige Schnittstelle veröffentlicht wird. Diese Schnittstelle ist meist in WSDL beschrieben.
+
+   \begin{center}--- --- --- !!!Trenner: wird demnächst überarbeitet!!! --- --- ---\end{center}
 
     %TODO: find out about WS-I, was sind zusätzliche Einschränkungen (Beispiele)
     Um die Interoperabilität von Web Services zu steigern, publiziert das WS-I\cite{wsi_hp} Profile. Profile bestehen aus bestimmten Spezifikationen (z.B. SOAP, WSDL) in spezifischen Versionen (z.B. SOAP 1.2, WSDL 2.0). Hinzu kommen noch zusätzliche Einschränkungen. Außderdem publiziert das WS-I Anwendungsfälle und Testwerkzeuge um beim Deployen profilkonformer Web Services zu helfen.
@@ -226,7 +257,7 @@
 
   \label{uddi}
   \subsection{UDDI}
-  \nocite{wk_uddi}
+    UDDI\cite{wk_uddi} (Universal Description Discovery and Integration) ist ein Dienst zum Auffinden von Web Services in heterogenen Netzwerken.
 
 
   \titlerunning{Web Services - Java und Web Services}
