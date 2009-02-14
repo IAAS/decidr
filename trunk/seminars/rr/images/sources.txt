@@ -1,4 +1,2 @@
 intro_ws_roles.gif: http://www.w3.org/TR/ws-arch/
 Triangle.png:       http://www.w3.org/DesignIssues/WebServices.html
-
-http://doi.acm.org/10.1145/1367497.1367606
