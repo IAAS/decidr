@@ -32,18 +32,17 @@
 
 \author{Reinhold Rumberger}
 \tocauthor{\ }
-\institute{Institute of Architecture of Application Systems (IAAS)
+\institute{Institute of Architecture of Application Systems (IAAS),\\
+  University of Stuttgart\\
   \email{rumberrd@studi.informatik.uni-stuttgart.de}}
 \title{Seminar-Ausarbeitung: Web Services}
 \date{27.02.2009}
 
 \begin{document}
-%FIXME: add handlers
 
   \frontmatter
   \pagestyle{headings}
 
-  % TODO: make better title page
   \maketitle
   \tableofcontents
   \mainmatter
@@ -130,33 +129,49 @@
     \germanquote{message-oriented Web Services} und die \germanquote{RESTful Web Services}. In der
     Vergangenheit stellten RPC-basierte Web Services die einzige Ausprägung dar. Diese Web Services
     bauten auf \germanquote{remote procedure calls} auf. Heute ist diese Ausprägung nicht mehr
-    relevant und wird hier ignoriert. Es folgt eine kurze Vorstellung der relevanten Ausprägungen:
+    relevant und wird hier ignoriert.\\
+    Es folgt eine kurze Vorstellung der relevanten Ausprägungen:
 
     \paragraph{RESTful Web Services:}
       Diese Ausprägung orientiert sich stark an HTTP. Deshalb wird die Schnittstelle dieser Sorte
       Web Services auf wenige, von HTTP bereitgestellte, Operationen beschränkt (z.B. GET, PUT und
-      DELETE). Diese Web Services sind oft zustandsabhängig. Durch die Beschränkung der Operationen
-      ist eine bessere Integration mit dem HTTP-Protokoll möglich. So kann der für die
+      DELETE). Durch die Beschränkung der Operationen ist eine bessere Integration mit dem
+      HTTP-Protokoll möglich. So kann der Aufwand verringert werden, der für die
       Serialisierung/Deserialisierung von Konstrukten einer Hochsprache in ein XML-Format zu
-      transportzwecken nötige Aufwand verringert werden. Allerdings lassen sich so mit vertretbarem
-      Aufwand nur sehr einfache Web Services implementieren. Komplexere Web Services würden einen
-      hohen Kommunikations- und Wartungsaufwand erfordern. Diese Ausprägung ist nicht
-      standardisiert, was dazu führt, dass nicht komplett klar ist, was einen RESTful Web Service
-      ausmacht! Somit ist diese Ausprägung für \decidr{} uninteressant.\footnote{Diese Darstellung
-      ist stark vereinfacht. Deshalb sind einige der Möglichkeiten von RESTful Web Services
-      unterschlagen worden. Da message-oriented Web Services für uns wesentlich interessanter sind,
-      ist diese grobe Darstellung jedoch ausreichend. Für Interessierte sei auf
-      \cite{paper_pautasso}, Abschnitt 3 verwiesen.}
+      transportzwecken nötig ist. Allerdings lassen sich so mit vertretbarem Aufwand nur sehr
+      einfache Web Services implementieren. Komplexere Web Services würden einen hohen
+      Kommunikations- und Wartungsaufwand erfordern.\\
+      Diese Ausprägung ist nicht standardisiert, was dazu führt, dass nicht ganz klar ist, was
+      einen RESTful Web Service ausmacht. Somit ist diese Ausprägung für \decidr{}
+      uninteressant.\footnote{Diese Darstellung ist stark vereinfacht. Deshalb sind einige der
+      Möglichkeiten der RESTful Web Services unterschlagen worden. Da message-oriented Web Services
+      für uns wesentlich interessanter sind, ist diese grobe Darstellung jedoch ausreichend. Für
+      Interessierte sei auf \cite{paper_pautasso}, Abschnitt 3 verwiesen.}
+
+    \paragraph{message-oriented Web Services:}
+      Diese Ausprägung wird auch \germanquote{Big Web Services} genannt. Während RPC-basierte Web
+      Services Prozedur-Aufrufe und RESTful Web Services durch MIME identifizierte Objekte über
+      HTTP als Kommunikationseinheit verwenden, benutzen message-orientierte Web Services abstrakte
+      Nachrichten. Im Gegensatz zu RPC-basierten Web Services können so verschiedene binär
+      inkompatible Programmiersprachen verwendet werden. Im Gegensatz zu RESTful Web Services sind
+      message-oriented Web Services unabhängig vom Transportprotokoll. Dadurch können sie flexibel
+      den Gegebenheiten angepasst werden und es ist möglich, \germanquote{Qualtity of Service}
+      (QoS) auch dann zu gewährleisten, wenn die Kommunikationspartner mehrere Netzwerke mit
+      verschiedenartiger Infrastruktur trennen. Diese Unterschiede der Infrastruktur können sowohl
+      in der verwendeten Hardware als auch im verwendeten Protokollstack liegen.\\
+      Da nur eine von der Implementierung unabhängige Schnittstelle veröffentlicht wird, ist eine
+      loose Kopplung gegeben. Diese Schnittstelle ist meist in WSDL beschrieben.
+
+   \begin{center}--- --- --- !!!Trenner: contents done, proof-read!!! --- --- ---\end{center}
 
    \begin{center}--- --- --- !!!Trenner: ab hier ist Baustelle!!! --- --- ---\end{center}
 
-    \paragraph{message-oriented Web Services:}
-      Diese Ausprägung wird auch \germanquote{Big Web Services} genannt. Sie benutzt -- im Gegensatz zu RPC-basierten Web Services -- Nachrichten als Kommunikationseinheit. So entsteht eine loose Kopplung, da nur eine von der Implementierung unabhängige Schnittstelle veröffentlicht wird. Diese Schnittstelle ist meist in WSDL beschrieben.
+    %TODO: was sind zusätzliche Einschränkungen (Beispiele)
+    Um die Interoperabilität von Web Services zu steigern, publiziert das WS-I\cite{wsi_hp} sogenannte Profile. Profile bestehen aus bestimmten Spezifikationen (z.B. SOAP, WSDL) in spezifischen Versionen (z.B. SOAP 1.2, WSDL 2.0). Hinzu kommen noch zusätzliche Einschränkungen. Außderdem publiziert das WS-I Anwendungsfälle und Testwerkzeuge um beim Deployen profilkonformer Web Services zu helfen. Da diese Profile die Heterogenität der eingesetzten Standards stark einschränkt, erleichtert die Beschränkung auf ein Profil (z.B. das \germanquote{WS-I Basic Profile}) die Implementierung und das Deployment erheblich, da existierende Frameworks diese Profile unterstützen und deshalb aufgrund der Einschränkungen detailliertere Annahmen machen können, was den Einsatz von Deployment Descriptoren weitgehend überflüssig macht und den Abstraktionsgrad der Umgebung erheblich verringert.
 
-    %TODO: find out about WS-I, was sind zusätzliche Einschränkungen (Beispiele)
-    Um die Interoperabilität von Web Services zu steigern, publiziert das WS-I\cite{wsi_hp} Profile. Profile bestehen aus bestimmten Spezifikationen (z.B. SOAP, WSDL) in spezifischen Versionen (z.B. SOAP 1.2, WSDL 2.0). Hinzu kommen noch zusätzliche Einschränkungen. Außderdem publiziert das WS-I Anwendungsfälle und Testwerkzeuge um beim Deployen profilkonformer Web Services zu helfen.
+    Es gibt zusätzlich Standards, die die Fähigkeiten von Web Services erweitern. Diese Standards haben gewöhnlich einen Namen nach dem Schema \germanquote{WS-\texttt{x}} (z.B. WS-Security, WS-Transaction). %TODO elaborate
 
-    Es gibt zusätzlich Standards, die die Fähigkeiten von Web Services erweitern. Diese Standards haben gewöhnlich einen Namen nach dem Schema \germanquote{WS-x} (z.B. WS-Security, WS-Transaction). %TODO elaborate
+%FIXME: add handlers
 
    \begin{center}--- --- --- !!!Trenner: wird demnächst überarbeitet!!! --- --- ---\end{center}
 
@@ -165,10 +180,9 @@
   \nocite{wk_soap}
     %TODO: short intro, more detailed description
     %TODO: not transport protocol, actions
-    SOAP ist ein Protokoll zum Austausch strukturierter Daten zwischen Web Services in Computernetzwerken. Es benutzt XML als Nachrichtenformat und stützt sich auf andere Protokolle der Anwendungsschicht (z.B. HTTP, SMTP, FTP) für dem Datentransport. SOAP stellt die Basis der Kommunikation zwischen Web Services dar.
+    SOAP ist ein Nachrichtenprotokoll, das den Austausch strukturierter Daten zwischen vernetzten Web Services erleichtern soll. Es benutzt XML als Nachrichtenformat und stützt sich auf andere Protokolle der Anwendungsschicht (z.B. HTTP, SMTP, FTP) für dem Datentransport. SOAP stellt die Basis der Kommunikation zwischen Web Services dar.
 
     Die Wahl von XML als Nachrichtenformat hat sowohl Vor- als auch Nachteile.
-    % FIXME: bad scentence! very bad scentence! no cookie for you!
     Positiv sind die leichtere Lesbarkeit für Menschen, die bessere Interoperabilität und die vereinfachte Fehlersuche. Allerdings ist es etwas unhandlich und verlangsamt die Verarbeitungsgeschwindigkeit durch seine Verbosität.
 
     Bei der Wahl des Transportprotokolls ist Vorsicht geboten; einige Protokolle werden typischerweise von Firewalls gefiltert und sollten deshalb gemieden werden.
@@ -181,7 +195,6 @@
     WSDL (Web Services Description Language) ist eine XML-basierte Sprache zur Beschreibung der öffentlichen Schnittstelle von Web Services.
     %TODO: describe parts of WSDL
 
-%     %TODO: label as example
 %     \newpage
 %     \label{ex_wsdl}
 %     \begin{verbatim}
