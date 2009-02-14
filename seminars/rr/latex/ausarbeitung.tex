@@ -108,9 +108,10 @@
     Diese Definition enthält drei Haupteigenschaften von Web Services:
     \begin{description}
       \item[interoperable]
-        Web Services sind so ausgelegt, dass sie unabhängig von ihrer Implementierung
-        zusammenarbeiten können. Dadurch sind Web Services prinzipiell plattformunabhängig, da sie
-        jederzeit auf einer anderen Platform implementiert werden können.
+        Web Services sind so ausgelegt, dass sie unabhängig von ihrer Implementierung und der
+        Infrastruktur zusammenarbeiten können. Dadurch sind Web Services prinzipiell
+        plattformunabhängig, da sie jederzeit auf einer anderen Platform implementiert werden
+        können.
       \item[machine-to-machine interaction]
         Web Services sind nicht designed, um mit Menschen zu interagieren. Jegliche Kommunikation
         über das Netzwerk findet ausschließlich zwischen Web Services statt. Dadurch ist ein aus
@@ -125,22 +126,39 @@
         Kontaktinformationen bereitstellen.
     \end{description}
 
-   \begin{center}--- --- --- !!!Trenner: ab hier ist Baustelle!!! --- --- ---\end{center}
-
-    Es gibt zur Zeit zwei relevante Ausprägungen von Web Services: die \germanquote{message-oriented Web Services} und die \germanquote{RESTful Web Services}. In der Vergangenheit stellten RPC-basierte Web Services die einzige Ausprägung dar. Diese Web Services bauten auf \germanquote{remote procedure calls} auf. Heute ist diese Ausprägung nicht mehr relevant und wird hier ignoriert. Es folgt eine kurze Vorstellung der beiden relevanten Ausprägungen:
+    Es gibt zur Zeit zwei relevante Ausprägungen von Web Services: die
+    \germanquote{message-oriented Web Services} und die \germanquote{RESTful Web Services}. In der
+    Vergangenheit stellten RPC-basierte Web Services die einzige Ausprägung dar. Diese Web Services
+    bauten auf \germanquote{remote procedure calls} auf. Heute ist diese Ausprägung nicht mehr
+    relevant und wird hier ignoriert. Es folgt eine kurze Vorstellung der relevanten Ausprägungen:
 
     \paragraph{RESTful Web Services:}
-      Diese Ausprägung versucht HTTP zu emulieren. Hier wird die Schnittstelle des Web Services auf wenige, häufig genutzte Operationen (z.B. GET, PUT und DELETE) beschränkt. Diese Web Services sind oft zustandsabhängig. Durch die Beschränkung der Operationen ist eine bessere Integration mit dem HTTP-Protokoll möglich. So wird der für die Serialisierung/Deserialisierung von Konstrukten einer Hochsprache in ein XML-Format zu transportzwecken nötige Aufwand gespart. Allerdings lassen sich so mit vertretbarem Aufwand nur sehr einfache Web Services implementieren. Komplexere Web Services würden einen hohen Kommunikationsaufwand erfordern -- damit verbunden ein komplexe Implementierung. Diese Ausprägung ist nicht durch einen Standard definiert, was dazu führt, dass nicht kompltt klar ist, was einen RESTful Web Service ausmacht -- manchen Definitionen zufolge, ist ein RESTful Web Service kein Web Service! Somit ist diese Ausprägung für \decidr uninteressant.
+      Diese Ausprägung orientiert sich stark an HTTP. Deshalb wird die Schnittstelle dieser Sorte
+      Web Services auf wenige, von HTTP bereitgestellte, Operationen beschränkt (z.B. GET, PUT und
+      DELETE). Diese Web Services sind oft zustandsabhängig. Durch die Beschränkung der Operationen
+      ist eine bessere Integration mit dem HTTP-Protokoll möglich. So kann der für die
+      Serialisierung/Deserialisierung von Konstrukten einer Hochsprache in ein XML-Format zu
+      transportzwecken nötige Aufwand verringert werden. Allerdings lassen sich so mit vertretbarem
+      Aufwand nur sehr einfache Web Services implementieren. Komplexere Web Services würden einen
+      hohen Kommunikations- und Wartungsaufwand erfordern. Diese Ausprägung ist nicht
+      standardisiert, was dazu führt, dass nicht komplett klar ist, was einen RESTful Web Service
+      ausmacht! Somit ist diese Ausprägung für \decidr{} uninteressant.\footnote{Diese Darstellung
+      ist stark vereinfacht. Deshalb sind einige der Möglichkeiten von RESTful Web Services
+      unterschlagen worden. Da message-oriented Web Services für uns wesentlich interessanter sind,
+      ist diese grobe Darstellung jedoch ausreichend. Für Interessierte sei auf
+      \cite{paper_pautasso}, Abschnitt 3 verwiesen.}
+
+   \begin{center}--- --- --- !!!Trenner: ab hier ist Baustelle!!! --- --- ---\end{center}
 
     \paragraph{message-oriented Web Services:}
       Diese Ausprägung wird auch \germanquote{Big Web Services} genannt. Sie benutzt -- im Gegensatz zu RPC-basierten Web Services -- Nachrichten als Kommunikationseinheit. So entsteht eine loose Kopplung, da nur eine von der Implementierung unabhängige Schnittstelle veröffentlicht wird. Diese Schnittstelle ist meist in WSDL beschrieben.
-
-   \begin{center}--- --- --- !!!Trenner: wird demnächst überarbeitet!!! --- --- ---\end{center}
 
     %TODO: find out about WS-I, was sind zusätzliche Einschränkungen (Beispiele)
     Um die Interoperabilität von Web Services zu steigern, publiziert das WS-I\cite{wsi_hp} Profile. Profile bestehen aus bestimmten Spezifikationen (z.B. SOAP, WSDL) in spezifischen Versionen (z.B. SOAP 1.2, WSDL 2.0). Hinzu kommen noch zusätzliche Einschränkungen. Außderdem publiziert das WS-I Anwendungsfälle und Testwerkzeuge um beim Deployen profilkonformer Web Services zu helfen.
 
     Es gibt zusätzlich Standards, die die Fähigkeiten von Web Services erweitern. Diese Standards haben gewöhnlich einen Namen nach dem Schema \germanquote{WS-x} (z.B. WS-Security, WS-Transaction). %TODO elaborate
+
+   \begin{center}--- --- --- !!!Trenner: wird demnächst überarbeitet!!! --- --- ---\end{center}
 
   \label{soap}
   \subsection{SOAP}
@@ -467,10 +485,11 @@
 
 
   \newpage
-  \titlerunning{Zusammenfassung}
+  \titlerunning{Literatur}
   \addcontentsline{toc}{section}{Literatur}
-  \bibliography{literatur}
-  \bibliographystyle{splncs}
-
+  \begin{flushleft}
+    \bibliography{literatur}
+    \bibliographystyle{splncs}
+  \end{flushleft}
 
 \end{document}
