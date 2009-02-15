@@ -25,10 +25,16 @@
   pdfpagelayout=OneColumn]{hyperref}
 \usepackage{array}
 \usepackage{tabulary}
+\usepackage[refpages,german]{gloss}
 
 \newcommand{\germanquote}[1]{\glqq{}#1\grqq{}}
 \newcommand{\decidr}{DecidR}
 \newcommand{\anntabwidth}{\textwidth}
+
+\def\gls@section{%
+     \section*{\gls@title}%
+     \@mkboth{\MakeUppercase\gls@title}{\MakeUppercase\gls@title}%
+     \addcontentsline{toc}{section}{\gls@title}}
 
 \author{Reinhold Rumberger}
 \tocauthor{\ }
@@ -37,6 +43,7 @@
   \email{rumberrd@studi.informatik.uni-stuttgart.de}}
 \title{Seminar-Ausarbeitung: Web Services}
 \date{27.02.2009}
+\makegloss
 
 \begin{document}
 
@@ -164,14 +171,12 @@
 
    \begin{center}--- --- --- !!!Trenner: contents done, proof-read!!! --- --- ---\end{center}
 
+    Um die Interoperabilität von Web Services zu verbessern, publiziert das WS-I\cite{wsi_hp} sogenannte Profile. Profile bestehen aus bestimmten Spezifikationen (z.B. SOAP, WSDL) in spezifischen Versionen (z.B. SOAP 1.2, WSDL 2.0). Hinzu kommen noch zusätzliche Einschränkungen (z.B. \germanquote{der SOAP-Body darf nur genau einen Unterknoten haben}). Außerdem publiziert das WS-I Anwendungsfälle und Testwerkzeuge um beim Deployen profilkonformer Web Services zu helfen.\\
+    Da diese Profile die Heterogenität der eingesetzten Standards stark einschränken, erleichtert die Beschränkung auf ein Profil (z.B. das \germanquote{WS-I Basic Profile}) die Implementierung und das Deployment erheblich. Existierende Frameworks unterstützen diese Profile und können deshalb aufgrund der Einschränkungen detailliertere Annahmen machen, was den Einsatz von \gloss[nocite]{depl_desc}Deployment Descriptoren weitgehend überflüssig macht und den benötigten Abstraktionsgrad der Laufzeitumgebung erheblich verringert.
+
    \begin{center}--- --- --- !!!Trenner: ab hier ist Baustelle!!! --- --- ---\end{center}
 
-    %TODO: was sind zusätzliche Einschränkungen (Beispiele)
-    Um die Interoperabilität von Web Services zu steigern, publiziert das WS-I\cite{wsi_hp} sogenannte Profile. Profile bestehen aus bestimmten Spezifikationen (z.B. SOAP, WSDL) in spezifischen Versionen (z.B. SOAP 1.2, WSDL 2.0). Hinzu kommen noch zusätzliche Einschränkungen. Außderdem publiziert das WS-I Anwendungsfälle und Testwerkzeuge um beim Deployen profilkonformer Web Services zu helfen. Da diese Profile die Heterogenität der eingesetzten Standards stark einschränkt, erleichtert die Beschränkung auf ein Profil (z.B. das \germanquote{WS-I Basic Profile}) die Implementierung und das Deployment erheblich, da existierende Frameworks diese Profile unterstützen und deshalb aufgrund der Einschränkungen detailliertere Annahmen machen können, was den Einsatz von Deployment Descriptoren weitgehend überflüssig macht und den Abstraktionsgrad der Umgebung erheblich verringert.
-
-    Es gibt zusätzlich Standards, die die Fähigkeiten von Web Services erweitern. Diese Standards haben gewöhnlich einen Namen nach dem Schema \germanquote{WS-\texttt{x}} (z.B. WS-Security, WS-Transaction). %TODO elaborate
-
-%FIXME: add handlers
+    Es gibt zusätzlich Standards, die die Fähigkeiten von Web Services erweitern. Diese Standards haben gewöhnlich einen Namen nach dem Schema \germanquote{WS-\texttt{x}} (z.B. WS-Security, WS-Transaction). Diese Standards bauen auf den grundlegenden Standards (SOAP, WSDL, etc.) und aufeinander auf um zusätzliche Features wie End-to-End-Verschlüsselung oder Transaktionssicherheit zu implementieren.
 
    \begin{center}--- --- --- !!!Trenner: wird demnächst überarbeitet!!! --- --- ---\end{center}
 
@@ -294,6 +299,8 @@
   \titlerunning{Web Services - Java und Web Services}
   \label{wsj}
   \section{Java und Web Services}
+%FIXME: add handlers
+
 
   \label{jsr224}
   \subsection{JAX-WS 2.0 (JSR-224)}
@@ -487,15 +494,19 @@
   \label{summary}
   \titlerunning{Zusammenfassung}
   \section{Zusammenfassung}
-  In \decidr{} sollten wir folgende Spezifikationen in den angegebenen Versionen verwenden:
-  \begin{itemize}
-    \item JAX-WS 2.0
-    \item JAXB 2.0
-    \item SOAP 1.2
-    \item WS-Metadata 2.0
-    \item WSDL 1.1
-  \end{itemize}
+    In \decidr{} sollten wir folgende Spezifikationen in den angegebenen Versionen verwenden:
+    \begin{itemize}
+      \item JAX-WS 2.0
+      \item JAXB 2.0
+      \item SOAP 1.2
+      \item WS-Metadata 2.0
+      \item WSDL 1.1
+    \end{itemize}
 
+
+  \newpage
+  \titlerunning{Glossar}
+  \printgloss{glossary}
 
   \newpage
   \titlerunning{Literatur}
