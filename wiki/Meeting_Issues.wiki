@@ -26,7 +26,7 @@ Add your issues to be descussed in the next "Weekly Meeting":
 
 == WM 02/04/09 ==
 
-  # Info: Conflict Prevention Survey (TK)
+  # Info: Conflict Prevention Survey (TK,DH)
   # Technologies: Definiton of Responsibilities for Technologies/Techniques (TK)
   # Use Cases etc. (MA, JS)
  
@@ -37,3 +37,4 @@ Add your issues to be descussed in the next "Weekly Meeting":
 
 == WM 02/17/09 ==
   # Design: Preliminary Design Discussion (TK/MA/JS) 
+  # Specification: Finding dates for specification review (MF/DH)
