@@ -221,7 +221,7 @@
     Datenverarbeitung und -übertragung nehmen können. Da diese jedoch unter das Thema
     \germanquote{Erweiterbarkeit von SOAP} fallen, sprengen sie den Rahmen dieser Arbeit.
 
-    \begin{figure}
+    \begin{figure}[tbh]
       \centering
       \includegraphics[width=\textwidth]{../images/min_soap.png}
       \caption{Minimale SOAP-Nachricht}
@@ -269,35 +269,35 @@
     lassen sich Teile eines WSDL-Dokuments auslagern und wiederverwenden. Dafür eignen sich vor
     allem WSDL-Types und WSDL-Messages.
 
-    \begin{figure}
+    \begin{figure}[tbh]
       \centering
       \includegraphics[width=\textwidth]{../images/wsdl_types.png}
       \caption{WSDL-Types}
       \label{fig:wsdl_types}
     \end{figure}
 
-    \begin{figure}
+    \begin{figure}[tbh]
       \centering
       \includegraphics[width=\textwidth]{../images/wsdl_message.png}
       \caption{WSDL-Message-Elemente}
       \label{fig:wsdl_messages}
     \end{figure}
 
-    \begin{figure}
+    \begin{figure}[tbh]
       \centering
       \includegraphics[width=\textwidth]{../images/wsdl_portType.png}
       \caption{WSDL-portType-Element}
       \label{fig:wsdl_portType}
     \end{figure}
 
-    \begin{figure}
+    \begin{figure}[tbh]
       \centering
       \includegraphics[width=\textwidth]{../images/wsdl_binding.png}
       \caption{WSDL-Binding-Element}
       \label{fig:wsdl_binding}
     \end{figure}
 
-    \begin{figure}
+    \begin{figure}[tbh]
       \centering
       \includegraphics[width=\textwidth]{../images/wsdl_service.png}
       \caption{WSDL-Service-Element}
@@ -316,10 +316,6 @@
   \titlerunning{Web Services - Java und Web Services}
   \label{wsj}
   \section{Java und Web Services}
-   \begin{center}--- --- --- !!!Trenner: contents done, proof-read!!! --- --- ---\end{center}
-
-   \begin{center}--- --- --- !!!Trenner: ab hier ist Baustelle!!! --- --- ---\end{center}
-
     \gloss[nocite]{handlers}
     \gloss[nocite]{sei}
     Um in Web Services in Java zu implementieren braucht man vor allem drei Standards: JAX-WS 2.0 (JSR-224), WS-Metadata 2.0 (JSR-181) und JAXB 2.0 (JSR-222). Diese Standards sind in der Java Enterprise Edition 5 enthalten. Somit muss man in dieser Umgebung keine zusätzlichen Bibliotheken einbinden.
@@ -327,9 +323,9 @@
 
   \label{jsr224}
   \subsection{JAX-WS 2.0 (JSR-224)}
-    Bei JAX-WS\cite{jsr_224} (Java API for XML-Based Web Services) handelt es sich um den Nachfolger von JAX-RPC (JSR-101). JAX-RPC war für RPC-orientierte Web Services konzipiert.
+    Bei JAX-WS\cite{jsr_224} (Java API for XML-Based Web Services) handelt es sich um den Nachfolger von JAX-RPC (JSR-101). JAX-RPC war für RPC-orientierte Web Services konzipiert, JAX-WS für message-oriented Web Services.
 
-    JAX-WS definiert unter anderem Standard WSDL 1.1 $\Leftrightarrow$ Java Mappings, Standard SOAP- und HTTP-Bindings, ein Standard Handler-Framework und die Client-, Server und Core-APIs für JAX-WS-konforme Web Service-Im\-ple\-men\-tier\-ung\-en.
+    JAX-WS definiert unter anderem Standard WSDL 1.1 $\Leftrightarrow$ Java Mappings, Standard SOAP- und HTTP-Bindings, ein Standard Handler-Framework und vor allem die Client-, Server und Core-APIs für JAX-WS-konforme Web Service-Im\-ple\-men\-tier\-ung\-en. \vfill
 
     \subsubsection{@WebServiceProvider}\ \\
     \tymin=75pt
@@ -357,20 +353,26 @@
       Eine URL, die auf eine vordefinierte WSDL-Datei zeigt. Die URL relativ oder absolut sein. Falls Inkonsistenzen zwischen der Implementierung und dem WSDL-Dokument bestehen, wird zur Laufzeit darauf hingewiesen. &
       \germanquote{} \\
     \hline
-    \end{tabulary}
+    \end{tabulary} \vfill
     \tymin=10pt
-
-   \begin{center}--- --- --- !!!Trenner: wird demnächst überarbeitet!!! --- --- ---\end{center}
+    \begin{figure}[tbh]
+      \centering
+      \includegraphics[width=\textwidth]{../images/AtWebServiceProvider.png}
+      \caption{Beispiel: @WebServiceProvider}
+      \label{fig:wsp}
+    \end{figure}
 
   \label{jsr181}
   \subsection{WS-Metadata 2.0 (JSR-181)}
   \nocite{jsr_181}
-    % TODO: content
+    %TODO: content
+    WS-Metadata wurde entwickelt, um die Entwicklung von Web Services zu vereinfachen. Deshalb macht WS-Metadata bewusst Annahmen die die Implementierung einiger weniger, selten verwendeten Arten von Web Services verhindern.\footnote{Es ist beispielsweise möglich einen JAX-WS-konformen Web Service aus den Methoden mehrerer Java-Klassen aufzubauen. WS-Metadata nimmt jedoch an, dass jede Klasse genau einen Web Service implementiert.}
 
-    Es folgt eine Liste der wichtigsten Annotationen mit ihren wichtigsten Parametern und deren Standard-Werten. Die Beschreibungen sind gekürzt aus der JSR-\linebreak[0]181-\linebreak[0]Spezifikation\cite{jsr_181} übernommen, weshalb teilweise Informationen fehlen. Genauere Details sind in der JSR-\linebreak[0]181-\linebreak[0]Spezifikation\cite{jsr_181} zu finden.\\ \vfill
+    \paragraph{}
+    Es folgt eine Liste der wichtigsten Annotationen mit ihren wichtigsten Pa\-ra\-me\-tern und deren Stan\-dard-\linebreak[0]Wer\-ten. Die Beschreibungen sind gekürzt aus der JSR-\linebreak[0]181-\linebreak[0]Spe\-zi\-fi\-ka\-tion\cite{jsr_181} übernommen, weshalb teilweise Informationen fehlen. Genauere Details sind in der JSR-\linebreak[0]181-\linebreak[0]Spe\-zi\-fi\-ka\-tion\cite{jsr_181} zu finden.\\ \vfill
 
     \subsubsection{@WebService}\ \\
-      Markiert Klassen als Web Services oder Java Interfaces als Web Service Interfaces.\\
+      Markiert Klassen als Web Services oder Java Interfaces als Service Endpoint Interfaces.\\
     \begin{tabulary}{\anntabwidth}{|l|L|L|}
     \hline
     \textbf{Parameter} & \textbf{Zweck} & \textbf{Standard} \\
@@ -380,11 +382,11 @@
       Name der Klasse/\linebreak[0]des Interface \\
     \hline
       serviceName &
-      Wird als \texttt{name}-Attribut im \texttt{wsdl:service}-Element des generierten WSDL-\linebreak[0]Dokuments genutzt. Darf nicht in Endpoint Interfaces verwendet werden. &
+      Wird als \texttt{name}-Attribut im \texttt{wsdl:service}-Element des generierten WSDL-\linebreak[0]Dokuments genutzt. Darf nicht in SEIs verwendet werden. &
       Name der Klasse + \germanquote{Ser\-vice} \\
     \hline
       portName &
-      Wird als \texttt{name}-Attribut im \texttt{wsdl:port}-Element des generierten WSDL-\linebreak[0]Dokuments genutzt.\newline Darf nicht in Endpoint Interfaces verwendet werden. &
+      Wird als \texttt{name}-Attribut im \texttt{wsdl:port}-Element des generierten WSDL-\linebreak[0]Dokuments genutzt.\newline Darf nicht in SEIs verwendet werden. &
       \texttt{@WebService.name} + \germanquote{Port} \\
     \hline
       targetNamespace &
@@ -392,17 +394,23 @@
       Im\-ple\-men\-tier\-ungs\-ab\-häng\-ig, siehe JAX-WS\cite{jsr_224}, Abschnitt 3.2 \\
     \hline
       wsdlLocation &
-      Eine URL, die auf eine vordefinierte WSDL-Datei zeigt. Die URL relativ oder absolut sein. Falls Inkonsistenzen zwischen der Implementierung und dem WSDL-Dokument bestehen, wird zur Laufzeit darauf hingewiesen. &
+      Eine URL, die auf eine vordefinierte WSDL-Datei zeigt. Die URL kann relativ oder absolut sein. Falls Inkonsistenzen zwischen der Implementierung und dem WSDL-Dokument bestehen, wird zur Laufzeit darauf hingewiesen. &
       nichts \\
     \hline
       endpointInterface &
-      Gibt den Namen des Service Endpoint Interfaces an, das implementiert werden soll. \newline Darf nicht in Endpoint Interfaces verwendet werden. &
+      Gibt den Namen des SEIs an, das implementiert werden soll. Das zugehörige Java-Interface muss nicht vie \texttt{implements} als implementiert markiert werden. Es bietet sich jedoch an, da der Compiler so verifizieren kann, dass das SEI korrekt implementiert wurde.\newline Darf nicht in SEIs verwendet werden. &
       nichts\newline \newline Wird bei Bedarf im\-ple\-men\-tier\-ungs\-ab\-häng\-ig generiert, wenn es die Zielumgebung erfordert. \\
     \hline
     \end{tabulary} \vfill
+    \begin{figure}[tbh]
+      \centering
+      \includegraphics[width=\textwidth]{../images/AtWebService.png}
+      \caption{Beispiel: @WebService}
+      \label{fig:ws}
+    \end{figure} \vfill
 
     \subsubsection{@WebMethod}\ \\
-      Bestimmt ob und mit welchen Eigenschaften eine Methode veröffentlicht wird.\\
+      Bestimmt ob und unter welchem Namen eine Methode veröffentlicht wird.\footnote{In Axis2 1.4.1 muss \texttt{operationName} dem Namen der Annotierten Methode entsprechen, da sonst beim Aufruf eine \texttt{MedthodNotFoundException} geworfen wird.}\\
     \tymin=75pt
     \begin{tabulary}{\anntabwidth}{|l|L|L|}
     \hline
@@ -413,15 +421,26 @@
       Name der annotierten Methode. \\
     \hline
       exclude &
-      Dieser Parameter gibt an, dass die annotierte Methode \emph{nicht} veröffentlicht wird. \newline Wenn dieser Parameter auf \texttt{true} gesetzt wird, dürfen keine anderen Parameter gesetzt werden. &
+      Dieser Parameter gibt an, dass die annotierte Methode \emph{nicht} veröffentlicht wird. \newline Wenn dieser Parameter auf \texttt{true} gesetzt wird, darf \texttt{operationName} nicht gesetzt werden. &
       \texttt{false} \\
     \hline
-    \end{tabulary}
+    \end{tabulary} \vfill
     \tymin=10pt
+    \begin{figure}[tbh]
+      \centering
+      \includegraphics{../images/AtWebMethod.png}
+      \caption{Beispiel: @WebMethod}
+      \label{fig:wm}
+    \end{figure}
 
     \subsubsection{@Oneway}\ \\
-      Eine mit \texttt{@Oneway} annotierte \texttt{@WebMethod} hat keine Output-Message. Das bedeutet, dass der return-Typ \texttt{void} sein muss. Wenn eine mit \texttt{@Oneway} annotierte Methode einen Rückgabewert, definierte Exceptions oder OUT- bzw. INOUT-Parameter hat, muss spätestens zur Laufzeit ein Fehler gemeldet werden.
-
+      Eine mit \texttt{@Oneway} annotierte \texttt{@WebMethod} hat keine Output-Message. Das bedeutet, dass der return-Typ \texttt{void} sein muss. Wenn eine mit \texttt{@Oneway} annotierte Methode einen Rückgabewert, definierte Exceptions oder OUT- bzw. INOUT-Parameter hat, muss spätestens zur Laufzeit ein Fehler gemeldet werden. \vfill
+    \begin{figure}[tbh]
+      \centering
+      \includegraphics{../images/AtOneway.png}
+      \caption{Beispiel: @Oneway}
+      \label{fig:oneway}
+    \end{figure}
 
     \subsubsection{@WebParam}\ \\
       Bestimmt die Eigenschaften, mit denen ein Parameter veröffentlicht wird.\\
@@ -449,7 +468,13 @@
       Wenn der Parameter im Nachrichtenkopf abgelegt ist, \texttt{true}, andernfalls \texttt{false}. &
       \texttt{false} \\
     \hline
-    \end{tabulary}
+    \end{tabulary} \vfill
+    \begin{figure}[tbh]
+      \centering
+      \includegraphics[width=\textwidth]{../images/AtWebParam.png}
+      \caption{Beispiel: @WebParam}
+      \label{fig:wp}
+    \end{figure} \vfill
 
     \subsubsection{@WebResult}\ \\
       Bestimmt die Eigenschaften, mit denen der Return-Wert einer Methode veröffentlicht wird. Diese Annotation wird auf Methoden angewendet.\\
@@ -473,7 +498,13 @@
       Wenn die Ausgabe im Nachrichtenkopf abgelegt ist, \texttt{true}, andernfalls \texttt{false}. &
       \texttt{false} \\
     \hline
-    \end{tabulary}
+    \end{tabulary} \vfill
+    \begin{figure}[tbh]
+      \centering
+      \includegraphics{../images/AtWebResult.png}
+      \caption{Beispiel: @WebResult}
+      \label{fig:wr}
+    \end{figure} \vfill
 
     \subsubsection{@HandlerChain}\ \\
     %TODO: research handler chain & fill in
@@ -486,7 +517,13 @@
       × &
       nichts \\
     \hline
-    \end{tabulary}
+    \end{tabulary} \vfill
+    \begin{figure}[tbh]
+      \centering
+      \includegraphics[width=\textwidth]{../images/AtHandlerChain.png}
+      \caption{Beispiel: @HandlerChain}
+      \label{fig:hc}
+    \end{figure} \vfill
 
     \subsubsection{@SOAPBinding}\ \\
       Spezifiziert, dass der Web Service auf das SOAP-Protokoll gemappt wird. Wird als \texttt{@SOAPBinding.Style} \germanquote{DOCUMENT} verwendet, dürfen Klassen und Methoden annotiert werden, andernfalls nur Klassen. Methoden, die nicht annotiert sind, verwenden die für die Klasse definierten Werte. \\
@@ -507,9 +544,14 @@
       Gibt an, ob die Parameter den gesamten Inhalt der Nachricht wiedergeben (\germanquote{BARE}), oder ob sie in ein Element eingepackt werden (\germanquote{WRAPPED}). &
       WRAPPED \\
     \hline
-    \end{tabulary}
+    \end{tabulary} \vfill
     \tymin=10pt
-
+    \begin{figure}[tbh]
+      \centering
+      \includegraphics[width=\textwidth]{../images/AtSOAPBinding.png}
+      \caption{Beispiel: @SOAPBinding}
+      \label{fig:soapb}
+    \end{figure} \vfill
 
 
   \label{jsr222}
