@@ -20,7 +20,8 @@ import de.decidr.seminar.tenantmgr.TenantManagerFactory;
  * 
  */
 // @XmlType(name = "TenantService", namespace = "http://decidr.de/seminarWS")
-@WebService(name = "TenantServicePT", serviceName = "TenantService", targetNamespace = "http://decidr.de/seminarWS")
+@WebService(name = "TenantServicePT", serviceName = "TenantService",
+		targetNamespace = "http://decidr.de/seminarWS")
 public class TenantManagerService {
 
 	@XmlTransient
