@@ -169,36 +169,60 @@
       Da nur eine von der Implementierung unabhängige Schnittstelle veröffentlicht wird, ist eine
       loose Kopplung gegeben. Diese Schnittstelle ist meist in WSDL beschrieben.
 
-   \begin{center}--- --- --- !!!Trenner: contents done, proof-read!!! --- --- ---\end{center}
+    \paragraph{}
+    Um die Interoperabilität von Web Services zu verbessern, publiziert das WS-I\cite{wsi_hp}
+    sogenannte Profile. Profile bestehen aus definierten Spezifikationen (z.B. SOAP, WSDL) und den
+    zugelassenen Versionen (z.B. SOAP 1.2, WSDL 2.0). Hinzu kommen noch zusätzliche Einschränkungen
+    (z.B. \germanquote{der SOAP-Body darf nur genau einen Unterknoten haben}), die Unklarheiten der
+    Spezifikationen ausräumen. Außerdem publiziert das WS-I Anwendungsfälle und Testwerkzeuge um
+    das Deployen profilkonformer Web Services zu erleichtern.\\
+    Da diese Profile die Zahl der einsetzbaren Standards stark einschränken, erleichtert die
+    Beschränkung auf ein Profil (z.B. das \germanquote{WS-I Basic Profile}) die Implementierung und
+    das Deployment erheblich. Existierende Frameworks und IDEs kennen und unterstützen diese
+    Profile und können aufgrund der Einschränkungen detailliertere Annahmen machen, was den Einsatz
+    von \gloss[nocite]{depl_desc}Deployment Descriptoren weitgehend überflüssig macht und den
+    benötigten Abstraktionsgrad der Laufzeitumgebung erheblich verringert.
 
-    Um die Interoperabilität von Web Services zu verbessern, publiziert das WS-I\cite{wsi_hp} sogenannte Profile. Profile bestehen aus bestimmten Spezifikationen (z.B. SOAP, WSDL) in spezifischen Versionen (z.B. SOAP 1.2, WSDL 2.0). Hinzu kommen noch zusätzliche Einschränkungen (z.B. \germanquote{der SOAP-Body darf nur genau einen Unterknoten haben}). Außerdem publiziert das WS-I Anwendungsfälle und Testwerkzeuge um beim Deployen profilkonformer Web Services zu helfen.\\
-    Da diese Profile die Heterogenität der eingesetzten Standards stark einschränken, erleichtert die Beschränkung auf ein Profil (z.B. das \germanquote{WS-I Basic Profile}) die Implementierung und das Deployment erheblich. Existierende Frameworks unterstützen diese Profile und können deshalb aufgrund der Einschränkungen detailliertere Annahmen machen, was den Einsatz von \gloss[nocite]{depl_desc}Deployment Descriptoren weitgehend überflüssig macht und den benötigten Abstraktionsgrad der Laufzeitumgebung erheblich verringert.
-
-   \begin{center}--- --- --- !!!Trenner: ab hier ist Baustelle!!! --- --- ---\end{center}
-
-    Es gibt zusätzlich Standards, die die Fähigkeiten von Web Services erweitern. Diese Standards haben gewöhnlich einen Namen nach dem Schema \germanquote{WS-\texttt{x}} (z.B. WS-Security, WS-Transaction). Diese Standards bauen auf den grundlegenden Standards (SOAP, WSDL, etc.) und aufeinander auf um zusätzliche Features wie End-to-End-Verschlüsselung oder Transaktionssicherheit zu implementieren.
-
-   \begin{center}--- --- --- !!!Trenner: wird demnächst überarbeitet!!! --- --- ---\end{center}
+    Es gibt desweiteren Standards, die die Fähigkeiten von Web Services erweitern. Diese Standards
+    haben meist einen Namen nach dem Schema \germanquote{WS-\texttt{x}} (z.B. WS-Security,
+    WS-Transaction). Sie bauen auf den Basis-Standards (SOAP, WSDL, etc.) und aufeinander auf um
+    zusätzliche Features wie End-to-End-Verschlüsselung oder Transaktionssicherheit zu
+    implementieren. Dieser modulare Aufbau minimiert den Aufwand der nötig ist, um einen Web
+    Service mit zusätzlichen Features auszurüsten oder einen Standard gegen einen anderen, besser
+    geeigneten auszutauschen.
 
   \label{soap}
   \subsection{SOAP}
+  \nocite{wfm_site}
   \nocite{wk_soap}
-    %TODO: short intro, more detailed description
-    %TODO: not transport protocol, actions
-    SOAP ist ein Nachrichtenprotokoll, das den Austausch strukturierter Daten zwischen vernetzten Web Services erleichtern soll. Es benutzt XML als Nachrichtenformat und stützt sich auf andere Protokolle der Anwendungsschicht (z.B. HTTP, SMTP, FTP) für dem Datentransport. SOAP stellt die Basis der Kommunikation zwischen Web Services dar.
+   \begin{center}--- --- --- !!!Trenner: contents done, proof-read!!! --- --- ---\end{center}
 
-    Die Wahl von XML als Nachrichtenformat hat sowohl Vor- als auch Nachteile.
-    Positiv sind die leichtere Lesbarkeit für Menschen, die bessere Interoperabilität und die vereinfachte Fehlersuche. Allerdings ist es etwas unhandlich und verlangsamt die Verarbeitungsgeschwindigkeit durch seine Verbosität.
+    SOAP ist ein Nachrichtenprotokoll, das den Austausch strukturierter Daten zwischen vernetzten Web Services erleichtern soll. Das wird dadurch erreicht, dass das Nachrichtenformat standardisiert ist und auf XML aufbaut. SOAP kann selbst nicht zum Übertragen von Daten verwendet werden und stützt sich deshalb auf andere Protokolle der Anwendungsschicht (z.B. HTTP, SMTP, FTP) um die Daten zu übertragen. Bei der Wahl des Transportprotokolls ist Vorsicht geboten; einige Protokolle werden typischerweise von Firewalls gefiltert und sollten deshalb gemieden werden. SOAP stellt die Basis der Kommunikation zwischen Web Services dar.
 
-    Bei der Wahl des Transportprotokolls ist Vorsicht geboten; einige Protokolle werden typischerweise von Firewalls gefiltert und sollten deshalb gemieden werden.
+    Die Wahl von XML als Nachrichtenformat hat sowohl Vor- als auch Nachteile. Positiv sind die leichtere Lesbarkeit für Menschen, die bessere Interoperabilität und die vereinfachte Fehlersuche. Außerdem sind die Nachrichten validierbar, wodurch ausgechlossen werden kann, dass sie für einen anderen Web Service gedacht sind. Durch XML ist SOAP leicht erweiterbar. Allerdings ist XML etwas unhandlich und verlangsamt die Verarbeitungsgeschwindigkeit durch seine Verbosität.
+
+    Eine minimale SOAP-Nachricht (\ref{fig:min_soap}) besteht aus einem \texttt{SOAP-Envelope}, der einen \texttt{SOAP-Header} und einen \texttt{SOAP-Body} enthält. Während der \texttt{SOAP-Body} die tatsächliche Nutzlast der Nachricht enthält, stehen im \texttt{SOAP-Header} Metadaten, die für die Datenverarbeitung und -übertragung wichtige Parameter liefern. Zusätzlich unterstützt SOAP sogenannte \germanquote{features}, die Einfluss auf die Datenverarbeitung und -übertragung nehmen können. Da diese jedoch unter \germanquote{Erweiterbarkeit von SOAP} fallen, sprengt dieses Thema den Rahmen dieser Arbeit.
+
+    \begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{../images/min_soap.png}
+      % min_soap.png: 527x139 pixel, 72dpi, 18.59x4.90 cm, bb=0 0 527 139
+      \caption{Minimale SOAP-Nachricht}
+      \label{fig:min_soap}
+    \end{figure}
+
 
   \subsection{WSDL}
   \label{wsdl}
   \nocite{wk_wsdl}
-    Dieser Abschnitt setzt Wissen der Vorlesung \germanquote{Workflow Management}\cite{wfm_site} voraus. Konkret handelt es sich bei diesem Wissen um die im Foliensatz \germanquote{Workflow, Objects and Web Services}\cite{wfm_ch7} verwendeten Begriffe (Port, Binding, etc.). Die Folie 29 -- Terminology -- ist sehr hilfreich.
+   \begin{center}--- --- --- !!!Trenner: ab hier ist Baustelle!!! --- --- ---\end{center}
 
-    WSDL (Web Services Description Language) ist eine XML-basierte Sprache zur Beschreibung der öffentlichen Schnittstelle von Web Services.
+    An dieser Stelle sei auf den Foliensatz \germanquote{Workflow, Objects and Web Ser\-vi\-ces}\cite{wfm_ch7} der Vorlesung \germanquote{Workflow Management}\cite{wfm_site} verwiesen. Dort befindet sich wichtige Terminologie, die an dieser Stelle vorausgesetzt wird.
+
+    WSDL (Web Services Description Language) ist eine XML-basierte Sprache zur Beschreibung der öffentlichen Schnittstelle von Web Services und wie man auf sie zugreift.
     %TODO: describe parts of WSDL
+
+   \begin{center}--- --- --- !!!Trenner: wird demnächst überarbeitet!!! --- --- ---\end{center}
 
 %     \newpage
 %     \label{ex_wsdl}
