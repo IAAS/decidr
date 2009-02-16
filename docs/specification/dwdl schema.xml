@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="http://decidr.org/schema/workflow" 
+           xmlns="http://decidr.org/schema/workflow"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+
+
+   <xsd:annotation>
+      <xsd:documentation>
+         Schema for Workflow
+         Last modified date: 30th January, 2009
+
+         2009-01-30: MA: Creation date
+      </xsd:documentation>
+   </xsd:annotation>
+
+      
+   <xsd:element name="workflow" type="tWorkflow">
+      <xsd:annotation>
+         <xsd:documentation>
+            This is the root element for a workflow.
+         </xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   
+   <xsd:complexType name="tWorkfow">
+      <xsd:sequence>
+         <xsd:element ref="documentation" minOccurs="0" />
+         <xsd:element ref="variables" minOccurs="0" />
+         <xsd:element ref="faultHandler" minOccurs="0" />
+         <xsd:element ref="nodes" minOccurs="0" />
+         <xsd:element ref="arcs" minOccurs="0" />
+      </xsd:sequence>
+      <xsd:attribute name="name" type="xsd:NCName" use="required" />
+      <xsd:attribute name="targetNamespace" type="xsd:anyURI" use="required" />
+   </xsd:complexType>
+
+
+   <xsd:element name="documentation" type="tDocumentation" />
+   
+   <xsd:complexType name="tDocumentation" mixed="true">
+      <xsd:sequence>
+         <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+      </xsd:sequence>
+      <xsd:attribute name="source" type="xsd:anyURI" />
+      <xsd:attribute ref="xml:lang" />
+   </xsd:complexType>
+
+ 
+   <xsd:element name="variables" type="tVariables" />
+
+   <xsd:complexType name="tVariables">
+      <xsd:sequence>
+         <xsd:element ref="variable" minOccurs="1" maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:element name="variable" type="tVariable" />
+  
+   <xsd:complexType name="tVariable">
+      <xsd:attribute name="name" type="WorkflowVariableName" use="required" />
+      <xsd:attribute name="type" type="xsd:QName" use="optional" />
+      <xsd:attribute name="element" type="xsd:QName" use="optional" />
+   </xsd:complexType>
+
+   <xsd:simpleType name="WorkflowVariableName">
+      <xsd:restriction base="xsd:NCName">
+         <xsd:pattern value="[^\.]+" />
+      </xsd:restriction>
+   </xsd:simpleType>
+
+   
+   <xsd:element name="faultHandler" type="tFaultHandler"/>
+   
+   <xsd:complexType name="tFaultHandler">
+      <xsd:sequence>
+         <xsd:element name="message" type="xsd:string" minOccurs="1" maxOccurs="1" />
+         <xsd:element ref="notify" minOccurs="1" />
+      </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:element name="notify" type="tNotify">
+   
+   <xsd:complexType name="tNotify">
+      <xsd:sequence>
+         <xsd:element name="name" type="xsd:string" />
+         <xsd:element name="email" type="xsd:string" />
+      <xsd:sequence>
+   </xsd:complexType>
+
+
+   <xsd:element name="nodes" type="tNodes" />
+
+   <xsd:complexType name="tNodes">
+      <xsd:sequence>
+         <xsd:group ref="nodeTypes" minOccurs="1" maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:group name="nodeTypes">
+      <xsd:choice>
+         <xsd:element ref="assignNode"/>
+         <xsd:element ref="exitNode"/>
+         <xsd:element ref="flowNode"/>
+         <xsd:element ref="forEachNode"/>
+         <xsd:element ref="ifNode"/>
+         <xsd:element ref="invokeNode"/>
+         <xsd:element ref="receiveNode"/>
+         <xsd:element ref="replyNode"/>
+      </xsd:choice>
+   </xsd:group>
+   
+   <xsd:element name="simpleNode" type="tSimpleNode"/>
+   
+   <xsd:complexType name="tSimpleNode">
+      <xsd:sequence>
+         <xsd:element ref="ports" minOccurs="0" />
+      </xsd:sequence>
+      <xsd:attribute name="id"  type="xsd:ID" use="required" />
+      <xsd:attribute name="name" type="xsd:NCName" use="optional" />
+   </xsd:complexType>
+
+
+   <xsd:element name="ports" type="tPorts" />
+
+   <xsd:complexType name="tPorts">
+      <xsd:sequence>
+         <xsd:group ref="portTypes" minOccurs="1" maxOccurs="unbounded" />
+      </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:group name="portTypes">
+      <xsd:choice>
+         <xsd:element ref="inputPort" />
+         <xsd:element ref="outputPort" />
+      </xsd:choice>
+   </xsd:group>
+
+
+   <xsd:element name="simpePort" type="tsimplePort">
+
+   <xsd:complexType name="tsimplePort">
+      <xsd:sequence>
+         <xsd:element ref="arcs" minOccurs="1" />
+      </xsd:sequence>
+      <xsd:attribute name="name" type="xsd:NCName" use="optional" />
+   </xsd:complexType>
+   
+
+   <xsd:element name="arcs" type="tArcs" />
+
+   <xsd:complexType name="tArcs">
+      <xsd:sequence>
+         <xsd:element name="arc" type="tArc" />
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:complexType name="tArc"> 
+      <xsd:attribute name="id" type="xsd:ID" use="required"/> 
+      <xsd:attribute name="source" type="xsd:IDREF" use="required" /> 
+      <xsd:attribute name="target" type="xsd:IDREF" use="required" />
+   </xsd:complexType> 
+
+</xsd:schema>
