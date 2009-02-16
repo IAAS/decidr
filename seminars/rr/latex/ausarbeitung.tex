@@ -87,12 +87,12 @@
   \section{SOA}
   \nocite{wk_soa}
     Eine \germanquote{SOA} (Service Oriented Architecture) ist eine Software-Architektur, bei der
-    loose gekoppelte Dienste miteinander kommunizieren. Die SOA definiert die verfügbaren
+    lose gekoppelte Dienste miteinander kommunizieren. Die SOA definiert die verfügbaren
     Kommunikationsmethoden und die Methoden zum Auffinden von Diensten. So können verschiedene
     Dienste miteinander verbunden werden, um einen bestimmten Geschäftsprozess zu implementieren.
     Mehrere Dienste werden kombiniert um eine Applikation zu realisieren.
 
-    Die loose Kopplung der Dienste macht die durch sie implementierten Applikationen sehr flexibel.
+    Die lose Kopplung der Dienste macht die durch sie implementierten Applikationen sehr flexibel.
     So kann relativ schnell auf veränderte Umweltbedingungen reagiert werden. Wenn beispielsweise
     Dienste zufällig aus einer Menge geeigneter Dienste ausgewählt werden, kann man einer
     gesteigerten Nachfrage durch Hinzufügen weiterer Dienste begegnen. Dabei kann es sich sowohl um
@@ -116,7 +116,7 @@
       \item[interoperable]
         Web Services sind so ausgelegt, dass sie unabhängig von ihrer Implementierung und der
         Infrastruktur zusammenarbeiten können. Dadurch sind Web Services prinzipiell
-        plattformunabhängig, da sie jederzeit auf einer anderen Platform implementiert werden
+        plattformunabhängig, da sie jederzeit auf einer anderen Plattform implementiert werden
         können.
       \item[machine-to-machine interaction]
         Web Services sind nicht designed, um mit Menschen zu interagieren. Jegliche Kommunikation
@@ -167,7 +167,7 @@
       verschiedenartiger Infrastruktur trennen. Diese Unterschiede der Infrastruktur können sowohl
       in der verwendeten Hardware als auch im verwendeten Protokollstack liegen.\\
       Da nur eine von der Implementierung unabhängige Schnittstelle veröffentlicht wird, ist eine
-      loose Kopplung gegeben. Diese Schnittstelle ist meist in WSDL beschrieben.
+      lose Kopplung gegeben. Diese Schnittstelle ist meist in WSDL beschrieben.
 
     \paragraph{}
     Um die Interoperabilität von Web Services zu verbessern, publiziert das WS-I\cite{wsi_hp}
@@ -180,7 +180,7 @@
     Beschränkung auf ein Profil (z.B. das \germanquote{WS-I Basic Profile}) die Implementierung und
     das Deployment erheblich. Existierende Frameworks und IDEs kennen und unterstützen diese
     Profile und können aufgrund der Einschränkungen detailliertere Annahmen machen, was den Einsatz
-    von \gloss[nocite]{depl_desc}Deployment Descriptoren weitgehend überflüssig macht und den
+    von \gloss[nocite]{depl_desc}Deployment Deskriptoren weitgehend überflüssig macht und den
     benötigten Abstraktionsgrad der Laufzeitumgebung erheblich verringert.
 
     Es gibt desweiteren Standards, die die Fähigkeiten von Web Services erweitern. Diese Standards
@@ -309,7 +309,7 @@
     UDDI\cite{wk_uddi} (Universal Description Discovery and Integration) ist ein Dienst zum
     Auffinden von Web Services in heterogenen Netzwerken. Er hält die WSDL-Beschreibungen und
     einige Metadaten registrierter Web Services bereit. Wegen verschiedener Probleme dieses
-    Standards (die den Rahmen dieser Arbeit sprengen) hat er mittlerweile kaum noch relevanz in der
+    Standards (die den Rahmen dieser Arbeit sprengen) hat er mittlerweile kaum noch Relevanz in der
     Industrie.
 
 
@@ -324,8 +324,9 @@
     Bibliotheken einbinden. Eine solche JEE-Umgebung stellt Methoden zum veröffentlichen von Web
     Services bereit. Deshalb enthält ein Web Service typischerweise Anwendungslogik, aber keinen
     Code, der direkt mit dem Netzwerk kommuniziert. Das Übersetzen von Java-Objekten in
-    XML-Konstrukte (unmarshalling) und vice versa (marshalling) übernimmt die Laufzeitumgebung,
-    sofern man dies nicht explizit selbst übernimmt.
+    XML-Konstrukte (unmarshalling\gloss[nocite]{unmarsh}) und vice versa
+    (marshalling\gloss[nocite]{marsh}) übernimmt die Laufzeitumgebung, sofern man dies nicht
+    explizit selbst übernimmt.
 
 
   \label{jsr224}
@@ -333,9 +334,9 @@
     Bei JAX-WS\cite{jsr_224} (Java API for XML-Based Web Services) handelt es sich um den
     Nachfolger von JAX-RPC (JSR-101). JAX-RPC war für RPC-orientierte Web Services konzipiert,
     JAX-WS für message-oriented Web Services. JAX-WS enthält alles, was man zum schreiben eines
-    einfachen Web Service braucht -- aber keine Methoden um Java-Klassen auf XML-Schema zu mappen.
-    Dafür ist JAXB vorgesehen. Außerdem kann man mit JAX-WS kaum Metadaten fürs Deployment in die
-    Java-Klassen einbringen. Hier ist die Verwendung von WS-Metadata vorgesehen.
+    einfachen Web Service braucht -- aber keine Methoden um arbiträre Java-Klassen auf XML-Schema
+    zu Mappen. Dafür ist JAXB vorgesehen. Außerdem kann man mit JAX-WS kaum Metadaten fürs
+    Deployment in die Java-Klassen einbringen. Hier ist die Verwendung von WS-Metadata vorgesehen.
 
     JAX-WS definiert unter anderem Standard WSDL 1.1 $\Leftrightarrow$ Java Mappings, Standard
     SOAP- und HTTP-Bindings, ein Standard Handler-Framework und vor allem die Client-, Server und
@@ -644,7 +645,11 @@
       \texttt{@SOAPBinding.Style} \germanquote{DOCUMENT} verwendet, dürfen Klassen und Methoden
       annotiert werden, andernfalls nur Klassen. Methoden, die nicht annotiert sind, verwenden die
       für die Klasse definierten Werte.
-      %TODO: more detail: doc lit wrapped
+
+      Die Kommunikation zwischen Web Services wird maßgeblich von dieser Annotation geprägt.
+      Deshalb sollte man sich detailliert Gedanken machen, welche Werte man hier verwendet. Für
+      \decidr{} dürfte die Standardkombination (DOCUMENT, LITERAL, WRAPPED) ausreichen. Für eine
+      tiefergehende Diskussion zu diesem Thema siehe \cite{which_wsdl}.
 
       \noindent{}Anwendbar auf:
       \begin{itemize}
@@ -667,8 +672,8 @@
       LITERAL \\
     \hline
       parameterStyle &
-      Gibt an, ob die Parameter den gesamten Inhalt der Nachricht wiedergeben (\germanquote{BARE}),
-      oder ob sie in ein Element eingepackt werden (\germanquote{WRAPPED}). &
+      Gibt an, ob der SOAP-Body nur die Parameter enthält (\germanquote{BARE}), oder ob sie in ein
+      Element eingepackt werden, das nach der Methode benannt ist (\germanquote{WRAPPED}). &
       WRAPPED \\
     \hline
     \end{tabulary} \vfill
@@ -683,19 +688,15 @@
 
   \label{jsr222}
   \subsection{JAXB 2.0 (JSR-222)}
-  JAXB\cite{jsr_222} definiert Methoden zum Binding von Java-Klassen auf generierte XML-Schemas.%TODO: content
+    JAXB\cite{jsr_222} definiert Methoden zum Binding von Java-Klassen auf XML-Schemas und
+    umgekehrt. Es erlaubt die Nutzung von Klassen ohne sinnvolles Standard-Binding durch einen Web
+    Service. Das Unmarshalling erzeugt XML-Konstrukte, die validiert werden können (z.B. mit JAXP
+    1.3).
 
   \label{summary}
   \titlerunning{Zusammenfassung}
   \section{Zusammenfassung}
-    In \decidr{} sollten wir folgende Spezifikationen in den angegebenen Versionen verwenden:%TODO: content
-    \begin{itemize}
-      \item JAX-WS 2.0
-      \item JAXB 2.0
-      \item SOAP 1.2
-      \item WS-Metadata 2.0
-      \item WSDL 1.1
-    \end{itemize}
+    Web Services sind ein großes, an Bedeutung gewinnendes Thema, das im Rahmen dieser Arbeit nur oberflächlich behandelt werden kann. Sie werden von großen Unternehmen wie IBM, Microsoft und Google eingesetzt, was sie sehr zukunftssicher macht. Zudem eignen sie sich hervorragend um eine SOA zu implementieren.
 
 
   \newpage
