@@ -195,18 +195,34 @@
   \subsection{SOAP}
   \nocite{wfm_site}
   \nocite{wk_soap}
-   \begin{center}--- --- --- !!!Trenner: contents done, proof-read!!! --- --- ---\end{center}
+    SOAP ist ein Nachrichtenprotokoll, das den Austausch strukturierter Daten zwischen vernetzten
+    Web Services erleichtert. Das wird dadurch erreicht, dass das Nachrichtenformat standardisiert
+    ist und auf XML aufbaut. SOAP selbst definiert keine Methoden zum Übertragen von Daten;
+    stattdessen stützt es sich auf andere Protokolle der Anwendungsschicht (z.B. HTTP, SMTP, FTP)
+    für die konkrete Datenübermittlung. Bei der Wahl des Transportprotokolls ist Vorsicht geboten;
+    einige Protokolle werden standardmäßig von Firewalls gefiltert und sollten deshalb gemieden
+    werden. SOAP stellt die Basis der Kommunikation zwischen Web Services dar.
 
-    SOAP ist ein Nachrichtenprotokoll, das den Austausch strukturierter Daten zwischen vernetzten Web Services erleichtern soll. Das wird dadurch erreicht, dass das Nachrichtenformat standardisiert ist und auf XML aufbaut. SOAP kann selbst nicht zum Übertragen von Daten verwendet werden und stützt sich deshalb auf andere Protokolle der Anwendungsschicht (z.B. HTTP, SMTP, FTP) um die Daten zu übertragen. Bei der Wahl des Transportprotokolls ist Vorsicht geboten; einige Protokolle werden typischerweise von Firewalls gefiltert und sollten deshalb gemieden werden. SOAP stellt die Basis der Kommunikation zwischen Web Services dar.
+    Die Wahl von XML als Nachrichtenformat hat sowohl Vor- als auch Nachteile. Positiv sind die
+    leichtere Lesbarkeit für Menschen, die bessere Interoperabilität und die vereinfachte
+    Fehlersuche. Außerdem sind die Nachrichten validierbar, wodurch Fehler durch ein nicht
+    unterstütztes Datenformat ausgeschlossen werden können und bei der Implementierung fehlerhafte
+    Datentypen nicht berücksichtigt werden müssen. Dank der Verwendung von XML ist SOAP leicht
+    erweiterbar. Allerdings ist XML etwas unhandlich und verlangsamt die
+    Verarbeitungsgeschwindigkeit durch seine Verbosität. Dieses Problem kann jedoch mit Binary XML
+    und optimierten XML-Parsern minimiert werden.
 
-    Die Wahl von XML als Nachrichtenformat hat sowohl Vor- als auch Nachteile. Positiv sind die leichtere Lesbarkeit für Menschen, die bessere Interoperabilität und die vereinfachte Fehlersuche. Außerdem sind die Nachrichten validierbar, wodurch ausgechlossen werden kann, dass sie für einen anderen Web Service gedacht sind. Durch XML ist SOAP leicht erweiterbar. Allerdings ist XML etwas unhandlich und verlangsamt die Verarbeitungsgeschwindigkeit durch seine Verbosität.
-
-    Eine minimale SOAP-Nachricht (\ref{fig:min_soap}) besteht aus einem \texttt{SOAP-Envelope}, der einen \texttt{SOAP-Header} und einen \texttt{SOAP-Body} enthält. Während der \texttt{SOAP-Body} die tatsächliche Nutzlast der Nachricht enthält, stehen im \texttt{SOAP-Header} Metadaten, die für die Datenverarbeitung und -übertragung wichtige Parameter liefern. Zusätzlich unterstützt SOAP sogenannte \germanquote{features}, die Einfluss auf die Datenverarbeitung und -übertragung nehmen können. Da diese jedoch unter \germanquote{Erweiterbarkeit von SOAP} fallen, sprengt dieses Thema den Rahmen dieser Arbeit.
+    Eine minimale SOAP-Nachricht (\ref{fig:min_soap}) besteht aus einem \texttt{SOAP-Envelope}, der
+    einen \texttt{SOAP-Header} und einen \texttt{SOAP-Body} enthält. Während der \texttt{SOAP-Body}
+    die tatsächliche Nutzlast der Nachricht enthält, stehen im \texttt{SOAP-Header} Metadaten, die
+    für die Datenverarbeitung und -übertragung wichtige Parameter enthalten. Zusätzlich unterstützt
+    SOAP sogenannte \germanquote{Features}, die Einfluss auf die Datenverarbeitung und -übertragung
+    nehmen können. Da diese jedoch unter das Thema \germanquote{Erweiterbarkeit von SOAP} fallen,
+    sprengen sie den Rahmen dieser Arbeit.
 
     \begin{figure}
       \centering
       \includegraphics[width=\textwidth]{../images/min_soap.png}
-      % min_soap.png: 527x139 pixel, 72dpi, 18.59x4.90 cm, bb=0 0 527 139
       \caption{Minimale SOAP-Nachricht}
       \label{fig:min_soap}
     \end{figure}
@@ -215,114 +231,77 @@
   \subsection{WSDL}
   \label{wsdl}
   \nocite{wk_wsdl}
-   \begin{center}--- --- --- !!!Trenner: ab hier ist Baustelle!!! --- --- ---\end{center}
+  \nocite{tut_wsdl}
+    An dieser Stelle sei auf den Foliensatz \germanquote{Workflow, Objects and Web
+    Ser\-vi\-ces}\cite{wfm_ch7} der Vorlesung \germanquote{Workflow Management}\cite{wfm_site}
+    verwiesen. Dort befindet sich wichtige Terminologie, die an dieser Stelle vorausgesetzt wird.
 
-    An dieser Stelle sei auf den Foliensatz \germanquote{Workflow, Objects and Web Ser\-vi\-ces}\cite{wfm_ch7} der Vorlesung \germanquote{Workflow Management}\cite{wfm_site} verwiesen. Dort befindet sich wichtige Terminologie, die an dieser Stelle vorausgesetzt wird.
+   \begin{center}--- --- --- !!!Trenner: contents done, proof-read!!! --- --- ---\end{center}
 
-    WSDL (Web Services Description Language) ist eine XML-basierte Sprache zur Beschreibung der öffentlichen Schnittstelle von Web Services und wie man auf sie zugreift.
-    %TODO: describe parts of WSDL
+    WSDL (Web Services Description Language) ist eine XML-basierte Sprache zur Beschreibung der öffentlichen Schnittstelle von Web Services und wie man auf sie zugreift. Ein WSDL-Dokument ist typischerweise durch XML-Schema validierbar. Die wichtigsten Elemente eines WSDL-Dokuments sind:
+    \begin{description}
+      \item[types]
+        Definiert die Datentypen, die in den Messages verwendet werden (siehe \ref{fig:wsdl_types}). Diese Definition ist abstrakt und unabhängig von der Implementierungssprache des Web Service.
+      \item[messages]
+        Beschreibt die Nachrichten, die ein Web Service akzeptiert und versendet (siehe \ref{fig:wsdl_messages}). Entspricht den Parametern und dem Rückgabewert in Java.
+      \item[portType]
+        Beschreibt die verfügbaren Operationen und ihre Messages (siehe \ref{fig:wsdl_portType}). Eine WSDL-Operation entspricht einer Funktion in klassischen Programmiersprachen. Web Services mit dem gleichen portType implementieren per Definition die gleiche Funktion.
+      \item[binding]
+        Definiert das Nachrichtenformat und ein Mapping auf ein Protokoll, das zur Datenübertragung verwendet wird (siehe \ref{fig:wsdl_binding}). Standard-Bindings sind für SOAP über HTTP definiert. Prinzipiell können aber zusätzliche Bindings selbst definiert werden oder durch die Laufzeitumgebung angeboten werden.
+      \item[service]
+        Definiert einen Zugangspunkt für jedes Binding (siehe \ref{fig:wsdl_service}). Dieses Element wird meist zur Laufzeit generiert und gibt Clients an, wo sie auf den Web Service zugreifen können.
+     \end{description}
 
-   \begin{center}--- --- --- !!!Trenner: wird demnächst überarbeitet!!! --- --- ---\end{center}
+    \begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{../images/wsdl_types.png}
+      \caption{WSDL-Types}
+      \label{fig:wsdl_types}
+    \end{figure}
 
-%     \newpage
-%     \label{ex_wsdl}
-%     \begin{verbatim}
-% <?xml version="1.0" encoding="UTF-8"?>
-% <wsdl:definitions
-%  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-%  xmlns:ns="http://decidr.org/mailws"
-%  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
-%  xmlns:xs="http://www.w3.org/2001/XMLSchema"
-%  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
-%  targetNamespace="http://decidr.org/mailws">
-%   <wsdl:documentation>
-%     An e-mail sending web service for the Decidr
-%     prototype
-%   </wsdl:documentation>
-%
-%   <!-- Abstract types -->
-%   <wsdl:types>
-%     <xs:schema attributeFormDefault="qualified"
-%      elementFormDefault="qualified"
-%      targetNamespace="http://decidr.org/mailws">
-%       <xs:element name="sendEmail">
-%         <xs:complexType>
-%           <xs:sequence>
-%             <xs:element minOccurs="0" maxOccurs="1" name="subject"
-%              nillable="true" type="xs:string" />
-%             <xs:element minOccurs="1" maxOccurs="1" name="message"
-%              type="xs:string" />
-%             <xs:element minOccurs="1" maxOccurs="1"
-%              name="recipient" type="xs:string" />
-%             <xs:element minOccurs="0" maxOccurs="1" name="sender"
-%              nillable="true" type="xs:string" />
-%           </xs:sequence>
-%         </xs:complexType>
-%       </xs:element>
-%       <xs:element name="sendEmailResponse">
-%         <xs:complexType>
-%           <xs:sequence>
-%             <xs:element minOccurs="1" maxOccurs="1" name="return"
-%              type="xs:boolean" />
-%           </xs:sequence>
-%         </xs:complexType>
-%       </xs:element>
-%     </xs:schema>
-%   </wsdl:types>
-%
-%   <wsdl:message name="sendEmailRequest">
-%     <wsdl:part name="parameters" element="ns:sendEmail" />
-%   </wsdl:message>
-%   <wsdl:message name="sendEmailResponse">
-%     <wsdl:part name="parameters" element="ns:sendEmailResponse" />
-%   </wsdl:message>
-%
-%   <wsdl:portType name="eMailWSPortType">
-%     <wsdl:operation name="sendEmail">
-%       <wsdl:input message="ns:sendEmailRequest"
-%        wsaw:Action="urn:sendEmail" />
-%       <wsdl:output message="ns:sendEmailResponse"
-%        wsaw:Action="urn:sendEmailResponse" />
-%     </wsdl:operation>
-%   </wsdl:portType>
-%
-%   <!-- Concrete Bindings -->
-%   <wsdl:binding name="eMailWSSoap12Binding"
-%    type="ns:eMailWSPortType">
-%     <soap:binding
-%      transport="http://schemas.xmlsoap.org/soap/http"
-%      style="document" />
-%     <wsdl:operation name="sendEmail">
-%       <soap:operation soapAction="urn:sendEmail"
-%        style="document" />
-%       <wsdl:input>
-%         <soap:body use="literal" />
-%       </wsdl:input>
-%       <wsdl:output>
-%         <soap:body use="literal" />
-%       </wsdl:output>
-%     </wsdl:operation>
-%   </wsdl:binding>
-%
-%   <!-- TODO: Adapt the following for deployment -->
-%   <wsdl:service name="eMailWS">
-%     <wsdl:port name="eMailWSHttpSoap12Endpoint"
-%      binding="ns:eMailWSSoap12Binding">
-%       <soap:address
-%        location="http://localhost/eMailWS.Soap12Endpoint/" />
-%     </wsdl:port>
-%   </wsdl:service>
-% </wsdl:definitions>
-%     \end{verbatim}
+    \begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{../images/wsdl_message.png}
+      \caption{WSDL-Message-Elemente}
+      \label{fig:wsdl_messages}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{../images/wsdl_portType.png}
+      \caption{WSDL-portType-Element}
+      \label{fig:wsdl_portType}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{../images/wsdl_binding.png}
+      \caption{WSDL-Binding-Element}
+      \label{fig:wsdl_binding}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{../images/wsdl_service.png}
+      \caption{WSDL-Service-Element}
+      \label{fig:wsdl_service}
+    \end{figure}
+
 
   \label{uddi}
   \subsection{UDDI}
-    UDDI\cite{wk_uddi} (Universal Description Discovery and Integration) ist ein Dienst zum Auffinden von Web Services in heterogenen Netzwerken.
+    UDDI\cite{wk_uddi} (Universal Description Discovery and Integration) ist ein Dienst zum
+    Auffinden von Web Services in heterogenen Netzwerken. Er hält die WSDL-Beschreibungen und
+    einige Metadaten registrierter Web Services bereit. Wegen verschiedener Probleme dieses
+    Standards (die den Rahmen dieser Arbeit sprengen) hat er mittlerweile kaum noch relevanz in der
+    Industrie.
 
 
   \titlerunning{Web Services - Java und Web Services}
   \label{wsj}
   \section{Java und Web Services}
+   \begin{center}--- --- --- !!!Trenner: ab hier ist Baustelle!!! --- --- ---\end{center}
+
 %FIXME: add handlers
 
 
@@ -360,6 +339,8 @@
     \hline
     \end{tabulary}
     \tymin=10pt
+
+   \begin{center}--- --- --- !!!Trenner: wird demnächst überarbeitet!!! --- --- ---\end{center}
 
   \label{jsr181}
   \subsection{WS-Metadata 2.0 (JSR-181)}
