@@ -212,13 +212,14 @@
     Verarbeitungsgeschwindigkeit durch seine Verbosität. Dieses Problem kann jedoch mit Binary XML
     und optimierten XML-Parsern minimiert werden.
 
-    Eine minimale SOAP-Nachricht (\ref{fig:min_soap}) besteht aus einem \texttt{SOAP-Envelope}, der
-    einen \texttt{SOAP-Header} und einen \texttt{SOAP-Body} enthält. Während der \texttt{SOAP-Body}
-    die tatsächliche Nutzlast der Nachricht enthält, stehen im \texttt{SOAP-Header} Metadaten, die
-    für die Datenverarbeitung und -übertragung wichtige Parameter enthalten. Zusätzlich unterstützt
-    SOAP sogenannte \germanquote{Features}, die Einfluss auf die Datenverarbeitung und -übertragung
-    nehmen können. Da diese jedoch unter das Thema \germanquote{Erweiterbarkeit von SOAP} fallen,
-    sprengen sie den Rahmen dieser Arbeit.
+    Eine minimale SOAP-Nachricht (siehe Abbildung \ref{fig:min_soap}) besteht aus einem
+    \texttt{SOAP-\linebreak[0]Envelope}, der einen \texttt{SOAP-\linebreak[0]Header} und einen
+    \texttt{SOAP-\linebreak[0]Body} enthält. Während der \texttt{SOAP-\linebreak[0]Body} die
+    tatsächliche Nutzlast der Nachricht enthält, stehen im \texttt{SOAP-\linebreak[0]Header}
+    Metadaten, die für die Datenverarbeitung und -übertragung wichtige Parameter enthalten.
+    Zusätzlich unterstützt SOAP sogenannte \germanquote{Features}, die Einfluss auf die
+    Datenverarbeitung und -übertragung nehmen können. Da diese jedoch unter das Thema
+    \germanquote{Erweiterbarkeit von SOAP} fallen, sprengen sie den Rahmen dieser Arbeit.
 
     \begin{figure}
       \centering
@@ -236,21 +237,37 @@
     Ser\-vi\-ces}\cite{wfm_ch7} der Vorlesung \germanquote{Workflow Management}\cite{wfm_site}
     verwiesen. Dort befindet sich wichtige Terminologie, die an dieser Stelle vorausgesetzt wird.
 
-   \begin{center}--- --- --- !!!Trenner: contents done, proof-read!!! --- --- ---\end{center}
-
-    WSDL (Web Services Description Language) ist eine XML-basierte Sprache zur Beschreibung der öffentlichen Schnittstelle von Web Services und wie man auf sie zugreift. Ein WSDL-Dokument ist typischerweise durch XML-Schema validierbar. Die wichtigsten Elemente eines WSDL-Dokuments sind:
+    WSDL (Web Services Description Language) ist eine XML-basierte Sprache zur Beschreibung der
+    öffentlichen Schnittstellen von Web Services und ihrer Zugriffsmethoden. Ein WSDL-Dokument ist
+    typischerweise mit XML-Schema validierbar. Die wichtigsten Elemente eines WSDL-Dokuments sind:
     \begin{description}
       \item[types]
-        Definiert die Datentypen, die in den Messages verwendet werden (siehe \ref{fig:wsdl_types}). Diese Definition ist abstrakt und unabhängig von der Implementierungssprache des Web Service.
+        Definiert die Datentypen, die in den Messages verwendet werden (siehe Abbildung
+        \ref{fig:wsdl_types}). Diese Definition ist abstrakt und unabhängig von der
+        Implementierungssprache des Web Service.
       \item[messages]
-        Beschreibt die Nachrichten, die ein Web Service akzeptiert und versendet (siehe \ref{fig:wsdl_messages}). Entspricht den Parametern und dem Rückgabewert in Java.
+        Beschreibt die Nachrichten, die ein Web Service akzeptiert und versendet (siehe Abbildung
+        \ref{fig:wsdl_messages}). Entspricht den Parametern und dem Rückgabewert in Java.
       \item[portType]
-        Beschreibt die verfügbaren Operationen und ihre Messages (siehe \ref{fig:wsdl_portType}). Eine WSDL-Operation entspricht einer Funktion in klassischen Programmiersprachen. Web Services mit dem gleichen portType implementieren per Definition die gleiche Funktion.
+        Beschreibt die verfügbaren Operationen und ihre Messages (siehe Abbildung
+        \ref{fig:wsdl_portType}). Eine WSDL-Operation entspricht einer Funktion in klassischen
+        Programmiersprachen. Web Services mit dem gleichen portType implementieren per Definition
+        die gleiche Funktion.
       \item[binding]
-        Definiert das Nachrichtenformat und ein Mapping auf ein Protokoll, das zur Datenübertragung verwendet wird (siehe \ref{fig:wsdl_binding}). Standard-Bindings sind für SOAP über HTTP definiert. Prinzipiell können aber zusätzliche Bindings selbst definiert werden oder durch die Laufzeitumgebung angeboten werden.
+        Definiert das Nachrichtenformat und ein Mapping auf ein Protokoll, das zur Datenübertragung
+        verwendet wird (siehe Abbildung \ref{fig:wsdl_binding}). Standard-Bindings sind für SOAP
+        über HTTP definiert. Prinzipiell können aber zusätzliche Bindings selbst definiert werden
+        oder durch die Laufzeitumgebung bereitgestellt werden.
       \item[service]
-        Definiert einen Zugangspunkt für jedes Binding (siehe \ref{fig:wsdl_service}). Dieses Element wird meist zur Laufzeit generiert und gibt Clients an, wo sie auf den Web Service zugreifen können.
+        Definiert einen Zugangspunkt für jedes Binding (siehe Abbildung \ref{fig:wsdl_service}).
+        Diese Zugangspunkte werden auch \germanquote{Endpoints} genannt. Dieses Element wird meist
+        zur Laufzeit generiert und gibt Clients an, wo sie auf den Web Service zugreifen können.
      \end{description}
+
+    Zusätzlich gibt es noch das \texttt{documentation}-Element, das -- ähnlich wie Javadoc für Java
+    -- Dokumentation für WSDL-Elemente enthält. Mit dem \texttt{import}-Element aus XML-Schema
+    lassen sich Teile eines WSDL-Dokuments auslagern und wiederverwenden. Dafür eignen sich vor
+    allem WSDL-Types und WSDL-Messages.
 
     \begin{figure}
       \centering
@@ -287,7 +304,6 @@
       \label{fig:wsdl_service}
     \end{figure}
 
-
   \label{uddi}
   \subsection{UDDI}
     UDDI\cite{wk_uddi} (Universal Description Discovery and Integration) ist ein Dienst zum
@@ -300,9 +316,13 @@
   \titlerunning{Web Services - Java und Web Services}
   \label{wsj}
   \section{Java und Web Services}
+   \begin{center}--- --- --- !!!Trenner: contents done, proof-read!!! --- --- ---\end{center}
+
    \begin{center}--- --- --- !!!Trenner: ab hier ist Baustelle!!! --- --- ---\end{center}
 
-%FIXME: add handlers
+    \gloss[nocite]{handlers}
+    \gloss[nocite]{sei}
+    Um in Web Services in Java zu implementieren braucht man vor allem drei Standards: JAX-WS 2.0 (JSR-224), WS-Metadata 2.0 (JSR-181) und JAXB 2.0 (JSR-222). Diese Standards sind in der Java Enterprise Edition 5 enthalten. Somit muss man in dieser Umgebung keine zusätzlichen Bibliotheken einbinden.
 
 
   \label{jsr224}
