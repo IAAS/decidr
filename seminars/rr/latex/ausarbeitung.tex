@@ -221,7 +221,7 @@
     Datenverarbeitung und -übertragung nehmen können. Da diese jedoch unter das Thema
     \germanquote{Erweiterbarkeit von SOAP} fallen, sprengen sie den Rahmen dieser Arbeit.
 
-    \begin{figure}[tbh]
+    \begin{figure}[ht!]
       \centering
       \includegraphics[width=\textwidth]{../images/min_soap.png}
       \caption{Minimale SOAP-Nachricht}
@@ -269,39 +269,39 @@
     lassen sich Teile eines WSDL-Dokuments auslagern und wiederverwenden. Dafür eignen sich vor
     allem WSDL-Types und WSDL-Messages.
 
-    \begin{figure}[tbh]
+    \begin{figure}[ht!]
       \centering
       \includegraphics[width=\textwidth]{../images/wsdl_types.png}
       \caption{WSDL-Types}
       \label{fig:wsdl_types}
     \end{figure}
 
-    \begin{figure}[tbh]
-      \centering
-      \includegraphics[width=\textwidth]{../images/wsdl_message.png}
-      \caption{WSDL-Message-Elemente}
-      \label{fig:wsdl_messages}
-    \end{figure}
-
-    \begin{figure}[tbh]
+    \begin{figure}[ht!]
       \centering
       \includegraphics[width=\textwidth]{../images/wsdl_portType.png}
       \caption{WSDL-portType-Element}
       \label{fig:wsdl_portType}
     \end{figure}
 
-    \begin{figure}[tbh]
+    \begin{figure}[ht!]
+      \centering
+      \includegraphics[width=\textwidth]{../images/wsdl_service.png}
+      \caption{WSDL-Service-Element}
+      \label{fig:wsdl_service}
+    \end{figure}
+
+    \begin{figure}[ht!]
       \centering
       \includegraphics[width=\textwidth]{../images/wsdl_binding.png}
       \caption{WSDL-Binding-Element}
       \label{fig:wsdl_binding}
     \end{figure}
 
-    \begin{figure}[tbh]
+    \begin{figure}[ht!]
       \centering
-      \includegraphics[width=\textwidth]{../images/wsdl_service.png}
-      \caption{WSDL-Service-Element}
-      \label{fig:wsdl_service}
+      \includegraphics[width=\textwidth]{../images/wsdl_message.png}
+      \caption{WSDL-Message-Elemente}
+      \label{fig:wsdl_messages}
     \end{figure}
 
   \label{uddi}
@@ -384,7 +384,7 @@
     \hline
     \end{tabulary} \vfill
     \tymin=10pt
-    \begin{figure}[tbh]
+    \begin{figure}[ht!]
       \centering
       \includegraphics[width=0.9\textwidth]{../images/AtWebServiceProvider.png}
       \caption{Beispiel: @WebServiceProvider}
@@ -414,7 +414,7 @@
       lassen.
 
     \subsubsection*{Start with WSDL}
-      Hier wird zuerst aus einem vorher erstellten WSDL-Dokument ein Service Endpoint Interface
+      Hier wird zuerst aus einem vorher erstellten WSDL-Do\-ku\-ment ein Service Endpoint Interface
       generiert, das dann implementiert wird. Bei der Generierung des SEIs können zusätzlich
       Vorlagen für den Web Service generiert werden, die der Programmierer dann mit der
       Anwendungslogik füllt.
@@ -480,7 +480,7 @@
       wenn es die Zielumgebung erfordert. \\
     \hline
     \end{tabulary} \vfill
-    \begin{figure}[tbh]
+    \begin{figure}[ht!]
       \centering
       \includegraphics[width=\textwidth]{../images/AtWebService.png}
       \caption{Beispiel: @WebService}
@@ -514,7 +514,7 @@
     \hline
     \end{tabulary} \vfill
     \tymin=10pt
-    \begin{figure}[tbh]
+    \begin{figure}[ht!]
       \centering
       \includegraphics[width=0.5\textwidth]{../images/AtWebMethod.png}
       \caption{Beispiel: @WebMethod}
@@ -531,7 +531,7 @@
       \begin{itemize}
        \item Methoden\vfill
       \end{itemize}\vfill
-    \begin{figure}[tbh]
+    \begin{figure}[ht!]
       \centering
       \includegraphics[width=0.5\textwidth]{../images/AtOneway.png}
       \caption{Beispiel: @Oneway}
@@ -572,7 +572,7 @@
       \texttt{false} \\
     \hline
     \end{tabulary} \vfill
-    \begin{figure}[tbh]
+    \begin{figure}[ht!]
       \centering
       \includegraphics[width=0.8\textwidth]{../images/AtWebParam.png}
       \caption{Beispiel: @WebParam}
@@ -608,7 +608,7 @@
       \texttt{false} \\
     \hline
     \end{tabulary} \vfill
-    \begin{figure}[tbh]
+    \begin{figure}[ht!]
       \centering
       \includegraphics[width=0.5\textwidth]{../images/AtWebResult.png}
       \caption{Beispiel: @WebResult}
@@ -624,6 +624,9 @@
        \item Methoden
        \item Felder\vfill
       \end{itemize}
+    \tymin=75pt
+    \tymax=220pt
+    \begin{center}
     \begin{tabulary}{\anntabwidth}{|l|L|L|}
     \hline
     \textbf{Parameter} & \textbf{Zweck} & \textbf{Standard} \\
@@ -632,8 +635,11 @@
       Referenziert eine Datei, die eine HandlerChain definiert. &
       nichts \\
     \hline
-    \end{tabulary} \vfill
-    \begin{figure}[tbh]
+    \end{tabulary}
+    \end{center} \vfill
+    \tymin=10pt
+    \tymax=2\textwidth
+    \begin{figure}[ht!]
       \centering
       \includegraphics[width=\textwidth]{../images/AtHandlerChain.png}
       \caption{Beispiel: @HandlerChain}
@@ -678,7 +684,7 @@
     \hline
     \end{tabulary} \vfill
     \tymin=10pt
-    \begin{figure}[tbh]
+    \begin{figure}[ht!]
       \centering
       \includegraphics[width=\textwidth]{../images/AtSOAPBinding.png}
       \caption{Beispiel: @SOAPBinding}
@@ -693,10 +699,18 @@
     Service. Das Unmarshalling erzeugt XML-Konstrukte, die validiert werden können (z.B. mit JAXP
     1.3).
 
+    Auf der Java-Seite arbeitet JAXB -- ähnlich wie WS-Metadata -- mit Annotationen. Für die
+    wichtigsten Annotationen sei auf \cite{ws_crash}, Folie 68 verwiesen.
+
+    Da \decidr{} voraussichtlich vor allem Datentypen verwenden wird, die bereits ein brauchbares
+    Standard-Binding aufweisen, wird JAXB in diesem Projekt eine untergeordnete Rolle spielen.
+
   \label{summary}
   \titlerunning{Zusammenfassung}
   \section{Zusammenfassung}
     Web Services sind ein großes, an Bedeutung gewinnendes Thema, das im Rahmen dieser Arbeit nur oberflächlich behandelt werden kann. Sie werden von großen Unternehmen wie IBM, Microsoft und Google eingesetzt, was sie sehr zukunftssicher macht. Zudem eignen sie sich hervorragend um eine SOA zu implementieren.
+
+    Die für das\decidr{}-Team wichtigste Spezifikation ist WS-Metadata 2.0 (JSR-181)\cite{jsr_181}. Sie definiert und erläutert Annotationen, die jeder in \decidr{} verwendete Web Service benötigt. Da diese Spezifikation die seltene Eigenschaft hat, leicht lesbar zu sein, empfiehlt es sich, einen Blick auf sie zu werfen.
 
 
   \newpage
