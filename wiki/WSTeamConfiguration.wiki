@@ -1,5 +1,5 @@
 #summary Configuration used by the Web Services team
-#labels webservices,configuration,unfinished,draft
+#labels webservices,configuration,unfinished
 
 = Software & Versions =
 
@@ -13,7 +13,7 @@
 || Microsoft Word || 2003 ||
 || Subversion || 1.5.1 ||
 || Skype || Linux: 2.0; Windows: 4.0; OS X: 2.7 ||
-|| [TODO: online collaboration software] || XXX ||
+|| Adobe ConnectNow || _(whatever adobe offers)_ ||
 || MySQL || 5.1.30 ||
 || Eclipse IDE for Java EE Developers || 3.4.1 (Ganymede) ||
 || SoapUI || 2.5 ||
