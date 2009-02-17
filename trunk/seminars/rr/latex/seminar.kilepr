@@ -17,7 +17,7 @@ QuickBuild=PDFLaTeX+ViewPDF
 
 [item:../images/min_soap.png]
 archive=true
-column=3056341392
+column=0
 encoding=
 highlight=
 line=0
@@ -26,10 +26,10 @@ order=-1
 
 [item:ausarbeitung.tex]
 archive=true
-column=0
+column=83
 encoding=UTF-8
 highlight=LaTeX
-line=429
+line=458
 open=true
 order=0
 
