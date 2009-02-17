@@ -16,6 +16,7 @@
 \usepackage[
   pdftex,
   colorlinks=true,
+  citecolor=red,
   urlcolor=blue,
   linkcolor=black,
   pdfpagemode=UseNone,
@@ -119,7 +120,7 @@
         plattformunabhängig, da sie jederzeit auf einer anderen Plattform implementiert werden
         können.
       \item[machine-to-machine interaction]
-        Web Services sind nicht konzipiert, um mit Menschen zu interagieren. Jegliche Kommunikation
+        Web Services sind nicht konzipiert, mit Menschen zu interagieren. Jegliche Kommunikation
         über das Netzwerk findet ausschließlich zwischen Web Services statt. Dadurch ist ein aus
         Web Services bestehendes Softwaresystem prinzipiell vollständig automatisiert. Es ist
         selbstverständlich auch möglich, dass ein Web Service Aufgaben an einen Menschen
@@ -149,7 +150,7 @@
       einfache Web Services implementieren. Komplexere Web Services würden einen hohen
       Kommunikations- und Wartungsaufwand erfordern.\\
       Diese Ausprägung ist nicht standardisiert, was dazu führt, dass nicht ganz klar ist, was
-      einen RESTful Web Service ausmacht. Somit ist diese Ausprägung für \decidr{}
+      einen RESTful Web Service ausmacht. Aus diesen Gründen ist diese Ausprägung für \decidr{}
       uninteressant.\footnote{Diese Darstellung ist stark vereinfacht. Deshalb sind einige der
       Möglichkeiten der RESTful Web Services unterschlagen worden. Da message-oriented Web Services
       für uns wesentlich interessanter sind, ist diese grobe Darstellung jedoch ausreichend. Für
@@ -170,12 +171,13 @@
       lose Kopplung gegeben. Diese Schnittstelle ist meist in WSDL beschrieben.
 
     \paragraph{}
-    Um die Interoperabilität von Web Services zu verbessern, publiziert das WS-I\cite{wsi_hp}
-    sogenannte Profile. Profile bestehen aus definierten Spezifikationen (z.B. SOAP, WSDL) und den
-    zugelassenen Versionen (z.B. SOAP 1.2, WSDL 2.0). Hinzu kommen noch zusätzliche Einschränkungen
-    (z.B. \germanquote{der SOAP-Body darf nur genau einen Unterknoten haben}), die Unklarheiten der
-    Spezifikationen ausräumen. Außerdem publiziert das WS-I Anwendungsfälle und Testwerkzeuge um
-    das Deployen profilkonformer Web Services zu erleichtern.\\
+    Um die Interoperabilität von Web Services zu verbessern, publiziert das WS-I (Web Services
+    Interoperability Organzation, \cite{wsi_hp}) sogenannte Profile. Profile bestehen aus
+    definierten Spezifikationen (z.B. SOAP, WSDL) und zugelassenen Versionen (z.B. SOAP 1.2, WSDL
+    2.0). Hinzu kommen noch zusätzliche Einschränkungen (z.B. \germanquote{der SOAP-Body darf nur
+    genau einen Unterknoten haben}), die Unklarheiten der Spezifikationen ausräumen. Außerdem
+    publiziert das WS-I Anwendungsfälle und Testwerkzeuge um das Deployen profilkonformer Web
+    Services zu erleichtern.\\
     Da diese Profile die Zahl der einsetzbaren Standards stark einschränken, erleichtert die
     Beschränkung auf ein Profil (z.B. das \germanquote{WS-I Basic Profile}) die Implementierung und
     das Deployment erheblich. Existierende Frameworks und IDEs kennen und unterstützen diese
@@ -187,7 +189,7 @@
     haben meist einen Namen nach dem Schema \germanquote{WS-\texttt{x}} (z.B. WS-Security,
     WS-Transaction). Sie bauen auf den Basis-Standards (SOAP, WSDL, etc.) und aufeinander auf um
     zusätzliche Features wie End-to-End-Verschlüsselung oder Transaktionssicherheit zu
-    implementieren. Dieser modulare Aufbau minimiert den Aufwand, der nötig ist, um einen Web
+    implementieren. Dieser modulare Aufbau minimiert den Aufwand der nötig ist, um einen Web
     Service mit zusätzlichen Features auszurüsten oder einen Standard gegen einen anderen, besser
     geeigneten auszutauschen.
 
@@ -224,7 +226,7 @@
     \begin{figure}[ht!]
       \centering
       \includegraphics[width=\textwidth]{../images/min_soap.png}
-      \caption{Minimale SOAP-Nachricht}
+      \caption{Minimale SOAP-Nachricht\cite{wkd_soap}}
       \label{fig:min_soap}
     \end{figure}
 
@@ -235,7 +237,7 @@
   \nocite{tut_wsdl}
     An dieser Stelle sei auf den Foliensatz \germanquote{Workflow, Objects and Web
     Ser\-vi\-ces}\cite{wfm_ch7} der Vorlesung \germanquote{Workflow Management}\cite{wfm_site}
-    verwiesen. Dort befindet sich wichtige Terminologie, die an dieser Stelle vorausgesetzt wird.
+    verwiesen. Dort befindet sich wichtige Terminologie, die hier vorausgesetzt wird.
 
     WSDL (Web Services Description Language) ist eine XML-basierte Sprache zur Beschreibung der
     öffentlichen Schnittstellen von Web Services und ihrer Zugriffsmethoden. Ein WSDL-Dokument ist
