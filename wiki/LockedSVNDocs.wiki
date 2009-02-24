@@ -10,7 +10,7 @@ Since the `svn lock` feature is disabled in google code, we need to maintain a _
 
 || *_File_* || *_Locked By_* ||
 || /trunk/docs/requirements/Analysefragen Web services.doc || (unlocked) ||
-|| /trunk/docs/specification/use_cases.doc || (unlocked) || 
+|| https://decidr.googlecode.com/svn/trunk/docs/specification/Software Requirements Specification.doc || DH ||
 <wiki:comment>
 || [FILE] || [INITIALS] ||
 </wiki:comment>
