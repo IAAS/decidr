@@ -6,7 +6,7 @@
 All explanations about the organization and responsibilities in DecidR. This wiki article should clarify ~~who's to blame~~ the roles in the team and facilitate the collaboration in team.
 
 
-== All phases of the project ==
+== For all phases of the project ==
 || *Role* || *Person in Charge/Guarantor* ||
 || *_Project Management_*|| *TK* || 
 || *_Chief Architect_*|| *MF* || 
