@@ -10,7 +10,7 @@ All explanations about the organization and responsibilities in DecidR. This wik
 || *Role* || *Person in Charge/Guarantor* ||
 || *_Project Management_*|| *TK* || 
 || *_Chief Architect_*|| *MF* || 
-|| *_Quality Assurance_*|| *??* ||
+|| *_Quality Assurance_*|| *RR* ||
 || *_Configuration Management_*|| *AT* || 
 || *_Protokolls&Calender_*|| *DH* || 
  
