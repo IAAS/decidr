@@ -9,8 +9,8 @@ Since the `svn lock` feature is disabled in google code, we need to maintain a _
 = Locked Files =
 
 || *_File_* || *_Locked By_* ||
-|| /trunk/docs/requirements/Analysefragen Web services.doc || (unlocked) ||
-|| https://decidr.googlecode.com/svn/trunk/docs/specification/Software Requirements Specification.doc || DH ||
+|| /trunk/docs/requirements/Analysefragen Web services.doc || JE ||
+|| /trunk/docs/specification/Software Requirements Specification.doc || DH ||
 || /trunk/docs/specification/WS Email Specification.doc || RR ||
 || /trunk/docs/specification/WS Human Task Specification.doc || JE ||
 || /trunk/docs/specification/Data Storage WS Specification.doc || AT ||
