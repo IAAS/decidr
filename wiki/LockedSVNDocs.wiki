@@ -13,6 +13,7 @@ Since the `svn lock` feature is disabled in google code, we need to maintain a _
 || https://decidr.googlecode.com/svn/trunk/docs/specification/Software Requirements Specification.doc || DH ||
 || /trunk/docs/specification/WS Email Specification.doc || RR ||
 || /trunk/docs/specification/WS Human Task Specification.doc || JE ||
+|| /trunk/docs/specification/Data Storage WS Specification.doc || AT ||
 <wiki:comment>
 || [FILE] || [INITIALS] ||
 </wiki:comment>
