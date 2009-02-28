@@ -13,7 +13,7 @@ Since the `svn lock` feature is disabled in google code, we need to maintain a _
 || /trunk/docs/specification/Software Requirements Specification.doc || DH ||
 || /trunk/docs/specification/WS Email Specification.doc || _(unlocked)_ ||
 || /trunk/docs/specification/WS Human Task Specification.doc || JE ||
-|| /trunk/docs/specification/Id Creator WS Specification.doc.doc || _(unlocked)_ ||
+|| /trunk/docs/specification/WS ID Creator Specification.doc || RR ||
 <wiki:comment>
 || [FILE] || [INITIALS] ||
 </wiki:comment>
