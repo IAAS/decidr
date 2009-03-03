@@ -38,3 +38,7 @@ Add your issues to be descussed in the next "Weekly Meeting":
 == WM 02/17/09 ==
   # Design: Preliminary Design Discussion (TK/MA/JS) 
   # Specification: Finding dates for specification review (MF/DH)
+
+== WM 03/20/09 ==
+  # Design: is the JPA a troublemaker? (DH)
+  # Project Schedule: cost estimate update using the specification (DH)
