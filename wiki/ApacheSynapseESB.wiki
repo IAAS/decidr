@@ -12,7 +12,7 @@ The purpose of this wiki page is to collect useful information about the Apache 
  * You have a basic understanding of the ESB concept and web services.
  * You have a basic understanding of the Apache Synapse configuration language.
 
-= Deployment in the Amazon EC2 =
+= Deployment on the Amazon EC2 =
 
 _TODO_
 
