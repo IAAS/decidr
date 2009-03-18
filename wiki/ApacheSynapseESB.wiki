@@ -1,4 +1,4 @@
-#summary A collection of interesting facts about the Enterprise Service Bus "Apache Synapse" and its usage in DecidR.
+#summary A collection of problems and solutions related to the Enterprise Service Bus "Apache Synapse" and its usage in DecidR.
 #labels synapse,esb,Phase-Deploy
 
 <wiki:toc max_depth="1" />
