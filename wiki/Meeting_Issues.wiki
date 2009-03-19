@@ -8,41 +8,39 @@
 Add your issues to be descussed in the next "Weekly Meeting":
 
 
-== WM 01/14/09 ==
-  # Timetable for Seminars (TK) <br>
-   (due to the fact that some persons don't read or ignore their mails).<br>
-   (also talk about distribution: currently there are too many seminars on one day (RR))
-  # "Weekly Survey"-Document explanation & discussion (TK)
-  # SVN commenting rules: redundancy (DH)
+== WM 03/20/09 ==
+  # Design: is the JPA a troublemaker? (DH)
+  # Project Schedule: cost estimate update using the specification (DH)
+  # Wiki: needs to be structured: implement a hierarchical structure (how can this be done using google?) (RR)
+  # Spec review: Ralph reviewed version 1.0 instead of 1.1 (DH)
+  # WS Specification: There are several open issues to discuss with the Workflow/UI-Team (JE)
 
-== WM 01/21/09 ==
+== WM 02/17/09 ==
+  # Design: Preliminary Design Discussion (TK/MA/JS) 
+  # Specification: Finding dates for specification review (MF/DH)
 
-  # Info: Prototype finished (JE)
-
-== WM 01/28/09 ==
-
-  # JavaScript / Servlet framework evaluation (DH)<br>
-  # Confirm seminar WS date + time (RR)
+== WM 02/11/09 ==
+  # PM: Conflict Prevention Survey, redo (TK) 
+  # PM: Weekly Reports, some minor issues (TK)
+  # Specs,Mock-Up,WS: Team Discussion (MA,TK) 
 
 == WM 02/04/09 ==
 
   # Info: Conflict Prevention Survey (TK,DH)
   # Technologies: Definiton of Responsibilities for Technologies/Techniques (TK)
   # Use Cases etc. (MA, JS)
- 
-== WM 02/11/09 ==
-  # PM: Conflict Prevention Survey, redo (TK) 
-  # PM: Weekly Reports, some minor issues (TK)
-  # Specs,Mock-Up,WS: Team Discussion (MA,TK) 
+== WM 01/28/09 ==
 
-== WM 02/17/09 ==
-  # Design: Preliminary Design Discussion (TK/MA/JS) 
-  # Specification: Finding dates for specification review (MF/DH)
+  # JavaScript / Servlet framework evaluation (DH)<br>
+  # Confirm seminar WS date + time (RR)
 
-== WM 03/20/09 ==
-  # Design: is the JPA a troublemaker? (DH)
-  # Project Schedule: cost estimate update using the specification (DH)
-  # Wiki: needs to be structured: implement a hierarchical structure (how can this be done using google?) (RR)
-  # Wiki: Meeting Issues: reverse order (RR)
-  # Spec review: Ralph reviewed version 1.0 instead of 1.1 (DH)
-  # WS Specification: There are several open issues to discuss with the Workflow/UI-Team (JE)
+== WM 01/21/09 ==
+
+  # Info: Prototype finished (JE)
+
+== WM 01/14/09 ==
+  # Timetable for Seminars (TK) <br>
+   (due to the fact that some persons don't read or ignore their mails).<br>
+   (also talk about distribution: currently there are too many seminars on one day (RR))
+  # "Weekly Survey"-Document explanation & discussion (TK)
+  # SVN commenting rules: redundancy (DH)
