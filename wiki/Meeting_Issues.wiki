@@ -44,3 +44,4 @@ Add your issues to be descussed in the next "Weekly Meeting":
   # Project Schedule: cost estimate update using the specification (DH)
   # Wiki: needs to be structured: implement a hierarchical structure (how can this be done using google?) (RR)
   # Wiki: Meeting Issues: reverse order (RR)
+  # Spec review: Ralph reviewed version 1.0 instead of 1.1 - probably not an accident.
