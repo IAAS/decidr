@@ -15,7 +15,7 @@
 <start-date date="22" month="3" year="2009"/>
 <end-date date="4" month="5" year="2009"/>
 <activity id="1630068647">
-<name>Komponentenanalyse [all]</name>
+<name>Components Analysis [all]</name>
 <short-name>Kompo</short-name>
 <start-date date="22" month="3" year="2009"/>
 <end-date date="25" month="3" year="2009"/>
@@ -23,7 +23,7 @@
 <property name="move-dependencies" value="true"/>
 </activity>
 <activity id="-1383235312">
-<name>Systemarchitektur (Grobentwurf) [MF]</name>
+<name>System Architecture [MF]</name>
 <short-name>Syste</short-name>
 <start-date date="25" month="3" year="2009"/>
 <end-date date="29" month="3" year="2009"/>
@@ -38,7 +38,7 @@
 <property name="keep-length" value="false"/>
 <property name="move-dependencies" value="true"/>
 <activity id="1110828108">
-<name>Technologie Modedling Tool [JH,MA]</name>
+<name>Technology Modelling Tool [JH,MA]</name>
 <short-name>Neue</short-name>
 <start-date date="25" month="3" year="2009"/>
 <end-date date="6" month="4" year="2009"/>
@@ -46,7 +46,7 @@
 <property name="move-dependencies" value="true"/>
 </activity>
 <activity id="-377567808">
-<name>Technologie Web Framework [TK,DH]</name>
+<name>Technology Web Portal [TK,DH]</name>
 <short-name>Neue</short-name>
 <start-date date="25" month="3" year="2009"/>
 <end-date date="6" month="4" year="2009"/>
@@ -54,7 +54,7 @@
 <property name="move-dependencies" value="true"/>
 </activity>
 <activity id="1871707347">
-<name>DB-Knowledge [MF]</name>
+<name> DB Technology [MF]</name>
 <short-name>Neue</short-name>
 <start-date date="29" month="3" year="2009"/>
 <end-date date="6" month="4" year="2009"/>
@@ -62,7 +62,7 @@
 <property name="move-dependencies" value="true"/>
 </activity>
 <activity id="-1522338740">
-<name>Aneignung Grundlagen Modeling Tool und Web Framework [MF]</name>
+<name>Learning basics of modelling tool and web portal [MF]</name>
 <short-name>Neue</short-name>
 <start-date date="6" month="4" year="2009"/>
 <end-date date="8" month="4" year="2009"/>
@@ -71,22 +71,14 @@
 </activity>
 </activity>
 <activity id="1162658778">
-<name>Feinentwurf</name>
+<name>Detailed Design</name>
 <short-name>Neue</short-name>
 <start-date date="6" month="4" year="2009"/>
 <end-date date="23" month="4" year="2009"/>
 <property name="keep-length" value="false"/>
 <property name="move-dependencies" value="true"/>
-<activity id="-1685784890">
-<name>Infrastruktur [???]</name>
-<short-name>Neue</short-name>
-<start-date date="6" month="4" year="2009"/>
-<end-date date="20" month="4" year="2009"/>
-<property name="keep-length" value="false"/>
-<property name="move-dependencies" value="true"/>
-</activity>
 <activity id="-1784392272">
-<name>Modeling Tool [JF,MA]</name>
+<name> Detailed Design Modelling Tool  [JF,MA]</name>
 <short-name>Neue</short-name>
 <start-date date="6" month="4" year="2009"/>
 <end-date date="20" month="4" year="2009"/>
@@ -94,7 +86,15 @@
 <property name="move-dependencies" value="true"/>
 </activity>
 <activity id="33231154">
-<name>Web-Portal [JH,MA]</name>
+<name> Detailed Design Web Portal [JH,MA]</name>
+<short-name>Neue</short-name>
+<start-date date="6" month="4" year="2009"/>
+<end-date date="20" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+<activity id="-1685784890">
+<name>Detailed Design Infrastructure [???]</name>
 <short-name>Neue</short-name>
 <start-date date="6" month="4" year="2009"/>
 <end-date date="20" month="4" year="2009"/>
@@ -102,7 +102,7 @@
 <property name="move-dependencies" value="true"/>
 </activity>
 <activity id="-877673562">
-<name>DB-Modell [MF]</name>
+<name>Detailed Design DB  [MF]</name>
 <short-name>Neue</short-name>
 <start-date date="13" month="4" year="2009"/>
 <end-date date="23" month="4" year="2009"/>
@@ -111,14 +111,14 @@
 </activity>
 </activity>
 <activity id="1666407625">
-<name>Review und Korrektur</name>
+<name>Reviews &amp; Correction</name>
 <short-name>Neue</short-name>
 <start-date date="20" month="4" year="2009"/>
 <end-date date="27" month="4" year="2009"/>
 <property name="keep-length" value="false"/>
 <property name="move-dependencies" value="true"/>
 <activity id="1244042795">
-<name>Review Feinentwurf</name>
+<name>Design Review</name>
 <short-name>Neue</short-name>
 <start-date date="20" month="4" year="2009"/>
 <end-date date="22" month="4" year="2009"/>
@@ -126,7 +126,7 @@
 <property name="move-dependencies" value="true"/>
 </activity>
 <activity id="1330241988">
-<name>Korrektur Feinentwurf</name>
+<name>Design Correction</name>
 <short-name>Neue</short-name>
 <start-date date="22" month="4" year="2009"/>
 <end-date date="27" month="4" year="2009"/>
@@ -134,7 +134,7 @@
 <property name="move-dependencies" value="true"/>
 </activity>
 <activity id="636003504">
-<name>Review DB-Modell</name>
+<name>DB Design Review</name>
 <short-name>Neue</short-name>
 <start-date date="23" month="4" year="2009"/>
 <end-date date="24" month="4" year="2009"/>
@@ -142,7 +142,7 @@
 <property name="move-dependencies" value="true"/>
 </activity>
 <activity id="1954343522">
-<name>Korrektur DB-Modell</name>
+<name> DB Design Correction</name>
 <short-name>Neue</short-name>
 <start-date date="24" month="4" year="2009"/>
 <end-date date="27" month="4" year="2009"/>
@@ -151,7 +151,7 @@
 </activity>
 </activity>
 <activity id="562242980">
-<name>Auslieferung</name>
+<name>Delivery</name>
 <short-name>Neue</short-name>
 <start-date date="27" month="4" year="2009"/>
 <end-date date="28" month="4" year="2009"/>
