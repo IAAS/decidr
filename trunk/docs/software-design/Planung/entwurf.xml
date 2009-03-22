@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE project SYSTEM "gtdmanager.dtd">
+<project vendor-id="Gruppe 5" version="1.3.2">
+<name>Entwurf</name>
+<property name="view" value="0"/>
+<property name="fontsize" value="10"/>
+<property name="zoomfactor" value="100"/>
+<property name="export-width" value="29.7"/>
+<property name="export-height" value="21.0"/>
+<property name="export-dpi" value="72.0"/>
+<property name="export-standartsize" value="DIN A4 quer"/>
+<instance>
+<name>Entwurf</name>
+<creation-date date="22" month="3" year="2009"/>
+<start-date date="22" month="3" year="2009"/>
+<end-date date="4" month="5" year="2009"/>
+<activity id="1630068647">
+<name>Komponentenanalyse [all]</name>
+<short-name>Kompo</short-name>
+<start-date date="22" month="3" year="2009"/>
+<end-date date="25" month="3" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+<activity id="-1383235312">
+<name>Systemarchitektur (Grobentwurf) [MF]</name>
+<short-name>Syste</short-name>
+<start-date date="25" month="3" year="2009"/>
+<end-date date="29" month="3" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+<activity id="-755662201">
+<name>Technology + Tech. Preparation</name>
+<short-name>Neue</short-name>
+<start-date date="25" month="3" year="2009"/>
+<end-date date="8" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<activity id="1110828108">
+<name>Technologie Modedling Tool [JH,MA]</name>
+<short-name>Neue</short-name>
+<start-date date="25" month="3" year="2009"/>
+<end-date date="6" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+<activity id="-377567808">
+<name>Technologie Web Framework [TK,DH]</name>
+<short-name>Neue</short-name>
+<start-date date="25" month="3" year="2009"/>
+<end-date date="6" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+<activity id="1871707347">
+<name>DB-Knowledge [MF]</name>
+<short-name>Neue</short-name>
+<start-date date="29" month="3" year="2009"/>
+<end-date date="6" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+<activity id="-1522338740">
+<name>Aneignung Grundlagen Modeling Tool und Web Framework [MF]</name>
+<short-name>Neue</short-name>
+<start-date date="6" month="4" year="2009"/>
+<end-date date="8" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+</activity>
+<activity id="1162658778">
+<name>Feinentwurf</name>
+<short-name>Neue</short-name>
+<start-date date="6" month="4" year="2009"/>
+<end-date date="23" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<activity id="-1685784890">
+<name>Infrastruktur [???]</name>
+<short-name>Neue</short-name>
+<start-date date="6" month="4" year="2009"/>
+<end-date date="20" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+<activity id="-1784392272">
+<name>Modeling Tool [JF,MA]</name>
+<short-name>Neue</short-name>
+<start-date date="6" month="4" year="2009"/>
+<end-date date="20" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+<activity id="33231154">
+<name>Web-Portal [JH,MA]</name>
+<short-name>Neue</short-name>
+<start-date date="6" month="4" year="2009"/>
+<end-date date="20" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+<activity id="-877673562">
+<name>DB-Modell [MF]</name>
+<short-name>Neue</short-name>
+<start-date date="13" month="4" year="2009"/>
+<end-date date="23" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+</activity>
+<activity id="1666407625">
+<name>Review und Korrektur</name>
+<short-name>Neue</short-name>
+<start-date date="20" month="4" year="2009"/>
+<end-date date="27" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<activity id="1244042795">
+<name>Review Feinentwurf</name>
+<short-name>Neue</short-name>
+<start-date date="20" month="4" year="2009"/>
+<end-date date="22" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+<activity id="1330241988">
+<name>Korrektur Feinentwurf</name>
+<short-name>Neue</short-name>
+<start-date date="22" month="4" year="2009"/>
+<end-date date="27" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+<activity id="636003504">
+<name>Review DB-Modell</name>
+<short-name>Neue</short-name>
+<start-date date="23" month="4" year="2009"/>
+<end-date date="24" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+<activity id="1954343522">
+<name>Korrektur DB-Modell</name>
+<short-name>Neue</short-name>
+<start-date date="24" month="4" year="2009"/>
+<end-date date="27" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+</activity>
+<activity id="562242980">
+<name>Auslieferung</name>
+<short-name>Neue</short-name>
+<start-date date="27" month="4" year="2009"/>
+<end-date date="28" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+<activity id="528259859">
+<name>Puffer</name>
+<short-name>Neue</short-name>
+<start-date date="27" month="4" year="2009"/>
+<end-date date="4" month="5" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+</instance>
+</project>
