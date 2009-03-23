@@ -14,7 +14,8 @@ Since the `svn lock` feature is disabled in google code, we need to maintain a _
 || /trunk/docs/specification/WS Email Specification.doc || _(unlocked)_ ||
 || /trunk/docs/specification/WS Human Task Specification.doc || _(unlocked)_ ||
 || /trunk/docs/specification/WS ID Creator Specification.doc || _(unlocked)_ ||
-|| /trunk/docs/specification/WS Data Storage Specification.doc || _(unlocked)_ || 
+|| /trunk/docs/specification/WS Data Storage Specification.doc || _(unlocked)_ ||
+|| /trunk/docs/software-design/Komponentenanalyse/jerrat/6.5.01_Change tenant settings.odt || JE ||
 <wiki:comment>
 || [FILE] || [INITIALS] ||
 </wiki:comment>
