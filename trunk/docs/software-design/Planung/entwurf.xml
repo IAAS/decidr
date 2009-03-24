@@ -38,7 +38,7 @@
 <property name="keep-length" value="false"/>
 <property name="move-dependencies" value="true"/>
 <activity id="1110828108">
-<name>Technology Modelling Tool [JH,MA]</name>
+<name>Technology Modelling Tool [JH,MA,JE]</name>
 <short-name>Neue</short-name>
 <start-date date="25" month="3" year="2009"/>
 <end-date date="6" month="4" year="2009"/>
@@ -46,7 +46,7 @@
 <property name="move-dependencies" value="true"/>
 </activity>
 <activity id="-377567808">
-<name>Technology Web Portal [TK,DH]</name>
+<name>Technology Web Portal [TK,DH,AT]</name>
 <short-name>Neue</short-name>
 <start-date date="25" month="3" year="2009"/>
 <end-date date="6" month="4" year="2009"/>
@@ -62,7 +62,7 @@
 <property name="move-dependencies" value="true"/>
 </activity>
 <activity id="-1522338740">
-<name>Learning basics of modelling tool and web portal [MF]</name>
+<name>Learning basics of modelling tool and web portal [MF,??]</name>
 <short-name>Neue</short-name>
 <start-date date="6" month="4" year="2009"/>
 <end-date date="8" month="4" year="2009"/>
@@ -81,7 +81,7 @@
 <name> Detailed Design Modelling Tool  [JF,MA]</name>
 <short-name>Neue</short-name>
 <start-date date="6" month="4" year="2009"/>
-<end-date date="20" month="4" year="2009"/>
+<end-date date="13" month="4" year="2009"/>
 <property name="keep-length" value="false"/>
 <property name="move-dependencies" value="true"/>
 </activity>
@@ -89,7 +89,7 @@
 <name> Detailed Design Web Portal [JH,MA]</name>
 <short-name>Neue</short-name>
 <start-date date="6" month="4" year="2009"/>
-<end-date date="20" month="4" year="2009"/>
+<end-date date="13" month="4" year="2009"/>
 <property name="keep-length" value="false"/>
 <property name="move-dependencies" value="true"/>
 </activity>
@@ -97,12 +97,20 @@
 <name>Detailed Design Infrastructure [???]</name>
 <short-name>Neue</short-name>
 <start-date date="6" month="4" year="2009"/>
+<end-date date="13" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+<activity id="-2058522904">
+<name>Design Merging [all]</name>
+<short-name>Neue</short-name>
+<start-date date="13" month="4" year="2009"/>
 <end-date date="20" month="4" year="2009"/>
 <property name="keep-length" value="false"/>
 <property name="move-dependencies" value="true"/>
 </activity>
 <activity id="-877673562">
-<name>Detailed Design DB  [MF]</name>
+<name>Detailed Design DB  [MF,??]</name>
 <short-name>Neue</short-name>
 <start-date date="13" month="4" year="2009"/>
 <end-date date="23" month="4" year="2009"/>
