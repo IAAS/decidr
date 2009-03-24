@@ -24,7 +24,7 @@
       </xsd:annotation>
    </xsd:element>
    
-   <xsd:complexType name="tWorkfow">
+   <xsd:complexType name="tWorkflow">
       <xsd:sequence>
          <xsd:element ref="documentation" minOccurs="0" />
          <xsd:element ref="variables" minOccurs="0" />
