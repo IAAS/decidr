@@ -38,7 +38,7 @@
 <property name="keep-length" value="false"/>
 <property name="move-dependencies" value="true"/>
 <activity id="1110828108">
-<name>Technology Modelling Tool [JH,MA,JE]</name>
+<name>Technology Modelling Tool [GH,MA,JE]</name>
 <short-name>Neue</short-name>
 <start-date date="25" month="3" year="2009"/>
 <end-date date="6" month="4" year="2009"/>
@@ -54,7 +54,7 @@
 <property name="move-dependencies" value="true"/>
 </activity>
 <activity id="1871707347">
-<name> DB Technology [MF]</name>
+<name> DB Technology + infrastructure [MF,??]</name>
 <short-name>Neue</short-name>
 <start-date date="29" month="3" year="2009"/>
 <end-date date="6" month="4" year="2009"/>
@@ -77,22 +77,6 @@
 <end-date date="23" month="4" year="2009"/>
 <property name="keep-length" value="false"/>
 <property name="move-dependencies" value="true"/>
-<activity id="-1784392272">
-<name> Detailed Design Modelling Tool  [JF,MA]</name>
-<short-name>Neue</short-name>
-<start-date date="6" month="4" year="2009"/>
-<end-date date="13" month="4" year="2009"/>
-<property name="keep-length" value="false"/>
-<property name="move-dependencies" value="true"/>
-</activity>
-<activity id="33231154">
-<name> Detailed Design Web Portal [JH,MA]</name>
-<short-name>Neue</short-name>
-<start-date date="6" month="4" year="2009"/>
-<end-date date="13" month="4" year="2009"/>
-<property name="keep-length" value="false"/>
-<property name="move-dependencies" value="true"/>
-</activity>
 <activity id="-1685784890">
 <name>Detailed Design Infrastructure [???]</name>
 <short-name>Neue</short-name>
@@ -101,8 +85,24 @@
 <property name="keep-length" value="false"/>
 <property name="move-dependencies" value="true"/>
 </activity>
+<activity id="-1784392272">
+<name>Detailed Design Modelling Tool  [GH,MA,JE]</name>
+<short-name>Neue</short-name>
+<start-date date="6" month="4" year="2009"/>
+<end-date date="13" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
+<activity id="33231154">
+<name>Detailed Design Web Portal [TK,DH,AT]</name>
+<short-name>Neue</short-name>
+<start-date date="6" month="4" year="2009"/>
+<end-date date="13" month="4" year="2009"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+</activity>
 <activity id="-2058522904">
-<name>Design Merging [all]</name>
+<name>Design Assembling &amp; Design Documentation [all]</name>
 <short-name>Neue</short-name>
 <start-date date="13" month="4" year="2009"/>
 <end-date date="20" month="4" year="2009"/>
