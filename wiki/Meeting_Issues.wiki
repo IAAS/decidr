@@ -7,6 +7,9 @@
 
 Add your issues to be descussed in the next "Weekly Meeting":
 
+== WM 03/31/09 ==
+  # Design: Review over System Architecture Aspects (MF)
+
 == WM 03/24/09 ==
   # Design: Presentation of the Design Phases/Packages (TK/MF)
 
