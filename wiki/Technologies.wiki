@@ -21,8 +21,10 @@ http://courses.coreservlets.com/Course-Materials/scwcd.html
 Some literature about Servlets & JSP <br>
 http://pdf.coreservlets.com/
 
-==JSF Components==
+==JSF Components and Frameworks==
 http://www.ria-components.org/content/products/wgf/webGalileoFaces.html
+
+http://www.icefaces.org/main/ajax-java/architecture.iface
 
 ==J2EE==
 The Java EE 5 Tutorial <br>
