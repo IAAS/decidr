@@ -1,0 +1,26 @@
+#summary Overview of the Technologies
+#labels technologies,jsf,jsp,links,j2ee
+
+= Overview of the Technologies (DecidR) =
+
+I would like propose to collect and to share links and useful information around tools and technologies used in DecidR.
+
+Feel free to add and restructure this wiki article
+
+=Web-Portal=
+==JSF==
+Useful tutorials about JSP and JSF: <br>
+http://courses.coreservlets.com/Course-Materials/csajsp2.html
+
+http://courses.coreservlets.com/Course-Materials/msajsp.html
+
+http://www.coreservlets.com/JSF-Tutorial/
+
+http://courses.coreservlets.com/Course-Materials/scwcd.html 
+
+Some literature about Servlets & JSP <br>
+http://pdf.coreservlets.com/
+
+==J2EE==
+The Java EE 5 Tutorial <br>
+http://java.sun.com/javaee/5/docs/tutorial/doc/index.html
