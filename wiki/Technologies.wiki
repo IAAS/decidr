@@ -5,7 +5,7 @@
 
 I would like propose to collect and to share links and useful information around tools and technologies used in DecidR.
 
-Feel free to add and restructure this wiki article
+Feel free to add new links or to restructure existing information
 
 =Web-Portal=
 ==JSF==
