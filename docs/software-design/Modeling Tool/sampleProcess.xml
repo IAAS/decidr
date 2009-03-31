@@ -1,0 +1,89 @@
+
+<workflow  name="homeworkAssignmentProcess">
+    <documentation>
+    This is a sample workflow created for test and design purpose.
+    </documentation>
+    <variables>
+        <variable name="subject" type="string" configurationVariable="no" />
+        <variable name="informant1-name" type="string" configurationVariable="yes" />
+        <variable name="informant1-email" type="string" configurationVariable="yes" />
+        <variable name="informant2-name" type="string" configurationVariable="yes" />
+        <variable name="informant2-email" type="string" configurationVariable="yes" />
+        <variable name="instruction" type="string" configurationVariable="no" />
+        <variable name="homework-file" type="file" configurationVarialbe="no" />
+    </variables>
+    <roles>
+        <role name="teacher" type="actor" />
+        <role name="students" type="role" />
+    </roles>
+    <faultHandler>
+        <faultMessage>
+            An error has occured during workflow execution.
+        </faultMessage>
+        <informant>
+            <name>$informant1-name</name>
+            <email>$informant1-email</email>
+        </informant>
+        <informant>
+            <name>$informant1-name</name>
+            <email>$informant1-email</email>
+        </informant>
+        <informant>
+            <name>Peter Pan</name>
+            <email>peter.pan@never-land.nvl</email>
+        </informant>
+    </faultHandler>
+    <nodes>
+        <startNode id="1" name="start">
+            <targets>
+                <target arcId="100" />
+            </targets>
+        </startNode>
+        <invokeNode id="2" name="Homework-Upload">
+            <targets>
+                <target arcId="" />
+            </targets>
+            <sources>
+                <source arcId="" />
+            </sources>
+            <inputVariable>$teacher</inputVariable>
+            <xforms>
+                <model>
+                    <instance>
+                        <file filename="" mediatype="" />
+                        <instruction>
+                            <text />
+                        </instruction>
+                        <bind nodeset="file" id="file" />
+                        <bind nodeset="instructions/text" id="text" />
+                    </instance>
+                </model>
+                <upload bind="file">
+                    <label>File to upload :</label>
+                </upload>
+                <input bind="text">
+                    <label>Instruction text</label>
+                </input>
+            </xforms>
+            <binding>
+                <map sourcePart="file" targetPart="$homework-file" />
+                <map sourcePart="text" targetPart="$instruction" />
+            </binding>
+        </invokeNode>
+        <forEachNode counterVariable="$students" counterName="p" parallel="yes">
+            <invokeNode id="3" name="Homework-Assignment">
+                <targets>
+                    <target arcId="" />
+                </targets>
+                <sources>
+                    <source arcId="" />
+                </sources>
+            </invokeNode>
+        </forEachNode>
+    </nodes>
+    <arcs>
+        <arc id="100" sourceNode="1" targetNode="2" />
+        <arc id="101" sourceNode="2" targetNode="3" />
+        <arc id="102" sourceNode="3" targetNode="4" />
+    </arcs>
+</workflow>
