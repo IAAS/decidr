@@ -25,6 +25,11 @@ Some literature about Servlets & JSP <br>
 http://pdf.coreservlets.com/
 
 ==JSF Components and Frameworks==
+
+http://www.vogella.de/articles/ApacheMyFaces/article.html
+
+http://myfaces.apache.org/tobago/guide.html
+
 http://www.ria-components.org/content/products/wgf/webGalileoFaces.html
 
 http://www.icefaces.org/main/ajax-java/architecture.iface
