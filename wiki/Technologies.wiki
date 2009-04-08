@@ -34,6 +34,9 @@ http://www.ria-components.org/content/products/wgf/webGalileoFaces.html
 
 http://www.icefaces.org/main/ajax-java/architecture.iface
 
+==IT Mill==
+http://dev.itmill.com/wiki/Articles
+
 ==J2EE==
 The Java EE 5 Tutorial <br>
 http://java.sun.com/javaee/5/docs/tutorial/doc/index.html
