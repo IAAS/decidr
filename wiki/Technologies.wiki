@@ -34,6 +34,8 @@ http://www.ria-components.org/content/products/wgf/webGalileoFaces.html
 
 http://www.icefaces.org/main/ajax-java/architecture.iface
 
+http://www.lightportal.org/
+
 ==IT Mill==
 http://dev.itmill.com/wiki/Articles
 
