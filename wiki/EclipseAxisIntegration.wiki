@@ -25,3 +25,4 @@
 
 = Important Notes =
   * If you don't create a "Dynamic Web Project", the Axis2 integration will fail, even though the user interface suggests this possibility.
+  * NEVER EVER use the internal server configuration eclipse offers! The axis2 this uses is buggy as hell and has cost me > half a week of trouble-shooting!
