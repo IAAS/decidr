@@ -1,10 +1,21 @@
-<service name="DummyServiceA" >
+<service name="DummyServiceA">
 	<Description>
-		Please Type your service description here
+		Dummy Service: A
 	</Description>
 	<messageReceivers>
-		<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
-		<messageReceiver  mep="http://www.w3.org/2004/08/wsdl/in-out"  class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+		<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only"
+			class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+		<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-out"
+			class="org.apache.axis2.rpc.receivers.RPCInOutAsyncMessageReceiver" />
 	</messageReceivers>
-	<parameter name="ServiceClass" locked="false">de.decidr.test.encryption.DummyServiceA</parameter>
+	<operation name="printNcallA">
+		<messageReceiver
+			class="org.apache.axis2.rpc.receivers.RPCInOutAsyncMessageReceiver" />
+		<module ref="rampart" />
+	</operation>
+	<operation name="inject">
+		<module ref="rampart" />
+	</operation>
+	<parameter name="ServiceClass" locked="false">
+		de.decidr.test.encryption.DummyServiceA</parameter>
 </service>

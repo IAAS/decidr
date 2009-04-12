@@ -9,7 +9,7 @@ import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
-@WebServiceClient(name = "DummyServiceB", targetNamespace = "http://decidr.de/test/encryption", wsdlLocation = "http://127.0.0.1:8080/encryptionTest/services/DummyServiceBService?wsdl")
+@WebServiceClient(name = "DummyClientB", targetNamespace = "http://decidr.de/test/encryption", wsdlLocation = "http://127.0.0.1:8080/axis2/services/DummyServiceB?wsdl")
 public class DummyClientB extends Service {
 
 	public DummyClientB(URL wsdlDocumentLocation, QName serviceName) {
@@ -19,23 +19,21 @@ public class DummyClientB extends Service {
 	public DummyClientB() throws MalformedURLException {
 		super(
 				new URL(
-						"http://127.0.0.1:8080/encryptionTest/services/DummyServiceBService?wsdl"),
-				QName
-						.valueOf("{http://decidr.de/test/encryption}DummyServiceB"));
-		// new QName("http://decidr.de/test/encryption", "DummyServiceB"));
+						"http://127.0.0.1:8080/axis2/services/DummyServiceB?wsdl"),
+				new QName("http://decidr.de/test/encryption",
+						"DummyServiceB"));
 	}
 
-	@WebEndpoint(name = "DummyServiceBInterfacePort")
+	@WebEndpoint(name = "DummyServiceBHttpSoap12Endpoint")
 	public DummyServiceBInterface getDummyServiceBInterfacePort() {
 		return super.getPort(new QName("http://decidr.de/test/encryption",
-				"DummyServiceBInterfacePort"), DummyServiceBInterface.class);
+				"DummyServiceBHttpSoap12Endpoint"), DummyServiceBInterface.class);
 	}
 
-	@WebEndpoint(name = "DummyServiceBInterfacePort")
+	@WebEndpoint(name = "DummyServiceBHttpSoap12Endpoint")
 	public DummyServiceBInterface getDummyServiceBInterfacePort(
 			WebServiceFeature... features) {
 		return super.getPort(new QName("http://decidr.de/test/encryption",
-				"DummyServiceBInterfacePort"), DummyServiceBInterface.class,
-				features);
+				"DummyServiceBHttpSoap12Endpoint"), DummyServiceBInterface.class, features);
 	}
 }
