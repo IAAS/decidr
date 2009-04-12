@@ -5,7 +5,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-@WebService(name = "DummyServiceAPT", targetNamespace = "http://decidr.de/test/encryption", serviceName="DummyServiceA", portName="DummyServiceAPort")
+@WebService(name = "DummyServiceAPT", targetNamespace = "http://decidr.de/test/encryption", serviceName = "DummyServiceA", portName = "DummyServiceAPort")
 public interface DummyServiceAInterface {
 
 	@WebMethod
@@ -15,5 +15,5 @@ public interface DummyServiceAInterface {
 
 	@WebMethod
 	@Oneway
-	public abstract void inject();
+	public abstract void inject(@WebParam(name = "counter") int counter);
 }

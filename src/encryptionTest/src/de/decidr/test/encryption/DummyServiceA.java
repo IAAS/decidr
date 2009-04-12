@@ -6,9 +6,8 @@ import javax.jws.Oneway;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-@WebService(endpointInterface = "de.decidr.test.encryption.DummyServiceAInterface")
+@WebService(endpointInterface = "de.decidr.test.encryption.DummyServiceAInterface", name = "DummyServiceAPT", targetNamespace = "http://decidr.de/test/encryption", serviceName = "DummyServiceA", portName = "DummyServiceAPort")
 public class DummyServiceA implements DummyServiceAInterface {
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -19,12 +18,13 @@ public class DummyServiceA implements DummyServiceAInterface {
 	@Oneway
 	public void printNcallA(@WebParam(name = "message") String msg,
 			@WebParam(name = "counter") int counter) {
-		System.out.println("A Called with:\n<start>\n" + msg + "\n<end>");
+		System.out.println("A Called with:\ncounter: " + counter
+				+ "\n<start>\n" + msg + "\n<end>");
 		if (counter < 1)
 			return;
 		try {
-			wait(30000);
-		} catch (InterruptedException e) {
+			Thread.sleep(30000);
+		} catch (Exception e) {
 		}
 		try {
 			new DummyClientB().getDummyServiceBInterfacePort().printNcallB(msg,
@@ -41,10 +41,10 @@ public class DummyServiceA implements DummyServiceAInterface {
 	 * de.decidr.test.encryption.DummyServiceAInterface#inject(java.lang.String)
 	 */
 	@Oneway
-	public void inject() {
+	public void inject(@WebParam(name = "counter") int counter) {
 		try {
 			new DummyClientB().getDummyServiceBInterfacePort().printNcallB(
-					"testmsg", 10);
+					"testmsg", counter);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
