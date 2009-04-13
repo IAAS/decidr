@@ -7,7 +7,7 @@
 
 Add your issues to be descussed in the next "Weekly Meeting":
 
-== WM 04/07/09 ==
+== WM 04/21/09 ==
   # Consider switching to Fred 2009 (1.4.1): seems to use way less resources on Linux, might work on Mac [http://fred.mayastudios.com/2009/03/07/fred-141-released/] (RR)
 
 == WM 03/31/09 ==
