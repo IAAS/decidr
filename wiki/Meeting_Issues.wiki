@@ -11,7 +11,9 @@ Add your issues to be descussed in the next "Weekly Meeting":
   # Consider switching to Fred 2009 (1.4.1): seems to use way less resources on Linux, might work on Mac [http://fred.mayastudios.com/2009/03/07/fred-141-released/] (RR)
   # Design: HTTP request load balancing (DH)
   # Design: Installation / deployment of the DecidR application (DH)
-  # Design: Do we have an expert on Apache ODE? (DH)
+  # Design: Do we have an expert on Apache ODE? (DH) (Ralph seems to know a lot --RR)
+  # Design: Presentation of scalability options & decide on one of them (RR)
+   * Same for message encryption (RR)
 
 == WM 03/31/09 ==
   # Design: Review over System Architecture Aspects (MF)
