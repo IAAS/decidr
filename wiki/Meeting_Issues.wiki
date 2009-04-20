@@ -10,6 +10,7 @@ Add your issues to be descussed in the next "Weekly Meeting":
 == WM 04/21/09 ==
   # Design: HTTP request load balancing (DH)
   # Design: Installation / deployment of the DecidR application (DH)
+  # Design: Status of our Web services & their specifications / WSDL (DH)
   # Design: Do we have an expert on Apache ODE? (DH) (Ralph seems to know a lot --RR)
   # Design: Presentation of scalability options & decide on one of them (RR)
    * Same for message encryption (RR)
