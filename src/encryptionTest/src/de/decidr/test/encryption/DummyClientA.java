@@ -9,7 +9,7 @@ import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
-@WebServiceClient(name = "DummyClientA", targetNamespace = "http://decidr.de/test/encryption", wsdlLocation = "http://127.0.0.1:8080/axis2/services/DummyServiceA?wsdl")
+@WebServiceClient(name = "DummyClientA", targetNamespace = "http://decidr.de/test/encryption", wsdlLocation = "http://127.0.0.1:8081/test/encryption/DummyAProxy?wsdl")
 public class DummyClientA extends Service {
 
 	public DummyClientA(URL wsdlDocumentLocation, QName serviceName) {
@@ -17,24 +17,30 @@ public class DummyClientA extends Service {
 	}
 
 	public DummyClientA() throws MalformedURLException {
-		super(
-				new URL(
-						"http://127.0.0.1:8080/axis2/services/DummyServiceA?wsdl"),
-				new QName("http://decidr.de/test/encryption",
-						"DummyServiceA"));
+		this(new URL("http://127.0.0.1:8081/test/encryption/DummyAProxy?wsdl"),
+				new QName("http://decidr.de/test/encryption", "DummyAProxy"));
 	}
 
 	@WebEndpoint(name = "DummyServiceAHttpSoap12Endpoint")
 	public DummyServiceAInterface getDummyServiceAInterfacePort() {
+		// try {
+		// new ConfigurationContext
+		// ServiceClient client = new ServiceClient();
+		// client.engageModule("rampart");
+		// OperationClient oClient =
+		// client.createClient(ServiceClient.ANON_OUT_ONLY_OP);
+		// } catch (AxisFault e) {
+		// e.printStackTrace();
+		// }
 		return super.getPort(new QName("http://decidr.de/test/encryption",
-				"DummyServiceAHttpSoap12Endpoint"), DummyServiceAInterface.class);
+				"DummyAProxyHttpSoap12Endpoint"), DummyServiceAInterface.class);
 	}
 
 	@WebEndpoint(name = "DummyServiceAHttpSoap12Endpoint")
 	public DummyServiceAInterface getDummyServiceAInterfacePort(
 			WebServiceFeature... features) {
 		return super.getPort(new QName("http://decidr.de/test/encryption",
-				"DummyServiceAHttpSoap12Endpoint"), DummyServiceAInterface.class,
+				"DummyAProxyHttpSoap12Endpoint"), DummyServiceAInterface.class,
 				features);
 	}
 }

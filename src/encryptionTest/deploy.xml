@@ -13,6 +13,9 @@
             <fileset dir="${basedir}/WebContent/WEB-INF/services/DummyServiceA/">
                 <include name="META-INF/**"/>
             </fileset>
+            <fileset dir="${basedir}/">
+                <include name="META-INF/**"/>
+            </fileset>
         </jar>
     </target>
     <target name="serviceBJar">
@@ -23,6 +26,9 @@
                 <include name="de/decidr/test/encryption/DummyClientA.class" />
             </fileset>
             <fileset dir="${basedir}/WebContent/WEB-INF/services/DummyServiceB/">
+                <include name="META-INF/**"/>
+            </fileset>
+            <fileset dir="${basedir}/">
                 <include name="META-INF/**"/>
             </fileset>
         </jar>
