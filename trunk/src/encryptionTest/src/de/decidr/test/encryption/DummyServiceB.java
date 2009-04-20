@@ -23,10 +23,10 @@ public class DummyServiceB implements DummyServiceBInterface {
 				+ "\n<start>\n" + msg + "\n<end>");
 		if (counter < 1)
 			return;
-		try {
-			Thread.sleep(30000);
-		} catch (Exception e) {
-		}
+		// try {
+		// Thread.sleep(30000);
+		// } catch (Exception e) {
+		// }
 		try {
 			new DummyClientA().getDummyServiceAInterfacePort().printNcallA(msg,
 					counter - 1);
