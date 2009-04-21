@@ -1,0 +1,20 @@
+#summary Entry page for the classical hierarchical wiki
+
+= DecidR Project Wiki Entry Page =
+
+== General ==
+  * [ProjectManagement Project Management]
+  * [Tuts Tutorials and Walkthroughs]
+  * [Misc Miscellaneous]
+  *
+
+== Configuration ==
+  *
+
+== Phases ==
+  * [Analysis]
+  * [Specification]
+  * [Design]
+  * [Code Coding]
+  * [Test Quality Assurance]
+  * [Integration]
