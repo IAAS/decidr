@@ -27,6 +27,8 @@ Specification Reviews.
 All specification reviews and their preparation.
 ===Infrastructure===
 Infrastructure is not only about infrastructure in the project, but also everything, that makes make the project "smooth and simple" (e.g. Word-teplates, SVN etc) 
+===Design===
+[TODO]
 ===Seminar===
 Seminars
 

@@ -16,7 +16,7 @@
   * [FredServer Fred Server]
   * [SVN]
   * [Tools]
-  * [WSTeamConfiguration Configuration used by the Web Services team]
+  * [WSTeamConfiguration Configuration used by the Web Services Team]
 
 == Phases ==
   * [Analysis]

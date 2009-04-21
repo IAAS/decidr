@@ -9,13 +9,10 @@ Since the `svn lock` feature is disabled in google code, we need to maintain a _
 = Locked Files =
 
 || *_File_* || *_Locked By_* ||
-|| /trunk/docs/requirements/WS Analysefragen.doc || _(unlocked)_ ||
-|| /trunk/docs/specification/Software Requirements Specification.doc || DH ||
 || /trunk/docs/specification/WS Email Specification.doc || _(unlocked)_ ||
 || /trunk/docs/specification/WS Human Task Specification.doc || _(unlocked)_ ||
 || /trunk/docs/specification/WS ID Creator Specification.doc || _(unlocked)_ ||
 || /trunk/docs/specification/WS Data Storage Specification.doc || _(unlocked)_ ||
-|| /trunk/docs/software-design/Komponentenanalyse/jerrat/6.5.01_Change tenant settings.odt || _(unlocked)_ ||
 <wiki:comment>
 || [FILE] || [INITIALS] ||
 </wiki:comment>
