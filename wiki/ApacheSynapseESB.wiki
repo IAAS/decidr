@@ -35,7 +35,7 @@ For example, we create a simple proxy for our e-mail web service:
     </proxy>
 }}}
 
-Assuming that Synapse is running on the machine with the hostname "iaassrv7", the resulting WSDL as propagated by Synappse will look like this:
+Assuming that Synapse is running on the machine with the hostname "iaassrv7", the resulting WSDL as propagated by Synapse will look like this:
 
 {{{
 ...

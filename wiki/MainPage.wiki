@@ -11,9 +11,12 @@
 </wiki:comment>
 
 == Configuration ==
-<wiki:comment>
-  *
-</wiki:comment>
+  * [EclipseConfiguration Eclipse Configuration Manual]
+  * [FileFormats File Formats]
+  * [FredServer Fred Server]
+  * [SVN]
+  * [Tools]
+  * [WSTeamConfiguration Configuration used by the Web Services team]
 
 == Phases ==
   * [Analysis]
@@ -22,3 +25,4 @@
   * [Code Coding]
   * [Test Quality Assurance]
   * [Integration]
+  * [Documentation]

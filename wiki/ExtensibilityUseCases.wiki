@@ -16,10 +16,9 @@ The project team  wants to integrate a new Web service into the DecidR applicati
 == Making Changes to the Web Site Layout ==
 The project team wants to change or replace the look&feel of the web front-end.
 
-<ul><li>Changing the Default Tenant CSS</li>
-<li>Adding New JSF Pages</li>
-<li>Editing Existing JSF Pages with Eclipse</li>
-</ul>
+  * Changing the Default Tenant CSS
+  * Adding New JSF Pages
+  * Editing Existing JSF Pages with Eclipse
 
 == Extending the DecidR Workflow Definition Language ==
 The project team wants to add new elements to the workflow model such as transition conditions or BPEL snippets.

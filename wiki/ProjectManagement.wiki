@@ -1,1 +1,8 @@
 #summary project management page for the classical hierarchical wiki
+#labels pm
+
+= Project Management =
+  * [Meeting_Issues Weekly Meeting Issues]
+  * [ProjectOrganization Organization and Responsibilities in DecidR]
+  * [Weekly_Rreport Weekly Report]
+  * [Weekly_Survey DecidR Weekly Survey]

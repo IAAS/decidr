@@ -1,1 +1,3 @@
 #summary miscellaneous page for the classical hierarchical wiki
+
+= Miscellaneous =

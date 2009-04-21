@@ -1,0 +1,4 @@
+#summary Documentation page for the classical hierarchical wiki
+
+= Documentation =
+  * [ExtensibilityUseCases Things that the Extensibility Guide Must Cover]
