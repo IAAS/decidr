@@ -6,10 +6,14 @@
   * [ProjectManagement Project Management]
   * [Tuts Tutorials and Walkthroughs]
   * [Misc Miscellaneous]
+<wiki:comment>
   *
+</wiki:comment>
 
 == Configuration ==
+<wiki:comment>
   *
+</wiki:comment>
 
 == Phases ==
   * [Analysis]
