@@ -4,3 +4,5 @@
   * [ApacheSynapseESB Problems and Solutions Related to the Enterprise Service Bus "Apache Synapse"]
   * [EclipseAxisIntegration How to Integrate Axis2 with Eclipse]
   * [Google Google Services]
+  * [LocalAxisOnTomcat Install Tomcat, setup Axis2, deploy a WebService]
+  * [LatexLLNCSTableOfContents How to get a TOC with Springer's LLNCS]
