@@ -9,6 +9,7 @@
                 <include name="de/decidr/test/encryption/*Interface.class" />
                 <include name="de/decidr/test/encryption/DummyServiceA.class" />
                 <include name="de/decidr/test/encryption/DummyClientB.class" />
+                <include name="de/decidr/test/encryption/PasswordCallback.class" />
             </fileset>
             <fileset dir="${basedir}/WebContent/WEB-INF/services/DummyServiceA/">
                 <include name="META-INF/**"/>
@@ -24,6 +25,7 @@
                 <include name="de/decidr/test/encryption/*Interface.class" />
                 <include name="de/decidr/test/encryption/DummyServiceB.class" />
                 <include name="de/decidr/test/encryption/DummyClientA.class" />
+                <include name="de/decidr/test/encryption/PasswordCallback.class" />
             </fileset>
             <fileset dir="${basedir}/WebContent/WEB-INF/services/DummyServiceB/">
                 <include name="META-INF/**"/>
