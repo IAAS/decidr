@@ -1,3 +1,18 @@
 #summary Explain how to install a local tomcat, set up axis2 on it and deploy a sample WebService
 
-[TODO]
+= HowTo Install Apache Tomcat 5.5.27, Set Up Apache Axis2 and Deploy a Web Service Locally =
+
+== Apache Tomcat 5.5.27 Installation ==
+
+  # Download [http://tomcat.apache.org/download-55.cgi#5.5.27 Apache Tomcat 5.5.27] (download core distribution)
+  # Unzip/Install Tomcat to a directory of your choice. I will call this directory `$TOMCAT_HOME` from here on.
+   * On Linux and Mac OS X, make sure that the shell-scripts in `$TOMCAT_HOME/bin/` are executable if you didn't use the .tar.gz distribution. To do this, you can execute `chmod a+x $TOMCAT_HOME/bin/*.sh`.
+  # Execute `$TOMCAT_HOME/bin/startup.sh` or `$TOMCAT_HOME/bin/startup.bat` respectively.
+  # Chech the logfiles in `$TOMCAT_HOME/logs` to make sure that no problems occured during startup.
+  # Execute `$TOMCAT_HOME/bin/shutdown.sh` or `$TOMCAT_HOME/bin/shutdown.bat` respectively.
+
+== Axis2 Deployment and Configuration ==
+TODO
+
+== Deploying a Sample Web Service ==
+TODO
