@@ -12,7 +12,9 @@
   # Execute `$TOMCAT_HOME/bin/shutdown.sh` or `$TOMCAT_HOME/bin/shutdown.bat` respectively.
 
 == Apache Axis2 Deployment and Configuration ==
+
 === Deployment ===
+
   # Download [http://ws.apache.org/axis2/download/1_4_1/download.cgi Apache Axis2 1.4.1] (download WAR distribution)
   # Unzip `axis2.war` and copy it to `$TOMCAT_HOME/webapps`.
   # Execute `$TOMCAT_HOME/bin/startup.sh` or `$TOMCAT_HOME/bin/startup.bat` respectively.
@@ -21,13 +23,18 @@
   # There should now be a `$TOMCAT_HOME/webapps/axis2`. I will call this directory `$AXIS_HOME` from here on.
 
 === Configuration ===
+
   # Open `$AXIS_HOME/WEB-INF/conf/axis2.xml` in your favourite text or XML editor.
-   * Alternatively, you can start Tomcat and navigate to [http://127.0.0.1:8080/axis2/axis2-admin/]. The default username and password are `admin` and `axis2`. *_WARNING:_* Any changes made here will be lost when the server is shut down/restarted!
+   * Alternatively, you can start Tomcat and navigate to [http://127.0.0.1:8080/axis2/axis2-admin/]. The default username and password are `admin` and `axis2`.<br>*_WARNING:_* Any changes made here will be lost when the server is shut down/restarted!
   # Change `<parameter name="hotdeployment">false</parameter>` to `<parameter name="hotdeployment">true</parameter>`.
   # Change `<parameter name="hotupdate">false</parameter>` to `<parameter name="hotupdate">true</parameter>`.
   # You will now be able to deploy and update Web Services while Axis2 is running.
   # You may want to change the `userName` and `password` parameters.
 
 == Deploying a Sample Web Service ==
-  # You may use your onw Web Service for this or the [http://code.google.com/p/decidr/source/browse/trunk/docs/misc/mailws.jar?r=548 sample] provided.
-TODO
+
+  # You may use your own Web Service for this or the [http://code.google.com/p/decidr/source/browse/trunk/docs/misc/mailws.jar?r=548 sample Web Service] provided.
+  # Simply change the .jar to .aar (e.g. the sample will become mailws.aar).
+  # Copy the .aar file to `$AXIS_HOME/WEB-INF/services/`.
+  # Start Axis2, if it isn't already running.
+  # Navigate to [http://127.0.0.1:8080/axis2/services/listServices]. Your Web Service should appear on this page.
