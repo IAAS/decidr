@@ -25,7 +25,9 @@
    * Alternatively, you can start Tomcat and navigate to [http://127.0.0.1:8080/axis2/axis2-admin/]. The default username and password are `admin` and `axis2`. *_WARNING:_* Any changes made here will be lost when the server is shut down/restarted!
   # Change `<parameter name="hotdeployment">false</parameter>` to `<parameter name="hotdeployment">true</parameter>`.
   # Change `<parameter name="hotupdate">false</parameter>` to `<parameter name="hotupdate">true</parameter>`.
+  # You will now be able to deploy and update Web Services while Axis2 is running.
   # You may want to change the `userName` and `password` parameters.
 
 == Deploying a Sample Web Service ==
+  # You may use your onw Web Service for this or the [http://code.google.com/p/decidr/source/browse/trunk/docs/misc/mailws.jar?r=548 sample] provided.
 TODO
