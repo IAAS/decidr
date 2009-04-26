@@ -34,7 +34,7 @@
 == Deploying a Sample Web Service ==
 
   # You may use your own Web Service for this or the [http://code.google.com/p/decidr/source/browse/trunk/docs/misc/mailws.jar?r=548 sample Web Service] provided.
-  # Simply change the .jar to .aar (e.g. the sample will become mailws.aar).
-  # Copy the .aar file to `$AXIS_HOME/WEB-INF/services/`.
+  # Simply change the `.jar` to `.aar` (e.g. the sample will become `mailws.aar`).
+  # Copy the `.aar` file to `$AXIS_HOME/WEB-INF/services/`.
   # Start Axis2, if it isn't already running.
   # Navigate to [http://127.0.0.1:8080/axis2/services/listServices]. Your Web Service should appear on this page.
