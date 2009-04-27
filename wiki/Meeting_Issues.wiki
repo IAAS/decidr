@@ -9,6 +9,7 @@ Add your issues to be descussed in the next "Weekly Meeting":
 
 == WM 04/28/09 ==
   # Design: draw2d vs. gwt-diagrams & gwt-connectors (JS)
+  # Misc: VP-Keys only valid for versions before 7.0?
 
 == WM 04/21/09 ==
   # Design: HTTP request load balancing (DH)
