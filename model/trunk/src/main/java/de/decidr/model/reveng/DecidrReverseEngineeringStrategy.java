@@ -31,7 +31,7 @@ public class DecidrReverseEngineeringStrategy extends
 	}
 
 	/**
-	 * Turns MySQL underscored table_names into camel cased tableNames.
+	 * Turns MySQL underscored table_names into camelCased identifiers.
 	 * 
 	 * @param tableName
 	 *            underscored table name
