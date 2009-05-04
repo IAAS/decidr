@@ -1,4 +1,4 @@
-package de.decidr.model.database.reveng;
+package de.decidr.model.reveng;
 
 import java.util.List;
 
