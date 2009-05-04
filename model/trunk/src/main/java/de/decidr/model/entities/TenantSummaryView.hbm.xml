@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 04.05.2009 13:48:06 by Hibernate Tools 3.2.2.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.TenantSummaryView" table="tenant_summary_view" catalog="decidrdb">
+        <composite-id name="id" class="de.decidr.model.entities.TenantSummaryViewId">
+            <key-property name="tenantId" type="long">
+                <column name="tenantId" />
+            </key-property>
+            <key-property name="tenantName" type="string">
+                <column name="tenantName" length="50" />
+            </key-property>
+            <key-property name="adminFirstName" type="string">
+                <column name="adminFirstName" length="50" />
+            </key-property>
+            <key-property name="adminLastName" type="string">
+                <column name="adminLastName" length="50" />
+            </key-property>
+            <key-property name="numWorkflowModels" type="long">
+                <column name="numWorkflowModels" />
+            </key-property>
+            <key-property name="numDeployedWorkflowModels" type="long">
+                <column name="numDeployedWorkflowModels" />
+            </key-property>
+            <key-property name="numWorkflowInstances" type="long">
+                <column name="numWorkflowInstances" />
+            </key-property>
+            <key-property name="numMembers" type="long">
+                <column name="numMembers" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

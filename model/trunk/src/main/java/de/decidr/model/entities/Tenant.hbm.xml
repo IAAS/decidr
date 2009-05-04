@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 04.05.2009 13:48:06 by Hibernate Tools 3.2.2.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.Tenant" table="tenant" catalog="decidrdb">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="logo" class="de.decidr.model.entities.File" fetch="select">
+            <column name="logoId">
+                <comment>Points to the tenant logo file</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="simpleColorScheme" class="de.decidr.model.entities.File" fetch="select">
+            <column name="simpleColorSchemeId" />
+        </many-to-one>
+        <many-to-one name="advancedColorScheme" class="de.decidr.model.entities.File" fetch="select">
+            <column name="advancedColorSchemeId" />
+        </many-to-one>
+        <many-to-one name="admin" class="de.decidr.model.entities.User" fetch="select">
+            <column name="adminId" not-null="true" />
+        </many-to-one>
+        <many-to-one name="currentColorScheme" class="de.decidr.model.entities.File" fetch="select">
+            <column name="currentColorSchemeId" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="name" length="50" not-null="true" unique="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" not-null="true" />
+        </property>
+        <property name="approvedSince" type="timestamp">
+            <column name="approvedSince" length="19">
+                <comment>If this value is null, the tenant still needs approval by the super admin.</comment>
+            </column>
+        </property>
+        <set name="userIsMemberOfTenant" inverse="false" table="user_is_member_of_tenant">
+            <key>
+                <column name="tenantId" not-null="true" />
+            </key>
+            <many-to-many entity-name="de.decidr.model.entities.User">
+                <column name="userId" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="workflowModels" inverse="true">
+            <key>
+                <column name="tenantId" not-null="true" />
+            </key>
+            <one-to-many class="de.decidr.model.entities.WorkflowModel" />
+        </set>
+        <set name="invitations" inverse="true">
+            <key>
+                <column name="joinTenantId">
+                    <comment>If not set to null the receiver is invited to join a tenant as a normal tenant member.</comment>
+                </column>
+            </key>
+            <one-to-many class="de.decidr.model.entities.Invitation" />
+        </set>
+        <set name="deployedWorkflowModels" inverse="true">
+            <key>
+                <column name="tenantId" not-null="true" />
+            </key>
+            <one-to-many class="de.decidr.model.entities.DeployedWorkflowModel" />
+        </set>
+    </class>
+</hibernate-mapping>

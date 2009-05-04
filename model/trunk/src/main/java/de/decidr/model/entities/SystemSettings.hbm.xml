@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 04.05.2009 13:48:06 by Hibernate Tools 3.2.2.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.SystemSettings" table="system_settings" catalog="decidrdb">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="superAdmin" class="de.decidr.model.entities.User" fetch="select">
+            <column name="superAdminId" />
+        </many-to-one>
+        <property name="autoAcceptNewTenants" type="boolean">
+            <column name="autoAcceptNewTenants" not-null="true" />
+        </property>
+        <property name="logLevel" type="string">
+            <column name="logLevel" length="30" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

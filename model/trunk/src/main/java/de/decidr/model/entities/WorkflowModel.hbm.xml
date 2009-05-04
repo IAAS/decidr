@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 04.05.2009 13:48:06 by Hibernate Tools 3.2.2.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.WorkflowModel" table="workflow_model" catalog="decidrdb">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <version name="version" type="long">
+            <column name="version" not-null="true" />
+        </version>
+        <many-to-one name="tenant" class="de.decidr.model.entities.Tenant" fetch="select">
+            <column name="tenantId" not-null="true" />
+        </many-to-one>
+        <many-to-one name="modifiedByUser" class="de.decidr.model.entities.User" fetch="select">
+            <column name="modifiedByUserId" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="name" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" not-null="true" />
+        </property>
+        <property name="published" type="boolean">
+            <column name="published" not-null="true" />
+        </property>
+        <property name="executable" type="boolean">
+            <column name="executable" not-null="true" />
+        </property>
+        <property name="creationDate" type="timestamp">
+            <column name="creationDate" length="19" not-null="true" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="modifiedDate" length="19" not-null="true" />
+        </property>
+        <property name="dwdl" type="binary">
+            <column name="dwdl" not-null="true" />
+        </property>
+        <set name="invitations" inverse="true">
+            <key>
+                <column name="administrateWorkflowModelId">
+                    <comment>If not set to null the receiver is invited to administrate the given workflow model. Furthermore the user will join the tenant that owns the workflow
+                    model</comment>
+                </column>
+            </key>
+            <one-to-many class="de.decidr.model.entities.Invitation" />
+        </set>
+        <set name="userAdministratesWorkflowModel" inverse="false" table="user_administrates_workflow_model">
+            <key>
+                <column name="workflowModelId" not-null="true" />
+            </key>
+            <many-to-many entity-name="de.decidr.model.entities.User">
+                <column name="userId" not-null="true">
+                    <comment>The tenant admin always implicitly administrates all workflow models.</comment>
+                </column>
+            </many-to-many>
+        </set>
+        <set name="deployedWorkflowModels" inverse="true">
+            <key>
+                <column name="originalWorkflowModelId">
+                    <comment>If this field is null, the original workflow model has been deleted or is no longer available.</comment>
+                </column>
+            </key>
+            <one-to-many class="de.decidr.model.entities.DeployedWorkflowModel" />
+        </set>
+    </class>
+</hibernate-mapping>

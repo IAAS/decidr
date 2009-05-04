@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 04.05.2009 13:48:06 by Hibernate Tools 3.2.2.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.UserHasFileAccess" table="user_has_file_access" catalog="decidrdb">
+        <composite-id name="id" class="de.decidr.model.entities.UserHasFileAccessId">
+            <key-property name="userId" type="long">
+                <column name="userId" />
+            </key-property>
+            <key-property name="fileId" type="long">
+                <column name="fileId" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="user" class="de.decidr.model.entities.User" update="false" insert="false" fetch="select">
+            <column name="userId" not-null="true" />
+        </many-to-one>
+        <many-to-one name="file" class="de.decidr.model.entities.File" update="false" insert="false" fetch="select">
+            <column name="fileId" not-null="true" />
+        </many-to-one>
+        <property name="mayRead" type="boolean">
+            <column name="mayRead" not-null="true" />
+        </property>
+        <property name="mayDelete" type="boolean">
+            <column name="mayDelete" not-null="true" />
+        </property>
+        <property name="mayReplace" type="boolean">
+            <column name="mayReplace" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
