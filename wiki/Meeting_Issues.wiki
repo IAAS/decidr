@@ -7,6 +7,9 @@
 
 Add your issues to be descussed in the next "Weekly Meeting":
 
+== WM 05/05/09 ==
+  # Design: ODE monitoring: quick vote on what "load average" should be (RR)
+
 == WM 04/28/09 ==
   # Design: draw2d vs. gwt-diagrams & gwt-connectors (JS)
   # Misc: VP-Keys only valid for versions before 7.0? (JS)
