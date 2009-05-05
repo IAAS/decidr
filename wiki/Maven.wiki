@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary This page configures maven and hudson and gives a tutorial for the hudson plugin for eclipse.
 
 = Maven and Hudson Configuration =
 
