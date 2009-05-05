@@ -17,7 +17,7 @@
   * [SVN]
   * [Tools]
   * [WSTeamConfiguration Configuration used by the Web Services Team]
-  * [Maven and Hudson]
+  * [ Maven and Hudson]
 
 == Phases ==
   * [Analysis]
