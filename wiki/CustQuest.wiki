@@ -1,0 +1,4 @@
+#summary Questions the customer should answer
+
+= Questions for the customer =
+  * Was ist, wenn eine ODE-Instanz nicht genug Speicher hat (z.B. ein HT-Formular mit 100 Variablen wird von 100 Benutzern bearbeitet und die Antwort muss von der ODE-Instanz gespeichert werden)
