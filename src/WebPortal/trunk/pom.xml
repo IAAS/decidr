@@ -18,7 +18,7 @@
     	<groupId>itmill</groupId>
     	<artifactId>itmill-toolkit</artifactId>
     	<version>5.3.1</version>
-    	<optional>false</optional>
+    	<scope>compile</scope>
     </dependency>
   </dependencies>
   <build>
