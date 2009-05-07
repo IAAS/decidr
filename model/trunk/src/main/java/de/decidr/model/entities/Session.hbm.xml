@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 04.05.2009 13:48:06 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 07.05.2009 13:21:40 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.Session" table="session" catalog="decidrdb">
         <id name="sessionId" type="string">

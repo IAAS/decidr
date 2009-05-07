@@ -12,6 +12,7 @@
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
         <mapping resource="de/decidr/model/entities/StartConfiguration.hbm.xml" />
         <mapping resource="de/decidr/model/entities/Invitation.hbm.xml" />
+        <mapping resource="de/decidr/model/entities/Log.hbm.xml" />
         <mapping resource="de/decidr/model/entities/KnownWebService.hbm.xml" />
         <mapping resource="de/decidr/model/entities/WorkflowInstance.hbm.xml" />
         <mapping resource="de/decidr/model/entities/User.hbm.xml" />
@@ -27,6 +28,7 @@
         <mapping resource="de/decidr/model/entities/File.hbm.xml" />
         <mapping resource="de/decidr/model/entities/ServerLoadView.hbm.xml" />
         <mapping resource="de/decidr/model/entities/SystemSettings.hbm.xml" />
+        <mapping resource="de/decidr/model/entities/WorkflowModelIsDeployedOnServer.hbm.xml" />
         <mapping resource="de/decidr/model/entities/TenantSummaryView.hbm.xml" />
         <mapping resource="de/decidr/model/entities/WorkItemSummaryView.hbm.xml" />
         <mapping resource="de/decidr/model/entities/ChangeEmailRequest.hbm.xml" />

@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 04.05.2009 13:48:05 by Hibernate Tools 3.2.2.GA
+// Generated 07.05.2009 13:21:40 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -15,14 +15,14 @@ public class DeployedWorkflowModel implements java.io.Serializable {
 	private long version;
 	private WorkflowModel originalWorkflowModel;
 	private Tenant tenant;
-	private Server deployedOnServer;
 	private String name;
 	private String description;
 	private byte[] dwdl;
 	private byte[] wsdl;
 	private byte[] soapTemplate;
 	private Date deployDate;
-	private long odeVersion;
+	private Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers = new HashSet<WorkflowModelIsDeployedOnServer>(
+			0);
 	private Set<StartConfiguration> startConfigurations = new HashSet<StartConfiguration>(
 			0);
 	private Set<WorkflowInstance> workflowInstances = new HashSet<WorkflowInstance>(
@@ -31,36 +31,39 @@ public class DeployedWorkflowModel implements java.io.Serializable {
 	public DeployedWorkflowModel() {
 	}
 
-	public DeployedWorkflowModel(Tenant tenant, Server deployedOnServer,
-			String name, String description, byte[] dwdl, byte[] wsdl,
-			byte[] soapTemplate, Date deployDate, long odeVersion) {
+	public DeployedWorkflowModel(Tenant tenant, String name,
+			String description, byte[] dwdl, byte[] wsdl, byte[] soapTemplate,
+			Date deployDate) {
 		this.tenant = tenant;
-		this.deployedOnServer = deployedOnServer;
 		this.name = name;
 		this.description = description;
 		this.dwdl = dwdl;
 		this.wsdl = wsdl;
 		this.soapTemplate = soapTemplate;
 		this.deployDate = deployDate;
-		this.odeVersion = odeVersion;
 	}
 
-	public DeployedWorkflowModel(WorkflowModel originalWorkflowModel,
-			Tenant tenant, Server deployedOnServer, String name,
-			String description, byte[] dwdl, byte[] wsdl, byte[] soapTemplate,
-			Date deployDate, long odeVersion,
+	public DeployedWorkflowModel(
+			WorkflowModel originalWorkflowModel,
+			Tenant tenant,
+			String name,
+			String description,
+			byte[] dwdl,
+			byte[] wsdl,
+			byte[] soapTemplate,
+			Date deployDate,
+			Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers,
 			Set<StartConfiguration> startConfigurations,
 			Set<WorkflowInstance> workflowInstances) {
 		this.originalWorkflowModel = originalWorkflowModel;
 		this.tenant = tenant;
-		this.deployedOnServer = deployedOnServer;
 		this.name = name;
 		this.description = description;
 		this.dwdl = dwdl;
 		this.wsdl = wsdl;
 		this.soapTemplate = soapTemplate;
 		this.deployDate = deployDate;
-		this.odeVersion = odeVersion;
+		this.workflowModelIsDeployedOnServers = workflowModelIsDeployedOnServers;
 		this.startConfigurations = startConfigurations;
 		this.workflowInstances = workflowInstances;
 	}
@@ -95,14 +98,6 @@ public class DeployedWorkflowModel implements java.io.Serializable {
 
 	public void setTenant(Tenant tenant) {
 		this.tenant = tenant;
-	}
-
-	public Server getDeployedOnServer() {
-		return this.deployedOnServer;
-	}
-
-	public void setDeployedOnServer(Server deployedOnServer) {
-		this.deployedOnServer = deployedOnServer;
 	}
 
 	public String getName() {
@@ -153,12 +148,13 @@ public class DeployedWorkflowModel implements java.io.Serializable {
 		this.deployDate = deployDate;
 	}
 
-	public long getOdeVersion() {
-		return this.odeVersion;
+	public Set<WorkflowModelIsDeployedOnServer> getWorkflowModelIsDeployedOnServers() {
+		return this.workflowModelIsDeployedOnServers;
 	}
 
-	public void setOdeVersion(long odeVersion) {
-		this.odeVersion = odeVersion;
+	public void setWorkflowModelIsDeployedOnServers(
+			Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers) {
+		this.workflowModelIsDeployedOnServers = workflowModelIsDeployedOnServers;
 	}
 
 	public Set<StartConfiguration> getStartConfigurations() {

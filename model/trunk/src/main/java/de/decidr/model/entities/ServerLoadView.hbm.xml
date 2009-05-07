@@ -1,15 +1,24 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 04.05.2009 13:48:06 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 07.05.2009 13:21:40 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.ServerLoadView" table="server_load_view" catalog="decidrdb">
         <composite-id name="id" class="de.decidr.model.entities.ServerLoadViewId">
             <key-property name="id" type="long">
                 <column name="id" />
             </key-property>
+            <key-property name="location" type="string">
+                <column name="location" />
+            </key-property>
             <key-property name="load" type="byte">
                 <column name="load" />
+            </key-property>
+            <key-property name="locked" type="boolean">
+                <column name="locked" />
+            </key-property>
+            <key-property name="dynamicallyAdded" type="boolean">
+                <column name="dynamicallyAdded" />
             </key-property>
             <key-property name="numInstances" type="long">
                 <column name="numInstances" />

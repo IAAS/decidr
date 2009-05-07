@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 04.05.2009 13:48:06 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 07.05.2009 13:21:40 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.DeployedWorkflowModel" table="deployed_workflow_model" catalog="decidrdb">
         <id name="id" type="java.lang.Long">
@@ -18,11 +18,6 @@
         </many-to-one>
         <many-to-one name="tenant" class="de.decidr.model.entities.Tenant" fetch="select">
             <column name="tenantId" not-null="true" />
-        </many-to-one>
-        <many-to-one name="deployedOnServer" class="de.decidr.model.entities.Server" fetch="select">
-            <column name="deployedOnServerId" not-null="true">
-                <comment>Used to route messages to the correct ODE instance</comment>
-            </column>
         </many-to-one>
         <property name="name" type="string">
             <column name="name" not-null="true" />
@@ -42,9 +37,12 @@
         <property name="deployDate" type="timestamp">
             <column name="deployDate" length="19" not-null="true" />
         </property>
-        <property name="odeVersion" type="long">
-            <column name="odeVersion" not-null="true" />
-        </property>
+        <set name="workflowModelIsDeployedOnServers" inverse="true">
+            <key>
+                <column name="deployedWorkflowModelId" not-null="true" />
+            </key>
+            <one-to-many class="de.decidr.model.entities.WorkflowModelIsDeployedOnServer" />
+        </set>
         <set name="startConfigurations" inverse="true">
             <key>
                 <column name="deployedWorkflowModelId" not-null="true" />

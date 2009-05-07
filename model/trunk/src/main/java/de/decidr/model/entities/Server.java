@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 04.05.2009 13:48:05 by Hibernate Tools 3.2.2.GA
+// Generated 07.05.2009 13:21:40 by Hibernate Tools 3.2.2.GA
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +15,9 @@ public class Server implements java.io.Serializable {
 	private byte load;
 	private boolean locked;
 	private boolean dynamicallyAdded;
-	private Set<DeployedWorkflowModel> deployedWorkflowModels = new HashSet<DeployedWorkflowModel>(
+	private Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers = new HashSet<WorkflowModelIsDeployedOnServer>(
+			0);
+	private Set<WorkflowInstance> workflowInstances = new HashSet<WorkflowInstance>(
 			0);
 
 	public Server() {
@@ -29,14 +31,19 @@ public class Server implements java.io.Serializable {
 		this.dynamicallyAdded = dynamicallyAdded;
 	}
 
-	public Server(String location, byte load, boolean locked,
+	public Server(
+			String location,
+			byte load,
+			boolean locked,
 			boolean dynamicallyAdded,
-			Set<DeployedWorkflowModel> deployedWorkflowModels) {
+			Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers,
+			Set<WorkflowInstance> workflowInstances) {
 		this.location = location;
 		this.load = load;
 		this.locked = locked;
 		this.dynamicallyAdded = dynamicallyAdded;
-		this.deployedWorkflowModels = deployedWorkflowModels;
+		this.workflowModelIsDeployedOnServers = workflowModelIsDeployedOnServers;
+		this.workflowInstances = workflowInstances;
 	}
 
 	public Long getId() {
@@ -79,13 +86,21 @@ public class Server implements java.io.Serializable {
 		this.dynamicallyAdded = dynamicallyAdded;
 	}
 
-	public Set<DeployedWorkflowModel> getDeployedWorkflowModels() {
-		return this.deployedWorkflowModels;
+	public Set<WorkflowModelIsDeployedOnServer> getWorkflowModelIsDeployedOnServers() {
+		return this.workflowModelIsDeployedOnServers;
 	}
 
-	public void setDeployedWorkflowModels(
-			Set<DeployedWorkflowModel> deployedWorkflowModels) {
-		this.deployedWorkflowModels = deployedWorkflowModels;
+	public void setWorkflowModelIsDeployedOnServers(
+			Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers) {
+		this.workflowModelIsDeployedOnServers = workflowModelIsDeployedOnServers;
+	}
+
+	public Set<WorkflowInstance> getWorkflowInstances() {
+		return this.workflowInstances;
+	}
+
+	public void setWorkflowInstances(Set<WorkflowInstance> workflowInstances) {
+		this.workflowInstances = workflowInstances;
 	}
 
 }

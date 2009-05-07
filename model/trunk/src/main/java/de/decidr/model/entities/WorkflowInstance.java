@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 04.05.2009 13:48:05 by Hibernate Tools 3.2.2.GA
+// Generated 07.05.2009 13:21:40 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -13,6 +13,7 @@ public class WorkflowInstance implements java.io.Serializable {
 
 	private Long id;
 	private DeployedWorkflowModel deployedWorkflowModel;
+	private Server server;
 	private String odePid;
 	private byte[] startConfiguration;
 	private Date completedDate;
@@ -25,18 +26,20 @@ public class WorkflowInstance implements java.io.Serializable {
 	}
 
 	public WorkflowInstance(DeployedWorkflowModel deployedWorkflowModel,
-			String odePid, byte[] startConfiguration) {
+			Server server, String odePid, byte[] startConfiguration) {
 		this.deployedWorkflowModel = deployedWorkflowModel;
+		this.server = server;
 		this.odePid = odePid;
 		this.startConfiguration = startConfiguration;
 	}
 
 	public WorkflowInstance(DeployedWorkflowModel deployedWorkflowModel,
-			String odePid, byte[] startConfiguration, Date completedDate,
-			Set<WorkItem> workItems,
+			Server server, String odePid, byte[] startConfiguration,
+			Date completedDate, Set<WorkItem> workItems,
 			Set<User> userAdministratesWorkflowInstance,
 			Set<Invitation> invitations, Set<User> userParticipatesInWorkflow) {
 		this.deployedWorkflowModel = deployedWorkflowModel;
+		this.server = server;
 		this.odePid = odePid;
 		this.startConfiguration = startConfiguration;
 		this.completedDate = completedDate;
@@ -61,6 +64,14 @@ public class WorkflowInstance implements java.io.Serializable {
 	public void setDeployedWorkflowModel(
 			DeployedWorkflowModel deployedWorkflowModel) {
 		this.deployedWorkflowModel = deployedWorkflowModel;
+	}
+
+	public Server getServer() {
+		return this.server;
+	}
+
+	public void setServer(Server server) {
+		this.server = server;
 	}
 
 	public String getOdePid() {
