@@ -28,3 +28,6 @@ The project team wants to make changes to the !JavaScript-based modeling tool (g
 
 == Add Billing Functionality to DecidR ==
 The project team wants to add a payment system to DecidR so tenant admins can put a fee on their published workflow models, for example.
+
+== Add a Notification that a Work Item was started ==
+There may be an extension where the HT Web Service is told when a work item is started, tells the workflow about it and an action is taken when this event occurs.
