@@ -1,4 +1,5 @@
 #summary This page configures maven and hudson and gives a tutorial for the hudson plugin for eclipse.
+#labels Phase-Implementation
 
 = Maven and Hudson Configuration =
 
@@ -13,7 +14,7 @@ http://hudson-eclipse.googlecode.com/svn/trunk/hudson-update/
 
 = Details for Maven configuration =
 
-For some reason there might be problems to install m2eclipse plugin. There could several reasons why your installation failed. So the best way is to check step by step every project folder of the maven update site and to look if it makes problems. Continue until you have reached the last project folder.
+For some reason there might be problems installing the m2eclipse plugin. There could several reasons for your installation to fail. So the best way is to check every project folder of the maven update site step by step to see if it causes problems. Continue until you have reached the last project folder.
  
 
 = Details for Hudson Configuration =
@@ -23,5 +24,5 @@ If you have downloaded the Hudson plugin for eclipse follow this tutorial to sho
   # In the text field _Hudson base url_ type in the hudson web page:
    http://iaassrv7.informatik.uni-stuttgart.de:8080/hudson
   # You can check the URL by clicking the _Check url_ button next to the text field. But you have to be connected to the university network via VPN.
-  # Check the _Use authentication_ checkbox and type in your login and password for the Hudson web page. If you haven't a login yet, go to Hudson and register.
+  # Check the _Use authentication_ checkbox and type in your login and password for the Hudson web page. If you don't have a login yet, go to Hudson and register.
   # The following three checkboxes can be checked but it isn't necessary.
