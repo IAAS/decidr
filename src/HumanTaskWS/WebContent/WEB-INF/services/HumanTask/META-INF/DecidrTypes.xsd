@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://decidr.de/schema/DecidrTypes" attributeFormDefault="unqualified"
+	elementFormDefault="qualified" targetNamespace="http://decidr.de/schema/DecidrTypes">
+	<xsd:element name="actor" type="tns:tActor" />
+	<xsd:complexType name="tActor">
+		<xsd:attribute name="name" type="xsd:NCName" />
+		<xsd:attribute name="userid" type="xsd:ID" use="required" />
+		<xsd:attribute name="email" type="xsd:string" />
+	</xsd:complexType>
+	<xsd:element name="role" type="tns:tRole" />
+	<xsd:complexType name="tRole">
+		<xsd:sequence>
+			<xsd:element ref="tns:actor" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:NCName" use="required" />
+	</xsd:complexType>
+	<xsd:simpleType name="list-integer">
+		<xsd:list itemType="xsd:integer" />
+	</xsd:simpleType>
+	<xsd:simpleType name="list-float">
+		<xsd:list itemType="xsd:float" />
+	</xsd:simpleType>
+	<xsd:simpleType name="list-string">
+		<xsd:list itemType="xsd:string" />
+	</xsd:simpleType>
+	<xsd:simpleType name="list-boolean">
+		<xsd:list itemType="xsd:boolean" />
+	</xsd:simpleType>
+	<xsd:simpleType name="list-date">
+		<xsd:list itemType="xsd:date" />
+	</xsd:simpleType>
+	<xsd:simpleType name="list-file">
+		<xsd:list itemType="xsd:anyURI" />
+	</xsd:simpleType>
+	<xsd:simpleType name="tID">
+		<xsd:restriction base="xsd:long" />
+	</xsd:simpleType>
+	<xsd:complexType name="tItem">
+		<xsd:sequence>
+			<xsd:element name="hint" type="xsd:string" />
+			<xsd:element name="label" type="xsd:string" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		<xsd:attribute default="false" name="readOnly" type="xsd:boolean" />
+	</xsd:complexType>
+	<xsd:complexType name="tStringItem">
+		<xsd:complexContent>
+			<xsd:extension base="tns:tItem">
+				<xsd:sequence>
+					<xsd:element name="value" type="xsd:string" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="tBooleanItem">
+		<xsd:complexContent>
+			<xsd:extension base="tns:tItem">
+				<xsd:sequence>
+					<xsd:element name="value" type="xsd:boolean" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="tFloatItem">
+		<xsd:complexContent>
+			<xsd:extension base="tns:tItem">
+				<xsd:sequence>
+					<xsd:element name="value" type="xsd:float" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="tDateItem">
+		<xsd:complexContent>
+			<xsd:extension base="tns:tItem">
+				<xsd:sequence>
+					<xsd:element name="value" type="xsd:date" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="tURIItem">
+		<xsd:complexContent>
+			<xsd:extension base="tns:tItem">
+				<xsd:sequence>
+					<xsd:element name="value" type="xsd:anyURI" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="tIntegerItem">
+		<xsd:complexContent>
+			<xsd:extension base="tns:tItem">
+				<xsd:sequence>
+					<xsd:element name="value" type="xsd:integer" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="tItemList">
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" name="item" type="tns:tItem" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="tIDList">
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" name="id" type="tns:tID" />
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>
