@@ -3,7 +3,8 @@
 	xmlns:tns="http://decidr.de/webservices/HumanTask" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:decidr="http://decidr.de/schema/DecidrTypes"
 	xmlns:dwsdl="http://decidr.de/wsdl/DecidrTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
-	name="HumanTask" targetNamespace="http://decidr.de/HumanTask/">
+	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" name="HumanTask"
+	targetNamespace="http://decidr.de/webservices/HumanTask">
 
 	<wsdl:types>
 		<xsd:schema targetNamespace="http://decidr.de/webservices/HumanTask">
@@ -31,10 +32,13 @@
 							minOccurs="1" maxOccurs="1" nillable="false" />
 						<xsd:element name="userNotification" type="xsd:boolean"
 							minOccurs="0" maxOccurs="1" nillable="false" default="false" />
-                        <xsd:element name="description" type="xsd:string"
-                            minOccurs="1" maxOccurs="1" nillable="false" />
-                        <!-- xsd:element name="descriptionVars" type="decidr:tDescriptionItemList"
-                            minOccurs="0" maxOccurs="1" nillable="false" / -->
+						<xsd:element name="description" type="xsd:string"
+							minOccurs="1" maxOccurs="1" nillable="false" />
+						<!--
+							xsd:element name="descriptionVars"
+							type="decidr:tDescriptionItemList" minOccurs="0" maxOccurs="1"
+							nillable="false" /
+						-->
 						<xsd:element name="taskData" type="decidr:tItemList"
 							minOccurs="0" maxOccurs="1" nillable="false" />
 					</xsd:sequence>
@@ -53,7 +57,7 @@
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
-			<xsd:element name="" taskCompleted " Response ">
+			<xsd:element name="taskCompletedResponse">
 				<xsd:complexType>
 					<xsd:sequence />
 				</xsd:complexType>
@@ -114,20 +118,25 @@
 
 	<wsdl:portType name="HumanTaskPT">
 		<wsdl:operation name="createTask">
-			<wsdl:input message="tns:createTaskRequest" />
-			<wsdl:output message="tns:createTaskResponse" />
+			<wsdl:input message="tns:createTaskRequest" wsaw:Action="urn:createTask" />
+			<wsdl:output message="tns:createTaskResponse"
+				wsaw:Action="urn:createTaskResponse" />
 		</wsdl:operation>
 		<wsdl:operation name="taskCompleted">
-			<wsdl:input message="tns:taskCompletedRequest" />
-			<wsdl:output message="tns:taskCompletedResponse" />
+			<wsdl:input message="tns:taskCompletedRequest"
+				wsaw:Action="urn:taskCompleted" />
+			<wsdl:output message="tns:taskCompletedResponse"
+				wsaw:Action="urn:taskCompletedResponse" />
 		</wsdl:operation>
 		<wsdl:operation name="removeTasks">
-			<wsdl:input message="tns:removeTasksRequest" />
-			<wsdl:output message="tns:removeTasksResponse" />
+			<wsdl:input message="tns:removeTasksRequest" wsaw:Action="urn:removeTasks" />
+			<wsdl:output message="tns:removeTasksResponse"
+				wsaw:Action="urn:removeTasksResponse" />
 		</wsdl:operation>
 		<wsdl:operation name="removeTask">
-			<wsdl:input message="tns:removeTaskRequest" />
-			<wsdl:output message="tns:removeTaskResponse" />
+			<wsdl:input message="tns:removeTaskRequest" wsaw:Action="urn:removeTask" />
+			<wsdl:output message="tns:removeTaskResponse"
+				wsaw:Action="urn:removeTaskResponse" />
 		</wsdl:operation>
 	</wsdl:portType>
 	<plnk:partnerLinkType name="HumanTaskPLT">
