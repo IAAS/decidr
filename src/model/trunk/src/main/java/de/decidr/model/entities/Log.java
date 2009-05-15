@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 07.05.2009 13:21:40 by Hibernate Tools 3.2.2.GA
+// Generated 15.05.2009 17:31:29 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 
@@ -23,6 +23,7 @@ public class Log implements java.io.Serializable {
 	private String addon;
 	private Date logDate;
 	private String createdBy;
+	private String thread;
 
 	public Log() {
 	}
@@ -34,7 +35,7 @@ public class Log implements java.io.Serializable {
 	public Log(String prio, Long iprio, String category, String msg,
 			String layoutMsg, String throwable, String ndc, String mdc,
 			String mdc2, String info, String addon, Date logDate,
-			String createdBy) {
+			String createdBy, String thread) {
 		this.prio = prio;
 		this.iprio = iprio;
 		this.category = category;
@@ -48,6 +49,7 @@ public class Log implements java.io.Serializable {
 		this.addon = addon;
 		this.logDate = logDate;
 		this.createdBy = createdBy;
+		this.thread = thread;
 	}
 
 	public Long getId() {
@@ -160,6 +162,14 @@ public class Log implements java.io.Serializable {
 
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
+	}
+
+	public String getThread() {
+		return this.thread;
+	}
+
+	public void setThread(String thread) {
+		this.thread = thread;
 	}
 
 }
