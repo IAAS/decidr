@@ -10,9 +10,9 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-import de.decidr.model.soaptypes.CreateTaskResponse;
-import de.decidr.model.soaptypes.IDList;
-import de.decidr.model.soaptypes.ItemList;
+import de.decidr.model.soap.types.CreateTaskResponse;
+import de.decidr.model.soap.types.IDList;
+import de.decidr.model.soap.types.ItemList;
 
 /**
  * HumanTaskInterface java skeleton interface for the axisService

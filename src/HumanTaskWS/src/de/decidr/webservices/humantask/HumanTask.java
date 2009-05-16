@@ -8,9 +8,12 @@ package de.decidr.webservices.humantask;
 
 import javax.jws.WebService;
 
-import de.decidr.model.soaptypes.CreateTaskResponse;
-import de.decidr.model.soaptypes.IDList;
-import de.decidr.model.soaptypes.ItemList;
+import de.decidr.model.facades.UserFacade;
+import de.decidr.model.facades.WorkItemFacade;
+import de.decidr.model.soap.exceptions.InvalidUserException;
+import de.decidr.model.soap.types.CreateTaskResponse;
+import de.decidr.model.soap.types.IDList;
+import de.decidr.model.soap.types.ItemList;
 
 /**
  * HumanTask java skeleton for the axisService
@@ -21,21 +24,35 @@ public class HumanTask implements HumanTaskInterface {
 	public CreateTaskResponse createTask(long wfmID, long processID,
 			long userID, String taskName, boolean userNotification,
 			String description, ItemList taskData) {
-		// TODO Auto-generated method stub
-		throw new java.lang.UnsupportedOperationException("Please implement "
-				+ this.getClass().getName() + "#createTask");
+		// user validity check
+		if (new UserFacade(1L).getUserProfile(userID) == null) {
+			throw new InvalidUserException("User ID " + userID
+					+ "doesn't exist in the system.");
+		}
+
+		CreateTaskResponse id = new CreateTaskResponse();
+		id.setProcessID(processID);
+		id.setUserID(userID);
+		// FIXME: proper way to get a WorkItemFacade instance
+		// FIXME: properly pass proper data
+		// FIXME: throw DatabaseUnavailableException if necessary
+		id.setTaskID(new WorkItemFacade(1L).createWorkItem(userID, wfmID,
+				processID + "", taskName, description, (byte[]) null));
+		return id;
 	}
 
 	@Override
 	public void removeTask(IDList taskIDList) {
-		// TODO Auto-generated method stub
-		throw new java.lang.UnsupportedOperationException("Please implement "
-				+ this.getClass().getName() + "#removeTask");
+		// FIXME: proper way to get a WorkItemFacade instance
+		// FIXME: throw DatabaseUnavailableException if necessary
+		for (long id : taskIDList.getId()) {
+			new WorkItemFacade(1L).deleteWorkItem(id);
+		}
 	}
 
 	@Override
 	public void removeTasks(long processID) {
-		// TODO Auto-generated method stub
+		// FIXME: find a way to get tasks associated with
 		throw new java.lang.UnsupportedOperationException("Please implement "
 				+ this.getClass().getName() + "#removeTasks");
 	}
