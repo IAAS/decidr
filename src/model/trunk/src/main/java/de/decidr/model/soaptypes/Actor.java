@@ -1,4 +1,4 @@
-package de.decidr.schema.decidrtypes;
+package de.decidr.model.soaptypes;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -33,8 +33,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tActor")
-public class TActor {
-
+public class Actor {
 	@XmlAttribute
 	@XmlJavaTypeAdapter(CollapsedStringAdapter.class)
 	@XmlSchemaType(name = "NCName")
@@ -109,5 +108,4 @@ public class TActor {
 	public void setEmail(String value) {
 		this.email = value;
 	}
-
 }

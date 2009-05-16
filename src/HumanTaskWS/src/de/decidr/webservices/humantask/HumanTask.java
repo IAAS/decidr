@@ -8,8 +8,9 @@ package de.decidr.webservices.humantask;
 
 import javax.jws.WebService;
 
-import de.decidr.schema.decidrtypes.TIDList;
-import de.decidr.schema.decidrtypes.TItemList;
+import de.decidr.model.soaptypes.CreateTaskResponse;
+import de.decidr.model.soaptypes.IDList;
+import de.decidr.model.soaptypes.ItemList;
 
 /**
  * HumanTask java skeleton for the axisService
@@ -19,14 +20,14 @@ public class HumanTask implements HumanTaskInterface {
 	@Override
 	public CreateTaskResponse createTask(long wfmID, long processID,
 			long userID, String taskName, boolean userNotification,
-			String description, TItemList taskData) {
+			String description, ItemList taskData) {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException("Please implement "
 				+ this.getClass().getName() + "#createTask");
 	}
 
 	@Override
-	public void removeTask(TIDList taskIDList) {
+	public void removeTask(IDList taskIDList) {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException("Please implement "
 				+ this.getClass().getName() + "#removeTask");

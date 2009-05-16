@@ -1,4 +1,4 @@
-package de.decidr.webservices.humantask;
+package de.decidr.model.soaptypes;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

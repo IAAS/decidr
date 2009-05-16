@@ -1,25 +1,25 @@
-package de.decidr.schema.decidrtypes;
+package de.decidr.model.soaptypes;
 
-import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>
- * Java class for tIntegerItem complex type.
+ * Java class for tURIItem complex type.
  * 
  * <p>
  * The following schema fragment specifies the expected content contained within
  * this class.
  * 
  * <pre>
- * &lt;complexType name=&quot;tIntegerItem&quot;&gt;
+ * &lt;complexType name=&quot;tURIItem&quot;&gt;
  *   &lt;complexContent&gt;
  *     &lt;extension base=&quot;{http://decidr.de/schema/DecidrTypes}tItem&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;value&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}integer&quot;/&gt;
+ *         &lt;element name=&quot;value&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}anyURI&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/extension&gt;
  *   &lt;/complexContent&gt;
@@ -29,19 +29,20 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tIntegerItem", propOrder = { "value" })
-public class TIntegerItem extends TItem {
+@XmlType(name = "tURIItem", propOrder = { "value" })
+public class URIItem extends Item {
 
 	@XmlElement(required = true)
-	protected BigInteger value;
+	@XmlSchemaType(name = "anyURI")
+	protected String value;
 
 	/**
 	 * Gets the value of the value property.
 	 * 
-	 * @return possible object is {@link BigInteger }
+	 * @return possible object is {@link String }
 	 * 
 	 */
-	public BigInteger getValue() {
+	public String getValue() {
 		return value;
 	}
 
@@ -49,10 +50,10 @@ public class TIntegerItem extends TItem {
 	 * Sets the value of the value property.
 	 * 
 	 * @param value
-	 *            allowed object is {@link BigInteger }
+	 *            allowed object is {@link String }
 	 * 
 	 */
-	public void setValue(BigInteger value) {
+	public void setValue(String value) {
 		this.value = value;
 	}
 

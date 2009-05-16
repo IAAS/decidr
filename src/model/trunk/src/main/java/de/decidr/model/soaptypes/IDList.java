@@ -1,4 +1,4 @@
-package de.decidr.schema.decidrtypes;
+package de.decidr.model.soaptypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,18 +9,18 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>
- * Java class for tItemList complex type.
+ * Java class for tIDList complex type.
  * 
  * <p>
  * The following schema fragment specifies the expected content contained within
  * this class.
  * 
  * <pre>
- * &lt;complexType name=&quot;tItemList&quot;&gt;
+ * &lt;complexType name=&quot;tIDList&quot;&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;item&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tItem&quot; maxOccurs=&quot;unbounded&quot;/&gt;
+ *         &lt;element name=&quot;id&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tID&quot; maxOccurs=&quot;unbounded&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -30,39 +30,37 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tItemList", propOrder = { "item" })
-public class TItemList {
-
-	@XmlElement(required = true)
-	protected List<TItem> item;
+@XmlType(name = "tIDList", propOrder = { "id" })
+public class IDList {
+	@XmlElement(type = Long.class)
+	protected List<Long> id;
 
 	/**
-	 * Gets the value of the item property.
+	 * Gets the value of the id property.
 	 * 
 	 * <p>
 	 * This accessor method returns a reference to the live list, not a
 	 * snapshot. Therefore any modification you make to the returned list will
 	 * be present inside the JAXB object. This is why there is not a
-	 * <CODE>set</CODE> method for the item property.
+	 * <CODE>set</CODE> method for the id property.
 	 * 
 	 * <p>
 	 * For example, to add a new item, do as follows:
 	 * 
 	 * <pre>
-	 * getItem().add(newItem);
+	 * getId().add(newItem);
 	 * </pre>
 	 * 
 	 * 
 	 * <p>
-	 * Objects of the following type(s) are allowed in the list {@link TItem }
+	 * Objects of the following type(s) are allowed in the list {@link Long }
 	 * 
 	 * 
 	 */
-	public List<TItem> getItem() {
-		if (item == null) {
-			item = new ArrayList<TItem>();
+	public List<Long> getId() {
+		if (id == null) {
+			id = new ArrayList<Long>();
 		}
-		return this.item;
+		return this.id;
 	}
-
 }

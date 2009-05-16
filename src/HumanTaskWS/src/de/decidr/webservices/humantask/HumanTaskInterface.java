@@ -10,8 +10,9 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-import de.decidr.schema.decidrtypes.TIDList;
-import de.decidr.schema.decidrtypes.TItemList;
+import de.decidr.model.soaptypes.CreateTaskResponse;
+import de.decidr.model.soaptypes.IDList;
+import de.decidr.model.soaptypes.ItemList;
 
 /**
  * HumanTaskInterface java skeleton interface for the axisService
@@ -25,7 +26,7 @@ public interface HumanTaskInterface {
 	 * @param removeTask
 	 */
 	@WebMethod(operationName = "removeTask")
-	public void removeTask(@WebParam(name = "taskIDList") TIDList taskIDList);
+	public void removeTask(@WebParam(name = "taskIDList") IDList taskIDList);
 
 	/**
 	 * Auto generated method signature
@@ -47,7 +48,7 @@ public interface HumanTaskInterface {
 			@WebParam(name = "taskName") String taskName,
 			@WebParam(name = "userNotification") boolean userNotification,
 			@WebParam(name = "description") String description,
-			@WebParam(name = "taskData") TItemList taskData);
+			@WebParam(name = "taskData") ItemList taskData);
 
 	/**
 	 * Auto generated method signature

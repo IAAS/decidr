@@ -1,4 +1,4 @@
-package de.decidr.schema.decidrtypes;
+package de.decidr.model.soaptypes;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -34,10 +34,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tRole", propOrder = { "actor" })
-public class TRole {
+public class Role {
 
 	@XmlElement(required = true)
-	protected TActor actor;
+	protected Actor actor;
 	@XmlAttribute(required = true)
 	@XmlJavaTypeAdapter(CollapsedStringAdapter.class)
 	@XmlSchemaType(name = "NCName")
@@ -46,10 +46,10 @@ public class TRole {
 	/**
 	 * Gets the value of the actor property.
 	 * 
-	 * @return possible object is {@link TActor }
+	 * @return possible object is {@link Actor }
 	 * 
 	 */
-	public TActor getActor() {
+	public Actor getActor() {
 		return actor;
 	}
 
@@ -57,10 +57,10 @@ public class TRole {
 	 * Sets the value of the actor property.
 	 * 
 	 * @param value
-	 *            allowed object is {@link TActor }
+	 *            allowed object is {@link Actor }
 	 * 
 	 */
-	public void setActor(TActor value) {
+	public void setActor(Actor value) {
 		this.actor = value;
 	}
 

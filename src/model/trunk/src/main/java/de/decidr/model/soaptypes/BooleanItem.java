@@ -1,4 +1,4 @@
-package de.decidr.schema.decidrtypes;
+package de.decidr.model.soaptypes;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -28,8 +28,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tBooleanItem", propOrder = { "value" })
-public class TBooleanItem extends TItem {
-
+public class BooleanItem extends Item {
 	protected boolean value;
 
 	/**
@@ -47,5 +46,4 @@ public class TBooleanItem extends TItem {
 	public void setValue(boolean value) {
 		this.value = value;
 	}
-
 }

@@ -1,4 +1,4 @@
-package de.decidr.schema.decidrtypes;
+package de.decidr.model.soaptypes;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -34,9 +34,9 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tItem", propOrder = { "hint", "label" })
-@XmlSeeAlso( { TDateItem.class, TFloatItem.class, TURIItem.class,
-		TIntegerItem.class, TStringItem.class, TBooleanItem.class })
-public class TItem {
+@XmlSeeAlso( { DateItem.class, FloatItem.class, URIItem.class,
+		IntegerItem.class, StringItem.class, BooleanItem.class })
+public class Item {
 
 	@XmlElement(required = true)
 	protected String hint;
