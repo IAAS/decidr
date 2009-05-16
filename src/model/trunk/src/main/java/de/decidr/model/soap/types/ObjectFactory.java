@@ -1,4 +1,4 @@
-package de.decidr.model.soaptypes;
+package de.decidr.model.soap.types;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

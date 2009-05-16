@@ -1,25 +1,26 @@
-package de.decidr.model.soaptypes;
+package de.decidr.model.soap.types;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  * <p>
- * Java class for tURIItem complex type.
+ * Java class for tDateItem complex type.
  * 
  * <p>
  * The following schema fragment specifies the expected content contained within
  * this class.
  * 
  * <pre>
- * &lt;complexType name=&quot;tURIItem&quot;&gt;
+ * &lt;complexType name=&quot;tDateItem&quot;&gt;
  *   &lt;complexContent&gt;
  *     &lt;extension base=&quot;{http://decidr.de/schema/DecidrTypes}tItem&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;value&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}anyURI&quot;/&gt;
+ *         &lt;element name=&quot;value&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}date&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/extension&gt;
  *   &lt;/complexContent&gt;
@@ -29,20 +30,20 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tURIItem", propOrder = { "value" })
-public class URIItem extends Item {
+@XmlType(name = "tDateItem", propOrder = { "value" })
+public class DateItem extends Item {
 
 	@XmlElement(required = true)
-	@XmlSchemaType(name = "anyURI")
-	protected String value;
+	@XmlSchemaType(name = "date")
+	protected XMLGregorianCalendar value;
 
 	/**
 	 * Gets the value of the value property.
 	 * 
-	 * @return possible object is {@link String }
+	 * @return possible object is {@link XMLGregorianCalendar }
 	 * 
 	 */
-	public String getValue() {
+	public XMLGregorianCalendar getValue() {
 		return value;
 	}
 
@@ -50,10 +51,10 @@ public class URIItem extends Item {
 	 * Sets the value of the value property.
 	 * 
 	 * @param value
-	 *            allowed object is {@link String }
+	 *            allowed object is {@link XMLGregorianCalendar }
 	 * 
 	 */
-	public void setValue(String value) {
+	public void setValue(XMLGregorianCalendar value) {
 		this.value = value;
 	}
 

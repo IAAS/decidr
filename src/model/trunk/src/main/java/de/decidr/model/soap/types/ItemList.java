@@ -1,4 +1,4 @@
-package de.decidr.model.soaptypes;
+package de.decidr.model.soap.types;
 
 import java.util.ArrayList;
 import java.util.List;
