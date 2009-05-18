@@ -13,27 +13,18 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package de.decidr.model.soap.exceptions;
+package de.decidr.webservices.humantask;
 
-import javax.xml.ws.WebFault;
+import javax.jws.WebService;
 
-@WebFault(name = "DatabaseUnavailableException", targetNamespace = "http://decidr.de/webservices/Exceptions")
-public class DatabaseUnavailableException extends RuntimeException {
-	private static final long serialVersionUID = 1L;
+/**
+ * This is a temporary interface for the BEPL callback method web service
+ * interface. It will be replaced by whatever the BEPL libraries offer as soon
+ * as they do.
+ * 
+ * @author RR
+ */
+@WebService()
+public interface BPELCallbackInterface {
 
-	public DatabaseUnavailableException() {
-		super();
-	}
-
-	public DatabaseUnavailableException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public DatabaseUnavailableException(String message) {
-		super(message);
-	}
-
-	public DatabaseUnavailableException(Throwable cause) {
-		super(cause);
-	}
 }
