@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://decidr.de/schema/dwdl" targetNamespace="http://decidr.de/schema/dwdl"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xsd:annotation>
+		<xsd:documentation>
+			Schema for Executable Workflow for DWDL 1.0
+			Last
+			modified date: 26th March, 2009
+
+			2009-01-30: MA: Creation date
+			2009-03-26: MA: Extended previous version with form element
+			2009-05-09: MA: Invoke activity changed with setPoperty
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:import namespace="http://www.w3.org/XML/1998/namespace"
+		schemaLocation="http://www.w3.org/2001/xml.xsd" />
+
+	<xsd:element name="workflow" type="tWorkflow">
+		<xsd:annotation>
+			<xsd:documentation>
+				This is the root element for a DWDL 1.0 workflow.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:complexType name="tWorkflow">
+		<xsd:sequence>
+			<xsd:element ref="description" minOccurs="0" />
+			<xsd:element ref="variables" minOccurs="0" />
+			<xsd:element ref="roles" minOccurs="0" />
+			<xsd:element ref="faultHandler" minOccurs="0" />
+			<xsd:element ref="nodes" minOccurs="0" />
+			<xsd:element ref="arcs" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:NCName" use="required" />
+		<xsd:attribute name="id" type="xsd:ID" use="required" />
+	</xsd:complexType>
+
+	<xsd:element name="description" type="tDescription" />
+	<xsd:complexType name="tDescription" mixed="true">
+		<xsd:sequence>
+			<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="source" type="xsd:anyURI" />
+		<xsd:attribute ref="xml:lang" />
+	</xsd:complexType>
+
+	<xsd:element name="variables" type="tVariables" />
+	<xsd:complexType name="tVariables">
+		<xsd:sequence>
+			<xsd:element ref="variable" minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="variable" type="tVariable" />
+	<xsd:complexType name="tVariable">
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="initialValue" type="xsd:anySimpleType" />
+				<xsd:element name="initialValues" type="tInitialValues" />
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="name" type="DWDLVariableName" use="required" />
+		<xsd:attribute name="type" type="xsd:QName" use="required" />
+		<xsd:attribute name="configurationVariable" type="tBoolean"
+			default="no" />
+	</xsd:complexType>
+	<xsd:complexType name="tInitialValues">
+		<xsd:sequence>
+			<xsd:element ref="initialValue" minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+    
+
+
+</schema>
