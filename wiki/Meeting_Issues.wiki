@@ -7,6 +7,9 @@
 
 Add your issues to be descussed in the next "Weekly Meeting":
 
+== WM 05/19/09 ==
+  # Implementation: Comment templates for eclipse (RR)
+
 == WM 05/05/09 ==
   # Design: ODE monitoring: quick vote on what "load average" should be (RR)
 
