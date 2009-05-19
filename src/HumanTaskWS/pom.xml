@@ -7,6 +7,13 @@
 	<name>HumanTaskWS</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<build>
+		<finalName>HumanTaskWS.aar</finalName>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
+		<outputDirectory>target/classes</outputDirectory>
+		<testOutputDirectory>target/test-classes</testOutputDirectory>
+		<resources>
+		</resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -17,6 +24,8 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<extensions>
+		</extensions>
 	</build>
 	<developers>
 	</developers>
@@ -36,6 +45,12 @@
 			<groupId>de.decidr</groupId>
 			<artifactId>libs</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.decidr</groupId>
+			<artifactId>wsLibs</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>
