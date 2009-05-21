@@ -25,7 +25,7 @@ public class UserFacade extends AbstractFacade {
 		throw new UnsupportedOperationException();
 	}
 
-	public String getUserId(String authCode) {
+	public Long getUserId(String authCode) {
 		throw new UnsupportedOperationException();
 	}
 
