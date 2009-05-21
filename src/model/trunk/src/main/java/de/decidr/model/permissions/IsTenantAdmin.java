@@ -1,12 +1,12 @@
 package de.decidr.model.permissions;
 
-public class IsTenantAdmin implements de.decidr.model.permissions.Asserter {
+public class IsTenantAdmin implements Asserter {
 
-	public Boolean assert_297(de.decidr.model.permissions.Role role, de.decidr.model.permissions.Permission permission) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public Boolean assertRule(Role role, Permission permission) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public Boolean assert_115(de.decidr.model.permissions.Role role, de.decidr.model.permissions.Permission permission) {
-		throw new UnsupportedOperationException();
-	}
+
 }

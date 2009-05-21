@@ -1,20 +1,25 @@
 package de.decidr.model.permissions;
 
 import de.decidr.model.entities.File;
+/**
+ * Represents the permission to read from or write to a file.
+ * 
+ * @author Markus Fischer
+ * @author Daniel Huss
+ *
+ * @version 0.1
+ */
+public class FilePermission extends EntityPermission {
+    
+    private static final long serialVersionUID = 1L;
 
-public class FilePermission extends de.decidr.model.permissions.Permission {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	protected Long fileId;
+    /**
+     * Constructor.
+     * 
+     * @param fileId
+     */
+    public FilePermission(Long fileId) {
+        super(File.class.getCanonicalName(), fileId);
+    }
 
-	public FilePermission(Long fileId) {
-		super(File.class.getCanonicalName() + "." + fileId.toString());
-		this.fileId = fileId;
-	}
-
-	public Long getFileId() {
-		return this.fileId;
-	}
 }

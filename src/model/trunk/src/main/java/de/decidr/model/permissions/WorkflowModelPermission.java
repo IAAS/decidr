@@ -2,18 +2,24 @@ package de.decidr.model.permissions;
 
 import de.decidr.model.entities.WorkflowModel;
 
-public class WorkflowModelPermission extends
-		de.decidr.model.permissions.Permission {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+/**
+ * Represents the permission to a workflow model
+ * 
+ * @author Markus Fischer
+ * @author Daniel Huss
+ * 
+ * @version 0.1
+ */
+public class WorkflowModelPermission extends EntityPermission {
+    
+    private static final long serialVersionUID = 1L;
 
-	protected Long workflowModelId;
-
-	public WorkflowModelPermission(Long workflowModelId) {
-		super(WorkflowModel.class.getCanonicalName() + "."
-				+ workflowModelId.toString());
-		this.workflowModelId = workflowModelId;
-	}
+    /**
+     * Constructor.
+     * 
+     * @param workflowModelId
+     */
+    public WorkflowModelPermission(Long workflowModelId) {
+        super(WorkflowModel.class.getCanonicalName(), workflowModelId);
+    }
 }

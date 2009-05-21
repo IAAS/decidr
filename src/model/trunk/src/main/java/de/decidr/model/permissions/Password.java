@@ -10,7 +10,7 @@ import java.util.UUID;
  * salts.
  * 
  * @author Daniel Huss
- * 
+ * @version 0.1
  */
 public class Password {
 

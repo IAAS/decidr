@@ -2,20 +2,25 @@ package de.decidr.model.permissions;
 
 import de.decidr.model.entities.Tenant;
 
-public class TenantPermission extends Permission {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	protected Long tenantId;
+/**
+ * Represents the permission to a tenant.
+ * 
+ * @author Markus Fischer
+ * @author Daniel Huss
+ * 
+ * @version 0.1
+ */
+public class TenantPermission extends EntityPermission {
 
-	public TenantPermission(Long tenantId) {
-		super(Tenant.class.getCanonicalName()+ "." + tenantId.toString());
-		this.tenantId = tenantId;
-	}
+    private static final long serialVersionUID = 1L;
 
-	public Long getTenantId() {
-		return this.tenantId;
-	}
+    /**
+     * Constructor.
+     * 
+     * @param tenantId
+     */
+    public TenantPermission(Long tenantId) {
+        super(Tenant.class.getCanonicalName(), tenantId);
+    }
+
 }
