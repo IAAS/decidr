@@ -6,11 +6,12 @@ import com.itmill.toolkit.data.Item;
 
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
+import de.decidr.model.permissions.Role;
 
 public class WorkflowModelFacade extends AbstractFacade{
 
-	public WorkflowModelFacade(Long actorId) {
-		super(actorId);
+	public WorkflowModelFacade(Role actor) {
+	        super(actor);
 	}
 
 	public void saveWorkflowModel(Item workflowModel) {

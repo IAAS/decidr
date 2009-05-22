@@ -6,13 +6,12 @@ import com.itmill.toolkit.data.Item;
 
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
-/**
- * FIXME: add itmill dependeny to maven 
- */
+import de.decidr.model.permissions.Role;
+
 public class SystemFacade extends AbstractFacade {
 
-	public SystemFacade(Long actorId) {
-		super(actorId);
+	public SystemFacade(Role actor) {
+	        super(actor);
 	}
 
 	public Item getSettings() {

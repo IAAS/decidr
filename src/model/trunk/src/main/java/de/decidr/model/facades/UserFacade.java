@@ -8,13 +8,14 @@ import com.itmill.toolkit.data.Item;
 
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
+import de.decidr.model.permissions.Role;
 import de.decidr.model.permissions.UserRole;
 // import ListItem;
 
 public class UserFacade extends AbstractFacade {
 
-	public UserFacade(Long actorId) {
-		super(actorId);
+	public UserFacade(Role actor) {
+	        super(actor);
 	}
 
 	public Long registerUser(String email, String password, Item userProfile) {

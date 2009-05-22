@@ -7,11 +7,12 @@ import com.itmill.toolkit.data.Item;
 
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
+import de.decidr.model.permissions.Role;
 
 public class TenantFacade extends AbstractFacade {
 
-	public TenantFacade(Long actorId) {
-		super(actorId);
+	public TenantFacade(Role actor) {
+	        super(actor);
 	}
 
 	public Long createTenant(String name, String description, Long adminId) {

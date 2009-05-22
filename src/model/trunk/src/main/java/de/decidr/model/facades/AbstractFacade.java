@@ -1,9 +1,11 @@
 package de.decidr.model.facades;
 
-public abstract class AbstractFacade {
-	protected Long actorId;
+import de.decidr.model.permissions.Role;
 
-	public AbstractFacade(Long actorId) {
-		this.actorId = actorId;
+public abstract class AbstractFacade {
+	protected Role actor;
+
+	public AbstractFacade(Role actor) {
+		this.actor = actor;
 	}
 }

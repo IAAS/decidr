@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.itmill.toolkit.data.Item;
 
+import de.decidr.model.permissions.Role;
+
 public class WorkflowInstanceFacade extends AbstractFacade {
 
-	public WorkflowInstanceFacade(Long actorId) {
-		super(actorId);
+	public WorkflowInstanceFacade(Role actor) {
+	        super(actor);
 	}
 
 	public void stopWorkflowInstance(Long workflowInstanceId) {
