@@ -11,6 +11,7 @@
   </welcome-file-list>
   
   <!-- Servlets -->
+  <!-- Sample Servlets - NOT EXISTING
   <servlet>
     <servlet-name>greetServlet</servlet-name>
     <servlet-class>de.decidr.mt.server.GreetingServiceImpl</servlet-class>
@@ -20,5 +21,6 @@
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/modelingtool/greet</url-pattern>
   </servlet-mapping>
+  -->
 
 </web-app>
