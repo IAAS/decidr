@@ -25,4 +25,8 @@ public class WorkflowInstanceFacade extends AbstractFacade {
 	public void deleteWorkflowInstance(Long workflowInstanceId) {
 		throw new UnsupportedOperationException();
 	}
+	
+	public void getAllWorkItems(Long workflowInstanceId) {
+	    throw new UnsupportedOperationException();
+	}
 }

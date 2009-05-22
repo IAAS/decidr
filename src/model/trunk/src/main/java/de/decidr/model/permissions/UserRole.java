@@ -8,11 +8,7 @@ package de.decidr.model.permissions;
  * 
  * @version 0.1
  */
-public class UserRole implements Role {
-    /**
-     * The user's id.
-     */
-    protected Long userId;
+public class UserRole extends AbstractRole {
 
     /**
      * Constructor.
@@ -20,13 +16,6 @@ public class UserRole implements Role {
      * @param userId
      */
     public UserRole(Long userId) {
-        this.userId = userId;
-    }
-
-    /**
-     * @return the userId
-     */
-    public Long getUserId() {
-        return userId;
+        super(userId);
     }
 }

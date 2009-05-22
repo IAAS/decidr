@@ -13,12 +13,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package de.decidr.model.soap.exceptions;
+package de.decidr.model.exceptions;
 
-import javax.xml.ws.WebFault;
 
-@WebFault(name = "DatabaseUnavailableException", targetNamespace = "http://decidr.de/webservices/Exceptions")
-public class DatabaseUnavailableException extends RuntimeException {
+
+public class DatabaseUnavailableException extends TransactionException {
 	private static final long serialVersionUID = 1L;
 
 	public DatabaseUnavailableException() {

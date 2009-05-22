@@ -8,6 +8,10 @@ public class WorkItemFacade extends AbstractFacade {
 		super(actorId);
 	}
 
+	public Item getWorkItem(Long workItemId) {
+	    throw new UnsupportedOperationException();
+	}
+	
 	public Long createWorkItem(Long userId, Long deployedWorkflowModelId,
 			String odePid, String name, String description, byte[] data) {
 		throw new UnsupportedOperationException();

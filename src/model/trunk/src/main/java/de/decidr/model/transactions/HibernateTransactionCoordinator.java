@@ -15,29 +15,60 @@ package de.decidr.model.transactions;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 import de.decidr.model.commands.TransactionalCommand;
 
 /**
- * Invokes {@link TransactionalCommand}s within a transaction. Inner
- * transactions are supported.
+ * Invokes {@link TransactionalCommand}s within a hibernate transaction. Inner
+ * transactions are supported by giving up the durablility property of all inner
+ * transactions.
  * 
  * @author Daniel Huss
- * 
+ * @author Markus Fischer
  * @version 0.1
  */
 public class HibernateTransactionCoordinator implements TransactionCoordinator {
-    protected static TransactionCoordinator instance;
+    /**
+     * The singleton instance.
+     */
+    protected static HibernateTransactionCoordinator instance = new HibernateTransactionCoordinator();
+
+    /**
+     * Hibernate session factory.
+     */
     protected SessionFactory sessionFactory;
+
+    /**
+     * The current hibernate transaction. Inner transactions are executed within
+     * the context of a single Hibernate transaction.
+     */
     protected Transaction currentTransaction;
+
+    /**
+     * The current transaction depth.
+     */
     protected Integer innerTransactionCount;
 
+    /**
+     * Constructor.
+     */
     private HibernateTransactionCoordinator() {
-        throw new UnsupportedOperationException();
+        super();
+        this.sessionFactory = new Configuration().configure()
+                .buildSessionFactory();
+        this.currentTransaction = null;
+        this.innerTransactionCount = 0;
     }
 
+    /**
+     * Starts a new transaction. If the new transaction is an inner
+     * transaction, the existing outer transaction is reused.
+     */
     protected void beginTransaction() {
-        
+        if (this.innerTransactionCount > 0) {
+            
+        }
     }
 
     protected void commitCurrentTransaction() {
