@@ -13,11 +13,15 @@
  */
 package de.decidr.model.transactions;
 
+import javassist.bytecode.ExceptionsAttribute;
+
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import de.decidr.model.commands.TransactionalCommand;
+import de.decidr.model.exceptions.TransactionException;
 
 /**
  * Invokes {@link TransactionalCommand}s within a hibernate transaction. Inner
@@ -29,10 +33,13 @@ import de.decidr.model.commands.TransactionalCommand;
  * @version 0.1
  */
 public class HibernateTransactionCoordinator implements TransactionCoordinator {
+
     /**
      * The singleton instance.
      */
     protected static HibernateTransactionCoordinator instance = new HibernateTransactionCoordinator();
+
+    protected Session session = null;
 
     /**
      * Hibernate session factory.
@@ -40,7 +47,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     protected SessionFactory sessionFactory;
 
     /**
-     * The current hibernate transaction. Inner transactions are executed within
+     * The current Hibernate transaction. Inner transactions are executed within
      * the context of a single Hibernate transaction.
      */
     protected Transaction currentTransaction;
@@ -62,23 +69,58 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     }
 
     /**
-     * Starts a new transaction. If the new transaction is an inner
-     * transaction, the existing outer transaction is reused.
+     * Starts a new transaction. If the new transaction is an inner transaction,
+     * the existing outer transaction is reused.
      */
     protected void beginTransaction() {
-        if (this.innerTransactionCount > 0) {
-            
+
+        if (innerTransactionCount == 0) {
+            currentTransaction = session.beginTransaction();
+        }
+
+        innerTransactionCount++;
+    }
+
+    /**
+     * 
+     * Commits the current transaction.
+     * 
+     */
+    protected void commitCurrentTransaction() {
+
+        if (currentTransaction == null) {
+            throw new TransactionException(
+                    "Transaction must be started before commit.");
+        } else {
+            if (innerTransactionCount == 1) {
+                currentTransaction.commit();
+                innerTransactionCount = 0;
+            } else if (innerTransactionCount > 0) {
+                innerTransactionCount--;
+            }
         }
     }
 
-    protected void commitCurrentTransaction() {
-        throw new UnsupportedOperationException();
-    }
-
+    /**
+     * Rolls the current transaction back.
+     */
     protected void rollbackCurrentTransaction() {
-        throw new UnsupportedOperationException();
+
+        if (currentTransaction == null) {
+            throw new TransactionException(
+                    "Transaction must be started before rolling back.");
+        } else {
+            if (innerTransactionCount > 0) {
+                currentTransaction.rollback();
+            }
+        }
     }
 
+    /**
+     * 
+     * 
+     * 
+     */
     public void runTransaction(TransactionalCommand command) {
         throw new UnsupportedOperationException();
     }
