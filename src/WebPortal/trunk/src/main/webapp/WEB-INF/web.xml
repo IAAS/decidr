@@ -3,5 +3,20 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+  	<servlet-name>WebPortal</servlet-name>
+  	<servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet
+  	</servlet-class>
+  	<init-param>
+  		<param-name>application</param-name>
+  		<param-value>de.decidr.ui.view.Main</param-value>
+  	</init-param>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>WebPortal</servlet-name>
+  	<url-pattern>/*</url-pattern>
+  </servlet-mapping>
+  <session-config>
+  	<session-timeout>30</session-timeout>
+  </session-config>
 </web-app>
