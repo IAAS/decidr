@@ -37,10 +37,6 @@ public class WorkflowModelFacade extends AbstractFacade{
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * Hallo Leute ich bin eine Methode!!!!
-	 * @param workflowModelId Hallo ich bin ein Parameter!
-	 */
 	public void setWorkflowAdministrators(Long workflowModelId, List<Long> userIds) {
 		throw new UnsupportedOperationException();
 	}

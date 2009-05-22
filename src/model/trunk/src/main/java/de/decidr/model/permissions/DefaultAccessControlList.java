@@ -156,7 +156,7 @@ public class DefaultAccessControlList implements AccessControlList {
     /**
      * Singleton instance.
      */
-    private static DefaultAccessControlList instance = null;
+    private static DefaultAccessControlList instance = new DefaultAccessControlList();
 
     /**
      * Map containing all rules.
@@ -168,11 +168,7 @@ public class DefaultAccessControlList implements AccessControlList {
      * 
      * @return the acl
      */
-    public static synchronized DefaultAccessControlList getInstance() {
-        if (instance == null) {
-            instance = new DefaultAccessControlList();
-        }
-
+    public static DefaultAccessControlList getInstance() {
         return instance;
     }
 
