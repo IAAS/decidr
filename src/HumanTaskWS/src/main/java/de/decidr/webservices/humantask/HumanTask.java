@@ -17,12 +17,12 @@ package de.decidr.webservices.humantask;
 
 import javax.jws.WebService;
 
-import de.decidr.model.facades.UserFacade;
+import org.apache.log4j.Logger;
+
 import de.decidr.model.facades.WorkItemFacade;
-import de.decidr.model.soap.exceptions.InvalidUserException;
-import de.decidr.model.soap.types.TaskIdentifier;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.soap.types.IDList;
-import de.decidr.model.soap.types.ItemList;
+import de.decidr.model.soap.types.TaskIdentifier;
 
 /**
  * This is an implementation of the {@link HumanTaskInterface DecidR HumanTask
@@ -32,6 +32,16 @@ import de.decidr.model.soap.types.ItemList;
  */
 @WebService(endpointInterface = "HumanTaskInterface")
 public class HumanTask implements HumanTaskInterface {
+    Logger log;
+    private static final long HUMANTASK_ROLE = -1337L;
+
+    /**
+     * Default constructor to activate logging.
+     */
+    public HumanTask() {
+        log = DefaultLogger.getLogger(this.getClass());
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -42,21 +52,14 @@ public class HumanTask implements HumanTaskInterface {
     @Override
     public TaskIdentifier createTask(long wfmID, long processID, long userID,
             String taskName, boolean userNotification, String description,
-            ItemList taskData) {
-        // user validity check
-        if (new UserFacade(1L).getUserProfile(userID) == null) {
-            throw new InvalidUserException("User ID " + userID
-                    + "doesn't exist in the system.");
-        }
-
+            String taskData) {
         TaskIdentifier id = new TaskIdentifier();
         id.setProcessID(processID);
         id.setUserID(userID);
         // FIXME: proper way to get a WorkItemFacade instance
-        // FIXME: properly pass proper data
         // FIXME: throw DatabaseUnavailableException if necessary
         id.setTaskID(new WorkItemFacade(1L).createWorkItem(userID, wfmID,
-                processID + "", taskName, description, (byte[]) null));
+                processID + "", taskName, description, taskData.getBytes()));
 
         if (userNotification) {
             // FIXME: somehow notify the user

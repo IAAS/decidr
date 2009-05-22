@@ -65,7 +65,7 @@ public interface HumanTaskInterface {
             @WebParam(name = "taskName") String taskName,
             @WebParam(name = "userNotification") boolean userNotification,
             @WebParam(name = "description") String description,
-            @WebParam(name = "taskData") ItemList taskData);
+            @WebParam(name = "taskData") String taskData);
 
     /**
      * Removes a list of tasks from the database.

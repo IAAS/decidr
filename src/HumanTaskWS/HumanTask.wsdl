@@ -37,7 +37,7 @@
 							type="decidr:tDescriptionItemList" minOccurs="0" maxOccurs="1"
 							nillable="false" /
 						-->
-						<xsd:element name="taskData" type="decidr:tItemList"
+						<xsd:element name="taskData" type="xsd:string"
 							minOccurs="0" maxOccurs="1" nillable="false" />
 					</xsd:sequence>
 				</xsd:complexType>
