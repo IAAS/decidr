@@ -14,7 +14,7 @@ public abstract class AbstractRole implements Role {
      * Id of the person / system / pricipal that is requesting access to a
      * permission.
      */
-    protected Long actorId;
+    private Long actorId;
 
     /**
      * Constructor.

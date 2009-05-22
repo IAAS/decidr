@@ -21,6 +21,8 @@ import org.apache.log4j.Logger;
 
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.logging.DefaultLogger;
+import de.decidr.model.permissions.HumanTaskRole;
+import de.decidr.model.permissions.Role;
 import de.decidr.model.soap.types.IDList;
 import de.decidr.model.soap.types.TaskIdentifier;
 
@@ -33,7 +35,7 @@ import de.decidr.model.soap.types.TaskIdentifier;
 @WebService(endpointInterface = "HumanTaskInterface")
 public class HumanTask implements HumanTaskInterface {
     Logger log;
-    private static final long HUMANTASK_ROLE = -1337L;
+    private static final Role HUMANTASK_ROLE = HumanTaskRole.getInstance();
 
     /**
      * Default constructor to activate logging.
@@ -56,14 +58,9 @@ public class HumanTask implements HumanTaskInterface {
         TaskIdentifier id = new TaskIdentifier();
         id.setProcessID(processID);
         id.setUserID(userID);
-        // FIXME: proper way to get a WorkItemFacade instance
-        // FIXME: throw DatabaseUnavailableException if necessary
-        id.setTaskID(new WorkItemFacade(1L).createWorkItem(userID, wfmID,
-                processID + "", taskName, description, taskData.getBytes()));
-
-        if (userNotification) {
-            // FIXME: somehow notify the user
-        }
+        id.setTaskID(new WorkItemFacade(HUMANTASK_ROLE).createWorkItem(userID,
+                wfmID, processID + "", taskName, description, taskData
+                        .getBytes(), userNotification));
 
         return id;
     }
@@ -77,10 +74,8 @@ public class HumanTask implements HumanTaskInterface {
      */
     @Override
     public void removeTask(IDList taskIDList) {
-        // FIXME: proper way to get a WorkItemFacade instance
-        // FIXME: throw DatabaseUnavailableException if necessary
         for (long id : taskIDList.getId()) {
-            new WorkItemFacade(1L).deleteWorkItem(id);
+            new WorkItemFacade(HUMANTASK_ROLE).deleteWorkItem(id);
         }
     }
 
@@ -104,6 +99,8 @@ public class HumanTask implements HumanTaskInterface {
      */
     @Override
     public void taskCompleted(long taskID) {
+        Object taskData = new WorkItemFacade(HUMANTASK_ROLE)
+                .getWorkItem(taskID).getItemProperty("data").getValue();
         // TODO Auto-generated method stub
         throw new java.lang.UnsupportedOperationException("Please implement "
                 + this.getClass().getName() + "#taskCompleted");
