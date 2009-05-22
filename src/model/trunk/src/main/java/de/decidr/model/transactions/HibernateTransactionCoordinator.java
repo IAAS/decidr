@@ -37,25 +37,28 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * The singleton instance.
      */
-    protected static HibernateTransactionCoordinator instance = new HibernateTransactionCoordinator();
+    private static final HibernateTransactionCoordinator instance = new HibernateTransactionCoordinator();
 
-    protected Session session = null;
+    /**
+     * The current Hibernate session.
+     */
+    private Session session = null;
 
     /**
      * Hibernate session factory.
      */
-    protected SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     /**
      * The current Hibernate transaction. Inner transactions are executed within
      * the context of a single Hibernate transaction.
      */
-    protected Transaction currentTransaction;
+    private Transaction currentTransaction;
 
     /**
      * The current transaction depth.
      */
-    protected Integer innerTransactionCount;
+    private Integer innerTransactionCount;
 
     /**
      * Constructor.
@@ -75,6 +78,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     protected void beginTransaction() {
 
         if (innerTransactionCount == 0) {
+            session = sessionFactory.openSession();
             currentTransaction = session.beginTransaction();
         }
 
@@ -94,6 +98,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         } else {
             if (innerTransactionCount == 1) {
                 currentTransaction.commit();
+                session.flush();
+                session.close();
                 innerTransactionCount = 0;
             } else if (innerTransactionCount > 0) {
                 innerTransactionCount--;
@@ -112,24 +118,45 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         } else {
             if (innerTransactionCount > 0) {
                 currentTransaction.rollback();
+                session.flush();
+                session.close();
+                innerTransactionCount = 0;
             }
         }
     }
 
     /**
-     * 
-     * 
-     * 
+     * {@inheritDoc}
      */
     public void runTransaction(TransactionalCommand command) {
-        throw new UnsupportedOperationException();
+        TransactionalCommand[] commands = {command};
+        runTransaction(commands);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void runTransaction(TransactionalCommand[] commands) {
-        throw new UnsupportedOperationException();
+        if (commands == null) {
+            throw new IllegalArgumentException("Null value not allowed.");
+        }
+        
+        try {
+            beginTransaction();
+            
+            for (TransactionalCommand c : commands) {
+                
+            }
+            
+        } catch (Exception e) {
+            
+        }
     }
 
-    public TransactionCoordinator getInstance() {
-        throw new UnsupportedOperationException();
+    /**
+     * @return the singleton instance.
+     */
+    public static TransactionCoordinator getInstance() {
+        return instance;
     }
 }
