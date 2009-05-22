@@ -15,13 +15,16 @@ package de.decidr.model.transactions;
 
 import javassist.bytecode.ExceptionsAttribute;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.dialect.FirebirdDialect;
 
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.logging.DefaultLogger;
 
 /**
  * Invokes {@link TransactionalCommand}s within a hibernate transaction. Inner
@@ -38,6 +41,9 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * The singleton instance.
      */
     private static final HibernateTransactionCoordinator instance = new HibernateTransactionCoordinator();
+
+    private static Logger logger = DefaultLogger
+            .getLogger(HibernateTransactionCoordinator.class);
 
     /**
      * The current Hibernate session.
@@ -58,7 +64,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * The current transaction depth.
      */
-    private Integer innerTransactionCount;
+    private Integer transactionDepth;
 
     /**
      * Constructor.
@@ -68,7 +74,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         this.sessionFactory = new Configuration().configure()
                 .buildSessionFactory();
         this.currentTransaction = null;
-        this.innerTransactionCount = 0;
+        this.transactionDepth = 0;
     }
 
     /**
@@ -77,12 +83,12 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     protected void beginTransaction() {
 
-        if (innerTransactionCount == 0) {
+        if (transactionDepth == 0) {
             session = sessionFactory.openSession();
             currentTransaction = session.beginTransaction();
         }
 
-        innerTransactionCount++;
+        transactionDepth++;
     }
 
     /**
@@ -96,13 +102,13 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             throw new TransactionException(
                     "Transaction must be started before commit.");
         } else {
-            if (innerTransactionCount == 1) {
+            if (transactionDepth == 1) {
                 currentTransaction.commit();
                 session.flush();
                 session.close();
-                innerTransactionCount = 0;
-            } else if (innerTransactionCount > 0) {
-                innerTransactionCount--;
+                transactionDepth = 0;
+            } else if (transactionDepth > 0) {
+                transactionDepth--;
             }
         }
     }
@@ -116,11 +122,11 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             throw new TransactionException(
                     "Transaction must be started before rolling back.");
         } else {
-            if (innerTransactionCount > 0) {
+            if (transactionDepth > 0) {
                 currentTransaction.rollback();
                 session.flush();
                 session.close();
-                innerTransactionCount = 0;
+                transactionDepth = 0;
             }
         }
     }
@@ -129,7 +135,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * {@inheritDoc}
      */
     public void runTransaction(TransactionalCommand command) {
-        TransactionalCommand[] commands = {command};
+        TransactionalCommand[] commands = { command };
         runTransaction(commands);
     }
 
@@ -140,17 +146,60 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         if (commands == null) {
             throw new IllegalArgumentException("Null value not allowed.");
         }
-        
+
         try {
             beginTransaction();
-            
+
             for (TransactionalCommand c : commands) {
-                
+                fireTransactionStarted(c);
             }
-            
+
+            commitCurrentTransaction();
+
         } catch (Exception e) {
-            
+
+            try {
+                if (currentTransaction != null) {
+                    rollbackCurrentTransaction();
+
+                    for (TransactionalCommand c : commands) {
+                        fireTransactionAborted(c, e);
+                    }
+                }
+            } catch (Exception e2) {
+                logger.fatal("Rollback failed", e2);
+            }
+
+            throw new TransactionException(e);
         }
+    }
+
+    /**
+     * 
+     * Fires transaction started event.
+     * 
+     * @param receiver
+     * 
+     */
+    private void fireTransactionStarted(TransactionalCommand receiver) {
+        TransactionEvent event = new TransactionEvent(session,
+                transactionDepth > 1);
+        receiver.transactionStarted(event);
+    }
+
+    /**
+     * 
+     * Fires transaction aborted event.
+     * 
+     * @param receiver
+     * @param caughtException
+     * 
+     */
+    private void fireTransactionAborted(TransactionalCommand receiver,
+            Exception caughtException) {
+        TransactionAbortedEvent event = new TransactionAbortedEvent(session,
+                caughtException, transactionDepth > 1);
+        receiver.transactionAborted(event);
     }
 
     /**

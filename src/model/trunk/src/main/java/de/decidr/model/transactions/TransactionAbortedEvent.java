@@ -34,8 +34,8 @@ public class TransactionAbortedEvent extends TransactionEvent {
      * @param session
      * @param exception
      */
-    public TransactionAbortedEvent(Session session, Exception exception) {
-        super(session);
+    public TransactionAbortedEvent(Session session, Exception exception, Boolean innerTransaction) {
+        super(session, innerTransaction);
         this.exception = exception;
     }
 

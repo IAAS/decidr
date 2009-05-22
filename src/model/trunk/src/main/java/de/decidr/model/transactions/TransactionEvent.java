@@ -38,8 +38,9 @@ public class TransactionEvent {
      *
      * @param session the current hibernate session.
      */
-    public TransactionEvent(Session session) {
+    public TransactionEvent(Session session, Boolean innertransaction) {
         this.session = session;
+        this.innerTransaction = innertransaction;
     }
 
     /**
