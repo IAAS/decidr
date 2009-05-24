@@ -1,0 +1,1125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tests SYSTEM "project.dtd">
+<tests product="TestDataManager" team="05" version="1.0">
+<sequence created="24.05.2009" creator="JonasSchlaak" name="Project" number="0">
+<description>This is the root node of the project. It contains all test sequences and test cases.</description>
+<pre/>
+<sequence created="07.04.2009" creator="JonasSchlaak" name="DecidR Systemtest" number="5">
+<description/>
+<pre/>
+<sequence created="07.04.2009" creator="JonasSchlaak" name="Info Pages" number="6">
+<description>The purpose of this sequence is to test if the several info pages are displayed correctly.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.04.2009" creator="JonasSchlaak" effort="00:00" number="7" priority="C" title="View &quot;Impressum&quot;">
+<description/>
+<pre/>
+<actions>The tester clicks on the "Impressum" link at the header.</actions>
+<post>The "Impressum" page is shown.</post>
+<tags/>
+</testcase>
+<testcase created="07.04.2009" creator="JonasSchlaak" effort="00:00" number="8" priority="C" title="View terms of service">
+<description/>
+<pre/>
+<actions>The tester clicks on the "terms of service" link at the header.</actions>
+<post>The terms of service page is shown.</post>
+<tags/>
+</testcase>
+<testcase created="07.04.2009" creator="JonasSchlaak" effort="00:00" number="9" priority="C" title="View help">
+<description/>
+<pre/>
+<actions>The tester clicks on the "Help" link at the header.</actions>
+<post>The Help page is shown.</post>
+<tags/>
+</testcase>
+<testcase created="07.04.2009" creator="JonasSchlaak" effort="00:00" number="10" priority="C" title="View welcome ">
+<description/>
+<pre/>
+<actions>The tester clicks on the "Welcome" link at the header.</actions>
+<post>The Welcome page is shown.</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.04.2009" creator="JonasSchlaak" name="Account Management" number="111">
+<description>This section holds all test cases for account management.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<sequence created="07.04.2009" creator="JonasSchlaak" name="Register account as tenant-admin" number="12">
+<description>The purpose of this sequence is to test all flows of the "Register as tenant-admin" use case.</description>
+<pre>In order to execute the "invalid ..." test cases, there has to be at least one user account that is registered as tenant-admin.</pre>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="16" priority="C" title="Terms of use not accepted">
+<description/>
+<pre>The tester has opened the DecidR main page in his web browser.
+The tester is not logged in as a user.
+The system settings define that new tenants are automatically accepted.</pre>
+<actions>1. The user follows the registration link.
+2. The system displays the registration page in the web browser.
+3. The user chooses to create a new tenant along with his account.
+4. The user enters an e-mail address, username and optionally additional address data. Email address and username are not in use. The user does not accept the terms of use.
+5. The user enters the tenant data.
+6. The user presses the "Continue" button.</actions>
+<post>The system displays an error message stating that the terms of use were not accepted.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="17" priority="C" title="Regular flow">
+<description/>
+<pre>The system displays the page where the user can enter his email address, name etc.</pre>
+<actions>1. The user accepts the terms of use.
+2. The user presses the "Continue" button.</actions>
+<post>The system displays a web page stating that the user must confirm his e-mail address to complete the registration process.
+The user has received a confirmation email.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="13" priority="C" title="Invalid email address">
+<description/>
+<pre>The tester has opened the DecidR main page in his web browser.
+The tester is not logged in as a user.
+</pre>
+<actions>1. The user follows the registration link.
+2. The system displays the registration page in the web browser.
+3. The user chooses to create a new tenant along with his account.
+4. The user enters an email address that has already been taken by another user. The user enters his name, accepts the terms of use and optionally enters additional address data.
+5. The user enters the tenant data.
+6. The user presses the "Continue" button.
+</actions>
+<post>The system displays an error message stating that the given email address is already in use.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="14" priority="C" title="Invalid username">
+<description/>
+<pre>The system displays the page where the user can enter his email address, name etc.</pre>
+<actions>1. The user enters a username that has already been taken by another user. The user enters an email address that is not in use by another user, accepts the terms of use and optionally enters additional address data.
+2. The user enters the tenant data.
+3. The user presses the "Continue" button.</actions>
+<post>The system displays an error message stating that the desired username is already in use.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="15" priority="C" title="Invalid tenantname">
+<description/>
+<pre>The system displays the page where the user can enter his email address, name etc.</pre>
+<actions>1. The user enters an email address and username that are not in use by another user, accepts the terms of use and optionally enters additional address data.
+2. The user enters the tenant data. The tenantname is already in use.
+3. The user presses the "Continue" button.</actions>
+<post>The system displays an error message stating that the desired tenantname is already in use.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="18" priority="C" title="Regular flow - super admin must approve new tenant">
+<description/>
+<pre>The tester has opened the DecidR main page in his web browser.
+The tester is not logged in as a user.
+The system settings define that new tenants are NOT automatically accepted.</pre>
+<actions>See actions of test case "regular flow" (normal tenant-admin registration process)</actions>
+<post>The system displays a web page stating that the user must confirm his e-mail address to complete the registration process and that the new tenant must be approved by the super admin.
+The user has received a confirmation email.
+The super admin can see the new entry in the list of new tenants to approve.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="20.04.2009" creator="JonasSchlaak" name="Register account as normal user" number="19">
+<description>The purpose of this sequence is to test all flows of the "Register as normal user" use case.</description>
+<pre>In order to execute the "invalid ..." test cases, there has to be at least one user account that is registered as normal user.</pre>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="21" priority="C" title="Terms of use not accepted">
+<description/>
+<pre>The tester has opened the DecidR main page in his web browser.
+The tester is not logged in as a user.</pre>
+<actions>1. The user follows the registration link.
+2. The system displays the registration page in the web browser.
+3. The user chooses to register without creating a new tenant.
+4. The user enters an e-mail address, username and optionally additional address data. Email address and username are not in use. The user does not accept the terms of use.
+5. The user presses the "Continue" button.</actions>
+<post>The system displays an error message stating that the terms of use were not accepted.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="20" priority="C" title="Regular flow">
+<description/>
+<pre>The tester has opened the DecidR main page in his web browser.
+The tester is not logged in as a user.</pre>
+<actions>1. The user follows the registration link.
+2. The system displays the registration page in the web browser.
+3. The user chooses to register without creating a new tenant.
+4. The user enters his e-mail address and username, accepts the terms of use and optionally enters additional address data. Email address and username are not in use.
+5. The user presses the "Continue" button.
+</actions>
+<post>The system displays a web page stating that the user must confirm his e-mail address to complete the registration process.
+The user has received a confirmation email.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="22" priority="C" title="Invalid email address">
+<description/>
+<pre>The tester has opened the DecidR main page in his web browser.
+The tester is not logged in as a user.
+</pre>
+<actions>1. The user follows the registration link.
+2. The system displays the registration page in the web browser.
+3. The user chooses to register without creating a new tenant.
+4. The user enters an email address that has already been taken by another user. The user enters his name, accepts the terms of use and optionally enters additional address data.
+5. The user presses the "Continue" button.
+</actions>
+<post>The system displays an error message stating that the given email address is already in use.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="24" priority="C" title="Invalid username">
+<description/>
+<pre>The system displays the page where the user can enter his email address, name etc.</pre>
+<actions>1. The user enters a username that has already been taken by another user. The user enters an email address that is not in use by another user, accepts the terms of use and optionally enters additional address data.
+2. The user presses the "Continue" button.</actions>
+<post>The system displays an error message stating that the desired username is already in use.</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.04.2009" creator="JonasSchlaak" name="Confirm registration" number="26">
+<description>The purpose of this sequence is to test all flows of the "Confirm registration" use case.</description>
+<pre/>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="27" priority="C" title="Regular flow">
+<description/>
+<pre>The system has sent a confirmation e-mail to the user’s e-mail address during the registration process.
+The user is not logged in.
+The user’s account is flagged as unconfirmed.
+The user’s account is flagged as enabled.
+</pre>
+<actions>The user follows the confirmation link in the confirmation e-mail.
+</actions>
+<post>The web browser displays a confirmation message.
+The user may now log into the system.
+The user’s account is flagged as enabled.
+The user’s account is flagged as confirmed.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="29" priority="C" title="Email address already confirmed">
+<description/>
+<pre>The system has sent a confirmation e-mail to the user’s e-mail address during the registration process.
+The user has already followed the confirmation link at least once and user already can log into the system.
+</pre>
+<actions>The user follows the confirmation link in the confirmation e-mail.
+</actions>
+<post>The web browser displays an error message stating that the account has already been confirmed.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="28" priority="C" title="Confirmation link expired">
+<description/>
+<pre>The system has sent a confirmation e-mail to the user’s e-mail address during the registration process.
+The confirmation link is more than three days old and has not been followed in that time.</pre>
+<actions>The user follows the confirmation link in the confirmation e-mail.</actions>
+<post>The web browser displays an error message stating that the confirmation link has expired.
+The user cannot log in.</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.04.2009" creator="JonasSchlaak" name="Login" number="30">
+<description>The purpose of this sequence is to test all flows of the "Login ..." use cases.</description>
+<pre/>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="36" priority="C" title="Invalid username">
+<description/>
+<pre>The user has opened the DecidR main page in his web browser.
+The user is not logged in.
+</pre>
+<actions>1. The user enters a username or e-mail address that is not associated with a registered user and a password into the appropriate fields.
+2. The user clicks on the login button or presses the return key.</actions>
+<post>The system displays an error message stating that the entered username does not belong to any registered user.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="37" priority="C" title="Invalid password">
+<description/>
+<pre>The user has opened the DecidR main page in his web browser.
+The user is not logged in.</pre>
+<actions>1. The user enters a username or e-mail address and wrong password into the appropriate fields.
+2. The user clicks on the login button or presses the return key.</actions>
+<post>The system displays an error message stating that the entered password is not correct.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="31" priority="C" title="Regular flow - default">
+<description/>
+<pre>The user has opened the DecidR main page in his web browser.
+The user is not logged in.
+</pre>
+<actions>1. The user enters his username or e-mail address and password into the appropriate fields.
+2. The user clicks on the login button or presses the return key.
+</actions>
+<post>The user is logged in.
+The system displays the work items page. 
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="33" priority="C" title="Regular flow - tenant login">
+<description/>
+<pre>The user has opened the welcome page of tenant A in his web browser.
+The user is not logged in.
+The user is currently using tenant B.
+</pre>
+<actions>1. The user enters his username or e-mail address and password into the appropriate fields.
+2. The user clicks on the login button or presses the return key.
+</actions>
+<post>The user is logged in and switched to tenant A.
+The system displays the work items page using the theme of tenant A.
+
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="38" priority="C" title="Ten failed login attempts">
+<description/>
+<pre>The user has opened the DecidR main page in his web browser.
+The user is not logged in.</pre>
+<actions>1. The user enters a wrong username or e-mail address and wrong password into the appropriate fields ten times in a row.</actions>
+<post>The system displays an error message stating that the entered username or resp. password is not correct.
+The super admin has received a notification email that ten failed login attempts have occured from the same IP address.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="34" priority="C" title="Account unconfirmed">
+<description/>
+<pre>The user has opened the DecidR main page in his web browser.
+The user is not logged in.
+At least one user account is unconfirmed.</pre>
+<actions>1. The user enters his username or e-mail address and password of the unconfirmed account into the appropriate fields.
+2. The user clicks on the login button or presses the return key.
+</actions>
+<post>The system displays an error message stating that the account has not been confirmed yet.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="35" priority="C" title="Account disabled">
+<description/>
+<pre>The user has opened the DecidR main page in his web browser.
+The user is not logged in.
+At least one user account is disabled.</pre>
+<actions>1. The user enters his username or e-mail address and password of the disabled account into the appropriate fields.
+2. The user clicks on the login button or presses the return key.
+</actions>
+<post>The system displays an error message stating that the account has been disabled.</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.04.2009" creator="JonasSchlaak" name="Change forgotten account password" number="39">
+<description>The purpose of this sequence is to test all flows of the "Change forgotten account password" use case.</description>
+<pre/>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="40" priority="C" title="Invalid user name">
+<description/>
+<pre>The user has opened the DecidR main page.
+The user is not logged in.
+</pre>
+<actions>1. The user clicks on the link "Forgot your password?".
+2. The system displays a page with an input field.
+3. The user enters a user name that is not registered.
+</actions>
+<post>The system displays an error message informing the user that  the username does not exist.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="41" priority="C" title="Regular flow">
+<description/>
+<pre>The user has opened the DecidR main page.
+The user is not logged in. The user has a registered account.</pre>
+<actions>1. The user clicks on the link "Forgot your password?".
+2. The system displays a page with an input field.
+3. The user enters a user name or an email address that is registered.</actions>
+<post>The password was set an an autogenerated password and the password was sent to the corresponding email address. The user can login with the autogenerated email address.</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.04.2009" creator="JonasSchlaak" name="Confirm tenant membership invitaion" number="42">
+<description>The purpose of this sequence is to test all flows of the "Confirm tenant membership invitation" use case.</description>
+<pre/>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="43" priority="C" title="Regular flow">
+<description/>
+<pre>The user got an tenant membership invitation mail. The user has a registered account. A workflow instance is awaiting the user's confirmation for invitation.</pre>
+<actions>1. The user clicks on the link in the invitation email with in the time limit.
+2. The system displays a page with a “confirm invitation” button and a “reject invitation” button.
+3. The user clicks on the “confirm invitation” button.
+
+</actions>
+<post>The system sends a notification email to the tenant admin or workflow admin who invited the the user. The workflow is executed. The user is a member of the tenant.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="45" priority="C" title="Regular flow - But user not registered">
+<description/>
+<pre>The user got an tenant membership invitation mail. The user has not a registered account. A workflow instance is awaiting the user's confirmation for invitation.</pre>
+<actions>1. The user clicks on the link in the invitation email with in the time limit.
+2. The user follows the normal registration process.
+3. After the registration, the system displays a page with a “confirm invitation” button and a “reject invitation” button.
+4. The user clicks on the “confirm invitation” button.
+
+</actions>
+<post>The system sends a notification email to the tenant admin or workflow admin who invited the the user. The workflow is executed. The user has a registred account. The user is a member of the tenant.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="48" priority="C" title="Invitation rejected">
+<description/>
+<pre>The user got an tenant membership invitation mail. The user has a registered account. A workflow instance is awaiting the user's confirmation for invitation.</pre>
+<actions>1. The user clicks on the link in the invitation email with in the time limit.
+2. The system displays a page with a “confirm invitation” button and a “reject invitation” button.
+3. The user clicks on the “reject invitation” button.
+
+</actions>
+<post>The system sends a notification email to the tenant admin or workflow admin who invited the the user informing him that the user has rejected the invitation. The user is not a member of the tenant. What happens to the workflow?</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="44" priority="C" title="Confirmation link expired">
+<description/>
+<pre>The user got an tenant membership invitation mail.
+The invitation link is more than three days old and has not been followed in that time.</pre>
+<actions>The user follows the invitation link the invitation e-mail.</actions>
+<post>The web browser displays an error message stating that the invitation link has expired.</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.04.2009" creator="JonasSchlaak" name="Confirm workflow administration invitation" number="49">
+<description>The purpose of this sequence is to test all flows of the "Confirm workflow administration invitation" use case.</description>
+<pre/>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="50" priority="C" title="Regular flow">
+<description/>
+<pre>The user got an workflow administration invitation email. The user has a registered account.</pre>
+<actions>1. The user clicks on the link in the invitation email with in the time limit.
+2. The system displays a page with a “confirm invitation” button and a “reject invitation” button.
+3. The user clicks on the “confirm invitation” button.
+
+</actions>
+<post>The user has the workflow administrator role for the specific workflow.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="51" priority="C" title="Regular flow - But user not registered">
+<description/>
+<pre>The user got an workflow administration invitation mail. The user has not a registered account.</pre>
+<actions>1. The user clicks on the link in the invitation email with in the time limit.
+2. The user follows the normal registration process.
+3. After the registration, the system displays a page with a “confirm invitation” button and a “reject invitation” button.
+4. The user clicks on the “confirm invitation” button.
+
+</actions>
+<post>The user has a registred account. The user has the workflow administrator role for the specific workflow.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="52" priority="C" title="Invitation rejected">
+<description/>
+<pre>The user got an workflow administration invitation mail. The user has a registered account.</pre>
+<actions>1. The user clicks on the link in the invitation email with in the time limit.
+2. The system displays a page with a “confirm invitation” button and a “reject invitation” button.
+3. The user clicks on the “reject invitation” button.
+
+</actions>
+<post>The system sends a notification email to the tenant admin or workflow admin who invited the the user informing him that the user has rejected the invitation. The user has not the workflow administrator role for any role.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="53" priority="C" title="Confirmation link expired">
+<description/>
+<pre>The user got an tenant membership invitation mail.
+The invitation link is more than three days old and has not been followed in that time.</pre>
+<actions>The user follows the invitation link the invitation e-mail.</actions>
+<post>The web browser displays an error message stating that the invitation link has expired.</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.04.2009" creator="JonasSchlaak" name="Change email address" number="55">
+<description>The purpose of this sequence is to test all flows of the "Change email address" use case.</description>
+<pre/>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="60" priority="C" title="Invalid email address">
+<description/>
+<pre>The user has a registered account with a working email address and is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „Change e-mail” link.
+4. The system displays a new page with an empty text field. The text field is labeled with „New e-mail address“.
+5. The user enters an invalid string that is not an e-mail address into the text field and presses the “change” button.</actions>
+<post>The system displays an error message informing the user that the entered email address is not valid. The email addres was not changed.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="61" priority="C" title="Email address already in use">
+<description/>
+<pre>The user has a registered account with a working email address and is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „Change e-mail” link.
+4. The system displays a new page with an empty text field. The text field is labeled with „New e-mail address“.
+5. The user enters a used e-mail address into the text field and presses the “change” button.</actions>
+<post>The system displays an error message informing the user that the entered email address is already in use. The email addres was not changed.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="62" priority="C" title="Cannot send email">
+<description/>
+<pre>The user has a registered account with a working email address and is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „Change e-mail” link.
+4. The system displays a new page with an empty text field. The text field is labeled with „New e-mail address“.
+5. The user enters an e-mail address (to which no emails can be sent to) into the text field and presses the “change” button.</actions>
+<post>The system displays an error message informing the user that the entered email address cannot be reached. The email addres was not changed.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="59" priority="C" title="Confirmation link expired">
+<description/>
+<pre>The user has a registered account with a working email address and is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „Change e-mail” link.
+4. The system displays a new page with an empty text field. The text field is labeled with „New e-mail address“.
+5. The user enters  a valid, unused and working e-mail address into the text field and presses the “change” button.
+6. The system sends an e-mail with a confirmation link to the user’s new e-mail address.
+7. The user confirms the new e-mail address by visiting the confirmation link, but not with in the time limit.</actions>
+<post>The web browser displays an error message stating that the invitation link has expired.</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="56" priority="C" title="Regular flow">
+<description/>
+<pre>The user has a registered account with a working email address and is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „Change e-mail” link.
+4. The system displays a new page with an empty text field. The text field is labeled with „New e-mail address“.
+5. The user enters  a valid, unused and working e-mail address into the text field and presses the “change” button.
+6. The system sends an e-mail with a confirmation link to the user’s new e-mail address.
+7. The user confirms the new e-mail address by visiting the confirmation link.
+8. The system shows a page which informs the user that the e-mail address has been successfully changed.
+
+
+</actions>
+<post>The new e-mail address is displayed on the Profile Page.
+All future e-mails from the system are sent to the new e-mail address.
+The user is logged in.
+The system displays the information page.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.04.2009" creator="JonasSchlaak" name="Change password" number="63">
+<description>The purpose of this sequence is to test all flows of the "Change password" use case.</description>
+<pre/>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="69" priority="C" title="Old passwort not correct">
+<description/>
+<pre>The user has a registered account and wants to change his password. The user is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „Change password” link.
+4. The system displays a new “change password page” with three empty text fields. The text fields are labeled with „Old password”, „New password” and „Confirm new password“.
+5. The user enters a bogus password into the „Old password” text field and his new password into the „New password” and „Confirm new password” text fields.
+6. The user clicks on the “Change password” button.
+</actions>
+<post>The system displays an error message informing the user that the old password is not correct.
+The password was not changed.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="70" priority="C" title="String do not match">
+<description/>
+<pre>The user has a registered account and wants to change his password. The user is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „Change password” link.
+4. The system displays a new “change password page” with three empty text fields. The text fields are labeled with „Old password”, „New password” and „Confirm new password“.
+5. The user enters his old password into the „Old password” text field and new strings into the „New password” and „Confirm new password” text fields. The strings do not match.
+6. The user clicks on the “Change password” button.
+</actions>
+<post>The system displays an error message informing the user that the two new password entries do not match.
+The password was not changed.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="71" priority="C" title="Changed password canceled">
+<description/>
+<pre>The user has a registered account and wants to change his password. The user is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „Change password” link.
+4. The system displays a new “change password page” with three empty text fields. The text fields are labeled with „Old password”, „New password” and „Confirm new password“.
+5. The user enters his old password into the „Old password” text field and his new password into the „New password” and „Confirm new password” text fields. The strings do not match.
+6. The user clicks on the “Cancel” button.
+</actions>
+<post>The system displays the Profile Page.
+The password was not changed.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="64" priority="C" title="Regular flow">
+<description/>
+<pre>The user has a registered account and wants to change his password. The user is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „Change password” link.
+4. The system displays a new “change password page” with three empty text fields. The text fields are labeled with „Old password”, „New password” and „Confirm new password“.
+5. The user enters his old password into the „Old password” text field and his new password into the „New password” and „Confirm new password” text fields.
+6. The user clicks on the “Change password” button.
+</actions>
+<post>The user’s password was changed successfully.
+The user can only login with the new password.
+The user is logged in.
+The user’s profile page is shown.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.04.2009" creator="JonasSchlaak" name="Change address data" number="72">
+<description>The purpose of this sequence is to test all flows of the "Change address data" use case.</description>
+<pre/>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="76" priority="C" title="Regular flow">
+<description/>
+<pre>The user has a registered account and wants to change his address data. The user is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user changes the entries in all address field.
+4. The user clicks on the "Save" button.</actions>
+<post>The user's address data was changed.
+The user’s profile page is shown.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="77" priority="C" title="Address data change canceled">
+<description/>
+<pre>The user has a registered account and wants to change his address data. The user is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user changes the entries in all address field.
+4. The user aborts the process by clicking on an entry in the navigation bar.</actions>
+<post>The user's address data was not changed.
+
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.04.2009" creator="JonasSchlaak" name="Cancel membership" number="80">
+<description>The purpose of this sequence is to test all flows of the "Cancel membership" use case.</description>
+<pre/>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="83" priority="C" title="User is a tenant admin">
+<description/>
+<pre>The user has a registered account and is the last workflow admin for a workflow besides the tenant admin. The user is a tenant admin. The user does not take part in a running workflow instance. The user is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „cancel membership” button.
+4. The system displays a new page with a warning and asks the user again if he wants to cancel his membership.
+5. The user confirms that he wants to cancel his membership.
+</actions>
+<post>The system displays an error message informing the user that he can’t perform this action while he is a tenant admin. The account is not deleted. The profile page is displayed.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="85" priority="C" title="User is part of a running workflow instance">
+<description/>
+<pre>The user has a registered account and is the last workflow admin for a workflow besides the tenant admin. The user is not a tenant admin. The user takes part in a running workflow instance. The user is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „cancel membership” button.
+4. The system displays a new page with a warning and asks the user again if he wants to cancel his membership.
+5. The user confirms that he wants to cancel his membership.
+</actions>
+<post>The system displays an error message informing the user that he can’t perform this action while he is part of a running workflow instance. The account is not deleted. The profile page is displayed.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="84" priority="C" title="Cancelation of membership canceled">
+<description/>
+<pre>The user has a registered account and is the last workflow admin for a workflow besides the tenant admin. The user is not a tenant admin. The user does not take part in a workflow. The user is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „cancel membership” button.
+4. The system displays a new page with a warning and asks the user again if he wants to cancel his membership.
+5. The user does not confirm that he wants to cancel his membership.
+</actions>
+<post>The account is not deleted. The profile page is displayed.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="81" priority="C" title="Regular flow">
+<description/>
+<pre>The user has a registered account and is the last workflow admin for a workflow besides the tenant admin. The user is not a tenant admin. The user does not take part in a workflow. The user is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „cancel membership” button.
+4. The system displays a new page with a warning and asks the user again if he wants to cancel his membership.
+5. The user confirms that he wants to cancel his membership.
+</actions>
+<post>The user is logged out and cannot log in anymore. The account is deleted. The public welcome page is displayed. A notification email to the tenant admin was sent.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.04.2009" creator="JonasSchlaak" name="Logout" number="86">
+<description>The purpose of this sequence is to test all flows of the "Logout" use case.</description>
+<pre/>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="90" priority="C" title="Regular flow">
+<description/>
+<pre>The user is logged in.</pre>
+<actions>1. The user clicks on the „log out” link.</actions>
+<post>The user is logged out.
+The public welcome page is displayed.
+
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.04.2009" creator="JonasSchlaak" name="Create tenant" number="91">
+<description>The purpose of this sequence is to test all flows of the "Create tenant" use case.</description>
+<pre/>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="92" priority="C" title="Tenant name invalid">
+<description/>
+<pre>The user is logged in.</pre>
+<actions>1. The user clicks on the „create tenant” entry in the navigation bar.
+2. The system shows the tenant registration page.
+3. The user enters the tenant information. The tenant name is not use, but invalid.</actions>
+<post>The system shows a page which informs the user that the tenant name is not valid. The tenant is not created.
+
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="93" priority="C" title="Regular flow">
+<description/>
+<pre>The user is logged in.</pre>
+<actions>1. The user clicks on the „create tenant” entry in the navigation bar.
+2. The system shows the tenant registration page.
+3. The user enters the tenant information. The tenant name is not use and valid.</actions>
+<post>The system shows a page which informs the user that the tenant is successfully created. The tenant is created.
+
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="94" priority="C" title="Tenant name in use">
+<description/>
+<pre>The user is logged in.</pre>
+<actions>1. The user clicks on the „create tenant” entry in the navigation bar.
+2. The system shows the tenant registration page.
+3. The user enters the tenant information. The tenant name is already in use.</actions>
+<post>The system shows a page which informs the user that the tenant name is already in use. The tenant is not created.
+
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.04.2009" creator="JonasSchlaak" name="Switch tenant" number="95">
+<description>The purpose of this sequence is to test all flows of the "Switch tenant" use case.</description>
+<pre/>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="96" priority="C" title="Regular flow">
+<description/>
+<pre>The user is logged in. The user has more than one tenant.</pre>
+<actions>1. The user clicks on the „change tenant” entry in the navigation bar.
+2. The system displays a list of the user’s tenants. The current tenant (if available) is indicated as active. 
+3. The user decides to switch to a tenant by selecting a tenant and clicking on the „Switch” link.
+
+</actions>
+<post>The system displays the work item page. The page style changes to the current tenant's theme.
+
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.04.2009" creator="JonasSchlaak" name="Set user status to unavailable" number="100">
+<description>The purpose of this sequence is to test all flows of the "Set user status to unavailable" use case.</description>
+<pre/>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="101" priority="C" title="Status change canceled">
+<description/>
+<pre>The user is logged in. The user status is set to available.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page. 
+3. The user activates the checkbox “Set my status to unavailable”.
+4. The user aborts the process by clicking on an entry in the navigation bar.
+
+
+
+</actions>
+<post>The user status was not changed. The system shows the user’s profile page.
+
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="102" priority="C" title="Regular flow">
+<description/>
+<pre>The user is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page. 
+3. The user activates the checkbox “Set my status to unavailable”.
+4. The user clicks on the “save” button.
+
+
+</actions>
+<post>The user status is set to unavailable. The system shows the user’s profile page.
+
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.04.2009" creator="JonasSchlaak" name="Set user status to available" number="97">
+<description>The purpose of this sequence is to test all flows of the "Set user status to available" use case.</description>
+<pre/>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="98" priority="C" title="Status change canceled">
+<description/>
+<pre>The user is logged in. The user status is set to unavailable.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page. 
+3. The user removes the check in the checkbox “Set my status to unavailable”.
+4. The user aborts the process by clicking on an entry in the navigation bar.
+
+
+
+</actions>
+<post>The user status was not changed. The system shows the user’s profile page.
+
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="99" priority="C" title="Regular flow">
+<description/>
+<pre>The user is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page. 
+3. The user removes the check in the checkbox “Set my status to unavailable”.
+4. The user clicks on the “save” button.
+
+
+</actions>
+<post>The user status is set to available. The system shows the user’s profile page.
+
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.04.2009" creator="JonasSchlaak" name="Leave tenant" number="106">
+<description>The purpose of this sequence is to test all flows of the "Leave tenant" use case.</description>
+<pre/>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="107" priority="C" title="User is a tenant admin">
+<description/>
+<pre>The user has a registered account and is the last workflow admin for a workflow besides the tenant admin. The user is a tenant admin of the tenant he wishes to leave. The user does not take part in a running workflow instance. The user is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „Leave tenant” button.
+4. The system displays a new page with a warning and asks the user again if he wants to cancel his membership.
+5. The user confirms that he wants to cancel his membership.
+</actions>
+<post>The system displays an error message informing the user that he can’t perform this action while he is a tenant admin. The user is still a member tenant. The profile page is displayed.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="108" priority="C" title="User is part of a running workflow instance">
+<description/>
+<pre>The user has a registered account and is the last workflow admin for a workflow besides the tenant admin. The user is not a tenant admin of the tenant he wishes to leave. The user takes part in a running workflow instance. The user is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „Leave tenant” button.
+4. The system displays a new page with a warning and asks the user again if he wants to cancel his membership.
+5. The user confirms that he wants to cancel his membership.
+</actions>
+<post>The system displays an error message informing the user that he can’t perform this action while he is part of a running workflow instance. The user is still a member of the tenant. The profile page is displayed.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="109" priority="C" title="Cancelation of membership canceled">
+<description/>
+<pre>The user has a registered account and is the last workflow admin for a workflow besides the tenant admin. The user is not a tenant admin of the tenant he wishes to leave. The user does not take part in a workflow. The user is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „Leave tenant” button.
+4. The system displays a new page with a warning and asks the user again if he wants to cancel his membership.
+5. The user does not confirm that he wants to cancel his membership.
+</actions>
+<post>The user is still a memeber of the tenant. The profile page is displayed.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.04.2009" creator="JonasSchlaak" effort="00:00" number="110" priority="C" title="Regular flow">
+<description/>
+<pre>The user has a registered account and is the last workflow admin for a workflow besides the tenant admin. The user is not a tenant admin. The user does not take part in a workflow. The user is logged in.</pre>
+<actions>1. The user clicks on the „Profile Page” entry in the navigation bar.
+2. The system displays the user’s profile page.
+3. The user clicks on the „Leave tenant” button.
+4. The system displays a new page with a warning and asks the user again if he wants to cancel his membership.
+5. The user confirms that he wants to cancel his membership.
+</actions>
+<post>The user is no longer a member of the tenant. A notification email to the tenant admin was sent.
+</post>
+<tags/>
+</testcase>
+</sequence>
+</sequence>
+<sequence created="07.04.2009" creator="JonasSchlaak" name="Workflow Participation" number="116">
+<description>This section hold all test cases for workflow participation.
+</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<sequence created="07.04.2009" creator="JonasSchlaak" name="Display work items" number="121">
+<description>The purpose of this sequence is to test all flows of the "Display work items" use cases.
+</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.04.2009" creator="JonasSchlaak" effort="00:00" number="122" priority="C" title="Display items from current tenant">
+<description/>
+<pre>The user is logged in. The user has at least one tenant.</pre>
+<actions>1. The user clicks on the „My Work items” entry in the navigation bar or selects in the combo box on the work item page “current tenant”.</actions>
+<post>The system displays a list of the user’s work items for the current tenant. For every work item the following data is displayed:
+- Name
+- Tenant
+- Date received
+- Status (new, in progress or done)
+
+Work items with the status „new” are displayed with a link “work on item”. Work items with the status “in progress” are displayed with a link “work on item” and with a link „mark as done“.
+</post>
+<tags/>
+</testcase>
+<testcase created="07.04.2009" creator="JonasSchlaak" effort="00:00" number="127" priority="C" title="Display items from all tenants">
+<description/>
+<pre>The user is logged in. The user has at least one tenant.</pre>
+<actions>1. The user clicks on the „My Work items” entry in the navigation bar and selects in the combo box on the work item page “all tenants”.</actions>
+<post>The system displays a list of the user’s work items for all tenants. For every work item the following data is displayed:
+- Name
+- Tenant
+- Date received
+- Status (new, in progress or done)
+
+Work items with the status „new” are displayed with a link “work on item”. Work items with the status “in progress” are displayed with a link “work on item” and with a link „mark as done“.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.04.2009" creator="JonasSchlaak" name="Start working on a work item" number="126">
+<description>The purpose of this sequence is to test all flows of the "Start working on a workitem" use case.
+</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.04.2009" creator="JonasSchlaak" effort="00:00" number="129" priority="C" title="Regular flow">
+<description/>
+<pre>The user is logged in. The user has at least one tenant. The user has opened the workitems page and at least one new work item is displayed.</pre>
+<actions>1. The user clicks on the link “work on item” of that work item, he wishes to work on.
+2. The system opens a new window that contains one or more of the following items:
+- Text fields
+- Forms
+- Input fields
+3. Content, Size and amount are defined by the tenant admin and the workflow admin. The window can also include the option to upload one or more files.
+4. The user fills out the forms, input fields and / or uploads a file.
+5. The user clicks on the “save” button.
+</actions>
+<post>The work item status is displayed as „in progress“.
+State and inputs made by the user are saved into the system.
+The user’s work items are shown.
+</post>
+<tags/>
+</testcase>
+<testcase created="07.04.2009" creator="JonasSchlaak" effort="00:00" number="130" priority="C" title="Window closed - work canceled">
+<description/>
+<pre>The user is logged in. The user has at least one tenant. The user has opened the workitems page and at least one new work item is displayed.</pre>
+<actions>1. The user clicks on the link “work on item” of that work item, he wishes to work on.
+2. The system opens a new window that contains one or more of the following items:
+- Text fields
+- Forms
+- Input fields
+3. Content, Size and amount are defined by the tenant admin and the workflow admin. The window can also include the option to upload one or more files.
+4. The user fills out the forms, input fields and / or uploads a file.
+5. The user closes the window.
+</actions>
+<post>The work item status is displayed as “new”.
+The system displays a list of the user’s work items.
+The user's input was discarded.
+The user’s work items are shown.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.04.2009" creator="JonasSchlaak" name="Resume working on a work item" number="131">
+<description>The purpose of this sequence is to test all flows of the "Resume working on a workitem" use case.
+</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.04.2009" creator="JonasSchlaak" effort="00:00" number="132" priority="C" title="Regular flow">
+<description/>
+<pre>The user is logged in. The user has at least one tenant. The user has opened the workitems page and at least one work item has the status in progress.</pre>
+<actions>1. The user clicks on the link “work on item” of that work item, he wishes to work on.
+2. The system opens a new window that contains one or more of the following items:
+- Text fields
+- Forms
+- Input fields
+3. Content, Size and amount are defined by the tenant admin and the workflow admin. The window can also include the option to upload one or more files.
+4. The user fills out the forms, input fields and / or uploads a file.
+5. The user clicks on the “save” button.
+</actions>
+<post>The work item status is displayed as „in progress“.
+State and inputs made by the user are saved into the system.
+The user’s work items are shown.
+</post>
+<tags/>
+</testcase>
+<testcase created="07.04.2009" creator="JonasSchlaak" effort="00:00" number="133" priority="C" title="Window closed - work canceled">
+<description/>
+<pre>The user is logged in. The user has at least one tenant. The user has opened the workitems page and at least one work item is displayed.</pre>
+<actions>1. The user clicks on the link “work on item” of that work item, he wishes to work on.
+2. The system opens a new window that contains one or more of the following items:
+- Text fields
+- Forms
+- Input fields
+3. Content, Size and amount are defined by the tenant admin and the workflow admin. The window can also include the option to upload one or more files.
+4. The user fills out the forms, input fields and / or uploads a file.
+5. The user closes the window.
+</actions>
+<post>The work item status is displayed as “in progress”.
+The system displays a list of the user’s work items.
+The user's new input was discarded.
+The user’s work items are shown.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.04.2009" creator="JonasSchlaak" name="Mark work item as done" number="134">
+<description>The purpose of this sequence is to test all flows of the "Start working on a workitem" use case.
+</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.04.2009" creator="JonasSchlaak" effort="00:00" number="137" priority="C" title="Marking canceled">
+<description/>
+<pre>The user is logged in. The user has at least one tenant. The user has opened the workitems page and at least one work item has the status in progress.</pre>
+<actions>1. The user clicks on the link „mark as done” of that work item he or she wishes to mark as done.
+2. The system displays a dialog asking the user if he is sure he wants to mark the work item as done.
+3. The user clicks on the “no” button.
+</actions>
+<post>The work item status is displayed as “in progress”.
+The system displays a list of the user’s work items.
+The user can still work on that work item.
+</post>
+<tags/>
+</testcase>
+<testcase created="07.04.2009" creator="JonasSchlaak" effort="00:00" number="135" priority="C" title="Regular flow">
+<description/>
+<pre>The user is logged in. The user has at least one tenant. The user has opened the workitems page and at least one work item has the status in progress.</pre>
+<actions>1. The user clicks on the link „mark as done” of that work item he or she wishes to mark as done.
+2. The system displays a dialog asking the user if he is sure he wants to mark the work item as done.
+3. The user clicks on the “yes” button.
+</actions>
+<post>The work item status in displayed as „done“.
+The user cannot work on that work item anymore.
+The user’s work items are shown.
+</post>
+<tags/>
+</testcase>
+</sequence>
+</sequence>
+<sequence created="07.04.2009" creator="JonasSchlaak" name="Workflow Participation" number="138">
+<description>This section hold all test cases for workflow instance management.
+</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<sequence created="07.04.2009" creator="JonasSchlaak" name="View workflow models" number="139">
+<description>The purpose of this sequence is to test all flows of the "View workflow models" use case.
+</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.04.2009" creator="JonasSchlaak" effort="00:00" number="140" priority="C" title="Regular flow">
+<description/>
+<pre>The workflow admin is logged in. The tenant of the workflow admin has at least one published workflow model.</pre>
+<actions>The workflow admin clicks on the link “create instance” in the navigation bar.
+</actions>
+<post>The system displays a page on which all workflow models of the workflow admin for the current tenant are listed.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.04.2009" creator="JonasSchlaak" name="View workflow instances" number="151">
+<description>The purpose of this sequence is to test all flows of the "View own workflow instances" use case.
+</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.04.2009" creator="JonasSchlaak" effort="00:00" number="152" priority="C" title="Regular flow">
+<description/>
+<pre>The workflow admin is logged in. The workflow admin has at least one running instance.</pre>
+<actions>The workflow admin clicks on the link “show workflow instances”.
+</actions>
+<post>The system displays a list of all running and completed workflow instance the workflow admin has started.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.04.2009" creator="JonasSchlaak" name="Prepare workflow instance configuration" number="153">
+<description>The purpose of this sequence is to test all flows of the "Prepare workflow instance configuration" use case.
+</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.04.2009" creator="JonasSchlaak" effort="00:00" number="154" priority="C" title="Regular flow">
+<description/>
+<pre>The workflow admin is logged in.</pre>
+<actions>1. The workflow admin clicks on the link “create workflow instance”.
+2. The workflow admin selects a model from which he wants to create an instance and presses the “prepare” button.
+3. The workflow admin invites or adds at least one user to the instance (see Add user to a prepared workflow instance)
+4. The workflow admin presses the button “save”.
+
+</actions>
+<post>The system shows a success page.
+</post>
+<tags/>
+</testcase>
+</sequence>
+</sequence>
+</sequence>
+</sequence>
+<tsa name="Project" number="0" revId="0">
+<relatedsequence>0</relatedsequence>
+<tsa name="DecidR Systemtest" number="5" revId="1">
+<relatedsequence>5</relatedsequence>
+<tsa name="Account Management" number="111" revId="1">
+<relatedsequence>111</relatedsequence>
+<tsa name="Register account as tenant-admin" number="12" revId="1">
+<relatedsequence>12</relatedsequence>
+</tsa>
+<tsa name="Register account as normal user" number="19" revId="1">
+<relatedsequence>19</relatedsequence>
+</tsa>
+<tsa name="Confirm registration" number="26" revId="1">
+<relatedsequence>26</relatedsequence>
+</tsa>
+<tsa name="Login" number="30" revId="1">
+<relatedsequence>30</relatedsequence>
+</tsa>
+<tsa name="Change forgotten account password" number="39" revId="1">
+<relatedsequence>39</relatedsequence>
+</tsa>
+<tsa name="Confirm tenant membership invitaion" number="42" revId="1">
+<relatedsequence>42</relatedsequence>
+</tsa>
+<tsa name="Confirm workflow administration invitation" number="49" revId="1">
+<relatedsequence>49</relatedsequence>
+</tsa>
+<tsa name="Change email address" number="55" revId="1">
+<relatedsequence>55</relatedsequence>
+</tsa>
+<tsa name="Change password" number="63" revId="1">
+<relatedsequence>63</relatedsequence>
+</tsa>
+<tsa name="Change address data" number="72" revId="1">
+<relatedsequence>72</relatedsequence>
+</tsa>
+<tsa name="Cancel membership" number="80" revId="1">
+<relatedsequence>80</relatedsequence>
+</tsa>
+<tsa name="Logout" number="86" revId="1">
+<relatedsequence>86</relatedsequence>
+</tsa>
+<tsa name="Create tenant" number="91" revId="1">
+<relatedsequence>91</relatedsequence>
+</tsa>
+<tsa name="Switch tenant" number="95" revId="1">
+<relatedsequence>95</relatedsequence>
+</tsa>
+<tsa name="Set user status to unavailable" number="100" revId="1">
+<relatedsequence>100</relatedsequence>
+</tsa>
+<tsa name="Set user status to available" number="97" revId="1">
+<relatedsequence>97</relatedsequence>
+</tsa>
+<tsa name="Leave tenant" number="106" revId="1">
+<relatedsequence>106</relatedsequence>
+</tsa>
+</tsa>
+<tsa name="Workflow Participation" number="116" revId="1">
+<relatedsequence>116</relatedsequence>
+<tsa name="Mark work item as done" number="134" revId="1">
+<relatedsequence>134</relatedsequence>
+</tsa>
+<tsa name="Start working on a work item" number="126" revId="1">
+<relatedsequence>126</relatedsequence>
+</tsa>
+<tsa name="Resume working on a work item" number="131" revId="1">
+<relatedsequence>131</relatedsequence>
+</tsa>
+<tsa name="Display work items" number="121" revId="1">
+<relatedsequence>121</relatedsequence>
+</tsa>
+</tsa>
+<tsa name="Workflow Participation" number="138" revId="1">
+<relatedsequence>138</relatedsequence>
+<tsa name="View workflow models" number="139" revId="1">
+<relatedsequence>139</relatedsequence>
+</tsa>
+<tsa name="View workflow instances" number="151" revId="1">
+<relatedsequence>151</relatedsequence>
+</tsa>
+<tsa name="Prepare workflow instance configuration" number="153" revId="1">
+<relatedsequence>153</relatedsequence>
+</tsa>
+</tsa>
+</tsa>
+</tsa>
+<author active="Y" firstname="" lastname="Jonas Schlaak" uid="JonasSchlaak">
+<extension name="standarduser" value="Y"/>
+</author>
+<extension name="maxid" value="154"/>
+</tests>
