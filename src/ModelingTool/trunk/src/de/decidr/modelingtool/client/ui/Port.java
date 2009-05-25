@@ -18,6 +18,8 @@ package de.decidr.modelingtool.client.ui;
 
 import java.util.List;
 
+import com.allen_sauer.gwt.dnd.client.drop.DropController;
+
 /**
  * TODO: add comment
  *

@@ -1,5 +1,17 @@
 /** Add css rules here for your application. */
 
+.workflow {
+	background-color: #DDDDDD;
+	width: 600px;
+	height: 400px;
+}
+
+.node-stdgraphic {
+	width: 100px;
+	height: 60px;
+	background-color: #FF6666;
+	border: solid 1px;	
+}
 
 /** Example rules used by the template application (remove for your app) */
 h1 {

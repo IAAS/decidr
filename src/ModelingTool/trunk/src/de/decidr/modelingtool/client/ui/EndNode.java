@@ -21,8 +21,8 @@ package de.decidr.modelingtool.client.ui;
  *
  * @author engelhjs
  */
-public class EndNode extends AbstractNode {
+public class EndNode extends Node implements ModelChangeListener {
 
-    private EndNodeModel model;
+    //private EndNodeModel model;
     
 }

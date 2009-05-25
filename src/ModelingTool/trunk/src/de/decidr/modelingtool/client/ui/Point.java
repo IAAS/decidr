@@ -16,19 +16,15 @@
 
 package de.decidr.modelingtool.client.ui;
 
-import java.util.List;
-
-import com.allen_sauer.gwt.dnd.client.drop.DropController;
-
 /**
  * TODO: add comment
  *
  * @author engelhjs
  */
-public class Container extends Node {
+public class Point {
 
-    private List<Node> childNodes;
+    private int x;
     
-    private DropController dropController;
+    private int y;
     
 }

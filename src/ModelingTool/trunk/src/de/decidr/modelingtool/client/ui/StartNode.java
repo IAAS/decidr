@@ -21,8 +21,12 @@ package de.decidr.modelingtool.client.ui;
  *
  * @author engelhjs
  */
-public class StartNode extends AbstractNode {
+public class StartNode extends Node implements ModelChangeListener {
 
-    private StartNodeModel model;
+    //private StartNodeModel model;
+    
+    public StartNode() {
+        super();
+    }
     
 }

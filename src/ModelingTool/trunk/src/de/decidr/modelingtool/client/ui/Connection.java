@@ -16,38 +16,47 @@
 
 package de.decidr.modelingtool.client.ui;
 
+import com.allen_sauer.gwt.dnd.client.drop.DropController;
+import com.google.gwt.user.client.ui.HTML;
+
 /**
  * TODO: add comment
  * 
  * @author engelhjs
  */
-public interface Connection {
+public abstract class Connection extends HTML implements Selectable {
 
-    /**
-     * TODO: add comment
-     * 
-     * @return
-     */
-    public Port getSourcePort();
+    private boolean selected;
 
-    /**
-     * TODO: add comment
-     * 
-     * @return
-     */
-    public Port getTargetPort();
+    // TODO
+    // private ConnectionModel model;
 
-    /**
-     * TODO: add comment
-     * 
-     * @return
-     */
-    public ConnectionModel getModel();
+    private Point startEndPoint;
 
-    /**
-     * TODO: add comment
-     * 
-     */
-    public void draw();
+    private Point endEndPoint;
+
+    private DropController dragController;
+
+    public abstract void draw();
+
+    public Port getSourcePort() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public Port getTargetPort() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public boolean isSelected() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    public void setSelected(boolean selected) {
+        // TODO Auto-generated method stub
+
+    }
 
 }

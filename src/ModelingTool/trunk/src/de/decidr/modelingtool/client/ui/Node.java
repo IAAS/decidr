@@ -16,37 +16,121 @@
 
 package de.decidr.modelingtool.client.ui;
 
+import java.util.List;
+
+import com.google.gwt.event.dom.client.HasMouseDownHandlers;
+import com.google.gwt.event.dom.client.HasMouseOutHandlers;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Widget;
+
 /**
  * TODO: add comment
- *
+ * 
  * @author engelhjs
  */
-public interface Node {
+public abstract class Node extends AbsolutePanel implements
+        ModelChangeListener, Selectable, HasMouseDownHandlers,
+        HasMouseOutHandlers {
+
+    private final int OFFSET_PIXEL = 10;
 
     /**
      * TODO: add comment
-     *
-     * @return
      */
-    public boolean isResizable();
-    
-    /**
-     * TODO: add comment
-     *
-     * @return
-     */
-    public boolean isDeletable();
-    
+    private Widget graphic;// = new AbsolutePanel();
+
     /**
      * TODO: add comment
      */
-    public boolean isMoveable();
-    
+    private boolean selected = false;
+
     /**
      * TODO: add comment
-     *
-     * @return
      */
-    public NodeModel getModel();
-    
+    private boolean resizable = false;
+
+    /**
+     * TODO: add comment
+     */
+    private boolean deletable = true;
+
+    /**
+     * TODO: add comment
+     */
+    private boolean moveable = true;
+
+    public Node() {
+        super();
+
+        graphic = new AbsolutePanel();
+        // add graphic to the node
+        add(graphic, OFFSET_PIXEL, OFFSET_PIXEL);
+        // add graphic std style
+        graphic.addStyleName("node-stdgraphic");
+        // set node size
+        setPixelSize(100 + OFFSET_PIXEL * 2, 60 + OFFSET_PIXEL * 2);
+
+    }
+
+    public boolean isDeletable() {
+        return deletable;
+    }
+
+    public void setDeletable(boolean deletable) {
+        this.deletable = deletable;
+    }
+
+    public boolean isMoveable() {
+        return moveable;
+    }
+
+    public void setMoveable(boolean moveable) {
+        this.moveable = moveable;
+    }
+
+    public boolean isResizable() {
+        return resizable;
+    }
+
+    /**
+     * TODO: add comment
+     */
+    private List<Port> ports;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.decidr.modelingtool.client.ui.ModelChangeListener#onModelChange()
+     */
+    @Override
+    public void onModelChange() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public boolean isSelected() {
+        return selected;
+    }
+
+    @Override
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    @Override
+    public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
+        return addDomHandler(handler, MouseOutEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
+        return addDomHandler(handler, MouseDownEvent.getType());
+    }
+
 }

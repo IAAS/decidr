@@ -21,6 +21,10 @@ package de.decidr.modelingtool.client.ui;
  *
  * @author engelhjs
  */
-public abstract class InvokeNode extends AbstractNode {
+public abstract class InvokeNode extends Node {
 
+    public InvokeNode() {
+        super();
+    }
+    
 }

@@ -21,7 +21,7 @@ package de.decidr.modelingtool.client.ui;
  *
  * @author engelhjs
  */
-public class OrthogonalConnection extends AbstractConnection {
+public class OrthogonalConnection extends Connection {
 
     /* (non-Javadoc)
      * @see de.decidr.modelingtool.client.ui.AbstractConnection#draw()
