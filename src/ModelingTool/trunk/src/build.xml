@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="build">
+	<path id="build.classpath">
+		<pathelement location="classes"/>
+	</path>
+	<target name="init">
+		<mkdir dir="classes"/>
+	</target>
+	<target name="clean">
+		<delete dir="classes"/>
+	</target>
+	<target depends="init" name="build">
+		<javac srcdir="." destdir="classes" source="1.5" target="1.5" fork="yes">
+			<classpath refid="build.classpath"/>
+			<include name="de/decidr/modelingtool/client/ui/ModelChangeListener.java"/>
+			<include name="de/decidr/modelingtool/client/ui/Selectable.java"/>
+			<include name="de/decidr/modelingtool/client/ui/Connection.java"/>
+			<include name="de/decidr/modelingtool/client/ui/Workflow.java"/>
+			<include name="de/decidr/modelingtool/client/ui/Node.java"/>
+			<include name="de/decidr/modelingtool/client/ui/NodeSelectionBox.java"/>
+			<include name="de/decidr/modelingtool/client/ui/ResizeDragController.java"/>
+			<include name="de/decidr/modelingtool/client/ui/ResizeDirection.java"/>
+			<include name="de/decidr/modelingtool/client/ui/com.google.gwt.user.client.ui.FocusPanel.java"/>
+			<include name="de/decidr/modelingtool/client/ui/DragBox.java"/>
+			<include name="de/decidr/modelingtool/client/ui/ConnectionDragController.java"/>
+			<include name="de/decidr/modelingtool/client/ui/Point.java"/>
+			<include name="de/decidr/modelingtool/client/ui/AbstractConnection.java"/>
+			<include name="de/decidr/modelingtool/client/ui/com.allen_sauer.gwt.dnd.client.drop.AbstractDropController.java"/>
+			<include name="de/decidr/modelingtool/client/ui/PortDropController.java"/>
+			<include name="de/decidr/modelingtool/client/ui/AbstractPort.java"/>
+			<include name="de/decidr/modelingtool/client/ui/ContainerStartPort.java"/>
+			<include name="de/decidr/modelingtool/client/ui/ContainerExitPort.java"/>
+			<include name="de/decidr/modelingtool/client/ui/StartNode.java"/>
+			<include name="de/decidr/modelingtool/client/ui/OutputPort.java"/>
+			<include name="de/decidr/modelingtool/client/ui/Container.java"/>
+			<include name="de/decidr/modelingtool/client/ui/IfContainer.java"/>
+			<include name="de/decidr/modelingtool/client/ui/EmailInvokeNode.java"/>
+			<include name="de/decidr/modelingtool/client/ui/FlowContainer.java"/>
+			<include name="de/decidr/modelingtool/client/ui/ForEachContainer.java"/>
+			<include name="de/decidr/modelingtool/client/ui/End_Node.java"/>
+			<include name="de/decidr/modelingtool/client/ui/InputPort.java"/>
+			<include name="de/decidr/modelingtool/client/ui/InvokeNode.java"/>
+			<include name="de/decidr/modelingtool/client/ui/HumanTaskInvokeNode.java"/>
+			<include name="de/decidr/modelingtool/client/ui/AbstractNode.java"/>
+			<include name="de/decidr/modelingtool/client/ui/OrthogonalConnection.java"/>
+			<include name="de/decidr/modelingtool/client/model/AbstractModel.java"/>
+			<include name="de/decidr/modelingtool/client/model/ContainerModel.java"/>
+			<include name="de/decidr/modelingtool/client/model/ConnectionModel.java"/>
+			<include name="de/decidr/modelingtool/client/model/WorkflowModel.java"/>
+			<include name="de/decidr/modelingtool/client/model/StartNodeModel.java"/>
+			<include name="de/decidr/modelingtool/client/model/IfContainerModel.java"/>
+			<include name="de/decidr/modelingtool/client/model/InvokeNodeModel.java"/>
+			<include name="de/decidr/modelingtool/client/model/EmailInvokeNodeModel.java"/>
+			<include name="de/decidr/modelingtool/client/model/VariableType.java"/>
+			<include name="de/decidr/modelingtool/client/model/ValueType.java"/>
+			<include name="de/decidr/modelingtool/client/model/FlowContainerModel.java"/>
+			<include name="de/decidr/modelingtool/client/model/ForEachContainerModel.java"/>
+			<include name="de/decidr/modelingtool/client/model/EndNodeModel.java"/>
+			<include name="de/decidr/modelingtool/client/model/HumanTaskInvokeNodeModel.java"/>
+			<include name="de/decidr/modelingtool/client/model/Field.java"/>
+			<include name="de/decidr/modelingtool/client/model/Variable.java"/>
+			<include name="de/decidr/modelingtool/client/model/Value.java"/>
+			<include name="de/decidr/modelingtool/client/model/Condition.java"/>
+			<include name="de/decidr/modelingtool/client/model/NodeModel.java"/>
+			<include name="de/decidr/modelingtool/client/commands/CommandList.java"/>
+			<include name="de/decidr/modelingtool/client/commands/CommandStack.java"/>
+			<include name="de/decidr/modelingtool/client/commands/java.util.Stack.java"/>
+			<include name="de/decidr/modelingtool/client/commands/UndoableCommand.java"/>
+			<include name="de/decidr/modelingtool/client/commands/NewEmailActivityCommand.java"/>
+			<include name="de/decidr/modelingtool/client/commands/NewHumanTaskActivityCommand.java"/>
+			<include name="de/decidr/modelingtool/client/commands/NewFlowContainerCommand.java"/>
+			<include name="de/decidr/modelingtool/client/commands/NewIfContainerCommand.java"/>
+			<include name="de/decidr/modelingtool/client/commands/NewForEachContainerCommand.java"/>
+			<include name="de/decidr/modelingtool/client/commands/UndoCommand.java"/>
+			<include name="de/decidr/modelingtool/client/commands/RedoCommand.java"/>
+			<include name="de/decidr/modelingtool/client/commands/DeleteCommand.java"/>
+			<include name="de/decidr/modelingtool/client/commands/SaveCommand.java"/>
+			<include name="de/decidr/modelingtool/client/commands/ClearCommand.java"/>
+			<include name="de/decidr/modelingtool/client/commands/CreateConnectionCommand.java"/>
+			<include name="de/decidr/modelingtool/client/commands/MoveConnectionCommand.java"/>
+			<include name="de/decidr/modelingtool/client/commands/MoveNodeCommand.java"/>
+			<include name="de/decidr/modelingtool/client/commands/ResizeNodeCommand.java"/>
+		</javac>
+	</target>
+</project>

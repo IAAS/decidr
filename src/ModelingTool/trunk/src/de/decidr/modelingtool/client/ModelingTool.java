@@ -7,10 +7,10 @@ import com.google.gwt.core.client.EntryPoint;
  */
 public class ModelingTool implements EntryPoint {
 
-	/**
-	 * This is the entry point method.
-	 */
-	public void onModuleLoad() {
+    /**
+     * This is the entry point method.
+     */
+    public void onModuleLoad() {
 
-	}
+    }
 }
