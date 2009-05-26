@@ -8,7 +8,7 @@
 Add your issues to be descussed in the next "Weekly Meeting":
 
 == WM 05/26/09 ==
-  # Maven Repository Manager: Pro and Contra (AT)
+  # Maven Repository Manager: Pro and Contra for Artifactory (AT)
 
 == WM 05/19/09 ==
   # Implementation: Comment templates for eclipse (RR)
