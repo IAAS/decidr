@@ -17,49 +17,68 @@
 package de.decidr.modelingtool.client.ui;
 
 import java.util.List;
+import java.util.Vector;
 
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
+import com.google.gwt.user.client.ui.HTML;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author engelhjs
  */
-public interface Port {
+public class Port extends HTML {
+    
+    public static enum Position {
+        TOP, LEFT, RIGHT, BOTTOM, ABSOLUTE
+    };
+    
+    private Position position;
+    private int xOffset = 0;
+    private int yOffset = 0;
 
-    /**
-     * TODO: add comment
-     *
-     * @return
-     */
-    public boolean isMultipleConnectionsAllowed();
+    private boolean multipleConnectionsAllowed = false;
+
+    private List<Connection> connections = new Vector<Connection>();
+
+    private Node parent = null;
+
+    private DropController dropController = null;
     
-    /**
-     * TODO: add comment
-     *
-     * @param mcAllowed
-     */
-    public void setMultipleConnectionsAllowed(boolean mcAllowed);
+    public Port(Node parent, Position position) {
+        this.parent = parent;
+        this.position = position;
+    }
     
-    /**
-     * TODO: add comment
-     *
-     * @return
-     */
-    public DropController getDropController();
-    
-    /**
-     * TODO: add comment
-     *
-     * @return
-     */
-    public Node getParentNode();
-    
-    /**
-     * TODO: add comment
-     *
-     * @return
-     */
-    public List<Connection> getConnections();
-    
+    public Port(Node parent, Position position, int xOffset, int yOffset) {
+        this.parent = parent;
+        this.position = position;
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
+    }
+
+    public boolean isMultipleConnectionsAllowed() {
+        return multipleConnectionsAllowed;
+    }
+
+    public void setMultipleConnectionsAllowed(boolean mcAllowed) {
+        this.multipleConnectionsAllowed = mcAllowed;
+    }
+
+    public List<Connection> getConnections() {
+        return connections;
+    }
+
+    public Node getParent() {
+        return parent;
+    }
+
+    public DropController getDropController() {
+        return dropController;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
 }

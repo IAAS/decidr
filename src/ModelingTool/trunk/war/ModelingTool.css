@@ -4,10 +4,24 @@
 	background-color: #DDDDDD;
 }
 
-.node-stdgraphic {
+.node-graphic-std {
 	width: 100px;
 	height: 60px;
 	background-color: #FF6666;
+	border: solid 1px;	
+}
+
+.port-inputport {
+	width: 10px;
+	height: 10px;
+	background-color: green;
+	border: solid 1px;	
+}
+
+.port-outputport {
+	width: 10px;
+	height: 10px;
+	background-color: red;
 	border: solid 1px;	
 }
 

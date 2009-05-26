@@ -17,6 +17,7 @@
 package de.decidr.modelingtool.client.ui;
 
 import java.util.List;
+import java.util.Vector;
 
 import com.google.gwt.event.dom.client.HasMouseDownHandlers;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
@@ -37,39 +38,26 @@ public abstract class Node extends AbsolutePanel implements
         ModelChangeListener, Selectable, HasMouseDownHandlers,
         HasMouseOutHandlers {
 
-    private final int OFFSET_PIXEL = 10;
+    private final int OFFSET_PIXEL = 5;
 
-    /**
-     * TODO: add comment
-     */
     private Widget graphic;// = new AbsolutePanel();
 
-    /**
-     * TODO: add comment
-     */
     private boolean selected = false;
 
-    /**
-     * TODO: add comment
-     */
     private boolean resizable = false;
 
-    /**
-     * TODO: add comment
-     */
     private boolean deletable = true;
 
-    /**
-     * TODO: add comment
-     */
     private boolean moveable = true;
+
+    private List<Port> ports = new Vector<Port>();
 
     public Node() {
         super();
 
         // set graphic properties
         graphic = new AbsolutePanel();
-        graphic.addStyleName("node-stdgraphic");
+        graphic.addStyleName("node-graphic-std");
 
         // add graphic to node
         this.add(graphic, OFFSET_PIXEL, OFFSET_PIXEL);
@@ -80,6 +68,8 @@ public abstract class Node extends AbsolutePanel implements
      * is added to a workflow.
      */
     public void onWorkflowAdd() {
+        // set pixel size, this can only be set after adding the node to a
+        // workflow
         this.setPixelSize(graphic.getOffsetWidth() + OFFSET_PIXEL * 2, graphic
                 .getOffsetHeight()
                 + OFFSET_PIXEL * 2);
@@ -105,16 +95,6 @@ public abstract class Node extends AbsolutePanel implements
         return resizable;
     }
 
-    /**
-     * TODO: add comment
-     */
-    private List<Port> ports;
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.decidr.modelingtool.client.ui.ModelChangeListener#onModelChange()
-     */
     @Override
     public void onModelChange() {
         // TODO Auto-generated method stub
@@ -139,6 +119,33 @@ public abstract class Node extends AbsolutePanel implements
     @Override
     public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
         return addDomHandler(handler, MouseDownEvent.getType());
+    }
+
+    private void addPort(Port port) {
+        ports.add(port);
+        refreshPortPositions();
+    }
+
+    private void refreshPortPositions() {
+        for (Port port : ports) {
+            switch (port.getPosition()) {
+            case TOP:
+                // TODO
+                break;
+
+            case LEFT:
+                break;
+
+            case RIGHT:
+                break;
+
+            case BOTTOM:
+                break;
+
+            case ABSOLUTE:
+                break;
+            }
+        }
     }
 
 }
