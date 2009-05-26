@@ -11,6 +11,12 @@ http://m2eclipse.sonatype.org/update/
 *Eclipse Update Site:*
 http://hudson-eclipse.googlecode.com/svn/trunk/hudson-update/
 
+== Maven Repository ==
+*Maven Repository Browser:*
+http://www.mvnbrowser.com/index.html
+
+Here you can browse the maven central repository to search for artifacts.
+
 
 = Details for Maven configuration =
 
