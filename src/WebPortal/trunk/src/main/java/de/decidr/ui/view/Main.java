@@ -11,7 +11,7 @@ public class Main extends Application {
 	public void init() {
 		
 		setMainWindow(main);
-		main.addComponent(ProfileSettings.getInstance());
+		main.addComponent(SystemSetting.getInstance());
 
 	}
 

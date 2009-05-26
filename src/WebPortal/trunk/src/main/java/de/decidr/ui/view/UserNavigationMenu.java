@@ -22,16 +22,9 @@ public class UserNavigationMenu extends CustomComponent{
 	
 	private Button myWorkItemLink = null;
 	private Button changeTenantLink = null;
-	private Button createWorkflowInstanceLink = null;
-	private Button showWorkflowInstancesLink = null;
-	private Button showUserListLink = null;
-	private Button createTenantLink = null;
 	private Button profileSettingsLink = null;
 	
 	private Label workflowParticipationLabel = null;
-	private Label workflowInstancesLabel = null;
-	private Label usersLabel = null;
-	private Label tenantsLabel = null;
 	private Label settingsLabel = null;
 	
 	private UserNavigationMenu(){
@@ -45,22 +38,11 @@ public class UserNavigationMenu extends CustomComponent{
 		myWorkItemLink = new Button("My Workitems");
 		myWorkItemLink.setStyleName(Button.STYLE_LINK);
 		changeTenantLink = new Button("Change Tenant");
-		changeTenantLink.setStyleName(Button.STYLE_LINK);
-		createWorkflowInstanceLink = new Button("Create Workflow Instance");
-		createWorkflowInstanceLink.setStyleName(Button.STYLE_LINK);
-		showWorkflowInstancesLink = new Button("Show Workflow Instances");
-		showWorkflowInstancesLink.setStyleName(Button.STYLE_LINK);
-		showUserListLink = new Button("Show/Edit User List");
-		showUserListLink.setStyleName(Button.STYLE_LINK);
-		createTenantLink = new Button("Create Tenant");
-		createTenantLink.setStyleName(Button.STYLE_LINK);
+		changeTenantLink.setStyleName(Button.STYLE_LINK);		
 		profileSettingsLink = new Button("Profile Settings");
 		profileSettingsLink.setStyleName(Button.STYLE_LINK);
 		
 		workflowParticipationLabel = new Label("Workflow participation");
-		workflowInstancesLabel = new Label("Workflow Instances");
-		usersLabel = new Label("Users");
-		tenantsLabel = new Label("Tenants");
 		settingsLabel = new Label("Settings");
 	    
 		verticalLayout.setSpacing(true);
@@ -68,17 +50,7 @@ public class UserNavigationMenu extends CustomComponent{
 		verticalLayout.addComponent(workflowParticipationLabel);
 		verticalLayout.addComponent(myWorkItemLink);
 		verticalLayout.addComponent(changeTenantLink);
-		
-		verticalLayout.addComponent(workflowInstancesLabel);
-		verticalLayout.addComponent(createWorkflowInstanceLink);
-		verticalLayout.addComponent(showWorkflowInstancesLink);
-		
-		verticalLayout.addComponent(usersLabel);
-		verticalLayout.addComponent(showUserListLink);
-		
-		verticalLayout.addComponent(tenantsLabel);
-		verticalLayout.addComponent(createTenantLink);
-		
+	
 		verticalLayout.addComponent(settingsLabel);
 		verticalLayout.addComponent(profileSettingsLink);
 	}

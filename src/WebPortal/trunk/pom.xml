@@ -7,20 +7,43 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>WebPortal Maven Webapp</name>
   <url>http://maven.apache.org</url>
-  <dependencies>
+  <distributionManagement>
+    <repository>
+        <id>iaassrv7-releases</id>
+        <name>iaassrv7-releases</name>
+        <url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
+    </repository>
+    <snapshotRepository>
+        <id>iaassrv7-snapshots</id>
+        <name>iaassrv7-snapshots</name>
+        <url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
+    </snapshotRepository>
+</distributionManagement>
+  <repositories>
+    <repository>
+        <id>iaassrv7-releases</id>
+        <name>iaassrv7-releases</name>
+        <url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
+    </repository>
+    <repository>
+    	<id>iaassrv7-releases</id>
+    	<name>iaassrv7-releases</name>
+    	<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/ibiblio</url>
+	</repository>
+</repositories>
+<dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
+  		<groupId>junit</groupId>
+  		<artifactId>junit</artifactId>
+  		<version>4.5</version>
+  	<scope>test</scope>
+  </dependency>
     <dependency>
-    	<groupId>de.decidr.view</groupId>
+    	<groupId>vaadin</groupId>
     	<artifactId>vaadin</artifactId>
-    	<version>6.0.0</version>
-    	<optional>true</optional>
-    </dependency>
-  </dependencies>
+    	<version>6.0.0-pre2</version>
+  </dependency>
+</dependencies>
   <build>
     <finalName>WebPortal</finalName>
   	<plugins>
