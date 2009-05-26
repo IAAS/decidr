@@ -21,9 +21,11 @@ public class ModelingTool implements EntryPoint {
         final Workflow workflow = new Workflow();
         RootPanel.get("workflow").add(workflow);
         
-        Node node = new StartNode();
+        StartNode node = new StartNode();
         
         workflow.add(node);
+        
+        //workflow.getDragController().makeDraggable(node);
         
     }
 }

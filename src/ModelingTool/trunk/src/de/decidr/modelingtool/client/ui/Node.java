@@ -67,14 +67,22 @@ public abstract class Node extends AbsolutePanel implements
     public Node() {
         super();
 
+        // set graphic properties
         graphic = new AbsolutePanel();
-        // add graphic to the node
-        add(graphic, OFFSET_PIXEL, OFFSET_PIXEL);
-        // add graphic std style
         graphic.addStyleName("node-stdgraphic");
-        // set node size
-        setPixelSize(100 + OFFSET_PIXEL * 2, 60 + OFFSET_PIXEL * 2);
 
+        // add graphic to node
+        this.add(graphic, OFFSET_PIXEL, OFFSET_PIXEL);
+    }
+
+    /**
+     * Callback function for the workflow, this function is called when the node
+     * is added to a workflow.
+     */
+    public void onWorkflowAdd() {
+        this.setPixelSize(graphic.getOffsetWidth() + OFFSET_PIXEL * 2, graphic
+                .getOffsetHeight()
+                + OFFSET_PIXEL * 2);
     }
 
     public boolean isDeletable() {

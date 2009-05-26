@@ -50,35 +50,42 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
      */
     private Vector<Connection> connections = new Vector<Connection>();
 
+    public PickupDragController getDragController() {
+        return dragController;
+    }
+
     /**
      * The constructor.
      */
     public Workflow() {
         super();
         
-        // add workflow style
-        addStyleName("workflow");
-        setSize("600px", "400px");
+        // set workflow proerties
+        this.addStyleName("workflow");
+        this.setSize("600px", "400px");
 
         // create drag controller
-        dragController = new PickupDragController(this, true);
+        this.dragController = new PickupDragController(this, true);
     }
-
+    
     /**
      * Adds a node to the workflow.
      * 
      * @param node
      */
-    public void addNode(Node node) {
-        // add node to the vector
+    public void add(Node node) {
+        // add node to the nodes vector
         nodes.add(node);
-        // add node to the panel
-        add(node);
+        // add node to workflow
+        super.add(node);
+        // add callback to node
+        node.onWorkflowAdd();
         // make node draggable
-        //if (node.isMoveable()) {
-            dragController.makeDraggable(node);
-        //}
+        if (node.isMoveable()) {
+            this.dragController.makeDraggable(node);
+        }
     }
+
 
     /**
      * Adds a node to the workflow in the specified position.
@@ -87,20 +94,26 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
      * @param x
      * @param y
      */
-    public void addNode(Node node, int x, int y) {
-        // add node
-        addNode(node);
-        // set position
-        setWidgetPosition(node, x, y);
+    public void add(Node node, int x, int y) {
+     // add node to the nodes vector
+        nodes.add(node);
+        // add node to workflow
+        super.add(node, x, y);
+        // callback to node
+        node.onWorkflowAdd();
+        // make node draggable
+        if (node.isMoveable()) {
+            this.dragController.makeDraggable(node);
+        }
     }
-
-    /**
-     * Adds a connection to the workflow.
-     * 
-     * @param connection
-     */
-    public void addConnection(Connection connection) {
-
+    
+    public void add(Connection connection) {
+        // add connection to the connections vector
+        connections.add(connection);
+        // add connection to workflow
+        super.add(connection);
+        // callback to connection
+        connection.onWorkflowAdd();
     }
 
     /**

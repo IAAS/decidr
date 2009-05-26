@@ -38,6 +38,10 @@ public abstract class Connection extends HTML implements Selectable {
     private DropController dragController;
 
     public abstract void draw();
+    
+    public void onWorkflowAdd() {
+        draw();
+    }
 
     public Port getSourcePort() {
         // TODO Auto-generated method stub
