@@ -14,31 +14,13 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui;
+package de.decidr.modelingtool.client.ui.dnd;
 
 /**
  * TODO: add comment
  *
- * @author engelhjs
+ * @author JE
  */
-public class StartNode extends Node implements ModelChangeListener {
+public class DndRegistry {
 
-    //private StartNodeModel model;
-    
-    public StartNode() {
-        super();
-        this.setGraphic(null); 
-        this.addPort(new OutputPort());
-    }
-
-    @Override
-    public boolean isDeletable() {
-        return false;
-    }
-
-    @Override
-    public boolean isResizable() {
-        return false;
-    }
-    
 }

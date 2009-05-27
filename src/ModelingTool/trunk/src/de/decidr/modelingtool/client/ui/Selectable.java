@@ -17,24 +17,14 @@
 package de.decidr.modelingtool.client.ui;
 
 /**
- * TODO: add comment
+ * Classes which implement this interface are selectable.
  *
  * @author engelhjs
  */
 public interface Selectable {
 
-    /**
-     * TODO: add comment
-     *
-     * @return
-     */
     public boolean isSelected();
     
-    /**
-     * TODO: add comment
-     *
-     * @param selected
-     */
     public void setSelected(boolean selected);
     
 }

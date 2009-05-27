@@ -29,8 +29,8 @@ public class InputPort extends Port {
      * @param parent
      * @param position
      */
-    public InputPort(Node parent) {
-        super(parent, Port.Position.TOP);
+    public InputPort() {
+        super(Port.Position.TOP);
 
         // set properties
         this.addStyleName("port-inputport");

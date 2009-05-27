@@ -18,6 +18,7 @@ package de.decidr.modelingtool.client.ui;
 
 import java.util.Vector;
 
+import com.allen_sauer.gwt.dnd.client.DragController;
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
@@ -50,16 +51,12 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
      */
     private Vector<Connection> connections = new Vector<Connection>();
 
-    public PickupDragController getDragController() {
-        return dragController;
-    }
-
     /**
      * The constructor.
      */
     public Workflow() {
         super();
-        
+
         // set workflow proerties
         this.addStyleName("workflow");
         this.setSize("600px", "400px");
@@ -67,46 +64,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
         // create drag controller
         this.dragController = new PickupDragController(this, true);
     }
-    
-    /**
-     * Adds a node to the workflow.
-     * 
-     * @param node
-     */
-    public void add(Node node) {
-        // add node to the nodes vector
-        nodes.add(node);
-        // add node to workflow
-        super.add(node);
-        // add callback to node
-        node.onWorkflowAdd();
-        // make node draggable
-        if (node.isMoveable()) {
-            this.dragController.makeDraggable(node);
-        }
-    }
 
-
-    /**
-     * Adds a node to the workflow in the specified position.
-     * 
-     * @param node
-     * @param x
-     * @param y
-     */
-    public void add(Node node, int x, int y) {
-     // add node to the nodes vector
-        nodes.add(node);
-        // add node to workflow
-        super.add(node, x, y);
-        // callback to node
-        node.onWorkflowAdd();
-        // make node draggable
-        if (node.isMoveable()) {
-            this.dragController.makeDraggable(node);
-        }
-    }
-    
     public void add(Connection connection) {
         // add connection to the connections vector
         connections.add(connection);
@@ -117,11 +75,71 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
     }
 
     /**
-     * Removes a node from the workflow.
+     * Adds a node to the workflow.
      * 
      * @param node
      */
-    public void remove(Node node) {
+    public void add(Node node) {
+        // add node to the nodes vector
+        nodes.add(node);
+        // add node to workflow
+        super.add(node);
+        
+        // make node draggable
+        if (node.isMoveable()) {
+            this.dragController.makeDraggable(node);
+        }
+        
+        // if node is a container, register the crop controller
+        if (node instanceof Container) {
+            dragController.registerDropController(((Container) node)
+                    .getDropController());
+        }
+
+        // callback to node
+        node.onWorkflowAdd();
+    }
+
+    /**
+     * Adds a node to the workflow in the specified position.
+     * 
+     * @param node
+     * @param x
+     * @param y
+     */
+    public void add(Node node, int x, int y) {
+        // add node to the nodes vector
+        nodes.add(node);
+        // add node to workflow
+        super.add(node, x, y);
+        
+        // make node draggable
+        if (node.isMoveable()) {
+            this.dragController.makeDraggable(node);
+        }
+
+        // if node is a container, register the crop controller
+        if (node instanceof Container) {
+            dragController.registerDropController(((Container) node)
+                    .getDropController());
+        }
+        
+        // callback to node
+        node.onWorkflowAdd();
+    }
+
+    public DragController getDragController() {
+        return dragController;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.decidr.modelingtool.client.ui.ModelChangeListener#onModelChange()
+     */
+    @Override
+    public void onModelChange() {
+        // TODO Auto-generated method stub
 
     }
 
@@ -134,14 +152,12 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
 
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Removes a node from the workflow.
      * 
-     * @see de.decidr.modelingtool.client.ui.ModelChangeListener#onModelChange()
+     * @param node
      */
-    @Override
-    public void onModelChange() {
-        // TODO Auto-generated method stub
+    public void remove(Node node) {
 
     }
 

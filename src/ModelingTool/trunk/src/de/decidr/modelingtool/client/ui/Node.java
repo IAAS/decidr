@@ -27,12 +27,13 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * TODO: add comment
+ * This class represents an abstract node in a workflow.
  * 
- * @author engelhjs
+ * @author JE
  */
 public abstract class Node extends AbsolutePanel implements
         ModelChangeListener, Selectable, HasMouseDownHandlers,
@@ -40,7 +41,7 @@ public abstract class Node extends AbsolutePanel implements
 
     private final int BORDER_OFFSET = 5;
 
-    private Widget graphic;// = new AbsolutePanel();
+    protected Widget graphic;
 
     private boolean selected = false;
 
@@ -55,50 +56,36 @@ public abstract class Node extends AbsolutePanel implements
     public Node() {
         super();
 
-        // set graphic properties
-        graphic = new AbsolutePanel();
-        graphic.addStyleName("node-graphic-std");
-
-        // add graphic to node
-        this.add(graphic, BORDER_OFFSET, BORDER_OFFSET);
     }
 
-    /**
-     * Callback function for the workflow, this function is called when the node
-     * is added to a workflow.
-     */
-    public void onWorkflowAdd() {
-        // set pixel size, this can only be set after adding the node to a
-        // workflow
-        this.setPixelSize(graphic.getOffsetWidth() + BORDER_OFFSET * 2, graphic
-                .getOffsetHeight()
-                + BORDER_OFFSET * 2);
+    @Override
+    public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
+        return addDomHandler(handler, MouseDownEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
+        return addDomHandler(handler, MouseOutEvent.getType());
+    }
+
+    protected void addPort(Port port) {
+        ports.add(port);
+        this.add(port);
+
+        // set this node as parent
+        port.setParentNode(this);
     }
 
     public boolean isDeletable() {
         return deletable;
     }
 
-    public void setDeletable(boolean deletable) {
-        this.deletable = deletable;
-    }
-
     public boolean isMoveable() {
         return moveable;
     }
 
-    public void setMoveable(boolean moveable) {
-        this.moveable = moveable;
-    }
-
     public boolean isResizable() {
         return resizable;
-    }
-
-    @Override
-    public void onModelChange() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
@@ -107,49 +94,96 @@ public abstract class Node extends AbsolutePanel implements
     }
 
     @Override
+    public void onModelChange() {
+        // TODO Auto-generated method stub
+
+    }
+
+    /**
+     * Callback function for the workflow, this function is called when the node
+     * is added to a workflow.
+     */
+    public void onWorkflowAdd() {
+        // set pixel size, this can only be set after setting a graphic and
+        // adding the node to a workflow
+        if (graphic != null) {
+            this.setPixelSize(graphic.getOffsetWidth() + BORDER_OFFSET * 2,
+                    graphic.getOffsetHeight() + BORDER_OFFSET * 2);
+        }
+
+        // refresh the port positions
+        refreshPortPositions();
+    }
+
+    /**
+     * Sets the ports of the node to it's specified position. Useful if the node
+     * is resized.
+     */
+    protected void refreshPortPositions() {
+        for (Port port : ports) {
+            int portWidth = port.getOffsetWidth();
+            int portHeight = port.getOffsetHeight();
+            int xOffset = port.getXOffset();
+            int yOffset = port.getYOffset();
+
+            switch (port.getPosition()) {
+            case TOP:
+                this.setWidgetPosition(port, this.getOffsetWidth() / 2
+                        - portWidth / 2 + xOffset, BORDER_OFFSET - portHeight
+                        / 2 + yOffset);
+                break;
+            case LEFT:
+                this.setWidgetPosition(port, BORDER_OFFSET - portWidth / 2
+                        + xOffset, this.getOffsetHeight() / 2 - portHeight / 2
+                        + yOffset);
+                break;
+            case RIGHT:
+                this.setWidgetPosition(port, this.getOffsetWidth()
+                        - BORDER_OFFSET - portWidth / 2 + xOffset, this
+                        .getOffsetHeight()
+                        / 2 - portHeight / 2 + yOffset);
+                break;
+            case BOTTOM:
+                this.setWidgetPosition(port, this.getOffsetWidth() / 2
+                        - portWidth / 2 + xOffset, this.getOffsetHeight()
+                        - BORDER_OFFSET - portHeight / 2 + yOffset);
+                break;
+
+            case ABSOLUTE:
+                this.setWidgetPosition(port, xOffset, yOffset);
+                break;
+            }
+        }
+    }
+
+    public void setDeletable(boolean deletable) {
+        this.deletable = deletable;
+    }
+
+    public void setMoveable(boolean moveable) {
+        this.moveable = moveable;
+    }
+
+    @Override
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
 
-    @Override
-    public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
-        return addDomHandler(handler, MouseOutEvent.getType());
+    public Widget getGraphic() {
+        return graphic;
     }
 
-    @Override
-    public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
-        return addDomHandler(handler, MouseDownEvent.getType());
-    }
+    public void setGraphic(Widget graphic) {
+        this.graphic = graphic;
 
-    public void addPort(Port port) {
-        //ports.add(port);
-        //this.add(port);
-        refreshPortPositions();
-    }
-
-    protected void refreshPortPositions() {
-        for (Port port : ports) {
-            int width = port.getOffsetWidth();
-            int height = port.getOffsetHeight();
-
-            switch (port.getPosition()) {
-            case TOP:
-                this.setWidgetPosition(port, this.getOffsetWidth() / 2 + width
-                        / 2, BORDER_OFFSET - height / 2);
-                break;
-            case LEFT:
-                break;
-                // TODO
-            case RIGHT:
-                break;
-
-            case BOTTOM:
-                break;
-
-            case ABSOLUTE:
-                break;
-            }
+        // set standard graphic properties if graphic not set by subclass
+        if (this.graphic == null) {
+            this.graphic = new FocusPanel();
+            this.graphic.addStyleName("node-graphic-std");
         }
+
+        // add graphic to node
+        this.add(this.graphic, BORDER_OFFSET, BORDER_OFFSET);
     }
 
 }

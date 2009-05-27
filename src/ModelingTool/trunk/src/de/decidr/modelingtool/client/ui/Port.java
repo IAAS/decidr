@@ -22,6 +22,8 @@ import java.util.Vector;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
 import com.google.gwt.user.client.ui.FocusPanel;
 
+import de.decidr.modelingtool.client.ui.dnd.PortDropController;
+
 /**
  * TODO: add comment
  * 
@@ -41,20 +43,42 @@ public class Port extends FocusPanel {
 
     private List<Connection> connections = new Vector<Connection>();
 
-    private Node parent = null;
+    private Node parentNode = null;
 
-    private DropController dropController = null;
+    private DropController dropController = new PortDropController(this);
     
-    public Port(Node parent, Position position) {
-        this.parent = parent;
+    public Port(Position position) {
         this.position = position;
     }
     
-    public Port(Node parent, Position position, int xOffset, int yOffset) {
-        this.parent = parent;
+    public Port(Position position, int xOffset, int yOffset) {
         this.position = position;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
+    }
+
+    public List<Connection> getConnections() {
+        return connections;
+    }
+
+    public DropController getDropController() {
+        return dropController;
+    }
+
+    public Node getParentNode() {
+        return parentNode;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public int getXOffset() {
+        return xOffset;
+    }
+
+    public int getYOffset() {
+        return yOffset;
     }
 
     public boolean isMultipleConnectionsAllowed() {
@@ -65,20 +89,16 @@ public class Port extends FocusPanel {
         this.multipleConnectionsAllowed = mcAllowed;
     }
 
-    public List<Connection> getConnections() {
-        return connections;
+    public void setParentNode(Node parentNode) {
+        this.parentNode = parentNode;
     }
 
-    public Node getParent() {
-        return parent;
+    public void setXOffset(int offset) {
+        xOffset = offset;
     }
 
-    public DropController getDropController() {
-        return dropController;
-    }
-
-    public Position getPosition() {
-        return position;
+    public void setYOffset(int offset) {
+        yOffset = offset;
     }
 
 }

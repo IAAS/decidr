@@ -7,22 +7,29 @@
 .node-graphic-std {
 	width: 100px;
 	height: 60px;
-	background-color: #FF6666;
+	background-color: #EEEEEE;
 	border: solid 1px;	
+}
+
+.container-std {
+	width: 300px;
+	height: 200px;
+	background-color: #6666FF;
+	border: solid 1px;
 }
 
 .port-inputport {
-	width: 10px;
-	height: 10px;
+	width: 8px;
+	height: 8px;
 	background-color: green;
-	border: solid 1px;	
+	font-size: 5px;
 }
 
 .port-outputport {
-	width: 10px;
-	height: 10px;
+	width: 8px;
+	height: 8px;
 	background-color: red;
-	border: solid 1px;	
+	font-size: 5px;
 }
 
 /** Example rules used by the template application (remove for your app) */

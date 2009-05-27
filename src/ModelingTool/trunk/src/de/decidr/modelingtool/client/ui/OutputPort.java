@@ -19,26 +19,15 @@ package de.decidr.modelingtool.client.ui;
 /**
  * TODO: add comment
  *
- * @author engelhjs
+ * @author JE
  */
-public class StartNode extends Node implements ModelChangeListener {
+public class OutputPort extends Port {
 
-    //private StartNodeModel model;
-    
-    public StartNode() {
-        super();
-        this.setGraphic(null); 
-        this.addPort(new OutputPort());
-    }
+    public OutputPort() {
+        super(Port.Position.BOTTOM);
 
-    @Override
-    public boolean isDeletable() {
-        return false;
-    }
-
-    @Override
-    public boolean isResizable() {
-        return false;
+        // set properties
+        this.addStyleName("port-outputport");
     }
     
 }

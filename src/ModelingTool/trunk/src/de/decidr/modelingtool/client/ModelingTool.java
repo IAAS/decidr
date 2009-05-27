@@ -3,6 +3,8 @@ package de.decidr.modelingtool.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import de.decidr.modelingtool.client.ui.Container;
+import de.decidr.modelingtool.client.ui.EndNode;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.StartNode;
 import de.decidr.modelingtool.client.ui.Workflow;
@@ -21,11 +23,17 @@ public class ModelingTool implements EntryPoint {
         final Workflow workflow = new Workflow();
         RootPanel.get("workflow").add(workflow);
         
-        StartNode node = new StartNode();
         
-        workflow.add(node);
+        // create test elements
+        Node startNode = new StartNode();
+        Node endNode = new EndNode();
         
-        //workflow.getDragController().makeDraggable(node);
+        Container con = new Container();
+        
+        workflow.add(startNode, 50, 50);
+        workflow.add(endNode, 50, 200);
+        
+        workflow.add(con, 200, 50);
         
     }
 }

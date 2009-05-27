@@ -17,18 +17,49 @@
 package de.decidr.modelingtool.client.ui;
 
 import java.util.List;
+import java.util.Vector;
 
+import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
+import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author engelhjs
  */
 public class Container extends Node {
 
-    private List<Node> childNodes;
-    
-    private DropController dropController;
-    
+    private List<Node> childNodes = new Vector<Node>();
+
+    private List<Connection> childConnections = new Vector<Connection>();
+
+    private DropController dropController = new AbsolutePositionDropController(
+            this);
+
+    public Container() {
+        super();
+
+        // set container graphic properties
+        Widget graphic = new FocusPanel();
+        graphic.addStyleName("container-std");
+        this.setGraphic(graphic);
+        
+        this.addPort(new InputPort());
+        this.addPort(new OutputPort());
+    }
+
+    public List<Node> getChildNodes() {
+        return childNodes;
+    }
+
+    public List<Connection> getChildConnections() {
+        return childConnections;
+    }
+
+    public DropController getDropController() {
+        return dropController;
+    }
+
 }

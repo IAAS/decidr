@@ -16,7 +16,7 @@
 
 package de.decidr.modelingtool.client.ui;
 
-import com.allen_sauer.gwt.dnd.client.drop.DropController;
+import com.allen_sauer.gwt.dnd.client.DragController;
 import com.google.gwt.user.client.ui.HTML;
 
 /**
@@ -35,32 +35,40 @@ public abstract class Connection extends HTML implements Selectable {
 
     private Point endEndPoint;
 
-    private DropController dragController;
+    private DragController dragController;
+
+    private Port sourcePort = null;
+
+    private Port targetPort = null;
 
     public abstract void draw();
-    
+
     public void onWorkflowAdd() {
         draw();
     }
 
-    public Port getSourcePort() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Port getTargetPort() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     public boolean isSelected() {
-        // TODO Auto-generated method stub
-        return false;
+        return selected;
     }
 
     public void setSelected(boolean selected) {
-        // TODO Auto-generated method stub
+        this.selected = selected;
+    }
 
+    public Port getSourcePort() {
+        return sourcePort;
+    }
+
+    public void setSourcePort(Port sourcePort) {
+        this.sourcePort = sourcePort;
+    }
+
+    public Port getTargetPort() {
+        return targetPort;
+    }
+
+    public void setTargetPort(Port targetPort) {
+        this.targetPort = targetPort;
     }
 
 }

@@ -25,6 +25,9 @@ public abstract class InvokeNode extends Node {
 
     public InvokeNode() {
         super();
+        
+        addPort(new InputPort());
+        addPort(new OutputPort());
     }
     
 }

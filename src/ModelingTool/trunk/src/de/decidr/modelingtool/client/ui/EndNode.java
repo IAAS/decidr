@@ -25,4 +25,19 @@ public class EndNode extends Node implements ModelChangeListener {
 
     //private EndNodeModel model;
     
+    public EndNode() {
+        super();
+        this.setGraphic(null);
+        this.addPort(new InputPort());
+    }
+
+    @Override
+    public boolean isDeletable() {
+        return false;
+    }
+
+    @Override
+    public boolean isResizable() {
+        return false;
+    }
 }
