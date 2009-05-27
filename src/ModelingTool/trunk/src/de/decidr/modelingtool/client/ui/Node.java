@@ -38,7 +38,7 @@ public abstract class Node extends AbsolutePanel implements
         ModelChangeListener, Selectable, HasMouseDownHandlers,
         HasMouseOutHandlers {
 
-    private final int OFFSET_PIXEL = 5;
+    private final int BORDER_OFFSET = 5;
 
     private Widget graphic;// = new AbsolutePanel();
 
@@ -60,7 +60,7 @@ public abstract class Node extends AbsolutePanel implements
         graphic.addStyleName("node-graphic-std");
 
         // add graphic to node
-        this.add(graphic, OFFSET_PIXEL, OFFSET_PIXEL);
+        this.add(graphic, BORDER_OFFSET, BORDER_OFFSET);
     }
 
     /**
@@ -70,9 +70,9 @@ public abstract class Node extends AbsolutePanel implements
     public void onWorkflowAdd() {
         // set pixel size, this can only be set after adding the node to a
         // workflow
-        this.setPixelSize(graphic.getOffsetWidth() + OFFSET_PIXEL * 2, graphic
+        this.setPixelSize(graphic.getOffsetWidth() + BORDER_OFFSET * 2, graphic
                 .getOffsetHeight()
-                + OFFSET_PIXEL * 2);
+                + BORDER_OFFSET * 2);
     }
 
     public boolean isDeletable() {
@@ -121,21 +121,25 @@ public abstract class Node extends AbsolutePanel implements
         return addDomHandler(handler, MouseDownEvent.getType());
     }
 
-    private void addPort(Port port) {
-        ports.add(port);
+    public void addPort(Port port) {
+        //ports.add(port);
+        //this.add(port);
         refreshPortPositions();
     }
 
-    private void refreshPortPositions() {
+    protected void refreshPortPositions() {
         for (Port port : ports) {
+            int width = port.getOffsetWidth();
+            int height = port.getOffsetHeight();
+
             switch (port.getPosition()) {
             case TOP:
-                // TODO
+                this.setWidgetPosition(port, this.getOffsetWidth() / 2 + width
+                        / 2, BORDER_OFFSET - height / 2);
                 break;
-
             case LEFT:
                 break;
-
+                // TODO
             case RIGHT:
                 break;
 

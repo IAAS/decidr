@@ -27,6 +27,8 @@ public class StartNode extends Node implements ModelChangeListener {
     
     public StartNode() {
         super();
+        
+        this.addPort(new InputPort(this));
     }
     
 }

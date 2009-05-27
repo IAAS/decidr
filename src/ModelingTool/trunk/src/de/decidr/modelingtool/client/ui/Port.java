@@ -20,14 +20,14 @@ import java.util.List;
 import java.util.Vector;
 
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.FocusPanel;
 
 /**
  * TODO: add comment
  * 
  * @author engelhjs
  */
-public class Port extends HTML {
+public class Port extends FocusPanel {
     
     public static enum Position {
         TOP, LEFT, RIGHT, BOTTOM, ABSOLUTE
