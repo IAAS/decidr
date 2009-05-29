@@ -47,8 +47,9 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>gwt-dnd</groupId>
+			<groupId>com.google.code.gwt-dnd</groupId>
 			<artifactId>gwt-dnd</artifactId>
+			<version>2.5.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.extjs</groupId>
