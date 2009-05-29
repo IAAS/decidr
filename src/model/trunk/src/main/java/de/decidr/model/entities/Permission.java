@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 15.05.2009 17:31:29 by Hibernate Tools 3.2.2.GA
+// Generated 29.05.2009 18:32:43 by Hibernate Tools 3.2.2.GA
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,44 +10,45 @@ import java.util.Set;
  */
 public class Permission implements java.io.Serializable {
 
-	private Long id;
-	private String name;
-	private Set<Role> roleHasPermission = new HashSet<Role>(0);
+    private Long id;
+    private String name;
+    private Set<RoleHasPermission> roleHasPermissions = new HashSet<RoleHasPermission>(
+            0);
 
-	public Permission() {
-	}
+    public Permission() {
+    }
 
-	public Permission(String name) {
-		this.name = name;
-	}
+    public Permission(String name) {
+        this.name = name;
+    }
 
-	public Permission(String name, Set<Role> roleHasPermission) {
-		this.name = name;
-		this.roleHasPermission = roleHasPermission;
-	}
+    public Permission(String name, Set<RoleHasPermission> roleHasPermissions) {
+        this.name = name;
+        this.roleHasPermissions = roleHasPermissions;
+    }
 
-	public Long getId() {
-		return this.id;
-	}
+    public Long getId() {
+        return this.id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Set<Role> getRoleHasPermission() {
-		return this.roleHasPermission;
-	}
+    public Set<RoleHasPermission> getRoleHasPermissions() {
+        return this.roleHasPermissions;
+    }
 
-	public void setRoleHasPermission(Set<Role> roleHasPermission) {
-		this.roleHasPermission = roleHasPermission;
-	}
+    public void setRoleHasPermissions(Set<RoleHasPermission> roleHasPermissions) {
+        this.roleHasPermissions = roleHasPermissions;
+    }
 
 }

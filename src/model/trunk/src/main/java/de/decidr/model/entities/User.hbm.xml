@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 15.05.2009 17:31:29 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 29.05.2009 18:32:44 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.User" table="user" catalog="decidrdb">
         <id name="id" type="java.lang.Long">
@@ -52,13 +52,11 @@
             </key>
             <one-to-many class="de.decidr.model.entities.WorkflowModel" />
         </set>
-        <set name="userIsMemberOfTenant" inverse="false" table="user_is_member_of_tenant">
+        <set name="userIsMemberOfTenants" inverse="true">
             <key>
                 <column name="userId" not-null="true" />
             </key>
-            <many-to-many entity-name="de.decidr.model.entities.Tenant">
-                <column name="tenantId" not-null="true" />
-            </many-to-many>
+            <one-to-many class="de.decidr.model.entities.UserIsMemberOfTenant" />
         </set>
         <set name="userProfiles" inverse="true">
             <key>
@@ -78,13 +76,11 @@
             </key>
             <one-to-many class="de.decidr.model.entities.Invitation" />
         </set>
-        <set name="userAdministratesWorkflowInstance" inverse="false" table="user_administrates_workflow_instance">
+        <set name="userAdministratesWorkflowInstances" inverse="true">
             <key>
                 <column name="userId" not-null="true" />
             </key>
-            <many-to-many entity-name="de.decidr.model.entities.WorkflowInstance">
-                <column name="workflowInstanceId" not-null="true" />
-            </many-to-many>
+            <one-to-many class="de.decidr.model.entities.UserAdministratesWorkflowInstance" />
         </set>
         <set name="systemSettingses" inverse="true">
             <key>
@@ -98,13 +94,11 @@
             </key>
             <one-to-many class="de.decidr.model.entities.UserHasFileAccess" />
         </set>
-        <set name="userParticipatesInWorkflow" inverse="false" table="user_participates_in_workflow">
+        <set name="userParticipatesInWorkflows" inverse="true">
             <key>
                 <column name="userId" not-null="true" />
             </key>
-            <many-to-many entity-name="de.decidr.model.entities.WorkflowInstance">
-                <column name="workflowInstanceId" not-null="true" />
-            </many-to-many>
+            <one-to-many class="de.decidr.model.entities.UserParticipatesInWorkflow" />
         </set>
         <set name="administratedTenants" inverse="true">
             <key>
@@ -118,15 +112,13 @@
             </key>
             <one-to-many class="de.decidr.model.entities.ChangeEmailRequest" />
         </set>
-        <set name="userAdministratesWorkflowModel" inverse="false" table="user_administrates_workflow_model">
+        <set name="userAdministratesWorkflowModels" inverse="true">
             <key>
                 <column name="userId" not-null="true">
                     <comment>The tenant admin always implicitly administrates all workflow models.</comment>
                 </column>
             </key>
-            <many-to-many entity-name="de.decidr.model.entities.WorkflowModel">
-                <column name="workflowModelId" not-null="true" />
-            </many-to-many>
+            <one-to-many class="de.decidr.model.entities.UserAdministratesWorkflowModel" />
         </set>
     </class>
 </hibernate-mapping>

@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 15.05.2009 17:31:29 by Hibernate Tools 3.2.2.GA
+// Generated 29.05.2009 18:32:43 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 
@@ -9,52 +9,52 @@ import java.util.Date;
  */
 public class RegistrationRequest implements java.io.Serializable {
 
-	private long userId;
-	private User user;
-	private Date creationDate;
-	private String authKey;
+    private long userId;
+    private User user;
+    private Date creationDate;
+    private String authKey;
 
-	public RegistrationRequest() {
-	}
+    public RegistrationRequest() {
+    }
 
-	public RegistrationRequest(long userId, User user, Date creationDate,
-			String authKey) {
-		this.userId = userId;
-		this.user = user;
-		this.creationDate = creationDate;
-		this.authKey = authKey;
-	}
+    public RegistrationRequest(long userId, User user, Date creationDate,
+            String authKey) {
+        this.userId = userId;
+        this.user = user;
+        this.creationDate = creationDate;
+        this.authKey = authKey;
+    }
 
-	public long getUserId() {
-		return this.userId;
-	}
+    public long getUserId() {
+        return this.userId;
+    }
 
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 
-	public User getUser() {
-		return this.user;
-	}
+    public User getUser() {
+        return this.user;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public Date getCreationDate() {
-		return this.creationDate;
-	}
+    public Date getCreationDate() {
+        return this.creationDate;
+    }
 
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 
-	public String getAuthKey() {
-		return this.authKey;
-	}
+    public String getAuthKey() {
+        return this.authKey;
+    }
 
-	public void setAuthKey(String authKey) {
-		this.authKey = authKey;
-	}
+    public void setAuthKey(String authKey) {
+        this.authKey = authKey;
+    }
 
 }

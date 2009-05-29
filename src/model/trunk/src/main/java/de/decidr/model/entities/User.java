@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 15.05.2009 17:31:29 by Hibernate Tools 3.2.2.GA
+// Generated 29.05.2009 18:32:43 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -11,238 +11,246 @@ import java.util.Set;
  */
 public class User implements java.io.Serializable {
 
-	private Long id;
-	private String authKey;
-	private String email;
-	private Date disabledSince;
-	private Date unavailableSince;
-	private Date registeredSince;
-	private Set<WorkItem> workItems = new HashSet<WorkItem>(0);
-	private Set<Invitation> invitationsForSenderId = new HashSet<Invitation>(0);
-	private Set<WorkflowModel> workflowModels = new HashSet<WorkflowModel>(0);
-	private Set<Tenant> userIsMemberOfTenant = new HashSet<Tenant>(0);
-	private Set<UserProfile> userProfiles = new HashSet<UserProfile>(0);
-	private Set<RegistrationRequest> registrationRequests = new HashSet<RegistrationRequest>(
-			0);
-	private Set<Invitation> invitationsForReceiverId = new HashSet<Invitation>(
-			0);
-	private Set<WorkflowInstance> userAdministratesWorkflowInstance = new HashSet<WorkflowInstance>(
-			0);
-	private Set<SystemSettings> systemSettingses = new HashSet<SystemSettings>(
-			0);
-	private Set<UserHasFileAccess> userHasFileAccesses = new HashSet<UserHasFileAccess>(
-			0);
-	private Set<WorkflowInstance> userParticipatesInWorkflow = new HashSet<WorkflowInstance>(
-			0);
-	private Set<Tenant> administratedTenants = new HashSet<Tenant>(0);
-	private Set<ChangeEmailRequest> changeEmailRequests = new HashSet<ChangeEmailRequest>(
-			0);
-	private Set<WorkflowModel> userAdministratesWorkflowModel = new HashSet<WorkflowModel>(
-			0);
+    private Long id;
+    private String authKey;
+    private String email;
+    private Date disabledSince;
+    private Date unavailableSince;
+    private Date registeredSince;
+    private Set<WorkItem> workItems = new HashSet<WorkItem>(0);
+    private Set<Invitation> invitationsForSenderId = new HashSet<Invitation>(0);
+    private Set<WorkflowModel> workflowModels = new HashSet<WorkflowModel>(0);
+    private Set<UserIsMemberOfTenant> userIsMemberOfTenants = new HashSet<UserIsMemberOfTenant>(
+            0);
+    private Set<UserProfile> userProfiles = new HashSet<UserProfile>(0);
+    private Set<RegistrationRequest> registrationRequests = new HashSet<RegistrationRequest>(
+            0);
+    private Set<Invitation> invitationsForReceiverId = new HashSet<Invitation>(
+            0);
+    private Set<UserAdministratesWorkflowInstance> userAdministratesWorkflowInstances = new HashSet<UserAdministratesWorkflowInstance>(
+            0);
+    private Set<SystemSettings> systemSettingses = new HashSet<SystemSettings>(
+            0);
+    private Set<UserHasFileAccess> userHasFileAccesses = new HashSet<UserHasFileAccess>(
+            0);
+    private Set<UserParticipatesInWorkflow> userParticipatesInWorkflows = new HashSet<UserParticipatesInWorkflow>(
+            0);
+    private Set<Tenant> administratedTenants = new HashSet<Tenant>(0);
+    private Set<ChangeEmailRequest> changeEmailRequests = new HashSet<ChangeEmailRequest>(
+            0);
+    private Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels = new HashSet<UserAdministratesWorkflowModel>(
+            0);
 
-	public User() {
-	}
+    public User() {
+    }
 
-	public User(String authKey, String email, Date disabledSince,
-			Date unavailableSince, Date registeredSince,
-			Set<WorkItem> workItems, Set<Invitation> invitationsForSenderId,
-			Set<WorkflowModel> workflowModels,
-			Set<Tenant> userIsMemberOfTenant, Set<UserProfile> userProfiles,
-			Set<RegistrationRequest> registrationRequests,
-			Set<Invitation> invitationsForReceiverId,
-			Set<WorkflowInstance> userAdministratesWorkflowInstance,
-			Set<SystemSettings> systemSettingses,
-			Set<UserHasFileAccess> userHasFileAccesses,
-			Set<WorkflowInstance> userParticipatesInWorkflow,
-			Set<Tenant> administratedTenants,
-			Set<ChangeEmailRequest> changeEmailRequests,
-			Set<WorkflowModel> userAdministratesWorkflowModel) {
-		this.authKey = authKey;
-		this.email = email;
-		this.disabledSince = disabledSince;
-		this.unavailableSince = unavailableSince;
-		this.registeredSince = registeredSince;
-		this.workItems = workItems;
-		this.invitationsForSenderId = invitationsForSenderId;
-		this.workflowModels = workflowModels;
-		this.userIsMemberOfTenant = userIsMemberOfTenant;
-		this.userProfiles = userProfiles;
-		this.registrationRequests = registrationRequests;
-		this.invitationsForReceiverId = invitationsForReceiverId;
-		this.userAdministratesWorkflowInstance = userAdministratesWorkflowInstance;
-		this.systemSettingses = systemSettingses;
-		this.userHasFileAccesses = userHasFileAccesses;
-		this.userParticipatesInWorkflow = userParticipatesInWorkflow;
-		this.administratedTenants = administratedTenants;
-		this.changeEmailRequests = changeEmailRequests;
-		this.userAdministratesWorkflowModel = userAdministratesWorkflowModel;
-	}
+    public User(
+            String authKey,
+            String email,
+            Date disabledSince,
+            Date unavailableSince,
+            Date registeredSince,
+            Set<WorkItem> workItems,
+            Set<Invitation> invitationsForSenderId,
+            Set<WorkflowModel> workflowModels,
+            Set<UserIsMemberOfTenant> userIsMemberOfTenants,
+            Set<UserProfile> userProfiles,
+            Set<RegistrationRequest> registrationRequests,
+            Set<Invitation> invitationsForReceiverId,
+            Set<UserAdministratesWorkflowInstance> userAdministratesWorkflowInstances,
+            Set<SystemSettings> systemSettingses,
+            Set<UserHasFileAccess> userHasFileAccesses,
+            Set<UserParticipatesInWorkflow> userParticipatesInWorkflows,
+            Set<Tenant> administratedTenants,
+            Set<ChangeEmailRequest> changeEmailRequests,
+            Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels) {
+        this.authKey = authKey;
+        this.email = email;
+        this.disabledSince = disabledSince;
+        this.unavailableSince = unavailableSince;
+        this.registeredSince = registeredSince;
+        this.workItems = workItems;
+        this.invitationsForSenderId = invitationsForSenderId;
+        this.workflowModels = workflowModels;
+        this.userIsMemberOfTenants = userIsMemberOfTenants;
+        this.userProfiles = userProfiles;
+        this.registrationRequests = registrationRequests;
+        this.invitationsForReceiverId = invitationsForReceiverId;
+        this.userAdministratesWorkflowInstances = userAdministratesWorkflowInstances;
+        this.systemSettingses = systemSettingses;
+        this.userHasFileAccesses = userHasFileAccesses;
+        this.userParticipatesInWorkflows = userParticipatesInWorkflows;
+        this.administratedTenants = administratedTenants;
+        this.changeEmailRequests = changeEmailRequests;
+        this.userAdministratesWorkflowModels = userAdministratesWorkflowModels;
+    }
 
-	public Long getId() {
-		return this.id;
-	}
+    public Long getId() {
+        return this.id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getAuthKey() {
-		return this.authKey;
-	}
+    public String getAuthKey() {
+        return this.authKey;
+    }
 
-	public void setAuthKey(String authKey) {
-		this.authKey = authKey;
-	}
+    public void setAuthKey(String authKey) {
+        this.authKey = authKey;
+    }
 
-	public String getEmail() {
-		return this.email;
-	}
+    public String getEmail() {
+        return this.email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public Date getDisabledSince() {
-		return this.disabledSince;
-	}
+    public Date getDisabledSince() {
+        return this.disabledSince;
+    }
 
-	public void setDisabledSince(Date disabledSince) {
-		this.disabledSince = disabledSince;
-	}
+    public void setDisabledSince(Date disabledSince) {
+        this.disabledSince = disabledSince;
+    }
 
-	public Date getUnavailableSince() {
-		return this.unavailableSince;
-	}
+    public Date getUnavailableSince() {
+        return this.unavailableSince;
+    }
 
-	public void setUnavailableSince(Date unavailableSince) {
-		this.unavailableSince = unavailableSince;
-	}
+    public void setUnavailableSince(Date unavailableSince) {
+        this.unavailableSince = unavailableSince;
+    }
 
-	public Date getRegisteredSince() {
-		return this.registeredSince;
-	}
+    public Date getRegisteredSince() {
+        return this.registeredSince;
+    }
 
-	public void setRegisteredSince(Date registeredSince) {
-		this.registeredSince = registeredSince;
-	}
+    public void setRegisteredSince(Date registeredSince) {
+        this.registeredSince = registeredSince;
+    }
 
-	public Set<WorkItem> getWorkItems() {
-		return this.workItems;
-	}
+    public Set<WorkItem> getWorkItems() {
+        return this.workItems;
+    }
 
-	public void setWorkItems(Set<WorkItem> workItems) {
-		this.workItems = workItems;
-	}
+    public void setWorkItems(Set<WorkItem> workItems) {
+        this.workItems = workItems;
+    }
 
-	public Set<Invitation> getInvitationsForSenderId() {
-		return this.invitationsForSenderId;
-	}
+    public Set<Invitation> getInvitationsForSenderId() {
+        return this.invitationsForSenderId;
+    }
 
-	public void setInvitationsForSenderId(Set<Invitation> invitationsForSenderId) {
-		this.invitationsForSenderId = invitationsForSenderId;
-	}
+    public void setInvitationsForSenderId(Set<Invitation> invitationsForSenderId) {
+        this.invitationsForSenderId = invitationsForSenderId;
+    }
 
-	public Set<WorkflowModel> getWorkflowModels() {
-		return this.workflowModels;
-	}
+    public Set<WorkflowModel> getWorkflowModels() {
+        return this.workflowModels;
+    }
 
-	public void setWorkflowModels(Set<WorkflowModel> workflowModels) {
-		this.workflowModels = workflowModels;
-	}
+    public void setWorkflowModels(Set<WorkflowModel> workflowModels) {
+        this.workflowModels = workflowModels;
+    }
 
-	public Set<Tenant> getUserIsMemberOfTenant() {
-		return this.userIsMemberOfTenant;
-	}
+    public Set<UserIsMemberOfTenant> getUserIsMemberOfTenants() {
+        return this.userIsMemberOfTenants;
+    }
 
-	public void setUserIsMemberOfTenant(Set<Tenant> userIsMemberOfTenant) {
-		this.userIsMemberOfTenant = userIsMemberOfTenant;
-	}
+    public void setUserIsMemberOfTenants(
+            Set<UserIsMemberOfTenant> userIsMemberOfTenants) {
+        this.userIsMemberOfTenants = userIsMemberOfTenants;
+    }
 
-	public Set<UserProfile> getUserProfiles() {
-		return this.userProfiles;
-	}
+    public Set<UserProfile> getUserProfiles() {
+        return this.userProfiles;
+    }
 
-	public void setUserProfiles(Set<UserProfile> userProfiles) {
-		this.userProfiles = userProfiles;
-	}
+    public void setUserProfiles(Set<UserProfile> userProfiles) {
+        this.userProfiles = userProfiles;
+    }
 
-	public Set<RegistrationRequest> getRegistrationRequests() {
-		return this.registrationRequests;
-	}
+    public Set<RegistrationRequest> getRegistrationRequests() {
+        return this.registrationRequests;
+    }
 
-	public void setRegistrationRequests(
-			Set<RegistrationRequest> registrationRequests) {
-		this.registrationRequests = registrationRequests;
-	}
+    public void setRegistrationRequests(
+            Set<RegistrationRequest> registrationRequests) {
+        this.registrationRequests = registrationRequests;
+    }
 
-	public Set<Invitation> getInvitationsForReceiverId() {
-		return this.invitationsForReceiverId;
-	}
+    public Set<Invitation> getInvitationsForReceiverId() {
+        return this.invitationsForReceiverId;
+    }
 
-	public void setInvitationsForReceiverId(
-			Set<Invitation> invitationsForReceiverId) {
-		this.invitationsForReceiverId = invitationsForReceiverId;
-	}
+    public void setInvitationsForReceiverId(
+            Set<Invitation> invitationsForReceiverId) {
+        this.invitationsForReceiverId = invitationsForReceiverId;
+    }
 
-	public Set<WorkflowInstance> getUserAdministratesWorkflowInstance() {
-		return this.userAdministratesWorkflowInstance;
-	}
+    public Set<UserAdministratesWorkflowInstance> getUserAdministratesWorkflowInstances() {
+        return this.userAdministratesWorkflowInstances;
+    }
 
-	public void setUserAdministratesWorkflowInstance(
-			Set<WorkflowInstance> userAdministratesWorkflowInstance) {
-		this.userAdministratesWorkflowInstance = userAdministratesWorkflowInstance;
-	}
+    public void setUserAdministratesWorkflowInstances(
+            Set<UserAdministratesWorkflowInstance> userAdministratesWorkflowInstances) {
+        this.userAdministratesWorkflowInstances = userAdministratesWorkflowInstances;
+    }
 
-	public Set<SystemSettings> getSystemSettingses() {
-		return this.systemSettingses;
-	}
+    public Set<SystemSettings> getSystemSettingses() {
+        return this.systemSettingses;
+    }
 
-	public void setSystemSettingses(Set<SystemSettings> systemSettingses) {
-		this.systemSettingses = systemSettingses;
-	}
+    public void setSystemSettingses(Set<SystemSettings> systemSettingses) {
+        this.systemSettingses = systemSettingses;
+    }
 
-	public Set<UserHasFileAccess> getUserHasFileAccesses() {
-		return this.userHasFileAccesses;
-	}
+    public Set<UserHasFileAccess> getUserHasFileAccesses() {
+        return this.userHasFileAccesses;
+    }
 
-	public void setUserHasFileAccesses(
-			Set<UserHasFileAccess> userHasFileAccesses) {
-		this.userHasFileAccesses = userHasFileAccesses;
-	}
+    public void setUserHasFileAccesses(
+            Set<UserHasFileAccess> userHasFileAccesses) {
+        this.userHasFileAccesses = userHasFileAccesses;
+    }
 
-	public Set<WorkflowInstance> getUserParticipatesInWorkflow() {
-		return this.userParticipatesInWorkflow;
-	}
+    public Set<UserParticipatesInWorkflow> getUserParticipatesInWorkflows() {
+        return this.userParticipatesInWorkflows;
+    }
 
-	public void setUserParticipatesInWorkflow(
-			Set<WorkflowInstance> userParticipatesInWorkflow) {
-		this.userParticipatesInWorkflow = userParticipatesInWorkflow;
-	}
+    public void setUserParticipatesInWorkflows(
+            Set<UserParticipatesInWorkflow> userParticipatesInWorkflows) {
+        this.userParticipatesInWorkflows = userParticipatesInWorkflows;
+    }
 
-	public Set<Tenant> getAdministratedTenants() {
-		return this.administratedTenants;
-	}
+    public Set<Tenant> getAdministratedTenants() {
+        return this.administratedTenants;
+    }
 
-	public void setAdministratedTenants(Set<Tenant> administratedTenants) {
-		this.administratedTenants = administratedTenants;
-	}
+    public void setAdministratedTenants(Set<Tenant> administratedTenants) {
+        this.administratedTenants = administratedTenants;
+    }
 
-	public Set<ChangeEmailRequest> getChangeEmailRequests() {
-		return this.changeEmailRequests;
-	}
+    public Set<ChangeEmailRequest> getChangeEmailRequests() {
+        return this.changeEmailRequests;
+    }
 
-	public void setChangeEmailRequests(
-			Set<ChangeEmailRequest> changeEmailRequests) {
-		this.changeEmailRequests = changeEmailRequests;
-	}
+    public void setChangeEmailRequests(
+            Set<ChangeEmailRequest> changeEmailRequests) {
+        this.changeEmailRequests = changeEmailRequests;
+    }
 
-	public Set<WorkflowModel> getUserAdministratesWorkflowModel() {
-		return this.userAdministratesWorkflowModel;
-	}
+    public Set<UserAdministratesWorkflowModel> getUserAdministratesWorkflowModels() {
+        return this.userAdministratesWorkflowModels;
+    }
 
-	public void setUserAdministratesWorkflowModel(
-			Set<WorkflowModel> userAdministratesWorkflowModel) {
-		this.userAdministratesWorkflowModel = userAdministratesWorkflowModel;
-	}
+    public void setUserAdministratesWorkflowModels(
+            Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels) {
+        this.userAdministratesWorkflowModels = userAdministratesWorkflowModels;
+    }
 
 }

@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 15.05.2009 17:31:29 by Hibernate Tools 3.2.2.GA
+// Generated 29.05.2009 18:32:43 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -11,153 +11,155 @@ import java.util.Set;
  */
 public class Tenant implements java.io.Serializable {
 
-	private Long id;
-	private File logo;
-	private File simpleColorScheme;
-	private File advancedColorScheme;
-	private User admin;
-	private File currentColorScheme;
-	private String name;
-	private String description;
-	private Date approvedSince;
-	private Set<User> userIsMemberOfTenant = new HashSet<User>(0);
-	private Set<WorkflowModel> workflowModels = new HashSet<WorkflowModel>(0);
-	private Set<Invitation> invitations = new HashSet<Invitation>(0);
-	private Set<DeployedWorkflowModel> deployedWorkflowModels = new HashSet<DeployedWorkflowModel>(
-			0);
+    private Long id;
+    private File logo;
+    private File simpleColorScheme;
+    private File advancedColorScheme;
+    private User admin;
+    private File currentColorScheme;
+    private String name;
+    private String description;
+    private Date approvedSince;
+    private Set<UserIsMemberOfTenant> userIsMemberOfTenants = new HashSet<UserIsMemberOfTenant>(
+            0);
+    private Set<WorkflowModel> workflowModels = new HashSet<WorkflowModel>(0);
+    private Set<Invitation> invitations = new HashSet<Invitation>(0);
+    private Set<DeployedWorkflowModel> deployedWorkflowModels = new HashSet<DeployedWorkflowModel>(
+            0);
 
-	public Tenant() {
-	}
+    public Tenant() {
+    }
 
-	public Tenant(User admin, String name, String description) {
-		this.admin = admin;
-		this.name = name;
-		this.description = description;
-	}
+    public Tenant(User admin, String name, String description) {
+        this.admin = admin;
+        this.name = name;
+        this.description = description;
+    }
 
-	public Tenant(File logo, File simpleColorScheme, File advancedColorScheme,
-			User admin, File currentColorScheme, String name,
-			String description, Date approvedSince,
-			Set<User> userIsMemberOfTenant, Set<WorkflowModel> workflowModels,
-			Set<Invitation> invitations,
-			Set<DeployedWorkflowModel> deployedWorkflowModels) {
-		this.logo = logo;
-		this.simpleColorScheme = simpleColorScheme;
-		this.advancedColorScheme = advancedColorScheme;
-		this.admin = admin;
-		this.currentColorScheme = currentColorScheme;
-		this.name = name;
-		this.description = description;
-		this.approvedSince = approvedSince;
-		this.userIsMemberOfTenant = userIsMemberOfTenant;
-		this.workflowModels = workflowModels;
-		this.invitations = invitations;
-		this.deployedWorkflowModels = deployedWorkflowModels;
-	}
+    public Tenant(File logo, File simpleColorScheme, File advancedColorScheme,
+            User admin, File currentColorScheme, String name,
+            String description, Date approvedSince,
+            Set<UserIsMemberOfTenant> userIsMemberOfTenants,
+            Set<WorkflowModel> workflowModels, Set<Invitation> invitations,
+            Set<DeployedWorkflowModel> deployedWorkflowModels) {
+        this.logo = logo;
+        this.simpleColorScheme = simpleColorScheme;
+        this.advancedColorScheme = advancedColorScheme;
+        this.admin = admin;
+        this.currentColorScheme = currentColorScheme;
+        this.name = name;
+        this.description = description;
+        this.approvedSince = approvedSince;
+        this.userIsMemberOfTenants = userIsMemberOfTenants;
+        this.workflowModels = workflowModels;
+        this.invitations = invitations;
+        this.deployedWorkflowModels = deployedWorkflowModels;
+    }
 
-	public Long getId() {
-		return this.id;
-	}
+    public Long getId() {
+        return this.id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public File getLogo() {
-		return this.logo;
-	}
+    public File getLogo() {
+        return this.logo;
+    }
 
-	public void setLogo(File logo) {
-		this.logo = logo;
-	}
+    public void setLogo(File logo) {
+        this.logo = logo;
+    }
 
-	public File getSimpleColorScheme() {
-		return this.simpleColorScheme;
-	}
+    public File getSimpleColorScheme() {
+        return this.simpleColorScheme;
+    }
 
-	public void setSimpleColorScheme(File simpleColorScheme) {
-		this.simpleColorScheme = simpleColorScheme;
-	}
+    public void setSimpleColorScheme(File simpleColorScheme) {
+        this.simpleColorScheme = simpleColorScheme;
+    }
 
-	public File getAdvancedColorScheme() {
-		return this.advancedColorScheme;
-	}
+    public File getAdvancedColorScheme() {
+        return this.advancedColorScheme;
+    }
 
-	public void setAdvancedColorScheme(File advancedColorScheme) {
-		this.advancedColorScheme = advancedColorScheme;
-	}
+    public void setAdvancedColorScheme(File advancedColorScheme) {
+        this.advancedColorScheme = advancedColorScheme;
+    }
 
-	public User getAdmin() {
-		return this.admin;
-	}
+    public User getAdmin() {
+        return this.admin;
+    }
 
-	public void setAdmin(User admin) {
-		this.admin = admin;
-	}
+    public void setAdmin(User admin) {
+        this.admin = admin;
+    }
 
-	public File getCurrentColorScheme() {
-		return this.currentColorScheme;
-	}
+    public File getCurrentColorScheme() {
+        return this.currentColorScheme;
+    }
 
-	public void setCurrentColorScheme(File currentColorScheme) {
-		this.currentColorScheme = currentColorScheme;
-	}
+    public void setCurrentColorScheme(File currentColorScheme) {
+        this.currentColorScheme = currentColorScheme;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getDescription() {
-		return this.description;
-	}
+    public String getDescription() {
+        return this.description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Date getApprovedSince() {
-		return this.approvedSince;
-	}
+    public Date getApprovedSince() {
+        return this.approvedSince;
+    }
 
-	public void setApprovedSince(Date approvedSince) {
-		this.approvedSince = approvedSince;
-	}
+    public void setApprovedSince(Date approvedSince) {
+        this.approvedSince = approvedSince;
+    }
 
-	public Set<User> getUserIsMemberOfTenant() {
-		return this.userIsMemberOfTenant;
-	}
+    public Set<UserIsMemberOfTenant> getUserIsMemberOfTenants() {
+        return this.userIsMemberOfTenants;
+    }
 
-	public void setUserIsMemberOfTenant(Set<User> userIsMemberOfTenant) {
-		this.userIsMemberOfTenant = userIsMemberOfTenant;
-	}
+    public void setUserIsMemberOfTenants(
+            Set<UserIsMemberOfTenant> userIsMemberOfTenants) {
+        this.userIsMemberOfTenants = userIsMemberOfTenants;
+    }
 
-	public Set<WorkflowModel> getWorkflowModels() {
-		return this.workflowModels;
-	}
+    public Set<WorkflowModel> getWorkflowModels() {
+        return this.workflowModels;
+    }
 
-	public void setWorkflowModels(Set<WorkflowModel> workflowModels) {
-		this.workflowModels = workflowModels;
-	}
+    public void setWorkflowModels(Set<WorkflowModel> workflowModels) {
+        this.workflowModels = workflowModels;
+    }
 
-	public Set<Invitation> getInvitations() {
-		return this.invitations;
-	}
+    public Set<Invitation> getInvitations() {
+        return this.invitations;
+    }
 
-	public void setInvitations(Set<Invitation> invitations) {
-		this.invitations = invitations;
-	}
+    public void setInvitations(Set<Invitation> invitations) {
+        this.invitations = invitations;
+    }
 
-	public Set<DeployedWorkflowModel> getDeployedWorkflowModels() {
-		return this.deployedWorkflowModels;
-	}
+    public Set<DeployedWorkflowModel> getDeployedWorkflowModels() {
+        return this.deployedWorkflowModels;
+    }
 
-	public void setDeployedWorkflowModels(
-			Set<DeployedWorkflowModel> deployedWorkflowModels) {
-		this.deployedWorkflowModels = deployedWorkflowModels;
-	}
+    public void setDeployedWorkflowModels(
+            Set<DeployedWorkflowModel> deployedWorkflowModels) {
+        this.deployedWorkflowModels = deployedWorkflowModels;
+    }
 
 }
