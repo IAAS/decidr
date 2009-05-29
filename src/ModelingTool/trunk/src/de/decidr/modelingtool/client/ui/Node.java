@@ -19,6 +19,9 @@ package de.decidr.modelingtool.client.ui;
 import java.util.List;
 import java.util.Vector;
 
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.HasFocusHandlers;
 import com.google.gwt.event.dom.client.HasMouseDownHandlers;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -41,7 +44,7 @@ public abstract class Node extends AbsolutePanel implements
 
     private final int BORDER_OFFSET = 5;
 
-    protected Widget graphic;
+    protected Widget graphic = null;
 
     private boolean selected = false;
 
@@ -113,8 +116,6 @@ public abstract class Node extends AbsolutePanel implements
 
         // refresh the port positions
         refreshPortPositions();
-        
-        System.out.println(((AbsolutePanel)getParent()).getWidgetLeft(this));
     }
 
     /**
@@ -188,14 +189,42 @@ public abstract class Node extends AbsolutePanel implements
         this.add(this.graphic, BORDER_OFFSET, BORDER_OFFSET);
     }
 
-    public int getTop() {
-        System.out.println(getParent().toString());
-        System.out.println(((AbsolutePanel)getParent()).getWidgetLeft(this));
-        return ((AbsolutePanel)getParent()).getWidgetLeft(this);
+    public int getGraphicTop() {
+        if (graphic != null) {
+            return ((AbsolutePanel) getParent()).getWidgetTop(this)
+                    + this.getWidgetTop(graphic);
+        } else {
+            // return 0 if no graphic set
+            return 0;
+        }
     }
-    
-    public int getLeft() {
-        return ((AbsolutePanel)getParent()).getWidgetTop(this);
+
+    public int getGraphicLeft() {
+        if (graphic != null) {
+            return ((AbsolutePanel) getParent()).getWidgetLeft(this)
+                    + this.getWidgetLeft(graphic);
+        } else {
+            // return 0 if no graphic set
+            return 0;
+        }
     }
-    
+
+    public int getGraphicWidth() {
+        if (graphic != null) {
+            return graphic.getOffsetWidth();
+        } else {
+            // return 0 if no graphic set
+            return 0;
+        }
+    }
+
+    public int getGraphicHeight() {
+        if (graphic != null) {
+            return graphic.getOffsetHeight();
+        } else {
+            // return 0 if no graphic set
+            return 0;
+        }
+    }
+
 }

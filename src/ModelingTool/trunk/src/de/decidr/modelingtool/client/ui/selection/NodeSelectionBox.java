@@ -24,18 +24,20 @@ import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author JE
  */
 public class NodeSelectionBox {
-    
+
     private Workflow parentWorkflow;
 
     private List<DragBox> dragBoxes = new Vector<DragBox>();
     
+    private Node assignedNode = null;
+
     public NodeSelectionBox(Workflow parentWorkflow) {
         this.parentWorkflow = parentWorkflow;
-        
+
         dragBoxes.add(new DragBox(DragBox.ResizeDirection.NORTH));
         dragBoxes.add(new DragBox(DragBox.ResizeDirection.NORTHEAST));
         dragBoxes.add(new DragBox(DragBox.ResizeDirection.EAST));
@@ -44,30 +46,45 @@ public class NodeSelectionBox {
         dragBoxes.add(new DragBox(DragBox.ResizeDirection.SOUTHWEST));
         dragBoxes.add(new DragBox(DragBox.ResizeDirection.WEST));
         dragBoxes.add(new DragBox(DragBox.ResizeDirection.NORTHWEST));
-        
-        for(DragBox dragBox : dragBoxes) {
-            //dragBox.setVisible(false);
-            parentWorkflow.add(dragBox);
-        }
+    }
+
+    public void update() {
+        assignTo(assignedNode);
     }
     
+    /**
+     * Removes the drag boxes from the workflow.
+     */
+    public void unassign() {
+
+    }
+
+    /**
+     * 
+     * Assigns the dragBoxes to the specified node on the workflow.
+     *
+     * @param node The node which the drag boxes are assigned to.
+     */
     public void assignTo(Node node) {
-        int nodeTop = node.getTop();
-        int nodeLeft = node.getLeft();
-        int nodeWidth = node.getOffsetWidth();
-        int nodeHeight = node.getOffsetHeight();
+        this.assignedNode = node;
+        
+        int nodeTop = node.getGraphicTop();
+        int nodeLeft = node.getGraphicLeft();
+        int nodeWidth = node.getGraphicWidth();
+        int nodeHeight = node.getGraphicHeight();
         int width;
         int height;
         int left = 0;
         int top = 0;
-        
-        for(DragBox dragBox : dragBoxes) {
+
+        for (DragBox dragBox : dragBoxes) {
             dragBox.setVisible(true);
-            
+            parentWorkflow.add(dragBox);
+
             width = dragBox.getOffsetWidth();
             height = dragBox.getOffsetHeight();
-            
-            switch(dragBox.getDirection()) {
+
+            switch (dragBox.getDirection()) {
             case NORTH:
                 top = nodeTop - height;
                 left = nodeLeft + nodeWidth / 2 - width / 2;
@@ -101,9 +118,14 @@ public class NodeSelectionBox {
                 left = nodeLeft - width;
                 break;
             }
-            
+
             parentWorkflow.setWidgetPosition(dragBox, left, top);
+
         }
     }
-    
+
+    public List<DragBox> getDragBoxes() {
+        return dragBoxes;
+    }
+
 }
