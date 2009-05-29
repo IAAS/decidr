@@ -72,8 +72,8 @@ public class DefaultAccessControlList implements AccessControlList {
             if (obj instanceof Key) {
                 Key key = (Key) obj;
 
-                Boolean roleEqual = role == null ? key.role == null : role
-                        .equals(key.role);
+                Boolean roleEqual = role == null ? key.role == null : (role
+                        .equals(key.role));
 
                 Boolean permissionEqual = permission == null ? key.permission == null
                         : permission.equals(key.permission);
@@ -91,6 +91,28 @@ public class DefaultAccessControlList implements AccessControlList {
             return roleHash ^ permissionHash; // bitwise exclusive or
         }
 
+        /**
+         * Compares this key to the given key and returns true iff the given key
+         * is implied by this key. This is the case iff all of the following
+         * conditions are true:
+         * <ul>
+         * <li>The role of this key is a superclass of or the same as key.role</li>
+         * <li>The permission of this key implies key.permission</li>
+         * </ul>
+         * 
+         * @param key
+         * @return true iff the given key is implied by this key.
+         */
+        public Boolean implies(Key key) {
+            if (key == null) {
+                return false;
+            } else {
+                Boolean isSuperClass = (key.role == null || role == null) ? false
+                        : role.getClass().isAssignableFrom(key.role.getClass());
+                return (isSuperClass && permission.implies(key.permission));
+
+            }
+        }
     }
 
     /**

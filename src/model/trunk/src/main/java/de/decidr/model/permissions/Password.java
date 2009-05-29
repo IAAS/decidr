@@ -111,7 +111,7 @@ public class Password {
 
 		/*
 		 * result now contains the salted hash of the password. For additional
-		 * security, it is hashed again (double hash).
+		 * security, it is hashed again.
 		 */
 
 		digest.reset();

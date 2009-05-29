@@ -11,6 +11,11 @@ package de.decidr.model.permissions;
 public class UserRole extends AbstractRole {
 
     /**
+     * The lowest user id that can belong to a logged in user.
+     */
+    public static final Long MIN_VALID_USER_ID = 0L;
+    
+    /**
      * Constructor.
      * 
      * @param userId

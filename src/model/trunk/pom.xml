@@ -7,6 +7,30 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>model</name>
 	<url>http://maven.apache.org</url>
+	<distributionManagement>
+		<repository>
+			<id>iaassrv7-releases</id>
+			<name>iaassrv7-releases</name>
+			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
+		</repository>
+		<snapshotRepository>
+			<id>iaassrv7-snapshots</id>
+			<name>iaassrv7-snapshots</name>
+			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<repositories>
+		<repository>
+			<id>iaassrv7-releases</id>
+			<name>iaassrv7-releases</name>
+			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
+		</repository>
+		<repository>
+			<id>iaassrv7-releases</id>
+			<name>iaassrv7-releases</name>
+			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/ibiblio</url>
+		</repository>
+	</repositories>
 	<build>
 		<plugins>
 			<plugin>
@@ -27,9 +51,70 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>de.decidr</groupId>
-			<artifactId>libs</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-tools</artifactId>
+			<version>3.2.3.GA</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate</artifactId>
+			<version>3.2.6.ga</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.15</version>
+			<type>jar</type>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.jms</groupId>
+					<artifactId>jms</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>javax.transaction</groupId>
+			<artifactId>jta</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.5.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-nop</artifactId>
+			<version>1.5.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.5.6</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.6</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.6</version>
+		</dependency>
+		<dependency>
+			<groupId>vaadin</groupId>
+			<artifactId>vaadin</artifactId>
+			<version>6.0.0-pre2</version>
 		</dependency>
 	</dependencies>
 </project>
