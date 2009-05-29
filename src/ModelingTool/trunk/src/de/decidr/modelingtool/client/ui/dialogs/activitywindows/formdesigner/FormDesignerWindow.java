@@ -22,7 +22,7 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 /**
  * TODO: add comment
  * 
- * @author "Jonas Schlaak"
+ * @author JS
  */
 public class FormDesignerWindow extends Dialog {
     

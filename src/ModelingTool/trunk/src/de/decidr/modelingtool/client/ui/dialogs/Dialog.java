@@ -22,9 +22,9 @@ import com.extjs.gxt.ui.client.widget.button.Button;
 /**
  * TODO: add comment
  * 
- * @author Jonas Schlaak
+ * @author JS
  */
-public class Dialog extends LayoutContainer {
+abstract public class Dialog extends LayoutContainer {
     
     public Button okButton;
     public Button cancelButton;
@@ -34,7 +34,7 @@ public class Dialog extends LayoutContainer {
      *
      */
     public Dialog() {
-        // TODO Auto-generated constructor stub
+        super();
     }
     
     public void initialize() {

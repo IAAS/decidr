@@ -21,7 +21,7 @@ import com.extjs.gxt.ui.client.widget.Dialog;
 /**
  * TODO: add comment
  * 
- * @author "Jonas Schlaak"
+ * @author JS
  */
 public class IfWindow extends Dialog {
 

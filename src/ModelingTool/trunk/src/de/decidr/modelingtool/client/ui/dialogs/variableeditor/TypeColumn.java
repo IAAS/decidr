@@ -16,13 +16,34 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 
+import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
+import com.extjs.gxt.ui.client.widget.grid.CellEditor;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
+
+import de.decidr.modelingtool.client.model.VariableType;
 
 /**
  * TODO: add comment
  * 
- * @author "Jonas Schlaak"
+ * @author JS
  */
 public class TypeColumn extends ColumnConfig {
+	
+	private SimpleComboBox<String> selection = new SimpleComboBox<String>();
+	private CellEditor comboBoxCellEditor;
+	
+	public TypeColumn(String columnId, String header) {
+		this.setId(columnId);
+		this.setHeader(header);
+		
+
+		for (VariableType type: VariableType.values()){
+			selection.add(type.getName());
+		}
+		this.setEditor(comboBoxCellEditor);
+	}
+	
+
+
 
 }

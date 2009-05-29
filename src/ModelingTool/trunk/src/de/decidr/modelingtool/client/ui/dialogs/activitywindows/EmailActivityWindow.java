@@ -24,7 +24,7 @@ import com.extjs.gxt.ui.client.widget.form.TextField;
 /**
  * TODO: add comment
  * 
- * @author "Jonas Schlaak"
+ * @author JS
  */
 public class EmailActivityWindow extends Dialog {
 

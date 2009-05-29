@@ -16,13 +16,23 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 
+import com.extjs.gxt.ui.client.widget.form.TextField;
+import com.extjs.gxt.ui.client.widget.grid.CellEditor;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 
 /**
  * TODO: add comment
  * 
- * @author "Jonas Schlaak"
+ * @author JS
  */
 public class LabelColumn extends ColumnConfig {
+	
+	private TextField<String> text = new TextField<String>();
+	
+	public LabelColumn(String columnId, String header) {
+		this.setId(columnId);
+		this.setHeader(header);
+		this.setEditor(new CellEditor(text));
+	}
 
 }

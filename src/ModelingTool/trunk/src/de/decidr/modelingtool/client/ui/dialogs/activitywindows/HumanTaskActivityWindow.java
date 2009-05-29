@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 /**
  * TODO: add comment
  * 
- * @author "Jonas Schlaak"
+ * @author JS
  */
 public class HumanTaskActivityWindow extends Dialog {
 

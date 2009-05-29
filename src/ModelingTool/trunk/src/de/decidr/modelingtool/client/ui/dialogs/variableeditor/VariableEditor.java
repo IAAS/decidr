@@ -16,13 +16,39 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.Dialog;
+import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
+import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 
 /**
  * TODO: add comment
  * 
- * @author Jonas Schlaak
+ * @author JS
  */
 public class VariableEditor extends Dialog {
+
+	private ContentPanel editorPanel = new ContentPanel();
+	private List<ColumnConfig> columns = new ArrayList<ColumnConfig>();
+
+	public VariableEditor() {
+		super();
+		this.setLayout(new BorderLayout());
+		createEditorPanel();
+
+	}
+
+	private void createEditorPanel() {
+
+		// TODO: Localization
+		LabelColumn labelColumn = new LabelColumn("name", "Variablename");
+		columns.add(labelColumn);
+		
+		TypeColumn typeColumn = new TypeColumn("type", "Variabletype");
+		columns.add(typeColumn);
+	}
 
 }
