@@ -11,9 +11,10 @@
 
 			2009-01-30: MA: Creation date
 			2009-03-26: MA: Extended previous version with form element
-			2009-05-09: MA: Invoke activity changed with setPoperty
-			2009-05-19:	MA: Notification of success added
-			2009-05-22: MA: Form element specified
+			2009-05-09: MA: Invoke activity changed with setProperty element
+			2009-05-19: MA: Notification of success added
+			2009-05-22: MA: Form
+			element respecified
 		</xsd:documentation>
 	</xsd:annotation>
 
@@ -78,10 +79,8 @@
 	<xsd:element name="roles" type="tRoles" />
 	<xsd:complexType name="tRoles">
 		<xsd:sequence>
-			<xsd:choice>
-				<xsd:element ref="role" />
-				<xsd:element ref="actor" />
-			</xsd:choice>
+			<xsd:element ref="role" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element ref="actor" minOccurs="0" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:element name="actor" type="tActor" />
@@ -90,7 +89,7 @@
 		<xsd:attribute name="name" type="xsd:string" use="optional" />
 		<xsd:attribute name="email" type="tEmail" use="optional" />
 		<xsd:attribute name="configurationVariable" type="tBoolean"
-			default="no" use="optional" />
+			default="no" />
 	</xsd:complexType>
 	<xsd:element name="role" type="tRole" />
 	<xsd:complexType name="tRole">
@@ -261,7 +260,8 @@
 				<xsd:sequence>
 					<xsd:element ref="setProperty" minOccurs="1" maxOccurs="unbounded" />
 					<xsd:element ref="getProperty" minOccurs="0" maxOccurs="unbounded" />
-					<xsd:element ref="humanTask" minOccurs="0" maxOccurs="1" />
+					<xsd:element ref="humanTaskData" minOccurs="0"
+						maxOccurs="1" />
 				</xsd:sequence>
 				<xsd:attribute name="activity" type="xsd:NCName" use="required" />
 			</xsd:extension>
@@ -282,9 +282,66 @@
 	<xsd:element name="getProperty" type="tGetProperty" />
 	<xsd:complexType name="tGetProperty">
 		<xsd:attribute name="name" type="xsd:NCName" use="required" />
-		<xsd:attribute name="variable" type="xsd:NCName" use="required" />
+		<xsd:attribute name="variable" type="DWDLVariableName"
+			use="required" />
 	</xsd:complexType>
 
+	<xsd:element name="humanTaskData" type="tHumanTaskData" />
+	<xsd:complexType name="tHumanTaskData">
+		<xsd:sequence>
+			<xsd:element name="parameters" type="tParameters"
+				minOccurs="1" maxOccurs="1" />
+			<xsd:choice minOccurs="1" maxOccurs="unbounded">
+				<xsd:element name="taskItem" type="tTaskItem" />
+				<xsd:element name="information" type="tInformation" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="tParameters">
+		<xsd:sequence>
+			<xsd:element name="parameter" type="tParameter"
+				minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="tParameter">
+		<xsd:attribute name="name" type="xsd:NCName" use="required" />
+		<xsd:attribute name="type" type="DWDLVariableType" use="optional" />
+		<xsd:attribute name="variable" type="DWDLVariableName"
+			use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="tTaskItem">
+		<xsd:sequence>
+			<xsd:element name="label" type="xsd:string" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="hint" type="xsd:string" minOccurs="0"
+				maxOccurs="1" />
+			<xsd:element name="value" type="xsd:anySimpleType"
+				minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:NCName" use="required" />
+		<xsd:attribute name="variable" type="DWDLVariableName"
+			use="optional" />
+		<xsd:attribute name="type" type="DWDLSimpleVariableType"
+			use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="tInformation">
+		<xsd:sequence>
+			<xsd:element ref="content" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:NCName" use="required" />
+	</xsd:complexType>
+
+	<xsd:element name="content" type="tContent" />
+	<xsd:complexType name="tContent">
+		<xsd:sequence>
+			<xsd:any minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="contentType" type="xsd:string" />
+	</xsd:complexType>
 
 	<xsd:element name="arcs" type="tArcs" />
 	<xsd:complexType name="tArcs">
@@ -341,6 +398,5 @@
 			<xsd:pattern value="([a-zA-Z0-9])+\@([a-zA-Z0-9])+\.([a-zA-Z0-9])+" />
 		</xsd:restriction>
 	</xsd:simpleType>
-
 
 </xsd:schema>
