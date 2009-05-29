@@ -3,7 +3,7 @@ package de.decidr.model.facades;
 import java.io.InputStream;
 import java.util.List;
 
-import com.itmill.toolkit.data.Item;
+import com.vaadin.data.Item;
 
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
@@ -110,7 +110,7 @@ public class TenantFacade extends AbstractFacade {
 		throw new UnsupportedOperationException();
 	}
 
-	public List<com.itmill.toolkit.data.Item> getWorkflowInstances(Long tenantId) {
+	public List<com.vaadin.data.Item> getWorkflowInstances(Long tenantId) {
 		throw new UnsupportedOperationException();
 	}
 }

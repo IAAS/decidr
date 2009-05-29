@@ -2,7 +2,7 @@ package de.decidr.model.facades;
 
 import java.util.List;
 
-import com.itmill.toolkit.data.Item;
+import com.vaadin.data.Item;
 
 import de.decidr.model.permissions.Role;
 

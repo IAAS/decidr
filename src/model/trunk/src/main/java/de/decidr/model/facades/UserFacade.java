@@ -4,7 +4,7 @@ package de.decidr.model.facades;
 import java.util.Date;
 import java.util.List;
 
-import com.itmill.toolkit.data.Item;
+import com.vaadin.data.Item;
 
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
