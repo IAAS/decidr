@@ -113,6 +113,8 @@ public abstract class Node extends AbsolutePanel implements
 
         // refresh the port positions
         refreshPortPositions();
+        
+        System.out.println(((AbsolutePanel)getParent()).getWidgetLeft(this));
     }
 
     /**
@@ -186,4 +188,14 @@ public abstract class Node extends AbsolutePanel implements
         this.add(this.graphic, BORDER_OFFSET, BORDER_OFFSET);
     }
 
+    public int getTop() {
+        System.out.println(getParent().toString());
+        System.out.println(((AbsolutePanel)getParent()).getWidgetLeft(this));
+        return ((AbsolutePanel)getParent()).getWidgetLeft(this);
+    }
+    
+    public int getLeft() {
+        return ((AbsolutePanel)getParent()).getWidgetTop(this);
+    }
+    
 }

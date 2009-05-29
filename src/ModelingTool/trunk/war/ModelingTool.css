@@ -32,6 +32,13 @@
 	font-size: 5px;
 }
 
+.dragbox-node {
+	width: 8px;
+	height: 8px;
+	background-color: black;
+	font-size: 5px;
+}
+
 /** Example rules used by the template application (remove for your app) */
 h1 {
   font-size: 2em;

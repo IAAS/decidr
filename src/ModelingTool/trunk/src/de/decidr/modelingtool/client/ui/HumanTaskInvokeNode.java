@@ -19,12 +19,19 @@ package de.decidr.modelingtool.client.ui;
 /**
  * TODO: add comment
  *
- * @author engelhjs
+ * @author JE
  */
-public abstract class InvokeNode extends Node {
+public class HumanTaskInvokeNode extends InvokeNode {
 
-    public InvokeNode() {
+    //private HumanTaskInvokeNodeModel model;
+    
+    public HumanTaskInvokeNode() {
         super();
+        
+        this.setGraphic(null);
+        
+        addPort(new InputPort());
+        addPort(new OutputPort());
     }
     
 }

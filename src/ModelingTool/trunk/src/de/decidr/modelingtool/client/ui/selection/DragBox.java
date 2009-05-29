@@ -14,17 +14,40 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui;
+package de.decidr.modelingtool.client.ui.selection;
+
+import com.google.gwt.user.client.ui.FocusPanel;
 
 /**
  * TODO: add comment
  *
- * @author engelhjs
+ * @author JE
  */
-public abstract class InvokeNode extends Node {
+public class DragBox extends FocusPanel {
 
-    public InvokeNode() {
-        super();
-    }
+    public static enum ResizeDirection {
+        NORTH,
+        NORTHEAST,
+        EAST,
+        SOUTHEAST,
+        SOUTH,
+        SOUTHWEST,
+        WEST,
+        NORTHWEST,
+        ALL
+    };
     
+    private ResizeDirection direction;
+    
+    public DragBox(ResizeDirection direction) {
+        super();
+        
+        this.addStyleName("dragbox-node");
+        
+        this.direction = direction;
+    }
+
+    public ResizeDirection getDirection() {
+        return direction;
+    }
 }

@@ -22,6 +22,8 @@ import com.allen_sauer.gwt.dnd.client.DragController;
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
+import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
+
 /**
  * This is the basic workflow drawing canvas.
  * 
@@ -34,6 +36,8 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
      */
     private PickupDragController dragController;
 
+    private SelectionHandler selectionHandler;
+    
     /**
      * The currently selected item in the workflow.
      */
@@ -61,6 +65,9 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
         this.addStyleName("workflow");
         this.setSize("600px", "400px");
 
+        // create selection handler
+        selectionHandler = new SelectionHandler(this);
+        
         // create drag controller
         this.dragController = new PickupDragController(this, true);
     }
@@ -82,6 +89,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
     public void add(Node node) {
         // add node to the nodes vector
         nodes.add(node);
+
         // add node to workflow
         super.add(node);
         
@@ -90,7 +98,10 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
             this.dragController.makeDraggable(node);
         }
         
-        // if node is a container, register the crop controller
+        // register the selection Handler
+        node.addMouseDownHandler(selectionHandler);
+        
+        // if node is a container, register the drop controller
         if (node instanceof Container) {
             dragController.registerDropController(((Container) node)
                     .getDropController());
@@ -110,6 +121,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
     public void add(Node node, int x, int y) {
         // add node to the nodes vector
         nodes.add(node);
+
         // add node to workflow
         super.add(node, x, y);
         
@@ -117,8 +129,11 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
         if (node.isMoveable()) {
             this.dragController.makeDraggable(node);
         }
+        
+        // register the selection Handler
+        node.addMouseDownHandler(selectionHandler);
 
-        // if node is a container, register the crop controller
+        // if node is a container, register the drop controller
         if (node instanceof Container) {
             dragController.registerDropController(((Container) node)
                     .getDropController());
