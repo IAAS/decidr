@@ -19,8 +19,9 @@ public abstract class AbstractRole implements Role {
     /**
      * Constructor.
      * 
-     * @param actorId Id of the person / system / pricipal that is requesting access to a
-     * permission.
+     * @param actorId
+     *            Id of the person / system / pricipal that is requesting access
+     *            to a permission.
      */
     public AbstractRole(Long actorId) {
         super();
@@ -30,6 +31,21 @@ public abstract class AbstractRole implements Role {
     @Override
     public Long getActorId() {
         return this.actorId;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return ((obj != null) && (obj.getClass().equals(this.getClass())));
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getName().toString();
     }
 
 }

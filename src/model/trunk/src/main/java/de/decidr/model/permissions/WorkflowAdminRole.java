@@ -18,4 +18,12 @@ public class WorkflowAdminRole extends UserRole {
     public WorkflowAdminRole(Long userId) {
         super(userId);
     }
+
+    /**
+     * Creates a new WorkflowAdminRole with its actor id set to unknown;
+     * 
+     */
+    public WorkflowAdminRole() {
+        this(UNKNOWN_USER_ID);
+    }
 }

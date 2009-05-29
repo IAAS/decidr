@@ -50,9 +50,41 @@ public interface AccessControlList {
      * @param mode
      *            whether all or just one asserter must return true in order to
      *            grant access.
+     * @return true iff the rule was set and no implying rule already exists.
      */
-    public void setRule(Role role, Permission permission, Asserter[] asserters,
+    public Boolean setRule(Role role, Permission permission,
+            Asserter[] asserters, AssertMode mode);
+
+    /**
+     * Adds a new rule to the access control list. There can only be one rule
+     * for each pair of role <-> permission. If a rule for the given role and
+     * permission already exists, it will be overwritten.
+     * 
+     * @param role
+     *            the role requesting accesss
+     * @param permission
+     *            the resource to which access is granted or denied
+     * @param asserter
+     *            the condition(s) under which access is granted or denied
+     * @param mode
+     *            whether all or just one asserter must return true in order to
+     *            grant access.
+     * @return true iff the rule was set and no implying rule already exists.
+     */
+    public Boolean setRule(Role role, Permission permission, Asserter asserter,
             AssertMode mode);
+
+    /**
+     * Returns true iff a rule exists for the given role and permission,
+     * including rules that imply the given role and permission.
+     * 
+     * @param role
+     *            the role requesting accesss
+     * @param permission
+     *            the resource to which access is granted or denied
+     * @return whether a rule already exists for the given role and permission.
+     */
+    public Boolean hasRule(Role role, Permission permission);
 
     /**
      * Grants access to the given role and permission.

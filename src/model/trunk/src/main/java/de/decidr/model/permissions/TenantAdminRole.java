@@ -18,4 +18,12 @@ public class TenantAdminRole extends WorkflowAdminRole {
     public TenantAdminRole(Long userId) {
         super(userId);
     }
+
+    /**
+     * Creates a new TenantAdminRole with its actor id set to unknown;
+     * 
+     */
+    public TenantAdminRole() {
+        this(UNKNOWN_USER_ID);
+    }
 }

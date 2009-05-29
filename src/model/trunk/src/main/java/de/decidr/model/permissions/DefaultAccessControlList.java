@@ -21,6 +21,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.hibernate.tool.hbmlint.Issue;
+
+import de.decidr.model.permissions.asserters.IsSuperAdmin;
+
 /**
  * Provides a centralized mechanism for permissions checking. The default ACL
  * acts as a whitelist that grants or denies roles access to permissions based
@@ -210,6 +214,10 @@ public class DefaultAccessControlList implements AccessControlList {
     public void init() {
         clearRules();
         // TODO add rules.
+
+        // The superadmin can do anything
+        setRule(new SuperAdminRole(), new Permission("*"),
+                new IsSuperAdmin(), AssertMode.SatisfyAny);
     }
 
     /**
@@ -222,9 +230,25 @@ public class DefaultAccessControlList implements AccessControlList {
     /**
      * {@inheritDoc}
      */
-    public void setRule(Role role, Permission permission, Asserter[] asserters,
+    public Boolean setRule(Role role, Permission permission,
+            Asserter[] asserters, AssertMode mode) {
+
+        Boolean isAlreadyImplied = hasRule(role, permission);
+
+        if (!isAlreadyImplied) {
+            ruleMap.put(new Key(role, permission), new Value(asserters, mode));
+        }
+
+        return !isAlreadyImplied;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Boolean setRule(Role role, Permission permission, Asserter asserter,
             AssertMode mode) {
-        ruleMap.put(new Key(role, permission), new Value(asserters, mode));
+        Asserter[] asserters = { asserter };
+        return setRule(role, permission, asserters, mode);
     }
 
     /**
@@ -275,6 +299,22 @@ public class DefaultAccessControlList implements AccessControlList {
         }
 
         return allowed;
+    }
+
+    @Override
+    public Boolean hasRule(Role role, Permission permission) {
+        Key key = new Key(role, permission);
+
+        // Try to find implying rule
+        Boolean isAlreadyImplied = false;
+        for (Key oldKey : ruleMap.keySet()) {
+            if (oldKey.implies(key)) {
+                isAlreadyImplied = true;
+                break;
+            }
+        }
+
+        return isAlreadyImplied;
     }
 
 }

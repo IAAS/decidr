@@ -14,7 +14,9 @@ public class UserRole extends AbstractRole {
      * The lowest user id that can belong to a logged in user.
      */
     public static final Long MIN_VALID_USER_ID = 0L;
-    
+
+    public static final Long UNKNOWN_USER_ID = -1L;
+
     /**
      * Constructor.
      * 
@@ -22,5 +24,13 @@ public class UserRole extends AbstractRole {
      */
     public UserRole(Long userId) {
         super(userId);
+    }
+
+    /**
+     * Creates a new UserRole with its actor id set to unknown;
+     * 
+     */
+    public UserRole() {
+        this(UNKNOWN_USER_ID);
     }
 }
