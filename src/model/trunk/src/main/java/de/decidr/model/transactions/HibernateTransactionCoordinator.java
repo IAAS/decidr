@@ -131,7 +131,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * {@inheritDoc}
      */
-    public void runTransaction(TransactionalCommand command) {
+    public void runTransaction(TransactionalCommand command)
+            throws TransactionException {
         TransactionalCommand[] commands = { command };
         runTransaction(commands);
     }
@@ -139,9 +140,11 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * {@inheritDoc}
      */
-    public void runTransaction(TransactionalCommand[] commands) {
+    public void runTransaction(TransactionalCommand[] commands)
+            throws TransactionException {
         if (commands == null) {
-            throw new IllegalArgumentException("Null value not allowed.");
+            throw new TransactionException(new IllegalArgumentException(
+                    "Null value not allowed."));
         }
 
         try {

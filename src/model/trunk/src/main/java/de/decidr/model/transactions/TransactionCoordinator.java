@@ -14,6 +14,7 @@
 package de.decidr.model.transactions;
 
 import de.decidr.model.commands.TransactionalCommand;
+import de.decidr.model.exceptions.TransactionException;
 
 /**
  * Invokes {@link TransactionalCommand}s within a transaction. Inner
@@ -34,7 +35,7 @@ public interface TransactionCoordinator {
      * @throws IllegalArgumentException
      *             if command is null.
      */
-    public void runTransaction(TransactionalCommand command);
+    public void runTransaction(TransactionalCommand command) throws TransactionException;
 
     /**
      * Executes a number of commands within a transaction. If another
@@ -46,5 +47,5 @@ public interface TransactionCoordinator {
      * @throws IllegalArgumentException
      *             if command is null.
      */
-    public void runTransaction(TransactionalCommand[] commands);
+    public void runTransaction(TransactionalCommand[] commands) throws TransactionException;
 }
