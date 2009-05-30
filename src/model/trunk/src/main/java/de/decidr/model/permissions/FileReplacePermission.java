@@ -16,13 +16,14 @@
 package de.decidr.model.permissions;
 
 /**
- * Represents the permission to read a file.
+ * Represents the permission to replace a file.
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  *
  * @version 0.1
  */
-public class FileReadPermission extends FilePermission {
+public class FileReplacePermission extends FilePermission {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,7 +32,7 @@ public class FileReadPermission extends FilePermission {
      * 
      * @param fileId
      */
-    public FileReadPermission(Long fileId) {
+    public FileReplacePermission(Long fileId) {
         super(fileId);
     }    
     
