@@ -4,6 +4,7 @@ import org.hibernate.Session;
 
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.entities.User;
+import de.decidr.model.entities.WorkItem;
 import de.decidr.model.permissions.Asserter;
 import de.decidr.model.permissions.Permission;
 import de.decidr.model.permissions.Role;
@@ -58,10 +59,9 @@ public class IsOwnerOfWorkItem implements Asserter, TransactionalCommand  {
         Session session = evt.getSession();
 
         User user = (User)session.load(User.class, userid);
-        WorkItem workitem = null;
+        WorkItem workitem = (WorkItem)session.load(WorkItem.class, workItemId);
         
-        // FIXME make HQL Statement for performance tuning
-        user.getWorkItems().contains(workitem);
+        result = user.getWorkItems().contains(workitem);
     }
     
 }
