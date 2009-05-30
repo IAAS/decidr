@@ -10,15 +10,17 @@ import java.util.Set;
  */
 public class Server implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private Long id;
-    private String location;
-    private byte load;
-    private boolean locked;
-    private boolean dynamicallyAdded;
-    private Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers = new HashSet<WorkflowModelIsDeployedOnServer>(
-            0);
-    private Set<WorkflowInstance> workflowInstances = new HashSet<WorkflowInstance>(
-            0);
+	private String location;
+	private byte load;
+	private boolean locked;
+	private boolean dynamicallyAdded;
+	private Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers = new HashSet<WorkflowModelIsDeployedOnServer>(
+			0);
+	private Set<WorkflowInstance> workflowInstances = new HashSet<WorkflowInstance>(
+			0);
 
     public Server() {
     }

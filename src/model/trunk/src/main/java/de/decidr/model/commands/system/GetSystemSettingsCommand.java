@@ -5,17 +5,15 @@ import java.util.List;
 import org.hibernate.Query;
 
 import de.decidr.model.entities.SystemSettings;
-import de.decidr.model.permissions.Permission;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 public class GetSystemSettingsCommand extends SystemCommand {
 
     private SystemSettings result;
-    
-    public GetSystemSettingsCommand(Role role, Permission permission) {
-        super(role, permission);
-        // TODO Auto-generated constructor stub
+       
+    public GetSystemSettingsCommand(Role role) {
+        super(role, null);
     }
 
     @SuppressWarnings("unchecked")
