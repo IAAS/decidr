@@ -14,6 +14,8 @@ public class WorkItemPermission extends EntityPermission {
     
 	private static final long serialVersionUID = 1L;
 
+	String WorkItemId = null;
+		
 	/**
 	 * Constructor.
 	 * 
@@ -22,4 +24,18 @@ public class WorkItemPermission extends EntityPermission {
 	public WorkItemPermission(Long workItemId) {
 		super(WorkItem.class.getCanonicalName(), workItemId);
 	}
+
+    /**
+     * @return the workItemId
+     */
+    public String getWorkItemId() {
+        return WorkItemId;
+    }
+
+    /**
+     * @param workItemId the workItemId to set
+     */
+    public void setWorkItemId(String workItemId) {
+        WorkItemId = workItemId;
+    }
 }

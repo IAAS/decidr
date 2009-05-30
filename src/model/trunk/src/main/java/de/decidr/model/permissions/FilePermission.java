@@ -9,7 +9,7 @@ import de.decidr.model.entities.File;
  *
  * @version 0.1
  */
-public class FilePermission extends EntityPermission {
+public abstract class FilePermission extends EntityPermission {
     
     private static final long serialVersionUID = 1L;
 
