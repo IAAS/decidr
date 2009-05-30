@@ -25,7 +25,7 @@ public class IsUserEnabled implements Asserter, TransactionalCommand {
 
     @Override
     public Boolean assertRule(Role role, Permission permission) {
-        Boolean result = null;
+        Boolean result = false;
 
         if (role instanceof UserRole) {
             userId = role.getActorId();
@@ -38,8 +38,6 @@ public class IsUserEnabled implements Asserter, TransactionalCommand {
 
     @Override
     public void transactionStarted(TransactionEvent evt) {
-        userIsEnabled = false;
-
         User user = (User) evt.getSession().get(User.class, userId);
 
         userIsEnabled = user.getDisabledSince() == null;

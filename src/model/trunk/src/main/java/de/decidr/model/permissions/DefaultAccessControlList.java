@@ -21,8 +21,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.tool.hbmlint.Issue;
-
 import de.decidr.model.permissions.asserters.IsSuperAdmin;
 
 /**

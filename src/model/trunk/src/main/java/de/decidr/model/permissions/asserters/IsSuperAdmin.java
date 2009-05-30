@@ -1,64 +1,59 @@
 package de.decidr.model.permissions.asserters;
 
-import java.util.List;
-
 import org.hibernate.Query;
-import org.hibernate.Session;
 
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.permissions.Asserter;
 import de.decidr.model.permissions.Permission;
 import de.decidr.model.permissions.Role;
+import de.decidr.model.permissions.SuperAdminRole;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionAbortedEvent;
-import de.decidr.model.transactions.TransactionCoordinator;
 import de.decidr.model.transactions.TransactionEvent;
 
+/**
+ * Asserts that the given super admin is actually the super admin.
+ * 
+ * @author Markus Fischer
+ * @author Daniel Huss
+ *
+ * @version 0.1
+ */
 public class IsSuperAdmin implements Asserter, TransactionalCommand {
 
     private Long userid = null;
-    Boolean result = false;
+
+    Boolean isSuperAdmin = false;
 
     @Override
     public Boolean assertRule(Role role, Permission permission) {
+        Boolean result = false;
 
-        userid = role.getActorId();
-
-        TransactionCoordinator htac = HibernateTransactionCoordinator
-                .getInstance();
-
-        htac.runTransaction(this);
+        if (role instanceof SuperAdminRole) {
+            userid = role.getActorId();
+            HibernateTransactionCoordinator.getInstance().runTransaction(this);
+        }
 
         return result;
     }
 
     @Override
-    public void transactionAborted(TransactionAbortedEvent evt) {
-        // TODO Auto-generated method stub
+    public void transactionStarted(TransactionEvent evt) {
+        isSuperAdmin = false;
 
+        Query q = evt.getSession().createQuery("from SystemSettings");
+        SystemSettings settings = (SystemSettings) q.list().get(0);
+
+        isSuperAdmin = (settings.getSuperAdmin().getId() == userid);
+    }
+
+    @Override
+    public void transactionAborted(TransactionAbortedEvent evt) {
     }
 
     @Override
     public void transactionCommitted(TransactionEvent evt) {
-        // TODO Auto-generated method stub
-
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public void transactionStarted(TransactionEvent evt) {
-        Session session = evt.getSession();
-
-        String qtext = "from SystemSettings";
-
-        Query q = session.createQuery(qtext);
-        List<SystemSettings> qResult = q.list();
-
-        SystemSettings settings = qResult.get(0);
-
-        result = (settings.getSuperAdmin().getId() == userid);
-        
-
-    }
 }

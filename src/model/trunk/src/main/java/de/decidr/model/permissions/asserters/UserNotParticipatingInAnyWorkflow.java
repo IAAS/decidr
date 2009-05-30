@@ -1,45 +1,63 @@
 package de.decidr.model.permissions.asserters;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.entities.User;
 import de.decidr.model.permissions.Asserter;
 import de.decidr.model.permissions.Permission;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.permissions.UserRole;
+import de.decidr.model.permissions.WorkflowModelPermission;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;
+
 /**
- * Asserts that a user hasn't set his status to unavailable.
+ * Asserts that the given user is not participating in any worklfow instance.
  * 
+ * @author Markus Fischer
  * @author Daniel Huss
  *
  * @version 0.1
  */
-public class IsUserAvailable implements Asserter, TransactionalCommand {
+public class UserNotParticipatingInAnyWorkflow implements Asserter,
+        TransactionalCommand {
 
-    private Long userId = null;
+    private Long userid = null;
 
-    private Boolean userIsEnabled = false;
+    private Boolean notParticipating = false;
 
     @Override
     public Boolean assertRule(Role role, Permission permission) {
-        Boolean result = null;
 
-        if (role instanceof UserRole) {
-            userId = role.getActorId();
+        Boolean result = false;
+
+        if ((role instanceof UserRole)
+                && (permission instanceof WorkflowModelPermission)) {
+
+            userid = role.getActorId();
+
             HibernateTransactionCoordinator.getInstance().runTransaction(this);
-            result = userIsEnabled;
-        }
 
+            result = notParticipating;
+        }
         return result;
     }
 
     @Override
     public void transactionStarted(TransactionEvent evt) {
-        User user = (User) evt.getSession().get(User.class, userId);
+        Session session = evt.getSession();
 
-        userIsEnabled = user.getUnavailableSince() == null;
+        User user = new User();
+        user.setId(userid);
+
+        Query q = session
+                .createQuery("select count(*) from UserParticipatesInWorkflow where user = :user");
+        q.setEntity("user", user);
+
+        notParticipating = q.uniqueResult().equals(0L);
     }
 
     @Override
@@ -49,4 +67,5 @@ public class IsUserAvailable implements Asserter, TransactionalCommand {
     @Override
     public void transactionCommitted(TransactionEvent evt) {
     }
+
 }

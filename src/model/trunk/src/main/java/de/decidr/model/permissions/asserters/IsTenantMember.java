@@ -44,8 +44,6 @@ public class IsTenantMember implements Asserter, TransactionalCommand {
 
     @Override
     public void transactionStarted(TransactionEvent evt) {
-        userIsMember = false;
-
         Tenant tenant = (Tenant) evt.getSession().get(Tenant.class,
                 id.getTenantId());
 

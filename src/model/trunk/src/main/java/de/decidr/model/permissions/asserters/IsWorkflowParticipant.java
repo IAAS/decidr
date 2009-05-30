@@ -19,7 +19,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-public class IsWorkflowParticipantOf implements Asserter, TransactionalCommand {
+public class IsWorkflowParticipant implements Asserter, TransactionalCommand {
 
     private UserParticipatesInWorkflowId id = null;
 

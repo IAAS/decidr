@@ -2,7 +2,6 @@ package de.decidr.model.permissions.asserters;
 
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.entities.Tenant;
-import de.decidr.model.entities.UserIsMemberOfTenantId;
 import de.decidr.model.permissions.Asserter;
 import de.decidr.model.permissions.Permission;
 import de.decidr.model.permissions.Role;
@@ -46,8 +45,6 @@ public class IsTenantAdmin implements Asserter, TransactionalCommand {
 
     @Override
     public void transactionStarted(TransactionEvent evt) {
-        userIsAdmin = false;
-
         userIsAdmin = ((Tenant) evt.getSession().get(Tenant.class, tenantId))
                 .getAdmin().getId().equals(userId);
     }
