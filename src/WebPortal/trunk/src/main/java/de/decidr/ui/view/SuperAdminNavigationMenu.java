@@ -7,6 +7,11 @@ import com.vaadin.ui.VerticalLayout;
 
 public class SuperAdminNavigationMenu extends CustomComponent {
     
+    /**
+     * TODO: add comment
+     */
+    private static final long serialVersionUID = 6470214674053630344L;
+
     private static SuperAdminNavigationMenu superAdminNavigationMenu = null;
     
     private VerticalLayout verticalLayout;

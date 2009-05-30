@@ -7,6 +7,11 @@ import com.vaadin.ui.VerticalLayout;
 
 public class TenantAdminNavigationMenu extends CustomComponent {
     
+    /**
+     * TODO: add comment
+     */
+    private static final long serialVersionUID = -5463146748220047931L;
+
     private static TenantAdminNavigationMenu tenantAdminNavigationMenu = null;
     
     private VerticalLayout verticalLayout;

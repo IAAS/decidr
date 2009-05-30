@@ -5,13 +5,17 @@ import com.vaadin.ui.Window;
 
 public class Main extends Application {
 
-	Window main = new Window();
+	/**
+     * TODO: add comment
+     */
+    private static final long serialVersionUID = 2668887930201158755L;
+    Window main = new Window();
 	
 	@Override
 	public void init() {
 		
 		setMainWindow(main);
-		main.addComponent(SystemSetting.getInstance());
+		main.addComponent(WorkItemComponent.getInstance());
 
 	}
 

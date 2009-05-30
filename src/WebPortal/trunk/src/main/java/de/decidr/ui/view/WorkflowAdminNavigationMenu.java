@@ -7,6 +7,11 @@ import com.vaadin.ui.VerticalLayout;
 
 public class WorkflowAdminNavigationMenu extends CustomComponent {
     
+    /**
+     * TODO: add comment
+     */
+    private static final long serialVersionUID = 3301289362151635416L;
+
     private static WorkflowAdminNavigationMenu workflowAdminNavigationMenu = null;
     
     private VerticalLayout verticalLayout;

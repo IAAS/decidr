@@ -9,6 +9,11 @@ import com.vaadin.ui.VerticalLayout;
 
 public class SystemSetting extends CustomComponent {
     
+    /**
+     * TODO: add comment
+     */
+    private static final long serialVersionUID = 3389525551936631625L;
+
     private static SystemSetting systemSetting = null;
     
     private VerticalLayout verticalLayout = null;

@@ -34,8 +34,7 @@ public class ProfileSettings extends CustomComponent {
 	private VerticalLayout formVerticalLayout = null;
 	private HorizontalLayout buttonHorizontalLayout = null;
 	private HorizontalLayout profileButtonHorizontalLayout = null;
-	
-	
+
 	private Label myProfileLabel = null;
 	private Label usernameLabel = null;
 	private Label emailLabel = null;
@@ -78,7 +77,8 @@ public class ProfileSettings extends CustomComponent {
 		buttonHorizontalLayout = new HorizontalLayout();
 		profileButtonHorizontalLayout = new HorizontalLayout();
 		
-		myProfileLabel = new Label("My Profile");
+		myProfileLabel = new Label("<h2> My Profile </h2>");
+		myProfileLabel.setContentMode(Label.CONTENT_XHTML);
 		usernameLabel = new Label("Username: ");
 		emailLabel = new Label("Email address: ");
 		usernameNameLabel = new Label("test1");
