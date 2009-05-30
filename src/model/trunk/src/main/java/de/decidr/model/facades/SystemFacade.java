@@ -3,10 +3,15 @@ package de.decidr.model.facades;
 import java.util.List;
 
 import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
 
+import de.decidr.model.commands.system.GetSystemSettingsCommand;
+import de.decidr.model.commands.system.SystemCommand;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.permissions.Role;
+import de.decidr.model.transactions.HibernateTransactionCoordinator;
+import de.decidr.model.transactions.TransactionCoordinator;
 
 public class SystemFacade extends AbstractFacade {
 
@@ -15,7 +20,16 @@ public class SystemFacade extends AbstractFacade {
 	}
 
 	public Item getSettings() {
-		throw new UnsupportedOperationException();
+		
+	        TransactionCoordinator tac = HibernateTransactionCoordinator.getInstance();
+		GetSystemSettingsCommand command = new GetSystemSettingsCommand(actor, null);
+		String[] properties = {"logLevel","autoAcceptNewTenants"};
+		
+		tac.runTransaction(command);
+		
+		
+		return new BeanItem(command.getResult(),properties);
+		
 	}
 
 	public void setSettings(Item settings) {
