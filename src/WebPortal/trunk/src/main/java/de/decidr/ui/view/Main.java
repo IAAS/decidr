@@ -15,7 +15,7 @@ public class Main extends Application {
 	public void init() {
 		
 		setMainWindow(main);
-		main.addComponent(WorkItemComponent.getInstance());
+		main.addComponent(UserListComponent.getInstance());
 
 	}
 

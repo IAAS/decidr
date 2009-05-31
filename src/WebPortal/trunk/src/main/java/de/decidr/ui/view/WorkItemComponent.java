@@ -5,7 +5,6 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 
 public class WorkItemComponent extends CustomComponent {
@@ -29,7 +28,7 @@ public class WorkItemComponent extends CustomComponent {
     
     private static final String[] tenants = new String[]{"All tenants", "Current tenants"};
     
-    private Table workItemTable = null;
+    private WorkItemTable workItemTable = null;
     
     private WorkItemComponent(){
         init();
@@ -51,12 +50,7 @@ public class WorkItemComponent extends CustomComponent {
             tenantNativeSelect.addItem(tenants[i]);
         }
         
-        workItemTable = new Table();
-        workItemTable.setSizeFull();
-        workItemTable.addContainerProperty("Name", String.class, null);
-        workItemTable.addContainerProperty("Tenant", String.class, null);
-        workItemTable.addContainerProperty("Data received", String.class, null);
-        workItemTable.addContainerProperty("Status", String.class, null);
+        workItemTable = new WorkItemTable();
         
         setCompositionRoot(verticalLayout);
         

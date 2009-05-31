@@ -1,15 +1,14 @@
+
 package de.decidr.ui.view;
 
-import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 
 public class WorkflowInstanceComponent extends CustomComponent {
 
     /**
-     * TODO: add comment
+     * 
      */
     private static final long serialVersionUID = -8769293137331802152L;
     
@@ -23,13 +22,18 @@ public class WorkflowInstanceComponent extends CustomComponent {
     private Label runningWorkflowInstanceLabel = null;
     private Label completedWorkflowInstanceLabel = null;
     
-    private Table runningInstanceTable = null;
-    private Table completedInstanceTable = null;
+    private RunningInstanceTable runningInstanceTable = null;
+    private CompletedInstanceTable completedInstanceTable = null;
     
     private WorkflowInstanceComponent(){
         init();
     }
     
+    /**
+     * 
+     * TODO: add comment
+     *
+     */
     private void init(){
         verticalLayout = new VerticalLayout();
 
@@ -42,20 +46,9 @@ public class WorkflowInstanceComponent extends CustomComponent {
         completedWorkflowInstanceLabel = new Label("<h3> Completed workflow instances </h3>");
         completedWorkflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
         
-        runningInstanceTable = new Table();
-        runningInstanceTable.setSizeFull();
-        runningInstanceTable.addContainerProperty("Name", String.class, null);
-        runningInstanceTable.addContainerProperty("Model", String.class, null);
-        runningInstanceTable.addContainerProperty("Start date", String.class, null);
-        runningInstanceTable.addContainerProperty("Status", String.class, null);
-        runningInstanceTable.addContainerProperty("Terminate", Button.class, null);
+        runningInstanceTable = new RunningInstanceTable();        
         
-        completedInstanceTable = new Table();
-        completedInstanceTable.setSizeFull();
-        completedInstanceTable.addContainerProperty("Name", String.class, null);
-        completedInstanceTable.addContainerProperty("Model", String.class, null);
-        completedInstanceTable.addContainerProperty("Start date", String.class, null);
-        completedInstanceTable.addContainerProperty("Completion date", String.class, null);
+        completedInstanceTable = new CompletedInstanceTable();        
         
         setCompositionRoot(verticalLayout);
         
@@ -69,6 +62,11 @@ public class WorkflowInstanceComponent extends CustomComponent {
         verticalLayout.addComponent(completedInstanceTable);
     }
     
+    /**
+     * TODO: add comment
+     *
+     * @return
+     */
     public static WorkflowInstanceComponent getInstance(){
         if(workflowInstanceComponent == null){
             workflowInstanceComponent = new WorkflowInstanceComponent();

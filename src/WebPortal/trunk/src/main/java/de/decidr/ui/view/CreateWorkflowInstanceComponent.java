@@ -1,10 +1,8 @@
 package de.decidr.ui.view;
 
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 
 public class CreateWorkflowInstanceComponent extends CustomComponent {
@@ -21,7 +19,7 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
     
     private Label createWorkflowInstanceLabel = null;
     
-    private Table instanceTable = null;
+    private WorkflowInstanceTable instanceTable = null;
     
     
     private CreateWorkflowInstanceComponent(){
@@ -36,10 +34,7 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
         createWorkflowInstanceLabel = new Label("<h2> Create Workflow Instance </h2>");
         createWorkflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
     
-        instanceTable = new Table();
-        instanceTable.setSizeFull();
-        instanceTable.addContainerProperty("Name", String.class, null);
-        instanceTable.addContainerProperty("Create", Button.class, null);
+        instanceTable = new WorkflowInstanceTable();
         
         setCompositionRoot(verticalLayout);
         
