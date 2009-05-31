@@ -40,35 +40,32 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tIntegerItem", propOrder = { "value" })
 public class IntegerItem extends Item {
 
-	@XmlElement(required = true)
-	protected BigInteger value;
+    @XmlElement(required = true)
+    protected BigInteger value;
 
-	/**
-	 * Gets the value of the value property.
-	 * 
-	 * @return possible object is {@link BigInteger }
-	 * 
-	 */
-	public BigInteger getValue() {
-		return value;
-	}
+    /**
+     * Gets the value of the value property.
+     * 
+     * @return possible object is {@link BigInteger }
+     * 
+     */
+    public BigInteger getValue() {
+        return value;
+    }
 
-	/**
-	 * Sets the value of the value property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link BigInteger }
-	 * 
-	 */
-	public void setValue(BigInteger value) {
-		this.value = value;
-	}
-
+    /**
+     * Sets the value of the value property.
+     * 
+     * @param value
+     *            allowed object is {@link BigInteger }
+     * 
+     */
+    public void setValue(BigInteger value) {
+        this.value = value;
+    }
 }

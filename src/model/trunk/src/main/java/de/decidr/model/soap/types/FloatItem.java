@@ -38,29 +38,24 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tFloatItem", propOrder = { "value" })
 public class FloatItem extends Item {
 
-	protected float value;
+    protected float value;
 
-	/**
-	 * Gets the value of the value property.
-	 * 
-	 */
-	public float getValue() {
-		return value;
-	}
+    /**
+     * Gets the value of the value property.
+     */
+    public float getValue() {
+        return value;
+    }
 
-	/**
-	 * Sets the value of the value property.
-	 * 
-	 */
-	public void setValue(float value) {
-		this.value = value;
-	}
-
+    /**
+     * Sets the value of the value property.
+     */
+    public void setValue(float value) {
+        this.value = value;
+    }
 }

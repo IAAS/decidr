@@ -40,36 +40,33 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tURIItem", propOrder = { "value" })
 public class URIItem extends Item {
 
-	@XmlElement(required = true)
-	@XmlSchemaType(name = "anyURI")
-	protected String value;
+    @XmlElement(required = true)
+    @XmlSchemaType(name = "anyURI")
+    protected String value;
 
-	/**
-	 * Gets the value of the value property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getValue() {
-		return value;
-	}
+    /**
+     * Gets the value of the value property.
+     * 
+     * @return possible object is {@link String }
+     * 
+     */
+    public String getValue() {
+        return value;
+    }
 
-	/**
-	 * Sets the value of the value property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link String }
-	 * 
-	 */
-	public void setValue(String value) {
-		this.value = value;
-	}
-
+    /**
+     * Sets the value of the value property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     * 
+     */
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

@@ -38,27 +38,23 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tBooleanItem", propOrder = { "value" })
 public class BooleanItem extends Item {
-	protected boolean value;
+    protected boolean value;
 
-	/**
-	 * Gets the value of the value property.
-	 * 
-	 */
-	public boolean isValue() {
-		return value;
-	}
+    /**
+     * Gets the value of the value property.
+     */
+    public boolean isValue() {
+        return value;
+    }
 
-	/**
-	 * Sets the value of the value property.
-	 * 
-	 */
-	public void setValue(boolean value) {
-		this.value = value;
-	}
+    /**
+     * Sets the value of the value property.
+     */
+    public void setValue(boolean value) {
+        this.value = value;
+    }
 }

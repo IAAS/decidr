@@ -49,56 +49,65 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "createTaskResponse")
 public class TaskIdentifier {
 
-	protected long taskID;
-	protected long processID;
-	protected long userID;
+    protected long taskID;
+    protected long processID;
+    protected long userID;
 
-	/**
-	 * Gets the value of the taskID property.
-	 * 
-	 */
-	public long getTaskID() {
-		return taskID;
-	}
+    /**
+     * Default constructor needed by JAXB.
+     */
+    public TaskIdentifier() {
+    }
 
-	/**
-	 * Sets the value of the taskID property.
-	 * 
-	 */
-	public void setTaskID(long value) {
-		this.taskID = value;
-	}
+    /**
+     * Convenience constructor which can be used to ensure that all values have
+     * been set.
+     */
+    public TaskIdentifier(long taskID, long processID, long userID) {
+        this.taskID = taskID;
+        this.processID = processID;
+        this.userID = userID;
+    }
 
-	/**
-	 * Gets the value of the processID property.
-	 * 
-	 */
-	public long getProcessID() {
-		return processID;
-	}
+    /**
+     * Gets the value of the taskID property.
+     */
+    public long getTaskID() {
+        return taskID;
+    }
 
-	/**
-	 * Sets the value of the processID property.
-	 * 
-	 */
-	public void setProcessID(long value) {
-		this.processID = value;
-	}
+    /**
+     * Sets the value of the taskID property.
+     */
+    public void setTaskID(long value) {
+        this.taskID = value;
+    }
 
-	/**
-	 * Gets the value of the userID property.
-	 * 
-	 */
-	public long getUserID() {
-		return userID;
-	}
+    /**
+     * Gets the value of the processID property.
+     */
+    public long getProcessID() {
+        return processID;
+    }
 
-	/**
-	 * Sets the value of the userID property.
-	 * 
-	 */
-	public void setUserID(long value) {
-		this.userID = value;
-	}
+    /**
+     * Sets the value of the processID property.
+     */
+    public void setProcessID(long value) {
+        this.processID = value;
+    }
 
+    /**
+     * Gets the value of the userID property.
+     */
+    public long getUserID() {
+        return userID;
+    }
+
+    /**
+     * Sets the value of the userID property.
+     */
+    public void setUserID(long value) {
+        this.userID = value;
+    }
 }

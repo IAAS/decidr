@@ -44,110 +44,107 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tItem", propOrder = { "hint", "label" })
 @XmlSeeAlso( { DateItem.class, FloatItem.class, URIItem.class,
-		IntegerItem.class, StringItem.class, BooleanItem.class })
+        IntegerItem.class, StringItem.class, BooleanItem.class })
 public class Item {
 
-	@XmlElement(required = true)
-	protected String hint;
-	@XmlElement(required = true)
-	protected String label;
-	@XmlAttribute(required = true)
-	protected String name;
-	@XmlAttribute
-	protected Boolean readOnly;
+    @XmlElement(required = true)
+    protected String hint;
+    @XmlElement(required = true)
+    protected String label;
+    @XmlAttribute(required = true)
+    protected String name;
+    @XmlAttribute
+    protected Boolean readOnly;
 
-	/**
-	 * Gets the value of the hint property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getHint() {
-		return hint;
-	}
+    /**
+     * Gets the value of the hint property.
+     * 
+     * @return possible object is {@link String }
+     * 
+     */
+    public String getHint() {
+        return hint;
+    }
 
-	/**
-	 * Sets the value of the hint property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link String }
-	 * 
-	 */
-	public void setHint(String value) {
-		this.hint = value;
-	}
+    /**
+     * Sets the value of the hint property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     * 
+     */
+    public void setHint(String value) {
+        this.hint = value;
+    }
 
-	/**
-	 * Gets the value of the label property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getLabel() {
-		return label;
-	}
+    /**
+     * Gets the value of the label property.
+     * 
+     * @return possible object is {@link String }
+     * 
+     */
+    public String getLabel() {
+        return label;
+    }
 
-	/**
-	 * Sets the value of the label property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link String }
-	 * 
-	 */
-	public void setLabel(String value) {
-		this.label = value;
-	}
+    /**
+     * Sets the value of the label property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     * 
+     */
+    public void setLabel(String value) {
+        this.label = value;
+    }
 
-	/**
-	 * Gets the value of the name property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Gets the value of the name property.
+     * 
+     * @return possible object is {@link String }
+     * 
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * Sets the value of the name property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link String }
-	 * 
-	 */
-	public void setName(String value) {
-		this.name = value;
-	}
+    /**
+     * Sets the value of the name property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     * 
+     */
+    public void setName(String value) {
+        this.name = value;
+    }
 
-	/**
-	 * Gets the value of the readOnly property.
-	 * 
-	 * @return possible object is {@link Boolean }
-	 * 
-	 */
-	public boolean isReadOnly() {
-		if (readOnly == null) {
-			return false;
-		} else {
-			return readOnly;
-		}
-	}
+    /**
+     * Gets the value of the readOnly property.
+     * 
+     * @return possible object is {@link Boolean }
+     * 
+     */
+    public boolean isReadOnly() {
+        if (readOnly == null) {
+            return false;
+        } else {
+            return readOnly;
+        }
+    }
 
-	/**
-	 * Sets the value of the readOnly property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link Boolean }
-	 * 
-	 */
-	public void setReadOnly(Boolean value) {
-		this.readOnly = value;
-	}
-
+    /**
+     * Sets the value of the readOnly property.
+     * 
+     * @param value
+     *            allowed object is {@link Boolean }
+     * 
+     */
+    public void setReadOnly(Boolean value) {
+        this.readOnly = value;
+    }
 }

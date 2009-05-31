@@ -35,11 +35,11 @@
 			<name>iaassrv7-releases</name>
 			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
 		</repository>
-		<snapshotRepository>
+		<!--snapshotRepository>
 			<id>iaassrv7-snapshots</id>
 			<name>iaassrv7-snapshots</name>
 			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
-		</snapshotRepository>
+		</snapshotRepository-->
 	</distributionManagement>
 	<repositories>
 		<repository>
@@ -285,6 +285,11 @@
 			<groupId>org.codehaus.woodstox</groupId>
 			<artifactId>wstx-asl</artifactId>
 			<version>3.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>vaadin</groupId>
+			<artifactId>vaadin</artifactId>
+			<version>6.0.0-pre2</version>
 		</dependency>
 	</dependencies>
 </project>

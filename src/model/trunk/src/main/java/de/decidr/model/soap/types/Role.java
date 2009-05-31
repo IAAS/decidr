@@ -44,60 +44,57 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tRole", propOrder = { "actor" })
 public class Role {
 
-	@XmlElement(required = true)
-	protected Actor actor;
-	@XmlAttribute(required = true)
-	@XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-	@XmlSchemaType(name = "NCName")
-	protected String name;
+    @XmlElement(required = true)
+    protected Actor actor;
+    @XmlAttribute(required = true)
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    @XmlSchemaType(name = "NCName")
+    protected String name;
 
-	/**
-	 * Gets the value of the actor property.
-	 * 
-	 * @return possible object is {@link Actor }
-	 * 
-	 */
-	public Actor getActor() {
-		return actor;
-	}
+    /**
+     * Gets the value of the actor property.
+     * 
+     * @return possible object is {@link Actor }
+     * 
+     */
+    public Actor getActor() {
+        return actor;
+    }
 
-	/**
-	 * Sets the value of the actor property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link Actor }
-	 * 
-	 */
-	public void setActor(Actor value) {
-		this.actor = value;
-	}
+    /**
+     * Sets the value of the actor property.
+     * 
+     * @param value
+     *            allowed object is {@link Actor }
+     * 
+     */
+    public void setActor(Actor value) {
+        this.actor = value;
+    }
 
-	/**
-	 * Gets the value of the name property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Gets the value of the name property.
+     * 
+     * @return possible object is {@link String }
+     * 
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * Sets the value of the name property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link String }
-	 * 
-	 */
-	public void setName(String value) {
-		this.name = value;
-	}
-
+    /**
+     * Sets the value of the name property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     * 
+     */
+    public void setName(String value) {
+        this.name = value;
+    }
 }

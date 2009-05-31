@@ -43,84 +43,76 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tActor")
 public class Actor {
-	@XmlAttribute
-	@XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-	@XmlSchemaType(name = "NCName")
-	protected String name;
-	@XmlAttribute(required = true)
-	@XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-	@XmlID
-	@XmlSchemaType(name = "ID")
-	protected String userid;
-	@XmlAttribute
-	protected String email;
+    @XmlAttribute
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    @XmlSchemaType(name = "NCName")
+    protected String name;
+    @XmlAttribute(required = true)
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    @XmlID
+    @XmlSchemaType(name = "ID")
+    protected String userid;
+    @XmlAttribute
+    protected String email;
 
-	/**
-	 * Gets the value of the name property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Gets the value of the name property.
+     * 
+     * @return possible object is {@link String }
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * Sets the value of the name property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link String }
-	 * 
-	 */
-	public void setName(String value) {
-		this.name = value;
-	}
+    /**
+     * Sets the value of the name property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     */
+    public void setName(String value) {
+        this.name = value;
+    }
 
-	/**
-	 * Gets the value of the userid property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getUserid() {
-		return userid;
-	}
+    /**
+     * Gets the value of the userid property.
+     * 
+     * @return possible object is {@link String }
+     */
+    public String getUserid() {
+        return userid;
+    }
 
-	/**
-	 * Sets the value of the userid property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link String }
-	 * 
-	 */
-	public void setUserid(String value) {
-		this.userid = value;
-	}
+    /**
+     * Sets the value of the userid property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     */
+    public void setUserid(String value) {
+        this.userid = value;
+    }
 
-	/**
-	 * Gets the value of the email property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getEmail() {
-		return email;
-	}
+    /**
+     * Gets the value of the email property.
+     * 
+     * @return possible object is {@link String }
+     */
+    public String getEmail() {
+        return email;
+    }
 
-	/**
-	 * Sets the value of the email property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link String }
-	 * 
-	 */
-	public void setEmail(String value) {
-		this.email = value;
-	}
+    /**
+     * Sets the value of the email property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     */
+    public void setEmail(String value) {
+        this.email = value;
+    }
 }

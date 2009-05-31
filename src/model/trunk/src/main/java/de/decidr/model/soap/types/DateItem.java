@@ -41,36 +41,31 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tDateItem", propOrder = { "value" })
 public class DateItem extends Item {
 
-	@XmlElement(required = true)
-	@XmlSchemaType(name = "date")
-	protected XMLGregorianCalendar value;
+    @XmlElement(required = true)
+    @XmlSchemaType(name = "date")
+    protected XMLGregorianCalendar value;
 
-	/**
-	 * Gets the value of the value property.
-	 * 
-	 * @return possible object is {@link XMLGregorianCalendar }
-	 * 
-	 */
-	public XMLGregorianCalendar getValue() {
-		return value;
-	}
+    /**
+     * Gets the value of the value property.
+     * 
+     * @return possible object is {@link XMLGregorianCalendar }
+     */
+    public XMLGregorianCalendar getValue() {
+        return value;
+    }
 
-	/**
-	 * Sets the value of the value property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link XMLGregorianCalendar }
-	 * 
-	 */
-	public void setValue(XMLGregorianCalendar value) {
-		this.value = value;
-	}
-
+    /**
+     * Sets the value of the value property.
+     * 
+     * @param value
+     *            allowed object is {@link XMLGregorianCalendar }
+     */
+    public void setValue(XMLGregorianCalendar value) {
+        this.value = value;
+    }
 }

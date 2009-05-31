@@ -15,11 +15,16 @@
  */
 package de.decidr.webservices.humantask;
 
+import java.util.List;
+
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
 
+import com.vaadin.data.Item;
+
 import de.decidr.model.facades.WorkItemFacade;
+import de.decidr.model.facades.WorkflowInstanceFacade;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.permissions.HumanTaskRole;
 import de.decidr.model.permissions.Role;
@@ -55,13 +60,17 @@ public class HumanTask implements HumanTaskInterface {
     public TaskIdentifier createTask(long wfmID, long processID, long userID,
             String taskName, boolean userNotification, String description,
             String taskData) {
-        TaskIdentifier id = new TaskIdentifier();
-        id.setProcessID(processID);
-        id.setUserID(userID);
-        id.setTaskID(new WorkItemFacade(HUMANTASK_ROLE).createWorkItem(userID,
-                wfmID, processID + "", taskName, description, taskData
-                        .getBytes(), userNotification));
+        log.debug("Entering method: createTask");
 
+        log.debug("creating work item in database");
+        long taskID = new WorkItemFacade(HUMANTASK_ROLE).createWorkItem(userID,
+                wfmID, processID + "", taskName, description, taskData
+                        .getBytes(), userNotification);
+
+        // id is needed by the ODE Engine to identify this task
+        TaskIdentifier id = new TaskIdentifier(taskID, processID, userID);
+
+        log.debug("Leaving method: createTask");
         return id;
     }
 
@@ -74,9 +83,13 @@ public class HumanTask implements HumanTaskInterface {
      */
     @Override
     public void removeTask(IDList taskIDList) {
+        log.debug("Entering method: removeTask");
+        WorkItemFacade facade = new WorkItemFacade(HUMANTASK_ROLE);
         for (long id : taskIDList.getId()) {
-            new WorkItemFacade(HUMANTASK_ROLE).deleteWorkItem(id);
+            log.debug("removing work item with ID: " + id);
+            facade.deleteWorkItem(id);
         }
+        log.debug("Leaving method: removeTask");
     }
 
     /*
@@ -86,9 +99,17 @@ public class HumanTask implements HumanTaskInterface {
      */
     @Override
     public void removeTasks(long processID) {
-        // FIXME: find a way to get tasks associated with
-        throw new java.lang.UnsupportedOperationException("Please implement "
-                + this.getClass().getName() + "#removeTasks");
+        log.debug("Entering method: removeTasks");
+        List<Item> workItems = new WorkflowInstanceFacade(HUMANTASK_ROLE)
+                .getAllWorkItems(processID);
+        WorkItemFacade facade = new WorkItemFacade(HUMANTASK_ROLE);
+        for (Item item : workItems) {
+            log.debug("Getting ID and casting it to long");
+            long id = (Long) item.getItemProperty("id").getValue();
+            log.debug("removing work item with ID: " + id);
+            facade.deleteWorkItem(id);
+        }
+        log.debug("Leaving method: removeTasks");
     }
 
     /*
@@ -99,9 +120,11 @@ public class HumanTask implements HumanTaskInterface {
      */
     @Override
     public void taskCompleted(long taskID) {
+        log.debug("Entering method: taskCompleted");
         Object taskData = new WorkItemFacade(HUMANTASK_ROLE)
                 .getWorkItem(taskID).getItemProperty("data").getValue();
         // TODO Auto-generated method stub
+        log.debug("Leaving method: taskCompleted");
         throw new java.lang.UnsupportedOperationException("Please implement "
                 + this.getClass().getName() + "#taskCompleted");
     }

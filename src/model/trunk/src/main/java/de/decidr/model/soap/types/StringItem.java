@@ -39,35 +39,32 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tStringItem", propOrder = { "value" })
 public class StringItem extends Item {
 
-	@XmlElement(required = true)
-	protected String value;
+    @XmlElement(required = true)
+    protected String value;
 
-	/**
-	 * Gets the value of the value property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getValue() {
-		return value;
-	}
+    /**
+     * Gets the value of the value property.
+     * 
+     * @return possible object is {@link String }
+     * 
+     */
+    public String getValue() {
+        return value;
+    }
 
-	/**
-	 * Sets the value of the value property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link String }
-	 * 
-	 */
-	public void setValue(String value) {
-		this.value = value;
-	}
-
+    /**
+     * Sets the value of the value property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     * 
+     */
+    public void setValue(String value) {
+        this.value = value;
+    }
 }
