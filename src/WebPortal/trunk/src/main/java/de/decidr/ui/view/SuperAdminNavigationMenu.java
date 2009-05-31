@@ -24,7 +24,6 @@ public class SuperAdminNavigationMenu extends CustomComponent {
     private Button showUserListLink = null;
     private Button createTenantLink = null;
     private Button editTenantLink = null;
-    private Button approveTenantLink = null;
     private Button profileSettingsLink = null;
     private Button tenantSettingsLink = null;
     private Button systemSettingsLink = null;
@@ -60,8 +59,6 @@ public class SuperAdminNavigationMenu extends CustomComponent {
         createTenantLink.setStyleName(Button.STYLE_LINK);
         editTenantLink = new Button("Edit Tenant");
         editTenantLink.setStyleName(Button.STYLE_LINK);
-        approveTenantLink = new Button("Approve Tenant");
-        approveTenantLink.setStyleName(Button.STYLE_LINK);
         profileSettingsLink = new Button("Profile Settings");
         profileSettingsLink.setStyleName(Button.STYLE_LINK);
         tenantSettingsLink = new Button("Tenant Settings");
@@ -95,7 +92,6 @@ public class SuperAdminNavigationMenu extends CustomComponent {
         verticalLayout.addComponent(tenantsLabel);
         verticalLayout.addComponent(createTenantLink);
         verticalLayout.addComponent(editTenantLink);
-        verticalLayout.addComponent(approveTenantLink);
         
         verticalLayout.addComponent(settingsLabel);
         verticalLayout.addComponent(profileSettingsLink);
