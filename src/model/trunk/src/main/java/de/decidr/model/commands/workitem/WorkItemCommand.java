@@ -1,15 +1,30 @@
 package de.decidr.model.commands.workitem;
 
-import java.util.Collection;
-
 import de.decidr.model.commands.AclEnabledCommand;
-import de.decidr.model.permissions.Permission;
 import de.decidr.model.permissions.Role;
+import de.decidr.model.permissions.WorkItemPermission;
 
-public abstract class WorkItemCommand extends AclEnabledCommand{
+/**
+ * Abstract base class for all commands that deal with work items.
+ * 
+ * @author Markus Fischer
+ * @author Daniel Huss
+ * @version 0.1
+ */
+public abstract class WorkItemCommand extends AclEnabledCommand {
 
-    public WorkItemCommand(Role role, Collection<Permission> permission) {
-        super(role, permission);
-        // TODO Auto-generated constructor stub
+    protected Long workItemId = null;
+
+    public WorkItemCommand(Role role, Long workItemId) {
+        super(role, new WorkItemPermission(workItemId));
+        this.workItemId = workItemId;
     }
+
+    /**
+     * @return the workItemId
+     */
+    public Long getWorkItemId() {
+        return workItemId;
+    }
+
 }

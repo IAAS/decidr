@@ -13,6 +13,8 @@
  */
 package de.decidr.model.transactions;
 
+import java.util.ArrayList;
+
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -63,6 +65,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     private Integer transactionDepth;
 
+    private ArrayList<TransactionalCommand> notifiedReceivers = null;
+
     /**
      * Constructor.
      */
@@ -72,6 +76,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 .buildSessionFactory();
         this.currentTransaction = null;
         this.transactionDepth = 0;
+        this.notifiedReceivers = new ArrayList<TransactionalCommand>();
     }
 
     /**
@@ -146,7 +151,9 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             throw new TransactionException(new IllegalArgumentException(
                     "Null value not allowed."));
         }
-
+        
+        notifiedReceivers.clear();
+     
         try {
             beginTransaction();
 
@@ -162,7 +169,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 if (currentTransaction != null) {
                     rollbackCurrentTransaction();
 
-                    for (TransactionalCommand c : commands) {
+                    for (TransactionalCommand c : notifiedReceivers) {
                         fireTransactionAborted(c, e);
                     }
                 }
@@ -185,6 +192,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         TransactionEvent event = new TransactionEvent(session,
                 transactionDepth > 1);
         receiver.transactionStarted(event);
+        notifiedReceivers.add(receiver);
     }
 
     /**

@@ -71,6 +71,21 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
     }
 
     /**
+     * Creates a new AclEnabledCommand using the given role and permission.
+     * 
+     * @param role
+     *            user / system that is requesting access to this command and
+     *            the given permissions
+     * @param additionalPermission
+     *            {@link Permission} besides the command that is involved in the
+     *            transaction.
+     */
+    public AclEnabledCommand(Role role, Permission additionalPermission) {
+        this(role, (Collection<Permission>) null);
+        this.additionalPermissions.add(additionalPermission);
+    }
+
+    /**
      * Performs the necessary permission checks, then forwards to
      * transactionAllowed iff the ACL grants access to this command and all
      * specified additional permissions.
