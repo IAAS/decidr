@@ -25,7 +25,7 @@ import com.vaadin.ui.Window;
  */
 public abstract class UIBuilder {
     
-    protected TemplateView templateView = null;
+    //protected TemplateView templateView = null;
     
     /**
      * TODO: add comment
@@ -49,17 +49,17 @@ public abstract class UIBuilder {
      * TODO: add comment
      *
      */
-    public void createNewView(){
+    /*public void createNewView(){
         templateView = new TemplateView();
-    }
+    }*/
     
     /**
      * TODO: add comment
      *
      * @return
      */
-    public TemplateView getView(){
+    /*public TemplateView getView(){
         return templateView;
-    }
+    }*/
 
 }

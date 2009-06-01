@@ -34,9 +34,9 @@ public class UIDirector {
      *
      * @return
      */
-    public TemplateView getTemplateView {
+    /*public TemplateView getTemplateView {
         return uiBuilder.getView();
-    }
+    }*/
 
     /**
      * TODO: add comment
@@ -52,7 +52,7 @@ public class UIDirector {
      *
      */
     public void constructView(){
-        uiBuilder.createNewView();
+        //uiBuilder.createNewView();
         uiBuilder.buildHeader();
         uiBuilder.buildContent();
         uiBuilder.buildNavigation();
