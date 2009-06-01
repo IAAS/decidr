@@ -28,7 +28,7 @@ public class WorkflowAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildContent() {
-        // TODO Auto-generated method stub
+        getView().setContent(WorkItemComponent.getInstance());
 
     }
 
@@ -37,7 +37,7 @@ public class WorkflowAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildHeader() {
-        // TODO Auto-generated method stub
+        getView().setHeader(Header.getInstance());
 
     }
 

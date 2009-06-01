@@ -28,7 +28,7 @@ public class SuperAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildContent() {
-        // TODO Auto-generated method stub
+        getView().setContent(WorkItemComponent.getInstance());
 
     }
 
@@ -37,7 +37,7 @@ public class SuperAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildHeader() {
-        // TODO Auto-generated method stub
+        getView().setHeader(Header.getInstance());
 
     }
 
@@ -46,7 +46,7 @@ public class SuperAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildNavigation() {
-        // TODO Auto-generated method stub
+        getView().setHorizontalNavigation(SuperAdminNavigationMenu.getInstance());
 
     }
 

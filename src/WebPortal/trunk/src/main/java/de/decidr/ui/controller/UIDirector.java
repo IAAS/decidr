@@ -17,6 +17,8 @@
 package de.decidr.ui.controller;
 
 import com.vaadin.ui.CustomComponent;
+
+import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.SystemSetting;
 import de.decidr.ui.view.UIBuilder;
 
@@ -34,9 +36,9 @@ public class UIDirector {
      *
      * @return
      */
-    /*public TemplateView getTemplateView {
+    public SiteFrame getTemplateView() {
         return uiBuilder.getView();
-    }*/
+    }
 
     /**
      * TODO: add comment
@@ -52,7 +54,7 @@ public class UIDirector {
      *
      */
     public void constructView(){
-        //uiBuilder.createNewView();
+        uiBuilder.createNewView();
         uiBuilder.buildHeader();
         uiBuilder.buildContent();
         uiBuilder.buildNavigation();

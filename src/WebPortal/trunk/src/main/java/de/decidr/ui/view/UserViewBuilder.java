@@ -17,7 +17,8 @@
 package de.decidr.ui.view;
 
 /**
- * TODO: add comment
+ * One concrete builder class which extends the UIBuilder and builds
+ * the user specific header, content and navigation for the DecidR site.
  *
  * @author AT
  */
@@ -28,7 +29,7 @@ public class UserViewBuilder extends UIBuilder {
      */
     @Override
     public void buildContent() {
-        // TODO Auto-generated method stub
+        getView().setContent(WorkItemComponent.getInstance());
 
     }
 
@@ -37,7 +38,7 @@ public class UserViewBuilder extends UIBuilder {
      */
     @Override
     public void buildHeader() {
-        // TODO Auto-generated method stub
+        getView().setHeader(Header.getInstance());
 
     }
 
@@ -46,7 +47,7 @@ public class UserViewBuilder extends UIBuilder {
      */
     @Override
     public void buildNavigation() {
-        // TODO Auto-generated method stub
+        getView().setHorizontalNavigation(UserNavigationMenu.getInstance());
 
     }
 
