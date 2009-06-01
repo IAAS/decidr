@@ -110,7 +110,7 @@ public class TenantFacade extends AbstractFacade {
 		throw new UnsupportedOperationException();
 	}
 
-	public List<com.vaadin.data.Item> getWorkflowInstances(Long tenantId) {
+	public List<Item> getWorkflowInstances(Long tenantId) {
 		throw new UnsupportedOperationException();
 	}
 }
