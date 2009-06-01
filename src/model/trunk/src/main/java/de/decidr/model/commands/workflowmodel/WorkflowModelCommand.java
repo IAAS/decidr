@@ -5,11 +5,28 @@ import java.util.Collection;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.permissions.Permission;
 import de.decidr.model.permissions.Role;
+import de.decidr.model.permissions.WorkflowModelPermission;
 
-public abstract class WorkflowModelCommand extends AclEnabledCommand{
+/**
+ * 
+ * Base class for commands that modify workflow models.
+ * 
+ * @author Daniel Huss
+ * @version 0.1
+ */
+public abstract class WorkflowModelCommand extends AclEnabledCommand {
 
-    public WorkflowModelCommand(Role role, Collection<Permission> permission) {
-        super(role, permission);
-        // TODO Auto-generated constructor stub
+    protected Long workflowModelId = null;
+
+    public WorkflowModelCommand(Role role, Long workflowModelId) {
+        super(role, new WorkflowModelPermission(workflowModelId));
+        this.workflowModelId = workflowModelId;
+    }
+
+    /**
+     * @return the workflowModelId
+     */
+    public Long getWorkflowModelId() {
+        return workflowModelId;
     }
 }

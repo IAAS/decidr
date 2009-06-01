@@ -29,7 +29,7 @@ public class TransactionAbortedEvent extends TransactionEvent {
     protected Exception exception;
 
     /**
-     * Constructor.
+     * Constructor
      * 
      * @param session
      * @param exception

@@ -5,7 +5,7 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.permissions.WorkItemPermission;
 
 /**
- * Abstract base class for all commands that deal with work items.
+ * Abstract base class for commands that modify work items.
  * 
  * @author Markus Fischer
  * @author Daniel Huss

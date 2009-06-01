@@ -42,7 +42,7 @@ public class WorkItemFacade extends AbstractFacade {
      * Constructor
      * 
      * @param actor
-     *            the user / system performing the method calls.
+     *            user / system that is using this facade to access work items.
      */
     public WorkItemFacade(Role actor) {
         super(actor);
