@@ -37,8 +37,8 @@ http://maven.apache.org/xsd/settings-1.0.0.xsd">
 <servers>
     <server>
       <id>iaassrv7-releases</id>
-      <username>ace</username>
-      <password>bogdanci</password>
+      <username>artifactory username</username>
+      <password>artifactory password</password>
     </server>
   </servers>
 
