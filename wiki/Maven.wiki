@@ -36,7 +36,7 @@ http://maven.apache.org/xsd/settings-1.0.0.xsd">
 
 <servers>
     <server>
-      <id>ace-server-releases</id>
+      <id>iaassrv7-releases</id>
       <username>ace</username>
       <password>bogdanci</password>
     </server>
