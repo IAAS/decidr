@@ -7,10 +7,23 @@ import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
+/**
+ * Sets the System Settings.
+ * 
+ * @author Markus Fischer
+ *
+ * @version 0.1
+ */
 public class SetSystemSettingsCommand extends SystemCommand {
 
     Item item = null;
        
+    /**
+     * Sets the system settings.
+     * 
+     * @param role the user who wants to execute the command
+     * @param item the systemsettings which should me set as Item
+     */
     public SetSystemSettingsCommand(Role role, Item item) {
         super(role, null);
         this.item=item;

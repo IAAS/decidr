@@ -4,11 +4,25 @@ import org.hibernate.Query;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
+/**
+ * Updates the server load of a given server at the database.
+ * 
+ * @author Markus Fischer
+ *
+ * @version 0.1
+ */
 public class UpdateServerLoadCommand extends SystemCommand{
 
     private String location = null;
     private byte load;
     
+    /**
+     * Updates the server load of a given server at the database.
+     * 
+     * @param role the user who wants to execute the command
+     * @param location the location of the server, which should be updated
+     * @param load the new load
+     */
     public UpdateServerLoadCommand(Role role, String location, byte load) {
         super(role, null);
         this.location = location;

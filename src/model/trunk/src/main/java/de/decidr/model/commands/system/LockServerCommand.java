@@ -4,11 +4,25 @@ import org.hibernate.Query;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
+/**
+ * 
+ * Sets the server of the given server to locked.
+ * 
+ * @author Markus Fischer
+ *
+ * @version 0.1
+ */
 public class LockServerCommand extends SystemCommand {
 
     private Boolean lock = true;
     private String location = null;
     
+    /**
+     * Locks the given server.
+     * 
+     * @param role user, who wants to execute the command
+     * @param location location of the server which should be locked
+     */
     public LockServerCommand(Role role, String location) {
         super(role, null);
         this.location = location;

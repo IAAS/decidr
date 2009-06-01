@@ -5,10 +5,24 @@ import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
+/**
+ * 
+ * Writes a list of the existing unlocked servers in the result variable.
+ * 
+ * 
+ * @author Markus Fischer
+ * 
+ *
+ * @version 0.1
+ */
 public class GetServerStatisticsCommand extends SystemCommand {
 
     List<ServerLoadView> result;
     
+    /**
+     *   
+     * @param role the user who wants to execute the command
+     */
     public GetServerStatisticsCommand(Role role) {
         super(role, null);
     }
@@ -17,7 +31,7 @@ public class GetServerStatisticsCommand extends SystemCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt) {
        
-        result = evt.getSession().createQuery("from ServerLoadView").list();
+        result = evt.getSession().createQuery("from ServerLoadView where locked=false").list();
         
     }
 

@@ -8,10 +8,21 @@ import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
+/**
+ * Writes the System Settings in the variable result.
+ * 
+ * @author Markus Fischer
+ * 
+ * @version 0.1
+ */
 public class GetSystemSettingsCommand extends SystemCommand {
 
     private SystemSettings result;
-       
+    
+    /**
+     * 
+     * @param role the user who wants to execute the command
+     */
     public GetSystemSettingsCommand(Role role) {
         super(role, null);
     }

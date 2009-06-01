@@ -4,10 +4,25 @@ import de.decidr.model.entities.Server;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
+/**
+ * 
+ * Adds a server to the DecidR database. The Server will not be
+ * created in reality. It's just an representation of the real Server.
+ * 
+ * @author Markus Fischer
+ * 
+ *
+ * @version 0.1
+ */
 public class AddServerCommand extends SystemCommand {
 
     String location = null;
    
+    /**
+    * 
+    * @param role the user which want's to execute the command
+    * @param location the location of the server
+    */
     public AddServerCommand(Role role, String location) {
         super(role, null);
         this.location=location;
