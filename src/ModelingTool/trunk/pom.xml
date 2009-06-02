@@ -50,6 +50,11 @@
 			<version>1.6.0</version>
 		</dependency>
 		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+		<dependency>
 			<groupId>com.google.code.gwt-dnd</groupId>
 			<artifactId>gwt-dnd</artifactId>
 			<version>2.5.6</version>
