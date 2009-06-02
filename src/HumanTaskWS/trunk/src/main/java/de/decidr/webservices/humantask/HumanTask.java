@@ -104,6 +104,8 @@ public class HumanTask implements HumanTaskInterface {
                 .getAllWorkItems(processID);
         WorkItemFacade facade = new WorkItemFacade(HUMANTASK_ROLE);
         for (Item item : workItems) {
+            log.debug("The ID property's original value: <"
+                    + item.getItemProperty("id").getValue() + ">");
             log.debug("Getting ID and casting it to long");
             long id = (Long) item.getItemProperty("id").getValue();
             log.debug("removing work item with ID: " + id);

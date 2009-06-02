@@ -19,9 +19,8 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-import de.decidr.model.soap.types.TaskIdentifier;
 import de.decidr.model.soap.types.IDList;
-import de.decidr.model.soap.types.ItemList;
+import de.decidr.model.soap.types.TaskIdentifier;
 
 /**
  * This is the DecidR HumanTask interface, a java representation of the
