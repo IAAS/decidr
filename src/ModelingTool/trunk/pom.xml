@@ -42,7 +42,6 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -58,12 +57,12 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
-			<version>1.6.0</version>
+			<version>1.6.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
-			<version>1.6.0</version>
+			<version>1.6.4</version>
 			<classifier>${platform}-libs</classifier>
 			<type>zip</type>
 			<scope>compile</scope>
@@ -71,7 +70,7 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
-			<version>1.6.0</version>
+			<version>1.6.4</version>
 			<classifier>${platform}</classifier>
 			<scope>compile</scope>
 		</dependency>
