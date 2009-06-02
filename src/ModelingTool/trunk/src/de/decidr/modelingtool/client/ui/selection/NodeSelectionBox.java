@@ -68,8 +68,8 @@ public class NodeSelectionBox {
     public void assignTo(Node node) {
         this.assignedNode = node;
         
-        int nodeTop = node.getGraphicTop();
-        int nodeLeft = node.getGraphicLeft();
+        int nodeTop = node.getAbsoluteGraphicTop();
+        int nodeLeft = node.getAbsoluteGraphicLeft();
         int nodeWidth = node.getGraphicWidth();
         int nodeHeight = node.getGraphicHeight();
         int width;

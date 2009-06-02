@@ -57,6 +57,7 @@ public class SelectionHandler implements MouseDownHandler {
     @Override
     public void onMouseDown(MouseDownEvent event) {
         Object source = event.getSource();
+        //System.out.println (source);
 
         // select the clicked node or connection
         if (source instanceof Node) {

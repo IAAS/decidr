@@ -189,24 +189,60 @@ public abstract class Node extends AbsolutePanel implements
         this.add(this.graphic, BORDER_OFFSET, BORDER_OFFSET);
     }
 
-    public int getGraphicTop() {
-        if (graphic != null) {
-            return ((AbsolutePanel) getParent()).getWidgetTop(this)
-                    + this.getWidgetTop(graphic);
+    public boolean hasContainer() {
+        return (this.getParent() instanceof Container);
+    }
+
+    public Container getContainer() {
+        if (this.hasContainer()) {
+            return (Container) this.getParent();
         } else {
-            // return 0 if no graphic set
+            return null;
+        }
+    }
+
+    public int getTop() {
+        if (this.getParent() instanceof AbsolutePanel) {
+            return ((AbsolutePanel) this.getParent()).getWidgetTop(this);
+        } else {
             return 0;
         }
     }
 
-    public int getGraphicLeft() {
-        if (graphic != null) {
-            return ((AbsolutePanel) getParent()).getWidgetLeft(this)
-                    + this.getWidgetLeft(graphic);
+    public int getLeft() {
+        if (this.getParent() instanceof AbsolutePanel) {
+            return ((AbsolutePanel) this.getParent()).getWidgetLeft(this);
         } else {
-            // return 0 if no graphic set
             return 0;
         }
+    }
+
+    public int getAbsoluteGraphicTop() {
+        int top = 0;
+
+        if (this.hasContainer()) {
+            top += this.getContainer().getTop();
+        }
+
+        if (graphic != null) {
+            top += this.getTop() + this.getWidgetTop(graphic);
+        } 
+        
+        return top;
+    }
+
+    public int getAbsoluteGraphicLeft() {
+        int top = 0;
+
+        if (this.hasContainer()) {
+            top += this.getContainer().getLeft();
+        }
+
+        if (graphic != null) {
+            top += this.getLeft() + this.getWidgetLeft(graphic);
+        } 
+        
+        return top;
     }
 
     public int getGraphicWidth() {
