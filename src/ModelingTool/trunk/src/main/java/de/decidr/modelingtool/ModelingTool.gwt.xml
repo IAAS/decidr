@@ -18,5 +18,5 @@
   <inherits name='com.extjs.gxt.ui.GXT'/>
 
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='de.decidr.modelingtool.client.ModelingTool'/>
+  <entry-point class='main.java.de.decidr.modelingtool.client.ModelingTool'/>
 </module>
