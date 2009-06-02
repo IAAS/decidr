@@ -32,6 +32,7 @@ public class SiteFrame extends CustomComponent{
         private static SiteFrame siteFrame = null;
         
         private GridLayout gridFrame = null;
+        private SplitPanel splitPanel = null;
         private Label lbl1 = null;
         private Label lbl2 = null;
         private Label lbl3 = null;
@@ -47,6 +48,14 @@ public class SiteFrame extends CustomComponent{
         gridFrame.setSizeFull();
         gridFrame.setMargin(false);
         gridFrame.setSpacing(false);
+        
+        splitPanel = new SplitPanel();
+        
+        splitPanel.setOrientation(SplitPanel.ORIENTATION_HORIZONTAL);
+        splitPanel.setWidth("800px");
+        splitPanel.setHeight("600px");
+        splitPanel.setSplitPosition(200 ,SplitPanel.UNITS_PIXELS);
+        splitPanel.setLocked(true);
                 
         // NOTE: Do NOT remove these labels, without the GridLayout won't work properly
         lbl1 = new Label("");
@@ -60,6 +69,8 @@ public class SiteFrame extends CustomComponent{
         gridFrame.addComponent(lbl1, 0, 0);
         gridFrame.addComponent(lbl2, 1, 0);
         gridFrame.addComponent(lbl3, 2, 0);
+        
+        gridFrame.addComponent(splitPanel, 1, 3);
         
         }
         
@@ -79,8 +90,12 @@ public class SiteFrame extends CustomComponent{
                 gridFrame.addComponent(navigation, 1, 2);
         }
         
+        public void setVerticalNavigation(Component navigation){
+                splitPanel.setFirstComponent(navigation);
+        }
+        
         public void setContent(Component content){
-                gridFrame.addComponent(content, 1, 3);
+                splitPanel.setSecondComponent(content);
         }
 }
 
