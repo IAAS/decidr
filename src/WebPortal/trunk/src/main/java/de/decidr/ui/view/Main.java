@@ -24,7 +24,7 @@ public class Main extends Application {
 	@Override
 	public void init() {
 		setMainWindow(main);
-		//setTheme("test");
+		setTheme("test");
 		director.setUiBuilder(ui);
 		director.constructView();
 		main.addComponent(director.getTemplateView());
