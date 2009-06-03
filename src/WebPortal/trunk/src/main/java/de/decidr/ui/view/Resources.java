@@ -22,12 +22,13 @@ package de.decidr.ui.view;
  * @author GH
  */
 import com.vaadin.terminal.ExternalResource;
+import com.vaadin.terminal.ThemeResource;
 
 public class Resources {
 
         private static Resources resources = null;
         
-        private ExternalResource imgDecidrLogo = null;
+        private ThemeResource imgDecidrLogo = null;
         
         private Resources(){
                 //nothing to do yet
@@ -42,9 +43,9 @@ public class Resources {
     }
         
         
-        public ExternalResource getDecidrLogo(){
+        public ThemeResource getDecidrLogo(){
                 if(imgDecidrLogo == null){
-                        imgDecidrLogo = new ExternalResource("img/decidrlogo.png");
+                        imgDecidrLogo = new ThemeResource("img/decidrlogo.png");
                 }
                 return imgDecidrLogo;
         }

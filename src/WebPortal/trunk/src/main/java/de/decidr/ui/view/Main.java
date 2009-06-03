@@ -18,12 +18,13 @@ public class Main extends Application {
      */
     private static final long serialVersionUID = 2668887930201158755L;
     Window main = new Window();
-    UIBuilder ui = new UserViewBuilder();
+    UIBuilder ui = new SuperAdminViewBuilder();
     UIDirector director = new UIDirector();
 	
 	@Override
 	public void init() {
 		setMainWindow(main);
+		setTheme("test");
 		director.setUiBuilder(ui);
 		director.constructView();
 		main.addComponent(director.getTemplateView());
