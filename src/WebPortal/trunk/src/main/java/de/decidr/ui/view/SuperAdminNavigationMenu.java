@@ -5,6 +5,8 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.controller.ShowUserListAction;
+
 public class SuperAdminNavigationMenu extends CustomComponent {
     
     /**
@@ -53,7 +55,7 @@ public class SuperAdminNavigationMenu extends CustomComponent {
         createWorkflowInstanceLink.setStyleName(Button.STYLE_LINK);
         showWorkflowInstancesLink = new Button("Show Workflow Instances");
         showWorkflowInstancesLink.setStyleName(Button.STYLE_LINK);
-        showUserListLink = new Button("Show/Edit User List");
+        showUserListLink = new Button("Show/Edit User List", new ShowUserListAction());
         showUserListLink.setStyleName(Button.STYLE_LINK);
         createTenantLink = new Button("Create Tenant");
         createTenantLink.setStyleName(Button.STYLE_LINK);

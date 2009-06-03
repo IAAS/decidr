@@ -76,6 +76,7 @@ public class UserListComponent extends CustomComponent {
      *
      */
     public void changeToSuperAdmin(){
+        init();
         removeFromTenantButton = new Button("Remove from tenant");
         deactivateAccountButton = new Button("Deactivate account");
         activateAccountButton = new Button("Activate account");
@@ -91,6 +92,7 @@ public class UserListComponent extends CustomComponent {
      *
      */
     public void changeToTenantAdmin(){
+        init();
         removeUserButton = new Button("Remove user");
         promoteToTenantAdminButton = new Button("Promote to tenant admin");
         getButtonHorizontalLayout().addComponent(removeUserButton);

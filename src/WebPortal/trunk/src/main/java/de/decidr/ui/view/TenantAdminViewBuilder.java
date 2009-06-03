@@ -29,7 +29,7 @@ public class TenantAdminViewBuilder extends UIBuilder {
     @Override
     public void buildContent() {
         getView().setContent(WorkItemComponent.getInstance());
-
+        getView().setHorizontalNavigation(HorizontalNavigationMenu.getInstance());
     }
 
     /* (non-Javadoc)

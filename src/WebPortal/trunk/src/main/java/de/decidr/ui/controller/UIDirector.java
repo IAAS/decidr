@@ -30,6 +30,15 @@ import de.decidr.ui.view.UIBuilder;
 public class UIDirector {
     
     private UIBuilder uiBuilder = null;
+    private static UIDirector uiDirector = null;
+    
+    /**
+     * The default constructor
+     *
+     */
+    private UIDirector() {
+        
+    }
 
     /**
      * TODO: add comment
@@ -58,6 +67,14 @@ public class UIDirector {
         uiBuilder.buildHeader();
         uiBuilder.buildContent();
         uiBuilder.buildNavigation();
+    }
+    
+    public static UIDirector getInstance(){
+       if(uiDirector == null){
+           uiDirector = new UIDirector();
+       }
+       return uiDirector;
+        
     }
    
 }

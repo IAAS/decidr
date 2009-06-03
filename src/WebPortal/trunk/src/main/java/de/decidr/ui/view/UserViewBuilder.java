@@ -39,7 +39,7 @@ public class UserViewBuilder extends UIBuilder {
     @Override
     public void buildHeader() {
         getView().setHeader(Header.getInstance());
-
+        getView().setHorizontalNavigation(HorizontalNavigationMenu.getInstance());
     }
 
     /* (non-Javadoc)
