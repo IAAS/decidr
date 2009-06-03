@@ -46,7 +46,7 @@ public class SuperAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildNavigation() {
-        getView().setHorizontalNavigation(SuperAdminNavigationMenu.getInstance());
+        getView().setVerticalNavigation(SuperAdminNavigationMenu.getInstance());
 
     }
 

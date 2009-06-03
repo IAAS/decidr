@@ -25,11 +25,11 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.SplitPanel;
 
 @SuppressWarnings("serial")
 public class SiteFrame extends CustomComponent{
         
-        private static SiteFrame siteFrame = null;
         
         private GridLayout gridFrame = null;
         private SplitPanel splitPanel = null;
@@ -37,7 +37,7 @@ public class SiteFrame extends CustomComponent{
         private Label lbl2 = null;
         private Label lbl3 = null;
         
-        private SiteFrame(){
+        public SiteFrame(){
                 init();
         }
         
@@ -52,7 +52,7 @@ public class SiteFrame extends CustomComponent{
         splitPanel = new SplitPanel();
         
         splitPanel.setOrientation(SplitPanel.ORIENTATION_HORIZONTAL);
-        splitPanel.setWidth("800px");
+        splitPanel.setWidth("1000px");
         splitPanel.setHeight("600px");
         splitPanel.setSplitPosition(200 ,SplitPanel.UNITS_PIXELS);
         splitPanel.setLocked(true);
@@ -73,14 +73,7 @@ public class SiteFrame extends CustomComponent{
         gridFrame.addComponent(splitPanel, 1, 3);
         
         }
-        
-        public static SiteFrame getInstance(){
-        if(siteFrame == null){
-                siteFrame = new SiteFrame();
-        }
-        return siteFrame;
-    }
-        
+         
         
         public void setHeader(Component header){
                 gridFrame.addComponent(header, 1, 1);

@@ -46,7 +46,7 @@ public class TenantAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildNavigation() {
-       getView().setHorizontalNavigation(TenantAdminNavigationMenu.getInstance());
+       getView().setVerticalNavigation(TenantAdminNavigationMenu.getInstance());
 
     }
 

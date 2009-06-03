@@ -47,7 +47,7 @@ public class UserViewBuilder extends UIBuilder {
      */
     @Override
     public void buildNavigation() {
-        getView().setHorizontalNavigation(UserNavigationMenu.getInstance());
+        getView().setVerticalNavigation(UserNavigationMenu.getInstance());
 
     }
 

@@ -52,7 +52,7 @@ public abstract class UIBuilder {
      *
      */
     public void createNewView(){
-        siteFrame = SiteFrame.getInstance();
+        siteFrame = new SiteFrame();
     }
     
     /**

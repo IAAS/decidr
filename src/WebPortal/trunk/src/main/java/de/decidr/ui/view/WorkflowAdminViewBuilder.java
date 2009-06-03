@@ -46,7 +46,7 @@ public class WorkflowAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildNavigation() {
-        // TODO Auto-generated method stub
+        getView().setVerticalNavigation(WorkflowAdminNavigationMenu.getInstance());
 
     }
 
