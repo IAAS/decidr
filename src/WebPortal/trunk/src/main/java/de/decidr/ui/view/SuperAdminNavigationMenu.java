@@ -5,7 +5,12 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.controller.CreateTenantAction;
+import de.decidr.ui.controller.EditTenantAction;
+import de.decidr.ui.controller.ProfileSettingsAction;
 import de.decidr.ui.controller.ShowUserListAction;
+import de.decidr.ui.controller.SystemSettingsAction;
+import de.decidr.ui.controller.TenantSettingsAction;
 
 public class SuperAdminNavigationMenu extends CustomComponent {
     
@@ -57,15 +62,15 @@ public class SuperAdminNavigationMenu extends CustomComponent {
         showWorkflowInstancesLink.setStyleName(Button.STYLE_LINK);
         showUserListLink = new Button("Show/Edit User List", new ShowUserListAction());
         showUserListLink.setStyleName(Button.STYLE_LINK);
-        createTenantLink = new Button("Create Tenant");
+        createTenantLink = new Button("Create Tenant", new CreateTenantAction());
         createTenantLink.setStyleName(Button.STYLE_LINK);
-        editTenantLink = new Button("Edit Tenant");
+        editTenantLink = new Button("Edit Tenant", new EditTenantAction());
         editTenantLink.setStyleName(Button.STYLE_LINK);
-        profileSettingsLink = new Button("Profile Settings");
+        profileSettingsLink = new Button("Profile Settings", new ProfileSettingsAction());
         profileSettingsLink.setStyleName(Button.STYLE_LINK);
-        tenantSettingsLink = new Button("Tenant Settings");
+        tenantSettingsLink = new Button("Tenant Settings", new TenantSettingsAction());
         tenantSettingsLink.setStyleName(Button.STYLE_LINK);
-        systemSettingsLink = new Button("System Settings");
+        systemSettingsLink = new Button("System Settings", new SystemSettingsAction());
         systemSettingsLink.setStyleName(Button.STYLE_LINK);
         
         workflowParticipationLabel = new Label("Workflow participation");

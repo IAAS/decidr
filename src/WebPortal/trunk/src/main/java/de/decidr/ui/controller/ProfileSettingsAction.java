@@ -19,20 +19,20 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.ui.view.ProfileSettingsComponent;
 import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.UserListComponent;
 
 /**
  * TODO: add comment
  *
  * @author AT
  */
-public class ShowUserListAction implements ClickListener {
+public class ProfileSettingsAction implements ClickListener {
     
     /**
      * Serial Version UID
      */
-    private static final long serialVersionUID = 8622917418547074320L;
+    private static final long serialVersionUID = 33661750285092369L;
     
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
@@ -42,8 +42,8 @@ public class ShowUserListAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        UserListComponent.getInstance().changeToSuperAdmin();
-        siteFrame.setContent(UserListComponent.getInstance());  
+        siteFrame.setContent(ProfileSettingsComponent.getInstance());
+
     }
 
 }

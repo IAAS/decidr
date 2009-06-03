@@ -11,14 +11,14 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-public class ProfileSettings extends CustomComponent {
+public class ProfileSettingsComponent extends CustomComponent {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static ProfileSettings profileSettings = null;
+	private static ProfileSettingsComponent profileSettings = null;
 	
 	private Panel profilePanel = null;
 	private Panel addressPanel = null;
@@ -57,7 +57,7 @@ public class ProfileSettings extends CustomComponent {
 	
 	private CheckBox statusCheckBox = null;
 	
-	private ProfileSettings(){
+	private ProfileSettingsComponent(){
 		init();
 	}
 	
@@ -163,9 +163,9 @@ public class ProfileSettings extends CustomComponent {
 	}
 
 	//instance method singleton
-	public static ProfileSettings getInstance(){
+	public static ProfileSettingsComponent getInstance(){
 		if(profileSettings == null){
-			profileSettings = new ProfileSettings();
+			profileSettings = new ProfileSettingsComponent();
 		}
 		return profileSettings;
 	}

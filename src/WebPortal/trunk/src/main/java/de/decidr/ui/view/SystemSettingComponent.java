@@ -7,14 +7,14 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.VerticalLayout;
 
-public class SystemSetting extends CustomComponent {
+public class SystemSettingComponent extends CustomComponent {
     
     /**
      * TODO: add comment
      */
     private static final long serialVersionUID = 3389525551936631625L;
 
-    private static SystemSetting systemSetting = null;
+    private static SystemSettingComponent systemSetting = null;
     
     private VerticalLayout verticalLayout = null;
     
@@ -28,7 +28,7 @@ public class SystemSetting extends CustomComponent {
     
     private Button saveButton = null;
     
-    private SystemSetting(){
+    private SystemSettingComponent(){
         init();
     }
     
@@ -58,9 +58,9 @@ public class SystemSetting extends CustomComponent {
         verticalLayout.setComponentAlignment(saveButton, Alignment.BOTTOM_LEFT);
     }
     
-    public static SystemSetting getInstance(){
+    public static SystemSettingComponent getInstance(){
         if(systemSetting == null){
-            systemSetting = new SystemSetting();
+            systemSetting = new SystemSettingComponent();
         }
         return systemSetting;
     }

@@ -5,6 +5,9 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.controller.ProfileSettingsAction;
+import de.decidr.ui.controller.TenantSettingsAction;
+
 public class TenantAdminNavigationMenu extends CustomComponent {
     
     /**
@@ -51,9 +54,9 @@ public class TenantAdminNavigationMenu extends CustomComponent {
         showWorkflowInstancesLink.setStyleName(Button.STYLE_LINK);
         showUserListLink = new Button("Show/Edit User List");
         showUserListLink.setStyleName(Button.STYLE_LINK);
-        profileSettingsLink = new Button("Profile Settings");
+        profileSettingsLink = new Button("Profile Settings", new ProfileSettingsAction());
         profileSettingsLink.setStyleName(Button.STYLE_LINK);
-        tenantSettingsLink = new Button("Tenant Settings");
+        tenantSettingsLink = new Button("Tenant Settings", new TenantSettingsAction());
         tenantSettingsLink.setStyleName(Button.STYLE_LINK);
         
         workflowParticipationLabel = new Label("Workflow participation");

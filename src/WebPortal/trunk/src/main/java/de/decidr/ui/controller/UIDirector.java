@@ -16,10 +16,7 @@
 
 package de.decidr.ui.controller;
 
-import com.vaadin.ui.CustomComponent;
-
 import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.SystemSetting;
 import de.decidr.ui.view.UIBuilder;
 
 /**
