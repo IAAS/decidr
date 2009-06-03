@@ -37,12 +37,12 @@
   		<artifactId>junit</artifactId>
   		<version>4.5</version>
   	<scope>test</scope>
-  </dependency>
+  	</dependency>
     <dependency>
     	<groupId>vaadin</groupId>
     	<artifactId>vaadin</artifactId>
     	<version>6.0.0-pre2</version>
-  </dependency>
+  	</dependency>
 </dependencies>
   <build>
     <finalName>WebPortal</finalName>
