@@ -19,10 +19,17 @@ package main.java.de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.java.de.decidr.modelingtool.client.model.Variable;
+import main.java.de.decidr.modelingtool.client.model.VariableType;
+import main.java.de.decidr.modelingtool.client.ui.dialogs.Dialog;
+
+import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
-import com.extjs.gxt.ui.client.widget.Dialog;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
+import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
+import com.extjs.gxt.ui.client.widget.grid.EditorGrid;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
+import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
 /**
  * TODO: add comment
@@ -33,6 +40,7 @@ public class VariableEditor extends Dialog {
 
 	private ContentPanel editorPanel = new ContentPanel();
 	private List<ColumnConfig> columns = new ArrayList<ColumnConfig>();
+	private ColumnModel colModel;
 
 	public VariableEditor() {
 		super();
@@ -49,6 +57,26 @@ public class VariableEditor extends Dialog {
 		
 		TypeColumn typeColumn = new TypeColumn("type", "Variabletype");
 		columns.add(typeColumn);
+		
+		ValueColumn valueColumn = new ValueColumn("value", "Value");
+		columns.add(valueColumn);
+		
+		colModel = new ColumnModel(columns);
+		
+		final ListStore<Variable> variables = new ListStore<Variable>();
+		variables.add(new Variable("Name", VariableType.STRING, "Hans Peter"));
+		
+		editorPanel.setHeading("Variable Editor");  
+		editorPanel.setFrame(true);  
+		editorPanel.setSize(600, 300);  
+		editorPanel.setLayout(new FitLayout());
+		
+		final EditorGrid<Variable> grid = new EditorGrid<Variable>(variables, colModel);
+		editorPanel.add(grid);
+		this.add(editorPanel);
+		
 	}
+
+
 
 }

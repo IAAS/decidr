@@ -19,6 +19,8 @@ package main.java.de.decidr.modelingtool.client.ui.dialogs;
 import java.util.HashMap;
 import java.util.Map;
 
+import main.java.de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
+
 /**
  * TODO: add comment
  * 
@@ -27,7 +29,7 @@ import java.util.Map;
 public class DialogRegistry {
 
 	private static DialogRegistry instance;
-
+	
 	private Map<String, Dialog> dialogs;
 
 	public static DialogRegistry getInstance() {
@@ -38,7 +40,7 @@ public class DialogRegistry {
 	}
 
 	private DialogRegistry() {
-
+		register(new VariableEditor());
 	}
 
 	private Map<String, Dialog> getDialogs() {

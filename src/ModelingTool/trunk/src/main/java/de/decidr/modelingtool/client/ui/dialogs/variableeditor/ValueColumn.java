@@ -16,6 +16,10 @@
 
 package main.java.de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 
+import main.java.de.decidr.modelingtool.client.model.VariableType;
+
+import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
+import com.extjs.gxt.ui.client.widget.grid.CellEditor;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 
 /**
@@ -25,4 +29,17 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
  */
 public class ValueColumn extends ColumnConfig {
 
+	private SimpleComboBox<String> selection = new SimpleComboBox<String>();
+	private CellEditor comboBoxCellEditor;
+	
+	public ValueColumn(String columnId, String header) {
+		this.setId(columnId);
+		this.setHeader(header);
+		
+
+		for (VariableType type: VariableType.values()){
+			selection.add(type.getName());
+		}
+		this.setEditor(comboBoxCellEditor);
+	}
 }

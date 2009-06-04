@@ -16,7 +16,7 @@
 
 package main.java.de.decidr.modelingtool.client.ui.dialogs;
 
-import com.extjs.gxt.ui.client.widget.LayoutContainer;
+import com.extjs.gxt.ui.client.widget.Window;
 import com.extjs.gxt.ui.client.widget.button.Button;
 
 /**
@@ -24,7 +24,7 @@ import com.extjs.gxt.ui.client.widget.button.Button;
  * 
  * @author JS
  */
-abstract public class Dialog extends LayoutContainer {
+abstract public class Dialog extends Window {
     
     public Button okButton;
     public Button cancelButton;
@@ -36,17 +36,6 @@ abstract public class Dialog extends LayoutContainer {
     public Dialog() {
         super();
     }
-    
-    public void initialize() {
-        
-    }
-    
-    public void show() {
-        
-    }
-    
-    public void reset() {
-        
-    }
+
 
 }
