@@ -97,7 +97,7 @@ public class WorkflowModelsComponent extends CustomComponent {
        nativeSelect.setNullSelectionAllowed(false);
        nativeSelect.setValue("Current tenant");
        nativeSelect.setImmediate(true);
-       //TODO: muss nacher rausgenommen werden, und in action registry eingeführt werden
+       //TODO: muss nachher rausgenommen werden, und in action registry eingefÃ¼hrt werden
        nativeSelect.addListener(new Property.ValueChangeListener(){
 
         @Override
