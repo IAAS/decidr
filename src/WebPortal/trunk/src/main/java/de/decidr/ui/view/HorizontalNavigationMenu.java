@@ -16,15 +16,16 @@
 
 package de.decidr.ui.view;
 
+import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
+
+
 /**
  * TODO: add comment
  *
  * @author GH
  */
-
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
 
 
 @SuppressWarnings("serial")
@@ -33,7 +34,8 @@ public class HorizontalNavigationMenu extends CustomComponent {
         private static HorizontalNavigationMenu horizontalNavigationMenu = null;
         
         private HorizontalLayout horizontalLayout = null;
-        
+
+        private Button btnLogoutLink = null;
         private Button btnHomeLink = null;
         private Button btnHelpLink = null;
         private Button btnImpressumLink = null;
@@ -46,7 +48,10 @@ public class HorizontalNavigationMenu extends CustomComponent {
         private void init(){
                 horizontalLayout = new HorizontalLayout();
                 this.setCompositionRoot(horizontalLayout);
-                
+
+                btnLogoutLink = new Button("logout");
+                btnLogoutLink.setStyleName(Button.STYLE_LINK);
+                btnLogoutLink.setVisible(false);
                 btnHomeLink = new Button("Home");
                 btnHomeLink.setStyleName(Button.STYLE_LINK);
                 btnHelpLink = new Button("Help");
@@ -67,9 +72,14 @@ public class HorizontalNavigationMenu extends CustomComponent {
         }
         
         public static HorizontalNavigationMenu getInstance(){
-        if(horizontalNavigationMenu == null){
-                horizontalNavigationMenu = new HorizontalNavigationMenu();
+            if(horizontalNavigationMenu == null){
+                    horizontalNavigationMenu = new HorizontalNavigationMenu();
+            }
+            return horizontalNavigationMenu;
         }
-        return horizontalNavigationMenu;
-    }
+        
+        public Button getLogoutButton(){
+            return btnLogoutLink;
+        }
+    
 }
