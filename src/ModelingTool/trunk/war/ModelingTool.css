@@ -39,6 +39,18 @@
 	font-size: 5px;
 }
 
+.connection-orthogonal-verticalline {
+	background-color: grey;
+	font-size: 1px;
+	width: 2px;
+}
+
+.connection-orthogonal-horizontalline {
+	background-color: grey;
+	font-size: 1px;
+	height: 2px;
+}
+
 /** Example rules used by the template application (remove for your app) */
 h1 {
   font-size: 2em;

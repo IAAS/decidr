@@ -106,7 +106,7 @@ public abstract class Node extends AbsolutePanel implements
      * Callback function for the workflow, this function is called when the node
      * is added to a workflow.
      */
-    public void onWorkflowAdd() {
+    public void onWorkflowAdd(AbsolutePanel parentPanel) {
         // set pixel size, this can only be set after setting a graphic and
         // adding the node to a workflow
         if (graphic != null) {

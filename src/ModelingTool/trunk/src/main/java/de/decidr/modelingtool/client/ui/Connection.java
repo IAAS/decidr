@@ -17,23 +17,25 @@
 package de.decidr.modelingtool.client.ui;
 
 import com.allen_sauer.gwt.dnd.client.DragController;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 
 /**
  * TODO: add comment
  * 
  * @author engelhjs
  */
-public abstract class Connection extends HTML implements Selectable {
+public abstract class Connection implements Selectable {
+    
+    protected AbsolutePanel parentPanel = null;
 
     private boolean selected;
 
     // TODO
     // private ConnectionModel model;
 
-    private Point startEndPoint;
+    protected Point startEndPoint = new Point();
 
-    private Point endEndPoint;
+    protected Point endEndPoint = new Point();
 
     private DragController dragController;
 
@@ -42,9 +44,28 @@ public abstract class Connection extends HTML implements Selectable {
     private Port targetPort = null;
 
     public abstract void draw();
-
-    public void onWorkflowAdd() {
+    
+    public abstract void delete();
+    
+    public void onWorkflowAdd(AbsolutePanel parentPanel) {
+        this.parentPanel = parentPanel;
         draw();
+    }
+
+    public Point getStartEndPoint() {
+        return startEndPoint;
+    }
+
+    public void setStartEndPoint(Point startEndPoint) {
+        this.startEndPoint = startEndPoint;
+    }
+
+    public Point getEndEndPoint() {
+        return endEndPoint;
+    }
+
+    public void setEndEndPoint(Point endEndPoint) {
+        this.endEndPoint = endEndPoint;
     }
 
     public boolean isSelected() {

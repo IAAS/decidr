@@ -80,9 +80,9 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
         // add connection to the connections vector
         connections.add(connection);
         // add connection to workflow
-        super.add(connection);
+        //super.add(connection);
         // callback to connection
-        connection.onWorkflowAdd();
+        connection.onWorkflowAdd(this);
     }
 
     /**
@@ -133,7 +133,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
         }
 
         // callback to node
-        node.onWorkflowAdd();
+        node.onWorkflowAdd(this);
     }
 
     public DragController getDragController() {
