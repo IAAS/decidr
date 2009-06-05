@@ -16,6 +16,7 @@
 
 package main.java.de.decidr.modelingtool.client.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.TreeSet;
@@ -32,9 +33,22 @@ public class Variable extends BaseModelData {
 
     private String name;
     private VariableType type;
-    private Collection<String> values;
+    private List<String> values;
     private boolean array;
     private boolean configVariable;
+
+    /**
+     * 
+     * TODO: add comment
+     * 
+     */
+    public Variable() {
+        this.name = new String("");
+        this.type = VariableType.STRING;
+        this.values.add("");
+        this.array = false;
+        this.configVariable = false;
+    }
 
     /**
      * TODO: add comment
@@ -44,7 +58,7 @@ public class Variable extends BaseModelData {
     public Variable(String name, VariableType type, String value) {
         this.name = name;
         this.type = type;
-        this.values = new TreeSet<String>();
+        this.values = new ArrayList<String>();
         this.values.add(value);
         this.array = false;
         this.configVariable = false;
@@ -93,7 +107,7 @@ public class Variable extends BaseModelData {
      * 
      * @return the values
      */
-    public Collection<String> getValues() {
+    public List<String> getValues() {
         return values;
     }
 

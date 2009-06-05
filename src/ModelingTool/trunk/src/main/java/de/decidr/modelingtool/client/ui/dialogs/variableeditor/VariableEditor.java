@@ -50,39 +50,39 @@ public class VariableEditor extends Dialog {
     private ContentPanel editorPanel = new ContentPanel();
     private List<ColumnConfig> columns = new ArrayList<ColumnConfig>();
     private ColumnModel colModel;
+    private EditorGrid<Variable> grid;
 
     public VariableEditor() {
         super();
         this.setLayout(new BorderLayout());
         getVariablesfromModel();
-        createToolBar();
-        createEditorPanel();
 
+        createEditorPanel();
+        createToolBar();
+        this.add(editorPanel);
     }
 
     private void getVariablesfromModel() {
-        List<Variable> variablesModel = WorkflowModel.getInstance().getVariables();
-        for (Variable v: variablesModel){
-            
+        List<Variable> variablesModel = WorkflowModel.getInstance()
+                .getVariables();
+        for (Variable v : variablesModel) {
+            variables.add(new Variable(v.getName(), v.getType(), v.getValues()
+                    .get(0)));
         }
-        final ListStore<Variable> variables = new ListStore<Variable>();
-        
-        variables.add(new Variable("Name", VariableType.STRING, "Hans Peter"));
-        
     }
 
     private void createToolBar() {
         TextToolItem addVar = new TextToolItem("Add Variable");
-        addVar.addSelectionListener(new SelectionListener<ToolBarEvent>(){
+        addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
-                // TODO Auto-generated method stub
+                Variable var = new Variable();
             }
         });
         toolBar.add(addVar);
-        
+
         TextToolItem delVar = new TextToolItem("Del Variable");
-        delVar.addSelectionListener(new SelectionListener<ToolBarEvent>(){
+        delVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
                 // TODO Auto-generated method stub
@@ -113,11 +113,8 @@ public class VariableEditor extends Dialog {
         editorPanel.setSize(600, 300);
         editorPanel.setLayout(new FitLayout());
 
-        final EditorGrid<Variable> grid = new EditorGrid<Variable>(variables,
-                colModel);
-        
         editorPanel.add(grid);
-        this.add(editorPanel);
+        grid = new EditorGrid<Variable>(variables, colModel);
     }
 
 }
