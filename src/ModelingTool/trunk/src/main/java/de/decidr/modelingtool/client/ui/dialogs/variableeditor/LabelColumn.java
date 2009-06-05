@@ -36,6 +36,7 @@ public class LabelColumn extends ColumnConfig {
 		
 		text.setAllowBlank(false);
 		text.setAutoWidth(true);
+		text.setAutoValidate(false);
 		this.setEditor(new CellEditor(text));
 	}
 

@@ -19,8 +19,6 @@ package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.event.ToolBarEvent;
 import com.extjs.gxt.ui.client.store.ListStore;
@@ -30,12 +28,11 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.EditorGrid;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
-import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.TextToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 
+import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.model.Variable;
-import de.decidr.modelingtool.client.model.VariableType;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 
@@ -51,7 +48,6 @@ public class VariableEditor extends Dialog {
     private ContentPanel editorPanel = new ContentPanel();
     private List<ColumnConfig> columns = new ArrayList<ColumnConfig>();
     private ColumnModel colModel;
-    private EditorGrid<Variable> grid;
 
     public VariableEditor() {
         super();
@@ -59,7 +55,7 @@ public class VariableEditor extends Dialog {
         getVariablesfromModel();
 
         createEditorPanel();
-        createToolBar();
+
         this.add(editorPanel);
     }
 
@@ -72,21 +68,29 @@ public class VariableEditor extends Dialog {
         }
     }
 
-    private void createToolBar() {
-        TextToolItem addVar = new TextToolItem("Add Variable");
+    private void createToolBar(final EditorGrid<Variable> grid) {
+        TextToolItem addVar = new TextToolItem(ModelingTool.messages
+                .addVariable()); //$NON-NLS-1$
         addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
                 Variable var = new Variable();
+
+                grid.stopEditing();
+                variables.insert(var, 0);
+                grid.startEditing(0, 0);
             }
         });
         toolBar.add(addVar);
 
-        TextToolItem delVar = new TextToolItem("Del Variable");
+        TextToolItem delVar = new TextToolItem(ModelingTool.messages
+                .delVariable()); //$NON-NLS-1$
         delVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
-                // TODO Auto-generated method stub
+                grid.stopEditing();
+                variables.remove(grid.getSelectionModel().getSelectedItem());
+                // TODO: Check Functionality
             }
         });
         toolBar.add(delVar);
@@ -98,24 +102,31 @@ public class VariableEditor extends Dialog {
 
         // TODO: Localization
         /* First step: Creating the columns and the Columns model */
-        LabelColumn labelColumn = new LabelColumn("name", "Variablename");
+        LabelColumn labelColumn = new LabelColumn(
+                "name", ModelingTool.messages.nameColumn()); //$NON-NLS-1$ //$NON-NLS-2$
         columns.add(labelColumn);
 
-        TypeColumn typeColumn = new TypeColumn("type", "Variabletype");
+        TypeColumn typeColumn = new TypeColumn(
+                "type", ModelingTool.messages.typeColumn()); //$NON-NLS-1$ //$NON-NLS-2$
         columns.add(typeColumn);
 
-        ValueColumn valueColumn = new ValueColumn("value", "Value");
+        ValueColumn valueColumn = new ValueColumn(
+                "value", ModelingTool.messages.valueColumn()); //$NON-NLS-1$ //$NON-NLS-2$
         columns.add(valueColumn);
 
         colModel = new ColumnModel(columns);
 
-        editorPanel.setHeading("Variable Editor");
+        editorPanel.setHeading(ModelingTool.messages.editorHeading()); //$NON-NLS-1$
         editorPanel.setFrame(true);
         editorPanel.setSize(600, 300);
         editorPanel.setLayout(new FitLayout());
+        editorPanel.setAutoWidth(true);
 
+        EditorGrid<Variable> grid = new EditorGrid<Variable>(variables,
+                colModel);
+        createToolBar(grid);
         editorPanel.add(grid);
-        grid = new EditorGrid<Variable>(variables, colModel);
+
     }
 
 }

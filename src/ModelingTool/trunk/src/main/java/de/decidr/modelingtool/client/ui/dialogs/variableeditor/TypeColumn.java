@@ -16,13 +16,13 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 
-
+import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
+import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.grid.CellEditor;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 
 import de.decidr.modelingtool.client.model.VariableType;
-
 
 /**
  * TODO: add comment
@@ -30,22 +30,38 @@ import de.decidr.modelingtool.client.model.VariableType;
  * @author JS
  */
 public class TypeColumn extends ColumnConfig {
-	
-	private SimpleComboBox<String> selection = new SimpleComboBox<String>();
-	private CellEditor comboBoxCellEditor;
-	
-	public TypeColumn(String columnId, String header) {
-		this.setId(columnId);
-		this.setHeader(header);
-		this.setWidth(50);
 
-		for (VariableType type: VariableType.values()){
-			selection.add(type.getName());
-		}
-		this.setEditor(comboBoxCellEditor);
-	}
-	
+    private SimpleComboBox<String> selection = new SimpleComboBox<String>();
+    private CellEditor comboBoxCellEditor;
 
+    public TypeColumn(String columnId, String header) {
+        this.setId(columnId);
+        this.setHeader(header);
+        this.setWidth(100);
 
+        selection.setTriggerAction(TriggerAction.ALL);
+        for (VariableType type : VariableType.values()) {
+            selection.add(type.getName());
+        }
+
+        comboBoxCellEditor = new CellEditor(selection) {
+            @Override
+            public Object preProcessValue(Object value) {
+                if (value == null) {
+                    return value;
+                }
+                return selection.findModel(value.toString());
+            }
+
+            @Override
+            public Object postProcessValue(Object value) {
+                if (value == null) {
+                    return value;
+                }
+                return ((ModelData) value).get("value");
+            }
+        };
+        this.setEditor(comboBoxCellEditor);
+    }
 
 }

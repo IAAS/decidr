@@ -15,13 +15,12 @@
  */
 package de.decidr.modelingtool.client;
 
-
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
-import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.button.ButtonBar;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import de.decidr.modelingtool.client.ui.Container;
@@ -32,29 +31,34 @@ import de.decidr.modelingtool.client.ui.StartNode;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
-
+import de.decidr.modelingtool.client.ui.resources.Messages;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class ModelingTool implements EntryPoint {
+    
+    public static Messages messages;
 
     /**
      * This is the entry point method.
      */
     public void onModuleLoad() {
-    	
-		ButtonBar buttonBar = new ButtonBar();
-		buttonBar.add(new Button("Test",
-				new SelectionListener<ButtonEvent>() {
 
-					@Override
-					public void componentSelected(ButtonEvent ce) {
-						DialogRegistry.getInstance().getDialog(VariableEditor.class.getName()).setVisible(true);
-						
-					}
-				}));
-		RootPanel.get().add(buttonBar);
+        /* Internationalization: "Instanciate" the Message interface class. */
+        messages = GWT.create(Messages.class);
+
+        ButtonBar buttonBar = new ButtonBar();
+        buttonBar.add(new Button("Test", new SelectionListener<ButtonEvent>() {
+
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                DialogRegistry.getInstance().getDialog(
+                        VariableEditor.class.getName()).setVisible(true);
+
+            }
+        }));
+        RootPanel.get().add(buttonBar);
 
         // create workflow and add to the root panel.
         final Workflow workflow = new Workflow();
