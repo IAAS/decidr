@@ -75,14 +75,14 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-		    <groupId>de.decidr.modelingtool</groupId>
-		    <artifactId>gwt-dnd</artifactId>
-		    <version>2.6.0</version>
+			<groupId>de.decidr.modelingtool</groupId>
+			<artifactId>gwt-dnd</artifactId>
+			<version>2.6.0</version>
 		</dependency>
 		<dependency>
-			<groupId>com.extjs</groupId>
+			<groupId>de.decidr.modelingtool</groupId>
 			<artifactId>gxt</artifactId>
-			<version>1.2</version>
+			<version>1.2.4</version>
 		</dependency>
 	</dependencies>
 	<profiles>
