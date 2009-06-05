@@ -7,6 +7,10 @@ package de.decidr.model.entities;
  */
 public class UserProfile implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private long userId;
     private User user;
     private String username;

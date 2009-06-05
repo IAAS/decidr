@@ -7,6 +7,7 @@ package de.decidr.model.entities;
  */
 public class KnownWebService implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
     private Long id;
     private String name;
     private byte[] wsdl;

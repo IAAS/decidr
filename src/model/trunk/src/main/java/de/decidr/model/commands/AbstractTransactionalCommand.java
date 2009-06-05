@@ -16,6 +16,7 @@
 
 package de.decidr.model.commands;
 
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 
@@ -33,19 +34,20 @@ public abstract class AbstractTransactionalCommand implements
 
     /**
      *{@inheritDoc}
+     * @throws TransactionException 
      */
-    public void transactionStarted(TransactionEvent evt) {
+    public void transactionStarted(TransactionEvent evt) throws TransactionException{
     }
 
     /**
      * {@inheritDoc}
      */
-    public void transactionAborted(TransactionAbortedEvent evt) {
+    public void transactionAborted(TransactionAbortedEvent evt) throws TransactionException{
     }
 
     /**
      * {@inheritDoc}
      */
-    public void transactionCommitted(TransactionEvent evt) {
+    public void transactionCommitted(TransactionEvent evt) throws TransactionException{
     }
 }

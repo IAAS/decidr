@@ -16,6 +16,8 @@
 
 package de.decidr.model.permissions;
 
+import de.decidr.model.exceptions.TransactionException;
+
 /**
  * The access control list stores a set of rules that define which roles have
  * access to certain permissions and which conditions must be met so that access
@@ -105,6 +107,7 @@ public interface AccessControlList {
      * @param permission
      *            the permission to which access is requested
      * @return true if access is granted, false otherwise.
+     * @throws TransactionException 
      */
-    public Boolean isAllowed(Role role, Permission permission);
+    public Boolean isAllowed(Role role, Permission permission) throws TransactionException;
 }

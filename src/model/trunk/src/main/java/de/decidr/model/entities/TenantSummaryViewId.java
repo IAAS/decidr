@@ -7,6 +7,7 @@ package de.decidr.model.entities;
  */
 public class TenantSummaryViewId implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
     private long tenantId;
     private String tenantName;
     private String adminFirstName;
@@ -108,6 +109,7 @@ public class TenantSummaryViewId implements java.io.Serializable {
         this.numMembers = numMembers;
     }
 
+    @Override
     public boolean equals(Object other) {
         if ((this == other))
             return true;
@@ -141,6 +143,7 @@ public class TenantSummaryViewId implements java.io.Serializable {
                 && (this.getNumMembers() == castOther.getNumMembers());
     }
 
+    @Override
     public int hashCode() {
         int result = 17;
 

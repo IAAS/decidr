@@ -1,9 +1,6 @@
 package de.decidr.model.commands.workflowinstance;
 
-import java.util.Collection;
-
 import de.decidr.model.entities.WorkflowInstance;
-import de.decidr.model.permissions.Permission;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 

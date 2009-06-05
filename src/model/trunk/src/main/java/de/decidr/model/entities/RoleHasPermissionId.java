@@ -7,6 +7,7 @@ package de.decidr.model.entities;
  */
 public class RoleHasPermissionId implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
     private long roleId;
     private long resourceId;
 
@@ -34,6 +35,7 @@ public class RoleHasPermissionId implements java.io.Serializable {
         this.resourceId = resourceId;
     }
 
+    @Override
     public boolean equals(Object other) {
         if ((this == other))
             return true;
@@ -47,6 +49,7 @@ public class RoleHasPermissionId implements java.io.Serializable {
                 && (this.getResourceId() == castOther.getResourceId());
     }
 
+    @Override
     public int hashCode() {
         int result = 17;
 

@@ -19,6 +19,7 @@ package de.decidr.model.commands;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.AccessControlList;
 import de.decidr.model.permissions.CommandPermission;
 import de.decidr.model.permissions.DefaultAccessControlList;
@@ -91,7 +92,7 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
      * specified additional permissions.
      */
     @Override
-    public final void transactionStarted(TransactionEvent evt) {
+    public final void transactionStarted(TransactionEvent evt) throws TransactionException{
         AccessControlList acl = DefaultAccessControlList.getInstance();
 
         Boolean mayExecute = acl.isAllowed(role, new CommandPermission(this
@@ -116,8 +117,9 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
      * 
      * @param evt
      *            forwarded transaction event
+     * @throws TransactionException 
      */
-    public abstract void transactionAllowed(TransactionEvent evt);
+    public abstract void transactionAllowed(TransactionEvent evt) throws TransactionException;
 
     /**
      * @return the additional permissions

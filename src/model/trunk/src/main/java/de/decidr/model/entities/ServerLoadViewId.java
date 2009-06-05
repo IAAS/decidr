@@ -7,6 +7,7 @@ package de.decidr.model.entities;
  */
 public class ServerLoadViewId implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
     private long id;
     private String location;
     private byte load;
@@ -75,6 +76,7 @@ public class ServerLoadViewId implements java.io.Serializable {
         this.numInstances = numInstances;
     }
 
+    @Override
     public boolean equals(Object other) {
         if ((this == other))
             return true;
@@ -95,6 +97,7 @@ public class ServerLoadViewId implements java.io.Serializable {
                 && (this.getNumInstances() == castOther.getNumInstances());
     }
 
+    @Override
     public int hashCode() {
         int result = 17;
 

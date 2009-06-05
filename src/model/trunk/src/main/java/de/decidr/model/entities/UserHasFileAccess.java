@@ -7,6 +7,10 @@ package de.decidr.model.entities;
  */
 public class UserHasFileAccess implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private UserHasFileAccessId id;
     private User user;
     private File file;

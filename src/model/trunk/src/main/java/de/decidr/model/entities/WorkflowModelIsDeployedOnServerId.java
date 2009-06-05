@@ -7,6 +7,10 @@ package de.decidr.model.entities;
  */
 public class WorkflowModelIsDeployedOnServerId implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private long deployedWorkflowModelId;
     private long serverId;
 
@@ -35,6 +39,7 @@ public class WorkflowModelIsDeployedOnServerId implements java.io.Serializable {
         this.serverId = serverId;
     }
 
+    @Override
     public boolean equals(Object other) {
         if ((this == other))
             return true;
@@ -49,6 +54,7 @@ public class WorkflowModelIsDeployedOnServerId implements java.io.Serializable {
                 && (this.getServerId() == castOther.getServerId());
     }
 
+    @Override
     public int hashCode() {
         int result = 17;
 

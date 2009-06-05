@@ -10,6 +10,7 @@ import java.util.Set;
  */
 public class Permission implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
     private Long id;
     private String name;
     private Set<RoleHasPermission> roleHasPermissions = new HashSet<RoleHasPermission>(

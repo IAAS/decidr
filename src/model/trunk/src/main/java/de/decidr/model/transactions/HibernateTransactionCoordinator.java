@@ -98,7 +98,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * Commits the current transaction.
      * 
      */
-    protected void commitCurrentTransaction() {
+    protected void commitCurrentTransaction() throws TransactionException{
 
         if (currentTransaction == null) {
             throw new TransactionException(
@@ -118,7 +118,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * Rolls the current transaction back.
      */
-    protected void rollbackCurrentTransaction() {
+    protected void rollbackCurrentTransaction() throws TransactionException{
 
         if (currentTransaction == null) {
             throw new TransactionException(
@@ -188,7 +188,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * @param receiver
      * 
      */
-    private void fireTransactionStarted(TransactionalCommand receiver) {
+    private void fireTransactionStarted(TransactionalCommand receiver) throws TransactionException{
         TransactionEvent event = new TransactionEvent(session,
                 transactionDepth > 1);
         receiver.transactionStarted(event);
@@ -204,7 +204,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * 
      */
     private void fireTransactionAborted(TransactionalCommand receiver,
-            Exception caughtException) {
+            Exception caughtException) throws TransactionException{
         TransactionAbortedEvent event = new TransactionAbortedEvent(session,
                 caughtException, transactionDepth > 1);
         receiver.transactionAborted(event);

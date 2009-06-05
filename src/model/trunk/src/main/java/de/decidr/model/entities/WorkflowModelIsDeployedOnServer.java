@@ -7,6 +7,10 @@ package de.decidr.model.entities;
  */
 public class WorkflowModelIsDeployedOnServer implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private WorkflowModelIsDeployedOnServerId id;
     private DeployedWorkflowModel deployedWorkflowModel;
     private Server server;

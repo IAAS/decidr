@@ -14,6 +14,7 @@ import de.decidr.model.commands.workflowinstance.GetParticipatingUsersCommand;
 import de.decidr.model.commands.workflowinstance.StopWorkflowInstanceCommand;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkItem;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
@@ -36,7 +37,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * 
      * @param workflowInstanceId the id of the WorkflowInstance
      */
-    public void stopWorkflowInstance(Long workflowInstanceId) {
+    public void stopWorkflowInstance(Long workflowInstanceId) throws TransactionException{
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
         .getInstance();
@@ -52,7 +53,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * @param workflowInstanceId
      * @return
      */
-    public String getOdeUrl(Long workflowInstanceId) {
+    public String getOdeUrl(Long workflowInstanceId) throws TransactionException{
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
         .getInstance();
@@ -71,7 +72,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public List<Item> getParticipatingUsers(Long workflowInstanceId) {
+    public List<Item> getParticipatingUsers(Long workflowInstanceId) throws TransactionException{
         
         TransactionCoordinator tac = HibernateTransactionCoordinator
         .getInstance();
@@ -98,7 +99,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * 
      * @param workflowInstanceId the id of the WorkflowInstance
      */
-    public void deleteWorkflowInstance(Long workflowInstanceId) {
+    public void deleteWorkflowInstance(Long workflowInstanceId) throws TransactionException{
         
         TransactionCoordinator tac = HibernateTransactionCoordinator
         .getInstance();
@@ -122,7 +123,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * @return List<Items>
      */
     @SuppressWarnings("unchecked")
-    public List<Item> getAllWorkItems(Long workflowInstanceId) {
+    public List<Item> getAllWorkItems(Long workflowInstanceId) throws TransactionException{
         
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();

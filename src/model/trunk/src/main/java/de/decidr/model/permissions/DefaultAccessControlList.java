@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.asserters.IsSuperAdmin;
 
 /**
@@ -260,7 +261,7 @@ public class DefaultAccessControlList implements AccessControlList {
     /**
      * {@inheritDoc}
      */
-    public Boolean isAllowed(Role role, Permission permission) {
+    public Boolean isAllowed(Role role, Permission permission) throws TransactionException{
         Boolean allowed = true;
         Value rule = ruleMap.get(new Key(role, permission));
 

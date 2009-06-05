@@ -15,6 +15,7 @@ import de.decidr.model.commands.system.SetSystemSettingsCommand;
 import de.decidr.model.commands.system.UnLockServerCommand;
 import de.decidr.model.commands.system.UpdateServerLoadCommand;
 import de.decidr.model.entities.ServerLoadView;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.permissions.Role;
@@ -51,7 +52,7 @@ public class SystemFacade extends AbstractFacade {
      * 
      * @return
      */
-    public Item getSettings() {
+    public Item getSettings() throws TransactionException{
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
@@ -73,7 +74,7 @@ public class SystemFacade extends AbstractFacade {
      * 
      * @return
      */
-    public void setSettings(Item settings) {
+    public void setSettings(Item settings) throws TransactionException{
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
@@ -92,7 +93,7 @@ public class SystemFacade extends AbstractFacade {
      *            the location of the server representative, which should be
      *            created
      */
-    public void addServer(String location) {
+    public void addServer(String location) throws TransactionException{
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
@@ -108,7 +109,7 @@ public class SystemFacade extends AbstractFacade {
      * 
      * @param location location of the server representative which should be deleted
      */
-    public void removeServer(String location) {
+    public void removeServer(String location) throws TransactionException{
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
         RemoveServerCommand command = new RemoveServerCommand(actor, location);
@@ -124,7 +125,7 @@ public class SystemFacade extends AbstractFacade {
      * @param location location of the server representative which should be deleted
      * @param load new load
      */
-    public void updateServerLoad(String location, byte load) {
+    public void updateServerLoad(String location, byte load) throws TransactionException{
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
         UpdateServerLoadCommand command = new UpdateServerLoadCommand(actor,
@@ -141,7 +142,7 @@ public class SystemFacade extends AbstractFacade {
      * @param location location of the server representative which should be deleted
      */
 
-    public void lockServer(String location) {
+    public void lockServer(String location) throws TransactionException{
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
         LockServerCommand command = new LockServerCommand(actor, location);
@@ -155,7 +156,7 @@ public class SystemFacade extends AbstractFacade {
      * 
      * @param location location of the server representative which should be deleted
      */
-    public void unlockServer(String location) {
+    public void unlockServer(String location) throws TransactionException{
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
         UnLockServerCommand command = new UnLockServerCommand(actor, location);
@@ -163,7 +164,7 @@ public class SystemFacade extends AbstractFacade {
         tac.runTransaction(command);
     }
 
-    public List<Item> getLog(List<Filter> filters, Paginator paginator) {
+    public List<Item> getLog(List<Filter> filters, Paginator paginator) throws TransactionException{
         // FIXME
         throw new UnsupportedOperationException();
     }
@@ -180,7 +181,7 @@ public class SystemFacade extends AbstractFacade {
      * 
      * @return ServerStatistics as a List of Items
      */
-    public List<Item> getServerStatistics() {
+    public List<Item> getServerStatistics() throws TransactionException{
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();

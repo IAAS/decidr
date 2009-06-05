@@ -23,6 +23,7 @@ import org.hibernate.Query;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
@@ -53,7 +54,7 @@ public class SaveWorkflowModelCommand extends WorkflowModelCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt) {
+    public void transactionAllowed(TransactionEvent evt) throws TransactionException{
         WorkflowModel model = (WorkflowModel) evt.getSession().get(
                 WorkflowModel.class, workflowModelId);
 

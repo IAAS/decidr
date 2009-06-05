@@ -7,6 +7,10 @@ package de.decidr.model.entities;
  */
 public class UserIsMemberOfTenant implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private UserIsMemberOfTenantId id;
     private Tenant tenant;
     private User user;

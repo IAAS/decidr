@@ -10,6 +10,8 @@ import java.util.Set;
  */
 public class File implements java.io.Serializable {
 
+    
+    private static final long serialVersionUID = 1L;
     private Long id;
     private String fileName;
     private String mimeType;

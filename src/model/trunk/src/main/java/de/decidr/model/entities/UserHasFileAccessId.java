@@ -7,6 +7,10 @@ package de.decidr.model.entities;
  */
 public class UserHasFileAccessId implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private long userId;
     private long fileId;
 
@@ -34,6 +38,7 @@ public class UserHasFileAccessId implements java.io.Serializable {
         this.fileId = fileId;
     }
 
+    @Override
     public boolean equals(Object other) {
         if ((this == other))
             return true;
@@ -47,6 +52,7 @@ public class UserHasFileAccessId implements java.io.Serializable {
                 && (this.getFileId() == castOther.getFileId());
     }
 
+    @Override
     public int hashCode() {
         int result = 17;
 

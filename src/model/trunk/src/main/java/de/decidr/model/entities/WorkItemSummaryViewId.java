@@ -9,6 +9,10 @@ import java.util.Date;
  */
 public class WorkItemSummaryViewId implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private long workItemId;
     private String workItemName;
     private String tenantName;
@@ -67,6 +71,7 @@ public class WorkItemSummaryViewId implements java.io.Serializable {
         this.workItemStatus = workItemStatus;
     }
 
+    @Override
     public boolean equals(Object other) {
         if ((this == other))
             return true;
@@ -96,6 +101,7 @@ public class WorkItemSummaryViewId implements java.io.Serializable {
                                 castOther.getWorkItemStatus())));
     }
 
+    @Override
     public int hashCode() {
         int result = 17;
 

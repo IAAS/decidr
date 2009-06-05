@@ -4,6 +4,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import de.decidr.model.commands.TransactionalCommand;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Asserter;
 import de.decidr.model.permissions.Permission;
 import de.decidr.model.permissions.Role;
@@ -28,7 +29,7 @@ public class UserOwnsWorkItem implements Asserter, TransactionalCommand {
     private Boolean isOwner = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission) {
+    public Boolean assertRule(Role role, Permission permission) throws TransactionException{
 
         Boolean result = false;
 

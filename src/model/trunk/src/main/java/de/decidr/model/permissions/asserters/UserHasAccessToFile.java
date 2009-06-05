@@ -22,6 +22,7 @@ import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.entities.File;
 import de.decidr.model.entities.UserHasFileAccess;
 import de.decidr.model.entities.UserHasFileAccessId;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Asserter;
 import de.decidr.model.permissions.FileDeletePermission;
 import de.decidr.model.permissions.FilePermission;
@@ -50,7 +51,7 @@ public class UserHasAccessToFile implements Asserter, TransactionalCommand {
     private Boolean hasFileAccess = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission) {
+    public Boolean assertRule(Role role, Permission permission) throws TransactionException{
         Boolean result = false;
 
         if ((role instanceof UserRole)

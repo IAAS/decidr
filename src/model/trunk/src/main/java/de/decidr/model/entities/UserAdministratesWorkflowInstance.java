@@ -7,6 +7,10 @@ package de.decidr.model.entities;
  */
 public class UserAdministratesWorkflowInstance implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private UserAdministratesWorkflowInstanceId id;
     private WorkflowInstance workflowInstance;
     private User user;

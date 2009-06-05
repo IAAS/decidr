@@ -7,6 +7,7 @@ package de.decidr.model.entities;
  */
 public class ServerLoadView implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
     private ServerLoadViewId id;
 
     public ServerLoadView() {

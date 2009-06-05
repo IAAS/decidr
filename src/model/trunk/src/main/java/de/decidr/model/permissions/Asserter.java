@@ -15,6 +15,8 @@
  */
 package de.decidr.model.permissions;
 
+import de.decidr.model.exceptions.TransactionException;
+
 /**
  * 
  * Checks whether special conditions for access are given or not.
@@ -34,6 +36,6 @@ public interface Asserter {
      * @param permission
      * @return true if access is granted, otherwise false
      */
-    public Boolean assertRule(Role role, Permission permission);
+    public Boolean assertRule(Role role, Permission permission) throws TransactionException;
 
 }

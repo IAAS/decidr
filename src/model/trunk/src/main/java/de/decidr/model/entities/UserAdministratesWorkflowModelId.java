@@ -7,6 +7,10 @@ package de.decidr.model.entities;
  */
 public class UserAdministratesWorkflowModelId implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private long userId;
     private long workflowModelId;
 
@@ -34,6 +38,7 @@ public class UserAdministratesWorkflowModelId implements java.io.Serializable {
         this.workflowModelId = workflowModelId;
     }
 
+    @Override
     public boolean equals(Object other) {
         if ((this == other))
             return true;
@@ -47,6 +52,7 @@ public class UserAdministratesWorkflowModelId implements java.io.Serializable {
                 && (this.getWorkflowModelId() == castOther.getWorkflowModelId());
     }
 
+    @Override
     public int hashCode() {
         int result = 17;
 
