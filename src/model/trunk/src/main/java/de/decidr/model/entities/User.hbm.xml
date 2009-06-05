@@ -1,35 +1,42 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 29.05.2009 18:32:44 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 05.06.2009 17:08:24 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.User" table="user" catalog="decidrdb">
+        <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
         <id name="id" type="java.lang.Long">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="id" />
             <generator class="identity" />
         </id>
         <property name="authKey" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="authKey" length="64">
                 <comment>Used to authenticate unregistered users within the system.Should be set to null if the user is registered.</comment>
             </column>
         </property>
         <property name="email" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="email" unique="true">
                 <comment>Can be used to log into the system. Each email address can be assigned to at most one user. The official max email address length is 320 characters, but
                 MySQL unique indices require VARCHAR.</comment>
             </column>
         </property>
         <property name="disabledSince" type="timestamp">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="disabledSince" length="19">
                 <comment>By setting disabledSince to something other than null, the super admin can ban a user from using the system.</comment>
             </column>
         </property>
         <property name="unavailableSince" type="timestamp">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="unavailableSince" length="19">
                 <comment>Whether or not the user is available for workflow participation. Null indicates that the user is available.</comment>
             </column>
         </property>
         <property name="registeredSince" type="timestamp">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="registeredSince" length="19">
                 <comment>If this field is null the user has never successfully registered.</comment>
             </column>

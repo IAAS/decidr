@@ -1,53 +1,69 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 29.05.2009 18:32:44 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 05.06.2009 17:08:24 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.Log" table="log" catalog="decidrdb">
+        <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
         <id name="id" type="java.lang.Long">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="id" />
             <generator class="identity" />
         </id>
         <property name="prio" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="prio" length="15" not-null="true" />
         </property>
         <property name="iprio" type="java.lang.Long">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="iprio" />
         </property>
         <property name="category" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="category" />
         </property>
         <property name="msg" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="msg" />
         </property>
         <property name="layoutMsg" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="layoutMsg" />
         </property>
         <property name="throwable" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="throwable" length="2000" />
         </property>
         <property name="ndc" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="ndc" />
         </property>
         <property name="mdc" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="mdc" />
         </property>
         <property name="mdc2" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="mdc2" />
         </property>
         <property name="info" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="info" />
         </property>
         <property name="addon" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="addon" />
         </property>
         <property name="logDate" type="timestamp">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="logDate" length="19" />
         </property>
         <property name="createdBy" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="createdBy" length="50" />
         </property>
         <property name="thread" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="thread" length="30" />
         </property>
     </class>

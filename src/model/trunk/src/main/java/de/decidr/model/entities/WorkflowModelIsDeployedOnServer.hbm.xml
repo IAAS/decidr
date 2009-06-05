@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 29.05.2009 18:32:44 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 05.06.2009 17:08:24 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.WorkflowModelIsDeployedOnServer" table="workflow_model_is_deployed_on_server" catalog="decidrdb">
+        <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
         <composite-id name="id" class="de.decidr.model.entities.WorkflowModelIsDeployedOnServerId">
             <key-property name="deployedWorkflowModelId" type="long">
                 <column name="deployedWorkflowModelId" />
@@ -13,12 +14,15 @@
             </key-property>
         </composite-id>
         <many-to-one name="deployedWorkflowModel" class="de.decidr.model.entities.DeployedWorkflowModel" update="false" insert="false" fetch="select">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="deployedWorkflowModelId" not-null="true" />
         </many-to-one>
         <many-to-one name="server" class="de.decidr.model.entities.Server" update="false" insert="false" fetch="select">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="serverId" not-null="true" />
         </many-to-one>
         <property name="odeVersion" type="long">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="odeVersion" not-null="true" />
         </property>
     </class>

@@ -1,10 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 29.05.2009 18:32:44 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 05.06.2009 17:08:24 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.WorkflowModel" table="workflow_model" catalog="decidrdb">
+        <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
         <id name="id" type="java.lang.Long">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="id" />
             <generator class="identity" />
         </id>
@@ -12,30 +14,39 @@
             <column name="version" not-null="true" />
         </version>
         <many-to-one name="tenant" class="de.decidr.model.entities.Tenant" fetch="select">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="tenantId" not-null="true" />
         </many-to-one>
         <many-to-one name="modifiedByUser" class="de.decidr.model.entities.User" fetch="select">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="modifiedByUserId" />
         </many-to-one>
         <property name="name" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="name" not-null="true" />
         </property>
         <property name="description" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="description" not-null="true" />
         </property>
         <property name="published" type="boolean">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="published" not-null="true" />
         </property>
         <property name="executable" type="boolean">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="executable" not-null="true" />
         </property>
         <property name="creationDate" type="timestamp">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="creationDate" length="19" not-null="true" />
         </property>
         <property name="modifiedDate" type="timestamp">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="modifiedDate" length="19" not-null="true" />
         </property>
         <property name="dwdl" type="binary">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="dwdl" not-null="true" />
         </property>
         <set name="invitations" inverse="true">

@@ -1,25 +1,31 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 29.05.2009 18:32:44 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 05.06.2009 17:08:24 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.ChangeEmailRequest" table="change_email_request" catalog="decidrdb">
+        <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
         <id name="userId" type="long">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="userId" />
             <generator class="assigned" />
         </id>
         <many-to-one name="user" class="de.decidr.model.entities.User" update="false" insert="false" fetch="select">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="userId" not-null="true" unique="true" />
         </many-to-one>
         <property name="newEmail" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="newEmail" not-null="true" />
         </property>
         <property name="creationDate" type="timestamp">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="creationDate" length="19" not-null="true">
                 <comment>Request issue date and time.</comment>
             </column>
         </property>
         <property name="authKey" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="authKey" length="64" not-null="true">
                 <comment>Used to authenticate the email address change within the application. The user must know this key in order to perform the email address change.</comment>
             </column>

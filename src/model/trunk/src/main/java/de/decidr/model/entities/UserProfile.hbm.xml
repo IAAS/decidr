@@ -1,43 +1,54 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 29.05.2009 18:32:44 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 05.06.2009 17:08:24 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.UserProfile" table="user_profile" catalog="decidrdb">
+        <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
         <id name="userId" type="long">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="userId" />
             <generator class="assigned" />
         </id>
         <many-to-one name="user" class="de.decidr.model.entities.User" update="false" insert="false" fetch="select">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="userId" not-null="true" unique="true" />
         </many-to-one>
         <property name="username" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="username" length="20" not-null="true" unique="true" />
         </property>
         <property name="passwordHash" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="passwordHash" length="128" not-null="true">
                 <comment>The system does not store the password in plain text, but uses a double hash and a salt to make attacks on the hashed password much harder. This field
                 stores: SHA512( SHA512(password) XOR passwordSalt )</comment>
             </column>
         </property>
         <property name="passwordSalt" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="passwordSalt" length="128" not-null="true">
                 <comment>The salt in hexit representation which is XORed with the first password hash.</comment>
             </column>
         </property>
         <property name="firstName" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="firstName" length="50" />
         </property>
         <property name="lastName" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="lastName" length="50" />
         </property>
         <property name="street" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="street" length="100" />
         </property>
         <property name="postalCode" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="postalCode" length="15" />
         </property>
         <property name="city" type="string">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="city" length="50" />
         </property>
     </class>

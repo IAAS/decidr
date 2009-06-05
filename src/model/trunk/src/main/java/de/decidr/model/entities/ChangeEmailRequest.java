@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 29.05.2009 18:32:43 by Hibernate Tools 3.2.2.GA
+// Generated 05.06.2009 17:08:24 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
 
@@ -9,7 +9,6 @@ import java.util.Date;
  */
 public class ChangeEmailRequest implements java.io.Serializable {
 
-    private static final long serialVersionUID = 1L;
     private long userId;
     private User user;
     private String newEmail;
@@ -67,5 +66,9 @@ public class ChangeEmailRequest implements java.io.Serializable {
     public void setAuthKey(String authKey) {
         this.authKey = authKey;
     }
+
+    // The following is extra code specified in the hbm.xml files
+    private static final long serialVersionUID = 1L;
+    // end of extra code specified in the hbm.xml files
 
 }

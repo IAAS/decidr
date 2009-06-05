@@ -1,31 +1,38 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 29.05.2009 18:32:44 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 05.06.2009 17:08:24 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.Invitation" table="invitation" catalog="decidrdb">
+        <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
         <id name="id" type="java.lang.Long">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="id" />
             <generator class="identity" />
         </id>
         <many-to-one name="administrateWorkflowModel" class="de.decidr.model.entities.WorkflowModel" fetch="select">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="administrateWorkflowModelId">
                 <comment>If not set to null the receiver is invited to administrate the given workflow model. Furthermore the user will join the tenant that owns the workflow
                 model</comment>
             </column>
         </many-to-one>
         <many-to-one name="sender" class="de.decidr.model.entities.User" fetch="select">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="senderId" not-null="true" />
         </many-to-one>
         <many-to-one name="receiver" class="de.decidr.model.entities.User" fetch="select">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="receiverId" not-null="true" />
         </many-to-one>
         <many-to-one name="joinTenant" class="de.decidr.model.entities.Tenant" fetch="select">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="joinTenantId">
                 <comment>If not set to null the receiver is invited to join a tenant as a normal tenant member.</comment>
             </column>
         </many-to-one>
         <many-to-one name="participateInWorkflowInstance" class="de.decidr.model.entities.WorkflowInstance" fetch="select">
+            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="participateInWorkflowInstanceId">
                 <comment>If not set to null the receiver is invited to participate in the given workflow instance. Furthermore the user will join the tenant that owns the workflow
                 instance.</comment>
