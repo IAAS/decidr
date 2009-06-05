@@ -34,11 +34,4 @@
 		<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/main/webapp/VAADIN/themes/test/img/decidrlogo.png</name>
-			<type>1</type>
-			<location>C:/Users/ace/DecidR/logo.png</location>
-		</link>
-	</linkedResources>
 </projectDescription>
