@@ -24,12 +24,12 @@ import com.extjs.gxt.ui.client.data.BaseModelData;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author JS
  */
 @SuppressWarnings("serial")
-public class Variable extends BaseModelData{
-    
+public class Variable extends BaseModelData {
+
     private String name;
     private VariableType type;
     private Collection<String> values;
@@ -42,17 +42,17 @@ public class Variable extends BaseModelData{
      * Default constructor for a single non-configuration Variable
      */
     public Variable(String name, VariableType type, String value) {
-	this.name = name;
-	this.type = type;
-	this.values = new TreeSet<String>();
-	this.values.add(value);
-	this.array = false;
-	this.configVariable = false;
+        this.name = name;
+        this.type = type;
+        this.values = new TreeSet<String>();
+        this.values.add(value);
+        this.array = false;
+        this.configVariable = false;
     }
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the name
      */
     public String getName() {
@@ -61,8 +61,9 @@ public class Variable extends BaseModelData{
 
     /**
      * TODO: add comment
-     *
-     * @param name the name to set
+     * 
+     * @param name
+     *            the name to set
      */
     public void setName(String name) {
         this.name = name;
@@ -70,7 +71,7 @@ public class Variable extends BaseModelData{
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the type
      */
     public VariableType getType() {
@@ -79,8 +80,9 @@ public class Variable extends BaseModelData{
 
     /**
      * TODO: add comment
-     *
-     * @param type the type to set
+     * 
+     * @param type
+     *            the type to set
      */
     public void setType(VariableType type) {
         this.type = type;
@@ -88,7 +90,7 @@ public class Variable extends BaseModelData{
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the values
      */
     public Collection<String> getValues() {
@@ -97,8 +99,9 @@ public class Variable extends BaseModelData{
 
     /**
      * TODO: add comment
-     *
-     * @param values the values to set
+     * 
+     * @param values
+     *            the values to set
      */
     public void setValues(List<String> values) {
         this.values = values;
@@ -106,7 +109,7 @@ public class Variable extends BaseModelData{
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the array
      */
     public boolean isArray() {
@@ -115,8 +118,9 @@ public class Variable extends BaseModelData{
 
     /**
      * TODO: add comment
-     *
-     * @param array the array to set
+     * 
+     * @param array
+     *            the array to set
      */
     public void setArray(boolean array) {
         this.array = array;
@@ -124,7 +128,7 @@ public class Variable extends BaseModelData{
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the configVariable
      */
     public boolean isConfigVariable() {
@@ -133,12 +137,12 @@ public class Variable extends BaseModelData{
 
     /**
      * TODO: add comment
-     *
-     * @param configVariable the configVariable to set
+     * 
+     * @param configVariable
+     *            the configVariable to set
      */
     public void setConfigVariable(boolean configVariable) {
         this.configVariable = configVariable;
     }
-    
-    
+
 }

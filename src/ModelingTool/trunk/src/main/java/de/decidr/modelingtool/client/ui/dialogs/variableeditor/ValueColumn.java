@@ -35,7 +35,7 @@ public class ValueColumn extends ColumnConfig {
 	public ValueColumn(String columnId, String header) {
 		this.setId(columnId);
 		this.setHeader(header);
-		
+		this.setWidth(100);
 
 		for (VariableType type: VariableType.values()){
 			selection.add(type.getName());

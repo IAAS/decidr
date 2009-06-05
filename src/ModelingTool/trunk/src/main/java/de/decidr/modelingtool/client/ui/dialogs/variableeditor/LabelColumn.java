@@ -32,6 +32,10 @@ public class LabelColumn extends ColumnConfig {
 	public LabelColumn(String columnId, String header) {
 		this.setId(columnId);
 		this.setHeader(header);
+		this.setWidth(100);
+		
+		text.setAllowBlank(false);
+		text.setAutoWidth(true);
 		this.setEditor(new CellEditor(text));
 	}
 
