@@ -5,11 +5,14 @@ import java.util.List;
 import org.hibernate.Query;
 
 import de.decidr.model.entities.SystemSettings;
+import de.decidr.model.exceptions.EntityNotFoundException;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Writes the System Settings in the variable result.
+ * Load the System Settings from the database and copies it in the variable
+ * result.
  * 
  * @author Markus Fischer
  * 
@@ -18,10 +21,13 @@ import de.decidr.model.transactions.TransactionEvent;
 public class GetSystemSettingsCommand extends SystemCommand {
 
     private SystemSettings result;
-    
+
     /**
+     * Creates a new GetSystemSettingsCommand. The command loads the System
+     * Settings from the database and copies it in the variable result.
      * 
-     * @param role the user who wants to execute the command
+     * @param role
+     *            user which executes the command
      */
     public GetSystemSettingsCommand(Role role) {
         super(role, null);
@@ -29,14 +35,20 @@ public class GetSystemSettingsCommand extends SystemCommand {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt) {
-       
-        String qtext = "from SystemSettings";
-        
-        Query q = evt.getSession().createQuery(qtext);
+    public void transactionAllowed(TransactionEvent evt) throws TransactionException{
+
+        Query q = evt.getSession().createQuery("from SystemSettings");
         List<SystemSettings> results = q.list();
+
+        if (results.size()>0){
+            throw new TransactionException("More than one system settings found, but system settings should be unique");
+        }
+        else if(results.size()==0){
+            throw new EntityNotFoundException(SystemSettings.class);
+        }else{
+            result = results.get(0);
+        }
         
-        result = results.get(0);
     }
 
     /**
@@ -45,6 +57,5 @@ public class GetSystemSettingsCommand extends SystemCommand {
     public SystemSettings getResult() {
         return result;
     }
-    
 
 }

@@ -11,7 +11,6 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @author Markus Fischer
  * 
- *
  * @version 0.1
  */
 public class AddServerCommand extends SystemCommand {
@@ -34,8 +33,8 @@ public class AddServerCommand extends SystemCommand {
         Server server = new Server();
         server.setLocation(location);
         server.setDynamicallyAdded(true);
+        server.setLoad((byte) 0);
         server.setLocked(false);
-        
         evt.getSession().save(server);
         
     }

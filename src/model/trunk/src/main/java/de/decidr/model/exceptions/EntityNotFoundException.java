@@ -18,6 +18,8 @@ package de.decidr.model.exceptions;
 
 import java.io.Serializable;
 
+import de.decidr.model.entities.Tenant;
+
 /**
  * Thrown when an entity is not found in the database, but is required to
  * perform the operation.
@@ -32,7 +34,13 @@ public class EntityNotFoundException extends TransactionException {
     public EntityNotFoundException(Class<? extends Serializable> entityClass,
             Long entityId) {
         super(String.format(
-                "The %1 with id %2$d was not found in the database",
+                "The %1$s with id %2$d was not found in the database",
                 entityClass == null ? "null" : entityClass.getName(), entityId));
+    }
+
+    public EntityNotFoundException(Class<? extends Serializable> entityClass) {
+        super(String.format("The %1$s with was not found in the database",
+                entityClass == null ? "null" : entityClass.getName()));
+
     }
 }

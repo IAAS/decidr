@@ -6,7 +6,7 @@ import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Removes the server from the database. The corresponding real Server
- * will not be closed.
+ * will not be closed. If the server doesn't exist the command will be ignored.
  * 
  * @author Markus Fischer
  *
@@ -18,8 +18,9 @@ public class RemoveServerCommand extends SystemCommand {
     
     /**
      * 
-     * Removes the server from the database. The corresponding real Server
-     * will not be closed.
+     * Creates a new RemoveServerCommand. The command
+     * removes the server from the database. The corresponding real Server
+     * will not be closed. If the server doesn't exist the command will be ignored.
      * 
      * @param role the user who wants to execute the command
      * @param location the location of the server which should be unlocked

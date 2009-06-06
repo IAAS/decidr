@@ -2,10 +2,9 @@ package de.decidr.model.facades;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import org.apache.log4j.Level;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
-
 import de.decidr.model.commands.system.AddServerCommand;
 import de.decidr.model.commands.system.GetServerStatisticsCommand;
 import de.decidr.model.commands.system.GetSystemSettingsCommand;
@@ -19,8 +18,10 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.permissions.Role;
+import de.decidr.model.permissions.SuperAdminRole;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
+import de.decidr.model.annotations.AllowedRole;
 
 /**
  * The system facade contains all functions which are available to modify system
@@ -33,7 +34,6 @@ import de.decidr.model.transactions.TransactionCoordinator;
 public class SystemFacade extends AbstractFacade {
 
     /**
-     * 
      * Creates a new system facade. All operations are executed by the given
      * actor.
      * 
@@ -44,18 +44,23 @@ public class SystemFacade extends AbstractFacade {
     }
 
     /**
-     * 
      * Returns the current system settings as item with the following
-     * properties: - logLevel - autoAcceptNewTenants
+     * properties:<br>
+     * - logLevel<br>
+     * - autoAcceptNewTenants<br>
+     * <br>
      * 
-     * Only the super admin is allowed to use this command.
      * 
-     * @return
+     * 
+     * @return system settings as item
+     * @throws TransactionException
      */
-    public Item getSettings() throws TransactionException{
+    @AllowedRole(SuperAdminRole.class)
+    public Item getSettings() throws TransactionException {
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
+
         GetSystemSettingsCommand command = new GetSystemSettingsCommand(actor);
         String[] properties = { "logLevel", "autoAcceptNewTenants" };
 
@@ -67,19 +72,25 @@ public class SystemFacade extends AbstractFacade {
 
     /**
      * 
-     * Sets the given system settings. The settings MUST be passed as item with
-     * the following properties: - logLevel - autoAcceptNewTenants
+     * Sets the given system settings.<br>
+     * <br>
+     * <i>AutoAcceptNewTenants</i> - new tenants will be automatically accepted
+     * by the system and must not be approved manually by the super admin<br>
+     * <br>
+     * <i>LogLever</i> - System wide log level setting
      * 
      * Only the super admin is allowed to use this command.
      * 
-     * @return
+     * @throws TransactionException
      */
-    public void setSettings(Item settings) throws TransactionException{
+    @AllowedRole(SuperAdminRole.class)
+    public void setSettings(Boolean AutoAcceptNewTenants, Level loglevel)
+            throws TransactionException {
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
         SetSystemSettingsCommand command = new SetSystemSettingsCommand(actor,
-                settings);
+                loglevel, AutoAcceptNewTenants);
 
         tac.runTransaction(command);
 
@@ -90,10 +101,12 @@ public class SystemFacade extends AbstractFacade {
      * Server. The added server is only a representation of a real one.
      * 
      * @param location
-     *            the location of the server representative, which should be
-     *            created
+     *            the location of the real server to which representative should
+     *            be created<br>
+     *            Location should look like "FIXME Add Location Pattern"
      */
-    public void addServer(String location) throws TransactionException{
+    @AllowedRole(SuperAdminRole.class)
+    public void addServer(String location) throws TransactionException {
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
@@ -105,44 +118,61 @@ public class SystemFacade extends AbstractFacade {
     /**
      * Removes the server from the database.This command will not shut down the
      * server. The server is only a representation of a real one and only the
-     * representative will be deleted.
+     * representative will be deleted.<br>
+     * <br>
+     * If the server doesn't exist the command will be ignored.
      * 
-     * @param location location of the server representative which should be deleted
+     * @param location
+     *            location of the server representative which should be deleted
      */
-    public void removeServer(String location) throws TransactionException{
+    @AllowedRole(SuperAdminRole.class)
+    public void removeServer(String location) throws TransactionException {
+
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
         RemoveServerCommand command = new RemoveServerCommand(actor, location);
 
         tac.runTransaction(command);
+
     }
 
-    
     /**
      * 
-     * Updates the load of the representative object of the server at the database.
+     * Updates the load of the representative object of the server at the
+     * database. The load must be in the range of 0 to 100.
      * 
-     * @param location location of the server representative which should be deleted
-     * @param load new load
+     * @param location
+     *            location of the server representative which should be deleted
+     * @param load
+     *            new load
      */
-    public void updateServerLoad(String location, byte load) throws TransactionException{
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
-        UpdateServerLoadCommand command = new UpdateServerLoadCommand(actor,
-                location, load);
+    @AllowedRole(SuperAdminRole.class)
+    public void updateServerLoad(String location, byte load)
+            throws TransactionException {
 
-        tac.runTransaction(command);
+        if ((load < 0) || (load > 100)) {
+            throw new IllegalArgumentException(
+                    "The load must be in the range of 0 to 100.");
+        } else {
+            TransactionCoordinator tac = HibernateTransactionCoordinator
+                    .getInstance();
+            UpdateServerLoadCommand command = new UpdateServerLoadCommand(
+                    actor, location, load);
+
+            tac.runTransaction(command);
+        }
+
     }
 
-    
     /**
      * 
      * Sets the lock flag of the representative object for the given server.
      * 
-     * @param location location of the server representative which should be deleted
+     * @param location
+     *            location of the server representative which should be deleted
      */
 
-    public void lockServer(String location) throws TransactionException{
+    public void lockServer(String location) throws TransactionException {
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
         LockServerCommand command = new LockServerCommand(actor, location);
@@ -154,9 +184,10 @@ public class SystemFacade extends AbstractFacade {
      * 
      * Releases the lock flag of the representative object for the given server.
      * 
-     * @param location location of the server representative which should be deleted
+     * @param location
+     *            location of the server representative which should be deleted
      */
-    public void unlockServer(String location) throws TransactionException{
+    public void unlockServer(String location) throws TransactionException {
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
         UnLockServerCommand command = new UnLockServerCommand(actor, location);
@@ -164,24 +195,21 @@ public class SystemFacade extends AbstractFacade {
         tac.runTransaction(command);
     }
 
-    public List<Item> getLog(List<Filter> filters, Paginator paginator) throws TransactionException{
+    public List<Item> getLog(List<Filter> filters, Paginator paginator)
+            throws TransactionException {
         // FIXME
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Returns a list of the existing unlocked servers as Item list.
-     * Each Item has the following properties:
+     * Returns a list of the existing unlocked servers as Item list. Each Item
+     * has the following properties:
      * 
-     * - id
-     * - location
-     * - load
-     * - numInstances
-     * - dynamicallyAdded
+     * - id - location - load - numInstances - dynamicallyAdded
      * 
      * @return ServerStatistics as a List of Items
      */
-    public List<Item> getServerStatistics() throws TransactionException{
+    public List<Item> getServerStatistics() throws TransactionException {
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
