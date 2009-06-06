@@ -18,21 +18,21 @@ package de.decidr.model.permissions;
 /**
  * The role representing the DecidR Human Task Web service.
  * 
+ * @author Markus Fischer
  * @author Daniel Huss
- * @author Reinhold Rumberger
  * @version 0.1
  */
-public class HumanTaskRole extends AbstractRole {
+public class ServerLoadUpdaterRole extends AbstractRole {
 
-    private static final Long HUMAN_TASK_ACTOR_ID = -1337L;
+    private static final Long SERVER_LOAD_UPDATER_ACTOR_ID = -0x1337L;
 
-    private static HumanTaskRole instance = new HumanTaskRole();
+    private static ServerLoadUpdaterRole instance = new ServerLoadUpdaterRole();
 
     /**
      * Singleton constructor.
      */
-    private HumanTaskRole() {
-        super(HUMAN_TASK_ACTOR_ID);
+    private ServerLoadUpdaterRole() {
+        super(SERVER_LOAD_UPDATER_ACTOR_ID);
     }
 
     /**

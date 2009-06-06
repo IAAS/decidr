@@ -20,6 +20,8 @@ import org.hibernate.Query;
 
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.entities.SystemSettings;
+import de.decidr.model.entities.User;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Asserter;
 import de.decidr.model.permissions.Permission;
@@ -34,7 +36,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @author Markus Fischer
  * @author Daniel Huss
- *
+ * 
  * @version 0.1
  */
 public class IsSuperAdmin implements Asserter, TransactionalCommand {
@@ -44,7 +46,8 @@ public class IsSuperAdmin implements Asserter, TransactionalCommand {
     Boolean isSuperAdmin = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission) throws TransactionException{
+    public Boolean assertRule(Role role, Permission permission)
+            throws TransactionException {
         Boolean result = false;
 
         if (role instanceof SuperAdminRole) {
@@ -56,21 +59,30 @@ public class IsSuperAdmin implements Asserter, TransactionalCommand {
     }
 
     @Override
-    public void transactionStarted(TransactionEvent evt) {
+    public void transactionStarted(TransactionEvent evt)
+            throws TransactionException {
         isSuperAdmin = false;
 
         Query q = evt.getSession().createQuery("from SystemSettings");
-        SystemSettings settings = (SystemSettings) q.list().get(0);
+        SystemSettings settings = (SystemSettings) q.uniqueResult();
 
-        isSuperAdmin = (settings.getSuperAdmin().getId() == userid);
+        if (settings == null) {
+            throw new EntityNotFoundException(SystemSettings.class);
+        }
+
+        User superAdmin = settings.getSuperAdmin();
+
+        isSuperAdmin = (superAdmin != null) && (superAdmin.getId() == userid);
     }
 
     @Override
-    public void transactionAborted(TransactionAbortedEvent evt) {
+    public void transactionAborted(TransactionAbortedEvent evt)
+            throws TransactionException {
     }
 
     @Override
-    public void transactionCommitted(TransactionEvent evt) {
+    public void transactionCommitted(TransactionEvent evt)
+            throws TransactionException {
     }
 
 }
