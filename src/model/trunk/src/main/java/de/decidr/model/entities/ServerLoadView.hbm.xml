@@ -1,29 +1,32 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 05.06.2009 17:08:24 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 06.06.2009 16:49:44 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.ServerLoadView" table="server_load_view" catalog="decidrdb">
         <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
-        <composite-id name="id" class="de.decidr.model.entities.ServerLoadViewId">
-            <key-property name="id" type="long">
-                <column name="id" />
-            </key-property>
-            <key-property name="location" type="string">
-                <column name="location" />
-            </key-property>
-            <key-property name="load" type="byte">
-                <column name="load" />
-            </key-property>
-            <key-property name="locked" type="boolean">
-                <column name="locked" />
-            </key-property>
-            <key-property name="dynamicallyAdded" type="boolean">
-                <column name="dynamicallyAdded" />
-            </key-property>
-            <key-property name="numInstances" type="long">
-                <column name="numInstances" />
-            </key-property>
-        </composite-id>
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="location" type="string">
+            <column name="location" not-null="true" />
+        </property>
+        <property name="load" type="byte">
+            <column name="load" not-null="true">
+                <comment>Ranges from 0 to 100 percent</comment>
+            </column>
+        </property>
+        <property name="locked" type="boolean">
+            <column name="locked" not-null="true">
+                <comment>Whether or not new workflow models may be deployed on this server.</comment>
+            </column>
+        </property>
+        <property name="dynamicallyAdded" type="boolean">
+            <column name="dynamicallyAdded" not-null="true" />
+        </property>
+        <property name="numInstances" type="long">
+            <column name="numInstances" not-null="true" />
+        </property>
     </class>
 </hibernate-mapping>

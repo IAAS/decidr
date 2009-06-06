@@ -1,26 +1,25 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 05.06.2009 17:08:24 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 06.06.2009 16:49:44 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.WorkItemSummaryView" table="work_item_summary_view" catalog="decidrdb">
         <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
-        <composite-id name="id" class="de.decidr.model.entities.WorkItemSummaryViewId">
-            <key-property name="workItemId" type="long">
-                <column name="workItemId" />
-            </key-property>
-            <key-property name="workItemName" type="string">
-                <column name="workItemName" />
-            </key-property>
-            <key-property name="tenantName" type="string">
-                <column name="tenantName" length="50" />
-            </key-property>
-            <key-property name="creationDate" type="timestamp">
-                <column name="creationDate" length="19" />
-            </key-property>
-            <key-property name="workItemStatus" type="string">
-                <column name="workItemStatus" length="10" />
-            </key-property>
-        </composite-id>
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="workItemName" type="string">
+            <column name="workItemName" not-null="true" />
+        </property>
+        <property name="tenantName" type="string">
+            <column name="tenantName" length="50" not-null="true" />
+        </property>
+        <property name="creationDate" type="timestamp">
+            <column name="creationDate" length="19" not-null="true" />
+        </property>
+        <property name="workItemStatus" type="string">
+            <column name="workItemStatus" length="10" not-null="true" />
+        </property>
     </class>
 </hibernate-mapping>

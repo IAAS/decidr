@@ -27,13 +27,15 @@
         <mapping resource="de/decidr/model/entities/UserProfile.hbm.xml" />
         <mapping resource="de/decidr/model/entities/RegistrationRequest.hbm.xml" />
         <mapping resource="de/decidr/model/entities/Server.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/Session.hbm.xml" />
         <mapping resource="de/decidr/model/entities/WorkItem.hbm.xml" />
+        <mapping resource="de/decidr/model/entities/Session.hbm.xml" />
         <mapping resource="de/decidr/model/entities/Role.hbm.xml" />
         <mapping resource="de/decidr/model/entities/Tenant.hbm.xml" />
+        <mapping resource="de/decidr/model/entities/ApprovedTenantsView.hbm.xml" />
         <mapping resource="de/decidr/model/entities/WorkflowModel.hbm.xml" />
         <mapping resource="de/decidr/model/entities/File.hbm.xml" />
         <mapping resource="de/decidr/model/entities/ServerLoadView.hbm.xml" />
+        <mapping resource="de/decidr/model/entities/NotApprovedTenantsView.hbm.xml" />
         <mapping resource="de/decidr/model/entities/WorkflowModelIsDeployedOnServer.hbm.xml" />
         <mapping resource="de/decidr/model/entities/TenantSummaryView.hbm.xml" />
         <mapping resource="de/decidr/model/entities/WorkItemSummaryView.hbm.xml" />

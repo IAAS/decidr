@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 05.06.2009 17:08:24 by Hibernate Tools 3.2.2.GA
+// Generated 06.06.2009 16:49:44 by Hibernate Tools 3.2.4.GA
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +18,7 @@ public class File implements java.io.Serializable {
     private Set<Tenant> tenantsForSimpleColorSchemeId = new HashSet<Tenant>(0);
     private Set<Tenant> tenantsForLogoId = new HashSet<Tenant>(0);
     private Set<Tenant> tenantsForCurrentColorSchemeId = new HashSet<Tenant>(0);
-    private Set<UserHasFileAccess> userHasFileAccesses = new HashSet<UserHasFileAccess>(
+    private Set<UserHasFileAccess> userHasFileAccess = new HashSet<UserHasFileAccess>(
             0);
 
     public File() {
@@ -35,7 +35,7 @@ public class File implements java.io.Serializable {
             Set<Tenant> tenantsForSimpleColorSchemeId,
             Set<Tenant> tenantsForLogoId,
             Set<Tenant> tenantsForCurrentColorSchemeId,
-            Set<UserHasFileAccess> userHasFileAccesses) {
+            Set<UserHasFileAccess> userHasFileAccess) {
         this.fileName = fileName;
         this.mimeType = mimeType;
         this.mayPublicRead = mayPublicRead;
@@ -43,7 +43,7 @@ public class File implements java.io.Serializable {
         this.tenantsForSimpleColorSchemeId = tenantsForSimpleColorSchemeId;
         this.tenantsForLogoId = tenantsForLogoId;
         this.tenantsForCurrentColorSchemeId = tenantsForCurrentColorSchemeId;
-        this.userHasFileAccesses = userHasFileAccesses;
+        this.userHasFileAccess = userHasFileAccess;
     }
 
     public Long getId() {
@@ -113,13 +113,12 @@ public class File implements java.io.Serializable {
         this.tenantsForCurrentColorSchemeId = tenantsForCurrentColorSchemeId;
     }
 
-    public Set<UserHasFileAccess> getUserHasFileAccesses() {
-        return this.userHasFileAccesses;
+    public Set<UserHasFileAccess> getUserHasFileAccess() {
+        return this.userHasFileAccess;
     }
 
-    public void setUserHasFileAccesses(
-            Set<UserHasFileAccess> userHasFileAccesses) {
-        this.userHasFileAccesses = userHasFileAccesses;
+    public void setUserHasFileAccess(Set<UserHasFileAccess> userHasFileAccess) {
+        this.userHasFileAccess = userHasFileAccess;
     }
 
     // The following is extra code specified in the hbm.xml files

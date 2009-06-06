@@ -1,22 +1,42 @@
 package de.decidr.model.exceptions;
 
-public class TransactionException extends Exception{
+/**
+ * Thrown whenever a failed transaction has been rolled back by the transaction
+ * manager.
+ * 
+ * @author Markus Fischer
+ * @author Daniel Huss
+ * @version 0.1
+ */
+public class TransactionException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * {@inheritDoc}
+     */
     public TransactionException(String message, Throwable cause) {
-        // TODO Auto-generated constructor stub
+        super(message, cause);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public TransactionException() {
-        // TODO Auto-generated constructor stub
+        super();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public TransactionException(String message) {
-        // TODO Auto-generated constructor stub
+        super(message);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public TransactionException(Throwable cause) {
-        // TODO Auto-generated constructor stub
+        super(cause);
     }
 }

@@ -54,14 +54,9 @@ public class SaveWorkflowModelCommand extends WorkflowModelCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt) throws TransactionException{
-        WorkflowModel model = (WorkflowModel) evt.getSession().get(
-                WorkflowModel.class, workflowModelId);
-
-        if (model == null) {
-            throw new EntityNotFoundException(WorkflowModel.class,
-                    workflowModelId);
-        }
+    public void transactionAllowed(TransactionEvent evt)
+            throws TransactionException {
+        WorkflowModel model = fetchWorkflowModel(evt.getSession());
 
         /*
          * The model to save exists. Does the actor exist?
@@ -81,7 +76,6 @@ public class SaveWorkflowModelCommand extends WorkflowModelCommand {
              * There is a user with the given actor id, we're going to use him
              * to fill out the "modified by" field of the saved workflow model.
              */
-
             User user = new User();
             user.setId(role.getActorId());
 

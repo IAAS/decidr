@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 05.06.2009 17:08:24 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 06.06.2009 16:49:44 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.DeployedWorkflowModel" table="deployed_workflow_model" catalog="decidrdb">
         <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
         <id name="id" type="java.lang.Long">
-            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="id" />
             <generator class="identity" />
         </id>
@@ -14,52 +13,44 @@
             <column name="version" not-null="true" />
         </version>
         <many-to-one name="originalWorkflowModel" class="de.decidr.model.entities.WorkflowModel" fetch="select">
-            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="originalWorkflowModelId">
                 <comment>If this field is null, the original workflow model has been deleted or is no longer available.</comment>
             </column>
         </many-to-one>
         <many-to-one name="tenant" class="de.decidr.model.entities.Tenant" fetch="select">
-            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="tenantId" not-null="true" />
         </many-to-one>
         <property name="name" type="string">
-            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="name" not-null="true" />
         </property>
         <property name="description" type="string">
-            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="description" not-null="true" />
         </property>
         <property name="dwdl" type="binary">
-            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="dwdl" not-null="true" />
         </property>
         <property name="wsdl" type="binary">
-            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="wsdl" not-null="true" />
         </property>
         <property name="soapTemplate" type="binary">
-            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="soapTemplate" not-null="true" />
         </property>
         <property name="deployDate" type="timestamp">
-            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="deployDate" length="19" not-null="true" />
         </property>
-        <set name="workflowModelIsDeployedOnServers" inverse="true">
+        <set name="workflowModelIsDeployedOnServers" inverse="true" lazy="true" table="workflow_model_is_deployed_on_server" fetch="select">
             <key>
                 <column name="deployedWorkflowModelId" not-null="true" />
             </key>
             <one-to-many class="de.decidr.model.entities.WorkflowModelIsDeployedOnServer" />
         </set>
-        <set name="startConfigurations" inverse="true">
+        <set name="startConfigurations" inverse="true" lazy="true" table="start_configuration" fetch="select">
             <key>
                 <column name="deployedWorkflowModelId" not-null="true" />
             </key>
             <one-to-many class="de.decidr.model.entities.StartConfiguration" />
         </set>
-        <set name="workflowInstances" inverse="true">
+        <set name="workflowInstances" inverse="true" lazy="true" table="workflow_instance" fetch="select">
             <key>
                 <column name="deployedWorkflowModelId" not-null="true" />
             </key>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 05.06.2009 17:08:24 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 06.06.2009 16:49:44 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.UserAdministratesWorkflowInstance" table="user_administrates_workflow_instance" catalog="decidrdb">
         <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
@@ -14,11 +14,9 @@
             </key-property>
         </composite-id>
         <many-to-one name="workflowInstance" class="de.decidr.model.entities.WorkflowInstance" update="false" insert="false" fetch="select">
-            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="workflowInstanceId" not-null="true" />
         </many-to-one>
         <many-to-one name="user" class="de.decidr.model.entities.User" update="false" insert="false" fetch="select">
-            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="userId" not-null="true" />
         </many-to-one>
     </class>

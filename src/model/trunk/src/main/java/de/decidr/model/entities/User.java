@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 05.06.2009 17:08:24 by Hibernate Tools 3.2.2.GA
+// Generated 06.06.2009 16:49:44 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -22,22 +22,19 @@ public class User implements java.io.Serializable {
     private Set<WorkflowModel> workflowModels = new HashSet<WorkflowModel>(0);
     private Set<UserIsMemberOfTenant> userIsMemberOfTenants = new HashSet<UserIsMemberOfTenant>(
             0);
-    private Set<UserProfile> userProfiles = new HashSet<UserProfile>(0);
-    private Set<RegistrationRequest> registrationRequests = new HashSet<RegistrationRequest>(
-            0);
+    private UserProfile userProfile;
+    private RegistrationRequest registrationRequest;
     private Set<Invitation> invitationsForReceiverId = new HashSet<Invitation>(
             0);
     private Set<UserAdministratesWorkflowInstance> userAdministratesWorkflowInstances = new HashSet<UserAdministratesWorkflowInstance>(
             0);
-    private Set<SystemSettings> systemSettingses = new HashSet<SystemSettings>(
-            0);
-    private Set<UserHasFileAccess> userHasFileAccesses = new HashSet<UserHasFileAccess>(
+    private Set<SystemSettings> systemSettings = new HashSet<SystemSettings>(0);
+    private Set<UserHasFileAccess> userHasFileAccess = new HashSet<UserHasFileAccess>(
             0);
     private Set<UserParticipatesInWorkflow> userParticipatesInWorkflows = new HashSet<UserParticipatesInWorkflow>(
             0);
     private Set<Tenant> administratedTenants = new HashSet<Tenant>(0);
-    private Set<ChangeEmailRequest> changeEmailRequests = new HashSet<ChangeEmailRequest>(
-            0);
+    private ChangeEmailRequest changeEmailRequest;
     private Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels = new HashSet<UserAdministratesWorkflowModel>(
             0);
 
@@ -54,15 +51,15 @@ public class User implements java.io.Serializable {
             Set<Invitation> invitationsForSenderId,
             Set<WorkflowModel> workflowModels,
             Set<UserIsMemberOfTenant> userIsMemberOfTenants,
-            Set<UserProfile> userProfiles,
-            Set<RegistrationRequest> registrationRequests,
+            UserProfile userProfile,
+            RegistrationRequest registrationRequest,
             Set<Invitation> invitationsForReceiverId,
             Set<UserAdministratesWorkflowInstance> userAdministratesWorkflowInstances,
-            Set<SystemSettings> systemSettingses,
-            Set<UserHasFileAccess> userHasFileAccesses,
+            Set<SystemSettings> systemSettings,
+            Set<UserHasFileAccess> userHasFileAccess,
             Set<UserParticipatesInWorkflow> userParticipatesInWorkflows,
             Set<Tenant> administratedTenants,
-            Set<ChangeEmailRequest> changeEmailRequests,
+            ChangeEmailRequest changeEmailRequest,
             Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels) {
         this.authKey = authKey;
         this.email = email;
@@ -73,15 +70,15 @@ public class User implements java.io.Serializable {
         this.invitationsForSenderId = invitationsForSenderId;
         this.workflowModels = workflowModels;
         this.userIsMemberOfTenants = userIsMemberOfTenants;
-        this.userProfiles = userProfiles;
-        this.registrationRequests = registrationRequests;
+        this.userProfile = userProfile;
+        this.registrationRequest = registrationRequest;
         this.invitationsForReceiverId = invitationsForReceiverId;
         this.userAdministratesWorkflowInstances = userAdministratesWorkflowInstances;
-        this.systemSettingses = systemSettingses;
-        this.userHasFileAccesses = userHasFileAccesses;
+        this.systemSettings = systemSettings;
+        this.userHasFileAccess = userHasFileAccess;
         this.userParticipatesInWorkflows = userParticipatesInWorkflows;
         this.administratedTenants = administratedTenants;
-        this.changeEmailRequests = changeEmailRequests;
+        this.changeEmailRequest = changeEmailRequest;
         this.userAdministratesWorkflowModels = userAdministratesWorkflowModels;
     }
 
@@ -166,21 +163,20 @@ public class User implements java.io.Serializable {
         this.userIsMemberOfTenants = userIsMemberOfTenants;
     }
 
-    public Set<UserProfile> getUserProfiles() {
-        return this.userProfiles;
+    public UserProfile getUserProfile() {
+        return this.userProfile;
     }
 
-    public void setUserProfiles(Set<UserProfile> userProfiles) {
-        this.userProfiles = userProfiles;
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 
-    public Set<RegistrationRequest> getRegistrationRequests() {
-        return this.registrationRequests;
+    public RegistrationRequest getRegistrationRequest() {
+        return this.registrationRequest;
     }
 
-    public void setRegistrationRequests(
-            Set<RegistrationRequest> registrationRequests) {
-        this.registrationRequests = registrationRequests;
+    public void setRegistrationRequest(RegistrationRequest registrationRequest) {
+        this.registrationRequest = registrationRequest;
     }
 
     public Set<Invitation> getInvitationsForReceiverId() {
@@ -201,21 +197,20 @@ public class User implements java.io.Serializable {
         this.userAdministratesWorkflowInstances = userAdministratesWorkflowInstances;
     }
 
-    public Set<SystemSettings> getSystemSettingses() {
-        return this.systemSettingses;
+    public Set<SystemSettings> getSystemSettings() {
+        return this.systemSettings;
     }
 
-    public void setSystemSettingses(Set<SystemSettings> systemSettingses) {
-        this.systemSettingses = systemSettingses;
+    public void setSystemSettings(Set<SystemSettings> systemSettings) {
+        this.systemSettings = systemSettings;
     }
 
-    public Set<UserHasFileAccess> getUserHasFileAccesses() {
-        return this.userHasFileAccesses;
+    public Set<UserHasFileAccess> getUserHasFileAccess() {
+        return this.userHasFileAccess;
     }
 
-    public void setUserHasFileAccesses(
-            Set<UserHasFileAccess> userHasFileAccesses) {
-        this.userHasFileAccesses = userHasFileAccesses;
+    public void setUserHasFileAccess(Set<UserHasFileAccess> userHasFileAccess) {
+        this.userHasFileAccess = userHasFileAccess;
     }
 
     public Set<UserParticipatesInWorkflow> getUserParticipatesInWorkflows() {
@@ -235,13 +230,12 @@ public class User implements java.io.Serializable {
         this.administratedTenants = administratedTenants;
     }
 
-    public Set<ChangeEmailRequest> getChangeEmailRequests() {
-        return this.changeEmailRequests;
+    public ChangeEmailRequest getChangeEmailRequest() {
+        return this.changeEmailRequest;
     }
 
-    public void setChangeEmailRequests(
-            Set<ChangeEmailRequest> changeEmailRequests) {
-        this.changeEmailRequests = changeEmailRequests;
+    public void setChangeEmailRequest(ChangeEmailRequest changeEmailRequest) {
+        this.changeEmailRequest = changeEmailRequest;
     }
 
     public Set<UserAdministratesWorkflowModel> getUserAdministratesWorkflowModels() {

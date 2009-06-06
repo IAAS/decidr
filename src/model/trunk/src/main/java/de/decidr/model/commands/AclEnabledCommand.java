@@ -19,6 +19,7 @@ package de.decidr.model.commands;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import de.decidr.model.exceptions.AccessDeniedException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.AccessControlList;
 import de.decidr.model.permissions.CommandPermission;
@@ -92,7 +93,8 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
      * specified additional permissions.
      */
     @Override
-    public final void transactionStarted(TransactionEvent evt) throws TransactionException{
+    public final void transactionStarted(TransactionEvent evt)
+            throws TransactionException {
         AccessControlList acl = DefaultAccessControlList.getInstance();
 
         Boolean mayExecute = acl.isAllowed(role, new CommandPermission(this
@@ -108,6 +110,19 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
 
         if (mayExecute) {
             this.transactionAllowed(evt);
+        } else {
+            String roleName = role == null ? "null" : role.getClass().getName();
+            StringBuffer permissions = new StringBuffer(); 
+            permissions.append(this.getClass().getName());
+
+            for (Permission p : additionalPermissions) {
+                permissions.append(", ");
+                permissions.append(p.getName());
+            }
+
+            throw new AccessDeniedException(String.format(
+                    "Permission check failed for actor %1$s, permissions %2$s",
+                    roleName, permissions.toString()));
         }
     }
 
@@ -117,9 +132,10 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
      * 
      * @param evt
      *            forwarded transaction event
-     * @throws TransactionException 
+     * @throws TransactionException
      */
-    public abstract void transactionAllowed(TransactionEvent evt) throws TransactionException;
+    public abstract void transactionAllowed(TransactionEvent evt)
+            throws TransactionException;
 
     /**
      * @return the additional permissions

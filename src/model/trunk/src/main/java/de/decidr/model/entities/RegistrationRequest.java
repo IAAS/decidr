@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 05.06.2009 17:08:24 by Hibernate Tools 3.2.2.GA
+// Generated 06.06.2009 16:49:44 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -17,9 +17,7 @@ public class RegistrationRequest implements java.io.Serializable {
     public RegistrationRequest() {
     }
 
-    public RegistrationRequest(long userId, User user, Date creationDate,
-            String authKey) {
-        this.userId = userId;
+    public RegistrationRequest(User user, Date creationDate, String authKey) {
         this.user = user;
         this.creationDate = creationDate;
         this.authKey = authKey;

@@ -1,20 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 05.06.2009 17:08:24 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 06.06.2009 16:49:44 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.Role" table="role" catalog="decidrdb">
         <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
         <id name="id" type="java.lang.Long">
-            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="id" />
             <generator class="identity" />
         </id>
         <property name="name" type="string">
-            <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
             <column name="name" not-null="true" unique="true" />
         </property>
-        <set name="roleHasPermissions" inverse="true">
+        <set name="roleHasPermissions" inverse="true" lazy="true" table="role_has_permission" fetch="select">
             <key>
                 <column name="roleId" not-null="true" />
             </key>
