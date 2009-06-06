@@ -18,6 +18,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.permissions.Role;
+import de.decidr.model.permissions.ServerLoadUpdaterRole;
 import de.decidr.model.permissions.SuperAdminRole;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
@@ -50,8 +51,6 @@ public class SystemFacade extends AbstractFacade {
      * - autoAcceptNewTenants<br>
      * <br>
      * 
-     * 
-     * 
      * @return system settings as item
      * @throws TransactionException
      */
@@ -79,7 +78,6 @@ public class SystemFacade extends AbstractFacade {
      * <br>
      * <i>LogLever</i> - System wide log level setting
      * 
-     * Only the super admin is allowed to use this command.
      * 
      * @throws TransactionException
      */
@@ -104,6 +102,8 @@ public class SystemFacade extends AbstractFacade {
      *            the location of the real server to which representative should
      *            be created<br>
      *            Location should look like "FIXME Add Location Pattern"
+     * 
+     * @throws TransactionException
      */
     @AllowedRole(SuperAdminRole.class)
     public void addServer(String location) throws TransactionException {
@@ -124,6 +124,9 @@ public class SystemFacade extends AbstractFacade {
      * 
      * @param location
      *            location of the server representative which should be deleted
+     * 
+     * @throws TransactionException
+     * 
      */
     @AllowedRole(SuperAdminRole.class)
     public void removeServer(String location) throws TransactionException {
@@ -140,13 +143,16 @@ public class SystemFacade extends AbstractFacade {
      * 
      * Updates the load of the representative object of the server at the
      * database. The load must be in the range of 0 to 100.
+     * If given server does not exists nothing will happen.
      * 
      * @param location
      *            location of the server representative which should be deleted
      * @param load
-     *            new load
+     *            new load server load as byte [0...100]
+     * 
+     * @throws TransactionException
      */
-    @AllowedRole(SuperAdminRole.class)
+    @AllowedRole( { SuperAdminRole.class, ServerLoadUpdaterRole.class })
     public void updateServerLoad(String location, byte load)
             throws TransactionException {
 
@@ -166,12 +172,15 @@ public class SystemFacade extends AbstractFacade {
 
     /**
      * 
-     * Sets the lock flag of the representative object for the given server.
+     * Sets the lock flag of the representative object for the given server. If
+     * Server does not exist, nothing will happen.
      * 
      * @param location
      *            location of the server representative which should be deleted
+     * 
+     * @throws TransactionException
      */
-
+    @AllowedRole(SuperAdminRole.class)
     public void lockServer(String location) throws TransactionException {
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
@@ -183,11 +192,16 @@ public class SystemFacade extends AbstractFacade {
     /**
      * 
      * Releases the lock flag of the representative object for the given server.
+     * If Server does not exist, nothing will happen.
      * 
      * @param location
      *            location of the server representative which should be deleted
+     * 
+     * @throws TransactionException
      */
+    @AllowedRole(SuperAdminRole.class)
     public void unlockServer(String location) throws TransactionException {
+
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
         UnLockServerCommand command = new UnLockServerCommand(actor, location);
@@ -195,20 +209,27 @@ public class SystemFacade extends AbstractFacade {
         tac.runTransaction(command);
     }
 
+    // FIXME paginator / filter not yet implemented.
+    @AllowedRole(SuperAdminRole.class)
     public List<Item> getLog(List<Filter> filters, Paginator paginator)
             throws TransactionException {
-        // FIXME
         throw new UnsupportedOperationException();
     }
 
     /**
      * Returns a list of the existing unlocked servers as Item list. Each Item
-     * has the following properties:
-     * 
-     * - id - location - load - numInstances - dynamicallyAdded
+     * has the following properties:<br>
+     * - id<br>
+     * - location<br>
+     * - load<br>
+     * - numInstances<br>
+     * - dynamicallyAdded
      * 
      * @return ServerStatistics as a List of Items
+     * @throws TransactionException
      */
+    @SuppressWarnings("unchecked")
+    @AllowedRole(SuperAdminRole.class)
     public List<Item> getServerStatistics() throws TransactionException {
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
@@ -217,7 +238,7 @@ public class SystemFacade extends AbstractFacade {
                 actor);
 
         List<Item> outList = new ArrayList<Item>();
-        List<ServerLoadView> inList;
+        List<ServerLoadView> inList = new ArrayList();
         @SuppressWarnings("unused")
         String[] properties = { "id", "location", "load", "numInstances",
                 "dynamicallyAdded" };

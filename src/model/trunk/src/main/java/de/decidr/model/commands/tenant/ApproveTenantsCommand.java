@@ -15,7 +15,7 @@ public class ApproveTenantsCommand extends TenantCommand {
     /**
      * 
      * Creates a new ApproveTenantsCommand. This Command will approve all
-     * tenants which corresponds to the given ids.
+     * tenants which corresponds to the given IDs. Not existing tenants will we ignored.
      * 
      * @param role the user which executes the command
      * @param tenantIds
@@ -33,9 +33,11 @@ public class ApproveTenantsCommand extends TenantCommand {
         for(Long tenantid:tenantIds){
             Tenant tenant = (Tenant)evt.getSession().get(Tenant.class, tenantid);
             if(tenant != null){
-                tenant.setApprovedSince(new Date());
-                evt.getSession().update(tenant);
-            }
+                if(tenant.getApprovedSince()==null){
+                    tenant.setApprovedSince(new Date());
+                    evt.getSession().update(tenant);
+                }
+              }
             
         }
         

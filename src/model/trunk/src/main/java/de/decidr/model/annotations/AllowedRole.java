@@ -40,6 +40,6 @@ import de.decidr.model.permissions.Role;
 @Target(ElementType.METHOD)
 public @interface AllowedRole {
 
-    Class<? extends Role> value();
+    Class<? extends Role>[] value();
  
 }

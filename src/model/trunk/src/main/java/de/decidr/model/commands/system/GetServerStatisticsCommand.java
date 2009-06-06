@@ -20,7 +20,9 @@ public class GetServerStatisticsCommand extends SystemCommand {
     List<ServerLoadView> result;
     
     /**
-     *   
+     * Creates a new GetServerStatisticsCommand. The command saves all
+     * unlocked servers in the result variable.
+     * 
      * @param role the user who wants to execute the command
      */
     public GetServerStatisticsCommand(Role role) {
@@ -31,7 +33,7 @@ public class GetServerStatisticsCommand extends SystemCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt) {
        
-        result = evt.getSession().createQuery("from ServerLoadView where locked=false").list();
+        result = evt.getSession().createQuery("from ServerLoadViewId where locked=false").list();
         
     }
 

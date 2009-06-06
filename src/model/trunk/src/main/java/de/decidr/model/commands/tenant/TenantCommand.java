@@ -1,15 +1,19 @@
 package de.decidr.model.commands.tenant;
 
-import java.util.Collection;
-
 import de.decidr.model.commands.AclEnabledCommand;
-import de.decidr.model.permissions.Permission;
 import de.decidr.model.permissions.Role;
+import de.decidr.model.permissions.TenantPermission;
 
 public abstract class TenantCommand extends AclEnabledCommand{
 
-    public TenantCommand(Role role, Collection<Permission> permission) {
-        super(role, permission);
-        // TODO Auto-generated constructor stub
+    private Long tenantId;
+    
+    public TenantCommand(Role role, Long tenantId) {
+        super(role, new TenantPermission(tenantId));
+        this.tenantId=tenantId;
+        }
+
+    public Long getTenantId() {
+        return tenantId;
     }
 }

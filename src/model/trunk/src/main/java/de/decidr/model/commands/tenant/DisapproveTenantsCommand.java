@@ -31,7 +31,10 @@ public class DisapproveTenantsCommand extends TenantCommand {
         for(Long tenantid:tenantIds){
             Tenant tenant = (Tenant)evt.getSession().get(Tenant.class, tenantid);
             if(tenant != null){
-                evt.getSession().delete(tenant);
+                if(tenant.getApprovedSince()==null){
+                    evt.getSession().delete(tenant);
+                }
+                
             }
             
         }

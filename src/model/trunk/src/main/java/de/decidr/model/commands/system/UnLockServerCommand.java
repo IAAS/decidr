@@ -8,6 +8,7 @@ import de.decidr.model.transactions.TransactionEvent;
 /**
  * 
  * Sets the server of the given server to unlocked.
+ * If Server does not exist, nothing will happen.
  * 
  * @author Markus Fischer
  *
@@ -19,7 +20,8 @@ public class UnLockServerCommand extends SystemCommand {
     private String location = null;
     
     /**
-     * Unlocks the given server.
+     * Creates a new UnLockServerCommand. The Command unlocks the given server.
+     * If server does not exist, nothing will happen.
      * 
      * @param role user, who wants to execute the command
      * @param location location of the server which should be locked

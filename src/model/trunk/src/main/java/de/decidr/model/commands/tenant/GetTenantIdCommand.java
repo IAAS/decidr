@@ -15,8 +15,9 @@ public class GetTenantIdCommand extends TenantCommand {
     
     /**
      * 
-     *  Creates a net GetTenantIsCommand. This Command writes the id of the given
-     *  tenant in the variable result.
+     *  Creates a new GetTenantIsCommand. This Command writes the id of the given
+     *  tenant in the variable result. If the tenantName doesn't exists, an exception
+     *  will be thrown.
      * 
      * @param role user which executes the command
      * @param tenantName

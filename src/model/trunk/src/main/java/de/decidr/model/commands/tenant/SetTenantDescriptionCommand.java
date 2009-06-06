@@ -1,6 +1,7 @@
 package de.decidr.model.commands.tenant;
 
 import de.decidr.model.entities.Tenant;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
@@ -15,7 +16,6 @@ import de.decidr.model.transactions.TransactionEvent;
  */
 public class SetTenantDescriptionCommand extends TenantCommand {
 
-    private Long tenantId;
     private String description;
     
     /**
@@ -23,24 +23,28 @@ public class SetTenantDescriptionCommand extends TenantCommand {
      * Creates a new Command which updates the description of an tenant.
      * 
      * @param role user which executes the command
-     * @param tenantId
-     * @param description
+     * @param tenantId the id of the tenant which should be updated
+     * @param description the new description
      */
     public SetTenantDescriptionCommand(Role role,Long tenantId, String description){
-        super(role, null);
-        
-        this.tenantId=tenantId;
+        super(role, tenantId);  
         this.description=description;
-        
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
         
-        Tenant tenant = (Tenant)evt.getSession().load(Tenant.class, tenantId);
-        tenant.setDescription(description);
-        evt.getSession().update(tenant);
+        Tenant tenant = (Tenant)evt.getSession().get(Tenant.class, this.getTenantId());
+        
+        if(tenant != null){
+            tenant.setDescription(description);
+            evt.getSession().update(tenant);
+        }
+        else{
+            throw new EntityNotFoundException(Tenant.class,this.getTenantId());
+        }
+
         
     }
 

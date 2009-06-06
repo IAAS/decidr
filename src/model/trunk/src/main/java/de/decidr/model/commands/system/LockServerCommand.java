@@ -7,6 +7,7 @@ import de.decidr.model.transactions.TransactionEvent;
 /**
  * 
  * Sets the server of the given server to locked.
+ * If Server does not exist, nothing will happen
  * 
  * @author Markus Fischer
  *
@@ -18,7 +19,8 @@ public class LockServerCommand extends SystemCommand {
     private String location = null;
     
     /**
-     * Locks the given server.
+     * Creates a new LockServerCommand. The command locks the given server.
+     * If Server does not exist, nothing will happen.
      * 
      * @param role user, who wants to execute the command
      * @param location location of the server which should be locked
@@ -35,7 +37,6 @@ public class LockServerCommand extends SystemCommand {
         q.setString("newLock", String.valueOf(lock));
         q.setString("loc", location);
         q.executeUpdate();
-
 
     }
 
