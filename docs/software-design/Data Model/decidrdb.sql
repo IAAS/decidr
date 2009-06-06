@@ -2,7 +2,7 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
-DROP SCHEMA IF EXISTS `decidrdb`;
+DROP SCHEMA IF EXISTS `fipart3`;
 
 CREATE SCHEMA IF NOT EXISTS `decidrdb` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 USE `decidrdb`;
@@ -631,6 +631,16 @@ CREATE TABLE IF NOT EXISTS `decidrdb`.`work_item_summary_view` (`id` INT);
 CREATE TABLE IF NOT EXISTS `decidrdb`.`tenant_summary_view` (`id` INT);
 
 -- -----------------------------------------------------
+-- Placeholder table for view `decidrdb`.`approved_tenants_view`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `decidrdb`.`approved_tenants_view` (`id` INT);
+
+-- -----------------------------------------------------
+-- Placeholder table for view `decidrdb`.`not_approved_tenants_view`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `decidrdb`.`not_approved_tenants_view` (`id` INT);
+
+-- -----------------------------------------------------
 -- View `decidrdb`.`server_load_view`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `decidrdb`.`server_load_view`;
@@ -647,7 +657,7 @@ GROUP BY s.id;
 DROP TABLE IF EXISTS `decidrdb`.`work_item_summary_view`;
 #Retrieves a work item summary 
 CREATE VIEW `decidrdb`.`work_item_summary_view` AS
-SELECT DISTINCT w.id AS workItemId, 
+SELECT DISTINCT w.id AS id, 
                 w.`name` AS workItemName, 
                 t.`name` AS tenantName, 
                 w.creationDate AS creationDate, 
@@ -669,7 +679,7 @@ DROP TABLE IF EXISTS `decidrdb`.`tenant_summary_view`;
 #Retrieves a tenant summary including the number of (deployed) workflow models, worfklow instances and users.
 
 CREATE VIEW `decidrdb`.`tenant_summary_view` AS
-SELECT DISTINCT t.id AS tenantId, t.`name` AS tenantName,
+SELECT DISTINCT t.id AS id, t.`name` AS tenantName,
                 a.`firstName` AS adminFirstName, 
                 a.`lastName` AS adminLastName,
                 COUNT(wfm.id) AS numWorkflowModels, 
@@ -688,7 +698,21 @@ WHERE (t.adminId = a.userId) AND
       (wfm.tenantId = t.id) AND
       (dwfm.tenantId = t.id) AND
       (wfi.deployedWorkflowModelId = dwfm.id)
-GROUP BY tenantId, tenantName;
+GROUP BY t.id, t.`name`;
+
+-- -----------------------------------------------------
+-- View `decidrdb`.`approved_tenants_view`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `decidrdb`.`approved_tenants_view`;
+CREATE  OR REPLACE VIEW `decidrdb`.`approved_tenants_view` AS
+SELECT * FROM tenant WHERE approvedSince IS NOT NULL;
+
+-- -----------------------------------------------------
+-- View `decidrdb`.`not_approved_tenants_view`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `decidrdb`.`not_approved_tenants_view`;
+CREATE  OR REPLACE VIEW `decidrdb`.`not_approved_tenants_view` AS
+SELECT * FROM tenant WHERE approvedSince IS NULL;
 USE `decidrdb`;
 
 DELIMITER //
