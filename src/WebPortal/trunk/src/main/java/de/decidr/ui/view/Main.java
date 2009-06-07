@@ -13,7 +13,7 @@ import de.decidr.ui.controller.UIDirector;
  */
 public class Main extends Application {
 
-	/**
+    /**
      * TODO: add comment
      */
     private static final long serialVersionUID = 2668887930201158755L;
@@ -25,9 +25,9 @@ public class Main extends Application {
 	public void init() {
 		setMainWindow(main);
 		setTheme("test");
-		director.setUiBuilder(ui);
-		director.constructView();
-		main.addComponent(director.getTemplateView());
+		//director.setUiBuilder(ui);
+		//director.constructView();
+		main.addComponent(TenantSettingsComponent.getInstance());
 
 	}
 

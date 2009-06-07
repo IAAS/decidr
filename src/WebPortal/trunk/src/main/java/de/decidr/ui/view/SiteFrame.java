@@ -24,7 +24,6 @@ package de.decidr.ui.view;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.SplitPanel;
 
 @SuppressWarnings("serial")
@@ -33,9 +32,6 @@ public class SiteFrame extends CustomComponent{
         
         private GridLayout gridFrame = null;
         private SplitPanel splitPanel = null;
-        private Label lbl1 = null;
-        private Label lbl2 = null;
-        private Label lbl3 = null;
         
         public SiteFrame(){
                 init();
@@ -46,8 +42,8 @@ public class SiteFrame extends CustomComponent{
         this.setCompositionRoot(gridFrame);
         
         gridFrame.setSizeFull();
-        gridFrame.setMargin(false);
-        gridFrame.setSpacing(false);
+        gridFrame.setMargin(true);
+        gridFrame.setSpacing(true);
         
         splitPanel = new SplitPanel();
         
@@ -56,19 +52,9 @@ public class SiteFrame extends CustomComponent{
         splitPanel.setHeight("600px");
         splitPanel.setSplitPosition(200 ,SplitPanel.UNITS_PIXELS);
         splitPanel.setLocked(true);
-                
-        // NOTE: Do NOT remove these labels, without the GridLayout won't work properly
-        lbl1 = new Label("");
-        lbl2 = new Label("");
-        lbl2.setWidth(800,Label.UNITS_PIXELS);
-        lbl3 = new Label("");
         
         gridFrame.setColumnExpandRatio(0, 1);
         gridFrame.setColumnExpandRatio(2, 1);
-        
-        gridFrame.addComponent(lbl1, 0, 0);
-        gridFrame.addComponent(lbl2, 1, 0);
-        gridFrame.addComponent(lbl3, 2, 0);
         
         gridFrame.addComponent(splitPanel, 1, 3);
         

@@ -43,11 +43,6 @@
     	<artifactId>vaadin</artifactId>
     	<version>6.0.0-pre2</version>
   	</dependency>
-  	<dependency>
-    	<groupId>de.decidr</groupId>
-    	<artifactId>model</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
-	</dependency>
 </dependencies>
   <build>
     <finalName>WebPortal</finalName>

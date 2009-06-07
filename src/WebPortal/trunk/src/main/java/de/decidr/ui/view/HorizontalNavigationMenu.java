@@ -20,6 +20,11 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 
+import de.decidr.ui.controller.HelpPageAction;
+import de.decidr.ui.controller.ImpressumAction;
+import de.decidr.ui.controller.TermsOfServiceAction;
+import de.decidr.ui.controller.WelcomePageAction;
+
 
 /**
  * TODO: add comment
@@ -52,13 +57,13 @@ public class HorizontalNavigationMenu extends CustomComponent {
                 btnLogoutLink = new Button("logout");
                 btnLogoutLink.setStyleName(Button.STYLE_LINK);
                 btnLogoutLink.setVisible(false);
-                btnHomeLink = new Button("Home");
+                btnHomeLink = new Button("Home", new WelcomePageAction());
                 btnHomeLink.setStyleName(Button.STYLE_LINK);
-                btnHelpLink = new Button("Help");
+                btnHelpLink = new Button("Help", new HelpPageAction());
                 btnHelpLink.setStyleName(Button.STYLE_LINK);
-                btnImpressumLink = new Button("Impressum");
+                btnImpressumLink = new Button("Impressum", new ImpressumAction());
                 btnImpressumLink.setStyleName(Button.STYLE_LINK);
-                btnTermsOfServiceLink = new Button("Terms of Service");
+                btnTermsOfServiceLink = new Button("Terms of Service", new TermsOfServiceAction());
                 btnTermsOfServiceLink.setStyleName(Button.STYLE_LINK);
                 
                 horizontalLayout.setWidth(800,HorizontalLayout.UNITS_PIXELS);

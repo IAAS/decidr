@@ -5,10 +5,15 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.controller.ChangeTenantAction;
 import de.decidr.ui.controller.CreateTenantAction;
+import de.decidr.ui.controller.CreateWorkflowInstanceAction;
+import de.decidr.ui.controller.CreateWorkflowModelAction;
 import de.decidr.ui.controller.EditTenantAction;
+import de.decidr.ui.controller.MyWorkitemsAction;
 import de.decidr.ui.controller.ProfileSettingsAction;
 import de.decidr.ui.controller.ShowUserListAction;
+import de.decidr.ui.controller.ShowWorkflowInstancesAction;
 import de.decidr.ui.controller.SystemSettingsAction;
 import de.decidr.ui.controller.TenantSettingsAction;
 
@@ -50,15 +55,15 @@ public class SuperAdminNavigationMenu extends CustomComponent {
         verticalLayout = new VerticalLayout();
         this.setCompositionRoot(verticalLayout);
         
-        myWorkItemLink = new Button("My Workitems");
+        myWorkItemLink = new Button("My Workitems", new MyWorkitemsAction());
         myWorkItemLink.setStyleName(Button.STYLE_LINK);
-        changeTenantLink = new Button("Change Tenant");
+        changeTenantLink = new Button("Change Tenant", new ChangeTenantAction());
         changeTenantLink.setStyleName(Button.STYLE_LINK);
-        createWorkflowModelLink = new Button("Create/Edit Workflow Model");
+        createWorkflowModelLink = new Button("Create/Edit Workflow Model", new CreateWorkflowModelAction());
         createWorkflowModelLink.setStyleName(Button.STYLE_LINK);
-        createWorkflowInstanceLink = new Button("Create Workflow Instance");
+        createWorkflowInstanceLink = new Button("Create Workflow Instance", new CreateWorkflowInstanceAction());
         createWorkflowInstanceLink.setStyleName(Button.STYLE_LINK);
-        showWorkflowInstancesLink = new Button("Show Workflow Instances");
+        showWorkflowInstancesLink = new Button("Show Workflow Instances", new ShowWorkflowInstancesAction());
         showWorkflowInstancesLink.setStyleName(Button.STYLE_LINK);
         showUserListLink = new Button("Show/Edit User List", new ShowUserListAction());
         showUserListLink.setStyleName(Button.STYLE_LINK);
@@ -73,12 +78,18 @@ public class SuperAdminNavigationMenu extends CustomComponent {
         systemSettingsLink = new Button("System Settings", new SystemSettingsAction());
         systemSettingsLink.setStyleName(Button.STYLE_LINK);
         
-        workflowParticipationLabel = new Label("Workflow participation");
-        workflowModelLabel = new Label("Workflow model");
-        workflowInstancesLabel = new Label("Workflow Instances");
-        usersLabel = new Label("Users");
-        tenantsLabel = new Label("Tenants");
-        settingsLabel = new Label("Settings");
+        workflowParticipationLabel = new Label("<h5>Workflow participation</h5>");
+        workflowParticipationLabel.setContentMode(Label.CONTENT_XHTML);
+        workflowModelLabel = new Label("<h5>Workflow model</h5>");
+        workflowModelLabel.setContentMode(Label.CONTENT_XHTML);
+        workflowInstancesLabel = new Label("<h5>Workflow Instances</h5>");
+        workflowInstancesLabel.setContentMode(Label.CONTENT_XHTML);
+        usersLabel = new Label("<h5>Users</h5>");
+        usersLabel.setContentMode(Label.CONTENT_XHTML);
+        tenantsLabel = new Label("<h5>Tenants</h5>");
+        tenantsLabel.setContentMode(Label.CONTENT_XHTML);
+        settingsLabel = new Label("<h5>Settings</h5>");
+        settingsLabel.setContentMode(Label.CONTENT_XHTML);
     
         verticalLayout.setSpacing(true);
         
