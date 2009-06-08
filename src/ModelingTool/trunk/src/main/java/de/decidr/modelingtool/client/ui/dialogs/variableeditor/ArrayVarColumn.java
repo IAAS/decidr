@@ -24,12 +24,11 @@ import com.extjs.gxt.ui.client.widget.grid.CheckColumnConfig;
  * @author JS
  */
 public class ArrayVarColumn extends CheckColumnConfig {
-    
+
     public ArrayVarColumn(String columnId, String header) {
         super();
         this.setId(columnId);
         this.setHeader(header);
         this.setWidth(50);
-
     }
 }

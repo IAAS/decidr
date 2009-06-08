@@ -32,7 +32,7 @@ public class NameColumn extends ColumnConfig {
 	public NameColumn(String columnId, String header) {
 		this.setId(columnId);
 		this.setHeader(header);
-		this.setWidth(100);
+		this.setWidth(120);
 		
 		text.setAllowBlank(false);
 		text.setAutoWidth(true);

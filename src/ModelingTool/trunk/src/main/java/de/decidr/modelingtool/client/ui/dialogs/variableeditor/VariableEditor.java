@@ -121,6 +121,9 @@ public class VariableEditor extends Dialog {
         ArrayVarColumn arrayVarColumn = new ArrayVarColumn("array",
                 ModelingTool.messages.arrayVarColumn());
         columns.add(arrayVarColumn);
+        ConfigVarColumn configVarColumn = new ConfigVarColumn(
+                Variable.CONFIGVAR, ModelingTool.messages.configVarColumn());
+        columns.add(configVarColumn);
         colModel = new ColumnModel(columns);
 
         /* Create grid */

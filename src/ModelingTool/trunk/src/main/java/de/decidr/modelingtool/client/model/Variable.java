@@ -26,28 +26,38 @@ import com.extjs.gxt.ui.client.data.BaseModelData;
  * 
  * @author JS
  */
+/**
+ * TODO: add comment
+ *
+ * @author JS
+ */
+/**
+ * TODO: add comment
+ * 
+ * @author JS
+ */
 @SuppressWarnings("serial")
 public class Variable extends BaseModelData {
 
-    private String name;
-    private VariableType type;
-    private List<String> values;
-    private boolean array;
-    private boolean configVariable;
+    /* Field names */
+    public static final String NAME = "name";
+    public static final String TYPE = "type";
+    public static final String VALUE = "value";
+    public static final String ARRAYVAR = "array";
+    public static final String CONFIGVAR = "config";
 
     /**
      * 
-     * TODO: add comment
      * 
+     * TODO: add comment
      */
     public Variable() {
         super();
-        this.name = new String("");
-        this.type = VariableType.STRING;
-        this.values = new ArrayList<String>();
-        this.values.add("");
-        this.array = false;
-        this.configVariable = false;
+        set(NAME, "variable name");
+        set(TYPE, VariableType.STRING);
+        set(VALUE, "variable value");
+        set(ARRAYVAR, false);
+        set(CONFIGVAR, false);
     }
 
     /**
@@ -56,12 +66,11 @@ public class Variable extends BaseModelData {
      * Default constructor for a single non-configuration Variable
      */
     public Variable(String name, VariableType type, String value) {
-        this.name = name;
-        this.type = type;
-        this.values = new ArrayList<String>();
-        this.values.add(value);
-        this.array = false;
-        this.configVariable = false;
+        this.set(NAME, name);
+        this.set(TYPE, type);
+        this.set(VALUE, value);
+        this.set(ARRAYVAR, false);
+        this.set(CONFIGVAR, false);
     }
 
     /**
@@ -70,7 +79,7 @@ public class Variable extends BaseModelData {
      * @return the name
      */
     public String getName() {
-        return name;
+        return get(NAME);
     }
 
     /**
@@ -80,7 +89,7 @@ public class Variable extends BaseModelData {
      *            the name to set
      */
     public void setName(String name) {
-        this.name = name;
+        set(NAME, name);
     }
 
     /**
@@ -89,7 +98,7 @@ public class Variable extends BaseModelData {
      * @return the type
      */
     public VariableType getType() {
-        return type;
+        return get(TYPE);
     }
 
     /**
@@ -99,7 +108,7 @@ public class Variable extends BaseModelData {
      *            the type to set
      */
     public void setType(VariableType type) {
-        this.type = type;
+        set(TYPE, type);
     }
 
     /**
@@ -108,6 +117,16 @@ public class Variable extends BaseModelData {
      * @return the values
      */
     public List<String> getValues() {
+        /*
+         * If the variable is an array, return the arraylist, else add the
+         * single value to an empty arraylist
+         */
+        ArrayList<String> values = new ArrayList<String>();
+        if (get(ARRAYVAR)) {
+            values = get(VALUE);
+        } else {
+            values.add((String) get(VALUE));
+        }
         return values;
     }
 
@@ -118,7 +137,19 @@ public class Variable extends BaseModelData {
      *            the values to set
      */
     public void setValues(List<String> values) {
-        this.values = values;
+        set(VALUE, values);
+        setArray(true);
+    }
+
+    /**
+     * 
+     * TODO: add comment
+     * 
+     * @param value
+     */
+    public void setValue(String value) {
+        set(VALUE, value);
+        setArray(false);
     }
 
     /**
@@ -127,7 +158,7 @@ public class Variable extends BaseModelData {
      * @return the array
      */
     public boolean isArray() {
-        return array;
+        return get(ARRAYVAR);
     }
 
     /**
@@ -136,8 +167,9 @@ public class Variable extends BaseModelData {
      * @param array
      *            the array to set
      */
-    public void setArray(boolean array) {
-        this.array = array;
+    // TODO: public or private?
+    private void setArray(boolean array) {
+        set(ARRAYVAR, array);
     }
 
     /**
@@ -146,7 +178,7 @@ public class Variable extends BaseModelData {
      * @return the configVariable
      */
     public boolean isConfigVariable() {
-        return configVariable;
+        return get(CONFIGVAR);
     }
 
     /**
@@ -156,7 +188,7 @@ public class Variable extends BaseModelData {
      *            the configVariable to set
      */
     public void setConfigVariable(boolean configVariable) {
-        this.configVariable = configVariable;
+        set(CONFIGVAR, configVariable);
     }
 
 }

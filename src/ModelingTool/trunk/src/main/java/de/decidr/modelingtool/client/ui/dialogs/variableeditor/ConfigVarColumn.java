@@ -26,9 +26,9 @@ import com.extjs.gxt.ui.client.widget.grid.CheckColumnConfig;
 public class ConfigVarColumn extends CheckColumnConfig {
 
     public ConfigVarColumn(String columnId, String header) {
+        super();
         this.setId(columnId);
         this.setHeader(header);
-        this.setWidth(100);
-
+        this.setWidth(50);
     }
 }
