@@ -45,7 +45,7 @@ public class ModelingTool implements EntryPoint {
      */
     public void onModuleLoad() {
 
-        /* Internationalization: "Instanciate" the Message interface class. */
+        /* Internationalization: "Instantiate" the Message interface class. */
         messages = GWT.create(Messages.class);
 
         ButtonBar buttonBar = new ButtonBar();

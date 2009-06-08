@@ -19,6 +19,7 @@ package de.decidr.modelingtool.client.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.extjs.gxt.ui.client.data.BaseModel;
 import com.extjs.gxt.ui.client.data.BaseModelData;
 
 /**
@@ -41,6 +42,7 @@ public class Variable extends BaseModelData {
      * 
      */
     public Variable() {
+        super();
         this.name = new String("");
         this.type = VariableType.STRING;
         this.values = new ArrayList<String>();

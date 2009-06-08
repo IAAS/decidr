@@ -19,20 +19,25 @@ package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
+import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.event.ToolBarEvent;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.LayoutContainer;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.EditorGrid;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
+import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.TextToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 
 import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.model.Variable;
+import de.decidr.modelingtool.client.model.VariableType;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 
@@ -43,15 +48,20 @@ import de.decidr.modelingtool.client.ui.dialogs.Dialog;
  */
 public class VariableEditor extends Dialog {
 
+    private ContentPanel editorPanel = new ContentPanel();
+
     private ListStore<Variable> variables = new ListStore<Variable>();
     private ToolBar toolBar = new ToolBar();
-    private ContentPanel editorPanel = new ContentPanel();
+
     private List<ColumnConfig> columns = new ArrayList<ColumnConfig>();
     private ColumnModel colModel;
 
     public VariableEditor() {
         super();
-        this.setLayout(new BorderLayout());
+
+        this.setLayout(new FitLayout());
+        this.setResizable(true);
+
         getVariablesfromModel();
 
         createEditorPanel();
@@ -65,6 +75,10 @@ public class VariableEditor extends Dialog {
         for (Variable v : variablesModel) {
             variables.add(new Variable(v.getName(), v.getType(), v.getValues()
                     .get(0)));
+        }
+        for (int i = 0; i == 20; i++) {
+            variables.add(new Variable("Haha" + i, VariableType.BOOLEAN,
+                    new Integer(i).toString()));
         }
     }
 
@@ -94,38 +108,44 @@ public class VariableEditor extends Dialog {
             }
         });
         toolBar.add(delVar);
+        toolBar.setAutoHeight(true);
 
         editorPanel.setBottomComponent(toolBar);
     }
 
     private void createEditorPanel() {
 
-        // TODO: Localization
         /* First step: Creating the columns and the Columns model */
-        LabelColumn labelColumn = new LabelColumn(
-                "name", ModelingTool.messages.nameColumn()); //$NON-NLS-1$ //$NON-NLS-2$
+        LabelColumn labelColumn = new LabelColumn("name", ModelingTool.messages
+                .nameColumn());
         columns.add(labelColumn);
 
-        TypeColumn typeColumn = new TypeColumn(
-                "type", ModelingTool.messages.typeColumn()); //$NON-NLS-1$ //$NON-NLS-2$
+        TypeColumn typeColumn = new TypeColumn("type", ModelingTool.messages
+                .typeColumn());
         columns.add(typeColumn);
 
-        ValueColumn valueColumn = new ValueColumn(
-                "value", ModelingTool.messages.valueColumn()); //$NON-NLS-1$ //$NON-NLS-2$
+        ValueColumn valueColumn = new ValueColumn("value",
+                ModelingTool.messages.valueColumn());
         columns.add(valueColumn);
 
         colModel = new ColumnModel(columns);
 
-        editorPanel.setHeading(ModelingTool.messages.editorHeading()); //$NON-NLS-1$
-        editorPanel.setFrame(true);
-        editorPanel.setSize(600, 300);
+        editorPanel.setHeading(ModelingTool.messages.editorHeading());
         editorPanel.setLayout(new FitLayout());
-        editorPanel.setAutoWidth(true);
+        editorPanel.setSize(600, 300);
 
         EditorGrid<Variable> grid = new EditorGrid<Variable>(variables,
                 colModel);
-        createToolBar(grid);
+
+        // TODO: Remove pöhse Testdaten
+        for (int i = 0; i <= 20; i++) {
+            Variable var = new Variable();
+            var.set("name", "Zeile " + new Integer(i).toString());
+            grid.getStore().add(var);
+        }
+
         editorPanel.add(grid);
+        createToolBar(grid);
 
     }
 
