@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
 	xmlns:tns="http://decidr.de/webservices/HumanTask" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:decidr="http://decidr.de/schema/DecidrTypes"
-	xmlns:dwsdl="http://decidr.de/wsdl/DecidrTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dwsdl="http://decidr.de/wsdl/DecidrTypes"
+	xmlns:decidr="http://decidr.de/schema/DecidrTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
 	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" name="HumanTask"
 	targetNamespace="http://decidr.de/webservices/HumanTask">
 
@@ -93,6 +93,7 @@
 					<xsd:sequence />
 				</xsd:complexType>
 			</xsd:element>
+			<xsd:element name="transactionException" type="xsd:string" />
 		</xsd:schema>
 	</wsdl:types>
 
@@ -120,28 +121,35 @@
 	<wsdl:message name="removeTaskResponse">
 		<wsdl:part element="tns:removeTaskResponse" name="parameters" />
 	</wsdl:message>
+	<wsdl:message name="transactionException">
+		<wsdl:part element="tns:transactionException" name="parameters" />
+	</wsdl:message>
 
 	<wsdl:portType name="HumanTaskPT">
 		<wsdl:operation name="createTask">
 			<wsdl:input message="tns:createTaskRequest" wsaw:Action="urn:createTask" />
 			<wsdl:output message="tns:createTaskResponse"
 				wsaw:Action="urn:createTaskResponse" />
+			<wsdl:fault name="transactionException" message="tns:transactionException" />
 		</wsdl:operation>
 		<wsdl:operation name="taskCompleted">
 			<wsdl:input message="tns:taskCompletedRequest"
 				wsaw:Action="urn:taskCompleted" />
 			<wsdl:output message="tns:taskCompletedResponse"
 				wsaw:Action="urn:taskCompletedResponse" />
+			<wsdl:fault name="transactionException" message="tns:transactionException" />
 		</wsdl:operation>
 		<wsdl:operation name="removeTasks">
 			<wsdl:input message="tns:removeTasksRequest" wsaw:Action="urn:removeTasks" />
 			<wsdl:output message="tns:removeTasksResponse"
 				wsaw:Action="urn:removeTasksResponse" />
+			<wsdl:fault name="transactionException" message="tns:transactionException" />
 		</wsdl:operation>
 		<wsdl:operation name="removeTask">
 			<wsdl:input message="tns:removeTaskRequest" wsaw:Action="urn:removeTask" />
 			<wsdl:output message="tns:removeTaskResponse"
 				wsaw:Action="urn:removeTaskResponse" />
+			<wsdl:fault name="transactionException" message="tns:transactionException" />
 		</wsdl:operation>
 	</wsdl:portType>
 	<plnk:partnerLinkType name="HumanTaskPLT">
@@ -161,6 +169,9 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
+			<wsdl:fault name="transactionException">
+				<soap:body use="literal" />
+			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="taskCompleted">
 			<soap:operation
@@ -172,6 +183,9 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
+			<wsdl:fault name="transactionException">
+				<soap:body use="literal" />
+			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="removeTasks">
 			<soap:operation soapAction="http://decidr.de/webservices/HumanTask/removeTasks"
@@ -182,6 +196,9 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
+			<wsdl:fault name="transactionException">
+				<soap:body use="literal" />
+			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="removeTask">
 			<soap:operation soapAction="http://decidr.de/webservices/HumanTask/removeTask"
@@ -192,6 +209,9 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
+			<wsdl:fault name="transactionException">
+				<soap:body use="literal" />
+			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>
 

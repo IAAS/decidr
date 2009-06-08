@@ -19,6 +19,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.soap.types.IDList;
 import de.decidr.model.soap.types.TaskIdentifier;
 
@@ -56,6 +57,9 @@ public interface HumanTaskInterface {
      *            A list of fields and default values associated with the work
      *            item needed by the UI to properly render it.
      * @return A {@link TaskIdentifier} as required by the BEPL process.
+     * @throws TransactionException
+     *             Should a <code>{@link TransactionException}</code> be thrown
+     *             by the facade.
      */
     @WebMethod(operationName = "createTask")
     public TaskIdentifier createTask(@WebParam(name = "wfmID") long wfmID,
@@ -64,25 +68,34 @@ public interface HumanTaskInterface {
             @WebParam(name = "taskName") String taskName,
             @WebParam(name = "userNotification") boolean userNotification,
             @WebParam(name = "description") String description,
-            @WebParam(name = "taskData") String taskData);
+            @WebParam(name = "taskData") String taskData)
+            throws TransactionException;
 
     /**
      * Removes a list of tasks from the database.
      * 
      * @param taskIDList
      *            A list of tasks identified by their task ID.
+     * @throws TransactionException
+     *             Should a <code>{@link TransactionException}</code> be thrown
+     *             by the facade.
      */
     @WebMethod(operationName = "removeTask")
-    public void removeTask(@WebParam(name = "taskIDList") IDList taskIDList);
+    public void removeTask(@WebParam(name = "taskIDList") IDList taskIDList)
+            throws TransactionException;
 
     /**
      * Removes all tasks belonging to a specified workflow instance.
      * 
      * @param processID
      *            A workflow instance identifier.
+     * @throws TransactionException
+     *             Should a <code>{@link TransactionException}</code> be thrown
+     *             by the facade.
      */
     @WebMethod(operationName = "removeTasks")
-    public void removeTasks(@WebParam(name = "processID") long processID);
+    public void removeTasks(@WebParam(name = "processID") long processID)
+            throws TransactionException;
 
     /**
      * Notify the BEPL web service that a work item has been completed and pass
@@ -90,7 +103,11 @@ public interface HumanTaskInterface {
      * 
      * @param taskID
      *            An ID identifying the completed work item.
+     * @throws TransactionException
+     *             Should a <code>{@link TransactionException}</code> be thrown
+     *             by the facade.
      */
     @WebMethod(operationName = "taskCompleted")
-    public void taskCompleted(@WebParam(name = "taskID") long taskID);
+    public void taskCompleted(@WebParam(name = "taskID") long taskID)
+            throws TransactionException;
 }

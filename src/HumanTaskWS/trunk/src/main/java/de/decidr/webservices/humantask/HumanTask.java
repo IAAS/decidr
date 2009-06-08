@@ -23,6 +23,7 @@ import org.apache.log4j.Logger;
 
 import com.vaadin.data.Item;
 
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.facades.WorkflowInstanceFacade;
 import de.decidr.model.logging.DefaultLogger;
@@ -59,7 +60,7 @@ public class HumanTask implements HumanTaskInterface {
     @Override
     public TaskIdentifier createTask(long wfmID, long processID, long userID,
             String taskName, boolean userNotification, String description,
-            String taskData) {
+            String taskData) throws TransactionException {
         log.debug("Entering method: createTask");
 
         log.debug("creating work item in database");
@@ -82,7 +83,7 @@ public class HumanTask implements HumanTaskInterface {
      * .model.soap.types.IDList)
      */
     @Override
-    public void removeTask(IDList taskIDList) {
+    public void removeTask(IDList taskIDList) throws TransactionException {
         log.debug("Entering method: removeTask");
         WorkItemFacade facade = new WorkItemFacade(HUMANTASK_ROLE);
         for (long id : taskIDList.getId()) {
@@ -98,7 +99,7 @@ public class HumanTask implements HumanTaskInterface {
      * @see de.decidr.webservices.humantask.HumanTaskInterface#removeTasks(long)
      */
     @Override
-    public void removeTasks(long processID) {
+    public void removeTasks(long processID) throws TransactionException {
         log.debug("Entering method: removeTasks");
         List<Item> workItems = new WorkflowInstanceFacade(HUMANTASK_ROLE)
                 .getAllWorkItems(processID);
@@ -121,7 +122,7 @@ public class HumanTask implements HumanTaskInterface {
      * de.decidr.webservices.humantask.HumanTaskInterface#taskCompleted(long)
      */
     @Override
-    public void taskCompleted(long taskID) {
+    public void taskCompleted(long taskID) throws TransactionException {
         log.debug("Entering method: taskCompleted");
         Object taskData = new WorkItemFacade(HUMANTASK_ROLE)
                 .getWorkItem(taskID).getItemProperty("data").getValue();
