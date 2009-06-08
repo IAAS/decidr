@@ -31,5 +31,7 @@ public interface Messages extends Constants {
     String typeColumn();
 
     String valueColumn();
+    
+    String arrayVarColumn();
 
 }

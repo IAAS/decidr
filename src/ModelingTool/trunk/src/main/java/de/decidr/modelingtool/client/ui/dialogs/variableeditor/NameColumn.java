@@ -25,11 +25,11 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
  * 
  * @author JS
  */
-public class LabelColumn extends ColumnConfig {
+public class NameColumn extends ColumnConfig {
 	
 	private TextField<String> text = new TextField<String>();
 	
-	public LabelColumn(String columnId, String header) {
+	public NameColumn(String columnId, String header) {
 		this.setId(columnId);
 		this.setHeader(header);
 		this.setWidth(100);

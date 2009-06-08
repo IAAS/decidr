@@ -19,7 +19,6 @@ package de.decidr.modelingtool.client.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.extjs.gxt.ui.client.data.BaseModel;
 import com.extjs.gxt.ui.client.data.BaseModelData;
 
 /**
