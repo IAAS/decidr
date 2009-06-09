@@ -11,6 +11,7 @@ Add your issues to be descussed in the next "Weekly Meeting":
   # *definitive* date for StorageWS & Email-WS dicussions (RR)
   # Create coding guidelines in wiki (RR)
     * first entry: always comment empty blocks (esp. catch blocks)
+    * use personalised task tags in comments (e.g. "RR: fix this, dammit")
   # useless SVN commit comments, esp. with wiki changes (RR)
 
 == WM 05/26/09 ==
