@@ -98,4 +98,12 @@ public class LoginComponent extends CustomComponent {
         
     }
 
+    public TextField getUsernameTextField() {
+        return usernameTextField;
+    }
+
+    public TextField getPasswordTextField() {
+        return passwordTextField;
+    }
+
 }

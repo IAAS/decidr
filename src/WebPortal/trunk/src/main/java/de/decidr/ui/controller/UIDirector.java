@@ -55,12 +55,15 @@ public class UIDirector {
         this.uiBuilder = uiBuilder;
     }
     
+    public void createNewView(){
+        uiBuilder.createNewView();
+    }
+    
     /**
      * TODO: add comment
      *
      */
     public void constructView(){
-        uiBuilder.createNewView();
         uiBuilder.buildHeader();
         uiBuilder.buildContent();
         uiBuilder.buildNavigation();

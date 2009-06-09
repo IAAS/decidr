@@ -1,10 +1,17 @@
 package de.decidr.ui.view;
 
+import javax.servlet.http.HttpSession;
+
+import com.vaadin.service.ApplicationContext;
+import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.Button.ClickEvent;
+
+import de.decidr.ui.data.WorkItemContainer;
 
 public class SearchPanel extends Panel {
     
@@ -33,6 +40,15 @@ public class SearchPanel extends Panel {
         searchTextField = new TextField();
         
         searchButton = new Button("Search");
+        searchButton.addListener(new Button.ClickListener(){
+//just testing
+            @Override
+            public void buttonClick(ClickEvent event) {
+                
+                
+            }
+            
+        });
         
         addComponent(searchHorizontalLayout);
         
