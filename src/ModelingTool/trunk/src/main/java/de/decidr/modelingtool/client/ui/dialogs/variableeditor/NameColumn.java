@@ -26,18 +26,18 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
  * @author JS
  */
 public class NameColumn extends ColumnConfig {
-	
-	private TextField<String> text = new TextField<String>();
-	
-	public NameColumn(String columnId, String header) {
-		this.setId(columnId);
-		this.setHeader(header);
-		this.setWidth(120);
-		
-		text.setAllowBlank(false);
-		text.setAutoWidth(true);
-		text.setAutoValidate(false);
-		this.setEditor(new CellEditor(text));
-	}
+
+    private TextField<String> text = new TextField<String>();
+
+    public NameColumn(String columnId, String header) {
+        this.setId(columnId);
+        this.setHeader(header);
+        this.setWidth(120);
+
+        text.setAllowBlank(false);
+        text.setAutoWidth(true);
+        text.setAutoValidate(false);
+        this.setEditor(new CellEditor(text));
+    }
 
 }

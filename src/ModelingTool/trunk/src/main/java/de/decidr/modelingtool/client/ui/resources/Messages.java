@@ -35,4 +35,8 @@ public interface Messages extends Constants {
     String arrayVarColumn();
 
     String configVarColumn();
+    
+    String okButton();
+    
+    String cancelButton();
 }

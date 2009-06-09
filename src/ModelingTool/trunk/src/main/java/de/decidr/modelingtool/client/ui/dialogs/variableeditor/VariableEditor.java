@@ -19,10 +19,13 @@ package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.event.ToolBarEvent;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.grid.CellSelectionModel;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
@@ -132,6 +135,25 @@ public class VariableEditor extends Dialog {
         grid.setSelectionModel(csm);
         grid.setAutoExpandColumn("value");
         grid.addPlugin(arrayVarColumn);
+
+        /* Create buttons */
+        editorPanel.setButtonAlign(HorizontalAlignment.CENTER);
+        editorPanel.addButton(new Button(ModelingTool.messages.okButton(),
+                new SelectionListener<ButtonEvent>() {
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        variables.commitChanges();
+                        editorPanel.getParent().setVisible(false);
+                    }
+                }));
+        editorPanel.addButton(new Button(ModelingTool.messages.cancelButton(),
+                new SelectionListener<ButtonEvent>() {
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        variables.rejectChanges();
+                        editorPanel.getParent().setVisible(false);
+                    }
+                }));
 
         // TODO: Remove pöhse Testdaten
         for (int i = 0; i <= 20; i++) {

@@ -17,7 +17,6 @@
 package de.decidr.modelingtool.client.ui.dialogs;
 
 import com.extjs.gxt.ui.client.widget.Window;
-import com.extjs.gxt.ui.client.widget.button.Button;
 
 /**
  * TODO: add comment
@@ -25,17 +24,13 @@ import com.extjs.gxt.ui.client.widget.button.Button;
  * @author JS
  */
 abstract public class Dialog extends Window {
-    
-    public Button okButton;
-    public Button cancelButton;
-    
+
     /**
      * TODO: add comment
-     *
+     * 
      */
     public Dialog() {
         super();
     }
-
 
 }

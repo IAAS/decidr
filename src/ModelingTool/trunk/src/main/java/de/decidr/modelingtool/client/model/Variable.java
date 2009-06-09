@@ -122,7 +122,7 @@ public class Variable extends BaseModelData {
          * single value to an empty arraylist
          */
         ArrayList<String> values = new ArrayList<String>();
-        if (get(ARRAYVAR)) {
+        if (isArray()) {
             values = get(VALUE);
         } else {
             values.add((String) get(VALUE));
@@ -158,7 +158,7 @@ public class Variable extends BaseModelData {
      * @return the array
      */
     public boolean isArray() {
-        return get(ARRAYVAR);
+        return (Boolean) get(ARRAYVAR);
     }
 
     /**
@@ -178,7 +178,7 @@ public class Variable extends BaseModelData {
      * @return the configVariable
      */
     public boolean isConfigVariable() {
-        return get(CONFIGVAR);
+        return (Boolean) get(CONFIGVAR);
     }
 
     /**
