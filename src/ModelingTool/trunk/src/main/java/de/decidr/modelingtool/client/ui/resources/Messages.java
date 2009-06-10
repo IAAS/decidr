@@ -23,6 +23,8 @@ public interface Messages extends Constants {
     String addVariable();
 
     String delVariable();
+    
+    String editValue();
 
     String editorHeading();
 

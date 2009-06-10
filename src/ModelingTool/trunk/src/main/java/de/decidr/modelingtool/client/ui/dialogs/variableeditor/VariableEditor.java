@@ -38,6 +38,7 @@ import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.model.Variable;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
+import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
  * TODO: add comment
@@ -62,6 +63,7 @@ public class VariableEditor extends Dialog {
 
         getVariablesfromModel();
         createEditorPanel();
+        createButtons();
 
         this.add(editorPanel);
     }
@@ -102,6 +104,18 @@ public class VariableEditor extends Dialog {
         });
         toolBar.add(delVar);
 
+        TextToolItem editValue = new TextToolItem(ModelingTool.messages
+                .editValue());
+        editValue.addSelectionListener(new SelectionListener<ToolBarEvent>() {
+            @Override
+            public void componentSelected(ToolBarEvent ce) {
+                grid.stopEditing();
+                DialogRegistry.getInstance().getDialog(
+                        ValueEditor.class.getName()).setVisible(true);
+            }
+        });
+        toolBar.add(editValue);
+
         editorPanel.setBottomComponent(toolBar);
     }
 
@@ -136,25 +150,6 @@ public class VariableEditor extends Dialog {
         grid.setAutoExpandColumn("value");
         grid.addPlugin(arrayVarColumn);
 
-        /* Create buttons */
-        editorPanel.setButtonAlign(HorizontalAlignment.CENTER);
-        editorPanel.addButton(new Button(ModelingTool.messages.okButton(),
-                new SelectionListener<ButtonEvent>() {
-                    @Override
-                    public void componentSelected(ButtonEvent ce) {
-                        variables.commitChanges();
-                        editorPanel.getParent().setVisible(false);
-                    }
-                }));
-        editorPanel.addButton(new Button(ModelingTool.messages.cancelButton(),
-                new SelectionListener<ButtonEvent>() {
-                    @Override
-                    public void componentSelected(ButtonEvent ce) {
-                        variables.rejectChanges();
-                        editorPanel.getParent().setVisible(false);
-                    }
-                }));
-
         // TODO: Remove pöhse Testdaten
         for (int i = 0; i <= 20; i++) {
             Variable var = new Variable();
@@ -164,5 +159,29 @@ public class VariableEditor extends Dialog {
 
         editorPanel.add(grid);
         createToolBar(grid);
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     */
+    private void createButtons() {
+        setButtonAlign(HorizontalAlignment.CENTER);
+        addButton(new Button(ModelingTool.messages.okButton(),
+                new SelectionListener<ButtonEvent>() {
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        variables.commitChanges();
+                        editorPanel.getParent().setVisible(false);
+                    }
+                }));
+        addButton(new Button(ModelingTool.messages.cancelButton(),
+                new SelectionListener<ButtonEvent>() {
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        variables.rejectChanges();
+                        editorPanel.getParent().setVisible(false);
+                    }
+                }));
     }
 }
