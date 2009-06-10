@@ -1,4 +1,6 @@
 #summary Coding Guidelines for the DecidR project
 #labels Phase-Implementation
 
- = DecidR Coding Guidelines =
+= DecidR Coding Guidelines =
+
+ * Empty blocks should always be well explained or maked owth a //TODO comment

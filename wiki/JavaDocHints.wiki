@@ -1,4 +1,29 @@
 #summary Hints on how to produce proper readable javadoc comments
 #labels Phase-Implementation
 
- = !JavaDoc Hints =
+= !JavaDoc Hints =
+
+ * !JavaDoc comments are written in HTML
+ * To force a linebreak, use "<br>". Example:
+   {{{
+   /**
+   * Line 1<br>
+   * Line 2
+   */
+   }}}
+   Will result in:
+   {{{
+   Line 1
+   Line 2
+   }}}
+   Whereas not using "<br>":
+   {{{
+   /**
+   * Line 1
+   * Line 2
+   */
+   }}}
+   will result in:
+   {{{
+   Line 1 Line 2
+   }}}
