@@ -18,6 +18,11 @@ import de.decidr.model.permissions.UserRole; // import ListItem;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
 
+/**
+ * TODO: add comment
+ *
+ * @author TODO
+ */
 public class UserFacade extends AbstractFacade {
 
     public UserFacade(Role actor) {
@@ -111,24 +116,25 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * 
      * Returns all tenants the given user is member of as item with the
-     * following properties: - id - name
+     * following properties:<br>
+     * - id<br>
+     * - name
      * 
      * 
      * @param userId
      * @return
      */
     @SuppressWarnings("unchecked")
-    public List<Item> getJoinedTenants(Long userId) throws TransactionException{
+    public List<Item> getJoinedTenants(Long userId) throws TransactionException {
 
         List<Tenant> inList;
         List<Item> outList = new ArrayList();
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
-        getJoinedTenantsCommand command = new getJoinedTenantsCommand(
-                actor, userId);
+        getJoinedTenantsCommand command = new getJoinedTenantsCommand(actor,
+                userId);
 
         try {
             tac.runTransaction(command);
@@ -136,9 +142,9 @@ public class UserFacade extends AbstractFacade {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+
         inList = command.getResult();
-        String[] properties = { "id", "name"};
+        String[] properties = { "id", "name" };
 
         for (Tenant model : inList) {
             outList.add(new BeanItem(model, properties));
@@ -149,9 +155,10 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * 
-     * Returns the workflow models which the given user administrates: - id -
-     * name - description
+     * Returns the workflow models which the given user administrates:<br>
+     * - id<br>
+     * - name<br>
+     * - description
      * 
      * @param userId
      * @return
