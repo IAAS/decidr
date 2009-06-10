@@ -26,7 +26,6 @@ import com.vaadin.data.Item;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.facades.WorkflowInstanceFacade;
-import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.permissions.HumanTaskRole;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.soap.types.IDList;
@@ -47,7 +46,7 @@ public class HumanTask implements HumanTaskInterface {
      * Default constructor to activate logging.
      */
     public HumanTask() {
-        log = DefaultLogger.getLogger(this.getClass());
+        log = Logger.getLogger(HumanTask.class);
     }
 
     @Override

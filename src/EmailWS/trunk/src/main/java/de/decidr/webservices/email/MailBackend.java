@@ -40,8 +40,6 @@ import org.apache.log4j.Logger;
 
 import com.sun.mail.smtp.SMTPTransport;
 
-import de.decidr.model.logging.DefaultLogger;
-
 /**
  * A representation of a JavaMail <code>{@link Message message}</code>.<br>
  * I works by first collecting all the necessary information and then calling
@@ -73,7 +71,7 @@ public class MailBackend {
             addresses.append(", ");
         }
         addresses.delete(addresses.length() - 2, addresses.length());
-        DefaultLogger.getLogger(MailBackend.class).debug(
+        Logger.getLogger(MailBackend.class).debug(
                 "checking constructed address list: " + addresses);
 
         return validateAddresses(addresses.toString());
@@ -91,7 +89,7 @@ public class MailBackend {
      *         <code>false</code> - otherwise
      */
     public static boolean validateAddresses(String addressList) {
-        Logger log = DefaultLogger.getLogger(MailBackend.class);
+        Logger log = Logger.getLogger(MailBackend.class);
         if (addressList == null || addressList.trim().isEmpty()) {
             log.debug("Passed address list is empty => invalid");
             return false;
@@ -163,7 +161,7 @@ public class MailBackend {
         setReceiver(to);
         setSender(from);
         setSubject(subject);
-        log = DefaultLogger.getLogger(this.getClass());
+        log = Logger.getLogger(MailBackend.class);
     }
 
     /**
