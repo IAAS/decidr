@@ -59,11 +59,11 @@ public class HorizontalNavigationMenu extends CustomComponent {
                 btnLogoutLink.setVisible(false);
                 btnHomeLink = new Button("Home", new WelcomePageAction());
                 btnHomeLink.setStyleName(Button.STYLE_LINK);
-                btnHelpLink = new Button("Help", new HelpPageAction());
+                btnHelpLink = new Button("Help", new ShowHelpAction());
                 btnHelpLink.setStyleName(Button.STYLE_LINK);
-                btnImpressumLink = new Button("Impressum", new ImpressumAction());
+                btnImpressumLink = new Button("Impressum", new ShowImpressumAction());
                 btnImpressumLink.setStyleName(Button.STYLE_LINK);
-                btnTermsOfServiceLink = new Button("Terms of Service", new TermsOfServiceAction());
+                btnTermsOfServiceLink = new Button("Terms of Service", new ShowTermsOfServiceAction());
                 btnTermsOfServiceLink.setStyleName(Button.STYLE_LINK);
                 
                 horizontalLayout.setWidth(800,HorizontalLayout.UNITS_PIXELS);
