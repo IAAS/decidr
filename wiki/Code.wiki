@@ -2,5 +2,5 @@
 #labels Phase-Implementation
 
 = Coding Phase =
-  * [CodeGuide The DecidR coding guideline]
+  * [CodeGuide The DecidR coding guidelines]
   * [JavaDocHints Hints on using JavaDoc]

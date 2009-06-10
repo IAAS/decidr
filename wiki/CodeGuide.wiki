@@ -1,0 +1,4 @@
+#summary Coding Guidelines for the DecidR project
+#labels Phase-Implementation
+
+ = DecidR Coding Guidelines =
