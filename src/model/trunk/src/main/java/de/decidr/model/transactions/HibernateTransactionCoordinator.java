@@ -23,7 +23,6 @@ import org.hibernate.cfg.Configuration;
 
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.logging.DefaultLogger;
 
 /**
  * Invokes {@link TransactionalCommand}s within a hibernate transaction. Inner
@@ -41,7 +40,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     private static final HibernateTransactionCoordinator instance = new HibernateTransactionCoordinator();
 
-    private static Logger logger = DefaultLogger
+    private static Logger logger = Logger
             .getLogger(HibernateTransactionCoordinator.class);
 
     /**
@@ -98,7 +97,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * Commits the current transaction.
      * 
      */
-    protected void commitCurrentTransaction() throws TransactionException{
+    protected void commitCurrentTransaction() throws TransactionException {
 
         if (currentTransaction == null) {
             throw new TransactionException(
@@ -118,7 +117,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * Rolls the current transaction back.
      */
-    protected void rollbackCurrentTransaction() throws TransactionException{
+    protected void rollbackCurrentTransaction() throws TransactionException {
 
         if (currentTransaction == null) {
             throw new TransactionException(
@@ -151,9 +150,9 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             throw new TransactionException(new IllegalArgumentException(
                     "Null value not allowed."));
         }
-        
+
         notifiedReceivers.clear();
-     
+
         try {
             beginTransaction();
 
@@ -188,7 +187,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * @param receiver
      * 
      */
-    private void fireTransactionStarted(TransactionalCommand receiver) throws TransactionException{
+    private void fireTransactionStarted(TransactionalCommand receiver)
+            throws TransactionException {
         TransactionEvent event = new TransactionEvent(session,
                 transactionDepth > 1);
         receiver.transactionStarted(event);
@@ -204,7 +204,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * 
      */
     private void fireTransactionAborted(TransactionalCommand receiver,
-            Exception caughtException) throws TransactionException{
+            Exception caughtException) throws TransactionException {
         TransactionAbortedEvent event = new TransactionAbortedEvent(session,
                 caughtException, transactionDepth > 1);
         receiver.transactionAborted(event);
