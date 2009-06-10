@@ -50,9 +50,9 @@ public class Header extends CustomComponent {
         }
         
         public static Header getInstance(){
-        if(header == null){
-                header = new Header();
+            if(header == null){
+                    header = new Header();
+            }
+            return header;
         }
-        return header;
-    }
 }
