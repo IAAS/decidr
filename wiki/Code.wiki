@@ -1,3 +1,6 @@
 #summary coding phase page for the classical hierarchical wiki
+#labels Phase-Implementation
 
 = Coding Phase =
+  * [CodeGuide The DecidR coding guideline]
+  * [JavaDocHints Hints on using JavaDoc]
