@@ -15,7 +15,13 @@
  */
 package de.decidr.webservices.email;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -120,13 +126,13 @@ public class MailBackend {
         if (bcc == null || bcc.isEmpty())
             return;
         if (!validateAddresses(bcc)) {
-            log
-                    .error("The following string is not a valid value for the \"BCC:\" header: "
-                            + bcc);
+            log.error("The following string is not a valid value "
+                    + "for the \"BCC:\" header: " + bcc);
             throw new IllegalArgumentException(
                     "One or more of the specified recipients are formatted incorrectly!");
         }
 
+        log.debug("Appending \"" + bcc + "\" to BCC header.");
         headerBCC += ", " + bcc;
     }
 
@@ -141,13 +147,13 @@ public class MailBackend {
         if (cc == null || cc.isEmpty())
             return;
         if (!validateAddresses(cc)) {
-            log
-                    .error("The following string is not a valid value for the \"CC:\" header: "
-                            + cc);
+            log.error("The following string is not a valid value "
+                    + "for the \"CC:\" header: " + cc);
             throw new IllegalArgumentException(
                     "One or more of the specified recipients are formatted incorrectly!");
         }
 
+        log.debug("Appending \"" + cc + "\" to CC header.");
         headerCC += ", " + cc;
     }
 
@@ -167,21 +173,36 @@ public class MailBackend {
      */
     public void addHeader(String headerName, String headerContent) {
         if (headerName.equalsIgnoreCase("To")) {
+            log.warn("The To: header should not be set using the "
+                    + "addHeader() method. Delegating to setReceiver()...");
             setReceiver(headerContent);
         } else if (headerName.equalsIgnoreCase("From")) {
+            log.warn("The From: header should not be set using the "
+                    + "addHeader() method. Delegating to setSender()...");
             setSender(headerContent);
         } else if (headerName.equalsIgnoreCase("Subject")) {
+            log.warn("The Subject: header should not be set using the "
+                    + "addHeader() method. Delegating to setSubject()...");
             setSubject(headerContent);
         } else if (headerName.equalsIgnoreCase("CC")) {
+            log.warn("The CC: header should not be set using the "
+                    + "addHeader() method. Delegating to setCC()...");
             setCC(headerContent);
         } else if (headerName.equalsIgnoreCase("BCC")) {
+            log.warn("The BCC: header should not be set using the "
+                    + "addHeader() method. Delegating to setBCC()...");
             setBCC(headerContent);
         } else if (headerName.equalsIgnoreCase("X-Mailer")
                 || headerName.equalsIgnoreCase("User-Agent")
                 || headerName.equalsIgnoreCase("X-Newsreader")) {
+            log.warn("The " + headerName + ": header should not "
+                    + "be set using the addHeader() method. "
+                    + "Delegating to setXMailer()...");
             setXMailer(headerContent);
-        } else
+        } else {
+            log.debug("Adding " + headerName + ": " + headerContent);
             additionalHeaderMap.put(headerName, headerContent);
+        }
     }
 
     /**
@@ -197,9 +218,47 @@ public class MailBackend {
      *            A <code>{@link Map}</code> of headers to set.
      */
     public void addHeaders(Map<String, String> headers) {
+        log.debug("Stepping through headers Map and "
+                + "delegating to addHeader(String, String)...");
         for (String headerName : headers.keySet()) {
             addHeader(headerName, headers.get(headerName));
         }
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param file
+     * @throws MessagingException
+     * @throws FileNotFoundException
+     */
+    public void addFile(File file) throws FileNotFoundException,
+            MessagingException {
+        addMimePart(new MimeBodyPart(new FileInputStream(file)));
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param file
+     * @throws MessagingException
+     * @throws IOException
+     */
+    public void addFile(URL file) throws MessagingException, IOException {
+        addMimePart(new MimeBodyPart(file.openStream()));
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param file
+     * @throws MalformedURLException
+     * @throws MessagingException
+     * @throws IOException
+     */
+    public void addFile(URI file) throws MalformedURLException,
+            MessagingException, IOException {
+        addFile(file.toURL());
     }
 
     /**
