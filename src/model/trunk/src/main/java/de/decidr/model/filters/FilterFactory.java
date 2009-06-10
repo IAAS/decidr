@@ -1,12 +1,16 @@
 package de.decidr.model.filters;
 
+/**
+ * Creates {@link Filter}s using static factory methods.
+ * 
+ * @author Markus Fischer
+ * @author Daniel Huss
+ * @version 0.1
+ */
 public class FilterFactory {
 
-	protected static void instance() {
-		throw new UnsupportedOperationException();
-	}
+    public static Filter getTenantFilter(Long tenantId) {
+        return null; // FIXME add some factory methods
+    }
 
-	public static de.decidr.model.filters.FilterFactory getInstance() {
-		throw new UnsupportedOperationException();
-	}
 }

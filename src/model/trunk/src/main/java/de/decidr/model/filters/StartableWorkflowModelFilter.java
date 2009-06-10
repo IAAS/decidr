@@ -1,10 +1,24 @@
 package de.decidr.model.filters;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 
-public class StartableWorkflowModelFilter implements de.decidr.model.filters.Filter {
+/**
+ * Allows only startable models.
+ * 
+ * @author Daniel Huss
+ * @version 0.1
+ */
+public class StartableWorkflowModelFilter implements Filter {
 
-	public void apply(Criteria criteria) {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void apply(Criteria criteria) {
+        // TODO I have no bloody idea if this works.
+        criteria.createAlias("StartableWorkflowModel",
+                "StartableWorkflowModelFilter").add(
+                Restrictions
+                        .eqProperty("id", "StartableWorkflowModelFilter.id"));
+    }
 }

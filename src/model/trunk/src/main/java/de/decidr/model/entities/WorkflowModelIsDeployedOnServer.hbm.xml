@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 06.06.2009 16:49:44 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 10.06.2009 15:02:37 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.WorkflowModelIsDeployedOnServer" table="workflow_model_is_deployed_on_server" catalog="decidrdb">
         <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>

@@ -12,6 +12,7 @@
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
         <mapping resource="de/decidr/model/entities/StartConfiguration.hbm.xml" />
         <mapping resource="de/decidr/model/entities/UserAdministratesWorkflowInstance.hbm.xml" />
+        <mapping resource="de/decidr/model/entities/StartableWorkflowModelView.hbm.xml" />
         <mapping resource="de/decidr/model/entities/Log.hbm.xml" />
         <mapping resource="de/decidr/model/entities/WorkflowInstance.hbm.xml" />
         <mapping resource="de/decidr/model/entities/User.hbm.xml" />
