@@ -16,8 +16,6 @@
 package de.decidr.webservices.email;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -56,6 +54,61 @@ import de.decidr.model.logging.DefaultLogger;
 // RR: add logging
 public class MailBackend {
 
+    Logger log;
+
+    /**
+     * Uses {@link #validateAddresses(String)} to verify that a list of e-mail
+     * addresses are formatted correctly.
+     * 
+     * @param addressList
+     *            A list of e-mail addresses.
+     * @return <code>true</code> - if the list parses correctly<br>
+     *         <code>false</code> - otherwise
+     */
+    public static boolean validateAddresses(List<String> addressList) {
+        StringBuilder addresses = new StringBuilder(addressList.size() * 20);
+
+        for (String recipient : addressList) {
+            addresses.append(recipient);
+            addresses.append(", ");
+        }
+        addresses.delete(addresses.length() - 2, addresses.length());
+        DefaultLogger.getLogger(MailBackend.class).debug(
+                "checking constructed address list: " + addresses);
+
+        return validateAddresses(addresses.toString());
+    }
+
+    /**
+     * Uses {@link InternetAddress#parse(String, boolean)
+     * InternetAddress.parse(String, true)} to verify that a list of e-mail
+     * addresses are formatted correctly.<br>
+     * Empty address strings are considered invalid.
+     * 
+     * @param addressList
+     *            A comma separated list of e-mail addresses.
+     * @return <code>true</code> - if the list parses correctly<br>
+     *         <code>false</code> - otherwise
+     */
+    public static boolean validateAddresses(String addressList) {
+        Logger log = DefaultLogger.getLogger(MailBackend.class);
+        if (addressList == null || addressList.trim().isEmpty()) {
+            log.debug("Passed address list is empty => invalid");
+            return false;
+        }
+
+        try {
+            InternetAddress.parse(addressList, true);
+        } catch (AddressException e) {
+            log.debug("AddressException in InternetAddress.parse()"
+                    + " => invalid", e);
+            return false;
+        }
+        
+        log.debug("No error and not empty => assuming correct format");
+        return true;
+    }
+
     /**
      * A map containing additional headers and their contents.
      */
@@ -66,8 +119,6 @@ public class MailBackend {
      */
     private String headerTo, headerFrom, headerSubject, headerCC, headerBCC,
             headerXMailer;
-
-    Logger log;
 
     /**
      * List of parts. If there are more than one, a multipart message is
@@ -123,7 +174,7 @@ public class MailBackend {
      *            A comma separated list of recipients.
      */
     public void addBCC(String bcc) {
-        if (bcc == null || bcc.isEmpty())
+        if (bcc == null || bcc.trim().isEmpty())
             return;
         if (!validateAddresses(bcc)) {
             log.error("The following string is not a valid value "
@@ -144,7 +195,7 @@ public class MailBackend {
      *            A comma separated list of recipients.
      */
     public void addCC(String cc) {
-        if (cc == null || cc.isEmpty())
+        if (cc == null || cc.trim().isEmpty())
             return;
         if (!validateAddresses(cc)) {
             log.error("The following string is not a valid value "
@@ -155,6 +206,55 @@ public class MailBackend {
 
         log.debug("Appending \"" + cc + "\" to CC header.");
         headerCC += ", " + cc;
+    }
+
+    /**
+     * Attaches the file specified by the <code>{@link File}</code> parameter.
+     * 
+     * @param file
+     *            A <code>{@link File}</code> pointing to the file to attach.
+     * @throws IOException
+     *             see <code>{@link #addFile(URI)}</code>
+     * @throws MessagingException
+     *             see <code>{@link #addFile(URI)}</code>
+     * @throws MalformedURLException
+     *             see <code>{@link #addFile(URI)}</code>
+     */
+    public void addFile(File file) throws MalformedURLException,
+            MessagingException, IOException {
+        addFile(file.toURI());
+    }
+
+    /**
+     * Attaches the file specified by the <code>{@link URI}</code> parameter.
+     * 
+     * @param file
+     *            A <code>{@link URI}</code> specifying the file to attach.
+     * @throws MalformedURLException
+     *             see <code>{@link URI#toURL()}</code>
+     * @throws MessagingException
+     *             see <code>{@link URI#toURL()}</code>
+     * @throws IOException
+     *             see <code>{@link URI#toURL()}</code>
+     */
+    public void addFile(URI file) throws MalformedURLException,
+            MessagingException, IOException {
+        addFile(file.toURL());
+    }
+
+    /**
+     * Attaches the file specified by the <code>{@link URL}</code> parameter.
+     * 
+     * @param file
+     *            A <code>{@link URL}</code> pointing to the file to attach.
+     * @throws MessagingException
+     *             see <code>{@link URL#openStream()}</code>
+     * @throws IOException
+     *             see
+     *             <code>{@link MimeBodyPart#MimeBodyPart(java.io.InputStream)}</code>
+     */
+    public void addFile(URL file) throws MessagingException, IOException {
+        addMimePart(new MimeBodyPart(file.openStream()));
     }
 
     /**
@@ -172,6 +272,12 @@ public class MailBackend {
      *            The value of the header specified by <code>headerName</code>.
      */
     public void addHeader(String headerName, String headerContent) {
+        /*
+         * Trim the string in case somebody tries to circumvent the filter using
+         * spaces.
+         */
+        headerName = headerName.trim();
+
         if (headerName.equalsIgnoreCase("To")) {
             log.warn("The To: header should not be set using the "
                     + "addHeader() method. Delegating to setReceiver()...");
@@ -226,42 +332,6 @@ public class MailBackend {
     }
 
     /**
-     * TODO: add comment
-     * 
-     * @param file
-     * @throws MessagingException
-     * @throws FileNotFoundException
-     */
-    public void addFile(File file) throws FileNotFoundException,
-            MessagingException {
-        addMimePart(new MimeBodyPart(new FileInputStream(file)));
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param file
-     * @throws MessagingException
-     * @throws IOException
-     */
-    public void addFile(URL file) throws MessagingException, IOException {
-        addMimePart(new MimeBodyPart(file.openStream()));
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param file
-     * @throws MalformedURLException
-     * @throws MessagingException
-     * @throws IOException
-     */
-    public void addFile(URI file) throws MalformedURLException,
-            MessagingException, IOException {
-        addFile(file.toURL());
-    }
-
-    /**
      * Adds a MIME part to the message. Can be used to attach files and other
      * content.
      * 
@@ -292,17 +362,133 @@ public class MailBackend {
      *            A comma separated list of recipients.
      */
     public void addReceiver(String to) {
-        if (to == null || to.isEmpty())
+        if (to == null || to.trim().isEmpty())
             return;
         if (!validateAddresses(to)) {
-            log
-                    .error("The following string is not a valid value for the \"To:\" header: "
-                            + to);
+            log.error("The following string is not a valid value "
+                    + "for the \"To:\" header: " + to);
             throw new IllegalArgumentException(
                     "One or more of the specified recipients are formatted incorrectly!");
         }
 
         headerTo += ", " + to;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the additionalHeaderMap
+     */
+    final Map<String, String> getAdditionalHeaderMap() {
+        return additionalHeaderMap;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the headerBCC
+     */
+    final String getHeaderBCC() {
+        return headerBCC;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the headerCC
+     */
+    final String getHeaderCC() {
+        return headerCC;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the headerFrom
+     */
+    final String getHeaderFrom() {
+        return headerFrom;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the headerSubject
+     */
+    final String getHeaderSubject() {
+        return headerSubject;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the headerTo
+     */
+    final String getHeaderTo() {
+        return headerTo;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the headerXMailer
+     */
+    final String getHeaderXMailer() {
+        return headerXMailer;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the messageParts
+     */
+    final List<MimeBodyPart> getMessageParts() {
+        return messageParts;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the password
+     */
+    final String getPassword() {
+        return password;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the sMTPPortNum
+     */
+    final int getSMTPPortNum() {
+        return SMTPPortNum;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the sMTPServerHost
+     */
+    final String getSMTPServerHost() {
+        return SMTPServerHost;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the username
+     */
+    final String getUsername() {
+        return username;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the useTLS
+     */
+    final boolean isUseTLS() {
+        return useTLS;
     }
 
     /**
@@ -468,10 +654,14 @@ public class MailBackend {
      *            A comma separated list of recipients.
      */
     public void setBCC(String bcc) {
+        if (bcc == null || bcc.trim().isEmpty()) {
+            headerBCC = "";
+            return;
+        }
+
         if (!validateAddresses(bcc)) {
-            log
-                    .error("The following string is not a valid value for the \"BCC:\" header: "
-                            + bcc);
+            log.error("The following string is not a valid value "
+                    + "for the \"BCC:\" header: " + bcc);
             throw new IllegalArgumentException(
                     "One or more of the specified recipients are formatted incorrectly!");
         }
@@ -521,10 +711,14 @@ public class MailBackend {
      *            A comma separated list of recipients.
      */
     public void setCC(String cc) {
+        if (cc == null || cc.trim().isEmpty()) {
+            headerBCC = "";
+            return;
+        }
+
         if (!validateAddresses(cc)) {
-            log
-                    .error("The following string is not a valid value for the \"CC:\" header: "
-                            + cc);
+            log.error("The following string is not a valid value "
+                    + "for the \"CC:\" header: " + cc);
             throw new IllegalArgumentException(
                     "One or more of the specified recipients are formatted incorrectly!");
         }
@@ -588,13 +782,12 @@ public class MailBackend {
      *            A comma separated list of recipients.
      */
     public void setReceiver(String to) {
-        if (to == null || to.isEmpty())
+        if (to == null || to.trim().isEmpty())
             throw new IllegalArgumentException(
                     "Please specify some recipients!");
         if (!validateAddresses(to)) {
-            log
-                    .error("The following string is not a valid value for the \"To:\" header: "
-                            + to);
+            log.error("The following string is not a valid value "
+                    + "for the \"To:\" header: " + to);
             throw new IllegalArgumentException(
                     "One or more of the specified recipients are formatted incorrectly!");
         }
@@ -674,45 +867,5 @@ public class MailBackend {
      */
     public void useTLS(boolean use) {
         useTLS = use;
-    }
-
-    /**
-     * Uses {@link InternetAddress#parse(String, boolean)
-     * InternetAddress.parse(String, true)} to verify that a list of e-mail
-     * addresses are formatted correctly.
-     * 
-     * @param addressList
-     *            A comma separated list of e-mail addresses.
-     * @return <code>true</code> - if the list parses correctly<br>
-     *         <code>false</code> - otherwise
-     */
-    public boolean validateAddresses(String addressList) {
-        try {
-            InternetAddress.parse(addressList, true);
-        } catch (AddressException e) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Uses {@link #validateAddresses(String)} to verify that a list of e-mail
-     * addresses are formatted correctly.
-     * 
-     * @param addressList
-     *            A list of e-mail addresses.
-     * @return <code>true</code> - if the list parses correctly<br>
-     *         <code>false</code> - otherwise
-     */
-    public boolean validateAddresses(List<String> addressList) {
-        StringBuilder addresses = new StringBuilder(addressList.size() * 20);
-
-        for (String recipient : addressList) {
-            addresses.append(recipient);
-            addresses.append(", ");
-        }
-        addresses.delete(addresses.length() - 2, addresses.length());
-
-        return validateAddresses(addresses.toString());
     }
 }
