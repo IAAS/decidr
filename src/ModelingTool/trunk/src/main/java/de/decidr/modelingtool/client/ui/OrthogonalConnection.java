@@ -25,6 +25,8 @@ import com.google.gwt.user.client.ui.HTML;
  */
 public class OrthogonalConnection extends Connection {
 
+    
+    private final int LINE_WIDTH = 2;
     private final String STYLE_HORIZONTAL = "connection-orthogonal-horizontalline";
     private final String STYLE_VERTICAL = "connection-orthogonal-verticalline";
 
@@ -34,19 +36,15 @@ public class OrthogonalConnection extends Connection {
 
     public OrthogonalConnection() {
         super();
-
-        //FIXME: Debug
-        startEndPoint = new Point(200, 200);
-        endEndPoint = new Point(50, 80);
     }
 
     @Override
     public void draw() {
-        if (parentPanel != null) {       
-            int startX = startEndPoint.getX();
-            int startY = startEndPoint.getY();
-            int endX = endEndPoint.getX();
-            int endY = endEndPoint.getY();
+        if (parentPanel != null && startDragBox != null && endDragBox != null) {       
+            int startX = startDragBox.getMiddleLeft();
+            int startY = startDragBox.getMiddleTop();
+            int endX = endDragBox.getMiddleLeft();
+            int endY = endDragBox.getMiddleTop();
             
             // calculate height and width
             int width = Math.abs(startX - endX);
@@ -62,28 +60,34 @@ public class OrthogonalConnection extends Connection {
                 startLine.setStyleName(STYLE_VERTICAL);
                 parentPanel.setWidgetPosition(startLine, startX, startY);
                 startLine.setHeight((height / 2) + "px");
+                startLine.setWidth(LINE_WIDTH + "px");
                 
                 midLine.setStyleName(STYLE_HORIZONTAL);
                 parentPanel.setWidgetPosition(midLine, startX, startY + height / 2);
                 midLine.setWidth(width + "px");
+                midLine.setHeight(LINE_WIDTH + "px");
                 
                 endLine.setStyleName(STYLE_VERTICAL);
                 parentPanel.setWidgetPosition(endLine, endX, endY - height / 2);
                 endLine.setHeight((height / 2) + "px");
+                endLine.setWidth(LINE_WIDTH + "px");
                 
             } else {
                 // long side is in y direction    
                 startLine.setStyleName(STYLE_HORIZONTAL);
                 parentPanel.setWidgetPosition(startLine, startX, startY);
                 startLine.setWidth((width / 2) + "px");
+                startLine.setHeight(LINE_WIDTH + "px");
                 
                 midLine.setStyleName(STYLE_VERTICAL);
                 parentPanel.setWidgetPosition(midLine, startX + width / 2, startY);
                 midLine.setHeight(height + "px");
+                midLine.setWidth(LINE_WIDTH + "px");
                 
                 endLine.setStyleName(STYLE_HORIZONTAL);
                 parentPanel.setWidgetPosition(endLine, endX - width / 2, endY);
                 endLine.setWidth((width / 2) + "px");
+                endLine.setHeight(LINE_WIDTH + "px");
             }
         }
     }

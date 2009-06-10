@@ -18,13 +18,12 @@ package de.decidr.modelingtool.client.ui;
 
 import java.util.Vector;
 
-
-import com.allen_sauer.gwt.dnd.client.DragController;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
+import de.decidr.modelingtool.client.ui.dnd.ConnectionDragController;
+import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 import de.decidr.modelingtool.client.ui.dnd.WorkflowDragController;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
-
 
 /**
  * This is the basic workflow drawing canvas.
@@ -33,6 +32,8 @@ import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
  */
 public class Workflow extends AbsolutePanel implements ModelChangeListener {
 
+    private static Workflow instance;
+    
     /**
      * The drag controller which makes the nodes in the workflow draggable.
      */
@@ -40,15 +41,12 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
 
     private SelectionHandler selectionHandler;
 
-    
-
     // private WorkflowModel model;
 
-    
     /**
      * All nodes in the workflow except for the nodes in a container.
      */
-    private Vector<Node> nodes = new Vector<Node>();
+    private Vector<Node> childNodes = new Vector<Node>();
 
     public SelectionHandler getSelectionHandler() {
         return selectionHandler;
@@ -57,12 +55,12 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
     /**
      * All connections in the workflow except for the nodes in a container.
      */
-    private Vector<Connection> connections = new Vector<Connection>();
+    private Vector<Connection> childConnections = new Vector<Connection>();
 
     /**
      * The constructor.
      */
-    public Workflow() {
+    private Workflow() {
         super();
 
         // set workflow proerties
@@ -73,16 +71,29 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
         selectionHandler = new SelectionHandler(this);
 
         // create drag controller
-        this.dragController = new WorkflowDragController(this);
+        dragController = new WorkflowDragController(this);
+        
+        // register drag controllers
+        DndRegistry dndr = DndRegistry.getInstance();
+        dndr.register("WorkflowDragController", dragController);
+        dndr.register("InputPortDragController", new ConnectionDragController(this));
+        dndr.register("OutputPortDragController", new ConnectionDragController(this));
+    }
+    
+    public static Workflow getInstance() {
+        if (instance == null) {
+            instance = new Workflow();
+        }
+        return instance;
     }
 
     public void add(Connection connection) {
         // add connection to the connections vector
-        connections.add(connection);
+        childConnections.add(connection);
         // add connection to workflow
-        //super.add(connection);
+        // super.add(connection);
         // callback to connection
-        connection.onWorkflowAdd(this);
+        connection.onPanelAdd(this);
     }
 
     /**
@@ -108,22 +119,22 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
     public void add(Node node, int x, int y) {
         // add node to workflow
         super.add(node, x, y);
-        
+
         // do all the other stuff
         addNode(node);
     }
-    
+
     private void addNode(Node node) {
         // add node to the nodes vector
-        nodes.add(node);
+        childNodes.add(node);
 
         // register the selection Handler
         // must happen before makeDraggable because of handler order!!!
         node.addMouseDownHandler(selectionHandler);
 
-        // make node draggable
+        // make node draggable, only draggable at graphic widget of the node
         if (node.isMoveable()) {
-            this.dragController.makeDraggable(node);
+            dragController.makeDraggable(node, node.getGraphic());
         }
 
         // if node is a container, register the drop controller
@@ -133,12 +144,12 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
         }
 
         // callback to node
-        node.onWorkflowAdd(this);
+        node.onPanelAdd(this);
     }
 
-    public DragController getDragController() {
-        return dragController;
-    }
+//    public DragController getDragController() {
+//        return dragController;
+//    }
 
     /*
      * (non-Javadoc)

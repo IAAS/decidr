@@ -19,9 +19,6 @@ package de.decidr.modelingtool.client.ui;
 import java.util.List;
 import java.util.Vector;
 
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.HasFocusHandlers;
 import com.google.gwt.event.dom.client.HasMouseDownHandlers;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -79,6 +76,84 @@ public abstract class Node extends AbsolutePanel implements
         port.setParentNode(this);
     }
 
+    public int getGraphicAbsoluteLeft() {
+        int top = 0;
+
+        if (this.hasContainer()) {
+            top += this.getContainer().getLeft();
+        }
+
+        if (graphic != null) {
+            top += this.getLeft() + this.getWidgetLeft(graphic);
+        } 
+        
+        return top;
+    }
+
+    public int getGraphicAbsoluteTop() {
+        int top = 0;
+
+        if (this.hasContainer()) {
+            top += this.getContainer().getTop();
+        }
+
+        if (graphic != null) {
+            top += this.getTop() + this.getWidgetTop(graphic);
+        } 
+        
+        return top;
+    }
+
+    public Container getContainer() {
+        if (this.hasContainer()) {
+            return (Container) this.getParent();
+        } else {
+            return null;
+        }
+    }
+
+    public Widget getGraphic() {
+        return graphic;
+    }
+
+    public int getGraphicHeight() {
+        if (graphic != null) {
+            return graphic.getOffsetHeight();
+        } else {
+            // return 0 if no graphic set
+            return 0;
+        }
+    }
+
+    public int getGraphicWidth() {
+        if (graphic != null) {
+            return graphic.getOffsetWidth();
+        } else {
+            // return 0 if no graphic set
+            return 0;
+        }
+    }
+
+    public int getLeft() {
+        if (this.getParent() instanceof AbsolutePanel) {
+            return ((AbsolutePanel) this.getParent()).getWidgetLeft(this);
+        } else {
+            return 0;
+        }
+    }
+
+    public int getTop() {
+        if (this.getParent() instanceof AbsolutePanel) {
+            return ((AbsolutePanel) this.getParent()).getWidgetTop(this);
+        } else {
+            return 0;
+        }
+    }
+
+    public boolean hasContainer() {
+        return (this.getParent() instanceof Container);
+    }
+
     public boolean isDeletable() {
         return deletable;
     }
@@ -106,7 +181,7 @@ public abstract class Node extends AbsolutePanel implements
      * Callback function for the workflow, this function is called when the node
      * is added to a workflow.
      */
-    public void onWorkflowAdd(AbsolutePanel parentPanel) {
+    public void onPanelAdd(AbsolutePanel parentPanel) {
         // set pixel size, this can only be set after setting a graphic and
         // adding the node to a workflow
         if (graphic != null) {
@@ -163,19 +238,6 @@ public abstract class Node extends AbsolutePanel implements
         this.deletable = deletable;
     }
 
-    public void setMoveable(boolean moveable) {
-        this.moveable = moveable;
-    }
-
-    @Override
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-
-    public Widget getGraphic() {
-        return graphic;
-    }
-
     public void setGraphic(Widget graphic) {
         this.graphic = graphic;
 
@@ -189,78 +251,13 @@ public abstract class Node extends AbsolutePanel implements
         this.add(this.graphic, BORDER_OFFSET, BORDER_OFFSET);
     }
 
-    public boolean hasContainer() {
-        return (this.getParent() instanceof Container);
+    public void setMoveable(boolean moveable) {
+        this.moveable = moveable;
     }
 
-    public Container getContainer() {
-        if (this.hasContainer()) {
-            return (Container) this.getParent();
-        } else {
-            return null;
-        }
-    }
-
-    public int getTop() {
-        if (this.getParent() instanceof AbsolutePanel) {
-            return ((AbsolutePanel) this.getParent()).getWidgetTop(this);
-        } else {
-            return 0;
-        }
-    }
-
-    public int getLeft() {
-        if (this.getParent() instanceof AbsolutePanel) {
-            return ((AbsolutePanel) this.getParent()).getWidgetLeft(this);
-        } else {
-            return 0;
-        }
-    }
-
-    public int getAbsoluteGraphicTop() {
-        int top = 0;
-
-        if (this.hasContainer()) {
-            top += this.getContainer().getTop();
-        }
-
-        if (graphic != null) {
-            top += this.getTop() + this.getWidgetTop(graphic);
-        } 
-        
-        return top;
-    }
-
-    public int getAbsoluteGraphicLeft() {
-        int top = 0;
-
-        if (this.hasContainer()) {
-            top += this.getContainer().getLeft();
-        }
-
-        if (graphic != null) {
-            top += this.getLeft() + this.getWidgetLeft(graphic);
-        } 
-        
-        return top;
-    }
-
-    public int getGraphicWidth() {
-        if (graphic != null) {
-            return graphic.getOffsetWidth();
-        } else {
-            // return 0 if no graphic set
-            return 0;
-        }
-    }
-
-    public int getGraphicHeight() {
-        if (graphic != null) {
-            return graphic.getOffsetHeight();
-        } else {
-            // return 0 if no graphic set
-            return 0;
-        }
+    @Override
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
 }

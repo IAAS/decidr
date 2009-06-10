@@ -61,7 +61,7 @@ public class ModelingTool implements EntryPoint {
         RootPanel.get().add(buttonBar);
 
         // create workflow and add to the root panel.
-        final Workflow workflow = new Workflow();
+        final Workflow workflow = Workflow.getInstance();
         RootPanel.get("workflow").add(workflow);
 
         // create test elements

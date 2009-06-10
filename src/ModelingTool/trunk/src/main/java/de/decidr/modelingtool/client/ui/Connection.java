@@ -16,8 +16,9 @@
 
 package de.decidr.modelingtool.client.ui;
 
-import com.allen_sauer.gwt.dnd.client.DragController;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+
+import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 
 /**
  * TODO: add comment
@@ -33,59 +34,49 @@ public abstract class Connection implements Selectable {
     // TODO
     // private ConnectionModel model;
 
-    protected Point startEndPoint = new Point();
+    protected ConnectionDragBox startDragBox;
 
-    protected Point endEndPoint = new Point();
-
-    private DragController dragController;
+    protected ConnectionDragBox endDragBox;
 
     private Port sourcePort = null;
 
     private Port targetPort = null;
 
-    public abstract void draw();
-    
     public abstract void delete();
+
+    public abstract void draw();
+
+    public Port getSourcePort() {
+        return sourcePort;
+    }
     
-    public void onWorkflowAdd(AbsolutePanel parentPanel) {
+    public Port getTargetPort() {
+        return targetPort;
+    }
+    
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void onPanelAdd(AbsolutePanel parentPanel) {
         this.parentPanel = parentPanel;
         draw();
     }
 
-    public Point getStartEndPoint() {
-        return startEndPoint;
-    }
-
-    public void setStartEndPoint(Point startEndPoint) {
-        this.startEndPoint = startEndPoint;
-    }
-
-    public Point getEndEndPoint() {
-        return endEndPoint;
-    }
-
-    public void setEndEndPoint(Point endEndPoint) {
-        this.endEndPoint = endEndPoint;
-    }
-
-    public boolean isSelected() {
-        return selected;
+    public void setEndDragBox(ConnectionDragBox endDragBox) {
+        this.endDragBox = endDragBox;
     }
 
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
 
-    public Port getSourcePort() {
-        return sourcePort;
-    }
-
     public void setSourcePort(Port sourcePort) {
         this.sourcePort = sourcePort;
     }
 
-    public Port getTargetPort() {
-        return targetPort;
+    public void setStartDragBox(ConnectionDragBox startDragBox) {
+        this.startDragBox = startDragBox;
     }
 
     public void setTargetPort(Port targetPort) {

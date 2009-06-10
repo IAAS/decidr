@@ -20,12 +20,23 @@ import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.VetoDragException;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
+import de.decidr.modelingtool.client.ui.Connection;
+import de.decidr.modelingtool.client.ui.OrthogonalConnection;
+import de.decidr.modelingtool.client.ui.Workflow;
+import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
+
 /**
  * TODO: add comment
  * 
  * @author JE
  */
 public class ConnectionDragController extends PickupDragController {
+    
+    /**
+     * The connection currently be dragged
+     */
+    Connection connection = null;
+    
 
     /**
      * TODO: add comment
@@ -33,27 +44,60 @@ public class ConnectionDragController extends PickupDragController {
      * @param boundaryPanel
      * @param allowDroppingOnBoundaryPanel
      */
-    public ConnectionDragController(AbsolutePanel boundaryPanel,
-            boolean allowDroppingOnBoundaryPanel) {
-        super(boundaryPanel, allowDroppingOnBoundaryPanel);
+    public ConnectionDragController(AbsolutePanel boundaryPanel) {
+        super(boundaryPanel, false);
         // TODO Auto-generated constructor stub
     }
 
     @Override
     public void dragMove() {
         // TODO Auto-generated method stub
-
+        super.dragMove();
+        
+        if (connection != null) {
+            connection.draw();
+        }
     }
 
     @Override
     public void dragEnd() {
         // TODO Auto-generated method stub
         super.dragEnd();
+        
+        if (context.draggable instanceof ConnectionDragBox) {
+            ((ConnectionDragBox)context.draggable).setVisibleStyle(false);
+        }
+        
+        connection = null;
     }
 
     @Override
     public void dragStart() {
-        // TODO Auto-generated method stub
+        if (context.draggable instanceof ConnectionDragBox) {
+            ConnectionDragBox dragBox = (ConnectionDragBox)context.draggable;
+            dragBox.setVisibleStyle(true);
+            
+            if (dragBox.getConnection() == null) {
+                // create new connection
+                connection = new OrthogonalConnection();
+                
+                // create start drag box
+                ConnectionDragBox startDragBox = new ConnectionDragBox();
+                startDragBox.setVisibleStyle(true);
+                Workflow.getInstance().add(startDragBox);
+                
+                // set drag boxes and add connection to workflow
+                connection.setStartDragBox(startDragBox);
+                connection.setEndDragBox(dragBox);
+                Workflow.getInstance().add(connection);
+            }
+            
+        }
+        
+        
+        ConnectionDragBox startDragBox = new ConnectionDragBox();
+        Workflow.getInstance().add(startDragBox);
+        
         super.dragStart();
     }
 

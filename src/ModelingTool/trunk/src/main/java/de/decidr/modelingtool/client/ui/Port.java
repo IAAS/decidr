@@ -19,11 +19,12 @@ package de.decidr.modelingtool.client.ui;
 import java.util.List;
 import java.util.Vector;
 
-
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
 import com.google.gwt.user.client.ui.FocusPanel;
 
 import de.decidr.modelingtool.client.ui.dnd.PortDropController;
+import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
+import de.decidr.modelingtool.client.ui.selection.DragBox;
 
 
 /**
@@ -49,8 +50,15 @@ public class Port extends FocusPanel {
 
     private DropController dropController = new PortDropController(this);
     
+    // has to be made draggable by subclasses
+    protected ConnectionDragBox connectionDragBox = new ConnectionDragBox();
+    
     public Port(Position position) {
         this.position = position;
+        
+        // set connection drag box preferences
+        this.add(connectionDragBox);
+        connectionDragBox.setVisibleStyle(false);
     }
     
     public Port(Position position, int xOffset, int yOffset) {

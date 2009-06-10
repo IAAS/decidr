@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.FocusPanel;
  */
 public class DragBox extends FocusPanel {
 
-    public static enum ResizeDirection {
+    public static enum DragDirection {
         NORTH,
         NORTHEAST,
         EAST,
@@ -37,17 +37,15 @@ public class DragBox extends FocusPanel {
         ALL
     };
     
-    private ResizeDirection direction;
+    protected DragDirection direction;
     
-    public DragBox(ResizeDirection direction) {
+    public DragBox(DragDirection direction) {
         super();
-        
-        this.addStyleName("dragbox-node");
         
         this.direction = direction;
     }
 
-    public ResizeDirection getDirection() {
+    public DragDirection getDirection() {
         return direction;
     }
 }

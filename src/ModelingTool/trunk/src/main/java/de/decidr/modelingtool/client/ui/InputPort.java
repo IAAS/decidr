@@ -16,16 +16,20 @@
 
 package de.decidr.modelingtool.client.ui;
 
+import com.allen_sauer.gwt.dnd.client.DragController;
+
+import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
+
 /**
  * TODO: add comment
- *
+ * 
  * @author engelhjs
  */
 public class InputPort extends Port {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @param parent
      * @param position
      */
@@ -34,8 +38,11 @@ public class InputPort extends Port {
 
         // set properties
         this.addStyleName("port-inputport");
+
+        // make connection drag box draggable
+        DragController dc = DndRegistry.getInstance().getDragController(
+                "InputPortDragController");
+        dc.makeDraggable(connectionDragBox);
     }
 
-    
-    
 }

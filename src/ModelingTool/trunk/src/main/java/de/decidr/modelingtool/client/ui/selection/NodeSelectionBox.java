@@ -40,14 +40,18 @@ public class NodeSelectionBox {
     public NodeSelectionBox(Workflow parentWorkflow) {
         this.parentWorkflow = parentWorkflow;
 
-        dragBoxes.add(new DragBox(DragBox.ResizeDirection.NORTH));
-        dragBoxes.add(new DragBox(DragBox.ResizeDirection.NORTHEAST));
-        dragBoxes.add(new DragBox(DragBox.ResizeDirection.EAST));
-        dragBoxes.add(new DragBox(DragBox.ResizeDirection.SOUTHEAST));
-        dragBoxes.add(new DragBox(DragBox.ResizeDirection.SOUTH));
-        dragBoxes.add(new DragBox(DragBox.ResizeDirection.SOUTHWEST));
-        dragBoxes.add(new DragBox(DragBox.ResizeDirection.WEST));
-        dragBoxes.add(new DragBox(DragBox.ResizeDirection.NORTHWEST));
+        dragBoxes.add(new DragBox(DragBox.DragDirection.NORTH));
+        dragBoxes.add(new DragBox(DragBox.DragDirection.NORTHEAST));
+        dragBoxes.add(new DragBox(DragBox.DragDirection.EAST));
+        dragBoxes.add(new DragBox(DragBox.DragDirection.SOUTHEAST));
+        dragBoxes.add(new DragBox(DragBox.DragDirection.SOUTH));
+        dragBoxes.add(new DragBox(DragBox.DragDirection.SOUTHWEST));
+        dragBoxes.add(new DragBox(DragBox.DragDirection.WEST));
+        dragBoxes.add(new DragBox(DragBox.DragDirection.NORTHWEST));
+        
+        for (DragBox dragBox : dragBoxes) {
+            dragBox.setStyleName("dragbox-node");
+        }
     }
 
     public void update() {
@@ -70,8 +74,8 @@ public class NodeSelectionBox {
     public void assignTo(Node node) {
         this.assignedNode = node;
         
-        int nodeTop = node.getAbsoluteGraphicTop();
-        int nodeLeft = node.getAbsoluteGraphicLeft();
+        int nodeTop = node.getGraphicAbsoluteTop();
+        int nodeLeft = node.getGraphicAbsoluteLeft();
         int nodeWidth = node.getGraphicWidth();
         int nodeHeight = node.getGraphicHeight();
         int width;

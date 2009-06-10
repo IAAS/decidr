@@ -16,11 +16,39 @@
 
 package de.decidr.modelingtool.client.ui.dnd;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.allen_sauer.gwt.dnd.client.DragController;
+
 /**
  * TODO: add comment
- *
+ * 
  * @author JE
  */
 public class DndRegistry {
+
+    private static DndRegistry instance = null;
+
+    private Map<String, DragController> dragControllers = new HashMap<String, DragController>();
+
+    private DndRegistry() {
+       
+    }
+
+    public static DndRegistry getInstance() {
+        if (instance == null) {
+            instance = new DndRegistry();
+        }
+        return instance;
+    }
+    
+    public void register(String name, DragController dragController) {
+        dragControllers.put(name, dragController);
+    }
+    
+    public DragController getDragController(String name) {
+        return dragControllers.get(name);
+    }
 
 }
