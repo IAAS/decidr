@@ -136,13 +136,8 @@ public class UserFacade extends AbstractFacade {
         getJoinedTenantsCommand command = new getJoinedTenantsCommand(actor,
                 userId);
 
-        try {
-            tac.runTransaction(command);
-        } catch (TransactionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+        tac.runTransaction(command);
+        
         inList = command.getResult();
         String[] properties = { "id", "name" };
 

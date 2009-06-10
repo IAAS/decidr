@@ -336,7 +336,7 @@ public class TenantFacade extends AbstractFacade {
         throw new UnsupportedOperationException();
     }
 
-    //FIXME do it
+    //FIXME notifier not yet implemented
     public void inviteUsersAsMembers(Long tenantId,
             List<String> emailOrUsernames) {
         throw new UnsupportedOperationException();
