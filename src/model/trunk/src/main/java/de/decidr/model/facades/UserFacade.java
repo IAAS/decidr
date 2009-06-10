@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.List;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
-import de.decidr.model.commands.user.getAdministrativeWorkflowModelCommand;
-import de.decidr.model.commands.user.getJoinedTenantsCommand;
+import de.decidr.model.commands.user.GetAdministrativeWorkflowModelCommand;
+import de.decidr.model.commands.user.GetJoinedTenantsCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
@@ -133,7 +133,7 @@ public class UserFacade extends AbstractFacade {
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
-        getJoinedTenantsCommand command = new getJoinedTenantsCommand(actor,
+        GetJoinedTenantsCommand command = new GetJoinedTenantsCommand(actor,
                 userId);
 
         tac.runTransaction(command);
@@ -168,7 +168,7 @@ public class UserFacade extends AbstractFacade {
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
-        getAdministrativeWorkflowModelCommand command = new getAdministrativeWorkflowModelCommand(
+        GetAdministrativeWorkflowModelCommand command = new GetAdministrativeWorkflowModelCommand(
                 actor, userId);
 
         tac.runTransaction(command);

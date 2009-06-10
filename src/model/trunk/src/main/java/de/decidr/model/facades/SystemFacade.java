@@ -6,6 +6,7 @@ import org.apache.log4j.Level;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import de.decidr.model.commands.system.AddServerCommand;
+import de.decidr.model.commands.system.GetLogCommand;
 import de.decidr.model.commands.system.GetServerStatisticsCommand;
 import de.decidr.model.commands.system.GetSystemSettingsCommand;
 import de.decidr.model.commands.system.LockServerCommand;
@@ -13,6 +14,7 @@ import de.decidr.model.commands.system.RemoveServerCommand;
 import de.decidr.model.commands.system.SetSystemSettingsCommand;
 import de.decidr.model.commands.system.UnLockServerCommand;
 import de.decidr.model.commands.system.UpdateServerLoadCommand;
+import de.decidr.model.entities.Log;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
@@ -101,7 +103,6 @@ public class SystemFacade extends AbstractFacade {
      * @param location
      *            the location of the real server to which representative should
      *            be created<br>
-     *            Location should look like "FIXME Add Location Pattern"
      * 
      * @throws TransactionException
      */
@@ -142,8 +143,8 @@ public class SystemFacade extends AbstractFacade {
     /**
      * 
      * Updates the load of the representative object of the server at the
-     * database. The load must be in the range of 0 to 100.
-     * If given server does not exists nothing will happen.
+     * database. The load must be in the range of 0 to 100. If given server does
+     * not exists nothing will happen.
      * 
      * @param location
      *            location of the server representative which should be deleted
@@ -209,11 +210,38 @@ public class SystemFacade extends AbstractFacade {
         tac.runTransaction(command);
     }
 
-    // FIXME paginator / filter not yet implemented.
+    /**
+     * 
+     * Returns the system logs as a list of items. The List can be filtered by
+     * using filters and an optional paginator.
+     * 
+     * 
+     * @param filters
+     * @param paginator
+     * @return List<Item> Logs as items
+     * @throws TransactionException
+     */
+    @SuppressWarnings("unchecked")
     @AllowedRole(SuperAdminRole.class)
     public List<Item> getLog(List<Filter> filters, Paginator paginator)
             throws TransactionException {
-        throw new UnsupportedOperationException();
+
+        TransactionCoordinator tac = HibernateTransactionCoordinator
+                .getInstance();
+        GetLogCommand command = new GetLogCommand(actor, filters, paginator);
+
+        List<Item> outList = new ArrayList<Item>();
+        List<Log> inList = new ArrayList();
+
+        tac.runTransaction(command);
+        inList = command.getResult();
+
+        for (Log log : inList) {
+            outList.add(new BeanItem(log));
+        }
+
+        return outList;
+
     }
 
     /**

@@ -1,8 +1,11 @@
 package de.decidr.model.facades;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
+
 import de.decidr.model.annotations.AllowedRole;
 import de.decidr.model.commands.tenant.AddTenantMemberCommand;
 import de.decidr.model.commands.tenant.ApproveTenantsCommand;
@@ -12,9 +15,12 @@ import de.decidr.model.commands.tenant.DeleteTenantsCommand;
 import de.decidr.model.commands.tenant.DisapproveTenantsCommand;
 import de.decidr.model.commands.tenant.GetTenantIdCommand;
 import de.decidr.model.commands.tenant.GetTenantLogoCommand;
+import de.decidr.model.commands.tenant.GetUsersOfTenantCommand;
 import de.decidr.model.commands.tenant.RemoveTenentMemberCommand;
 import de.decidr.model.commands.tenant.RemoveWorkflowModelCommand;
 import de.decidr.model.commands.tenant.SetTenantDescriptionCommand;
+import de.decidr.model.entities.Log;
+import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
@@ -24,6 +30,7 @@ import de.decidr.model.transactions.TransactionCoordinator;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.model.permissions.TenantAdminRole;
 import de.decidr.model.permissions.SuperAdminRole;
+import de.decidr.model.filters.Paginator;
 
 /**
  * 
@@ -306,10 +313,27 @@ public class TenantFacade extends AbstractFacade {
     }
  
     
-
     //FIXME paginator not yet implemented
-    public List<Item> getUsersOfTenant(Long tenantId, Paginator paginator) {
-        throw new UnsupportedOperationException();
+    @SuppressWarnings("unchecked")
+    public List<Item> getUsersOfTenant(Long tenantId, Paginator paginator) throws TransactionException{
+
+        TransactionCoordinator tac = HibernateTransactionCoordinator.getInstance();
+        GetUsersOfTenantCommand command = new GetUsersOfTenantCommand(actor,tenantId, paginator);
+     
+        List<Item> outList = new ArrayList<Item>();
+        List<User> inList = new ArrayList();
+
+        tac.runTransaction(command);
+        inList = command.getResult();
+
+        for (User user : inList) {
+            outList.add(new BeanItem(user));
+        }
+
+        return outList;
+        
+        
+          
     }
  
     //FIXME paginator not yet implemented

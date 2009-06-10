@@ -11,7 +11,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
-public class getJoinedTenantsCommand extends UserCommand {
+public class GetJoinedTenantsCommand extends UserCommand {
 
     private Long userId;
     private List<Tenant> result;
@@ -24,7 +24,7 @@ public class getJoinedTenantsCommand extends UserCommand {
      * @param role the user which executes the command
      * @param userId
      */
-    public getJoinedTenantsCommand(Role role, Long userId) {
+    public GetJoinedTenantsCommand(Role role, Long userId) {
         super(role, null);
         
         this.userId=userId;

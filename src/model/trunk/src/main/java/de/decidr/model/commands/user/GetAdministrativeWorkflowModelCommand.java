@@ -8,7 +8,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
-public class getAdministrativeWorkflowModelCommand extends UserCommand {
+public class GetAdministrativeWorkflowModelCommand extends UserCommand {
 
     private Long userId; 
     private List<WorkflowModel> result;
@@ -22,7 +22,7 @@ public class getAdministrativeWorkflowModelCommand extends UserCommand {
     * @param role user which executes the command
     * @param userId
     */
-    public getAdministrativeWorkflowModelCommand(Role role,Long userId) {
+    public GetAdministrativeWorkflowModelCommand(Role role,Long userId) {
         super(role, null);
         
         this.userId=userId;
