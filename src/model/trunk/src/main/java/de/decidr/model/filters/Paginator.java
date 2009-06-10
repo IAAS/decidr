@@ -44,11 +44,10 @@ public class Paginator {
      *            the Criteria to paginate
      * @return the modified Criteria
      */
-    public PaginatingCriteria apply(PaginatingCriteria criteria) {
+    public void apply(PaginatingCriteria criteria) {
         this.totalNumberOfItems = criteria.rowCount();
         criteria.setMaxResults(this.getItemsPerPage());
         criteria.setFirstResult(this.getStartIndex());
-        return criteria;
     }
 
     /**
