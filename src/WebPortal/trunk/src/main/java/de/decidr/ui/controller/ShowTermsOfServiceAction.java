@@ -28,7 +28,7 @@ import de.decidr.ui.view.SiteFrame;
  * @author GH
  */
 @SuppressWarnings("serial")
-public class TermsOfServiceAction implements ClickListener {
+public class ShowTermsOfServiceAction implements ClickListener {
     
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();

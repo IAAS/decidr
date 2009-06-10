@@ -20,9 +20,9 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 
-import de.decidr.ui.controller.HelpPageAction;
-import de.decidr.ui.controller.ImpressumAction;
-import de.decidr.ui.controller.TermsOfServiceAction;
+import de.decidr.ui.controller.ShowHelpAction;
+import de.decidr.ui.controller.ShowImpressumAction;
+import de.decidr.ui.controller.ShowTermsOfServiceAction;
 import de.decidr.ui.controller.WelcomePageAction;
 
 

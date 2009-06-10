@@ -19,8 +19,8 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.ui.view.HelpWindow;
 import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.ImpressumWindow;
 
 /**
  * TODO: add comment
@@ -28,7 +28,7 @@ import de.decidr.ui.view.ImpressumWindow;
  * @author GH
  */
 @SuppressWarnings("serial")
-public class ImpressumAction implements ClickListener {
+public class ShowHelpAction  implements ClickListener {
     
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
@@ -36,7 +36,7 @@ public class ImpressumAction implements ClickListener {
 
     @Override
     public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(ImpressumWindow.getInstance());
+        siteFrame.setContent(HelpWindow.getInstance());
 
     }
     
