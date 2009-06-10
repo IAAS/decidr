@@ -36,7 +36,7 @@ import de.decidr.model.soap.types.TaskIdentifier;
  * This is an implementation of the {@link HumanTaskInterface DecidR HumanTask
  * interface}.
  * 
- * @author RR
+ * @author Reinhold
  */
 @WebService(endpointInterface = "HumanTaskInterface")
 public class HumanTask implements HumanTaskInterface {
@@ -50,13 +50,6 @@ public class HumanTask implements HumanTaskInterface {
         log = DefaultLogger.getLogger(this.getClass());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.decidr.webservices.humantask.HumanTaskInterface#createTask(long,
-     * long, long, java.lang.String, boolean, java.lang.String,
-     * de.decidr.model.soap.types.ItemList)
-     */
     @Override
     public TaskIdentifier createTask(long wfmID, long processID, long userID,
             String taskName, boolean userNotification, String description,
@@ -75,13 +68,6 @@ public class HumanTask implements HumanTaskInterface {
         return id;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.decidr.webservices.humantask.HumanTaskInterface#removeTask(de.decidr
-     * .model.soap.types.IDList)
-     */
     @Override
     public void removeTask(IDList taskIDList) throws TransactionException {
         log.debug("Entering method: removeTask");
@@ -93,11 +79,6 @@ public class HumanTask implements HumanTaskInterface {
         log.debug("Leaving method: removeTask");
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.decidr.webservices.humantask.HumanTaskInterface#removeTasks(long)
-     */
     @Override
     public void removeTasks(long processID) throws TransactionException {
         log.debug("Entering method: removeTasks");
@@ -115,12 +96,6 @@ public class HumanTask implements HumanTaskInterface {
         log.debug("Leaving method: removeTasks");
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.decidr.webservices.humantask.HumanTaskInterface#taskCompleted(long)
-     */
     @Override
     public void taskCompleted(long taskID) throws TransactionException {
         log.debug("Entering method: taskCompleted");

@@ -28,7 +28,7 @@ import de.decidr.model.soap.types.TaskIdentifier;
  * HumanTask.wsdl. It manages the web frontend based dataflow between the
  * workflow instance and its participants.
  * 
- * @author RR
+ * @author Reinhold
  */
 @WebService(name = "HumanTaskPT", portName = "HumanTaskSOAP", serviceName = "HumanTask", targetNamespace = "http://decidr.de/webservices/HumanTask", wsdlLocation = "HumanTask.wsdl")
 public interface HumanTaskInterface {

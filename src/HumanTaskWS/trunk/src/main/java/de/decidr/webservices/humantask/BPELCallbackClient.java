@@ -27,9 +27,9 @@ import javax.xml.ws.WebServiceFeature;
 /**
  * A web service client for the callback method provided by the BPEL process.
  * 
- * @author RR
+ * @author Reinhold
  */
-// FIXME: complete as soon as known
+// RR: complete as soon as known
 @WebServiceClient(name = "BPELCallbackClient", targetNamespace = "http://decidr.de/TODO", wsdlLocation = "TODO")
 public class BPELCallbackClient extends Service {
 
@@ -49,9 +49,9 @@ public class BPELCallbackClient extends Service {
      * @throws MalformedURLException
      */
     public BPELCallbackClient() throws MalformedURLException {
-        // FIXME: get WSDL location from config
-        // FIXME: add namespace
-        // FIXME: add correct web service name
+        // RR: get WSDL location from config
+        // RR: add namespace
+        // RR: add correct web service name
         this(new URL("TODO"), new QName("http://decidr.de/TODO",
                 "BPELCallbackInterface"));
     }
@@ -61,8 +61,8 @@ public class BPELCallbackClient extends Service {
      * 
      * @return
      */
-    // FIXME: add namespace
-    // FIXME: add correct web service name
+    // RR: add namespace
+    // RR: add correct web service name
     @WebEndpoint(name = "BPELCallbackInterfaceHttpSoap12Endpoint")
     public BPELCallbackInterface getBPELCallbackInterfacePort() {
         return super.getPort(new QName("http://decidr.de/TODO",
@@ -76,8 +76,8 @@ public class BPELCallbackClient extends Service {
      * @param features
      * @return
      */
-    // FIXME: add namespace
-    // FIXME: add correct web service name
+    // RR: add namespace
+    // RR: add correct web service name
     @WebEndpoint(name = "BPELCallbackInterfaceHttpSoap12Endpoint")
     public BPELCallbackInterface getBPELCallbackInterfacePort(
             WebServiceFeature... features) {

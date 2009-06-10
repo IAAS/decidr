@@ -17,6 +17,7 @@ package de.decidr.model.soap.exceptions;
 
 import javax.xml.ws.WebFault;
 
+//RR: complete WebFault information in WSDL and here
 @WebFault(name = "InvalidUserException", targetNamespace = "http://decidr.de/webservices/Exceptions")
 public class InvalidUserException extends RuntimeException {
     private static final long serialVersionUID = 1L;

@@ -22,7 +22,7 @@ import javax.jws.WebService;
  * interface. It will be replaced by whatever the BEPL libraries offer as soon
  * as they do.
  * 
- * @author RR
+ * @author Reinhold
  */
 @WebService()
 public interface BPELCallbackInterface {
