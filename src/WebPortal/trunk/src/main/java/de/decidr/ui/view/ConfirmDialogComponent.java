@@ -30,87 +30,81 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.controller.ChangeEmailAction;
 import de.decidr.ui.controller.HideChangeEmailAction;
 
-public class ChangeEmailComponent extends Window {
+public class ConfirmDialogComponent extends Window {
 
-    private static ChangeEmailComponent changeEmailComponent = null;
+    private static ConfirmDialogComponent confirmDialogComponent = null;
     
-    
+
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
     
     private Label infoLabel = null;
-    
-    private Form emailForm = null;
-    
-    private TextField newEmailText = null;
-    
+        
     private Button submitButton = null;
     private Button cancelButton = null;
     
-    public Item getNewEmail(){
-        return emailForm;
+    private ConfirmDialogComponent(String text, ClickListener listener){
+        init(text, listener);
     }
     
-    private ChangeEmailComponent(){
-        init();
-    }
-    
-    private void init(){
-        emailForm = new Form();
-        emailForm.setWriteThrough(false);
-        
+    private void init (String text, ClickListener listener){
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
         verticalLayout.setMargin(true);
         verticalLayout.setSizeUndefined();
+        verticalLayout.setWidth(400, VerticalLayout.UNITS_PIXELS);
         
         horizontalLayout = new HorizontalLayout();
         horizontalLayout.setSpacing(true);
         horizontalLayout.setMargin(false);
         horizontalLayout.setSizeUndefined();
         
-        infoLabel = new Label("To change your email address, insert your new email address and click Change E-mail.<br/>" +
-        		"A confirmation email will be send to the new address.",
-                        Label.CONTENT_XHTML);
-        infoLabel.setWidth(350,Label.UNITS_PIXELS);
+        infoLabel = new Label(text, Label.CONTENT_XHTML);
         
-        newEmailText = new TextField();
-        newEmailText.setCaption("New E-mail Address");
-        newEmailText.setColumns(20);
+        submitButton = new Button("Confirm");
+        submitButton.addListener(listener);
+        cancelButton = new Button("Cancel", new ClickListener() {
+            public void buttonClick(ClickEvent event){
+                Main.getCurrent().getMainWindow().removeWindow(confirmDialogComponent);
+            }
 
-        
-        submitButton = new Button("Change E-mail", new ChangeEmailAction());
-        cancelButton = new Button("Cancel", new HideChangeEmailAction());
+        });
 
-        emailForm.setWidth(370, Form.UNITS_PIXELS);
-        //emailForm.setSizeUndefined();
-        emailForm.addField("newEmail", newEmailText);
 
         verticalLayout.addComponent(infoLabel);
-        verticalLayout.addComponent(emailForm);
         horizontalLayout.addComponent(submitButton);
         horizontalLayout.addComponent(cancelButton);
         verticalLayout.addComponent(horizontalLayout);
-        
-        horizontalLayout.setComponentAlignment(cancelButton, "right bottom");
-        horizontalLayout.setComponentAlignment(submitButton, "right bottom");
+
+        horizontalLayout.setComponentAlignment(submitButton, "center bottom");
+        horizontalLayout.setComponentAlignment(cancelButton, "center bottom");
 
         verticalLayout.setComponentAlignment(horizontalLayout, "right bottom");
         
         this.setModal(true);
         this.setResizable(false);
-        this.setCaption("Change E-mail Address");
+        this.setCaption("Confirmation Required");
         this.setContent(verticalLayout);
     }
     
-    public static ChangeEmailComponent getInstance(){
-        if (changeEmailComponent == null){
-            changeEmailComponent = new ChangeEmailComponent();
+    public static ConfirmDialogComponent getInstance(String text, ClickListener listener){
+        //if(confirmDialogComponent == null){
+            confirmDialogComponent = new ConfirmDialogComponent(text, listener);
+        //}
+        return confirmDialogComponent;
+    }
+    
+    public static ConfirmDialogComponent getInstance(){
+        if(confirmDialogComponent == null){
+            //TODO: add other exception
+            throw new UnsupportedOperationException();
         }
-        return changeEmailComponent;
+        return confirmDialogComponent;
     }
 }

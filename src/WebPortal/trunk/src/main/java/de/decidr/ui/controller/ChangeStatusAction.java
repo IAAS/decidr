@@ -22,20 +22,25 @@ package de.decidr.ui.controller;
  * @author GH
  */
 
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Item;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.service.ApplicationContext;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.view.ChangeEmailComponent;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.ProfileSettingsComponent;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 
-public class ChangeEmailAction implements ClickListener{
+public class ChangeStatusAction implements ValueChangeListener {
     
     //TODO: remove // below, code is disabled for testing, since the model causes errors
     
@@ -45,18 +50,20 @@ public class ChangeEmailAction implements ClickListener{
     
     //private Long userId = (Long)session.getAttribute("userId");
     //private UserFacade userFacade = new UserFacade(new UserRole(userId));
-    
-    private Item email = null;
-    
+        
     @Override
-    public void buttonClick(ClickEvent event) {
-        email = ChangeEmailComponent.getInstance().getNewEmail();
+    public void valueChange(ValueChangeEvent event) {
+            
+        //TODO: date format?
+        //      How can it be set to available?
+       
+        //userFacade.setUnavailableSince(userId, Date date);
+        if(ProfileSettingsComponent.getInstance().getStatus().booleanValue()){
+            Main.getCurrent().getMainWindow().showNotification("not available");
+        } else {
+            Main.getCurrent().getMainWindow().showNotification("available");
+        }
         
-        //TODO: add validator to ChangeEmailComponent
-        
-        //userFacade.setPassword(userId, passwords.getItemProperty("oldPassword").getValue().toString(), passwords.getItemProperty("newPassword").getValue().toString());
-        Main.getCurrent().getMainWindow().showNotification("new email: " + email.getItemProperty("newEmail").getValue().toString());
-        Main.getCurrent().getMainWindow().removeWindow(ChangeEmailComponent.getInstance());
         
     }
 }

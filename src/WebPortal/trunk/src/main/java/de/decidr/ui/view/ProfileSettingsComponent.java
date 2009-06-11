@@ -22,9 +22,12 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 
+import de.decidr.ui.controller.ChangeStatusAction;
 import de.decidr.ui.controller.SaveProfileAction;
+import de.decidr.ui.controller.ShowCancelMembershipAction;
 import de.decidr.ui.controller.ShowChangeEmailAction;
 import de.decidr.ui.controller.ShowChangePasswordAction;
+import de.decidr.ui.controller.ShowLeaveTenantAction;
 import de.decidr.ui.data.ProfileSettingsContainer;
 
 /**
@@ -92,6 +95,10 @@ public class ProfileSettingsComponent extends CustomComponent {
 	    return settingsItem;
 	}
 	
+	public CheckBox getStatus(){
+	        return statusCheckBox;
+	}
+	
 	private ProfileSettingsComponent(){
 		init();
 	}
@@ -133,14 +140,16 @@ public class ProfileSettingsComponent extends CustomComponent {
 		changeEmailLink.setStyleName(Button.STYLE_LINK);
 		changePasswordLink = new Button("Change password", new ShowChangePasswordAction());
 		changePasswordLink.setStyleName(Button.STYLE_LINK);
-		leaveTenantLink = new Button("Leave tenant");
+		leaveTenantLink = new Button("Leave tenant", new ShowLeaveTenantAction());
 		leaveTenantLink.setStyleName(Button.STYLE_LINK);
-		cancelMembershipLink = new Button("Cancel Membership");
+		cancelMembershipLink = new Button("Cancel Membership", new ShowCancelMembershipAction());
 		cancelMembershipLink.setStyleName(Button.STYLE_LINK);
 		
 		saveButton = new Button("Save", new SaveProfileAction());
 		
 		statusCheckBox = new CheckBox();
+		//statusCheckBox.addListener(new ChangeStatusAction());
+		//TODO: Listener only reacts on other buttons
 		
 		this.setCompositionRoot(verticalLayout);
 		

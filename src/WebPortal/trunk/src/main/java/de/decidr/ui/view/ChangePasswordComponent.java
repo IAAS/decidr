@@ -103,8 +103,8 @@ public class ChangePasswordComponent extends Window {
         passwordForm.addField("oldPassword", oldPasswordText);
         
         verticalLayout.addComponent(passwordForm);
-        horizontalLayout.addComponent(cancelButton);
         horizontalLayout.addComponent(submitButton);
+        horizontalLayout.addComponent(cancelButton);
         verticalLayout.addComponent(horizontalLayout);
         
         horizontalLayout.setComponentAlignment(cancelButton, "right bottom");
