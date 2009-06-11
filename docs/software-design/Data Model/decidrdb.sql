@@ -2,7 +2,7 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
-DROP SCHEMA IF EXISTS `fipart3`;
+DROP SCHEMA IF EXISTS `decidrdb`;
 
 CREATE SCHEMA IF NOT EXISTS `decidrdb` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 USE `decidrdb`;
@@ -129,13 +129,13 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_is_member_of_tenant` (
   CONSTRAINT `fk_user_memberof_tenant_user`
     FOREIGN KEY (`userId` )
     REFERENCES `decidrdb`.`user` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_user_memberof_tenant_tenant`
     FOREIGN KEY (`tenantId` )
     REFERENCES `decidrdb`.`tenant` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -293,13 +293,13 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_administrates_workflow_model` (
   CONSTRAINT `fk_user_has_workflowModel_user`
     FOREIGN KEY (`userId` )
     REFERENCES `decidrdb`.`user` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_user_has_workflowModel_workflowModel`
     FOREIGN KEY (`workflowModelId` )
     REFERENCES `decidrdb`.`workflow_model` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -315,13 +315,13 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_participates_in_workflow` (
   CONSTRAINT `fk_user_has_workflowInstance_user`
     FOREIGN KEY (`userId` )
     REFERENCES `decidrdb`.`user` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_user_has_workflowInstance_workflowInstance`
     FOREIGN KEY (`workflowInstanceId` )
     REFERENCES `decidrdb`.`workflow_instance` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -379,28 +379,28 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`invitation` (
   CONSTRAINT `fk_invitation_sender`
     FOREIGN KEY (`senderId` )
     REFERENCES `decidrdb`.`user` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_invitation_receiver`
     FOREIGN KEY (`receiverId` )
     REFERENCES `decidrdb`.`user` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_invitation_workflowInstance`
     FOREIGN KEY (`participateInWorkflowInstanceId` )
     REFERENCES `decidrdb`.`workflow_instance` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_invitation_tenant`
     FOREIGN KEY (`joinTenantId` )
     REFERENCES `decidrdb`.`tenant` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_invitation_workflowModel`
     FOREIGN KEY (`administrateWorkflowModelId` )
     REFERENCES `decidrdb`.`workflow_model` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -438,13 +438,13 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_has_file_access` (
   CONSTRAINT `fk_user_access_file_user`
     FOREIGN KEY (`userId` )
     REFERENCES `decidrdb`.`user` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_user_access_file_file`
     FOREIGN KEY (`fileId` )
     REFERENCES `decidrdb`.`file` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -579,8 +579,8 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`workflow_model_is_deployed_on_server` (
   CONSTRAINT `fk_deployed_workflow_model_has_server_server`
     FOREIGN KEY (`serverId` )
     REFERENCES `decidrdb`.`server` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -639,6 +639,11 @@ CREATE TABLE IF NOT EXISTS `decidrdb`.`approved_tenants_view` (`id` INT);
 -- Placeholder table for view `decidrdb`.`not_approved_tenants_view`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `decidrdb`.`not_approved_tenants_view` (`id` INT);
+
+-- -----------------------------------------------------
+-- Placeholder table for view `decidrdb`.`startable_workflow_model_view`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `decidrdb`.`startable_workflow_model_view` (`id` INT);
 
 -- -----------------------------------------------------
 -- View `decidrdb`.`server_load_view`
@@ -713,6 +718,19 @@ SELECT * FROM tenant WHERE approvedSince IS NOT NULL;
 DROP TABLE IF EXISTS `decidrdb`.`not_approved_tenants_view`;
 CREATE  OR REPLACE VIEW `decidrdb`.`not_approved_tenants_view` AS
 SELECT * FROM tenant WHERE approvedSince IS NULL;
+
+-- -----------------------------------------------------
+-- View `decidrdb`.`startable_workflow_model_view`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `decidrdb`.`startable_workflow_model_view`;
+# Only workflow models where creating a new workflow instance is allowed, 
+# i.e. a deployed workflow model exists that has the same version. 
+
+CREATE VIEW `decidrdb`.`startable_workflow_model_view` AS
+SELECT w.* FROM workflow_model AS w 
+JOIN deployed_workflow_model AS d ON 
+  ( (d.originalWorkflowModelId = w.id) AND (d.version = w.version) )
+WHERE (w.executable = true);
 USE `decidrdb`;
 
 DELIMITER //
