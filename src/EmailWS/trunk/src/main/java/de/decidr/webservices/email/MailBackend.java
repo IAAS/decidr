@@ -40,6 +40,8 @@ import org.apache.log4j.Logger;
 
 import com.sun.mail.smtp.SMTPTransport;
 
+import de.decidr.model.logging.DefaultLogger;
+
 /**
  * A representation of a JavaMail <code>{@link Message message}</code>.<br>
  * I works by first collecting all the necessary information and then calling
@@ -52,11 +54,11 @@ import com.sun.mail.smtp.SMTPTransport;
 // RR: add logging
 public class MailBackend {
 
-    Logger log;
+    private static Logger log = DefaultLogger.getLogger(MailBackend.class);
 
     /**
-     * Uses {@link #validateAddresses(String)} to verify that a list of e-mail
-     * addresses are formatted correctly.
+     * Uses <code>{@link #validateAddresses(String)}</code> to verify that a
+     * list of e-mail addresses are formatted correctly.
      * 
      * @param addressList
      *            A list of e-mail addresses.
@@ -78,9 +80,9 @@ public class MailBackend {
     }
 
     /**
-     * Uses {@link InternetAddress#parse(String, boolean)
-     * InternetAddress.parse(String, true)} to verify that a list of e-mail
-     * addresses are formatted correctly.<br>
+     * Uses <code>{@link InternetAddress#parse(String, boolean)
+     * InternetAddress.parse(String, true)}</code> to verify that a list of
+     * e-mail addresses are formatted correctly.<br>
      * Empty address strings are considered invalid.
      * 
      * @param addressList
@@ -102,7 +104,7 @@ public class MailBackend {
                     + " => invalid", e);
             return false;
         }
-        
+
         log.debug("No error and not empty => assuming correct format");
         return true;
     }
@@ -137,7 +139,7 @@ public class MailBackend {
 
     /**
      * The authentification information. If unset, the server is assumed not to
-     * authenticate.
+     * use authentification.
      */
     private String username, password;
 
@@ -148,20 +150,19 @@ public class MailBackend {
 
     /**
      * @param to
-     *            The recipients of the Email as a comma separated list of
-     *            addresses.
+     *            The recipients of the Email. See
+     *            <code>{@link #setReceiver(String)}</code>.
      * @param from
-     *            The sender of the Email. May be overwritten by the mail
-     *            transport agent.
+     *            The sender of the Email. See
+     *            <code>{@link #setSender(String)}</code>.
      * @param subject
-     *            The subject of the Email. If <code>null</code> or empty, this
-     *            will be set to <code>&lt;no subject&gt;</code>.
+     *            The subject of the Email. See
+     *            <code>{@link #setSubject(String)}</code>.
      */
     public MailBackend(String to, String from, String subject) {
         setReceiver(to);
         setSender(from);
         setSubject(subject);
-        log = Logger.getLogger(MailBackend.class);
     }
 
     /**

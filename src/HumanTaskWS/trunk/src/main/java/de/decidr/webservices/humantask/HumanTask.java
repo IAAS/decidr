@@ -39,15 +39,8 @@ import de.decidr.model.soap.types.TaskIdentifier;
  */
 @WebService(endpointInterface = "HumanTaskInterface")
 public class HumanTask implements HumanTaskInterface {
-    Logger log;
+    private static Logger log = Logger.getLogger(HumanTask.class);
     private static final Role HUMANTASK_ROLE = HumanTaskRole.getInstance();
-
-    /**
-     * Default constructor to activate logging.
-     */
-    public HumanTask() {
-        log = Logger.getLogger(HumanTask.class);
-    }
 
     @Override
     public TaskIdentifier createTask(long wfmID, long processID, long userID,
