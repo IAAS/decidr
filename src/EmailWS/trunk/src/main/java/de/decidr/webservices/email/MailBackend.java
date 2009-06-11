@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -51,8 +52,13 @@ import de.decidr.model.logging.DefaultLogger;
  * 
  * @author Reinhold
  */
-// RR: add logging
 public class MailBackend {
+
+    /**
+     * A warning message to be used in methods that are implemented to allow for
+     * testing.
+     */
+    private static final String WARNING_TESTING = "This method is for testing use only!";
 
     private static Logger log = DefaultLogger.getLogger(MailBackend.class);
 
@@ -66,17 +72,22 @@ public class MailBackend {
      *         <code>false</code> - otherwise
      */
     public static boolean validateAddresses(List<String> addressList) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".validateAddresses(List<String>)");
         StringBuilder addresses = new StringBuilder(addressList.size() * 20);
 
+        log.debug("Constructing header string from list...");
         for (String recipient : addressList) {
             addresses.append(recipient);
             addresses.append(", ");
         }
         addresses.delete(addresses.length() - 2, addresses.length());
-        Logger.getLogger(MailBackend.class).debug(
-                "checking constructed address list: " + addresses);
+        log.debug("checking constructed address list: " + addresses);
+        boolean result = validateAddresses(addresses.toString());
 
-        return validateAddresses(addresses.toString());
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".validateAddresses(List<String>)");
+        return result;
     }
 
     /**
@@ -91,21 +102,29 @@ public class MailBackend {
      *         <code>false</code> - otherwise
      */
     public static boolean validateAddresses(String addressList) {
-        Logger log = Logger.getLogger(MailBackend.class);
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".validateAddresses(String)");
         if (addressList == null || addressList.trim().isEmpty()) {
             log.debug("Passed address list is empty => invalid");
+            log.trace("Leaving " + MailBackend.class.getSimpleName()
+                    + ".validateAddresses(String)");
             return false;
         }
 
+        log.debug("Using InternetAddress.parse() to determine validity");
         try {
             InternetAddress.parse(addressList, true);
         } catch (AddressException e) {
             log.debug("AddressException in InternetAddress.parse()"
                     + " => invalid", e);
+            log.trace("Leaving " + MailBackend.class.getSimpleName()
+                    + ".validateAddresses(String)");
             return false;
         }
 
         log.debug("No error and not empty => assuming correct format");
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".validateAddresses(String)");
         return true;
     }
 
@@ -160,9 +179,13 @@ public class MailBackend {
      *            <code>{@link #setSubject(String)}</code>.
      */
     public MailBackend(String to, String from, String subject) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + " constructor");
         setReceiver(to);
         setSender(from);
         setSubject(subject);
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + " constructor");
     }
 
     /**
@@ -173,8 +196,14 @@ public class MailBackend {
      *            A comma separated list of recipients.
      */
     public void addBCC(String bcc) {
-        if (bcc == null || bcc.trim().isEmpty())
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".addBCC(String)");
+        if (bcc == null || bcc.trim().isEmpty()) {
+            log.debug("Empty or null string => nothing to append");
+            log.trace("Leaving " + MailBackend.class.getSimpleName()
+                    + ".addBCC(String)");
             return;
+        }
         if (!validateAddresses(bcc)) {
             log.error("The following string is not a valid value "
                     + "for the \"BCC:\" header: " + bcc);
@@ -183,7 +212,9 @@ public class MailBackend {
         }
 
         log.debug("Appending \"" + bcc + "\" to BCC header.");
-        headerBCC += ", " + bcc;
+        setBCC(headerBCC + ", " + bcc);
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".addBCC(String)");
     }
 
     /**
@@ -194,8 +225,14 @@ public class MailBackend {
      *            A comma separated list of recipients.
      */
     public void addCC(String cc) {
-        if (cc == null || cc.trim().isEmpty())
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".addCC(String)");
+        if (cc == null || cc.trim().isEmpty()) {
+            log.debug("Empty or null string => nothing to append");
+            log.trace("Leaving " + MailBackend.class.getSimpleName()
+                    + ".addCC(String)");
             return;
+        }
         if (!validateAddresses(cc)) {
             log.error("The following string is not a valid value "
                     + "for the \"CC:\" header: " + cc);
@@ -204,7 +241,9 @@ public class MailBackend {
         }
 
         log.debug("Appending \"" + cc + "\" to CC header.");
-        headerCC += ", " + cc;
+        setCC(headerCC + ", " + cc);
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".addCC(String)");
     }
 
     /**
@@ -218,10 +257,17 @@ public class MailBackend {
      *             see <code>{@link #addFile(URI)}</code>
      * @throws MalformedURLException
      *             see <code>{@link #addFile(URI)}</code>
+     * @return see <code>{@link #addFile(URI)}</code>
      */
-    public void addFile(File file) throws MalformedURLException,
+    public MimeBodyPart addFile(File file) throws MalformedURLException,
             MessagingException, IOException {
-        addFile(file.toURI());
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".addFile(File)");
+        log.debug("calling addFile(URI) with URI of passed file");
+        MimeBodyPart result = addFile(file.toURI());
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".addFile(File)");
+        return result;
     }
 
     /**
@@ -235,10 +281,18 @@ public class MailBackend {
      *             see <code>{@link URI#toURL()}</code>
      * @throws IOException
      *             see <code>{@link URI#toURL()}</code>
+     * @return see <code>{@link #addFile(URL)}</code>
      */
-    public void addFile(URI file) throws MalformedURLException,
+    public MimeBodyPart addFile(URI file) throws MalformedURLException,
             MessagingException, IOException {
-        addFile(file.toURL());
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".addFile(URI)");
+        log
+                .debug("calling addFile(URL) with a URL equivalent to the passed URI");
+        MimeBodyPart result = addFile(file.toURL());
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".addFile(URI)");
+        return result;
     }
 
     /**
@@ -251,9 +305,19 @@ public class MailBackend {
      * @throws IOException
      *             see
      *             <code>{@link MimeBodyPart#MimeBodyPart(java.io.InputStream)}</code>
+     * @return The <code>{@link MimeBodyPart}</code> containing the file
      */
-    public void addFile(URL file) throws MessagingException, IOException {
-        addMimePart(new MimeBodyPart(file.openStream()));
+    public MimeBodyPart addFile(URL file) throws MessagingException,
+            IOException {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".addFile(URL)");
+        log
+                .debug("Opening stream to passed URL and adding it to message's body");
+        MimeBodyPart result = new MimeBodyPart(file.openStream());
+        addMimePart(result);
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".addFile(URL)");
+        return result;
     }
 
     /**
@@ -271,6 +335,8 @@ public class MailBackend {
      *            The value of the header specified by <code>headerName</code>.
      */
     public void addHeader(String headerName, String headerContent) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".addHeader(String, String)");
         /*
          * Trim the string in case somebody tries to circumvent the filter using
          * spaces.
@@ -308,6 +374,8 @@ public class MailBackend {
             log.debug("Adding " + headerName + ": " + headerContent);
             additionalHeaderMap.put(headerName, headerContent);
         }
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".addHeader(String, String)");
     }
 
     /**
@@ -323,11 +391,15 @@ public class MailBackend {
      *            A <code>{@link Map}</code> of headers to set.
      */
     public void addHeaders(Map<String, String> headers) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".addHeaders(Map<String, String>)");
         log.debug("Stepping through headers Map and "
                 + "delegating to addHeader(String, String)...");
         for (String headerName : headers.keySet()) {
             addHeader(headerName, headers.get(headerName));
         }
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".addHeaders(Map<String, String>)");
     }
 
     /**
@@ -337,9 +409,15 @@ public class MailBackend {
      * @param part
      *            The <code>{@link MimeBodyPart}</code> to add at the end of the
      *            MIME parts list.
+     * @return see <code>{@link List#add(Object)}</code>
      */
-    public void addMimePart(MimeBodyPart part) {
-        messageParts.add(part);
+    public boolean addMimePart(MimeBodyPart part) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".addMimePart(MimeBodyPart)");
+        boolean result = messageParts.add(part);
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".addMimePart(MimeBodyPart)");
+        return result;
     }
 
     /**
@@ -349,9 +427,15 @@ public class MailBackend {
      * @param parts
      *            The <code>{@link MimeBodyPart MimeBodyParts}</code> to add at
      *            the end of the MIME parts list.
+     * @return see <code>{@link List#addAll(Collection)}</code>
      */
-    public void addMimeParts(List<MimeBodyPart> parts) {
-        messageParts.addAll(parts);
+    public boolean addMimeParts(List<MimeBodyPart> parts) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".addMimeParts(List<MimeBodyPart>)");
+        boolean result = messageParts.addAll(parts);
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".addMimeParts(List<MimeBodyPart>)");
+        return result;
     }
 
     /**
@@ -361,8 +445,14 @@ public class MailBackend {
      *            A comma separated list of recipients.
      */
     public void addReceiver(String to) {
-        if (to == null || to.trim().isEmpty())
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".addReceiver(String)");
+        if (to == null || to.trim().isEmpty()) {
+            log.debug("Empty or null string => nothing to append");
+            log.trace("Leaving " + MailBackend.class.getSimpleName()
+                    + ".addReceiver(String)");
             return;
+        }
         if (!validateAddresses(to)) {
             log.error("The following string is not a valid value "
                     + "for the \"To:\" header: " + to);
@@ -370,7 +460,9 @@ public class MailBackend {
                     "One or more of the specified recipients are formatted incorrectly!");
         }
 
-        headerTo += ", " + to;
+        setReceiver(headerTo + ", " + to);
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".addReceiver(String)");
     }
 
     /**
@@ -379,6 +471,7 @@ public class MailBackend {
      * @return the additionalHeaderMap
      */
     final Map<String, String> getAdditionalHeaderMap() {
+        log.warn(WARNING_TESTING);
         return additionalHeaderMap;
     }
 
@@ -388,6 +481,7 @@ public class MailBackend {
      * @return the headerBCC
      */
     final String getHeaderBCC() {
+        log.warn(WARNING_TESTING);
         return headerBCC;
     }
 
@@ -397,6 +491,7 @@ public class MailBackend {
      * @return the headerCC
      */
     final String getHeaderCC() {
+        log.warn(WARNING_TESTING);
         return headerCC;
     }
 
@@ -406,6 +501,7 @@ public class MailBackend {
      * @return the headerFrom
      */
     final String getHeaderFrom() {
+        log.warn(WARNING_TESTING);
         return headerFrom;
     }
 
@@ -415,6 +511,7 @@ public class MailBackend {
      * @return the headerSubject
      */
     final String getHeaderSubject() {
+        log.warn(WARNING_TESTING);
         return headerSubject;
     }
 
@@ -424,6 +521,7 @@ public class MailBackend {
      * @return the headerTo
      */
     final String getHeaderTo() {
+        log.warn(WARNING_TESTING);
         return headerTo;
     }
 
@@ -433,6 +531,7 @@ public class MailBackend {
      * @return the headerXMailer
      */
     final String getHeaderXMailer() {
+        log.warn(WARNING_TESTING);
         return headerXMailer;
     }
 
@@ -442,6 +541,7 @@ public class MailBackend {
      * @return the messageParts
      */
     final List<MimeBodyPart> getMessageParts() {
+        log.warn(WARNING_TESTING);
         return messageParts;
     }
 
@@ -451,6 +551,7 @@ public class MailBackend {
      * @return the password
      */
     final String getPassword() {
+        log.warn(WARNING_TESTING);
         return password;
     }
 
@@ -460,6 +561,7 @@ public class MailBackend {
      * @return the sMTPPortNum
      */
     final int getSMTPPortNum() {
+        log.warn(WARNING_TESTING);
         return SMTPPortNum;
     }
 
@@ -469,6 +571,7 @@ public class MailBackend {
      * @return the sMTPServerHost
      */
     final String getSMTPServerHost() {
+        log.warn(WARNING_TESTING);
         return SMTPServerHost;
     }
 
@@ -478,6 +581,7 @@ public class MailBackend {
      * @return the username
      */
     final String getUsername() {
+        log.warn(WARNING_TESTING);
         return username;
     }
 
@@ -487,6 +591,7 @@ public class MailBackend {
      * @return the useTLS
      */
     final boolean isUseTLS() {
+        log.warn(WARNING_TESTING);
         return useTLS;
     }
 
@@ -499,7 +604,12 @@ public class MailBackend {
      *            The name of the header to remove.
      */
     public void removeHeader(String headerName) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".removeHeader(String)");
+        log.debug("attempting to remove the specified string");
         additionalHeaderMap.remove(headerName);
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".removeHeader(String)");
     }
 
     /**
@@ -510,9 +620,14 @@ public class MailBackend {
      *            A <code>{@link List}</code> of headers to remove.
      */
     public void removeHeaders(List<String> headers) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".removeHeaders(List<String>)");
+        log.debug("attempting to remove the specified strings");
         for (String header : headers) {
             additionalHeaderMap.remove(header);
         }
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".removeHeaders(List<String>)");
     }
 
     /**
@@ -520,9 +635,16 @@ public class MailBackend {
      * 
      * @param part
      *            The <code>{@link MimeBodyPart}</code> to remove.
+     * @return see <code>{@link List#remove(Object)}</code>
      */
-    public void removeMimePart(MimeBodyPart part) {
-        messageParts.remove(part);
+    public boolean removeMimePart(MimeBodyPart part) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".removeMimePart(MimeBodyPart)");
+        log.debug("attempting to remove the specified body part");
+        boolean result = messageParts.remove(part);
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".removeMimePart(MimeBodyPart)");
+        return result;
     }
 
     /**
@@ -531,9 +653,16 @@ public class MailBackend {
      * 
      * @param parts
      *            The <code>{@link MimeBodyPart MimeBodyParts}</code> to remove.
+     * @return see <code>{@link List#removeAll(Collection)}</code>
      */
-    public void removeMimeParts(List<MimeBodyPart> parts) {
-        messageParts.removeAll(parts);
+    public boolean removeMimeParts(List<MimeBodyPart> parts) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".removeMimeParts(List<MimeBodyPart>)");
+        log.debug("attempting to remove the specified body parts");
+        boolean result = messageParts.removeAll(parts);
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".removeMimeParts(List<MimeBodyPart>)");
+        return result;
     }
 
     /**
@@ -541,17 +670,26 @@ public class MailBackend {
      */
     public void sendMessage() throws AddressException, MessagingException,
             IOException {
-        if (SMTPServerHost == null)
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".sendMessage()");
+        if (SMTPServerHost == null || SMTPServerHost.isEmpty()) {
+            log.debug("detected empty hostname => setting to localhost");
             SMTPServerHost = "localhost";
+        }
         String protocol;
-        if (useTLS)
+        if (useTLS) {
+            log.info("Using SMTPS protocol for message delivery");
             protocol = "smtps";
-        else
+        } else {
+            log.info("Using SMTP protocol for message delivery");
             protocol = "smtp";
+        }
 
         Properties sysProps = System.getProperties();
         sysProps.setProperty("mail." + protocol + ".host", SMTPServerHost);
         if (username != null && !username.isEmpty()) {
+            log.debug("using username \"" + username
+                    + "\" for authentification");
             sysProps.setProperty("mail." + protocol + ".auth", "true");
         }
         Session session = Session.getInstance(sysProps, null);
@@ -559,12 +697,15 @@ public class MailBackend {
         MimeMessage message = new MimeMessage(session);
 
         if (messageParts.size() == 0) {
+            log.error("Can't send a message without a body!");
             throw new IllegalArgumentException(
                     "You need to add some content to your message.");
         } else if (messageParts.size() == 1
                 && messageParts.get(0).getContent() instanceof String) {
+            log.debug("constructing message with simple body");
             message.setText((String) (messageParts.get(0).getContent()));
         } else {
+            log.debug("constructing multipart message.");
             MimeMultipart multipartMessage = new MimeMultipart();
             for (MimeBodyPart part : messageParts) {
                 multipartMessage.addBodyPart(part);
@@ -572,46 +713,58 @@ public class MailBackend {
             message.setContent(multipartMessage);
         }
 
-        if (headerXMailer != null)
+        if (headerXMailer != null) {
+            log.debug("adding User-Agent header");
             message.setHeader("User-Agent", headerXMailer);
+        }
         if (additionalHeaderMap != null) {
+            log.debug("adding additional headers");
             for (String header : additionalHeaderMap.keySet()) {
                 message.addHeader(header, additionalHeaderMap.get(header));
             }
         }
 
-        if (headerTo == null || headerTo.isEmpty())
+        if (headerTo == null || headerTo.isEmpty()) {
+            log.error("Can't send a message without recipient.");
             throw new IllegalArgumentException(
                     "You need to specify a receiver!");
-        if (headerFrom == null || headerFrom.isEmpty())
+        }
+        if (headerFrom == null || headerFrom.isEmpty()) {
+            log.error("Can't send a message from nobody.");
             throw new IllegalArgumentException("You need to specify a sender!");
-        if (headerSubject == null || headerSubject.isEmpty())
-            headerSubject = "<no subject>";
-
+        }
+        if (headerSubject == null) {
+            log.debug("detected null subject");
+            headerSubject = "";
+        }
+        log
+                .debug("setting main headers to override additional headers, if necessary");
         message.setFrom(new InternetAddress(headerFrom));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(
-                headerTo, false));
-        if (headerCC != null)
-            message.setRecipients(Message.RecipientType.CC, InternetAddress
-                    .parse(headerCC, false));
-        if (headerBCC != null)
-            message.setRecipients(Message.RecipientType.BCC, InternetAddress
-                    .parse(headerBCC, false));
+        message.setRecipients(Message.RecipientType.TO, headerTo);
+        if (!(headerCC == null || headerCC.isEmpty()))
+            message.setRecipients(Message.RecipientType.CC, headerCC);
+        if (!(headerBCC == null || headerBCC.isEmpty()))
+            message.setRecipients(Message.RecipientType.BCC, headerBCC);
         message.setSubject(headerSubject);
         message.setSentDate(new Date());
 
+        log.debug("opening mail transport");
         SMTPTransport transport = (SMTPTransport) session
                 .getTransport(protocol);
         try {
-            if (username != null && !username.isEmpty())
-                transport.connect(SMTPServerHost, SMTPPortNum, username,
-                        password);
-            else
-                transport.connect();
+            if (username != null && username.isEmpty()) {
+                username = null;
+                password = null;
+            }
+            log.info("Attempting connection with the provided detail..");
+            transport.connect(SMTPServerHost, SMTPPortNum, username, password);
+            log.info("Attempting to send message...");
             transport.sendMessage(message, message.getAllRecipients());
         } finally {
             transport.close();
         }
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".sendMessage()");
     }
 
     /**
@@ -624,8 +777,12 @@ public class MailBackend {
      *            The password used for authentification.
      */
     public void setAuthInfo(String username, String password) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setAuthInfo(String, String)");
         setUsername(username);
         setPassword(password);
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setAuthInfo(String, String)");
     }
 
     /**
@@ -635,15 +792,21 @@ public class MailBackend {
      *            A list of recipients.
      */
     public void setBCC(List<String> bcc) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setBCC(List<String>)");
         StringBuilder bccs = new StringBuilder(bcc.size() * 20);
 
+        log.debug("Constructing header string from list...");
         for (String recipient : bcc) {
             bccs.append(recipient);
             bccs.append(", ");
         }
         bccs.delete(bccs.length() - 2, bccs.length());
 
+        log.debug("delegating to setBCC(String)");
         setBCC(bccs.toString());
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setBCC(List<String>)");
     }
 
     /**
@@ -653,8 +816,13 @@ public class MailBackend {
      *            A comma separated list of recipients.
      */
     public void setBCC(String bcc) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setBCC(String)");
         if (bcc == null || bcc.trim().isEmpty()) {
+            log.debug("detected empty parameter");
             headerBCC = "";
+            log.trace("Leaving " + MailBackend.class.getSimpleName()
+                    + ".setBCC(String)");
             return;
         }
 
@@ -665,7 +833,10 @@ public class MailBackend {
                     "One or more of the specified recipients are formatted incorrectly!");
         }
 
+        log.debug("setting BCC");
         headerBCC = bcc;
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setBCC(String)");
     }
 
     /**
@@ -676,13 +847,19 @@ public class MailBackend {
      */
     public void setBodyText(String message) throws MessagingException,
             IOException {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setBody(String)");
         // add a new part if the first on is not a string or there are no parts
         if (messageParts.isEmpty()
                 || !(messageParts.get(0).getContent() instanceof String)) {
+            log.debug("adding new first MimeBodyPart");
             messageParts.add(0, new MimeBodyPart());
         }
 
+        log.debug("setting body text");
         messageParts.get(0).setText(message);
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setBody(String)");
     }
 
     /**
@@ -692,15 +869,21 @@ public class MailBackend {
      *            A list of recipients.
      */
     public void setCC(List<String> cc) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setCC(List<String>)");
         StringBuilder ccs = new StringBuilder(cc.size() * 20);
 
+        log.debug("Constructing header string from list...");
         for (String recipient : cc) {
             ccs.append(recipient);
             ccs.append(", ");
         }
         ccs.delete(ccs.length() - 2, ccs.length());
 
+        log.debug("delegating to setCC(String)");
         setCC(ccs.toString());
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setCC(List<String>)");
     }
 
     /**
@@ -710,8 +893,13 @@ public class MailBackend {
      *            A comma separated list of recipients.
      */
     public void setCC(String cc) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setCC(String)");
         if (cc == null || cc.trim().isEmpty()) {
+            log.debug("detected empty parameter");
             headerBCC = "";
+            log.trace("Leaving " + MailBackend.class.getSimpleName()
+                    + ".setCC(String)");
             return;
         }
 
@@ -722,17 +910,31 @@ public class MailBackend {
                     "One or more of the specified recipients are formatted incorrectly!");
         }
 
+        log.debug("setting CC header");
         headerCC = cc;
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setCC(String)");
     }
 
     /**
-     * Specify the host the MTA is running on.
+     * Specify the host the MTA is running on. Defaults to
+     * <code>localhost</code>.
      * 
      * @param hostname
      *            The hostname of the MTA. May also be an IP address.
      */
     public void setHostname(String hostname) {
-        SMTPServerHost = hostname;
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setHostname(String)");
+        if (hostname == null || hostname.isEmpty()) {
+            log.debug("detected empty hostname => setting to localhost");
+            SMTPServerHost = "localhost";
+        } else {
+            log.debug("setting hostname");
+            SMTPServerHost = hostname;
+        }
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setHostname(String)");
     }
 
     /**
@@ -742,7 +944,13 @@ public class MailBackend {
      *            The password used for authentification.
      */
     public void setPassword(String password) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setPassword(String)");
+        // XXX cleartext password in memory
+        log.debug("setting password");
         this.password = password;
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setPassword(String)");
     }
 
     /**
@@ -753,7 +961,12 @@ public class MailBackend {
      *            the protocol dependent default port.
      */
     public void setPortNum(int portNum) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setProtNum(int)");
+        log.debug("setting port number");
         SMTPPortNum = portNum;
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setProtNum(int)");
     }
 
     /**
@@ -763,15 +976,21 @@ public class MailBackend {
      *            A list of recipients.
      */
     public void setReceiver(List<String> to) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setReceiver(List<String>)");
         StringBuilder tos = new StringBuilder(to.size() * 20);
 
+        log.debug("Constructing header string from list...");
         for (String recipient : to) {
             tos.append(recipient);
             tos.append(", ");
         }
         tos.delete(tos.length() - 2, tos.length());
 
+        log.debug("delegating to setReceiver(String)");
         setReceiver(tos.toString());
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setReceiver(List<String>)");
     }
 
     /**
@@ -781,9 +1000,13 @@ public class MailBackend {
      *            A comma separated list of recipients.
      */
     public void setReceiver(String to) {
-        if (to == null || to.trim().isEmpty())
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setReceiver(String)");
+        if (to == null || to.trim().isEmpty()) {
+            log.error("Can't use empty To: header.");
             throw new IllegalArgumentException(
                     "Please specify some recipients!");
+        }
         if (!validateAddresses(to)) {
             log.error("The following string is not a valid value "
                     + "for the \"To:\" header: " + to);
@@ -791,7 +1014,10 @@ public class MailBackend {
                     "One or more of the specified recipients are formatted incorrectly!");
         }
 
+        log.debug("setting To header");
         headerTo = to;
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setReceiver(String)");
     }
 
     /**
@@ -800,10 +1026,18 @@ public class MailBackend {
      * @param from
      *            The sender of this Email.
      */
+    // RR: add logging
     public void setSender(String from) {
-        if (from == null || from.isEmpty())
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setSender(String)");
+        if (from == null || from.isEmpty()) {
+            log.error("The sender can't be empty.");
             throw new IllegalArgumentException("Please specify a sender!");
-        this.headerFrom = from;
+        }
+        log.debug("setting From");
+        headerFrom = from;
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setSender(String)");
     }
 
     /**
@@ -816,8 +1050,12 @@ public class MailBackend {
      *            the protocol dependent default port.
      */
     public void setServerInfo(String hostname, int portNum) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setServerInfo(String, int)");
         setHostname(hostname);
         setPortNum(portNum);
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setServerInfo(String, int)");
     }
 
     /**
@@ -828,10 +1066,17 @@ public class MailBackend {
      *            will be set to the empty string.
      */
     public void setSubject(String subject) {
-        if (subject == null || subject.isEmpty())
-            this.headerSubject = "";
-        else
-            this.headerSubject = subject;
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setSubject(String)");
+        if (subject == null) {
+            log.debug("null parameter => emptying subject");
+            headerSubject = "";
+        } else {
+            log.debug("setting subject to " + subject);
+            headerSubject = subject;
+        }
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setSubject(String)");
     }
 
     /**
@@ -842,7 +1087,12 @@ public class MailBackend {
      *            authentification will not be used.
      */
     public void setUsername(String username) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setUsername(String)");
+        log.debug("setting username");
         this.username = username;
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setUsername(String)");
     }
 
     /**
@@ -854,7 +1104,12 @@ public class MailBackend {
      *            into the &quot;<code>User-Agent</code>&quot; header.
      */
     public void setXMailer(String newXMailer) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setXMailer(String)");
+        log.debug("setting user agent");
         headerXMailer = newXMailer;
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setXMailer(String)");
     }
 
     /**
@@ -865,6 +1120,11 @@ public class MailBackend {
      *            used.
      */
     public void useTLS(boolean use) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".useTLS(boolean)");
+        log.debug("setting transport protocol encryption to " + use);
         useTLS = use;
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".useTLS(boolean)");
     }
 }
