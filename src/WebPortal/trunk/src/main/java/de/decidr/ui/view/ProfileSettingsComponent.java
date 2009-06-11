@@ -1,18 +1,43 @@
 package de.decidr.ui.view;
 
+import java.util.Arrays;
+
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.BaseFieldFactory;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.Field;
+import com.vaadin.ui.Form;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Button.ClickEvent;
 
+//TODO:GH
+import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
+
+import de.decidr.ui.controller.SaveProfileAction;
+import de.decidr.ui.data.ProfileSettingsContainer;
+
+/**
+ * TODO: add comment
+ *
+ * @author GH
+ */
 public class ProfileSettingsComponent extends CustomComponent {
 	
+        //TODO:GH
+        private ProfileSettingsContainer settingsContainer = new ProfileSettingsContainer();
+        private BeanItem settingsItem = new BeanItem(settingsContainer); 
+        
+        private Form settingsForm = new Form();
+    
 	/**
 	 * 
 	 */
@@ -41,13 +66,7 @@ public class ProfileSettingsComponent extends CustomComponent {
 	private Label usernameNameLabel = null;
 	private Label emailNameLabel = null;
 	private Label addressDataLabel = null;
-	
-	private TextField firstNameTextField = null;
-	private TextField lastNameTextField = null;
-	private TextField streetTextField = null;
-	private TextField postalCodeTextField = null;
-	private TextField cityTextField = null;
-	
+		
 	private Button changeEmailLink = null;
 	private Button changePasswordLink = null;
 	private Button leaveTenantLink = null;
@@ -57,11 +76,24 @@ public class ProfileSettingsComponent extends CustomComponent {
 	
 	private CheckBox statusCheckBox = null;
 	
+	
+	public Item getSettingsItem(){
+	    return settingsItem;
+	}
+	
 	private ProfileSettingsComponent(){
 		init();
 	}
 	
 	private void init(){
+	    //TODO: GH
+	        settingsForm.setWriteThrough(false);
+	        settingsForm.setFieldFactory(new SettingsFieldFactory());
+	        settingsForm.setItemDataSource(settingsItem);
+	        settingsForm.setVisibleItemProperties(Arrays.asList(new String[] {
+	                "firstNameText", "lastNameText", "streetText", "postalCode", "cityText" }));
+	        
+	    
 		profilePanel = new Panel();
 		addressPanel = new Panel();
 		formPanel = new Panel();
@@ -85,16 +117,6 @@ public class ProfileSettingsComponent extends CustomComponent {
 		emailNameLabel = new Label("test");
 		addressDataLabel = new Label("Address Data (optional)");
 		
-		firstNameTextField = new TextField("First name");
-		firstNameTextField.setColumns(30);
-		lastNameTextField = new TextField("Last name");
-		lastNameTextField.setColumns(30);
-		streetTextField = new TextField("Street");
-		streetTextField.setColumns(30);
-		postalCodeTextField = new TextField("Postal code");
-		postalCodeTextField.setColumns(30);
-		cityTextField = new TextField("City");
-		cityTextField.setColumns(30);
 		
 		changeEmailLink = new Button("Change email");
 		changeEmailLink.setStyleName(Button.STYLE_LINK);
@@ -105,7 +127,21 @@ public class ProfileSettingsComponent extends CustomComponent {
 		cancelMembershipLink = new Button("Cancel Membership");
 		cancelMembershipLink.setStyleName(Button.STYLE_LINK);
 		
-		saveButton = new Button("Save");
+		saveButton = new Button("Save",
+		        new Button.ClickListener() {
+		            public void buttonClick(ClickEvent event){
+		                try{
+		                    settingsForm.commit();
+		                    Main.getCurrent().getMainWindow().showNotification("would save settings now");
+		                    //TODO: Model still causes error because of UserRole not found
+		                    //SaveProfileAction.getInstance().saveProfileData(settingsItem);
+		                } catch (Exception e) {
+		                    Main.getCurrent().getMainWindow().showNotification(e.getMessage());
+		                }
+		            }
+
+		        });
+		            
 		
 		statusCheckBox = new CheckBox();
 		
@@ -143,11 +179,7 @@ public class ProfileSettingsComponent extends CustomComponent {
 		
 		formPanel.addComponent(formVerticalLayout);
 		formVerticalLayout.setSpacing(true);
-		formVerticalLayout.addComponent(firstNameTextField);
-		formVerticalLayout.addComponent(lastNameTextField);
-		formVerticalLayout.addComponent(streetTextField);
-		formVerticalLayout.addComponent(postalCodeTextField);
-		formVerticalLayout.addComponent(cityTextField);
+		formVerticalLayout.addComponent(settingsForm);
 		
 		addressVerticalLayout.addComponent(statusCheckBox);
 		statusCheckBox.setCaption("Set my status to unavailable");
@@ -170,4 +202,42 @@ public class ProfileSettingsComponent extends CustomComponent {
 		return profileSettings;
 	}
 
+	
+	
+	
+	/**
+	 * TODO: add comment
+	 *
+	 * @author GH
+	 */
+	private class SettingsFieldFactory extends BaseFieldFactory{
+	    
+	    public Field createField(Item item, Object propertyId, Component uiContext){
+	        Field field = super.createField(item, propertyId, uiContext);
+	        
+	        if("firstNameText".equals(propertyId)){
+	            TextField tf = (TextField) field;
+	            tf.setCaption("First Name");
+	            tf.setColumns(30);
+	        } else if("lastNameText".equals(propertyId)){
+                    TextField tf = (TextField) field;
+                    tf.setCaption("Last Name");
+                    tf.setColumns(30);
+                } else if("streetText".equals(propertyId)){
+                    TextField tf = (TextField) field;
+                    tf.setCaption("Street");
+                    tf.setColumns(30);
+                } else if("postalCode".equals(propertyId)){
+                    TextField tf = (TextField) field;
+                    tf.setCaption("Postal Code");
+                    tf.setColumns(30);
+                } else if("cityText".equals(propertyId)){
+                    TextField tf = (TextField) field;
+                    tf.setCaption("City");
+                    tf.setColumns(30);
+                }
+	        
+	        return field;
+	    }
+	}
 }
