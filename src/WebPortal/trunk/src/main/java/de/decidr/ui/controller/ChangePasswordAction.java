@@ -16,12 +16,6 @@
 
 package de.decidr.ui.controller;
 
-/**
- * TODO: add comment
- *
- * @author GH
- */
-
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Item;
@@ -30,16 +24,18 @@ import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.view.EditTenantComponent;
+import de.decidr.ui.view.ChangePasswordComponent;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.ProfileSettingsComponent;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 
-
-
-public class SaveProfileAction implements ClickListener  {
-
+/**
+ * TODO: add comment
+ *
+ * @author GH
+ */
+public class ChangePasswordAction implements ClickListener {
+    
     //TODO: remove // below, code is disabled for testing, since the model causes errors
     
     //private ApplicationContext ctx = Main.getCurrent().getContext();
@@ -47,11 +43,21 @@ public class SaveProfileAction implements ClickListener  {
     //private HttpSession session = webCtx.getHttpSession();
     
     //private Long userId = (Long)session.getAttribute("userId");
-   // private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    //private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    
+    private Item passwords = null;
     
     @Override
     public void buttonClick(ClickEvent event) {
-        //userFacade.setProfile(userId, ProfileSettingsComponent.getInstance().getSettingsItem());
-        Main.getCurrent().getMainWindow().showNotification("Profile Settings Saved");
+        passwords = ChangePasswordComponent.getInstance().getPasswords();
+        
+        //TODO: add validator to ChangePasswordComponent
+        if(!passwords.getItemProperty("newPassword").getValue().toString().equals(passwords.getItemProperty("newPasswordConfirm").getValue().toString())){
+            Main.getCurrent().getMainWindow().showNotification("new passwords don't match!");
+        }else{
+            //userFacade.setPassword(userId, passwords.getItemProperty("oldPassword").getValue().toString(), passwords.getItemProperty("newPassword").getValue().toString());
+            Main.getCurrent().getMainWindow().showNotification("new password: " + passwords.getItemProperty("newPassword").getValue().toString());
+            Main.getCurrent().getMainWindow().removeWindow(ChangePasswordComponent.getInstance());
+        }
     }
 }

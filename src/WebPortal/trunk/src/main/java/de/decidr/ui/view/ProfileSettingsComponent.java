@@ -23,6 +23,8 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 
 import de.decidr.ui.controller.SaveProfileAction;
+import de.decidr.ui.controller.ShowChangeEmailAction;
+import de.decidr.ui.controller.ShowChangePasswordAction;
 import de.decidr.ui.data.ProfileSettingsContainer;
 
 /**
@@ -78,6 +80,15 @@ public class ProfileSettingsComponent extends CustomComponent {
 	
 	
 	public Item getSettingsItem(){
+	    try{
+                settingsForm.commit();
+                
+                //TODO: remove debug info
+                Main.getCurrent().getMainWindow().showNotification("would save settings now");
+            } catch (Exception e) {
+                Main.getCurrent().getMainWindow().showNotification(e.getMessage());
+            }
+
 	    return settingsItem;
 	}
 	
@@ -118,30 +129,16 @@ public class ProfileSettingsComponent extends CustomComponent {
 		addressDataLabel = new Label("Address Data (optional)");
 		
 		
-		changeEmailLink = new Button("Change email");
+		changeEmailLink = new Button("Change email", new ShowChangeEmailAction());
 		changeEmailLink.setStyleName(Button.STYLE_LINK);
-		changePasswordLink = new Button("Change password");
+		changePasswordLink = new Button("Change password", new ShowChangePasswordAction());
 		changePasswordLink.setStyleName(Button.STYLE_LINK);
 		leaveTenantLink = new Button("Leave tenant");
 		leaveTenantLink.setStyleName(Button.STYLE_LINK);
 		cancelMembershipLink = new Button("Cancel Membership");
 		cancelMembershipLink.setStyleName(Button.STYLE_LINK);
 		
-		saveButton = new Button("Save",
-		        new Button.ClickListener() {
-		            public void buttonClick(ClickEvent event){
-		                try{
-		                    settingsForm.commit();
-		                    Main.getCurrent().getMainWindow().showNotification("would save settings now");
-		                    //TODO: Model still causes error because of UserRole not found
-		                    //SaveProfileAction.getInstance().saveProfileData(settingsItem);
-		                } catch (Exception e) {
-		                    Main.getCurrent().getMainWindow().showNotification(e.getMessage());
-		                }
-		            }
-
-		        });
-		            
+		saveButton = new Button("Save", new SaveProfileAction());
 		
 		statusCheckBox = new CheckBox();
 		
@@ -201,8 +198,6 @@ public class ProfileSettingsComponent extends CustomComponent {
 		}
 		return profileSettings;
 	}
-
-	
 	
 	
 	/**

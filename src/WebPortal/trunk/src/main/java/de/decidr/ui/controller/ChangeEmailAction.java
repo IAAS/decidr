@@ -30,28 +30,32 @@ import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.view.EditTenantComponent;
+import de.decidr.ui.view.ChangeEmailComponent;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.ProfileSettingsComponent;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 
-
-
-public class SaveProfileAction implements ClickListener  {
-
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
+public class ChangeEmailAction implements ClickListener{
+//TODO: remove // below, code is disabled for testing, since the model causes errors
     
     //private ApplicationContext ctx = Main.getCurrent().getContext();
     //private WebApplicationContext webCtx = (WebApplicationContext)ctx;
     //private HttpSession session = webCtx.getHttpSession();
     
     //private Long userId = (Long)session.getAttribute("userId");
-   // private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    //private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    
+    private Item email = null;
     
     @Override
     public void buttonClick(ClickEvent event) {
-        //userFacade.setProfile(userId, ProfileSettingsComponent.getInstance().getSettingsItem());
-        Main.getCurrent().getMainWindow().showNotification("Profile Settings Saved");
+        email = ChangeEmailComponent.getInstance().getNewEmail();
+        
+        //TODO: add validator to ChangeEmailComponent
+        
+        //userFacade.setPassword(userId, passwords.getItemProperty("oldPassword").getValue().toString(), passwords.getItemProperty("newPassword").getValue().toString());
+        Main.getCurrent().getMainWindow().showNotification("new email: " + email.getItemProperty("newEmail").getValue().toString());
+        Main.getCurrent().getMainWindow().removeWindow(ChangeEmailComponent.getInstance());
+        
     }
 }
