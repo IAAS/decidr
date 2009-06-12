@@ -20,11 +20,10 @@ import java.util.List;
 import java.util.Vector;
 
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
-import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 
 import de.decidr.modelingtool.client.ui.dnd.PortDropController;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
-import de.decidr.modelingtool.client.ui.selection.DragBox;
 
 
 /**
@@ -32,7 +31,7 @@ import de.decidr.modelingtool.client.ui.selection.DragBox;
  * 
  * @author engelhjs
  */
-public class Port extends FocusPanel {
+public class Port extends AbsolutePanel {
     
     public static enum Position {
         TOP, LEFT, RIGHT, BOTTOM, ABSOLUTE
@@ -51,7 +50,7 @@ public class Port extends FocusPanel {
     private DropController dropController = new PortDropController(this);
     
     // has to be made draggable by subclasses
-    protected ConnectionDragBox connectionDragBox = new ConnectionDragBox();
+    protected ConnectionDragBox connectionDragBox = new ConnectionDragBox(this);
     
     public Port(Position position) {
         this.position = position;

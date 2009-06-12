@@ -17,6 +17,7 @@
 package de.decidr.modelingtool.client.ui.selection;
 
 import de.decidr.modelingtool.client.ui.Connection;
+import de.decidr.modelingtool.client.ui.Port;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
@@ -25,17 +26,14 @@ import de.decidr.modelingtool.client.ui.Workflow;
  * @author JE
  */
 public class ConnectionDragBox extends DragBox {
+    
+    private Port gluedPort = null;
 
+    /**
+     * The connection the drag box is assigned to
+     */
     private Connection connection = null;
     
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
-
     /**
      * TODO: add comment
      * 
@@ -43,15 +41,31 @@ public class ConnectionDragBox extends DragBox {
      */
     public ConnectionDragBox() {
         super(DragDirection.ALL);
-        // TODO Auto-generated constructor stub
     }
     
-    public void setVisibleStyle(boolean visible) {
-        if (visible) {
-            this.setStyleName("dragbox-port");
-        } else {
-            this.setStyleName("dragbox-invisible");
+    public ConnectionDragBox(Port gluedPort) {
+        super(DragDirection.ALL);
+        this.gluedPort = gluedPort;
+    }
+
+    public Port getGluedPort() {
+        return gluedPort;
+    }
+
+    public void setGluedPort(Port gluedPort) {
+        // unglue if glued
+        if (this.gluedPort != null) {
+            this.gluedPort.remove(this);
         }
+        
+        // glue to new port
+        gluedPort.add(this);
+        
+        this.gluedPort = gluedPort;
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 
     /**
@@ -61,10 +75,10 @@ public class ConnectionDragBox extends DragBox {
      * @return
      */
     public int getMiddleLeft() {
-        return this.getAbsoluteLeft() + this.getOffsetWidth()
+        return this.getAbsoluteLeft() + this.getOffsetWidth() / 2
                 - Workflow.getInstance().getAbsoluteLeft();
     }
-
+    
     /**
      * 
      * Returns the workflow relative y coordinate of the center of the drag box.
@@ -72,7 +86,19 @@ public class ConnectionDragBox extends DragBox {
      * @return
      */
     public int getMiddleTop() {
-        return this.getAbsoluteTop() + this.getOffsetHeight()
+        return this.getAbsoluteTop() + this.getOffsetHeight() / 2
                 - Workflow.getInstance().getAbsoluteTop();
+    }
+
+    public void setConnection(Connection connection) {
+            this.connection = connection;
+    }
+
+    public void setVisibleStyle(boolean visible) {
+        if (visible) {
+            this.setStyleName("dragbox-port");
+        } else {
+            this.setStyleName("dragbox-invisible");
+        }
     }
 }

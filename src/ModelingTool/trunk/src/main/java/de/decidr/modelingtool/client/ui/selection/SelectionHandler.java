@@ -19,15 +19,14 @@ package de.decidr.modelingtool.client.ui.selection;
 import java.util.List;
 import java.util.Vector;
 
-
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.user.client.ui.Widget;
 
 import de.decidr.modelingtool.client.ui.Connection;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Selectable;
 import de.decidr.modelingtool.client.ui.Workflow;
-
 
 /**
  * TODO: add comment
@@ -59,23 +58,27 @@ public class SelectionHandler implements MouseDownHandler {
     @Override
     public void onMouseDown(MouseDownEvent event) {
         Object source = event.getSource();
-        //System.out.println (source);
+        // System.out.println (source);
 
         // select the clicked node or connection
-        if (source instanceof Node) {
-            Node node = (Node) source;
-            select(node);
-        } else if (source instanceof Connection) {
-            Connection connection = (Connection) source;
-            select(connection);
+        if (source instanceof Widget) {
+            Widget w = (Widget)source;
+            if (w.getParent() instanceof Node) {
+                Node node = (Node) w.getParent();
+                select(node);
+
+            } else if (source instanceof Connection) {
+                Connection connection = (Connection) source;
+                select(connection);
+            }
         }
     }
-    
-    public void update() {
+
+    public void refreshSelection() {
         if (selectedItem instanceof Node) {
-            nodeSelectionBox.assignTo((Node)selectedItem);
+            nodeSelectionBox.refreshPosition();
         }
-        //TODO
+        // TODO: connection
     }
 
     public void select(Node node) {
@@ -98,18 +101,18 @@ public class SelectionHandler implements MouseDownHandler {
         }
         nodeSelectionBox.unassign();
     }
-    
+
     /**
      * 
      * adds the drag boxes to the list.
-     *
+     * 
      * @param widgets
      */
     public List<DragBox> getDragBoxes() {
         if (selectedItem instanceof Node) {
             return nodeSelectionBox.getDragBoxes();
         } else {
-            //TODO
+            // TODO
             return new Vector<DragBox>();
         }
     }

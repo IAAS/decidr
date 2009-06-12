@@ -130,7 +130,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
 
         // register the selection Handler
         // must happen before makeDraggable because of handler order!!!
-        node.addMouseDownHandler(selectionHandler);
+        node.addSelectionHandler(selectionHandler);
 
         // make node draggable, only draggable at graphic widget of the node
         if (node.isMoveable()) {

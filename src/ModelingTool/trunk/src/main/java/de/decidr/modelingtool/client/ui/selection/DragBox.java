@@ -16,36 +16,46 @@
 
 package de.decidr.modelingtool.client.ui.selection;
 
-import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.event.dom.client.HasMouseDownHandlers;
+import com.google.gwt.event.dom.client.HasMouseOutHandlers;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author JE
  */
-public class DragBox extends FocusPanel {
+public class DragBox extends AbsolutePanel implements HasMouseDownHandlers,
+        HasMouseOutHandlers {
 
     public static enum DragDirection {
-        NORTH,
-        NORTHEAST,
-        EAST,
-        SOUTHEAST,
-        SOUTH,
-        SOUTHWEST,
-        WEST,
-        NORTHWEST,
-        ALL
+        NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST, ALL
     };
-    
+
     protected DragDirection direction;
-    
+
     public DragBox(DragDirection direction) {
         super();
-        
+
         this.direction = direction;
     }
 
     public DragDirection getDirection() {
         return direction;
+    }
+
+    @Override
+    public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
+        return addDomHandler(handler, MouseDownEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
+        return addDomHandler(handler, MouseOutEvent.getType());
     }
 }

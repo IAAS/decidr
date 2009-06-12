@@ -41,7 +41,7 @@ public abstract class Node extends AbsolutePanel implements
 
     private final int BORDER_OFFSET = 5;
 
-    protected Widget graphic = null;
+    protected FocusPanel graphic = null;
 
     private boolean selected = false;
 
@@ -238,7 +238,7 @@ public abstract class Node extends AbsolutePanel implements
         this.deletable = deletable;
     }
 
-    public void setGraphic(Widget graphic) {
+    public void setGraphic(FocusPanel graphic) {
         this.graphic = graphic;
 
         // set standard graphic properties if graphic not set by subclass
@@ -258,6 +258,10 @@ public abstract class Node extends AbsolutePanel implements
     @Override
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+    
+    public void addSelectionHandler(MouseDownHandler selectionHandler) {
+        graphic.addMouseDownHandler(selectionHandler);
     }
 
 }

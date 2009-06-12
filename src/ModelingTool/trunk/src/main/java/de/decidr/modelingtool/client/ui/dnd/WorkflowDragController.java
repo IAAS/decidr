@@ -16,11 +16,9 @@
 
 package de.decidr.modelingtool.client.ui.dnd;
 
-
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 
 import de.decidr.modelingtool.client.ui.Workflow;
-
 
 /**
  * TODO: add comment
@@ -50,9 +48,9 @@ public class WorkflowDragController extends PickupDragController {
         // remove the drag boxes assiged to the drag context.
         this.context.selectedWidgets.removeAll(workflow.getSelectionHandler()
                 .getDragBoxes());
-        
+
         // reset the drag boxes
-        workflow.getSelectionHandler().update();
+        workflow.getSelectionHandler().refreshSelection();
     }
 
     @Override
@@ -65,7 +63,7 @@ public class WorkflowDragController extends PickupDragController {
         // add the drag boxes to the drag context to move them with the object
         this.context.selectedWidgets.addAll(workflow.getSelectionHandler()
                 .getDragBoxes());
-        
+
         super.dragStart();
     }
 

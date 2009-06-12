@@ -38,22 +38,22 @@ public abstract class Connection implements Selectable {
 
     protected ConnectionDragBox endDragBox;
 
-    private Port sourcePort = null;
-
-    private Port targetPort = null;
+//    private Port sourcePort = null;
+//
+//    private Port targetPort = null;
 
     public abstract void delete();
 
     public abstract void draw();
 
-    public Port getSourcePort() {
-        return sourcePort;
-    }
-    
-    public Port getTargetPort() {
-        return targetPort;
-    }
-    
+//    public Port getSourcePort() {
+//        return sourcePort;
+//    }
+//    
+//    public Port getTargetPort() {
+//        return targetPort;
+//    }
+//    
     public boolean isSelected() {
         return selected;
     }
@@ -64,23 +64,35 @@ public abstract class Connection implements Selectable {
     }
 
     public void setEndDragBox(ConnectionDragBox endDragBox) {
-        this.endDragBox = endDragBox;
+            this.endDragBox = endDragBox;
+            // FIXME: compiler error in this line
+            //endDragBox.setConnection(this);
+    }
+
+    public ConnectionDragBox getStartDragBox() {
+        return startDragBox;
+    }
+
+    public ConnectionDragBox getEndDragBox() {
+        return endDragBox;
     }
 
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
 
-    public void setSourcePort(Port sourcePort) {
-        this.sourcePort = sourcePort;
-    }
+//    public void setSourcePort(Port sourcePort) {
+//        this.sourcePort = sourcePort;
+//    }
 
     public void setStartDragBox(ConnectionDragBox startDragBox) {
         this.startDragBox = startDragBox;
+        // FIXME: compiler error in this line
+        //startDragBox.setConnection(this);
     }
 
-    public void setTargetPort(Port targetPort) {
-        this.targetPort = targetPort;
-    }
+//    public void setTargetPort(Port targetPort) {
+//        this.targetPort = targetPort;
+//    }
 
 }

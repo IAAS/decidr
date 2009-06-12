@@ -25,8 +25,7 @@ import com.google.gwt.user.client.ui.HTML;
  */
 public class OrthogonalConnection extends Connection {
 
-    
-    private final int LINE_WIDTH = 2;
+    private final int LINE_WIDTH = 1;
     private final String STYLE_HORIZONTAL = "connection-orthogonal-horizontalline";
     private final String STYLE_VERTICAL = "connection-orthogonal-verticalline";
 
@@ -55,47 +54,40 @@ public class OrthogonalConnection extends Connection {
             parentPanel.add(midLine);
             parentPanel.add(endLine);
             
-            // check if long side is in x direction
-            if (width >= height) {
-                startLine.setStyleName(STYLE_VERTICAL);
+            startLine.setStyleName(STYLE_VERTICAL);
+            midLine.setStyleName(STYLE_HORIZONTAL);
+            endLine.setStyleName(STYLE_VERTICAL);
+            
+            if (startY <= endY) {
                 parentPanel.setWidgetPosition(startLine, startX, startY);
-                startLine.setHeight((height / 2) + "px");
-                startLine.setWidth(LINE_WIDTH + "px");
-                
-                midLine.setStyleName(STYLE_HORIZONTAL);
-                parentPanel.setWidgetPosition(midLine, startX, startY + height / 2);
-                midLine.setWidth(width + "px");
-                midLine.setHeight(LINE_WIDTH + "px");
-                
-                endLine.setStyleName(STYLE_VERTICAL);
                 parentPanel.setWidgetPosition(endLine, endX, endY - height / 2);
-                endLine.setHeight((height / 2) + "px");
-                endLine.setWidth(LINE_WIDTH + "px");
-                
             } else {
-                // long side is in y direction    
-                startLine.setStyleName(STYLE_HORIZONTAL);
-                parentPanel.setWidgetPosition(startLine, startX, startY);
-                startLine.setWidth((width / 2) + "px");
-                startLine.setHeight(LINE_WIDTH + "px");
-                
-                midLine.setStyleName(STYLE_VERTICAL);
-                parentPanel.setWidgetPosition(midLine, startX + width / 2, startY);
-                midLine.setHeight(height + "px");
-                midLine.setWidth(LINE_WIDTH + "px");
-                
-                endLine.setStyleName(STYLE_HORIZONTAL);
-                parentPanel.setWidgetPosition(endLine, endX - width / 2, endY);
-                endLine.setWidth((width / 2) + "px");
-                endLine.setHeight(LINE_WIDTH + "px");
+                parentPanel.setWidgetPosition(startLine, startX, startY - height / 2);
+                parentPanel.setWidgetPosition(endLine, endX, endY);
             }
+            
+            if (startX <= endX) {
+                parentPanel.setWidgetPosition(midLine, startX, (startY + endY) / 2);
+            } else {
+                parentPanel.setWidgetPosition(midLine, endX, (startY + endY) / 2);
+            }
+            
+            startLine.setHeight((height / 2) + "px");
+            startLine.setWidth(LINE_WIDTH + "px");
+            
+            endLine.setHeight((height / 2) + "px");
+            endLine.setWidth(LINE_WIDTH + "px");
+            
+            midLine.setWidth(width + "px");
+            midLine.setHeight(LINE_WIDTH + "px");
         }
     }
 
     @Override
     public void delete() {
-        // TODO Auto-generated method stub
-
+        startLine.removeFromParent();
+        midLine.removeFromParent();
+        endLine.removeFromParent();
     }
 
 }

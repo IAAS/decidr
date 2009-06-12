@@ -22,7 +22,6 @@ import java.util.Vector;
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * TODO: add comment
@@ -42,7 +41,7 @@ public class Container extends Node {
         super();
 
         // set container graphic properties
-        Widget graphic = new FocusPanel();
+        FocusPanel graphic = new FocusPanel();
         graphic.addStyleName("container-std");
         this.setGraphic(graphic);
         
