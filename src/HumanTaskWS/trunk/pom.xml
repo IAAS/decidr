@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.decidr.webservices</groupId>
 	<artifactId>HumanTask</artifactId>
-	<packaging>jar</packaging>
+	<packaging>aar</packaging>
 	<name>HumanTaskWS</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<build>
@@ -23,12 +23,13 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			<!--plugin>
+			<plugin>
 				<groupId>org.apache.axis2</groupId>
 				<artifactId>axis2-aar-maven-plugin</artifactId>
+				<extensions>true</extensions>
 				<version>1.5</version>
 				<configuration>
-					<aarName>HumanTaskWS.aar</aarName>
+					<aarName>HumanTaskWS</aarName>
 					<includeDependencies>true</includeDependencies>
 					<wsdlFile>META-INF/HumanTask.wsdl</wsdlFile>
 				</configuration>
@@ -39,7 +40,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin-->
+			</plugin>
 		</plugins>
 		<extensions>
 		</extensions>

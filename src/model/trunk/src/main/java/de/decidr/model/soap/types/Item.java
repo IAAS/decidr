@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
  * this class.
  * 
  * <pre>
- * &lt;complexType name=&quot;tItem&quot;&gt;
+ * &lt;complexType name=&quot;tItem&quot; abstract=&quot;true&quot;&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
@@ -49,7 +49,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "tItem", propOrder = { "hint", "label" })
 @XmlSeeAlso( { DateItem.class, FloatItem.class, URIItem.class,
         IntegerItem.class, StringItem.class, BooleanItem.class })
-public class Item {
+public abstract class Item {
 
     @XmlElement(required = true)
     protected String hint;

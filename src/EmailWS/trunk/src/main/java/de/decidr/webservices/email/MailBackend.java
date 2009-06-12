@@ -60,6 +60,8 @@ public class MailBackend {
      */
     private static final String WARNING_TESTING = "This method is for testing use only!";
 
+    private static final String EMPTY_SUBJECT = "<no subject>";
+
     private static Logger log = DefaultLogger.getLogger(MailBackend.class);
 
     /**
@@ -745,12 +747,12 @@ public class MailBackend {
             log.error("Can't send a message from nobody.");
             throw new IllegalArgumentException("You need to specify a sender!");
         }
-        if (headerSubject == null) {
+        if (headerSubject == null || headerSubject.trim().isEmpty()) {
             log.debug("detected null subject");
-            headerSubject = "";
+            headerSubject = EMPTY_SUBJECT;
         }
-        log
-                .debug("setting main headers to override additional headers, if necessary");
+        log.debug("setting main headers to override additional "
+                + "headers, if necessary");
         message.setFrom(new InternetAddress(headerFrom));
         message.setRecipients(Message.RecipientType.TO, headerTo);
         if (!(headerCC == null || headerCC.isEmpty()))
@@ -1078,14 +1080,14 @@ public class MailBackend {
      * 
      * @param subject
      *            The subject of the Email. If <code>null</code>, the subject
-     *            will be set to the empty string.
+     *            will be set to <code>{@link #EMPTY_SUBJECT}</code> string.
      */
     public void setSubject(String subject) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setSubject(String)");
-        if (subject == null) {
-            log.debug("null parameter => emptying subject");
-            headerSubject = "";
+        if (subject == null || subject.trim().isEmpty()) {
+            log.debug("null parameter => setting to default");
+            headerSubject = EMPTY_SUBJECT;
         } else {
             log.debug("setting subject to " + subject);
             headerSubject = subject;

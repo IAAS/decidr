@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:tns="http://decidr.de/webservices/Email" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dwsdl="http://decidr.de/wsdl/DecidrTypes"
+	xmlns:decidr="http://decidr.de/schema/DecidrTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" name="HumanTask"
+	targetNamespace="http://decidr.de/webservices/Email">
+
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://decidr.de/webservices/Email">
+			<!-- own type definitions -->
+			<xsd:import schemaLocation="DecidrTypes.xsd"
+				namespace="http://decidr.de/schema/DecidrTypes" />
+
+			<!-- operations -->
+			<xsd:element name="sendEmail">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="to" type="decidr:tAbstractUserList" />
+						<xsd:element name="cc" type="decidr:tAbstractUserList"
+							nillable="true" />
+						<xsd:element name="bcc" type="decidr:tAbstractUserList"
+							nillable="true" />
+						<xsd:element name="fromName" type="xsd:string"
+							nillable="true" />
+						<xsd:element name="fromAddress" type="xsd:string" />
+						<xsd:element name="subject" type="xsd:string" />
+						<xsd:element name="headers" type="decidr:tStringMap" />
+						<xsd:element name="bodyTXT" type="xsd:string"
+							nillable="true" />
+						<xsd:element name="bodyHTML" type="xsd:string"
+							nillable="true" />
+						<xsd:element name="attachments" type="decidr:tIDList"
+							nillable="true" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="sendEmailResponse">
+				<xsd:complexType>
+					<xsd:sequence />
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="transactionException" type="xsd:string" />
+			<xsd:element name="messagingException" type="xsd:string" />
+			<xsd:element name="ioException" type="xsd:string" />
+			<xsd:element name="malformedURLException" type="xsd:string" />
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="sendEmailRequest">
+		<wsdl:part element="tns:sendEmail" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="sendEmailResponse">
+		<wsdl:part element="tns:sendEmailResponse" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="transactionException">
+		<wsdl:part element="tns:transactionException" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="ioException">
+		<wsdl:part element="tns:ioException" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="malformedURLException">
+		<wsdl:part element="tns:malformedURLException" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="messagingException">
+		<wsdl:part element="tns:messagingException" name="parameters" />
+	</wsdl:message>
+
+	<wsdl:portType name="EmailPT">
+		<wsdl:operation name="sendEmail">
+			<wsdl:input message="tns:sendEmailRequest" wsaw:Action="urn:sendEmail" />
+			<wsdl:output message="tns:sendEmailResponse" wsaw:Action="urn:sendEmailResponse" />
+			<wsdl:fault name="transactionException" message="tns:transactionException" />
+			<wsdl:fault name="ioException" message="tns:ioException" />
+			<wsdl:fault name="malformedURLException" message="tns:malformedURLException" />
+			<wsdl:fault name="messagingException" message="tns:messagingException" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<!--
+		<plnk:partnerLinkType name="EmailPLT"> <plnk:role name="EmailProvider"
+		portType="tns:EmailPT" /> </plnk:partnerLinkType>
+	-->
+
+	<wsdl:binding name="EmailSOAP" type="tns:EmailPT">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="sendEmail">
+			<soap:operation soapAction="http://decidr.de/webservices/Email/sendEmail"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="transactionException">
+				<soap:body use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="ioException">
+				<soap:body use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="malformedURLException">
+				<soap:body use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="messagingException">
+				<soap:body use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<!-- needs to be adapted for deployment -->
+	<wsdl:service name="Email">
+		<wsdl:port binding="tns:EmailSOAP" name="EmailSOAP">
+			<soap:address location="http://www.example.org/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
