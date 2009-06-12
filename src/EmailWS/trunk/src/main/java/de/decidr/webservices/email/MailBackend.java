@@ -294,8 +294,8 @@ public class MailBackend {
             MessagingException, IOException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addFile(URI)");
-        log
-                .debug("calling addFile(URL) with a URL equivalent to the passed URI");
+        log.debug("calling addFile(URL) with a URL equivalent "
+                + "to the passed URI");
         MimeBodyPart result = addFile(file.toURL());
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".addFile(URI)");
@@ -318,8 +318,8 @@ public class MailBackend {
             IOException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addFile(URL)");
-        log
-                .debug("Opening stream to passed URL and adding it to message's body");
+        log.debug("Opening stream to passed URL and adding it "
+                + "to message's body");
         MimeBodyPart result = new MimeBodyPart(file.openStream());
         addMimePart(result);
         log.trace("Leaving " + MailBackend.class.getSimpleName()
@@ -674,9 +674,14 @@ public class MailBackend {
 
     /**
      * Send the message using the data specified by the user.
+     * 
+     * @throws MessagingException
+     *             May be thrown while setting headers, sending the message if
+     *             the authentfication data was incomplete/incorrect, etc.
+     * @throws IOException
+     *             see <code>{@link MimeBodyPart#getContent()}</code>
      */
-    public void sendMessage() throws AddressException, MessagingException,
-            IOException {
+    public void sendMessage() throws MessagingException, IOException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".sendMessage()");
         if (SMTPServerHost == null || SMTPServerHost.isEmpty()) {
@@ -851,6 +856,10 @@ public class MailBackend {
      * 
      * @param message
      *            The primary text message of the Email.
+     * @throws MessagingException
+     *             May be thrown while setting/getting message contents.
+     * @throws IOException
+     *             see <code>{@link MimeBodyPart#getContent()}</code>
      */
     public void setBodyText(String message) throws MessagingException,
             IOException {

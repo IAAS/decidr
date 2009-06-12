@@ -16,10 +16,11 @@
 
 package de.decidr.webservices.email;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +31,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.decidr.model.logging.DefaultLogger;
-import de.decidr.model.permissions.AssertMode;
-import de.decidr.model.permissions.Asserter;
 
 /**
  * Test cases for <code>{@link MailBackend}</code>.
