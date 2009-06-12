@@ -19,30 +19,31 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.ui.view.EditTenantComponent;
 import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.SystemSettingComponent;
 
 /**
  * TODO: add comment
  *
  * @author AT
  */
-public class SystemSettingsAction implements ClickListener {
+public class ShowEditTenantAction implements ClickListener {
     
     /**
      * Serial Version UID
      */
-    private static final long serialVersionUID = -7440471792474065901L;
-    
+    private static final long serialVersionUID = -48267747213888848L;
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
+
 
     /* (non-Javadoc)
      * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(SystemSettingComponent.getInstance());
+        siteFrame.setContent(EditTenantComponent.getInstance());
+
     }
 
 }

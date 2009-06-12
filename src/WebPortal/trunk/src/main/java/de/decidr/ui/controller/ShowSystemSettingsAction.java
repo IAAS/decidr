@@ -20,18 +20,19 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.view.SiteFrame;
+import de.decidr.ui.view.SystemSettingComponent;
 
 /**
  * TODO: add comment
  *
  * @author AT
  */
-public class TenantSettingsAction implements ClickListener {
-
+public class ShowSystemSettingsAction implements ClickListener {
+    
     /**
      * Serial Version UID
      */
-    private static final long serialVersionUID = 7134005638789261L;
+    private static final long serialVersionUID = -7440471792474065901L;
     
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
@@ -41,8 +42,7 @@ public class TenantSettingsAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //TODO: Tenant settings action
-
+        siteFrame.setContent(SystemSettingComponent.getInstance());
     }
 
 }

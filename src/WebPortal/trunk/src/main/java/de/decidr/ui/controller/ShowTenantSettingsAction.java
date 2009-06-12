@@ -26,18 +26,22 @@ import de.decidr.ui.view.SiteFrame;
  *
  * @author AT
  */
-public class CreateTenantAction implements ClickListener {
+public class ShowTenantSettingsAction implements ClickListener {
+
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 7134005638789261L;
     
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
-
 
     /* (non-Javadoc)
      * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //TODO
+        //TODO: Tenant settings action
 
     }
 

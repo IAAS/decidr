@@ -28,7 +28,7 @@ import de.decidr.ui.view.CreateWorkflowInstanceComponent;
  * @author GH
  */
 @SuppressWarnings("serial")
-public class CreateWorkflowInstanceAction  implements ClickListener {
+public class ShowCreateWorkflowInstanceAction  implements ClickListener {
     
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();

@@ -19,7 +19,7 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.view.EditTenantComponent;
+import de.decidr.ui.view.ProfileSettingsComponent;
 import de.decidr.ui.view.SiteFrame;
 
 /**
@@ -27,22 +27,22 @@ import de.decidr.ui.view.SiteFrame;
  *
  * @author AT
  */
-public class EditTenantAction implements ClickListener {
+public class ShowProfileSettingsAction implements ClickListener {
     
     /**
      * Serial Version UID
      */
-    private static final long serialVersionUID = -48267747213888848L;
+    private static final long serialVersionUID = 33661750285092369L;
+    
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
-
 
     /* (non-Javadoc)
      * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(EditTenantComponent.getInstance());
+        siteFrame.setContent(new ProfileSettingsComponent());
 
     }
 

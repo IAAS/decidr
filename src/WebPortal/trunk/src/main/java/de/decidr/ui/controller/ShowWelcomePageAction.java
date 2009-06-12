@@ -19,7 +19,10 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.view.WorkItemComponent;
+/**
+ * TODO: add welcome page
+ */
+//import de.decidr.ui.view.
 import de.decidr.ui.view.SiteFrame;
 
 /**
@@ -28,7 +31,7 @@ import de.decidr.ui.view.SiteFrame;
  * @author GH
  */
 @SuppressWarnings("serial")
-public class MyWorkitemsAction implements ClickListener {
+public class ShowWelcomePageAction  implements ClickListener {
     
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
@@ -36,7 +39,7 @@ public class MyWorkitemsAction implements ClickListener {
 
     @Override
     public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(WorkItemComponent.getInstance());
+        //siteFrame.setContent(CreateWorkflowInstanceComponent.getInstance());
 
     }
     

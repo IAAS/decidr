@@ -6,7 +6,7 @@ import com.vaadin.ui.Label;
 
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.ui.controller.ProfileSettingsAction;
+import de.decidr.ui.controller.ShowProfileSettingsAction;
 
 public class UserNavigationMenu extends CustomComponent{
 	
@@ -38,7 +38,7 @@ public class UserNavigationMenu extends CustomComponent{
 		myWorkItemLink.setStyleName(Button.STYLE_LINK);
 		changeTenantLink = new Button("Change Tenant");
 		changeTenantLink.setStyleName(Button.STYLE_LINK);		
-		profileSettingsLink = new Button("Profile Settings", new ProfileSettingsAction());
+		profileSettingsLink = new Button("Profile Settings", new ShowProfileSettingsAction());
 		profileSettingsLink.setStyleName(Button.STYLE_LINK);
 		
 		workflowParticipationLabel = new Label("Workflow participation");

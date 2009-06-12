@@ -19,7 +19,7 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.view.ChangeTenantComponent;
+import de.decidr.ui.view.WorkflowModelsComponent;
 import de.decidr.ui.view.SiteFrame;
 
 /**
@@ -28,7 +28,7 @@ import de.decidr.ui.view.SiteFrame;
  * @author GH
  */
 @SuppressWarnings("serial")
-public class ChangeTenantAction  implements ClickListener {
+public class ShowCreateWorkflowModelAction implements ClickListener {
     
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
@@ -36,7 +36,7 @@ public class ChangeTenantAction  implements ClickListener {
 
     @Override
     public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(ChangeTenantComponent.getInstance());
+        siteFrame.setContent(WorkflowModelsComponent.getInstance());
 
     }
     

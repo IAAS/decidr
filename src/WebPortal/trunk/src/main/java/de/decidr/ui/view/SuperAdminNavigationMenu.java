@@ -5,17 +5,17 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.ui.controller.ChangeTenantAction;
-import de.decidr.ui.controller.CreateTenantAction;
-import de.decidr.ui.controller.CreateWorkflowInstanceAction;
-import de.decidr.ui.controller.CreateWorkflowModelAction;
-import de.decidr.ui.controller.EditTenantAction;
-import de.decidr.ui.controller.MyWorkitemsAction;
-import de.decidr.ui.controller.ProfileSettingsAction;
+import de.decidr.ui.controller.ShowCreateTenantAction;
+import de.decidr.ui.controller.ShowChangeTenantAction;
+import de.decidr.ui.controller.ShowCreateWorkflowInstanceAction;
+import de.decidr.ui.controller.ShowCreateWorkflowModelAction;
+import de.decidr.ui.controller.ShowEditTenantAction;
+import de.decidr.ui.controller.ShowMyWorkitemsAction;
+import de.decidr.ui.controller.ShowProfileSettingsAction;
+import de.decidr.ui.controller.ShowSystemSettingsAction;
+import de.decidr.ui.controller.ShowTenantSettingsAction;
 import de.decidr.ui.controller.ShowUserListAction;
 import de.decidr.ui.controller.ShowWorkflowInstancesAction;
-import de.decidr.ui.controller.SystemSettingsAction;
-import de.decidr.ui.controller.TenantSettingsAction;
 
 public class SuperAdminNavigationMenu extends CustomComponent {
     
@@ -55,27 +55,27 @@ public class SuperAdminNavigationMenu extends CustomComponent {
         verticalLayout = new VerticalLayout();
         this.setCompositionRoot(verticalLayout);
         
-        myWorkItemLink = new Button("My Workitems", new MyWorkitemsAction());
+        myWorkItemLink = new Button("My Workitems", new ShowMyWorkitemsAction());
         myWorkItemLink.setStyleName(Button.STYLE_LINK);
-        changeTenantLink = new Button("Change Tenant", new ChangeTenantAction());
+        changeTenantLink = new Button("Change Tenant", new ShowChangeTenantAction());
         changeTenantLink.setStyleName(Button.STYLE_LINK);
-        createWorkflowModelLink = new Button("Create/Edit Workflow Model", new CreateWorkflowModelAction());
+        createWorkflowModelLink = new Button("Create/Edit Workflow Model", new ShowCreateWorkflowModelAction());
         createWorkflowModelLink.setStyleName(Button.STYLE_LINK);
-        createWorkflowInstanceLink = new Button("Create Workflow Instance", new CreateWorkflowInstanceAction());
+        createWorkflowInstanceLink = new Button("Create Workflow Instance", new ShowCreateWorkflowInstanceAction());
         createWorkflowInstanceLink.setStyleName(Button.STYLE_LINK);
         showWorkflowInstancesLink = new Button("Show Workflow Instances", new ShowWorkflowInstancesAction());
         showWorkflowInstancesLink.setStyleName(Button.STYLE_LINK);
         showUserListLink = new Button("Show/Edit User List", new ShowUserListAction());
         showUserListLink.setStyleName(Button.STYLE_LINK);
-        createTenantLink = new Button("Create Tenant", new CreateTenantAction());
+        createTenantLink = new Button("Create Tenant", new ShowCreateTenantAction());
         createTenantLink.setStyleName(Button.STYLE_LINK);
-        editTenantLink = new Button("Edit Tenant", new EditTenantAction());
+        editTenantLink = new Button("Edit Tenant", new ShowEditTenantAction());
         editTenantLink.setStyleName(Button.STYLE_LINK);
-        profileSettingsLink = new Button("Profile Settings", new ProfileSettingsAction());
+        profileSettingsLink = new Button("Profile Settings", new ShowProfileSettingsAction());
         profileSettingsLink.setStyleName(Button.STYLE_LINK);
-        tenantSettingsLink = new Button("Tenant Settings", new TenantSettingsAction());
+        tenantSettingsLink = new Button("Tenant Settings", new ShowTenantSettingsAction());
         tenantSettingsLink.setStyleName(Button.STYLE_LINK);
-        systemSettingsLink = new Button("System Settings", new SystemSettingsAction());
+        systemSettingsLink = new Button("System Settings", new ShowSystemSettingsAction());
         systemSettingsLink.setStyleName(Button.STYLE_LINK);
         
         workflowParticipationLabel = new Label("<h5>Workflow participation</h5>");
