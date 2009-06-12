@@ -16,6 +16,9 @@
 
 package de.decidr.model;
 
+import com.vaadin.data.Property;
+import com.vaadin.data.util.ObjectProperty;
+
 /**
  * Tool class for working with Vaadin {@link Item}s.
  * 
@@ -24,5 +27,14 @@ package de.decidr.model;
  */
 public class VaadinTools {
 
-    
+    /**
+     * Returns an empty property.
+     * 
+     * @param propertyId
+     * @return
+     */
+    public static Property getEmptyProperty(Object propertyId) {
+        return new ObjectProperty(null, Object.class);
+    }
+
 }
