@@ -50,9 +50,12 @@ public class SaveProfileAction implements ClickListener  {
     //private Long userId = (Long)session.getAttribute("userId");
    // private UserFacade userFacade = new UserFacade(new UserRole(userId));
     
+	private ProfileSettingsComponent content = null;
+	
     @Override
     public void buttonClick(ClickEvent event) {
-    	ProfileSettingsComponent.getInstance().saveSettingsItem();
+    	content = (ProfileSettingsComponent) UIDirector.getInstance().getTemplateView().getContent();
+    	content.saveSettingsItem();
     	//userFacade.setProfile(userId, ProfileSettingsComponent.getInstance().getSettingsItem());
     	Main.getCurrent().getMainWindow().showNotification("Profile Settings Saved " + ProfileSettingsContainer.getInstance().getStreetText());
     }

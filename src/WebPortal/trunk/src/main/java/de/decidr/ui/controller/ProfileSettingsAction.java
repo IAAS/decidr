@@ -42,7 +42,7 @@ public class ProfileSettingsAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(ProfileSettingsComponent.getInstance());
+        siteFrame.setContent(new ProfileSettingsComponent());
 
     }
 

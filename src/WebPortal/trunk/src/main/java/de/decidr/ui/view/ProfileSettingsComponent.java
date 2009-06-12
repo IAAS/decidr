@@ -101,7 +101,7 @@ public class ProfileSettingsComponent extends CustomComponent {
 	        return statusCheckBox;
 	}
 	
-	private ProfileSettingsComponent(){
+	public ProfileSettingsComponent(){
 		init();
 	}
 	
