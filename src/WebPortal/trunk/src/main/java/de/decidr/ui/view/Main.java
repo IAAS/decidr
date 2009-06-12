@@ -28,7 +28,7 @@ public class Main extends Application implements TransactionListener {
     @Override
     public void init() {
         setMainWindow(main);
-        //setTheme("test");
+        setTheme("test");
         director.setUiBuilder(ui);
         director.createNewView();
         director.constructView();

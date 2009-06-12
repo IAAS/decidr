@@ -28,7 +28,7 @@ public class SuperAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildContent() {
-        getView().setContent(WorkItemComponent.getInstance());
+        getView().setContent(LoginComponent.getInstance());
 
     }
 

@@ -21,6 +21,8 @@ package de.decidr.ui.view;
  *
  * @author GH
  */
+import javax.servlet.http.Cookie;
+
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;
@@ -32,6 +34,7 @@ public class SiteFrame extends CustomComponent{
         
         private GridLayout gridFrame = null;
         private SplitPanel splitPanel = null;
+        private Component content = null;
         
         public SiteFrame(){
                 init();
@@ -40,6 +43,7 @@ public class SiteFrame extends CustomComponent{
         private void init(){
         gridFrame = new GridLayout(3,5);
         this.setCompositionRoot(gridFrame);
+        
         
         gridFrame.setSizeFull();
         gridFrame.setMargin(true);
@@ -75,6 +79,11 @@ public class SiteFrame extends CustomComponent{
         
         public void setContent(Component content){
                 splitPanel.setSecondComponent(content);
+                this.content = content;
+        }
+        
+        public Component getContent(){
+            return content;
         }
 }
 

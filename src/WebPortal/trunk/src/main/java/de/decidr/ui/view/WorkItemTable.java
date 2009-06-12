@@ -29,7 +29,7 @@ public class WorkItemTable extends Table implements Observer{
         workItemContainer.addContainerProperty("Tenant", String.class, null);
         workItemContainer.addContainerProperty("Data received", String.class, null);
         workItemContainer.addContainerProperty("Status", String.class, null);
-        setVisibleColumns(workItemContainer.getContainerPropertyIds().toArray());
+        //setVisibleColumns(workItemContainer.getContainerPropertyIds().toArray());
         
         
     }

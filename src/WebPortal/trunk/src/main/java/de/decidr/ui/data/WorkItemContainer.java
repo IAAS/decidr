@@ -18,27 +18,15 @@ package de.decidr.ui.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Set;
-
 import javax.servlet.http.HttpSession;
-
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.service.ApplicationContext;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.AbstractSelect.NewItemHandler;
-
-import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.permissions.UserRole;
@@ -62,8 +50,6 @@ public class WorkItemContainer extends Observable implements Container {
     
     private List<Item> workItemList = userFacade.getWorkItems(userId, null, null);
     
-    private Item workItem = null;
-       
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
     
@@ -73,6 +59,7 @@ public class WorkItemContainer extends Observable implements Container {
         for(Item item : workItemList){
            addItem(item);
         }
+        
     }
     
     /* (non-Javadoc)
@@ -102,12 +89,7 @@ public class WorkItemContainer extends Observable implements Container {
     @Override
     public Item addItem(Object itemId) throws UnsupportedOperationException {
         items.put(itemId, itemId);
-        try{
-            return workItemFacade.getWorkItem((Long)itemId);
-        }catch(TransactionException exception){
-            
-        }
-        return null;
+        return getItem(itemId);
     }
 
     /* (non-Javadoc)
@@ -115,7 +97,7 @@ public class WorkItemContainer extends Observable implements Container {
      */
     @Override
     public boolean containsId(Object itemId) {
-        return items.containsKey(itemId);//item1.contains(itemId); 
+        return items.containsKey(itemId); 
     }
 
     /* (non-Javadoc)
@@ -141,10 +123,6 @@ public class WorkItemContainer extends Observable implements Container {
     @Override
     public Item getItem(Object itemId) {
         Item item = (Item)items.get(itemId);
-        if(item == null){
-            Long id = workItemFacade.createWorkItem(userId, deployedWorkflowModelId, odePid, name, description, data, notifyUser);
-            item = workItemFacade.getWorkItem(id);
-        }
         return item;
     }
 
