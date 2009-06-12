@@ -229,6 +229,7 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`workflow_instance` (
   `deployedWorkflowModelId` BIGINT NOT NULL ,
   `odePid` VARCHAR(255) NOT NULL COMMENT 'The ID given to the workflow instance by the Apache ODE (is this required?)' ,
   `startConfiguration` LONGBLOB NOT NULL ,
+  `startedDate` DATETIME NOT NULL ,
   `completedDate` DATETIME NULL ,
   `serverId` BIGINT NOT NULL ,
   PRIMARY KEY (`id`) ,
@@ -237,6 +238,7 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`workflow_instance` (
   INDEX `index_completedDate` (`completedDate` ASC) ,
   UNIQUE INDEX `unqiue_odePid_within_deployed_workflow_model` (`deployedWorkflowModelId` ASC, `odePid` ASC) ,
   INDEX `fk_workflow_instance_server` (`serverId` ASC) ,
+  INDEX `index_startedDate` (`startedDate` ASC) ,
   CONSTRAINT `fk_workflowInstance_deployedWorkflowModel`
     FOREIGN KEY (`deployedWorkflowModelId` )
     REFERENCES `decidrdb`.`deployed_workflow_model` (`id` )
