@@ -43,10 +43,6 @@ import de.decidr.ui.view.WorkflowAdminViewBuilder;
  */
 public class Login {
     
-    ApplicationContext ctx = Main.getCurrent().getContext();
-    WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    HttpSession session = webCtx.getHttpSession();
-    
     UIDirector uiDirector = UIDirector.getInstance();
     UIBuilder uiBuilder = null;
     
@@ -56,20 +52,25 @@ public class Login {
     List<Item> tenantList = null;
     Item tenantItem = null;
     Class<? extends Role> role = null;
+    String username = null;
     
     public void authenticate(String username, String password) throws TransactionException{
         if(userFacade.getUserIdByLogin(username, password) != null){
+            ApplicationContext ctx = Main.getCurrent().getContext();
+            WebApplicationContext webCtx = (WebApplicationContext)ctx;
+            HttpSession session = webCtx.getHttpSession();
             userId = userFacade.getUserIdByLogin(username, password);
             tenantList = userFacade.getJoinedTenants(userId);
             if(!tenantList.isEmpty()){
                 tenantItem = tenantList.get(0);
             }
             role = userFacade.getUserRoleForTenant(userId, (Long)tenantItem.getItemProperty("id").getValue());
+            username = (String)userFacade.getUserProfile(userId).getItemProperty("username").getValue();
             
             session.setAttribute("userId", userId);
             session.setAttribute("tenant", tenantItem);
             session.setAttribute("role", role);
-            Main.getCurrent().setUser(userId);
+            Main.getCurrent().setUser(username);
             
             loadProtectedResources();
         }else{

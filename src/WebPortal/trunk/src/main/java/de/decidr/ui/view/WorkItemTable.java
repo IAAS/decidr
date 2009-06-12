@@ -2,6 +2,8 @@ package de.decidr.ui.view;
 
 import java.util.Observable;
 import java.util.Observer;
+
+import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 import de.decidr.ui.data.WorkItemContainer;
 
@@ -12,18 +14,21 @@ public class WorkItemTable extends Table implements Observer{
      */
     private static final long serialVersionUID = 24861377458898625L;
     
-   private WorkItemContainer workItemContainer = null;
-   String aleks = "Aleks";
+   private Container workItemContainer = null;
+   private Observable observable = null;
 
-    public WorkItemTable(){
-        init();
+    public WorkItemTable(Observable observable, Container container){
+        this.workItemContainer = container;
+        this.observable = observable;
+        observable.addObserver(this);
+        init(observable, container);
     }
     
-    private void init(){
+    private void init(Observable observable, Container container){
        
-        workItemContainer = new WorkItemContainer();
+        //workItemContainer = new WorkItemContainer();
         setSizeFull();
-        setContainerDataSource(workItemContainer);
+        setContainerDataSource(container);
        
         workItemContainer.addContainerProperty("Name", String.class, null);
         workItemContainer.addContainerProperty("Tenant", String.class, null);
@@ -39,8 +44,8 @@ public class WorkItemTable extends Table implements Observer{
      */
     @Override
     public void update(Observable o, Object arg) {
-        // TODO Auto-generated method stub
-        
+        if (o instanceof WorkItemContainer)
+        refreshCurrentPage();
     }
 
 }

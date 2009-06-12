@@ -7,6 +7,8 @@ import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.data.WorkItemContainer;
+
 public class WorkItemComponent extends CustomComponent {
     
     /**
@@ -15,6 +17,8 @@ public class WorkItemComponent extends CustomComponent {
     private static final long serialVersionUID = -2110748321898265548L;
 
     private static WorkItemComponent workItemComponent = null;
+    
+    private WorkItemContainer workItemContainer = null;
     
     private VerticalLayout verticalLayout = null;
     
@@ -35,6 +39,8 @@ public class WorkItemComponent extends CustomComponent {
     }
     
     private void init(){
+        workItemContainer = new WorkItemContainer();
+        
         verticalLayout = new VerticalLayout();
 
         searchPanel = new SearchPanel();
@@ -50,7 +56,7 @@ public class WorkItemComponent extends CustomComponent {
             tenantNativeSelect.addItem(tenants[i]);
         }
         
-        workItemTable = new WorkItemTable();
+        workItemTable = new WorkItemTable(workItemContainer, workItemContainer);
         
         setCompositionRoot(verticalLayout);
         

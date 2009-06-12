@@ -23,6 +23,8 @@ import com.vaadin.ui.LoginForm;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.controller.LoginAction;
+
 /**
  * TODO: add comment
  *
@@ -75,7 +77,7 @@ public class LoginComponent extends CustomComponent {
         loginButton = new Button("Login");
         forgotPasswordButton = new Button("Forgot your password?");
         forgotPasswordButton.setStyleName(Button.STYLE_LINK);
-        registerButton = new Button("Register");
+        registerButton = new Button("Register", new LoginAction());
         registerButton.setStyleName(Button.STYLE_LINK);
         
        setCompositionRoot(verticalLayout);

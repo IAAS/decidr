@@ -21,12 +21,15 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Observable;
+
 import javax.servlet.http.HttpSession;
+
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.service.ApplicationContext;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
+
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.permissions.UserRole;
@@ -37,7 +40,8 @@ import de.decidr.ui.view.Main;
  *
  * @author AT
  */
-public class WorkItemContainer extends Observable implements Container {
+public class CompletedInstancesContainer extends Observable implements
+        Container {
     
     private ApplicationContext ctx = Main.getCurrent().getContext();
     private WebApplicationContext webCtx = (WebApplicationContext)ctx;
@@ -45,23 +49,23 @@ public class WorkItemContainer extends Observable implements Container {
     
     private Long userId = (Long)session.getAttribute("userId");
     
-    private UserFacade userFacade = new UserFacade(new UserRole(userId));
-    private WorkItemFacade workItemFacade = new WorkItemFacade(new UserRole(userId));
+    UserFacade userFacade = new UserFacade(new UserRole(userId));
     
-    private List<Item> workItemList = userFacade.getWorkItems(userId, null, null);
+    private List<Item> workflowInstanceList = userFacade.getAdminstratedWorkflowInstances(userId);
     
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
     
-    public WorkItemContainer(){
+    public CompletedInstancesContainer(){
         setChanged();
         notifyObservers();
-        for(Item item : workItemList){
-           addItem(item);
+        for(Item item : workflowInstanceList){
+            if(item.getItemProperty("completedDate") != null){
+                addItem(item);
+            }
         }
-        
     }
-    
+
     /* (non-Javadoc)
      * @see com.vaadin.data.Container#addContainerProperty(java.lang.Object, java.lang.Class, java.lang.Object)
      */
@@ -80,6 +84,7 @@ public class WorkItemContainer extends Observable implements Container {
      */
     @Override
     public Object addItem() throws UnsupportedOperationException {
+        
         throw new UnsupportedOperationException();
     }
 
@@ -105,6 +110,7 @@ public class WorkItemContainer extends Observable implements Container {
      */
     @Override
     public Property getContainerProperty(Object itemId, Object propertyId) {
+        
         return getItem(itemId).getItemProperty(propertyId);
     }
 
@@ -113,8 +119,8 @@ public class WorkItemContainer extends Observable implements Container {
      */
     @Override
     public Collection<?> getContainerPropertyIds() {
-        return propertyIds;
         
+        return propertyIds;
     }
 
     /* (non-Javadoc)
@@ -131,7 +137,7 @@ public class WorkItemContainer extends Observable implements Container {
      */
     @Override
     public Collection<?> getItemIds() {
-       return items.keySet();
+        return items.keySet();
     }
 
     /* (non-Javadoc)
@@ -139,6 +145,7 @@ public class WorkItemContainer extends Observable implements Container {
      */
     @Override
     public Class<?> getType(Object propertyId) {
+        // TODO Auto-generated method stub
         return String.class;
     }
 
