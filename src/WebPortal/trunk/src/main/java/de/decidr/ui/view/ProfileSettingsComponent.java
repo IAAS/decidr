@@ -29,6 +29,7 @@ import de.decidr.ui.controller.ShowChangeEmailAction;
 import de.decidr.ui.controller.ShowChangePasswordAction;
 import de.decidr.ui.controller.ShowLeaveTenantAction;
 import de.decidr.ui.data.ProfileSettingsContainer;
+import de.decidr.ui.data.ProfileSettingsItem;
 
 /**
  * TODO: add comment
@@ -38,8 +39,7 @@ import de.decidr.ui.data.ProfileSettingsContainer;
 public class ProfileSettingsComponent extends CustomComponent {
 	
         //TODO:GH
-        private ProfileSettingsContainer settingsContainer = new ProfileSettingsContainer();
-        private BeanItem settingsItem = new BeanItem(settingsContainer); 
+        private ProfileSettingsItem settingsItem = new ProfileSettingsItem(); 
         
         private Form settingsForm = new Form();
     
@@ -82,16 +82,18 @@ public class ProfileSettingsComponent extends CustomComponent {
 	private CheckBox statusCheckBox = null;
 	
 	
-	public Item getSettingsItem(){
-	    try{
-                settingsForm.commit();
-                
-                //TODO: remove debug info
-                Main.getCurrent().getMainWindow().showNotification("would save settings now");
-            } catch (Exception e) {
-                Main.getCurrent().getMainWindow().showNotification(e.getMessage());
-            }
+	public void saveSettingsItem(){
+		try{
+            settingsForm.commit();
+            
+        } catch (Exception e) {
+            Main.getCurrent().getMainWindow().showNotification(e.getMessage());
+        }
 
+	}
+	
+	public Item getSettingsItem(){
+	    
 	    return settingsItem;
 	}
 	
@@ -148,8 +150,8 @@ public class ProfileSettingsComponent extends CustomComponent {
 		saveButton = new Button("Save", new SaveProfileAction());
 		
 		statusCheckBox = new CheckBox();
-		//statusCheckBox.addListener(new ChangeStatusAction());
-		//TODO: Listener only reacts on other buttons
+		statusCheckBox.addListener(new ChangeStatusAction());
+		statusCheckBox.setImmediate(true);
 		
 		this.setCompositionRoot(verticalLayout);
 		
@@ -207,7 +209,6 @@ public class ProfileSettingsComponent extends CustomComponent {
 		}
 		return profileSettings;
 	}
-	
 	
 	/**
 	 * TODO: add comment

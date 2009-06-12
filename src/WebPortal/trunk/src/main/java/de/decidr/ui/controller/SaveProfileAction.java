@@ -30,6 +30,7 @@ import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.ui.data.ProfileSettingsContainer;
 import de.decidr.ui.view.EditTenantComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
@@ -51,7 +52,8 @@ public class SaveProfileAction implements ClickListener  {
     
     @Override
     public void buttonClick(ClickEvent event) {
-        //userFacade.setProfile(userId, ProfileSettingsComponent.getInstance().getSettingsItem());
-        Main.getCurrent().getMainWindow().showNotification("Profile Settings Saved");
+    	ProfileSettingsComponent.getInstance().saveSettingsItem();
+    	//userFacade.setProfile(userId, ProfileSettingsComponent.getInstance().getSettingsItem());
+    	Main.getCurrent().getMainWindow().showNotification("Profile Settings Saved " + ProfileSettingsContainer.getInstance().getStreetText());
     }
 }

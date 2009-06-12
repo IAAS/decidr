@@ -19,11 +19,13 @@ package de.decidr.ui.data;
 import com.vaadin.ui.TextField;
 
 /**
- * TODO: add comment
+ * @deprecated needs to be removed, but is currently used for testing
  *
  * @author GH
  */
 public class ProfileSettingsContainer {
+	private static ProfileSettingsContainer cont = null;
+	
     private String firstNameText = "Danny";
     private String lastNameText = "Street";
     private String streetText = "";
@@ -33,9 +35,14 @@ public class ProfileSettingsContainer {
     private String userName ="";
     private String password = "";
     
-    
+    public static ProfileSettingsContainer getInstance(){
+    	if(cont == null){
+    		cont = new ProfileSettingsContainer();
+    	}
+    	return cont;
+    }
 
-    public ProfileSettingsContainer(){
+    private ProfileSettingsContainer(){
         //Nothing
     }
     
