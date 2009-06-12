@@ -18,11 +18,20 @@ package de.decidr.webservices.email;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.junit.Before;
 import org.junit.Test;
+
+import de.decidr.model.logging.DefaultLogger;
+import de.decidr.model.permissions.AssertMode;
+import de.decidr.model.permissions.Asserter;
 
 /**
  * Test cases for <code>{@link MailBackend}</code>.
@@ -30,6 +39,21 @@ import org.junit.Test;
  * @author Reinhold
  */
 public class MailBackendTest {
+    MailBackend testMail;
+    static {
+        // make sure that DefaultLogger doesn't override the settings in out
+        // beautiful constructor
+        new DefaultLogger();
+    }
+
+    public MailBackendTest() {
+        Logger.getRootLogger().setLevel(Level.TRACE);
+    }
+
+    @Before
+    public void setUpBeforeEachTest() {
+        testMail = new MailBackend("new@new.de", "new@new.de", null);
+    }
 
     /**
      * Test method for
@@ -38,8 +62,6 @@ public class MailBackendTest {
      */
     @Test
     public void testValidateAddressesString() {
-        final boolean testCaseDone = true;
-
         assertTrue(MailBackend.validateAddresses("a.b@c.de"));
         assertTrue(MailBackend.validateAddresses("a_b@c.de"));
         assertTrue(MailBackend.validateAddresses("ab@cde"));
@@ -50,6 +72,7 @@ public class MailBackendTest {
         assertTrue(MailBackend.validateAddresses("\"aaabbb\" <a.b@c.de>"));
         assertTrue(MailBackend.validateAddresses("asdfg"));
 
+        assertFalse(MailBackend.validateAddresses((String) null));
         assertFalse(MailBackend.validateAddresses(""));
         assertFalse(MailBackend.validateAddresses("a@b@c.de"));
         assertFalse(MailBackend.validateAddresses("a b@c.de"));
@@ -67,8 +90,6 @@ public class MailBackendTest {
         // assertFalse(MailBackend.validateAddresses("ab@c.de, , a@bc.de"));
         // assertFalse(MailBackend.validateAddresses(", "));
         // assertFalse(MailBackend.validateAddresses(", , "));
-
-        assertTrue(testCaseDone);
     }
 
     /**
@@ -78,8 +99,6 @@ public class MailBackendTest {
      */
     @Test
     public void testValidateAddressesListOfString() {
-        final boolean testCaseDone = true;
-
         List<String> strList = new ArrayList<String>(1001);
         for (int i = 0; i <= 1000; i++) {
             strList.add("ab" + i + "@c.de");
@@ -87,6 +106,7 @@ public class MailBackendTest {
         assertTrue("1000 addresses test", MailBackend
                 .validateAddresses(strList));
 
+        assertFalse(MailBackend.validateAddresses((List<String>) null));
         strList.add("");
         // XXX This seems to be a JavaMail implementation bug
         // assertFalse(MailBackend.validateAddresses(strList));
@@ -99,7 +119,54 @@ public class MailBackendTest {
         strList.add("");
         // XXX This seems to be a JavaMail implementation bug
         // assertFalse(MailBackend.validateAddresses(strList));
+    }
 
-        assertTrue(testCaseDone);
+    /**
+     * Test method for
+     * {@link de.decidr.webservices.email.MailBackend#addBCC(String)} .
+     */
+    @Test
+    public void testAddBCC() {
+        final String bcc = "new@new.de";
+        String ccBefore, toBefore, fromBefore;
+        testMail.setBCC(bcc);
+        assertEquals("please test setBCC(String) - it seems to fail", bcc,
+                testMail.getHeaderBCC());
+
+        ccBefore = testMail.getHeaderCC();
+        toBefore = testMail.getHeaderTo();
+        fromBefore = testMail.getHeaderFrom();
+        testMail.addBCC("ab@c.de");
+        assertEquals(bcc + ", ab@c.de", testMail.getHeaderBCC());
+        assertEquals(ccBefore, testMail.getHeaderCC());
+        assertEquals(toBefore, testMail.getHeaderTo());
+        assertEquals(fromBefore, testMail.getHeaderFrom());
+
+        testMail.addBCC("ab@c.de");
+        assertEquals(bcc + ", ab@c.de, ab@c.de", testMail.getHeaderBCC());
+        assertEquals(ccBefore, testMail.getHeaderCC());
+        assertEquals(toBefore, testMail.getHeaderTo());
+        assertEquals(fromBefore, testMail.getHeaderFrom());
+
+        try {
+            testMail.addBCC("invalid@email@address");
+            fail("Didn't catch invalid email address.");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+
+        testMail.setBCC("");
+        assertEquals("please test setBCC(String) - it seems to fail", "",
+                testMail.getHeaderBCC());
+        testMail.addBCC(null);
+        assertNotNull(testMail.getHeaderBCC());
+        assertEquals("", testMail.getHeaderBCC());
+
+        testMail.setBCC("");
+        assertEquals("please test setBCC(String) - it seems to fail", "",
+                testMail.getHeaderBCC());
+        testMail.addBCC("");
+        assertNotNull(testMail.getHeaderBCC());
+        assertEquals("", testMail.getHeaderBCC());
     }
 }

@@ -74,6 +74,13 @@ public class MailBackend {
     public static boolean validateAddresses(List<String> addressList) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".validateAddresses(List<String>)");
+        if (addressList == null || addressList.isEmpty()) {
+            log.debug("empty parameter => invalid addresses");
+            log.trace("Leaving " + MailBackend.class.getSimpleName()
+                    + ".validateAddresses(List<String>)");
+            return false;
+        }
+
         StringBuilder addresses = new StringBuilder(addressList.size() * 20);
 
         log.debug("Constructing header string from list...");
@@ -1026,7 +1033,6 @@ public class MailBackend {
      * @param from
      *            The sender of this Email.
      */
-    // RR: add logging
     public void setSender(String from) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setSender(String)");
