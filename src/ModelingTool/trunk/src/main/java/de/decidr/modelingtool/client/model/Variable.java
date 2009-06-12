@@ -102,6 +102,7 @@ public class Variable extends BaseModelData {
      */
     public void setType(VariableType type) {
         set(TYPE, type);
+        set(TYPELOCALNAME, type.getLocalName());
     }
 
     /**
