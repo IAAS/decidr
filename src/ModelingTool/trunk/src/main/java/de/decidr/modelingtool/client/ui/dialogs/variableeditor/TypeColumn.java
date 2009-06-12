@@ -17,11 +17,15 @@
 package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 
 import com.extjs.gxt.ui.client.data.ModelData;
+import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.grid.CellEditor;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
+import com.extjs.gxt.ui.client.widget.grid.ColumnData;
+import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
 
+import de.decidr.modelingtool.client.model.Variable;
 import de.decidr.modelingtool.client.model.VariableType;
 
 /**
@@ -31,7 +35,7 @@ import de.decidr.modelingtool.client.model.VariableType;
  */
 public class TypeColumn extends ColumnConfig {
 
-    private SimpleComboBox<String> selection = new SimpleComboBox<String>();
+    private SimpleComboBox<VariableType> selection = new SimpleComboBox<VariableType>();
     private CellEditor comboBoxCellEditor;
 
     public TypeColumn(String columnId, String header) {
@@ -39,10 +43,21 @@ public class TypeColumn extends ColumnConfig {
         this.setHeader(header);
         this.setWidth(60);
 
+        GridCellRenderer<Variable> cellRenderer = new GridCellRenderer<Variable>() {
+            @Override
+            public String render(Variable model, String property,
+                    ColumnData config, int rowIndex, int colIndex,
+                    ListStore<Variable> store) {
+                return model.getType().getLocalName();
+            }
+        };
+        this.setRenderer(cellRenderer);
+
         selection.setTriggerAction(TriggerAction.ALL);
         for (VariableType type : VariableType.values()) {
-            selection.add(type.getName());
+            selection.add(type);
         }
+        selection.setForceSelection(true);
 
         comboBoxCellEditor = new CellEditor(selection) {
             @Override
@@ -50,7 +65,7 @@ public class TypeColumn extends ColumnConfig {
                 if (value == null) {
                     return value;
                 }
-                return selection.findModel(value.toString());
+                return selection.findModel((VariableType) value);
             }
 
             @Override
@@ -60,6 +75,7 @@ public class TypeColumn extends ColumnConfig {
                 }
                 return ((ModelData) value).get("value");
             }
+
         };
         this.setEditor(comboBoxCellEditor);
     }

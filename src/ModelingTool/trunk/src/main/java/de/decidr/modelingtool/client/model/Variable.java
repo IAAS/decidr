@@ -26,22 +26,13 @@ import com.extjs.gxt.ui.client.data.BaseModelData;
  * 
  * @author JS
  */
-/**
- * TODO: add comment
- *
- * @author JS
- */
-/**
- * TODO: add comment
- * 
- * @author JS
- */
 @SuppressWarnings("serial")
 public class Variable extends BaseModelData {
 
     /* Field names */
     public static final String NAME = "name";
     public static final String TYPE = "type";
+    public static final String TYPELOCALNAME = "typelocalname";
     public static final String VALUE = "value";
     public static final String ARRAYVAR = "array";
     public static final String CONFIGVAR = "config";
@@ -55,6 +46,7 @@ public class Variable extends BaseModelData {
         super();
         set(NAME, "variable name");
         set(TYPE, VariableType.STRING);
+        set(TYPELOCALNAME, VariableType.STRING.getLocalName());
         set(VALUE, "variable value");
         set(ARRAYVAR, false);
         set(CONFIGVAR, false);
@@ -68,6 +60,7 @@ public class Variable extends BaseModelData {
     public Variable(String name, VariableType type, String value) {
         this.set(NAME, name);
         this.set(TYPE, type);
+        this.set(TYPELOCALNAME, type.getLocalName());
         this.set(VALUE, value);
         this.set(ARRAYVAR, false);
         this.set(CONFIGVAR, false);
@@ -168,7 +161,7 @@ public class Variable extends BaseModelData {
      *            the array to set
      */
     // TODO: public or private?
-    private void setArray(boolean array) {
+    public void setArray(boolean array) {
         set(ARRAYVAR, array);
     }
 
@@ -177,18 +170,18 @@ public class Variable extends BaseModelData {
      * 
      * @return the configVariable
      */
-    public boolean isConfigVariable() {
+    public boolean isConfig() {
         return (Boolean) get(CONFIGVAR);
     }
 
     /**
      * TODO: add comment
      * 
-     * @param configVariable
+     * @param config
      *            the configVariable to set
      */
-    public void setConfigVariable(boolean configVariable) {
-        set(CONFIGVAR, configVariable);
+    public void setConfig(boolean config) {
+        set(CONFIGVAR, config);
     }
 
 }

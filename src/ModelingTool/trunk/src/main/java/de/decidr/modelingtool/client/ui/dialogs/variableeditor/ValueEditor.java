@@ -19,11 +19,16 @@ package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
-
+import com.extjs.gxt.ui.client.store.ListStore;
+import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.form.DateField;
+import com.extjs.gxt.ui.client.widget.form.FormPanel;
+import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
 import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.model.Variable;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
@@ -33,6 +38,12 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
  * @author JS
  */
 public class ValueEditor extends Dialog {
+
+    private ContentPanel contentPanel;
+
+    private Variable variable;
+    private ListStore<Variable> variables;
+
     /**
      * TODO: add comment
      * 
@@ -42,7 +53,43 @@ public class ValueEditor extends Dialog {
         this.setLayout(new FitLayout());
         this.setResizable(true);
         createButtons();
-        
+
+    }
+
+    public void setContent(Variable variable) {
+        this.variable = variable;
+        createContentPanel();
+        this.variables = ((VariableEditor) DialogRegistry.getInstance()
+                .getDialog(VariableEditor.class.getName())).getVariables();
+    }
+
+    private void createContentPanel() {
+        /* Check, whether a content panel was previously created */
+        if (this.getItem(0) != null) {
+            this.remove(contentPanel);
+        }
+
+        contentPanel = new FormPanel();
+        contentPanel.setHeading(ModelingTool.messages.editValue());
+        switch (variable.getType()) {
+        case STRING:
+            TextField<String> stringField = new TextField<String>();
+            stringField.setFieldLabel(variable.getType().getLocalName());
+            stringField.setValue(variable.getValues().get(0));
+            stringField.setAllowBlank(false);
+            contentPanel.add(stringField);
+            break;
+        case DATE:
+            DateField dateField = new DateField();
+            dateField.setFieldLabel(variable.getType().getLocalName());
+//            Integer datev = new Integer(variable.getValues().get(0));
+//            Date date = new Date(datev);
+//            dateField.setValue(date);
+            contentPanel.add(dateField);
+        default:
+            break;
+        }
+        this.add(contentPanel);
     }
 
     /**
@@ -56,7 +103,15 @@ public class ValueEditor extends Dialog {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
                         // TODO: write method
-                        DialogRegistry.getInstance().getDialog(ValueEditor.class.getName()).setVisible(false);
+//                        DialogRegistry.getInstance().getDialog(
+//                                ValueEditor.class.getName()).setVisible(false);
+//                        int temp = variables.indexOf(variable);
+//                        variables.remove(variable);
+
+//                        variable.setValue(((TextField<String>) contentPanel
+//                                .getWidget(0)).getValue().toString());
+//                        variables.insert(variable, temp);
+
                     }
                 }));
         addButton(new Button(ModelingTool.messages.cancelButton(),
@@ -64,7 +119,8 @@ public class ValueEditor extends Dialog {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
                         // TODO:write method
-                        DialogRegistry.getInstance().getDialog(ValueEditor.class.getName()).setVisible(false);
+                        DialogRegistry.getInstance().getDialog(
+                                ValueEditor.class.getName()).setVisible(false);
                     }
                 }));
     }

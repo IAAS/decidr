@@ -16,29 +16,37 @@
 
 package de.decidr.modelingtool.client.model;
 
+import de.decidr.modelingtool.client.ModelingTool;
+
 /**
  * TODO: add comment
- *
+ * 
  * @author JS
  */
 public enum VariableType {
 
-	// TODO: Internationalization
-	STRING("String"),
-	INTEGER("Integer"),
-	FLOAT("Float"),
-	BOOLEAN("Boolean"),
-	FILE("File"),
-	DATE("Date"),
-	ROLE("Role");
+    STRING(ModelingTool.messages.typeString()), INTEGER(ModelingTool.messages
+            .typeInteger()), FLOAT(ModelingTool.messages.typeFloat()), BOOLEAN(
+            ModelingTool.messages.typeBoolean()), FILE(ModelingTool.messages
+            .typeFile()), DATE(ModelingTool.messages.typeDate()), ROLE(
+            ModelingTool.messages.typeRole());
 
-	private final String name;
+    private final String name;
 
-	private VariableType(String name) {
-		this.name = name;		
-	}
-	
-	public String getName() {
-		return name;
-	}
+    private VariableType(String name) {
+        this.name = name;
+    }
+
+    public String getLocalName() {
+        return name;
+    }
+
+    public VariableType getTypeFromLocalName(String localName) {
+        VariableType result = null;
+        for (VariableType t : VariableType.values()) {
+            if (localName == t.getLocalName())
+                result = t;
+        }
+        return result;
+    }
 }

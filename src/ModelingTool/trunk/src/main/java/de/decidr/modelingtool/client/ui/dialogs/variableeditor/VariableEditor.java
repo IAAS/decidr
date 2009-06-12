@@ -36,6 +36,7 @@ import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 
 import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.model.Variable;
+import de.decidr.modelingtool.client.model.VariableType;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
@@ -59,6 +60,7 @@ public class VariableEditor extends Dialog {
     public VariableEditor() {
         super();
         this.setLayout(new FitLayout());
+        this.setSize(500, 500);
         this.setResizable(true);
 
         getVariablesfromModel();
@@ -75,6 +77,52 @@ public class VariableEditor extends Dialog {
             variables.add(new Variable(v.getName(), v.getType(), v.getValues()
                     .get(0)));
         }
+    }
+
+    private void createEditorPanel() {
+        /* Do the layout of the panel which holds the grid */
+        editorPanel.setHeading(ModelingTool.messages.editorHeading());
+        editorPanel.setLayout(new FitLayout());
+
+        /* Creating the columns and the Columns model */
+        NameColumn labelColumn = new NameColumn(Variable.NAME,
+                ModelingTool.messages.nameColumn());
+        columns.add(labelColumn);
+        TypeColumn typeColumn = new TypeColumn(Variable.TYPE,
+                ModelingTool.messages.typeColumn());
+        columns.add(typeColumn);
+        ValueColumn valueColumn = new ValueColumn(Variable.VALUE,
+                ModelingTool.messages.valueColumn());
+        columns.add(valueColumn);
+        ArrayVarColumn arrayVarColumn = new ArrayVarColumn(Variable.ARRAYVAR
+                .toString(), ModelingTool.messages.arrayVarColumn());
+        columns.add(arrayVarColumn);
+        ConfigVarColumn configVarColumn = new ConfigVarColumn(
+                Variable.CONFIGVAR.toString(), ModelingTool.messages
+                        .configVarColumn());
+        columns.add(configVarColumn);
+
+        colModel = new ColumnModel(columns);
+
+        /* Create grid */
+        EditorGrid<Variable> grid = new EditorGrid<Variable>(variables,
+                colModel);
+        grid.setSelectionModel(csm);
+        grid.setAutoExpandColumn(Variable.VALUE);
+        grid.addPlugin(arrayVarColumn);
+        grid.addPlugin(configVarColumn);
+
+        // TODO: Remove pöhse Testdaten
+        for (int i = 0; i <= 20; i++) {
+            Variable var = new Variable();
+            var.set("name", "Zeile " + new Integer(i).toString());
+            variables.add(var);
+        }
+        variables.add(new Variable("Datum", VariableType.DATE, "3458398475"));
+
+        editorPanel.add(grid);
+        createToolBar(grid);
+
     }
 
     private void createToolBar(final EditorGrid<Variable> grid) {
@@ -99,7 +147,6 @@ public class VariableEditor extends Dialog {
             public void componentSelected(ToolBarEvent ce) {
                 grid.stopEditing();
                 variables.remove(csm.getSelectCell().model);
-                // TODO: Check Functionality
             }
         });
         toolBar.add(delVar);
@@ -110,6 +157,9 @@ public class VariableEditor extends Dialog {
             @Override
             public void componentSelected(ToolBarEvent ce) {
                 grid.stopEditing();
+                ((ValueEditor) DialogRegistry.getInstance().getDialog(
+                        ValueEditor.class.getName())).setContent(csm
+                        .getSelectCell().model);
                 DialogRegistry.getInstance().getDialog(
                         ValueEditor.class.getName()).setVisible(true);
             }
@@ -117,48 +167,6 @@ public class VariableEditor extends Dialog {
         toolBar.add(editValue);
 
         editorPanel.setBottomComponent(toolBar);
-    }
-
-    private void createEditorPanel() {
-        /* Do the layout of the panel which holds the grid */
-        editorPanel.setHeading(ModelingTool.messages.editorHeading());
-        editorPanel.setLayout(new FitLayout());
-        editorPanel.setSize(600, 300);
-
-        /* Creating the columns and the Columns model */
-        NameColumn labelColumn = new NameColumn("name", ModelingTool.messages
-                .nameColumn());
-        columns.add(labelColumn);
-        TypeColumn typeColumn = new TypeColumn("type", ModelingTool.messages
-                .typeColumn());
-        columns.add(typeColumn);
-        ValueColumn valueColumn = new ValueColumn("value",
-                ModelingTool.messages.valueColumn());
-        columns.add(valueColumn);
-        ArrayVarColumn arrayVarColumn = new ArrayVarColumn("array",
-                ModelingTool.messages.arrayVarColumn());
-        columns.add(arrayVarColumn);
-        ConfigVarColumn configVarColumn = new ConfigVarColumn(
-                Variable.CONFIGVAR, ModelingTool.messages.configVarColumn());
-        columns.add(configVarColumn);
-        colModel = new ColumnModel(columns);
-
-        /* Create grid */
-        EditorGrid<Variable> grid = new EditorGrid<Variable>(variables,
-                colModel);
-        grid.setSelectionModel(csm);
-        grid.setAutoExpandColumn("value");
-        grid.addPlugin(arrayVarColumn);
-
-        // TODO: Remove pöhse Testdaten
-        for (int i = 0; i <= 20; i++) {
-            Variable var = new Variable();
-            var.set("name", "Zeile " + new Integer(i).toString());
-            grid.getStore().add(var);
-        }
-
-        editorPanel.add(grid);
-        createToolBar(grid);
     }
 
     /**
@@ -171,7 +179,6 @@ public class VariableEditor extends Dialog {
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
-                        variables.commitChanges();
                         editorPanel.getParent().setVisible(false);
                     }
                 }));
@@ -183,5 +190,16 @@ public class VariableEditor extends Dialog {
                         editorPanel.getParent().setVisible(false);
                     }
                 }));
+        addButton(new Button(ModelingTool.messages.applyButton(),
+                new SelectionListener<ButtonEvent>() {
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        variables.commitChanges();
+                    }
+                }));
+    }
+
+    public ListStore<Variable> getVariables() {
+        return variables;
     }
 }

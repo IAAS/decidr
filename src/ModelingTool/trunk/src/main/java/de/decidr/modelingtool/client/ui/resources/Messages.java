@@ -23,7 +23,7 @@ public interface Messages extends Constants {
     String addVariable();
 
     String delVariable();
-    
+
     String editValue();
 
     String editorHeading();
@@ -33,12 +33,28 @@ public interface Messages extends Constants {
     String typeColumn();
 
     String valueColumn();
-    
+
     String arrayVarColumn();
 
     String configVarColumn();
-    
+
     String okButton();
-    
+
     String cancelButton();
+
+    String applyButton();
+
+    String typeString();
+
+    String typeInteger();
+
+    String typeFloat();
+
+    String typeBoolean();
+
+    String typeFile();
+
+    String typeDate();
+
+    String typeRole();
 }
