@@ -50,15 +50,17 @@ public class ChangeStatusAction implements ValueChangeListener {
     
     //private Long userId = (Long)session.getAttribute("userId");
     //private UserFacade userFacade = new UserFacade(new UserRole(userId));
-        
+	private ProfileSettingsComponent content = null;
+	
     @Override
     public void valueChange(ValueChangeEvent event) {
+    	content = (ProfileSettingsComponent) UIDirector.getInstance().getTemplateView().getContent();
             
         //TODO: date format?
         //      How can it be set to available?
        
         //userFacade.setUnavailableSince(userId, Date date);
-        if(ProfileSettingsComponent.getInstance().getStatus().booleanValue()){
+        if(content.getStatus().booleanValue()){
             Main.getCurrent().getMainWindow().showNotification("not available");
         } else {
             Main.getCurrent().getMainWindow().showNotification("available");

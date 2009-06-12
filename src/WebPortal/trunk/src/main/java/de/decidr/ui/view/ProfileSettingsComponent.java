@@ -81,7 +81,7 @@ public class ProfileSettingsComponent extends CustomComponent {
 	
 	private CheckBox statusCheckBox = null;
 	
-	
+	//TODO: make private when no longer needed for testing
 	public void saveSettingsItem(){
 		try{
             settingsForm.commit();
