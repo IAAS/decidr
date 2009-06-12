@@ -30,10 +30,9 @@ public class VaadinTools {
     /**
      * Returns an empty property.
      * 
-     * @param propertyId
      * @return
      */
-    public static Property getEmptyProperty(Object propertyId) {
+    public static Property getEmptyProperty() {
         return new ObjectProperty(null, Object.class);
     }
 
