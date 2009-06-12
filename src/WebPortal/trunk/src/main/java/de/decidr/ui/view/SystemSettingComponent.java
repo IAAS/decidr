@@ -1,11 +1,18 @@
 package de.decidr.ui.view;
 
+import java.util.Arrays;
+
+import com.vaadin.data.Item;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.Form;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.VerticalLayout;
+
+import de.decidr.ui.controller.SaveSystemSettingsAction;
+import de.decidr.ui.data.SystemSettingsItem;
 
 public class SystemSettingComponent extends CustomComponent {
     
@@ -16,7 +23,11 @@ public class SystemSettingComponent extends CustomComponent {
 
     private static SystemSettingComponent systemSetting = null;
     
+    private SystemSettingsItem settingsItem = new SystemSettingsItem();
+    
     private VerticalLayout verticalLayout = null;
+    
+    private Form settingsForm = null;
     
     private static final String[] logLevel = new String[] {
         "INFO", "TRACE", "DEBUG", "WARN", "ERROR", "FATAL"
@@ -32,7 +43,26 @@ public class SystemSettingComponent extends CustomComponent {
         init();
     }
     
+    public void saveSettingsItem(){
+    	try{
+            settingsForm.commit();
+            
+        } catch (Exception e) {
+            Main.getCurrent().getMainWindow().showNotification(e.getMessage());
+        }
+    }
+    
+    public Item getSettingsItem(){
+    	return settingsItem;
+    }
+    
     private void init(){
+    	settingsForm = new Form();
+        settingsForm.setWriteThrough(false);
+        settingsForm.setItemDataSource(settingsItem);
+        settingsForm.setVisibleItemProperties(Arrays.asList(new String[] {
+                "logLevel", "autoAcceptNewTenants" }));
+        
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
         
@@ -45,15 +75,15 @@ public class SystemSettingComponent extends CustomComponent {
         
         checkBox = new CheckBox("Automatically approve all new tenants");
         
-        saveButton = new Button("Save");
+        saveButton = new Button("Save", new SaveSystemSettingsAction());
         
         setCompositionRoot(verticalLayout);
         setCaption("System Setting");
         
-        verticalLayout.addComponent(nativeSelect);
-        verticalLayout.setComponentAlignment(nativeSelect, Alignment.TOP_LEFT);
-        verticalLayout.addComponent(checkBox);
-        verticalLayout.setComponentAlignment(checkBox, Alignment.MIDDLE_LEFT);
+        settingsForm.addField("logLevel", nativeSelect);
+        settingsForm.addField("autoAcceptNewTenants", checkBox);
+        
+        verticalLayout.addComponent(settingsForm);
         verticalLayout.addComponent(saveButton);
         verticalLayout.setComponentAlignment(saveButton, Alignment.BOTTOM_LEFT);
     }
