@@ -19,12 +19,10 @@ package de.decidr.ui.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
-
-import com.vaadin.Application;
 import com.vaadin.data.Item;
 import com.vaadin.service.ApplicationContext;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
-
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.permissions.SuperAdminRole;
@@ -59,8 +57,8 @@ public class Login {
     Item tenantItem = null;
     Class<? extends Role> role = null;
     
-    public void authenticate(String username, String password){
-        if(userFacade.checkUser(username, password)){
+    public void authenticate(String username, String password) throws TransactionException{
+        if(userFacade.getUserIdByLogin(username, password) != null){
             userId = userFacade.getUserIdByLogin(username, password);
             tenantList = userFacade.getJoinedTenants(userId);
             if(!tenantList.isEmpty()){
