@@ -44,17 +44,19 @@ public class LeaveTenantAction implements ClickListener {
     
     //TODO: remove // below, code is disabled for testing, since the model causes errors
     
-    //private ApplicationContext ctx = Main.getCurrent().getContext();
-    //private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    //private HttpSession session = webCtx.getHttpSession();
+    private ApplicationContext ctx = Main.getCurrent().getContext();
+	private WebApplicationContext webCtx = (WebApplicationContext)ctx;
+	private HttpSession session = webCtx.getHttpSession();
     
-    //private Long userId = (Long)session.getAttribute("userId");
-    //private UserFacade userFacade = new UserFacade(new UserRole(userId));
+	private Long userId = (Long)session.getAttribute("userId");
+	//private UserFacade userFacade = new UserFacade(new UserRole(userId));
         
+    private Item tenant = null;
+    
     @Override
     public void buttonClick(ClickEvent event) {
-        
-        //userFacade.leaveTenant(userId, Long tenantId);
+    	tenant = (Item)session.getAttribute("tenant");
+    	//userFacade.leaveTenant(userId, (Long)tenant.getItemProperty("id").getValue());
         Main.getCurrent().getMainWindow().showNotification("you have left a tenant");
         Main.getCurrent().getMainWindow().removeWindow(ConfirmDialogComponent.getInstance());
         
