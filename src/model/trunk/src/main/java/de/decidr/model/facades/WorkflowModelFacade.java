@@ -1,26 +1,44 @@
+/*
+ * The DecidR Development Team licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 package de.decidr.model.facades;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.lf5.LogLevel;
+import java.util.Map;
 
 import com.vaadin.data.Item;
-import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 
-import de.decidr.model.commands.workflowmodel.GetWorkflowAdminsCommand;
+import de.decidr.model.commands.TransactionalCommand;
+import de.decidr.model.commands.workflowmodel.DeleteWorkflowModelCommand;
+import de.decidr.model.commands.workflowmodel.GetWorkflowAdministrationStateCommand;
+import de.decidr.model.commands.workflowmodel.GetWorkflowAdminstratorsCommand;
+import de.decidr.model.commands.workflowmodel.GetWorkflowInstancesCommand;
 import de.decidr.model.commands.workflowmodel.GetWorkflowModelCommand;
 import de.decidr.model.commands.workflowmodel.MakeWorkflowModelExecutableCommand;
 import de.decidr.model.commands.workflowmodel.PublishWorkflowModelsCommand;
 import de.decidr.model.commands.workflowmodel.SaveWorkflowModelCommand;
+import de.decidr.model.commands.workflowmodel.SetWorkflowAdministratorsCommand;
+import de.decidr.model.commands.workflowmodel.UndeployWorkflowModelCommand;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
-import de.decidr.model.exceptions.EntityNotFoundException;
+import de.decidr.model.entities.WorkflowInstance;
+import de.decidr.model.enums.UserWorkflowAdminState;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
@@ -160,8 +178,8 @@ public class WorkflowModelFacade extends AbstractFacade {
             throws TransactionException {
         ArrayList<Item> result = new ArrayList<Item>();
 
-        GetWorkflowAdminsCommand cmd = new GetWorkflowAdminsCommand(actor,
-                workflowModelId);
+        GetWorkflowAdminstratorsCommand cmd = new GetWorkflowAdminstratorsCommand(
+                actor, workflowModelId);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
@@ -185,21 +203,195 @@ public class WorkflowModelFacade extends AbstractFacade {
         return result;
     }
 
+    /**
+     * Sets the users that may administrate the given workflow model. The tenant
+     * admin always implicitly administrates all workflow models. If his user id
+     * is included in userIds, he will be ignored. Only members of the tenant
+     * that owns the given worflow model can be set as tenant admin using this
+     * method.
+     * 
+     * @param workflowModelId
+     *            the workflow model to administrate
+     * @param userIds
+     *            the appointed workflow administrators excluding the tenant
+     *            admin. If this list is empty or null, no one except the tenant
+     *            admin may administrate the workflow model.
+     * @throws TransactionException
+     *             if the transaction is aborted for any reason.
+     */
     public void setWorkflowAdministrators(Long workflowModelId,
             List<Long> userIds) throws TransactionException {
-        throw new UnsupportedOperationException();
+
+        if (userIds == null) {
+            userIds = new ArrayList<Long>();
+        }
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                new SetWorkflowAdministratorsCommand(actor, workflowModelId,
+                        userIds));
     }
 
+    /**
+     * Returns a list of items that can be used to tell whether the given
+     * usernames or emails belong to:
+     * 
+     * <ul>
+     * <li>users that are unknown to the system. (invitations type A must be
+     * sent)</li>
+     * <li>users that are known to the system, but are not a member of the
+     * tenant that owns the given workflow. (invitations type B must be sent)</li>
+     * <li>users that are members of the tenant, but do not currently
+     * administrate the given workflow model.</li>
+     * <li>users that already administrate the given workflow model.</li>
+     * </ul>
+     * 
+     * <p>
+     * Each item contains the user's properties "id" , "username", "email" and a
+     * "state" property of the type UserWorkflowAdminState.
+     * 
+     * @param workflowModelId
+     * @param usernamesOrEmails
+     * @return a list of corresponding users
+     * @throws TransactionException
+     *             if the transaction is aborted for any reason.
+     */
+    public List<Item> getWorkflowAdministrationState(Long workflowModelId,
+            List<String> usernames, List<String> emails)
+            throws TransactionException {
+
+        String[] properties = { "id", "email" };
+
+        GetWorkflowAdministrationStateCommand cmd = new GetWorkflowAdministrationStateCommand(
+                actor, workflowModelId, usernames, emails);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+
+        /*
+         * Build the Vaadin item
+         */
+        List<Item> result = new ArrayList<Item>();
+        Map<User, UserWorkflowAdminState> map = cmd.getResult();
+
+        for (User u : map.keySet()) {
+            UserWorkflowAdminState state = map.get(u);
+
+            BeanItem item = new BeanItem(u, properties);
+            if (u.getUserProfile() != null) {
+                item.addItemProperty("username", new ObjectProperty(u
+                        .getUserProfile().getUsername()));
+            } else {
+                item.addItemProperty("username", new ObjectProperty(null,
+                        Object.class, true));
+            }
+
+            item.addItemProperty("state", new ObjectProperty(state));
+
+            result.add(item);
+        }
+
+        return result;
+    }
+
+    /**
+     * Removes the given workflow models, but retains those deployed workflow
+     * models that still have running instances.
+     * 
+     * @param workflowModelIds
+     * @throws TransactionException
+     *             if the transaction is aborted for any reason.
+     */
     public void deleteWorkflowModels(List<Long> workflowModelIds)
             throws TransactionException {
-        throw new UnsupportedOperationException();
+        /*
+         * We can't delete all workflow models in a single transaction since a
+         * SOAP communication failure would cause a rollback, possibly leaving
+         * the database in an inconsistent state.s
+         */
+        for (Long workflowModelId : workflowModelIds) {
+
+            UndeployWorkflowModelCommand undeployCommand = new UndeployWorkflowModelCommand(
+                    actor, workflowModelId);
+            DeleteWorkflowModelCommand deleteCommand = new DeleteWorkflowModelCommand(
+                    actor, workflowModelId);
+
+            TransactionalCommand[] commands = { undeployCommand, deleteCommand };
+
+            // Delete each model in a separate transaction.
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    commands);
+        }
     }
 
+    /**
+     * Returns all workflow instances of the given workflow model as a list of
+     * Vaadin items. The item properties are:
+     * <ul>
+     * <li>id - the id of the workflow instance.
+     * <li>workflowModelName - name of the associated <b>deployed</b> workflow
+     * model.
+     * <li>workflowModelDescription - description of the associated
+     * <b>deployed</b> workflow model.
+     * <li>deployDate - date when the workflow model was deployed on the Apache
+     * ODE.
+     * <li>startedDate - date when the workflow instance was create.
+     * <li>completedDate - date when the workflow instance ended (can be null).
+     * </ul>
+     * 
+     * @param workflowModelId
+     * @return Vaadin items representing the workflow instances that are
+     *         associated swith this model.
+     * @throws TransactionException
+     *             if the transaction is aborted for any reason.
+     */
     public List<Item> getWorkflowInstances(Long workflowModelId)
             throws TransactionException {
-        throw new UnsupportedOperationException();
+
+        GetWorkflowInstancesCommand cmd = new GetWorkflowInstancesCommand(
+                actor, workflowModelId);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+
+        // build the vaadin items
+        List<WorkflowInstance> instances = cmd.getResult();
+        ArrayList<Item> result = new ArrayList<Item>();
+        String[] properties = { "id", "startedDate", "completedDate" };
+
+        for (WorkflowInstance instance : instances) {
+            Item item = new BeanItem(instance, properties);
+
+            item.addItemProperty("workflowModelName", new ObjectProperty(
+                    instance.getDeployedWorkflowModel().getName()));
+            item.addItemProperty("workflowModelDescription",
+                    new ObjectProperty(instance.getDeployedWorkflowModel()
+                            .getDescription()));
+            item.addItemProperty("deployDate", new ObjectProperty(instance
+                    .getDeployedWorkflowModel().getDeployDate()));
+
+            result.add(item);
+        }
+
+        return result;
     }
 
+    /**
+     * Returns a list of all workflow model that have been published. The item
+     * properties are:
+     * 
+     * <ul>
+     * <li>id</li>
+     * <li>name</li>
+     * <li>description</li>
+     * <li>modifiedDate</li>
+     * <li>tenantName</li>
+     * </ul>
+     * 
+     * @param filters
+     *            an optional list of filters to apply to the query.
+     * @param paginator
+     *            an optional paginator to split the query into several pages
+     * @return Vaadin items representing the published workflow models.
+     * @throws TransactionException
+     *             if the transaction is aborted for any reason.
+     */
     public List<Item> getAllPublishedWorkflowModels(List<Filter> filters,
             Paginator paginator) throws TransactionException {
         throw new UnsupportedOperationException();

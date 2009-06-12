@@ -4,7 +4,7 @@ import javax.xml.ws.WebFault;
 
 /**
  * Thrown whenever a failed transaction has been rolled back by the transaction
- * manager.
+ * manager. There are several subtypes that specify the reason for the rollback.
  * 
  * @author Markus Fischer
  * @author Daniel Huss

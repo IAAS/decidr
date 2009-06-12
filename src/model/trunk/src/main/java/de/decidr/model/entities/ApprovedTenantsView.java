@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 10.06.2009 15:02:36 by Hibernate Tools 3.2.4.GA
+// Generated 12.06.2009 08:13:27 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 

@@ -14,6 +14,7 @@
 package de.decidr.model.transactions;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -23,6 +24,7 @@ import org.hibernate.cfg.Configuration;
 
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.logging.DefaultLogger;
 
 /**
  * Invokes {@link TransactionalCommand}s within a hibernate transaction. Inner
@@ -40,7 +42,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     private static final HibernateTransactionCoordinator instance = new HibernateTransactionCoordinator();
 
-    private static Logger logger = Logger
+    private static Logger logger = DefaultLogger
             .getLogger(HibernateTransactionCoordinator.class);
 
     /**
@@ -144,6 +146,15 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * {@inheritDoc}
      */
+    public void runTransaction(
+            Collection<? extends TransactionalCommand> commands)
+            throws TransactionException {
+        runTransaction((TransactionalCommand[]) commands.toArray());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public void runTransaction(TransactionalCommand[] commands)
             throws TransactionException {
         if (commands == null) {
@@ -169,11 +180,22 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                     rollbackCurrentTransaction();
 
                     for (TransactionalCommand c : notifiedReceivers) {
-                        fireTransactionAborted(c, e);
+                        /*
+                         * Exceptions thrown in transactionAborted must be
+                         * ignored to give all commands a chance to react to the
+                         * rollback, but will be logged.
+                         */
+                        try {
+                            fireTransactionAborted(c, e);
+                        } catch (Exception receiverRollbackException) {
+                            logger.warn("Exception during transactionAborted",
+                                    receiverRollbackException);
+                        }
                     }
                 }
-            } catch (Exception e2) {
-                logger.fatal("Rollback failed", e2);
+            } catch (Exception rollbackException) {
+                logger.fatal("Could not roll back transaction.",
+                        rollbackException);
             }
 
             throw new TransactionException(e);
@@ -181,11 +203,9 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     }
 
     /**
-     * 
      * Fires transaction started event.
      * 
      * @param receiver
-     * 
      */
     private void fireTransactionStarted(TransactionalCommand receiver)
             throws TransactionException {
@@ -196,12 +216,10 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     }
 
     /**
-     * 
      * Fires transaction aborted event.
      * 
      * @param receiver
      * @param caughtException
-     * 
      */
     private void fireTransactionAborted(TransactionalCommand receiver,
             Exception caughtException) throws TransactionException {
@@ -216,4 +234,5 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     public static TransactionCoordinator getInstance() {
         return instance;
     }
+
 }

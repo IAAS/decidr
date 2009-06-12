@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 10.06.2009 15:02:37 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 12.06.2009 08:13:29 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.WorkflowInstance" table="workflow_instance" catalog="decidrdb">
         <meta attribute="class-code" inherit="false">private static final long serialVersionUID = 1L;</meta>
@@ -22,6 +22,9 @@
         </property>
         <property name="startConfiguration" type="binary">
             <column name="startConfiguration" not-null="true" />
+        </property>
+        <property name="startedDate" type="timestamp">
+            <column name="startedDate" length="19" not-null="true" />
         </property>
         <property name="completedDate" type="timestamp">
             <column name="completedDate" length="19" />

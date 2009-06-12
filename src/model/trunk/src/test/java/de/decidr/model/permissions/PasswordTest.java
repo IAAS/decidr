@@ -1,19 +1,24 @@
 package de.decidr.model.permissions;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class PasswordTest extends TestCase {
+import static junit.framework.Assert.*;
 
-	public void testGetHash() {
-		fail("not implemented");
-	}
+public class PasswordTest {
 
-	public void testGetRandomAuthKey() {
-		fail("not implemented");
-	}
+    @Test
+    public void testGetHash() {
+        fail("not implemented");
+    }
 
-	public void testGetRandomSalt() {
-		fail("not implemented");
-	}
+    @Test
+    public void testGetRandomAuthKey() {
+        fail("not implemented");
+    }
+
+    @Test
+    public void testGetRandomSalt() {
+        fail("not implemented");
+    }
 
 }

@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 10.06.2009 15:02:36 by Hibernate Tools 3.2.4.GA
+// Generated 12.06.2009 08:13:27 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -16,6 +16,7 @@ public class WorkflowInstance implements java.io.Serializable {
     private Server server;
     private String odePid;
     private byte[] startConfiguration;
+    private Date startedDate;
     private Date completedDate;
     private Set<WorkItem> workItems = new HashSet<WorkItem>(0);
     private Set<UserAdministratesWorkflowInstance> userAdministratesWorkflowInstances = new HashSet<UserAdministratesWorkflowInstance>(
@@ -28,11 +29,13 @@ public class WorkflowInstance implements java.io.Serializable {
     }
 
     public WorkflowInstance(DeployedWorkflowModel deployedWorkflowModel,
-            Server server, String odePid, byte[] startConfiguration) {
+            Server server, String odePid, byte[] startConfiguration,
+            Date startedDate) {
         this.deployedWorkflowModel = deployedWorkflowModel;
         this.server = server;
         this.odePid = odePid;
         this.startConfiguration = startConfiguration;
+        this.startedDate = startedDate;
     }
 
     public WorkflowInstance(
@@ -40,6 +43,7 @@ public class WorkflowInstance implements java.io.Serializable {
             Server server,
             String odePid,
             byte[] startConfiguration,
+            Date startedDate,
             Date completedDate,
             Set<WorkItem> workItems,
             Set<UserAdministratesWorkflowInstance> userAdministratesWorkflowInstances,
@@ -49,6 +53,7 @@ public class WorkflowInstance implements java.io.Serializable {
         this.server = server;
         this.odePid = odePid;
         this.startConfiguration = startConfiguration;
+        this.startedDate = startedDate;
         this.completedDate = completedDate;
         this.workItems = workItems;
         this.userAdministratesWorkflowInstances = userAdministratesWorkflowInstances;
@@ -95,6 +100,14 @@ public class WorkflowInstance implements java.io.Serializable {
 
     public void setStartConfiguration(byte[] startConfiguration) {
         this.startConfiguration = startConfiguration;
+    }
+
+    public Date getStartedDate() {
+        return this.startedDate;
+    }
+
+    public void setStartedDate(Date startedDate) {
+        this.startedDate = startedDate;
     }
 
     public Date getCompletedDate() {

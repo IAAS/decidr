@@ -265,27 +265,13 @@ public class PaginatingCriteria implements Criteria {
      *             iff the row count cannot be retrieved.
      */
     public Integer rowCount() throws HibernateException {
-        Object result = clone.uniqueResult();
-        Integer value = -1;
+        Number result = (Number) clone.uniqueResult();
 
-        if (result == null) {
-            value = 0;
-        } else if (result instanceof Long) {
-            value = ((Long) result).intValue();
-        } else if (result instanceof Integer) {
-            value = (Integer) result;
-        } else if (result instanceof String) {
-            try {
-                value = new Integer(result.toString());
-            } catch (NumberFormatException e) {
-                throw new HibernateException(e);
-            }
+        if (result != null) {
+            return result.intValue();
         } else {
             throw new HibernateException(
-                    result.toString()
-                            + " is not something that can be interpreted as a row count.");
+                    "The row count query did not return a number.");
         }
-
-        return value;
     }
 }

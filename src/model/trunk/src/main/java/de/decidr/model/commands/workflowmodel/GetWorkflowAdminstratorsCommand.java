@@ -34,7 +34,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * @author Daniel Huss
  * @version 0.1
  */
-public class GetWorkflowAdminsCommand extends WorkflowModelCommand {
+public class GetWorkflowAdminstratorsCommand extends WorkflowModelCommand {
 
     private ArrayList<User> workflowAdmins = null;
 
@@ -44,7 +44,7 @@ public class GetWorkflowAdminsCommand extends WorkflowModelCommand {
      * @param role
      * @param workflowModelId
      */
-    public GetWorkflowAdminsCommand(Role role, Long workflowModelId) {
+    public GetWorkflowAdminstratorsCommand(Role role, Long workflowModelId) {
         super(role, workflowModelId);
     }
 

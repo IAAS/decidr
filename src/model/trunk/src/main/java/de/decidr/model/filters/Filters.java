@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Contains convenience methods for working with {@link Filter}s.
+ * Contains convenience methods for working with {@link Filter}s. Also serves as
+ * a factory.
  * 
  * @author Daniel Huss
  * @version 0.1
@@ -65,7 +66,7 @@ public class Filters {
 
     /**
      * 
-     * Applies a single filter and a criteria 
+     * Applies a single filter and a criteria
      * 
      * @param criteria
      *            the Criteria to modify
