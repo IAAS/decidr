@@ -15,7 +15,8 @@
  */
 
 /**
- * TODO add package comment
+ * This package contains the transaction coordinator and the corresponding event definitions.
+ * The commands in the command package can be executed by the transaction coordinator.
  */
 package de.decidr.model.transactions;
 

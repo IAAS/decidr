@@ -15,7 +15,10 @@
  */
 
 /**
- * TODO add package comment
+ * This package contains all the asserters which are used by the ACL.
+ * The asserters represent conditions which have to be fulfilled to
+ * execute a specific command.
+ * 
  */
 package de.decidr.model.permissions.asserters;
 

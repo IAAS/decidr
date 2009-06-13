@@ -15,7 +15,8 @@
  */
 
 /**
- * TODO add package comment
+ * This package includes the POJOs which have been generated
+ * by the hibernate tools using the DecidR reverse engineering strategy.
  */
 package de.decidr.model.entities;
 

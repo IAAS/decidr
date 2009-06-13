@@ -15,7 +15,8 @@
  */
 
 /**
- * TODO add package comment
+ * This package contains the enumeration classes which are used by the model.
+ * e.g. workitem satus
  */
 package de.decidr.model.enums;
 

@@ -15,7 +15,7 @@
  */
 
 /**
- * TODO add package comment
+ * This package contains the DecidR reverse engineering strategy.
  */
 package de.decidr.model.reveng;
 

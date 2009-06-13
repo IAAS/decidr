@@ -15,7 +15,11 @@
  */
 
 /**
- * TODO add package comment
+ * The package contains the whole DecidR Data Model. The Model is used
+ * to load/modify/create/delete data on the DecidR Database.
+ * 
+ * It also contains a considerable part of the business logic.
+ * 
  */
 package de.decidr.model;
 

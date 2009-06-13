@@ -15,7 +15,7 @@
  */
 
 /**
- * TODO add package comment
+ * This package contains all command which are used by the workItemFacade.
  */
 package de.decidr.model.commands.workitem;
 

@@ -15,7 +15,7 @@
  */
 
 /**
- * TODO add package comment
+ * This package contains all commands which are required for the workflowmodel facade.
  */
 package de.decidr.model.commands.workflowmodel;
 

@@ -15,7 +15,7 @@
  */
 
 /**
- * TODO add package comment
+ * This package contains all self made annotations for the model.
  */
 package de.decidr.model.annotations;
 

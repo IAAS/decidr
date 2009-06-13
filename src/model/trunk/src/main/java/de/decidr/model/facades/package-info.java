@@ -15,7 +15,7 @@
  */
 
 /**
- * TODO add package comment
+ * The facades package contains facade classes that interface with other system components such as Web services or servlets. The methods provided by the facades internally use one or several Commands which implement the actual functionality. The commands are executed by a transaction coordinator (see package transactions).
  */
 package de.decidr.model.facades;
 

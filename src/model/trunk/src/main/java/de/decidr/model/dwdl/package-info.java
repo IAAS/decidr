@@ -15,7 +15,7 @@
  */
 
 /**
- * TODO add package comment
+ * The dwdl package contains interfaces and classes that handle transformation from DWDL to BPEL as well as communication with the Apache ODE during workflow model deployment and when starting new workflow instances. There are corresponding commands that depend on the components provided by this package. 
  */
 package de.decidr.model.dwdl;
 

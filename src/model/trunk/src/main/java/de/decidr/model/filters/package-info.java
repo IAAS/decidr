@@ -15,7 +15,9 @@
  */
 
 /**
- * TODO add package comment
+ * This package contains several filters, which can be used to filter
+ * the results of the facade results. The filters have to be assigned
+ * as parameter values.
  */
 package de.decidr.model.filters;
 

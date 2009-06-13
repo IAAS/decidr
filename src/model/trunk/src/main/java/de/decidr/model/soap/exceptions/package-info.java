@@ -14,8 +14,6 @@
  * under the License.
  */
 
-/**
- * TODO add package comment
- */
+//RR add package comment
 package de.decidr.model.soap.exceptions;
 

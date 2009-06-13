@@ -15,7 +15,7 @@
  */
 
 /**
- * TODO add package comment
+ * The logging package only contains the DecidR default log4J logger. All Java-based system components may use this logger to store logs in the DecidR database.
  */
 package de.decidr.model.logging;
 

@@ -15,7 +15,7 @@
  */
 
 /**
- * TODO add package comment
+ * This package contains all the exception which can be thrown by the model.
  */
 package de.decidr.model.exceptions;
 

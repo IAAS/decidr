@@ -15,7 +15,9 @@
  */
 
 /**
- * TODO add package comment
+ * This package contains all command which can be executed by using the
+ * Transaction coordinator. The Command are used to realize the functions
+ * in the facades.<br>
  */
 package de.decidr.model.commands;
 

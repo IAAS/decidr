@@ -15,7 +15,7 @@
  */
 
 /**
- * TODO add package comment
+ * The permissions package contains everything related to access control, permission checking, etc.
  */
 package de.decidr.model.permissions;
 
