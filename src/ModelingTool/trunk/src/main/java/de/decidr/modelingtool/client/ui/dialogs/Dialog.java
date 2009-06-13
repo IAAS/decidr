@@ -33,4 +33,16 @@ abstract public class Dialog extends Window {
         super();
     }
 
+    /**
+     * TODO: add comment
+     * 
+     */
+    abstract public void reset();
+
+    /**
+     * TODO: add comment
+     * 
+     */
+    abstract public void initialize();
+
 }

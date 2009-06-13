@@ -18,6 +18,12 @@ package de.decidr.modelingtool.client.ui.resources;
 
 import com.google.gwt.i18n.client.Constants;
 
+/**
+ * 
+ * TODO: add comment
+ *
+ * @author JS
+ */
 public interface Messages extends Constants {
 
     String addVariable();

@@ -22,7 +22,6 @@ import java.util.Map;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.ValueEditor;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
 
-
 /**
  * TODO: add comment
  * 
@@ -30,35 +29,46 @@ import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
  */
 public class DialogRegistry {
 
-	private static DialogRegistry instance;
-	
-	private Map<String, Dialog> dialogs;
+    private static DialogRegistry instance;
 
-	public static DialogRegistry getInstance() {
-		if (instance == null) {
-			instance = new DialogRegistry();
-		}
-		return instance;
-	}
+    private Map<String, Dialog> dialogs;
 
-	private DialogRegistry() {
-		register(new VariableEditor());
-		register(new ValueEditor());
-	}
+    public static DialogRegistry getInstance() {
+        if (instance == null) {
+            instance = new DialogRegistry();
+        }
+        return instance;
+    }
 
-	private Map<String, Dialog> getDialogs() {
-		if (dialogs == null) {
-			dialogs = new HashMap<String, Dialog>();
-		}
-		return dialogs;
-	}
-	
-	public void register(Dialog dialog) {
-		getDialogs().put(dialog.getClass().getName(), dialog);
-	}
-	
-	public Dialog getDialog(String dialogName){
-		return getDialogs().get(dialogName);
-	}
+    private DialogRegistry() {
+        register(new VariableEditor());
+        register(new ValueEditor());
+    }
 
+    public void register(Dialog dialog) {
+        getDialogs().put(dialog.getClass().getName(), dialog);
+    }
+
+    public void showDialog(String dialogName) {
+        Dialog dialog = getDialog(dialogName);
+        dialog.initialize();
+        dialog.setVisible(true);
+    }
+
+    public void hideDialog(String dialogName) {
+        Dialog dialog = getDialog(dialogName);
+        dialog.setVisible(false);
+        dialog.reset();
+    }
+
+    private Dialog getDialog(String dialogName) {
+        return getDialogs().get(dialogName);
+    }
+
+    private Map<String, Dialog> getDialogs() {
+        if (dialogs == null) {
+            dialogs = new HashMap<String, Dialog>();
+        }
+        return dialogs;
+    }
 }

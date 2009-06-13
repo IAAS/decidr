@@ -51,18 +51,19 @@ public class ValueEditor extends Dialog {
     public ValueEditor() {
         super();
         this.setLayout(new FitLayout());
+        this.setSize(400, 200);
         this.setResizable(true);
         createButtons();
 
     }
 
-    public void setContent(Variable variable) {
-        this.variable = variable;
-        createContentPanel();
-        this.variables = ((VariableEditor) DialogRegistry.getInstance()
-                .getDialog(VariableEditor.class.getName())).getVariables();
-    }
 
+
+    /**
+     * 
+     * TODO: add comment
+     * 
+     */
     private void createContentPanel() {
         /* Check, whether a content panel was previously created */
         if (this.getItem(0) != null) {
@@ -82,9 +83,9 @@ public class ValueEditor extends Dialog {
         case DATE:
             DateField dateField = new DateField();
             dateField.setFieldLabel(variable.getType().getLocalName());
-//            Integer datev = new Integer(variable.getValues().get(0));
-//            Date date = new Date(datev);
-//            dateField.setValue(date);
+            // Integer datev = new Integer(variable.getValues().get(0));
+            // Date date = new Date(datev);
+            // dateField.setValue(date);
             contentPanel.add(dateField);
         default:
             break;
@@ -103,25 +104,33 @@ public class ValueEditor extends Dialog {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
                         // TODO: write method
-//                        DialogRegistry.getInstance().getDialog(
-//                                ValueEditor.class.getName()).setVisible(false);
-//                        int temp = variables.indexOf(variable);
-//                        variables.remove(variable);
-
-//                        variable.setValue(((TextField<String>) contentPanel
-//                                .getWidget(0)).getValue().toString());
-//                        variables.insert(variable, temp);
-
+                        contentPanel.getParent().setVisible(false);
                     }
                 }));
         addButton(new Button(ModelingTool.messages.cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
-                        // TODO:write method
-                        DialogRegistry.getInstance().getDialog(
-                                ValueEditor.class.getName()).setVisible(false);
+                        contentPanel.getParent().setVisible(false);
                     }
                 }));
+    }
+
+    /* (non-Javadoc)
+     * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#initialize()
+     */
+    @Override
+    public void initialize() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#reset()
+     */
+    @Override
+    public void reset() {
+        // TODO Auto-generated method stub
+        
     }
 }

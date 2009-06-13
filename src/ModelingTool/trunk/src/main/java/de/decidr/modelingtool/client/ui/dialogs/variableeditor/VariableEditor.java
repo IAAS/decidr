@@ -55,6 +55,7 @@ public class VariableEditor extends Dialog {
     private ListStore<Variable> variables = new ListStore<Variable>();
     private List<ColumnConfig> columns = new ArrayList<ColumnConfig>();
     private ColumnModel colModel;
+    private EditorGrid<Variable> grid;
     private CellSelectionModel<Variable> csm = new CellSelectionModel<Variable>();
 
     public VariableEditor() {
@@ -94,18 +95,17 @@ public class VariableEditor extends Dialog {
         ValueColumn valueColumn = new ValueColumn(Variable.VALUE,
                 ModelingTool.messages.valueColumn());
         columns.add(valueColumn);
-        ArrayVarColumn arrayVarColumn = new ArrayVarColumn(Variable.ARRAYVAR
-                .toString(), ModelingTool.messages.arrayVarColumn());
+        ArrayVarColumn arrayVarColumn = new ArrayVarColumn(Variable.ARRAYVAR,
+                ModelingTool.messages.arrayVarColumn());
         columns.add(arrayVarColumn);
         ConfigVarColumn configVarColumn = new ConfigVarColumn(
-                Variable.CONFIGVAR.toString(), ModelingTool.messages
-                        .configVarColumn());
+                Variable.CONFIGVAR, ModelingTool.messages.configVarColumn());
         columns.add(configVarColumn);
 
         colModel = new ColumnModel(columns);
 
         /* Create grid */
-        EditorGrid<Variable> grid = new EditorGrid<Variable>(variables,
+         grid = new EditorGrid<Variable>(variables,
                 colModel);
         grid.setSelectionModel(csm);
         grid.setAutoExpandColumn(Variable.VALUE);
@@ -121,11 +121,11 @@ public class VariableEditor extends Dialog {
         variables.add(new Variable("Datum", VariableType.DATE, "3458398475"));
 
         editorPanel.add(grid);
-        createToolBar(grid);
+        createToolBar();
 
     }
 
-    private void createToolBar(final EditorGrid<Variable> grid) {
+    private void createToolBar() {
         TextToolItem addVar = new TextToolItem(ModelingTool.messages
                 .addVariable()); //$NON-NLS-1$
         addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
@@ -157,11 +157,12 @@ public class VariableEditor extends Dialog {
             @Override
             public void componentSelected(ToolBarEvent ce) {
                 grid.stopEditing();
-                ((ValueEditor) DialogRegistry.getInstance().getDialog(
-                        ValueEditor.class.getName())).setContent(csm
-                        .getSelectCell().model);
-                DialogRegistry.getInstance().getDialog(
-                        ValueEditor.class.getName()).setVisible(true);
+                //TODO write method
+//                ((ValueEditor) DialogRegistry.getInstance().getDialog(
+//                        ValueEditor.class.getName())).setContent(csm
+//                        .getSelectCell().model);
+//                DialogRegistry.getInstance().getDialog(
+//                        ValueEditor.class.getName()).setVisible(true);
             }
         });
         toolBar.add(editValue);
@@ -201,5 +202,23 @@ public class VariableEditor extends Dialog {
 
     public ListStore<Variable> getVariables() {
         return variables;
+    }
+
+    /* (non-Javadoc)
+     * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#initialize()
+     */
+    @Override
+    public void initialize() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#reset()
+     */
+    @Override
+    public void reset() {
+        // TODO Auto-generated method stub
+        
     }
 }

@@ -53,9 +53,7 @@ public class ModelingTool implements EntryPoint {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                DialogRegistry.getInstance().getDialog(
-                        VariableEditor.class.getName()).setVisible(true);
-
+                DialogRegistry.getInstance().showDialog(VariableEditor.class.getName());
             }
         }));
         RootPanel.get().add(buttonBar);
