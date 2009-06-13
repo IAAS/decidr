@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 12.06.2009 08:13:27 by Hibernate Tools 3.2.4.GA
+// Generated 13.06.2009 13:16:18 by Hibernate Tools 3.2.4.GA
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +10,10 @@ import java.util.Set;
  */
 public class Role implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private Long id;
     private String name;
     private Set<RoleHasPermission> roleHasPermissions = new HashSet<RoleHasPermission>(
@@ -50,9 +54,5 @@ public class Role implements java.io.Serializable {
     public void setRoleHasPermissions(Set<RoleHasPermission> roleHasPermissions) {
         this.roleHasPermissions = roleHasPermissions;
     }
-
-    // The following is extra code specified in the hbm.xml files
-    private static final long serialVersionUID = 1L;
-    // end of extra code specified in the hbm.xml files
 
 }

@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 12.06.2009 08:13:27 by Hibernate Tools 3.2.4.GA
+// Generated 13.06.2009 13:16:18 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -9,6 +9,10 @@ import java.util.Date;
  */
 public class WorkItem implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private Long id;
     private WorkflowInstance workflowInstance;
     private User user;
@@ -96,9 +100,5 @@ public class WorkItem implements java.io.Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    // The following is extra code specified in the hbm.xml files
-    private static final long serialVersionUID = 1L;
-    // end of extra code specified in the hbm.xml files
 
 }

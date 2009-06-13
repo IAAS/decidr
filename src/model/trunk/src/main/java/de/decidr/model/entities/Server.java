@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 12.06.2009 08:13:27 by Hibernate Tools 3.2.4.GA
+// Generated 13.06.2009 13:16:18 by Hibernate Tools 3.2.4.GA
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +10,12 @@ import java.util.Set;
  */
 public class Server implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private Long id;
+    private ServerType serverType;
     private String location;
     private byte load;
     private boolean locked;
@@ -23,8 +28,9 @@ public class Server implements java.io.Serializable {
     public Server() {
     }
 
-    public Server(String location, byte load, boolean locked,
-            boolean dynamicallyAdded) {
+    public Server(ServerType serverType, String location, byte load,
+            boolean locked, boolean dynamicallyAdded) {
+        this.serverType = serverType;
         this.location = location;
         this.load = load;
         this.locked = locked;
@@ -32,12 +38,14 @@ public class Server implements java.io.Serializable {
     }
 
     public Server(
+            ServerType serverType,
             String location,
             byte load,
             boolean locked,
             boolean dynamicallyAdded,
             Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers,
             Set<WorkflowInstance> workflowInstances) {
+        this.serverType = serverType;
         this.location = location;
         this.load = load;
         this.locked = locked;
@@ -52,6 +60,14 @@ public class Server implements java.io.Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public ServerType getServerType() {
+        return this.serverType;
+    }
+
+    public void setServerType(ServerType serverType) {
+        this.serverType = serverType;
     }
 
     public String getLocation() {
@@ -102,9 +118,5 @@ public class Server implements java.io.Serializable {
     public void setWorkflowInstances(Set<WorkflowInstance> workflowInstances) {
         this.workflowInstances = workflowInstances;
     }
-
-    // The following is extra code specified in the hbm.xml files
-    private static final long serialVersionUID = 1L;
-    // end of extra code specified in the hbm.xml files
 
 }

@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 12.06.2009 08:13:27 by Hibernate Tools 3.2.4.GA
+// Generated 13.06.2009 13:16:18 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -11,6 +11,10 @@ import java.util.Set;
  */
 public class DeployedWorkflowModel implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private Long id;
     private long version;
     private WorkflowModel originalWorkflowModel;
@@ -173,9 +177,5 @@ public class DeployedWorkflowModel implements java.io.Serializable {
     public void setWorkflowInstances(Set<WorkflowInstance> workflowInstances) {
         this.workflowInstances = workflowInstances;
     }
-
-    // The following is extra code specified in the hbm.xml files
-    private static final long serialVersionUID = 1L;
-    // end of extra code specified in the hbm.xml files
 
 }
