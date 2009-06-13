@@ -259,7 +259,7 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`workflow_instance` (
   CONSTRAINT `fk_workflowInstance_deployedWorkflowModel`
     FOREIGN KEY (`deployedWorkflowModelId` )
     REFERENCES `decidrdb`.`deployed_workflow_model` (`id` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_workflow_instance_server`
     FOREIGN KEY (`serverId` )
