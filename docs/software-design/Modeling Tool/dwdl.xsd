@@ -372,11 +372,11 @@
 			<xsd:enumeration value="date" />
 			<xsd:enumeration value="anyURI" />
 			<xsd:enumeration value="form" />
+			<xsd:enumeration value="time" />
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="DWDLComplexVariableType">
 		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="form" />
 			<xsd:enumeration value="list-integer" />
 			<xsd:enumeration value="list-float" />
 			<xsd:enumeration value="list-string" />
