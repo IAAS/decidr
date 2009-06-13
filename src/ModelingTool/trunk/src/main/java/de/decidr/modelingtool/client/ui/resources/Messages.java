@@ -21,7 +21,7 @@ import com.google.gwt.i18n.client.Constants;
 /**
  * 
  * TODO: add comment
- *
+ * 
  * @author JS
  */
 public interface Messages extends Constants {
@@ -30,7 +30,7 @@ public interface Messages extends Constants {
 
     String delVariable();
 
-    String editValue();
+    String editVar();
 
     String editorHeading();
 
@@ -47,8 +47,6 @@ public interface Messages extends Constants {
     String okButton();
 
     String cancelButton();
-
-    String applyButton();
 
     String typeString();
 

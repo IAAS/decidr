@@ -61,7 +61,7 @@ public class DialogRegistry {
         dialog.reset();
     }
 
-    private Dialog getDialog(String dialogName) {
+    public Dialog getDialog(String dialogName) {
         return getDialogs().get(dialogName);
     }
 

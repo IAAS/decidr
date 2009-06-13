@@ -16,8 +16,6 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 
-import com.extjs.gxt.ui.client.widget.form.TextField;
-import com.extjs.gxt.ui.client.widget.grid.CellEditor;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 
 /**
@@ -27,15 +25,10 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
  */
 public class ValueColumn extends ColumnConfig {
 
-    private TextField<String> text = new TextField<String>();
-
     public ValueColumn(String columnId, String header) {
         this.setId(columnId);
         this.setHeader(header);
         this.setWidth(100);
-
-        text.setAutoWidth(true);
-        text.setAutoValidate(false);
-        this.setEditor(new CellEditor(text));
     }
+
 }

@@ -45,4 +45,11 @@ abstract public class Dialog extends Window {
      */
     abstract public void initialize();
 
+    /**
+     * 
+     * TODO: add comment
+     *
+     */
+    abstract public void refresh();
+
 }

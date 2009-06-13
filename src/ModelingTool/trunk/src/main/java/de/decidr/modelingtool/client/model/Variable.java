@@ -43,6 +43,7 @@ public class Variable extends BaseModelData {
      * TODO: add comment
      */
     public Variable() {
+        // TODO: think this over, consider add variable in variable editor, too
         super();
         set(NAME, "variable name");
         set(TYPE, VariableType.STRING);
@@ -136,17 +137,6 @@ public class Variable extends BaseModelData {
     }
 
     /**
-     * 
-     * TODO: add comment
-     * 
-     * @param value
-     */
-    public void setValue(String value) {
-        set(VALUE, value);
-        setArray(false);
-    }
-
-    /**
      * TODO: add comment
      * 
      * @return the array
@@ -162,7 +152,7 @@ public class Variable extends BaseModelData {
      *            the array to set
      */
     // TODO: public or private?
-    public void setArray(boolean array) {
+    private void setArray(boolean array) {
         set(ARRAYVAR, array);
     }
 

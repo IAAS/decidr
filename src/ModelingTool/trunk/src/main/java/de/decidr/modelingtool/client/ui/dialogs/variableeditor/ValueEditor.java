@@ -19,16 +19,14 @@ package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
-import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
-import com.extjs.gxt.ui.client.widget.form.DateField;
-import com.extjs.gxt.ui.client.widget.form.FormPanel;
-import com.extjs.gxt.ui.client.widget.form.TextField;
+import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
 import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.model.Variable;
+import de.decidr.modelingtool.client.model.VariableType;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
@@ -40,9 +38,9 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 public class ValueEditor extends Dialog {
 
     private ContentPanel contentPanel;
+    SimpleComboBox<String> typeComboBox;
 
-    private Variable variable;
-    private ListStore<Variable> variables;
+    private Variable variable = new Variable();
 
     /**
      * TODO: add comment
@@ -53,11 +51,9 @@ public class ValueEditor extends Dialog {
         this.setLayout(new FitLayout());
         this.setSize(400, 200);
         this.setResizable(true);
+        createContentPanel();
         createButtons();
-
     }
-
-
 
     /**
      * 
@@ -70,26 +66,17 @@ public class ValueEditor extends Dialog {
             this.remove(contentPanel);
         }
 
-        contentPanel = new FormPanel();
-        contentPanel.setHeading(ModelingTool.messages.editValue());
-        switch (variable.getType()) {
-        case STRING:
-            TextField<String> stringField = new TextField<String>();
-            stringField.setFieldLabel(variable.getType().getLocalName());
-            stringField.setValue(variable.getValues().get(0));
-            stringField.setAllowBlank(false);
-            contentPanel.add(stringField);
-            break;
-        case DATE:
-            DateField dateField = new DateField();
-            dateField.setFieldLabel(variable.getType().getLocalName());
-            // Integer datev = new Integer(variable.getValues().get(0));
-            // Date date = new Date(datev);
-            // dateField.setValue(date);
-            contentPanel.add(dateField);
-        default:
-            break;
+        contentPanel = new ContentPanel();
+        contentPanel.setHeading(ModelingTool.messages.editVar());
+        contentPanel.setLayout(new FitLayout());
+
+        typeComboBox = new SimpleComboBox<String>();
+        for (VariableType t : VariableType.values()) {
+            typeComboBox.add(t.getLocalName());
         }
+        typeComboBox.setEditable(false);
+        contentPanel.add(typeComboBox);
+
         this.add(contentPanel);
     }
 
@@ -103,34 +90,58 @@ public class ValueEditor extends Dialog {
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
-                        // TODO: write method
-                        contentPanel.getParent().setVisible(false);
+                        okButtonAction();
+                        DialogRegistry.getInstance().hideDialog(
+                                ValueEditor.class.getName());
                     }
+
                 }));
         addButton(new Button(ModelingTool.messages.cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
-                        contentPanel.getParent().setVisible(false);
+                        DialogRegistry.getInstance().hideDialog(
+                                ValueEditor.class.getName());
                     }
                 }));
     }
 
-    /* (non-Javadoc)
+    private void okButtonAction() {
+        variable.setType(VariableType.getTypeFromLocalName(typeComboBox
+                .getValue().getValue()));
+        DialogRegistry.getInstance().getDialog(VariableEditor.class.getName())
+                .refresh();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#initialize()
      */
     @Override
     public void initialize() {
-        // TODO Auto-generated method stub
-        
+        variable = ((VariableEditor) DialogRegistry.getInstance().getDialog(
+                VariableEditor.class.getName())).getSelectedVariable();
+        typeComboBox.setSimpleValue(variable.getType().getLocalName());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#reset()
      */
     @Override
     public void reset() {
         // TODO Auto-generated method stub
-        
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#refresh()
+     */
+    @Override
+    public void refresh() {
+        // TODO Auto-generated method stub
     }
 }

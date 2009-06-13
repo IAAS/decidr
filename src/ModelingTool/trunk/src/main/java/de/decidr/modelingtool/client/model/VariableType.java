@@ -41,7 +41,7 @@ public enum VariableType {
         return name;
     }
 
-    public VariableType getTypeFromLocalName(String localName) {
+    public static VariableType getTypeFromLocalName(String localName) {
         VariableType result = null;
         for (VariableType t : VariableType.values()) {
             if (localName == t.getLocalName())
