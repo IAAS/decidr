@@ -111,7 +111,7 @@ public class ProfileSettingsComponent extends CustomComponent {
 	        settingsForm.setFieldFactory(new SettingsFieldFactory());
 	        settingsForm.setItemDataSource(settingsItem);
 	        settingsForm.setVisibleItemProperties(Arrays.asList(new String[] {
-	                "firstNameText", "lastNameText", "streetText", "postalCode", "cityText" }));
+	                "firstName", "lastName", "street", "postalCode", "city" }));
 	        
 	    
 		profilePanel = new Panel();
@@ -220,15 +220,15 @@ public class ProfileSettingsComponent extends CustomComponent {
 	    public Field createField(Item item, Object propertyId, Component uiContext){
 	        Field field = super.createField(item, propertyId, uiContext);
 	        
-	        if("firstNameText".equals(propertyId)){
+	        if("firstName".equals(propertyId)){
 	            TextField tf = (TextField) field;
 	            tf.setCaption("First Name");
 	            tf.setColumns(30);
-	        } else if("lastNameText".equals(propertyId)){
+	        } else if("lastName".equals(propertyId)){
                     TextField tf = (TextField) field;
                     tf.setCaption("Last Name");
                     tf.setColumns(30);
-                } else if("streetText".equals(propertyId)){
+                } else if("street".equals(propertyId)){
                     TextField tf = (TextField) field;
                     tf.setCaption("Street");
                     tf.setColumns(30);
@@ -236,7 +236,7 @@ public class ProfileSettingsComponent extends CustomComponent {
                     TextField tf = (TextField) field;
                     tf.setCaption("Postal Code");
                     tf.setColumns(30);
-                } else if("cityText".equals(propertyId)){
+                } else if("city".equals(propertyId)){
                     TextField tf = (TextField) field;
                     tf.setCaption("City");
                     tf.setColumns(30);

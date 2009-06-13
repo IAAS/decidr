@@ -26,13 +26,13 @@ import com.vaadin.ui.TextField;
 public class ProfileSettingsContainer {
 	private static ProfileSettingsContainer cont = null;
 	
-    private String firstNameText = "Danny";
-    private String lastNameText = "Street";
-    private String streetText = "";
+    private String firstName = "Danny";
+    private String lastName = "Street";
+    private String street = "";
     private String postalCode = "";
-    private String cityText = "";
+    private String city = "";
     private String eMail = "";
-    private String userName ="";
+    private String username ="";
     private String password = "";
     
     public static ProfileSettingsContainer getInstance(){
@@ -45,8 +45,97 @@ public class ProfileSettingsContainer {
     private ProfileSettingsContainer(){
         //Nothing
     }
-    
-    
+
+    /**
+     * TODO: add comment
+     *
+     * @return the firstName
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * TODO: add comment
+     *
+     * @param firstName the firstName to set
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * TODO: add comment
+     *
+     * @return the lastName
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * TODO: add comment
+     *
+     * @param lastName the lastName to set
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    /**
+     * TODO: add comment
+     *
+     * @return the street
+     */
+    public String getStreet() {
+        return street;
+    }
+
+    /**
+     * TODO: add comment
+     *
+     * @param street the street to set
+     */
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    /**
+     * TODO: add comment
+     *
+     * @return the postalCode
+     */
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    /**
+     * TODO: add comment
+     *
+     * @param postalCode the postalCode to set
+     */
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    /**
+     * TODO: add comment
+     *
+     * @return the city
+     */
+    public String getCity() {
+        return city;
+    }
+
+    /**
+     * TODO: add comment
+     *
+     * @param city the city to set
+     */
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     /**
      * TODO: add comment
      *
@@ -68,19 +157,19 @@ public class ProfileSettingsContainer {
     /**
      * TODO: add comment
      *
-     * @return the userName
+     * @return the username
      */
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     /**
      * TODO: add comment
      *
-     * @param userName the userName to set
+     * @param username the username to set
      */
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /**
@@ -100,85 +189,7 @@ public class ProfileSettingsContainer {
     public void setPassword(String password) {
         this.password = password;
     }
-       
-    /**
-     * TODO: add comment
-     *
-     * @return the firstNameText
-     */
-    public String getFirstNameText() {
-        return firstNameText;
-    }
-    /**
-     * TODO: add comment
-     *
-     * @param firstNameText the firstNameText to set
-     */
-    public void setFirstNameText(String firstNameText) {
-        this.firstNameText = firstNameText;
-    }
-    /**
-     * TODO: add comment
-     *
-     * @return the lastNameText
-     */
-    public String getLastNameText() {
-        return lastNameText;
-    }
-    /**
-     * TODO: add comment
-     *
-     * @param lastNameText the lastNameText to set
-     */
-    public void setLastNameText(String lastNameText) {
-        this.lastNameText = lastNameText;
-    }
-    /**
-     * TODO: add comment
-     *
-     * @return the streetText
-     */
-    public String getStreetText() {
-        return streetText;
-    }
-    /**
-     * TODO: add comment
-     *
-     * @param streetText the streetText to set
-     */
-    public void setStreetText(String streetText) {
-        this.streetText = streetText;
-    }
-    /**
-     * TODO: add comment
-     *
-     * @return the postalCode
-     */
-    public String getPostalCode() {
-        return postalCode;
-    }
-    /**
-     * TODO: add comment
-     *
-     * @param postalCode the postalCode to set
-     */
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-    /**
-     * TODO: add comment
-     *
-     * @return the cityText
-     */
-    public String getCityText() {
-        return cityText;
-    }
-    /**
-     * TODO: add comment
-     *
-     * @param cityText the cityText to set
-     */
-    public void setCityText(String cityText) {
-        this.cityText = cityText;
-    }
+    
+    
+   
 }
