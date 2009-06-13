@@ -18,8 +18,12 @@ package de.decidr.ui.view;
 
 import java.util.Observable;
 import java.util.Observer;
+
+import com.vaadin.data.Container;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
+
+import de.decidr.ui.data.CurrentTenantContainer;
 
 /**
  * TODO: add comment
@@ -32,26 +36,43 @@ public class CurrentTenantModelTable extends Table implements Observer{
      * Serial Version UID
      */
     private static final long serialVersionUID = -3378507042364075268L;
+    private Observable observable = null;
+    private Container currentTenantContainer = null;
     
     /**
      * Default Constructor
      *
      */
-    public CurrentTenantModelTable() {
+    public CurrentTenantModelTable(Observable observable, Container container) {
+        this.observable = observable;
+        currentTenantContainer = container;
+        observable.addObserver(this);
+        init(observable, container);
+    }
+
+    
+    /**
+     * TODO: add comment
+     *
+     */
+    private void init(Observable observable, Container container) {
         setSizeFull();
         addContainerProperty("Name", String.class, null);
         addContainerProperty("Creation Date", String.class, null);
         addContainerProperty("Published", String.class, null);
         addContainerProperty("Edit", Button.class, null);
+        
     }
 
-    
+
     /* (non-Javadoc)
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override
     public void update(Observable o, Object arg) {
-        // TODO Auto-generated method stub
+        if(o instanceof CurrentTenantContainer){
+            refreshCurrentPage();
+        }
         
     }
 

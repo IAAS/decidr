@@ -26,6 +26,8 @@ import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.data.CurrentTenantContainer;
+
 /**
  * TODO: add comment
  *
@@ -39,6 +41,8 @@ public class WorkflowModelsComponent extends CustomComponent {
     private static final long serialVersionUID = -8284535233079548635L;
     
     private static WorkflowModelsComponent workflowModelsComponent = null;
+    
+    private CurrentTenantContainer currentTenantContainer = null;
     
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout buttonHorizontalLayout = null;
@@ -78,6 +82,8 @@ public class WorkflowModelsComponent extends CustomComponent {
      *
      */
     private void init() {
+       currentTenantContainer = new CurrentTenantContainer();
+        
        verticalLayout = new VerticalLayout();
        buttonHorizontalLayout = new HorizontalLayout();
        
@@ -88,7 +94,7 @@ public class WorkflowModelsComponent extends CustomComponent {
        searchPanel = new SearchPanel();
        buttonPanel = new Panel();
        
-       currentTenantTable = new CurrentTenantModelTable();
+       currentTenantTable = new CurrentTenantModelTable(currentTenantContainer, currentTenantContainer);
        
        nativeSelect = new NativeSelect();
        for(int i = 0; i < models.length; i++){
