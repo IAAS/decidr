@@ -48,4 +48,11 @@ public abstract class UserCommand extends AclEnabledCommand {
 
         return user;
     }
+
+    /**
+     * @return the userId
+     */
+    public Long getUserId() {
+        return userId;
+    }
 }
