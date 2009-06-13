@@ -1,6 +1,5 @@
 package de.decidr.model.facades;
 
-// import Item;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.List;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 
-import de.decidr.model.commands.user.GetAdministrativeWorkflowModelCommand;
+import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
 import de.decidr.model.commands.user.GetJoinedTenantsCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.WorkflowModel;
@@ -21,16 +20,32 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
 
 /**
- * TODO: add comment
- *
- * @author TODO
+ * Provide a simplified interface to the business logic that deals with users.
+ * 
+ * @author Markus Fischer
+ * @author Daniel Huss
+ * @version 0.1
  */
 public class UserFacade extends AbstractFacade {
 
+    /**
+     * Creates a new UserFacade. All operations will be executed as the given
+     * actor.
+     * 
+     * @param actor
+     */
     public UserFacade(Role actor) {
         super(actor);
     }
 
+    /**
+     * Adds a new user to the system.
+     * 
+     * @param email
+     * @param password
+     * @param userProfile
+     * @return
+     */
     public Long registerUser(String email, String password, Item userProfile) {
         throw new UnsupportedOperationException();
     }
@@ -139,7 +154,7 @@ public class UserFacade extends AbstractFacade {
                 userId);
 
         tac.runTransaction(command);
-        
+
         inList = command.getResult();
         String[] properties = { "id", "name" };
 
@@ -170,7 +185,7 @@ public class UserFacade extends AbstractFacade {
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
-        GetAdministrativeWorkflowModelCommand command = new GetAdministrativeWorkflowModelCommand(
+        GetAdministratedWorkflowModelCommand command = new GetAdministratedWorkflowModelCommand(
                 actor, userId);
 
         tac.runTransaction(command);
