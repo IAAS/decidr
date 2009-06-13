@@ -20,6 +20,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.view.SiteFrame;
+import de.decidr.ui.view.TenantSettingsComponent;
 
 /**
  * TODO: add comment
@@ -41,8 +42,7 @@ public class ShowTenantSettingsAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //TODO: Tenant settings action
-
+        siteFrame.setContent(TenantSettingsComponent.getInstance());
     }
 
 }
