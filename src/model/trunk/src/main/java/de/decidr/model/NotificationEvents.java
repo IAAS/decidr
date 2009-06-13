@@ -16,6 +16,7 @@
 
 package de.decidr.model;
 
+import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.WorkItem;
 
 /**
@@ -29,5 +30,19 @@ public final class NotificationEvents {
     public static void createdWorkItem(WorkItem newWorkItem) {
         // FIXME actually notify user
     }
+    
+    
+    public static void tenantDisapprovedNorification(String email, String tenantName) {
+        // FIXME actually notify user
+    }
+    
+    public static void tenantInvitationUserAlreadyExisting(Invitation invitation) {
+        // FIXME actually notify user
+    }
+    
+    public static void tenantInvitationNewSystemUser(Invitation invitation) {
+        // FIXME actually notify user
+    }
+    
 
 }

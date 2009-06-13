@@ -22,6 +22,7 @@ import de.decidr.model.commands.tenant.GetUsersOfTenantCommand;
 import de.decidr.model.commands.tenant.GetWorkflowInstancesCommand;
 import de.decidr.model.commands.tenant.GetWorkflowModelsCommand;
 import de.decidr.model.commands.tenant.ImportPublishedWorkflowModelsCommand;
+import de.decidr.model.commands.tenant.InviteUsersAsTenantMemberCommand;
 import de.decidr.model.commands.tenant.RemoveTenentMemberCommand;
 import de.decidr.model.commands.tenant.RemoveWorkflowModelCommand;
 import de.decidr.model.commands.tenant.SetTenantDescriptionCommand;
@@ -304,8 +305,6 @@ public class TenantFacade extends AbstractFacade {
 
         tac.runTransaction(command);
 
-        // FIXME sent notification mail (to fix in command) (use notification
-        // class)
     }
 
     /**
@@ -573,10 +572,26 @@ public class TenantFacade extends AbstractFacade {
 
     }
 
-    // FIXME notifier not yet implemented
+    /**
+     * 
+     * Invites the given Users. If a given username does not exist an exception
+     * will be thrown.
+     * 
+     * @param tenantId
+     * @param emailOrUsernames
+     * @throws TransactionException
+     * 
+     */
     public void inviteUsersAsMembers(Long tenantId,
-            List<String> emailOrUsernames) {
-        throw new UnsupportedOperationException();
+            List<String> emails, List<String>userNames) throws TransactionException {
+
+        TransactionCoordinator tac = HibernateTransactionCoordinator
+        .getInstance();
+        InviteUsersAsTenantMemberCommand command = new InviteUsersAsTenantMemberCommand(
+        actor, tenantId, emails, userNames);
+
+        tac.runTransaction(command);
+        
     }
 
     /**
