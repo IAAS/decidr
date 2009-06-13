@@ -15,7 +15,9 @@
  */
 
 /**
- * TODO add package comment
+ * The package de.decidr.model.commands.system contains all commands which
+ * are used by the SystemFacade.
+ * 
  */
 package de.decidr.model.commands.system;
 

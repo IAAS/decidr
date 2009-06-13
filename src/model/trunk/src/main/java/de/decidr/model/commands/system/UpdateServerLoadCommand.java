@@ -18,7 +18,7 @@ public class UpdateServerLoadCommand extends SystemCommand{
     
     /**
      * Updates the server load of a given server at the database.
-     * If given server does not exists nothgin will happen.
+     * If given server does not exists nothing will happen.
      * 
      * @param role the user who wants to execute the command
      * @param location the location of the server, which should be updated

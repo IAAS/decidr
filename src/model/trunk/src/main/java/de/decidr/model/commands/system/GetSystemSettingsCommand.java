@@ -2,6 +2,7 @@ package de.decidr.model.commands.system;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 
 import de.decidr.model.entities.SystemSettings;
@@ -37,8 +38,8 @@ public class GetSystemSettingsCommand extends SystemCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt) throws TransactionException{
 
-        Query q = evt.getSession().createQuery("from SystemSettings");
-        List<SystemSettings> results = q.list();
+        Criteria c = evt.getSession().createCriteria(SystemSettings.class);
+        List<SystemSettings> results = c.list();
 
         if (results.size()>0){
             throw new TransactionException("More than one system settings found, but system settings should be unique");

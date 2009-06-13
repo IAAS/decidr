@@ -33,7 +33,7 @@ public class RemoveServerCommand extends SystemCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt) {
                  
-        Query q = evt.getSession().createQuery("delete Server where location= :loc");
+        Query q = evt.getSession().createQuery("delete Server where location = :loc");
         q.setString("loc", location);
         q.executeUpdate();
         

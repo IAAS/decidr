@@ -19,6 +19,10 @@ public class AddServerCommand extends SystemCommand {
    
     /**
     * 
+    * Creates a new AddServerCommand. The created command
+    * adds a server to the DecidR database. The Server will not be
+    * created in reality. It's just an representation of the real Server.
+    * 
     * @param role the user which want's to execute the command
     * @param location the location of the server
     */

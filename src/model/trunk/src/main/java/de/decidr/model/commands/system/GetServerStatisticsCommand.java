@@ -33,7 +33,7 @@ public class GetServerStatisticsCommand extends SystemCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt) {
        
-        result = evt.getSession().createQuery("from ServerLoadViewId where locked=false").list();
+        result = evt.getSession().createQuery("from ServerLoadView where locked=false").list();
         
     }
 
