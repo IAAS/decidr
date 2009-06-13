@@ -9,7 +9,9 @@ import com.vaadin.data.util.BeanItem;
 
 import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
 import de.decidr.model.commands.user.GetJoinedTenantsCommand;
+import de.decidr.model.commands.user.GetWorkitemsCommand;
 import de.decidr.model.entities.Tenant;
+import de.decidr.model.entities.WorkItemSummaryView;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
@@ -106,11 +108,11 @@ public class UserFacade extends AbstractFacade {
         throw new UnsupportedOperationException();
     }
 
+    //FIXME HIER TREFFEN
     public Item getUserProfile(Long userId) {
         throw new UnsupportedOperationException();
     }
 
-    // FIXME paginator not yet implemented
     public List<Item> getAllUsers(List<Filter> filters, Paginator paginator) {
         throw new UnsupportedOperationException();
     }
@@ -128,10 +130,12 @@ public class UserFacade extends AbstractFacade {
         throw new UnsupportedOperationException();
     }
 
+    
     public List<Item> getAdminstratedWorkflowInstances(Long userId) {
         throw new UnsupportedOperationException();
     }
 
+    
     /**
      * Returns all tenants the given user is member of as item with the
      * following properties:<br>
@@ -199,9 +203,42 @@ public class UserFacade extends AbstractFacade {
         return outList;
     }
 
-    // FIXME paginator not yet implemented
+    /**
+     * 
+     * Returns the workitems of the given user as List<Item> with the following properties:<br>
+     * - creationDate<br>
+     * - userId<br>
+     * - id<br>
+     * - tenantName<br
+     * - workItemName<br>
+     * - workItemStatus
+     * 
+     * @param userId
+     * @param filters
+     * @param paginator
+     * @return
+     * @throws TransactionException
+     */
+    @SuppressWarnings("unchecked")
     public List<Item> getWorkItems(Long userId, List<Filter> filters,
-            Paginator paginator) {
-        throw new UnsupportedOperationException();
+            Paginator paginator) throws TransactionException {
+        
+        List<WorkItemSummaryView> inList;
+        List<Item> outList = new ArrayList();
+
+        TransactionCoordinator tac = HibernateTransactionCoordinator
+                .getInstance();
+        GetWorkitemsCommand command = new GetWorkitemsCommand(
+                actor, userId,filters, paginator);
+
+        tac.runTransaction(command);
+        inList = command.getResult();
+
+        for (WorkItemSummaryView model : inList) {
+            outList.add(new BeanItem(model));
+        }
+
+        return outList;
+        
     }
 }
