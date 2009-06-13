@@ -1,0 +1,5 @@
+#summary Integrate Eclipse with Google Code
+#
+
+= Useful Hints on Integrating Eclipse with Google Code =
+  * [http://eclipse.dzone.com/articles/using-mylyn-with-google-code-u Using google code issues with Mylyn]
