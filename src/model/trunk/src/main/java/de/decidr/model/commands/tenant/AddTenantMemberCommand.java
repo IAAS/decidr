@@ -7,6 +7,15 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
+/**
+ * 
+ * Create the relation is member of
+ * between the given tenant and the given user.
+ * 
+ * @author Markus Fischer
+ *
+ * @version 0.1
+ */
 public class AddTenantMemberCommand extends TenantCommand {
 
     private Long memberId;
@@ -15,7 +24,7 @@ public class AddTenantMemberCommand extends TenantCommand {
      * 
      * Creates a new AddTenantMemberCommand. The command create the relation is member of
      * between the given tenant and the given user.
-     * 46
+     * 
      * @param role      user which executes the command
      * @param tenantId  id of the tenant
      * @param memberId  id of the user

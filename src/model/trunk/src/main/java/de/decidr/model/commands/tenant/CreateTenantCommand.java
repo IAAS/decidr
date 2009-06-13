@@ -9,6 +9,14 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
 import de.decidr.model.transactions.TransactionEvent;
 
+/**
+ * 
+ * Creates a tenant with the given properties.
+ * 
+ * @author Markus Fischer
+ *
+ * @version 0.1
+ */
 public class CreateTenantCommand extends TenantCommand {
 
     private String name;

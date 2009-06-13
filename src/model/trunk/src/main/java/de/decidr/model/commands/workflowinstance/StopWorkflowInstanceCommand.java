@@ -12,7 +12,7 @@ public class StopWorkflowInstanceCommand extends WorkflowInstanceCommand {
 
     @Override
     public void transactionAllowed(TransactionEvent evt) {
-        // FIXME Komponente von Modood aufrufen oder so.
+        //SECIT Komponente von Modood aufrufen oder so.
 
     }
 

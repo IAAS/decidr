@@ -8,7 +8,7 @@ import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * 
- * Creates a new Command which updates the description of an tenant.
+ * Updates the description of a tenant.
  * 
  * @author Markus Fischer
  *
@@ -20,7 +20,7 @@ public class SetTenantDescriptionCommand extends TenantCommand {
     
     /**
      * 
-     * Creates a new Command which updates the description of an tenant.
+     * Creates a new Command which updates the description of a tenant.
      * 
      * @param role user which executes the command
      * @param tenantId the id of the tenant which should be updated

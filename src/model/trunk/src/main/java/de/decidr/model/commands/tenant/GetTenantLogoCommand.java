@@ -7,7 +7,14 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
-
+/**
+ * 
+ * Saves the TenantLogo in the result variable.
+ * 
+ * @author Markus Fischer
+ *
+ * @version 0.1
+ */
 public class GetTenantLogoCommand extends TenantCommand {
 
     private Long tenantId;
@@ -23,7 +30,8 @@ public class GetTenantLogoCommand extends TenantCommand {
             throws TransactionException {
         
         Tenant tenant = (Tenant)evt.getSession().load(Tenant.class, tenantId);
-        //FIXME FileHandling fehlt, komme nicht an die LogoDaten ran.
+        tenant.getLogo();
+        //SECIT FileHandling fehlt noch
         
     }
 

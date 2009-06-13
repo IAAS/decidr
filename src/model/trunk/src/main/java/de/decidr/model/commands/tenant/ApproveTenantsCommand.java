@@ -3,12 +3,24 @@ package de.decidr.model.commands.tenant;
 import java.util.Date;
 import java.util.List;
 
+import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.permissions.Permission;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
-public class ApproveTenantsCommand extends TenantCommand {
+/**
+ * 
+ * Approves all tenants which corresponds to the given IDs.<br>
+ * Not existing tenants will we ignored.
+ * 
+ * @author Markus Fischer
+ * @author Daniel Huss
+ *
+ * @version 0.1
+ */
+public class ApproveTenantsCommand extends AclEnabledCommand {
 
     private List<Long> tenantIds;
     
@@ -21,7 +33,7 @@ public class ApproveTenantsCommand extends TenantCommand {
      * @param tenantIds
      */
     public ApproveTenantsCommand(Role role, List<Long> tenantIds) {
-        super(role, null);
+        super(role, (Permission)null);
         
         this.tenantIds=tenantIds;
     }

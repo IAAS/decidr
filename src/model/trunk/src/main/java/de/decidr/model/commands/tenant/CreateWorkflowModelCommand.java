@@ -9,6 +9,16 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
+
+/**
+ * Creates a new workflow model with the given property Name. Furthermore the model will
+ * be added to the given tenant. If the given tenant does not exist an exception
+ * will be thrown.
+ * 
+ * @author Markus Fischer
+ *
+ * @version 0.1
+ */
 public class CreateWorkflowModelCommand extends TenantCommand {
 
     private Long tenantId;

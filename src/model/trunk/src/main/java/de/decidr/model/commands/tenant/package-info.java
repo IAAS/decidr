@@ -15,7 +15,7 @@
  */
 
 /**
- * TODO add package comment
+ * TODO Contains all command which are used by the tenant facade.
  */
 package de.decidr.model.commands.tenant;
 

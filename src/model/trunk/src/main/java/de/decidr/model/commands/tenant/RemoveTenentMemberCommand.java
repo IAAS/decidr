@@ -6,14 +6,21 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
+/**
+ * Delete the isMemberOf relation of the given objects.
+ * 
+ * @author Markus Fischer
+ *
+ * @version 0.1
+ */
 public class RemoveTenentMemberCommand extends TenantCommand {
 
-    Long tenantId;
-    Long userId;
+    private Long tenantId;
+    private Long userId;
     
 /**
  * 
- * Creates a new RemoveTenantCommand. The commant will delete the isMemberOf relation of the given objects.
+ * Creates a new RemoveTenantCommand. The command will delete the isMemberOf relation of the given objects.
  * 
  * @param role  user which executes the command
  * @param tenantId
