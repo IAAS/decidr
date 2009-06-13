@@ -681,7 +681,9 @@ SELECT DISTINCT w.id AS id,
                 w.`name` AS workItemName, 
                 t.`name` AS tenantName, 
                 w.creationDate AS creationDate, 
-                w.`status` AS workItemStatus
+                w.`status` AS workItemStatus,
+                w.userId AS userId,
+                w.workflowInstanceId
 FROM `user` AS u,
      `work_item` AS w, 
      `tenant` AS t, 
