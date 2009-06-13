@@ -17,8 +17,8 @@
 package de.decidr.model.commands;
 
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.transactions.TransactionAbortedEvent;
+import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Abstract base class for commands so you don't have to implement every method

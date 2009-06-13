@@ -75,6 +75,8 @@ public class DecidrReverseEngineeringStrategy extends
         return result;
     }
 
+    
+    
     @SuppressWarnings("unchecked")
     @Override
     public String foreignKeyToCollectionName(String keyname,
@@ -100,7 +102,7 @@ public class DecidrReverseEngineeringStrategy extends
         }
 
         /*
-         * Special treatment for silly special cases such as "settingses"
+         * Treatment for silly special cases such as "settingses"
          */
         if ((result.endsWith("Settingses")) || (result.endsWith("Accesses"))) {
             result = result.substring(0, result.length() - "es".length());
@@ -138,13 +140,6 @@ public class DecidrReverseEngineeringStrategy extends
     @Override
     public Map tableToMetaAttributes(TableIdentifier tableIdentifier) {
         Map<String, MetaAttribute> metaAttributes = new HashMap<String, MetaAttribute>();
-
-        /*
-         * add a default serialVersionUID
-         */
-        MetaAttribute classCode = new MetaAttribute("class-code");
-        classCode.addValue("private static final long serialVersionUID = 1L;");
-        metaAttributes.put("class-code", classCode);
 
         return metaAttributes;
     }

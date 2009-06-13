@@ -24,22 +24,28 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 
-import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.workflowmodel.DeleteWorkflowModelCommand;
+import de.decidr.model.commands.workflowmodel.GetLastStartConfigurationCommand;
+import de.decidr.model.commands.workflowmodel.GetPublishedWorkflowModelsCommand;
 import de.decidr.model.commands.workflowmodel.GetWorkflowAdministrationStateCommand;
 import de.decidr.model.commands.workflowmodel.GetWorkflowAdminstratorsCommand;
 import de.decidr.model.commands.workflowmodel.GetWorkflowInstancesCommand;
 import de.decidr.model.commands.workflowmodel.GetWorkflowModelCommand;
 import de.decidr.model.commands.workflowmodel.MakeWorkflowModelExecutableCommand;
 import de.decidr.model.commands.workflowmodel.PublishWorkflowModelsCommand;
+import de.decidr.model.commands.workflowmodel.SaveStartConfigurationCommand;
 import de.decidr.model.commands.workflowmodel.SaveWorkflowModelCommand;
 import de.decidr.model.commands.workflowmodel.SetWorkflowAdministratorsCommand;
+import de.decidr.model.commands.workflowmodel.StartWorkflowInstanceCommand;
 import de.decidr.model.commands.workflowmodel.UndeployWorkflowModelCommand;
+import de.decidr.model.entities.StartConfiguration;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.entities.WorkflowInstance;
+import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.enums.UserWorkflowAdminState;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.exceptions.WorkflowModelNotStartableException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.permissions.Role;
@@ -314,11 +320,9 @@ public class WorkflowModelFacade extends AbstractFacade {
             DeleteWorkflowModelCommand deleteCommand = new DeleteWorkflowModelCommand(
                     actor, workflowModelId);
 
-            TransactionalCommand[] commands = { undeployCommand, deleteCommand };
-
             // Delete each model in a separate transaction.
             HibernateTransactionCoordinator.getInstance().runTransaction(
-                    commands);
+                    undeployCommand, deleteCommand);
         }
     }
 
@@ -338,16 +342,17 @@ public class WorkflowModelFacade extends AbstractFacade {
      * </ul>
      * 
      * @param workflowModelId
+     * @param paginator
      * @return Vaadin items representing the workflow instances that are
      *         associated swith this model.
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
-    public List<Item> getWorkflowInstances(Long workflowModelId)
-            throws TransactionException {
-
+    public List<Item> getWorkflowInstances(Long workflowModelId,
+            Paginator paginator) throws TransactionException {
         GetWorkflowInstancesCommand cmd = new GetWorkflowInstancesCommand(
-                actor, workflowModelId);
+                actor, workflowModelId, paginator);
+
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
         // build the vaadin items
@@ -382,6 +387,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * <li>description</li>
      * <li>modifiedDate</li>
      * <li>tenantName</li>
+     * <li>tenantId</li>
      * </ul>
      * 
      * @param filters
@@ -394,16 +400,84 @@ public class WorkflowModelFacade extends AbstractFacade {
      */
     public List<Item> getAllPublishedWorkflowModels(List<Filter> filters,
             Paginator paginator) throws TransactionException {
-        throw new UnsupportedOperationException();
+
+        GetPublishedWorkflowModelsCommand cmd = new GetPublishedWorkflowModelsCommand(
+                actor, filters, paginator);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+
+        List<WorkflowModel> models = cmd.getResult();
+
+        List<Item> result = new ArrayList<Item>();
+
+        String[] properties = { "id", "name", "description", "modifiedDate" };
+
+        // build the Vaadin item
+        for (WorkflowModel model : models) {
+            BeanItem item = new BeanItem(model, properties);
+            item.addItemProperty("tenantId", new ObjectProperty(model
+                    .getTenant().getId()));
+            item.addItemProperty("tenantName", new ObjectProperty(model
+                    .getTenant().getName()));
+        }
+
+        return result;
     }
 
+    /**
+     * Creates a new instance of the the given workflow model, assuming that the
+     * workflow model has already been deployed and is flagged as executable.
+     * <p>
+     * Upon success, the given start configuration is saved as the last start
+     * configuration of the workflow model.
+     * 
+     * @param workflowModelId
+     * @param startConfiguration
+     * @return the id of the created workflow instance.
+     * @throws TransactionException
+     *             if the transaction is aborted for any reason.
+     * @throws WorkflowModelNotStartableException
+     *             if the workflow model to start is not really startable.
+     */
     public Long startWorkflowInstance(Long workflowModelId,
-            byte[] startConfiguration) throws TransactionException {
-        throw new UnsupportedOperationException();
+            byte[] startConfiguration) throws TransactionException,
+            WorkflowModelNotStartableException {
+
+        StartWorkflowInstanceCommand startCmd = new StartWorkflowInstanceCommand(
+                actor, workflowModelId, startConfiguration);
+
+        SaveStartConfigurationCommand saveCmd = new SaveStartConfigurationCommand(
+                actor, workflowModelId, startConfiguration);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(startCmd,
+                saveCmd);
+
+        return startCmd.getNewWorkflowInstance().getId();
     }
 
-    public Item getLastStartConfiguration(Long workflowModelId)
+    /**
+     * Returns the raw xml data of the last used start configuration of the
+     * given workflow model. If applicable start configuration exists, null is
+     * returned.
+     * 
+     * @param workflowModelId
+     * @return the raw xml data of the last used start configuration or null.
+     * @throws TransactionException
+     *             if the transaction is aborted for any reason.
+     */
+    public byte[] getLastStartConfiguration(Long workflowModelId)
             throws TransactionException {
-        throw new UnsupportedOperationException();
+        
+        GetLastStartConfigurationCommand cmd = new GetLastStartConfigurationCommand(
+                actor, workflowModelId);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+
+        StartConfiguration config = cmd.getStartConfiguration();
+        if (config == null) {
+            return null;
+        } else {
+            return config.getStartConfiguration();
+        }
     }
 }

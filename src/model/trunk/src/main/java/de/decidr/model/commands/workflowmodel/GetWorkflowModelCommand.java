@@ -22,7 +22,7 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Retrieves a workflow model from the database.
+ * Retrieves a single workflow model from the database.
  * 
  * @author Daniel Huss
  * @version 0.1

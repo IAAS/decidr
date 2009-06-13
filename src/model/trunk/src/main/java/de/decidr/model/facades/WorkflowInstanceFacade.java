@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
+
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.workflowinstance.DeleteWorkFlowInstanceCommand;
 import de.decidr.model.commands.workflowinstance.GetAllWorkitemsCommand;

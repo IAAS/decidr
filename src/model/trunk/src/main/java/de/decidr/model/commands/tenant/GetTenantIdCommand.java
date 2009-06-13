@@ -1,7 +1,9 @@
 package de.decidr.model.commands.tenant;
 
 import java.util.List;
+
 import org.hibernate.Query;
+
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;

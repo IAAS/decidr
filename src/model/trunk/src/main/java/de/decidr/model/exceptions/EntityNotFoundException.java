@@ -18,8 +18,6 @@ package de.decidr.model.exceptions;
 
 import java.io.Serializable;
 
-import de.decidr.model.entities.Tenant;
-
 /**
  * Thrown when an entity is not found in the database, but is required to
  * perform the operation.

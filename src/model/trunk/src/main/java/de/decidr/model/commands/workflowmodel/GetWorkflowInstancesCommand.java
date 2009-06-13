@@ -18,11 +18,14 @@ package de.decidr.model.commands.workflowmodel;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Restrictions;
 
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.filters.PaginatingCriteria;
+import de.decidr.model.filters.Paginator;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
@@ -36,14 +39,19 @@ public class GetWorkflowInstancesCommand extends WorkflowModelCommand {
 
     private List<WorkflowInstance> result;
 
+    private Paginator paginator;
+
     /**
      * Constructor
      * 
      * @param role
      * @param workflowModelId
+     * @param paginator
      */
-    public GetWorkflowInstancesCommand(Role role, Long workflowModelId) {
+    public GetWorkflowInstancesCommand(Role role, Long workflowModelId,
+            Paginator paginator) {
         super(role, workflowModelId);
+        this.paginator = paginator;
     }
 
     @SuppressWarnings("unchecked")
@@ -53,13 +61,17 @@ public class GetWorkflowInstancesCommand extends WorkflowModelCommand {
 
         WorkflowModel model = fetchWorkflowModel(evt.getSession());
 
-        String hql = "from WorkflowInstance as wi "
-                + "inner join fetch DeployedWorkflowModel as dwm "
-                + "where dwm.originalWorkflowModel = :model ";
+        PaginatingCriteria crit = new PaginatingCriteria(
+                WorkflowInstance.class, evt.getSession());
 
-        Query q = evt.getSession().createQuery(hql).setEntity("model", model);
+        crit.createCriteria("deployedWorkflowModel", "dwm", CriteriaSpecification.LEFT_JOIN)
+                .add(Restrictions.eq("dwm.originalWorkflowModel", model));
+        
+        if (paginator != null) {
+            paginator.apply(crit);
+        }
 
-        List<WorkflowInstance> instances = q.list();
+        List<WorkflowInstance> instances = crit.list();
         /*
          * make sure the needed properties are retrieved.
          */

@@ -41,7 +41,7 @@ public class EqualsFilter implements Filter {
     /**
      * The value to match
      */
-    private String propertyValue = null;
+    private Object propertyValue = null;
 
     /**
      * Constructor
@@ -54,7 +54,7 @@ public class EqualsFilter implements Filter {
      *            the value to match
      */
     public EqualsFilter(Boolean include, String propertyName,
-            String propertyValue) {
+            Object propertyValue) {
         super();
         setPropertyName(propertyName);
         setInclude(include);
@@ -63,21 +63,26 @@ public class EqualsFilter implements Filter {
 
     @Override
     public void apply(Criteria criteria) {
-        criteria.add(Restrictions.eq(propertyName, propertyValue));
+        if (include) {
+            criteria.add(Restrictions.eq(propertyName, propertyValue));
+        } else {
+            criteria.add((Restrictions.not(Restrictions.eq(propertyName,
+                    propertyValue))));
+        }
     }
-    
+
     /**
      * @param propertyValue
      *            the value to match
      */
-    public void setPropertyValue(String propertyValue) {
+    public void setPropertyValue(Object propertyValue) {
         this.propertyValue = propertyValue;
     }
 
     /**
      * @return the value to match
      */
-    public String getPropertyValue() {
+    public Object getPropertyValue() {
         return propertyValue;
     }
 
@@ -110,6 +115,5 @@ public class EqualsFilter implements Filter {
     public Boolean getInclude() {
         return include;
     }
-
 
 }

@@ -13,43 +13,22 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package de.decidr.model.permissions;
+
+package de.decidr.model.exceptions;
 
 /**
- * Base class for permissions that refer to a database entity that has a unique
- * identifier.
+ * Thrown to indicate that a workflow model cannot be started since no deployed
+ * version is available or the workflow model has been set to not executable.
  * 
- * @author Markus Fischer
  * @author Daniel Huss
- * 
  * @version 0.1
  */
-public abstract class EntityPermission extends Permission {
+public class WorkflowModelNotStartableException extends TransactionException {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * The entity id.
-     */
-    protected Long id;
-
-    /**
-     * Creates a new permission named <prefix>.<id> if the given id is not null,
-     * <prefix>.* otherwise.
-     * 
-     * @param prefix
-     * @param id
-     */
-    public EntityPermission(String prefix, Long id) {
-        super(prefix + (id == null ? "*" : id.toString()));
-        this.id = id;
+    public WorkflowModelNotStartableException(Long workflowModelId) {
+        super(String.format("The workflow model %1$d cannot be started",
+                workflowModelId));
     }
-
-    /**
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
-
 }

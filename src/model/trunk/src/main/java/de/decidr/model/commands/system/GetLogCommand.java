@@ -1,6 +1,7 @@
 package de.decidr.model.commands.system;
 
 import java.util.List;
+
 import de.decidr.model.entities.Log;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;

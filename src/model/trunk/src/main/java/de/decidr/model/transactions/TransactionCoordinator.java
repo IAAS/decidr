@@ -50,8 +50,9 @@ public interface TransactionCoordinator {
      * @throws TransactionException
      *             if transaction is not successful or command is null.
      */
-    public void runTransaction(TransactionalCommand[] commands)
+    public void runTransaction(TransactionalCommand... commands)
             throws TransactionException;
+
 
     /**
      * Executes a number of commands within a transaction. If another

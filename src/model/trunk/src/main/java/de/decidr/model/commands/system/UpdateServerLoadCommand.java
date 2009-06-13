@@ -1,6 +1,7 @@
 package de.decidr.model.commands.system;
 
 import org.hibernate.Query;
+
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 

@@ -1,8 +1,11 @@
 package de.decidr.model.commands.workflowmodel;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import de.decidr.model.commands.AclEnabledCommand;
+import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.permissions.Role;
@@ -62,5 +65,28 @@ public abstract class WorkflowModelCommand extends AclEnabledCommand {
         }
 
         return workflowModel;
+    }
+
+    /**
+     * Fetches the current deployed version of the workflow model.
+     * 
+     * @param session
+     * @return the current deployed version of the workflow model or null if
+     *         there is no current deplyoed version.
+     */
+    public DeployedWorkflowModel fetchCurrentDeployedWorkflowModel(
+            Session session) {
+        WorkflowModel model = new WorkflowModel();
+        model.setId(getWorkflowModelId());
+
+        Criteria crit = session.createCriteria(DeployedWorkflowModel.class,
+                "dwm");
+
+        crit.createCriteria("originalWorkflowModel", "owm").add(
+                Restrictions.eqProperty("owm.version", "dwm.version"));
+
+        crit.add(Restrictions.eq("originalModel", model));
+
+        return (DeployedWorkflowModel) crit.uniqueResult();
     }
 }

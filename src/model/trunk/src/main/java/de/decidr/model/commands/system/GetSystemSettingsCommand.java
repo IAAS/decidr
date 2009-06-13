@@ -3,7 +3,6 @@ package de.decidr.model.commands.system;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.exceptions.EntityNotFoundException;

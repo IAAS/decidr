@@ -1,6 +1,7 @@
 package de.decidr.model.commands.tenant;
 
 import java.util.List;
+
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;

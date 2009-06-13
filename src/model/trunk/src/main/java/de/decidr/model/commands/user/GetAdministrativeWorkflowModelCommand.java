@@ -1,7 +1,9 @@
 package de.decidr.model.commands.user;
 
 import java.util.List;
+
 import org.hibernate.Query;
+
 import de.decidr.model.entities.UserAdministratesWorkflowModel;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;

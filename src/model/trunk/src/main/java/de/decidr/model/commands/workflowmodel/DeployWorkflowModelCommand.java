@@ -23,6 +23,7 @@ import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;
+import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
@@ -76,6 +77,15 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
         }
 
         deployedWorkflowModel = existing;
+    }
+
+    @Override
+    public void transactionAborted(TransactionAbortedEvent evt)
+            throws TransactionException {
+        /*
+         * TODO (low priority) add compensation action -> try to undeploy any
+         * workflow models that have been deployed
+         */
     }
 
     /**

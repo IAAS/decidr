@@ -155,7 +155,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * {@inheritDoc}
      */
-    public void runTransaction(TransactionalCommand[] commands)
+    public void runTransaction(TransactionalCommand... commands)
             throws TransactionException {
         if (commands == null) {
             throw new TransactionException(new IllegalArgumentException(
@@ -192,6 +192,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                                     receiverRollbackException);
                         }
                     }
+                    notifiedReceivers.clear();
                 }
             } catch (Exception rollbackException) {
                 logger.fatal("Could not roll back transaction.",

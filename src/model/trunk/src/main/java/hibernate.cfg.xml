@@ -24,6 +24,7 @@
         <mapping resource="de/decidr/model/entities/Permission.hbm.xml" />
         <mapping resource="de/decidr/model/entities/RoleHasPermission.hbm.xml" />
         <mapping resource="de/decidr/model/entities/Invitation.hbm.xml" />
+        <mapping resource="de/decidr/model/entities/ServerType.hbm.xml" />
         <mapping resource="de/decidr/model/entities/KnownWebService.hbm.xml" />
         <mapping resource="de/decidr/model/entities/UserProfile.hbm.xml" />
         <mapping resource="de/decidr/model/entities/RegistrationRequest.hbm.xml" />
@@ -32,14 +33,13 @@
         <mapping resource="de/decidr/model/entities/Session.hbm.xml" />
         <mapping resource="de/decidr/model/entities/Role.hbm.xml" />
         <mapping resource="de/decidr/model/entities/Tenant.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/ApprovedTenantsView.hbm.xml" />
         <mapping resource="de/decidr/model/entities/WorkflowModel.hbm.xml" />
         <mapping resource="de/decidr/model/entities/File.hbm.xml" />
         <mapping resource="de/decidr/model/entities/ServerLoadView.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/NotApprovedTenantsView.hbm.xml" />
         <mapping resource="de/decidr/model/entities/WorkflowModelIsDeployedOnServer.hbm.xml" />
         <mapping resource="de/decidr/model/entities/TenantSummaryView.hbm.xml" />
         <mapping resource="de/decidr/model/entities/WorkItemSummaryView.hbm.xml" />
+        <mapping resource="de/decidr/model/entities/TenantWithAdminView.hbm.xml" />
         <mapping resource="de/decidr/model/entities/DeployedWorkflowModel.hbm.xml" />
         <mapping resource="de/decidr/model/entities/UserAdministratesWorkflowModel.hbm.xml" />
     </session-factory>

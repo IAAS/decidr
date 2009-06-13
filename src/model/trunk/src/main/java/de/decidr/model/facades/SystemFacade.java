@@ -2,9 +2,13 @@ package de.decidr.model.facades;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.log4j.Level;
+
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
+
+import de.decidr.model.annotations.AllowedRole;
 import de.decidr.model.commands.system.AddServerCommand;
 import de.decidr.model.commands.system.GetLogCommand;
 import de.decidr.model.commands.system.GetServerStatisticsCommand;
@@ -24,7 +28,6 @@ import de.decidr.model.permissions.ServerLoadUpdaterRole;
 import de.decidr.model.permissions.SuperAdminRole;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
-import de.decidr.model.annotations.AllowedRole;
 
 /**
  * The system facade contains all functions which are available to modify system

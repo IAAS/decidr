@@ -2,6 +2,7 @@ package de.decidr.model.commands.workflowinstance;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserParticipatesInWorkflow;
 import de.decidr.model.entities.WorkflowInstance;

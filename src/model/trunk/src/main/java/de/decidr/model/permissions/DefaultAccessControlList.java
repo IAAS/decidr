@@ -212,11 +212,13 @@ public class DefaultAccessControlList implements AccessControlList {
      */
     public void init() {
         clearRules();
-        // TODO add rules.
+        // FIXME for now, every user may do anything
+        setRule(new UserRole(), new Permission("*"), alwaysTrueAsserter,
+                AssertMode.SatisfyAny);
 
         // The superadmin can do anything
-        setRule(new SuperAdminRole(), new Permission("*"),
-                new IsSuperAdmin(), AssertMode.SatisfyAny);
+        setRule(new SuperAdminRole(), new Permission("*"), new IsSuperAdmin(),
+                AssertMode.SatisfyAny);
     }
 
     /**
@@ -235,10 +237,20 @@ public class DefaultAccessControlList implements AccessControlList {
         Boolean isAlreadyImplied = hasRule(role, permission);
 
         if (!isAlreadyImplied) {
-            ruleMap.put(new Key(role, permission), new Value(asserters, mode));
+            Key newKey = new Key(role, permission);
+            removeImpliedRules(newKey);
+            ruleMap.put(newKey, new Value(asserters, mode));
         }
 
         return !isAlreadyImplied;
+    }
+
+    /**
+     * Removes the rules that key implies from the ruleset. Be aware that this
+     * will include key itself if it is currently present in the ruleset.
+     */
+    private void removeImpliedRules(Key key) {
+        // FIXME implement this!
     }
 
     /**
@@ -261,7 +273,8 @@ public class DefaultAccessControlList implements AccessControlList {
     /**
      * {@inheritDoc}
      */
-    public Boolean isAllowed(Role role, Permission permission) throws TransactionException{
+    public Boolean isAllowed(Role role, Permission permission)
+            throws TransactionException {
         Boolean allowed = true;
         Value rule = ruleMap.get(new Key(role, permission));
 

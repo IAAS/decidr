@@ -4,8 +4,10 @@ package de.decidr.model.facades;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
+
 import de.decidr.model.commands.user.GetAdministrativeWorkflowModelCommand;
 import de.decidr.model.commands.user.GetJoinedTenantsCommand;
 import de.decidr.model.entities.Tenant;
@@ -14,7 +16,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.permissions.Role;
-import de.decidr.model.permissions.UserRole; // import ListItem;
+import de.decidr.model.permissions.UserRole;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
 
