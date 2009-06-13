@@ -51,7 +51,7 @@ public class MailBackendTest {
 
     @Before
     public void setUpBeforeEachTest() {
-        testMail = new MailBackend("new@new.de", "new@new.de", null);
+        testMail = new MailBackend("new@new.de", null, "new@new.de", null);
     }
 
     /**
@@ -134,18 +134,18 @@ public class MailBackendTest {
 
         ccBefore = testMail.getHeaderCC();
         toBefore = testMail.getHeaderTo();
-        fromBefore = testMail.getHeaderFrom();
+        fromBefore = testMail.getHeaderFromMail();
         testMail.addBCC("ab@c.de");
         assertEquals(bcc + ", ab@c.de", testMail.getHeaderBCC());
         assertEquals(ccBefore, testMail.getHeaderCC());
         assertEquals(toBefore, testMail.getHeaderTo());
-        assertEquals(fromBefore, testMail.getHeaderFrom());
+        assertEquals(fromBefore, testMail.getHeaderFromMail());
 
         testMail.addBCC("ab@c.de");
         assertEquals(bcc + ", ab@c.de, ab@c.de", testMail.getHeaderBCC());
         assertEquals(ccBefore, testMail.getHeaderCC());
         assertEquals(toBefore, testMail.getHeaderTo());
-        assertEquals(fromBefore, testMail.getHeaderFrom());
+        assertEquals(fromBefore, testMail.getHeaderFromMail());
 
         try {
             testMail.addBCC("invalid@email@address");

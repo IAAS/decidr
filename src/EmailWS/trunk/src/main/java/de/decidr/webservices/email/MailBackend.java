@@ -145,8 +145,8 @@ public class MailBackend {
     /**
      * Main header <code>{@link String strings}</code>.
      */
-    private String headerTo, headerFrom, headerSubject, headerCC, headerBCC,
-            headerXMailer;
+    private String headerTo, headerFromName, headerFromMail, headerSubject,
+            headerCC, headerBCC, headerXMailer;
 
     /**
      * List of parts. If there are more than one, a multipart message is
@@ -180,18 +180,47 @@ public class MailBackend {
      * @param to
      *            The recipients of the Email. See
      *            <code>{@link #setReceiver(String)}</code>.
-     * @param from
-     *            The sender of the Email. See
-     *            <code>{@link #setSender(String)}</code>.
+     * @param fromName
+     *            The name of the sender of the Email. See
+     *            <code>{@link #setSender(String, String)}</code>.
+     * @param fromMail
+     *            The email address of the sender of the Email. See
+     *            <code>{@link #setSender(String, String)}</code>.
      * @param subject
      *            The subject of the Email. See
      *            <code>{@link #setSubject(String)}</code>.
      */
-    public MailBackend(String to, String from, String subject) {
+    public MailBackend(String to, String fromName, String fromMail,
+            String subject) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + " constructor");
         setReceiver(to);
-        setSender(from);
+        setSender(fromName, fromMail);
+        setSubject(subject);
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + " constructor");
+    }
+
+    /**
+     * @param to
+     *            The recipients of the Email. See
+     *            <code>{@link #setReceiver(List<String>)}</code>.
+     * @param fromName
+     *            The name of the sender of the Email. See
+     *            <code>{@link #setSender(String, String)}</code>.
+     * @param fromMail
+     *            The email address of the sender of the Email. See
+     *            <code>{@link #setSender(String, String)}</code>.
+     * @param subject
+     *            The subject of the Email. See
+     *            <code>{@link #setSubject(String)}</code>.
+     */
+    public MailBackend(List<String> to, String fromName, String fromMail,
+            String subject) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + " constructor");
+        setReceiver(to);
+        setSender(fromName, fromMail);
         setSubject(subject);
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + " constructor");
@@ -357,9 +386,11 @@ public class MailBackend {
                     + "addHeader() method. Delegating to setReceiver()...");
             setReceiver(headerContent);
         } else if (headerName.equalsIgnoreCase("From")) {
-            log.warn("The From: header should not be set using the "
-                    + "addHeader() method. Delegating to setSender()...");
-            setSender(headerContent);
+            log.error("The From: header should not be set using the "
+                    + "addHeader() method. Use the "
+                    + "setSender(String, String) method...");
+            throw new IllegalArgumentException(
+                    "Attempted to set From: header using the addHeader() method");
         } else if (headerName.equalsIgnoreCase("Subject")) {
             log.warn("The Subject: header should not be set using the "
                     + "addHeader() method. Delegating to setSubject()...");
@@ -507,11 +538,21 @@ public class MailBackend {
     /**
      * To be used for testing.
      * 
-     * @return the headerFrom
+     * @return the headerFromName
      */
-    final String getHeaderFrom() {
+    final String getHeaderFromName() {
         log.warn(WARNING_TESTING);
-        return headerFrom;
+        return headerFromName;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the headerFromMail
+     */
+    final String getHeaderFromMail() {
+        log.warn(WARNING_TESTING);
+        return headerFromMail;
     }
 
     /**
@@ -743,7 +784,7 @@ public class MailBackend {
             throw new IllegalArgumentException(
                     "You need to specify a receiver!");
         }
-        if (headerFrom == null || headerFrom.isEmpty()) {
+        if (headerFromMail == null || headerFromMail.isEmpty()) {
             log.error("Can't send a message from nobody.");
             throw new IllegalArgumentException("You need to specify a sender!");
         }
@@ -753,7 +794,7 @@ public class MailBackend {
         }
         log.debug("setting main headers to override additional "
                 + "headers, if necessary");
-        message.setFrom(new InternetAddress(headerFrom));
+        message.setFrom(new InternetAddress(headerFromMail, headerFromName));
         message.setRecipients(Message.RecipientType.TO, headerTo);
         if (!(headerCC == null || headerCC.isEmpty()))
             message.setRecipients(Message.RecipientType.CC, headerCC);
@@ -866,7 +907,7 @@ public class MailBackend {
     public void setBodyText(String message) throws MessagingException,
             IOException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
-                + ".setBody(String)");
+                + ".setBodyText(String)");
         // add a new part if the first on is not a string or there are no parts
         if (messageParts.isEmpty()
                 || !(messageParts.get(0).getContent() instanceof String)) {
@@ -877,7 +918,36 @@ public class MailBackend {
         log.debug("setting body text");
         messageParts.get(0).setText(message);
         log.trace("Leaving " + MailBackend.class.getSimpleName()
-                + ".setBody(String)");
+                + ".setBodyText(String)");
+    }
+
+    /**
+     * Add an HTML part to the message.
+     * 
+     * @param message
+     *            The HTML message to add to the Email.
+     * @throws MessagingException
+     *             May be thrown while setting/getting message contents.
+     * @throws IOException
+     *             see <code>{@link MimeBodyPart#getContent()}</code>
+     */
+    public void setBodyHTML(String message) throws MessagingException,
+            IOException {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setBodyHTML(String)");
+        MimeBodyPart contents = new MimeBodyPart();
+        contents.setContent(message, "text/html");
+
+        if (messageParts.isEmpty()) {
+            log.debug("adding new first MimeBodyPart");
+            messageParts.add(0, contents);
+        } else if (messageParts.get(0).getContent() instanceof String) {
+            log.debug("adding new second MimeBodyPart");
+            messageParts.add(1, contents);
+        }
+
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setBodyHTML(String)");
     }
 
     /**
@@ -1041,18 +1111,29 @@ public class MailBackend {
     /**
      * Specify the sender of the Email.
      * 
-     * @param from
-     *            The sender of this Email.
+     * @param fromName
+     *            The name of the sender of this Email (may be <code>null</code>
+     *            or empty).
+     * @param fromMail
+     *            The email address of sender of this Email.
      */
-    public void setSender(String from) {
+    public void setSender(String fromName, String fromMail) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setSender(String)");
-        if (from == null || from.isEmpty()) {
-            log.error("The sender can't be empty.");
-            throw new IllegalArgumentException("Please specify a sender!");
+        if (fromMail == null || fromMail.trim().isEmpty()
+                || !validateAddresses(fromMail)) {
+            log.error("The sender can't be empty or invalid.");
+            throw new IllegalArgumentException("Please specify a valid sender!");
         }
+
         log.debug("setting From");
-        headerFrom = from;
+        headerFromMail = fromMail;
+        if (fromName == null || fromName.trim().isEmpty()) {
+            log.debug("sender name is empty");
+            headerFromName = null;
+        } else {
+            headerFromName = fromName;
+        }
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".setSender(String)");
     }

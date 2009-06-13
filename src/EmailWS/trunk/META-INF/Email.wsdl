@@ -25,7 +25,8 @@
 							nillable="true" />
 						<xsd:element name="fromAddress" type="xsd:string" />
 						<xsd:element name="subject" type="xsd:string" />
-						<xsd:element name="headers" type="decidr:tStringMap" />
+						<xsd:element name="headers" type="decidr:tStringMap"
+							nillable="true" />
 						<xsd:element name="bodyTXT" type="xsd:string"
 							nillable="true" />
 						<xsd:element name="bodyHTML" type="xsd:string"
