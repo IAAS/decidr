@@ -208,6 +208,16 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `decidrdb`.`server_type`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `decidrdb`.`server_type` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(100) NOT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `decidrdb`.`server`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`server` (
@@ -216,8 +226,15 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`server` (
   `load` TINYINT UNSIGNED NOT NULL COMMENT 'Ranges from 0 to 100 percent' ,
   `locked` BOOLEAN NOT NULL COMMENT 'Whether or not new workflow models may be deployed on this server.' ,
   `dynamicallyAdded` BOOLEAN NOT NULL ,
+  `serverTypeId` BIGINT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `unique_location` (`location` ASC) )
+  UNIQUE INDEX `unique_location` (`location` ASC) ,
+  INDEX `fk_server_server_type` (`serverTypeId` ASC) ,
+  CONSTRAINT `fk_server_server_type`
+    FOREIGN KEY (`serverTypeId` )
+    REFERENCES `decidrdb`.`server_type` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -633,14 +650,9 @@ CREATE TABLE IF NOT EXISTS `decidrdb`.`work_item_summary_view` (`id` INT);
 CREATE TABLE IF NOT EXISTS `decidrdb`.`tenant_summary_view` (`id` INT);
 
 -- -----------------------------------------------------
--- Placeholder table for view `decidrdb`.`approved_tenants_view`
+-- Placeholder table for view `decidrdb`.`tenant_with_admin_view`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `decidrdb`.`approved_tenants_view` (`id` INT);
-
--- -----------------------------------------------------
--- Placeholder table for view `decidrdb`.`not_approved_tenants_view`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `decidrdb`.`not_approved_tenants_view` (`id` INT);
+CREATE TABLE IF NOT EXISTS `decidrdb`.`tenant_with_admin_view` (`id` INT);
 
 -- -----------------------------------------------------
 -- Placeholder table for view `decidrdb`.`startable_workflow_model_view`
@@ -653,9 +665,10 @@ CREATE TABLE IF NOT EXISTS `decidrdb`.`startable_workflow_model_view` (`id` INT)
 DROP TABLE IF EXISTS `decidrdb`.`server_load_view`;
 #Retrieves a server load summary including the number of deployed workflow instances
 CREATE VIEW `decidrdb`.`server_load_view` AS
-SELECT s.*, COUNT(wi.id) AS `numInstances`
-FROM `server` AS s, `workflow_instance` AS wi
-WHERE wi.serverId = s.id
+SELECT s.*, t.name AS serverType ,COUNT(wi.id) AS `numInstances`
+FROM `server` AS s 
+JOIN `server_type` AS t ON t.id = s.serverTypeId
+LEFT JOIN `workflow_instance` AS wi ON wi.serverId = s.id
 GROUP BY s.id;
 
 -- -----------------------------------------------------
@@ -708,18 +721,17 @@ WHERE (t.adminId = a.userId) AND
 GROUP BY t.id, t.`name`;
 
 -- -----------------------------------------------------
--- View `decidrdb`.`approved_tenants_view`
+-- View `decidrdb`.`tenant_with_admin_view`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `decidrdb`.`approved_tenants_view`;
-CREATE  OR REPLACE VIEW `decidrdb`.`approved_tenants_view` AS
-SELECT * FROM tenant WHERE approvedSince IS NOT NULL;
-
--- -----------------------------------------------------
--- View `decidrdb`.`not_approved_tenants_view`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `decidrdb`.`not_approved_tenants_view`;
-CREATE  OR REPLACE VIEW `decidrdb`.`not_approved_tenants_view` AS
-SELECT * FROM tenant WHERE approvedSince IS NULL;
+DROP TABLE IF EXISTS `decidrdb`.`tenant_with_admin_view`;
+CREATE  OR REPLACE VIEW `decidrdb`.`tenant_with_admin_view` AS
+SELECT 
+t.*, 
+u.username AS adminUsername, 
+u.firstName AS adminFirstName, 
+u.lastName AS adminLastName 
+FROM tenant AS t 
+LEFT JOIN user_profile AS u ON t.adminId = u.userId;
 
 -- -----------------------------------------------------
 -- View `decidrdb`.`startable_workflow_model_view`
