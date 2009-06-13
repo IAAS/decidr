@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 13.06.2009 13:16:18 by Hibernate Tools 3.2.4.GA
+// Generated 13.06.2009 19:54:01 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -18,17 +18,22 @@ public class WorkItemSummaryView implements java.io.Serializable {
     private String tenantName;
     private Date creationDate;
     private String workItemStatus;
+    private long userId;
+    private long workflowInstanceId;
 
     public WorkItemSummaryView() {
     }
 
     public WorkItemSummaryView(long id, String workItemName, String tenantName,
-            Date creationDate, String workItemStatus) {
+            Date creationDate, String workItemStatus, long userId,
+            long workflowInstanceId) {
         this.id = id;
         this.workItemName = workItemName;
         this.tenantName = tenantName;
         this.creationDate = creationDate;
         this.workItemStatus = workItemStatus;
+        this.userId = userId;
+        this.workflowInstanceId = workflowInstanceId;
     }
 
     public long getId() {
@@ -69,6 +74,22 @@ public class WorkItemSummaryView implements java.io.Serializable {
 
     public void setWorkItemStatus(String workItemStatus) {
         this.workItemStatus = workItemStatus;
+    }
+
+    public long getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public long getWorkflowInstanceId() {
+        return this.workflowInstanceId;
+    }
+
+    public void setWorkflowInstanceId(long workflowInstanceId) {
+        this.workflowInstanceId = workflowInstanceId;
     }
 
 }

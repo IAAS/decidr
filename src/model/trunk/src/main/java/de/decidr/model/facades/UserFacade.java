@@ -9,10 +9,14 @@ import com.vaadin.data.util.BeanItem;
 
 import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
 import de.decidr.model.commands.user.GetJoinedTenantsCommand;
+import de.decidr.model.commands.user.GetUserByLoginCommand;
 import de.decidr.model.commands.user.GetWorkitemsCommand;
+import de.decidr.model.commands.user.RegisterUserCommand;
 import de.decidr.model.entities.Tenant;
+import de.decidr.model.entities.UserProfile;
 import de.decidr.model.entities.WorkItemSummaryView;
 import de.decidr.model.entities.WorkflowModel;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
@@ -41,22 +45,97 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * Adds a new user to the system.
+     * Creates a new user (if necessary) and adds a user profile and a
+     * registration request. The following properties are expected to be present
+     * in the given Vaadin {@link Item}:
+     * <ul>
+     * <li>username - the desired username</li>
+     * <li>firstName - first name of the user</li>
+     * <li>lastName - last name of the user</li>
+     * <li>city - name of the city where the user lives</li>
+     * <li>street - street where the user lives</li>
+     * <li>postalCode - postal code of the city</li>
+     * </ul>
      * 
      * @param email
-     * @param password
+     *            email address of user to register
+     * @param passwordPlaintext
      * @param userProfile
-     * @return
+     *            the user profile data
+     * @return The id of the user that has been registered
+     * @throws TransactionException
+     *             if the transaction is aborted for any reason
+     * @throws NullPointerException
+     *             if at least one of the required properties is missing.
      */
-    public Long registerUser(String email, String password, Item userProfile) {
-        throw new UnsupportedOperationException();
+    public Long registerUser(String email, String passwordPlaintext,
+            Item userProfile) throws TransactionException, NullPointerException {
+
+        // retrieve needed properties from Vaadin item.
+        String firstName = userProfile.getItemProperty("firstName").getValue()
+                .toString();
+        String lastName = userProfile.getItemProperty("lastname").getValue()
+                .toString();
+        String city = userProfile.getItemProperty("city").getValue().toString();
+        String street = userProfile.getItemProperty("street").getValue()
+                .toString();
+        String postalCode = userProfile.getItemProperty("postalCode")
+                .getValue().toString();
+
+        // create the new user profile
+        UserProfile profile = new UserProfile();
+        profile.setFirstName(firstName);
+        profile.setLastName(lastName);
+        profile.setCity(city);
+        profile.setStreet(street);
+        profile.setPostalCode(postalCode);
+
+        RegisterUserCommand cmd = new RegisterUserCommand(actor, email,
+                passwordPlaintext, profile);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+
+        return cmd.getRegisteredUser().getId();
     }
 
-    public Long getUserIdByLogin(String emailOrUsername, String password) {
-        throw new UnsupportedOperationException();
+    /**
+     * Returns the user id that belongs to a given username or email / password
+     * combination iff the account exists and the password matches.
+     * 
+     * @param emailOrUsername
+     *            can be either an email address or the user's username.
+     * @param passwordPlaintext
+     *            the account password as plain text (no hash).
+     * @return user id
+     * @throws TransactionException
+     *             iff the transaction
+     * @throws EntityNotFoundException
+     *             iff no such account exists or the password doesn't match.
+     */
+    public Long getUserIdByLogin(String emailOrUsername,
+            String passwordPlaintext) throws TransactionException,
+            EntityNotFoundException {
+
+        GetUserByLoginCommand cmd = new GetUserByLoginCommand(actor,
+                emailOrUsername, passwordPlaintext);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+
+        return cmd.getUser().getId();
     }
 
-    public Long getUserId(String authCode) {
+    /**
+     * FIXME continue here
+     * @param userId
+     * @param authKey
+     * @return
+     * @throws TransactionException
+     * @throws EntityNotFoundException
+     *             iff the given user does not exist or the authentication key
+     *             does not match.
+     */
+    public Boolean authKeyMatches(Long userId, String authKey)
+            throws TransactionException, EntityNotFoundException {
         throw new UnsupportedOperationException();
     }
 
@@ -138,74 +217,72 @@ public class UserFacade extends AbstractFacade {
     
     /**
      * Returns all tenants the given user is member of as item with the
-     * following properties:<br>
-     * - id<br>
-     * - name
-     * 
+     * following properties:
+     * <ul>
+     * <li>id - tenant id</li>
+     * <li>name - tenant name</li>
+     * </ul>
      * 
      * @param userId
-     * @return
+     * @return Vaadin items representing the joined tenants.
      */
     @SuppressWarnings("unchecked")
     public List<Item> getJoinedTenants(Long userId) throws TransactionException {
 
-        List<Tenant> inList;
-        List<Item> outList = new ArrayList();
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         GetJoinedTenantsCommand command = new GetJoinedTenantsCommand(actor,
                 userId);
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
-        inList = command.getResult();
+        List<Tenant> tenants = command.getResult();
+
+        // build the Vaadin item
         String[] properties = { "id", "name" };
 
-        for (Tenant model : inList) {
-            outList.add(new BeanItem(model, properties));
+        List<Item> result = new ArrayList();
+        for (Tenant tenant : tenants) {
+            result.add(new BeanItem(tenant, properties));
         }
 
-        return outList;
-
+        return result;
     }
 
     /**
-     * Returns the workflow models which the given user administrates:<br>
-     * - id<br>
-     * - name<br>
-     * - description
+     * Returns the workflow models which the given user administrates. The item
+     * properties are:
+     * <ul>
+     * <li>id - workflow model id</li>
+     * <li>name - workflow model name</li>
+     * <li>description - workflow model description</li>
+     * </ul>
      * 
      * @param userId
      * @return
      * @throws TransactionException
      */
-    @SuppressWarnings("unchecked")
     public List<Item> getAdministratedWorkflowModels(Long userId)
             throws TransactionException {
 
-        List<WorkflowModel> inList;
-        List<Item> outList = new ArrayList();
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         GetAdministratedWorkflowModelCommand command = new GetAdministratedWorkflowModelCommand(
                 actor, userId);
 
-        tac.runTransaction(command);
-        inList = command.getResult();
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+
+        List<WorkflowModel> models = command.getResult();
+        List<Item> result = new ArrayList<Item>();
+
         String[] properties = { "id", "name", "description" };
 
-        for (WorkflowModel model : inList) {
-            outList.add(new BeanItem(model, properties));
+        for (WorkflowModel model : models) {
+            result.add(new BeanItem(model, properties));
         }
 
-        return outList;
+        return result;
     }
 
     /**
      * 
-     * Returns the workitems of the given user as List<Item> with the following properties:<br>
+     * Returns the workitems of the given user as List<Item> with the following properties:
      * - creationDate<br>
      * - userId<br>
      * - id<br>

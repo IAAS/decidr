@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 13.06.2009 13:16:18 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 13.06.2009 19:54:02 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.WorkItemSummaryView" table="work_item_summary_view" catalog="decidrdb">
         <id name="id" type="long">
@@ -19,6 +19,12 @@
         </property>
         <property name="workItemStatus" type="string">
             <column name="workItemStatus" length="10" not-null="true" />
+        </property>
+        <property name="userId" type="long">
+            <column name="userId" not-null="true" />
+        </property>
+        <property name="workflowInstanceId" type="long">
+            <column name="workflowInstanceId" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>
