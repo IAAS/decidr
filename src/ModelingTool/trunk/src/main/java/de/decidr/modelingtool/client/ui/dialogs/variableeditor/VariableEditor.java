@@ -74,9 +74,9 @@ public class VariableEditor extends Dialog {
 
         /* Creating the columns and the Columns model */
         columns = new ArrayList<ColumnConfig>();
-        NameColumn labelColumn = new NameColumn(Variable.NAME,
+        NameColumn nameColumn = new NameColumn(Variable.NAME,
                 ModelingTool.messages.nameColumn());
-        columns.add(labelColumn);
+        columns.add(nameColumn);
         TypeColumn typeColumn = new TypeColumn(Variable.TYPE,
                 ModelingTool.messages.typeColumn());
         columns.add(typeColumn);
