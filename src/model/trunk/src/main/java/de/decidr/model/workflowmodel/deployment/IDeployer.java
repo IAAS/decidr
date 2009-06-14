@@ -22,24 +22,28 @@ import de.decidr.model.entities.ServerLoadView;
 
 /**
  * An interface for the deployment component
- *
+ * 
  * @author Modood Alvi
  * @version 0.1
  */
 public interface IDeployer {
-    
+
     /**
-     * This class provides an interface for other components to access the 
+     * This class provides an interface for other components to access the
      * functionality to deploy a workflow instance.
-     *
-     * @param dwfm deployed workflow model of the workflow model which is to 
-     * be de¬ployed
-     * @param serverStatistics a server load view, which lists all available
-     * servers and details of these servers, like ser¬ver load, running 
-     * instances, deployed models
-     * @return The function returns a list of Long values, the IDs of the 
-     * servers, on which the workflow model has been deployed on
+     * 
+     * @param dwfm
+     *            Deployed workflow model of the workflow model which is to be
+     *            deployed
+     * @param serverStatistics
+     *            A server load view, which lists all available servers and
+     *            details of these servers, like ser¬ver load, running
+     *            instances, deployed models
+     * @return The function returns a list of Long values, the IDs of the
+     *         servers, on which the workflow model has been deployed on
+     * @throws Exception
      */
-    public List<Long> deploy (DeployedWorkflowModel dwfm, ServerLoadView serverStatistics);
+    public List<Long> deploy(DeployedWorkflowModel dwfm,
+            ServerLoadView serverStatistics) throws Exception;
 
 }

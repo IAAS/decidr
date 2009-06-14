@@ -21,22 +21,32 @@ import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.WorkflowInstance;
 
 /**
- * This class provides the functionality to start and stop instances of 
- * deployed workflow models on Apache ODE. It also offers an interface to allow
- * other components to access this functionality.
- *
+ * This class provides the functionality to start and stop instances of deployed
+ * workflow models on Apache ODE. It also offers an interface to allow other
+ * components to access this functionality.
+ * 
  * @author Modood Alvi
  * @version 0.1
  */
-public class InstanceManager implements IInstanceManager{
+public class InstanceManager implements IInstanceManager {
 
-    /* (non-Javadoc)
-     * @see de.decidr.model.workflowmodel.instancemanagement.IInstanceManager#startInstance(de.decidr.model.entities.DeployedWorkflowModel, byte[], de.decidr.model.entities.ServerLoadView)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seede.decidr.model.workflowmodel.instancemanagement.IInstanceManager#
+     * startInstance(de.decidr.model.entities.DeployedWorkflowModel, byte[],
+     * de.decidr.model.entities.ServerLoadView)
      */
     @Override
     public WorkflowInstance startInstance(DeployedWorkflowModel dwfm,
             byte[] startConfiguration, ServerLoadView serverStatistics) {
-        // TODO Auto-generated method stub
+        ServerSelector selector = new ServerSelector();
+        long serverID = selector.selectServer(serverStatistics);
+        SOAPGenerator generator = new SOAPGenerator();
+        String soapMessage = generator.getSOAP(dwfm.getSoapTemplate()
+                .toString(), startConfiguration);
+        SOAPExecution execution = new SOAPExecution();
+        execution.invoke("someaddress", soapMessage);
         return null;
     }
 

@@ -19,41 +19,44 @@ package de.decidr.model.workflowmodel.dwdl.validation;
 import de.decidr.model.workflowmodel.dwdl.model.TWorkflow;
 
 /**
- * This class provides the functionality to determine whether a given DWDL is 
+ * This class provides the functionality to determine whether a given DWDL is
  * valid or not.
- *
+ * 
  * @author Modood Alvi
  * @version 0.1
  */
 public class Validator {
-    
+
     /**
      * TODO: add comment
-     *
-     * @param dwdl The DWDL workflow to validate
+     * 
+     * @param dwdl
+     *            The DWDL workflow to validate
      * @return List of problems found during validation process.
      */
-    public IProblem[] validate(TWorkflow dwdl){
+    public IProblem[] validate(TWorkflow dwdl) {
         return null;
     }
-    
+
     /**
      * TODO: add comment
-     *
-     * @param dwdl The DWDL workflow to validate
+     * 
+     * @param dwdl
+     *            The DWDL workflow to validate
      * @return List of problems found during validation process.
      */
-    public IProblem[] validate(Byte[] dwdl){
+    public IProblem[] validate(byte[] dwdl) {
         return null;
     }
-    
+
     /**
      * TODO: add comment
-     *
-     * @param dwdl The DWDL workflow to validate
+     * 
+     * @param dwdl
+     *            The DWDL workflow to validate
      * @return List of problems found during validation process.
      */
-    public IProblem[] validate(String dwdl){
+    public IProblem[] validate(String dwdl) {
         return null;
     }
 

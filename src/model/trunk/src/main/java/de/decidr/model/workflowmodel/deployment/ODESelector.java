@@ -16,7 +16,6 @@
 
 package de.decidr.model.workflowmodel.deployment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.decidr.model.entities.ServerLoadView;
@@ -40,7 +39,7 @@ public class ODESelector {
      * @return List of server IDs with least load.
      */
     public List<Long> selectServer(ServerLoadView serverStatistics){
-        return new ArrayList<Long>();
+        return null;
     }
     
 }

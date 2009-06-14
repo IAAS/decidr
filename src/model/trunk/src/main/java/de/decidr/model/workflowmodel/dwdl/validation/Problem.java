@@ -14,40 +14,14 @@
  * under the License.
  */
 
-package de.decidr.model.workflowmodel.dwdl.translator;
+package de.decidr.model.workflowmodel.dwdl.validation;
 
 /**
- * This class provides the functionality to translate a given DWDL into 
- * different formats
+ * Implements the IProblem interface
  *
  * @author Modood Alvi
  * @version 0.1
  */
-public class Translator {
-    
-    
-    public void load(String dwdl){
-        
-    }
-    
-    public void laod(byte[] dwdl){
-        
-    }
-    
-    public String getBPEL(){
-        return null;
-    }
-    
-    public String getWSDL(String loaction, String tenantName){
-        return null;
-    }
-    
-    public String getDD(){
-        return null;
-    }
+public class Problem implements IProblem {
 
-    public String getSOAP(){
-        return null;
-    }
-    
 }

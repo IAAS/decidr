@@ -17,25 +17,66 @@
 package de.decidr.model.workflowmodel.deployment;
 
 import java.util.List;
-
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.ServerLoadView;
+import de.decidr.model.workflowmodel.dwdl.translator.Translator;
+import de.decidr.model.workflowmodel.dwdl.validation.IProblem;
+import de.decidr.model.workflowmodel.dwdl.validation.Validator;
 
 /**
- * TODO: add comment
- *
- * @author mod2
+ * This interfaces specifies the functionality to deploy a workflow instance.
+ * 
+ * @author Modood Alvi
+ * @version 0.1
  */
 public class Deployer implements IDeployer {
 
-    /* (non-Javadoc)
-     * @see de.decidr.model.workflowmodel.deployment.IDeployer#deploy(de.decidr.model.entities.DeployedWorkflowModel, de.decidr.model.entities.ServerLoadView)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.model.workflowmodel.deployment.IDeployer#deploy(de.decidr.model
+     * .entities.DeployedWorkflowModel, de.decidr.model.entities.ServerLoadView)
      */
     @Override
     public List<Long> deploy(DeployedWorkflowModel dwfm,
-            ServerLoadView serverStatistics) {
-        // TODO Auto-generated method stub
-        return null;
+            ServerLoadView serverStatistics) throws Exception {
+       List<Long> serverList=null; 
+       Validator validator = new Validator();
+       IProblem[] problems = validator.validate(dwfm.getDwdl());
+       if (problems.length==0){
+           ODESelector selector = new ODESelector();
+            serverList = selector.selectServer(serverStatistics);
+           if (!serverList.isEmpty()){
+               Translator translator = new Translator();
+               translator.laod(dwfm.getDwdl());
+               String bpel = translator.getBPEL();
+               String wsdl = translator.getWSDL("someloaction", "sometenantName");
+               String dd = translator.getDD();
+               String soap = translator.getSOAP();
+               FileDeployer fileDeployer = new FileDeployer();
+               List<String> server = null;
+               Long odeVersion = fileDeployer.deploy(server, dwfm.getName(), bpel, wsdl, dd);
+               updateDeployedWorkflowModel(dwfm);
+               dwfm.setSoapTemplate(soap.getBytes());
+               
+           }
+           else{
+               throw new Exception();
+           }
+       }
+       else{
+           throw new Exception();
+       }
+        return serverList;
     }
 
+    /**
+     * TODO: add comment
+     *
+     */
+    private void updateDeployedWorkflowModel(DeployedWorkflowModel dwfm) {
+        //dwfm.setSoapTemplate(soap.getBytes());   
+    }
+    
 }
