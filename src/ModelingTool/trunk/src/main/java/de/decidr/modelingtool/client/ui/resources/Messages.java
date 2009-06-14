@@ -30,7 +30,13 @@ public interface Messages extends Constants {
 
     String delVariable();
 
-    String editVar();
+    String editVariable();
+    
+    String addValue();
+    
+    String delValue();
+    
+    String newStringValue();
 
     String editorHeading();
 

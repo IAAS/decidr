@@ -134,7 +134,7 @@ public class VariableEditor extends Dialog {
         toolBar.add(delVar);
 
         TextToolItem editVar = new TextToolItem(ModelingTool.messages
-                .editVar());
+                .editVariable());
         editVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {

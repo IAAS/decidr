@@ -151,7 +151,6 @@ public class Variable extends BaseModelData {
      * @param array
      *            the array to set
      */
-    // TODO: public or private?
     private void setArray(boolean array) {
         set(ARRAYVAR, array);
     }

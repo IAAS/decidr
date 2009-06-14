@@ -16,28 +16,24 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 
-import com.extjs.gxt.ui.client.Events;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
-import com.extjs.gxt.ui.client.Style.Orientation;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
-import com.extjs.gxt.ui.client.event.FieldEvent;
-import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.event.ToolBarEvent;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
-import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
 import com.extjs.gxt.ui.client.widget.form.TextField;
-import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
-import com.extjs.gxt.ui.client.widget.layout.RowData;
-import com.extjs.gxt.ui.client.widget.layout.RowLayout;
+import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.TextToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.model.Variable;
-import de.decidr.modelingtool.client.model.VariableType;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
@@ -49,10 +45,11 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 public class ValueEditor extends Dialog {
 
     private ContentPanel contentPanel;
-    private SimpleComboBox<String> typeComboBox;
     private FlexTable table;
+    private ScrollPanel scrollPanel;
 
     private Variable variable = new Variable();
+    private List<TextField<String>> fields = new ArrayList<TextField<String>>();
 
     /**
      * TODO: add comment
@@ -60,7 +57,7 @@ public class ValueEditor extends Dialog {
      */
     public ValueEditor() {
         super();
-        this.setLayout(new FlowLayout());
+        this.setLayout(new FitLayout());
         this.setSize(400, 200);
         this.setResizable(true);
         createContentPanel();
@@ -74,32 +71,14 @@ public class ValueEditor extends Dialog {
      */
     private void createContentPanel() {
         contentPanel = new ContentPanel();
-        contentPanel.setHeading(ModelingTool.messages.editVar());
-        contentPanel.setLayout(new RowLayout(Orientation.VERTICAL));
-
-        typeComboBox = new SimpleComboBox<String>();
-        for (VariableType t : VariableType.values()) {
-            typeComboBox.add(t.getLocalName());
-        }
-        typeComboBox.setEditable(false);
-        typeComboBox.addListener(Events.Change, new Listener<FieldEvent>() {
-            /*
-             * (non-Javadoc)
-             * 
-             * @see
-             * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.
-             * gxt.ui.client.event.BaseEvent)
-             */
-            @Override
-            public void handleEvent(FieldEvent be) {
-                // TODO: write method
-            }
-
-        });
-        contentPanel.add(typeComboBox, new RowData(1, -1));
+        contentPanel.setHeading(ModelingTool.messages.editVariable());
+        contentPanel.setLayout(new FitLayout());
 
         table = new FlexTable();
-        contentPanel.add(table, new RowData(1, 1));
+        table.setBorderWidth(0);
+        table.setWidth("100%");
+        scrollPanel = new ScrollPanel(table);
+        contentPanel.add(scrollPanel);
 
         createToolBar();
         this.add(contentPanel);
@@ -113,31 +92,26 @@ public class ValueEditor extends Dialog {
         ToolBar toolBar = new ToolBar();
 
         TextToolItem addVar = new TextToolItem(ModelingTool.messages
-                .addVariable()); //$NON-NLS-1$
+                .addValue()); //$NON-NLS-1$
         addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
-                // TODO: this is not finished
-                table.insertRow(table.getRowCount());
-                table
-                        .setWidget(table.getRowCount(), 0,
-                                new TextField<String>());
+                addEntry(ModelingTool.messages.newStringValue());
             }
         });
         toolBar.add(addVar);
 
         TextToolItem delVar = new TextToolItem(ModelingTool.messages
-                .delVariable()); //$NON-NLS-1$
+                .delValue()); //$NON-NLS-1$
         delVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
-                // TODO: write method
+                removeEntry();
             }
         });
         toolBar.add(delVar);
 
         contentPanel.setBottomComponent(toolBar);
-
     }
 
     /**
@@ -167,10 +141,38 @@ public class ValueEditor extends Dialog {
     }
 
     private void okButtonAction() {
-        variable.setType(VariableType.getTypeFromLocalName(typeComboBox
-                .getValue().getValue()));
+        List<String> values = new ArrayList<String>();
+        for (TextField<String> field : fields) {
+            values.add(field.getValue());
+        }
+        variable.setValues(values);
         DialogRegistry.getInstance().getDialog(VariableEditor.class.getName())
                 .refresh();
+    }
+
+    private void addEntry(String fieldContent) {
+        TextField<String> text = new TextField<String>();
+        text.setValue(fieldContent);
+        fields.add(text);
+        table.insertRow(table.getRowCount());
+        table.setWidget(table.getRowCount() - 1, 0, text);
+    }
+
+    private void removeEntry() {
+        table.removeRow(table.getRowCount() - 1);
+        fields.remove(table.getRowCount());
+    }
+
+    private void clearAllEntries() {
+        if (table.getRowCount() > 0) {
+            int start = table.getRowCount();
+            for (int i = start; i > 0; i--) {
+                table.removeRow(i - 1);
+            }
+        }
+        if (fields.size() > 0) {
+            fields.clear();
+        }
     }
 
     /*
@@ -182,7 +184,9 @@ public class ValueEditor extends Dialog {
     public void initialize() {
         variable = ((VariableEditor) DialogRegistry.getInstance().getDialog(
                 VariableEditor.class.getName())).getSelectedVariable();
-        typeComboBox.setSimpleValue(variable.getType().getLocalName());
+        for (String s : variable.getValues()) {
+            addEntry(new String(s));
+        }
     }
 
     /*
@@ -192,7 +196,7 @@ public class ValueEditor extends Dialog {
      */
     @Override
     public void reset() {
-        // TODO Auto-generated method stub
+        clearAllEntries();
     }
 
     /*
