@@ -5,13 +5,18 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.data.WorkflowInstanceContainer;
+
 public class CreateWorkflowInstanceComponent extends CustomComponent {
     
     /**
      * TODO: add comment
      */
     private static final long serialVersionUID = -2283442464298218331L;
+    
     private static CreateWorkflowInstanceComponent createWorkflowInstanceComponent = null;
+    
+    private WorkflowInstanceContainer workflowInstanceContainer = null;
     
     private VerticalLayout verticalLayout = null;
     
@@ -27,6 +32,8 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
     }
     
     private void init(){
+        workflowInstanceContainer = new WorkflowInstanceContainer();
+        
         verticalLayout = new VerticalLayout();
         
         searchPanel = new SearchPanel();
@@ -34,7 +41,7 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
         createWorkflowInstanceLabel = new Label("<h2> Create Workflow Instance </h2>");
         createWorkflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
     
-        instanceTable = new WorkflowInstanceTable();
+        instanceTable = new WorkflowInstanceTable(workflowInstanceContainer, workflowInstanceContainer);
         
         setCompositionRoot(verticalLayout);
         

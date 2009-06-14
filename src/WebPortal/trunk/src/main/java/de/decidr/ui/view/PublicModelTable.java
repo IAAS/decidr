@@ -19,7 +19,10 @@ package de.decidr.ui.view;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
+
+import de.decidr.ui.data.PublicModelContainer;
 
 /**
  * TODO: add comment
@@ -33,12 +36,23 @@ public class PublicModelTable extends Table implements Observer{
      */
     private static final long serialVersionUID = -8901605163680575150L;
     
+    private Observable observable = null;
+    private Container publicModelContainer = null;
+    
     /**
      * Default constructor
      *
      */
-    public PublicModelTable() {
+    public PublicModelTable(Observable observable, Container container) {
+        this.observable = observable;
+        publicModelContainer = container;
+        observable.addObserver(this);
+        init(observable, container);
+    }
+    
+    private void init(Observable observable, Container container){
         setSizeFull();
+        setContainerDataSource(container);
         addContainerProperty("Name", String.class, null);
         addContainerProperty("Creation Date", String.class, null);
         addContainerProperty("Tenant Name", String.class, null);
@@ -49,7 +63,9 @@ public class PublicModelTable extends Table implements Observer{
      */
     @Override
     public void update(Observable o, Object arg) {
-        // TODO Auto-generated method stub
+        if(o instanceof PublicModelContainer){
+            refreshCurrentPage();
+        }
         
     }
 

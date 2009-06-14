@@ -23,6 +23,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.data.TenantContainer;
+
 /**
  * TODO: add comment
  *
@@ -34,6 +36,8 @@ public class EditTenantComponent extends CustomComponent {
      * Serial Version UID
      */
     private static final long serialVersionUID = 5979343483852012500L;
+    
+    private TenantContainer tenantContainer = null;
 
     private static EditTenantComponent editTenantComponent = null;
     
@@ -64,6 +68,8 @@ public class EditTenantComponent extends CustomComponent {
      *
      */
     private void init() {
+        tenantContainer = new TenantContainer();
+        
         verticalLayout = new VerticalLayout();
         buttonHorizontalLayout = new HorizontalLayout();
         
@@ -73,7 +79,7 @@ public class EditTenantComponent extends CustomComponent {
         searchPanel = new SearchPanel();
         buttonPanel = new Panel();
         
-        tenantTable = new TenantTable();
+        tenantTable = new TenantTable(tenantContainer, tenantContainer);
         
         deleteButton = new Button("Delete");
         approveButton = new Button("Approve");

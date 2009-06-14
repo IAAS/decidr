@@ -19,7 +19,10 @@ package de.decidr.ui.view;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
+
+import de.decidr.ui.data.TenantContainer;
 
 /**
  * TODO: add comment
@@ -34,12 +37,24 @@ public class TenantTable extends Table implements Observer{
      */
     private static final long serialVersionUID = -4777680020350752428L;
     
+    private Observable observable = null;
+    private Container tenantContainer = null;
+    
     /**
      * Default constructor.
      *
      */
-    public TenantTable() {
+    public TenantTable(Observable observable, Container container) {
+        this.observable = observable;
+        tenantContainer = container;
+        observable.addObserver(this);
+        init(observable, container);
+        
+    }
+    
+    private void init(Observable observable, Container container){
         setSizeFull();
+        setContainerDataSource(container);
         addContainerProperty("Name", String.class, null);
         addContainerProperty("Admin", String.class, null);
         addContainerProperty("#WF Models", String.class, null);
@@ -52,7 +67,9 @@ public class TenantTable extends Table implements Observer{
      */
     @Override
     public void update(Observable o, Object arg) {
-        // TODO Auto-generated method stub
+        if(o instanceof TenantContainer){
+            refreshCurrentPage();
+        }
         
     }
 

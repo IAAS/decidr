@@ -19,8 +19,11 @@ package de.decidr.ui.view;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.vaadin.data.Container;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
+
+import de.decidr.ui.data.UserListContainer;
 
 /**
  * This class represents the user list's ui component. 
@@ -34,22 +37,29 @@ public class UserListTable extends Table implements Observer{
      * Serial Version UID
      */
     private static final long serialVersionUID = -4772118786130924736L;
+    
+    private Observable observable = null;
+    private Container userListContainer = null;
 
     /**
      * Default constructor
      *
      */
-    public UserListTable() {
-        init();
+    public UserListTable(Observable observable, Container container) {
+        this.observable = observable;
+        userListContainer = container;
+        observable.addObserver(this);
+        init(observable, container);
     }
 
     /**
      * This method initializes the components for the user list table
      *
      */
-    private void init() {
+    private void init(Observable observable, Container container) {
         //TODO: unterschiedliche  Anzeige der Tabelle je nach Rolle
         setSizeFull();
+        setContainerDataSource(container);
         addContainerProperty("Username", String.class, null);
         addContainerProperty("Read Name", String.class, null);
         addContainerProperty("E-Mail address", String.class, null);
@@ -62,7 +72,9 @@ public class UserListTable extends Table implements Observer{
      */
     @Override
     public void update(Observable arg0, Object arg1) {
-        // TODO Auto-generated method stub
+        if(arg0 instanceof UserListContainer){
+            refreshCurrentPage();
+        }
         
     }
 

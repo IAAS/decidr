@@ -32,6 +32,7 @@ import com.vaadin.terminal.gwt.server.WebApplicationContext;
 
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
+import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
 
@@ -40,7 +41,7 @@ import de.decidr.ui.view.Main;
  *
  * @author AT
  */
-public class CurrentTenantContainer extends Observable implements Container {
+public class PublicModelContainer extends Observable implements Container {
     
     private ApplicationContext ctx = Main.getCurrent().getContext();
     private WebApplicationContext webCtx = (WebApplicationContext)ctx;
@@ -48,19 +49,23 @@ public class CurrentTenantContainer extends Observable implements Container {
     
     private Long userId = (Long)session.getAttribute("userId");
     
-    UserFacade userFacade = new UserFacade(new UserRole(userId));
+    WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(new UserRole(userId));
     
-    List<Item> currentTenantList = null;
+    List<Item> publishedModelList = null;
     
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
     
-    public CurrentTenantContainer(){
+    /**
+     * TODO: add comment
+     *
+     */
+    public PublicModelContainer() {
         setChanged();
         notifyObservers();
         try{
-            currentTenantList = userFacade.getJoinedTenants(userId);
-            for(Item item : currentTenantList){
+            publishedModelList = workflowModelFacade.getAllPublishedWorkflowModels(null, null);
+            for(Item item : publishedModelList){
                 addItem(item);
             }
         }catch(TransactionException exception){

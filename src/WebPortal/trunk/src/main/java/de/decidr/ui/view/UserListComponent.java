@@ -7,6 +7,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.data.UserListContainer;
+
 public class UserListComponent extends CustomComponent {
     
     /**
@@ -15,6 +17,8 @@ public class UserListComponent extends CustomComponent {
     private static final long serialVersionUID = -9044763020637727581L;
 
     private static UserListComponent userListComponent = null;
+    
+    private UserListContainer userListContainer = null;
     
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout buttonHorizontalLayout = null;
@@ -46,6 +50,8 @@ public class UserListComponent extends CustomComponent {
      *
      */
     private void init(){
+        userListContainer = new UserListContainer();
+        
         verticalLayout = new VerticalLayout();
         buttonHorizontalLayout = new HorizontalLayout();
         
@@ -55,7 +61,7 @@ public class UserListComponent extends CustomComponent {
         searchPanel = new SearchPanel();
         buttonPanel = new Panel();
         
-        userListTable = new UserListTable();
+        userListTable = new UserListTable(userListContainer, userListContainer);
         
         inviteUserButton = new Button("Invite user");
         inviteUserButton.setVisible(false);

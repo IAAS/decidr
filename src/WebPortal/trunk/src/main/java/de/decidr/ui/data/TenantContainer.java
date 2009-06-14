@@ -16,56 +16,27 @@
 
 package de.decidr.ui.data;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Observable;
-
-import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.service.ApplicationContext;
-import com.vaadin.terminal.gwt.server.WebApplicationContext;
-
-import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.UserFacade;
-import de.decidr.model.permissions.UserRole;
-import de.decidr.ui.view.Main;
 
 /**
  * TODO: add comment
  *
  * @author AT
  */
-public class CurrentTenantContainer extends Observable implements Container {
+public class TenantContainer extends Observable implements Container {
     
-    private ApplicationContext ctx = Main.getCurrent().getContext();
-    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    private HttpSession session = webCtx.getHttpSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
-    
-    UserFacade userFacade = new UserFacade(new UserRole(userId));
-    
-    List<Item> currentTenantList = null;
-    
-    private ArrayList<Object> propertyIds = new ArrayList<Object>();
-    private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
-    
-    public CurrentTenantContainer(){
+    /**
+     * TODO: add comment
+     *
+     */
+    public TenantContainer() {
         setChanged();
         notifyObservers();
-        try{
-            currentTenantList = userFacade.getJoinedTenants(userId);
-            for(Item item : currentTenantList){
-                addItem(item);
-            }
-        }catch(TransactionException exception){
-            //TODO
-        }
     }
 
     /* (non-Javadoc)
@@ -74,13 +45,8 @@ public class CurrentTenantContainer extends Observable implements Container {
     @Override
     public boolean addContainerProperty(Object propertyId, Class<?> type,
             Object defaultValue) throws UnsupportedOperationException {
-        if(propertyIds.contains(propertyId)){
-            propertyIds.add(propertyId);
-            return false;
-            
-        }
-        
-        return true;
+        // TODO Auto-generated method stub
+        return false;
     }
 
     /* (non-Javadoc)
@@ -88,7 +54,8 @@ public class CurrentTenantContainer extends Observable implements Container {
      */
     @Override
     public Object addItem() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /* (non-Javadoc)
@@ -96,8 +63,8 @@ public class CurrentTenantContainer extends Observable implements Container {
      */
     @Override
     public Item addItem(Object itemId) throws UnsupportedOperationException {
-        items.put(itemId, itemId);
-        return getItem(itemId);
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /* (non-Javadoc)
@@ -105,7 +72,8 @@ public class CurrentTenantContainer extends Observable implements Container {
      */
     @Override
     public boolean containsId(Object itemId) {
-        return items.containsKey(itemId);
+        // TODO Auto-generated method stub
+        return false;
     }
 
     /* (non-Javadoc)
@@ -113,7 +81,8 @@ public class CurrentTenantContainer extends Observable implements Container {
      */
     @Override
     public Property getContainerProperty(Object itemId, Object propertyId) {
-        return getItem(itemId).getItemProperty(propertyId);
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /* (non-Javadoc)
@@ -121,8 +90,8 @@ public class CurrentTenantContainer extends Observable implements Container {
      */
     @Override
     public Collection<?> getContainerPropertyIds() {
-        
-        return propertyIds;
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /* (non-Javadoc)
@@ -130,8 +99,8 @@ public class CurrentTenantContainer extends Observable implements Container {
      */
     @Override
     public Item getItem(Object itemId) {
-        Item item = (Item)items.get(itemId);
-        return item;
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /* (non-Javadoc)
@@ -139,8 +108,8 @@ public class CurrentTenantContainer extends Observable implements Container {
      */
     @Override
     public Collection<?> getItemIds() {
-        
-        return items.keySet();
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /* (non-Javadoc)
@@ -148,8 +117,8 @@ public class CurrentTenantContainer extends Observable implements Container {
      */
     @Override
     public Class<?> getType(Object propertyId) {
-        
-        return String.class;
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /* (non-Javadoc)
@@ -157,8 +126,8 @@ public class CurrentTenantContainer extends Observable implements Container {
      */
     @Override
     public boolean removeAllItems() throws UnsupportedOperationException {
-        items.clear();
-        return true;
+        // TODO Auto-generated method stub
+        return false;
     }
 
     /* (non-Javadoc)
@@ -167,7 +136,8 @@ public class CurrentTenantContainer extends Observable implements Container {
     @Override
     public boolean removeContainerProperty(Object propertyId)
             throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
+        // TODO Auto-generated method stub
+        return false;
     }
 
     /* (non-Javadoc)
@@ -176,8 +146,8 @@ public class CurrentTenantContainer extends Observable implements Container {
     @Override
     public boolean removeItem(Object itemId)
             throws UnsupportedOperationException {
-        items.remove(itemId);
-        return true;
+        // TODO Auto-generated method stub
+        return false;
     }
 
     /* (non-Javadoc)
@@ -185,7 +155,8 @@ public class CurrentTenantContainer extends Observable implements Container {
      */
     @Override
     public int size() {
-        return items.size();
+        // TODO Auto-generated method stub
+        return 0;
     }
 
 }

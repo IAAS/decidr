@@ -57,6 +57,7 @@ public class CurrentTenantModelTable extends Table implements Observer{
      */
     private void init(Observable observable, Container container) {
         setSizeFull();
+        setContainerDataSource(container);
         addContainerProperty("Name", String.class, null);
         addContainerProperty("Creation Date", String.class, null);
         addContainerProperty("Published", String.class, null);

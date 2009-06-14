@@ -40,7 +40,7 @@ import de.decidr.ui.view.Main;
  *
  * @author AT
  */
-public class CurrentTenantContainer extends Observable implements Container {
+public class UserListContainer extends Observable implements Container {
     
     private ApplicationContext ctx = Main.getCurrent().getContext();
     private WebApplicationContext webCtx = (WebApplicationContext)ctx;
@@ -50,23 +50,20 @@ public class CurrentTenantContainer extends Observable implements Container {
     
     UserFacade userFacade = new UserFacade(new UserRole(userId));
     
-    List<Item> currentTenantList = null;
+    List<Item> userList = userFacade.getAllUsers(null, null);
     
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
     
-    public CurrentTenantContainer(){
+    public UserListContainer(){
         setChanged();
         notifyObservers();
-        try{
-            currentTenantList = userFacade.getJoinedTenants(userId);
-            for(Item item : currentTenantList){
-                addItem(item);
-            }
-        }catch(TransactionException exception){
-            //TODO
+        for(Item item : userList){
+            addItem(item);
         }
+        
     }
+
 
     /* (non-Javadoc)
      * @see com.vaadin.data.Container#addContainerProperty(java.lang.Object, java.lang.Class, java.lang.Object)

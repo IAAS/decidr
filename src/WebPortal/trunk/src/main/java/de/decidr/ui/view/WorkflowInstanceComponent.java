@@ -6,6 +6,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.data.CompletedInstancesContainer;
+import de.decidr.ui.data.RunningInstanceContainer;
 
 public class WorkflowInstanceComponent extends CustomComponent {
 
@@ -15,6 +16,8 @@ public class WorkflowInstanceComponent extends CustomComponent {
     private static final long serialVersionUID = -8769293137331802152L;
     
     private static WorkflowInstanceComponent workflowInstanceComponent = null;
+    
+    private RunningInstanceContainer runningInstanceContainer = null;
     
     private CompletedInstancesContainer completedInstanceContainer = null;
     
@@ -39,6 +42,8 @@ public class WorkflowInstanceComponent extends CustomComponent {
      *
      */
     private void init(){
+        runningInstanceContainer = new RunningInstanceContainer();
+        
         completedInstanceContainer = new CompletedInstancesContainer();
         
         verticalLayout = new VerticalLayout();
@@ -52,7 +57,7 @@ public class WorkflowInstanceComponent extends CustomComponent {
         completedWorkflowInstanceLabel = new Label("<h3> Completed workflow instances </h3>");
         completedWorkflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
         
-        runningInstanceTable = new RunningInstanceTable();        
+        runningInstanceTable = new RunningInstanceTable(runningInstanceContainer, runningInstanceContainer);        
         
         completedInstanceTable = new CompletedInstanceTable(completedInstanceContainer, completedInstanceContainer);        
         

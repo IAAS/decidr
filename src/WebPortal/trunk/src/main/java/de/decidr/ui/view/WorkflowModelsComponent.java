@@ -27,6 +27,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.data.CurrentTenantContainer;
+import de.decidr.ui.data.PublicModelContainer;
 
 /**
  * TODO: add comment
@@ -41,6 +42,8 @@ public class WorkflowModelsComponent extends CustomComponent {
     private static final long serialVersionUID = -8284535233079548635L;
     
     private static WorkflowModelsComponent workflowModelsComponent = null;
+    
+    private PublicModelContainer publicModelContainer = null;
     
     private CurrentTenantContainer currentTenantContainer = null;
     
@@ -82,6 +85,8 @@ public class WorkflowModelsComponent extends CustomComponent {
      *
      */
     private void init() {
+ 
+        
        currentTenantContainer = new CurrentTenantContainer();
         
        verticalLayout = new VerticalLayout();
@@ -151,7 +156,8 @@ public class WorkflowModelsComponent extends CustomComponent {
      *
      */
     private void changeToPublic(){
-        publicModelTable = new PublicModelTable();
+        publicModelContainer = new PublicModelContainer();
+        publicModelTable = new PublicModelTable(publicModelContainer, publicModelContainer);
         importModelButton = new Button("Import");
         if(!getNativeSelect().isSelected("Public models")){
             init();

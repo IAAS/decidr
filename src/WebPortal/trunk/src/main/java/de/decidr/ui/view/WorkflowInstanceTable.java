@@ -19,8 +19,11 @@ package de.decidr.ui.view;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.vaadin.data.Container;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
+
+import de.decidr.ui.data.WorkflowInstanceContainer;
 
 /**
  * This class represents the workflow instance ui component. 
@@ -34,20 +37,26 @@ public class WorkflowInstanceTable extends Table implements Observer{
      * Serial Version UID
      */
     private static final long serialVersionUID = -4395559171091884350L;
+    
+    private Observable observable = null;
+    private Container workflowInstanceContainer = null;
 
     /**
      * Default constructor.
      *
      */
-    public WorkflowInstanceTable() {
-        init();
+    public WorkflowInstanceTable(Observable observable, Container container) {
+        this.observable = observable;
+        workflowInstanceContainer = container;
+        observable.addObserver(this);
+        init(observable, container);
     }
 
     /**
      * This method initializes the components for the workflow instance table.
      *
      */
-    private void init() {
+    private void init(Observable observable, Container container) {
         setSizeFull();
         addContainerProperty("Name", String.class, null);
         addContainerProperty("Create", Button.class, null);
@@ -58,7 +67,9 @@ public class WorkflowInstanceTable extends Table implements Observer{
      */
     @Override
     public void update(Observable o, Object arg) {
-        // TODO Auto-generated method stub
+        if(o instanceof WorkflowInstanceContainer){
+            refreshCurrentPage();
+        }
         
     }
 
