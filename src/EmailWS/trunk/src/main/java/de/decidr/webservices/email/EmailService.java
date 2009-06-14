@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jws.WebMethod;
 import javax.mail.MessagingException;
 import javax.xml.bind.TypeConstraintException;
 
@@ -43,8 +44,9 @@ import de.decidr.model.soap.types.StringMap;
 import de.decidr.model.soap.types.StringMapping;
 
 /**
- * RR: add comment
- *
+ * Implementation of <code>{@link EmailInterface}</code> using
+ * <code>{@link MailBackend}</code> to construct and send the e-mail.
+ * 
  * @author Reinhold
  */
 @javax.jws.WebService(serviceName = "Email", portName = "EmailSOAP", targetNamespace = "http://decidr.de/webservices/Email", wsdlLocation = "file:Email.wsdl", endpointInterface = "de.decidr.webservices.email.EmailPT")
@@ -52,6 +54,111 @@ public class EmailService implements EmailInterface {
 
     private static final Logger log = DefaultLogger
             .getLogger(EmailService.class);
+
+    /**
+     * Attaches files to a passed <code>{@link MailBackend}</code> provided they
+     * aren't to large or too many.
+     * 
+     * @param email
+     *            The <code>{@link MailBackend}</code> to attach the files to.
+     * @param attachments
+     *            The files to attach.
+     * @throws MessagingException
+     *             see <code>{@link MailBackend#addFile(java.net.URI)}</code>
+     * @throws MalformedURLException
+     *             see <code>{@link MailBackend#addFile(java.net.URI)}</code>
+     * @throws TransactionException
+     * @throws IoExceptionWrapper
+     *             see <code>{@link MailBackend#addFile(java.net.URI)}</code>
+     */
+    @WebMethod(exclude = true)
+    private static void addAttachments(MailBackend email, IDList attachments)
+            throws MessagingException, MalformedURLException,
+            TransactionException, IOException {
+        log.trace("Entering " + EmailService.class.getSimpleName()
+                + ".addAttachments(MailBackend, IDList)");
+
+        // RR: spec says amount of attachments & size need to be limited
+        for (Long id : attachments.getId()) {
+            // RR finish
+            // email.addFile(model.getURIFromFileRef(id));
+        }
+        log.trace("Leaving " + EmailService.class.getSimpleName()
+                + ".addAttachments(MailBackend, IDList)");
+    }
+
+    /**
+     * Extracts a list of e-mail addresses from a
+     * <code>{@link AbstractUserList}</code>.
+     * 
+     * @param userList
+     *            The <code>{@link AbstractUserList}</code> containing the
+     *            e-mail addresses.
+     * @return A <code>{@link List}</code> containing e-mail addresses.
+     */
+    @WebMethod(exclude = true)
+    private static List<String> extractEmails(AbstractUserList userList) {
+        log.trace("Entering " + EmailService.class.getSimpleName()
+                + ".extractEmails(AbstractUserList)");
+        List<String> emailList = new ArrayList<String>(userList
+                .getAbstractUser().size());
+
+        log.debug("extracting email addresses from AbstractUserList");
+        for (AbstractUser user : userList.getAbstractUser()) {
+            if (user instanceof EmailUser) {
+                log.debug("found EmailUser");
+                emailList.add(((EmailUser) user).getUser());
+            } else if (user instanceof ActorUser) {
+                log.debug("found ActorUser");
+                emailList.add(((ActorUser) user).getUser().getEmail());
+            } else if (user instanceof RoleUser) {
+                log.debug("found RoleUser");
+                for (Actor actor : ((RoleUser) user).getUser().getActor()) {
+                    emailList.add(actor.getEmail());
+                }
+            } else {
+                log.error("The AbstractUser " + user + " was not recognised. "
+                        + "Please check the ObjectFactory and "
+                        + "update this implementation!");
+                throw new TypeConstraintException("Invalid subclass of "
+                        + AbstractUser.class.getName());
+            }
+        }
+
+        log.trace("Leaving " + EmailService.class.getSimpleName()
+                + ".extractEmails(AbstractUserList)");
+        return emailList;
+    }
+
+    /**
+     * Takes a <code>{@link StringMap}</code> and parses it into a
+     * <code>{@link Map}</code> containing mappings from
+     * <code>{@link String strings}</code> to
+     * <code>{@link String strings}</code>.
+     * 
+     * @param map
+     *            The <code>{@link StringMap}</code> containing the
+     *            <code>{@link StringMapping StringMappings}</code>.
+     * @return A <code>{@link Map}</code> containing mappings from
+     *         <code>{@link String strings}</code> to
+     *         <code>{@link String strings}</code>.
+     */
+    @WebMethod(exclude = true)
+    private static Map<String, String> parseStringMap(StringMap map) {
+        log.trace("Entering " + EmailService.class.getSimpleName()
+                + ".parseStringMap(StringMap)");
+        Map<String, String> result = new HashMap<String, String>(map.getItem()
+                .size());
+
+        log.debug("parsing StringMap to Map<String, String>");
+        for (StringMapping mapping : map.getItem()) {
+            result.put(mapping.getName(), mapping.getValue());
+        }
+
+        log.trace("Leaving " + EmailService.class.getSimpleName()
+                + ".parseStringMap(StringMap)");
+        return result;
+    }
 
     public void sendEmail(AbstractUserList to, AbstractUserList cc,
             AbstractUserList bcc, String fromName, String fromAddress,
@@ -126,7 +233,7 @@ public class EmailService implements EmailInterface {
         }
 
         log.debug("setting info from config");
-        // RR: actually do this
+        applyConfig(email);
 
         log.debug("sending e-mail");
         try {
@@ -142,86 +249,13 @@ public class EmailService implements EmailInterface {
     }
 
     /**
-     * RR: add comment
+     * Applies the configuration retrieved through the <code>model</code> to a
+     * <code>{@link MailBackend}</code>.
      * 
      * @param email
-     * @param attachments
-     * @throws MessagingException
-     * @throws MalformedURLException
-     * @throws TransactionException
-     * @throws IoExceptionWrapper
+     *            The <code>{@link MailBackend}</code> to be configured.
      */
-    private static void addAttachments(MailBackend email, IDList attachments)
-            throws MessagingException, MalformedURLException,
-            TransactionException, IOException {
-        log.trace("Entering " + EmailService.class.getSimpleName()
-                + ".addAttachments(MailBackend, IDList)");
-        for (Long id : attachments.getId()) {
-            // RR finish
-            // email.addFile(model.getURIFromFileRef(id));
-        }
-        log.trace("Leaving " + EmailService.class.getSimpleName()
-                + ".addAttachments(MailBackend, IDList)");
-    }
-
-    /**
-     * RR: add comment
-     * 
-     * @param map
-     * @return
-     */
-    private static Map<String, String> parseStringMap(StringMap map) {
-        log.trace("Entering " + EmailService.class.getSimpleName()
-                + ".parseStringMap(StringMap)");
-        Map<String, String> result = new HashMap<String, String>(map.getItem()
-                .size());
-
-        log.debug("parsing StringMap to Map<String, String>");
-        for (StringMapping mapping : map.getItem()) {
-            result.put(mapping.getName(), mapping.getValue());
-        }
-
-        log.trace("Leaving " + EmailService.class.getSimpleName()
-                + ".parseStringMap(StringMap)");
-        return result;
-    }
-
-    /**
-     * RR: add comment
-     *
-     * @param userList
-     * @return
-     */
-    private static List<String> extractEmails(AbstractUserList userList) {
-        log.trace("Entering " + EmailService.class.getSimpleName()
-                + ".extractEmails(AbstractUserList)");
-        List<String> emailList = new ArrayList<String>(userList
-                .getAbstractUser().size());
-
-        log.debug("extracting email addresses from AbstractUserList");
-        for (AbstractUser user : userList.getAbstractUser()) {
-            if (user instanceof EmailUser) {
-                log.debug("found EmailUser");
-                emailList.add(((EmailUser) user).getUser());
-            } else if (user instanceof ActorUser) {
-                log.debug("found ActorUser");
-                emailList.add(((ActorUser) user).getUser().getEmail());
-            } else if (user instanceof RoleUser) {
-                log.debug("found RoleUser");
-                for (Actor actor : ((RoleUser) user).getUser().getActor()) {
-                    emailList.add(actor.getEmail());
-                }
-            } else {
-                log.error("The AbstractUser " + user + " was not recognised. "
-                        + "Please check the ObjectFactory and "
-                        + "update this implementation!");
-                throw new TypeConstraintException("Invalid subclass of "
-                        + AbstractUser.class.getName());
-            }
-        }
-
-        log.trace("Leaving " + EmailService.class.getSimpleName()
-                + ".extractEmails(AbstractUserList)");
-        return emailList;
+    private void applyConfig(MailBackend email) {
+        // TODO Auto-generated method stub
     }
 }

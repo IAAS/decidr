@@ -8,10 +8,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<build>
 		<finalName>HumanTaskWS</finalName>
-		<sourceDirectory>src/main/java</sourceDirectory>
-		<testSourceDirectory>src/test/java</testSourceDirectory>
-		<outputDirectory>target/classes</outputDirectory>
-		<testOutputDirectory>target/test-classes</testOutputDirectory>
 		<resources>
 		</resources>
 		<plugins>
@@ -30,8 +26,19 @@
 				<version>1.5</version>
 				<configuration>
 					<aarName>HumanTaskWS</aarName>
-					<includeDependencies>true</includeDependencies>
+					<includeDependencies>false</includeDependencies>
 					<wsdlFile>META-INF/HumanTask.wsdl</wsdlFile>
+					<wsdlFileName>HumanTask.wsdl</wsdlFileName>
+					<servicesXmlFile>META-INF/services.xml</servicesXmlFile>
+					<fileSets>
+						<fileSet>
+							<directory>META-INF</directory>
+							<outputDirectory>META-INF</outputDirectory>
+							<includes>
+								<include>DecidrTypes.xsd</include>
+							</includes>
+						</fileSet>
+					</fileSets>
 				</configuration>
 				<executions>
 					<execution>
@@ -133,11 +140,6 @@
 			<artifactId>axis2-jaxws</artifactId>
 			<version>1.5</version>
 		</dependency>
-		<!--
-			dependency> <groupId>org.apache.axis2</groupId>
-			<artifactId>axis2-jaxws-api</artifactId> <version>1.5</version>
-			</dependency
-		-->
 		<dependency>
 			<groupId>org.apache.axis2</groupId>
 			<artifactId>axis2-jibx</artifactId>
@@ -148,11 +150,6 @@
 			<artifactId>axis2-json</artifactId>
 			<version>1.5</version>
 		</dependency>
-		<!--
-			dependency> <groupId>org.apache.axis2</groupId>
-			<artifactId>axis2-jws-api</artifactId> <version>1.5</version>
-			</dependency
-		-->
 		<dependency>
 			<groupId>org.apache.axis2</groupId>
 			<artifactId>axis2-kernel</artifactId>
@@ -173,11 +170,6 @@
 			<artifactId>axis2-saaj</artifactId>
 			<version>1.5</version>
 		</dependency>
-		<!--
-			dependency> <groupId>org.apache.axis2</groupId>
-			<artifactId>axis2-saaj-api</artifactId> <version>1.5</version>
-			</dependency
-		-->
 		<dependency>
 			<groupId>org.apache.axis2</groupId>
 			<artifactId>axis2-spring</artifactId>

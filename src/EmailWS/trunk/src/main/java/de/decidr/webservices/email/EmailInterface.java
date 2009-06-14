@@ -15,23 +15,76 @@
  */
 package de.decidr.webservices.email;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import javax.xml.ws.Action;
+import javax.mail.MessagingException;
+import javax.xml.bind.TypeConstraintException;
 
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.soap.exceptions.IoExceptionWrapper;
 import de.decidr.model.soap.exceptions.MalformedURLExceptionWrapper;
 import de.decidr.model.soap.exceptions.MessagingExceptionWrapper;
+import de.decidr.model.soap.types.AbstractUser;
 import de.decidr.model.soap.types.AbstractUserList;
 import de.decidr.model.soap.types.IDList;
 import de.decidr.model.soap.types.StringMap;
 
+/**
+ * The DecidR e-mail interface. It allows sending an e-mail message to a list of
+ * recipients with specified attachments.
+ * 
+ * @author Reinhold
+ */
 @WebService(targetNamespace = "http://decidr.de/webservices/Email", name = "EmailPT")
 public interface EmailInterface {
 
-    @Action(input = "urn:sendEmail", output = "urn:sendEmailResponse", fault = {})
+    /**
+     * The web service operation used to send an e-mail.
+     * 
+     * @param to
+     *            A list of main recipients.
+     * @param cc
+     *            A list of recipients of copies. May be <code>null</code>.
+     * @param bcc
+     *            A list of hidden recipients. May be <code>null</code>.
+     * @param fromName
+     *            The name of the sender. May be <code>null</code>.
+     * @param fromAddress
+     *            The e-mail address of the sender. May be <code>null</code>.
+     * @param subject
+     *            The subject of the e-mail.
+     *            <em>Must not be <code>null</code></em>.
+     * @param headers
+     *            A list of headers and their values.
+     * @param bodyTXT
+     *            The body of the e-mail (text/plain). May be <code>null</code>
+     *            if <code>bodyHTML</code> is set.
+     * @param bodyHTML
+     *            The body of the e-mail (text/html). May be <code>null</code>
+     *            if <code>bodyTXT</code> is set.
+     * @param attachments
+     *            A list of file references to files that should be attached to
+     *            the e-mail.
+     * @throws MessagingExceptionWrapper
+     *             May be treated like <code>{@link MessagingException}</code>.
+     * @throws MalformedURLExceptionWrapper
+     *             May be treated like
+     *             <code>{@link MalformedURLException}</code>.
+     * @throws TransactionException
+     *             Thrown by the <code>{@link de.decidr.model}</code>.
+     * @throws IoExceptionWrapper
+     *             May be treated like <code>{@link IOException}</code>.
+     * @throws IllegalArgumentException
+     *             Thrown whenever a parameter contains illegal values or wasn't
+     *             set even though it should be.
+     * @throws TypeConstraintException
+     *             If an unknown subclass of <code>{@link AbstractUser}</code>
+     *             is contained in a <code>{@link AbstractUserList}</code>.
+     */
     @WebMethod(action = "http://decidr.de/webservices/Email/sendEmail")
     public void sendEmail(
             @WebParam(name = "to", targetNamespace = "") AbstractUserList to,

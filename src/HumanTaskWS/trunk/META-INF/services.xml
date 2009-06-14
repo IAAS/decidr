@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	<!-- This file was auto-generated from WSDL -->
-	<!--
-		by the Apache Axis2 version: 1.4.1 Built on : Aug 13, 2008 (05:03:35
-		LKT)
-	-->
 <serviceGroup>
 	<service name="HumanTask">
 		<messageReceivers>
 			<messageReceiver mep="http://www.w3.org/ns/wsdl/in-out"
 				class="de.decidr.webservices.humantask.HumanTaskMessageReceiverInOut" />
 		</messageReceivers>
-		<parameter name="ServiceClass">
-			de.decidr.webservices.humantask.HumanTask</parameter>
+		<parameter name="ServiceClass">de.decidr.webservices.humantask.HumanTask
+		</parameter>
 		<parameter name="useOriginalwsdl">true</parameter>
 		<parameter name="modifyUserWSDLPortAddress">true</parameter>
 		<operation name="removeTask" mep="http://www.w3.org/ns/wsdl/in-out"
@@ -20,6 +15,9 @@
 			</actionMapping>
 			<outputActionMapping>urn:removeTaskResponse
 			</outputActionMapping>
+			<faultActionMapping faultName="transactionException">
+				http://decidr.de/webservices/HumanTask/HumanTaskPT/removeTask/Fault/transactionException
+			</faultActionMapping>
 		</operation>
 		<operation name="taskCompleted" mep="http://www.w3.org/ns/wsdl/in-out"
 			namespace="http://decidr.de/webservices/HumanTask">
@@ -27,6 +25,9 @@
 			</actionMapping>
 			<outputActionMapping>urn:taskCompletedResponse
 			</outputActionMapping>
+			<faultActionMapping faultName="transactionException">
+				http://decidr.de/webservices/HumanTask/HumanTaskPT/taskCompleted/Fault/transactionException
+			</faultActionMapping>
 		</operation>
 		<operation name="createTask" mep="http://www.w3.org/ns/wsdl/in-out"
 			namespace="http://decidr.de/webservices/HumanTask">
@@ -34,6 +35,9 @@
 			</actionMapping>
 			<outputActionMapping>urn:createTaskResponse
 			</outputActionMapping>
+			<faultActionMapping faultName="transactionException">
+				http://decidr.de/webservices/HumanTask/HumanTaskPT/createTask/Fault/transactionException
+			</faultActionMapping>
 		</operation>
 		<operation name="removeTasks" mep="http://www.w3.org/ns/wsdl/in-out"
 			namespace="http://decidr.de/webservices/HumanTask">
@@ -41,6 +45,9 @@
 			</actionMapping>
 			<outputActionMapping>urn:removeTasksResponse
 			</outputActionMapping>
+			<faultActionMapping faultName="transactionException">
+				http://decidr.de/webservices/HumanTask/HumanTaskPT/removeTasks/Fault/transactionException
+			</faultActionMapping>
 		</operation>
 	</service>
 </serviceGroup>
