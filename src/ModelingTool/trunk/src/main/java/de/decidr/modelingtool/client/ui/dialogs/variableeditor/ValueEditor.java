@@ -16,13 +16,24 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 
+import com.extjs.gxt.ui.client.Events;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
+import com.extjs.gxt.ui.client.Style.Orientation;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.FieldEvent;
+import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.event.ToolBarEvent;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
-import com.extjs.gxt.ui.client.widget.layout.FitLayout;
+import com.extjs.gxt.ui.client.widget.form.TextField;
+import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
+import com.extjs.gxt.ui.client.widget.layout.RowData;
+import com.extjs.gxt.ui.client.widget.layout.RowLayout;
+import com.extjs.gxt.ui.client.widget.toolbar.TextToolItem;
+import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
+import com.google.gwt.user.client.ui.FlexTable;
 
 import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.model.Variable;
@@ -38,7 +49,8 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 public class ValueEditor extends Dialog {
 
     private ContentPanel contentPanel;
-    SimpleComboBox<String> typeComboBox;
+    private SimpleComboBox<String> typeComboBox;
+    private FlexTable table;
 
     private Variable variable = new Variable();
 
@@ -48,7 +60,7 @@ public class ValueEditor extends Dialog {
      */
     public ValueEditor() {
         super();
-        this.setLayout(new FitLayout());
+        this.setLayout(new FlowLayout());
         this.setSize(400, 200);
         this.setResizable(true);
         createContentPanel();
@@ -61,23 +73,71 @@ public class ValueEditor extends Dialog {
      * 
      */
     private void createContentPanel() {
-        /* Check, whether a content panel was previously created */
-        if (this.getItem(0) != null) {
-            this.remove(contentPanel);
-        }
-
         contentPanel = new ContentPanel();
         contentPanel.setHeading(ModelingTool.messages.editVar());
-        contentPanel.setLayout(new FitLayout());
+        contentPanel.setLayout(new RowLayout(Orientation.VERTICAL));
 
         typeComboBox = new SimpleComboBox<String>();
         for (VariableType t : VariableType.values()) {
             typeComboBox.add(t.getLocalName());
         }
         typeComboBox.setEditable(false);
-        contentPanel.add(typeComboBox);
+        typeComboBox.addListener(Events.Change, new Listener<FieldEvent>() {
+            /*
+             * (non-Javadoc)
+             * 
+             * @see
+             * com.extjs.gxt.ui.client.event.Listener#handleEvent(com.extjs.
+             * gxt.ui.client.event.BaseEvent)
+             */
+            @Override
+            public void handleEvent(FieldEvent be) {
+                // TODO: write method
+            }
 
+        });
+        contentPanel.add(typeComboBox, new RowData(1, -1));
+
+        table = new FlexTable();
+        contentPanel.add(table, new RowData(1, 1));
+
+        createToolBar();
         this.add(contentPanel);
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     */
+    private void createToolBar() {
+        ToolBar toolBar = new ToolBar();
+
+        TextToolItem addVar = new TextToolItem(ModelingTool.messages
+                .addVariable()); //$NON-NLS-1$
+        addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
+            @Override
+            public void componentSelected(ToolBarEvent ce) {
+                // TODO: this is not finished
+                table.insertRow(table.getRowCount());
+                table
+                        .setWidget(table.getRowCount(), 0,
+                                new TextField<String>());
+            }
+        });
+        toolBar.add(addVar);
+
+        TextToolItem delVar = new TextToolItem(ModelingTool.messages
+                .delVariable()); //$NON-NLS-1$
+        delVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
+            @Override
+            public void componentSelected(ToolBarEvent ce) {
+                // TODO: write method
+            }
+        });
+        toolBar.add(delVar);
+
+        contentPanel.setBottomComponent(toolBar);
+
     }
 
     /**

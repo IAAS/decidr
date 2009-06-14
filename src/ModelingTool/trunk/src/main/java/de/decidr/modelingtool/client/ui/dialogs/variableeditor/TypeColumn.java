@@ -16,12 +16,16 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 
+import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.store.ListStore;
+import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
+import com.extjs.gxt.ui.client.widget.grid.CellEditor;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
 
 import de.decidr.modelingtool.client.model.Variable;
+import de.decidr.modelingtool.client.model.VariableType;
 
 /**
  * TODO: add comment
@@ -30,15 +34,14 @@ import de.decidr.modelingtool.client.model.Variable;
  */
 public class TypeColumn extends ColumnConfig {
 
+    private SimpleComboBox<String> typeComboBox = new SimpleComboBox<String>();
+    private CellEditor comboBoxCellEditor;
+
     public TypeColumn(String columnId, String header) {
         this.setId(columnId);
         this.setHeader(header);
         this.setWidth(60);
 
-        /*
-         * Added custom cell renderer to be able to display localized names of
-         * the variable types
-         */
         GridCellRenderer<Variable> cellRenderer = new GridCellRenderer<Variable>() {
             @Override
             public String render(Variable model, String property,
@@ -48,5 +51,48 @@ public class TypeColumn extends ColumnConfig {
             }
         };
         this.setRenderer(cellRenderer);
+
+        for (VariableType type : VariableType.values()) {
+            typeComboBox.add(type.getLocalName());
+        }
+        typeComboBox.setEditable(false);
+
+        comboBoxCellEditor = new CellEditor(typeComboBox) {
+            /*
+             * (non-Javadoc)
+             * 
+             * @see
+             * com.extjs.gxt.ui.client.widget.Editor#preProcessValue(java.lang
+             * .Object)
+             */
+            @Override
+            public Object preProcessValue(Object value) {
+                // TODO Auto-generated method stub
+                return typeComboBox.findModel(value.toString());
+            }
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see
+             * com.extjs.gxt.ui.client.widget.Editor#postProcessValue(java.lang
+             * .Object)
+             */
+            @Override
+            public Object postProcessValue(Object value) {
+                // TODO Auto-generated method stub
+                Object result;
+                if (value == null) {
+                    result = VariableType.STRING;
+                } else {
+                    result = VariableType
+                            .getTypeFromLocalName((String) ((ModelData) value)
+                                    .get("value"));
+                }
+                return result;
+            }
+        };
+        this.setEditor(comboBoxCellEditor);
     }
+
 }
