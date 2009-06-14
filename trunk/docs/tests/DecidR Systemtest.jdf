@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE tests SYSTEM "project.dtd">
 <tests product="TestDataManager" team="05" version="1.0">
-<sequence created="24.05.2009" creator="JonasSchlaak" name="Project" number="0">
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Project" number="0">
 <description>This is the root node of the project. It contains all test sequences and test cases.</description>
 <pre/>
 <sequence created="07.04.2009" creator="JonasSchlaak" name="DecidR Systemtest" number="5">
@@ -1028,6 +1028,1898 @@ The user’s work items are shown.
 <tags/>
 </testcase>
 </sequence>
+<sequence created="25.05.2009" creator="ThomasKarsten" name="Create workflow instance" number="155">
+<description>The purpose of this sequence is to test all flows of the "Create workflow instance" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="02.06.2009" creator="ThomasKarsten" effort="00:00" number="156" priority="C" title="Show workflow instance configuration">
+<description/>
+<pre>The workflow admin is logged in.
+At least one model should be available.</pre>
+<actions>1. The workflow admin goes to the workflow model overview page 
+2. The workflow admin selects a model from which he wants to create an instance and click on the link “start instance”.
+
+</actions>
+<post>The system shows the workflow instance configuration interface.</post>
+<tags/>
+</testcase>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="159" priority="C" title="At least one participant is unavailable">
+<description/>
+<pre>The system shows the workflow instance configuration interface.
+The workflow admin is logged in.
+At least one model should be available.
+At least one workflow participant is unavailable.</pre>
+<actions>1. The workflow admin configures the workflow instance variables and roles (see referenced use cases).
+2. The workflow admin sets the startup options of the new workflow instance.
+3. The workflow admin has selected “start immediately”.
+4. The workflow admin presses the start button.</actions>
+<post>The system displays an error message.</post>
+<tags/>
+</testcase>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="158" priority="C" title="Regular flow">
+<description/>
+<pre>The system shows the workflow instance configuration interface.
+The workflow admin is logged in.
+At least one model should be available.
+All of workflow participants are available.
+
+</pre>
+<actions>1. The workflow admin configures the workflow instance variables and roles (see referenced use cases).
+2. The workflow admin sets the startup options of the new workflow instance.
+3. The workflow admin has selected “start immediately”.
+4. The workflow admin presses the start button.
+
+
+</actions>
+<post>1. The system checks whether the workflow admin has selected “start when all invitations have been accepted” or “start immediately”. 
+2. The system sends invitation e-mails to all workflow participants that aren’t already a member of the tenant, including unregistered users. If the workflow hasn’t selected “Users must register to participate”, the invitation e-mails contain a link that lets the receivers participate without creating a user profile.
+3. The system creates the BPEL process that represents the workflow instance and sets its status to running.
+4. The system displays the list of workflow instances in the web browser.
+</post>
+<tags/>
+</testcase>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="160" priority="C" title="Start when all invitations have been accepted">
+<description/>
+<pre>The system shows the workflow instance configuration interface.
+The workflow admin is logged in.
+At least one model should be available.
+All of workflow participants are available.
+</pre>
+<actions>1. The workflow admin configures the workflow instance variables and roles (see referenced use cases).
+2. The workflow admin sets the startup options of the new workflow instance.
+3. The workflow admin has selected “start when all invitations have been accepted”.
+
+</actions>
+<post>The workflow admin is logged in.
+The system has created the BPEL process that represents the workflow instance, but hasn’t started the process yet.
+The system has sent invitation e-mails to all workflow participants that aren’t already a member of the tenant, including unregistered users.
+The web browser displays the list of workflow instances.
+
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Start prepared workflow instance " number="161">
+<description>The purpose of this sequence is to test all flows of the "Start workflow instance (from a prepared workflow instance configuration)" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="162" priority="C" title="Regular flow">
+<description/>
+<pre>The workflow admin is logged in.
+There is at least one workflow instance with the status “prepared”.
+</pre>
+<actions>1.	The workflow admin goes to the workflow instance overview page, selects an instance which is in the prepared state and presses the edit link.
+2.	The system shows the instance editing page.
+3.	The workflow admin presses the button start instance.
+4.	Execute use case Create workflow instance.
+</actions>
+<post>The instance of the workflow is started.
+The workflow admin is logged in.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Change user roles of a workflow instance configuration" number="164">
+<description>The purpose of this sequence is to test all flows of the "Change user roles of a prepared workflow instance configuration" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="165" priority="C" title="Regular flow">
+<description/>
+<pre>The workflow admin is logged in.
+Editing page of an instance is shown.</pre>
+<actions>1. The system shows a page where all users are listed. Next to each user there is a combo box with the roles.
+2. The workflow admin changes the role of one or more users and presses the save button.
+3. The system changes the user roles.
+</actions>
+<post>The user roles of the users were changed.
+The workflow admin is logged in.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Add user to a prepared workflow instance configuration" number="166">
+<description>The purpose of this sequence is to test all flows of the "Add user to a prepared workflow instance configuration" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="167" priority="C" title="No email address nor username entered">
+<description>The workflow admin wants to add a user to a prepared workflow instance configuration.</description>
+<pre>The workflow admin is logged in.
+The system shows an editing page of an instance.
+</pre>
+<actions>1. The workflow admin presses the “add user” button.
+2. The system displays a page with an input field.
+3. The workflow admin does not enter a username nor an email address that corresponds to an account which is member of the tenant and selects the role in the combo box.
+</actions>
+<post>The workflow admin is logged in.
+The system shows an error message.
+The user wasn’t added.</post>
+<tags/>
+</testcase>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="168" priority="C" title="Email address is not registered">
+<description>The workflow admin wants to add a user to a prepared workflow instance configuration but the email address is not registered yet.</description>
+<pre>The workflow admin is logged in.
+The system shows an editing page of an instance.
+The entered email address is not registered</pre>
+<actions>1. The workflow admin presses the “add user” button.
+2. The system displays a page with an input field.
+3. The workflow admin enters a username or an email address that corresponds to an account which is member of the tenant and selects the role in the combo box.
+</actions>
+<post>The system sends an email with a register link to the email address. 
+After the user is registered, the system adds the user to the instance and sets the assigned role. 
+After the email address is registered, the system adds the user with the corresponding email address to the instance and sets the assigned role.</post>
+<tags/>
+</testcase>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="169" priority="C" title="Regular flow">
+<description>The workflow admin wants to add a user to a prepared workflow instance configuration.</description>
+<pre>The workflow admin is logged in.
+The system shows an editing page of an instance.
+</pre>
+<actions>1. The workflow admin presses the “add user” button.
+2. The system displays a page with an input field.
+3. The workflow admin enters a username or an email address that corresponds to an account which is member of the tenant and selects the role in the combo box.
+4. The system checks if an email address or a username is entered – result: username
+5. The system adds the user to the instance and sets the assigned role.
+</actions>
+<post>The user was added and corresponding role was set.
+The workflow admin is logged in.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Remove user from a prepared workflow instance configuration" number="171">
+<description>The purpose of this sequence is to test all flows of the "Remove user from a prepared workflow instance configuration" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="172" priority="C" title="Regular flow">
+<description>The workflow admin wants to remove a user from a workflow instance configuration.</description>
+<pre>The workflow admin is logged in.
+The web browser shows an editing page of a workflow instance configuration. The system shows a page where all users are listed. Next to each user there is a button “delete user”.
+</pre>
+<actions>1. The workflow admin clicks on one of the buttons.
+2. The system removes the user from the workflow instance configuration, so he will not become a participant.
+</actions>
+<post>The user is no longer part of the instance.
+The workflow admin is logged in.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Complete workitem for a user" number="173">
+<description>The purpose of this sequence is to test all flows of the "Complete workitem for a user" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="174" priority="C" title="Regular flow">
+<description>The workflow admin wants to complete a work item for a user who is participating in a running workflow instance.</description>
+<pre>The workflow admin is logged in.
+There is at least one workflow instance which has the status “running” and the according workflow model contains human task activities.
+</pre>
+<actions>1. The workflow admin goes to the workflow instance overview page and selects a workflow instance which has the status “running”.
+2. The workflow admin presses the “show work items” button.
+3. The system displays a list of all work items which are associated with the selected workflow instance. The view is similar to the view described in “Display work items”. For each work item in the list, the system displays additionally the user to whom the work item was assigned to.
+4. The workflow admin starts or resumes working on a work item (see “Starting working on a work item” or “Resume working on a work item respectively”).
+5. The workflow admin marks the work item as done.
+</actions>
+<post>The system displays the status of the work item as “done”.
+Both the workflow admin and the user cannot work on that item.
+The system sends a notification email to the user informing him that his work item has been completed by the workflow admin. 
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Terminate workflow instance" number="175">
+<description>The purpose of this sequence is to test all flows of the "Terminate workflow instance" use case.</description>
+<pre/>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="177" priority="C" title="Do not terminate workflow instance">
+<description/>
+<pre>The workflow admin is logged in.</pre>
+<actions>1. The workflow admin goes to the workflow instance overview page and selects a workflow instance which has the status “running”.
+2. The workflow admin presses the button “terminate”.
+3. The system asks the workflow admin if the workflow instance should be terminated.
+4. The workflow admin clicks on the “no” button.</actions>
+<post>The instance of the workflow isn’t terminated.
+The workflow admin is logged in.
+</post>
+<tags/>
+</testcase>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="176" priority="C" title="Regular flow">
+<description>The workflow admin wants to terminate a running workflow instance. </description>
+<pre>The workflow admin is logged in.</pre>
+<actions>1. The workflow admin goes to the workflow instance overview page and selects a workflow instance which has the status “running”.
+2. The workflow admin presses the button “terminate”.
+3. The system asks the workflow admin if the workflow instance should be terminated.
+4. The workflow admin clicks on the “yes” button.
+
+</actions>
+<post>The system terminates the BPEL process that represents the workflow instance.
+The workflow admin is logged in.
+The BPEL process is terminated.
+</post>
+<tags/>
+</testcase>
+</sequence>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Tennant Settings" number="178">
+<description>This section hold all test cases for tenant settings management.
+</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Change tenant settings" number="179">
+<description>The purpose of this sequence is to test all flows of the "Change tenant settings" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="180" priority="C" title="The description text is too long ">
+<description>The tenant admin wants to change the tenant description, set a tenant logo or make changes to the tenant color scheme.
+The description text is too long and is not accepted</description>
+<pre>The tenant admin is logged in.
+The description text is too long (see User Input Constraints) or the appearance settings are invalid (see specialized use cases)</pre>
+<actions>1. The tenant admin navigates to the tenant settings page by selecting “Tenant Settings” in the navigation bar. The system displays the current settings in the web browser.
+2. The tenant admin enters a new description text and optionally changes the tenant appearance settings (see specialized use cases).
+3. The tenant admin presses the save button.
+</actions>
+<post>The system displays an error message.
+The system has discarded the new settings and the previous settings are still in effect.
+The tenant admin should be allowed to try again with new settings.</post>
+<tags/>
+</testcase>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="181" priority="C" title="Cancel changing tenant settings">
+<description>The tenant admin wants to change the tenant description, but cancels it before saving the new settings.</description>
+<pre>The tenant admin is logged in.</pre>
+<actions>1. The tenant admin navigates to the tenant settings page by selecting “Tenant Settings” in the navigation bar. The system displays the current settings in the web browser.
+2. The tenant admin enters a new description text and optionally changes the tenant appearance settings (see specialized use cases).
+3. The tenant admin presses the cancel button.</actions>
+<post>The system displays an info message telling the tenant admin that the settings haven’t been saved.
+The system displays the current tenant settings.
+</post>
+<tags/>
+</testcase>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="182" priority="C" title="Regular flow">
+<description>The tenant admin wants to change the tenant description, set a tenant logo or make changes to the tenant color scheme.</description>
+<pre>The tenant admin is logged in.</pre>
+<actions>1. The tenant admin navigates to the tenant settings page by selecting “Tenant Settings” in the navigation bar. The system displays the current settings in the web browser.
+2. The tenant admin enters a new description text and optionally changes the tenant appearance settings (see specialized use cases).
+3. The tenant admin presses the save button.
+4. The system validates the new settings. All settings are valid.
+
+</actions>
+<post>The tenant admin is logged in.
+The system has written the new settings to the database.
+The system displays the updated settings page in the web browser.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Upload custom CSS" number="183">
+<description>The purpose of this sequence is to test all flows of the "Upload custom CSS" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="184" priority="C" title="The CSS file is not valid">
+<description>The tenant admin wants to upload his own CSS file that defines the appearance of the web pages for all users of that tenant. The CSS code provided by the user is not valid.</description>
+<pre>The tenant admin is logged in.
+The tenant admin has a not valid CSS code.</pre>
+<actions>1. The tenant admin navigates to the tenant settings page by selecting “Tenant Settings” in the navigation bar.
+2. The system displays the current appearance settings.
+3. The tenant admin selects “show advanced options” if he hadn’t previously used a CSS file to define the tenant appearance. Otherwise the web browser already displays the CSS input box.
+4. The tenant admin enters his CSS code into the input box.
+5. The tenant admin presses the save button.
+</actions>
+<post>The system displays an error message.
+The tenant admin is logged in.</post>
+<tags/>
+</testcase>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="185" priority="C" title="Regular flow">
+<description>The tenant admin wants to upload his own CSS file that defines the appearance of the web pages for all users of that tenant.</description>
+<pre>The tenant admin is logged in.</pre>
+<actions>1. The tenant admin navigates to the tenant settings page by selecting “Tenant Settings” in the navigation bar.
+2. The system displays the current appearance settings.
+3. The tenant admin selects “show advanced options” if he hadn’t previously used a CSS file to define the tenant appearance. Otherwise the web browser already displays the CSS input box.
+4.	The tenant admin enters his CSS code into the input box.
+5. The tenant admin presses the save button.
+
+</actions>
+<post>The tenant admin is logged in.
+The system successfully validates the CSS.
+The system overwrites the current tenant CSS file with the new custom CSS file.
+The system displays the updated settings page in the web browser.</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Define simple color scheme" number="186">
+<description>The purpose of this sequence is to test all flows of the "Define simple color scheme" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="187" priority="C" title="Regular flow">
+<description>The tenant admin wants to change the tenant appearance using user-friendly color input boxes.</description>
+<pre>The tenant admin is logged in.</pre>
+<actions>1. The tenant admin navigates to the tenant settings page by selecting “Tenant Settings” in the navigation bar.
+2. The system displays the current appearance settings.
+3. The tenant admin selects “show basic options” if he had previously used a CSS file to define the tenant appearance. The web browser displays the basic color scheme input boxes.
+4. The tenant admin uses the color input boxes to define the new color scheme.
+5. The tenant admin presses the save button.
+
+</actions>
+<post>The tenant admin is logged in.
+The system generates a CSS file from the user’s input, makes a backup copy of the user’s custom CSS for future use and overwrites the current tenant CSS file with the generated file. 
+The web browser displays the updated settings page.
+The tenant web pages use the new color scheme.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Restore tenant settings" number="188">
+<description>The purpose of this sequence is to test all flows of the "Restore tenant settings" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="189" priority="C" title="Regular flow">
+<description>The tenant admin wants to restore the default tenant settings, including the tenant color scheme.</description>
+<pre>The tenant admin is logged in.</pre>
+<actions>1. The tenant admin navigates to the tenant settings page by selecting “Tenant Settings” in the navigation bar.
+2. The system displays the current tenant settings in the web browser.
+3. The tenant admin presses the “Restore default settings” button.
+</actions>
+<post>The tenant admin is logged in.
+The web browser displays the updated settings page.
+The system has restored the default tenant settings.
+The system displays the updated settings page in the web browser.</post>
+<tags/>
+</testcase>
+</sequence>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Tenant User Management" number="190">
+<description>This section hold all test cases for tenant user management.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Invite users to tenant" number="191">
+<description>The purpose of this sequence is to test all flows of the "Invite users to tenant" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="192" priority="C" title="Email adress is invalid or already used">
+<description>The tenant admin wants to send invitation e-mails to registered or unregistered users that allow the users to join the tenant as normal users. The email is invalid or already used.</description>
+<pre>The tenant admin is logged in.
+The email/s is/are invalid or already used.</pre>
+<actions>1. The tenant admin navigates to the user administration page by selecting “Edit user list” in the navigation bar.
+2. The tenant admin navigates to the invitation sub-page.
+3. The tenant admin selects “invite user”.
+4. The system displays an input box in the web browser.
+5. The tenant admin enters a number of e-mail addresses and / or user names (see User Input Constraints).
+6. The tenant admin presses the send button.</actions>
+<post>The tenant admin is logged in.
+The system displays an error message in the browser.
+The "Edit user list" page without entries is shown.</post>
+<tags/>
+</testcase>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="193" priority="C" title="Username doesn't denote a registered user">
+<description>The tenant admin wants to send invitation e-mails to registered or unregistered users that allow the users to join the tenant as normal users. Username doesn't denote a registered user.</description>
+<pre>The tenant admin is logged in.
+Username provided by the tenant admin in the action section doesn't denote a registered user.</pre>
+<actions>1. The tenant admin navigates to the user administration page by selecting “Edit user list” in the navigation bar.
+2. The tenant admin navigates to the invitation sub-page.
+3. The tenant admin selects “invite user”.
+4. The system displays an input box in the web browser.
+5. The tenant admin enters a number of e-mail addresses and / or user names (see User Input Constraints).
+6. The tenant admin presses the send button.</actions>
+<post>The tenant admin is logged in.
+The system displays an error message in the browser.
+The "Edit user list" page without entries is shown.</post>
+<tags/>
+</testcase>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="194" priority="C" title="The tenant admin submits too many usernames or email adresses">
+<description>The tenant admin wants to send invitation e-mails to registered or unregistered users that allow the users to join the tenant as normal users. The tenant admin submits too many usernames or email adresses.</description>
+<pre>The tenant admin is logged in.
+The tenant admin enters in the action section too many usernames or email adresses.</pre>
+<actions>1. The tenant admin navigates to the user administration page by selecting “Edit user list” in the navigation bar.
+2. The tenant admin navigates to the invitation sub-page.
+3. The tenant admin selects “invite user”.
+4. The system displays an input box in the web browser.
+5. The tenant admin enters a number of e-mail addresses and / or user names (see User Input Constraints).
+6. The tenant admin presses the send button.</actions>
+<post>The tenant admin is logged in.
+The system displays an error message in the browser.
+The "Edit user list" page without entries is shown.</post>
+<tags/>
+</testcase>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="195" priority="C" title="Regular flow">
+<description>The tenant admin wants to send invitation e-mails to registered or unregistered users that allow the users to join the tenant as normal users.</description>
+<pre>The tenant admin is logged in.
+All e-mail addresses are valid and all usernames denote registered DecidR users that aren’t already members of the tenant.</pre>
+<actions>1. The tenant admin navigates to the user administration page by selecting “Edit user list” in the navigation bar.
+2. The tenant admin navigates to the invitation sub-page.
+3. The tenant admin selects “invite user”.
+4. The system displays an input box in the web browser.
+5. The tenant admin enters a number of e-mail addresses and / or user names (see User Input Constraints).
+6. The tenant admin presses the send button.
+7. The system sends invitation e-mails to the given e-mail addresses which it deduces from the usernames if necessary. If user profile information is available, the system uses it to enhance the content of the invitation (such as addressing the users with their actual name).
+
+</actions>
+<post>The tenant admin is logged in.
+The system verifies the given e-mail addresses and usernames. 
+The web browser displays a success message.
+Invitation e-mails have been sent to the given e-mail addresses.
+Each registered DecidR user receives at most one invitation e-mail.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Remove users from tenant" number="196">
+<description>The purpose of this sequence is to test all flows of the "Remove users from tenant" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="197" priority="C" title="Cancel removal">
+<description>The tenant admin wants to remove one or more users from the tenant but cancels the action.</description>
+<pre>The tenant admin is logged in.
+There is at least one tenant member besides the tenant admin.
+</pre>
+<actions>1. The tenant admin navigates to the user administration by selecting “Edit users” in the navigation bar.
+2. The system displays a list of tenant members.
+3. The tenant admin selects one or more tenant members to remove.
+4. The tenant admin presses the remove button.
+5. The system displays a confirmation dialog in the web browser.
+6. The tenant admin cancels the removal.
+</actions>
+<post>The tenant admin is logged in.
+The system displays a list of tenant members. 
+None of the selected tenant members have been removed.</post>
+<tags/>
+</testcase>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="198" priority="C" title="Tenant which cannot be removed">
+<description>The tenant admin wants to remove one or more users from the tenant but cannot because at least one tenant member to be removed because has left the tenant on his own, is participating in a workflow, administrating the workflow, or is the tenant admin himself.</description>
+<pre>The tenant admin is logged in.
+There is at least one tenant member besides the tenant admin.
+At least one tenant member to be removed because has left the tenant on his own, is participating in a workflow, administrating the workflow, or is the tenant admin himself.</pre>
+<actions>1. The tenant admin navigates to the user administration by selecting “Edit users” in the navigation bar.
+2. The system displays a list of tenant members.
+3. The tenant admin selects one or more tenant members to remove.
+4. The tenant admin presses the remove button.
+5. The system displays a confirmation dialog in the web browser.
+6. The tenant admin confirms the removal.
+</actions>
+<post>The tenant admin is logged in.
+The web browser displays an error message. The tenant admin may continue with step 3.
+None of the selected tenant members have been removed.
+</post>
+<tags/>
+</testcase>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="199" priority="C" title="Regular flow">
+<description>The tenant admin wants to remove one or more users from the tenant.</description>
+<pre>The tenant admin is logged in.
+There is at least one tenant member besides the tenant admin.</pre>
+<actions>1. The tenant admin navigates to the user administration by selecting “Edit users” in the navigation bar.
+2. The system displays a list of tenant members.
+3. The tenant admin selects one or more tenant members to remove.
+4. The tenant admin presses the remove button.
+5. The system displays a confirmation dialog in the web browser.
+6. The tenant admin confirms the removal.
+</actions>
+<post>The tenant admin is logged in.
+The selected users are no longer members of the tenant, but may still be members of other tenants.
+The web browser displays the updated list of tenant members.
+</post>
+<tags/>
+</testcase>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="200" priority="C" title="The tenant has been deleted by the super admin.">
+<description/>
+<pre>The tenant admin is logged in.
+There is at least one tenant member besides the tenant admin.</pre>
+<actions>1. The tenant admin navigates to the user administration by selecting “Edit users” in the navigation bar.
+2. The system displays a list of tenant members.
+3. The tenant admin selects one or more tenant members to remove.
+4. The selected tenant is meanwhile deleted by the super admin.
+4. The tenant admin presses the remove button.
+5. The system displays a confirmation dialog in the web browser.
+6. The tenant admin confirms the removal.
+
+</actions>
+<post>The web browser displays an error message.</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="View tenant members" number="201">
+<description>The purpose of this sequence is to test all flows of the "View tenant members" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="202" priority="C" title="Regular flow">
+<description>The workflow admin wants to view a list of tenant members.</description>
+<pre>The workflow admin is logged in.</pre>
+<actions>1. The workflow admin navigates to the user administration by selecting “Users” in the navigation bar.
+
+</actions>
+<post>The tenant admin is logged in.
+The system displays a list of tenant members in the web browser using the default ordering. 
+The web browser displays a list of tenant members.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Transfer tenant admin role to another user" number="203">
+<description>The purpose of this sequence is to test all flows of the "Transfer tenant admin role to another user" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="204" priority="C" title="Regular flow">
+<description>The tenant admin wants to transfer his role as tenant admin to another user.</description>
+<pre>The tenant admin is logged in.
+There is at least one user in the user list whose account is enabled an available.
+</pre>
+<actions>1. The tenant admin navigates to the user administration by selecting “User” in the navigation bar.
+2. The system displays a list of tenant members using the default ordering.
+3. The tenant admin selects one user and presses the “promote to tenant admin” button.
+4. The system displays a message asking the user if he his sure he wants to transfer his role as tenant admin to the selected user.
+5. The tenant admin presses the “yes” button.
+
+</actions>
+<post>The system transfers all tenant admin rights and workflow models to the designated tenant admin.
+The system transfers all tenant admin rights and workflow models to the designated tenant admin.
+The old tenant admin is logged in.
+The old tenant admin’s navigation bar has only the entries of a normal user.
+The new tenant admin own all workflow models the old tenant admin had.
+The start page is displayed.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="View other user’s profile" number="205">
+<description>The purpose of this sequence is to test all flows of the "View other user’s profile" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="206" priority="C" title="Regular flow">
+<description>The tenant admin wants to view the profile data of a tenant member.</description>
+<pre>The tenant admin is logged in.</pre>
+<actions>1. The tenant admin navigates to the user administration by selecting “Users” in the navigation bar.
+2. The system displays the tenant member list.
+3. The tenant admin selects a tenant member.
+
+</actions>
+<post>The tenant admin is logged in.
+The web browser displays the tenant member’s profile data. 
+The tenant member’s profile data
+</post>
+<tags/>
+</testcase>
+</sequence>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Workflow Modelling" number="207">
+<description>This section hold all test cases for workflow modelling.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Create new workflow model" number="208">
+<description>The purpose of this sequence is to test all flows of the "Create new workflow model" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="209" priority="C" title="The name entered is invalid">
+<description>The tenant admin wants to create a new workflow model. The action cannot be completed because the name for the new model is invalid.</description>
+<pre>The tenant admin is logged in.
+The given name is invalid.</pre>
+<actions>1. The tenant admin navigates to the workflow modeling section by clicking on the “create / edit workflow models” navigation link.
+2. The system displays a list of workflow models in the web browser.
+3. The tenant admin presses the “Create new model” button.
+4. The system displays an input box named “New workflow model name”.
+5. The tenant admin enters a workflow model name and presses the OK button.
+</actions>
+<post>The given name is invalid.
+The system displays an error message in the web browser. 
+The tenant admin is able to enter a new name.
+</post>
+<tags/>
+</testcase>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="210" priority="C" title="Regular flow">
+<description>The tenant admin wants to create a new workflow model.</description>
+<pre>The tenant admin is logged in.</pre>
+<actions>1. The tenant admin navigates to the workflow modeling section by clicking on the “create / edit workflow models” navigation link.
+2. The system displays a list of workflow models in the web browser.
+3. The tenant admin presses the “Create new model” button.
+4. The system displays an input box named “New workflow model name”.
+5. The tenant admin enters a workflow model name and presses the OK button.
+</actions>
+<post>The tenant admin is logged in.
+The system has created a new unlocked workflow model with the given name.
+The web browser displays the workflow model editor where the new workflow model has been opened for editing.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="07.06.2009" creator="ThomasKarsten" name="Delete workflow models" number="211">
+<description>The purpose of this sequence is to test all flows of the "Delete workflow models" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="07.06.2009" creator="ThomasKarsten" effort="00:00" number="212" priority="C" title="Chancel workflow deletion">
+<description>The tenant admin wants to delete one or more of his workflow models but cancels the action before confirmation</description>
+<pre>The tenant admin is logged in.
+The tenant owns at least one workflow model.
+</pre>
+<actions>1. The tenant admin navigates to the workflow modeling section by clicking on the “create / edit workflow models” navigation link.
+2. The system displays a list of workflow models in the web browser.
+3. The tenant admin selects one or more workflow models to delete.
+4. The tenant admin presses the remove button.
+5. The system displays a confirmation dialog in the web browser.
+6. The tenant admin cancels the deletion.
+</actions>
+<post>The tenant admin is logged in.
+The selected workflow models still exist.
+The web browser displays the workflow model list.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="214" priority="C" title="Regular flow">
+<description>The tenant admin wants to delete one or more of his workflow models.</description>
+<pre>The tenant admin is logged in.
+The tenant owns at least one workflow model.</pre>
+<actions>1. The tenant admin navigates to the workflow modeling section by clicking on the “create / edit workflow models” navigation link.
+2. The system displays a list of workflow models in the web browser.
+3. The tenant admin selects one or more workflow models to delete.
+4. The tenant admin presses the remove button.
+5. The system displays a confirmation dialog in the web browser.
+6. The tenant admin confirms the deletion.</actions>
+<post>The tenant admin is logged in.
+The selected workflow models have been deleted.
+The web browser displays the updated workflow model list.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="213" priority="C" title="The workflow doesn't exist anymore">
+<description>The tenant admin wants to delete one or more of his workflow models but the selected workflow model doesn't exist.</description>
+<pre>The tenant admin is logged in.
+The tenant owns at least one workflow model.
+At least one selected workflow model cannot be deleted because it doesn’t exist anymore.</pre>
+<actions>1. The tenant admin navigates to the workflow modeling section by clicking on the “create / edit workflow models” navigation link.
+2. The system displays a list of workflow models in the web browser.
+3. The tenant admin selects one or more workflow models to delete.
+4. The tenant admin presses the remove button.
+5. The system displays a confirmation dialog in the web browser.
+6. The tenant admin confirms the deletion.</actions>
+<post>The tenant admin is logged in.
+The system ignores the non-existent model and deletes the remaining selected workflow models.
+The system displays the updated workflow model list in the web browser. </post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.06.2009" creator="ThomasKarsten" name="Lock workflow models" number="215">
+<description>The purpose of this sequence is to test all flows of the "Lock workflow models" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="216" priority="C" title="Regular flow">
+<description>The tenant admin wants to lock his existing workflow models so no new instances can be created from them until they are unlocked.</description>
+<pre>The tenant admin is logged in.
+The tenant owns at least one workflow model.
+</pre>
+<actions>1. The tenant admin navigates to the workflow modeling page by clicking on the “create / edit workflow models” navigation link.
+2. The system displays a list of workflow models in the web browser. 
+3. The tenant admin selects a set of workflow models to lock.
+4. The tenant admin presses the lock button.
+</actions>
+<post>The tenant admin is logged in.
+The web browser displays the updated workflow model list.
+No new workflow instances can be created from the selected workflow models.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="217" priority="C" title="The workflow doesn't exist anymore">
+<description>The tenant admin wants to lock his existing workflow models so no new instances can be created from them until they are unlocked. At least one of the selected workflow models doesn’t exist anymore.</description>
+<pre>The tenant admin is logged in.
+The tenant owns at least one workflow model.
+At least one of the selected workflow models doesn’t exist anymore.</pre>
+<actions>1. The tenant admin navigates to the workflow modeling page by clicking on the “create / edit workflow models” navigation link.
+2. The system displays a list of workflow models in the web browser. 
+3. The tenant admin selects a set of workflow models to lock.
+4. The tenant admin presses the lock button.</actions>
+<post>The tenant admin is logged in.
+system ignores the nonexistent workflow models and locks the remaining ones.
+The web browser displays the updated workflow model list.
+No new workflow instances can be created from the selected workflow models.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.06.2009" creator="ThomasKarsten" name="Unlock workflow models" number="218">
+<description>The purpose of this sequence is to test all flows of the "Unlock workflow models" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="219" priority="C" title="Regular flow">
+<description>The tenant admin wants to unlock his existing workflow models so new instances can be created from them.</description>
+<pre>The tenant admin is logged in.
+The tenant owns at least one workflow model.
+</pre>
+<actions>1. The tenant admin navigates to the workflow modeling page by clicking on the “create / edit workflow models” navigation link.
+2. The system displays a list of workflow models in the web browser. 
+3. The tenant admin selects a set of workflow models to unlock.
+4. The tenant admin presses the unlock button.
+
+</actions>
+<post>The tenant admin is logged in.
+The web browser displays the updated workflow model list.
+New workflow instances can be created from the selected workflow models.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="220" priority="C" title="The workflow doesn't exist anymore">
+<description>The tenant admin wants to unlock his existing workflow models so new instances can be created from them. At least one of the selected workflow models doesn’t exist anymore.</description>
+<pre>The tenant admin is logged in.
+The tenant owns at least one workflow model.
+At least one of the selected workflow models doesn’t exist anymore.</pre>
+<actions>1. The tenant admin navigates to the workflow modeling page by clicking on the “create / edit workflow models” navigation link.
+2. The system displays a list of workflow models in the web browser. 
+3. The tenant admin selects a set of workflow models to unlock.
+4. The tenant admin presses the unlock button.
+</actions>
+<post>The tenant admin is logged in.
+system ignores the nonexistent workflow models and unlocks the remaining ones.
+The web browser displays the updated workflow model list.
+New workflow instances can be created from the selected workflow models.</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.06.2009" creator="ThomasKarsten" name="Import workflow model file" number="221">
+<description>The purpose of this sequence is to test all flows of the "Import workflow model file" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="223" priority="C" title="Regular flow">
+<description>The tenant admin wants to add a workflow model from a file that is stored on his computer.</description>
+<pre>The tenant admin is logged in.
+The tenant admin owns a valid workflow file</pre>
+<actions>1. The tenant admin navigates to the workflow modeling section by clicking on the “create / edit workflow models” navigation link.
+2. The system displays a list of workflow models in the web browser.
+3. The tenant admin clicks the “Import from file” link.
+4. The system displays a page with a file upload input box.
+5. The tenant admin chooses a file to upload from his local computer.
+6. The tenant admin presses the “upload” button.
+
+</actions>
+<post>The tenant admin is logged in.
+The system has added the uploaded workflow model to the tenant.
+The system shows a confirmation page.</post>
+<tags/>
+</testcase>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="224" priority="C" title="Uploading invalid workflow model file">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin owns a invalid workflow file</pre>
+<actions>1. The tenant admin navigates to the workflow modeling section by clicking on the “create / edit workflow models” navigation link.
+2. The system displays a list of workflow models in the web browser.
+3. The tenant admin clicks the “Import from file” link.
+4. The system displays a page with a file upload input box.
+5. The tenant admin chooses a file to upload from his local computer.
+6. The tenant admin presses the “upload” button.
+</actions>
+<post>The tenant admin is logged in.
+The system detects that the uploaded file does not contain a valid workflow model.
+The system displays an error message in the web browser. 
+The tenant admin is able to retry the file 
+The tenant admin is able to continue with the Step 5 in the Action list.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.06.2009" creator="ThomasKarsten" name="Export workflow model file" number="225">
+<description>The purpose of this sequence is to test all flows of the "Export workflow model file" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="226" priority="C" title="Regular flow">
+<description>The tenant admin wants to download a workflow model as a single file.</description>
+<pre>The tenant admin is logged in.
+The tenant owns at least one workflow model.
+</pre>
+<actions>1. The tenant admin navigates to the workflow modeling section by clicking on the “create / edit workflow models” navigation link.
+2. The system displays a list of workflow models in the web browser.
+3. The tenant admin clicks the “download” link next to the workflow model that he wants to download.
+
+</actions>
+<post>The tenant admin is logged in.
+The system creates a file representation of the selected workflow model and sends it to the tenant admin as a file download.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.06.2009" creator="ThomasKarsten" name="Import published workflow model" number="227">
+<description>The purpose of this sequence is to test all flows of the "Import published workflow model" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="228" priority="C" title="Regular flow">
+<description>The tenant admin wants to import a published workflow model so he may edit them and start new workflow instances from them.</description>
+<pre>The tenant admin is logged in.
+The web browser is displaying the list of published workflow models (see View list of published workflow models).
+</pre>
+<actions>1. The tenant admin selects the published workflow model to import. 
+2. The tenant admin presses the import button.
+
+
+</actions>
+<post>The tenant admin is logged in.
+The system creates a copy of the selected workflow model that is owned by the tenant admin.
+The web browser displays the list of published workflow models and a success message.
+The system has added an unlocked copy of the published workflow model to the tenant’s list of workflow models.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.06.2009" creator="ThomasKarsten" name="Publish workflow models" number="229">
+<description>The purpose of this sequence is to test all flows of the "Publish workflow models" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="230" priority="C" title="Regular flow">
+<description>The tenant admin wants to publish one or more of his workflow models, so other tenant admins may view and import them.</description>
+<pre>The tenant admin is logged in.</pre>
+<actions>1. The tenant admin navigates to the workflow modeling page by clicking on the “create / edit workflow models” navigation link.
+2. The system displays a list of workflow models in the web browser. 
+3. The tenant admin selects a set of workflow models to publish.
+4. The tenant admin presses the publish button.
+</actions>
+<post>The tenant admin is logged in.
+The web browser displays the updated list of workflow models that the tenant admin owns.
+The selected workflow models are now visible to other tenant admins, who may view or import them.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.06.2009" creator="ThomasKarsten" name="Un-publish workflow models" number="231">
+<description>The purpose of this sequence is to test all flows of the "Un-publish workflow models" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="232" priority="C" title="Regular flow">
+<description>The tenant admin wants to un-publish one or more of his workflow models, so other tenant admins can no longer view and import them.</description>
+<pre>The tenant admin is logged in.</pre>
+<actions>1. The tenant admin navigates to the workflow modeling page by clicking on the “create / edit workflow models” navigation link.
+2. The system displays a list of workflow models in the web browser. 
+3. The tenant admin selects a set of workflow models to un-publish.
+4. The tenant admin presses the un-publish button.
+
+
+</actions>
+<post>The tenant admin is logged in.
+The system removes the published flag from each selected workflow model.
+The web browser displays the updated list of workflow models that the tenant admin owns.
+The selected workflow models are no longer visible to other tenant admins, nor can they be imported.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.06.2009" creator="ThomasKarsten" name="View list of tenant workflow models" number="233">
+<description>The purpose of this sequence is to test all flows of the "View list of tenant workflow models" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="234" priority="C" title="Regular flow">
+<description>The tenant admin wants to view a list of workflow models that he owns.</description>
+<pre>The tenant admin is logged in.</pre>
+<actions>The tenant admin navigates to the workflow modeling page by clicking on the “create / edit workflow models” navigation link.
+
+</actions>
+<post>The tenant admin is logged in.
+The web browser displays the list of workflow models that the tenant admin owns.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.06.2009" creator="ThomasKarsten" name="View list of published workflow models" number="235">
+<description>The purpose of this sequence is to test all flows of the "View list of published workflow models" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="236" priority="C" title="Regular flow">
+<description>The tenant admin wants to view a list of workflow models which are not owned by the tenant, but have been published by other tenants.</description>
+<pre>The tenant admin is logged in.</pre>
+<actions>1. The tenant admin navigates to the workflow modeling page by clicking on the “create / edit workflow models” navigation link.
+2. The system displays a list of workflow models in the web browser. 
+3. The tenant admin clicks on the “Other tenants” tab.
+</actions>
+<post>The tenant admin is logged in.
+The web browser displays the list of published workflow.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.06.2009" creator="ThomasKarsten" name="Appoint workflow admins" number="237">
+<description>The purpose of this sequence is to test all flows of the "Appoint workflow admins" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="238" priority="C" title="Regular flow">
+<description>he tenant admin wants to designate one or more users as the workflow administrators for a particular workflow model.</description>
+<pre>The tenant admin is logged in.
+The tenant admin owns at least one workflow model.
+</pre>
+<actions>1. The tenant admin navigates to the workflow models page by selecting “Models” in the navigation bar.
+2. The system displays a list of the tenant’s workflow models in the web browser.
+3. The tenant admin selects a workflow model and then chooses “appoint workflow admins”.
+4. The system displays an input box in the web browser.
+5. The tenant admin chooses from one of the following options:
+• Appoint oneself as the workflow admin.
+• Enter the usernames of registered DecidR users.
+• Enter the e-mail addresses of the desired workflow admins.
+6. The tenant admin presses the OK button.
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has created at least one workflow model.
+The postconditions of the specialized use cases apply.
+</post>
+<tags/>
+</testcase>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="239" priority="C" title="The workflow model doesn’t exist anymore.">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin owns at least one workflow model.
+The selected workflow model doesn’t exist anymore.</pre>
+<actions>1. The tenant admin navigates to the workflow models page by selecting “Models” in the navigation bar.
+2. The system displays a list of the tenant’s workflow models in the web browser.
+3. The tenant admin selects a workflow model and then chooses “appoint workflow admins”.
+4. The system displays an input box in the web browser.
+5. The tenant admin chooses from one of the following options:
+• Appoint oneself as the workflow admin.
+• Enter the usernames of registered DecidR users.
+• Enter the e-mail addresses of the desired workflow admins.
+6. The tenant admin presses the OK button.</actions>
+<post>The tenant admin is logged in.
+The system displays an error message in the web browser.</post>
+<tags/>
+</testcase>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="240" priority="C" title="Enter too many email adresses">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin owns at least one workflow model.
+</pre>
+<actions>1. The tenant admin navigates to the workflow models page by selecting “Models” in the navigation bar.
+2. The system displays a list of the tenant’s workflow models in the web browser.
+3. The tenant admin selects a workflow model and then chooses “appoint workflow admins”.
+4. The system displays an input box in the web browser.
+5. The tenant admin chooses from one of the following options:
+• Appoint oneself as the workflow admin.
+• Enter the usernames of registered DecidR users.
+• Enter too many the e-mail addresses of the desired workflow admins.
+6. The tenant admin presses the OK button.
+</actions>
+<post>The web browser displays an error message.
+The tenant admin is logged in.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.06.2009" creator="ThomasKarsten" name="Appoint oneself as workflow admin" number="241">
+<description>The purpose of this sequence is to test all flows of the "Appoint oneself as workflow admin" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="242" priority="C" title="Regular flow">
+<description>The tenant admin wants to designate himself as the only workflow administrator for a particular workflow model.</description>
+<pre>The tenant admin is logged in.
+The tenant admin owns at least one workflow model.
+</pre>
+<actions>1. The tenant admin navigates to the workflow models page by selecting “Models” in the navigation bar.
+2. The system displays a list of the tenant’s workflow models in the web browser.
+3. The tenant admin selects a workflow model and then chooses “appoint workflow admins”.
+4. The system displays an input box in the web browser.
+5. The tenant admin chooses “just me” as the workflow admin.
+6. The tenant admin presses the OK button.
+
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has created at least one workflow model.
+The tenant admin is the only workflow admin of the selected workflow model.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.06.2009" creator="ThomasKarsten" name="Appoint registered users as workflow admins" number="243">
+<description>The purpose of this sequence is to test all flows of the "Appoint registered users as workflow admins" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="244" priority="C" title="Regular flow">
+<description>The tenant admin wants to designate registered users as the workflow administrators for a particular workflow model.
+There is at least one tenant member besides the tenant admin.
+</description>
+<pre>The tenant admin is logged in.
+The tenant admin has created at least one workflow model.
+There is at least one tenant member besides the tenant admin.
+</pre>
+<actions>1. The tenant admin navigates to the workflow models page by selecting “Models” in the navigation bar.
+2. The system displays a list of the tenant’s workflow models in the web browser.
+3. The tenant admin selects a workflow model and then chooses “appoint workflow admin”.
+4. The system displays an input box in the web browser.
+5. The tenant admin enters the usernames of registered users or selects members of the tenant.
+6. The tenant admin presses the OK button.
+
+</actions>
+<post>The tenant admin is logged in.
+There is at least one tenant member besides the tenant admin.
+The tenant admin has created at least one workflow model.
+For each registered user: if the specified registered user is a member of the tenant:
+•	The tenant member is the workflow admin of the selected workflow model.
+•	The system has sent an info e-mail to the tenant member.
+Otherwise:
+•	The system has sent an invitation e-mail that allows the registered user to become the workflow admin for the selected workflow model upon joining the tenant.
+•	The system hasn’t changed the workflow admin of the selected workflow model yet
+</post>
+<tags/>
+</testcase>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="245" priority="C" title="User is unavailable">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin has created at least one workflow model.
+There is at least one tenant member besides the tenant admin.
+At least one given username does not belong to a registered user or the registered user has set his status to “unavailable”.</pre>
+<actions>1. The tenant admin navigates to the workflow models page by selecting “Models” in the navigation bar.
+2. The system displays a list of the tenant’s workflow models in the web browser.
+3. The tenant admin selects a workflow model and then chooses “appoint workflow admin”.
+4. The system displays an input box in the web browser.
+5. The tenant admin enters the usernames of registered users or selects members of the tenant.
+6. The tenant admin presses the OK button.
+</actions>
+<post>The tenant admin is logged in.
+There is at least one tenant member besides the tenant admin.
+The tenant admin has created at least one workflow model.
+The system displays an error message in the web browser.
+The tenant admit is able to reenter the username of registered users or to select members of the tenant.</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="08.06.2009" creator="ThomasKarsten" name="Appoint unregistered users as workflow admins" number="246">
+<description>The purpose of this sequence is to test all flows of the "Appoint unregistered users as workflow admins" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="247" priority="C" title="Regular flow">
+<description>The tenant admin wants to designate users of whom he only knows the e-mail addresses as the workflow administrators for a particular workflow model.</description>
+<pre>The tenant admin is logged in.
+The tenant admin owns at least one workflow model.
+</pre>
+<actions>1. The tenant admin navigates to the workflow models page by selecting “Models” in the navigation bar.
+2. The system displays a list of the tenant’s workflow models in the web browser.
+3. The tenant admin selects a workflow model and then chooses “appoint workflow admins”.
+4. The system displays an input box in the web browser.
+5. The tenant admin enters some e-mail addresses. All of them are valid.
+6. The tenant admin presses the OK button.
+
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has created at least one workflow model.
+The system has sent e-mails containing an invitation links to the given addresses.
+The system hasn’t changed the workflow admin of the selected workflow model yet
+The system displays the updated workflow models page.</post>
+<tags/>
+</testcase>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="248" priority="C" title="A given email address belongs to a registered user">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin owns at least one workflow model.
+</pre>
+<actions>1. The tenant admin navigates to the workflow models page by selecting “Models” in the navigation bar.
+2. The system displays a list of the tenant’s workflow models in the web browser.
+3. The tenant admin selects a workflow model and then chooses “appoint workflow admins”.
+4. The system displays an input box in the web browser.
+5. The tenant admin enters some e-mail addresses. All of them belong to registered users (see User Input Constraints).
+6. The tenant admin presses the OK button.
+</actions>
+<post>The tenant admin is logged in.
+There is at least one tenant member besides the tenant admin.
+The tenant admin has created at least one workflow model.
+For each registered user: if the specified registered user is a member of the tenant:
+•	The tenant member is the workflow admin of the selected workflow model.
+•	The system has sent an info e-mail to the tenant member.
+Otherwise:
+•	The system has sent an invitation e-mail that allows the registered user to become the workflow admin for the selected workflow model upon joining the tenant.
+•	The system hasn’t changed the workflow admin of the selected workflow model yet
+</post>
+<tags/>
+</testcase>
+<testcase created="08.06.2009" creator="ThomasKarsten" effort="00:00" number="249" priority="C" title="The e-mail address is invalid.">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin owns at least one workflow model.</pre>
+<actions>1. The tenant admin navigates to the workflow models page by selecting “Models” in the navigation bar.
+2. The system displays a list of the tenant’s workflow models in the web browser.
+3. The tenant admin selects a workflow model and then chooses “appoint workflow admins”.
+4. The system displays an input box in the web browser.
+5. The tenant admin enters some email addresses.  
+6. The tenant admin presses the OK button.</actions>
+<post>The tenant admin is logged in.
+The system displays an error message.
+The tenant admin is allowed to reenter the email addresses.</post>
+<tags/>
+</testcase>
+</sequence>
+</sequence>
+<sequence created="08.06.2009" creator="ThomasKarsten" name="Workflow Model Editor" number="250">
+<description>This section hold all test cases for workflow model editor.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<sequence created="08.06.2009" creator="ThomasKarsten" name="Open existing workflow model for editing" number="251">
+<description>The purpose of this sequence is to test all flows of the "Open existing workflow model for editing" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="12.06.2009" creator="ThomasKarsten" effort="00:00" number="252" priority="C" title="Regular flow">
+<description>The tenant admin wants to open the workflow model editor in order to start modifying an existing workflow model.</description>
+<pre>The tenant admin is logged in.
+The tenant owns at least one workflow model.
+</pre>
+<actions>1. The tenant admin navigates to the workflow modeling page by clicking on the “Create / Edit Workflow Models” navigation link.
+2. The system displays a list of workflow models in the web browser. 
+3. The tenant admin clicks on the “Edit” link next to the workflow model he wants to edit.
+
+</actions>
+<post>The tenant admin is logged in.
+The tenant owns at least one workflow model.
+The web browser displays the selected workflow model in the editor.
+</post>
+<tags/>
+</testcase>
+<testcase created="12.06.2009" creator="ThomasKarsten" effort="00:00" number="253" priority="C" title="Selected workflow model doesn't exist">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant owns at least one workflow model.
+The selected workflow model doesn’t exist anymore.
+</pre>
+<actions>1. The tenant admin navigates to the workflow modeling page by clicking on the “Create / Edit Workflow Models” navigation link.
+2. The system displays a list of workflow models in the web browser. 
+3. The tenant admin clicks on the “Edit” link next to the workflow model he wants to edit.</actions>
+<post>The tenant admin is logged in.
+The tenant owns at least one workflow model.
+The web browser displays an error message.</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="12.06.2009" creator="ThomasKarsten" name="Save workflow model" number="254">
+<description>The purpose of this sequence is to test all flows of the "Save workflow model" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="12.06.2009" creator="ThomasKarsten" effort="00:00" number="255" priority="C" title="Regular flow">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+</pre>
+<actions>1. The tenant admin presses the save button in the editor.
+
+
+</actions>
+<post>The tenant admin is logged in.
+The system has saved the modified workflow model.
+The web browser is displaying the workflow model editor.
+</post>
+<tags/>
+</testcase>
+<testcase created="12.06.2009" creator="ThomasKarsten" effort="00:00" number="256" priority="C" title="Workflow model invalid">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing. 
+The model contains invalid data or was deleted.
+</pre>
+<actions>1. The tenant admin presses the save button in the editor.
+
+</actions>
+<post>The tenant admin is logged in.
+The system cannot save the workflow model because it has been deleted or it contains invalid data.
+The web browser displays an error message.
+</post>
+<tags/>
+</testcase>
+<testcase created="12.06.2009" creator="ThomasKarsten" effort="00:00" number="257" priority="C" title="Workflow model belongs to another tenant">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing. </pre>
+<actions>1. The tenant admin presses the save button in the editor.
+2. The system cannot save the workflow model because it belongs to another tenant and has been published.
+3. The system displays a dialog in the web browser asking the tenant admin if the workflow model should be imported.
+4. The tenant admin confirms.
+
+</actions>
+<post>The tenant admin is logged in.
+The system has saved the modified workflow model as a new tenant-owned model.
+The system hasn’t changed the published workflow model that was initially opened for editing.
+The tenant admin is now editing the imported workflow model.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="12.06.2009" creator="ThomasKarsten" name="Clear workflow model" number="259">
+<description>The purpose of this sequence is to test all flows of the "Clear workflow model" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="12.06.2009" creator="ThomasKarsten" effort="00:00" number="260" priority="C" title="Regular flow">
+<description>The tenant admin wants to remove all activities, containers, connections and variables from the currently opened workflow model and start from scratch.</description>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The workflow model has exactly one start activity and exactly one end activity.
+</pre>
+<actions>1. The tenant admin presses the clear button.
+2. The system displays a confirmation dialog.
+3. The tenant admin confirms clearing the model.
+
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor has deleted all activities, containers, connections and variables.
+The workflow model has exactly one start activity and exactly one end activity.
+The system hasn’t saved the cleared workflow model.
+</post>
+<tags/>
+</testcase>
+<testcase created="12.06.2009" creator="ThomasKarsten" effort="00:00" number="261" priority="C" title="Cancelling clearing the model">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The workflow model has exactly one start activity and exactly one end activity.
+</pre>
+<actions>1. The tenant admin presses the clear button.
+2. The system displays a confirmation dialog.
+3. The tenant admin cancels clearing the model.
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor hasn’t deleted any activities, containers, variables or connections.
+The workflow model has exactly one start activity and exactly one end activity.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="12.06.2009" creator="ThomasKarsten" name="Insert new activity" number="262">
+<description>The purpose of this sequence is to test all flows of the "Clear workflow model" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="12.06.2009" creator="ThomasKarsten" effort="00:00" number="263" priority="C" title="Regular flow">
+<description>The tenant admin wants to insert one of the available activities into the workflow model.</description>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+</pre>
+<actions>1. The tenant admin drags an activity icon from the palette onto the canvas.
+
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor displays the properties of the new activity.
+The workflow model contains the new activity.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="12.06.2009" creator="ThomasKarsten" name="Insert new container" number="264">
+<description>The purpose of this sequence is to test all flows of the "Insert new container" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="12.06.2009" creator="ThomasKarsten" effort="00:00" number="265" priority="C" title="Regular flow">
+<description>The tenant admin wants to insert one of the available containers into the workflow model.</description>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+</pre>
+<actions>1.The tenant admin drags a container icon from the palette onto the canvas.
+ 
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor displays the properties of the new container.
+The workflow model contains the new container.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="13.06.2009" creator="ThomasKarsten" name="Edit activity" number="266">
+<description>The purpose of this sequence is to test all flows of the "Edit activity" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="269" priority="C" title="Cancel edit property">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+</pre>
+<actions>1. The tenant admin clicks on the box representing the activity.
+2. The system displays the current properties of the selected activity in the property editor.
+3. The tenant admin enters new valid properties.
+4. The tenant admin closes the property editor by pressing the cancel button.</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor has discarded new properties. The activity still has its previous properties.
+</post>
+<tags/>
+</testcase>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="268" priority="C" title="Edit invalid property">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+</pre>
+<actions>1.	The tenant admin clicks on the box representing the activity.
+2.	The system displays the current properties of the selected activity in the property editor.
+3.	The tenant admin enters at least one invalid property.
+</actions>
+<post>The tenant admin is logged in.
+The editor highlights the invalid property.
+The tenant admin is allowed to enter new properties.</post>
+<tags/>
+</testcase>
+<testcase created="13.06.2009" creator="ThomasKarsten" effort="00:00" number="267" priority="C" title="Regular flow">
+<description>The tenant admin wants to edit the properties of an activity.</description>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+</pre>
+<actions>1. The tenant admin clicks on the box representing the activity.
+2. The system displays the current properties of the selected activity in the property editor.
+3. The tenant admin enters new valid properties.
+4. The tenant admin closes the property editor by pressing the save button.
+
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor has overwritten the old activity properties with the new ones.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Edit container" number="270">
+<description>The purpose of this sequence is to test all flows of the "Edit container" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="272" priority="C" title="Invalid property">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The workflow model contains at least one container.
+</pre>
+<actions>1.	The tenant admin clicks on the box representing the container.
+2.	The system displays the current properties of the selected container in the property editor.
+3.	The tenant admin enters at least one invalid property.
+4.	The tenant admin closes the property editor by pressing the save button.</actions>
+<post>The tenant admin is logged in.
+The editor highlights the invalid property.
+The tenant admin is allowed to enter new properties.</post>
+<tags/>
+</testcase>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="271" priority="C" title="Regular flow">
+<description>The tenant admin wants to edit the properties of a container.</description>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The workflow model contains at least one container.
+</pre>
+<actions>1.	The tenant admin clicks on the box representing the container.
+2.	The system displays the current properties of the selected container in the property editor.
+3.	The tenant admin enters new valid properties.
+4.	The tenant admin closes the property editor by pressing the save button.
+
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor has overwritten the old container properties with the new ones.
+</post>
+<tags/>
+</testcase>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="273" priority="C" title="Cancel edit container">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The workflow model contains at least one container.</pre>
+<actions>1.	The tenant admin clicks on the box representing the container.
+2.	The system displays the current properties of the selected container in the property editor.
+3.	The tenant admin enters new valid properties.
+4.	The tenant admin closes the property editor by pressing the cancel button.</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor has discarded new properties. The container still has its previous properties.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Delete activity" number="274">
+<description>The purpose of this sequence is to test all flows of the "Delete activity" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="275" priority="C" title="Regular flow">
+<description>The tenant admin wants to remove an activity from the workflow model.</description>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The workflow model contains exactly one start activity and exactly one end activity.
+</pre>
+<actions>1. The tenant admin selects the box representing the activity to delete.
+2. The tenant admin presses the delete button or presses the delete key on his keyboard.
+3. If the editor is displaying the properties of the activity to delete, it closes the property editor without accepting the changes.
+
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor has removed the selected activity as well as its incoming and outgoing connections.
+The workflow model contains exactly one start activity and exactly one end activity.
+</post>
+<tags/>
+</testcase>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="276" priority="C" title="Deleting start or end activity">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The workflow model contains exactly one start activity and exactly one end activity.
+</pre>
+<actions>1. The tenant admin selects the box representing the activity to delete.
+2. The tenant admin presses the delete button or presses the delete key on his keyboard.
+3. The tenant admin is deleting the start or end activity.
+4. The editor aborts the delete action.
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor has removed the selected activity as well as its incoming and outgoing connections.
+The workflow model contains exactly one start activity and exactly one end activity.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Delete container" number="277">
+<description>The purpose of this sequence is to test all flows of the "Delete container" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="278" priority="C" title="Regular flow">
+<description>The tenant admin wants to remove a container and all activities it contains from a workflow model.</description>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The workflow model contains at least one container.
+</pre>
+<actions>1. The tenant admin selects the box representing the container to delete.
+2. The tenant admin presses the delete button or presses the delete key on his keyboard.
+3. If the editor is displaying the properties of the container to delete, it closes the property editor without accepting the changes.
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor has removed the selected container, the activities it contained and its incoming and outgoing connections.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Add variable" number="279">
+<description>The purpose of this sequence is to test all flows of the "Add variable" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="280" priority="C" title="Regular flow">
+<description>The tenant admin wants to add a new global variable or a role to a workflow model.</description>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+</pre>
+<actions>The tenant presses the add button in the variables list.
+
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor is displaying the properties of the new variable.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Edit variable" number="281">
+<description>The purpose of this sequence is to test all flows of the "Edit variable" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="282" priority="C" title="Regular flow">
+<description>The tenant admin wants to edit an existing global variable or a role in a workflow model</description>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The workflow model contains at least one variable or role.
+</pre>
+<actions>1. The tenant admin clicks on a variable name in the variables list or presses the edit button for a selected variable.
+2. The editor displays the properties of the variable in the property editor.
+3. The tenant admin enters new valid properties.
+4. The tenant admin closes the property editor.
+
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor has overwritten the old properties of the selected variable with the new ones.
+</post>
+<tags/>
+</testcase>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="283" priority="C" title="Invalid property">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The workflow model contains at least one variable or role.</pre>
+<actions>1. The tenant admin clicks on a variable name in the variables list or presses the edit button for a selected variable.
+2. The editor displays the properties of the variable in the property editor.
+3. The tenant admin enters at least one invalid property</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor highlights the invalid property.</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Delete variable" number="284">
+<description>The purpose of this sequence is to test all flows of the "Delete variable" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="285" priority="C" title="Regular flow">
+<description>The tenant admin wants to delete an existing global variable or a role from the workflow model.
+The workflow model contains at least one variable.
+</description>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+</pre>
+<actions>1. The tenant admin selects the variable to delete in the variables list.
+2. The tenant admin presses the delete button.
+
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor has removed the selected variable from the workflow model.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Connect activities or containers" number="286">
+<description>The purpose of this sequence is to test all flows of the "Connect activities or containers" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="290" priority="C" title="Only outgoing to outgoing ports">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+</pre>
+<actions>1. The tenant admin clicks on the outgoing first port.
+2. The tenant admin clicks on the outgoing second port.</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor displays a dialog informing the tenant admin that only incoming ports can be connected to outgoing ports and vice versa.
+The editor hasn’t changed the connections between the selected ports.</post>
+<tags/>
+</testcase>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="288" priority="C" title="Only incoming to incoming  ports">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+</pre>
+<actions>1. The tenant admin clicks on the incoming first port.
+2. The tenant admin clicks on the incoming second port.</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor displays a dialog informing the tenant admin that only incoming ports can be connected to outgoing ports and vice versa.
+The editor hasn’t changed the connections between the selected ports.
+</post>
+<tags/>
+</testcase>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="287" priority="C" title="Regular flow">
+<description>The tenant admin wants to define the order in which activities are executed.</description>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+</pre>
+<actions>1. The tenant admin clicks on the first port.
+2. The tenant admin clicks on the second port.
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor has added a connection between the selected ports.
+</post>
+<tags/>
+</testcase>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="292" priority="C" title="Decline if already a connection">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+There is already a connection between the selected ports.</pre>
+<actions>1. The tenant admin clicks on the first port.
+2. The tenant admin clicks on the second port.
+3. The editor displays a confirmation dialog asking the tenant admin whether to replace the existing connection.
+4. The tenant admin declines.
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor hasn’t changed any connections between the selected ports.
+</post>
+<tags/>
+</testcase>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="291" priority="C" title="The is already a connenction">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+There is already a connection between the selected ports.</pre>
+<actions>1. The tenant admin clicks on the first port.
+2. The tenant admin clicks on the second port.
+3. The editor displays a confirmation dialog asking the tenant admin whether to replace the existing connection.
+4. The tenant admin confirms.
+</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor has removed the previous connections and has added a connection between the selected ports.
+</post>
+<tags/>
+</testcase>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="293" priority="C" title="Cancel connection">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+</pre>
+<actions>1. The tenant admin clicks on the first port.
+2. The tenant admin cancels connecting the activity by right-clicking or by clicking on an empty part of the editor canvas.</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor hasn’t changed any connections between the selected port(s).
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Undo last action" number="296">
+<description>The purpose of this sequence is to test all flows of the "Undo last action" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="299" priority="C" title="Regular flow">
+<description>The tenant admin wants to undo the changes made to the workflow model by his last action.</description>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The last action can be undone.
+</pre>
+<actions>The tenant admin presses the undo button.</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor has restored the older workflow model state.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Redo last action" number="297">
+<description>The purpose of this sequence is to test all flows of the "Redo last action" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="298" priority="C" title="Regular flow">
+<description>The tenant admin wants to restore the changes made to the workflow model which have been undone.</description>
+<pre>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The tenant admin has undone at least one action without making changes to the workflow model afterwards.
+</pre>
+<actions>The tenant admin presses the redo button.</actions>
+<post>The tenant admin is logged in.
+The tenant admin has opened an existing workflow for editing.
+The editor has restored the newer workflow model state.
+</post>
+<tags/>
+</testcase>
+</sequence>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Tenant monitoring" number="300">
+<description>This section hold all test cases for tenant monitoring.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="View tenant status" number="301">
+<description>The purpose of this sequence is to test all flows of the "Save workflow model" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="302" priority="C" title="Regular flow">
+<description>The tenant admin wants to receive some interesting tenant statistics.</description>
+<pre>The tenant admin is logged in.</pre>
+<actions>The tenant admin navigates to the tenant status page by selecting “Tenant Status” in the navigation menu.
+</actions>
+<post>The tenant admin is logged in.
+The web browser displays the tenant status page.
+The system displays the tenant status page containing:
+•	Number of registered and unregistered users
+•	Total number of workflow models
+•	Total number of completed workflow instances
+•	Total number of aborted / terminated workflow instances</post>
+<tags/>
+</testcase>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="303" priority="C" title="The tenant has been deleted">
+<description/>
+<pre>The tenant admin is logged in.
+The tenant has been deleted by the super admin.</pre>
+<actions>1.	The tenant admin navigates to the tenant status page by selecting “Tenant Status” in the navigation menu.
+2. The tenant has been deleted by the super admin.</actions>
+<post>The web browser displays an error message.</post>
+<tags/>
+</testcase>
+</sequence>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="System Settings" number="304">
+<description>This section hold all test cases for system settings.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Edit system settings" number="306">
+<description/>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="307" priority="C" title="Regular flow">
+<description>The super admin wants to edit the global system settings.</description>
+<pre>The super admin is logged in.</pre>
+<actions>1. The super admin navigates to the system settings page by selecting “System Settings” in the administration navigation menu.
+2. The system displays the current settings in the web browser:
+• Whether the super admin must confirm all new tenants or they are accepted automatically.
+• Amount of logging to perform.
+3. The super admin enters the new settings.
+4. The super admin presses the save button.
+
+
+</actions>
+<post>The super admin is logged in.
+The system has applied the new settings.
+The web browser displays the updated settings page.
+</post>
+<tags/>
+</testcase>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="308" priority="C" title="Invalid Settings">
+<description/>
+<pre>The super admin is logged in.</pre>
+<actions>1. The super admin navigates to the system settings page by selecting “System Settings” in the administration navigation menu.
+2. The system displays the current settings in the web browser:
+• Whether the super admin must confirm all new tenants or they are accepted automatically.
+• Amount of logging to perform.
+3. The super admin enters the new settings. The settings should be invalid.
+4. The super admin presses the save button.</actions>
+<post>The super admin is logged in.
+The system displays an error message in the web browser.
+The super admin can enter new settings.</post>
+<tags/>
+</testcase>
+</sequence>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="System status" number="309">
+<description>This section hold all test cases for system status.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="View list of all workflow models" number="311">
+<description>The purpose of this sequence is to test all flows of the "View list of all workflow models" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="312" priority="C" title="Regular flow">
+<description/>
+<pre>The super admin is logged in.</pre>
+<actions>1. The super admin navigates to the workflow model overview by selecting “Models” in the administration navigation menu.
+</actions>
+<post>The super admin is logged in.
+The web browser displays a list of all workflow models.</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="View list of all running workflow instances" number="313">
+<description>The purpose of this sequence is to test all flows of the "View list of all running workflow instances" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="314" priority="C" title="Regular flow">
+<description>The super admin wants to view a list of all running workflow instances in the system.</description>
+<pre>The super admin is logged in.</pre>
+<actions>The super admin navigates to the workflow model overview by selecting “Instances” in the administration navigation menu.
+
+</actions>
+<post>The super admin is logged in.
+The web browser displays a list of all running workflow instances.
+
+</post>
+<tags/>
+</testcase>
+</sequence>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="User Management" number="315">
+<description>This section hold all test cases for user management.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="View list of all users" number="316">
+<description>The purpose of this sequence is to test all flows of the "View list of all users" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="317" priority="C" title="Regular flow">
+<description>The super admin wants to view a list of all users of the DecidR application, including registered as well as unregistered users.</description>
+<pre>The super admin is logged in.</pre>
+<actions>The super admin navigates to the user list by selecting “Users” in the administration navigation menu.</actions>
+<post>The super admin is logged in.
+The web browser displays a list of registered and unregistered DecidR users.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Disable user accounts" number="318">
+<description>The purpose of this sequence is to test all flows of the "Disable user accounts" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="320" priority="C" title="At least one is participating in a workflow">
+<description/>
+<pre>The super admin is logged in.
+There is at least one registered or unregistered user in the system whose account hasn’t been disabled.</pre>
+<actions>1. The super admin navigates to the user list by selecting “Users” in the administration navigation menu.
+2. The system displays a list of all users in the web browser.
+3. The super admin selects a number of user accounts to disable. At least one user is participating in a workflow.
+4. The super admin presses the disable button.</actions>
+<post>The super admin is logged in.
+The system displays a confirmation message in the web browser.
+The super admin confirms.
+The system flags each selected user as disabled unless the user is the super admin himself.
+The system logs out each selected registered user except for the super admin himself.
+The system sends an info e-mail to each disabled user whose account was previously enabled.
+The system shows the updated user list in the web browser.
+</post>
+<tags/>
+</testcase>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="319" priority="C" title="Regular flow">
+<description>The super admin wants to disable user accounts so the users won’t be able to use the DecidR application until their accounts are enabled.</description>
+<pre>The super admin is logged in.
+There is at least one registered or unregistered user in the system whose account hasn’t been disabled.
+</pre>
+<actions>1. The super admin navigates to the user list by selecting “Users” in the administration navigation menu.
+2. The system displays a list of all users in the web browser.
+3. The super admin selects a number of user accounts to disable.
+4. The super admin presses the disable button.
+
+
+</actions>
+<post>The super admin is logged in.
+The system checks whether any of the selected users are currently participating in a workflow. This is not The system flags each selected user as disabled unless the user is the super admin himself.
+The system has disabled the selected user accounts.
+The system has logged out all selected registered users.
+The web browser displays the updated user list.
+The system has sent an info e-mail to each disabled user whose account was previously enabled.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Enable user accounts" number="321">
+<description>The purpose of this sequence is to test all flows of the "Enable user accounts" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="322" priority="C" title="Regular flow">
+<description>The super admin wants to enable user accounts so the users will once again be able to use the DecidR application.</description>
+<pre>The super admin is logged in.
+There is at least one registered or unregistered user in the system whose account has been disabled.
+</pre>
+<actions>1. The super admin navigates to the user list by selecting “Users” in the administration navigation menu.
+2. The system displays a list of all users.
+3. The super admin selects a number of users to enable.
+4. The super admin presses the enable button.
+</actions>
+<post>The super admin is logged in.
+The system has enabled the selected user accounts.
+The enabled users are once again able to log in.
+The web browser displays the updated user list.
+The system has sent an info e-mail to each enabled user whose account was previously disabled.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Edit user profile" number="323">
+<description>The purpose of this sequence is to test all flows of the "Enable user accounts" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="324" priority="C" title="Regular flow">
+<description>The super admin wants to edit a user profile, possibly because it contains false or illegal information.</description>
+<pre>The super admin is logged in.
+There is at least one registered user.
+</pre>
+<actions>1. The super admin navigates to the user list by selecting “Users” in the administration navigation menu.
+2. The system displays a list of all users.
+3. The super admin selects the user whose profile should be edited.
+4. The system displays the current profile of the selected user in the web browser.
+5. The super admin enters the new profile data.
+6. The super admin presses the save button.
+</actions>
+<post>The super admin is logged in.
+There is at least one registered user.
+The system has updated the selected user’s profile with the new data.
+</post>
+<tags/>
+</testcase>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="325" priority="C" title="New profile data is invalid">
+<description/>
+<pre>The super admin is logged in.
+There is at least one registered user.</pre>
+<actions>1. The super admin navigates to the user list by selecting “Users” in the administration navigation menu.
+2. The system displays a list of all users.
+3. The super admin selects the user whose profile should be edited.
+4. The system displays the current profile of the selected user in the web browser.
+5. The super admin enters the new invalid profile data.
+6. The super admin presses the save button.</actions>
+<post>The super admin is logged in.
+There is at least one registered user.
+The system displays an error message in the web browser. 
+The super admin is allowed to enter a new profile data.</post>
+<tags/>
+</testcase>
+</sequence>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="System Maintenance" number="339">
+<description>This section hold all test cases for system maintenance.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Remove expired data" number="340">
+<description>The purpose of this sequence is to test all flows of the "Remove expired data" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="341" priority="C" title="Regular flow">
+<description>The system maintenance task must remove all expired and useless data in the system, such as invitations that have expired several months ago.</description>
+<pre>The system maintenance task is running.</pre>
+<actions>The system maintenance task connects to the database and removes all expired invitations.</actions>
+<post>The system maintenance task is running.
+The system maintenance task has removed all expired and useless data from the database.
+The system maintenance task hasn’t deleted any valuable data from the database.
+</post>
+<tags/>
+</testcase>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="342" priority="C" title="Can't establish connection to the database">
+<description/>
+<pre>The system maintenance task is running.</pre>
+<actions>The system maintenance task cannot establish a connection with the database or the transaction fails.
+</actions>
+<post>The system maintenance task is running.
+The system maintenance task has sent an info e-mail to the super admin.
+</post>
+<tags/>
+</testcase>
+</sequence>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Misc Features" number="346">
+<description>This section hold all test cases for misc features.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Change list view ordering" number="348">
+<description>The purpose of this sequence is to test all flows of the "Change list view ordering" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="349" priority="C" title="Regular flow">
+<description>The user wants to change the ordering of the list view by a certain column. Available columns depend on the kind of list view that is displayed.</description>
+<pre>The web browser displays a list view of some sort, such as the tenant member list in the user administration.
+It is currently sorted by some column in ascending or descending order. 
+The user may have applied filters to the list view.</pre>
+<actions>The user clicks on the header of a column that isn’t currently used to sort the list view.
+
+</actions>
+<post>The web browser displays the updated list view, now sorted by the selected column in ascending order. 
+If the user had previously applied filters to the list view, they still apply.</post>
+<tags/>
+</testcase>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="353" priority="C" title="Another column sorting">
+<description/>
+<pre>The web browser displays a list view of some sort, such as the tenant member list in the user administration.
+It is currently sorted by some column in ascending or descending order. 
+The user may have applied filters to the list view.</pre>
+<actions>The user clicks on the header of the column that is currently used to sort the list view.
+
+</actions>
+<post>The web browser displays the updated list view, now sorted by the selected column in the reversed order.
+If the user had previously applied filters to the list view, they still apply.
+</post>
+<tags/>
+</testcase>
+</sequence>
+<sequence created="14.06.2009" creator="ThomasKarsten" name="Filter list view" number="350">
+<description>The purpose of this sequence is to test all flows of the "Filter list view" use case.</description>
+<pre>The tester has opened the DecidR web page.</pre>
+<testcase created="14.06.2009" creator="ThomasKarsten" effort="00:00" number="351" priority="C" title="Regular flow">
+<description>The user wants to filter a list view by keyword or other filters. Available filters depend on the kind of list view that is displayed.</description>
+<pre>The web browser displays a list view of some sort, such as the tenant member list in the user administration. It is currently sorted by some column in ascending or descending order. The user may already have applied some filters to the list view.</pre>
+<actions>1. The user selects a set of filters to apply to the list view from the filters area.
+2. The user presses the filter button.
+
+</actions>
+<post>The web browser displays the updated list view, which is still sorted by the same column in the previous order. The system has applied the new set of filters to the list view.</post>
+<tags/>
+</testcase>
+</sequence>
 </sequence>
 </sequence>
 </sequence>
@@ -1115,11 +3007,218 @@ The user’s work items are shown.
 <tsa name="Prepare workflow instance configuration" number="153" revId="1">
 <relatedsequence>153</relatedsequence>
 </tsa>
+<tsa name="Create workflow instance" number="155" revId="1">
+<relatedsequence>155</relatedsequence>
+</tsa>
+<tsa name="Start prepared workflow instance " number="161" revId="1">
+<relatedsequence>161</relatedsequence>
+</tsa>
+<tsa name="Change user roles of a workflow instance configuration" number="164" revId="1">
+<relatedsequence>164</relatedsequence>
+</tsa>
+<tsa name="Add user to a prepared workflow instance configuration" number="166" revId="1">
+<relatedsequence>166</relatedsequence>
+</tsa>
+<tsa name="Remove user from a prepared workflow instance configuration" number="171" revId="1">
+<relatedsequence>171</relatedsequence>
+</tsa>
+<tsa name="Complete workitem for a user" number="173" revId="1">
+<relatedsequence>173</relatedsequence>
+</tsa>
+<tsa name="Terminate workflow instance" number="175" revId="1">
+<relatedsequence>175</relatedsequence>
+</tsa>
+</tsa>
+<tsa name="Tennant Settings" number="178" revId="1">
+<relatedsequence>178</relatedsequence>
+<tsa name="Change tenant settings" number="179" revId="1">
+<relatedsequence>179</relatedsequence>
+</tsa>
+<tsa name="Upload custom CSS" number="183" revId="1">
+<relatedsequence>183</relatedsequence>
+</tsa>
+<tsa name="Define simple color scheme" number="186" revId="1">
+<relatedsequence>186</relatedsequence>
+</tsa>
+<tsa name="Restore tenant settings" number="188" revId="1">
+<relatedsequence>188</relatedsequence>
+</tsa>
+</tsa>
+<tsa name="Tenant User Management" number="190" revId="1">
+<relatedsequence>190</relatedsequence>
+<tsa name="Invite users to tenant" number="191" revId="1">
+<relatedsequence>191</relatedsequence>
+</tsa>
+<tsa name="Remove users from tenant" number="196" revId="1">
+<relatedsequence>196</relatedsequence>
+</tsa>
+<tsa name="View tenant members" number="201" revId="1">
+<relatedsequence>201</relatedsequence>
+</tsa>
+<tsa name="Transfer tenant admin role to another user" number="203" revId="1">
+<relatedsequence>203</relatedsequence>
+</tsa>
+<tsa name="View other user’s profile" number="205" revId="1">
+<relatedsequence>205</relatedsequence>
+</tsa>
+</tsa>
+<tsa name="Workflow Modelling" number="207" revId="1">
+<relatedsequence>207</relatedsequence>
+<tsa name="Create new workflow model" number="208" revId="1">
+<relatedsequence>208</relatedsequence>
+</tsa>
+<tsa name="Delete workflow models" number="211" revId="1">
+<relatedsequence>211</relatedsequence>
+</tsa>
+<tsa name="Lock workflow models" number="215" revId="1">
+<relatedsequence>215</relatedsequence>
+</tsa>
+<tsa name="Unlock workflow models" number="218" revId="1">
+<relatedsequence>218</relatedsequence>
+</tsa>
+<tsa name="Import workflow model file" number="221" revId="1">
+<relatedsequence>221</relatedsequence>
+</tsa>
+<tsa name="Export workflow model file" number="225" revId="1">
+<relatedsequence>225</relatedsequence>
+</tsa>
+<tsa name="Import published workflow model" number="227" revId="1">
+<relatedsequence>227</relatedsequence>
+</tsa>
+<tsa name="Publish workflow models" number="229" revId="1">
+<relatedsequence>229</relatedsequence>
+</tsa>
+<tsa name="Un-publish workflow models" number="231" revId="1">
+<relatedsequence>231</relatedsequence>
+</tsa>
+<tsa name="View list of tenant workflow models" number="233" revId="1">
+<relatedsequence>233</relatedsequence>
+</tsa>
+<tsa name="View list of published workflow models" number="235" revId="1">
+<relatedsequence>235</relatedsequence>
+</tsa>
+<tsa name="Appoint workflow admins" number="237" revId="1">
+<relatedsequence>237</relatedsequence>
+</tsa>
+<tsa name="Appoint oneself as workflow admin" number="241" revId="1">
+<relatedsequence>241</relatedsequence>
+</tsa>
+<tsa name="Appoint registered users as workflow admins" number="243" revId="1">
+<relatedsequence>243</relatedsequence>
+</tsa>
+<tsa name="Appoint unregistered users as workflow admins" number="246" revId="1">
+<relatedsequence>246</relatedsequence>
+</tsa>
+</tsa>
+<tsa name="Workflow Model Editor" number="250" revId="1">
+<relatedsequence>250</relatedsequence>
+<tsa name="Save workflow model" number="254" revId="1">
+<relatedsequence>254</relatedsequence>
+</tsa>
+<tsa name="Clear workflow model" number="259" revId="1">
+<relatedsequence>259</relatedsequence>
+</tsa>
+<tsa name="Insert new activity" number="262" revId="1">
+<relatedsequence>262</relatedsequence>
+</tsa>
+<tsa name="Insert new container" number="264" revId="1">
+<relatedsequence>264</relatedsequence>
+</tsa>
+<tsa name="Edit activity" number="266" revId="1">
+<relatedsequence>266</relatedsequence>
+</tsa>
+<tsa name="Edit container" number="270" revId="1">
+<relatedsequence>270</relatedsequence>
+</tsa>
+<tsa name="Delete activity" number="274" revId="1">
+<relatedsequence>274</relatedsequence>
+</tsa>
+<tsa name="Delete container" number="277" revId="1">
+<relatedsequence>277</relatedsequence>
+</tsa>
+<tsa name="Add variable" number="279" revId="1">
+<relatedsequence>279</relatedsequence>
+</tsa>
+<tsa name="Edit variable" number="281" revId="1">
+<relatedsequence>281</relatedsequence>
+</tsa>
+<tsa name="Delete variable" number="284" revId="1">
+<relatedsequence>284</relatedsequence>
+</tsa>
+<tsa name="Connect activities or containers" number="286" revId="1">
+<relatedsequence>286</relatedsequence>
+</tsa>
+<tsa name="Undo last action" number="294" revId="1"/>
+<tsa name="Undo last action" number="296" revId="1">
+<relatedsequence>296</relatedsequence>
+</tsa>
+<tsa name="Redo last action" number="297" revId="1">
+<relatedsequence>297</relatedsequence>
+</tsa>
+</tsa>
+<tsa name="Tenant monitoring" number="300" revId="1">
+<relatedsequence>300</relatedsequence>
+<tsa name="View tenant status" number="301" revId="1">
+<relatedsequence>301</relatedsequence>
+</tsa>
+</tsa>
+<tsa name="System Settings" number="304" revId="1">
+<relatedsequence>304</relatedsequence>
+<tsa name="Edit system settings" number="306" revId="1">
+<relatedsequence>306</relatedsequence>
+</tsa>
+</tsa>
+<tsa name="System status" number="309" revId="1">
+<relatedsequence>309</relatedsequence>
+<tsa name="View list of all workflow models" number="311" revId="1">
+<relatedsequence>311</relatedsequence>
+</tsa>
+<tsa name="View list of all running workflow instances" number="313" revId="1">
+<relatedsequence>313</relatedsequence>
+</tsa>
+</tsa>
+<tsa name="User Management" number="315" revId="1">
+<relatedsequence>315</relatedsequence>
+<tsa name="Disable user accounts" number="318" revId="1">
+<relatedsequence>318</relatedsequence>
+</tsa>
+<tsa name="Enable user accounts" number="321" revId="1">
+<relatedsequence>321</relatedsequence>
+</tsa>
+<tsa name="Edit user profile" number="323" revId="1">
+<relatedsequence>323</relatedsequence>
+</tsa>
+</tsa>
+<tsa name="Tenant Management" number="326" revId="1">
+<tsa name="View list of all approved tenants" number="327" revId="1"/>
+<tsa name="Delete tenants" number="329" revId="1"/>
+<tsa name="View list of tenants to approve" number="334" revId="1"/>
+<tsa name="Approve new tenants" number="336" revId="1"/>
+<tsa name="Decline new tenants" number="338" revId="1"/>
+</tsa>
+<tsa name="System Maintenance" number="339" revId="1">
+<relatedsequence>339</relatedsequence>
+<tsa name="Remove expired data" number="340" revId="1">
+<relatedsequence>340</relatedsequence>
+</tsa>
+<tsa name="Process expired invitations" number="343" revId="1"/>
+</tsa>
+<tsa name="Misc Features" number="346" revId="1">
+<relatedsequence>346</relatedsequence>
+<tsa name="Change list view ordering" number="348" revId="1">
+<relatedsequence>348</relatedsequence>
+</tsa>
+<tsa name="Filter list view" number="350" revId="2">
+<relatedsequence>350</relatedsequence>
+</tsa>
 </tsa>
 </tsa>
 </tsa>
 <author active="Y" firstname="" lastname="Jonas Schlaak" uid="JonasSchlaak">
+<extension name="standarduser" value="N"/>
+</author>
+<author active="Y" firstname="" lastname="Thomas Karsten" uid="ThomasKarsten">
 <extension name="standarduser" value="Y"/>
 </author>
-<extension name="maxid" value="154"/>
+<extension name="maxid" value="353"/>
 </tests>
