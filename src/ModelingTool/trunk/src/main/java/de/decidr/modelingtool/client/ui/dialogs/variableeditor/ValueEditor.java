@@ -76,7 +76,7 @@ public class ValueEditor extends Dialog {
 
         //TODO: fix layout
         table = new FlexTable();
-        table.setBorderWidth(4);
+        table.setBorderWidth(0);
         table.setWidth("100%");
         scrollPanel = new ScrollPanel(table);
         contentPanel.add(scrollPanel);

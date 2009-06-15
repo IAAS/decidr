@@ -169,6 +169,8 @@ public class VariableEditor extends Dialog {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
                         variables.rejectChanges();
+                        DialogRegistry.getInstance().hideDialog(
+                                VariableEditor.class.getName());
                     }
                 }));
     }
