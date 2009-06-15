@@ -57,6 +57,6 @@ public class SaveProfileAction implements ClickListener  {
     	content = (ProfileSettingsComponent) UIDirector.getInstance().getTemplateView().getContent();
     	content.saveSettingsItem();
     	//userFacade.setProfile(userId, ProfileSettingsComponent.getInstance().getSettingsItem());
-    	Main.getCurrent().getMainWindow().showNotification("Profile Settings Saved " + ProfileSettingsContainer.getInstance().getStreetText());
+    	Main.getCurrent().getMainWindow().showNotification("Profile Settings Saved " + ProfileSettingsContainer.getInstance().getStreet());
     }
 }
