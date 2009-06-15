@@ -25,6 +25,8 @@ import com.google.gwt.i18n.client.Constants;
  * @author JS
  */
 public interface Messages extends Constants {
+    
+    String emailActivity();
 
     String addVariable();
 
@@ -69,4 +71,14 @@ public interface Messages extends Constants {
     String typeRole();
     
     String toFieldLabel();
+    
+    String ccFieldLabel();
+    
+    String bccFieldLabel();
+    
+    String subjectFieldLabel();
+    
+    String messageFieldLabel();
+    
+    String attachmentFieldLabel();
 }

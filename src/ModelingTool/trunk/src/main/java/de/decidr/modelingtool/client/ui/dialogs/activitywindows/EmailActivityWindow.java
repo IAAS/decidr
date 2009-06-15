@@ -25,11 +25,15 @@ import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
+import com.extjs.gxt.ui.client.widget.form.Field;
 import com.extjs.gxt.ui.client.widget.form.FileUploadField;
 import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
+import com.extjs.gxt.ui.client.widget.form.TextArea;
 import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.model.Variable;
@@ -48,6 +52,7 @@ public class EmailActivityWindow extends Dialog {
     private ListStore<Variable> variables = new ListStore<Variable>();
 
     private ContentPanel contentPanel;
+    private ScrollPanel scrollPanel;
     private FlexTable table;
 
     private ComboBox<Variable> toField;
@@ -55,13 +60,14 @@ public class EmailActivityWindow extends Dialog {
     private ComboBox<Variable> bccField;
     private ComboBox<Variable> subjectField;
     private ComboBox<Variable> messageField;
-    private FileUploadField attachmentField;
+    private ComboBox<Variable> attachmentField;
 
     // TODO: private ComboBox<VariableType> sent;
 
     public EmailActivityWindow() {
         super();
         this.setLayout(new FitLayout());
+        this.setSize(400, 200);
         this.setResizable(true);
         createcontentPanel();
         createButtons();
@@ -70,22 +76,26 @@ public class EmailActivityWindow extends Dialog {
     private void createcontentPanel() {
         contentPanel = new ContentPanel();
 
-        contentPanel.setHeading("Email Activity");
+        contentPanel.setHeading(ModelingTool.messages.emailActivity());
         contentPanel.setLayout(new FitLayout());
 
         // TODO: fix layout
         table = new FlexTable();
-        table.setBorderWidth(4);
+        table.setBorderWidth(0);
         table.setWidth("100%");
-        contentPanel.add(table);
+        table.setCellPadding(2);
+        table.setCellSpacing(2);
+        scrollPanel = new ScrollPanel(table);
+        contentPanel.add(scrollPanel);
 
         this.add(contentPanel);
     }
 
-    private ListStore<Variable> getStringVariables(ListStore<Variable> list) {
+    private ListStore<Variable> getVariablesOfType(ListStore<Variable> list,
+            VariableType type) {
         ListStore<Variable> result = new ListStore<Variable>();
         for (int i = 0; i < list.getCount(); i++) {
-            if (list.getAt(i).getType() == VariableType.STRING) {
+            if (list.getAt(i).getType() == type) {
                 result.add(list.getAt(i));
             }
         }
@@ -136,31 +146,24 @@ public class EmailActivityWindow extends Dialog {
         }
     }
 
-    private void addToField() {
-        toField = new ComboBox<Variable>();
-        toField.setDisplayField(Variable.NAME);
-        toField.setStore(getStringVariables(variables));
-        toField.setTypeAhead(true);
-        table.insertRow(table.getRowCount());
-        table.setWidget(table.getRowCount() - 1, 0, toField);
+    private void getEmailNodeModel() {
+        // TODO: write method
     }
 
-    private void addCcField() {
-        ccField = new ComboBox<Variable>();
-        ccField.setDisplayField(Variable.NAME);
-        ccField.setStore(getStringVariables(variables));
-        ccField.setTypeAhead(true);
-        table.insertRow(table.getRowCount());
-        table.setWidget(table.getRowCount() - 1, 0, ccField);
+    private void putEmailNodeModel() {
+        // TODO: write method
     }
 
-    private void addBccField() {
-        bccField = new ComboBox<Variable>();
-        bccField.setDisplayField(Variable.NAME);
-        bccField.setStore(getStringVariables(variables));
-        bccField.setTypeAhead(true);
+    private void addComboField(ComboBox<Variable> field, String label,
+            VariableType type) {
+        field = new ComboBox<Variable>();
+        field.setDisplayField(Variable.NAME);
+        field.setStore(getVariablesOfType(variables, type));
+        field.setTypeAhead(true);
+        field.setWidth("200px");
         table.insertRow(table.getRowCount());
-        table.setWidget(table.getRowCount() - 1, 0, bccField);
+        table.setWidget(table.getRowCount() - 1, 0, new Label(label));
+        table.setWidget(table.getRowCount() - 1, 1, field);
     }
 
     private void clearAllEntries() {
@@ -174,14 +177,26 @@ public class EmailActivityWindow extends Dialog {
 
     @Override
     public void initialize() {
+        // TODO: externalize strings
+        getEmailNodeModel();
         getVariablesFromModel();
-        addToField();
-        addCcField();
-        addBccField();
+        addComboField(toField, ModelingTool.messages.toFieldLabel(),
+                VariableType.STRING);
+        addComboField(ccField, ModelingTool.messages.ccFieldLabel(),
+                VariableType.STRING);
+        addComboField(bccField, ModelingTool.messages.bccFieldLabel(),
+                VariableType.STRING);
+        addComboField(subjectField, ModelingTool.messages.subjectFieldLabel(),
+                VariableType.STRING);
+        addComboField(messageField, ModelingTool.messages.messageFieldLabel(),
+                VariableType.STRING);
+        addComboField(attachmentField, ModelingTool.messages
+                .attachmentFieldLabel(), VariableType.FILE);
     }
 
     @Override
     public void reset() {
+        putEmailNodeModel();
         clearAllEntries();
     }
 
