@@ -34,21 +34,19 @@ abstract public class Dialog extends Window {
     }
 
     /**
-     * TODO: add comment
-     * 
+     * TODO: add comment will be called, when window is closed
      */
     abstract public void reset();
 
     /**
-     * TODO: add comment
-     * 
+     * TODO: add comment will be called, when window is displayed
      */
     abstract public void initialize();
 
     /**
      * 
-     * TODO: add comment
-     *
+     * TODO: add comment provide a method which updates the view when a model
+     * change occured
      */
     abstract public void refresh();
 

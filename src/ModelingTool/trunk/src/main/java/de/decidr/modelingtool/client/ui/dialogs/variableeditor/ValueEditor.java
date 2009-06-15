@@ -74,8 +74,9 @@ public class ValueEditor extends Dialog {
         contentPanel.setHeading(ModelingTool.messages.editVariable());
         contentPanel.setLayout(new FitLayout());
 
+        //TODO: fix layout
         table = new FlexTable();
-        table.setBorderWidth(0);
+        table.setBorderWidth(4);
         table.setWidth("100%");
         scrollPanel = new ScrollPanel(table);
         contentPanel.add(scrollPanel);
@@ -153,6 +154,7 @@ public class ValueEditor extends Dialog {
     private void addEntry(String fieldContent) {
         TextField<String> text = new TextField<String>();
         text.setValue(fieldContent);
+        text.setAutoWidth(true);
         fields.add(text);
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, text);

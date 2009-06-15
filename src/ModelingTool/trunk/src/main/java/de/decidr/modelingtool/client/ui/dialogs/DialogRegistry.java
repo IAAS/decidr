@@ -19,6 +19,7 @@ package de.decidr.modelingtool.client.ui.dialogs;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.decidr.modelingtool.client.ui.dialogs.activitywindows.EmailActivityWindow;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.ValueEditor;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
 
@@ -43,6 +44,7 @@ public class DialogRegistry {
     private DialogRegistry() {
         register(new VariableEditor());
         register(new ValueEditor());
+        register(new EmailActivityWindow());
     }
 
     public void register(Dialog dialog) {

@@ -67,4 +67,6 @@ public interface Messages extends Constants {
     String typeDate();
 
     String typeRole();
+    
+    String toFieldLabel();
 }
