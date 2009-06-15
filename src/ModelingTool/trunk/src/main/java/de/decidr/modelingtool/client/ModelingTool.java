@@ -30,6 +30,7 @@ import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.StartNode;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
+import de.decidr.modelingtool.client.ui.dialogs.activitywindows.EmailActivityWindow;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
 import de.decidr.modelingtool.client.ui.resources.Messages;
 
@@ -37,7 +38,7 @@ import de.decidr.modelingtool.client.ui.resources.Messages;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class ModelingTool implements EntryPoint {
-    
+
     public static Messages messages;
 
     /**
@@ -49,11 +50,18 @@ public class ModelingTool implements EntryPoint {
         messages = GWT.create(Messages.class);
 
         ButtonBar buttonBar = new ButtonBar();
-        buttonBar.add(new Button("Test", new SelectionListener<ButtonEvent>() {
-
+        buttonBar.add(new Button("Variables", new SelectionListener<ButtonEvent>() {
             @Override
             public void componentSelected(ButtonEvent ce) {
-                DialogRegistry.getInstance().showDialog(VariableEditor.class.getName());
+                DialogRegistry.getInstance().showDialog(
+                        VariableEditor.class.getName());
+            }
+        }));
+        buttonBar.add(new Button("Email", new SelectionListener<ButtonEvent>() {
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                DialogRegistry.getInstance().showDialog(
+                        EmailActivityWindow.class.getName());
             }
         }));
         RootPanel.get().add(buttonBar);
