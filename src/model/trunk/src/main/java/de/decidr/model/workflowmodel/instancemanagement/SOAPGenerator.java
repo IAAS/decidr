@@ -37,6 +37,9 @@ public class SOAPGenerator {
      * @return The generated SOAP message
      */
     public String getSOAP(String template,byte[] bystartConfig){
+        
+        javax.xml.soap.MessageFactory mf = null;
+        
         return null;
     }
 

@@ -46,7 +46,7 @@ public class Deployer implements IDeployer {
        IProblem[] problems = validator.validate(dwfm.getDwdl());
        if (problems.length==0){
            ODESelector selector = new ODESelector();
-            serverList = selector.selectServer(serverStatistics);
+           serverList = selector.selectServer(serverStatistics);
            if (!serverList.isEmpty()){
                Translator translator = new Translator();
                translator.laod(dwfm.getDwdl());
