@@ -16,7 +16,7 @@
 
 package de.decidr.model.workflowmodel.dwdl.validation;
 
-import de.decidr.model.workflowmodel.dwdl.model.TWorkflow;
+import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 
 /**
  * This class provides the functionality to determine whether a given DWDL is

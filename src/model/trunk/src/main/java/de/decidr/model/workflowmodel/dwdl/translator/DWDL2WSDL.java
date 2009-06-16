@@ -16,7 +16,7 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
-import de.decidr.model.workflowmodel.dwdl.model.TWorkflow;
+import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 
 /**
  * This class converts a given DWDL object and returns the resulting WSDL.
