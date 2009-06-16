@@ -278,7 +278,7 @@ public class SystemFacade extends AbstractFacade {
         inList = command.getResult();
 
         for (ServerLoadView server : inList) {
-            outList.add(new BeanItem(server));
+            outList.add(new BeanItem(server, properties));
         }
 
         return outList;
