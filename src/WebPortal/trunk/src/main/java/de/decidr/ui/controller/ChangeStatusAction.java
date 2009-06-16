@@ -55,14 +55,12 @@ public class ChangeStatusAction implements ValueChangeListener {
     @Override
     public void valueChange(ValueChangeEvent event) {
     	content = (ProfileSettingsComponent) UIDirector.getInstance().getTemplateView().getContent();
-            
-        //TODO: date format?
-        //      How can it be set to available?
-       
-        //userFacade.setUnavailableSince(userId, Date date);
+                    
         if(content.getStatus().booleanValue()){
+          //userFacade.setUnavailableSince(userId, new Date());
             Main.getCurrent().getMainWindow().showNotification("not available");
         } else {
+          //userFacade.setUnavailableSince(userId, null);
             Main.getCurrent().getMainWindow().showNotification("available");
         }
         
