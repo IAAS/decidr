@@ -85,6 +85,7 @@ public class EmailService implements EmailInterface {
         }
         log.trace("Leaving " + EmailService.class.getSimpleName()
                 + ".addAttachments(MailBackend, IDList)");
+        throw new UnsupportedOperationException("Wants implementation");
     }
 
     /**
@@ -257,5 +258,6 @@ public class EmailService implements EmailInterface {
      */
     private void applyConfig(MailBackend email) {
         // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Wants implementation");
     }
 }

@@ -14,6 +14,8 @@
  * under the License.
  */
 
-//RR add package comment
+/**
+ * This package contains wrappers around exceptions thrown in web services.
+ */
 package de.decidr.model.soap.exceptions;
 

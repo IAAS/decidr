@@ -13,7 +13,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package de.decidr.webservices.email;
+package de.decidr.webservices.humantask;
 
 import java.net.URL;
 
@@ -24,48 +24,48 @@ import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
 /**
- * Client for the <code>{@link EmailService}</code>. Needs at least the WSDL's
+ * Client for the <code>{@link HumanTask}</code>. Needs at least the WSDL's
  * location, as that has to be determined at runtime.
  * 
  * @author Reinhold
  */
-@WebServiceClient(name = "Email", wsdlLocation = "Email.wsdl", targetNamespace = "http://decidr.de/webservices/Email")
-public class EmailClient extends Service {
+@WebServiceClient(name = "HumanTask", wsdlLocation = "HumanTask.wsdl", targetNamespace = "http://decidr.de/webservices/HumanTask")
+public class HumanTaskClient extends Service {
 
     public final static QName SERVICE = new QName(
-            "http://decidr.de/webservices/Email", "Email");
-    public final static QName EMAIL_SOAP = new QName(
-            "http://decidr.de/webservices/Email", "EmailSOAP");
+            "http://decidr.de/webservices/HumanTask", "HumanTask");
+    public final static QName HUMAN_TASK_SOAP = new QName(
+            "http://decidr.de/webservices/HumanTask", "HumanTaskSOAP");
 
-    public EmailClient(URL wsdlLocation) {
+    public HumanTaskClient(URL wsdlLocation) {
         super(wsdlLocation, SERVICE);
     }
 
-    public EmailClient(URL wsdlLocation, QName serviceName) {
+    public HumanTaskClient(URL wsdlLocation, QName serviceName) {
         super(wsdlLocation, serviceName);
     }
 
     /**
      * @return returns an implementation using SOAP 1.2 to access the
-     *         <code>{@link EmailService}</code>.
+     *         <code>{@link HumanTask}</code>.
      */
-    @WebEndpoint(name = "EmailSOAP")
-    public EmailInterface getEmailSOAP() {
-        return super.getPort(EMAIL_SOAP, EmailInterface.class);
+    @WebEndpoint(name = "HumanTaskSOAP")
+    public HumanTaskInterface getEmailSOAP() {
+        return super.getPort(HUMAN_TASK_SOAP, HumanTaskInterface.class);
     }
 
     /**
-     * 
      * @param features
      *            A list of {@link javax.xml.ws.WebServiceFeature} to configure
      *            on the proxy. Supported features not in the
      *            <code>features</code> parameter will have their default
      *            values.
      * @return returns an implementation using SOAP 1.2 to access the
-     *         <code>{@link EmailService}</code>.
+     *         <code>{@link HumanTask}</code>.
      */
-    @WebEndpoint(name = "EmailSOAP")
-    public EmailInterface getEmailSOAP(WebServiceFeature... features) {
-        return super.getPort(EMAIL_SOAP, EmailInterface.class, features);
+    @WebEndpoint(name = "HumanTaskSOAP")
+    public HumanTaskInterface getEmailSOAP(WebServiceFeature... features) {
+        return super.getPort(HUMAN_TASK_SOAP, HumanTaskInterface.class,
+                features);
     }
 }
