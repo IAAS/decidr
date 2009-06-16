@@ -70,6 +70,8 @@ public interface Messages extends Constants {
 
     String typeRole();
     
+    String typeForm();
+    
     String toFieldLabel();
     
     String ccFieldLabel();

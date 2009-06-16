@@ -16,9 +16,10 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.activitywindows;
 
-import com.extjs.gxt.ui.client.widget.Dialog;
 import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.google.gwt.user.client.ui.CheckBox;
+
+import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 
 /**
  * TODO: add comment
@@ -31,5 +32,23 @@ public class HumanTaskActivityWindow extends Dialog {
     private TextField<String> descriptionField;
     private TextField<String> filesProvidedField;
     private CheckBox notify;
+    
+    @Override
+    public void initialize() {
+    	// TODO Auto-generated method stub
+    	
+    }
+    
+    @Override
+    public void reset() {
+    	// TODO Auto-generated method stub
+    	
+    }
+    
+    @Override
+    public void refresh() {
+    	// TODO Auto-generated method stub
+    	
+    }
 
 }
