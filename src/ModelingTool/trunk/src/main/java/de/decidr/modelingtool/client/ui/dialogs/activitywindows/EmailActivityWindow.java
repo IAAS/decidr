@@ -16,20 +16,12 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.activitywindows;
 
-import java.util.List;
-
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
-import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
-import com.extjs.gxt.ui.client.widget.form.Field;
-import com.extjs.gxt.ui.client.widget.form.FileUploadField;
-import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
-import com.extjs.gxt.ui.client.widget.form.TextArea;
-import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -38,7 +30,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.model.Variable;
 import de.decidr.modelingtool.client.model.VariableType;
-import de.decidr.modelingtool.client.model.WorkflowModel;
+import de.decidr.modelingtool.client.model.VariablesFilter;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
@@ -48,8 +40,6 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
  * @author JS
  */
 public class EmailActivityWindow extends Dialog {
-
-    private ListStore<Variable> variables = new ListStore<Variable>();
 
     private ContentPanel contentPanel;
     private ScrollPanel scrollPanel;
@@ -91,16 +81,7 @@ public class EmailActivityWindow extends Dialog {
         this.add(contentPanel);
     }
 
-    private ListStore<Variable> getVariablesOfType(ListStore<Variable> list,
-            VariableType type) {
-        ListStore<Variable> result = new ListStore<Variable>();
-        for (int i = 0; i < list.getCount(); i++) {
-            if (list.getAt(i).getType() == type) {
-                result.add(list.getAt(i));
-            }
-        }
-        return result;
-    }
+
 
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
@@ -127,25 +108,6 @@ public class EmailActivityWindow extends Dialog {
         // TODO: write method
     }
 
-    /**
-     * 
-     * TODO: add comment
-     * 
-     */
-    private void getVariablesFromModel() {
-        variables.removeAll();
-        List<Variable> variablesModel = WorkflowModel.getInstance()
-                .getVariables();
-        for (Variable v : variablesModel) {
-            Variable targetVar = new Variable();
-            targetVar.setName(v.getName());
-            targetVar.setType(v.getType());
-            targetVar.setValues(v.getValues());
-            targetVar.setConfig(v.isConfig());
-            variables.add(targetVar);
-        }
-    }
-
     private void getEmailNodeModel() {
         // TODO: write method
     }
@@ -158,7 +120,7 @@ public class EmailActivityWindow extends Dialog {
             VariableType type) {
         field = new ComboBox<Variable>();
         field.setDisplayField(Variable.NAME);
-        field.setStore(getVariablesOfType(variables, type));
+        field.setStore(VariablesFilter.getVariablesOfType(type));
         field.setTypeAhead(true);
         field.setWidth("200px");
         table.insertRow(table.getRowCount());
@@ -177,9 +139,7 @@ public class EmailActivityWindow extends Dialog {
 
     @Override
     public void initialize() {
-        // TODO: externalize strings
         getEmailNodeModel();
-        getVariablesFromModel();
         addComboField(toField, ModelingTool.messages.toFieldLabel(),
                 VariableType.STRING);
         addComboField(ccField, ModelingTool.messages.ccFieldLabel(),
