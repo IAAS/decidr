@@ -25,19 +25,25 @@ import com.google.gwt.i18n.client.Constants;
  * @author JS
  */
 public interface Messages extends Constants {
-    
+
     String emailActivity();
 
+    String humanTaskActivity();
+
+    String taskData();
+    
+    String workItemForm();
+    
     String addVariable();
 
     String delVariable();
 
     String editVariable();
-    
+
     String addValue();
-    
+
     String delValue();
-    
+
     String newStringValue();
 
     String editorHeading();
@@ -69,18 +75,18 @@ public interface Messages extends Constants {
     String typeDate();
 
     String typeRole();
-    
+
     String typeForm();
-    
+
     String toFieldLabel();
-    
+
     String ccFieldLabel();
-    
+
     String bccFieldLabel();
-    
+
     String subjectFieldLabel();
-    
+
     String messageFieldLabel();
-    
+
     String attachmentFieldLabel();
 }
