@@ -43,12 +43,18 @@ public class Port extends AbsolutePanel {
 
     private boolean multipleConnectionsAllowed = false;
 
-    private List<Connection> connections = new Vector<Connection>();
+    //private List<Connection> connections = new Vector<Connection>();
 
     private Node parentNode = null;
 
     private DropController dropController = new PortDropController(this);
     
+    private List<ConnectionDragBox> gluedDragBoxes = new Vector<ConnectionDragBox>(); 
+    
+    public List<ConnectionDragBox> getGluedDragBoxes() {
+        return gluedDragBoxes;
+    }
+
     // has to be made draggable by subclasses
     protected ConnectionDragBox connectionDragBox = new ConnectionDragBox(this);
     
@@ -65,10 +71,23 @@ public class Port extends AbsolutePanel {
         this.xOffset = xOffset;
         this.yOffset = yOffset;
     }
-
-    public List<Connection> getConnections() {
-        return connections;
+    
+    public void refreshConnections() {
+        for (ConnectionDragBox dragBox: gluedDragBoxes) {
+            if (dragBox.getConnection() != null) {
+                dragBox.getConnection().draw();
+            }
+        }
     }
+    
+    public void add(ConnectionDragBox dragBox) {
+        gluedDragBoxes.add(dragBox);
+        super.add(dragBox);
+    }
+
+//    public List<Connection> getConnections() {
+//        return connections;
+//    }
 
     public DropController getDropController() {
         return dropController;

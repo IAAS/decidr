@@ -61,23 +61,24 @@ public class ConnectionDragController extends PickupDragController {
 
     @Override
     public void dragEnd() {
-        // TODO Auto-generated method stub
         super.dragEnd();
         
         if (context.draggable instanceof ConnectionDragBox) {
             ((ConnectionDragBox)context.draggable).setVisibleStyle(false);
         }
         
-        
         if (connection != null) {
-            // TODO: handle drop controllers
-            
-            // delete created start drag box
-            connection.getStartDragBox().removeFromParent();
-            
-            // delete connection
-            connection.delete();
-            connection = null;
+            // drop on assigned port
+            if (context.finalDropController == null) {
+                // delete created start drag box
+                connection.getStartDragBox().removeFromParent();
+                
+                // delete connection
+                connection.delete();
+                connection = null;
+            }
+            // TODO: create new drag box on port
+            // select connection
         }
     }
 
@@ -96,21 +97,27 @@ public class ConnectionDragController extends PickupDragController {
                 // glue to port
                 startDragBox.setGluedPort(endDragBox.getGluedPort());
                 startDragBox.setVisibleStyle(true);
+                // add to glued Port
+                startDragBox.getGluedPort().add(startDragBox);
+                // make dragbox draggable
+                makeDraggable(startDragBox);
 
                 // unglue end grag box
                 //endDragBox.setGluedPort(null);
                 
                 // set drag boxes and add connection to workflow
                 connection.setStartDragBox(startDragBox);
+                startDragBox.setConnection(connection);
                 connection.setEndDragBox(endDragBox);
+                endDragBox.setConnection(connection);
                 Workflow.getInstance().add(connection);
             }
             
         }
         
         // create drag box and add to workflow
-        ConnectionDragBox startDragBox = new ConnectionDragBox();
-        Workflow.getInstance().add(startDragBox);
+        //ConnectionDragBox startDragBox = new ConnectionDragBox();
+        //Workflow.getInstance().add(startDragBox);
        
         super.dragStart();
     }

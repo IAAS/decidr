@@ -123,7 +123,10 @@ public class NodeSelectionBox {
      * Removes the drag boxes from the workflow.
      */
     public void unassign() {
-
+        assignedNode = null;
+        for (DragBox dragBox : dragBoxes) {
+            parentWorkflow.remove(dragBox);
+        }
     }
 
     /**

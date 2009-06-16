@@ -18,6 +18,10 @@ package de.decidr.modelingtool.client.ui;
 
 import java.util.Vector;
 
+import com.google.gwt.event.dom.client.HasMouseDownHandlers;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 import de.decidr.modelingtool.client.ui.dnd.ConnectionDragController;
@@ -30,7 +34,7 @@ import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
  * 
  * @author engelhjs
  */
-public class Workflow extends AbsolutePanel implements ModelChangeListener {
+public class Workflow extends AbsolutePanel implements ModelChangeListener, HasMouseDownHandlers {
 
     private static Workflow instance;
     
@@ -69,6 +73,9 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
 
         // create selection handler
         selectionHandler = new SelectionHandler(this);
+        
+        // register workflow to selection handler
+        this.addMouseDownHandler(selectionHandler);
 
         // create drag controller
         dragController = new WorkflowDragController(this);
@@ -168,7 +175,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
      * @param connection
      */
     public void remove(Connection connection) {
-
+        
     }
 
     /**
@@ -177,7 +184,12 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener {
      * @param node
      */
     public void remove(Node node) {
-
+        super.remove(node);
+    }
+    
+    @Override
+    public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
+        return addDomHandler(handler, MouseDownEvent.getType());
     }
 
 }

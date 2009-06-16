@@ -70,6 +70,10 @@ public class SelectionHandler implements MouseDownHandler {
             } else if (source instanceof Connection) {
                 Connection connection = (Connection) source;
                 select(connection);
+                
+            } else {
+                // unselect selected item
+                unselect();
             }
         }
     }

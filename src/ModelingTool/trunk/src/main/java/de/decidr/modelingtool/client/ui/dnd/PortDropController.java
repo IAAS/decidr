@@ -21,6 +21,9 @@ import com.allen_sauer.gwt.dnd.client.VetoDragException;
 import com.allen_sauer.gwt.dnd.client.drop.AbstractDropController;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.decidr.modelingtool.client.ui.Port;
+import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
+
 /**
  * TODO: add comment
  *
@@ -48,6 +51,17 @@ public class PortDropController extends AbstractDropController {
     public void onDrop(DragContext context) {
         // TODO Auto-generated method stub
         super.onDrop(context);
+        
+        // dragged drag box
+        ConnectionDragBox cdb = (ConnectionDragBox)context.draggable;
+        // target port
+        Port port = (Port)getDropTarget();
+        // add drag box to target port
+        cdb.setGluedPort(port);
+        port.add(cdb);
+        port.setWidgetPosition(cdb, 0, 0);
+        // redraw connection
+        cdb.getConnection().draw();
     }
 
     @Override

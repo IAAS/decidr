@@ -39,47 +39,53 @@ public class OrthogonalConnection extends Connection {
 
     @Override
     public void draw() {
-        if (parentPanel != null && startDragBox != null && endDragBox != null) {       
+        if (parentPanel != null && startDragBox != null && endDragBox != null) {
             int startX = startDragBox.getMiddleLeft();
             int startY = startDragBox.getMiddleTop();
             int endX = endDragBox.getMiddleLeft();
             int endY = endDragBox.getMiddleTop();
-            
+
             // calculate height and width
             int width = Math.abs(startX - endX);
             int height = Math.abs(startY - endY);
-            
+
             // add lines to panel / brint to front
             parentPanel.add(startLine);
             parentPanel.add(midLine);
             parentPanel.add(endLine);
-            
+
             startLine.setStyleName(STYLE_VERTICAL);
             midLine.setStyleName(STYLE_HORIZONTAL);
             endLine.setStyleName(STYLE_VERTICAL);
-            
+
             if (startY <= endY) {
                 parentPanel.setWidgetPosition(startLine, startX, startY);
                 parentPanel.setWidgetPosition(endLine, endX, endY - height / 2);
             } else {
-                parentPanel.setWidgetPosition(startLine, startX, startY - height / 2);
+                parentPanel.setWidgetPosition(startLine, startX, startY
+                        - height / 2);
                 parentPanel.setWidgetPosition(endLine, endX, endY);
             }
-            
+
             if (startX <= endX) {
-                parentPanel.setWidgetPosition(midLine, startX, (startY + endY) / 2);
+                parentPanel.setWidgetPosition(midLine, startX,
+                        (startY + endY) / 2);
             } else {
-                parentPanel.setWidgetPosition(midLine, endX, (startY + endY) / 2);
+                parentPanel.setWidgetPosition(midLine, endX,
+                        (startY + endY) / 2);
             }
-            
+
             startLine.setHeight((height / 2) + "px");
             startLine.setWidth(LINE_WIDTH + "px");
-            
+
             endLine.setHeight((height / 2) + "px");
             endLine.setWidth(LINE_WIDTH + "px");
-            
+
             midLine.setWidth(width + "px");
             midLine.setHeight(LINE_WIDTH + "px");
+        } else {
+            // TODO: Debug
+            System.out.println("Connection cannot be drawn");
         }
     }
 

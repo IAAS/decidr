@@ -18,6 +18,7 @@ package de.decidr.modelingtool.client.ui.dnd;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 
+import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
@@ -56,6 +57,12 @@ public class WorkflowDragController extends PickupDragController {
     @Override
     public void dragMove() {
         super.dragMove();
+        
+        // refresh all connection connected to the dragged node
+        if (context.draggable instanceof Node) {
+            Node node = (Node)context.draggable;
+            node.refreshConnections();
+        }
     }
 
     @Override

@@ -52,6 +52,12 @@ public abstract class Node extends AbsolutePanel implements
     private boolean moveable = true;
 
     private List<Port> ports = new Vector<Port>();
+    
+    public void refreshConnections() {
+        for (Port port: ports) {
+            port.refreshConnections();
+        }
+    }
 
     public Node() {
         super();
