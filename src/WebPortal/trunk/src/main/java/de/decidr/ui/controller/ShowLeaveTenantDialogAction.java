@@ -28,10 +28,13 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.ui.view.ConfirmDialogComponent;
 import de.decidr.ui.view.Main;
 
-public class ShowLeaveTenantAction implements ClickListener {
+public class ShowLeaveTenantDialogAction implements ClickListener {
+    
+    //TODO: remove, for functionality demonstration only
+    private Long tenantId = null;
     
     @Override
     public void buttonClick(ClickEvent event) {
-        Main.getCurrent().getMainWindow().addWindow(ConfirmDialogComponent.getInstance("Please confirm that you want to leave your tenant.",new LeaveTenantAction()));
+        Main.getCurrent().getMainWindow().addWindow(ConfirmDialogComponent.getInstance("Please confirm that you want to leave your tenant.",new LeaveTenantAction(tenantId)));
     }
 }

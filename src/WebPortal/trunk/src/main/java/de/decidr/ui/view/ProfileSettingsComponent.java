@@ -27,7 +27,7 @@ import de.decidr.ui.controller.SaveProfileAction;
 import de.decidr.ui.controller.ShowCancelMembershipAction;
 import de.decidr.ui.controller.ShowChangeEmailAction;
 import de.decidr.ui.controller.ShowChangePasswordAction;
-import de.decidr.ui.controller.ShowLeaveTenantAction;
+import de.decidr.ui.controller.ShowLeaveTenantDialogAction;
 import de.decidr.ui.data.ProfileSettingsContainer;
 import de.decidr.ui.data.ProfileSettingsItem;
 
@@ -142,7 +142,7 @@ public class ProfileSettingsComponent extends CustomComponent {
 		changeEmailLink.setStyleName(Button.STYLE_LINK);
 		changePasswordLink = new Button("Change password", new ShowChangePasswordAction());
 		changePasswordLink.setStyleName(Button.STYLE_LINK);
-		leaveTenantLink = new Button("Leave tenant", new ShowLeaveTenantAction());
+		leaveTenantLink = new Button("Leave tenant", new ShowLeaveTenantDialogAction());
 		leaveTenantLink.setStyleName(Button.STYLE_LINK);
 		cancelMembershipLink = new Button("Cancel Membership", new ShowCancelMembershipAction());
 		cancelMembershipLink.setStyleName(Button.STYLE_LINK);

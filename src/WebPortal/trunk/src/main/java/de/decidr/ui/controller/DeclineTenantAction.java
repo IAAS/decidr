@@ -16,52 +16,46 @@
 
 package de.decidr.ui.controller;
 
+import java.util.Date;
+import java.util.Iterator;
+
+import javax.servlet.http.HttpSession;
+
+import com.vaadin.data.Item;
+import com.vaadin.service.ApplicationContext;
+import com.vaadin.terminal.gwt.server.WebApplicationContext;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+
+import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.permissions.UserRole;
+import de.decidr.ui.view.Main;
+import de.decidr.ui.view.ProfileSettingsComponent;
+
 /**
  * TODO: add comment
  *
  * @author GH
  */
-
-import javax.servlet.http.HttpSession;
-
-import com.vaadin.data.Item;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.service.ApplicationContext;
-import com.vaadin.terminal.gwt.server.WebApplicationContext;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-
-import de.decidr.ui.view.ChangeEmailComponent;
-import de.decidr.ui.view.ConfirmDialogComponent;
-import de.decidr.ui.view.Main;
-import de.decidr.ui.view.ProfileSettingsComponent;
-import de.decidr.model.facades.UserFacade;
-import de.decidr.model.permissions.UserRole;
-
-public class LeaveTenantAction implements ClickListener {
+public class DeclineTenantAction implements ClickListener{
     
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
+    //TODO: model causes errors
     
     private ApplicationContext ctx = Main.getCurrent().getContext();
-	private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-	private HttpSession session = webCtx.getHttpSession();
+    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
+    private HttpSession session = webCtx.getHttpSession();
     
-	private Long userId = (Long)session.getAttribute("userId");
-	//private UserFacade userFacade = new UserFacade(new UserRole(userId));
-        
-    private Long tenantId = null;
+    private Long userId = (Long)session.getAttribute("userId");
+    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
     
-    public LeaveTenantAction(Long id){
-        tenantId = id;
-    }
+    //TODO: change to correct component
+    //private XYZComponent content = null;
     
     @Override
     public void buttonClick(ClickEvent event) {
-    	//userFacade.leaveTenant(userId, tenantId);
-        Main.getCurrent().getMainWindow().showNotification("you have left a tenant");
-        Main.getCurrent().getMainWindow().removeWindow(ConfirmDialogComponent.getInstance());
+        //content = (XYZComponent) UIDirector.getInstance().getTemplateView().getContent();
+        //TODO: implement getSelectedTenants()
+        //tenantFacade.disapproveTenants(content.getSelectedTenants());
         
     }
 }
