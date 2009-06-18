@@ -18,28 +18,27 @@ package de.decidr.model.workflowmodel.deployment;
 
 import java.util.List;
 
-import de.decidr.model.entities.ServerLoadView;
+import de.decidr.model.workflowmodel.dwdl.validation.IProblem;
+import de.decidr.model.workflowmodel.dwdl.validation.Validator;
 
 /**
- * This class provides the possibility to select servers on which a workflow 
- * model could be deployed on.
+ * Exception thrown by {@link Validator} if a given DWDL is not valid. The 
+ * exception contains a list of {@link IProblem} which substantiates the fault.
  *
  * @author Modood Alvi
  * @version 0.1
  */
-public class ODESelector {
+public class DWDLValidationException extends Exception {
 
     /**
-     * This function expects a ServerLoadView, containing a list of all 
-     * available servers as well as their IDs, paths, server load and deployed
-     * workflow instances. Using this information, the function chooses the 50%
-     * of these servers with the least load and returns a list of their IDs.
+     * TODO: add comment
      *
-     * @param serverStatistics
-     * @return List of server IDs with least load.
+     * @param problems
      */
-    public List<Long> selectServer(List<ServerLoadView> serverStatistics){
-        return null;
+    public DWDLValidationException(List<IProblem> problems) {
+        // TODO Auto-generated constructor stub
     }
-    
+
+    private static final long serialVersionUID = 1L;
+
 }

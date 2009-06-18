@@ -21,25 +21,25 @@ import java.util.List;
 import de.decidr.model.entities.ServerLoadView;
 
 /**
- * This class provides the possibility to select servers on which a workflow 
- * model could be deployed on.
+ * TODO: add comment
  *
- * @author Modood Alvi
- * @version 0.1
+ * @author mod2
  */
-public class ODESelector {
+public class ODESelectorException extends Exception {
 
     /**
-     * This function expects a ServerLoadView, containing a list of all 
-     * available servers as well as their IDs, paths, server load and deployed
-     * workflow instances. Using this information, the function chooses the 50%
-     * of these servers with the least load and returns a list of their IDs.
+     * TODO: add comment
      *
      * @param serverStatistics
-     * @return List of server IDs with least load.
      */
-    public List<Long> selectServer(List<ServerLoadView> serverStatistics){
-        return null;
+    public ODESelectorException(List<ServerLoadView> serverStatistics) {
+        // TODO Auto-generated constructor stub
     }
-    
+
+
+    /**
+     * TODO: add comment
+     */
+    private static final long serialVersionUID = 1L;
+
 }

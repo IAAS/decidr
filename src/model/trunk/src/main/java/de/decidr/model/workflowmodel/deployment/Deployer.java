@@ -16,11 +16,13 @@
 
 package de.decidr.model.workflowmodel.deployment;
 
+import java.io.IOException;
 import java.util.List;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.workflowmodel.dwdl.translator.Translator;
 import de.decidr.model.workflowmodel.dwdl.validation.IProblem;
+import de.decidr.model.workflowmodel.dwdl.validation.Problem;
 import de.decidr.model.workflowmodel.dwdl.validation.Validator;
 
 /**
@@ -31,6 +33,13 @@ import de.decidr.model.workflowmodel.dwdl.validation.Validator;
  */
 public class Deployer implements IDeployer {
 
+    private List<Long> serverList = null;
+    private Validator validator = null;
+    private List<IProblem> problems = null;
+    private ODESelector selector = null;
+    private Translator translator = null;
+    private FileDeployer fileDeployer = null;
+
     /*
      * (non-Javadoc)
      * 
@@ -40,43 +49,38 @@ public class Deployer implements IDeployer {
      */
     @Override
     public List<Long> deploy(DeployedWorkflowModel dwfm,
-            ServerLoadView serverStatistics) throws Exception {
-       List<Long> serverList=null; 
-       Validator validator = new Validator();
-       IProblem[] problems = validator.validate(dwfm.getDwdl());
-       if (problems.length==0){
-           ODESelector selector = new ODESelector();
-           serverList = selector.selectServer(serverStatistics);
-           if (!serverList.isEmpty()){
-               Translator translator = new Translator();
-               translator.laod(dwfm.getDwdl());
-               String bpel = translator.getBPEL();
-               String wsdl = translator.getWSDL("someloaction", "sometenantName");
-               String dd = translator.getDD();
-               String soap = translator.getSOAP();
-               FileDeployer fileDeployer = new FileDeployer();
-               List<String> server = null;
-               Long odeVersion = fileDeployer.deploy(server, dwfm.getName(), bpel, wsdl, dd);
-               updateDeployedWorkflowModel(dwfm);
-               dwfm.setSoapTemplate(soap.getBytes());
-               
-           }
-           else{
-               throw new Exception();
-           }
-       }
-       else{
-           throw new Exception();
-       }
+            List<ServerLoadView> serverStatistics)
+            throws DWDLValidationException, ODESelectorException, IOException {
+        validator = new Validator();
+        problems = validator.validate(dwfm.getDwdl());
+        if (problems.isEmpty()) {
+            throw new DWDLValidationException(problems);
+        }
+        selector = new ODESelector();
+        serverList = selector.selectServer(serverStatistics);
+        if (serverList.isEmpty()) {
+            throw new ODESelectorException(serverStatistics);
+        }
+        translator = new Translator();
+        translator.laod(dwfm.getDwdl());
+        byte[] bpel = translator.getBPEL();
+        byte[] wsdl = translator.getWSDL("someloaction", "sometenantName");
+        byte[] dd = translator.getDD();
+        byte[] soap = translator.getSOAP();
+        fileDeployer = new FileDeployer();
+        Long odeVersion = fileDeployer.deploy(serverList, dwfm.getName(), bpel,
+                wsdl, dd);
+        updateDeployedWorkflowModel(dwfm);
+
         return serverList;
     }
 
     /**
      * TODO: add comment
-     *
+     * 
      */
     private void updateDeployedWorkflowModel(DeployedWorkflowModel dwfm) {
-        //dwfm.setSoapTemplate(soap.getBytes());   
+        
     }
-    
+
 }

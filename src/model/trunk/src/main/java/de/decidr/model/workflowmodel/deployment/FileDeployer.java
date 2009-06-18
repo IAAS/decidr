@@ -16,7 +16,11 @@
 
 package de.decidr.model.workflowmodel.deployment;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * This class provides the functionality to deploy the files of a workflow model
@@ -33,7 +37,7 @@ public class FileDeployer {
      * the folder in the ODE and has to be unique for each workflow model, as
      * well as the BPEL, WSDL and Deployment Descriptor as strings. If a process
      * is deployed in Apache ODE, it automatically receives a version number,
-     * which is re-turned by the function deploy. If the function is called, a
+     * which is returned by the function deploy. If the function is called, a
      * folder with the passed name is created locally on the server. The passed
      * BPEL, WSDL and Deployment Descriptor are written to files in this folder.
      * This folder is compressed as a zip file. By invoking the Deployment Web
@@ -44,15 +48,39 @@ public class FileDeployer {
      * created locally are deleted.
      * 
      * 
-     * @param server List of server addresses
-     * @param name Name of the process
-     * @param bpel BPEL representation of the process
-     * @param wsdl WSDL representation of the process
-     * @param dd The Deployment Descriptor
+     * @param serverList
+     *            List of server addresses
+     * @param name
+     *            Name of the process
+     * @param bpel
+     *            BPEL representation of the process
+     * @param wsdl
+     *            WSDL representation of the process
+     * @param dd
+     *            The Deployment Descriptor
      * @return The highest ODE Version of the the processes
+     * @throws IOException
      */
-    public long deploy(List<String> server, String name, String bpel,
-            String wsdl, String dd) {
+    public long deploy(List<Long> serverList, String name, byte[] bpel,
+            byte[] wsdl, byte[] dd) throws IOException {
+
+        String zipFilename = name + ".zip";
+        String bpelFilename = name + ".bpel";
+        String wsdlFilename = name + ".wsdl";
+        String ddFilename = "deploy.xml";
+        ZipOutputStream zip_out_stream = new ZipOutputStream(
+                new FileOutputStream(zipFilename));
+        zip_out_stream.putNextEntry(new ZipEntry(bpelFilename));
+        zip_out_stream.write(bpel);
+        zip_out_stream.closeEntry();
+        zip_out_stream.putNextEntry(new ZipEntry(wsdlFilename));
+        zip_out_stream.write(wsdl);
+        zip_out_stream.closeEntry();
+        zip_out_stream.putNextEntry(new ZipEntry(ddFilename));
+        zip_out_stream.write(dd);
+        zip_out_stream.closeEntry();
+        zip_out_stream.close();
+
         return 1l;
     }
 

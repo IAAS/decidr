@@ -16,6 +16,7 @@
 
 package de.decidr.model.workflowmodel.deployment;
 
+import java.io.IOException;
 import java.util.List;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.ServerLoadView;
@@ -37,13 +38,15 @@ public interface IDeployer {
      *            deployed
      * @param serverStatistics
      *            A server load view, which lists all available servers and
-     *            details of these servers, like ser¬ver load, running
+     *            details of these servers, like server load, running
      *            instances, deployed models
      * @return The function returns a list of Long values, the IDs of the
      *         servers, on which the workflow model has been deployed on
-     * @throws Exception
+     * @throws IOException 
+     * @throws DWDLValidationException
+     * @throws ODESelectorException
      */
     public List<Long> deploy(DeployedWorkflowModel dwfm,
-            ServerLoadView serverStatistics) throws Exception;
+            List<ServerLoadView> serverStatistics) throws DWDLValidationException, ODESelectorException, IOException;
 
 }
