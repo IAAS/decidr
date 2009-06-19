@@ -270,7 +270,6 @@ public class SystemFacade extends AbstractFacade {
 
         List<Item> outList = new ArrayList<Item>();
         List<ServerLoadView> inList = new ArrayList();
-        @SuppressWarnings("unused")
         String[] properties = { "id", "location", "load", "numInstances",
                 "dynamicallyAdded" };
 

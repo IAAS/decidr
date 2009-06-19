@@ -28,9 +28,12 @@ import javax.xml.bind.TypeConstraintException;
 
 import org.apache.log4j.Logger;
 
+import de.decidr.model.commands.system.GetSystemSettingsCommand;
 import de.decidr.model.email.MailBackend;
+import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.DefaultLogger;
+import de.decidr.model.permissions.EmailRole;
 import de.decidr.model.soap.exceptions.IoExceptionWrapper;
 import de.decidr.model.soap.exceptions.MalformedURLExceptionWrapper;
 import de.decidr.model.soap.exceptions.MessagingExceptionWrapper;
@@ -43,6 +46,7 @@ import de.decidr.model.soap.types.IDList;
 import de.decidr.model.soap.types.RoleUser;
 import de.decidr.model.soap.types.StringMap;
 import de.decidr.model.soap.types.StringMapping;
+import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.webservices.EmailInterface;
 
 /**
@@ -53,6 +57,10 @@ import de.decidr.model.webservices.EmailInterface;
  */
 @javax.jws.WebService(serviceName = "Email", portName = "EmailSOAP", targetNamespace = "http://decidr.de/webservices/Email", wsdlLocation = "file:Email.wsdl", endpointInterface = "de.decidr.webservices.email.EmailPT")
 public class EmailService implements EmailInterface {
+
+    private static final String VERSION = "0.1";
+    private static final String USER_AGENT = "DecidR E-Mail Web Service v"
+            + VERSION;
 
     private static final Logger log = DefaultLogger
             .getLogger(EmailService.class);
@@ -70,6 +78,7 @@ public class EmailService implements EmailInterface {
      * @throws MalformedURLException
      *             see <code>{@link MailBackend#addFile(java.net.URI)}</code>
      * @throws TransactionException
+     *             Thrown by the <code>{@link de.decidr.model}</code>.
      * @throws IoExceptionWrapper
      *             see <code>{@link MailBackend#addFile(java.net.URI)}</code>
      */
@@ -257,9 +266,18 @@ public class EmailService implements EmailInterface {
      * 
      * @param email
      *            The <code>{@link MailBackend}</code> to be configured.
+     * @throws TransactionException
+     *             Thrown by the <code>{@link de.decidr.model}</code>.
      */
-    private void applyConfig(MailBackend email) {
-        // TODO Auto-generated method stub
+    private void applyConfig(MailBackend email) throws TransactionException {
+        GetSystemSettingsCommand command = new GetSystemSettingsCommand(
+                EmailRole.getInstance());
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+        SystemSettings config = command.getResult();
+
+        email.setXMailer(USER_AGENT);
+
+        // TODO get settings & apply
         throw new UnsupportedOperationException("Wants implementation");
     }
 }
