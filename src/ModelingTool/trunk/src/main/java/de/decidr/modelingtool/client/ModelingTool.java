@@ -32,6 +32,7 @@ import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.activitywindows.EmailActivityWindow;
 import de.decidr.modelingtool.client.ui.dialogs.activitywindows.HumanTaskActivityWindow;
+import de.decidr.modelingtool.client.ui.dialogs.containerwindows.ForEachWindow;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
 import de.decidr.modelingtool.client.ui.resources.Messages;
 
@@ -40,57 +41,65 @@ import de.decidr.modelingtool.client.ui.resources.Messages;
  */
 public class ModelingTool implements EntryPoint {
 
-	public static Messages messages;
+    public static Messages messages;
 
-	/**
-	 * This is the entry point method.
-	 */
-	public void onModuleLoad() {
+    /**
+     * This is the entry point method.
+     */
+    public void onModuleLoad() {
 
-		/* Internationalization: "Instantiate" the Message interface class. */
-		messages = GWT.create(Messages.class);
+        /* Internationalization: "Instantiate" the Message interface class. */
+        messages = GWT.create(Messages.class);
 
-		ButtonBar buttonBar = new ButtonBar();
-		buttonBar.add(new Button("Variables",
-				new SelectionListener<ButtonEvent>() {
-					@Override
-					public void componentSelected(ButtonEvent ce) {
-						DialogRegistry.getInstance().showDialog(
-								VariableEditor.class.getName());
-					}
-				}));
-		buttonBar.add(new Button("Email", new SelectionListener<ButtonEvent>() {
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				DialogRegistry.getInstance().showDialog(
-						EmailActivityWindow.class.getName());
-			}
-		}));
-		buttonBar.add(new Button("HT", new SelectionListener<ButtonEvent>() {
-			@Override
-			public void componentSelected(ButtonEvent ce) {
-				DialogRegistry.getInstance().showDialog(
-						HumanTaskActivityWindow.class.getName());
-			}
-		}));
-		RootPanel.get().add(buttonBar);
+        ButtonBar buttonBar = new ButtonBar();
+        buttonBar.add(new Button("Variables",
+                new SelectionListener<ButtonEvent>() {
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        DialogRegistry.getInstance().showDialog(
+                                VariableEditor.class.getName());
+                    }
+                }));
+        buttonBar.add(new Button("Email", new SelectionListener<ButtonEvent>() {
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                DialogRegistry.getInstance().showDialog(
+                        EmailActivityWindow.class.getName());
+            }
+        }));
+        buttonBar.add(new Button("HT", new SelectionListener<ButtonEvent>() {
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                DialogRegistry.getInstance().showDialog(
+                        HumanTaskActivityWindow.class.getName());
+            }
+        }));
+        buttonBar.add(new Button("ForEach",
+                new SelectionListener<ButtonEvent>() {
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        DialogRegistry.getInstance().showDialog(
+                                ForEachWindow.class.getName());
+                    }
+                }));
+        RootPanel.get().add(buttonBar);
 
-		// create workflow and add to the root panel.
-		final Workflow workflow = Workflow.getInstance();
-		RootPanel.get("workflow").add(workflow);
+        // create workflow and add to the root panel.
+        final Workflow workflow = Workflow.getInstance();
+        RootPanel.get("workflow").add(workflow);
 
-		// create test elements
-		Node startNode = new StartNode();
-		Node endNode = new EndNode();
-		Node emailInvokeNode = new EmailInvokeNode();
+        // create test elements
+        Node startNode = new StartNode();
+        Node endNode = new EndNode();
+        Node emailInvokeNode = new EmailInvokeNode();
 
-		Container con = new Container();
+        Container con = new Container();
 
-		workflow.add(startNode, 50, 50);
-		workflow.add(emailInvokeNode, 50, 150);
-		workflow.add(endNode, 50, 250);
+        workflow.add(startNode, 50, 50);
+        workflow.add(emailInvokeNode, 50, 150);
+        workflow.add(endNode, 50, 250);
 
-		workflow.add(con, 200, 50);
+        workflow.add(con, 200, 50);
 
-	}
+    }
 }

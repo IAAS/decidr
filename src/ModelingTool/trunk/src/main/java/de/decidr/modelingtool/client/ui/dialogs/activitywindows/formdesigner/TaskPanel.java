@@ -53,6 +53,17 @@ public class TaskPanel extends ContentPanel {
         taskScrollPanel = new ScrollPanel(taskTable);
         this.add(taskScrollPanel);
 
+        ComboBox<Variable> userField = new ComboBox<Variable>();
+        userField.setDisplayField(Variable.NAME);
+        userField.setStore(VariablesFilter
+                .getVariablesOfType(VariableType.ROLE));
+        userField.setTypeAhead(true);
+        userField.setWidth("200px");
+        taskTable.insertRow(taskTable.getRowCount());
+        taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
+                ModelingTool.messages.userLabel()));
+        taskTable.setWidget(taskTable.getRowCount() - 1, 1, userField);
+
         ComboBox<Variable> formField = new ComboBox<Variable>();
         formField.setDisplayField(Variable.NAME);
         formField.setStore(VariablesFilter
@@ -61,13 +72,13 @@ public class TaskPanel extends ContentPanel {
         formField.setWidth("200px");
         taskTable.insertRow(taskTable.getRowCount());
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
-                "Form Container:"));
+                ModelingTool.messages.formLabel()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, formField);
 
         CheckBox notifyCheckBox = new CheckBox();
         taskTable.insertRow(taskTable.getRowCount());
-        taskTable.setWidget(taskTable.getRowCount() - 1, 0,
-                new Label("Notify:"));
+        taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
+                ModelingTool.messages.notifyLabel()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, notifyCheckBox);
 
     }

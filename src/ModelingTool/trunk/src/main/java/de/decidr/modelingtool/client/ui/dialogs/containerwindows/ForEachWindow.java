@@ -16,13 +16,127 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.containerwindows;
 
-import com.extjs.gxt.ui.client.widget.Dialog;
+import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.form.ComboBox;
+import com.extjs.gxt.ui.client.widget.form.Radio;
+import com.extjs.gxt.ui.client.widget.form.RadioGroup;
+import com.extjs.gxt.ui.client.widget.layout.FitLayout;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
+
+import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.model.Variable;
+import de.decidr.modelingtool.client.model.VariablesFilter;
+import de.decidr.modelingtool.client.ui.dialogs.Dialog;
+import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
  * TODO: add comment
  * 
- * @author JS
+ * @author Jonas Schlaak
  */
 public class ForEachWindow extends Dialog {
+
+    private ContentPanel contentPanel;
+    private ScrollPanel scrollPanel;
+    private FlexTable table;
+
+    public ForEachWindow() {
+        super();
+        this.setLayout(new FitLayout());
+        this.setSize(400, 200);
+        this.setResizable(true);
+        createcontentPanel();
+        createButtons();
+    }
+
+    private void createcontentPanel() {
+        contentPanel = new ContentPanel();
+
+        contentPanel.setHeading(ModelingTool.messages.forEachContainer());
+        contentPanel.setLayout(new FitLayout());
+
+        // TODO: fix layout
+        table = new FlexTable();
+        table.setBorderWidth(0);
+        table.setWidth("100%");
+        table.setCellPadding(2);
+        table.setCellSpacing(2);
+        scrollPanel = new ScrollPanel(table);
+        contentPanel.add(scrollPanel);
+
+        ComboBox<Variable> iterableField = new ComboBox<Variable>();
+        iterableField.setDisplayField(Variable.NAME);
+        iterableField.setStore(VariablesFilter.getAllVariables());
+        iterableField.setTypeAhead(true);
+        iterableField.setWidth("200px");
+        table.insertRow(table.getRowCount());
+        table.setWidget(table.getRowCount() - 1, 0, new Label(
+                ModelingTool.messages.iterationVarLabel()));
+        table.setWidget(table.getRowCount() - 1, 1, iterableField);
+
+        RadioGroup exitConditionGroup = new RadioGroup();
+        Radio andBox = new Radio();
+        andBox.setBoxLabel("wqe");
+        exitConditionGroup.add(andBox);
+        Radio xorBox = new Radio();
+        xorBox.setBoxLabel("sdf");
+        table.insertRow(table.getRowCount());
+        table.setWidget(table.getRowCount() - 1, 0, new Label(
+                ModelingTool.messages.exitConLabel()));
+        table.setWidget(table.getRowCount() - 1, 1, exitConditionGroup);
+        exitConditionGroup.add(xorBox);
+
+        this.add(contentPanel);
+    }
+
+    private void createButtons() {
+        setButtonAlign(HorizontalAlignment.CENTER);
+        addButton(new Button(ModelingTool.messages.okButton(),
+                new SelectionListener<ButtonEvent>() {
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        okButtonAction();
+                        DialogRegistry.getInstance().hideDialog(
+                                ForEachWindow.class.getName());
+                    }
+                }));
+        addButton(new Button(ModelingTool.messages.cancelButton(),
+                new SelectionListener<ButtonEvent>() {
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        DialogRegistry.getInstance().hideDialog(
+                                ForEachWindow.class.getName());
+                    }
+                }));
+    }
+
+    protected void okButtonAction() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void initialize() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void reset() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void refresh() {
+        // TODO Auto-generated method stub
+
+    }
 
 }

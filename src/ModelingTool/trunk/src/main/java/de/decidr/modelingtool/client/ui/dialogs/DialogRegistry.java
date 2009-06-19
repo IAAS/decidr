@@ -21,6 +21,7 @@ import java.util.Map;
 
 import de.decidr.modelingtool.client.ui.dialogs.activitywindows.EmailActivityWindow;
 import de.decidr.modelingtool.client.ui.dialogs.activitywindows.HumanTaskActivityWindow;
+import de.decidr.modelingtool.client.ui.dialogs.containerwindows.ForEachWindow;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.ValueEditor;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
 
@@ -47,6 +48,7 @@ public class DialogRegistry {
         register(new ValueEditor());
         register(new EmailActivityWindow());
         register(new HumanTaskActivityWindow());
+        register(new ForEachWindow());        
     }
 
     public void register(Dialog dialog) {

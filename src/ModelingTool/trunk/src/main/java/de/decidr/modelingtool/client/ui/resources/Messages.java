@@ -46,11 +46,24 @@ public interface Messages extends Constants {
 
     String taskData();
 
+    String userLabel();
+
+    String formLabel();
+
+    String notifyLabel();
+
     String workItemForm();
 
     String workItemLabel();
 
     String workItemOutputVar();
+
+    /* For Each container */
+    String forEachContainer();
+
+    String iterationVarLabel();
+
+    String exitConLabel();
 
     /* Variable editor */
     String addVariable();

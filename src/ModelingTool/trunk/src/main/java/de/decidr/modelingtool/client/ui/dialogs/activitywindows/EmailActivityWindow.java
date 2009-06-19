@@ -51,9 +51,7 @@ public class EmailActivityWindow extends Dialog {
     private ComboBox<Variable> subjectField;
     private ComboBox<Variable> messageField;
     private ComboBox<Variable> attachmentField;
-
-    // TODO: private ComboBox<VariableType> sent;
-
+    
     public EmailActivityWindow() {
         super();
         this.setLayout(new FitLayout());
