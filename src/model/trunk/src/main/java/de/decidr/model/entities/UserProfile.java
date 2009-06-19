@@ -23,6 +23,7 @@ public class UserProfile implements java.io.Serializable {
     private String city;
 
     public UserProfile() {
+        // TODO
     }
 
     public UserProfile(User user, String username, String passwordHash,

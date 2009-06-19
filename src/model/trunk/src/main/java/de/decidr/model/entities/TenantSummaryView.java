@@ -21,6 +21,7 @@ public class TenantSummaryView implements java.io.Serializable {
     private long numMembers;
 
     public TenantSummaryView() {
+        // TODO
     }
 
     public TenantSummaryView(long id, String tenantName,

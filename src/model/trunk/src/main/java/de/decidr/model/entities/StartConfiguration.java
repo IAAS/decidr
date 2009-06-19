@@ -16,6 +16,7 @@ public class StartConfiguration implements java.io.Serializable {
     private byte[] startConfiguration;
 
     public StartConfiguration() {
+        // TODO
     }
 
     public StartConfiguration(long id,

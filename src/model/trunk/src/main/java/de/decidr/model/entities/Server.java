@@ -26,6 +26,7 @@ public class Server implements java.io.Serializable {
             0);
 
     public Server() {
+        // TODO
     }
 
     public Server(ServerType serverType, String location, byte load,

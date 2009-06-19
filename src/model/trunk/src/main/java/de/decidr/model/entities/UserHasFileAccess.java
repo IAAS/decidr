@@ -19,6 +19,7 @@ public class UserHasFileAccess implements java.io.Serializable {
     private boolean mayReplace;
 
     public UserHasFileAccess() {
+        // TODO
     }
 
     public UserHasFileAccess(UserHasFileAccessId id, User user, File file,

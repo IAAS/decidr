@@ -57,6 +57,7 @@ public class TaskIdentifier {
      * Default constructor needed by JAXB.
      */
     public TaskIdentifier() {
+        // TODO
     }
 
     /**

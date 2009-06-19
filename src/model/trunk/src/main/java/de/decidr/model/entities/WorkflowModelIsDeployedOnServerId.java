@@ -15,6 +15,7 @@ public class WorkflowModelIsDeployedOnServerId implements java.io.Serializable {
     private long serverId;
 
     public WorkflowModelIsDeployedOnServerId() {
+        // TODO
     }
 
     public WorkflowModelIsDeployedOnServerId(long deployedWorkflowModelId,

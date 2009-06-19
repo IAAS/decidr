@@ -26,6 +26,7 @@ public class StartableWorkflowModelView implements java.io.Serializable {
     private Long modifiedByUserId;
 
     public StartableWorkflowModelView() {
+        // TODO
     }
 
     public StartableWorkflowModelView(long id, long tenantId, String name,

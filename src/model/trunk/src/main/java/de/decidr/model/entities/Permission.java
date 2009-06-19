@@ -20,6 +20,7 @@ public class Permission implements java.io.Serializable {
             0);
 
     public Permission() {
+        // TODO
     }
 
     public Permission(String name) {

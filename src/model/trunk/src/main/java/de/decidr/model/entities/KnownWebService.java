@@ -16,6 +16,7 @@ public class KnownWebService implements java.io.Serializable {
     private byte[] wsdl;
 
     public KnownWebService() {
+        // TODO
     }
 
     public KnownWebService(String name, byte[] wsdl) {

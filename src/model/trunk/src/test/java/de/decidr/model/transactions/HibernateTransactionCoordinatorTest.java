@@ -178,8 +178,6 @@ public class HibernateTransactionCoordinatorTest {
     }
     
     public void testRunInnerTransaction() {
-        
+        // TODO
     }
-
-    
 }

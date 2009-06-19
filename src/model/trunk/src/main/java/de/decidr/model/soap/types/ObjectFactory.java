@@ -43,6 +43,7 @@ public class ObjectFactory {
      * schema derived classes for package: de.decidr.schema.decidrtypes
      */
     public ObjectFactory() {
+        // needed by JAXB
     }
 
     /**

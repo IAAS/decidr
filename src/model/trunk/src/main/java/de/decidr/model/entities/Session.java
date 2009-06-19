@@ -19,6 +19,7 @@ public class Session implements java.io.Serializable {
     private boolean valid;
 
     public Session() {
+        // TODO
     }
 
     public Session(String sessionId, long lastAccessed, int maxInactive,

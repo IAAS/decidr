@@ -15,6 +15,7 @@ public class UserHasFileAccessId implements java.io.Serializable {
     private long fileId;
 
     public UserHasFileAccessId() {
+        // TODO
     }
 
     public UserHasFileAccessId(long userId, long fileId) {

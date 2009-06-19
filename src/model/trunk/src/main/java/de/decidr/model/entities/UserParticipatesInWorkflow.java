@@ -16,6 +16,7 @@ public class UserParticipatesInWorkflow implements java.io.Serializable {
     private User user;
 
     public UserParticipatesInWorkflow() {
+        // TODO
     }
 
     public UserParticipatesInWorkflow(UserParticipatesInWorkflowId id,

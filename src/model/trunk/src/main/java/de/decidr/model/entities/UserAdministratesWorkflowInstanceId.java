@@ -16,6 +16,7 @@ public class UserAdministratesWorkflowInstanceId implements
     private long workflowInstanceId;
 
     public UserAdministratesWorkflowInstanceId() {
+        // TODO
     }
 
     public UserAdministratesWorkflowInstanceId(long userId,

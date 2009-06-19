@@ -43,5 +43,5 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "tAbstractUser")
 @XmlSeeAlso( { EmailUser.class, ActorUser.class, RoleUser.class })
 public abstract class AbstractUser {
-
+    // There's nothing that can be assumed about a user, so nothing in here
 }

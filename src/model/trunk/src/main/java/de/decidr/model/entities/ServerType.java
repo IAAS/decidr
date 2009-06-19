@@ -19,6 +19,7 @@ public class ServerType implements java.io.Serializable {
     private Set<Server> servers = new HashSet<Server>(0);
 
     public ServerType() {
+        // TODO
     }
 
     public ServerType(String name) {

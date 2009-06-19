@@ -20,6 +20,7 @@ public class ChangeEmailRequest implements java.io.Serializable {
     private String authKey;
 
     public ChangeEmailRequest() {
+        // TODO
     }
 
     public ChangeEmailRequest(User user, String newEmail, Date creationDate,

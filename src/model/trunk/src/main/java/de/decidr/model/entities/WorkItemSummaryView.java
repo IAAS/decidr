@@ -22,6 +22,7 @@ public class WorkItemSummaryView implements java.io.Serializable {
     private long workflowInstanceId;
 
     public WorkItemSummaryView() {
+        // TODO
     }
 
     public WorkItemSummaryView(long id, String workItemName, String tenantName,

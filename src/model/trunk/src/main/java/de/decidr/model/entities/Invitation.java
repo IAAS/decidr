@@ -19,6 +19,7 @@ public class Invitation implements java.io.Serializable {
     private WorkflowInstance participateInWorkflowInstance;
 
     public Invitation() {
+        // TODO
     }
 
     public Invitation(User sender, User receiver) {

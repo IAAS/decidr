@@ -32,6 +32,7 @@ public class Tenant implements java.io.Serializable {
             0);
 
     public Tenant() {
+        // TODO
     }
 
     public Tenant(User admin, String name, String description) {

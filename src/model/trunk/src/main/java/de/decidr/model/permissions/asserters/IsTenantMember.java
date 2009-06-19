@@ -54,9 +54,11 @@ public class IsTenantMember implements Asserter, TransactionalCommand {
 
     @Override
     public void transactionAborted(TransactionAbortedEvent evt) {
+        // TODO
     }
 
     @Override
     public void transactionCommitted(TransactionEvent evt) {
+        // TODO
     }
 }

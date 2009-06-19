@@ -15,6 +15,7 @@ public class UserIsMemberOfTenantId implements java.io.Serializable {
     private long tenantId;
 
     public UserIsMemberOfTenantId() {
+        // TODO
     }
 
     public UserIsMemberOfTenantId(long userId, long tenantId) {

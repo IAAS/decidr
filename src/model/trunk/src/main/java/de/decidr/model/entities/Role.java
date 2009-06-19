@@ -20,6 +20,7 @@ public class Role implements java.io.Serializable {
             0);
 
     public Role() {
+        // TODO
     }
 
     public Role(String name) {

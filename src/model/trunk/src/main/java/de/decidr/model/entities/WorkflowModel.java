@@ -33,6 +33,7 @@ public class WorkflowModel implements java.io.Serializable {
             0);
 
     public WorkflowModel() {
+        // TODO
     }
 
     public WorkflowModel(Tenant tenant, String name, String description,

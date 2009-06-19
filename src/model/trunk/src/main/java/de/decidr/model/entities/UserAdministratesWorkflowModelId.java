@@ -15,6 +15,7 @@ public class UserAdministratesWorkflowModelId implements java.io.Serializable {
     private long workflowModelId;
 
     public UserAdministratesWorkflowModelId() {
+        // TODO
     }
 
     public UserAdministratesWorkflowModelId(long userId, long workflowModelId) {

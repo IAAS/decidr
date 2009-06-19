@@ -23,6 +23,7 @@ public class WorkItem implements java.io.Serializable {
     private String description;
 
     public WorkItem() {
+        // TODO
     }
 
     public WorkItem(WorkflowInstance workflowInstance, User user,

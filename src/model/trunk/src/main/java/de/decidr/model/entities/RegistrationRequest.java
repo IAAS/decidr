@@ -19,6 +19,7 @@ public class RegistrationRequest implements java.io.Serializable {
     private String authKey;
 
     public RegistrationRequest() {
+        // TODO
     }
 
     public RegistrationRequest(User user, Date creationDate, String authKey) {

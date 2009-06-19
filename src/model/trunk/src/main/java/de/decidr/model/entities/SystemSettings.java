@@ -17,6 +17,7 @@ public class SystemSettings implements java.io.Serializable {
     private String logLevel;
 
     public SystemSettings() {
+        // TODO
     }
 
     public SystemSettings(boolean autoAcceptNewTenants, String logLevel) {

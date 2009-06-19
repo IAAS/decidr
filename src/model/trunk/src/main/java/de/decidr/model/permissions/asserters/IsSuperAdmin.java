@@ -78,11 +78,13 @@ public class IsSuperAdmin implements Asserter, TransactionalCommand {
     @Override
     public void transactionAborted(TransactionAbortedEvent evt)
             throws TransactionException {
+        // TODO
     }
 
     @Override
     public void transactionCommitted(TransactionEvent evt)
             throws TransactionException {
+        // TODO
     }
 
 }

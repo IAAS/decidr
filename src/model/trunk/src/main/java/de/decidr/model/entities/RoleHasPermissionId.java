@@ -15,6 +15,7 @@ public class RoleHasPermissionId implements java.io.Serializable {
     private long resourceId;
 
     public RoleHasPermissionId() {
+        // TODO
     }
 
     public RoleHasPermissionId(long roleId, long resourceId) {

@@ -34,20 +34,27 @@ public abstract class AbstractTransactionalCommand implements
 
     /**
      *{@inheritDoc}
-     * @throws TransactionException 
+     * 
+     * @throws TransactionException
      */
-    public void transactionStarted(TransactionEvent evt) throws TransactionException{
+    public void transactionStarted(TransactionEvent evt)
+            throws TransactionException {
+        // TODO
     }
 
     /**
      * {@inheritDoc}
      */
-    public void transactionAborted(TransactionAbortedEvent evt) throws TransactionException{
+    public void transactionAborted(TransactionAbortedEvent evt)
+            throws TransactionException {
+        // TODO
     }
 
     /**
      * {@inheritDoc}
      */
-    public void transactionCommitted(TransactionEvent evt) throws TransactionException{
+    public void transactionCommitted(TransactionEvent evt)
+            throws TransactionException {
+        // TODO
     }
 }

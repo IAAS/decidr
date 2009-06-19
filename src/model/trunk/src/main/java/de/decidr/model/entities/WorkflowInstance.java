@@ -30,6 +30,7 @@ public class WorkflowInstance implements java.io.Serializable {
             0);
 
     public WorkflowInstance() {
+        // TODO
     }
 
     public WorkflowInstance(DeployedWorkflowModel deployedWorkflowModel,

@@ -27,6 +27,7 @@ public class TenantWithAdminView implements java.io.Serializable {
     private String adminLastName;
 
     public TenantWithAdminView() {
+        // TODO
     }
 
     public TenantWithAdminView(long id, String name, String description,

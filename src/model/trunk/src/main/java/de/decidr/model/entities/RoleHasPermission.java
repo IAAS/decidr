@@ -16,6 +16,7 @@ public class RoleHasPermission implements java.io.Serializable {
     private Role role;
 
     public RoleHasPermission() {
+        // TODO
     }
 
     public RoleHasPermission(RoleHasPermissionId id, Permission resource,

@@ -30,6 +30,7 @@ public class Log implements java.io.Serializable {
     private String thread;
 
     public Log() {
+        // TODO
     }
 
     public Log(String prio) {

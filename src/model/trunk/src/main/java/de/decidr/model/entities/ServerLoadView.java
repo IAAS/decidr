@@ -21,6 +21,7 @@ public class ServerLoadView implements java.io.Serializable {
     private long numInstances;
 
     public ServerLoadView() {
+        // TODO
     }
 
     public ServerLoadView(long id, String location, byte load, boolean locked,
