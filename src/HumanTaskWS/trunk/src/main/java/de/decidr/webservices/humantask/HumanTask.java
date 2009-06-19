@@ -15,14 +15,15 @@
  */
 package de.decidr.webservices.humantask;
 
-import java.util.List;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
 
-import com.vaadin.data.Item;
-
+import de.decidr.model.commands.workitem.GetWorkItemCommand;
+import de.decidr.model.entities.WorkItem;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.facades.WorkflowInstanceFacade;
@@ -31,6 +32,7 @@ import de.decidr.model.permissions.HumanTaskRole;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.soap.types.IDList;
 import de.decidr.model.soap.types.TaskIdentifier;
+import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.webservices.HumanTaskInterface;
 
 /**
@@ -45,7 +47,7 @@ public class HumanTask implements HumanTaskInterface {
     private static final Role HUMANTASK_ROLE = HumanTaskRole.getInstance();
 
     @Override
-    public TaskIdentifier createTask(long wfmID, long processID, long userID,
+    public TaskIdentifier createTask(long wfmID, String processID, long userID,
             String taskName, boolean userNotification, String description,
             String taskData) throws TransactionException {
         log.trace("Entering method: createTask");
@@ -74,20 +76,12 @@ public class HumanTask implements HumanTaskInterface {
     }
 
     @Override
-    public void removeTasks(long processID) throws TransactionException {
+    public void removeTasks(long wfmID, String processID)
+            throws TransactionException {
         log.trace("Entering method: removeTasks");
-        log.debug("geeting al work items associated with the passed PID");
-        List<Item> workItems = new WorkflowInstanceFacade(HUMANTASK_ROLE)
-                .getAllWorkItems(processID);
-        WorkItemFacade facade = new WorkItemFacade(HUMANTASK_ROLE);
-        for (Item item : workItems) {
-            log.debug("The ID property's original value: <"
-                    + item.getItemProperty("id").getValue() + ">");
-            log.debug("Getting ID and casting it to long");
-            long id = (Long) item.getItemProperty("id").getValue();
-            log.debug("removing work item with ID: " + id);
-            facade.deleteWorkItem(id);
-        }
+        log.debug("calling WorkflowInstanceFacade to remove the items");
+        new WorkflowInstanceFacade(HUMANTASK_ROLE).removeAllWorkItems(
+                processID, wfmID);
         log.trace("Leaving method: removeTasks");
     }
 
@@ -95,12 +89,25 @@ public class HumanTask implements HumanTaskInterface {
     public void taskCompleted(long taskID) throws TransactionException {
         log.trace("Entering method: taskCompleted");
         log.debug("getting data associated with task");
-        Item workItem = new WorkItemFacade(HUMANTASK_ROLE).getWorkItem(taskID);
-        Object taskData = workItem.getItemProperty("data").getValue();
-        TaskIdentifier id = new TaskIdentifier(taskID, new Long(workItem
-                .getItemProperty("odePid").getValue().toString()),
-                (Long) workItem.getItemProperty("userId").getValue());
-        // TODO Auto-generated method stub
+
+        GetWorkItemCommand cmd = new GetWorkItemCommand(HUMANTASK_ROLE, taskID);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        WorkItem workItem = cmd.getResult();
+
+        byte[] taskData = workItem.getData();
+
+        TaskIdentifier id = new TaskIdentifier(taskID, workItem
+                .getWorkflowInstance().getOdePid(), workItem.getUser().getId());
+
+        // RR: get wsdl url from config
+        try {
+            new BPELCallbackClient(new URL("")).getBPELCallbackInterfacePort()
+                    .taskCompleted(id, taskData.toString());
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         log.trace("Leaving method: taskCompleted");
         throw new java.lang.UnsupportedOperationException("Please implement "
                 + this.getClass().getName() + "#taskCompleted");

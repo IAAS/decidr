@@ -38,6 +38,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 
 import com.sun.mail.smtp.SMTPTransport;
 
@@ -720,7 +721,7 @@ public class MailBackend {
      * 
      * @throws MessagingException
      *             May be thrown while setting headers, sending the message if
-     *             the authentfication data was incomplete/incorrect, etc.
+     *             the authentification data was incomplete/incorrect, etc.
      * @throws IOException
      *             see <code>{@link MimeBodyPart#getContent()}</code>
      */
@@ -748,6 +749,12 @@ public class MailBackend {
             sysProps.setProperty("mail." + protocol + ".auth", "true");
         }
         Session session = Session.getInstance(sysProps, null);
+        // XXX check whether this should be <= or >=
+        if (log.getLevel().toInt() <= Priority.DEBUG_INT) {
+            session.setDebug(true);
+        } else {
+            session.setDebug(false);
+        }
 
         MimeMessage message = new MimeMessage(session);
 

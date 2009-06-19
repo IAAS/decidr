@@ -63,7 +63,7 @@ public interface HumanTaskInterface {
      */
     @WebMethod(operationName = "createTask")
     public TaskIdentifier createTask(@WebParam(name = "wfmID") long wfmID,
-            @WebParam(name = "processID") long processID,
+            @WebParam(name = "processID") String processID,
             @WebParam(name = "userID") long userID,
             @WebParam(name = "taskName") String taskName,
             @WebParam(name = "userNotification") boolean userNotification,
@@ -87,14 +87,19 @@ public interface HumanTaskInterface {
     /**
      * Removes all tasks belonging to a specified workflow instance.
      * 
+     * @param wfmID
+     *            The workflow model ID for associating a work item with a
+     *            specific workflow model.
      * @param processID
-     *            A workflow instance identifier.
+     *            The process ID identifies the workflow instance responsible
+     *            for the work item.
      * @throws TransactionException
      *             Should a <code>{@link TransactionException}</code> be thrown
      *             by the facade.
      */
     @WebMethod(operationName = "removeTasks")
-    public void removeTasks(@WebParam(name = "processID") long processID)
+    public void removeTasks(@WebParam(name = "wfmID") long wfmID,
+            @WebParam(name = "processID") String processID)
             throws TransactionException;
 
     /**

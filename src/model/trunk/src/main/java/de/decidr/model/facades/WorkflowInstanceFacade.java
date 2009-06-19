@@ -162,6 +162,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
 
         tac.runTransaction(command);
 
+        //FIXME fill inSet
         for (WorkItem item : inSet) {
             outList.add(new BeanItem(item, properties));
         }

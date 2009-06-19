@@ -50,7 +50,7 @@ import javax.xml.bind.annotation.XmlType;
 public class TaskIdentifier {
 
     protected long taskID;
-    protected long processID;
+    protected String processID;
     protected long userID;
 
     /**
@@ -63,7 +63,7 @@ public class TaskIdentifier {
      * Convenience constructor which can be used to ensure that all values have
      * been set.
      */
-    public TaskIdentifier(long taskID, long processID, long userID) {
+    public TaskIdentifier(long taskID, String processID, long userID) {
         this.taskID = taskID;
         this.processID = processID;
         this.userID = userID;
@@ -86,14 +86,14 @@ public class TaskIdentifier {
     /**
      * Gets the value of the processID property.
      */
-    public long getProcessID() {
+    public String getProcessID() {
         return processID;
     }
 
     /**
      * Sets the value of the processID property.
      */
-    public void setProcessID(long value) {
+    public void setProcessID(String value) {
         this.processID = value;
     }
 

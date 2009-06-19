@@ -206,10 +206,5 @@
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
 		</dependency>
-		<dependency>
-			<groupId>vaadin</groupId>
-			<artifactId>vaadin</artifactId>
-			<version>6.0.0-pre2</version>
-		</dependency>
 	</dependencies>
 </project>

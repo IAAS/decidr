@@ -17,6 +17,8 @@ package de.decidr.webservices.humantask;
 
 import javax.jws.WebService;
 
+import de.decidr.model.soap.types.TaskIdentifier;
+
 /**
  * This is a temporary interface for the BEPL callback method web service
  * interface. It will be replaced by whatever the BEPL libraries offer as soon
@@ -24,7 +26,8 @@ import javax.jws.WebService;
  * 
  * @author Reinhold
  */
-@WebService()
+@WebService(name = "BPELCallback")
 public interface BPELCallbackInterface {
 
+    public void taskCompleted(TaskIdentifier id, String data);
 }

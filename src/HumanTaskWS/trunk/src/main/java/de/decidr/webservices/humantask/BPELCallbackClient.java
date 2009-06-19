@@ -15,7 +15,6 @@
  */
 package de.decidr.webservices.humantask;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -45,14 +44,11 @@ public class BPELCallbackClient extends Service {
 
     /**
      * TODO: add comment
-     * 
-     * @throws MalformedURLException
      */
-    public BPELCallbackClient() throws MalformedURLException {
-        // RR: get WSDL location from config
+    public BPELCallbackClient(URL wsdlLocation) {
         // RR: add namespace
         // RR: add correct web service name
-        this(new URL("TODO"), new QName("http://decidr.de/TODO",
+        this(wsdlLocation, new QName("http://decidr.de/TODO",
                 "BPELCallbackInterface"));
     }
 
