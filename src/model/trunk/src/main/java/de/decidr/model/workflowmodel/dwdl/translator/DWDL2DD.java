@@ -16,6 +16,7 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
+import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 
 /**
@@ -27,7 +28,7 @@ import de.decidr.model.workflowmodel.dwdl.TWorkflow;
  */
 public class DWDL2DD {
     
-    public String getDD(TWorkflow dwdl){
+    public TDeployment getDD(TWorkflow dwdl){
         return null;
     }
 

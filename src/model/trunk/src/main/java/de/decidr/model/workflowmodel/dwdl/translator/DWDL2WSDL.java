@@ -26,7 +26,7 @@ import de.decidr.model.workflowmodel.dwdl.TWorkflow;
  */
 public class DWDL2WSDL {
     
-    public String getWSDL(TWorkflow dwdl, String location, String tenantName){
+    public com.ibm.wsdl.DefinitionImpl getWSDL(TWorkflow dwdl, String location, String tenantName){
         return null;
     }
 

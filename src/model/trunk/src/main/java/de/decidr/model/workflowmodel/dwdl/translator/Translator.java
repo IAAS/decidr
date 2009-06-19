@@ -16,6 +16,10 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
+import javax.wsdl.Definition;
+import de.decidr.model.workflowmodel.bpel.TProcess;
+import de.decidr.model.workflowmodel.dd.TDeployment;
+
 /**
  * This class provides the functionality to translate a given DWDL into 
  * different formats
@@ -34,19 +38,19 @@ public class Translator {
         
     }
     
-    public String getBPEL(){
+    public TProcess getBPEL(){
         return null;
     }
     
-    public String getWSDL(String loaction, String tenantName){
+    public Definition getWSDL(String loaction, String tenantName){
         return null;
     }
     
-    public String getDD(){
+    public TDeployment getDD(){
         return null;
     }
 
-    public String getSOAP(){
+    public javax.xml.soap.SOAPMessage getSOAP(){
         return null;
     }
     

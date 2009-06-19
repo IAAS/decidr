@@ -27,7 +27,7 @@ import de.decidr.model.workflowmodel.dwdl.TWorkflow;
  */
 public class DWDL2SOAP {
     
-    public String getSOAP(TWorkflow dwdl){
+    public javax.xml.soap.SOAPMessage getSOAP(TWorkflow dwdl){
         return null;
     }
 

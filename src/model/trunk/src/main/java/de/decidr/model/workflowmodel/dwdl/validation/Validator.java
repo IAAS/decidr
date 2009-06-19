@@ -16,6 +16,8 @@
 
 package de.decidr.model.workflowmodel.dwdl.validation;
 
+import java.util.List;
+
 import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 
 /**
@@ -34,7 +36,7 @@ public class Validator {
      *            The DWDL workflow to validate
      * @return List of problems found during validation process.
      */
-    public IProblem[] validate(TWorkflow dwdl) {
+    public List<IProblem> validate(TWorkflow dwdl) {
         return null;
     }
 
@@ -45,19 +47,9 @@ public class Validator {
      *            The DWDL workflow to validate
      * @return List of problems found during validation process.
      */
-    public IProblem[] validate(byte[] dwdl) {
+    public List<IProblem> validate(byte[] dwdl) {
         return null;
     }
 
-    /**
-     * TODO: add comment
-     * 
-     * @param dwdl
-     *            The DWDL workflow to validate
-     * @return List of problems found during validation process.
-     */
-    public IProblem[] validate(String dwdl) {
-        return null;
-    }
 
 }

@@ -14,25 +14,22 @@
  * under the License.
  */
 
-package de.decidr.model.workflowmodel.dwdl.translator;
+package de.decidr.model.workflowmodel.deployment;
 
-import de.decidr.model.workflowmodel.bpel.ObjectFactory;
-import de.decidr.model.workflowmodel.bpel.TProcess;
-import de.decidr.model.workflowmodel.dwdl.TWorkflow;
+import java.util.List;
+
+import de.decidr.model.entities.DeployedWorkflowModel;
 
 /**
- * This class converts a given DWDL object and returns the resulting BPEL.
+ * TODO: add comment
  *
  * @author Modood Alvi
  * @version 0.1
  */
-public class DWDL2BPEL {
+public interface DeploymentResult {
     
-    public TProcess getBPEL(TWorkflow dwdl){
-        ObjectFactory factory = new ObjectFactory();
-        TProcess process = factory.createTProcess();
-        return null;
-        
-    }
+    public List<Long> getServers();
+    
+    public DeployedWorkflowModel getDeployedWorkflowModel();
 
 }

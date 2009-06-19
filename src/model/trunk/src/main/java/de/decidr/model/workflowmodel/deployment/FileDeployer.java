@@ -22,6 +22,11 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.wsdl.Definition;
+
+import de.decidr.model.workflowmodel.bpel.TProcess;
+import de.decidr.model.workflowmodel.dd.TDeployment;
+
 /**
  * This class provides the functionality to deploy the files of a workflow model
  * process on selected servers
@@ -61,8 +66,8 @@ public class FileDeployer {
      * @return The highest ODE Version of the the processes
      * @throws IOException
      */
-    public long deploy(List<Long> serverList, String name, byte[] bpel,
-            byte[] wsdl, byte[] dd) throws IOException {
+    public long deploy(List<Long> serverList, String name, TProcess bpel,
+            Definition wsdl, TDeployment dd) throws IOException {
 
         String zipFilename = name + ".zip";
         String bpelFilename = name + ".bpel";

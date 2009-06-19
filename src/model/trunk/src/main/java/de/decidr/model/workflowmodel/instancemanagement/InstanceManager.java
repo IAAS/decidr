@@ -21,33 +21,30 @@ import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.WorkflowInstance;
 
 /**
- * This class provides the functionality to start and stop instances of deployed
- * workflow models on Apache ODE. It also offers an interface to allow other
- * components to access this functionality.
+ * This interface specifies the functionality to start and stop instances of
+ * deployed workflow models on Apache ODE.
  * 
  * @author Modood Alvi
  * @version 0.1
  */
-public class InstanceManager implements IInstanceManager {
+public interface InstanceManager {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seede.decidr.model.workflowmodel.instancemanagement.IInstanceManager#
-     * startInstance(de.decidr.model.entities.DeployedWorkflowModel, byte[],
-     * de.decidr.model.entities.ServerLoadView)
+    /**
+     * The function expects a deployed workflow model, which contains the 
+     * required SOAP Template and the start configuration, and a server load
+     * view, containing a list of servers on which the workflow model is 
+     * deployed, their ID, load, running instances and a byte-array, containing
+     * the start configuration. If successful the instance returns the newly 
+     * created WorkflowInstance, containing all relevant data.
+     *
+     * @param dwfm The deployed workflow model
+     * @param startConfiguration The byte-array containing the start 
+     * configuration
+     * @param serverStatistics A list of servers on which the workflow model is 
+     * deployed
+     * @return The newly created WorkflowInstance
      */
-    @Override
     public WorkflowInstance startInstance(DeployedWorkflowModel dwfm,
-            byte[] startConfiguration, ServerLoadView serverStatistics) {
-        ServerSelector selector = new ServerSelector();
-        long serverID = selector.selectServer(serverStatistics);
-        SOAPGenerator generator = new SOAPGenerator();
-        String soapMessage = generator.getSOAP(dwfm.getSoapTemplate()
-                .toString(), startConfiguration);
-        SOAPExecution execution = new SOAPExecution();
-        execution.invoke("someaddress", soapMessage);
-        return null;
-    }
+            byte[] startConfiguration, ServerLoadView serverStatistics) throws Exception;
 
 }
