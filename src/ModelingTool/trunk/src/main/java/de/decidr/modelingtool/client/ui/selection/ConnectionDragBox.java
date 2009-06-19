@@ -59,7 +59,7 @@ public class ConnectionDragBox extends DragBox {
         }
         
         // glue to new port
-        gluedPort.add(this);
+        //gluedPort.add(this);
         
         this.gluedPort = gluedPort;
     }

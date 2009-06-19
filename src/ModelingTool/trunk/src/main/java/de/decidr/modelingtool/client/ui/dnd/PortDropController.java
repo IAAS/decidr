@@ -56,10 +56,13 @@ public class PortDropController extends AbstractDropController {
         ConnectionDragBox cdb = (ConnectionDragBox)context.draggable;
         // target port
         Port port = (Port)getDropTarget();
+        // remove drag box from old port
+        cdb.getGluedPort().remove(cdb);
         // add drag box to target port
         cdb.setGluedPort(port);
         port.add(cdb);
         port.setWidgetPosition(cdb, 0, 0);
+        
         // redraw connection
         cdb.getConnection().draw();
     }

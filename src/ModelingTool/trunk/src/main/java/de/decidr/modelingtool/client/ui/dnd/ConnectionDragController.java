@@ -31,12 +31,17 @@ import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
  * @author JE
  */
 public class ConnectionDragController extends PickupDragController {
-    
+
     /**
      * The connection currently be dragged
      */
     Connection connection = null;
-    
+
+    /**
+     * On drag start a connectionless dragbox is added to the port to be able to
+     * drag new connections from that port at later time (if allowed).
+     */
+    ConnectionDragBox newDragBox = null;
 
     /**
      * TODO: add comment
@@ -53,7 +58,7 @@ public class ConnectionDragController extends PickupDragController {
     public void dragMove() {
         // TODO Auto-generated method stub
         super.dragMove();
-        
+
         if (connection != null) {
             connection.draw();
         }
@@ -62,63 +67,94 @@ public class ConnectionDragController extends PickupDragController {
     @Override
     public void dragEnd() {
         super.dragEnd();
-        
+
         if (context.draggable instanceof ConnectionDragBox) {
-            ((ConnectionDragBox)context.draggable).setVisibleStyle(false);
-        }
-        
-        if (connection != null) {
-            // drop on assigned port
-            if (context.finalDropController == null) {
-                // delete created start drag box
-                connection.getStartDragBox().removeFromParent();
-                
-                // delete connection
-                connection.delete();
-                connection = null;
+            ConnectionDragBox draggedDragBox = (ConnectionDragBox) context.draggable;
+            draggedDragBox.setVisibleStyle(false);
+
+            // if drag box is assigned to a connection
+            if (connection != null) {
+                // get other drag box
+                ConnectionDragBox otherDragBox;
+                if (connection.getStartDragBox() != draggedDragBox) {
+                    otherDragBox = connection.getStartDragBox();
+                } else {
+                    otherDragBox = connection.getEndDragBox();
+                }
+
+                // if box is dropped on an assigned port
+                if (context.finalDropController != null) {
+
+                    // TODO: select connection
+
+                } else {
+                    // remove recently added new dag box because the dragged
+                    // drag box returns to its port connectionless
+                    //newDragBox.getGluedPort().remove(newDragBox);
+
+                    // unglue and delete connection with drag boxes
+                    // delete other drag box
+                    otherDragBox.getGluedPort().remove(otherDragBox);
+                    otherDragBox.setGluedPort(null);
+                    otherDragBox.setConnection(null);
+
+                    // delete dragged drag box
+                    draggedDragBox.getGluedPort().remove(draggedDragBox);
+                    draggedDragBox.setGluedPort(null);
+                    draggedDragBox.setConnection(null);
+
+                    // delete connection
+                    connection.delete();
+                    connection = null;
+                }
+
             }
-            // TODO: create new drag box on port
-            // select connection
         }
     }
 
     @Override
     public void dragStart() {
         if (context.draggable instanceof ConnectionDragBox) {
-            ConnectionDragBox endDragBox = (ConnectionDragBox)context.draggable;
-            endDragBox.setVisibleStyle(true);
-            
-            if (endDragBox.getConnection() == null) {
+            ConnectionDragBox draggedDragBox = (ConnectionDragBox) context.draggable;
+            draggedDragBox.setVisibleStyle(true);
+
+            if (draggedDragBox.getConnection() == null) {
                 // create new connection
                 connection = new OrthogonalConnection();
-                
+
                 // create start drag box
                 ConnectionDragBox startDragBox = new ConnectionDragBox();
                 // glue to port
-                startDragBox.setGluedPort(endDragBox.getGluedPort());
+                startDragBox.setGluedPort(draggedDragBox.getGluedPort());
                 startDragBox.setVisibleStyle(true);
                 // add to glued Port
                 startDragBox.getGluedPort().add(startDragBox);
                 // make dragbox draggable
                 makeDraggable(startDragBox);
 
-                // unglue end grag box
-                //endDragBox.setGluedPort(null);
-                
                 // set drag boxes and add connection to workflow
                 connection.setStartDragBox(startDragBox);
                 startDragBox.setConnection(connection);
-                connection.setEndDragBox(endDragBox);
-                endDragBox.setConnection(connection);
+                connection.setEndDragBox(draggedDragBox);
+                draggedDragBox.setConnection(connection);
                 Workflow.getInstance().add(connection);
+
+                // create new drag box and add to the port from which the
+                // dragged drag box is dragged from
+                newDragBox = new ConnectionDragBox();
+                newDragBox.setGluedPort(draggedDragBox.getGluedPort());
+                newDragBox.getGluedPort().add(newDragBox);
+                makeDraggable(newDragBox);
+                
+                // DEBUG: newDragBox.setStyleName("dragbox-debug");
             }
-            
+
         }
-        
+
         // create drag box and add to workflow
-        //ConnectionDragBox startDragBox = new ConnectionDragBox();
-        //Workflow.getInstance().add(startDragBox);
-       
+        // ConnectionDragBox startDragBox = new ConnectionDragBox();
+        // Workflow.getInstance().add(startDragBox);
+
         super.dragStart();
     }
 
