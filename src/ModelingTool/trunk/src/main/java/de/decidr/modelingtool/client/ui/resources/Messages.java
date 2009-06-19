@@ -26,14 +26,33 @@ import com.google.gwt.i18n.client.Constants;
  */
 public interface Messages extends Constants {
 
+    /* Email */
     String emailActivity();
 
+    String toFieldLabel();
+
+    String ccFieldLabel();
+
+    String bccFieldLabel();
+
+    String subjectFieldLabel();
+
+    String messageFieldLabel();
+
+    String attachmentFieldLabel();
+
+    /* Human task */
     String humanTaskActivity();
 
     String taskData();
-    
+
     String workItemForm();
-    
+
+    String workItemLabel();
+
+    String workItemOutputVar();
+
+    /* Variable editor */
     String addVariable();
 
     String delVariable();
@@ -58,10 +77,12 @@ public interface Messages extends Constants {
 
     String configVarColumn();
 
+    /* windows common */
     String okButton();
 
     String cancelButton();
 
+    /* Variable types */
     String typeString();
 
     String typeInteger();
@@ -78,15 +99,4 @@ public interface Messages extends Constants {
 
     String typeForm();
 
-    String toFieldLabel();
-
-    String ccFieldLabel();
-
-    String bccFieldLabel();
-
-    String subjectFieldLabel();
-
-    String messageFieldLabel();
-
-    String attachmentFieldLabel();
 }

@@ -40,4 +40,16 @@ public class VariablesFilter {
         return result;
     }
 
+    public static ListStore<Variable> getAllVariables() {
+        ListStore<Variable> result = new ListStore<Variable>();
+        for (Variable var : WorkflowModel.getInstance().getVariables()) {
+            Variable targetVar = new Variable();
+            targetVar.setName(var.getName());
+            targetVar.setType(var.getType());
+            targetVar.setValues(var.getValues());
+            targetVar.setConfig(var.isConfig());
+            result.add(targetVar);
+        }
+        return result;
+    }
 }

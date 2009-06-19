@@ -38,13 +38,13 @@ import de.decidr.modelingtool.client.ui.dialogs.activitywindows.formdesigner.Tas
 public class HumanTaskActivityWindow extends Dialog {
 
     private ContentPanel contentPanel;
-    private ContentPanel taskPanel;
-    private ContentPanel formPanel;
+    private TaskPanel taskPanel;
+    private FormDesignPanel formPanel;
 
     public HumanTaskActivityWindow() {
         super();
         this.setLayout(new FitLayout());
-        this.setSize(400, 200);
+        this.setSize(400, 600);
         this.setResizable(true);
         createContentPanel();
         createButtons();
@@ -99,7 +99,7 @@ public class HumanTaskActivityWindow extends Dialog {
     @Override
     public void reset() {
         // TODO Auto-generated method stub
-
+        formPanel.clearAllEntries();
     }
 
     @Override
