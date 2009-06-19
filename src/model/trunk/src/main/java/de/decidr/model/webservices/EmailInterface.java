@@ -13,7 +13,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package de.decidr.webservices.email;
+package de.decidr.model.webservices;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

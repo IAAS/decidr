@@ -13,7 +13,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package de.decidr.webservices.humantask;
+package de.decidr.model.webservices;
 
 import java.net.URL;
 
@@ -24,8 +24,8 @@ import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
 /**
- * Client for the <code>{@link HumanTask}</code>. Needs at least the WSDL's
- * location, as that has to be determined at runtime.
+ * Client for the <code>{@link HumanTaskInterface}</code>. Needs at least the
+ * WSDL's location, as that has to be determined at runtime.
  * 
  * @author Reinhold
  */
@@ -47,7 +47,7 @@ public class HumanTaskClient extends Service {
 
     /**
      * @return returns an implementation using SOAP 1.2 to access the
-     *         <code>{@link HumanTask}</code>.
+     *         <code>{@link HumanTaskInterface}</code>.
      */
     @WebEndpoint(name = "HumanTaskSOAP")
     public HumanTaskInterface getEmailSOAP() {
@@ -61,7 +61,7 @@ public class HumanTaskClient extends Service {
      *            <code>features</code> parameter will have their default
      *            values.
      * @return returns an implementation using SOAP 1.2 to access the
-     *         <code>{@link HumanTask}</code>.
+     *         <code>{@link HumanTaskInterface}</code>.
      */
     @WebEndpoint(name = "HumanTaskSOAP")
     public HumanTaskInterface getEmailSOAP(WebServiceFeature... features) {

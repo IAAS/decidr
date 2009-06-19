@@ -28,6 +28,7 @@ import javax.xml.bind.TypeConstraintException;
 
 import org.apache.log4j.Logger;
 
+import de.decidr.model.email.MailBackend;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.soap.exceptions.IoExceptionWrapper;
@@ -42,6 +43,7 @@ import de.decidr.model.soap.types.IDList;
 import de.decidr.model.soap.types.RoleUser;
 import de.decidr.model.soap.types.StringMap;
 import de.decidr.model.soap.types.StringMapping;
+import de.decidr.model.webservices.EmailInterface;
 
 /**
  * Implementation of <code>{@link EmailInterface}</code> using

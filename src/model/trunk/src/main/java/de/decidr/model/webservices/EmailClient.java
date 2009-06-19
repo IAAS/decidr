@@ -13,7 +13,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package de.decidr.webservices.email;
+package de.decidr.model.webservices;
 
 import java.net.URL;
 
@@ -24,7 +24,7 @@ import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
 /**
- * Client for the <code>{@link EmailService}</code>. Needs at least the WSDL's
+ * Client for the <code>{@link EmailInterface}</code>. Needs at least the WSDL's
  * location, as that has to be determined at runtime.
  * 
  * @author Reinhold
@@ -47,7 +47,7 @@ public class EmailClient extends Service {
 
     /**
      * @return returns an implementation using SOAP 1.2 to access the
-     *         <code>{@link EmailService}</code>.
+     *         <code>{@link EmailInterface}</code>.
      */
     @WebEndpoint(name = "EmailSOAP")
     public EmailInterface getEmailSOAP() {
@@ -62,7 +62,7 @@ public class EmailClient extends Service {
      *            <code>features</code> parameter will have their default
      *            values.
      * @return returns an implementation using SOAP 1.2 to access the
-     *         <code>{@link EmailService}</code>.
+     *         <code>{@link EmailInterface}</code>.
      */
     @WebEndpoint(name = "EmailSOAP")
     public EmailInterface getEmailSOAP(WebServiceFeature... features) {

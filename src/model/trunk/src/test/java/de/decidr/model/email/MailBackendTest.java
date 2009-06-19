@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.webservices.email;
+package de.decidr.model.email;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.decidr.model.email.MailBackend;
 import de.decidr.model.logging.DefaultLogger;
 
 /**
@@ -56,7 +57,7 @@ public class MailBackendTest {
 
     /**
      * Test method for
-     * {@link de.decidr.webservices.email.MailBackend#validateAddresses(java.lang.String)}
+     * {@link de.decidr.model.email.MailBackend#validateAddresses(java.lang.String)}
      * .
      */
     @Test
@@ -93,7 +94,7 @@ public class MailBackendTest {
 
     /**
      * Test method for
-     * {@link de.decidr.webservices.email.MailBackend#validateAddresses(java.util.List)}
+     * {@link de.decidr.model.email.MailBackend#validateAddresses(java.util.List)}
      * .
      */
     @Test
@@ -122,7 +123,7 @@ public class MailBackendTest {
 
     /**
      * Test method for
-     * {@link de.decidr.webservices.email.MailBackend#addBCC(String)} .
+     * {@link de.decidr.model.email.MailBackend#addBCC(String)} .
      */
     @Test
     public void testAddBCC() {

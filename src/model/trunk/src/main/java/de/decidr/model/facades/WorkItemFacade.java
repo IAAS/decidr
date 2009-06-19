@@ -56,10 +56,12 @@ public class WorkItemFacade extends AbstractFacade {
      * @throws TransactionException
      *             on rollback or if the given work item doesn't exist.
      */
+    //FIXME
     public Item getWorkItem(Long workItemId) throws TransactionException {
         GetWorkItemCommand cmd = new GetWorkItemCommand(actor, workItemId);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
+        // TODO: need odePid & userId
         String[] properties = { "id", "workflowInstance", "creationDate",
                 "status", "data", "name", "description" };
 

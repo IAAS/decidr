@@ -13,7 +13,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package de.decidr.webservices.email;
+package de.decidr.model.email;
 
 import java.io.File;
 import java.io.IOException;

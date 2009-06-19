@@ -31,6 +31,7 @@ import de.decidr.model.permissions.HumanTaskRole;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.soap.types.IDList;
 import de.decidr.model.soap.types.TaskIdentifier;
+import de.decidr.model.webservices.HumanTaskInterface;
 
 /**
  * This is an implementation of the {@link HumanTaskInterface DecidR HumanTask
@@ -94,8 +95,11 @@ public class HumanTask implements HumanTaskInterface {
     public void taskCompleted(long taskID) throws TransactionException {
         log.trace("Entering method: taskCompleted");
         log.debug("getting data associated with task");
-        Object taskData = new WorkItemFacade(HUMANTASK_ROLE)
-                .getWorkItem(taskID).getItemProperty("data").getValue();
+        Item workItem = new WorkItemFacade(HUMANTASK_ROLE).getWorkItem(taskID);
+        Object taskData = workItem.getItemProperty("data").getValue();
+        TaskIdentifier id = new TaskIdentifier(taskID, new Long(workItem
+                .getItemProperty("odePid").getValue().toString()),
+                (Long) workItem.getItemProperty("userId").getValue());
         // TODO Auto-generated method stub
         log.trace("Leaving method: taskCompleted");
         throw new java.lang.UnsupportedOperationException("Please implement "
