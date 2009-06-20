@@ -35,8 +35,8 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Window;
 
+import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.ResetPasswordAction;
-import de.decidr.ui.controller.HideResetPasswordAction;
 
 public class ResetPasswordComponent extends Window {
 
@@ -82,7 +82,7 @@ public class ResetPasswordComponent extends Window {
         email.setColumns(21);
         
         submitButton = new Button("Reset Password", new ResetPasswordAction());
-        cancelButton = new Button("Cancel", new HideResetPasswordAction());
+        cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
         requestForm.setWidth(400, Form.UNITS_PIXELS);
         requestForm.addField("email", email);

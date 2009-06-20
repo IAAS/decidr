@@ -32,7 +32,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 import de.decidr.ui.controller.ChangeEmailAction;
-import de.decidr.ui.controller.HideChangeEmailAction;
+import de.decidr.ui.controller.HideDialogWindowAction;
 
 public class ChangeEmailComponent extends Window {
 
@@ -84,7 +84,7 @@ public class ChangeEmailComponent extends Window {
 
         
         submitButton = new Button("Change E-mail", new ChangeEmailAction());
-        cancelButton = new Button("Cancel", new HideChangeEmailAction());
+        cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
         emailForm.setWidth(370, Form.UNITS_PIXELS);
         //emailForm.setSizeUndefined();

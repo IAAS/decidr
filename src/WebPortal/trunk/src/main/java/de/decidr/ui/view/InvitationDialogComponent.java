@@ -33,7 +33,6 @@ import com.vaadin.ui.Window;
 
 import de.decidr.ui.controller.ChangeEmailAction;
 import de.decidr.ui.controller.ConfirmInvitationAction;
-import de.decidr.ui.controller.HideChangeEmailAction;
 import de.decidr.ui.controller.RefuseInvitationAction;
 
 public class InvitationDialogComponent extends Window {

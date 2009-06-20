@@ -24,6 +24,7 @@ import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
@@ -53,7 +54,12 @@ public class ConfirmInvitationAction implements ClickListener{
     @Override
     public void buttonClick(ClickEvent event) {
                 
-        userFacade.confirmInvitation(invitationId);
+        try {
+            userFacade.confirmInvitation(invitationId);
+        } catch (TransactionException e) {
+            // TODO Add errorhandling
+            e.printStackTrace();
+        }
         
     }
 }

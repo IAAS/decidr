@@ -36,7 +36,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Window;
 
 import de.decidr.ui.controller.ChangePasswordAction;
-import de.decidr.ui.controller.HideChangePasswordAction;
+import de.decidr.ui.controller.HideDialogWindowAction;
 
 public class ChangePasswordComponent extends Window {
 
@@ -95,7 +95,7 @@ public class ChangePasswordComponent extends Window {
         oldPasswordText.setColumns(21);
         
         submitButton = new Button("Change Password", new ChangePasswordAction());
-        cancelButton = new Button("Cancel", new HideChangePasswordAction());
+        cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
         passwordForm.setWidth(400, Form.UNITS_PIXELS);
         passwordForm.addField("newPassword", newPasswordText);

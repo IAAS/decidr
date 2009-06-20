@@ -36,70 +36,67 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.ui.controller.ChangeEmailAction;
 import de.decidr.ui.controller.HideDialogWindowAction;
 
-public class ConfirmDialogComponent extends Window {
+public class InformationDialogComponent extends Window {
 
-    private static ConfirmDialogComponent confirmDialogComponent = null;
+    private static InformationDialogComponent informationDialogComponent = null;
     
 
     private VerticalLayout verticalLayout = null;
-    private HorizontalLayout horizontalLayout = null;
+    //private HorizontalLayout horizontalLayout = null;
     
     private Label infoLabel = null;
-        
-    private Button submitButton = null;
+       
     private Button cancelButton = null;
     
-    private ConfirmDialogComponent(String text, ClickListener listener){
-        init(text, listener);
+    private InformationDialogComponent(String text, String caption){
+        init(text, caption);
     }
     
-    private void init (String text, ClickListener listener){
+    private void init (String text, String caption){
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
         verticalLayout.setMargin(true);
         verticalLayout.setSizeUndefined();
         verticalLayout.setWidth(400, VerticalLayout.UNITS_PIXELS);
         
-        horizontalLayout = new HorizontalLayout();
-        horizontalLayout.setSpacing(true);
-        horizontalLayout.setMargin(false);
-        horizontalLayout.setSizeUndefined();
+        //horizontalLayout = new HorizontalLayout();
+        //horizontalLayout.setSpacing(true);
+        //horizontalLayout.setMargin(false);
+        //horizontalLayout.setSizeUndefined();
         
         infoLabel = new Label(text, Label.CONTENT_XHTML);
         
-        submitButton = new Button("Confirm");
-        submitButton.addListener(listener);
-        cancelButton = new Button("Cancel", new HideDialogWindowAction());
+        cancelButton = new Button("OK",new HideDialogWindowAction());
 
 
         verticalLayout.addComponent(infoLabel);
-        horizontalLayout.addComponent(submitButton);
-        horizontalLayout.addComponent(cancelButton);
-        verticalLayout.addComponent(horizontalLayout);
+        //horizontalLayout.addComponent(submitButton);
+        verticalLayout.addComponent(cancelButton);
+        //verticalLayout.addComponent(horizontalLayout);
 
-        horizontalLayout.setComponentAlignment(submitButton, "center bottom");
-        horizontalLayout.setComponentAlignment(cancelButton, "center bottom");
+        //horizontalLayout.setComponentAlignment(submitButton, "center bottom");
+        //horizontalLayout.setComponentAlignment(cancelButton, "center bottom");
 
-        verticalLayout.setComponentAlignment(horizontalLayout, "right bottom");
+        //verticalLayout.setComponentAlignment(horizontalLayout, "right bottom");
         
         this.setModal(true);
         this.setResizable(false);
-        this.setCaption("Confirmation Required");
+        this.setCaption(caption);
         this.setContent(verticalLayout);
     }
     
-    public static ConfirmDialogComponent getInstance(String text, ClickListener listener){
+    public static InformationDialogComponent getInstance(String text, String caption){
         //if(confirmDialogComponent == null){
-            confirmDialogComponent = new ConfirmDialogComponent(text, listener);
+        informationDialogComponent = new InformationDialogComponent(text, caption);
         //}
-        return confirmDialogComponent;
+        return informationDialogComponent;
     }
     
-    public static ConfirmDialogComponent getInstance(){
-        if(confirmDialogComponent == null){
+    public static InformationDialogComponent getInstance(){
+        if(informationDialogComponent == null){
             //TODO: add other exception
             throw new UnsupportedOperationException();
         }
-        return confirmDialogComponent;
+        return informationDialogComponent;
     }
 }
