@@ -213,7 +213,8 @@ ENGINE = InnoDB;
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`server_type` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(100) NOT NULL ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `unique_name` (`name` ASC) )
 ENGINE = InnoDB;
 
 
@@ -585,11 +586,9 @@ ENGINE = InnoDB;
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`workflow_model_is_deployed_on_server` (
   `deployedWorkflowModelId` BIGINT NOT NULL ,
   `serverId` BIGINT NOT NULL ,
-  `odeVersion` BIGINT NOT NULL ,
   PRIMARY KEY (`deployedWorkflowModelId`, `serverId`) ,
   INDEX `fk_deployed_workflow_model_has_server_deployed_workflow_model` (`deployedWorkflowModelId` ASC) ,
   INDEX `fk_deployed_workflow_model_has_server_server` (`serverId` ASC) ,
-  INDEX `index_odeVersion` (`odeVersion` ASC) ,
   CONSTRAINT `fk_deployed_workflow_model_has_server_deployed_workflow_model`
     FOREIGN KEY (`deployedWorkflowModelId` )
     REFERENCES `decidrdb`.`deployed_workflow_model` (`id` )
@@ -632,6 +631,23 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`log` (
   INDEX `index_prio` (`prio` ASC) ,
   INDEX `index_iprio` (`iprio` ASC) )
 ENGINE = MyISAM;
+
+
+-- -----------------------------------------------------
+-- Table `decidrdb`.`password_reset_request`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `decidrdb`.`password_reset_request` (
+  `userId` BIGINT NOT NULL ,
+  `creationDate` DATETIME NOT NULL ,
+  `authKey` CHAR(64) NOT NULL ,
+  PRIMARY KEY (`userId`) ,
+  INDEX `fk_password_reset_request_user` (`userId` ASC) ,
+  CONSTRAINT `fk_password_reset_request_user`
+    FOREIGN KEY (`userId` )
+    REFERENCES `decidrdb`.`user` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -935,6 +951,17 @@ END;//
 
 
 DELIMITER ;
+
+-- -----------------------------------------------------
+-- Data for table `decidrdb`.`server_type`
+-- -----------------------------------------------------
+SET AUTOCOMMIT=0;
+INSERT INTO `server_type` (`id`, `name`) VALUES (1, 'ode');
+INSERT INTO `server_type` (`id`, `name`) VALUES (2, 'portal');
+INSERT INTO `server_type` (`id`, `name`) VALUES (3, 'esb');
+INSERT INTO `server_type` (`id`, `name`) VALUES (4, 'storage');
+
+COMMIT;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
