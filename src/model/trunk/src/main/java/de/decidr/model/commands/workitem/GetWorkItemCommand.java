@@ -47,7 +47,9 @@ public class GetWorkItemCommand extends WorkItemCommand {
         result = (WorkItem) evt.getSession().get(WorkItem.class, workItemId);
 
         if (result != null) {
+            //make sure the required properties are loaded.
             result.getData();
+            result.getWorkflowInstance();
         } else {
             throw new EntityNotFoundException(WorkItem.class, workItemId);
         }

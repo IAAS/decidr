@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 13.06.2009 19:54:01 by Hibernate Tools 3.2.4.GA
+// Generated 20.06.2009 12:22:41 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -11,10 +11,6 @@ import java.util.Set;
  */
 public class User implements java.io.Serializable {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
     private Long id;
     private String authKey;
     private String email;
@@ -43,7 +39,6 @@ public class User implements java.io.Serializable {
             0);
 
     public User() {
-        // TODO
     }
 
     public User(

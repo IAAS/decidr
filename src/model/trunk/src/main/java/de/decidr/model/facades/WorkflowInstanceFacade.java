@@ -133,8 +133,11 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * 
      * @param odePid
      * @param deployedWorkflowModelId
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
      */
-    public void removeAllWorkItems(String odePid, Long deployedWorkflowModelId) {
+    public void removeAllWorkItems(String odePid, Long deployedWorkflowModelId)
+            throws TransactionException {
         // FIXME implement me!
     }
 

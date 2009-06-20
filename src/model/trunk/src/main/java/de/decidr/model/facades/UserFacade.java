@@ -2,16 +2,20 @@ package de.decidr.model.facades;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 
+import de.decidr.model.commands.user.CheckAuthKeyCommand;
 import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
 import de.decidr.model.commands.user.GetJoinedTenantsCommand;
 import de.decidr.model.commands.user.GetUserByLoginCommand;
 import de.decidr.model.commands.user.GetWorkitemsCommand;
 import de.decidr.model.commands.user.RegisterUserCommand;
+import de.decidr.model.commands.user.SetUserPropertyCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.entities.WorkItemSummaryView;
@@ -125,61 +129,124 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * FIXME continue here
+     * Checks whether the given authentication key matches the user's
+     * authentication key in the database.
+     * 
      * @param userId
+     *            the user to check
      * @param authKey
-     * @return
+     *            the authentication key to check
+     * @return true iff the authKey matches the given user's authentication key.
      * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
-     *             iff the given user does not exist or the authentication key
-     *             does not match.
+     *             iff the given user does not exist.
      */
     public Boolean authKeyMatches(Long userId, String authKey)
             throws TransactionException, EntityNotFoundException {
+        CheckAuthKeyCommand cmd = new CheckAuthKeyCommand(actor, userId,
+                authKey);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+
+        return cmd.getAuthKeyMatches();
+    }
+
+    /**
+     * Sets the email address of the given user to the new value.
+     * 
+     * @param userId
+     * @param newEmail
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     */
+    public void setEmailAddress(Long userId, String newEmail)
+            throws TransactionException {
+        Map<String, String> properties = new HashMap<String, String>();
+        properties.put("email", newEmail);
+
+        SetUserPropertyCommand cmd = new SetUserPropertyCommand(actor, userId,
+                properties);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+    }
+
+    /**
+     * Sets the disabled date of the user, effectively preventing the user from
+     * logging in again. To re-activate the user account, set his disabled date
+     * to null.
+     * 
+     * @param userId
+     * @param date
+     *            to re-active the user, set this parameter to null.
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     */
+    public void setDisableSince(Long userId, Date date)
+            throws TransactionException {
+        Map<String, Date> properties = new HashMap<String, Date>();
+        properties.put("disabledSince", date);
+
+        SetUserPropertyCommand cmd = new SetUserPropertyCommand(actor, userId,
+                properties);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+    }
+
+    /**
+     * Sets the unavailable date of the user, which flags the user as
+     * unavailable for workflow participation. To flag the user as available,
+     * set his unavailable date to null.
+     * 
+     * @param userId
+     * @param date
+     *            to flag the user as available, set this parameter to null.
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     */
+    public void setUnavailableSince(Long userId, Date date)
+            throws TransactionException {
+        Map<String, Date> properties = new HashMap<String, Date>();
+        properties.put("unavailableSince", date);
+
+        SetUserPropertyCommand cmd = new SetUserPropertyCommand(actor, userId,
+                properties);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+    }
+
+    public void setPassword(Long userId, String oldPassword, String newPassword)
+            throws TransactionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setEmailAddress(Long userId, String newEmail) {
+    public void requestPasswordReset(String emailOrUsername)
+            throws TransactionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setDisableSince(Long userId, Date date) {
+    public void setProfile(Long userId, Item newProfile)
+            throws TransactionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setUnavailableSince(Long userId, Date date) {
+    public void leaveTenant(Long userId, Long tenantId)
+            throws TransactionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setPassword(Long userId, String oldPassword, String newPassword) {
+    public void removeFromTenant(Long userId, Long tenantId)
+            throws TransactionException {
         throw new UnsupportedOperationException();
     }
 
-    public void requestPasswordReset(String emailOrUsername) {
+    public void confirmRegistration(String authKey) throws TransactionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setProfile(Long userId, Item newProfile) {
+    public void confirmChangeEmailRequest(String requestAuthKey)
+            throws TransactionException {
         throw new UnsupportedOperationException();
     }
 
-    public void leaveTenant(Long userId, Long tenantId) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void removeFromTenant(Long userId, Long tenantId) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void confirmRegistration(String authKey) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void confirmChangeEmailRequest(String requestAuthKey) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void confirmInvitation(Long invitationId) {
+    public void confirmInvitation(Long invitationId)
+            throws TransactionException {
         throw new UnsupportedOperationException();
     }
 
@@ -187,7 +254,7 @@ public class UserFacade extends AbstractFacade {
         throw new UnsupportedOperationException();
     }
 
-    //FIXME HIER TREFFEN
+    // FIXME HIER TREFFEN
     public Item getUserProfile(Long userId) {
         throw new UnsupportedOperationException();
     }
@@ -209,12 +276,10 @@ public class UserFacade extends AbstractFacade {
         throw new UnsupportedOperationException();
     }
 
-    
     public List<Item> getAdminstratedWorkflowInstances(Long userId) {
         throw new UnsupportedOperationException();
     }
 
-    
     /**
      * Returns all tenants the given user is member of as item with the
      * following properties:
@@ -282,12 +347,11 @@ public class UserFacade extends AbstractFacade {
 
     /**
      * 
-     * Returns the workitems of the given user as List<Item> with the following properties:
-     * - creationDate<br>
+     * Returns the workitems of the given user as List<Item> with the following
+     * properties: - creationDate<br>
      * - userId<br>
      * - id<br>
-     * - tenantName<br
-     * - workItemName<br>
+     * - tenantName<br - workItemName<br>
      * - workItemStatus
      * 
      * @param userId
@@ -299,14 +363,14 @@ public class UserFacade extends AbstractFacade {
     @SuppressWarnings("unchecked")
     public List<Item> getWorkItems(Long userId, List<Filter> filters,
             Paginator paginator) throws TransactionException {
-        
+
         List<WorkItemSummaryView> inList;
         List<Item> outList = new ArrayList();
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
-        GetWorkitemsCommand command = new GetWorkitemsCommand(
-                actor, userId,filters, paginator);
+        GetWorkitemsCommand command = new GetWorkitemsCommand(actor, userId,
+                filters, paginator);
 
         tac.runTransaction(command);
         inList = command.getResult();
@@ -316,6 +380,6 @@ public class UserFacade extends AbstractFacade {
         }
 
         return outList;
-        
+
     }
 }

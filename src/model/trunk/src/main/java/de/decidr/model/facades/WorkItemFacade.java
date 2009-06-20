@@ -49,20 +49,26 @@ public class WorkItemFacade extends AbstractFacade {
     }
 
     /**
-     * Returns all properties of the given work item.
+     * Returns all properties of the given work item:
+     * <ul>
+     * <li>id: Long - work item id</li>
+     * <li>creationDate: Date - date when the work item was created</li>
+     * <li>status: String - see WorkItemStatus</li>
+     * <li>data: byte[] - raw xml bytes</li>
+     * <li>name: String - work item name</li>
+     * <li>description: String - </li>
+     * </ul>
      * 
      * @param workItemId
      * @return Vaadin item
      * @throws TransactionException
      *             on rollback or if the given work item doesn't exist.
      */
-    //FIXME
     public Item getWorkItem(Long workItemId) throws TransactionException {
         GetWorkItemCommand cmd = new GetWorkItemCommand(actor, workItemId);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
-        // TODO: need odePid & userId
-        String[] properties = { "id", "workflowInstance", "creationDate",
+        String[] properties = { "id", "creationDate",
                 "status", "data", "name", "description" };
 
         return new BeanItem(cmd.getResult(), properties);

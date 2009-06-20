@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.cfg.reveng.DelegatingReverseEngineeringStrategy;
+import org.hibernate.cfg.reveng.ReverseEngineeringSettings;
 import org.hibernate.cfg.reveng.ReverseEngineeringStrategy;
 import org.hibernate.cfg.reveng.TableIdentifier;
 import org.hibernate.mapping.Column;
@@ -29,6 +30,9 @@ import org.hibernate.mapping.ForeignKey;
 import org.hibernate.mapping.MetaAttribute;
 
 /**
+ * XXX add dynamic-update=true meta atrribute to each class. Wontfix: cannot be
+ * done using ReverseEngineeringStrategy.
+ * 
  * Provides a customized reverse engineering strategy for the DecidR MySQL
  * database.
  * <p>
@@ -75,8 +79,6 @@ public class DecidrReverseEngineeringStrategy extends
         return result;
     }
 
-    
-    
     @SuppressWarnings("unchecked")
     @Override
     public String foreignKeyToCollectionName(String keyname,
@@ -139,7 +141,17 @@ public class DecidrReverseEngineeringStrategy extends
     @SuppressWarnings("unchecked")
     @Override
     public Map tableToMetaAttributes(TableIdentifier tableIdentifier) {
-        Map<String, MetaAttribute> metaAttributes = new HashMap<String, MetaAttribute>();
+        Map<String, MetaAttribute> metaAttributes = super
+                .tableToMetaAttributes(tableIdentifier);
+
+        if (metaAttributes == null) {
+            metaAttributes = new HashMap<String, MetaAttribute>();
+        }
+
+        /*
+         * Unfortunately we cannot use this to enable dynamic-update and
+         * dynamic-insert.
+         */
 
         return metaAttributes;
     }
@@ -163,4 +175,12 @@ public class DecidrReverseEngineeringStrategy extends
 
         return columns;
     }
+
+    @Override
+    public void setSettings(ReverseEngineeringSettings settings) {
+        super.setSettings(settings);
+        // We rely on the "many-to-many-entities" being present.
+        settings.setDetectManyToMany(false);
+    }
+
 }

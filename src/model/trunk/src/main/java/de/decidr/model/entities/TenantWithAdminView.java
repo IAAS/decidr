@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 13.06.2009 19:54:01 by Hibernate Tools 3.2.4.GA
+// Generated 20.06.2009 12:22:41 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -9,10 +9,6 @@ import java.util.Date;
  */
 public class TenantWithAdminView implements java.io.Serializable {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
     private long id;
     private String name;
     private String description;
@@ -27,7 +23,6 @@ public class TenantWithAdminView implements java.io.Serializable {
     private String adminLastName;
 
     public TenantWithAdminView() {
-        // TODO
     }
 
     public TenantWithAdminView(long id, String name, String description,
