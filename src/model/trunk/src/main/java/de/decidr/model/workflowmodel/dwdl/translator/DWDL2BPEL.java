@@ -67,6 +67,16 @@ public class DWDL2BPEL {
         return null;
     }
 
+    /**
+     * TODO: add comment
+     *
+     * @return
+     */
+    private TDocumentation getProcessDocumentation() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     private de.decidr.model.workflowmodel.bpel.TImport createImports() {
         
         return null;
