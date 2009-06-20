@@ -24,6 +24,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 
+import de.decidr.model.annotations.AllowedRole;
 import de.decidr.model.commands.workflowmodel.DeleteWorkflowModelCommand;
 import de.decidr.model.commands.workflowmodel.GetLastStartConfigurationCommand;
 import de.decidr.model.commands.workflowmodel.GetPublishedWorkflowModelsCommand;
@@ -49,6 +50,8 @@ import de.decidr.model.exceptions.WorkflowModelNotStartableException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.permissions.Role;
+import de.decidr.model.permissions.TenantAdminRole;
+import de.decidr.model.permissions.WorkflowAdminRole;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 
 /**
@@ -79,6 +82,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
+    @AllowedRole(TenantAdminRole.class)
     public void saveWorkflowModel(Long workflowModelId, String name,
             String description, byte[] dwdl) throws TransactionException {
 
@@ -95,6 +99,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
+    @AllowedRole(TenantAdminRole.class)
     public Item getWorkflowModel(Long workflowModelId)
             throws TransactionException {
 
@@ -119,6 +124,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
+    @AllowedRole(TenantAdminRole.class)
     public void publishWorkflowModels(List<Long> workflowModelIds)
             throws TransactionException {
 
@@ -138,6 +144,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
+    @AllowedRole(TenantAdminRole.class)
     public void unpublishWorkflowModels(List<Long> workflowModelIds)
             throws TransactionException {
 
@@ -161,6 +168,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
+    @AllowedRole(TenantAdminRole.class)
     public void setExecutable(Long workflowModelId, Boolean excecutable)
             throws TransactionException {
 
@@ -180,6 +188,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
+    @AllowedRole(TenantAdminRole.class)
     public List<Item> getWorkflowAdministrators(Long workflowModelId)
             throws TransactionException {
         ArrayList<Item> result = new ArrayList<Item>();
@@ -225,6 +234,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
+    @AllowedRole(TenantAdminRole.class)
     public void setWorkflowAdministrators(Long workflowModelId,
             List<Long> userIds) throws TransactionException {
 
@@ -261,6 +271,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
+    @AllowedRole(TenantAdminRole.class)
     public List<Item> getWorkflowAdministrationState(Long workflowModelId,
             List<String> usernames, List<String> emails)
             throws TransactionException {
@@ -306,6 +317,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
+    @AllowedRole(TenantAdminRole.class)
     public void deleteWorkflowModels(List<Long> workflowModelIds)
             throws TransactionException {
         /*
@@ -348,6 +360,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
+    @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getWorkflowInstances(Long workflowModelId,
             Paginator paginator) throws TransactionException {
         GetWorkflowInstancesCommand cmd = new GetWorkflowInstancesCommand(
@@ -398,6 +411,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
+    @AllowedRole(TenantAdminRole.class)
     public List<Item> getAllPublishedWorkflowModels(List<Filter> filters,
             Paginator paginator) throws TransactionException {
 
@@ -439,6 +453,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @throws WorkflowModelNotStartableException
      *             if the workflow model to start is not really startable.
      */
+    @AllowedRole(WorkflowAdminRole.class)
     public Long startWorkflowInstance(Long workflowModelId,
             byte[] startConfiguration) throws TransactionException,
             WorkflowModelNotStartableException {
@@ -456,15 +471,16 @@ public class WorkflowModelFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the raw xml data of the last used start configuration of the
+     * Returns the raw XML data of the last used start configuration of the
      * given workflow model. If applicable start configuration exists, null is
      * returned.
      * 
      * @param workflowModelId
-     * @return the raw xml data of the last used start configuration or null.
+     * @return the raw XML data of the last used start configuration or null.
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
+    @AllowedRole(WorkflowAdminRole.class)
     public byte[] getLastStartConfiguration(Long workflowModelId)
             throws TransactionException {
         

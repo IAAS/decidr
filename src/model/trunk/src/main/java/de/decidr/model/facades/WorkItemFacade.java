@@ -18,6 +18,7 @@ package de.decidr.model.facades;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 
+import de.decidr.model.annotations.AllowedRole;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.workitem.CreateWorkItemCommand;
 import de.decidr.model.commands.workitem.DeleteWorkItemCommand;
@@ -26,7 +27,10 @@ import de.decidr.model.commands.workitem.SetDataCommand;
 import de.decidr.model.commands.workitem.SetStatusCommand;
 import de.decidr.model.enums.WorkItemStatus;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.permissions.HumanTaskRole;
 import de.decidr.model.permissions.Role;
+import de.decidr.model.permissions.UserRole;
+import de.decidr.model.permissions.WorkflowAdminRole;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 
 /**
@@ -64,6 +68,7 @@ public class WorkItemFacade extends AbstractFacade {
      * @throws TransactionException
      *             on rollback or if the given work item doesn't exist.
      */
+    @AllowedRole(UserRole.class)
     public Item getWorkItem(Long workItemId) throws TransactionException {
         
         GetWorkItemCommand cmd = new GetWorkItemCommand(actor, workItemId);
@@ -97,6 +102,7 @@ public class WorkItemFacade extends AbstractFacade {
      * @throws TransactionException
      *             on rollback
      */
+    @AllowedRole(HumanTaskRole.class)
     public Long createWorkItem(Long userId, Long deployedWorkflowModelId,
             String odePid, String name, String description, byte[] data,
             Boolean notifyUser) throws TransactionException {
@@ -120,6 +126,7 @@ public class WorkItemFacade extends AbstractFacade {
      * @throws TransactionException
      *             on rollback
      */
+    @AllowedRole(UserRole.class)
     public void setData(Long workItemId, byte[] data)
             throws TransactionException {
         HibernateTransactionCoordinator.getInstance().runTransaction(
@@ -136,6 +143,7 @@ public class WorkItemFacade extends AbstractFacade {
      * @throws TransactionException
      *             on rollback
      */
+    @AllowedRole(UserRole.class)
     public void setDataAndMarkAsDone(Long workItemId, byte[] data)
             throws TransactionException {
         TransactionalCommand[] commands = {
@@ -152,6 +160,7 @@ public class WorkItemFacade extends AbstractFacade {
      * @throws TransactionException
      *             on rollback
      */
+    @AllowedRole(UserRole.class)
     public void markWorkItemAsDone(Long workItemId) throws TransactionException {
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 new SetStatusCommand(actor, workItemId, WorkItemStatus.Done));
@@ -164,6 +173,7 @@ public class WorkItemFacade extends AbstractFacade {
      * @throws TransactionException
      *             on rollback
      */
+    @AllowedRole({WorkflowAdminRole.class,HumanTaskRole.class})
     public void deleteWorkItem(Long workItemId) throws TransactionException {
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 new DeleteWorkItemCommand(actor, workItemId));
@@ -179,6 +189,7 @@ public class WorkItemFacade extends AbstractFacade {
      * @throws TransactionException
      *             on rollback
      */
+    @AllowedRole(UserRole.class)
     public Item getWorkItemAndMarkAsInProgress(Long workItemId)
             throws TransactionException {
 

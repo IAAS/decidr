@@ -7,16 +7,18 @@ import java.util.Set;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 
+import de.decidr.model.annotations.AllowedRole;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.workflowinstance.DeleteWorkFlowInstanceCommand;
 import de.decidr.model.commands.workflowinstance.GetAllWorkitemsCommand;
-import de.decidr.model.commands.workflowinstance.GetOdeUrlCommand;
 import de.decidr.model.commands.workflowinstance.GetParticipatingUsersCommand;
 import de.decidr.model.commands.workflowinstance.StopWorkflowInstanceCommand;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.permissions.HumanTaskRole;
 import de.decidr.model.permissions.Role;
+import de.decidr.model.permissions.WorkflowAdminRole;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
 
@@ -39,6 +41,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * @param workflowInstanceId
      *            the id of the WorkflowInstance
      */
+    @AllowedRole(WorkflowAdminRole.class)
     public void stopWorkflowInstance(Long workflowInstanceId)
             throws TransactionException {
 
@@ -52,32 +55,13 @@ public class WorkflowInstanceFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the OdeUrl of the given WorkflowInstance.
-     * 
-     * @param workflowInstanceId
-     * @return
-     */
-    public String getOdeUrl(Long workflowInstanceId)
-            throws TransactionException {
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
-
-        GetOdeUrlCommand command = new GetOdeUrlCommand(actor,
-                workflowInstanceId);
-
-        tac.runTransaction(command);
-        return command.getResult();
-
-    }
-
-    /**
      * Returns all Participants of the given WorkflowInstance
      * 
      * @param workflowInstanceId
      * @return
      */
     @SuppressWarnings("unchecked")
+    @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getParticipatingUsers(Long workflowInstanceId)
             throws TransactionException {
 
@@ -108,6 +92,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * @param workflowInstanceId
      *            the id of the WorkflowInstance
      */
+    @AllowedRole(WorkflowAdminRole.class)
     public void deleteWorkflowInstance(Long workflowInstanceId)
             throws TransactionException {
 
@@ -135,6 +120,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
+    @AllowedRole(HumanTaskRole.class)
     public void removeAllWorkItems(String odePid, Long deployedWorkflowModelId)
             throws TransactionException {
         // FIXME implement me!
@@ -150,6 +136,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * @return List<Items>
      */
     @SuppressWarnings("unchecked")
+    @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getAllWorkItems(Long workflowInstanceId)
             throws TransactionException {
 

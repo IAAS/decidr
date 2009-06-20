@@ -40,6 +40,7 @@ import de.decidr.model.transactions.TransactionCoordinator;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.model.permissions.TenantAdminRole;
 import de.decidr.model.permissions.SuperAdminRole;
+import de.decidr.model.permissions.WorkflowAdminRole;
 
 /**
  * 
@@ -125,6 +126,7 @@ public class TenantFacade extends AbstractFacade {
      * @param tenantId
      * @return tenent logo
      */
+    @AllowedRole(Role.class)
     public InputStream getLogo(Long tenantId) throws TransactionException {
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
@@ -138,28 +140,33 @@ public class TenantFacade extends AbstractFacade {
     }
 
     // SECIT FileHandling fehlt noch
+    @AllowedRole(TenantAdminRole.class)
     public void setLogo(Long tenantId, InputStream logo) {
         throw new UnsupportedOperationException();
     }
 
     // SECIT FileHandling fehlt noch
+    @AllowedRole(TenantAdminRole.class)
     public void setSimpleColorScheme(InputStream simpleColorScheme,
             Long tenantId) {
         throw new UnsupportedOperationException();
     }
 
     // SECIT FileHandling fehlt noch
+    @AllowedRole(TenantAdminRole.class)
     public void setAdvancedColorScheme(InputStream advancedColorScheme,
             Long tenantId) {
         throw new UnsupportedOperationException();
     }
 
     // SECIT FileHandling fehlt noch
+    @AllowedRole(Role.class)
     public void getCurrentColorScheme() {
         throw new UnsupportedOperationException();
     }
 
     // SECIT FileHandling fehlt noch
+    @AllowedRole(TenantAdminRole.class)
     public void setCurrentColorScheme(InputStream currentColorScheme,
             Long tenantId) {
         throw new UnsupportedOperationException();
@@ -365,6 +372,7 @@ public class TenantFacade extends AbstractFacade {
      * @throws TransactionException
      */
     @SuppressWarnings("unchecked")
+    @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getUsersOfTenant(Long tenantId, Paginator paginator)
             throws TransactionException {
 
@@ -424,6 +432,7 @@ public class TenantFacade extends AbstractFacade {
      * @throws TransactionException
      */
     @SuppressWarnings("unchecked")
+    @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getWorkflowInstances(Long tenantId, Paginator paginator)
             throws TransactionException {
 
@@ -472,6 +481,7 @@ public class TenantFacade extends AbstractFacade {
      * @throws TransactionException
      */
     @SuppressWarnings("unchecked")
+    @AllowedRole(SuperAdminRole.class)
     public List<Item> getTenantsToApprove(List<Filter> filters,
             Paginator paginator) throws TransactionException {
 
@@ -483,9 +493,8 @@ public class TenantFacade extends AbstractFacade {
         List<Item> outList = new ArrayList<Item>();
         List<TenantWithAdminView> inList = new ArrayList();
 
-        String[] properties = { "id" };// FIME füge vor/nachname ein sobald view
-        // abgeaendert
-
+        String[] properties = { "id", "adminFirstName", "adminLastName"};
+        
         tac.runTransaction(command);
         inList = command.getResult();
 
@@ -518,6 +527,7 @@ public class TenantFacade extends AbstractFacade {
      * @throws TransactionException
      */
     @SuppressWarnings("unchecked")
+    @AllowedRole(SuperAdminRole.class)
     public List<Item> getAllTenants(List<Filter> filters, Paginator paginator)
             throws TransactionException {
 
@@ -557,6 +567,7 @@ public class TenantFacade extends AbstractFacade {
      * @throws TransactionException
      */
     @SuppressWarnings("unchecked")
+    @AllowedRole(TenantAdminRole.class)
     public List<Item> getWorkflowModels(Long tenantId, List<Filter> filters,
             Paginator paginator) throws TransactionException {
 
@@ -592,6 +603,7 @@ public class TenantFacade extends AbstractFacade {
      * @throws TransactionException
      * 
      */
+    @AllowedRole(WorkflowAdminRole.class)
     public void inviteUsersAsMembers(Long tenantId,
             List<String> emails, List<String>userNames) throws TransactionException {
 
@@ -612,6 +624,7 @@ public class TenantFacade extends AbstractFacade {
      * @param workflowModelIds
      * @throws TransactionException
      */
+    @AllowedRole(TenantAdminRole.class)
     public void importPublishedWorkflowModels(Long tenantId,
             List<Long> workflowModelIds) throws TransactionException {
 
