@@ -73,6 +73,8 @@ public class SetUserPropertyCommand extends UserCommand {
                     setter.invoke(user, entry.getValue());
                 }
             }
+            
+            evt.getSession().update(user);
         } catch (Exception e) {
             throw new TransactionException(e);
         }

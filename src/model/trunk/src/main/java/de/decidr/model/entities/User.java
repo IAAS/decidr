@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 20.06.2009 12:22:41 by Hibernate Tools 3.2.4.GA
+// Generated 20.06.2009 13:06:16 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -11,6 +11,10 @@ import java.util.Set;
  */
 public class User implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private Long id;
     private String authKey;
     private String email;
@@ -23,6 +27,7 @@ public class User implements java.io.Serializable {
     private Set<UserIsMemberOfTenant> userIsMemberOfTenants = new HashSet<UserIsMemberOfTenant>(
             0);
     private UserProfile userProfile;
+    private PasswordResetRequest passwordResetRequest;
     private RegistrationRequest registrationRequest;
     private Set<Invitation> invitationsForReceiverId = new HashSet<Invitation>(
             0);
@@ -52,6 +57,7 @@ public class User implements java.io.Serializable {
             Set<WorkflowModel> workflowModels,
             Set<UserIsMemberOfTenant> userIsMemberOfTenants,
             UserProfile userProfile,
+            PasswordResetRequest passwordResetRequest,
             RegistrationRequest registrationRequest,
             Set<Invitation> invitationsForReceiverId,
             Set<UserAdministratesWorkflowInstance> userAdministratesWorkflowInstances,
@@ -71,6 +77,7 @@ public class User implements java.io.Serializable {
         this.workflowModels = workflowModels;
         this.userIsMemberOfTenants = userIsMemberOfTenants;
         this.userProfile = userProfile;
+        this.passwordResetRequest = passwordResetRequest;
         this.registrationRequest = registrationRequest;
         this.invitationsForReceiverId = invitationsForReceiverId;
         this.userAdministratesWorkflowInstances = userAdministratesWorkflowInstances;
@@ -169,6 +176,15 @@ public class User implements java.io.Serializable {
 
     public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
+    }
+
+    public PasswordResetRequest getPasswordResetRequest() {
+        return this.passwordResetRequest;
+    }
+
+    public void setPasswordResetRequest(
+            PasswordResetRequest passwordResetRequest) {
+        this.passwordResetRequest = passwordResetRequest;
     }
 
     public RegistrationRequest getRegistrationRequest() {

@@ -22,6 +22,7 @@
         <mapping resource="de/decidr/model/entities/ChangeEmailRequest.hbm.xml" />
         <mapping resource="de/decidr/model/entities/UserParticipatesInWorkflow.hbm.xml" />
         <mapping resource="de/decidr/model/entities/Permission.hbm.xml" />
+        <mapping resource="de/decidr/model/entities/PasswordResetRequest.hbm.xml" />
         <mapping resource="de/decidr/model/entities/RoleHasPermission.hbm.xml" />
         <mapping resource="de/decidr/model/entities/Invitation.hbm.xml" />
         <mapping resource="de/decidr/model/entities/ServerType.hbm.xml" />

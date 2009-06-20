@@ -15,6 +15,7 @@ import de.decidr.model.commands.user.GetJoinedTenantsCommand;
 import de.decidr.model.commands.user.GetUserByLoginCommand;
 import de.decidr.model.commands.user.GetWorkitemsCommand;
 import de.decidr.model.commands.user.RegisterUserCommand;
+import de.decidr.model.commands.user.SetPasswordCommand;
 import de.decidr.model.commands.user.SetUserPropertyCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.UserProfile;
@@ -211,12 +212,38 @@ public class UserFacade extends AbstractFacade {
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
     }
 
-    public void setPassword(Long userId, String oldPassword, String newPassword)
-            throws TransactionException {
-        throw new UnsupportedOperationException();
+    /**
+     * Sets a new password for the given user if the provided current password
+     * is correct.
+     * 
+     * @param userId
+     * @param oldPassword
+     *            the user's current password (plaintext).
+     * @param newPassword
+     *            the new password (plaintext).
+     * @return true if the password was changed to newPassword, false if
+     *         oldPassword doesn't match.
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     */
+    public Boolean setPassword(Long userId, String oldPassword,
+            String newPassword) throws TransactionException {
+        SetPasswordCommand cmd = new SetPasswordCommand(actor, userId,
+                oldPassword, newPassword);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+
+        return cmd.getPasswordWasChanged();
     }
 
-    public void requestPasswordReset(String emailOrUsername)
+    /**
+     * Creates a new password reset request for the given username or email
+     * address. A notification email is sent to the user 
+     * 
+     * @param emailOrUsername
+     * @throws TransactionException
+     */
+    public Boolean requestPasswordReset(String emailOrUsername)
             throws TransactionException {
         throw new UnsupportedOperationException();
     }
@@ -236,11 +263,15 @@ public class UserFacade extends AbstractFacade {
         throw new UnsupportedOperationException();
     }
 
-    public void confirmRegistration(String authKey) throws TransactionException {
+    public void confirmPasswordReset(Long userId, String authKey) {
+        
+    }
+    
+    public void confirmRegistration(Long userId, String authKey) throws TransactionException {
         throw new UnsupportedOperationException();
     }
 
-    public void confirmChangeEmailRequest(String requestAuthKey)
+    public void confirmChangeEmailRequest(Long userId, String requestAuthKey)
             throws TransactionException {
         throw new UnsupportedOperationException();
     }
