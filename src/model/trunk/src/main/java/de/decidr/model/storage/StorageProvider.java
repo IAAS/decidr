@@ -17,14 +17,17 @@
 package de.decidr.model.storage;
 
 import java.io.InputStream;
+import java.util.Properties;
 
+import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
 
 /**
- * 
+ * RR
  * 
  * @author Markus Fischer
  * @author Daniel Huss
+ * @author Reinhold
  * 
  * @version 0.1
  */
@@ -35,12 +38,13 @@ public interface StorageProvider {
      * storage backend.
      */
     public void putFile(InputStream data, Long fileId) throws StorageException;
-    
+
     /**
      * Retrieves the file that is identified by the given id from the storage
      * backend.
      * 
      * @param fileId
+     *            RR
      * @return the file data
      */
     public InputStream getFile(Long fileId) throws StorageException;
@@ -50,6 +54,38 @@ public interface StorageProvider {
      * storage backend.
      * 
      * @param fileId
+     *            RR
      */
     public void removeFile(Long fileId) throws StorageException;
+
+    /**
+     * TODO: add comment
+     * 
+     * @param config
+     * @return
+     */
+    public boolean isApplicable(Properties config);
+
+    /**
+     * TODO: add comment <br>
+     * The method <code>{@link #isApplicable(Properties)}</code> can be used to
+     * make sure that the configuration is complete.
+     * 
+     * @param config
+     * @throws IncompleteConfigurationException
+     *             thrown if vital parts of the configuration are missing (e.g.
+     *             authentification data).<br>
+     *             This exception is usually thrown when calling this
+     *             <code>{@link StorageProvider}</code> manually or when the
+     *             configuration of the
+     *             <code>{@link StorageProviderFactory}</code> is changed after
+     *             its instantiation or a call to
+     *             <code>{@link StorageProviderFactory#configure()}</code>.<br>
+     * <br>
+     *             The recommended course of action is to either manually choose
+     *             a different <code>{@link StorageProvider}</code> or to run
+     *             <code>{@link StorageProviderFactory#configure()}</code>.
+     */
+    public void applyConfig(Properties config)
+            throws IncompleteConfigurationException;
 }
