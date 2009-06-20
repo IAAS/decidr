@@ -397,12 +397,6 @@ public class UserFacade extends AbstractFacade {
 
     }
 
-    // FIXME Do we really need this?
-    public List<Item> getAdministratedTenants(Long userId)
-            throws TransactionException {
-        return null;
-    }
-
     /**
      * 
      * Returns all administrated workflow instances of the given user as Item.

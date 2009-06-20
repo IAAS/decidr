@@ -12,6 +12,7 @@ import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.workflowinstance.DeleteWorkFlowInstanceCommand;
 import de.decidr.model.commands.workflowinstance.GetAllWorkitemsCommand;
 import de.decidr.model.commands.workflowinstance.GetParticipatingUsersCommand;
+import de.decidr.model.commands.workflowinstance.RemoveAllWorkItemsCommand;
 import de.decidr.model.commands.workflowinstance.StopWorkflowInstanceCommand;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkItem;
@@ -75,7 +76,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
 
         Set<User> inSet = command.getResult();
         List<Item> outList = new ArrayList();
-        // FIXME Werte anpassen
+
         String[] properties = { "id,email" };
 
         for (User user : inSet) {
@@ -123,7 +124,14 @@ public class WorkflowInstanceFacade extends AbstractFacade {
     @AllowedRole(HumanTaskRole.class)
     public void removeAllWorkItems(String odePid, Long deployedWorkflowModelId)
             throws TransactionException {
-        // FIXME implement me!
+
+        TransactionCoordinator tac = HibernateTransactionCoordinator
+                .getInstance();
+        RemoveAllWorkItemsCommand command = new RemoveAllWorkItemsCommand(
+                actor, odePid, deployedWorkflowModelId);
+
+        tac.runTransaction(command);
+
     }
 
     /**
@@ -150,10 +158,9 @@ public class WorkflowInstanceFacade extends AbstractFacade {
         Set<WorkItem> inSet;
 
         tac.runTransaction(command);
-        
+
         inSet = command.getResult();
 
-        
         for (WorkItem item : inSet) {
             outList.add(new BeanItem(item, properties));
         }
