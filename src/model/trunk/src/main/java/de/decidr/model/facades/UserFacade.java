@@ -11,6 +11,7 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 
 import de.decidr.model.commands.user.CheckAuthKeyCommand;
+import de.decidr.model.commands.user.ConfirmInviationCommand;
 import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
 import de.decidr.model.commands.user.GetAdminstratedWorkflowInstancesCommand;
 import de.decidr.model.commands.user.GetAllUsersCommand;
@@ -20,6 +21,7 @@ import de.decidr.model.commands.user.GetUserByLoginCommand;
 import de.decidr.model.commands.user.GetUserProfileCommand;
 import de.decidr.model.commands.user.GetUserRoleForTenantCommand;
 import de.decidr.model.commands.user.GetWorkitemsCommand;
+import de.decidr.model.commands.user.RefuseInviationCommand;
 import de.decidr.model.commands.user.RegisterUserCommand;
 import de.decidr.model.commands.user.SetPasswordCommand;
 import de.decidr.model.commands.user.SetUserPropertyCommand;
@@ -246,7 +248,7 @@ public class UserFacade extends AbstractFacade {
 
     /**
      * Creates a new password reset request for the given username or email
-     * address. A notification email is sent to the user 
+     * address. A notification email is sent to the user
      * 
      * @param emailOrUsername
      * @throws TransactionException
@@ -272,10 +274,11 @@ public class UserFacade extends AbstractFacade {
     }
 
     public void confirmPasswordReset(Long userId, String authKey) {
-        
+
     }
-    
-    public void confirmRegistration(Long userId, String authKey) throws TransactionException {
+
+    public void confirmRegistration(Long userId, String authKey)
+            throws TransactionException {
         throw new UnsupportedOperationException();
     }
 
@@ -284,16 +287,42 @@ public class UserFacade extends AbstractFacade {
         throw new UnsupportedOperationException();
     }
 
+    
+    /**
+     * 
+     * Confirms the given Invitation.
+     * 
+     * @param invitationId
+     * @throws TransactionException
+     */
     public void confirmInvitation(Long invitationId)
             throws TransactionException {
-        throw new UnsupportedOperationException();
+
+        ConfirmInviationCommand command = new ConfirmInviationCommand(actor,
+                invitationId);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+
+        
     }
 
-    public void refuseInviation(Long invitationId) {
-        throw new UnsupportedOperationException();
+    /**
+     * 
+     * Refuses the given invitation an send an information email. to the
+     * inviting user.
+     * 
+     * @param invitationId
+     * @throws TransactionException
+     */
+    public void refuseInviation(Long invitationId) throws TransactionException {
+
+        RefuseInviationCommand command = new RefuseInviationCommand(actor,
+                invitationId);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+
     }
 
-    
     /**
      * 
      * Returns the user profile of the given user.
