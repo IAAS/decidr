@@ -1,7 +1,6 @@
 package de.decidr.model.facades;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -143,7 +142,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
 
     /**
      * 
-     * Returns all WorkItems of a WorkflowInstance as a Vadim-Item with the
+     * Returns all WorkItems of a WorkflowInstance as a Vaadin-Item with the
      * following properties: - id
      * 
      * @param workflowInstanceId
@@ -161,11 +160,13 @@ public class WorkflowInstanceFacade extends AbstractFacade {
 
         String[] properties = { "id" };
         List<Item> outList = new ArrayList();
-        Set<WorkItem> inSet = new HashSet();
+        Set<WorkItem> inSet;
 
         tac.runTransaction(command);
+        
+        inSet = command.getResult();
 
-        //FIXME fill inSet
+        
         for (WorkItem item : inSet) {
             outList.add(new BeanItem(item, properties));
         }

@@ -52,11 +52,11 @@ public class IsTenantAdmin implements Asserter, TransactionalCommand {
 
     @Override
     public void transactionAborted(TransactionAbortedEvent evt) {
-        // TODO
+        // nothing to do
     }
 
     @Override
     public void transactionCommitted(TransactionEvent evt) {
-        // TODO
+        // nothing to do
     }
 }

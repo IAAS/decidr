@@ -7,7 +7,7 @@ public class StopWorkflowInstanceCommand extends WorkflowInstanceCommand {
 
     public StopWorkflowInstanceCommand(Role role, Long workflowinstanceId) {
         super(role, null);
-        // TODO Auto-generated constructor stub
+      //SECIT Komponente von Modood benötigt.
     }
 
     @Override

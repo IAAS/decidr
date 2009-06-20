@@ -39,7 +39,7 @@ public abstract class AbstractTransactionalCommand implements
      */
     public void transactionStarted(TransactionEvent evt)
             throws TransactionException {
-        // TODO
+        // intentionally left empty 
     }
 
     /**
@@ -47,7 +47,7 @@ public abstract class AbstractTransactionalCommand implements
      */
     public void transactionAborted(TransactionAbortedEvent evt)
             throws TransactionException {
-        // TODO
+        // intentionally left empty
     }
 
     /**
@@ -55,6 +55,6 @@ public abstract class AbstractTransactionalCommand implements
      */
     public void transactionCommitted(TransactionEvent evt)
             throws TransactionException {
-        // TODO
+        // intentionally left empty
     }
 }

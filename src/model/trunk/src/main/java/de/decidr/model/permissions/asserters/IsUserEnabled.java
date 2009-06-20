@@ -25,7 +25,8 @@ public class IsUserEnabled implements Asserter, TransactionalCommand {
     private Boolean userIsEnabled = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission) throws TransactionException{
+    public Boolean assertRule(Role role, Permission permission)
+            throws TransactionException {
         Boolean result = false;
 
         if (role instanceof UserRole) {
@@ -46,12 +47,12 @@ public class IsUserEnabled implements Asserter, TransactionalCommand {
 
     @Override
     public void transactionAborted(TransactionAbortedEvent evt) {
-        // TODO
+        // nothing to do
     }
 
     @Override
     public void transactionCommitted(TransactionEvent evt) {
-        // TODO
+        // nothing to do
     }
 
 }

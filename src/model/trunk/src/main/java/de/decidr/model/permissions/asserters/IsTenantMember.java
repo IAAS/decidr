@@ -27,7 +27,8 @@ public class IsTenantMember implements Asserter, TransactionalCommand {
     private Boolean userIsMember = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission) throws TransactionException{
+    public Boolean assertRule(Role role, Permission permission)
+            throws TransactionException {
         Boolean result = null;
 
         if ((role instanceof UserRole)
@@ -54,11 +55,11 @@ public class IsTenantMember implements Asserter, TransactionalCommand {
 
     @Override
     public void transactionAborted(TransactionAbortedEvent evt) {
-        // TODO
+        // nothing to do
     }
 
     @Override
     public void transactionCommitted(TransactionEvent evt) {
-        // TODO
+        // nothing to do
     }
 }

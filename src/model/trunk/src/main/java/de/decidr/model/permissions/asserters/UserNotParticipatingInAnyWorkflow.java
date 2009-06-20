@@ -20,7 +20,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @author Markus Fischer
  * @author Daniel Huss
- *
+ * 
  * @version 0.1
  */
 public class UserNotParticipatingInAnyWorkflow implements Asserter,
@@ -31,7 +31,8 @@ public class UserNotParticipatingInAnyWorkflow implements Asserter,
     private Boolean notParticipating = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission) throws TransactionException{
+    public Boolean assertRule(Role role, Permission permission)
+            throws TransactionException {
 
         Boolean result = false;
 
@@ -63,12 +64,12 @@ public class UserNotParticipatingInAnyWorkflow implements Asserter,
 
     @Override
     public void transactionAborted(TransactionAbortedEvent evt) {
-        // TODO
+        // nothing to do
     }
 
     @Override
     public void transactionCommitted(TransactionEvent evt) {
-        // TODO
+        // nothing to do
     }
 
 }

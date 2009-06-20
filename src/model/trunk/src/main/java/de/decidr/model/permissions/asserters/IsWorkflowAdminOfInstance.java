@@ -17,7 +17,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * Asserts that the given user administrates the given workflow instance.
  * 
  * @author Daniel Huss
- *
+ * 
  * @version 0.1
  */
 public class IsWorkflowAdminOfInstance implements Asserter,
@@ -28,7 +28,8 @@ public class IsWorkflowAdminOfInstance implements Asserter,
     private Boolean isWorkflowAdmin = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission) throws TransactionException{
+    public Boolean assertRule(Role role, Permission permission)
+            throws TransactionException {
         Boolean result = false;
 
         if ((role instanceof WorkflowAdminRole)
@@ -52,12 +53,12 @@ public class IsWorkflowAdminOfInstance implements Asserter,
 
     @Override
     public void transactionAborted(TransactionAbortedEvent evt) {
-        // TODO
+        // nothing to do
     }
 
     @Override
     public void transactionCommitted(TransactionEvent evt) {
-        // TODO
+        // nothing to do
     }
 
 }

@@ -460,8 +460,11 @@ public class TenantFacade extends AbstractFacade {
 
     /**
      * Returns a list of all tenants which have to be approved as List<Item>
-     * Each Item has the following properties: - id - tenant_name - first_name -
-     * last_name
+     * Each Item has the following properties:<br>
+     * - id<br>
+     * - tenant_name<br>
+     * - first_name<br>
+     * - last_name<br>
      * 
      * @param filters
      * @param paginator
@@ -500,7 +503,14 @@ public class TenantFacade extends AbstractFacade {
      * 
      * Returns a list of all Tenants as List<Item>. The result can be filtered
      * by using filters and split in several pages by using a paginator. Each
-     * item has the following properties:
+     * item has the following properties:<br>
+     * -adminFirstName<br>
+     * -adminLastName<br>
+     * -id<br>
+     * -numDeployedWorkflowModels<br>
+     * -numMembers<br>
+     * -numWorkflowInstance<br>
+     * -tenantName<br>
      * 
      * @param filters
      * @param paginator

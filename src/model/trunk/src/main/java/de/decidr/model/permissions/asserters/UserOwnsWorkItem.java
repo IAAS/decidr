@@ -29,7 +29,8 @@ public class UserOwnsWorkItem implements Asserter, TransactionalCommand {
     private Boolean isOwner = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission) throws TransactionException{
+    public Boolean assertRule(Role role, Permission permission)
+            throws TransactionException {
 
         Boolean result = false;
 
@@ -61,12 +62,12 @@ public class UserOwnsWorkItem implements Asserter, TransactionalCommand {
 
     @Override
     public void transactionAborted(TransactionAbortedEvent evt) {
-        // TODO
+        // nothing to do
     }
 
     @Override
     public void transactionCommitted(TransactionEvent evt) {
-        // TODO
+        // nothing to do
     }
 
 }

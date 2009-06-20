@@ -65,6 +65,7 @@ public class WorkItemFacade extends AbstractFacade {
      *             on rollback or if the given work item doesn't exist.
      */
     public Item getWorkItem(Long workItemId) throws TransactionException {
+        
         GetWorkItemCommand cmd = new GetWorkItemCommand(actor, workItemId);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 

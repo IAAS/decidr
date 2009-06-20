@@ -10,11 +10,12 @@ import de.decidr.model.permissions.UserRole;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;
+
 /**
  * Asserts that a user hasn't set his status to unavailable.
  * 
  * @author Daniel Huss
- *
+ * 
  * @version 0.1
  */
 public class IsUserAvailable implements Asserter, TransactionalCommand {
@@ -24,7 +25,8 @@ public class IsUserAvailable implements Asserter, TransactionalCommand {
     private Boolean userIsEnabled = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission) throws TransactionException{
+    public Boolean assertRule(Role role, Permission permission)
+            throws TransactionException {
         Boolean result = null;
 
         if (role instanceof UserRole) {
@@ -45,11 +47,11 @@ public class IsUserAvailable implements Asserter, TransactionalCommand {
 
     @Override
     public void transactionAborted(TransactionAbortedEvent evt) {
-        // TODO
+        // nothing to do
     }
 
     @Override
     public void transactionCommitted(TransactionEvent evt) {
-        // TODO
+        // nothing to do
     }
 }

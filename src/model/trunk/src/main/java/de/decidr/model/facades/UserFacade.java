@@ -8,18 +8,26 @@ import java.util.Map;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.util.ObjectProperty;
 
 import de.decidr.model.commands.user.CheckAuthKeyCommand;
 import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
+import de.decidr.model.commands.user.GetAdminstratedWorkflowInstancesCommand;
+import de.decidr.model.commands.user.GetAllUsersCommand;
+import de.decidr.model.commands.user.GetHighestUserRoleCommand;
 import de.decidr.model.commands.user.GetJoinedTenantsCommand;
 import de.decidr.model.commands.user.GetUserByLoginCommand;
+import de.decidr.model.commands.user.GetUserProfileCommand;
+import de.decidr.model.commands.user.GetUserRoleForTenantCommand;
 import de.decidr.model.commands.user.GetWorkitemsCommand;
 import de.decidr.model.commands.user.RegisterUserCommand;
 import de.decidr.model.commands.user.SetPasswordCommand;
 import de.decidr.model.commands.user.SetUserPropertyCommand;
 import de.decidr.model.entities.Tenant;
+import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.entities.WorkItemSummaryView;
+import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
@@ -285,30 +293,155 @@ public class UserFacade extends AbstractFacade {
         throw new UnsupportedOperationException();
     }
 
-    // FIXME HIER TREFFEN
-    public Item getUserProfile(Long userId) {
-        throw new UnsupportedOperationException();
+    
+    /**
+     * 
+     * Returns the user profile of the given user.
+     * 
+     * @param userId
+     * @return
+     * @throws TransactionException
+     */
+    public Item getUserProfile(Long userId) throws TransactionException {
+
+        String[] properties = { "city", "firstName", "lastName", "postalCode",
+                "street", "username" };
+
+        GetUserProfileCommand command = new GetUserProfileCommand(actor, userId);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+
+        return new BeanItem(command.getResult(), properties);
+
     }
 
-    public List<Item> getAllUsers(List<Filter> filters, Paginator paginator) {
-        throw new UnsupportedOperationException();
+    @SuppressWarnings("unchecked")
+    public List<Item> getAllUsers(List<Filter> filters, Paginator paginator)
+            throws TransactionException {
+
+        GetAllUsersCommand command = new GetAllUsersCommand(actor, filters,
+                paginator);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+
+        List<User> inList = command.getResult();
+        Item item;
+
+        // build the Vaadin item
+        String[] properties = { "id", "email" };
+
+        List<Item> result = new ArrayList();
+        for (User user : inList) {
+
+            item = new BeanItem(user, properties);
+
+            if (user.getUserProfile() != null) {
+                item.addItemProperty("firstName", new ObjectProperty(user
+                        .getUserProfile().getFirstName(), String.class));
+                item.addItemProperty("lastName", new ObjectProperty(user
+                        .getUserProfile().getFirstName(), String.class));
+                item.addItemProperty("username", new ObjectProperty(user
+                        .getUserProfile().getFirstName(), String.class));
+            } else {
+                item.addItemProperty("firstName", new ObjectProperty(null,
+                        String.class));
+                item.addItemProperty("lastName", new ObjectProperty(null,
+                        String.class));
+                item.addItemProperty("username", new ObjectProperty(null,
+                        String.class));
+            }
+        }
+
+        return result;
     }
 
-    public Class<? extends UserRole> getHighestUserRole(Long userId) {
-        throw new UnsupportedOperationException();
+    /**
+     * Returns the highest user role of the given system.
+     * 
+     * @param userId
+     * @return
+     * @throws TransactionException
+     */
+    public Class<? extends UserRole> getHighestUserRole(Long userId)
+            throws TransactionException {
+
+        GetHighestUserRoleCommand command = new GetHighestUserRoleCommand(
+                actor, userId);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+
+        return command.getResult();
+
     }
 
+    /**
+     * 
+     * Returns the highest role of the user in the given tenant in the result
+     * variable. If the user is not even a tenant member the result will be
+     * null.
+     * 
+     * @param userId
+     * @param tenantId
+     * @return
+     * @throws TransactionException
+     */
     public Class<? extends UserRole> getUserRoleForTenant(Long userId,
-            Long tenantId) {
-        throw new UnsupportedOperationException();
+            Long tenantId) throws TransactionException {
+
+        GetUserRoleForTenantCommand command = new GetUserRoleForTenantCommand(
+                actor, userId, tenantId);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+
+        return command.getResult();
+
     }
 
-    public List<Item> getAdministratedTenants(Long userId) {
-        throw new UnsupportedOperationException();
+    // FIXME Do we really need this?
+    public List<Item> getAdministratedTenants(Long userId)
+            throws TransactionException {
+        return null;
     }
 
-    public List<Item> getAdminstratedWorkflowInstances(Long userId) {
-        throw new UnsupportedOperationException();
+    /**
+     * 
+     * Returns all administrated workflow instances of the given user as Item.
+     * Each item has the following properties:<br>
+     * -id<br>
+     * -startedDate<br>
+     * -completedDate<br>
+     * -model
+     * 
+     * @param userId
+     * @return
+     * @throws TransactionException
+     */
+    @SuppressWarnings("unchecked")
+    public List<Item> getAdminstratedWorkflowInstances(Long userId)
+            throws TransactionException {
+
+        GetAdminstratedWorkflowInstancesCommand command = new GetAdminstratedWorkflowInstancesCommand(
+                actor, userId);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+
+        List<WorkflowInstance> inList = command.getResult();
+
+        // build the Vaadin item
+        String[] properties = { "id", "startedDate", "completedDate" };
+
+        List<Item> result = new ArrayList();
+        for (WorkflowInstance instance : inList) {
+
+            Item item = new BeanItem(instance, properties);
+            item.addItemProperty("model", new ObjectProperty(instance
+                    .getDeployedWorkflowModel().getName()));
+
+            result.add(item);
+
+        }
+
+        return result;
     }
 
     /**
