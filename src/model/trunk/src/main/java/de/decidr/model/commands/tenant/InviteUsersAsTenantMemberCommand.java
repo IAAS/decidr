@@ -83,7 +83,7 @@ public class InviteUsersAsTenantMemberCommand extends TenantCommand {
                 invi.setSender(actor);
                 evt.getSession().save(invi);
 
-                NotificationEvents.tenantInvitationUserAlreadyExisting(invi);
+                NotificationEvents.invitedRegisteredUserAsTenantMember(invi);
             }
 
         }
@@ -112,7 +112,7 @@ public class InviteUsersAsTenantMemberCommand extends TenantCommand {
             invi.setSender(actor);
             evt.getSession().save(invi);
 
-            NotificationEvents.tenantInvitationNewSystemUser(invi);
+            NotificationEvents.invitedUnregisteredUserAsTenantMember(invi);
         }
 
     }
