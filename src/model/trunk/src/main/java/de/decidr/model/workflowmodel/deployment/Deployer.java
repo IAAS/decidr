@@ -19,6 +19,9 @@ package de.decidr.model.workflowmodel.deployment;
 import java.io.IOException;
 import java.util.List;
 
+import javax.wsdl.WSDLException;
+import javax.xml.bind.JAXBException;
+
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
@@ -47,12 +50,15 @@ public interface Deployer {
      * @throws IOException
      * @throws DWDLValidationException
      * @throws ODESelectorException
+     * @throws WSDLException
+     * @throws JAXBException
      */
     public DeploymentResult deploy(byte[] dwdl, String tenantName,
             List<ServerLoadView> serverStatistics, DeploymentStrategy strategy)
-            throws DWDLValidationException, ODESelectorException, IOException;
+            throws DWDLValidationException, ODESelectorException, IOException,
+            JAXBException, WSDLException;
 
-    
-    public void undeploy(DeployedWorkflowModel dwfm, Server server) throws Exception;
-    
+    public void undeploy(DeployedWorkflowModel dwfm, Server server)
+            throws Exception;
+
 }

@@ -14,26 +14,20 @@
  * under the License.
  */
 
-package de.decidr.model.workflowmodel.instancemanagement;
+package de.decidr.model.workflowmodel.dwdl.translator;
+
+import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 
 /**
- * This class invokes a web service with a given SOAP message.
- * 
+ * TODO: add comment
+ *
  * @author Modood Alvi
  * @version 0.1
  */
-public class SOAPExecution {
-
-    /**
-     * The function expects the address of a Web service and a matching SOAP
-     * message. If the function is called, the specified Web service is invoked
-     * using the provided SOAP message.
-     * 
-     * @param address
-     * @param soap
-     */
-    public void invoke(String address, String soap) {
-
+public class DWDL2StartConfiguration {
+    
+    public byte[] getStartConfiguration (TWorkflow dwdl){
+        return null;
     }
 
 }

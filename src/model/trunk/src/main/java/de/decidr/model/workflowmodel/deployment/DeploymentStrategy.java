@@ -18,7 +18,7 @@ package de.decidr.model.workflowmodel.deployment;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author mod2
  */
 public interface DeploymentStrategy {

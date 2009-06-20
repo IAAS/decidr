@@ -14,26 +14,13 @@
  * under the License.
  */
 
-package de.decidr.model.workflowmodel.instancemanagement;
+package de.decidr.model.workflowmodel.deployment;
 
 /**
- * This class invokes a web service with a given SOAP message.
+ * TODO: add comment
  * 
- * @author Modood Alvi
- * @version 0.1
+ * @author mod2
  */
-public class SOAPExecution {
-
-    /**
-     * The function expects the address of a Web service and a matching SOAP
-     * message. If the function is called, the specified Web service is invoked
-     * using the provided SOAP message.
-     * 
-     * @param address
-     * @param soap
-     */
-    public void invoke(String address, String soap) {
-
-    }
+public class StandardDeploymentStrategy implements DeploymentStrategy {
 
 }

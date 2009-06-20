@@ -19,15 +19,15 @@ package de.decidr.model.workflowmodel.dwdl.translator;
 import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 
 /**
- * This class traverses a given WSDL and returns the resulting SOAP template, 
+ * This class traverses a given WSDL and returns the resulting SOAP template,
  * i.e. a SOAP message that holds wildcard characters for tag values.
- *
+ * 
  * @author Modood Alvi
  * @version 0.1
  */
 public class DWDL2SOAP {
-    
-    public javax.xml.soap.SOAPMessage getSOAP(TWorkflow dwdl){
+
+    public javax.xml.soap.SOAPMessage getSOAP(TWorkflow dwdl) {
         return null;
     }
 

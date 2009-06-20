@@ -20,15 +20,15 @@ import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 
 /**
- * This class converts a given DWDL object and returns the resulting 
- * deployment descriptor.
- *
+ * This class converts a given DWDL object and returns the resulting deployment
+ * descriptor.
+ * 
  * @author Modood Alvi
  * @version 0.1
  */
 public class DWDL2DD {
-    
-    public TDeployment getDD(TWorkflow dwdl){
+
+    public TDeployment getDD(TWorkflow dwdl) {
         return null;
     }
 

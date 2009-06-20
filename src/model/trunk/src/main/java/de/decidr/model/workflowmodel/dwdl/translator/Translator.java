@@ -21,37 +21,36 @@ import de.decidr.model.workflowmodel.bpel.TProcess;
 import de.decidr.model.workflowmodel.dd.TDeployment;
 
 /**
- * This class provides the functionality to translate a given DWDL into 
+ * This class provides the functionality to translate a given DWDL into
  * different formats
- *
+ * 
  * @author Modood Alvi
  * @version 0.1
  */
 public class Translator {
-    
-    
-    public void load(String dwdl){
-        
+
+    public void load(String dwdl) {
+
     }
-    
-    public void laod(byte[] dwdl){
-        
+
+    public void laod(byte[] dwdl) {
+
     }
-    
-    public TProcess getBPEL(){
-        return null;
-    }
-    
-    public Definition getWSDL(String loaction, String tenantName){
-        return null;
-    }
-    
-    public TDeployment getDD(){
+
+    public TProcess getBPEL() {
         return null;
     }
 
-    public javax.xml.soap.SOAPMessage getSOAP(){
+    public Definition getWSDL(String loaction, String tenantName) {
         return null;
     }
-    
+
+    public TDeployment getDD() {
+        return null;
+    }
+
+    public javax.xml.soap.SOAPMessage getSOAP() {
+        return null;
+    }
+
 }

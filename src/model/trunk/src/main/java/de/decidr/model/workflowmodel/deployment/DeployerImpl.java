@@ -17,9 +17,12 @@
 package de.decidr.model.workflowmodel.deployment;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.wsdl.Definition;
+import javax.wsdl.WSDLException;
+import javax.xml.bind.JAXBException;
 import javax.xml.soap.SOAPMessage;
 
 import de.decidr.model.entities.DeployedWorkflowModel;
@@ -46,17 +49,21 @@ public class DeployerImpl implements Deployer {
     private ODESelector selector = null;
     private Translator translator = null;
     private FileDeployer fileDeployer = null;
-   
-    
-    
-    /* (non-Javadoc)
-     * @see de.decidr.model.workflowmodel.deployment.Deployer#deploy(byte[], java.lang.String, java.util.List, de.decidr.model.workflowmodel.deployment.DeploymentStrategy)
+    private DeploymentResultImpl result = null;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.decidr.model.workflowmodel.deployment.Deployer#deploy(byte[],
+     * java.lang.String, java.util.List,
+     * de.decidr.model.workflowmodel.deployment.DeploymentStrategy)
      */
     @Override
     public DeploymentResult deploy(byte[] dwdl, String tenantName,
             List<ServerLoadView> serverStatistics, DeploymentStrategy strategy)
-            throws DWDLValidationException, ODESelectorException, IOException {
-        // TODO Auto-generated method stub
+            throws DWDLValidationException, ODESelectorException, IOException,
+            JAXBException, WSDLException {
+
         validator = new Validator();
         problems = validator.validate(dwdl);
         if (!problems.isEmpty()) {
@@ -74,22 +81,30 @@ public class DeployerImpl implements Deployer {
         TDeployment dd = translator.getDD();
         SOAPMessage soap = translator.getSOAP();
         fileDeployer = new FileDeployer();
-        Long odeVersion = fileDeployer.deploy(serverList, "", bpel,
-                wsdl, dd);
-        return null;
+        fileDeployer.deploy(serverList, "", bpel, wsdl, dd);
+
+        DeployedWorkflowModel dwfm = new DeployedWorkflowModel();
+        dwfm.setDeployDate(new Date());
+
+        result = new DeploymentResultImpl();
+        result.setDeployedWorkflowModel(dwfm);
+        result.setServers(serverList);
+
+        return result;
     }
 
-
-
-    /* (non-Javadoc)
-     * @see de.decidr.model.workflowmodel.deployment.Deployer#undeploy(de.decidr.model.entities.DeployedWorkflowModel, de.decidr.model.entities.Server)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.model.workflowmodel.deployment.Deployer#undeploy(de.decidr.
+     * model.entities.DeployedWorkflowModel, de.decidr.model.entities.Server)
      */
     @Override
     public void undeploy(DeployedWorkflowModel dwfm, Server server)
             throws Exception {
         // TODO Auto-generated method stub
-        
-    }
 
+    }
 
 }

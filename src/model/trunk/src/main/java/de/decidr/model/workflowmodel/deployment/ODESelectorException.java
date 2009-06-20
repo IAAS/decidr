@@ -22,20 +22,19 @@ import de.decidr.model.entities.ServerLoadView;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author mod2
  */
 public class ODESelectorException extends Exception {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @param serverStatistics
      */
     public ODESelectorException(List<ServerLoadView> serverStatistics) {
         // TODO Auto-generated constructor stub
     }
-
 
     /**
      * TODO: add comment

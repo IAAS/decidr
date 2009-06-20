@@ -17,19 +17,37 @@
 package de.decidr.model.workflowmodel.deployment;
 
 import java.util.List;
-
 import de.decidr.model.entities.DeployedWorkflowModel;
 
+
 /**
- * TODO: add comment
+ * An interface for the deployment component
  * 
  * @author Modood Alvi
  * @version 0.1
  */
-public interface DeploymentResult {
+public class DeploymentResultImpl implements DeploymentResult {
 
-    public List<Long> getServers();
+    private List<Long> servers;
+    private DeployedWorkflowModel dwfm;
 
-    public DeployedWorkflowModel getDeployedWorkflowModel();
+    @Override
+    public DeployedWorkflowModel getDeployedWorkflowModel() {
+        return dwfm;
+    }
+
+    @Override
+    public List<Long> getServers() {
+        return servers;
+    }
+
+    public void setDeployedWorkflowModel(DeployedWorkflowModel dwfm) {
+        this.dwfm = dwfm;
+
+    }
+
+    public void setServers(List<Long> servers) {
+        this.servers = servers;
+    }
 
 }

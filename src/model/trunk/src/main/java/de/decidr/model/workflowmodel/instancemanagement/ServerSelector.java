@@ -20,22 +20,22 @@ import de.decidr.model.entities.ServerLoadView;
 
 /**
  * This class uses a passed list of servers, on which a specific workflow model
- * is deployed, to select on which server a new instance of this process 
- * should be started.
- *
+ * is deployed, to select on which server a new instance of this process should
+ * be started.
+ * 
  * @author Modood Alvi
  * @version 0.1
  */
 public class ServerSelector {
-    
+
     /**
      * The function expects a ServerLoadView and selects the server with the
      * least load of the given servers and returns its ID.
-     *
+     * 
      * @param serverStatistics
      * @return ID of server with least load
      */
-    public long selectServer(ServerLoadView serverStatistics){
+    public long selectServer(ServerLoadView serverStatistics) {
         return 1l;
     }
 

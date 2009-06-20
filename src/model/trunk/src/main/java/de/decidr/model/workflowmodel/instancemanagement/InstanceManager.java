@@ -30,21 +30,23 @@ import de.decidr.model.entities.WorkflowInstance;
 public interface InstanceManager {
 
     /**
-     * The function expects a deployed workflow model, which contains the 
+     * The function expects a deployed workflow model, which contains the
      * required SOAP Template and the start configuration, and a server load
-     * view, containing a list of servers on which the workflow model is 
+     * view, containing a list of servers on which the workflow model is
      * deployed, their ID, load, running instances and a byte-array, containing
-     * the start configuration. If successful the instance returns the newly 
+     * the start configuration. If successful the instance returns the newly
      * created WorkflowInstance, containing all relevant data.
-     *
-     * @param dwfm The deployed workflow model
-     * @param startConfiguration The byte-array containing the start 
-     * configuration
-     * @param serverStatistics A list of servers on which the workflow model is 
-     * deployed
+     * 
+     * @param dwfm
+     *            The deployed workflow model
+     * @param startConfiguration
+     *            The byte-array containing the start configuration
+     * @param serverStatistics
+     *            A list of servers on which the workflow model is deployed
      * @return The newly created WorkflowInstance
      */
     public WorkflowInstance startInstance(DeployedWorkflowModel dwfm,
-            byte[] startConfiguration, ServerLoadView serverStatistics) throws Exception;
+            byte[] startConfiguration, ServerLoadView serverStatistics)
+            throws Exception;
 
 }

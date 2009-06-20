@@ -22,9 +22,9 @@ import de.decidr.model.workflowmodel.dwdl.validation.IProblem;
 import de.decidr.model.workflowmodel.dwdl.validation.Validator;
 
 /**
- * Exception thrown by {@link Validator} if a given DWDL is not valid. The 
+ * Exception thrown by {@link Validator} if a given DWDL is not valid. The
  * exception contains a list of {@link IProblem} which substantiates the fault.
- *
+ * 
  * @author Modood Alvi
  * @version 0.1
  */
@@ -32,7 +32,7 @@ public class DWDLValidationException extends Exception {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @param problems
      */
     public DWDLValidationException(List<IProblem> problems) {

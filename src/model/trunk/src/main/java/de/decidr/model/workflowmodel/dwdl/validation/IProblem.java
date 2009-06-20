@@ -18,9 +18,9 @@ package de.decidr.model.workflowmodel.dwdl.validation;
 
 /**
  * IProblem is a generic self contained "marker" or "note" or "message" that is
- * generated as a result of the validation pass. Instances of IProblem contain 
- * descriptive information about the problem discovered by the validator. 
- *
+ * generated as a result of the validation pass. Instances of IProblem contain
+ * descriptive information about the problem discovered by the validator.
+ * 
  * @author Modood Alvi
  * @version 0.1
  */

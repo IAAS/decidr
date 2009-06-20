@@ -20,13 +20,14 @@ import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 
 /**
  * This class converts a given DWDL object and returns the resulting WSDL.
- *
+ * 
  * @author Modood Alvi
  * @version 0.1
  */
 public class DWDL2WSDL {
-    
-    public com.ibm.wsdl.DefinitionImpl getWSDL(TWorkflow dwdl, String location, String tenantName){
+
+    public com.ibm.wsdl.DefinitionImpl getWSDL(TWorkflow dwdl, String location,
+            String tenantName) {
         return null;
     }
 

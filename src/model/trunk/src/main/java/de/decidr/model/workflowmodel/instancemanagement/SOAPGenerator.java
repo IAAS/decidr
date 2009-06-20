@@ -17,29 +17,29 @@
 package de.decidr.model.workflowmodel.instancemanagement;
 
 /**
- * This class generates a SOAP message, using the SOAP template of a workflow 
+ * This class generates a SOAP message, using the SOAP template of a workflow
  * model and a start configuration, to fill the template with data.
- *
+ * 
  * @author Modood Alvi
  * @version 0.1
  */
 public class SOAPGenerator {
-    
+
     /**
      * The function expects a SOAP template and a start configuration. Using
-     * this input, the function generates a complete SOAP message which can
-     * be used to start a new instance of a deployed workflow model with the
+     * this input, the function generates a complete SOAP message which can be
+     * used to start a new instance of a deployed workflow model with the
      * information contained in the starting configuration. The generated SOAP
      * message is returned.
-     *
+     * 
      * @param template
-     * @param bystartConfig 
+     * @param bystartConfig
      * @return The generated SOAP message
      */
-    public String getSOAP(String template,byte[] bystartConfig){
-        
+    public String getSOAP(String template, byte[] bystartConfig) {
+
         javax.xml.soap.MessageFactory mf = null;
-        
+
         return null;
     }
 
