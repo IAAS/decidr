@@ -16,6 +16,9 @@
 
 package de.decidr.model;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.hibernate.Session;
 
 import de.decidr.model.entities.ChangeEmailRequest;
@@ -42,7 +45,8 @@ public class LifetimeValidator {
      */
     public static Boolean isPasswordResetRequestValid(
             PasswordResetRequest request, Session session) {
-        return false;
+        return requestIsAlive(request.getCreationDate(), DecidrGlobals
+                .getSettings(session).getPasswordResetRequestLifetimeSeconds());
     }
 
     /**
@@ -79,6 +83,19 @@ public class LifetimeValidator {
     public static Boolean isChangeEmailRequestValid(ChangeEmailRequest request,
             Session session) {
         return false;
+    }
+
+    /**
+     * @param creationDate
+     * @param lifetimeSeconds
+     * @return true iff the request is still alive / valid
+     */
+    private static Boolean requestIsAlive(Date creationDate, int lifetimeSeconds) {
+        // request is alive <-> createdDate + lifetime > now
+        Calendar maxValidDate = DecidrGlobals.getTime();
+        maxValidDate.setTime(creationDate);
+        maxValidDate.add(Calendar.SECOND, lifetimeSeconds);
+        return maxValidDate.after(DecidrGlobals.getTime());
     }
 
 }
