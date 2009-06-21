@@ -19,7 +19,9 @@ package de.decidr.model.workflowmodel.dwdl.translator;
 import java.util.List;
 
 import de.decidr.model.workflowmodel.bpel.ObjectFactory;
+import de.decidr.model.workflowmodel.bpel.TCorrelationSets;
 import de.decidr.model.workflowmodel.bpel.TDocumentation;
+import de.decidr.model.workflowmodel.bpel.TFaultHandlers;
 import de.decidr.model.workflowmodel.bpel.TImport;
 
 /**
@@ -35,55 +37,50 @@ public class DWDL2BPEL {
     private final String SUPPRESSJOINFAILURE = "no";
     private final String EXITONSTANDARDFAULT = "no";
     private final String SOURCE = "http://www.decidr.de";
-    
+
     private de.decidr.model.workflowmodel.bpel.TProcess process = null;
     private de.decidr.model.workflowmodel.dwdl.TWorkflow dwdl = null;
+    private ObjectFactory factory;
 
     public de.decidr.model.workflowmodel.bpel.TProcess getBPEL(
             de.decidr.model.workflowmodel.dwdl.TWorkflow dwdl) {
-        
+
         this.dwdl = dwdl;
+
+        factory = new ObjectFactory();
+        process = factory.createTProcess();
         
-        ObjectFactory factory = new ObjectFactory();
-        process = factory
-                .createTProcess();
-        
-        process.setName(dwdl.getName());
         process.setTargetNamespace(dwdl.getTargetNamespace());
         process.setExpressionLanguage(EXPRESSIONLANGUAGE);
         process.setQueryLanguage(QUERYLANGUAGE);
-        process.setSuppressJoinFailure(de.decidr.model.workflowmodel.bpel.TBoolean.fromValue(SUPPRESSJOINFAILURE));
-        process.setExitOnStandardFault(de.decidr.model.workflowmodel.bpel.TBoolean.fromValue(EXITONSTANDARDFAULT));
-        
+        process
+                .setSuppressJoinFailure(de.decidr.model.workflowmodel.bpel.TBoolean
+                        .fromValue(SUPPRESSJOINFAILURE));
+        process
+                .setExitOnStandardFault(de.decidr.model.workflowmodel.bpel.TBoolean
+                        .fromValue(EXITONSTANDARDFAULT));
         process.getImport().add(createImports());
-        
-        TDocumentation processDocumentation = factory.createTDocumentation();
-        processDocumentation.setSource(SOURCE);
-        processDocumentation.getContent().add(dwdl.getDescription().getContent());
-        process.getDocumentation().add(getProcessDocumentation());
-        process.setVariables(getVariables(dwdl.getVariables()));
-        process.getVariables().getVariable().addAll(createVariablesFromRoles(dwdl.getRoles()));
-        
-        return null;
-    }
 
-    /**
-     * TODO: add comment
-     *
-     * @return
-     */
-    private TDocumentation getProcessDocumentation() {
-        // TODO Auto-generated method stub
+        process.setPartnerLinks(createPartnerLinks());
+        process.getDocumentation().add(getDocumentation(dwdl.getDescription()));
+        process.setVariables(getVariables(dwdl.getVariables()));
+        process.getVariables().getVariable().addAll(
+                createVariablesFromRoles(dwdl.getRoles()));
+        process.setCorrelationSets(createCorrelationSets());
+        process.setFaultHandlers(createFaultHandlers()); 
         return null;
     }
 
     private de.decidr.model.workflowmodel.bpel.TImport createImports() {
-        
+
         return null;
     }
+    
 
-    private de.decidr.model.workflowmodel.bpel.TDocumentation getDescription(
+    private de.decidr.model.workflowmodel.bpel.TDocumentation getDocumentation(
             de.decidr.model.workflowmodel.dwdl.TDescription description) {
+        de.decidr.model.workflowmodel.bpel.TDocumentation documentation = factory.createTDocumentation();
+        documentation.getContent().addAll(description.getContent());
         return null;
     }
 
@@ -140,5 +137,15 @@ public class DWDL2BPEL {
     private de.decidr.model.workflowmodel.bpel.TPartnerLinks createPartnerLinks() {
         return null;
     }
-
+    
+    private de.decidr.model.workflowmodel.bpel.TCorrelationSets createCorrelationSets() {
+        
+        return null;
+    }
+    
+    private TFaultHandlers createFaultHandlers() {
+        
+        return null;
+    }
+    
 }
