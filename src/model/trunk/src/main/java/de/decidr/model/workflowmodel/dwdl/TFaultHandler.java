@@ -16,12 +16,12 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for tNotification complex type.
+ * <p>Java class for tFaultHandler complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tNotification">
+ * &lt;complexType name="tFaultHandler">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -36,11 +36,11 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tNotification", propOrder = {
+@XmlType(name = "tFaultHandler", propOrder = {
     "setProperty",
     "recipient"
 })
-public class TNotification {
+public class TFaultHandler {
 
     protected List<TSetProperty> setProperty;
     protected List<TRecipient> recipient;
