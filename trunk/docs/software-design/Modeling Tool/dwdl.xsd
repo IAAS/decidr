@@ -13,8 +13,9 @@
 			2009-03-26: MA: Extended previous version with form element
 			2009-05-09: MA: Invoke activity changed with setProperty element
 			2009-05-19: MA: Notification of success added
-			2009-05-22: MA: Form
-			element respecified
+			2009-05-22: MA: Form element respecified
+                  2009-06-21: MA: Type TFaultHandler added and group nodeTypes deleteted.
+                                  Some strucutre modification in TNodes.
 		</xsd:documentation>
 	</xsd:annotation>
 
@@ -102,7 +103,14 @@
 			default="no" />
 	</xsd:complexType>
 
-	<xsd:element name="faultHandler" type="tNotification" />
+	<xsd:element name="faultHandler" type="tFaultHandler" />
+      <xsd:complexType name="tFaultHandler">
+		<xsd:sequence>
+			<xsd:element ref="setProperty" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element ref="recipient" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>      
+
 	<xsd:complexType name="tNotification">
 		<xsd:sequence>
 			<xsd:element ref="setProperty" minOccurs="0" maxOccurs="unbounded" />
@@ -113,24 +121,24 @@
 	<xsd:element name="recipient" type="tRecipient" />
 	<xsd:complexType name="tRecipient">
 		<xsd:sequence>
-			<xsd:element ref="setProperty" minOccurs="1" maxOccurs="2" />
+			<xsd:element ref="setProperty" minOccurs="1" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
 
 	<xsd:element name="nodes" type="tNodes" />
 	<xsd:complexType name="tNodes">
 		<xsd:sequence>
-			<xsd:element ref="startNode" />
-			<xsd:group ref="nodeTypes" minOccurs="1" maxOccurs="unbounded" />
-			<xsd:element ref="endNode" />
+			<xsd:group ref="allNodes" minOccurs="1" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
-	<xsd:group name="nodeTypes">
+	<xsd:group name="allNodes">
 		<xsd:choice>
+			<xsd:element ref="startNode" />
 			<xsd:element ref="flowNode" />
 			<xsd:element ref="forEachNode" />
 			<xsd:element ref="ifNode" />
 			<xsd:element ref="invokeNode" />
+			<xsd:element ref="endNode" />
 		</xsd:choice>
 	</xsd:group>
 
