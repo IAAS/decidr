@@ -16,6 +16,9 @@
 
 package de.decidr.modelingtool.client.ui;
 
+import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.Label;
+
 /**
  * TODO: add comment
  *
@@ -28,7 +31,10 @@ public class EmailInvokeNode extends InvokeNode {
     public EmailInvokeNode() {
         super();
         
-        this.setGraphic(null);
+        FocusPanel graphic = new FocusPanel();
+        graphic.addStyleName("node-graphic-std");
+        graphic.setWidget(new Label("Email"));
+        this.setGraphic(graphic);
         
         addPort(new InputPort());
         addPort(new OutputPort());
