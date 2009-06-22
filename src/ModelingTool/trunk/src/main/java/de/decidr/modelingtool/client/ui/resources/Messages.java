@@ -26,6 +26,17 @@ import com.google.gwt.i18n.client.Constants;
  */
 public interface Messages extends Constants {
 
+    /* Workflow */
+    String workflowProperty();
+
+    String recipientFieldLabel();
+
+    String faultMessageFieldLabel();
+
+    String successMessageFieldLabel();
+
+    String notifyCheckBox();
+
     /* Email */
     String emailActivity();
 

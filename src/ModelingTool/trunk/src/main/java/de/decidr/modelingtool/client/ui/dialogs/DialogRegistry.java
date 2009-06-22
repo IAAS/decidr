@@ -44,6 +44,7 @@ public class DialogRegistry {
     }
 
     private DialogRegistry() {
+        register(new WorkflowPropertyWindow());
         register(new VariableEditor());
         register(new ValueEditor());
         register(new EmailActivityWindow());

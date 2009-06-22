@@ -30,6 +30,7 @@ import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.StartNode;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
+import de.decidr.modelingtool.client.ui.dialogs.WorkflowPropertyWindow;
 import de.decidr.modelingtool.client.ui.dialogs.activitywindows.EmailActivityWindow;
 import de.decidr.modelingtool.client.ui.dialogs.activitywindows.HumanTaskActivityWindow;
 import de.decidr.modelingtool.client.ui.dialogs.containerwindows.ForEachWindow;
@@ -80,6 +81,14 @@ public class ModelingTool implements EntryPoint {
                     public void componentSelected(ButtonEvent ce) {
                         DialogRegistry.getInstance().showDialog(
                                 ForEachWindow.class.getName());
+                    }
+                }));
+        buttonBar.add(new Button("Workflow",
+                new SelectionListener<ButtonEvent>() {
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        DialogRegistry.getInstance().showDialog(
+                                WorkflowPropertyWindow.class.getName());
                     }
                 }));
         RootPanel.get().add(buttonBar);

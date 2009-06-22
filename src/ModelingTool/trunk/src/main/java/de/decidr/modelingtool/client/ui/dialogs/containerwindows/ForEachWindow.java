@@ -82,15 +82,13 @@ public class ForEachWindow extends Dialog {
 
         RadioGroup exitConditionGroup = new RadioGroup();
         Radio andBox = new Radio();
-        andBox.setBoxLabel("wqe");
         exitConditionGroup.add(andBox);
         Radio xorBox = new Radio();
-        xorBox.setBoxLabel("sdf");
+        exitConditionGroup.add(xorBox);
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
                 ModelingTool.messages.exitConLabel()));
         table.setWidget(table.getRowCount() - 1, 1, exitConditionGroup);
-        exitConditionGroup.add(xorBox);
 
         this.add(contentPanel);
     }

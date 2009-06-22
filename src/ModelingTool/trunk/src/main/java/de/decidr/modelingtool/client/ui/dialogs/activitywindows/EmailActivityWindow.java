@@ -51,7 +51,7 @@ public class EmailActivityWindow extends Dialog {
     private ComboBox<Variable> subjectField;
     private ComboBox<Variable> messageField;
     private ComboBox<Variable> attachmentField;
-    
+
     public EmailActivityWindow() {
         super();
         this.setLayout(new FitLayout());
@@ -78,8 +78,6 @@ public class EmailActivityWindow extends Dialog {
 
         this.add(contentPanel);
     }
-
-
 
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
