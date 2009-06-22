@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 20.06.2009 13:06:16 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 20.06.2009 16:18:37 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.SystemSettings" table="system_settings" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="java.lang.Long">
@@ -16,6 +16,26 @@
         </property>
         <property name="logLevel" type="string">
             <column name="logLevel" length="30" not-null="true" />
+        </property>
+        <property name="passwordResetRequestLifetimeSeconds" type="int">
+            <column name="passwordResetRequestLifetimeSeconds" not-null="true">
+                <comment>Default is 72 hours</comment>
+            </column>
+        </property>
+        <property name="registrationRequestLifetimeSeconds" type="int">
+            <column name="registrationRequestLifetimeSeconds" not-null="true">
+                <comment>Default is 72 hours</comment>
+            </column>
+        </property>
+        <property name="changeEmailRequestLifetimeSeconds" type="int">
+            <column name="changeEmailRequestLifetimeSeconds" not-null="true">
+                <comment>Default is 72 hours</comment>
+            </column>
+        </property>
+        <property name="invitationLifetimeSeconds" type="int">
+            <column name="invitationLifetimeSeconds" not-null="true">
+                <comment>Default is 72 hours</comment>
+            </column>
         </property>
     </class>
 </hibernate-mapping>

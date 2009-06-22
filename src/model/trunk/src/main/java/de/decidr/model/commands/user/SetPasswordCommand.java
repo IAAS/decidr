@@ -50,7 +50,7 @@ public class SetPasswordCommand extends UserCommand {
             throws TransactionException {
         passwordWasChanged = false;
 
-        UserProfile profile = fetchUser(evt.getSession()).getUserProfile();
+        UserProfile profile = (UserProfile) evt.getSession().get(UserProfile.class, getUserId());
 
         if (profile == null) {
             // the user does not have a password and is identified via

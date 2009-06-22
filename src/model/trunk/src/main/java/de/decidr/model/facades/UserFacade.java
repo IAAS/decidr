@@ -10,8 +10,12 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 
+import de.decidr.model.NotificationEvents;
+import de.decidr.model.commands.AbstractTransactionalCommand;
+import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.user.CheckAuthKeyCommand;
 import de.decidr.model.commands.user.ConfirmInviationCommand;
+import de.decidr.model.commands.user.ConfirmPasswordResetCommand;
 import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
 import de.decidr.model.commands.user.GetAdminstratedWorkflowInstancesCommand;
 import de.decidr.model.commands.user.GetAllUsersCommand;
@@ -21,9 +25,13 @@ import de.decidr.model.commands.user.GetUserByLoginCommand;
 import de.decidr.model.commands.user.GetUserProfileCommand;
 import de.decidr.model.commands.user.GetUserRoleForTenantCommand;
 import de.decidr.model.commands.user.GetWorkitemsCommand;
+import de.decidr.model.commands.user.LeaveTenantCommand;
 import de.decidr.model.commands.user.RefuseInviationCommand;
 import de.decidr.model.commands.user.RegisterUserCommand;
+import de.decidr.model.commands.user.RemoveFromTenantCommand;
+import de.decidr.model.commands.user.RequestPasswordResetCommand;
 import de.decidr.model.commands.user.SetPasswordCommand;
+import de.decidr.model.commands.user.SetUserProfileCommand;
 import de.decidr.model.commands.user.SetUserPropertyCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
@@ -39,6 +47,7 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
+import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Provide a simplified interface to the business logic that deals with users.
@@ -96,6 +105,8 @@ public class UserFacade extends AbstractFacade {
                 .toString();
         String postalCode = userProfile.getItemProperty("postalCode")
                 .getValue().toString();
+        String username = userProfile.getItemProperty("username").getValue()
+                .toString();
 
         // create the new user profile
         UserProfile profile = new UserProfile();
@@ -104,6 +115,7 @@ public class UserFacade extends AbstractFacade {
         profile.setCity(city);
         profile.setStreet(street);
         profile.setPostalCode(postalCode);
+        profile.setUsername(username);
 
         RegisterUserCommand cmd = new RegisterUserCommand(actor, email,
                 passwordPlaintext, profile);
@@ -251,30 +263,132 @@ public class UserFacade extends AbstractFacade {
      * address. A notification email is sent to the user
      * 
      * @param emailOrUsername
+     * @return true iff the notification mail has been sent to the user, false
+     *         if no user with the given username or email exists.
      * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
      */
     public Boolean requestPasswordReset(String emailOrUsername)
             throws TransactionException {
-        throw new UnsupportedOperationException();
+        RequestPasswordResetCommand cmd = new RequestPasswordResetCommand(
+                actor, emailOrUsername);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+
+        return cmd.getRequestWasCreated();
     }
 
+    /**
+     * Updates an existing user profile with new data. The following properties
+     * are expected to be present in the given Vaadin {@link Item}:
+     * <ul>
+     * <li>firstName - first name of the user</li>
+     * <li>lastName - last name of the user</li>
+     * <li>city - name of the city where the user lives</li>
+     * <li>street - street where the user lives</li>
+     * <li>postalCode - postal code of the city</li>
+     * </ul>
+     * 
+     * Other properties will be ignored.
+     * 
+     * @param userId
+     * @param newProfile
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             iff the given user doesn't exist or doesn't have a user
+     *             profile.
+     * @throws NullPointerException
+     *             if at least one of the required properties is missing.
+     */
     public void setProfile(Long userId, Item newProfile)
-            throws TransactionException {
-        throw new UnsupportedOperationException();
+            throws TransactionException, EntityNotFoundException,
+            NullPointerException {
+
+        // retrieve needed properties from Vaadin item.
+        String firstName = newProfile.getItemProperty("firstName").getValue()
+                .toString();
+        String lastName = newProfile.getItemProperty("lastname").getValue()
+                .toString();
+        String city = newProfile.getItemProperty("city").getValue().toString();
+        String street = newProfile.getItemProperty("street").getValue()
+                .toString();
+        String postalCode = newProfile.getItemProperty("postalCode").getValue()
+                .toString();
+
+        // create the new user profile
+        UserProfile profile = new UserProfile();
+        profile.setFirstName(firstName);
+        profile.setLastName(lastName);
+        profile.setCity(city);
+        profile.setStreet(street);
+        profile.setPostalCode(postalCode);
+
+        // We're not using the SetUserPropertyCommand because that might
+        // potentially insert a user profile even if the user didn't previously
+        // have one, making him a registered user without actually registering.
+        SetUserProfileCommand cmd = new SetUserProfileCommand(actor, userId,
+                profile);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
     }
 
-    public void leaveTenant(Long userId, Long tenantId)
+    /**
+     * Dissociates the given user from the given tenant. This is only possible
+     * if the user is not participating in any workflow that belongs to that
+     * tenant.
+     * 
+     * @param userId
+     * @param tenantId
+     * @return true iff the tenant was sucessfully left.
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     */
+    public Boolean leaveTenant(Long userId, Long tenantId)
             throws TransactionException {
-        throw new UnsupportedOperationException();
+        LeaveTenantCommand cmd = new LeaveTenantCommand(actor, userId, tenantId);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        return cmd.getLeftTenant();
     }
 
-    public void removeFromTenant(Long userId, Long tenantId)
+    /**
+     * Removes the user from the given tenant and notifies the user.
+     * 
+     * @param userId
+     * @param tenantId
+     * @return true iff the user was sucessfully removed from the tenant.
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     */
+    public Boolean removeFromTenant(Long userId, Long tenantId)
             throws TransactionException {
-        throw new UnsupportedOperationException();
+        RemoveFromTenantCommand cmd = new RemoveFromTenantCommand(actor,
+                userId, tenantId);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        return cmd.getLeftTenant();
     }
 
-    public void confirmPasswordReset(Long userId, String authKey) {
-
+    /**
+     * Sets the password of the user to a new (generated) password and deletes
+     * the request from the database if authKey matches the authentication key
+     * in the user's current password reset request.
+     * 
+     * @param userId
+     * @param authKey
+     * @return the new (generated) password.
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             iff the user doesn't exist or has no user profile or has no
+     *             password reset request or the authentication key doesn't
+     *             match or the request has expired.
+     */
+    public String confirmPasswordReset(Long userId, String authKey) {
+        ConfirmPasswordResetCommand cmd = new ConfirmPasswordResetCommand(
+                actor, userId, authKey);
+        //FIXME fix
+        //HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        return cmd.getNewPassword();
     }
 
     public void confirmRegistration(Long userId, String authKey)
