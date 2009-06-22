@@ -16,9 +16,18 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
+import java.io.ByteArrayInputStream;
+
 import javax.wsdl.Definition;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.soap.SOAPMessage;
+
 import de.decidr.model.workflowmodel.bpel.TProcess;
 import de.decidr.model.workflowmodel.dd.TDeployment;
+import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 
 /**
  * This class provides the functionality to translate a given DWDL into
@@ -29,12 +38,17 @@ import de.decidr.model.workflowmodel.dd.TDeployment;
  */
 public class Translator {
 
-    public void load(String dwdl) {
+    private TWorkflow dwdlWorkflow = null;
+    private TProcess bpelProcess = null;
+    private TDeployment dd = null;
+    private SOAPMessage soap = null;
 
-    }
+    public void laod(byte[] dwdl) throws JAXBException {
 
-    public void laod(byte[] dwdl) {
-
+        JAXBContext dwdlCntxt = JAXBContext.newInstance(TWorkflow.class);
+        Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
+        dwdlWorkflow = (TWorkflow) dwdlUnmarshaller
+                .unmarshal(new ByteArrayInputStream(dwdl));
     }
 
     public TProcess getBPEL() {
@@ -49,7 +63,7 @@ public class Translator {
         return null;
     }
 
-    public javax.xml.soap.SOAPMessage getSOAP() {
+    public SOAPMessage getSOAP() {
         return null;
     }
 
