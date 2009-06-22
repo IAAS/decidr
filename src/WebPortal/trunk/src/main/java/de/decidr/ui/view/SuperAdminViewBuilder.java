@@ -28,7 +28,7 @@ public class SuperAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildContent() {
-        getView().setContent(LoginComponent.getInstance());
+        getView().setContent(new LoginComponent());
 
     }
 
@@ -37,8 +37,8 @@ public class SuperAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildHeader() {
-        getView().setHeader(Header.getInstance());
-        getView().setHorizontalNavigation(HorizontalNavigationMenu.getInstance());
+        getView().setHeader(new Header());
+        getView().setHorizontalNavigation(new HorizontalNavigationMenu());
     }
 
     /* (non-Javadoc)
@@ -46,7 +46,7 @@ public class SuperAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildNavigation() {
-        getView().setVerticalNavigation(SuperAdminNavigationMenu.getInstance());
+        getView().setVerticalNavigation(new SuperAdminNavigationMenu());
 
     }
 

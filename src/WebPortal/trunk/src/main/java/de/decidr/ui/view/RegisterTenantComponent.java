@@ -52,6 +52,10 @@ public class RegisterTenantComponent extends CustomComponent {
     
     private Form registrationForm = null;
     
+    /**
+     * Default constructor
+     *
+     */
     public RegisterTenantComponent(){
         init();
     }
@@ -65,6 +69,10 @@ public class RegisterTenantComponent extends CustomComponent {
         return registrationForm;
     }
     
+    /**
+     * This method initializes the components of the register tenant component
+     *
+     */
     private void init(){
         registrationForm = new Form();
         registrationForm.setWriteThrough(false);

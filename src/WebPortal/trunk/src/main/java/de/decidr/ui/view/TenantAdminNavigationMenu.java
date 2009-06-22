@@ -14,8 +14,6 @@ public class TenantAdminNavigationMenu extends CustomComponent {
      * TODO: add comment
      */
     private static final long serialVersionUID = -5463146748220047931L;
-
-    private static TenantAdminNavigationMenu tenantAdminNavigationMenu = null;
     
     private VerticalLayout verticalLayout;
     
@@ -34,10 +32,18 @@ public class TenantAdminNavigationMenu extends CustomComponent {
     private Label usersLabel = null;
     private Label settingsLabel = null;
     
-    private TenantAdminNavigationMenu(){
+    /**
+     * Default constructor
+     *
+     */
+    public TenantAdminNavigationMenu(){
         init();
     }
     
+    /**
+     * This method initializes the components of the tenant admin navigation component
+     *
+     */
     private void init(){
         verticalLayout = new VerticalLayout();
         this.setCompositionRoot(verticalLayout);
@@ -85,12 +91,5 @@ public class TenantAdminNavigationMenu extends CustomComponent {
         verticalLayout.addComponent(profileSettingsLink);
         verticalLayout.addComponent(tenantSettingsLink);
     }
-    
-    public static TenantAdminNavigationMenu getInstance(){
-        if(tenantAdminNavigationMenu == null){
-            tenantAdminNavigationMenu = new TenantAdminNavigationMenu();
-        }
-        return tenantAdminNavigationMenu;
-    }
-
+ 
 }

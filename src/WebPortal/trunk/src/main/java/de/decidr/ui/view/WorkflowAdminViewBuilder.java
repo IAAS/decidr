@@ -28,7 +28,7 @@ public class WorkflowAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildContent() {
-        getView().setContent(WorkItemComponent.getInstance());
+        getView().setContent(new WorkItemComponent());
 
     }
 
@@ -37,8 +37,8 @@ public class WorkflowAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildHeader() {
-        getView().setHeader(Header.getInstance());
-        getView().setHorizontalNavigation(HorizontalNavigationMenu.getInstance());
+        getView().setHeader(new Header());
+        getView().setHorizontalNavigation(new HorizontalNavigationMenu());
     }
 
     /* (non-Javadoc)
@@ -46,7 +46,7 @@ public class WorkflowAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildNavigation() {
-        getView().setVerticalNavigation(WorkflowAdminNavigationMenu.getInstance());
+        getView().setVerticalNavigation(new WorkflowAdminNavigationMenu());
 
     }
 

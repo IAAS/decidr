@@ -40,7 +40,6 @@ import de.decidr.ui.controller.HideDialogWindowAction;
 
 public class ChangePasswordComponent extends Window {
 
-    private static ChangePasswordComponent changePasswordComponent = null;
     
     
     private VerticalLayout verticalLayout = null;
@@ -55,14 +54,27 @@ public class ChangePasswordComponent extends Window {
     private Button submitButton = null;
     private Button cancelButton = null;
     
+    /**
+     * TODO: add comment
+     *
+     * @return
+     */
     public Item getPasswords(){
         return passwordForm;
     }
     
-    private ChangePasswordComponent(){
+    /**
+     * TODO: add comment
+     *
+     */
+    public ChangePasswordComponent(){
         init();
     }
     
+    /**
+     * TODO: add comment
+     *
+     */
     private void init(){
         passwordForm = new Form();
         passwordForm.setWriteThrough(false);
@@ -118,10 +130,5 @@ public class ChangePasswordComponent extends Window {
         this.setContent(verticalLayout);
     }
     
-    public static ChangePasswordComponent getInstance(){
-        if (changePasswordComponent == null){
-            changePasswordComponent = new ChangePasswordComponent();
-        }
-        return changePasswordComponent;
-    }
+    
 }

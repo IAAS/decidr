@@ -20,8 +20,6 @@ public class SystemSettingComponent extends CustomComponent {
      * TODO: add comment
      */
     private static final long serialVersionUID = 3389525551936631625L;
-
-    private static SystemSettingComponent systemSetting = null;
     
     private SystemSettingsItem settingsItem = new SystemSettingsItem();
     
@@ -39,7 +37,11 @@ public class SystemSettingComponent extends CustomComponent {
     
     private Button saveButton = null;
     
-    private SystemSettingComponent(){
+    /**
+     * Default constructor
+     *
+     */
+    public SystemSettingComponent(){
         init();
     }
     
@@ -56,6 +58,10 @@ public class SystemSettingComponent extends CustomComponent {
     	return settingsItem;
     }
     
+    /**
+     * This method initializes the components of the system settings component
+     *
+     */
     private void init(){
     	settingsForm = new Form();
         settingsForm.setWriteThrough(false);
@@ -87,12 +93,5 @@ public class SystemSettingComponent extends CustomComponent {
         verticalLayout.addComponent(saveButton);
         verticalLayout.setComponentAlignment(saveButton, Alignment.BOTTOM_LEFT);
     }
-    
-    public static SystemSettingComponent getInstance(){
-        if(systemSetting == null){
-            systemSetting = new SystemSettingComponent();
-        }
-        return systemSetting;
-    }
-
+ 
 }

@@ -38,8 +38,6 @@ public class EditTenantComponent extends CustomComponent {
     private static final long serialVersionUID = 5979343483852012500L;
     
     private TenantContainer tenantContainer = null;
-
-    private static EditTenantComponent editTenantComponent = null;
     
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout buttonHorizontalLayout = null;
@@ -102,17 +100,6 @@ public class EditTenantComponent extends CustomComponent {
         
     }
     
-    /**
-     * This method return the single instance of the edit tenant component.
-     *
-     * @return editTenantComponent
-     */
-    public static EditTenantComponent getInstance(){
-        if(editTenantComponent == null){
-            editTenantComponent = new EditTenantComponent();
-        }
-        return editTenantComponent;
-    }
-    
+   
 
 }

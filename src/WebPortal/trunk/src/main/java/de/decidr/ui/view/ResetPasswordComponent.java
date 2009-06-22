@@ -39,8 +39,6 @@ import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.ResetPasswordAction;
 
 public class ResetPasswordComponent extends Window {
-
-    private static ResetPasswordComponent resetPasswordComponent = null;
     
     
     private VerticalLayout verticalLayout = null;
@@ -57,10 +55,18 @@ public class ResetPasswordComponent extends Window {
         return requestForm;
     }
     
-    private ResetPasswordComponent(){
+    /**
+     * Default constructor
+     *
+     */
+    public ResetPasswordComponent(){
         init();
     }
     
+    /**
+     * This method initializes the components of the reset password component
+     *
+     */
     private void init(){
         requestForm = new Form();
         requestForm.setWriteThrough(false);
@@ -102,11 +108,5 @@ public class ResetPasswordComponent extends Window {
         this.setCaption("Reset Password");
         this.setContent(verticalLayout);
     }
-    
-    public static ResetPasswordComponent getInstance(){
-        if (resetPasswordComponent == null){
-            resetPasswordComponent = new ResetPasswordComponent();
-        }
-        return resetPasswordComponent;
-    }
+   
 }

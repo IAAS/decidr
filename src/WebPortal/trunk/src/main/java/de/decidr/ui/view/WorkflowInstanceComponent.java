@@ -15,8 +15,6 @@ public class WorkflowInstanceComponent extends CustomComponent {
      */
     private static final long serialVersionUID = -8769293137331802152L;
     
-    private static WorkflowInstanceComponent workflowInstanceComponent = null;
-    
     private RunningInstanceContainer runningInstanceContainer = null;
     
     private CompletedInstancesContainer completedInstanceContainer = null;
@@ -32,13 +30,17 @@ public class WorkflowInstanceComponent extends CustomComponent {
     private RunningInstanceTable runningInstanceTable = null;
     private CompletedInstanceTable completedInstanceTable = null;
     
-    private WorkflowInstanceComponent(){
+    /**
+     * Default constructor
+     *
+     */
+    public WorkflowInstanceComponent(){
         init();
     }
     
     /**
      * 
-     * TODO: add comment
+     * This method initializes the components of the workflow instance component
      *
      */
     private void init(){
@@ -73,16 +75,5 @@ public class WorkflowInstanceComponent extends CustomComponent {
         verticalLayout.addComponent(completedInstanceTable);
     }
     
-    /**
-     * TODO: add comment
-     *
-     * @return
-     */
-    public static WorkflowInstanceComponent getInstance(){
-        if(workflowInstanceComponent == null){
-            workflowInstanceComponent = new WorkflowInstanceComponent();
-        }
-        return workflowInstanceComponent;
-    }
-
+ 
 }

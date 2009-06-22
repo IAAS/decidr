@@ -15,8 +15,6 @@ public class UserListComponent extends CustomComponent {
      * Serial Version UID
      */
     private static final long serialVersionUID = -9044763020637727581L;
-
-    private static UserListComponent userListComponent = null;
     
     private UserListContainer userListContainer = null;
     
@@ -41,7 +39,7 @@ public class UserListComponent extends CustomComponent {
      * Default constructor.
      *
      */
-    private UserListComponent(){
+    public UserListComponent(){
         init();
     }
 
@@ -143,17 +141,7 @@ public class UserListComponent extends CustomComponent {
         this.buttonHorizontalLayout = buttonHorizontalLayout;
     }
 
-    /**
-     * This method return the single instance of the user list component.
-     *
-     * @return userListComponent
-     */
-    public static UserListComponent getInstance(){
-        if(userListComponent == null){
-            userListComponent = new UserListComponent();
-        }
-        return userListComponent;
-    }
+ 
 
     /**
      * TODO: add comment

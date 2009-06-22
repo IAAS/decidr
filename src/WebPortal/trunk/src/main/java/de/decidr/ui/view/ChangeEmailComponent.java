@@ -36,8 +36,6 @@ import de.decidr.ui.controller.HideDialogWindowAction;
 
 public class ChangeEmailComponent extends Window {
 
-    private static ChangeEmailComponent changeEmailComponent = null;
-    
     
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
@@ -55,7 +53,7 @@ public class ChangeEmailComponent extends Window {
         return emailForm;
     }
     
-    private ChangeEmailComponent(){
+    public ChangeEmailComponent(){
         init();
     }
     
@@ -107,10 +105,4 @@ public class ChangeEmailComponent extends Window {
         this.setContent(verticalLayout);
     }
     
-    public static ChangeEmailComponent getInstance(){
-        if (changeEmailComponent == null){
-            changeEmailComponent = new ChangeEmailComponent();
-        }
-        return changeEmailComponent;
-    }
 }

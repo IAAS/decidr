@@ -101,10 +101,18 @@ public class ProfileSettingsComponent extends CustomComponent {
 	        return statusCheckBox;
 	}
 	
+	/**
+	 * Default constructor
+	 *  
+	 */
 	public ProfileSettingsComponent(){
 		init();
 	}
 	
+	/**
+	 * This method initializes the components of the profile settings component
+	 *
+	 */
 	private void init(){
 	    //TODO: GH
 	        settingsForm.setWriteThrough(false);
@@ -202,13 +210,7 @@ public class ProfileSettingsComponent extends CustomComponent {
 		buttonHorizontalLayout.addComponent(cancelMembershipLink);
 	}
 
-	//instance method singleton
-	public static ProfileSettingsComponent getInstance(){
-		if(profileSettings == null){
-			profileSettings = new ProfileSettingsComponent();
-		}
-		return profileSettings;
-	}
+	
 	
 	/**
 	 * TODO: add comment

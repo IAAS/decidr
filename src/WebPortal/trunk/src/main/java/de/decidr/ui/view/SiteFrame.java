@@ -35,6 +35,8 @@ public class SiteFrame extends CustomComponent{
         private GridLayout gridFrame = null;
         private SplitPanel splitPanel = null;
         private Component content = null;
+        private Component header = null;
+        private Component navigation = null;
         
         public SiteFrame(){
                 init();
@@ -67,6 +69,7 @@ public class SiteFrame extends CustomComponent{
         
         public void setHeader(Component header){
                 gridFrame.addComponent(header, 1, 1);
+                this.header = header;
         }
         
         public void setHorizontalNavigation(Component navigation){
@@ -75,6 +78,7 @@ public class SiteFrame extends CustomComponent{
         
         public void setVerticalNavigation(Component navigation){
                 splitPanel.setFirstComponent(navigation);
+                this.navigation = navigation;
         }
         
         public void setContent(Component content){
@@ -85,5 +89,14 @@ public class SiteFrame extends CustomComponent{
         public Component getContent(){
             return content;
         }
+        
+        public Component getHeader() {
+            return header;
+        }
+
+        public Component getNavigation() {
+            return navigation;
+        }
+
 }
 

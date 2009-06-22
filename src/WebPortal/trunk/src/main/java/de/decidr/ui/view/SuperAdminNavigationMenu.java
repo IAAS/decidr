@@ -23,8 +23,6 @@ public class SuperAdminNavigationMenu extends CustomComponent {
      * TODO: add comment
      */
     private static final long serialVersionUID = 6470214674053630344L;
-
-    private static SuperAdminNavigationMenu superAdminNavigationMenu = null;
     
     private VerticalLayout verticalLayout;
     
@@ -47,10 +45,18 @@ public class SuperAdminNavigationMenu extends CustomComponent {
     private Label tenantsLabel = null;
     private Label settingsLabel = null;
     
-    private SuperAdminNavigationMenu(){
+    /**
+     * Default constructor
+     *
+     */
+    public SuperAdminNavigationMenu(){
         init();
     }
     
+    /**
+     * This method initializes the components of the super admin navigation menu component
+     *
+     */
     private void init(){
         verticalLayout = new VerticalLayout();
         this.setCompositionRoot(verticalLayout);
@@ -117,11 +123,5 @@ public class SuperAdminNavigationMenu extends CustomComponent {
         verticalLayout.addComponent(systemSettingsLink);
     }
     
-    public static SuperAdminNavigationMenu getInstance(){
-        if(superAdminNavigationMenu == null){
-            superAdminNavigationMenu = new SuperAdminNavigationMenu();
-        }
-        return superAdminNavigationMenu;
-    }
 
 }

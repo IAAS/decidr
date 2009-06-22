@@ -94,7 +94,7 @@ public class ConfirmDialogComponent extends Window {
         //}
         return confirmDialogComponent;
     }
-    
+    //TODO löschen oder was sonst tun?
     public static ConfirmDialogComponent getInstance(){
         if(confirmDialogComponent == null){
             //TODO: add other exception

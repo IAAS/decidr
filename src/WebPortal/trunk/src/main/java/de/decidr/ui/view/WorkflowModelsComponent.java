@@ -41,8 +41,6 @@ public class WorkflowModelsComponent extends CustomComponent {
      */
     private static final long serialVersionUID = -8284535233079548635L;
     
-    private static WorkflowModelsComponent workflowModelsComponent = null;
-    
     private PublicModelContainer publicModelContainer = null;
     
     private CurrentTenantContainer currentTenantContainer = null;
@@ -76,7 +74,7 @@ public class WorkflowModelsComponent extends CustomComponent {
      * Default constructor
      *
      */
-    private WorkflowModelsComponent() {
+    public WorkflowModelsComponent() {
         init();
     }
 
@@ -259,15 +257,5 @@ public class WorkflowModelsComponent extends CustomComponent {
         this.createNewModelButton = createNewModelButton;
     }
 
-    /**
-     * This method return the single instance of the workflow models component.
-     *
-     * @return workflowModelsComponent - instance of object
-     */
-    public static WorkflowModelsComponent getInstance(){
-        if(workflowModelsComponent == null){
-            workflowModelsComponent = new WorkflowModelsComponent();
-        }
-        return workflowModelsComponent;
-    }
+
 }

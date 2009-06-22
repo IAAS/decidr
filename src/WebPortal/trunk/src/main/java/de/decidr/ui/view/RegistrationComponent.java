@@ -42,10 +42,18 @@ public class RegistrationComponent extends CustomComponent {
     private Button registerUser = null;
     private Button registerTenant = null;
     
+    /**
+     * Default constructor
+     *
+     */
     public RegistrationComponent(){
         init();
     }
     
+    /**
+     * This method initializes the components of the registration component
+     *
+     */
     private void init(){
         verticalLayout = new VerticalLayout();
         verticalLayout.setSizeFull();

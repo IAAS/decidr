@@ -15,8 +15,6 @@ public class WorkItemComponent extends CustomComponent {
      * TODO: add comment
      */
     private static final long serialVersionUID = -2110748321898265548L;
-
-    private static WorkItemComponent workItemComponent = null;
     
     private WorkItemContainer workItemContainer = null;
     
@@ -34,10 +32,18 @@ public class WorkItemComponent extends CustomComponent {
     
     private WorkItemTable workItemTable = null;
     
-    private WorkItemComponent(){
+    /**
+     * Default constructor
+     *
+     */
+    public WorkItemComponent(){
         init();
     }
     
+    /**
+     * This method initializes the components of the work item component
+     *
+     */
     private void init(){
         workItemContainer = new WorkItemContainer();
         
@@ -72,11 +78,5 @@ public class WorkItemComponent extends CustomComponent {
         
     }
     
-    public static WorkItemComponent getInstance(){
-        if(workItemComponent == null){
-            workItemComponent = new WorkItemComponent();
-        }
-        return workItemComponent;
-    }
 
 }

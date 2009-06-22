@@ -48,8 +48,6 @@ public class TenantSettingsComponent extends CustomComponent {
      */
     private static final long serialVersionUID = -7841061147447361631L;
     
-    private static TenantSettingsComponent tenantSettingsComponent = null;
-    
     private JFileChooser jfc = new JFileChooser();
     
     private VerticalLayout verticalLayout = null;
@@ -84,7 +82,7 @@ public class TenantSettingsComponent extends CustomComponent {
      * Default constructor.
      *
      */
-    private TenantSettingsComponent() {
+    public TenantSettingsComponent() {
         init();
     }
 
@@ -199,13 +197,7 @@ public class TenantSettingsComponent extends CustomComponent {
         getSchemeHorizontalLayout().addComponent(showBasicOptionsButton);
     }
     
-    public static TenantSettingsComponent getInstance(){
-        if(tenantSettingsComponent == null){
-            tenantSettingsComponent = new TenantSettingsComponent();
-        }
-        return tenantSettingsComponent;
-    }
-
+ 
     public HorizontalLayout getSchemeHorizontalLayout() {
         return schemeHorizontalLayout;
     }

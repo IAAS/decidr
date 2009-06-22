@@ -27,16 +27,22 @@ import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
 public class HelpWindow extends CustomComponent{
-
-        private static HelpWindow helpWindow = null;
         
         private VerticalLayout verticalLayout = null;
         private Label labelHelp = null;
         
-        private HelpWindow(){
+        /**
+         * Default constructor
+         *
+         */
+        public HelpWindow(){
                 init();
         }
         
+        /**
+         * This method initializes the components of the help component
+         *
+         */
         private void init(){
                 verticalLayout = new VerticalLayout();
         this.setCompositionRoot(verticalLayout);
@@ -47,10 +53,5 @@ public class HelpWindow extends CustomComponent{
         verticalLayout.addComponent(labelHelp);
         }
         
-        public static HelpWindow getInstance(){
-        if(helpWindow == null){
-                helpWindow = new HelpWindow();
-        }
-        return helpWindow;
-    }
+        
 }

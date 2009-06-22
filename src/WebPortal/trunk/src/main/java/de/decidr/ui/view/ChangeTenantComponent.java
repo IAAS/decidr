@@ -26,10 +26,18 @@ public class ChangeTenantComponent extends CustomComponent {
     private TenantTable tenantTable = null;
     private Table approvalTable = null;
     
-    private ChangeTenantComponent(){
+    /**
+     * Default constructor
+     *
+     */
+    public ChangeTenantComponent(){
         init();
     }
     
+    /**
+     * This method initializes the components of the change tenant component
+     *
+     */
     private void init(){
         tenantContainer = new TenantContainer();
         
@@ -54,11 +62,5 @@ public class ChangeTenantComponent extends CustomComponent {
         verticalLayout.addComponent(approvalTable);
     }
     
-    public static ChangeTenantComponent getInstance(){
-        if(changeTenantComponent == null){
-            changeTenantComponent = new ChangeTenantComponent();
-        }
-        return changeTenantComponent;
-    }
-
+   
 }

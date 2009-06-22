@@ -29,15 +29,21 @@ import com.vaadin.ui.HorizontalLayout;
 @SuppressWarnings("serial")
 public class Header extends CustomComponent {
         
-        private static Header header = null;
-        
         private HorizontalLayout horizontalLayout = null;
         private Embedded decidrLogo = null;
         
-        private Header(){
+        /**
+         * Default constructor
+         *
+         */
+        public Header(){
                 init();
         }
         
+        /**
+         * This method initializes the components of the header component
+         *
+         */
         private void init(){
                 horizontalLayout = new HorizontalLayout();
                 this.setCompositionRoot(horizontalLayout);
@@ -49,10 +55,5 @@ public class Header extends CustomComponent {
                 horizontalLayout.addComponent(decidrLogo);
         }
         
-        public static Header getInstance(){
-            if(header == null){
-                    header = new Header();
-            }
-            return header;
-        }
+       
 }

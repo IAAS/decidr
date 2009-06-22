@@ -27,16 +27,22 @@ import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
 public class ImpressumWindow extends CustomComponent{
-
-        private static ImpressumWindow impressumWindow = null;
         
         private VerticalLayout verticalLayout = null;
         private Label labelImpressum = null;
         
-        private ImpressumWindow(){
+        /**
+         * Default constructor
+         *
+         */
+        public ImpressumWindow(){
                 init();
         }
         
+        /**
+         * This method initializes the components of the impressum component
+         *
+         */
         private void init(){
                 verticalLayout = new VerticalLayout();
         this.setCompositionRoot(verticalLayout);
@@ -47,10 +53,5 @@ public class ImpressumWindow extends CustomComponent{
         verticalLayout.addComponent(labelImpressum);
         }
         
-        public static ImpressumWindow getInstance(){
-        if(impressumWindow == null){
-                impressumWindow = new ImpressumWindow();
-        }
-        return impressumWindow;
-    }
+       
 }

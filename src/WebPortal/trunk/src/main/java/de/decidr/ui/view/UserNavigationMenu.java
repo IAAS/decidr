@@ -14,8 +14,6 @@ public class UserNavigationMenu extends CustomComponent{
 	 * 
 	 */
 	private static final long serialVersionUID = -3304973028559451364L;
-
-	private static UserNavigationMenu userNavigationMenu = null;
 	
 	private VerticalLayout verticalLayout;
 	
@@ -26,10 +24,18 @@ public class UserNavigationMenu extends CustomComponent{
 	private Label workflowParticipationLabel = null;
 	private Label settingsLabel = null;
 	
-	private UserNavigationMenu(){
+	/**
+	 * Default constructor
+	 *
+	 */
+	public UserNavigationMenu(){
 		init();
 	}
 	
+	/**
+	 * This method initializes the components of the user navigation menu component
+	 *
+	 */
 	private void init(){	
 		verticalLayout = new VerticalLayout();
 		this.setCompositionRoot(verticalLayout);
@@ -52,13 +58,6 @@ public class UserNavigationMenu extends CustomComponent{
 	
 		verticalLayout.addComponent(settingsLabel);
 		verticalLayout.addComponent(profileSettingsLink);
-	}
-	
-	public static UserNavigationMenu getInstance(){
-		if(userNavigationMenu == null){
-			userNavigationMenu = new UserNavigationMenu();
-		}
-		return userNavigationMenu;
 	}
 	
 

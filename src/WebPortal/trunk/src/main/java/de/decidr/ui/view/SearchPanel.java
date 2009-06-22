@@ -28,10 +28,18 @@ public class SearchPanel extends Panel {
     
     private Button searchButton = null;
     
+    /**
+     * Default constructor
+     *
+     */
     public SearchPanel(){
         init();
     }
     
+    /**
+     * This method initializes the components of the search panel component
+     *
+     */
     private void init(){
         searchHorizontalLayout = new HorizontalLayout();
         

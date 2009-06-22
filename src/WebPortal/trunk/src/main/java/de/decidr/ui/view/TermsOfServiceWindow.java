@@ -28,17 +28,23 @@ import com.vaadin.ui.Panel;
 
 @SuppressWarnings("serial")
 public class TermsOfServiceWindow extends CustomComponent{
-
-        private static TermsOfServiceWindow termsOfServiceWindow = null;
         
         private VerticalLayout verticalLayout = null;
         private Label labelTerms = null;
         private Panel panelBounds = null;
         
-        private TermsOfServiceWindow(){
+        /**
+         * Default constructor
+         *
+         */
+        public TermsOfServiceWindow(){
                 init();
         }
         
+        /**
+         * This method initializes the components of the terms of service component
+         *
+         */
         private void init(){
         verticalLayout = new VerticalLayout();
         this.setCompositionRoot(verticalLayout);
@@ -53,11 +59,5 @@ public class TermsOfServiceWindow extends CustomComponent{
                 
         verticalLayout.addComponent(panelBounds);
         }
-        
-        public static TermsOfServiceWindow getInstance(){
-        if(termsOfServiceWindow == null){
-                termsOfServiceWindow = new TermsOfServiceWindow();
-        }
-        return termsOfServiceWindow;
-    }
+ 
 }

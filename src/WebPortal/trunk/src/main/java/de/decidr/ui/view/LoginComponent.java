@@ -36,8 +36,7 @@ public class LoginComponent extends CustomComponent {
      * Serial Version UID
      */
     private static final long serialVersionUID = 6622328174696591882L;
-    
-    private static LoginComponent loginComponent = null;
+
     
     private VerticalLayout verticalLayout = null;
     
@@ -54,7 +53,7 @@ public class LoginComponent extends CustomComponent {
      * Default constructor.
      *
      */
-    private LoginComponent() {
+    public LoginComponent() {
         init();
     }
 
@@ -74,10 +73,10 @@ public class LoginComponent extends CustomComponent {
         passwordTextField.setCaption("Password");
         passwordTextField.setSecret(true);
         
-        loginButton = new Button("Login");
+        loginButton = new Button("Login", new LoginAction());
         forgotPasswordButton = new Button("Forgot your password?");
         forgotPasswordButton.setStyleName(Button.STYLE_LINK);
-        registerButton = new Button("Register", new LoginAction());
+        registerButton = new Button("Register");
         registerButton.setStyleName(Button.STYLE_LINK);
         
        setCompositionRoot(verticalLayout);
@@ -92,13 +91,6 @@ public class LoginComponent extends CustomComponent {
        verticalLayout.addComponent(registerButton);
     }
     
-    public static LoginComponent getInstance(){
-        if(loginComponent == null){
-            loginComponent = new LoginComponent(); 
-        }
-        return loginComponent;
-        
-    }
 
     public TextField getUsernameTextField() {
         return usernameTextField;

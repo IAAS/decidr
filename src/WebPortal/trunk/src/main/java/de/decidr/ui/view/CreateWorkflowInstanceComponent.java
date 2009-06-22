@@ -14,8 +14,6 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
      */
     private static final long serialVersionUID = -2283442464298218331L;
     
-    private static CreateWorkflowInstanceComponent createWorkflowInstanceComponent = null;
-    
     private WorkflowInstanceContainer workflowInstanceContainer = null;
     
     private VerticalLayout verticalLayout = null;
@@ -27,10 +25,18 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
     private WorkflowInstanceTable instanceTable = null;
     
     
-    private CreateWorkflowInstanceComponent(){
+    /**
+     * Default constructor
+     *
+     */
+    public CreateWorkflowInstanceComponent(){
         init();
     }
     
+    /**
+     * This method initializes the components of the create workflow instance component
+     *
+     */
     private void init(){
         workflowInstanceContainer = new WorkflowInstanceContainer();
         
@@ -55,11 +61,5 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
         
     }
     
-    public static CreateWorkflowInstanceComponent getInstance(){
-        if(createWorkflowInstanceComponent == null){
-            createWorkflowInstanceComponent = new CreateWorkflowInstanceComponent();
-        }
-        return createWorkflowInstanceComponent;
-    }
 
 }

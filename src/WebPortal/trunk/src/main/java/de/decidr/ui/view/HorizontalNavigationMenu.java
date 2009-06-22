@@ -36,8 +36,6 @@ import de.decidr.ui.controller.ShowWelcomePageAction;
 @SuppressWarnings("serial")
 public class HorizontalNavigationMenu extends CustomComponent {
         
-        private static HorizontalNavigationMenu horizontalNavigationMenu = null;
-        
         private HorizontalLayout horizontalLayout = null;
 
         private Button btnLogoutLink = null;
@@ -46,10 +44,18 @@ public class HorizontalNavigationMenu extends CustomComponent {
         private Button btnImpressumLink = null;
         private Button btnTermsOfServiceLink = null;
         
-        private HorizontalNavigationMenu(){
+        /**
+         * Default constructor
+         *
+         */
+        public HorizontalNavigationMenu(){
                 init();
         }
         
+        /**
+         * This method initializes the components of the horizontal navigation menu component
+         *
+         */
         private void init(){
                 horizontalLayout = new HorizontalLayout();
                 this.setCompositionRoot(horizontalLayout);
@@ -74,13 +80,6 @@ public class HorizontalNavigationMenu extends CustomComponent {
                 horizontalLayout.addComponent(btnTermsOfServiceLink);
                 horizontalLayout.addComponent(btnImpressumLink);
                 
-        }
-        
-        public static HorizontalNavigationMenu getInstance(){
-            if(horizontalNavigationMenu == null){
-                    horizontalNavigationMenu = new HorizontalNavigationMenu();
-            }
-            return horizontalNavigationMenu;
         }
         
         public Button getLogoutButton(){

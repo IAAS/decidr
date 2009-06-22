@@ -13,8 +13,6 @@ public class WorkflowAdminNavigationMenu extends CustomComponent {
      * TODO: add comment
      */
     private static final long serialVersionUID = 3301289362151635416L;
-
-    private static WorkflowAdminNavigationMenu workflowAdminNavigationMenu = null;
     
     private VerticalLayout verticalLayout;
     
@@ -30,10 +28,18 @@ public class WorkflowAdminNavigationMenu extends CustomComponent {
     private Label usersLabel = null;
     private Label settingsLabel = null;
     
-    private WorkflowAdminNavigationMenu(){
+    /**
+     * Default constructor
+     *
+     */
+    public WorkflowAdminNavigationMenu(){
         init();
     }
     
+    /**
+     * This method initializes the components of the workflow admin navigation menu component
+     *
+     */
     private void init(){
         verticalLayout = new VerticalLayout();
         this.setCompositionRoot(verticalLayout);
@@ -73,11 +79,5 @@ public class WorkflowAdminNavigationMenu extends CustomComponent {
         verticalLayout.addComponent(profileSettingsLink);
     }
     
-    public static WorkflowAdminNavigationMenu getInstance(){
-        if(workflowAdminNavigationMenu == null){
-            workflowAdminNavigationMenu = new WorkflowAdminNavigationMenu();
-        }
-        return workflowAdminNavigationMenu;
-    }
-
+ 
 }
