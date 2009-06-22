@@ -23,7 +23,6 @@ import de.decidr.model.commands.tenant.GetWorkflowInstancesCommand;
 import de.decidr.model.commands.tenant.GetWorkflowModelsCommand;
 import de.decidr.model.commands.tenant.ImportPublishedWorkflowModelsCommand;
 import de.decidr.model.commands.tenant.InviteUsersAsTenantMemberCommand;
-import de.decidr.model.commands.tenant.RemoveTenentMemberCommand;
 import de.decidr.model.commands.tenant.RemoveWorkflowModelCommand;
 import de.decidr.model.commands.tenant.SetTenantDescriptionCommand;
 import de.decidr.model.entities.TenantSummaryView;
@@ -228,27 +227,6 @@ public class TenantFacade extends AbstractFacade {
             return command.getWorkflowModelId();
         }
 
-    }
-
-    /**
-     * 
-     * Removes the tenant member relation between the given tenant and the given
-     * user. If the relation/userId/tenantId doesn't exist nothing will happen.
-     * 
-     * @param tenantId
-     * @param userId
-     * @throws TransactionException
-     */
-    @AllowedRole(TenantAdminRole.class)
-    public void removeTenantMember(Long tenantId, Long userId)
-            throws TransactionException {
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
-        RemoveTenentMemberCommand command = new RemoveTenentMemberCommand(
-                actor, tenantId, userId);
-
-        tac.runTransaction(command);
     }
 
     /**
