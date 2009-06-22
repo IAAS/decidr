@@ -19,12 +19,10 @@ package de.decidr.model.workflowmodel.deployment;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
 import javax.xml.bind.JAXBException;
 import javax.xml.soap.SOAPMessage;
-
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
@@ -32,7 +30,6 @@ import de.decidr.model.workflowmodel.bpel.TProcess;
 import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dwdl.translator.Translator;
 import de.decidr.model.workflowmodel.dwdl.validation.IProblem;
-import de.decidr.model.workflowmodel.dwdl.validation.Problem;
 import de.decidr.model.workflowmodel.dwdl.validation.Validator;
 
 /**
@@ -85,9 +82,10 @@ public class DeployerImpl implements Deployer {
 
         DeployedWorkflowModel dwfm = new DeployedWorkflowModel();
         dwfm.setDeployDate(new Date());
+        dwfm.setSoapTemplate(soap.toString().getBytes());
 
         result = new DeploymentResultImpl();
-        result.setDeployedWorkflowModel(dwfm);
+        
         result.setServers(serverList);
 
         return result;

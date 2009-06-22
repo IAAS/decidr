@@ -17,7 +17,6 @@
 package de.decidr.model.workflowmodel.deployment;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -78,14 +77,15 @@ public class FileDeployer {
             WSDLException, IOException {
 
         byte[] zipFile = getDeploymentBundle(name, bpel, wsdl, dd);
+        System.out.println(zipFile[0]);
 
     }
 
     private byte[] getDeploymentBundle(String name, TProcess bpel,
             Definition wsdl, TDeployment dd) throws JAXBException,
             WSDLException, IOException {
-        JAXBContext bpelCntxt = JAXBContext.newInstance("TProcess");
-        JAXBContext ddCntxt = JAXBContext.newInstance("TDeployment");
+        JAXBContext bpelCntxt = JAXBContext.newInstance(TProcess.class);
+        JAXBContext ddCntxt = JAXBContext.newInstance(TDeployment.class);
         Marshaller bpelMarshaller = bpelCntxt.createMarshaller();
         Marshaller ddMarshaller = ddCntxt.createMarshaller();
 
