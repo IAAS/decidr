@@ -19,10 +19,8 @@ package de.decidr.model.workflowmodel.dwdl.translator;
 import java.util.List;
 
 import de.decidr.model.workflowmodel.bpel.ObjectFactory;
-import de.decidr.model.workflowmodel.bpel.TCorrelationSets;
-import de.decidr.model.workflowmodel.bpel.TDocumentation;
 import de.decidr.model.workflowmodel.bpel.TFaultHandlers;
-import de.decidr.model.workflowmodel.bpel.TImport;
+
 
 /**
  * This class converts a given DWDL object and returns the resulting BPEL.
@@ -36,7 +34,6 @@ public class DWDL2BPEL {
     private final String QUERYLANGUAGE = "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0";
     private final String SUPPRESSJOINFAILURE = "no";
     private final String EXITONSTANDARDFAULT = "no";
-    private final String SOURCE = "http://www.decidr.de";
 
     private de.decidr.model.workflowmodel.bpel.TProcess process = null;
     private de.decidr.model.workflowmodel.dwdl.TWorkflow dwdl = null;
