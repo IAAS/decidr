@@ -27,6 +27,8 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.service.ApplicationContext;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
+
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.permissions.UserRole;
@@ -48,7 +50,7 @@ public class WorkItemContainer extends Observable implements Container {
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
     private WorkItemFacade workItemFacade = new WorkItemFacade(new UserRole(userId));
     
-    private List<Item> workItemList = userFacade.getWorkItems(userId, null, null);
+    private List<Item> workItemList = null;
     
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
@@ -56,9 +58,15 @@ public class WorkItemContainer extends Observable implements Container {
     public WorkItemContainer(){
         setChanged();
         notifyObservers();
-        for(Item item : workItemList){
-           addItem(item);
+        try{
+            workItemList = userFacade.getWorkItems(userId, null, null);
+            for(Item item : workItemList){
+                addItem(item);
+             }
+        }catch(TransactionException exception){
+            //TODO
         }
+        
         
     }
     

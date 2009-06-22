@@ -50,7 +50,7 @@ public class UserListContainer extends Observable implements Container {
     
     UserFacade userFacade = new UserFacade(new UserRole(userId));
     
-    List<Item> userList = userFacade.getAllUsers(null, null);
+    List<Item> userList = null;
     
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
@@ -58,9 +58,15 @@ public class UserListContainer extends Observable implements Container {
     public UserListContainer(){
         setChanged();
         notifyObservers();
-        for(Item item : userList){
-            addItem(item);
+        try{
+            userList = userFacade.getAllUsers(null, null);
+            for(Item item : userList){
+                addItem(item);
+            }
+        }catch(TransactionException exception){
+         //TODO   
         }
+        
         
     }
 

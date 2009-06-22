@@ -30,6 +30,7 @@ import com.vaadin.data.Property;
 import com.vaadin.service.ApplicationContext;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.permissions.UserRole;
@@ -51,7 +52,7 @@ public class CompletedInstancesContainer extends Observable implements
     
     UserFacade userFacade = new UserFacade(new UserRole(userId));
     
-    private List<Item> workflowInstanceList = userFacade.getAdminstratedWorkflowInstances(userId);
+    private List<Item> workflowInstanceList = null;
     
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
@@ -59,11 +60,17 @@ public class CompletedInstancesContainer extends Observable implements
     public CompletedInstancesContainer(){
         setChanged();
         notifyObservers();
-        for(Item item : workflowInstanceList){
-            if(item.getItemProperty("completedDate") != null){
-                addItem(item);
+        try{
+            workflowInstanceList = userFacade.getJoinedTenants(userId);
+            for(Item item : workflowInstanceList){
+                if(item.getItemProperty("completedDate") != null){
+                    addItem(item);
+                }
             }
+        }catch(TransactionException exception){
+            //TODO
         }
+       
     }
 
     /* (non-Javadoc)

@@ -50,7 +50,7 @@ public class WorkflowInstanceContainer extends Observable implements Container {
     
     UserFacade userFacade = new UserFacade(new UserRole(userId));
     
-    List<Item> workflowInstanceList = userFacade.getAdminstratedWorkflowInstances(userId);
+    List<Item> workflowInstanceList = null;
     
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
@@ -58,9 +58,15 @@ public class WorkflowInstanceContainer extends Observable implements Container {
     public WorkflowInstanceContainer(){
         setChanged();
         notifyObservers();
-        for(Item item : workflowInstanceList){
-            addItem(item);
+        try{
+            workflowInstanceList = userFacade.getJoinedTenants(userId);
+            for(Item item : workflowInstanceList){
+                addItem(item);
+            }
+        }catch(TransactionException exception){
+            //TODO
         }
+        
         
     }
 
