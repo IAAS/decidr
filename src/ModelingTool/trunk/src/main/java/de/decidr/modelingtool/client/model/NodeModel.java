@@ -16,39 +16,41 @@
 
 package de.decidr.modelingtool.client.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-
 /**
  * TODO: add comment
- * 
- * @author Jonas
+ *
+ * @author JE
  */
-public class WorkflowModel extends AbstractModel {
+public class NodeModel extends AbstractModel {
+
+    private Model parentModel = null;
     
-    private List<Model> childModels = new Vector<Model>();
+    private ConnectionModel input = null;
+    
+    private ConnectionModel output = null; 
 
-    private List<Variable> variables;
+    public ConnectionModel getInput() {
+        return input;
+    }
 
-    public WorkflowModel() {
-        variables = new ArrayList<Variable>();
+    public void setInput(ConnectionModel input) {
+        this.input = input;
+    }
+
+    public ConnectionModel getOutput() {
+        return output;
+    }
+
+    public void setOutput(ConnectionModel output) {
+        this.output = output;
+    }
+
+    public Model getParentModel() {
+        return parentModel;
+    }
+
+    public void setParentModel(Model parentModel) {
+        this.parentModel = parentModel;
     }
     
-    public void addModel(Model model) {
-        childModels.add(model);
-    }
-    
-    public void removeModel(Model model) {
-        childModels.remove(model);
-    }
-
-    public List<Variable> getVariables() {
-        return variables;
-    }
-
-    public void setVariables(List<Variable> variables) {
-        this.variables = variables;
-    }
-
 }

@@ -16,39 +16,17 @@
 
 package de.decidr.modelingtool.client.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
+import de.decidr.modelingtool.client.ui.ModelChangeListener;
 
 /**
  * TODO: add comment
- * 
- * @author Jonas
+ *
+ * @author JE
  */
-public class WorkflowModel extends AbstractModel {
+public interface Model {
     
-    private List<Model> childModels = new Vector<Model>();
-
-    private List<Variable> variables;
-
-    public WorkflowModel() {
-        variables = new ArrayList<Variable>();
-    }
+    public void setChangeListener(ModelChangeListener changeListener);
     
-    public void addModel(Model model) {
-        childModels.add(model);
-    }
+    public ModelChangeListener getChangeListener();
     
-    public void removeModel(Model model) {
-        childModels.remove(model);
-    }
-
-    public List<Variable> getVariables() {
-        return variables;
-    }
-
-    public void setVariables(List<Variable> variables) {
-        this.variables = variables;
-    }
-
 }

@@ -17,12 +17,13 @@
 package de.decidr.modelingtool.client.ui;
 
 import com.allen_sauer.gwt.dnd.client.DragController;
+import com.allen_sauer.gwt.dnd.client.PickupDragController;
 
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author JE
  */
 public class OutputPort extends Port {
@@ -32,11 +33,16 @@ public class OutputPort extends Port {
 
         // set properties
         this.addStyleName("port-outputport");
-        
-     // make connection drag box draggable
+
+        // register drop controller to drag controller
+        PickupDragController ipdc = DndRegistry.getInstance()
+                .getDragController("InputPortDragController");
+        ipdc.registerDropController(getDropController());
+
+        // make connection drag box draggable
         DragController dc = DndRegistry.getInstance().getDragController(
                 "OutputPortDragController");
         dc.makeDraggable(connectionDragBox);
     }
-    
+
 }

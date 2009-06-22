@@ -18,6 +18,8 @@ package de.decidr.modelingtool.client.model;
 
 import com.extjs.gxt.ui.client.store.ListStore;
 
+import de.decidr.modelingtool.client.ui.Workflow;
+
 /**
  * TODO: add comment
  * 
@@ -27,7 +29,9 @@ public class VariablesFilter {
 
     public static ListStore<Variable> getVariablesOfType(VariableType type) {
         ListStore<Variable> result = new ListStore<Variable>();
-        for (Variable var : WorkflowModel.getInstance().getVariables()) {
+        // FIXME: Please check: WorkflowModel is not a singleton anymore!
+        // for (Variable var : WorkflowModel.getInstance().getVariables()) {
+        for (Variable var : Workflow.getInstance().getModel().getVariables()) {
             if (var.getType() == type) {
                 Variable targetVar = new Variable();
                 targetVar.setName(var.getName());
@@ -42,7 +46,9 @@ public class VariablesFilter {
 
     public static ListStore<Variable> getAllVariables() {
         ListStore<Variable> result = new ListStore<Variable>();
-        for (Variable var : WorkflowModel.getInstance().getVariables()) {
+        // FIXME: Please check: WorkflowModel is not a singleton anymore!
+        // for (Variable var : WorkflowModel.getInstance().getVariables()) {
+        for (Variable var : Workflow.getInstance().getModel().getVariables()) {
             Variable targetVar = new Variable();
             targetVar.setName(var.getName());
             targetVar.setType(var.getType());
@@ -55,7 +61,9 @@ public class VariablesFilter {
 
     // TODO: rewrite method
     public static Variable getVariableByName(String name) {
-        for (Variable var : WorkflowModel.getInstance().getVariables()) {
+        // FIXME: Please check: WorkflowModel is not a singleton anymore!
+        // for (Variable var : WorkflowModel.getInstance().getVariables()) {
+        for (Variable var : Workflow.getInstance().getModel().getVariables()) {
             if (var.getName() == name) {
                 return var;
             }

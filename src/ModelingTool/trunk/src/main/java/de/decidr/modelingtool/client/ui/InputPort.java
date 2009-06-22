@@ -40,7 +40,8 @@ public class InputPort extends Port {
         this.addStyleName("port-inputport");
         
         // register drop controller to drag controller
-        PickupDragController opdc = DndRegistry.getInstance().getDragController("OutputPortDragController");
+        PickupDragController opdc = DndRegistry.getInstance()
+                .getDragController("OutputPortDragController");
         opdc.registerDropController(getDropController());
 
         // make connection drag box draggable

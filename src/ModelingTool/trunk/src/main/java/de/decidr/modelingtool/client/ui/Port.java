@@ -70,6 +70,10 @@ public class Port extends AbsolutePanel {
         this.position = position;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
+
+        // set connection drag box preferences
+        this.add(connectionDragBox);
+        connectionDragBox.setVisibleStyle(false);
     }
 
     public void refreshConnections() {

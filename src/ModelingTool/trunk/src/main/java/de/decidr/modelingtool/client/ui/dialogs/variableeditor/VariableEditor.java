@@ -37,6 +37,7 @@ import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.model.Variable;
 import de.decidr.modelingtool.client.model.WorkflowModel;
+import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.VEInvokeCommand;
@@ -184,7 +185,10 @@ public class VariableEditor extends Dialog {
      */
     private void getVariablesFromModel() {
         variables.removeAll();
-        List<Variable> variablesModel = WorkflowModel.getInstance()
+        // FIXME: Please check: WorkflowModel is not a singleton anymore!
+        // List<Variable> variablesModel = WorkflowModel.getInstance()
+        // .getVariables();
+        List<Variable> variablesModel = Workflow.getInstance().getModel()
                 .getVariables();
         for (Variable v : variablesModel) {
             Variable targetVar = new Variable();
@@ -212,7 +216,9 @@ public class VariableEditor extends Dialog {
             targetVar.setConfig(v.isConfig());
             variablesModel.add(variables.getAt(i));
         }
-        WorkflowModel.getInstance().setVariables(variablesModel);
+        // FIXME: Please check: WorkflowModel is not a singleton anymore!
+        // WorkflowModel.getInstance().setVariables(variablesModel);
+        Workflow.getInstance().getModel().setVariables(variablesModel);
     }
 
     /**

@@ -24,6 +24,7 @@ import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
+import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.dnd.ConnectionDragController;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 import de.decidr.modelingtool.client.ui.dnd.WorkflowDragController;
@@ -45,7 +46,15 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
 
     private SelectionHandler selectionHandler;
 
-    // private WorkflowModel model;
+    private WorkflowModel model = null;
+
+    public WorkflowModel getModel() {
+        return model;
+    }
+
+    public void setModel(WorkflowModel model) {
+        this.model = model;
+    }
 
     /**
      * All nodes in the workflow except for the nodes in a container.

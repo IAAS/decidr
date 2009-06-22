@@ -16,24 +16,21 @@
 
 package de.decidr.modelingtool.client.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
 /**
  * TODO: add comment
- * 
- * @author Jonas
+ *
+ * @author JE
  */
-public class WorkflowModel extends AbstractModel {
-    
+public class ContainerModel extends NodeModel {
+
     private List<Model> childModels = new Vector<Model>();
-
-    private List<Variable> variables;
-
-    public WorkflowModel() {
-        variables = new ArrayList<Variable>();
-    }
+    
+    private List<ConnectionModel> startConnections = new Vector<ConnectionModel>();
+    
+    private List<ConnectionModel> endConnections = new Vector<ConnectionModel>();
     
     public void addModel(Model model) {
         childModels.add(model);
@@ -42,13 +39,21 @@ public class WorkflowModel extends AbstractModel {
     public void removeModel(Model model) {
         childModels.remove(model);
     }
-
-    public List<Variable> getVariables() {
-        return variables;
+    
+    public void addStartConnection(ConnectionModel model) {
+        startConnections.add(model);
     }
-
-    public void setVariables(List<Variable> variables) {
-        this.variables = variables;
+    
+    public void removeStartConnection(ConnectionModel model) {
+        startConnections.remove(model);
     }
-
+    
+    public void addEndConnection(ConnectionModel model) {
+        endConnections.add(model);
+    }
+    
+    public void removeEndConnection(ConnectionModel model) {
+        endConnections.remove(model);
+    }
+    
 }

@@ -23,6 +23,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.Container;
 import de.decidr.modelingtool.client.ui.EmailInvokeNode;
 import de.decidr.modelingtool.client.ui.EndNode;
@@ -96,6 +97,9 @@ public class ModelingTool implements EntryPoint {
         // create workflow and add to the root panel.
         final Workflow workflow = Workflow.getInstance();
         RootPanel.get("workflow").add(workflow);
+        
+        // create workflow model
+        workflow.setModel(new WorkflowModel());
 
         // create test elements
         Node startNode = new StartNode();

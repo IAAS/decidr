@@ -16,39 +16,11 @@
 
 package de.decidr.modelingtool.client.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-
 /**
  * TODO: add comment
- * 
- * @author Jonas
+ *
+ * @author JE
  */
-public class WorkflowModel extends AbstractModel {
-    
-    private List<Model> childModels = new Vector<Model>();
-
-    private List<Variable> variables;
-
-    public WorkflowModel() {
-        variables = new ArrayList<Variable>();
-    }
-    
-    public void addModel(Model model) {
-        childModels.add(model);
-    }
-    
-    public void removeModel(Model model) {
-        childModels.remove(model);
-    }
-
-    public List<Variable> getVariables() {
-        return variables;
-    }
-
-    public void setVariables(List<Variable> variables) {
-        this.variables = variables;
-    }
+public class ForEachContainerModel extends ContainerModel {
 
 }
