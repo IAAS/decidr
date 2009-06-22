@@ -74,7 +74,7 @@ public class ValueEditor extends Dialog {
         contentPanel.setHeading(ModelingTool.messages.editVariable());
         contentPanel.setLayout(new FitLayout());
 
-        //TODO: fix layout
+        // TODO: fix layout
         table = new FlexTable();
         table.setBorderWidth(0);
         table.setWidth("100%");
@@ -92,8 +92,7 @@ public class ValueEditor extends Dialog {
     private void createToolBar() {
         ToolBar toolBar = new ToolBar();
 
-        TextToolItem addVar = new TextToolItem(ModelingTool.messages
-                .addValue()); //$NON-NLS-1$
+        TextToolItem addVar = new TextToolItem(ModelingTool.messages.addValue()); //$NON-NLS-1$
         addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
@@ -102,8 +101,7 @@ public class ValueEditor extends Dialog {
         });
         toolBar.add(addVar);
 
-        TextToolItem delVar = new TextToolItem(ModelingTool.messages
-                .delValue()); //$NON-NLS-1$
+        TextToolItem delVar = new TextToolItem(ModelingTool.messages.delValue()); //$NON-NLS-1$
         delVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
@@ -177,6 +175,14 @@ public class ValueEditor extends Dialog {
         }
     }
 
+    public Variable getModel() {
+        return variable;
+    }
+
+    public void setModel(Variable variable) {
+        this.variable = variable;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -184,8 +190,6 @@ public class ValueEditor extends Dialog {
      */
     @Override
     public void initialize() {
-        variable = ((VariableEditor) DialogRegistry.getInstance().getDialog(
-                VariableEditor.class.getName())).getSelectedVariable();
         for (String s : variable.getValues()) {
             addEntry(new String(s));
         }

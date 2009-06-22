@@ -39,6 +39,7 @@ import de.decidr.modelingtool.client.model.Variable;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
+import de.decidr.modelingtool.client.ui.dialogs.VEInvokeCommand;
 
 /**
  * TODO: add comment
@@ -139,6 +140,7 @@ public class VariableEditor extends Dialog {
             @Override
             public void componentSelected(ToolBarEvent ce) {
                 grid.stopEditing();
+                VEInvokeCommand.invoke();
                 DialogRegistry.getInstance().showDialog(
                         ValueEditor.class.getName());
             }
@@ -260,8 +262,10 @@ public class VariableEditor extends Dialog {
      */
     @Override
     public void refresh() {
-        grid.getStore().update(csm.getSelectCell().model);
-        grid.getView().refresh(false);
+        if (grid != null && csm != null && csm.getSelectCell().model != null) {
+            grid.getStore().update(csm.getSelectCell().model);
+            grid.getView().refresh(false);
+        }
     }
 
 }

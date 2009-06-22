@@ -52,4 +52,14 @@ public class VariablesFilter {
         }
         return result;
     }
+
+    // TODO: rewrite method
+    public static Variable getVariableByName(String name) {
+        for (Variable var : WorkflowModel.getInstance().getVariables()) {
+            if (var.getName() == name) {
+                return var;
+            }
+        }
+        return null;
+    }
 }

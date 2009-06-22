@@ -33,6 +33,7 @@ import de.decidr.modelingtool.client.model.VariableType;
 import de.decidr.modelingtool.client.model.VariablesFilter;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
+import de.decidr.modelingtool.client.ui.dialogs.SelectionBoxListener;
 
 /**
  * TODO: add comment
@@ -122,6 +123,10 @@ public class EmailActivityWindow extends Dialog {
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(label));
         table.setWidget(table.getRowCount() - 1, 1, field);
+        // TODO: externalize String
+
+        table.setWidget(table.getRowCount() - 1, 2, new Button("Change Value",
+                new SelectionBoxListener(field)));
     }
 
     private void clearAllEntries() {
