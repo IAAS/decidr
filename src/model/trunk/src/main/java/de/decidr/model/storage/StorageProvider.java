@@ -16,6 +16,7 @@
 
 package de.decidr.model.storage;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -23,7 +24,7 @@ import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
 
 /**
- * RR
+ * DecidR storage providers that allow storing and retrieving files.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -37,7 +38,7 @@ public interface StorageProvider {
      * Creates or replaces the file that is identified by the given id on the
      * storage backend.
      */
-    public void putFile(InputStream data, Long fileId) throws StorageException;
+    public void putFile(FileInputStream data, Long fileId) throws StorageException;
 
     /**
      * Retrieves the file that is identified by the given id from the storage

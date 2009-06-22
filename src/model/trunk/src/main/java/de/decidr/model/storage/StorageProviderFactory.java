@@ -21,7 +21,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -30,7 +32,8 @@ import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.logging.DefaultLogger;
 
 /**
- * TODO add comments
+ * TODO add comments<br>
+ * <em>WARNING: Files can only be retrieved by the <code>{@link StorageProvider}</code> they were stored by!</em>
  * <p>
  * Usage: new StorageProviderFactory().getStorageProvider();
  * 
@@ -39,6 +42,7 @@ import de.decidr.model.logging.DefaultLogger;
  * @author Reinhold
  * @version 0.1
  */
+// RR do logging
 public class StorageProviderFactory {
 
     /**
@@ -49,41 +53,38 @@ public class StorageProviderFactory {
 
     Logger log = DefaultLogger.getLogger(StorageProviderFactory.class);
 
+    private List<Class<? extends StorageProvider>> knownProviders = new ArrayList<Class<? extends StorageProvider>>();
+
     /**
      * The configuration that needs to be applied to the
      * <code>{@link StorageProvider}</code>.
      * <p>
      * Contains a set of standard properties also settable through methods
      * provided by this class and some provider-specific properties, e.g.
-     * authentification data.
+     * authentification data. If a property is not set explicitly, all values
+     * are considered acceptable.
+     * <p>
+     * Standard properties:<br>
+     * <ul>
+     * <li>local (<code>boolean</code> - whether files are to be saved locally)</li>
+     * <li>amazons3 (<code>boolean</code> - whether files are to be stored in
+     * the Amazon S3 service)</li>
+     * <li>persistent (<code>boolean</code> - whether files should survive
+     * system reboot/failure)</li>
+     * <li>protocol (<code>{@link String}</code> - what protocol should be used
+     * to access files; e.g. &quot;file&quot;, &quot;http&quot;,
+     * &quot;https&quot;)</li>
+     * </ul>
      */
     private Properties config;
 
     private Class<? extends StorageProvider> selectedProvider;
 
     /**
-     * Creates a new StorageProviderFactory using the given configuration file.
-     * 
-     * @param config
-     *            configuration <code>{@link Properties}</code> to use
+     * Creates a new StorageProviderFactory using an empty configuration.
      */
-    public StorageProviderFactory(Properties config) {
-        configure(config);
-    }
-
-    /**
-     * Creates a new StorageProviderFactory using the given configuration file.
-     * 
-     * @param configFile
-     *            configuration file to use
-     * @throws IOException
-     *             see <code>{@link #configure(InputStream)}</code>
-     * @throws InvalidPropertiesFormatException
-     *             see <code>{@link #configure(InputStream)}</code>
-     */
-    public StorageProviderFactory(InputStream configFile)
-            throws InvalidPropertiesFormatException, IOException {
-        configure(configFile);
+    public StorageProviderFactory() {
+        this(new Properties());
     }
 
     /**
@@ -106,19 +107,28 @@ public class StorageProviderFactory {
     }
 
     /**
-     * Creates a new StorageProviderFactory using the default configuration
-     * file.
+     * Creates a new StorageProviderFactory using the given configuration file.
      * 
+     * @param configFile
+     *            configuration file to use
      * @throws IOException
-     *             see <code>{@link #StorageProviderFactory(File)}</code>
-     * @throws FileNotFoundException
-     *             see <code>{@link #StorageProviderFactory(File)}</code>
+     *             see <code>{@link #configure(InputStream)}</code>
      * @throws InvalidPropertiesFormatException
-     *             see <code>{@link #StorageProviderFactory(File)}</code>
+     *             see <code>{@link #configure(InputStream)}</code>
      */
-    public StorageProviderFactory() throws InvalidPropertiesFormatException,
-            FileNotFoundException, IOException {
-        this(DEFAULT_CONFIG_FILE);
+    public StorageProviderFactory(InputStream configFile)
+            throws InvalidPropertiesFormatException, IOException {
+        configure(configFile);
+    }
+
+    /**
+     * Creates a new StorageProviderFactory using the given configuration file.
+     * 
+     * @param config
+     *            configuration <code>{@link Properties}</code> to use
+     */
+    public StorageProviderFactory(Properties config) {
+        configure(config);
     }
 
     /**
@@ -127,20 +137,21 @@ public class StorageProviderFactory {
      * @return this object for method chaining.
      */
     public StorageProviderFactory configure() {
-        // TODO apply current configuration
-        return this;
-    }
+        discoverProviders();
 
-    /**
-     * Applies a new configuration.
-     * 
-     * @param config
-     *            configuration <code>{@link Properties}</code> to use
-     * @return this object for method chaining.
-     */
-    public StorageProviderFactory configure(Properties config) {
-        this.config = config;
-        return configure();
+        for (Class<? extends StorageProvider> candidate : knownProviders) {
+            try {
+                if (candidate.newInstance().isApplicable(config)) {
+                    selectedProvider = candidate;
+                    // found a usable class - use
+                    break;
+                }
+            } catch (Exception e) {
+                // can't properly instantiate - ignore
+                continue;
+            }
+        }
+        return this;
     }
 
     /**
@@ -160,6 +171,46 @@ public class StorageProviderFactory {
         Properties config = new Properties();
         config.loadFromXML(configFile);
         return configure(config);
+    }
+
+    /**
+     * Applies a new configuration.
+     * 
+     * @param config
+     *            configuration <code>{@link Properties}</code> to use
+     * @return this object for method chaining.
+     */
+    public StorageProviderFactory configure(Properties config) {
+        this.config = config;
+        return configure();
+    }
+
+    /**
+     * Applies the default configuration.
+     * 
+     * @throws IOException
+     *             see <code>{@link #configure(InputStream)}</code>
+     * @throws FileNotFoundException
+     *             thrown when the default config file can't be located/accessed
+     *             on the file system.
+     * @throws InvalidPropertiesFormatException
+     *             see <code>{@link #configure(InputStream)}</code>
+     * @return this object for method chaining.
+     */
+    public static StorageProviderFactory getDefaultFactory()
+            throws InvalidPropertiesFormatException, FileNotFoundException,
+            IOException {
+        return new StorageProviderFactory(new FileInputStream(
+                DEFAULT_CONFIG_FILE));
+    }
+
+    /**
+     * Tries to find available <code>{@link StorageProvider}</code>.
+     */
+    // RR: find better way of finding available providers
+    private void discoverProviders() {
+        knownProviders = new ArrayList<Class<? extends StorageProvider>>();
+        knownProviders.add(LocalStorageProvider.class);
     }
 
     /**
@@ -199,29 +250,77 @@ public class StorageProviderFactory {
     }
 
     /**
-     * TODO: add comment
-     * 
-     * @param local
-     */
-    public void setLocalOnly(Boolean local) {
-        config.setProperty("local", local.toString());
-    }
-
-    /**
-     * TODO: add comment
+     * Whether to use the Amazon S3 service for storage.
      * 
      * @param amazons3
+     *            Whether to use the service or forbid usage.
      */
     public void setAmazonS3(Boolean amazons3) {
         config.setProperty("amazons3", amazons3.toString());
     }
 
     /**
-     * TODO: add comment
+     * Whether to use only local or only remote storage. Local storage is
+     * available only locally, remote storage is also available remotely.
+     * 
+     * @param local
+     *            Whether to force local or remote storage.
+     */
+    public void setLocalOnly(Boolean local) {
+        config.setProperty("local", local.toString());
+    }
+
+    /**
+     * Whether the storage should be forced to be persistent or volatile.
+     * Volatile storage may be lost on system reboot/failure.
+     * 
+     * @param persistent
+     *            Whether to force persistent or volatile storage.
+     */
+    public void setPersistent(Boolean persistent) {
+        config.setProperty("persistent", persistent.toString());
+    }
+
+    /**
+     * Specifies the protocol that should be used.<br>
+     * Examples: &quot;file&quot;, &quot;http&quot;, &quot;https&quot;
      * 
      * @param protocol
+     *            The protocol that should be used to access the files.
      */
     public void setProtocol(String protocol) {
         config.setProperty("protocol", protocol);
+    }
+
+    /**
+     * Unsets the &quot;amazons3&quot; property, signalling that the property is
+     * not important.
+     */
+    public void unsetAmazonS3() {
+        config.remove("amazons3");
+    }
+
+    /**
+     * Unsets the &quot;local&quot; property, signalling that the property is
+     * not important.
+     */
+    public void unsetLocalOnly() {
+        config.remove("local");
+    }
+
+    /**
+     * Unsets the &quot;persistent&quot; property, signalling that the property
+     * is not important.
+     */
+    public void unsetPersistent() {
+        config.remove("persistent");
+    }
+
+    /**
+     * Unsets the &quot;protocol&quot; property, signalling that the property is
+     * not important.
+     */
+    public void unsetProtocol() {
+        config.remove("protocol");
     }
 }
