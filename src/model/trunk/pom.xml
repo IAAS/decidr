@@ -11,12 +11,12 @@
 		<repository>
 			<id>iaassrv7-releases</id>
 			<name>iaassrv7-releases</name>
-			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
+			<url>dav:http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
 		</repository>
 		<snapshotRepository>
 			<id>iaassrv7-snapshots</id>
 			<name>iaassrv7-snapshots</name>
-			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
+			<url>dav:http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
 		</snapshotRepository>
 	</distributionManagement>
 	<repositories>
@@ -41,7 +41,14 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-		</plugins>
+		</plugins><!-- for deploying to artifactory via dav -->
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav</artifactId>
+				<version>1.0-beta-2</version>
+			</extension>
+		</extensions>
 	</build>
 	<dependencies>
 		<dependency>
