@@ -29,20 +29,18 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
 
 /**
- * TODO: add comment
+ * This action unlocks a list of workflow models
  *
  * @author GH
  */
 public class UnlockWorkflowModelAction implements ClickListener  {
 
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
-    
     private ApplicationContext ctx = Main.getCurrent().getContext();
     private WebApplicationContext webCtx = (WebApplicationContext)ctx;
     private HttpSession session = webCtx.getHttpSession();
     
     private Long userId = (Long)session.getAttribute("userId");
-    //private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(new UserRole(userId));
+    private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(new UserRole(userId));
 
     //TODO: replace with correct component
     //private XYZComponent content = null;

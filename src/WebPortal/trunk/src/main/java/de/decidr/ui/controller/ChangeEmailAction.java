@@ -17,7 +17,7 @@
 package de.decidr.ui.controller;
 
 /**
- * TODO: add comment
+ * This action requests an e-mail change.
  *
  * @author GH
  */
@@ -32,31 +32,38 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.view.ChangeEmailComponent;
 import de.decidr.ui.view.Main;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 
 public class ChangeEmailAction implements ClickListener{
     
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
+    private ApplicationContext ctx = Main.getCurrent().getContext();
+    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
+    private HttpSession session = webCtx.getHttpSession();
     
-    //private ApplicationContext ctx = Main.getCurrent().getContext();
-    //private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    //private HttpSession session = webCtx.getHttpSession();
-    
-    //private Long userId = (Long)session.getAttribute("userId");
-    //private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    private Long userId = (Long)session.getAttribute("userId");
+    private UserFacade userFacade = new UserFacade(new UserRole(userId));
     
     private Item email = null;
     
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
-        email = ChangeEmailComponent.getInstance().getNewEmail();
+        email = ((ChangeEmailComponent)event.getButton().getWindow()).getNewEmail();
         
         //TODO: add validator to ChangeEmailComponent
         
-        //userFacade.setPassword(userId, passwords.getItemProperty("oldPassword").getValue().toString(), passwords.getItemProperty("newPassword").getValue().toString());
+        try {
+            userFacade.setEmailAddress(userId, email.getItemProperty("newEmail").getValue().toString());
+        } catch (TransactionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         Main.getCurrent().getMainWindow().showNotification("new email: " + email.getItemProperty("newEmail").getValue().toString());
-        Main.getCurrent().getMainWindow().removeWindow(ChangeEmailComponent.getInstance());
+        Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
         
     }
 }

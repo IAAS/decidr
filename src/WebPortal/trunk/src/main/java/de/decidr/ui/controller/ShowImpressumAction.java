@@ -23,7 +23,7 @@ import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.ImpressumWindow;
 
 /**
- * TODO: add comment
+ * This actions shows the ImpressumWindow in the content area
  *
  * @author GH
  */
@@ -33,10 +33,12 @@ public class ShowImpressumAction implements ClickListener {
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(ImpressumWindow.getInstance());
+        siteFrame.setContent(new ImpressumWindow());
 
     }
     

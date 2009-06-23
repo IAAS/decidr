@@ -30,20 +30,18 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
 
 /**
- * TODO: add comment
+ * This action imports a list of published workflow models
  *
  * @author GH
  */
 public class ImportWorkflowModelAction implements ClickListener  {
 
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
-    
     private ApplicationContext ctx = Main.getCurrent().getContext();
     private WebApplicationContext webCtx = (WebApplicationContext)ctx;
     private HttpSession session = webCtx.getHttpSession();
     
     private Long userId = (Long)session.getAttribute("userId");
-    //private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
 
     //TODO: replace with correct component
     //private XYZComponent content = null;

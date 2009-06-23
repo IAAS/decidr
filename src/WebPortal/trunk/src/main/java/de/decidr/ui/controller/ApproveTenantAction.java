@@ -33,14 +33,12 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
 
 /**
- * TODO: add comment
+ * This action approves a list of tenants.
  *
  * @author GH
  */
 public class ApproveTenantAction implements ClickListener{
-    
-    //TODO: model causes errors
-    
+        
     private ApplicationContext ctx = Main.getCurrent().getContext();
     private WebApplicationContext webCtx = (WebApplicationContext)ctx;
     private HttpSession session = webCtx.getHttpSession();
@@ -51,6 +49,9 @@ public class ApproveTenantAction implements ClickListener{
     //TODO: change to correct component
     //private XYZComponent content = null;
     
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
         //content = (XYZComponent) UIDirector.getInstance().getTemplateView().getContent();

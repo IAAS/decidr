@@ -33,13 +33,11 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
 
 /**
- * TODO: add comment
+ * This action disables an user account
  *
  * @author GH
  */
 public class DeactivateAccountAction implements ClickListener{
-    
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
     
     private ApplicationContext ctx = Main.getCurrent().getContext();
     private WebApplicationContext webCtx = (WebApplicationContext)ctx;
@@ -51,6 +49,9 @@ public class DeactivateAccountAction implements ClickListener{
     //TODO: change to correct component
     //private XYZComponent content = null;
     
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
         //content = (XYZComponent) UIDirector.getInstance().getTemplateView().getContent();

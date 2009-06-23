@@ -33,15 +33,12 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
 
 /**
- * TODO: add comment
- * FIXME: TenantFacade.removeTenantMember vs. UserFace.removeFromTenant
+ * This action removes a list users from a tenant
  *
  * @author GH
  */
 public class RemoveUserFromTenantAction implements ClickListener{
-    
-    //TODO: model causes errors
-    
+        
     private ApplicationContext ctx = Main.getCurrent().getContext();
     private WebApplicationContext webCtx = (WebApplicationContext)ctx;
     private HttpSession session = webCtx.getHttpSession();
@@ -53,7 +50,10 @@ public class RemoveUserFromTenantAction implements ClickListener{
     
     //TODO: change to correct component
     //private XYZComponent content = null;
-    
+
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
         tenant = (Item)session.getAttribute("tenant");

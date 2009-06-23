@@ -24,18 +24,17 @@ import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
 
 /**
- * TODO: add comment
+ * This action refuses an invitation
  *
  * @author GH
  */
 public class RefuseInvitationAction implements ClickListener{
-    
-    //TODO: model causes errors
     
     private ApplicationContext ctx = Main.getCurrent().getContext();
     private WebApplicationContext webCtx = (WebApplicationContext)ctx;
@@ -46,14 +45,27 @@ public class RefuseInvitationAction implements ClickListener{
     
     private Long invitationId = null;
     
+    /**
+     * Constructor, requires id of the invitation
+     *
+     * @param invId: Id of the invitation
+     */
     public RefuseInvitationAction(Long invId){
         invitationId = invId;
     }
-    
+
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
                 
-        userFacade.refuseInviation(invitationId);
+        try {
+            userFacade.refuseInviation(invitationId);
+        } catch (TransactionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
     }
 }

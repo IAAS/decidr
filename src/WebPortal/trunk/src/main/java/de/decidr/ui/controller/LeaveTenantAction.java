@@ -17,7 +17,7 @@
 package de.decidr.ui.controller;
 
 /**
- * TODO: add comment
+ * This action removes a user from a tenant
  *
  * @author GH
  */
@@ -37,31 +37,42 @@ import de.decidr.ui.view.ChangeEmailComponent;
 import de.decidr.ui.view.ConfirmDialogComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 
 public class LeaveTenantAction implements ClickListener {
     
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
-    
     private ApplicationContext ctx = Main.getCurrent().getContext();
-	private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-	private HttpSession session = webCtx.getHttpSession();
+    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
+    private HttpSession session = webCtx.getHttpSession();
     
-	private Long userId = (Long)session.getAttribute("userId");
-	//private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    private Long userId = (Long)session.getAttribute("userId");
+    private UserFacade userFacade = new UserFacade(new UserRole(userId));
         
     private Long tenantId = null;
     
+    /**
+     * Constructor, requires id of the tenant to be left
+     *
+     * @param id: Id of the tenant to be left
+     */
     public LeaveTenantAction(Long id){
         tenantId = id;
     }
     
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
-    	//userFacade.leaveTenant(userId, tenantId);
-        Main.getCurrent().getMainWindow().showNotification("you have left a tenant");
-        Main.getCurrent().getMainWindow().removeWindow(ConfirmDialogComponent.getInstance());
+    	try {
+            userFacade.leaveTenant(userId, tenantId);
+        } catch (TransactionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
         
     }
 }

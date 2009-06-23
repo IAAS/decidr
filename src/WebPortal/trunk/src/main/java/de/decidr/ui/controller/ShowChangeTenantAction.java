@@ -23,7 +23,7 @@ import de.decidr.ui.view.ChangeTenantComponent;
 import de.decidr.ui.view.SiteFrame;
 
 /**
- * TODO: add comment
+ * This action shows the ChangeTenantComponent in the in the content area
  *
  * @author GH
  */
@@ -34,9 +34,12 @@ public class ShowChangeTenantAction  implements ClickListener {
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
 
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(ChangeTenantComponent.getInstance());
+        siteFrame.setContent(new ChangeTenantComponent());
 
     }
     

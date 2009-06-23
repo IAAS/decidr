@@ -23,7 +23,7 @@ import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.TenantSettingsComponent;
 
 /**
- * TODO: add comment
+ * This action shows the TenantSettingsComponent in the content area
  *
  * @author AT
  */
@@ -42,7 +42,7 @@ public class ShowTenantSettingsAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(TenantSettingsComponent.getInstance());
+        siteFrame.setContent(new TenantSettingsComponent());
     }
 
 }

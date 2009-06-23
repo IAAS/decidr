@@ -33,13 +33,12 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
 
 /**
- * TODO: add comment
+ * This action deletes a tenant
  *
  * @author GH
  */
 public class DeleteTenantAction implements ClickListener{
     
-    //TODO: model causes errors
     
     private ApplicationContext ctx = Main.getCurrent().getContext();
     private WebApplicationContext webCtx = (WebApplicationContext)ctx;
@@ -51,6 +50,10 @@ public class DeleteTenantAction implements ClickListener{
     //TODO: change to correct component
     //private XYZComponent content = null;
     
+    /**
+     * Overrides default buttonClick(ClickEvent event) of ClickListener to
+     * implement desired functionality
+     */
     @Override
     public void buttonClick(ClickEvent event) {
         //content = (XYZComponent) UIDirector.getInstance().getTemplateView().getContent();

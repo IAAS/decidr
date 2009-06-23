@@ -17,7 +17,7 @@
 package de.decidr.ui.controller;
 
 /**
- * TODO: add comment
+ * This action requests a password reset
  *
  * @author GH
  */
@@ -33,31 +33,38 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.ui.view.ChangeEmailComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ResetPasswordComponent;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 
 public class ResetPasswordAction implements ClickListener{
     
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
+    private ApplicationContext ctx = Main.getCurrent().getContext();
+    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
+    private HttpSession session = webCtx.getHttpSession();
     
-    //private ApplicationContext ctx = Main.getCurrent().getContext();
-    //private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    //private HttpSession session = webCtx.getHttpSession();
-    
-    //private Long userId = (Long)session.getAttribute("userId");
-    //private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    private Long userId = (Long)session.getAttribute("userId");
+    private UserFacade userFacade = new UserFacade(new UserRole(userId));
     
     private Item request = null;
-    
+
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
-        request = ResetPasswordComponent.getInstance().getRequestForm();
+        request = ((ResetPasswordComponent)event.getButton().getWindow()).getRequestForm();
         
         //TODO: add validator to ResetPasswordComponent
         
-        //userFacade.requestPasswordReset(request.getItemProperty("email").getValue().toString());
+        try {
+            userFacade.requestPasswordReset(request.getItemProperty("email").getValue().toString());
+        } catch (TransactionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         Main.getCurrent().getMainWindow().showNotification("new password sent to: " + request.getItemProperty("email").getValue().toString());
-        Main.getCurrent().getMainWindow().removeWindow(ResetPasswordComponent.getInstance());
+        Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
         
     }
 }

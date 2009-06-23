@@ -17,7 +17,7 @@
 package de.decidr.ui.controller;
 
 /**
- * TODO: add comment
+ * This action displays the ConfirmDialogComponent
  *
  * @author GH
  */
@@ -32,9 +32,12 @@ public class ShowLeaveTenantDialogAction implements ClickListener {
     
     //TODO: remove, for functionality demonstration only
     private Long tenantId = null;
-    
+
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
-        Main.getCurrent().getMainWindow().addWindow(ConfirmDialogComponent.getInstance("Please confirm that you want to leave your tenant.",new LeaveTenantAction(tenantId)));
+        Main.getCurrent().getMainWindow().addWindow(new ConfirmDialogComponent("Please confirm that you want to leave your tenant.",new LeaveTenantAction(tenantId)));
     }
 }

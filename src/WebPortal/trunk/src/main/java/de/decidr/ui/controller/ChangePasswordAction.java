@@ -26,38 +26,45 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.view.ChangePasswordComponent;
 import de.decidr.ui.view.Main;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 
 /**
- * TODO: add comment
+ * This actions changes password of a user.
  *
  * @author GH
  */
 public class ChangePasswordAction implements ClickListener {
     
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
+    private ApplicationContext ctx = Main.getCurrent().getContext();
+    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
+    private HttpSession session = webCtx.getHttpSession();
     
-    //private ApplicationContext ctx = Main.getCurrent().getContext();
-    //private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    //private HttpSession session = webCtx.getHttpSession();
-    
-    //private Long userId = (Long)session.getAttribute("userId");
-    //private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    private Long userId = (Long)session.getAttribute("userId");
+    private UserFacade userFacade = new UserFacade(new UserRole(userId));
     
     private Item passwords = null;
     
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
-        passwords = ChangePasswordComponent.getInstance().getPasswords();
+        passwords = ((ChangePasswordComponent)event.getButton().getWindow()).getPasswords();
         
         //TODO: add validator to ChangePasswordComponent
         if(!passwords.getItemProperty("newPassword").getValue().toString().equals(passwords.getItemProperty("newPasswordConfirm").getValue().toString())){
             Main.getCurrent().getMainWindow().showNotification("new passwords don't match!");
         }else{
-            //userFacade.setPassword(userId, passwords.getItemProperty("oldPassword").getValue().toString(), passwords.getItemProperty("newPassword").getValue().toString());
+            try {
+                userFacade.setPassword(userId, passwords.getItemProperty("oldPassword").getValue().toString(), passwords.getItemProperty("newPassword").getValue().toString());
+            } catch (TransactionException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             Main.getCurrent().getMainWindow().showNotification("new password: " + passwords.getItemProperty("newPassword").getValue().toString());
-            Main.getCurrent().getMainWindow().removeWindow(ChangePasswordComponent.getInstance());
+            Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
         }
     }
 }

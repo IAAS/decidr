@@ -27,27 +27,33 @@ import de.decidr.model.facades.WorkflowInstanceFacade;
 import de.decidr.ui.view.Main;
 
 /**
- * TODO: add comment
+ * This action terminates a workflow instance
  *
  * @author GH
  */
 public class TerminateWorkflowInstanceAction  implements ClickListener  {
 
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
-    
     private ApplicationContext ctx = Main.getCurrent().getContext();
     private WebApplicationContext webCtx = (WebApplicationContext)ctx;
     private HttpSession session = webCtx.getHttpSession();
     
     private Long userId = (Long)session.getAttribute("userId");
-    //private WorkflowInstanceFacade wfiFacade = new WorkflowInstanceFacade(new UserRole(userId));
+    //FIXME: private WorkflowInstanceFacade wfiFacade = new WorkflowInstanceFacade(new UserRole(userId));
 
     private Long instanceId = null;
     
+    /**
+     * Constructor, requires id of the instance to be terminated
+     *
+     * @param id
+     */
     public TerminateWorkflowInstanceAction(Long id){
         instanceId = id;
     }
-        
+
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
         //TODO: stopWorkflowInstance vs. deleteWorkflowInstance

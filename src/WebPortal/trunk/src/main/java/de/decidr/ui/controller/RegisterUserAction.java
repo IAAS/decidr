@@ -19,21 +19,20 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.RegisterUserComponent;
 
 /**
- * TODO: add comment
+ * This action creates a new user.
  *
  * @author GH
  */
 public class RegisterUserAction implements ClickListener  {
 
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
-    
-    //private UserFacade userFacade = new UserFacade(new UserRole());
+    private UserFacade userFacade = new UserFacade(new UserRole());
     
     private RegisterUserComponent content = null;
         
@@ -41,7 +40,17 @@ public class RegisterUserAction implements ClickListener  {
     public void buttonClick(ClickEvent event) {
         content = (RegisterUserComponent) UIDirector.getInstance().getTemplateView().getContent();
         content.saveRegistrationForm();
-        //userFacade.registerUser(content.getRegistrationForm().getItemProperty("email").getValue().toString(), content.getRegistrationForm().getItemProperty("password").getValue().toString(), content.getRegistrationForm());
+        try {
+            userFacade.registerUser(content.getRegistrationForm().getItemProperty("email").getValue().toString(), content.getRegistrationForm().getItemProperty("password").getValue().toString(), content.getRegistrationForm());
+        } catch (NullPointerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (TransactionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        //TODO: remove
         Main.getCurrent().getMainWindow().showNotification("Hello " + content.getRegistrationForm().getItemProperty("userName").getValue().toString());
     }
 }

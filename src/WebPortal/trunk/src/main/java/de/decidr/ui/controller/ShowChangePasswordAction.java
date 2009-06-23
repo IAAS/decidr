@@ -23,14 +23,17 @@ import de.decidr.ui.view.ChangePasswordComponent;
 import de.decidr.ui.view.Main;
 
 /**
- * TODO: add comment
+ * This action shows the ChangePasswordComponent
  *
  * @author GH
  */
 public class ShowChangePasswordAction implements ClickListener {
-    
+
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
-        Main.getCurrent().getMainWindow().addWindow(ChangePasswordComponent.getInstance());
+        Main.getCurrent().getMainWindow().addWindow(new ChangePasswordComponent());
     }
 }

@@ -23,7 +23,7 @@ import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.SystemSettingComponent;
 
 /**
- * TODO: add comment
+ * This component displays the SystemSettingsComponent in the content area
  *
  * @author AT
  */
@@ -42,7 +42,7 @@ public class ShowSystemSettingsAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(SystemSettingComponent.getInstance());
+        siteFrame.setContent(new SystemSettingComponent());
     }
 
 }

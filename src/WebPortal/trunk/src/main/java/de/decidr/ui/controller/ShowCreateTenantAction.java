@@ -22,7 +22,7 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.ui.view.SiteFrame;
 
 /**
- * TODO: add comment
+ * This action shows the XYZComponent in the content area
  *
  * @author AT
  */

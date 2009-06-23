@@ -17,7 +17,7 @@
 package de.decidr.ui.controller;
 
 /**
- * TODO: add comment
+ * This action saves changes of the user profile
  *
  * @author GH
  */
@@ -34,29 +34,43 @@ import de.decidr.ui.data.ProfileSettingsContainer;
 import de.decidr.ui.view.EditTenantComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
+import de.decidr.model.exceptions.EntityNotFoundException;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 
-
-
 public class SaveProfileAction implements ClickListener  {
 
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
+    private ApplicationContext ctx = Main.getCurrent().getContext();
+    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
+    private HttpSession session = webCtx.getHttpSession();
     
-    //private ApplicationContext ctx = Main.getCurrent().getContext();
-    //private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    //private HttpSession session = webCtx.getHttpSession();
+    private Long userId = (Long)session.getAttribute("userId");
+    private UserFacade userFacade = new UserFacade(new UserRole(userId));
     
-    //private Long userId = (Long)session.getAttribute("userId");
-   // private UserFacade userFacade = new UserFacade(new UserRole(userId));
-    
-	private ProfileSettingsComponent content = null;
-	
+    private ProfileSettingsComponent content = null;
+
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
     	content = (ProfileSettingsComponent) UIDirector.getInstance().getTemplateView().getContent();
     	content.saveSettingsItem();
-    	//userFacade.setProfile(userId, ProfileSettingsComponent.getInstance().getSettingsItem());
+    	try {
+            userFacade.setProfile(userId, content.getSettingsItem());
+        } catch (EntityNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (TransactionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        //TODO: remove
     	Main.getCurrent().getMainWindow().showNotification("Profile Settings Saved " + ProfileSettingsContainer.getInstance().getStreet());
     }
 }

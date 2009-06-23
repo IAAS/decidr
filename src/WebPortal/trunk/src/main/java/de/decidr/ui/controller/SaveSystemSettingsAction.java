@@ -17,9 +17,9 @@
 package de.decidr.ui.controller;
 
 /**
- * TODO: add comment
+ * This action saves changes of the system settings
  *
- * @author geoff
+ * @author GH
  */
 
 import javax.servlet.http.HttpSession;
@@ -33,6 +33,7 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.ui.view.EditTenantComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SystemSettingComponent;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.SystemFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
@@ -40,24 +41,32 @@ import org.apache.log4j.Level;
 
 public class SaveSystemSettingsAction implements ClickListener {
 
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
-    
     private ApplicationContext ctx = Main.getCurrent().getContext();
     private WebApplicationContext webCtx = (WebApplicationContext)ctx;
     private HttpSession session = webCtx.getHttpSession();
     
     private Long userId = (Long)session.getAttribute("userId");
-    //private SystemFacade systemFacade = new SystemFacade(new UserRole(userId));
+    private SystemFacade systemFacade = new SystemFacade(new UserRole(userId));
     
-	private SystemSettingComponent content = null;
-	private Item item = null;
-	
+    private SystemSettingComponent content = null;
+    private Item item = null;
+
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
     	content = (SystemSettingComponent) UIDirector.getInstance().getTemplateView().getContent();
     	content.saveSettingsItem();
     	item = content.getSettingsItem();
-    	//systemFacade.setSettings((Boolean)item.getItemProperty("autoAcceptNewTenants").getValue(), (Level)item.getItemProperty("logLevel").getValue());
+    	try {
+            systemFacade.setSettings((Boolean)item.getItemProperty("autoAcceptNewTenants").getValue(), (Level)item.getItemProperty("logLevel").getValue());
+        } catch (TransactionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        //TODO: remove
     	Main.getCurrent().getMainWindow().showNotification("System Settings Saved");
     }
 

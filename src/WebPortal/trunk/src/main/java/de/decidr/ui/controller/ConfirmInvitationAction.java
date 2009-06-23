@@ -30,14 +30,12 @@ import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
 
 /**
- * TODO: add comment
+ * This action confirms an invitation
  *
  * @author GH
  */
 public class ConfirmInvitationAction implements ClickListener{
-    
-    //TODO: model causes errors
-    
+        
     private ApplicationContext ctx = Main.getCurrent().getContext();
     private WebApplicationContext webCtx = (WebApplicationContext)ctx;
     private HttpSession session = webCtx.getHttpSession();
@@ -47,10 +45,18 @@ public class ConfirmInvitationAction implements ClickListener{
     
     private Long invitationId = null;
     
+    /**
+     * Constructor, requires id of the invitation
+     *
+     * @param invId: Id of the invitation
+     */
     public ConfirmInvitationAction(Long invId){
         invitationId = invId;
     }
     
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
                 

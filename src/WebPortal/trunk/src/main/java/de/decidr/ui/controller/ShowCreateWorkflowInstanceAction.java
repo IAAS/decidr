@@ -23,7 +23,7 @@ import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.CreateWorkflowInstanceComponent;
 
 /**
- * TODO: add comment
+ * This action shows the CreateWorkflowInstanceComponent in the content area
  *
  * @author GH
  */
@@ -33,10 +33,12 @@ public class ShowCreateWorkflowInstanceAction  implements ClickListener {
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(CreateWorkflowInstanceComponent.getInstance());
+        siteFrame.setContent(new CreateWorkflowInstanceComponent());
 
     }
     

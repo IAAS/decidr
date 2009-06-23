@@ -33,13 +33,11 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
 
 /**
- * TODO: add comment
+ * This action refuses a new, not yet approved, tenant
  *
  * @author GH
  */
 public class DeclineTenantAction implements ClickListener{
-    
-    //TODO: model causes errors
     
     private ApplicationContext ctx = Main.getCurrent().getContext();
     private WebApplicationContext webCtx = (WebApplicationContext)ctx;

@@ -23,7 +23,7 @@ import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.UserListComponent;
 
 /**
- * TODO: add comment
+ * This actions shows the UserListComponent in the content area
  *
  * @author AT
  */
@@ -42,8 +42,8 @@ public class ShowUserListAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        UserListComponent.getInstance().changeToSuperAdmin();
-        siteFrame.setContent(UserListComponent.getInstance());  
+        siteFrame.setContent(new UserListComponent()); 
+        //TODO: siteFrame.getContent().changeToSuperAdmin;
     }
 
 }

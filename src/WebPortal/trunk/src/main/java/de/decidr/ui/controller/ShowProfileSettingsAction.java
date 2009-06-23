@@ -23,7 +23,7 @@ import de.decidr.ui.view.ProfileSettingsComponent;
 import de.decidr.ui.view.SiteFrame;
 
 /**
- * TODO: add comment
+ * This action shows the ProfileSettingsComponent in the content area
  *
  * @author AT
  */

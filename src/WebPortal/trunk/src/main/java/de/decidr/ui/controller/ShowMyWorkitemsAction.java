@@ -23,7 +23,7 @@ import de.decidr.ui.view.WorkItemComponent;
 import de.decidr.ui.view.SiteFrame;
 
 /**
- * TODO: add comment
+ * This action shows the WorkItemComponent in the content area
  *
  * @author GH
  */
@@ -33,10 +33,12 @@ public class ShowMyWorkitemsAction implements ClickListener {
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(WorkItemComponent.getInstance());
+        siteFrame.setContent(new WorkItemComponent());
 
     }
     

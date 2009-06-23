@@ -17,7 +17,7 @@
 package de.decidr.ui.controller;
 
 /**
- * TODO: add comment
+ * This actions displays the ConfirmDialogComponent
  *
  * @author GH
  */
@@ -29,9 +29,12 @@ import de.decidr.ui.view.ConfirmDialogComponent;
 import de.decidr.ui.view.Main;
 
 public class ShowCancelMembershipAction implements ClickListener {
-    
+
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
-        Main.getCurrent().getMainWindow().addWindow(ConfirmDialogComponent.getInstance("Cancel membership?",new CancelMembershipAction()));
+        Main.getCurrent().getMainWindow().addWindow(new ConfirmDialogComponent("Cancel membership?",new CancelMembershipAction()));
     }
 }

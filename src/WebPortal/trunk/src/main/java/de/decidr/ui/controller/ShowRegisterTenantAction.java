@@ -23,7 +23,7 @@ import de.decidr.ui.view.RegisterTenantComponent;
 import de.decidr.ui.view.SiteFrame;
 
 /**
- * TODO: add comment
+ * This action shows the RegisterTenantComponent in the content area
  *
  * @author GH
  */
@@ -31,7 +31,6 @@ public class ShowRegisterTenantAction implements ClickListener {
     
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
-
 
     /* (non-Javadoc)
      * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)

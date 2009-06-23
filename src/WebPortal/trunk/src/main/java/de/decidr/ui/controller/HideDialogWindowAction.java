@@ -26,12 +26,16 @@ import de.decidr.ui.view.ChangeEmailComponent;
 import de.decidr.ui.view.Main;
 
 /**
- * TODO: add comment
+ * This action hides a sub window (i.e. ChangeEmailComponent)
  *
  * @author GH
  */
 public class HideDialogWindowAction  implements ClickListener {
     
+    /**
+     * Overrides default buttonClick(ClickEvent event) of ClickListener to
+     * implement desired functionality
+     */
     @Override
     public void buttonClick(ClickEvent event) {
         Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());

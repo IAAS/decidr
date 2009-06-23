@@ -23,14 +23,17 @@ import de.decidr.ui.view.ChangeEmailComponent;
 import de.decidr.ui.view.Main;
 
 /**
- * TODO: add comment
+ * This action shows the ChangeEmailComponent
  *
  * @author GH
  */
 public class ShowChangeEmailAction  implements ClickListener {
-    
+
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
-        Main.getCurrent().getMainWindow().addWindow(ChangeEmailComponent.getInstance());
+        Main.getCurrent().getMainWindow().addWindow(new ChangeEmailComponent());
     }
 }

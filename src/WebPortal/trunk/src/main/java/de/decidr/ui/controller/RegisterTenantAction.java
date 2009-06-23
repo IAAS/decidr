@@ -19,6 +19,7 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
@@ -26,26 +27,41 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.RegisterTenantComponent;
 
 /**
- * TODO: add comment
+ * This action first creates a new user, then a new tenant
  *
  * @author GH
  */
 public class RegisterTenantAction implements ClickListener  {
 
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
-    
-    //private UserFacade userFacade = new UserFacade(new UserRole());
-    //private TenantFacade tenantFacade = new TenantFacade(new UserRole());
+    private UserFacade userFacade = new UserFacade(new UserRole());
+    private TenantFacade tenantFacade = new TenantFacade(new UserRole());
     
     private Long userId = null;
     private RegisterTenantComponent content = null;
-        
+
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
         content = (RegisterTenantComponent) UIDirector.getInstance().getTemplateView().getContent();
         content.saveRegistrationForm();
-        //userId = userFacade.registerUser(content.getRegistrationForm().getItemProperty("email").getValue().toString(), content.getRegistrationForm().getItemProperty("password").getValue().toString(), content.getRegistrationForm());
-        //tenantFacade.createTenant(content.getRegistrationForm().getItemProperty("tenantName").getValue().toString(), "", userId);
+        try {
+            userId = userFacade.registerUser(content.getRegistrationForm().getItemProperty("email").getValue().toString(), content.getRegistrationForm().getItemProperty("password").getValue().toString(), content.getRegistrationForm());
+        } catch (NullPointerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (TransactionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            tenantFacade.createTenant(content.getRegistrationForm().getItemProperty("tenantName").getValue().toString(), "", userId);
+        } catch (TransactionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        //TODO: remove
         Main.getCurrent().getMainWindow().showNotification("Hello " + content.getRegistrationForm().getItemProperty("userName").getValue().toString());
     }
 }

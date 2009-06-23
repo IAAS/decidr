@@ -23,7 +23,7 @@ import de.decidr.ui.view.EditTenantComponent;
 import de.decidr.ui.view.SiteFrame;
 
 /**
- * TODO: add comment
+ * This action shows the EditTenantComponent is the content area
  *
  * @author AT
  */
@@ -42,7 +42,7 @@ public class ShowEditTenantAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(EditTenantComponent.getInstance());
+        siteFrame.setContent(new EditTenantComponent());
 
     }
 

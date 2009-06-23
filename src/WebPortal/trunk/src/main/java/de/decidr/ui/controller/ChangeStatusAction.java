@@ -17,7 +17,7 @@
 package de.decidr.ui.controller;
 
 /**
- * TODO: add comment
+ * This action changes the status of a user, either available or unavailable
  *
  * @author GH
  */
@@ -37,31 +37,42 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 
 public class ChangeStatusAction implements ValueChangeListener {
     
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
+    private ApplicationContext ctx = Main.getCurrent().getContext();
+    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
+    private HttpSession session = webCtx.getHttpSession();
     
-    //private ApplicationContext ctx = Main.getCurrent().getContext();
-    //private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    //private HttpSession session = webCtx.getHttpSession();
-    
-    //private Long userId = (Long)session.getAttribute("userId");
-    //private UserFacade userFacade = new UserFacade(new UserRole(userId));
-	private ProfileSettingsComponent content = null;
+    private Long userId = (Long)session.getAttribute("userId");
+    private UserFacade userFacade = new UserFacade(new UserRole(userId));
 	
+    private ProfileSettingsComponent content = null;
+    
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void valueChange(ValueChangeEvent event) {
     	content = (ProfileSettingsComponent) UIDirector.getInstance().getTemplateView().getContent();
                     
         if(content.getStatus().booleanValue()){
-          //userFacade.setUnavailableSince(userId, new Date());
-            Main.getCurrent().getMainWindow().showNotification("not available");
+            try {
+                userFacade.setUnavailableSince(userId, new Date());
+            } catch (TransactionException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         } else {
-          //userFacade.setUnavailableSince(userId, null);
-            Main.getCurrent().getMainWindow().showNotification("available");
+            try {
+                userFacade.setUnavailableSince(userId, null);
+            } catch (TransactionException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
         
         

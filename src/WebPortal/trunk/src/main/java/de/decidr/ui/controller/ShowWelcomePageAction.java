@@ -26,7 +26,7 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.ui.view.SiteFrame;
 
 /**
- * TODO: add comment
+ * This action shows the XYZComponent in the content area
  *
  * @author GH
  */
@@ -36,10 +36,12 @@ public class ShowWelcomePageAction  implements ClickListener {
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+     */
     @Override
     public void buttonClick(ClickEvent event) {
-        //siteFrame.setContent(CreateWorkflowInstanceComponent.getInstance());
+        //TODO: welcomepage component
 
     }
     

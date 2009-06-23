@@ -17,7 +17,7 @@
 package de.decidr.ui.controller;
 
 /**
- * TODO: add comment
+ * This action cancels the membership of a user.
  *
  * @author GH
  */
@@ -43,16 +43,18 @@ import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 
 public class CancelMembershipAction implements ClickListener {
-
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
     
-    //private ApplicationContext ctx = Main.getCurrent().getContext();
-    //private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    //private HttpSession session = webCtx.getHttpSession();
+    private ApplicationContext ctx = Main.getCurrent().getContext();
+    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
+    private HttpSession session = webCtx.getHttpSession();
     
-    //private Long userId = (Long)session.getAttribute("userId");
-    //private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    private Long userId = (Long)session.getAttribute("userId");
+    private UserFacade userFacade = new UserFacade(new UserRole(userId));
         
+    /**
+     * Overrides default buttonClick(ClickEvent event) of ClickListener to
+     * implement desired functionality
+     */
     @Override
     public void buttonClick(ClickEvent event) {
         
