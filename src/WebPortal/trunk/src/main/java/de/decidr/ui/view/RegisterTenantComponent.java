@@ -32,7 +32,7 @@ import de.decidr.ui.controller.RegisterTenantAction;
  * @author GH
  */
 public class RegisterTenantComponent extends CustomComponent {
-    //FIXME: currently non singleton
+    
     private VerticalLayout verticalLayout = null;
     
     private Label descriptionLabel = null;

@@ -32,7 +32,6 @@ import de.decidr.ui.controller.RegisterUserAction;
  * @author GH
  */
 public class RegisterUserComponent extends CustomComponent {
-    //FIXME: currently non singleton
     private VerticalLayout verticalLayout = null;
     
     private Label descriptionLabel = null;

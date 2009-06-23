@@ -62,7 +62,7 @@ public class CancelMembershipAction implements ClickListener {
         
         //setDisableSince(Long userId, Date date));
         Main.getCurrent().getMainWindow().showNotification("you are no longer a member of decidr");
-        Main.getCurrent().getMainWindow().removeWindow(ConfirmDialogComponent.getInstance());
+        Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
         
     }
 }
