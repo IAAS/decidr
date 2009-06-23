@@ -48,7 +48,7 @@ public class InformationDialogComponent extends Window {
        
     private Button cancelButton = null;
     
-    private InformationDialogComponent(String text, String caption){
+    public InformationDialogComponent(String text, String caption){
         init(text, caption);
     }
     
@@ -85,18 +85,4 @@ public class InformationDialogComponent extends Window {
         this.setContent(verticalLayout);
     }
     
-    public static InformationDialogComponent getInstance(String text, String caption){
-        //if(confirmDialogComponent == null){
-        informationDialogComponent = new InformationDialogComponent(text, caption);
-        //}
-        return informationDialogComponent;
-    }
-    
-    public static InformationDialogComponent getInstance(){
-        if(informationDialogComponent == null){
-            //TODO: add other exception
-            throw new UnsupportedOperationException();
-        }
-        return informationDialogComponent;
-    }
 }
