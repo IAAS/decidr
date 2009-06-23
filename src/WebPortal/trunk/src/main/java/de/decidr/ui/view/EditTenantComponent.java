@@ -57,7 +57,7 @@ public class EditTenantComponent extends CustomComponent {
      * Default constructor.
      *
      */
-    private EditTenantComponent() {
+    public EditTenantComponent() {
         init();
     }
 

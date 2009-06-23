@@ -49,7 +49,7 @@ public class ConfirmDialogComponent extends Window {
     private Button submitButton = null;
     private Button cancelButton = null;
     
-    private ConfirmDialogComponent(String text, ClickListener listener){
+    public ConfirmDialogComponent(String text, ClickListener listener){
         init(text, listener);
     }
     
@@ -88,18 +88,4 @@ public class ConfirmDialogComponent extends Window {
         this.setContent(verticalLayout);
     }
     
-    public static ConfirmDialogComponent getInstance(String text, ClickListener listener){
-        //if(confirmDialogComponent == null){
-            confirmDialogComponent = new ConfirmDialogComponent(text, listener);
-        //}
-        return confirmDialogComponent;
-    }
-    //TODO löschen oder was sonst tun?
-    public static ConfirmDialogComponent getInstance(){
-        if(confirmDialogComponent == null){
-            //TODO: add other exception
-            throw new UnsupportedOperationException();
-        }
-        return confirmDialogComponent;
-    }
 }
