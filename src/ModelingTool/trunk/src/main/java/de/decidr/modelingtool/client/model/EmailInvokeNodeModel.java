@@ -21,16 +21,18 @@ package de.decidr.modelingtool.client.model;
  *
  * @author JE
  */
-public class IfContainerModel extends ContainerModel {
+public class EmailInvokeNodeModel extends NodeModel {
 
     /**
      * TODO: add comment
      *
      * @param parentModel
      */
-    public IfContainerModel(HasChildModels parentModel) {
+    public EmailInvokeNodeModel(HasChildModels parentModel) {
         super(parentModel);
         // TODO Auto-generated constructor stub
     }
 
+   
+    
 }

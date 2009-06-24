@@ -16,8 +16,7 @@
 
 package de.decidr.modelingtool.client.ui;
 
-import com.google.gwt.user.client.ui.AbsolutePanel;
-
+import de.decidr.modelingtool.client.model.ConnectionModel;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 
 /**
@@ -25,14 +24,33 @@ import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
  * 
  * @author engelhjs
  */
-public abstract class Connection implements Selectable {
+public abstract class Connection implements Selectable, ModelChangeListener {
     
-    protected AbsolutePanel parentPanel = null;
+    protected HasChildren parentPanel = null;
+    
+    public Connection(HasChildren parentPanel) {
+        this.parentPanel = parentPanel;
+    }
 
     private boolean selected;
 
-    // TODO
-    // private ConnectionModel model;
+    public HasChildren getParentPanel() {
+        return parentPanel;
+    }
+
+    public void setParentPanel(HasChildren parentPanel) {
+        this.parentPanel = parentPanel;
+    }
+
+    public ConnectionModel getModel() {
+        return model;
+    }
+
+    public void setModel(ConnectionModel model) {
+        this.model = model;
+    }
+
+    private ConnectionModel model;
 
     protected ConnectionDragBox startDragBox;
 
@@ -58,7 +76,7 @@ public abstract class Connection implements Selectable {
         return selected;
     }
 
-    public void onPanelAdd(AbsolutePanel parentPanel) {
+    public void onPanelAdd(HasChildren parentPanel) {
         this.parentPanel = parentPanel;
         draw();
     }

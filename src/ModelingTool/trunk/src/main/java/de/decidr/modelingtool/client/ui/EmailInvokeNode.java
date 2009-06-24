@@ -26,18 +26,26 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class EmailInvokeNode extends InvokeNode {
     
-    //private EmailInvokeNodeModel model;
+//    private EmailInvokeNodeModel model = null;
 
-    public EmailInvokeNode() {
-        super();
+//    public EmailInvokeNodeModel getModel() {
+//        return model;
+//    }
+//
+//    public void setModel(EmailInvokeNodeModel model) {
+//        this.model = model;
+//    }
+
+    public EmailInvokeNode(HasChildren parentPanel) {
+        super(parentPanel);
         
         FocusPanel graphic = new FocusPanel();
         graphic.addStyleName("node-graphic-std");
         graphic.setWidget(new Label("Email"));
         this.setGraphic(graphic);
         
-        addPort(new InputPort());
-        addPort(new OutputPort());
+        setInputPort(new InputPort());
+        setOutputPort(new OutputPort());
     }
     
 }

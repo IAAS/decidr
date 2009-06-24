@@ -14,13 +14,17 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
+package de.decidr.modelingtool.client.exception;
 
 /**
  * TODO: add comment
  *
  * @author JE
  */
-public class HumanTaskInvokeModel extends NodeModel {
-
+public class IncompleteModelDataException extends ModelingToolException {
+    
+    public IncompleteModelDataException(String msg) {
+        super(msg);
+    }
+    
 }

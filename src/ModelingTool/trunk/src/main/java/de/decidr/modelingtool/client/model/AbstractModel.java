@@ -20,11 +20,11 @@ import de.decidr.modelingtool.client.ui.ModelChangeListener;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author JE
  */
 public abstract class AbstractModel implements Model {
-    
+
     ModelChangeListener changeListener = null;
 
     public void fireDataChanged() {
@@ -41,6 +41,16 @@ public abstract class AbstractModel implements Model {
     @Override
     public void setChangeListener(ModelChangeListener changeListener) {
         this.changeListener = changeListener;
+    }
+
+    public void addModel(Model model) {
+        // operation is only supported by Workflow and Container classes
+        throw new UnsupportedOperationException();
+    }
+
+    public void removeModel(Model model) {
+        // operation is only supported by Workflow and Container classes
+        throw new UnsupportedOperationException();
     }
 
 }

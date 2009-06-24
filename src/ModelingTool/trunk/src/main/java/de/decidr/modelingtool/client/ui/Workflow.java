@@ -16,7 +16,8 @@
 
 package de.decidr.modelingtool.client.ui;
 
-import java.util.Vector;
+import java.util.Collection;
+import java.util.HashSet;
 
 import com.google.gwt.event.dom.client.HasMouseDownHandlers;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -24,6 +25,8 @@ import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
+import de.decidr.modelingtool.client.exception.ModelingToolException;
+import de.decidr.modelingtool.client.model.HasChildModels;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.dnd.ConnectionDragController;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
@@ -35,40 +38,44 @@ import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
  * 
  * @author engelhjs
  */
-public class Workflow extends AbsolutePanel implements ModelChangeListener, HasMouseDownHandlers {
+public class Workflow extends AbsolutePanel implements ModelChangeListener, HasMouseDownHandlers, HasChildren {
 
     private static Workflow instance;
-    
+
+    public static Workflow getInstance() {
+        if (instance == null) {
+            instance = new Workflow();
+        }
+        return instance;
+    }
+
     /**
      * The drag controller which makes the nodes in the workflow draggable.
      */
     private WorkflowDragController dragController;
-
+    
     private SelectionHandler selectionHandler;
 
     private WorkflowModel model = null;
 
-    public WorkflowModel getModel() {
-        return model;
-    }
-
-    public void setModel(WorkflowModel model) {
-        this.model = model;
-    }
-
     /**
      * All nodes in the workflow except for the nodes in a container.
      */
-    private Vector<Node> childNodes = new Vector<Node>();
-
-    public SelectionHandler getSelectionHandler() {
-        return selectionHandler;
-    }
+    private Collection<Node> childNodes = new HashSet<Node>();
 
     /**
      * All connections in the workflow except for the nodes in a container.
      */
-    private Vector<Connection> childConnections = new Vector<Connection>();
+    private Collection<Connection> childConnections = new HashSet<Connection>();
+
+    @Override
+    public HasChildModels getHasChildModelsModel() {
+        if (model instanceof HasChildModels) {
+            return (HasChildModels)model;
+        } else {
+            return null;
+        }
+    }
 
     /**
      * The constructor.
@@ -95,15 +102,8 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
         dndr.register("InputPortDragController", new ConnectionDragController(this));
         dndr.register("OutputPortDragController", new ConnectionDragController(this));
     }
-    
-    public static Workflow getInstance() {
-        if (instance == null) {
-            instance = new Workflow();
-        }
-        return instance;
-    }
 
-    public void add(Connection connection) {
+    public void addConnection(Connection connection) {
         // add connection to the connections vector
         childConnections.add(connection);
         // add connection to workflow
@@ -112,35 +112,14 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
         connection.onPanelAdd(this);
     }
 
-    /**
-     * Adds a node to the workflow.
-     * 
-     * @param node
-     */
-    public void add(Node node) {
-        // add node to workflow
+    @Override
+    public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
+        return addDomHandler(handler, MouseDownEvent.getType());
+    }
+
+    public void addNode(Node node) {
         super.add(node);
-
-        // do all the other stuff
-        addNode(node);
-    }
-
-    /**
-     * Adds a node to the workflow in the specified position.
-     * 
-     * @param node
-     * @param x
-     * @param y
-     */
-    public void add(Node node, int x, int y) {
-        // add node to workflow
-        super.add(node, x, y);
-
-        // do all the other stuff
-        addNode(node);
-    }
-
-    private void addNode(Node node) {
+        
         // add node to the nodes vector
         childNodes.add(node);
 
@@ -163,6 +142,45 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
         node.onPanelAdd(this);
     }
 
+    /**
+     * Adds a node to the workflow in the specified position.
+     * 
+     * @param node
+     * @param x
+     * @param y
+     */
+    public void addNode(Node node, int left, int top) {
+        // add node to workflow
+        addNode(node);
+        // set position
+        this.setWidgetPosition(node, left, top);
+    }
+    
+    @Override
+    public Collection<Connection> getConnections() {
+        return childConnections;
+    }
+
+    public WorkflowModel getModel() {
+        return model;
+    }
+
+    /**
+     * TODO: DEBUG
+     */
+//    public void add(Node node) {
+//        System.out.println("DEBUG: workflow.add not supported for node!");
+//    }
+
+    @Override
+    public Collection<Node> getNodes() {
+        return childNodes;
+    }
+
+    public SelectionHandler getSelectionHandler() {
+        return selectionHandler;
+    }
+
 //    public DragController getDragController() {
 //        return dragController;
 //    }
@@ -183,7 +201,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
      * 
      * @param connection
      */
-    public void remove(Connection connection) {
+    public void removeConnection(Connection connection) {
         
     }
 
@@ -192,13 +210,12 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
      * 
      * @param node
      */
-    public void remove(Node node) {
+    public void removeNode(Node node) {
         super.remove(node);
     }
     
-    @Override
-    public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
-        return addDomHandler(handler, MouseDownEvent.getType());
+    public void setModel(WorkflowModel model) {
+        this.model = model;
     }
 
 }

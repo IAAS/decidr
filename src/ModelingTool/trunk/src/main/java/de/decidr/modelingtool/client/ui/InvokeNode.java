@@ -23,8 +23,8 @@ package de.decidr.modelingtool.client.ui;
  */
 public abstract class InvokeNode extends Node {
 
-    public InvokeNode() {
-        super();
+    public InvokeNode(HasChildren parentPanel) {
+        super(parentPanel);
     }
     
 }

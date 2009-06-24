@@ -25,10 +25,10 @@ public class StartNode extends Node implements ModelChangeListener {
 
     //private StartNodeModel model;
     
-    public StartNode() {
-        super();
+    public StartNode(HasChildren parentPanel) {
+        super(parentPanel);
         this.setGraphic(null); 
-        this.addPort(new OutputPort());
+        this.setOutputPort(new OutputPort());
     }
 
     @Override

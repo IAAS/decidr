@@ -16,6 +16,7 @@
 
 package de.decidr.modelingtool.client.ui;
 
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HTML;
 
 /**
@@ -33,13 +34,16 @@ public class OrthogonalConnection extends Connection {
     private HTML midLine = new HTML();
     private HTML endLine = new HTML();
 
-    public OrthogonalConnection() {
-        super();
+    public OrthogonalConnection(HasChildren parentPanel) {
+        super(parentPanel);
     }
 
     @Override
     public void draw() {
-        if (parentPanel != null && startDragBox != null && endDragBox != null) {
+        if (parentPanel instanceof AbsolutePanel && startDragBox != null
+                && endDragBox != null) {
+            AbsolutePanel absPanel = (AbsolutePanel)parentPanel;
+            
             int startX = startDragBox.getMiddleLeft();
             int startY = startDragBox.getMiddleTop();
             int endX = endDragBox.getMiddleLeft();
@@ -50,28 +54,28 @@ public class OrthogonalConnection extends Connection {
             int height = Math.abs(startY - endY);
 
             // add lines to panel / brint to front
-            parentPanel.add(startLine);
-            parentPanel.add(midLine);
-            parentPanel.add(endLine);
+            absPanel.add(startLine);
+            absPanel.add(midLine);
+            absPanel.add(endLine);
 
             startLine.setStyleName(STYLE_VERTICAL);
             midLine.setStyleName(STYLE_HORIZONTAL);
             endLine.setStyleName(STYLE_VERTICAL);
 
             if (startY <= endY) {
-                parentPanel.setWidgetPosition(startLine, startX, startY);
-                parentPanel.setWidgetPosition(endLine, endX, endY - height / 2);
+                absPanel.setWidgetPosition(startLine, startX, startY);
+                absPanel.setWidgetPosition(endLine, endX, endY - height / 2);
             } else {
-                parentPanel.setWidgetPosition(startLine, startX, startY
+                absPanel.setWidgetPosition(startLine, startX, startY
                         - height / 2);
-                parentPanel.setWidgetPosition(endLine, endX, endY);
+                absPanel.setWidgetPosition(endLine, endX, endY);
             }
 
             if (startX <= endX) {
-                parentPanel.setWidgetPosition(midLine, startX,
+                absPanel.setWidgetPosition(midLine, startX,
                         (startY + endY) / 2);
             } else {
-                parentPanel.setWidgetPosition(midLine, endX,
+                absPanel.setWidgetPosition(midLine, endX,
                         (startY + endY) / 2);
             }
 
@@ -87,6 +91,12 @@ public class OrthogonalConnection extends Connection {
             // TODO: Debug
             System.out.println("Connection cannot be drawn");
         }
+    }
+
+    @Override
+    public void onModelChange() {
+        // TODO Auto-generated method stub
+        
     }
 
     @Override

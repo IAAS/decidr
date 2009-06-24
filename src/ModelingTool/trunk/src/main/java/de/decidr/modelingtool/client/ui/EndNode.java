@@ -25,10 +25,10 @@ public class EndNode extends Node implements ModelChangeListener {
 
     //private EndNodeModel model;
     
-    public EndNode() {
-        super();
+    public EndNode(HasChildren parentPanel) {
+        super(parentPanel);
         this.setGraphic(null);
-        this.addPort(new InputPort());
+        this.setInputPort(new InputPort());
     }
 
     @Override

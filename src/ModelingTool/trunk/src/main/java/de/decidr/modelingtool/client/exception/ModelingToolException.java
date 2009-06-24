@@ -14,23 +14,17 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
+package de.decidr.modelingtool.client.exception;
 
 /**
  * TODO: add comment
  *
  * @author JE
  */
-public class IfContainerModel extends ContainerModel {
-
-    /**
-     * TODO: add comment
-     *
-     * @param parentModel
-     */
-    public IfContainerModel(HasChildModels parentModel) {
-        super(parentModel);
-        // TODO Auto-generated constructor stub
+public class ModelingToolException extends Exception {
+    
+    public ModelingToolException(String msg) {
+        super(msg);
     }
-
+    
 }

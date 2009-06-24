@@ -23,4 +23,14 @@ package de.decidr.modelingtool.client.model;
  */
 public class ForEachContainerModel extends ContainerModel {
 
+    /**
+     * TODO: add comment
+     *
+     * @param parentModel
+     */
+    public ForEachContainerModel(HasChildModels parentModel) {
+        super(parentModel);
+        // TODO Auto-generated constructor stub
+    }
+
 }

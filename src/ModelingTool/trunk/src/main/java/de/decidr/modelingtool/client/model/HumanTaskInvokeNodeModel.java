@@ -21,14 +21,14 @@ package de.decidr.modelingtool.client.model;
  *
  * @author JE
  */
-public class IfContainerModel extends ContainerModel {
+public class HumanTaskInvokeNodeModel extends NodeModel {
 
     /**
      * TODO: add comment
      *
      * @param parentModel
      */
-    public IfContainerModel(HasChildModels parentModel) {
+    public HumanTaskInvokeNodeModel(HasChildModels parentModel) {
         super(parentModel);
         // TODO Auto-generated constructor stub
     }

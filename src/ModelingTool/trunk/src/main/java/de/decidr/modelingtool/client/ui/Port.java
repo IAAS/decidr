@@ -90,6 +90,7 @@ public class Port extends AbsolutePanel {
             gluedDragBoxes.add((ConnectionDragBox) w);
         }
         super.add(w);
+        setWidgetPosition(w, 0, 0);
     }
 
     @Override

@@ -16,9 +16,6 @@
 
 package de.decidr.modelingtool.client.ui;
 
-import java.util.List;
-import java.util.Vector;
-
 import com.google.gwt.event.dom.client.HasMouseDownHandlers;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -29,6 +26,8 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import de.decidr.modelingtool.client.model.NodeModel;
 
 /**
  * This class represents an abstract node in a workflow.
@@ -51,17 +50,27 @@ public abstract class Node extends AbsolutePanel implements
 
     private boolean moveable = true;
 
-    private List<Port> ports = new Vector<Port>();
-    
-    public void refreshConnections() {
-        for (Port port: ports) {
-            port.refreshConnections();
-        }
+    // private List<Port> ports = new Vector<Port>();
+
+    private Port inputPort = null;
+
+    private Port outputPort = null;
+
+    private HasChildren parentPanel = null;
+
+    protected NodeModel model = null;
+
+    public NodeModel getModel() {
+        return model;
     }
 
-    public Node() {
-        super();
+    public void setModel(NodeModel model) {
+        this.model = model;
+    }
 
+    public Node(HasChildren parentPanel) {
+        super();
+        this.parentPanel = parentPanel;
     }
 
     @Override
@@ -74,40 +83,8 @@ public abstract class Node extends AbsolutePanel implements
         return addDomHandler(handler, MouseOutEvent.getType());
     }
 
-    protected void addPort(Port port) {
-        ports.add(port);
-        this.add(port);
-
-        // set this node as parent
-        port.setParentNode(this);
-    }
-
-    public int getGraphicAbsoluteLeft() {
-        int top = 0;
-
-        if (this.hasContainer()) {
-            top += this.getContainer().getLeft();
-        }
-
-        if (graphic != null) {
-            top += this.getLeft() + this.getWidgetLeft(graphic);
-        } 
-        
-        return top;
-    }
-
-    public int getGraphicAbsoluteTop() {
-        int top = 0;
-
-        if (this.hasContainer()) {
-            top += this.getContainer().getTop();
-        }
-
-        if (graphic != null) {
-            top += this.getTop() + this.getWidgetTop(graphic);
-        } 
-        
-        return top;
+    public void addSelectionHandler(MouseDownHandler selectionHandler) {
+        graphic.addMouseDownHandler(selectionHandler);
     }
 
     public Container getContainer() {
@@ -121,6 +98,28 @@ public abstract class Node extends AbsolutePanel implements
     public Widget getGraphic() {
         return graphic;
     }
+
+    public int getGraphicAbsoluteLeft() {
+        return graphic.getAbsoluteLeft()
+                - Workflow.getInstance().getAbsoluteLeft();
+    }
+
+    public void setParentPanel(HasChildren parentPanel) {
+        this.parentPanel = parentPanel;
+    }
+
+    public int getGraphicAbsoluteTop() {
+        return graphic.getAbsoluteTop()
+                - Workflow.getInstance().getAbsoluteTop();
+    }
+
+    // protected void addPort(Port port) {
+    // ports.add(port);
+    // this.add(port);
+    //
+    // // set this node as parent
+    // port.setParentNode(this);
+    // }
 
     public int getGraphicHeight() {
         if (graphic != null) {
@@ -140,12 +139,20 @@ public abstract class Node extends AbsolutePanel implements
         }
     }
 
+    public Port getInputPort() {
+        return inputPort;
+    }
+
     public int getLeft() {
         if (this.getParent() instanceof AbsolutePanel) {
             return ((AbsolutePanel) this.getParent()).getWidgetLeft(this);
         } else {
             return 0;
         }
+    }
+
+    public Port getOutputPort() {
+        return outputPort;
     }
 
     public int getTop() {
@@ -187,7 +194,9 @@ public abstract class Node extends AbsolutePanel implements
      * Callback function for the workflow, this function is called when the node
      * is added to a workflow.
      */
-    public void onPanelAdd(AbsolutePanel parentPanel) {
+    public void onPanelAdd(HasChildren parentPanel) {
+        this.parentPanel = parentPanel;
+
         // set pixel size, this can only be set after setting a graphic and
         // adding the node to a workflow
         if (graphic != null) {
@@ -199,45 +208,66 @@ public abstract class Node extends AbsolutePanel implements
         refreshPortPositions();
     }
 
+    public HasChildren getParentPanel() {
+        return parentPanel;
+    }
+
+    public void refreshConnections() {
+        if (inputPort != null) {
+            inputPort.refreshConnections();
+        }
+        if (outputPort != null) {
+            outputPort.refreshConnections();
+        }
+    }
+
+    protected void refreshPortPosition(Port port) {
+        int portWidth = port.getOffsetWidth();
+        int portHeight = port.getOffsetHeight();
+        int xOffset = port.getXOffset();
+        int yOffset = port.getYOffset();
+
+        switch (port.getPosition()) {
+        case TOP:
+            this.setWidgetPosition(port, this.getOffsetWidth() / 2 - portWidth
+                    / 2 + xOffset, BORDER_OFFSET - portHeight / 2 + yOffset);
+            break;
+        case LEFT:
+            this.setWidgetPosition(port, BORDER_OFFSET - portWidth / 2
+                    + xOffset, this.getOffsetHeight() / 2 - portHeight / 2
+                    + yOffset);
+            break;
+        case RIGHT:
+            this.setWidgetPosition(port, this.getOffsetWidth() - BORDER_OFFSET
+                    - portWidth / 2 + xOffset, this.getOffsetHeight() / 2
+                    - portHeight / 2 + yOffset);
+            break;
+        case BOTTOM:
+            this.setWidgetPosition(port, this.getOffsetWidth() / 2 - portWidth
+                    / 2 + xOffset, this.getOffsetHeight() - BORDER_OFFSET
+                    - portHeight / 2 + yOffset);
+            break;
+
+        case ABSOLUTE:
+            this.setWidgetPosition(port, xOffset, yOffset);
+            break;
+        }
+    }
+
     /**
      * Sets the ports of the node to it's specified position. Useful if the node
      * is resized.
      */
     protected void refreshPortPositions() {
-        for (Port port : ports) {
-            int portWidth = port.getOffsetWidth();
-            int portHeight = port.getOffsetHeight();
-            int xOffset = port.getXOffset();
-            int yOffset = port.getYOffset();
-
-            switch (port.getPosition()) {
-            case TOP:
-                this.setWidgetPosition(port, this.getOffsetWidth() / 2
-                        - portWidth / 2 + xOffset, BORDER_OFFSET - portHeight
-                        / 2 + yOffset);
-                break;
-            case LEFT:
-                this.setWidgetPosition(port, BORDER_OFFSET - portWidth / 2
-                        + xOffset, this.getOffsetHeight() / 2 - portHeight / 2
-                        + yOffset);
-                break;
-            case RIGHT:
-                this.setWidgetPosition(port, this.getOffsetWidth()
-                        - BORDER_OFFSET - portWidth / 2 + xOffset, this
-                        .getOffsetHeight()
-                        / 2 - portHeight / 2 + yOffset);
-                break;
-            case BOTTOM:
-                this.setWidgetPosition(port, this.getOffsetWidth() / 2
-                        - portWidth / 2 + xOffset, this.getOffsetHeight()
-                        - BORDER_OFFSET - portHeight / 2 + yOffset);
-                break;
-
-            case ABSOLUTE:
-                this.setWidgetPosition(port, xOffset, yOffset);
-                break;
-            }
+        if (inputPort != null) {
+            refreshPortPosition(inputPort);
         }
+        if (outputPort != null) {
+            refreshPortPosition(outputPort);
+        }
+
+        // refresh connections
+        refreshConnections();
     }
 
     public void setDeletable(boolean deletable) {
@@ -257,17 +287,27 @@ public abstract class Node extends AbsolutePanel implements
         this.add(this.graphic, BORDER_OFFSET, BORDER_OFFSET);
     }
 
+    protected void setInputPort(Port inputPort) {
+        this.inputPort = inputPort;
+
+        this.add(inputPort);
+        inputPort.setParentNode(this);
+    }
+
     public void setMoveable(boolean moveable) {
         this.moveable = moveable;
+    }
+
+    protected void setOutputPort(Port outputPort) {
+        this.outputPort = outputPort;
+
+        this.add(outputPort);
+        outputPort.setParentNode(this);
     }
 
     @Override
     public void setSelected(boolean selected) {
         this.selected = selected;
-    }
-    
-    public void addSelectionHandler(MouseDownHandler selectionHandler) {
-        graphic.addMouseDownHandler(selectionHandler);
     }
 
 }

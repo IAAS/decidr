@@ -26,18 +26,26 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class HumanTaskInvokeNode extends InvokeNode {
 
-    //private HumanTaskInvokeNodeModel model;
-    
-    public HumanTaskInvokeNode() {
-        super();
+//    private HumanTaskInvokeNodeModel model;
+//    
+//    public HumanTaskInvokeNodeModel getModel() {
+//        return model;
+//    }
+//
+//    public void setModel(HumanTaskInvokeNodeModel model) {
+//        this.model = model;
+//    }
+
+    public HumanTaskInvokeNode(HasChildren parentPanel) {
+        super(parentPanel);
         
         FocusPanel graphic = new FocusPanel();
         graphic.addStyleName("node-graphic-std");
         graphic.setWidget(new Label("HT"));
         this.setGraphic(graphic);
         
-        addPort(new InputPort());
-        addPort(new OutputPort());
+        setInputPort(new InputPort());
+        setOutputPort(new OutputPort());
     }
     
 }

@@ -26,6 +26,16 @@ import java.util.Vector;
  */
 public class ContainerModel extends NodeModel {
 
+    /**
+     * TODO: add comment
+     *
+     * @param parentModel
+     */
+    public ContainerModel(HasChildModels parentModel) {
+        super(parentModel);
+        // TODO Auto-generated constructor stub
+    }
+
     private List<Model> childModels = new Vector<Model>();
     
     private List<ConnectionModel> startConnections = new Vector<ConnectionModel>();

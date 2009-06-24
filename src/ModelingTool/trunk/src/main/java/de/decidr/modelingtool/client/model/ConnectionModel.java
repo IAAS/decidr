@@ -23,17 +23,17 @@ package de.decidr.modelingtool.client.model;
  */
 public class ConnectionModel extends AbstractModel {
     
-    private Model parentModel = null;
+    private HasChildModels parentModel = null;
 
     private NodeModel source = null;
     
     private NodeModel target = null;
     
-    public Model getParentModel() {
+    public HasChildModels getParentModel() {
         return parentModel;
     }
 
-    public void setParentModel(Model parentModel) {
+    public void setParentModel(HasChildModels parentModel) {
         this.parentModel = parentModel;
     }
 

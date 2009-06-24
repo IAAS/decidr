@@ -17,26 +17,25 @@
 package de.decidr.modelingtool.client.command;
 
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
-import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
-import de.decidr.modelingtool.client.ui.EmailInvokeNode;
-import de.decidr.modelingtool.client.ui.Workflow;
+import de.decidr.modelingtool.client.model.HumanTaskInvokeNodeModel;
+import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
 
 /**
  * Command for creating an email invoke node.
  * 
  * @author JE
  */
-public class CreateEmailInvokeNodeCommand implements UndoableCommand {
+public class CreateHumanTaskInvokeNodeCommand implements UndoableCommand {
 
     /**
      * The graphical node.
      */
-    EmailInvokeNode node = null;
+    HumanTaskInvokeNode node = null;
 
     /**
      * The model of the node.
      */
-    EmailInvokeNodeModel model = null;
+    HumanTaskInvokeNodeModel model = null;
 
     /**
      * X coordinate of the node.
@@ -48,11 +47,11 @@ public class CreateEmailInvokeNodeCommand implements UndoableCommand {
      */
     int nodeTop;
 
-    public CreateEmailInvokeNodeCommand(EmailInvokeNode node) {
+    public CreateHumanTaskInvokeNodeCommand(HumanTaskInvokeNode node) {
         this.node = node;
 
         // create model
-        model = new EmailInvokeNodeModel(node.getParentPanel()
+        model = new HumanTaskInvokeNodeModel(node.getParentPanel()
                 .getHasChildModelsModel());
 
         // link node and model
@@ -63,7 +62,7 @@ public class CreateEmailInvokeNodeCommand implements UndoableCommand {
         // model.setParentModel(node.getParentPanel().getHasChildModelsModel());
     }
 
-    public CreateEmailInvokeNodeCommand(EmailInvokeNodeModel model,
+    public CreateHumanTaskInvokeNodeCommand(HumanTaskInvokeNodeModel model,
             int nodeLeft, int nodeTop) throws IncompleteModelDataException {
         this.model = model;
         this.nodeLeft = nodeLeft;
@@ -74,7 +73,7 @@ public class CreateEmailInvokeNodeCommand implements UndoableCommand {
         checkModelData();
 
         // create node
-        node = new EmailInvokeNode(model.getParentModel()
+        node = new HumanTaskInvokeNode(model.getParentModel()
                 .getHasChildrenChangeListener());
 
         // link node and model

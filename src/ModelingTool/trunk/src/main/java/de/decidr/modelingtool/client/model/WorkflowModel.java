@@ -17,17 +17,34 @@
 package de.decidr.modelingtool.client.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Vector;
+
+import de.decidr.modelingtool.client.ui.HasChildren;
 
 /**
  * TODO: add comment
  * 
  * @author Jonas
  */
-public class WorkflowModel extends AbstractModel {
+public class WorkflowModel extends AbstractModel implements HasChildModels {
     
-    private List<Model> childModels = new Vector<Model>();
+    @Override
+    public HasChildren getHasChildrenChangeListener() {
+        if (changeListener instanceof HasChildren) {
+            return (HasChildren)changeListener;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public Collection<Model> getChildModels() {
+        return childModels;
+    }
+
+    private Collection<Model> childModels = new HashSet<Model>();
 
     private List<Variable> variables;
 

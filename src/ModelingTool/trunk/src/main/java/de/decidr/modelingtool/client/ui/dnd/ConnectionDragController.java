@@ -22,7 +22,6 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 
 import de.decidr.modelingtool.client.ui.Connection;
 import de.decidr.modelingtool.client.ui.OrthogonalConnection;
-import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 
 /**
@@ -90,7 +89,7 @@ public class ConnectionDragController extends PickupDragController {
                 } else {
                     // remove recently added new dag box because the dragged
                     // drag box returns to its port connectionless
-                    //newDragBox.getGluedPort().remove(newDragBox);
+                    // newDragBox.getGluedPort().remove(newDragBox);
 
                     // unglue and delete connection with drag boxes
                     // delete other drag box
@@ -120,7 +119,13 @@ public class ConnectionDragController extends PickupDragController {
 
             if (draggedDragBox.getConnection() == null) {
                 // create new connection
-                connection = new OrthogonalConnection();
+                connection = new OrthogonalConnection(draggedDragBox
+                        .getGluedPort().getParentNode().getParentPanel());
+
+                // set parent panel of connection to parent panel of involved
+                // node
+//                connection.setParentPanel(draggedDragBox.getGluedPort()
+//                        .getParentNode().getParentPanel());
 
                 // create start drag box
                 ConnectionDragBox startDragBox = new ConnectionDragBox();
@@ -137,7 +142,7 @@ public class ConnectionDragController extends PickupDragController {
                 startDragBox.setConnection(connection);
                 connection.setEndDragBox(draggedDragBox);
                 draggedDragBox.setConnection(connection);
-                Workflow.getInstance().add(connection);
+                connection.getParentPanel().addConnection(connection);
 
                 // create new drag box and add to the port from which the
                 // dragged drag box is dragged from
@@ -145,7 +150,7 @@ public class ConnectionDragController extends PickupDragController {
                 newDragBox.setGluedPort(draggedDragBox.getGluedPort());
                 newDragBox.getGluedPort().add(newDragBox);
                 makeDraggable(newDragBox);
-                
+
                 // DEBUG: newDragBox.setStyleName("dragbox-debug");
             }
 

@@ -16,6 +16,7 @@
 
 package de.decidr.modelingtool.client.model;
 
+
 /**
  * TODO: add comment
  *
@@ -23,11 +24,15 @@ package de.decidr.modelingtool.client.model;
  */
 public class NodeModel extends AbstractModel {
 
-    private Model parentModel = null;
+    private HasChildModels parentModel = null;
     
     private ConnectionModel input = null;
     
-    private ConnectionModel output = null; 
+    private ConnectionModel output = null;
+    
+    public NodeModel(HasChildModels parentModel) {
+        this.parentModel = parentModel;
+    }
 
     public ConnectionModel getInput() {
         return input;
@@ -45,11 +50,11 @@ public class NodeModel extends AbstractModel {
         this.output = output;
     }
 
-    public Model getParentModel() {
+    public HasChildModels getParentModel() {
         return parentModel;
     }
 
-    public void setParentModel(Model parentModel) {
+    public void setParentModel(HasChildModels parentModel) {
         this.parentModel = parentModel;
     }
     

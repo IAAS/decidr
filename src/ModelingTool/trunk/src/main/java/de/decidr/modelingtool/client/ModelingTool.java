@@ -23,12 +23,14 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import de.decidr.modelingtool.client.command.CommandStack;
+import de.decidr.modelingtool.client.command.CreateConnectionCommand;
+import de.decidr.modelingtool.client.command.CreateEmailInvokeNodeCommand;
+import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
+import de.decidr.modelingtool.client.model.ConnectionModel;
+import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.Container;
-import de.decidr.modelingtool.client.ui.EmailInvokeNode;
-import de.decidr.modelingtool.client.ui.EndNode;
-import de.decidr.modelingtool.client.ui.Node;
-import de.decidr.modelingtool.client.ui.StartNode;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.WorkflowPropertyWindow;
@@ -97,22 +99,42 @@ public class ModelingTool implements EntryPoint {
         // create workflow and add to the root panel.
         final Workflow workflow = Workflow.getInstance();
         RootPanel.get("workflow").add(workflow);
-        
+
         // create workflow model
-        workflow.setModel(new WorkflowModel());
+        WorkflowModel workflowModel = new WorkflowModel();
+        workflow.setModel(workflowModel);
+        workflowModel.setChangeListener(workflow);
 
         // create test elements
-        Node startNode = new StartNode();
-        Node endNode = new EndNode();
-        Node emailInvokeNode = new EmailInvokeNode();
+        // Node startNode = new StartNode();
+        // Node endNode = new EndNode();
 
-        Container con = new Container();
+        // Container con = new Container();
 
-        workflow.add(startNode, 50, 50);
-        workflow.add(emailInvokeNode, 50, 150);
-        workflow.add(endNode, 50, 250);
+        // workflow.add(startNode, 50, 50);
+        // workflow.add(emailInvokeNode, 50, 150);
+        // workflow.add(endNode, 50, 250);
 
-        workflow.add(con, 200, 50);
+        // workflow.add(con, 200, 50);
+        try {
+            EmailInvokeNodeModel model1 = new EmailInvokeNodeModel(workflowModel);
+            CommandStack.getInstance().executeCommand(
+                    new CreateEmailInvokeNodeCommand(model1, 50, 100));
+
+            EmailInvokeNodeModel model2 = new EmailInvokeNodeModel(workflowModel);
+            CommandStack.getInstance().executeCommand(
+                    new CreateEmailInvokeNodeCommand(model2, 150, 250));
+
+            ConnectionModel conModel = new ConnectionModel();
+            conModel.setSource(model1);
+            conModel.setTarget(model2);
+            conModel.setParentModel(workflow.getModel());
+            CommandStack.getInstance().executeCommand(
+                    new CreateConnectionCommand(conModel));
+        } catch (IncompleteModelDataException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
 }

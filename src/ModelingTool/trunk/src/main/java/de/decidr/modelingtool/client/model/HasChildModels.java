@@ -16,11 +16,23 @@
 
 package de.decidr.modelingtool.client.model;
 
+import java.util.Collection;
+
+import de.decidr.modelingtool.client.ui.HasChildren;
+
 /**
  * TODO: add comment
  *
  * @author JE
  */
-public class EmailInvokeModel extends NodeModel {
+public interface HasChildModels {
 
+    public void addModel(Model model);
+    
+    public void removeModel(Model model);
+    
+    public Collection<Model> getChildModels();
+    
+    public HasChildren getHasChildrenChangeListener();
+    
 }

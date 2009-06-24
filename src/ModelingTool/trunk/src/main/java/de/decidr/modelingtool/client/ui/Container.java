@@ -16,45 +16,95 @@
 
 package de.decidr.modelingtool.client.ui;
 
-import java.util.List;
-import java.util.Vector;
+import java.util.Collection;
+import java.util.HashSet;
 
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
 import com.google.gwt.user.client.ui.FocusPanel;
+
+import de.decidr.modelingtool.client.model.HasChildModels;
 
 /**
  * TODO: add comment
  * 
  * @author engelhjs
  */
-public class Container extends Node {
+public class Container extends Node implements HasChildren {
 
-    private List<Node> childNodes = new Vector<Node>();
+    @Override
+    public void addConnection(Connection connection) {
+        // TODO Auto-generated method stub
+        
+    }
 
-    private List<Connection> childConnections = new Vector<Connection>();
+    @Override
+    public void addNode(Node node) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public Collection<Connection> getConnections() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Collection<Node> getNodes() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void removeConnection(Connection connection) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void removeNode(Node node) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    private Collection<Node> childNodes = new HashSet<Node>();
+
+    private Collection<Connection> childConnections = new HashSet<Connection>();
 
     private DropController dropController = new AbsolutePositionDropController(
             this);
 
-    public Container() {
-        super();
+    public Container(HasChildren parentPanel) {
+        super(parentPanel);
 
         // set container graphic properties
         FocusPanel graphic = new FocusPanel();
         graphic.addStyleName("container-std");
-        this.setGraphic(graphic);
+        setGraphic(graphic);
         
-        this.addPort(new InputPort());
-        this.addPort(new OutputPort());
+        setInputPort(new InputPort());
+        setOutputPort(new OutputPort());
     }
 
-    public List<Node> getChildNodes() {
+    public Collection<Node> getChildNodes() {
         return childNodes;
     }
 
-    public List<Connection> getChildConnections() {
+    public Collection<Connection> getChildConnections() {
         return childConnections;
+    }
+
+    @Override
+    public void addNode(Node node, int left, int top) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public HasChildModels getHasChildModelsModel() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     public DropController getDropController() {
