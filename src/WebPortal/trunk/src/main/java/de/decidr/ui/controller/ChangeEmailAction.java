@@ -32,6 +32,7 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.view.ChangeEmailComponent;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
@@ -59,8 +60,7 @@ public class ChangeEmailAction implements ClickListener{
         try {
             userFacade.setEmailAddress(userId, email.getItemProperty("newEmail").getValue().toString());
         } catch (TransactionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
         }
         Main.getCurrent().getMainWindow().showNotification("new email: " + email.getItemProperty("newEmail").getValue().toString());
         Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
