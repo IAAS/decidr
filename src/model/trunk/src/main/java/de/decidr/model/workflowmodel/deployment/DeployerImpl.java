@@ -16,13 +16,23 @@
 
 package de.decidr.model.workflowmodel.deployment;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
+import javax.wsdl.xml.WSDLWriter;
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.soap.SOAPMessage;
+
+import com.ibm.wsdl.xml.WSDLWriterImpl;
+
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
@@ -33,7 +43,8 @@ import de.decidr.model.workflowmodel.dwdl.validation.IProblem;
 import de.decidr.model.workflowmodel.dwdl.validation.Validator;
 
 /**
- * This interfaces specifies the functionality to deploy a workflow instance.
+ * This class provides an interface for other components to access the
+ * functionality to deploy a workflow instance.
  * 
  * @author Modood Alvi
  * @version 0.1
@@ -46,7 +57,7 @@ public class DeployerImpl implements Deployer {
     private ODESelector selector = null;
     private Translator translator = null;
     private FileDeployer fileDeployer = null;
-    private DeploymentResultImpl result = null;
+    private DeploymentResult result = null;
 
     /*
      * (non-Javadoc)
@@ -77,15 +88,13 @@ public class DeployerImpl implements Deployer {
         Definition wsdl = translator.getWSDL("someloaction", "sometenantName");
         TDeployment dd = translator.getDD();
         SOAPMessage soap = translator.getSOAP();
+        byte[] zipFile = getDeploymentBundle(tenantName, bpel, wsdl, dd);                
         fileDeployer = new FileDeployer();
-        fileDeployer.deploy(serverList, "", bpel, wsdl, dd);
-
-        DeployedWorkflowModel dwfm = new DeployedWorkflowModel();
-        dwfm.setDeployDate(new Date());
-        dwfm.setSoapTemplate(soap.toString().getBytes());
+        fileDeployer.deploy(zipFile);
 
         result = new DeploymentResultImpl();
-        
+        result.setDoplementDate(new Date());
+        result.setSOAPMessage(soap);
         result.setServers(serverList);
 
         return result;
@@ -103,6 +112,45 @@ public class DeployerImpl implements Deployer {
             throws Exception {
         // TODO Auto-generated method stub
 
+    }
+    
+    private byte[] getDeploymentBundle(String name, TProcess bpel,
+            Definition wsdl, TDeployment dd) throws JAXBException,
+            WSDLException, IOException {
+        JAXBContext bpelCntxt = JAXBContext.newInstance(TProcess.class);
+        JAXBContext ddCntxt = JAXBContext.newInstance(TDeployment.class);
+        Marshaller bpelMarshaller = bpelCntxt.createMarshaller();
+        Marshaller ddMarshaller = ddCntxt.createMarshaller();
+
+        ByteArrayOutputStream bpelOut = new ByteArrayOutputStream();
+        ByteArrayOutputStream ddOut = new ByteArrayOutputStream();
+        ByteArrayOutputStream wsdlOut = new ByteArrayOutputStream();
+
+        ByteArrayOutputStream zipOut = new ByteArrayOutputStream();
+
+        WSDLWriter wsdlWriter = new WSDLWriterImpl();
+
+        String bpelFilename = name + ".bpel";
+        String wsdlFilename = name + ".wsdl";
+        String ddFilename = "deploy.xml";
+
+        bpelMarshaller.marshal(bpel, bpelOut);
+        ddMarshaller.marshal(dd, ddOut);
+        wsdlWriter.writeWSDL(wsdl, wsdlOut);
+
+        ZipOutputStream zip_out_stream = new ZipOutputStream(zipOut);
+        zip_out_stream.putNextEntry(new ZipEntry(bpelFilename));
+        zip_out_stream.write(bpelOut.toByteArray());
+        zip_out_stream.closeEntry();
+        zip_out_stream.putNextEntry(new ZipEntry(wsdlFilename));
+        zip_out_stream.write(wsdlOut.toByteArray());
+        zip_out_stream.closeEntry();
+        zip_out_stream.putNextEntry(new ZipEntry(ddFilename));
+        zip_out_stream.write(ddOut.toByteArray());
+        zip_out_stream.closeEntry();
+        zip_out_stream.close();
+
+        return zipOut.toByteArray();
     }
 
 }

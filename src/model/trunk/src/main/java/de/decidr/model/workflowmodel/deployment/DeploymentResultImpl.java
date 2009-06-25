@@ -16,8 +16,12 @@
 
 package de.decidr.model.workflowmodel.deployment;
 
+import java.util.Date;
 import java.util.List;
-import de.decidr.model.entities.DeployedWorkflowModel;
+import javax.xml.soap.SOAPMessage;
+
+import de.decidr.model.entities.Server;
+
 
 
 /**
@@ -29,25 +33,32 @@ import de.decidr.model.entities.DeployedWorkflowModel;
 public class DeploymentResultImpl implements DeploymentResult {
 
     private List<Long> servers;
-    private DeployedWorkflowModel dwfm;
-
+    private SOAPMessage soapMessage;
+    private Date deployDate;
     @Override
-    public DeployedWorkflowModel getDeployedWorkflowModel() {
-        return dwfm;
+    public Date getDoplementDate() {
+        return deployDate;
     }
-
+    @Override
+    public SOAPMessage getSOAPMessage() {
+        return soapMessage;
+    }
     @Override
     public List<Long> getServers() {
         return servers;
     }
-
-    public void setDeployedWorkflowModel(DeployedWorkflowModel dwfm) {
-        this.dwfm = dwfm;
-
+    @Override
+    public void setDoplementDate(Date deploymentDate) {
+        deployDate = deploymentDate;
     }
-
+    @Override
+    public void setSOAPMessage(SOAPMessage soap) {
+        soapMessage = soap;
+    }
+    @Override
     public void setServers(List<Long> servers) {
         this.servers = servers;
     }
+    
 
 }

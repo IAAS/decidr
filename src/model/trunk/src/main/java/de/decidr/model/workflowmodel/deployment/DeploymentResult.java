@@ -16,9 +16,12 @@
 
 package de.decidr.model.workflowmodel.deployment;
 
+import java.util.Date;
 import java.util.List;
+import javax.xml.soap.SOAPMessage;
 
-import de.decidr.model.entities.DeployedWorkflowModel;
+import de.decidr.model.entities.Server;
+
 
 /**
  * TODO: add comment
@@ -30,6 +33,14 @@ public interface DeploymentResult {
 
     public List<Long> getServers();
 
-    public DeployedWorkflowModel getDeployedWorkflowModel();
+    public SOAPMessage getSOAPMessage();
+    
+    public Date getDoplementDate();
+    
+    public void setDoplementDate(Date deploymentDate);
+    
+    public void setServers(List<Long> servers);
+    
+    public void setSOAPMessage(SOAPMessage soap);
 
 }

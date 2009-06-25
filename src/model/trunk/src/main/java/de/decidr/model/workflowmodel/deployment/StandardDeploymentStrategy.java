@@ -19,8 +19,15 @@ package de.decidr.model.workflowmodel.deployment;
 /**
  * TODO: add comment
  * 
- * @author mod2
+ * @author Modood Alvi
+ * @version 0.1
  */
 public class StandardDeploymentStrategy implements DeploymentStrategy {
+
+    @Override
+    public int getNumberOfServer() {
+       
+        return 1;
+    }
 
 }

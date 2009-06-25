@@ -19,8 +19,11 @@ package de.decidr.model.workflowmodel.deployment;
 /**
  * TODO: add comment
  * 
- * @author mod2
+ * @author Modood Alvi
+ * @version 0.1
  */
 public interface DeploymentStrategy {
-
+    
+    public int getNumberOfServer();
+    
 }

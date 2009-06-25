@@ -30,6 +30,17 @@ import javax.xml.bind.Marshaller;
 import com.ibm.wsdl.xml.WSDLWriterImpl;
 import de.decidr.model.workflowmodel.bpel.TProcess;
 import de.decidr.model.workflowmodel.dd.TDeployment;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.axis2.client.Options;
+import org.apache.axis2.client.ServiceClient;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.OMFactory;
+import org.apache.axiom.om.OMAbstractFactory;
+import org.apache.axiom.soap.SOAP12Constants;
+import org.apache.axis2.Constants;
+import org.apache.axis2.AxisFault;
+import org.apache.axiom.om.OMNamespace;
 
 /**
  * This class provides the functionality to deploy the files of a workflow model
@@ -72,52 +83,56 @@ public class FileDeployer {
      * @throws IOException
      * @throws IOException
      */
-    public void deploy(List<Long> serverList, String name, TProcess bpel,
-            Definition wsdl, TDeployment dd) throws JAXBException,
+    public void deploy(byte[] zipFile) throws JAXBException,
             WSDLException, IOException {
 
-        byte[] zipFile = getDeploymentBundle(name, bpel, wsdl, dd);
-        System.out.println(zipFile[0]);
+        
+        String packageName = "somepackageName";
+        if (!Base64.isArrayByteBase64(zipFile)) {
+            byte[] encodedBytes = Base64.encodeBase64(zipFile);
+            String encodedString = new String(encodedBytes);
+            Options opts = new Options();
+            opts
+                    .setAction("http://www.apache.org/ode/deployapi/DeploymentPortType/deployRequest");
+            opts.setSoapVersionURI(SOAP12Constants.SOAP_ENVELOPE_NAMESPACE_URI);
+            opts.setProperty(Constants.Configuration.HTTP_METHOD,
+                    Constants.Configuration.HTTP_METHOD_POST);
+            opts.setTo(new EndpointReference(
+                    "http://localhost:8080/ode/processes/DeploymentService"));
+            OMElement payload = null;
+            OMFactory omFactory = OMAbstractFactory.getOMFactory();
+            OMNamespace ns = omFactory.createOMNamespace(
+                    "http://www.apache.org/ode/pmapi", "p");
+            payload = omFactory.createOMElement("deploy", ns);
+            OMElement omName = omFactory.createOMElement("name", ns);
+            OMElement packageCont = omFactory.createOMElement("package", ns);
+            OMElement zipEle = omFactory.createOMElement("zip", ns);
+            if (packageName != null && encodedString != null) {
 
-    }
+                packageCont.addChild(zipEle);
+                payload.addChild(omName);
+                payload.addChild(packageCont);
 
-    private byte[] getDeploymentBundle(String name, TProcess bpel,
-            Definition wsdl, TDeployment dd) throws JAXBException,
-            WSDLException, IOException {
-        JAXBContext bpelCntxt = JAXBContext.newInstance(TProcess.class);
-        JAXBContext ddCntxt = JAXBContext.newInstance(TDeployment.class);
-        Marshaller bpelMarshaller = bpelCntxt.createMarshaller();
-        Marshaller ddMarshaller = ddCntxt.createMarshaller();
+                // creating service client
+                ServiceClient sc = new ServiceClient();
+                sc.setOptions(opts);
 
-        ByteArrayOutputStream bpelOut = new ByteArrayOutputStream();
-        ByteArrayOutputStream ddOut = new ByteArrayOutputStream();
-        ByteArrayOutputStream wsdlOut = new ByteArrayOutputStream();
+                try {
+                    // invoke service
+                    OMElement responseMsg = sc.sendReceive(payload);
+                    String body = responseMsg.toString();
+                    if (body.indexOf("name") > 0) {
+                        System.out.println("Package deployed successfully!");
+                    } else {
+                        System.out.println("Package deployement failed!");
+                    }
+                } catch (AxisFault axisFault) {
+                    System.out
+                            .println("Axis2 Fault Occurred while Sending the request!");
+                }
+            }
+        }
 
-        ByteArrayOutputStream zipOut = new ByteArrayOutputStream();
-
-        WSDLWriter wsdlWriter = new WSDLWriterImpl();
-
-        String bpelFilename = name + ".bpel";
-        String wsdlFilename = name + ".wsdl";
-        String ddFilename = "deploy.xml";
-
-        bpelMarshaller.marshal(bpel, bpelOut);
-        ddMarshaller.marshal(dd, ddOut);
-        wsdlWriter.writeWSDL(wsdl, wsdlOut);
-
-        ZipOutputStream zip_out_stream = new ZipOutputStream(zipOut);
-        zip_out_stream.putNextEntry(new ZipEntry(bpelFilename));
-        zip_out_stream.write(bpelOut.toByteArray());
-        zip_out_stream.closeEntry();
-        zip_out_stream.putNextEntry(new ZipEntry(wsdlFilename));
-        zip_out_stream.write(wsdlOut.toByteArray());
-        zip_out_stream.closeEntry();
-        zip_out_stream.putNextEntry(new ZipEntry(ddFilename));
-        zip_out_stream.write(ddOut.toByteArray());
-        zip_out_stream.closeEntry();
-        zip_out_stream.close();
-
-        return zipOut.toByteArray();
     }
 
 }

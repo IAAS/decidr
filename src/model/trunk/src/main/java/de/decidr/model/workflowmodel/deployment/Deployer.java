@@ -34,30 +34,33 @@ import de.decidr.model.entities.ServerLoadView;
  */
 public interface Deployer {
 
+
     /**
-     * This class provides an interface for other components to access the
-     * functionality to deploy a workflow instance.
-     * 
-     * @param dwfm
-     *            Deployed workflow model of the workflow model which is to be
-     *            deployed
-     * @param serverStatistics
-     *            A server load view, which lists all available servers and
-     *            details of these servers, like server load, running instances,
-     *            deployed models
-     * @return The function returns a list of Long values, the IDs of the
-     *         servers, on which the workflow model has been deployed on
-     * @throws IOException
+     * TODO: add comment
+     *
+     * @param dwdl DWDL file of the workflow
+     * @param tenantName The tenant name or process owner
+     * @param serverStatistics An list of servers containing server load information
+     * @param strategy The deployment strategy defines for example how to choose servers
+     * @return The deployment result contains information about the deployment 
      * @throws DWDLValidationException
      * @throws ODESelectorException
-     * @throws WSDLException
+     * @throws IOException
      * @throws JAXBException
+     * @throws WSDLException
      */
     public DeploymentResult deploy(byte[] dwdl, String tenantName,
             List<ServerLoadView> serverStatistics, DeploymentStrategy strategy)
             throws DWDLValidationException, ODESelectorException, IOException,
             JAXBException, WSDLException;
 
+    /**
+     * TODO: add comment
+     *
+     * @param dwfm
+     * @param server
+     * @throws Exception
+     */
     public void undeploy(DeployedWorkflowModel dwfm, Server server)
             throws Exception;
 
