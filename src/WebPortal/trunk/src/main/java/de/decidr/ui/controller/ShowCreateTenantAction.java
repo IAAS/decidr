@@ -19,10 +19,11 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.ui.view.CreateTenantComponent;
 import de.decidr.ui.view.SiteFrame;
 
 /**
- * This action shows the XYZComponent in the content area
+ * This action shows the CreateTenantComponent in the content area
  *
  * @author AT
  */
@@ -37,7 +38,7 @@ public class ShowCreateTenantAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //TODO
+        siteFrame.setContent(new CreateTenantComponent());
 
     }
 
