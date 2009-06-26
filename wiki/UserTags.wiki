@@ -13,3 +13,4 @@ This page contains a mapping of user names to task tags as used in eclipse.
 || Geoffrey || GH ||
 || Aleksandar || Aleks ||
 || Johannes || JE ||
+|| Markus || MF ||
