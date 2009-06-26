@@ -21,7 +21,6 @@ import java.io.ByteArrayInputStream;
 import javax.wsdl.Definition;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.soap.SOAPMessage;
 
@@ -42,8 +41,9 @@ public class Translator {
     private TProcess bpelProcess = null;
     private TDeployment dd = null;
     private SOAPMessage soap = null;
+    private Definition wsdl = null;
 
-    public void laod(byte[] dwdl) throws JAXBException {
+    public void load(byte[] dwdl) throws JAXBException {
 
         JAXBContext dwdlCntxt = JAXBContext.newInstance(TWorkflow.class);
         Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
@@ -52,19 +52,21 @@ public class Translator {
     }
 
     public TProcess getBPEL() {
-        return null;
+        DWDL2BPEL bpelConverter = new DWDL2BPEL();
+        bpelConverter.getBPEL(dwdlWorkflow);
+        return bpelProcess;
     }
 
     public Definition getWSDL(String loaction, String tenantName) {
-        return null;
+        return wsdl;
     }
 
     public TDeployment getDD() {
-        return null;
+        return dd;
     }
 
     public SOAPMessage getSOAP() {
-        return null;
+        return soap;
     }
 
 }

@@ -16,6 +16,10 @@
 
 package de.decidr.model.workflowmodel.deployment;
 
+import java.util.List;
+
+import de.decidr.model.entities.ServerLoadView;
+
 /**
  * TODO: add comment
  * 
@@ -24,6 +28,12 @@ package de.decidr.model.workflowmodel.deployment;
  */
 public interface DeploymentStrategy {
     
-    public int getNumberOfServer();
     
+    /**
+     * TODO: add comment
+     *
+     * @param serverStatistics
+     * @return
+     */
+    public List<Long> selectServer(List<ServerLoadView> serverStatistics);
 }

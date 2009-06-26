@@ -47,7 +47,7 @@ public class InstanceManagerImpl implements InstanceManager {
         String soapMessage = generator.getSOAP(dwfm.getSoapTemplate()
                 .toString(), startConfiguration);
         SOAPExecution execution = new SOAPExecution();
-        execution.invoke("someaddress", soapMessage);
+        execution.invoke(serverID, soapMessage);
         return null;
     }
 

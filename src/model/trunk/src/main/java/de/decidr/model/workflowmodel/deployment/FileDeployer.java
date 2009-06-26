@@ -16,21 +16,8 @@
 
 package de.decidr.model.workflowmodel.deployment;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-import javax.wsdl.Definition;
-import javax.wsdl.WSDLException;
-import javax.wsdl.xml.WSDLWriter;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import com.ibm.wsdl.xml.WSDLWriterImpl;
-import de.decidr.model.workflowmodel.bpel.TProcess;
-import de.decidr.model.workflowmodel.dd.TDeployment;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.log4j.Logger;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.addressing.EndpointReference;
@@ -42,6 +29,8 @@ import org.apache.axis2.Constants;
 import org.apache.axis2.AxisFault;
 import org.apache.axiom.om.OMNamespace;
 
+import de.decidr.model.logging.DefaultLogger;
+
 /**
  * This class provides the functionality to deploy the files of a workflow model
  * process on selected servers
@@ -50,41 +39,17 @@ import org.apache.axiom.om.OMNamespace;
  * @version 0.1
  */
 public class FileDeployer {
+    
+    private static Logger logger = DefaultLogger.getLogger(FileDeployer.class);
+
 
     /**
-     * This function expects a list of the server addresses on which the files
-     * should be deployed, the name of the process which represents the name of
-     * the folder in the ODE and has to be unique for each workflow model, as
-     * well as the BPEL, WSDL and Deployment Descriptor as strings. If a process
-     * is deployed in Apache ODE, it automatically receives a version number,
-     * which is returned by the function deploy. If the function is called, a
-     * folder with the passed name is created locally on the server. The passed
-     * BPEL, WSDL and Deployment Descriptor are written to files in this folder.
-     * This folder is compressed as a zip file. By invoking the Deployment Web
-     * service of the Apache ODEs on the given servers the zip file is deployed
-     * on all these servers. The returned ODE versions of the processes are
-     * collected, after all servers are handled the highest one is returned.
-     * After deploying the files on all servers, all files that have been
-     * created locally are deleted.
-     * 
-     * 
-     * @param serverList
-     *            List of server addresses
-     * @param name
-     *            Name of the process
-     * @param bpel
-     *            BPEL representation of the process
-     * @param wsdl
-     *            WSDL representation of the process
-     * @param dd
-     *            The Deployment Descriptor
-     * @throws JAXBException
-     * @throws WSDLException
-     * @throws IOException
-     * @throws IOException
+     * TODO: add comment
+     *
+     * @param zipFile
+     * @throws AxisFault
      */
-    public void deploy(byte[] zipFile) throws JAXBException,
-            WSDLException, IOException {
+    public void deploy(byte[] zipFile) throws AxisFault{
 
         
         String packageName = "somepackageName";
@@ -122,13 +87,12 @@ public class FileDeployer {
                     OMElement responseMsg = sc.sendReceive(payload);
                     String body = responseMsg.toString();
                     if (body.indexOf("name") > 0) {
-                        System.out.println("Package deployed successfully!");
+                        logger.info("Package deployed successfully!");
                     } else {
-                        System.out.println("Package deployement failed!");
+                        logger.info("Package deployement failed!");
                     }
                 } catch (AxisFault axisFault) {
-                    System.out
-                            .println("Axis2 Fault Occurred while Sending the request!");
+                    logger.error("Axis2 Fault Occurred while Sending the request!",axisFault);
                 }
             }
         }

@@ -21,7 +21,6 @@ import de.decidr.model.workflowmodel.bpel.ObjectFactory;
 import de.decidr.model.workflowmodel.bpel.TActivityContainer;
 import de.decidr.model.workflowmodel.bpel.TAssign;
 import de.decidr.model.workflowmodel.bpel.TCopy;
-import de.decidr.model.workflowmodel.bpel.TCorrelation;
 import de.decidr.model.workflowmodel.bpel.TCorrelationSet;
 import de.decidr.model.workflowmodel.bpel.TDocumentation;
 import de.decidr.model.workflowmodel.bpel.TFaultHandlers;
@@ -64,9 +63,8 @@ public class DWDL2BPEL {
         setPartnerLinks();
         setVariables();
         setProcessVariables();
-        initVariables();
-        initRoles();
         setVariablesFromRoles();
+        initVariables();
         setCorrelationSets();
         setFaultHandler();
         setActivity();
@@ -111,19 +109,71 @@ public class DWDL2BPEL {
         process.getVariables().getVariable().add(taskDataMessage);
     }
 
-    private void initRoles() {
-
+    private void initRoles(TAssign assign) {
+        TCopy copyRole = factory.createTCopy();
+        for (TRole role : dwdl.getRoles().getRole()){
+            if(!role.getActor().isEmpty()){
+                TFrom from = factory.createTFrom();
+                TTo to = factory.createTTo();
+                TLiteral literal = factory.createTLiteral();
+                String content = "<role name="+role.getName()+">";
+                for (TActor actor : role.getActor()){
+                    content.concat(getXMLElement(actor));   
+                }
+                content.concat("</role>");
+                from.getContent().add(literal);
+                to.setVariable(role.getName());
+                copyRole.setFrom(from);
+                copyRole.setTo(to);
+            }
+            
+        }
+        TCopy copyActor = factory.createTCopy();
+        for (TActor actor : dwdl.getRoles().getActor()){
+            
+            TFrom from = factory.createTFrom();
+            TTo to = factory.createTTo();
+            TLiteral literal = factory.createTLiteral();
+            literal.getContent().add(getXMLElement(actor));
+            from.getContent().add(literal);
+            to.setVariable(actor.getName());
+            copyActor.setFrom(from);
+            copyActor.setTo(to);
+        }
+        assign.getCopyOrExtensionAssignOperation().add(copyRole);
+        assign.getCopyOrExtensionAssignOperation().add(copyRole);
     }
 
+    private String getXMLElement(TActor actor){
+        String xml = "<actor name="+actor.getName()+" userid="+actor.getUserId()+" email="+actor.getEmail()+"/>";
+        return xml;
+    }
+    
     private void initVariables() {
+        TAssign assign = factory.createTAssign();
+        assign.setName("init");
+        TCopy copy = factory.createTCopy();
         for (de.decidr.model.workflowmodel.dwdl.TVariable var : dwdl
                 .getVariables().getVariable()) {
             if (var.getInitialValue() != null) {
-                  
+                TFrom from = factory.createTFrom();
+                TTo to = factory.createTTo();
+                TLiteral literal = factory.createTLiteral();
+                literal.getContent().add(var.getInitialValue());
+                from.getContent().add(literal);
+                to.setVariable(var.getName());
+                assign.getCopyOrExtensionAssignOperation().add(copy);
             } else if (var.getInitialValues() != null) {
-
+                TFrom from = factory.createTFrom();
+                TTo to = factory.createTTo();
+                TLiteral literal = factory.createTLiteral();
+                literal.getContent().add(var.getInitialValue());
+                from.getContent().add(literal);
+                to.setVariable(var.getName());
+                assign.getCopyOrExtensionAssignOperation().add(copy);
             }
         }
+        initRoles(assign);
     }
 
     private void setActivity() {
@@ -172,9 +222,7 @@ public class DWDL2BPEL {
         TCopy copy = factory.createTCopy();
         TFrom from = factory.createTFrom();
         TTo to = factory.createTTo();
-        TLiteral literal = factory.createTLiteral();
-        literal.getContent().add(property.getPropertyValue());
-        from.getContent().add(literal);
+        from.setVariable(property.getVariable());
         to.setVariable(toVariable.getName());
         to.setProperty(new QName(property.getName()));
         assign.getCopyOrExtensionAssignOperation().add(copy);
@@ -182,7 +230,15 @@ public class DWDL2BPEL {
 
     private void addCopyValueStatement(TAssign assign, TSetProperty property,
             TVariable toVariable) {
-
+        TCopy copy = factory.createTCopy();
+        TFrom from = factory.createTFrom();
+        TTo to = factory.createTTo();
+        TLiteral literal = factory.createTLiteral();
+        literal.getContent().add(property.getPropertyValue());
+        from.getContent().add(literal);
+        to.setVariable(toVariable.getName());
+        to.setProperty(new QName(property.getName()));
+        assign.getCopyOrExtensionAssignOperation().add(copy);
     }
 
     private de.decidr.model.workflowmodel.bpel.TVariable getBPELVariableByName(

@@ -23,6 +23,7 @@ import javax.wsdl.WSDLException;
 import javax.xml.bind.JAXBException;
 
 import de.decidr.model.entities.DeployedWorkflowModel;
+import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
 
@@ -42,6 +43,7 @@ public interface Deployer {
      * @param tenantName The tenant name or process owner
      * @param serverStatistics An list of servers containing server load information
      * @param strategy The deployment strategy defines for example how to choose servers
+     * @param webservices A list of known web services
      * @return The deployment result contains information about the deployment 
      * @throws DWDLValidationException
      * @throws ODESelectorException
@@ -49,7 +51,7 @@ public interface Deployer {
      * @throws JAXBException
      * @throws WSDLException
      */
-    public DeploymentResult deploy(byte[] dwdl, String tenantName,
+ public DeploymentResult deploy(byte[] dwdl, List<KnownWebService> webservices, String tenantName,
             List<ServerLoadView> serverStatistics, DeploymentStrategy strategy)
             throws DWDLValidationException, ODESelectorException, IOException,
             JAXBException, WSDLException;

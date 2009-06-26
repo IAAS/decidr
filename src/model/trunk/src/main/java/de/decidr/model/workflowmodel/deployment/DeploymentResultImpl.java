@@ -20,8 +20,6 @@ import java.util.Date;
 import java.util.List;
 import javax.xml.soap.SOAPMessage;
 
-import de.decidr.model.entities.Server;
-
 
 
 /**

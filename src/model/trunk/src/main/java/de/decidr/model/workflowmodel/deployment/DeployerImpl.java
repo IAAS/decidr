@@ -34,6 +34,7 @@ import javax.xml.soap.SOAPMessage;
 import com.ibm.wsdl.xml.WSDLWriterImpl;
 
 import de.decidr.model.entities.DeployedWorkflowModel;
+import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.workflowmodel.bpel.TProcess;
@@ -54,7 +55,6 @@ public class DeployerImpl implements Deployer {
     private List<Long> serverList = null;
     private Validator validator = null;
     private List<IProblem> problems = null;
-    private ODESelector selector = null;
     private Translator translator = null;
     private FileDeployer fileDeployer = null;
     private DeploymentResult result = null;
@@ -67,7 +67,7 @@ public class DeployerImpl implements Deployer {
      * de.decidr.model.workflowmodel.deployment.DeploymentStrategy)
      */
     @Override
-    public DeploymentResult deploy(byte[] dwdl, String tenantName,
+    public DeploymentResult deploy(byte[] dwdl, List<KnownWebService> webservices, String tenantName,
             List<ServerLoadView> serverStatistics, DeploymentStrategy strategy)
             throws DWDLValidationException, ODESelectorException, IOException,
             JAXBException, WSDLException {
@@ -77,13 +77,14 @@ public class DeployerImpl implements Deployer {
         if (!problems.isEmpty()) {
             throw new DWDLValidationException(problems);
         }
-        selector = new ODESelector();
-        serverList = selector.selectServer(serverStatistics);
+        strategy = new StandardDeploymentStrategy();
+        //TODO integrate strategy
+        serverList = strategy.selectServer(serverStatistics);
         if (serverList.isEmpty()) {
             throw new ODESelectorException(serverStatistics);
         }
         translator = new Translator();
-        translator.laod(dwdl);
+        translator.load(dwdl);
         TProcess bpel = translator.getBPEL();
         Definition wsdl = translator.getWSDL("someloaction", "sometenantName");
         TDeployment dd = translator.getDD();

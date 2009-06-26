@@ -16,6 +16,10 @@
 
 package de.decidr.model.workflowmodel.deployment;
 
+import java.util.List;
+
+import de.decidr.model.entities.ServerLoadView;
+
 /**
  * TODO: add comment
  * 
@@ -24,10 +28,14 @@ package de.decidr.model.workflowmodel.deployment;
  */
 public class StandardDeploymentStrategy implements DeploymentStrategy {
 
+    /* (non-Javadoc)
+     * @see de.decidr.model.workflowmodel.deployment.DeploymentStrategy#selectServer(java.util.List)
+     */
     @Override
-    public int getNumberOfServer() {
-       
-        return 1;
+    public List<Long> selectServer(List<ServerLoadView> serverStatistics) {
+        // TODO Auto-generated method stub
+        return null;
     }
+
 
 }

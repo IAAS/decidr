@@ -32,8 +32,9 @@ public class SOAPExecution {
      * @param address
      * @param soap
      */
-    public void invoke(String address, String soap) {
-
-    }
+    public void invoke(long serverID, String soapMessage) {
+        // TODO Auto-generated method stub
+        
+    }  
 
 }
