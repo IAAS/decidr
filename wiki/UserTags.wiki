@@ -1,0 +1,12 @@
+#summary Associating users to task tags
+#labels Phase-Implementation,Phase-QA
+
+= Introduction =
+
+This page contains a mapping of user names to task tags as used in eclipse.
+
+
+= Task Tags =
+
+|| *_Name_* || *_Tag_* ||
+|| Reinhold || RR ||
