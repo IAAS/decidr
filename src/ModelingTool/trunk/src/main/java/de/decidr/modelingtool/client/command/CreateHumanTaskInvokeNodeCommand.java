@@ -49,6 +49,8 @@ public class CreateHumanTaskInvokeNodeCommand implements UndoableCommand {
 
     public CreateHumanTaskInvokeNodeCommand(HumanTaskInvokeNode node) {
         this.node = node;
+        this.nodeLeft = node.getLeft();
+        this.nodeTop = node.getTop();
 
         // create model
         model = new HumanTaskInvokeNodeModel(node.getParentPanel()

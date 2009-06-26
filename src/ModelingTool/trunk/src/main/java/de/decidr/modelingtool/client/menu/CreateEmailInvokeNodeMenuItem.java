@@ -19,19 +19,24 @@ package de.decidr.modelingtool.client.menu;
 import com.google.gwt.user.client.Command;
 
 import de.decidr.modelingtool.client.command.CommandStack;
+import de.decidr.modelingtool.client.command.CreateEmailInvokeNodeCommand;
+import de.decidr.modelingtool.client.ui.EmailInvokeNode;
+import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
- * Command for redoing the last action made undone. If the last user performed
- * action was not a undo action, the redo stack is emtpy and no redo action is
- * performed.
- *
+ * TODO: add comment
+ * 
  * @author JE
  */
-public class RedoCommand implements Command {
+public class CreateEmailInvokeNodeMenuItem implements Command {
 
     @Override
     public void execute() {
-        CommandStack.getInstance().redo();
+        EmailInvokeNode node = new EmailInvokeNode(Workflow.getInstance());
+        Workflow.getInstance().addNode(node);
+
+        CommandStack.getInstance().executeCommand(
+                new CreateEmailInvokeNodeCommand(node));
     }
 
 }

@@ -18,23 +18,29 @@ package de.decidr.modelingtool.client.menu;
 
 import com.google.gwt.user.client.ui.MenuBar;
 
-
 /**
  * TODO: add comment
- *
+ * 
  * @author JE
  */
 public class Menu extends MenuBar {
-    
+
     public Menu() {
         // argument false = non vertical
         super(false);
-        
+
         this.addStyleName("menu-std");
-        
-        addItem("Undo", new UndoCommand());
-        addItem("Redo", new RedoCommand());
-        addItem("Delete", new DeleteMenuItemCommand());
+
+//        MenuBar createMenu = new MenuBar(true);
+//        createMenu.addItem("Email", new CreateEmailInvokeNodeMenuItem());
+//        createMenu.addItem("Human Task",
+//                new CreateHumanTaskInvokeNodeMenuItem());
+
+        addItem("Undo", new UndoMenuItem());
+        addItem("Redo", new RedoMenuItem());
+        addItem("Create Email", new CreateEmailInvokeNodeMenuItem());
+        addItem("Create HumanTask", new CreateHumanTaskInvokeNodeMenuItem());
+        addItem("Delete", new DeleteMenuItem());
     }
-    
+
 }

@@ -38,7 +38,8 @@ import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
  * 
  * @author engelhjs
  */
-public class Workflow extends AbsolutePanel implements ModelChangeListener, HasMouseDownHandlers, HasChildren {
+public class Workflow extends AbsolutePanel implements ModelChangeListener,
+        HasMouseDownHandlers, HasChildren {
 
     private static Workflow instance;
 
@@ -53,7 +54,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
      * The drag controller which makes the nodes in the workflow draggable.
      */
     private WorkflowDragController dragController;
-    
+
     private SelectionHandler selectionHandler;
 
     private WorkflowModel model = null;
@@ -80,18 +81,20 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
 
         // create selection handler
         selectionHandler = new SelectionHandler(this);
-        
+
         // register workflow to selection handler
         this.addMouseDownHandler(selectionHandler);
 
         // create drag controller
         dragController = new WorkflowDragController(this);
-        
+
         // register drag controllers
         DndRegistry dndr = DndRegistry.getInstance();
         dndr.register("WorkflowDragController", dragController);
-        dndr.register("InputPortDragController", new ConnectionDragController(this));
-        dndr.register("OutputPortDragController", new ConnectionDragController(this));
+        dndr.register("InputPortDragController", new ConnectionDragController(
+                this));
+        dndr.register("OutputPortDragController", new ConnectionDragController(
+                this));
     }
 
     public void addConnection(Connection connection) {
@@ -109,8 +112,19 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
     }
 
     public void addNode(Node node) {
-        super.add(node);
-        
+        addNode(node, 0, 0);
+    }
+
+    /**
+     * Adds a node to the workflow in the specified position.
+     * 
+     * @param node
+     * @param x
+     * @param y
+     */
+    public void addNode(Node node, int left, int top) {
+        super.add(node, left, top);
+
         // add node to the nodes vector
         childNodes.add(node);
 
@@ -133,29 +147,15 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
         node.onPanelAdd(this);
     }
 
-    /**
-     * Adds a node to the workflow in the specified position.
-     * 
-     * @param node
-     * @param x
-     * @param y
-     */
-    public void addNode(Node node, int left, int top) {
-        // add node to workflow
-        addNode(node);
-        // set position
-        setWidgetPosition(node, left, top);
-    }
-
     @Override
     public Collection<Connection> getConnections() {
         return childConnections;
     }
-    
+
     @Override
     public HasChildModels getHasChildModelsModel() {
         if (model instanceof HasChildModels) {
-            return (HasChildModels)model;
+            return (HasChildModels) model;
         } else {
             return null;
         }
@@ -168,10 +168,9 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
     /**
      * TODO: DEBUG
      */
-//    public void add(Node node) {
-//        System.out.println("DEBUG: workflow.add not supported for node!");
-//    }
-
+    // public void add(Node node) {
+    // System.out.println("DEBUG: workflow.add not supported for node!");
+    // }
     @Override
     public Collection<Node> getNodes() {
         return childNodes;
@@ -180,7 +179,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
     public SelectionHandler getSelectionHandler() {
         return selectionHandler;
     }
-    
+
     public Selectable getSelectedItem() {
         return selectionHandler.getSelectedItem();
     }
@@ -207,13 +206,13 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
      */
     public void removeNode(Node node) {
         childNodes.remove(node);
-        
+
         // callbacl to node before remove
         node.onPanelRemove();
-        
+
         super.remove(node);
     }
-    
+
     public void setModel(WorkflowModel model) {
         this.model = model;
     }

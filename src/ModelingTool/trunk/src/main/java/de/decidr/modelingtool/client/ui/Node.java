@@ -168,6 +168,10 @@ public abstract class Node extends AbsolutePanel implements
     public void setPosition(int left, int top) {
         if (getParent() instanceof AbsolutePanel) {
             ((AbsolutePanel) getParent()).setWidgetPosition(this, left, top);
+            refreshConnections();
+            if (isSelected()) {
+                Workflow.getInstance().getSelectionHandler().refreshSelection();
+            }
         } 
     }
 

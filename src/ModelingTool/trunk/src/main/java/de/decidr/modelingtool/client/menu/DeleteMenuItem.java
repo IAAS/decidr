@@ -33,13 +33,13 @@ import de.decidr.modelingtool.client.ui.Workflow;
  * 
  * @author JE
  */
-public class DeleteMenuItemCommand implements Command {
+public class DeleteMenuItem implements Command {
 
     private Selectable selectedItem;
 
     private UndoableCommand removeCmd;
 
-    public DeleteMenuItemCommand() {
+    public DeleteMenuItem() {
        
     }
 

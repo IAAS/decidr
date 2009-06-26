@@ -19,17 +19,24 @@ package de.decidr.modelingtool.client.menu;
 import com.google.gwt.user.client.Command;
 
 import de.decidr.modelingtool.client.command.CommandStack;
+import de.decidr.modelingtool.client.command.CreateHumanTaskInvokeNodeCommand;
+import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
+import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
- * Command for undoing the last user performed action.
- *
+ * TODO: add comment
+ * 
  * @author JE
  */
-public class UndoCommand implements Command {
+public class CreateHumanTaskInvokeNodeMenuItem implements Command {
 
     @Override
     public void execute() {
-        CommandStack.getInstance().undo();
+        HumanTaskInvokeNode node = new HumanTaskInvokeNode(Workflow.getInstance());
+        Workflow.getInstance().addNode(node);
+
+        CommandStack.getInstance().executeCommand(
+                new CreateHumanTaskInvokeNodeCommand(node));
     }
 
 }

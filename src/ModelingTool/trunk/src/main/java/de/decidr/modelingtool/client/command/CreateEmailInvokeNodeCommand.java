@@ -49,6 +49,8 @@ public class CreateEmailInvokeNodeCommand implements UndoableCommand {
 
     public CreateEmailInvokeNodeCommand(EmailInvokeNode node) {
         this.node = node;
+        this.nodeLeft = node.getLeft();
+        this.nodeTop = node.getTop();
 
         // create model
         model = new EmailInvokeNodeModel(node.getParentPanel()

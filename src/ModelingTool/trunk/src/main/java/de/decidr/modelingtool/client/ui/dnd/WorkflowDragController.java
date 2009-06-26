@@ -18,6 +18,8 @@ package de.decidr.modelingtool.client.ui.dnd;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 
+import de.decidr.modelingtool.client.command.CommandStack;
+import de.decidr.modelingtool.client.command.MoveNodeCommand;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Workflow;
 
@@ -29,6 +31,11 @@ import de.decidr.modelingtool.client.ui.Workflow;
 public class WorkflowDragController extends PickupDragController {
 
     private Workflow workflow;
+
+    private Node node;
+
+    private int oldNodeLeft;
+    private int oldNodeTop;
 
     /**
      * TODO: add comment
@@ -46,6 +53,12 @@ public class WorkflowDragController extends PickupDragController {
     public void dragEnd() {
         super.dragEnd();
 
+        // create move command
+        if (node != null) {
+            CommandStack.getInstance().executeCommand(
+                    new MoveNodeCommand(node, oldNodeLeft, oldNodeTop));
+        }
+
         // remove the drag boxes assiged to the drag context.
         this.context.selectedWidgets.removeAll(workflow.getSelectionHandler()
                 .getDragBoxes());
@@ -57,16 +70,22 @@ public class WorkflowDragController extends PickupDragController {
     @Override
     public void dragMove() {
         super.dragMove();
-        
+
         // refresh all connection connected to the dragged node
-        if (context.draggable instanceof Node) {
-            Node node = (Node)context.draggable;
+        if (node != null) {
             node.refreshConnections();
         }
     }
 
     @Override
     public void dragStart() {
+        // get draggable position of node before dragging
+        if (context.draggable instanceof Node) {
+            node = (Node) context.draggable;
+            oldNodeLeft = node.getLeft();
+            oldNodeTop = node.getTop();
+        }
+
         // add the drag boxes to the drag context to move them with the object
         this.context.selectedWidgets.addAll(workflow.getSelectionHandler()
                 .getDragBoxes());
