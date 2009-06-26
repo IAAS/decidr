@@ -29,8 +29,6 @@ public class VariablesFilter {
 
     public static ListStore<Variable> getVariablesOfType(VariableType type) {
         ListStore<Variable> result = new ListStore<Variable>();
-        // FIXME: Please check: WorkflowModel is not a singleton anymore!
-        // for (Variable var : WorkflowModel.getInstance().getVariables()) {
         for (Variable var : Workflow.getInstance().getModel().getVariables()) {
             if (var.getType() == type) {
                 Variable targetVar = new Variable();
@@ -46,8 +44,6 @@ public class VariablesFilter {
 
     public static ListStore<Variable> getAllVariables() {
         ListStore<Variable> result = new ListStore<Variable>();
-        // FIXME: Please check: WorkflowModel is not a singleton anymore!
-        // for (Variable var : WorkflowModel.getInstance().getVariables()) {
         for (Variable var : Workflow.getInstance().getModel().getVariables()) {
             Variable targetVar = new Variable();
             targetVar.setName(var.getName());
@@ -61,8 +57,6 @@ public class VariablesFilter {
 
     // TODO: rewrite method
     public static Variable getVariableByName(String name) {
-        // FIXME: Please check: WorkflowModel is not a singleton anymore!
-        // for (Variable var : WorkflowModel.getInstance().getVariables()) {
         for (Variable var : Workflow.getInstance().getModel().getVariables()) {
             if (var.getName() == name) {
                 return var;
