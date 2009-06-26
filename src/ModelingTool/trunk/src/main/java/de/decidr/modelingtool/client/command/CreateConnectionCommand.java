@@ -116,9 +116,6 @@ public class CreateConnectionCommand implements UndoableCommand {
 
     @Override
     public void undo() {
-        // remove connection
-        connection.getParentPanel().removeConnection(connection);
-
         // remove start drag box
         ConnectionDragBox startDragBox = connection.getStartDragBox();
         startDragBox.getGluedPort().remove(startDragBox);
@@ -154,6 +151,9 @@ public class CreateConnectionCommand implements UndoableCommand {
         model.getParentModel().addModel(model);
         model.getSource().setOutput(model);
         model.getTarget().setInput(model);
+        
+        // TODO: DEBUG
+        //System.out.println(connection.getModel());
     }
 
     /**

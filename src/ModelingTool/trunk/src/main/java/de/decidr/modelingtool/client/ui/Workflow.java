@@ -23,9 +23,9 @@ import com.google.gwt.event.dom.client.HasMouseDownHandlers;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
-import de.decidr.modelingtool.client.exception.ModelingToolException;
 import de.decidr.modelingtool.client.model.HasChildModels;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.dnd.ConnectionDragController;
@@ -67,15 +67,6 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
      * All connections in the workflow except for the nodes in a container.
      */
     private Collection<Connection> childConnections = new HashSet<Connection>();
-
-    @Override
-    public HasChildModels getHasChildModelsModel() {
-        if (model instanceof HasChildModels) {
-            return (HasChildModels)model;
-        } else {
-            return null;
-        }
-    }
 
     /**
      * The constructor.
@@ -138,7 +129,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
                     .getDropController());
         }
 
-        // callback to node
+        // callback to node after add
         node.onPanelAdd(this);
     }
 
@@ -153,12 +144,21 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
         // add node to workflow
         addNode(node);
         // set position
-        this.setWidgetPosition(node, left, top);
+        setWidgetPosition(node, left, top);
     }
-    
+
     @Override
     public Collection<Connection> getConnections() {
         return childConnections;
+    }
+    
+    @Override
+    public HasChildModels getHasChildModelsModel() {
+        if (model instanceof HasChildModels) {
+            return (HasChildModels)model;
+        } else {
+            return null;
+        }
     }
 
     public WorkflowModel getModel() {
@@ -180,16 +180,11 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
     public SelectionHandler getSelectionHandler() {
         return selectionHandler;
     }
+    
+    public Selectable getSelectedItem() {
+        return selectionHandler.getSelectedItem();
+    }
 
-//    public DragController getDragController() {
-//        return dragController;
-//    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.decidr.modelingtool.client.ui.ModelChangeListener#onModelChange()
-     */
     @Override
     public void onModelChange() {
         // TODO Auto-generated method stub
@@ -202,7 +197,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
      * @param connection
      */
     public void removeConnection(Connection connection) {
-        
+        connection.remove();
     }
 
     /**
@@ -211,6 +206,11 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener, HasM
      * @param node
      */
     public void removeNode(Node node) {
+        childNodes.remove(node);
+        
+        // callbacl to node before remove
+        node.onPanelRemove();
+        
         super.remove(node);
     }
     

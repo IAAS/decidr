@@ -60,7 +60,7 @@ public abstract class Connection implements Selectable, ModelChangeListener {
 //
 //    private Port targetPort = null;
 
-    public abstract void delete();
+    public abstract void remove();
 
     public abstract void draw();
 

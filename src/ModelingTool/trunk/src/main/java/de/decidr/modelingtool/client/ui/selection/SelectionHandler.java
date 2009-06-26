@@ -21,6 +21,7 @@ import java.util.Vector;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.decidr.modelingtool.client.ui.Connection;
@@ -57,6 +58,11 @@ public class SelectionHandler implements MouseDownHandler {
 
     @Override
     public void onMouseDown(MouseDownEvent event) {
+        // workaround for Firefox: prevent propagation of the event to
+        // underlying objects (workflow or container), so that the selected item
+        // stays selected!
+        event.stopPropagation();
+        
         Object source = event.getSource();
         // System.out.println (source);
 
@@ -73,6 +79,7 @@ public class SelectionHandler implements MouseDownHandler {
                 
             } else {
                 // unselect selected item
+                
                 unselect();
             }
         }
@@ -85,16 +92,18 @@ public class SelectionHandler implements MouseDownHandler {
         // TODO: connection
     }
 
-    public void select(Node node) {
+    public void select(Selectable selectedItem) {
         // unselect the selected item
         unselect();
-        selectedItem = node;
-        node.setSelected(true);
-        nodeSelectionBox.assignTo(node);
-    }
-
-    public void select(Connection connection) {
-
+        
+        if (selectedItem instanceof Node) {
+            nodeSelectionBox.assignTo((Node)selectedItem);
+        } else if (selectedItem instanceof Connection) {
+            
+        }
+        
+        this.selectedItem = selectedItem;
+        selectedItem.setSelected(true);    
     }
 
     public void unselect() {

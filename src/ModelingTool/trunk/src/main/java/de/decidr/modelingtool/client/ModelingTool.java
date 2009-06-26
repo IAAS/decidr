@@ -27,10 +27,10 @@ import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.command.CreateConnectionCommand;
 import de.decidr.modelingtool.client.command.CreateEmailInvokeNodeCommand;
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
+import de.decidr.modelingtool.client.menu.Menu;
 import de.decidr.modelingtool.client.model.ConnectionModel;
 import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
 import de.decidr.modelingtool.client.model.WorkflowModel;
-import de.decidr.modelingtool.client.ui.Container;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.WorkflowPropertyWindow;
@@ -95,6 +95,10 @@ public class ModelingTool implements EntryPoint {
                     }
                 }));
         RootPanel.get().add(buttonBar);
+        
+        // create menu
+        final Menu menu = new Menu();
+        RootPanel.get("menu").add(menu);
 
         // create workflow and add to the root panel.
         final Workflow workflow = Workflow.getInstance();
@@ -106,16 +110,6 @@ public class ModelingTool implements EntryPoint {
         workflowModel.setChangeListener(workflow);
 
         // create test elements
-        // Node startNode = new StartNode();
-        // Node endNode = new EndNode();
-
-        // Container con = new Container();
-
-        // workflow.add(startNode, 50, 50);
-        // workflow.add(emailInvokeNode, 50, 150);
-        // workflow.add(endNode, 50, 250);
-
-        // workflow.add(con, 200, 50);
         try {
             EmailInvokeNodeModel model1 = new EmailInvokeNodeModel(workflowModel);
             CommandStack.getInstance().executeCommand(

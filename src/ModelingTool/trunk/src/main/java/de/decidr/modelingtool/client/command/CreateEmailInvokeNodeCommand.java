@@ -19,7 +19,6 @@ package de.decidr.modelingtool.client.command;
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
 import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
 import de.decidr.modelingtool.client.ui.EmailInvokeNode;
-import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
  * Command for creating an email invoke node.

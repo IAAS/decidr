@@ -100,7 +100,7 @@ public class OrthogonalConnection extends Connection {
     }
 
     @Override
-    public void delete() {
+    public void remove() {
         startLine.removeFromParent();
         midLine.removeFromParent();
         endLine.removeFromParent();

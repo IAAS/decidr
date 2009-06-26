@@ -23,6 +23,9 @@ import com.allen_sauer.gwt.dnd.client.drop.DropController;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.decidr.modelingtool.client.command.CommandList;
+import de.decidr.modelingtool.client.command.RemoveConnectionCommand;
+import de.decidr.modelingtool.client.command.UndoableCommand;
 import de.decidr.modelingtool.client.ui.dnd.PortDropController;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 
@@ -31,7 +34,7 @@ import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
  * 
  * @author engelhjs
  */
-public class Port extends AbsolutePanel {
+public abstract class Port extends AbsolutePanel {
 
     public static enum Position {
         TOP, LEFT, RIGHT, BOTTOM, ABSOLUTE
@@ -50,6 +53,10 @@ public class Port extends AbsolutePanel {
     private DropController dropController = new PortDropController(this);
 
     private List<ConnectionDragBox> gluedDragBoxes = new Vector<ConnectionDragBox>();
+    
+    public abstract void registerDropController();
+    
+    public abstract void unregisterDropController();
 
     public List<ConnectionDragBox> getGluedDragBoxes() {
         return gluedDragBoxes;
@@ -143,6 +150,20 @@ public class Port extends AbsolutePanel {
 
     public void setYOffset(int offset) {
         yOffset = offset;
+    }
+
+    public UndoableCommand getRemoveConnectionsCommand() {
+        CommandList cmdList = new CommandList();
+
+        for (ConnectionDragBox dragBox : gluedDragBoxes) {
+            // check if drag box is not the drag box with out connection
+            if (dragBox.getConnection() != null) {
+                cmdList.addCommand(new RemoveConnectionCommand(dragBox
+                        .getConnection()));
+            }
+        }
+
+        return cmdList;
     }
 
 }

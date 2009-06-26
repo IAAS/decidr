@@ -103,7 +103,7 @@ public class ConnectionDragController extends PickupDragController {
                     draggedDragBox.setConnection(null);
 
                     // delete connection
-                    connection.delete();
+                    connection.remove();
                     connection = null;
                 }
 

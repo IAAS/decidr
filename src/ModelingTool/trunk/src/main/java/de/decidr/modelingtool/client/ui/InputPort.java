@@ -38,16 +38,26 @@ public class InputPort extends Port {
 
         // set properties
         this.addStyleName("port-inputport");
-        
+
         // register drop controller to drag controller
+        //registerDropController();
+
+        // make connection drag box draggable
+        PickupDragController ipdc = DndRegistry.getInstance()
+                .getDragController("InputPortDragController");
+        ipdc.makeDraggable(connectionDragBox);
+    }
+
+    public void registerDropController() {
         PickupDragController opdc = DndRegistry.getInstance()
                 .getDragController("OutputPortDragController");
         opdc.registerDropController(getDropController());
+    }
 
-        // make connection drag box draggable
-        PickupDragController ipdc = DndRegistry.getInstance().getDragController(
-                "InputPortDragController");
-        ipdc.makeDraggable(connectionDragBox);
+    public void unregisterDropController() {
+        PickupDragController opdc = DndRegistry.getInstance()
+                .getDragController("OutputPortDragController");
+        opdc.unregisterDropController(getDropController());
     }
 
 }

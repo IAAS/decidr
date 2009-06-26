@@ -14,22 +14,22 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.command;
+package de.decidr.modelingtool.client.menu;
 
 import com.google.gwt.user.client.Command;
 
+import de.decidr.modelingtool.client.command.CommandStack;
+
 /**
- * Command for redoing the last action made undone. If the last user performed
- * action was not a undo action, the redo stack is emtpy and no redo action is
- * performed.
+ * Command for undoing the last user performed action.
  *
  * @author JE
  */
-public class RedoCommand implements Command {
+public class UndoCommand implements Command {
 
     @Override
     public void execute() {
-        CommandStack.getInstance().redo();
+        CommandStack.getInstance().undo();
     }
 
 }

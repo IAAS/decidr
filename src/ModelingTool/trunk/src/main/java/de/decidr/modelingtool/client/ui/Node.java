@@ -27,6 +27,8 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.decidr.modelingtool.client.command.CommandList;
+import de.decidr.modelingtool.client.command.UndoableCommand;
 import de.decidr.modelingtool.client.model.NodeModel;
 
 /**
@@ -144,7 +146,7 @@ public abstract class Node extends AbsolutePanel implements
     }
 
     public int getLeft() {
-        if (this.getParent() instanceof AbsolutePanel) {
+        if (getParent() instanceof AbsolutePanel) {
             return ((AbsolutePanel) this.getParent()).getWidgetLeft(this);
         } else {
             return 0;
@@ -156,15 +158,21 @@ public abstract class Node extends AbsolutePanel implements
     }
 
     public int getTop() {
-        if (this.getParent() instanceof AbsolutePanel) {
+        if (getParent() instanceof AbsolutePanel) {
             return ((AbsolutePanel) this.getParent()).getWidgetTop(this);
         } else {
             return 0;
         }
     }
+    
+    public void setPosition(int left, int top) {
+        if (getParent() instanceof AbsolutePanel) {
+            ((AbsolutePanel) getParent()).setWidgetPosition(this, left, top);
+        } 
+    }
 
     public boolean hasContainer() {
-        return (this.getParent() instanceof Container);
+        return (getParent() instanceof Container);
     }
 
     public boolean isDeletable() {
@@ -203,9 +211,27 @@ public abstract class Node extends AbsolutePanel implements
             this.setPixelSize(graphic.getOffsetWidth() + BORDER_OFFSET * 2,
                     graphic.getOffsetHeight() + BORDER_OFFSET * 2);
         }
+        
+        // register port drop controllers
+        if (inputPort != null) {
+            inputPort.registerDropController();
+        }
+        if (outputPort != null) {
+            outputPort.registerDropController();
+        }
 
         // refresh the port positions
         refreshPortPositions();
+    }
+    
+    public void onPanelRemove() {
+        // unregister port drop controllers
+        if (inputPort != null) {
+            inputPort.unregisterDropController();
+        }
+        if (outputPort != null) {
+            outputPort.unregisterDropController();
+        }
     }
 
     public HasChildren getParentPanel() {
@@ -308,6 +334,19 @@ public abstract class Node extends AbsolutePanel implements
     @Override
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+    
+    public UndoableCommand getRemoveConnectionsCommand() {
+        CommandList cmdList = new CommandList();
+
+        if (inputPort != null) {
+            cmdList.addCommand(inputPort.getRemoveConnectionsCommand());
+        }
+        if (outputPort != null) {
+            cmdList.addCommand(outputPort.getRemoveConnectionsCommand());
+        }
+        
+        return cmdList;
     }
 
 }

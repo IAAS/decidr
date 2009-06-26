@@ -14,20 +14,27 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.command;
+package de.decidr.modelingtool.client.menu;
 
-import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.MenuBar;
+
 
 /**
- * Command for undoing the last user performed action.
+ * TODO: add comment
  *
  * @author JE
  */
-public class UndoCommand implements Command {
-
-    @Override
-    public void execute() {
-        CommandStack.getInstance().undo();
+public class Menu extends MenuBar {
+    
+    public Menu() {
+        // argument false = non vertical
+        super(false);
+        
+        this.addStyleName("menu-std");
+        
+        addItem("Undo", new UndoCommand());
+        addItem("Redo", new RedoCommand());
+        addItem("Delete", new DeleteMenuItemCommand());
     }
-
+    
 }
