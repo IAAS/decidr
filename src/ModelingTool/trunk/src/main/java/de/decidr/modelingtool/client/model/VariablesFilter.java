@@ -55,7 +55,7 @@ public class VariablesFilter {
         return result;
     }
 
-    // TODO: rewrite method
+    // JS: rewrite method
     public static Variable getVariableByName(String name) {
         for (Variable var : Workflow.getInstance().getModel().getVariables()) {
             if (var.getName() == name) {

@@ -24,7 +24,7 @@ import com.extjs.gxt.ui.client.data.BaseModelData;
 /**
  * TODO: add comment
  * 
- * @author JS
+ * @author Jonas Schlaak
  */
 @SuppressWarnings("serial")
 public class Variable extends BaseModelData {
@@ -43,7 +43,7 @@ public class Variable extends BaseModelData {
      * TODO: add comment
      */
     public Variable() {
-        // TODO: think this over, consider add variable in variable editor, too
+        // JS: think this over, consider add variable in variable editor, too
         super();
         set(NAME, "variable name");
         set(TYPE, VariableType.STRING);

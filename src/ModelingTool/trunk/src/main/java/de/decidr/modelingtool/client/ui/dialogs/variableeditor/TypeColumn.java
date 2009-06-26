@@ -30,7 +30,7 @@ import de.decidr.modelingtool.client.model.VariableType;
 /**
  * TODO: add comment
  * 
- * @author JS
+ * @author Jonas Schlaak
  */
 public class TypeColumn extends ColumnConfig {
 

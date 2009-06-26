@@ -32,7 +32,7 @@ import de.decidr.modelingtool.client.ui.dialogs.activitywindows.formdesigner.Tas
 /**
  * TODO: add comment
  * 
- * @author JS
+ * @author Jonas Schlaak
  */
 public class HumanTaskActivityWindow extends Dialog {
 
@@ -40,7 +40,7 @@ public class HumanTaskActivityWindow extends Dialog {
     private FormDesignPanel formPanel;
 
     public HumanTaskActivityWindow() {
-        // TODO: fix layout problems
+        // JS: fix layout problems
         super();
         this.setHeading(ModelingTool.messages.humanTaskActivity());
         this.setLayout(new RowLayout(Orientation.VERTICAL));

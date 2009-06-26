@@ -21,7 +21,7 @@ import com.extjs.gxt.ui.client.widget.grid.CheckColumnConfig;
 /**
  * TODO: add comment
  * 
- * @author JS
+ * @author Jonas Schlaak
  */
 public class ArrayVarColumn extends CheckColumnConfig {
 

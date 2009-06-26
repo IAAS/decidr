@@ -40,7 +40,7 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 /**
  * TODO: add comment
  * 
- * @author JS
+ * @author Jonas Schlaak
  */
 public class ValueEditor extends Dialog {
 

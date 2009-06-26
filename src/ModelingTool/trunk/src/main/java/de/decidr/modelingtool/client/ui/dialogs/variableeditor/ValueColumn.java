@@ -21,7 +21,7 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 /**
  * TODO: add comment
  * 
- * @author JS
+ * @author Jonas Schlaak
  */
 public class ValueColumn extends ColumnConfig {
 

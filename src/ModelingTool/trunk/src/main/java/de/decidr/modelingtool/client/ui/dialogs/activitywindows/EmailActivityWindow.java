@@ -38,7 +38,7 @@ import de.decidr.modelingtool.client.ui.dialogs.SelectionBoxListener;
 /**
  * TODO: add comment
  * 
- * @author JS
+ * @author Jonas Schlaak
  */
 public class EmailActivityWindow extends Dialog {
 

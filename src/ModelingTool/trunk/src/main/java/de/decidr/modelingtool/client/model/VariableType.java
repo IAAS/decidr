@@ -21,7 +21,7 @@ import de.decidr.modelingtool.client.ModelingTool;
 /**
  * TODO: add comment
  * 
- * @author JS
+ * @author Jonas Schlaak
  */
 public enum VariableType {
 

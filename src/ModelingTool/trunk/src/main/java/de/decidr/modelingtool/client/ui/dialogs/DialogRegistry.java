@@ -28,7 +28,7 @@ import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
 /**
  * TODO: add comment
  * 
- * @author JS
+ * @author Jonas Schlaak
  */
 public class DialogRegistry {
 

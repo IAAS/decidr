@@ -19,9 +19,11 @@ package de.decidr.modelingtool.client.model;
 /**
  * TODO: add comment
  *
- * @author JE
+ * @author JE, Jonas Schlaak
  */
 public class EmailInvokeNodeModel extends NodeModel {
+    
+    private String to;
 
     /**
      * TODO: add comment
