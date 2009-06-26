@@ -52,7 +52,9 @@ public class TaskPanel extends ContentPanel {
         taskTable.setCellSpacing(2);
         taskScrollPanel = new ScrollPanel(taskTable);
         this.add(taskScrollPanel);
+    }
 
+    public void createFields() {
         ComboBox<Variable> userField = new ComboBox<Variable>();
         userField.setDisplayField(Variable.NAME);
         userField.setStore(VariablesFilter
@@ -80,7 +82,14 @@ public class TaskPanel extends ContentPanel {
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
                 ModelingTool.messages.notifyLabel()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, notifyCheckBox);
-
     }
 
+    public void clearAllEntries() {
+        if (taskTable.getRowCount() > 0) {
+            int start = taskTable.getRowCount();
+            for (int i = start; i > 0; i--) {
+                taskTable.removeRow(i - 1);
+            }
+        }
+    }
 }

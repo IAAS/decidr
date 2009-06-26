@@ -48,7 +48,7 @@ public class FormDesignPanel extends ContentPanel {
     private List<TextField<String>> fields = new ArrayList<TextField<String>>();
 
     public FormDesignPanel() {
-        // FIXME: panel not shown at first time
+
         super();
 
         this.setHeading(ModelingTool.messages.workItemForm());

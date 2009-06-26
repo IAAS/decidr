@@ -82,8 +82,10 @@ public class ForEachWindow extends Dialog {
 
         RadioGroup exitConditionGroup = new RadioGroup();
         Radio andBox = new Radio();
+        andBox.setBoxLabel(ModelingTool.messages.andConLabel());
         exitConditionGroup.add(andBox);
         Radio xorBox = new Radio();
+        xorBox.setBoxLabel(ModelingTool.messages.xorConLabel());
         exitConditionGroup.add(xorBox);
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(

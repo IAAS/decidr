@@ -262,7 +262,8 @@ public class VariableEditor extends Dialog {
      */
     @Override
     public void refresh() {
-        if (grid != null && csm != null && csm.getSelectCell().model != null) {
+        if (grid != null && csm != null && csm.getSelectCell() != null
+                && csm.getSelectCell().model != null) {
             grid.getStore().update(csm.getSelectCell().model);
             grid.getView().refresh(false);
         }

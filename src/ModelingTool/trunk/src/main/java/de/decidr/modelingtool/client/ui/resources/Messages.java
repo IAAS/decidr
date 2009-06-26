@@ -22,7 +22,7 @@ import com.google.gwt.i18n.client.Constants;
  * 
  * TODO: add comment
  * 
- * @author JS
+ * @author Jonas Schlaak
  */
 public interface Messages extends Constants {
 
@@ -51,6 +51,8 @@ public interface Messages extends Constants {
     String messageFieldLabel();
 
     String attachmentFieldLabel();
+    
+    String changeValueButton();
 
     /* Human task */
     String humanTaskActivity();
@@ -75,6 +77,10 @@ public interface Messages extends Constants {
     String iterationVarLabel();
 
     String exitConLabel();
+
+    String andConLabel();
+
+    String xorConLabel();
 
     /* Variable editor */
     String addVariable();

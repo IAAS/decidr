@@ -123,9 +123,8 @@ public class EmailActivityWindow extends Dialog {
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(label));
         table.setWidget(table.getRowCount() - 1, 1, field);
-        // TODO: externalize String
-
-        table.setWidget(table.getRowCount() - 1, 2, new Button("Change Value",
+        table.setWidget(table.getRowCount() - 1, 2, new Button(
+                ModelingTool.messages.changeValueButton(),
                 new SelectionBoxListener(field)));
     }
 

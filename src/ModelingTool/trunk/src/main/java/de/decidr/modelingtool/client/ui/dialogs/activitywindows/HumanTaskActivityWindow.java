@@ -17,12 +17,11 @@
 package de.decidr.modelingtool.client.ui.dialogs.activitywindows;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
+import com.extjs.gxt.ui.client.Style.Orientation;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
-import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
-import com.extjs.gxt.ui.client.widget.layout.AccordionLayout;
-import com.extjs.gxt.ui.client.widget.layout.FitLayout;
+import com.extjs.gxt.ui.client.widget.layout.RowLayout;
 
 import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
@@ -37,13 +36,14 @@ import de.decidr.modelingtool.client.ui.dialogs.activitywindows.formdesigner.Tas
  */
 public class HumanTaskActivityWindow extends Dialog {
 
-    private ContentPanel contentPanel;
     private TaskPanel taskPanel;
     private FormDesignPanel formPanel;
 
     public HumanTaskActivityWindow() {
+        // TODO: fix layout problems
         super();
-        this.setLayout(new FitLayout());
+        this.setHeading(ModelingTool.messages.humanTaskActivity());
+        this.setLayout(new RowLayout(Orientation.VERTICAL));
         this.setSize(400, 600);
         this.setResizable(true);
         createContentPanel();
@@ -51,18 +51,14 @@ public class HumanTaskActivityWindow extends Dialog {
     }
 
     private void createContentPanel() {
-        contentPanel = new ContentPanel();
-
-        contentPanel.setHeading(ModelingTool.messages.humanTaskActivity());
-        contentPanel.setLayout(new AccordionLayout());
-        contentPanel.setBodyBorder(false);
-
+        /*
+         * There is no ContentPanel here. A taskPanel and a formPanel form the
+         * "ContentPanel".
+         */
         taskPanel = new TaskPanel();
-        contentPanel.add(taskPanel);
+        this.add(taskPanel);
         formPanel = new FormDesignPanel();
-        contentPanel.add(formPanel);
-
-        this.add(contentPanel);
+        this.add(formPanel);
     }
 
     private void createButtons() {
@@ -93,13 +89,14 @@ public class HumanTaskActivityWindow extends Dialog {
     @Override
     public void initialize() {
         // TODO Auto-generated method stub
-
+        taskPanel.createFields();
     }
 
     @Override
     public void reset() {
         // TODO Auto-generated method stub
         formPanel.clearAllEntries();
+        taskPanel.clearAllEntries();
     }
 
     @Override
