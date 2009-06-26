@@ -16,6 +16,8 @@
 
 package de.decidr.modelingtool.client.ui;
 
+import de.decidr.modelingtool.client.model.Model;
+
 /**
  * Classes which implement this interface are selectable.
  *
@@ -26,5 +28,7 @@ public interface Selectable {
     public boolean isSelected();
     
     public void setSelected(boolean selected);
+    
+    public Model getModel();
     
 }

@@ -36,6 +36,9 @@ public interface Messages extends Constants {
     String successMessageFieldLabel();
 
     String notifyCheckBox();
+    
+    /*Nodes*/
+    String changePropertyButton();
 
     /* Email */
     String emailActivity();

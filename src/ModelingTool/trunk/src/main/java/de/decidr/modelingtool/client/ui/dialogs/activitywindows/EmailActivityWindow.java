@@ -28,9 +28,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
 import de.decidr.modelingtool.client.model.Variable;
 import de.decidr.modelingtool.client.model.VariableType;
 import de.decidr.modelingtool.client.model.VariablesFilter;
+import de.decidr.modelingtool.client.ui.EmailInvokeNode;
+import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.SelectionBoxListener;
@@ -41,6 +44,8 @@ import de.decidr.modelingtool.client.ui.dialogs.SelectionBoxListener;
  * @author Jonas Schlaak
  */
 public class EmailActivityWindow extends Dialog {
+
+    private EmailInvokeNodeModel model;
 
     private ContentPanel contentPanel;
     private ScrollPanel scrollPanel;
@@ -103,21 +108,30 @@ public class EmailActivityWindow extends Dialog {
 
     private void okButtonAction() {
         // TODO: write method
+        putEmailNodeModel();
     }
 
     private void getEmailNodeModel() {
-        // TODO: write method
+        // JS: this is temporary
+        if (Workflow.getInstance().getSelectedItem() instanceof EmailInvokeNode) {
+            model = new EmailInvokeNodeModel();
+            model = (EmailInvokeNodeModel) ((EmailInvokeNode) Workflow
+                    .getInstance().getSelectedItem()).getModel();
+        }
     }
 
     private void putEmailNodeModel() {
-        // TODO: write method
+        // JS: this is temporary
+        model.setToVariableName(toField.getValue().getName());
+        ((EmailInvokeNode) Workflow.getInstance().getSelectedItem())
+                .setModel(model);
     }
 
     private void addComboField(ComboBox<Variable> field, String label,
-            VariableType type) {
-        field = new ComboBox<Variable>();
+            VariableType type, String name) {
         field.setDisplayField(Variable.NAME);
         field.setStore(VariablesFilter.getVariablesOfType(type));
+        field.setValue(VariablesFilter.getVariableByName(name));
         field.setTypeAhead(true);
         field.setWidth("200px");
         table.insertRow(table.getRowCount());
@@ -140,23 +154,29 @@ public class EmailActivityWindow extends Dialog {
     @Override
     public void initialize() {
         getEmailNodeModel();
+        toField = new ComboBox<Variable>();
         addComboField(toField, ModelingTool.messages.toFieldLabel(),
-                VariableType.STRING);
+                VariableType.STRING, model.getToVariableName());
+        ccField = new ComboBox<Variable>();
         addComboField(ccField, ModelingTool.messages.ccFieldLabel(),
-                VariableType.STRING);
+                VariableType.STRING, model.getCcVariableName());
+        bccField = new ComboBox<Variable>();
         addComboField(bccField, ModelingTool.messages.bccFieldLabel(),
-                VariableType.STRING);
+                VariableType.STRING, model.getBccVariableName());
+        subjectField = new ComboBox<Variable>();
         addComboField(subjectField, ModelingTool.messages.subjectFieldLabel(),
-                VariableType.STRING);
+                VariableType.STRING, model.getSubjectVariableName());
+        messageField = new ComboBox<Variable>();
         addComboField(messageField, ModelingTool.messages.messageFieldLabel(),
-                VariableType.STRING);
+                VariableType.STRING, model.getMessageVariableName());
+        attachmentField = new ComboBox<Variable>();
         addComboField(attachmentField, ModelingTool.messages
-                .attachmentFieldLabel(), VariableType.FILE);
+                .attachmentFieldLabel(), VariableType.FILE, model
+                .getAttachmentVariableName());
     }
 
     @Override
     public void reset() {
-        putEmailNodeModel();
         clearAllEntries();
     }
 

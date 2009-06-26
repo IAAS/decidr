@@ -34,6 +34,10 @@ public class NodeModel extends AbstractModel {
         this.parentModel = parentModel;
     }
 
+    public NodeModel() {
+        // TODO Auto-generated constructor stub
+    }
+
     public ConnectionModel getInput() {
         return input;
     }

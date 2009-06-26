@@ -18,16 +18,21 @@ package de.decidr.modelingtool.client.model;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author JE, Jonas Schlaak
  */
 public class EmailInvokeNodeModel extends NodeModel {
-    
-    private String to;
+
+    private String toVariableName = "";
+    private String ccVariableName = "";
+    private String bccVariableName = "";
+    private String subjectVariableName = "";
+    private String messageVariableName = "";
+    private String attachmentVariableName = "";
 
     /**
      * TODO: add comment
-     *
+     * 
      * @param parentModel
      */
     public EmailInvokeNodeModel(HasChildModels parentModel) {
@@ -35,6 +40,56 @@ public class EmailInvokeNodeModel extends NodeModel {
         // TODO Auto-generated constructor stub
     }
 
-   
-    
+    public EmailInvokeNodeModel() {
+        super();
+    }
+
+    public String getToVariableName() {
+        return toVariableName;
+    }
+
+    public String getCcVariableName() {
+        return ccVariableName;
+    }
+
+    public String getBccVariableName() {
+        return bccVariableName;
+    }
+
+    public String getSubjectVariableName() {
+        return subjectVariableName;
+    }
+
+    public String getMessageVariableName() {
+        return messageVariableName;
+    }
+
+    public String getAttachmentVariableName() {
+        return attachmentVariableName;
+    }
+
+    public void setToVariableName(String toVariableName) {
+        this.toVariableName = toVariableName;
+    }
+
+    public void setCcVariableName(String ccVariableName) {
+        this.ccVariableName = ccVariableName;
+    }
+
+    public void setBccVariableName(String bccVariableName) {
+        this.bccVariableName = bccVariableName;
+    }
+
+    public void setSubjectVariableName(String subjectVariableName) {
+        this.subjectVariableName = subjectVariableName;
+    }
+
+    public void setMessageVariableName(String messageVariableName) {
+        this.messageVariableName = messageVariableName;
+    }
+
+    public void setAttachmentVariableName(String attachmentVariableName) {
+        this.attachmentVariableName = attachmentVariableName;
+    }
+
 }
