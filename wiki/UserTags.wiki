@@ -12,3 +12,4 @@ This page contains a mapping of user names to task tags as used in eclipse.
 || Reinhold || RR ||
 || Geoffrey || GH ||
 || Aleksandar || Aleks ||
+|| Johannes || JE ||
