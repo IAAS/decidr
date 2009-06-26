@@ -29,8 +29,10 @@ import javax.xml.bind.TypeConstraintException;
 import org.apache.log4j.Logger;
 
 import de.decidr.model.commands.system.GetSystemSettingsCommand;
+import de.decidr.model.commands.user.GetUserPropertiesCommand;
 import de.decidr.model.email.MailBackend;
 import de.decidr.model.entities.SystemSettings;
+import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.permissions.EmailRole;
@@ -107,13 +109,17 @@ public class EmailService implements EmailInterface {
      *            The <code>{@link AbstractUserList}</code> containing the
      *            e-mail addresses.
      * @return A <code>{@link List}</code> containing e-mail addresses.
+     * @throws TransactionException
+     *             see <code>{@link #extractActorAddresses(List)}</code>
      */
     @WebMethod(exclude = true)
-    private static List<String> extractEmails(AbstractUserList userList) {
+    private static List<String> extractEmails(AbstractUserList userList)
+            throws TransactionException {
         log.trace("Entering " + EmailService.class.getSimpleName()
                 + ".extractEmails(AbstractUserList)");
         List<String> emailList = new ArrayList<String>(userList
                 .getAbstractUser().size());
+        List<Actor> actorList = new ArrayList<Actor>();
 
         log.debug("extracting email addresses from AbstractUserList");
         for (AbstractUser user : userList.getAbstractUser()) {
@@ -122,11 +128,11 @@ public class EmailService implements EmailInterface {
                 emailList.add(((EmailUser) user).getUser());
             } else if (user instanceof ActorUser) {
                 log.debug("found ActorUser");
-                emailList.add(((ActorUser) user).getUser().getEmail());
+                actorList.add(((ActorUser) user).getUser());
             } else if (user instanceof RoleUser) {
                 log.debug("found RoleUser");
                 for (Actor actor : ((RoleUser) user).getUser().getActor()) {
-                    emailList.add(actor.getEmail());
+                    actorList.add(actor);
                 }
             } else {
                 log.error("The AbstractUser " + user + " was not recognised. "
@@ -137,9 +143,56 @@ public class EmailService implements EmailInterface {
             }
         }
 
+        if (!actorList.isEmpty()) {
+            emailList.addAll(extractActorAddresses(actorList));
+        }
+
         log.trace("Leaving " + EmailService.class.getSimpleName()
                 + ".extractEmails(AbstractUserList)");
         return emailList;
+    }
+
+    /**
+     * Extracts a list of email addresses from a list of
+     * <code>{@link Actor Actors}</code>.
+     * 
+     * @param users
+     *            The list of <code>{@link Actor Actors}</code>.
+     * @return A list of email addresses.
+     * @throws TransactionException
+     *             see
+     *             <code>{@link HibernateTransactionCoordinator#runTransaction(de.decidr.model.commands.TransactionalCommand)}</code>
+     */
+    private static List<String> extractActorAddresses(List<Actor> users)
+            throws TransactionException {
+        log.trace("Entering " + EmailService.class.getSimpleName()
+                + ".extractActorAddresses(List<Actor>)");
+        List<String> emails = new ArrayList<String>();
+        List<Long> userIDs = new ArrayList<Long>();
+
+        log.debug("extracting included addresses");
+        for (Actor actor : users) {
+            if (actor.getEmail() != null) {
+                emails.add(actor.getEmail());
+            } else {
+                userIDs.add(actor.getUserid());
+            }
+        }
+
+        if (!userIDs.isEmpty()) {
+            log.debug("asking the model for the users' email addresses");
+            GetUserPropertiesCommand cmd = new GetUserPropertiesCommand(
+                    EmailRole.getInstance(), userIDs, "email");
+            HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+            List<User> modelUsers = cmd.getUser();
+            for (User user : modelUsers) {
+                emails.add(user.getEmail());
+            }
+        }
+
+        log.trace("Leaving " + EmailService.class.getSimpleName()
+                + ".extractActorAddresses(List<Actor>)");
+       return emails;
     }
 
     /**

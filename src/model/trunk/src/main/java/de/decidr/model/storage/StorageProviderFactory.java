@@ -32,7 +32,8 @@ import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.logging.DefaultLogger;
 
 /**
- * TODO add comments<br>
+ * A factory that can be used to create a <code>{@link StorageProvider}</code>
+ * according to a specified configuration.<br>
  * <em>WARNING: Files can only be retrieved by the <code>{@link StorageProvider}</code> they were stored by!</em>
  * <p>
  * Usage: new StorageProviderFactory().getStorageProvider();
@@ -42,7 +43,6 @@ import de.decidr.model.logging.DefaultLogger;
  * @author Reinhold
  * @version 0.1
  */
-// RR do logging
 public class StorageProviderFactory {
 
     /**
@@ -120,7 +120,11 @@ public class StorageProviderFactory {
      */
     public StorageProviderFactory(InputStream configFile)
             throws InvalidPropertiesFormatException, IOException {
+        log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
+                + "(InputStream)");
         configure(configFile);
+        log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
+                + "(InputStream)");
     }
 
     /**
@@ -130,7 +134,11 @@ public class StorageProviderFactory {
      *            configuration <code>{@link Properties}</code> to use
      */
     public StorageProviderFactory(Properties config) {
+        log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
+                + ".configure(Properties)");
         configure(config);
+        log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
+                + ".configure(Properties)");
     }
 
     /**
@@ -139,8 +147,12 @@ public class StorageProviderFactory {
      * @return this object for method chaining.
      */
     public StorageProviderFactory configure() {
+        log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
+                + ".configure()");
+        log.debug("find available providers");
         discoverProviders();
 
+        log.debug("find applicable provider");
         for (Class<? extends StorageProvider> candidate : knownProviders) {
             try {
                 if (candidate.newInstance().isApplicable(config)) {
@@ -153,6 +165,8 @@ public class StorageProviderFactory {
                 continue;
             }
         }
+        log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
+                + ".configure()");
         return this;
     }
 
@@ -170,8 +184,13 @@ public class StorageProviderFactory {
      */
     public StorageProviderFactory configure(InputStream configFile)
             throws InvalidPropertiesFormatException, IOException {
+        log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
+                + ".configure(InputStream)");
         Properties config = new Properties();
+        log.debug("loading config from InputStream");
         config.loadFromXML(configFile);
+        log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
+                + ".configure(InputStream)");
         return configure(config);
     }
 
@@ -183,7 +202,11 @@ public class StorageProviderFactory {
      * @return this object for method chaining.
      */
     public StorageProviderFactory configure(Properties config) {
+        log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
+                + ".configure(Properties)");
         this.config = config;
+        log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
+                + ".configure(Properties)");
         return configure();
     }
 
@@ -211,8 +234,14 @@ public class StorageProviderFactory {
      */
     // RR: find better way of finding available providers
     private void discoverProviders() {
+        log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
+                + ".discoverProviders()");
+        log.debug("manually creating new list "
+                + "and filling it with all know providers");
         knownProviders = new ArrayList<Class<? extends StorageProvider>>();
         knownProviders.add(LocalStorageProvider.class);
+        log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
+                + ".discoverProviders()");
     }
 
     /**
@@ -235,6 +264,7 @@ public class StorageProviderFactory {
                 + ".getStorageProvider()");
         StorageProvider result = null;
 
+        log.debug("creating & configuring new provider instance");
         if (selectedProvider != null) {
             try {
                 result = selectedProvider.newInstance();
@@ -258,7 +288,13 @@ public class StorageProviderFactory {
      *            Whether to use the service or forbid usage.
      */
     public void setAmazonS3(Boolean amazons3) {
-        config.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, amazons3.toString());
+        log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
+                + ".setAmazonS3(Boolean)");
+        log.debug("setting amazon S3 setting");
+        config.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, amazons3
+                .toString());
+        log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
+                + ".setAmazonS3(Boolean)");
     }
 
     /**
@@ -269,7 +305,12 @@ public class StorageProviderFactory {
      *            Whether to force local or remote storage.
      */
     public void setLocalOnly(Boolean local) {
+        log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
+                + ".setLoaclOnly(Boolean)");
+        log.debug("setting local store setting");
         config.setProperty(StorageProvider.LOCAL_CONFIG_KEY, local.toString());
+        log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
+                + ".setLoaclOnly(Boolean)");
     }
 
     /**
@@ -280,8 +321,13 @@ public class StorageProviderFactory {
      *            Whether to force persistent or volatile storage.
      */
     public void setPersistent(Boolean persistent) {
+        log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
+                + ".setPersistent(Boolean)");
+        log.debug("setting persistency setting");
         config.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, persistent
                 .toString());
+        log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
+                + ".setPersistent(Boolean)");
     }
 
     /**
@@ -292,7 +338,12 @@ public class StorageProviderFactory {
      *            The protocol that should be used to access the files.
      */
     public void setProtocol(String protocol) {
+        log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
+                + ".setProtocol(String)");
+        log.debug("setting protocol setting");
         config.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, protocol);
+        log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
+                + ".setProtocol(String)");
     }
 
     /**
@@ -300,7 +351,12 @@ public class StorageProviderFactory {
      * not important.
      */
     public void unsetAmazonS3() {
+        log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
+                + ".unsetAmazonS3()");
+        log.debug("removing amazon S3 setting");
         config.remove(StorageProvider.AMAZON_S3_CONFIG_KEY);
+        log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
+                + ".unsetAmazonS3()");
     }
 
     /**
@@ -308,7 +364,12 @@ public class StorageProviderFactory {
      * not important.
      */
     public void unsetLocalOnly() {
+        log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
+                + ".unsetLocalOnly()");
+        log.debug("removing local store setting");
         config.remove(StorageProvider.LOCAL_CONFIG_KEY);
+        log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
+                + ".unsetLocalOnly()");
     }
 
     /**
@@ -316,7 +377,12 @@ public class StorageProviderFactory {
      * is not important.
      */
     public void unsetPersistent() {
+        log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
+                + ".unsetPersistent()");
+        log.debug("removing persistency setting");
         config.remove(StorageProvider.PERSISTENT_CONFIG_KEY);
+        log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
+                + ".unsetPersistent()");
     }
 
     /**
@@ -324,6 +390,11 @@ public class StorageProviderFactory {
      * not important.
      */
     public void unsetProtocol() {
+        log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
+                + ".unsetProtocol()");
+        log.debug("removing protocol setting");
         config.remove(StorageProvider.PROTOCOL_CONFIG_KEY);
+        log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
+                + ".unsetProtocol()");
     }
 }

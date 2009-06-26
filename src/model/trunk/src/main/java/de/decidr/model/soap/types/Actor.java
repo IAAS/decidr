@@ -52,10 +52,9 @@ public class Actor {
     @XmlSchemaType(name = "NCName")
     protected String name;
     @XmlAttribute(required = true)
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     @XmlID
     @XmlSchemaType(name = "ID")
-    protected String userid;
+    protected Long userid;
     @XmlAttribute
     protected String email;
 
@@ -81,9 +80,9 @@ public class Actor {
     /**
      * Gets the value of the userid property.
      * 
-     * @return possible object is {@link String }
+     * @return possible object is {@link Long }
      */
-    public String getUserid() {
+    public Long getUserid() {
         return userid;
     }
 
@@ -91,9 +90,9 @@ public class Actor {
      * Sets the value of the userid property.
      * 
      * @param value
-     *            allowed object is {@link String }
+     *            allowed object is {@link Long }
      */
-    public void setUserid(String value) {
+    public void setUserid(Long value) {
         this.userid = value;
     }
 
