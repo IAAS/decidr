@@ -33,8 +33,11 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.Upload;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
+
+import de.decidr.ui.controller.UploadTenantLogoAction;
 
 /**
  * TODO: add comment
@@ -60,6 +63,8 @@ public class TenantSettingsComponent extends CustomComponent {
     private Panel buttonPanel = null;
     
     private Label tenantSettingsLabel = null;
+   
+    private Upload logoUpload = null;
     
     private TextField textArea = null;
     private TextField browseTextField = null;
@@ -108,6 +113,11 @@ public class TenantSettingsComponent extends CustomComponent {
         textArea.setRows(10);
         textArea.setColumns(30);
         textArea.setCaption("Description");
+        
+        logoUpload = new Upload("Upload Logo", new UploadTenantLogoAction());
+        logoUpload.setButtonCaption("Upload Logo");
+        
+        
         browseTextField = new TextField();
         browseTextField.setColumns(30);
         browseTextField.setValue("img/logo.png");
@@ -153,6 +163,12 @@ public class TenantSettingsComponent extends CustomComponent {
         
        
     }
+    
+    public TextField getTenantDescription(){
+    	return textArea;
+    }
+    
+   
     
     private void changeToBasic(){
         backgroundButton = new Button("Background");
