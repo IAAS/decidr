@@ -390,6 +390,7 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`invitation` (
   `participateInWorkflowInstanceId` BIGINT NULL COMMENT 'If not set to null the receiver is invited to participate in the given workflow instance. Furthermore the user will join the tenant that owns the workflow instance.' ,
   `joinTenantId` BIGINT NULL COMMENT 'If not set to null the receiver is invited to join a tenant as a normal tenant member.' ,
   `administrateWorkflowModelId` BIGINT NULL COMMENT 'If not set to null the receiver is invited to administrate the given workflow model. Furthermore the user will join the tenant that owns the workflow model' ,
+  `creationDate` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_invitation_sender` (`senderId` ASC) ,
   INDEX `fk_invitation_receiver` (`receiverId` ASC) ,
@@ -539,9 +540,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`known_web_service` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(255) NOT NULL ,
+  `namespace` VARCHAR(255) NOT NULL COMMENT 'This is the unique namespace of the web service' ,
   `wsdl` LONGBLOB NOT NULL ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `unique_name` (`namespace` ASC) )
 ENGINE = InnoDB;
 
 
@@ -570,6 +572,10 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`system_settings` (
   `autoAcceptNewTenants` BOOLEAN NOT NULL DEFAULT FALSE ,
   `logLevel` VARCHAR(30) NOT NULL ,
   `superAdminId` BIGINT NULL ,
+  `passwordResetRequestLifetimeSeconds` INT NOT NULL DEFAULT 259200 COMMENT 'Default is 72 hours' ,
+  `registrationRequestLifetimeSeconds` INT NOT NULL DEFAULT 259200 COMMENT 'Default is 72 hours' ,
+  `changeEmailRequestLifetimeSeconds` INT NOT NULL DEFAULT 259200 COMMENT 'Default is 72 hours' ,
+  `invitationLifetimeSeconds` INT NOT NULL DEFAULT 259200 COMMENT 'Default is 72 hours' ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_system_settings_user` (`superAdminId` ASC) ,
   CONSTRAINT `fk_system_settings_user`
@@ -647,6 +653,25 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`password_reset_request` (
     REFERENCES `decidrdb`.`user` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `decidrdb`.`login`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `decidrdb`.`login` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT ,
+  `userId` BIGINT NOT NULL ,
+  `loginDate` DATETIME NOT NULL ,
+  `success` BOOLEAN NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_login_user` (`userId` ASC) ,
+  INDEX `index_loginDate` (`loginDate` ASC) ,
+  CONSTRAINT `fk_login_user`
+    FOREIGN KEY (`userId` )
+    REFERENCES `decidrdb`.`user` (`id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
