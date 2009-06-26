@@ -192,4 +192,5 @@ public class CompletedInstancesContainer extends Observable implements
         return items.size();
     }
 
+   
 }

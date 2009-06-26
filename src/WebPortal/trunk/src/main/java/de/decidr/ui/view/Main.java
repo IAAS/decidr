@@ -1,5 +1,10 @@
 package de.decidr.ui.view;
 
+import java.io.IOError;
+import java.io.IOException;
+
+import javax.servlet.http.HttpSession;
+
 import com.vaadin.Application;
 import com.vaadin.service.ApplicationContext;
 import com.vaadin.service.ApplicationContext.TransactionListener;
@@ -18,6 +23,10 @@ public class Main extends Application implements TransactionListener {
      * TODO: add comment
      */
     private static final long serialVersionUID = 2668887930201158755L;
+    
+    private ApplicationContext ctx = null;
+    private WebApplicationContext webCtx = null;
+    private HttpSession session = null;
 
     private static ThreadLocal<Main> currentApplication = new ThreadLocal<Main>();
 
@@ -35,9 +44,17 @@ public class Main extends Application implements TransactionListener {
         main.addComponent(director.getTemplateView());
         if (getContext() != null) {
             getContext().addTransactionListener(this);
-    }       
-
+        }   
+        ctx = getContext();
+        webCtx = (WebApplicationContext)ctx;
+        try{
+            String url = (String)getURL().getContent();
+            System.out.println(url);
+        }catch(IOException exception){
+            
+        }
         
+        session = webCtx.getHttpSession();
     }
     
     
@@ -89,6 +106,10 @@ public class Main extends Application implements TransactionListener {
     public void transactionStart(Application application, Object transactionData) {
         Main.setCurrent(this);
 
+    }
+    
+    public HttpSession getSession(){
+        return session;
     }
 
 }

@@ -31,6 +31,7 @@ import de.decidr.ui.view.Main;
 public class LoginAction implements ClickListener {
     
     private Login login = new Login();
+    UIDirector uiDirector = UIDirector.getInstance();
 
     /* (non-Javadoc)
      * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
@@ -38,7 +39,7 @@ public class LoginAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         try{
-            login.authenticate(LoginComponent.getInstance().getUsernameTextField().getValue().toString(), LoginComponent.getInstance().getPasswordTextField().getValue().toString());
+            login.authenticate(((LoginComponent)uiDirector.getTemplateView().getContent()).getUsernameTextField().getValue().toString(), ((LoginComponent)uiDirector.getTemplateView().getContent()).getPasswordTextField().getValue().toString());
         }catch(TransactionException exception){
             Main.getCurrent().getMainWindow().showNotification("Login unsuccessful");
         }

@@ -57,7 +57,7 @@ public class Login {
     String username = null;
     
     public void authenticate(String username, String password) throws TransactionException{
-        if(userFacade.getUserIdByLogin(username, password) != null){
+        
             ApplicationContext ctx = Main.getCurrent().getContext();
             WebApplicationContext webCtx = (WebApplicationContext)ctx;
             HttpSession session = webCtx.getHttpSession();
@@ -75,9 +75,7 @@ public class Login {
             Main.getCurrent().setUser(username);
             
             loadProtectedResources();
-        }else{
-            Main.getCurrent().getMainWindow().showNotification("Login unsuccessful");
-        }
+       
     }
 
     /**
