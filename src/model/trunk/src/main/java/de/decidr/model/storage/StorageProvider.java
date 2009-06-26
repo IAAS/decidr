@@ -34,18 +34,24 @@ import de.decidr.model.exceptions.StorageException;
  */
 public interface StorageProvider {
 
+    public static final String AMAZON_S3_CONFIG_KEY = "amazons3";
+    public static final String PROTOCOL_CONFIG_KEY = "protocol";
+    public static final String LOCAL_CONFIG_KEY = "local";
+    public static final String PERSISTENT_CONFIG_KEY = "persistent";
+
     /**
      * Creates or replaces the file that is identified by the given id on the
      * storage backend.
      */
-    public void putFile(FileInputStream data, Long fileId) throws StorageException;
+    public void putFile(FileInputStream data, Long fileId)
+            throws StorageException;
 
     /**
      * Retrieves the file that is identified by the given id from the storage
      * backend.
      * 
      * @param fileId
-     *            RR
+     *            The file identifier.
      * @return the file data
      */
     public InputStream getFile(Long fileId) throws StorageException;
@@ -55,27 +61,34 @@ public interface StorageProvider {
      * storage backend.
      * 
      * @param fileId
-     *            RR
+     *            The file identifier.
      */
     public void removeFile(Long fileId) throws StorageException;
 
     /**
-     * TODO: add comment
+     * Checks to see if a <code>{@link Properties}</code> can be applied to this
+     * provider.
      * 
      * @param config
-     * @return
+     *            The configuration that should be checked.
+     * @return - <code>true</code>, if the configuration can be applied<br>
+     *         - <code>false</code>, if it can't
      */
     public boolean isApplicable(Properties config);
 
     /**
-     * TODO: add comment <br>
+     * Tries to apply a configuration to the provider. The caller needs to make
+     * sure all required settings are present.<br>
      * The method <code>{@link #isApplicable(Properties)}</code> can be used to
      * make sure that the configuration is complete.
      * 
      * @param config
+     *            A <code>{@link Properties}</code> containing settings to be
+     *            applied to the provider.
      * @throws IncompleteConfigurationException
      *             thrown if vital parts of the configuration are missing (e.g.
-     *             authentification data).<br>
+     *             authentification data) or the configuration is not applicable
+     *             to this provider.<br>
      *             This exception is usually thrown when calling this
      *             <code>{@link StorageProvider}</code> manually or when the
      *             configuration of the

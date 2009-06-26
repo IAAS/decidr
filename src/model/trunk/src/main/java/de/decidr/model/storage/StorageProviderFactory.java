@@ -75,6 +75,8 @@ public class StorageProviderFactory {
      * to access files; e.g. &quot;file&quot;, &quot;http&quot;,
      * &quot;https&quot;)</li>
      * </ul>
+     * 
+     * @see StorageProvider
      */
     private Properties config;
 
@@ -256,7 +258,7 @@ public class StorageProviderFactory {
      *            Whether to use the service or forbid usage.
      */
     public void setAmazonS3(Boolean amazons3) {
-        config.setProperty("amazons3", amazons3.toString());
+        config.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, amazons3.toString());
     }
 
     /**
@@ -267,7 +269,7 @@ public class StorageProviderFactory {
      *            Whether to force local or remote storage.
      */
     public void setLocalOnly(Boolean local) {
-        config.setProperty("local", local.toString());
+        config.setProperty(StorageProvider.LOCAL_CONFIG_KEY, local.toString());
     }
 
     /**
@@ -278,7 +280,8 @@ public class StorageProviderFactory {
      *            Whether to force persistent or volatile storage.
      */
     public void setPersistent(Boolean persistent) {
-        config.setProperty("persistent", persistent.toString());
+        config.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, persistent
+                .toString());
     }
 
     /**
@@ -289,7 +292,7 @@ public class StorageProviderFactory {
      *            The protocol that should be used to access the files.
      */
     public void setProtocol(String protocol) {
-        config.setProperty("protocol", protocol);
+        config.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, protocol);
     }
 
     /**
@@ -297,7 +300,7 @@ public class StorageProviderFactory {
      * not important.
      */
     public void unsetAmazonS3() {
-        config.remove("amazons3");
+        config.remove(StorageProvider.AMAZON_S3_CONFIG_KEY);
     }
 
     /**
@@ -305,7 +308,7 @@ public class StorageProviderFactory {
      * not important.
      */
     public void unsetLocalOnly() {
-        config.remove("local");
+        config.remove(StorageProvider.LOCAL_CONFIG_KEY);
     }
 
     /**
@@ -313,7 +316,7 @@ public class StorageProviderFactory {
      * is not important.
      */
     public void unsetPersistent() {
-        config.remove("persistent");
+        config.remove(StorageProvider.PERSISTENT_CONFIG_KEY);
     }
 
     /**
@@ -321,6 +324,6 @@ public class StorageProviderFactory {
      * not important.
      */
     public void unsetProtocol() {
-        config.remove("protocol");
+        config.remove(StorageProvider.PROTOCOL_CONFIG_KEY);
     }
 }
