@@ -19,8 +19,8 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.CreateWorkflowInstanceComponent;
+import de.decidr.ui.view.SiteFrame;
 
 /**
  * This action shows the CreateWorkflowInstanceComponent in the content area

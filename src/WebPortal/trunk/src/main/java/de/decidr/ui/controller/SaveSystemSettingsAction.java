@@ -24,20 +24,19 @@ package de.decidr.ui.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Level;
+
 import com.vaadin.data.Item;
 import com.vaadin.service.ApplicationContext;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.view.EditTenantComponent;
-import de.decidr.ui.view.Main;
-import de.decidr.ui.view.SystemSettingComponent;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.SystemFacade;
-import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
-import org.apache.log4j.Level;
+import de.decidr.ui.view.Main;
+import de.decidr.ui.view.SystemSettingComponent;
 
 public class SaveSystemSettingsAction implements ClickListener {
 

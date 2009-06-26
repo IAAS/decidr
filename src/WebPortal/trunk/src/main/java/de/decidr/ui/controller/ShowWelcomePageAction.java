@@ -19,10 +19,6 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-/**
- * TODO: add welcome page
- */
-//import de.decidr.ui.view.
 import de.decidr.ui.view.SiteFrame;
 
 /**

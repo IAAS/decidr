@@ -27,7 +27,6 @@ import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.model.permissions.UserRole;
@@ -35,47 +34,52 @@ import de.decidr.ui.view.Main;
 
 /**
  * This action appoints a list of users as workflow admin
- *
+ * 
  * @author GH
  */
-public class AppointWorkflowAdminAction implements ClickListener{
+public class AppointWorkflowAdminAction implements ClickListener {
 
-    //private ApplicationContext ctx = Main.getCurrent().getContext();
-    //private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    //private HttpSession session = webCtx.getHttpSession();
-    
-    //private Long userId = (Long)session.getAttribute("userId");
-    //private UserFacade userFacade = new UserFacade(new UserRole(userId));
-    //private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(new UserRole(userId));
-    
-    private Form appointForm = null;
-    private Long wfmId = null;
-    
-    
-    public AppointWorkflowAdminAction(Form form, Long workflowmodel){
-        appointForm = form;
-        wfmId = workflowmodel;
-    }
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        List<Long> userIds = new ArrayList<Long>(); 
-        for (Integer c = 1; c <= appointForm.getItemPropertyIds().size(); c++ ){
-            //FIXME: UserFacade.getUserIdByName() required!
-            //userIds.add(userFacade.getUserIdByName(appointForm.getItemProperty("user"+c.toString()).getValue().toString()));
-            
-            //TODO: remove
-            Main.getCurrent().getMainWindow().showNotification(appointForm.getItemProperty("user"+c.toString()).getValue().toString());
-        }
-       /* try {
-            wfmFacade.setWorkflowAdministrators(wfmId, userIds);
-        } catch (TransactionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }*/
-    }
+	private ApplicationContext ctx = Main.getCurrent().getContext();
+	private WebApplicationContext webCtx = (WebApplicationContext) ctx;
+	private HttpSession session = webCtx.getHttpSession();
+
+	private Long userId = (Long) session.getAttribute("userId");
+	private UserFacade userFacade = new UserFacade(new UserRole(userId));
+	private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(
+			new UserRole(userId));
+
+	private Form appointForm = null;
+	private Long wfmId = null;
+
+	public AppointWorkflowAdminAction(Form form, Long workflowmodel) {
+		appointForm = form;
+		wfmId = workflowmodel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		List<Long> userIds = new ArrayList<Long>();
+		for (Integer c = 1; c <= appointForm.getItemPropertyIds().size(); c++) {
+			// FIXME: UserFacade.getUserIdByName() required!
+			// userIds.add(userFacade.getUserIdByName(appointForm.getItemProperty("user"+c.toString()).getValue().toString()));
+
+			// TODO: remove
+			Main.getCurrent().getMainWindow().showNotification(
+					appointForm.getItemProperty("user" + c.toString())
+							.getValue().toString());
+		}
+		// try {
+		// wfmFacade.setWorkflowAdministrators(wfmId, userIds);
+		// } catch (TransactionException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+	}
 
 }

@@ -17,7 +17,7 @@
 package de.decidr.ui.controller;
 
 /**
- * This action requests an e-mail change.
+ * This action requests an e-mail address change.
  *
  * @author GH
  */
@@ -30,12 +30,12 @@ import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.view.ChangeEmailComponent;
-import de.decidr.ui.view.Main;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
+import de.decidr.ui.view.ChangeEmailComponent;
+import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 public class ChangeEmailAction implements ClickListener{
     

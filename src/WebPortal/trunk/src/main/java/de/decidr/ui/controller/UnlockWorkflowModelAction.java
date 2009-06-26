@@ -26,7 +26,6 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.ProfileSettingsComponent;
 
 /**
  * This action unlocks a list of workflow models

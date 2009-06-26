@@ -27,7 +27,6 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.ProfileSettingsComponent;
 
 /**
  * This action imports a list of published workflow models

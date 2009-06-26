@@ -16,11 +16,11 @@
 
 package de.decidr.ui.controller;
 
+import com.vaadin.data.Container.Filterable;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.data.Container.Filterable;
 
 
 /**

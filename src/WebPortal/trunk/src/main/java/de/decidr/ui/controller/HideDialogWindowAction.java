@@ -16,13 +16,9 @@
 
 package de.decidr.ui.controller;
 
-import java.util.Iterator;
-
-import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.view.ChangeEmailComponent;
 import de.decidr.ui.view.Main;
 
 /**

@@ -19,8 +19,8 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.view.WorkItemComponent;
 import de.decidr.ui.view.SiteFrame;
+import de.decidr.ui.view.WorkItemComponent;
 
 /**
  * This action shows the WorkItemComponent in the content area

@@ -24,20 +24,18 @@ package de.decidr.ui.controller;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
 import com.vaadin.service.ApplicationContext;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.data.ProfileSettingsContainer;
-import de.decidr.ui.view.EditTenantComponent;
-import de.decidr.ui.view.Main;
-import de.decidr.ui.view.ProfileSettingsComponent;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
+import de.decidr.ui.data.ProfileSettingsContainer;
+import de.decidr.ui.view.Main;
+import de.decidr.ui.view.ProfileSettingsComponent;
 
 public class SaveProfileAction implements ClickListener  {
 

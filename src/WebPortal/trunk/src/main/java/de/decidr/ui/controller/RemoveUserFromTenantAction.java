@@ -16,9 +16,6 @@
 
 package de.decidr.ui.controller;
 
-import java.util.Date;
-import java.util.Iterator;
-
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Item;
@@ -30,7 +27,6 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.ProfileSettingsComponent;
 
 /**
  * This action removes a list users from a tenant

@@ -23,7 +23,6 @@ import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.facades.WorkflowInstanceFacade;
 import de.decidr.ui.view.Main;
 
 /**

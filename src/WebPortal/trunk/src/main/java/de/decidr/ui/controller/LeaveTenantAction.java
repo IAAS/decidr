@@ -24,22 +24,15 @@ package de.decidr.ui.controller;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.service.ApplicationContext;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
-import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.view.ChangeEmailComponent;
-import de.decidr.ui.view.ConfirmDialogComponent;
-import de.decidr.ui.view.Main;
-import de.decidr.ui.view.ProfileSettingsComponent;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
+import de.decidr.ui.view.Main;
 
 public class LeaveTenantAction implements ClickListener {
     
