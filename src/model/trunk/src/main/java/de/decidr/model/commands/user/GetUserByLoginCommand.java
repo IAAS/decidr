@@ -43,6 +43,7 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
     private User user;
     private String emailOrUsername;
     private String passwordPlaintext;
+    private Boolean passwordCorrect = false;
 
     /**
      * Creates a new GetUserByLoginCommand.
@@ -64,6 +65,7 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+        passwordCorrect = false;
 
         // find the existing user
         Criteria crit = evt.getSession().createCriteria(User.class, "u");
@@ -88,7 +90,7 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
                 user = existingUser;
             } else {
                 // given password is wrong
-                throw new EntityNotFoundException(User.class);
+                passwordCorrect = false;
             }
 
         } catch (NoSuchAlgorithmException e) {

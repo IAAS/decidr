@@ -16,27 +16,22 @@
 
 package de.decidr.model.commands.user;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
-import sun.util.calendar.CalendarSystem;
-
-import de.decidr.model.DecidrGlobals;
 import de.decidr.model.LifetimeValidator;
+import de.decidr.model.NotificationEvents;
 import de.decidr.model.entities.PasswordResetRequest;
-import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.permissions.Password;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Generates a new password for a user if the given authentication key matches
- * the one in his current password reset request.
+ * Generates a new password for a user if the given authentication key matches.
+ * A notification mail containing the new password is sent to the user.
  * 
  * @author Daniel Huss
  * @version 0.1
@@ -70,11 +65,12 @@ public class ConfirmPasswordResetCommand extends UserCommand {
         requestExpired = false;
         newPassword = null;
 
+        // is there a password reset request?
+
         PasswordResetRequest request = (PasswordResetRequest) evt.getSession()
                 .get(PasswordResetRequest.class, getUserId());
 
-        //FIXME continue here - 
-        if ((request == null) || (! authKey.equals(request.getAuthKey()))) {
+        if ((request == null) || (!authKey.equals(request.getAuthKey()))) {
             throw new EntityNotFoundException(PasswordResetRequest.class,
                     getUserId());
         }
@@ -84,13 +80,29 @@ public class ConfirmPasswordResetCommand extends UserCommand {
                 request, evt.getSession());
 
         if (isAlive) {
-            // generate a new password
-            UserProfile profile = (UserProfile) evt.getSession().get(
-                    UserProfile.class, getUserId());
+            try {
+                // generate a new password
+                UserProfile profile = (UserProfile) evt.getSession().get(
+                        UserProfile.class, getUserId());
 
-            if (profile == null) {
-                throw new EntityNotFoundException(UserProfile.class,
-                        getUserId());
+                if (profile == null) {
+                    throw new EntityNotFoundException(UserProfile.class,
+                            getUserId());
+                }
+
+                newPassword = Password.generateRandomPassword();
+                profile.setPasswordHash(Password.getHash(newPassword, profile
+                        .getPasswordSalt()));
+
+                // save new password
+                evt.getSession().save(profile);
+                
+                //notify the user
+                NotificationEvents.generatedNewPassword(profile.getUser(), newPassword);
+            } catch (NoSuchAlgorithmException e) {
+                throw new TransactionException(e);
+            } catch (UnsupportedEncodingException e) {
+                throw new TransactionException(e);
             }
         } else {
             // the request has expired
@@ -100,8 +112,10 @@ public class ConfirmPasswordResetCommand extends UserCommand {
         }
     }
 
-    public String getNewPassword() {
-        // TODO Auto-generated method stub
-        return null;
+    /**
+     * @return whether the request has expired.
+     */
+    public Boolean getRequestExpired() {
+        return requestExpired;
     }
 }

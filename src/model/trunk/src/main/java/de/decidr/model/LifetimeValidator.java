@@ -37,11 +37,11 @@ import de.decidr.model.entities.RegistrationRequest;
 public class LifetimeValidator {
 
     /**
-     * TODO add comment
+     * Checks whether a password reset request is still valid.
      * 
      * @param request
      * @param session
-     * @return
+     * @return true iff the given password reset request is still valid
      */
     public static Boolean isPasswordResetRequestValid(
             PasswordResetRequest request, Session session) {
@@ -50,42 +50,48 @@ public class LifetimeValidator {
     }
 
     /**
-     * TODO add comment
+     * Checks whether an invitation is still valid.
      * 
      * @param invitation
      * @param session
-     * @return
+     * @return true iff the given invitation is still valid
      */
     public static Boolean isInvitationValid(Invitation invitation,
             Session session) {
-        return false;
+        return requestIsAlive(invitation.getCreationDate(), DecidrGlobals
+                .getSettings(session).getInvitationLifetimeSeconds());
     }
 
     /**
-     * TODO add comment
+     * Checks whether a registration request is still valid.
      * 
      * @param request
      * @param session
-     * @return
+     * @return true iff the given registration request is still valid.
      */
     public static Boolean isRegistrationRequestValid(
             RegistrationRequest request, Session session) {
-        return false;
+        return requestIsAlive(request.getCreationDate(), DecidrGlobals
+                .getSettings(session).getRegistrationRequestLifetimeSeconds());
     }
 
     /**
-     * TODO add comment
+     * Checks whether a change email request is still valid.
      * 
      * @param request
      * @param session
-     * @return
+     * @return true iff the given request is still valid.
      */
     public static Boolean isChangeEmailRequestValid(ChangeEmailRequest request,
             Session session) {
-        return false;
+        return requestIsAlive(request.getCreationDate(), DecidrGlobals
+                .getSettings(session).getChangeEmailRequestLifetimeSeconds());
     }
 
     /**
+     * Compares the current date and time to the given creation date and
+     * lifetime.
+     * 
      * @param creationDate
      * @param lifetimeSeconds
      * @return true iff the request is still alive / valid

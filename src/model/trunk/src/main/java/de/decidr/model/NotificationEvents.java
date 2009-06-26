@@ -51,11 +51,16 @@ public final class NotificationEvents {
     }
 
     public static void removedFromTenant(User user, Tenant tenant) {
-     // FIXME actually notify user
+        // FIXME actually notify user
     }
+
     public static void refusedInvitation(Invitation invitation) {
         // FIXME actually notify user
     }
-    
+
+    public static void generatedNewPassword(User user, String newPassword) {
+        // FIXME actually notify user
+
+    }
 
 }

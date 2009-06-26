@@ -33,6 +33,7 @@ import de.decidr.model.commands.user.RequestPasswordResetCommand;
 import de.decidr.model.commands.user.SetPasswordCommand;
 import de.decidr.model.commands.user.SetUserProfileCommand;
 import de.decidr.model.commands.user.SetUserPropertyCommand;
+import de.decidr.model.entities.PasswordResetRequest;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
@@ -371,11 +372,11 @@ public class UserFacade extends AbstractFacade {
     /**
      * Sets the password of the user to a new (generated) password and deletes
      * the request from the database if authKey matches the authentication key
-     * in the user's current password reset request.
+     * in the user's current password reset request. The user is notified via
+     * email about the new password.
      * 
      * @param userId
      * @param authKey
-     * @return the new (generated) password.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
@@ -383,12 +384,15 @@ public class UserFacade extends AbstractFacade {
      *             password reset request or the authentication key doesn't
      *             match or the request has expired.
      */
-    public String confirmPasswordReset(Long userId, String authKey) {
+    public void confirmPasswordReset(Long userId, String authKey)
+            throws TransactionException, EntityNotFoundException {
         ConfirmPasswordResetCommand cmd = new ConfirmPasswordResetCommand(
                 actor, userId, authKey);
-        //FIXME fix
-        //HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-        return cmd.getNewPassword();
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+
+        if (cmd.getRequestExpired()) {
+            throw new EntityNotFoundException(PasswordResetRequest.class);
+        }
     }
 
     public void confirmRegistration(Long userId, String authKey)
@@ -401,7 +405,6 @@ public class UserFacade extends AbstractFacade {
         throw new UnsupportedOperationException();
     }
 
-    
     /**
      * 
      * Confirms the given Invitation.
@@ -415,9 +418,9 @@ public class UserFacade extends AbstractFacade {
         ConfirmInviationCommand command = new ConfirmInviationCommand(actor,
                 invitationId);
 
+        // FIXME confirming the invitation is very complex. Does the command
+        // start "waiting" workflow instances? Add more documentation.
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
-        
     }
 
     /**

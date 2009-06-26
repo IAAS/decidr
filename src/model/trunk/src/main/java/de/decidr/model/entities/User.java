@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 20.06.2009 16:18:37 by Hibernate Tools 3.2.4.GA
+// Generated 26.06.2009 16:09:29 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -11,6 +11,10 @@ import java.util.Set;
  */
 public class User implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private Long id;
     private String authKey;
     private String email;
@@ -35,6 +39,7 @@ public class User implements java.io.Serializable {
     private Set<UserParticipatesInWorkflow> userParticipatesInWorkflows = new HashSet<UserParticipatesInWorkflow>(
             0);
     private Set<Tenant> administratedTenants = new HashSet<Tenant>(0);
+    private Set<Login> logins = new HashSet<Login>(0);
     private ChangeEmailRequest changeEmailRequest;
     private Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels = new HashSet<UserAdministratesWorkflowModel>(
             0);
@@ -60,7 +65,7 @@ public class User implements java.io.Serializable {
             Set<SystemSettings> systemSettings,
             Set<UserHasFileAccess> userHasFileAccess,
             Set<UserParticipatesInWorkflow> userParticipatesInWorkflows,
-            Set<Tenant> administratedTenants,
+            Set<Tenant> administratedTenants, Set<Login> logins,
             ChangeEmailRequest changeEmailRequest,
             Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels) {
         this.authKey = authKey;
@@ -81,6 +86,7 @@ public class User implements java.io.Serializable {
         this.userHasFileAccess = userHasFileAccess;
         this.userParticipatesInWorkflows = userParticipatesInWorkflows;
         this.administratedTenants = administratedTenants;
+        this.logins = logins;
         this.changeEmailRequest = changeEmailRequest;
         this.userAdministratesWorkflowModels = userAdministratesWorkflowModels;
     }
@@ -240,6 +246,14 @@ public class User implements java.io.Serializable {
 
     public void setAdministratedTenants(Set<Tenant> administratedTenants) {
         this.administratedTenants = administratedTenants;
+    }
+
+    public Set<Login> getLogins() {
+        return this.logins;
+    }
+
+    public void setLogins(Set<Login> logins) {
+        this.logins = logins;
     }
 
     public ChangeEmailRequest getChangeEmailRequest() {
