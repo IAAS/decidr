@@ -36,12 +36,11 @@ import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 public class ChangeStatusAction implements ValueChangeListener {
     
-    private ApplicationContext ctx = Main.getCurrent().getContext();
-    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    private HttpSession session = webCtx.getHttpSession();
+    private HttpSession session = Main.getCurrent().getSession();
     
     private Long userId = (Long)session.getAttribute("userId");
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
@@ -59,15 +58,13 @@ public class ChangeStatusAction implements ValueChangeListener {
             try {
                 userFacade.setUnavailableSince(userId, new Date());
             } catch (TransactionException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
             }
         } else {
             try {
                 userFacade.setUnavailableSince(userId, null);
             } catch (TransactionException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
             }
         }
         

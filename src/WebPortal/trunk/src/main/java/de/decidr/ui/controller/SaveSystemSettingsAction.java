@@ -37,12 +37,11 @@ import de.decidr.model.facades.SystemFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SystemSettingComponent;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 public class SaveSystemSettingsAction implements ClickListener {
 
-    private ApplicationContext ctx = Main.getCurrent().getContext();
-    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    private HttpSession session = webCtx.getHttpSession();
+    private HttpSession session = Main.getCurrent().getSession();
     
     private Long userId = (Long)session.getAttribute("userId");
     private SystemFacade systemFacade = new SystemFacade(new UserRole(userId));
@@ -61,8 +60,7 @@ public class SaveSystemSettingsAction implements ClickListener {
     	try {
             systemFacade.setSettings((Boolean)item.getItemProperty("autoAcceptNewTenants").getValue(), (Level)item.getItemProperty("logLevel").getValue());
         } catch (TransactionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
         }
         
         //TODO: remove

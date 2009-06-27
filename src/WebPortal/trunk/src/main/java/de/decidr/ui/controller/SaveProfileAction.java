@@ -36,12 +36,11 @@ import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.data.ProfileSettingsContainer;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 public class SaveProfileAction implements ClickListener  {
 
-    private ApplicationContext ctx = Main.getCurrent().getContext();
-    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    private HttpSession session = webCtx.getHttpSession();
+    private HttpSession session = Main.getCurrent().getSession();
     
     private Long userId = (Long)session.getAttribute("userId");
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
@@ -64,8 +63,7 @@ public class SaveProfileAction implements ClickListener  {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (TransactionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
         }
         
         //TODO: remove

@@ -34,9 +34,7 @@ import de.decidr.ui.view.Main;
  */
 public class PublishWorkflowModelAction implements ClickListener  {
 
-    private ApplicationContext ctx = Main.getCurrent().getContext();
-    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    private HttpSession session = webCtx.getHttpSession();
+    private HttpSession session = Main.getCurrent().getSession();
     
     private Long userId = (Long)session.getAttribute("userId");
     private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(new UserRole(userId));

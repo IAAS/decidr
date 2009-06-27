@@ -23,7 +23,11 @@ import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.WorkflowInstanceFacade;
+import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action terminates a workflow instance
@@ -32,12 +36,10 @@ import de.decidr.ui.view.Main;
  */
 public class TerminateWorkflowInstanceAction  implements ClickListener  {
 
-    private ApplicationContext ctx = Main.getCurrent().getContext();
-    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    private HttpSession session = webCtx.getHttpSession();
+    private HttpSession session = Main.getCurrent().getSession();
     
     private Long userId = (Long)session.getAttribute("userId");
-    //FIXME: private WorkflowInstanceFacade wfiFacade = new WorkflowInstanceFacade(new UserRole(userId));
+    private WorkflowInstanceFacade wfiFacade = new WorkflowInstanceFacade(new UserRole(userId));
 
     private Long instanceId = null;
     
@@ -56,6 +58,10 @@ public class TerminateWorkflowInstanceAction  implements ClickListener  {
     @Override
     public void buttonClick(ClickEvent event) {
         //TODO: stopWorkflowInstance vs. deleteWorkflowInstance
-        //wfiFacade.stopWorkflowInstance(instanceId);
+        try {
+            wfiFacade.stopWorkflowInstance(instanceId);
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+        }
     }
 }

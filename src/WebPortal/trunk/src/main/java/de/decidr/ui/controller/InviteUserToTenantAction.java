@@ -19,12 +19,18 @@ package de.decidr.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import com.vaadin.data.Item;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action invites a list of users and/or email addresses to join the tenant
@@ -33,13 +39,10 @@ import de.decidr.ui.view.Main;
  */
 public class InviteUserToTenantAction implements ClickListener{
 
-    //FIXME: below
-    //private ApplicationContext ctx = Main.getCurrent().getContext();
-    //private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    //private HttpSession session = webCtx.getHttpSession();
+    private HttpSession session = Main.getCurrent().getSession();
     
-    //private Long userId = (Long)session.getAttribute("userId");
-    //private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+    private Long userId = (Long)session.getAttribute("userId");
+    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
     
     private Form inviteForm = null;
     private Item tenant = null;
@@ -53,7 +56,7 @@ public class InviteUserToTenantAction implements ClickListener{
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //tenant = (Item)session.getAttribute("tenant");
+        tenant = (Item)session.getAttribute("tenant");
         
         List<String> emails = new ArrayList<String>();
         List<String> userNames = new ArrayList<String>(); 
@@ -70,12 +73,11 @@ public class InviteUserToTenantAction implements ClickListener{
         Main.getCurrent().getMainWindow().showNotification(userNames.toString());
         Main.getCurrent().getMainWindow().showNotification(emails.toString());
         
-        /*try {
+        try {
             tenantFacade.inviteUsersAsMembers((Long)tenant.getItemProperty("id").getValue(), emails, userNames);
         } catch (TransactionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }*/
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+        }
     }
 
 }

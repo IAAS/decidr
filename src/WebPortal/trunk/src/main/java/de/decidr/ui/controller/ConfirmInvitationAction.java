@@ -27,6 +27,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action confirms an invitation
@@ -35,9 +36,7 @@ import de.decidr.ui.view.Main;
  */
 public class ConfirmInvitationAction implements ClickListener{
         
-    private ApplicationContext ctx = Main.getCurrent().getContext();
-    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    private HttpSession session = webCtx.getHttpSession();
+    private HttpSession session = Main.getCurrent().getSession();
     
     private Long userId = (Long)session.getAttribute("userId");
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
@@ -62,8 +61,7 @@ public class ConfirmInvitationAction implements ClickListener{
         try {
             userFacade.confirmInvitation(invitationId);
         } catch (TransactionException e) {
-            // TODO Add errorhandling
-            e.printStackTrace();
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
         }
         
     }

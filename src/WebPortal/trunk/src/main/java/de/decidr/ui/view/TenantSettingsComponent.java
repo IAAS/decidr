@@ -37,6 +37,7 @@ import com.vaadin.ui.Upload;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 
+import de.decidr.ui.controller.SaveTenantSettingsAction;
 import de.decidr.ui.controller.UploadTenantLogoAction;
 
 /**
@@ -124,7 +125,7 @@ public class TenantSettingsComponent extends CustomComponent {
         
         browseButton = new Button("Browse");
         
-        saveButton = new Button("Save");
+        saveButton = new Button("Save", new SaveTenantSettingsAction());
         cancelButton = new Button("Cancel");
         restoreDefaultSettingsButton = new Button("Restore default settings");
         
@@ -143,8 +144,9 @@ public class TenantSettingsComponent extends CustomComponent {
         
         browsePanel.addComponent(browseHorizontalLayout);
         browseHorizontalLayout.setSpacing(true);
-        browseHorizontalLayout.addComponent(browseTextField);
-        browseHorizontalLayout.addComponent(browseButton);
+        //browseHorizontalLayout.addComponent(browseTextField);
+        //browseHorizontalLayout.addComponent(browseButton);
+        browseHorizontalLayout.addComponent(logoUpload);
         
         verticalLayout.addComponent(schemePanel);
         

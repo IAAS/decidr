@@ -29,6 +29,7 @@ import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.ChangePasswordComponent;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This actions changes password of a user.
@@ -37,9 +38,7 @@ import de.decidr.ui.view.Main;
  */
 public class ChangePasswordAction implements ClickListener {
 
-	private ApplicationContext ctx = Main.getCurrent().getContext();
-	private WebApplicationContext webCtx = (WebApplicationContext) ctx;
-	private HttpSession session = webCtx.getHttpSession();
+        private HttpSession session = Main.getCurrent().getSession();
 
 	private Long userId = (Long) session.getAttribute("userId");
 	private UserFacade userFacade = new UserFacade(new UserRole(userId));
@@ -69,8 +68,7 @@ public class ChangePasswordAction implements ClickListener {
 				userFacade.setPassword(userId, passwords.getItemProperty(
 						"oldPassword").getValue().toString(), passwd);
 			} catch (TransactionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
 			}
 			Main.getCurrent().getMainWindow().showNotification(
 					"new password: " + passwd);

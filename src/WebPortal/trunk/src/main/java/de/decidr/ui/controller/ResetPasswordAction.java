@@ -35,12 +35,11 @@ import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ResetPasswordComponent;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 public class ResetPasswordAction implements ClickListener{
     
-    private ApplicationContext ctx = Main.getCurrent().getContext();
-    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    private HttpSession session = webCtx.getHttpSession();
+    private HttpSession session = Main.getCurrent().getSession();
     
     private Long userId = (Long)session.getAttribute("userId");
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
@@ -59,8 +58,7 @@ public class ResetPasswordAction implements ClickListener{
         try {
             userFacade.requestPasswordReset(request.getItemProperty("email").getValue().toString());
         } catch (TransactionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
         }
         Main.getCurrent().getMainWindow().showNotification("new password sent to: " + request.getItemProperty("email").getValue().toString());
         Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());

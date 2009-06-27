@@ -24,6 +24,7 @@ import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.RegisterUserComponent;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action creates a new user.
@@ -46,8 +47,7 @@ public class RegisterUserAction implements ClickListener  {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (TransactionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
         }
         
         //TODO: remove

@@ -59,25 +59,14 @@ public class InformationDialogComponent extends Window {
         verticalLayout.setSizeUndefined();
         verticalLayout.setWidth(400, VerticalLayout.UNITS_PIXELS);
         
-        //horizontalLayout = new HorizontalLayout();
-        //horizontalLayout.setSpacing(true);
-        //horizontalLayout.setMargin(false);
-        //horizontalLayout.setSizeUndefined();
-        
         infoLabel = new Label(text, Label.CONTENT_XHTML);
         
         cancelButton = new Button("OK",new HideDialogWindowAction());
-
+        cancelButton.setWidth(75,Button.UNITS_PIXELS);
 
         verticalLayout.addComponent(infoLabel);
-        //horizontalLayout.addComponent(submitButton);
         verticalLayout.addComponent(cancelButton);
-        //verticalLayout.addComponent(horizontalLayout);
-
-        //horizontalLayout.setComponentAlignment(submitButton, "center bottom");
-        //horizontalLayout.setComponentAlignment(cancelButton, "center bottom");
-
-        //verticalLayout.setComponentAlignment(horizontalLayout, "right bottom");
+        verticalLayout.setComponentAlignment(cancelButton, "center bottom");
         
         this.setModal(true);
         this.setResizable(false);

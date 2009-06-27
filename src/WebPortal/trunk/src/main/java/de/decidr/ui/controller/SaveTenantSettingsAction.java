@@ -16,54 +16,50 @@
 
 package de.decidr.ui.controller;
 
-/**
- * This action requests an e-mail address change.
- *
- * @author GH
- */
+import java.io.File;
 
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Item;
-import com.vaadin.service.ApplicationContext;
-import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.UserFacade;
+import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.permissions.UserRole;
-import de.decidr.ui.view.ChangeEmailComponent;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TenantSettingsComponent;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
-public class ChangeEmailAction implements ClickListener{
+/**
+ * TODO: add comment
+ *
+ * @author GH
+ */
+public class SaveTenantSettingsAction implements ClickListener {
     
     private HttpSession session = Main.getCurrent().getSession();
-    
+
     private Long userId = (Long)session.getAttribute("userId");
-    private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId)); 
     
-    private Item email = null;
+    
+    private File file = null;
+    private Item tenant = null;
+    private TenantSettingsComponent content = null;
+    
     
     /* (non-Javadoc)
      * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        email = ((ChangeEmailComponent)event.getButton().getWindow()).getNewEmail();
-        
-        //TODO: add validator to ChangeEmailComponent
-        
+        content = (TenantSettingsComponent)UIDirector.getInstance().getTemplateView().getContent();
+        tenant = (Item)session.getAttribute("tenant");
         try {
-            userFacade.setEmailAddress(userId, email.getItemProperty("newEmail").getValue().toString());
+            tenantFacade.setDescription((Long)tenant.getItemProperty("id").getValue(), content.getTenantDescription().getValue().toString());
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
         }
-        
-        //TODO: remove
-        Main.getCurrent().getMainWindow().showNotification("new email: " + email.getItemProperty("newEmail").getValue().toString());
-        Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
-        
     }
 }

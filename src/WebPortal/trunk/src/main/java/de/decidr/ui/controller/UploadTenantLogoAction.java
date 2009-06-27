@@ -17,60 +17,84 @@
 package de.decidr.ui.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
+import javax.servlet.http.HttpSession;
+
+import com.vaadin.data.Item;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.SucceededEvent;
 
+import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.permissions.UserRole;
+import de.decidr.ui.view.Main;
+
 /**
  * This action handles the upload of the tenant logo
  *
- * @author geoff
+ * @author Geoff
  */
 public class UploadTenantLogoAction implements Upload.SucceededListener, 
-											   Upload.FailedListener, 
-											   Upload.Receiver{
+                                               Upload.FailedListener, 
+                                               Upload.Receiver{
 	
-	private File file = null;
-	
-	/* (non-Javadoc)
-	 * @see com.vaadin.ui.Upload.SucceededListener#uploadSucceeded(com.vaadin.ui.Upload.SucceededEvent)
-	 */
-	@Override
-	public void uploadSucceeded(SucceededEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
+    private HttpSession session = Main.getCurrent().getSession();
 
-	/* (non-Javadoc)
-	 * @see com.vaadin.ui.Upload.FailedListener#uploadFailed(com.vaadin.ui.Upload.FailedEvent)
-	 */
-	@Override
-	public void uploadFailed(FailedEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see com.vaadin.ui.Upload.Receiver#receiveUpload(java.lang.String, java.lang.String)
-	 */
-	@Override
-	public OutputStream receiveUpload(String filename, String MIMEType) {
-		FileOutputStream fos = null; // Output stream to write to.
-        file = new File("/tmp/uploads/" + filename);
+    private Long userId = (Long)session.getAttribute("userId");
+    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId)); 
+    
+    private File file = null;
+    private Item tenant = null;
+    	
+    /* (non-Javadoc)
+    * @see com.vaadin.ui.Upload.SucceededListener#uploadSucceeded(com.vaadin.ui.Upload.SucceededEvent)
+    */
+    @Override
+    public void uploadSucceeded(SucceededEvent event) {
+        FileInputStream fis = null;
         try {
-            // Open the file for writing.
+            fis = new FileInputStream(file);
+            
+            tenant = (Item)session.getAttribute("tenant");
+            tenantFacade.setLogo((Long)tenant.getItemProperty("id").getValue(), fis);
+            
+        } catch (final java.io.FileNotFoundException e) {
+            // TODO
+            e.printStackTrace();
+        }
+    }
+    
+    /* (non-Javadoc)
+    * @see com.vaadin.ui.Upload.FailedListener#uploadFailed(com.vaadin.ui.Upload.FailedEvent)
+    */
+    @Override
+    public void uploadFailed(FailedEvent event) {
+        // TODO Auto-generated method stub
+    }
+    
+    /* (non-Javadoc)
+    * @see com.vaadin.ui.Upload.Receiver#receiveUpload(java.lang.String, java.lang.String)
+    */
+    @Override
+    public OutputStream receiveUpload(String filename, String MIMEType) {
+        FileOutputStream fos = null;
+        
+        //TODO: change to correct path
+        file = new File(filename);
+        
+        try {
             fos = new FileOutputStream(file);
         } catch (final java.io.FileNotFoundException e) {
-            // Error while opening the file. Not reported here.
+            // TODO
             e.printStackTrace();
             return null;
         }
-
-        return fos; // Return the output stream to write to
-
-	}
+        
+        return fos; 
+    
+    }
 
 }
