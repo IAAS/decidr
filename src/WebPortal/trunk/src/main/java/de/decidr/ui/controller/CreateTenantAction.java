@@ -31,7 +31,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 /**
  * This action creates a new tenant
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class CreateTenantAction implements ClickListener{
 

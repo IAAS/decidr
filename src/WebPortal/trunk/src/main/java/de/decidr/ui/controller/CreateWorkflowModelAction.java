@@ -31,7 +31,7 @@ import de.decidr.ui.view.Main;
 /**
  * This action creates a new, empty workflow model
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class CreateWorkflowModelAction implements ClickListener{
     

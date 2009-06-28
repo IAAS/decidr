@@ -35,7 +35,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 /**
  * This action invites a list of users and/or email addresses to join the tenant
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class InviteUserToTenantAction implements ClickListener{
 

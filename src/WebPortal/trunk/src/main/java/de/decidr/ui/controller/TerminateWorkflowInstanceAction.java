@@ -32,7 +32,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 /**
  * This action terminates a workflow instance
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class TerminateWorkflowInstanceAction  implements ClickListener  {
 

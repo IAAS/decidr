@@ -16,16 +16,13 @@
 
 package de.decidr.ui.controller;
 
-import com.vaadin.terminal.ClassResource;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.view.Main;
-
 /**
- * TODO: add comment
+ * This action switches between possible tenants of a user
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class SwitchTenantAction implements ClickListener {
 

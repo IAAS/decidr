@@ -29,7 +29,7 @@ import de.decidr.ui.controller.ShowWelcomePageAction;
 /**
  * TODO: add comment
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 
 

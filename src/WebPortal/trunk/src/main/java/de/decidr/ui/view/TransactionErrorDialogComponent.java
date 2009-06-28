@@ -20,7 +20,7 @@ package de.decidr.ui.view;
  * This component displays an error message.
  * Should be used if an Action failed.
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class TransactionErrorDialogComponent extends InformationDialogComponent {
 

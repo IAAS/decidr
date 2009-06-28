@@ -25,7 +25,7 @@ import de.decidr.ui.view.Main;
 /**
  * This action shows the ChangeEmailComponent
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class ShowChangeEmailAction  implements ClickListener {
 

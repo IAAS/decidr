@@ -29,7 +29,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 /**
  * This action creates a new user.
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class RegisterUserAction implements ClickListener  {
 

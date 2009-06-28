@@ -19,9 +19,8 @@ package de.decidr.ui.view;
 /**
  * TODO: add comment
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
-import com.vaadin.terminal.ExternalResource;
 import com.vaadin.terminal.ThemeResource;
 
 public class Resources {

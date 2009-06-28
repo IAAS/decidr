@@ -19,10 +19,8 @@ package de.decidr.ui.view;
 /**
  * TODO: add comment
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
-import javax.servlet.http.Cookie;
-
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;

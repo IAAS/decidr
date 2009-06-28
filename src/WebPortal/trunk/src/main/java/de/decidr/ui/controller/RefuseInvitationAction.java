@@ -32,7 +32,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 /**
  * This action refuses an invitation
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class RefuseInvitationAction implements ClickListener{
     

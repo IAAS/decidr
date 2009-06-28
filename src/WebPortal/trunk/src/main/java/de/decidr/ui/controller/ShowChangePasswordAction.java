@@ -25,7 +25,7 @@ import de.decidr.ui.view.Main;
 /**
  * This action shows the ChangePasswordComponent
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class ShowChangePasswordAction implements ClickListener {
 

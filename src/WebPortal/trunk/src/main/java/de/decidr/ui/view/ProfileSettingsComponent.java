@@ -2,6 +2,7 @@ package de.decidr.ui.view;
 
 import java.util.Arrays;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.BaseFieldFactory;
 import com.vaadin.ui.Button;
@@ -16,11 +17,6 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Button.ClickEvent;
-
-//TODO:GH
-import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
 
 import de.decidr.ui.controller.ChangeStatusAction;
 import de.decidr.ui.controller.SaveProfileAction;
@@ -28,17 +24,15 @@ import de.decidr.ui.controller.ShowCancelMembershipAction;
 import de.decidr.ui.controller.ShowChangeEmailAction;
 import de.decidr.ui.controller.ShowChangePasswordAction;
 import de.decidr.ui.controller.ShowLeaveTenantDialogAction;
-import de.decidr.ui.data.ProfileSettingsContainer;
 import de.decidr.ui.data.ProfileSettingsItem;
 
 /**
  * TODO: add comment
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class ProfileSettingsComponent extends CustomComponent {
 	
-        //TODO:GH
         private ProfileSettingsItem settingsItem = new ProfileSettingsItem(); 
         
         private Form settingsForm = new Form();
@@ -114,7 +108,6 @@ public class ProfileSettingsComponent extends CustomComponent {
 	 *
 	 */
 	private void init(){
-	    //TODO: GH
 	        settingsForm.setWriteThrough(false);
 	        settingsForm.setFieldFactory(new SettingsFieldFactory());
 	        settingsForm.setItemDataSource(settingsItem);
@@ -213,9 +206,9 @@ public class ProfileSettingsComponent extends CustomComponent {
 	
 	
 	/**
-	 * TODO: add comment
+	 * This FieldFactory creates the input fields of the Form used above
 	 *
-	 * @author GH
+	 * @author Geoffrey-Alexeij Heinze
 	 */
 	private class SettingsFieldFactory extends BaseFieldFactory{
 	    

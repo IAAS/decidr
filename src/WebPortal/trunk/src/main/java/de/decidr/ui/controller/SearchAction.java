@@ -27,7 +27,7 @@ import com.vaadin.ui.Button.ClickListener;
  * This action filters a table and shows only these entries,
  * which contain the search string (partially or complete)
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class SearchAction implements ClickListener {
 

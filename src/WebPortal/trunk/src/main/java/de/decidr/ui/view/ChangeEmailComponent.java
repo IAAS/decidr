@@ -19,7 +19,7 @@ package de.decidr.ui.view;
 /**
  * TODO: add comment
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 
 import com.vaadin.data.Item;

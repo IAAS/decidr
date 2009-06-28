@@ -19,7 +19,7 @@ package de.decidr.ui.controller;
 /**
  * This action changes the status of a user, either available or unavailable
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 
 import java.util.Date;

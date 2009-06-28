@@ -19,7 +19,7 @@ package de.decidr.ui.controller;
 /**
  * This action cancels the membership of a user.
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 
 import javax.servlet.http.HttpSession;

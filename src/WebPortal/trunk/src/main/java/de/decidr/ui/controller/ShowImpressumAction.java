@@ -25,7 +25,7 @@ import de.decidr.ui.view.SiteFrame;
 /**
  * This actions shows the ImpressumWindow in the content area
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 @SuppressWarnings("serial")
 public class ShowImpressumAction implements ClickListener {

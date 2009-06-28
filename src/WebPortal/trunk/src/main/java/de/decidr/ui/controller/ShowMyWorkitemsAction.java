@@ -25,7 +25,7 @@ import de.decidr.ui.view.WorkItemComponent;
 /**
  * This action shows the WorkItemComponent in the content area
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 @SuppressWarnings("serial")
 public class ShowMyWorkitemsAction implements ClickListener {

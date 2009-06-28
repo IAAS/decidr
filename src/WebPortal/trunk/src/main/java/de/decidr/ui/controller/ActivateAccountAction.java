@@ -16,21 +16,25 @@
 
 package de.decidr.ui.controller;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.service.ApplicationContext;
-import com.vaadin.terminal.gwt.server.WebApplicationContext;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action enables a list of user accounts.
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class ActivateAccountAction implements ClickListener{
         
@@ -39,19 +43,32 @@ public class ActivateAccountAction implements ClickListener{
     private Long userId = (Long)session.getAttribute("userId");
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
     
-    //TODO: change to correct component
-    //private XYZComponent content = null;
+
+    private Table table = null;
+    
+    /**
+     * Contructor, requires the table which contains the data
+     *
+     * @param table: requires Table with data
+     */
+    public ActivateAccountAction(Table table){
+        this.table = table;
+    }
     
     /* (non-Javadoc)
      * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //content = (XYZComponent) UIDirector.getInstance().getTemplateView().getContent();
-        //TODO: implement getSelectedAccounts()
-        //for (Iterator iter = content.getSelectedAccounts().iterator(); iter.hasNext();){
-        //    userFacade.setDisableSince((Long)((Item)iter.next()).getItemProperty("id").getValue(), null);
-        //}
-        
+        Set<?> value = (Set<?>) table.getValue();
+        if (value != null && value.size() != 0){
+            for (Iterator iter = value.iterator(); iter.hasNext();){
+                try {
+                    userFacade.setUnavailableSince((Long)table.getContainerProperty(iter.next(), "id").getValue(), null);
+                } catch (TransactionException e) {
+                    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+                }
+            }
+        }
     }
 }

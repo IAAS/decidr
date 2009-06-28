@@ -32,9 +32,9 @@ import de.decidr.ui.view.TenantSettingsComponent;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * TODO: add comment
+ * This actions saves the current tenant settings
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class SaveTenantSettingsAction implements ClickListener {
     

@@ -24,7 +24,7 @@ import de.decidr.ui.view.SiteFrame;
 /**
  * This action shows the XYZComponent in the content area
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 @SuppressWarnings("serial")
 public class ShowWelcomePageAction  implements ClickListener {

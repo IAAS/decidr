@@ -16,8 +16,6 @@
 
 package de.decidr.ui.view;
 
-import javax.management.Descriptor;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
@@ -30,7 +28,7 @@ import de.decidr.ui.controller.ShowRegisterUserAction;
 /**
  * TODO: add comment
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class RegistrationComponent extends CustomComponent {
     private VerticalLayout verticalLayout = null;

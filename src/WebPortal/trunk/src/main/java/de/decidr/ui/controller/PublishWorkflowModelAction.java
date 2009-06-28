@@ -16,21 +16,27 @@
 
 package de.decidr.ui.controller;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.service.ApplicationContext;
-import com.vaadin.terminal.gwt.server.WebApplicationContext;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action publishes a list of workflow models
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class PublishWorkflowModelAction implements ClickListener  {
 
@@ -39,16 +45,34 @@ public class PublishWorkflowModelAction implements ClickListener  {
     private Long userId = (Long)session.getAttribute("userId");
     private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(new UserRole(userId));
 
-    //TODO: replace with correct component
-    //private XYZComponent content = null;
+
+    private Table table = null;
+    
+    /**
+     * Constructor, requires the table which contains the data
+     *
+     * @param table: requires Table with data
+     */
+    public PublishWorkflowModelAction(Table table){
+        this.table = table;
+    }
     
     /* (non-Javadoc)
      * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //TODO: replace with correct component, implement getWFMList
-        //content = (XYZComponent) UIDirector.getInstance().getTemplateView().getContent();
-        //wfmFacade.publishWorkflowModels(content.getWFMList);
+        List<Long> wfms = new ArrayList<Long>();
+        Set<?> value = (Set<?>) table.getValue();
+        if (value != null && value.size() != 0){
+            for (Iterator iter = value.iterator(); iter.hasNext();){
+                wfms.add((Long)table.getContainerProperty(iter.next(), "id").getValue());
+            }
+        }
+        try {
+            wfmFacade.publishWorkflowModels(wfms);
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+        }
     }
 }

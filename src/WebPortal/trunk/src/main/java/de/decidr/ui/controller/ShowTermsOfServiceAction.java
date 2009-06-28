@@ -25,7 +25,7 @@ import de.decidr.ui.view.TermsOfServiceWindow;
 /**
  * This action shows the TermsOfServiceWindow in the content area
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 @SuppressWarnings("serial")
 public class ShowTermsOfServiceAction implements ClickListener {

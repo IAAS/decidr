@@ -34,7 +34,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 /**
  * This actions changes password of a user.
  * 
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class ChangePasswordAction implements ClickListener {
 

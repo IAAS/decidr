@@ -29,7 +29,7 @@ import de.decidr.ui.controller.RegisterTenantAction;
 /**
  * TODO: add comment
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class RegisterTenantComponent extends CustomComponent {
     

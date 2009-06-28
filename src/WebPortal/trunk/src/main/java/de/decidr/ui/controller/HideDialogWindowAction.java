@@ -24,7 +24,7 @@ import de.decidr.ui.view.Main;
 /**
  * This action hides a sub window (i.e. ChangeEmailComponent)
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class HideDialogWindowAction  implements ClickListener {
     

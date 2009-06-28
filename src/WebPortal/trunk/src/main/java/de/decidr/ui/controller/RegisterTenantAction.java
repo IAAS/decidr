@@ -30,7 +30,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 /**
  * This action first creates a new user, then a new tenant
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class RegisterTenantAction implements ClickListener  {
 

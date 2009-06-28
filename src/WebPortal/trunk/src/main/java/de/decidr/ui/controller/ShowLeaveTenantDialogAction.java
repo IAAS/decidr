@@ -19,7 +19,7 @@ package de.decidr.ui.controller;
 /**
  * This action displays the ConfirmDialogComponent
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 
 import com.vaadin.ui.Button.ClickEvent;

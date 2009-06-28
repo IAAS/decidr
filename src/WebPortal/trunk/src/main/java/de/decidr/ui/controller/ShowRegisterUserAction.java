@@ -25,7 +25,7 @@ import de.decidr.ui.view.SiteFrame;
 /**
  * This action shows the RegisterUserComponent in the content area
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class ShowRegisterUserAction implements ClickListener {
     

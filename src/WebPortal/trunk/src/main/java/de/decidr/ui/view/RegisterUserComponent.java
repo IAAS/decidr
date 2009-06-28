@@ -29,7 +29,7 @@ import de.decidr.ui.controller.RegisterUserAction;
 /**
  * TODO: add comment
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class RegisterUserComponent extends CustomComponent {
     private VerticalLayout verticalLayout = null;

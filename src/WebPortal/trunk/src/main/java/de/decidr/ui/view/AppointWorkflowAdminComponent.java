@@ -29,7 +29,7 @@ import de.decidr.ui.controller.AppointWorkflowAdminAction;
 /**
  * TODO: add comment
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class AppointWorkflowAdminComponent extends CustomComponent {
 

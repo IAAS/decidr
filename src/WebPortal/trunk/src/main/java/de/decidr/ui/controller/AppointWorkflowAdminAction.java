@@ -37,7 +37,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 /**
  * This action appoints a list of users as workflow admin
  * 
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class AppointWorkflowAdminAction implements ClickListener {
 

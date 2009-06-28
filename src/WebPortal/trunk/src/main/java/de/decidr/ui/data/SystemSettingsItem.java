@@ -20,7 +20,7 @@ package de.decidr.ui.data;
 /**
  * TODO: add comment
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 
 import java.util.Collection;
@@ -39,14 +39,10 @@ import de.decidr.ui.view.Main;
 
 public class SystemSettingsItem implements Item {
 
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
+    private HttpSession session = Main.getCurrent().getSession();
     
-    //private ApplicationContext ctx = Main.getCurrent().getContext();
-    //private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    //private HttpSession session = webCtx.getHttpSession();
-    
-    //private Long userId = (Long)session.getAttribute("userId");
-    //private SystemFacade systemFacade = new SystemFacade(new UserRole(userId));
+    private Long userId = (Long)session.getAttribute("userId");
+    private SystemFacade systemFacade = new SystemFacade(new UserRole(userId));
 
 	private Item items = null;
 	

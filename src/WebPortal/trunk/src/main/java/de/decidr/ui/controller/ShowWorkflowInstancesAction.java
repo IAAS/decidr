@@ -25,7 +25,7 @@ import de.decidr.ui.view.WorkflowInstanceComponent;
 /**
  * This action shows the WorkflowInstanceComponent in the content area
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 @SuppressWarnings("serial")
 public class ShowWorkflowInstancesAction  implements ClickListener {

@@ -19,21 +19,16 @@ package de.decidr.ui.view;
 /**
  * TODO: add comment
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.controller.ChangeEmailAction;
 import de.decidr.ui.controller.HideDialogWindowAction;
 
 public class ConfirmDialogComponent extends Window {

@@ -25,7 +25,7 @@ import de.decidr.ui.view.SiteFrame;
 /**
  * This actions shows the HelpWindow in the content area
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 @SuppressWarnings("serial")
 public class ShowHelpAction  implements ClickListener {

@@ -25,7 +25,7 @@ import de.decidr.ui.view.WorkflowModelsComponent;
 /**
  * This action shows the WorkflowModelsComponent in the content area
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 @SuppressWarnings("serial")
 public class ShowCreateWorkflowModelAction implements ClickListener {

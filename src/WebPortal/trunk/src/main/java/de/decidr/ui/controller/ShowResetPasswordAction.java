@@ -25,7 +25,7 @@ import de.decidr.ui.view.ResetPasswordComponent;
 /**
  * This action displays the ResetPasswordComponent
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class ShowResetPasswordAction  implements ClickListener {
 

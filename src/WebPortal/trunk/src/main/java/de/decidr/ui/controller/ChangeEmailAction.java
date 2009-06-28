@@ -19,7 +19,7 @@ package de.decidr.ui.controller;
 /**
  * This action requests an e-mail address change.
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 
 import javax.servlet.http.HttpSession;

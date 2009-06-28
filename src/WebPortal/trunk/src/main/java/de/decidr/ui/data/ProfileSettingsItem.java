@@ -19,7 +19,7 @@ package de.decidr.ui.data;
 /**
  * Wraps the item returned by userFacade.getProfileItems
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 
 import java.util.Collection;
@@ -32,25 +32,31 @@ import com.vaadin.terminal.gwt.server.WebApplicationContext;
 
 import javax.servlet.http.HttpSession;
 
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
 
 public class ProfileSettingsItem implements Item{
-
-    //TODO: remove // below, code is disabled for testing, since the model causes errors
     
-    //private ApplicationContext ctx = Main.getCurrent().getContext();
-    //private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    //private HttpSession session = webCtx.getHttpSession();
+    private HttpSession session = Main.getCurrent().getSession();
     
-    //private Long userId = (Long)session.getAttribute("userId");
-    //private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    private Long userId = (Long)session.getAttribute("userId");
+    private UserFacade userFacade = new UserFacade(new UserRole(userId));
 
-	//private Item items = userFacade.getUserProfile(userId);
+	private Item items = null;
 	
 	//TODO: remove, only for test
-	private Item items = new BeanItem(ProfileSettingsContainer.getInstance());
+	//private Item items = new BeanItem(ProfileSettingsContainer.getInstance());
+	
+	public ProfileSettingsItem(){
+	    try {
+            items = userFacade.getUserProfile(userId);
+        } catch (TransactionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+	}
 	
 	/* (non-Javadoc)
 	 * @see com.vaadin.data.Item#addItemProperty(java.lang.Object, com.vaadin.data.Property)

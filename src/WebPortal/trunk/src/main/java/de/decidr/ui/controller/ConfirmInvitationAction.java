@@ -32,7 +32,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 /**
  * This action confirms an invitation
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class ConfirmInvitationAction implements ClickListener{
         

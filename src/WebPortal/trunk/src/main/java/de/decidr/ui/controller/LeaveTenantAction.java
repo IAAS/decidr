@@ -19,7 +19,7 @@ package de.decidr.ui.controller;
 /**
  * This action removes a user from a tenant
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 
 import javax.servlet.http.HttpSession;

@@ -28,7 +28,7 @@ import de.decidr.ui.controller.CreateTenantAction;
 /**
  * TODO: add comment
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class CreateTenantComponent extends CustomComponent {
 

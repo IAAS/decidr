@@ -19,12 +19,12 @@ package de.decidr.ui.view;
 /**
  * TODO: add comment
  *
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
 public class TermsOfServiceWindow extends CustomComponent{
