@@ -16,7 +16,11 @@
 
 package de.decidr.modelingtool.client.command;
 
-import de.decidr.modelingtool.client.model.WorkflowModel;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.decidr.modelingtool.client.model.Variable;
+import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
  * TODO: add comment
@@ -25,7 +29,8 @@ import de.decidr.modelingtool.client.model.WorkflowModel;
  */
 public class ChangeVariablesCommand implements UndoableCommand {
 
-    private WorkflowModel model = new WorkflowModel();
+    private List<Variable> oldModel = new ArrayList<Variable>();
+    private List<Variable> newModel = new ArrayList<Variable>();
 
     /**
      * 
@@ -33,19 +38,19 @@ public class ChangeVariablesCommand implements UndoableCommand {
      * 
      * @param model
      */
-    public ChangeVariablesCommand(WorkflowModel model) {
-        // TODO Auto-generated constructor stub
-        this.model = model;
+    public ChangeVariablesCommand(List<Variable> variables) {
+        this.newModel = variables;
     }
 
     @Override
     public void execute() {
-        // TODO Auto-generated method stub
+        oldModel = Workflow.getInstance().getModel().getVariables();
+        Workflow.getInstance().getModel().setVariables(newModel);
     }
 
     @Override
     public void undo() {
-        // TODO Auto-generated method stub
+        Workflow.getInstance().getModel().setVariables(oldModel);
     }
 
 }

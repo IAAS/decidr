@@ -35,6 +35,8 @@ import com.extjs.gxt.ui.client.widget.toolbar.TextToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 
 import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.command.ChangeVariablesCommand;
+import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.Variable;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
@@ -214,7 +216,9 @@ public class VariableEditor extends Dialog {
             targetVar.setConfig(v.isConfig());
             variablesModel.add(targetVar);
         }
-        Workflow.getInstance().getModel().setVariables(variablesModel);
+        // JS check if variables have changed
+        CommandStack.getInstance().executeCommand(
+                new ChangeVariablesCommand(variablesModel));
     }
 
     /**
