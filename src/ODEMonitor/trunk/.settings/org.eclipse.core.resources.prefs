@@ -1,0 +1,4 @@
+#Mon Jun 29 17:28:13 CEST 2009
+eclipse.preferences.version=1
+encoding//scripts/unix/getCPUUsage.sh=UTF-8
+encoding//scripts/unix/getMemoryUsage.sh=UTF-8
