@@ -23,12 +23,12 @@ package de.decidr.modelingtool.client.model;
  */
 public class EmailInvokeNodeModel extends NodeModel {
 
-    private String toVariableName = "";
-    private String ccVariableName = "";
-    private String bccVariableName = "";
-    private String subjectVariableName = "";
-    private String messageVariableName = "";
-    private String attachmentVariableName = "";
+    private Long toVariableId = null;
+    private Long ccVariableId = null;
+    private Long bccVariableId = null;
+    private Long subjectVariableId = null;
+    private Long messageVariableId = null;
+    private Long attachmentVariableId = null;
 
     /**
      * TODO: add comment
@@ -44,52 +44,52 @@ public class EmailInvokeNodeModel extends NodeModel {
         super();
     }
 
-    public String getToVariableName() {
-        return toVariableName;
+    public Long getToVariableId() {
+        return toVariableId;
     }
 
-    public String getCcVariableName() {
-        return ccVariableName;
+    public Long getCcVariableId() {
+        return ccVariableId;
     }
 
-    public String getBccVariableName() {
-        return bccVariableName;
+    public Long getBccVariableId() {
+        return bccVariableId;
     }
 
-    public String getSubjectVariableName() {
-        return subjectVariableName;
+    public Long getSubjectVariableId() {
+        return subjectVariableId;
     }
 
-    public String getMessageVariableName() {
-        return messageVariableName;
+    public Long getMessageVariableId() {
+        return messageVariableId;
     }
 
-    public String getAttachmentVariableName() {
-        return attachmentVariableName;
+    public Long getAttachmentVariableId() {
+        return attachmentVariableId;
     }
 
-    public void setToVariableName(String toVariableName) {
-        this.toVariableName = toVariableName;
+    public void setToVariableId(Long toVariableId) {
+        this.toVariableId = toVariableId;
     }
 
-    public void setCcVariableName(String ccVariableName) {
-        this.ccVariableName = ccVariableName;
+    public void setCcVariableId(Long ccVariableId) {
+        this.ccVariableId = ccVariableId;
     }
 
-    public void setBccVariableName(String bccVariableName) {
-        this.bccVariableName = bccVariableName;
+    public void setBccVariableId(Long bccVariableId) {
+        this.bccVariableId = bccVariableId;
     }
 
-    public void setSubjectVariableName(String subjectVariableName) {
-        this.subjectVariableName = subjectVariableName;
+    public void setSubjectVariableId(Long subjectVariableId) {
+        this.subjectVariableId = subjectVariableId;
     }
 
-    public void setMessageVariableName(String messageVariableName) {
-        this.messageVariableName = messageVariableName;
+    public void setMessageVariableId(Long messageVariableId) {
+        this.messageVariableId = messageVariableId;
     }
 
-    public void setAttachmentVariableName(String attachmentVariableName) {
-        this.attachmentVariableName = attachmentVariableName;
+    public void setAttachmentVariableId(Long attachmentVariableId) {
+        this.attachmentVariableId = attachmentVariableId;
     }
 
 }

@@ -36,8 +36,8 @@ public interface Messages extends Constants {
     String successMessageFieldLabel();
 
     String notifyCheckBox();
-    
-    /*Nodes*/
+
+    /* Nodes */
     String changePropertyButton();
 
     /* Email */
@@ -54,7 +54,7 @@ public interface Messages extends Constants {
     String messageFieldLabel();
 
     String attachmentFieldLabel();
-    
+
     String changeValueButton();
 
     /* Human task */
@@ -86,6 +86,8 @@ public interface Messages extends Constants {
     String xorConLabel();
 
     /* Variable editor */
+    String enterVariableName();
+
     String addVariable();
 
     String delVariable();

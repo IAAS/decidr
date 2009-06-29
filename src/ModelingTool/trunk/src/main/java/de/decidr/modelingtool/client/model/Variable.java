@@ -17,9 +17,12 @@
 package de.decidr.modelingtool.client.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.extjs.gxt.ui.client.data.BaseModelData;
+
+import de.decidr.modelingtool.client.ModelingTool;
 
 /**
  * TODO: add comment
@@ -30,6 +33,7 @@ import com.extjs.gxt.ui.client.data.BaseModelData;
 public class Variable extends BaseModelData {
 
     /* Field names */
+    public static final String ID = "id";
     public static final String NAME = "name";
     public static final String TYPE = "type";
     public static final String TYPELOCALNAME = "typelocalname";
@@ -43,12 +47,12 @@ public class Variable extends BaseModelData {
      * TODO: add comment
      */
     public Variable() {
-        // JS: think this over, consider add variable in variable editor, too
         super();
-        set(NAME, "variable name");
+        set(ID, new Date().getTime());
+        set(NAME, ModelingTool.messages.enterVariableName());
         set(TYPE, VariableType.STRING);
         set(TYPELOCALNAME, VariableType.STRING.getLocalName());
-        set(VALUE, "variable value");
+        set(VALUE, ModelingTool.messages.newStringValue());
         set(ARRAYVAR, false);
         set(CONFIGVAR, false);
     }
@@ -59,12 +63,28 @@ public class Variable extends BaseModelData {
      * Default constructor for a single non-configuration Variable
      */
     public Variable(String name, VariableType type, String value) {
+        super();
+        this.set(ID, new Date().getTime());
         this.set(NAME, name);
         this.set(TYPE, type);
         this.set(TYPELOCALNAME, type.getLocalName());
         this.set(VALUE, value);
         this.set(ARRAYVAR, false);
-        this.set(CONFIGVAR, false);
+        this.set(CONFIGVAR, true);
+    }
+
+    /**
+     * 
+     * TODO: add comment
+     * 
+     * @return the ID
+     */
+    public Long getId() {
+        return (Long) get(ID);
+    }
+
+    public void setId(Long id) {
+        set(ID, id);
     }
 
     /**

@@ -121,17 +121,24 @@ public class EmailActivityWindow extends Dialog {
     }
 
     private void putEmailNodeModel() {
-        // JS: this is temporary
-        model.setToVariableName(toField.getValue().getName());
+        /* JS: this is temporary
+         * Question: what if the fields are null?
+         */
+        model.setToVariableId(toField.getValue().getId());
+        model.setCcVariableId(ccField.getValue().getId());
+        model.setBccVariableId(bccField.getValue().getId());
+        model.setSubjectVariableId(subjectField.getValue().getId());
+        model.setMessageVariableId(messageField.getValue().getId());
+        model.setAttachmentVariableId(attachmentField.getValue().getId());
         ((EmailInvokeNode) Workflow.getInstance().getSelectedItem())
                 .setModel(model);
     }
 
     private void addComboField(ComboBox<Variable> field, String label,
-            VariableType type, String name) {
+            VariableType type, Long variableId) {
         field.setDisplayField(Variable.NAME);
         field.setStore(VariablesFilter.getVariablesOfType(type));
-        field.setValue(VariablesFilter.getVariableByName(name));
+        field.setValue(VariablesFilter.getVariableById(variableId));
         field.setTypeAhead(true);
         field.setWidth("200px");
         table.insertRow(table.getRowCount());
@@ -156,23 +163,23 @@ public class EmailActivityWindow extends Dialog {
         getEmailNodeModel();
         toField = new ComboBox<Variable>();
         addComboField(toField, ModelingTool.messages.toFieldLabel(),
-                VariableType.STRING, model.getToVariableName());
+                VariableType.STRING, model.getToVariableId());
         ccField = new ComboBox<Variable>();
         addComboField(ccField, ModelingTool.messages.ccFieldLabel(),
-                VariableType.STRING, model.getCcVariableName());
+                VariableType.STRING, model.getCcVariableId());
         bccField = new ComboBox<Variable>();
         addComboField(bccField, ModelingTool.messages.bccFieldLabel(),
-                VariableType.STRING, model.getBccVariableName());
+                VariableType.STRING, model.getBccVariableId());
         subjectField = new ComboBox<Variable>();
         addComboField(subjectField, ModelingTool.messages.subjectFieldLabel(),
-                VariableType.STRING, model.getSubjectVariableName());
+                VariableType.STRING, model.getSubjectVariableId());
         messageField = new ComboBox<Variable>();
         addComboField(messageField, ModelingTool.messages.messageFieldLabel(),
-                VariableType.STRING, model.getMessageVariableName());
+                VariableType.STRING, model.getMessageVariableId());
         attachmentField = new ComboBox<Variable>();
         addComboField(attachmentField, ModelingTool.messages
                 .attachmentFieldLabel(), VariableType.FILE, model
-                .getAttachmentVariableName());
+                .getAttachmentVariableId());
     }
 
     @Override

@@ -48,7 +48,7 @@ public class ValueEditor extends Dialog {
     private FlexTable table;
     private ScrollPanel scrollPanel;
 
-    private Variable variable = new Variable();
+    private Variable variable;
     private List<TextField<String>> fields = new ArrayList<TextField<String>>();
 
     /**

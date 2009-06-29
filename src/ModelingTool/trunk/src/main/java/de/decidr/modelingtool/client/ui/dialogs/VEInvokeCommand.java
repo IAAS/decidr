@@ -36,10 +36,10 @@ public class VEInvokeCommand {
 
     }
 
-    public static void invoke(String variableName) {
+    public static void invoke(Long id) {
         ((ValueEditor) DialogRegistry.getInstance().getDialog(
                 ValueEditor.class.getName())).setModel(VariablesFilter
-                .getVariableByName(variableName));
+                .getVariableById(id));
     }
 
 }

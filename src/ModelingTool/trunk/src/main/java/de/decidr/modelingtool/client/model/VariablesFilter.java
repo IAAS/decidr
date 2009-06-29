@@ -32,6 +32,7 @@ public class VariablesFilter {
         for (Variable var : Workflow.getInstance().getModel().getVariables()) {
             if (var.getType() == type) {
                 Variable targetVar = new Variable();
+                targetVar.setId(var.getId());
                 targetVar.setName(var.getName());
                 targetVar.setType(var.getType());
                 targetVar.setValues(var.getValues());
@@ -46,6 +47,7 @@ public class VariablesFilter {
         ListStore<Variable> result = new ListStore<Variable>();
         for (Variable var : Workflow.getInstance().getModel().getVariables()) {
             Variable targetVar = new Variable();
+            targetVar.setId(var.getId());
             targetVar.setName(var.getName());
             targetVar.setType(var.getType());
             targetVar.setValues(var.getValues());
@@ -56,9 +58,9 @@ public class VariablesFilter {
     }
 
     // JS: rewrite method
-    public static Variable getVariableByName(String name) {
+    public static Variable getVariableById(Long id) {
         for (Variable var : Workflow.getInstance().getModel().getVariables()) {
-            if (var.getName() == name) {
+            if (var.getId() == id) {
                 return var;
             }
         }

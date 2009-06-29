@@ -188,6 +188,7 @@ public class VariableEditor extends Dialog {
                 .getVariables();
         for (Variable v : variablesModel) {
             Variable targetVar = new Variable();
+            targetVar.setId(v.getId());
             targetVar.setName(v.getName());
             targetVar.setType(v.getType());
             targetVar.setValues(v.getValues());
@@ -206,11 +207,12 @@ public class VariableEditor extends Dialog {
         for (int i = 0; i < variables.getCount(); i++) {
             Variable v = variables.getAt(i);
             Variable targetVar = new Variable();
+            targetVar.setId(v.getId());
             targetVar.setName(v.getName());
             targetVar.setType(v.getType());
             targetVar.setValues(v.getValues());
             targetVar.setConfig(v.isConfig());
-            variablesModel.add(variables.getAt(i));
+            variablesModel.add(targetVar);
         }
         Workflow.getInstance().getModel().setVariables(variablesModel);
     }

@@ -39,7 +39,7 @@ public class SelectionBoxListener extends SelectionListener<ButtonEvent> {
 
     @Override
     public void componentSelected(ButtonEvent ce) {
-        VEInvokeCommand.invoke(field.getValue().getName());
+        VEInvokeCommand.invoke(field.getValue().getId());
         DialogRegistry.getInstance().showDialog(ValueEditor.class.getName());
     }
 }
