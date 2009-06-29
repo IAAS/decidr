@@ -13,13 +13,17 @@
 # specific language governing permissions and limitations
 # under the License.
 
+# usage getMemoryUsage.sh [precision]
+#   default precision: 2
+
 # fail on error
 set -e
 # uncomment for debugging:
-set -x
+#set -x
 
 # variables
 decimals=2
+[ -n "${1}" ] && decimals=${1}
 
 # functions
 extractUnit ()
