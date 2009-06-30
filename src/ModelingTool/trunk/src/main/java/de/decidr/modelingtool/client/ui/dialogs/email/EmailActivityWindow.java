@@ -28,6 +28,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.command.ChangeEmailInvokeNodeModelCommand;
+import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
 import de.decidr.modelingtool.client.model.Variable;
 import de.decidr.modelingtool.client.model.VariableType;
@@ -90,7 +92,8 @@ public class EmailActivityWindow extends Dialog {
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
-                        okButtonAction();
+                        // JS implement change listener
+                        putEmailNodeModel();
                         DialogRegistry.getInstance().hideDialog(
                                 EmailActivityWindow.class.getName());
                     }
@@ -105,17 +108,10 @@ public class EmailActivityWindow extends Dialog {
                 }));
     }
 
-    private void okButtonAction() {
-        // TODO: write method
-        putEmailNodeModel();
-    }
-
     public void setNode(EmailInvokeNode node) {
-        // JS: this is temporary
         this.node = node;
         model = new EmailInvokeNodeModel();
         model = (EmailInvokeNodeModel) node.getModel();
-
     }
 
     private void putEmailNodeModel() {
@@ -132,8 +128,8 @@ public class EmailActivityWindow extends Dialog {
         model.setSubjectVariableId(subjectField.getValue().getId());
         model.setMessageVariableId(messageField.getValue().getId());
         model.setAttachmentVariableId(attachmentField.getValue().getId());
-        // JS push to command stack
-        node.setModel(model);
+        CommandStack.getInstance().executeCommand(
+                new ChangeEmailInvokeNodeModelCommand(node, model));
     }
 
     private void addComboField(ComboBox<Variable> field, String label,

@@ -55,6 +55,7 @@ public class VariableEditor extends Dialog {
     private ToolBar toolBar;
 
     private ListStore<Variable> variables = new ListStore<Variable>();
+    private VariableEditorStoreListener listener = new VariableEditorStoreListener();
     private List<ColumnConfig> columns;
     private ColumnModel columnModel;
     private CellSelectionModel<Variable> csm;
@@ -67,6 +68,7 @@ public class VariableEditor extends Dialog {
         this.setResizable(true);
         createEditorPanel();
         createButtons();
+        variables.addStoreListener(listener);
     }
 
     private void createEditorPanel() {
@@ -107,7 +109,6 @@ public class VariableEditor extends Dialog {
         editorPanel.add(grid);
         createToolBar();
         this.add(editorPanel);
-
     }
 
     private void createToolBar() {
@@ -163,8 +164,10 @@ public class VariableEditor extends Dialog {
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
-                        variables.commitChanges();
-                        putVariablesToModel();
+                        if (listener.hasDataChanged()) {
+                            variables.commitChanges();
+                            putVariablesToModel();
+                        }
                         DialogRegistry.getInstance().hideDialog(
                                 VariableEditor.class.getName());
                     }
@@ -217,7 +220,6 @@ public class VariableEditor extends Dialog {
             targetVar.setConfig(v.isConfig());
             variablesModel.add(targetVar);
         }
-        // JS check if variables have changed
         CommandStack.getInstance().executeCommand(
                 new ChangeVariablesCommand(variablesModel));
     }
@@ -240,6 +242,7 @@ public class VariableEditor extends Dialog {
     @Override
     public void initialize() {
         getVariablesFromModel();
+        listener.setDataChanged(false);
     }
 
     /*
