@@ -143,7 +143,7 @@ public class VariableEditor extends Dialog {
             @Override
             public void componentSelected(ToolBarEvent ce) {
                 grid.stopEditing();
-                ValueEditorInvoker.invoke(csm.getSelectCell().model.getId());
+                ValueEditorInvoker.invoke(csm.getSelectCell().model);
                 DialogRegistry.getInstance().showDialog(
                         ValueEditor.class.getName());
             }

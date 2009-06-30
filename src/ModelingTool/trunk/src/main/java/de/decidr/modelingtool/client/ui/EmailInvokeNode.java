@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.Label;
 import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.email.EmailActivityWindow;
+import de.decidr.modelingtool.client.ui.dialogs.email.EmailActivityWindowInvoker;
 
 /**
  * TODO: add comment
@@ -49,10 +50,12 @@ public class EmailInvokeNode extends InvokeNode {
         FocusPanel graphic = new FocusPanel();
         graphic.addStyleName("node-graphic-std");
         graphic.setWidget(new Label("Email"));
+
         graphic.setWidget(new Button(ModelingTool.messages
                 .changePropertyButton(), new SelectionListener<ButtonEvent>() {
             @Override
             public void componentSelected(ButtonEvent ce) {
+                EmailActivityWindowInvoker.invoke(EmailInvokeNode.this);
                 DialogRegistry.getInstance().showDialog(
                         EmailActivityWindow.class.getName());
             }

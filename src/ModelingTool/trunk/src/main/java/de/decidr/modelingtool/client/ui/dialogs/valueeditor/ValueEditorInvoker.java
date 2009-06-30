@@ -16,6 +16,7 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.valueeditor;
 
+import de.decidr.modelingtool.client.model.Variable;
 import de.decidr.modelingtool.client.model.VariablesFilter;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
@@ -28,13 +29,25 @@ public class ValueEditorInvoker {
 
     /**
      * 
-     * TODO: add comment
-     *
+     * TODO: add comment (with a variable directly that is not in the model yet)
+     * 
+     * @param variable
+     */
+    public static void invoke(Variable variable) {
+        ((ValueEditor) DialogRegistry.getInstance().getDialog(
+                ValueEditor.class.getName())).setVariable(variable);
+    }
+
+    /**
+     * 
+     * TODO: add comment (with a variable that is already in the model and cann
+     * be identified by its id
+     * 
      * @param id
      */
     public static void invoke(Long id) {
         ((ValueEditor) DialogRegistry.getInstance().getDialog(
-                ValueEditor.class.getName())).setModel(VariablesFilter
+                ValueEditor.class.getName())).setVariable(VariablesFilter
                 .getVariableById(id));
     }
 

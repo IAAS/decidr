@@ -33,7 +33,6 @@ import de.decidr.modelingtool.client.model.Variable;
 import de.decidr.modelingtool.client.model.VariableType;
 import de.decidr.modelingtool.client.model.VariablesFilter;
 import de.decidr.modelingtool.client.ui.EmailInvokeNode;
-import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
@@ -44,6 +43,7 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
  */
 public class EmailActivityWindow extends Dialog {
 
+    private EmailInvokeNode node;
     private EmailInvokeNodeModel model;
 
     private ContentPanel contentPanel;
@@ -110,27 +110,30 @@ public class EmailActivityWindow extends Dialog {
         putEmailNodeModel();
     }
 
-    private void getEmailNodeModel() {
+    public void setNode(EmailInvokeNode node) {
         // JS: this is temporary
-        if (Workflow.getInstance().getSelectedItem() instanceof EmailInvokeNode) {
-            model = new EmailInvokeNodeModel();
-            model = (EmailInvokeNodeModel) ((EmailInvokeNode) Workflow
-                    .getInstance().getSelectedItem()).getModel();
-        }
+        this.node = node;
+        model = new EmailInvokeNodeModel();
+        model = (EmailInvokeNodeModel) node.getModel();
+
     }
 
     private void putEmailNodeModel() {
-        /* JS: this is temporary
-         * Question: what if the fields are null?
+        /*
+         * JS: Question: what if the fields are null?
          */
         model.setToVariableId(toField.getValue().getId());
-        model.setCcVariableId(ccField.getValue().getId());
-        model.setBccVariableId(bccField.getValue().getId());
+        if (ccField.getValue() != null) {
+            model.setCcVariableId(ccField.getValue().getId());
+        }
+        if (bccField.getValue() != null) {
+            model.setBccVariableId(bccField.getValue().getId());
+        }
         model.setSubjectVariableId(subjectField.getValue().getId());
         model.setMessageVariableId(messageField.getValue().getId());
         model.setAttachmentVariableId(attachmentField.getValue().getId());
-        ((EmailInvokeNode) Workflow.getInstance().getSelectedItem())
-                .setModel(model);
+        // JS push to command stack
+        node.setModel(model);
     }
 
     private void addComboField(ComboBox<Variable> field, String label,
@@ -159,7 +162,6 @@ public class EmailActivityWindow extends Dialog {
 
     @Override
     public void initialize() {
-        getEmailNodeModel();
         toField = new ComboBox<Variable>();
         addComboField(toField, ModelingTool.messages.toFieldLabel(),
                 VariableType.STRING, model.getToVariableId());

@@ -176,11 +176,7 @@ public class ValueEditor extends Dialog {
         }
     }
 
-    public Variable getModel() {
-        return variable;
-    }
-
-    public void setModel(Variable variable) {
+    public void setVariable(Variable variable) {
         this.variable = variable;
     }
 

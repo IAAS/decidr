@@ -24,7 +24,7 @@ import com.extjs.gxt.ui.client.widget.Window;
  * @author Jonas Schlaak
  */
 abstract public class Dialog extends Window {
-
+    
     /**
      * TODO: add comment
      * 

@@ -34,6 +34,12 @@ public class ChangeValueButtonListener extends SelectionListener<ButtonEvent> {
 
     private ComboBox<Variable> field;
 
+    /**
+     * 
+     * TODO: add comment
+     *
+     * @param field
+     */
     public ChangeValueButtonListener(ComboBox<Variable> field) {
         super();
         this.field = field;
