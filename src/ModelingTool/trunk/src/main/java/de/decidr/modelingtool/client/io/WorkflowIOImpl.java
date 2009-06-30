@@ -16,6 +16,9 @@
 
 package de.decidr.modelingtool.client.io;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.ServiceDefTarget;
+
 import de.decidr.modelingtool.client.model.WorkflowModel;
 
 /**
@@ -26,13 +29,26 @@ import de.decidr.modelingtool.client.model.WorkflowModel;
  */
 public class WorkflowIOImpl implements WorkflowIO {
 
+    private DWDLIOServiceAsync service=null;
+    private SaveCallback saveCallback = null;
+    private LoadCallback loadCallback = null;
+    
+    public WorkflowIOImpl (){
+        saveCallback = new SaveCallback();
+        loadCallback = new LoadCallback();
+        service = (DWDLIOServiceAsync) GWT.create(DWDLIOService.class);
+        ((ServiceDefTarget) service).setServiceEntryPoint( GWT.getModuleBaseURL() +
+        "/bla/bla");
+    }
+    
     /* (non-Javadoc)
      * @see de.decidr.modelingtool.client.io.WorkflowIO#loadWorkflow(java.lang.String)
      */
     @Override
-    public WorkflowModel loadWorkflow(String model) {
-        // TODO Auto-generated method stub
-        return null;
+    public WorkflowModel loadWorkflow() {
+        DWDLParser dwdlParser = new DWDLParserImpl();
+        String xmldwdl = service.load(loadCallback);
+        return dwdlParser.parse(xmldwdl);
     }
 
     /* (non-Javadoc)
@@ -40,8 +56,8 @@ public class WorkflowIOImpl implements WorkflowIO {
      */
     @Override
     public void saveWorkflow(WorkflowModel model) {
-        // TODO Auto-generated method stub
-
+        WorkflowParser workflowParser = new WorkflowParserImpl();
+        String xmldwdl = workflowParser.parse(model);
+        service.save(xmldwdl, saveCallback);
     }
-
 }

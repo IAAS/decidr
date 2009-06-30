@@ -28,6 +28,6 @@ public interface WorkflowIO {
     
     public void saveWorkflow(WorkflowModel model);
     
-    public WorkflowModel loadWorkflow(String model);
+    public WorkflowModel loadWorkflow();
 
 }

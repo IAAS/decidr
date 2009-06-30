@@ -31,8 +31,8 @@ public class DWDLIOServiceImpl implements DWDLIOService {
      */
     @Override
     public String load() {
-        // TODO Auto-generated method stub
-        return null;
+        // TODO probably need access to Tenenatfacade 
+        return "<workflow id=\"123\" name=\"test\" \\>";
     }
 
     /* (non-Javadoc)
@@ -40,7 +40,7 @@ public class DWDLIOServiceImpl implements DWDLIOService {
      */
     @Override
     public void save(String dwdl) {
-        // TODO Auto-generated method stub
+        // TODO probably need access to Tenenatfacade
 
     }
 
