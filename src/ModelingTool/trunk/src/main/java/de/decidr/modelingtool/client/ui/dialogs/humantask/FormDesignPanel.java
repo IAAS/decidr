@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui.dialogs.activitywindows.formdesigner;
+package de.decidr.modelingtool.client.ui.dialogs.humantask;
 
 import java.util.ArrayList;
 import java.util.List;

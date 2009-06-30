@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui.dialogs.activitywindows;
+package de.decidr.modelingtool.client.ui.dialogs.humantask;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.Style.Orientation;
@@ -26,8 +26,6 @@ import com.extjs.gxt.ui.client.widget.layout.RowLayout;
 import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
-import de.decidr.modelingtool.client.ui.dialogs.activitywindows.formdesigner.FormDesignPanel;
-import de.decidr.modelingtool.client.ui.dialogs.activitywindows.formdesigner.TaskPanel;
 
 /**
  * TODO: add comment

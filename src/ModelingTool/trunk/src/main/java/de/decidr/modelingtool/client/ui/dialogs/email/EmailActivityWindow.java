@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui.dialogs.activitywindows;
+package de.decidr.modelingtool.client.ui.dialogs.email;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
@@ -36,7 +36,6 @@ import de.decidr.modelingtool.client.ui.EmailInvokeNode;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
-import de.decidr.modelingtool.client.ui.dialogs.SelectionBoxListener;
 
 /**
  * TODO: add comment
@@ -146,7 +145,7 @@ public class EmailActivityWindow extends Dialog {
         table.setWidget(table.getRowCount() - 1, 1, field);
         table.setWidget(table.getRowCount() - 1, 2, new Button(
                 ModelingTool.messages.changeValueButton(),
-                new SelectionBoxListener(field)));
+                new ChangeValueButtonListener(field)));
     }
 
     private void clearAllEntries() {

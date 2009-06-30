@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
+package de.decidr.modelingtool.client.ui.dialogs.valueeditor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +36,7 @@ import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.model.Variable;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
+import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
 
 /**
  * TODO: add comment

@@ -14,28 +14,24 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui.dialogs;
+package de.decidr.modelingtool.client.ui.dialogs.valueeditor;
 
 import de.decidr.modelingtool.client.model.VariablesFilter;
-import de.decidr.modelingtool.client.ui.dialogs.variableeditor.ValueEditor;
-import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
+import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
  * TODO: add comment
  * 
  * @author Jonas Schlaak
  */
-public class VEInvokeCommand {
+public class ValueEditorInvoker {
 
-    public static void invoke() {
-        ((ValueEditor) DialogRegistry.getInstance().getDialog(
-                ValueEditor.class.getName()))
-                .setModel(((VariableEditor) DialogRegistry.getInstance()
-                        .getDialog(VariableEditor.class.getName()))
-                        .getSelectedVariable());
-
-    }
-
+    /**
+     * 
+     * TODO: add comment
+     *
+     * @param id
+     */
     public static void invoke(Long id) {
         ((ValueEditor) DialogRegistry.getInstance().getDialog(
                 ValueEditor.class.getName())).setModel(VariablesFilter

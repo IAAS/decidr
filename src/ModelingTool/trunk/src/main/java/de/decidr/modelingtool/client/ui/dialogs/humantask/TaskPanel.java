@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui.dialogs.activitywindows.formdesigner;
+package de.decidr.modelingtool.client.ui.dialogs.humantask;
 
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.form.CheckBox;

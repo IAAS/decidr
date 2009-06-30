@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Label;
 
 import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
-import de.decidr.modelingtool.client.ui.dialogs.activitywindows.EmailActivityWindow;
+import de.decidr.modelingtool.client.ui.dialogs.email.EmailActivityWindow;
 
 /**
  * TODO: add comment

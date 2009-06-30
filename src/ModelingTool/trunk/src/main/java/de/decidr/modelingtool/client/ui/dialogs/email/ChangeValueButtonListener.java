@@ -14,32 +14,34 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui.dialogs;
+package de.decidr.modelingtool.client.ui.dialogs.email;
 
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 
 import de.decidr.modelingtool.client.model.Variable;
-import de.decidr.modelingtool.client.ui.dialogs.variableeditor.ValueEditor;
+import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
+import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditor;
+import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorInvoker;
 
 /**
  * TODO: add comment
  * 
  * @author Jonas Schlaak
  */
-public class SelectionBoxListener extends SelectionListener<ButtonEvent> {
+public class ChangeValueButtonListener extends SelectionListener<ButtonEvent> {
 
     private ComboBox<Variable> field;
 
-    public SelectionBoxListener(ComboBox<Variable> field) {
+    public ChangeValueButtonListener(ComboBox<Variable> field) {
         super();
         this.field = field;
     }
 
     @Override
     public void componentSelected(ButtonEvent ce) {
-        VEInvokeCommand.invoke(field.getValue().getId());
+        ValueEditorInvoker.invoke(field.getValue().getId());
         DialogRegistry.getInstance().showDialog(ValueEditor.class.getName());
     }
 }

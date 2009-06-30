@@ -41,7 +41,8 @@ import de.decidr.modelingtool.client.model.Variable;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
-import de.decidr.modelingtool.client.ui.dialogs.VEInvokeCommand;
+import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditor;
+import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorInvoker;
 
 /**
  * TODO: add comment
@@ -142,7 +143,7 @@ public class VariableEditor extends Dialog {
             @Override
             public void componentSelected(ToolBarEvent ce) {
                 grid.stopEditing();
-                VEInvokeCommand.invoke();
+                ValueEditorInvoker.invoke(csm.getSelectCell().model.getId());
                 DialogRegistry.getInstance().showDialog(
                         ValueEditor.class.getName());
             }
@@ -229,16 +230,6 @@ public class VariableEditor extends Dialog {
      */
     public ListStore<Variable> getVariables() {
         return variables;
-    }
-
-    /**
-     * 
-     * TODO: add comment
-     * 
-     * @return
-     */
-    public Variable getSelectedVariable() {
-        return csm.getSelectCell().model;
     }
 
     /*
