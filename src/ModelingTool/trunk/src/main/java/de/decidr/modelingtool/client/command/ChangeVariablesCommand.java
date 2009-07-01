@@ -29,28 +29,58 @@ import de.decidr.modelingtool.client.ui.Workflow;
  */
 public class ChangeVariablesCommand implements UndoableCommand {
 
-    private List<Variable> oldModel = new ArrayList<Variable>();
-    private List<Variable> newModel = new ArrayList<Variable>();
+    private List<Variable> oldVariables;
+    private List<Variable> newVariables;
 
     /**
+     * JS This constructor should be used when the variables are changed by the
+     * variable editor
      * 
-     * TODO: add comment
-     * 
-     * @param model
+     * @param newVariables
+     *            the new variables list which shall replace the old ones
      */
-    public ChangeVariablesCommand(List<Variable> variables) {
-        this.newModel = variables;
+    public ChangeVariablesCommand(List<Variable> newVariables) {
+        this.oldVariables = Workflow.getInstance().getModel().getVariables();
+        this.newVariables = newVariables;
+    }
+
+    /**
+     * This constructor should be used when the values of a single variable was
+     * changed by the value editor. The value editor was not called within the
+     * variable editor
+     * 
+     * @param newVariable
+     *            the variable with the new values
+     * 
+     */
+    public ChangeVariablesCommand(Variable newVariable) {
+        /*
+         * In oder to properly prepare for the execute and undo commands, which
+         * only handle variables lists, it is necessary to create a "new"
+         * variables list which contains the new variable. This is done by
+         * copying variable by variable from the old list.If the loop gets to
+         * the variable which is to be replaced, the new variable is inserted
+         * instead of the old one.
+         */
+        this.oldVariables = Workflow.getInstance().getModel().getVariables();
+        this.newVariables = new ArrayList<Variable>();
+        for (Variable var : oldVariables) {
+            if (var.getId() == newVariable.getId()) {
+                newVariables.add(newVariable);
+            } else {
+                newVariables.add(var);
+            }
+        }
     }
 
     @Override
     public void execute() {
-        oldModel = Workflow.getInstance().getModel().getVariables();
-        Workflow.getInstance().getModel().setVariables(newModel);
+        Workflow.getInstance().getModel().setVariables(newVariables);
     }
 
     @Override
     public void undo() {
-        Workflow.getInstance().getModel().setVariables(oldModel);
+        Workflow.getInstance().getModel().setVariables(oldVariables);
     }
 
 }

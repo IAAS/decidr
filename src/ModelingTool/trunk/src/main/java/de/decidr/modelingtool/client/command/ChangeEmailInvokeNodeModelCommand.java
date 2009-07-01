@@ -27,8 +27,8 @@ import de.decidr.modelingtool.client.ui.EmailInvokeNode;
 public class ChangeEmailInvokeNodeModelCommand implements UndoableCommand {
 
     private EmailInvokeNode node;
-    private EmailInvokeNodeModel oldModel = new EmailInvokeNodeModel();
-    private EmailInvokeNodeModel newmodel = new EmailInvokeNodeModel();
+    private EmailInvokeNodeModel oldModel;
+    private EmailInvokeNodeModel newmodel;
 
     /**
      * TODO: add comment
@@ -37,6 +37,7 @@ public class ChangeEmailInvokeNodeModelCommand implements UndoableCommand {
     public ChangeEmailInvokeNodeModelCommand(EmailInvokeNode node,
             EmailInvokeNodeModel newModel) {
         this.node = node;
+        this.oldModel = (EmailInvokeNodeModel) node.getModel();
         this.newmodel = newModel;
     }
 
@@ -47,7 +48,6 @@ public class ChangeEmailInvokeNodeModelCommand implements UndoableCommand {
      */
     @Override
     public void execute() {
-        oldModel = (EmailInvokeNodeModel) node.getModel();
         node.setModel(newmodel);
     }
 

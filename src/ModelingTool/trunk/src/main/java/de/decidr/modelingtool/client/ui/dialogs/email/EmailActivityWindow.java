@@ -93,7 +93,7 @@ public class EmailActivityWindow extends Dialog {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
                         // JS implement change listener
-                        putEmailNodeModel();
+                        changeWorkflowModel();
                         DialogRegistry.getInstance().hideDialog(
                                 EmailActivityWindow.class.getName());
                     }
@@ -114,22 +114,25 @@ public class EmailActivityWindow extends Dialog {
         model = (EmailInvokeNodeModel) node.getModel();
     }
 
-    private void putEmailNodeModel() {
+    private void changeWorkflowModel() {
         /*
          * JS: Question: what if the fields are null?
          */
-        model.setToVariableId(toField.getValue().getId());
+        EmailInvokeNodeModel newModel = new EmailInvokeNodeModel(node
+                .getModel().getParentModel());
+        newModel.setToVariableId(toField.getValue().getId());
         if (ccField.getValue() != null) {
-            model.setCcVariableId(ccField.getValue().getId());
+            newModel.setCcVariableId(ccField.getValue().getId());
         }
         if (bccField.getValue() != null) {
-            model.setBccVariableId(bccField.getValue().getId());
+            newModel.setBccVariableId(bccField.getValue().getId());
         }
-        model.setSubjectVariableId(subjectField.getValue().getId());
-        model.setMessageVariableId(messageField.getValue().getId());
-        model.setAttachmentVariableId(attachmentField.getValue().getId());
+        newModel.setSubjectVariableId(subjectField.getValue().getId());
+        newModel.setMessageVariableId(messageField.getValue().getId());
+        newModel.setAttachmentVariableId(attachmentField.getValue().getId());
+        // JS check if changed
         CommandStack.getInstance().executeCommand(
-                new ChangeEmailInvokeNodeModelCommand(node, model));
+                new ChangeEmailInvokeNodeModelCommand(node, newModel));
     }
 
     private void addComboField(ComboBox<Variable> field, String label,

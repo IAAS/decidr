@@ -73,6 +73,17 @@ public class Variable extends BaseModelData {
         this.set(CONFIGVAR, true);
     }
 
+    public Variable copy() {
+        Variable copy = new Variable();
+        copy.setId(this.getId());
+        copy.setName(this.getName());
+        copy.setType(this.getType());
+        copy.setValues(this.getValues());
+        copy.setArray(this.isArray());
+        copy.setConfig(this.isConfig());
+        return copy;
+    }
+
     /**
      * 
      * TODO: add comment

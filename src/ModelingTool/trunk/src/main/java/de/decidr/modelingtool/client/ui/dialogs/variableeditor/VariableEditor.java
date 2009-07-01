@@ -166,7 +166,7 @@ public class VariableEditor extends Dialog {
                     public void componentSelected(ButtonEvent ce) {
                         if (listener.hasDataChanged()) {
                             variables.commitChanges();
-                            putVariablesToModel();
+                            changeWorkflowModel();
                         }
                         DialogRegistry.getInstance().hideDialog(
                                 VariableEditor.class.getName());
@@ -208,9 +208,10 @@ public class VariableEditor extends Dialog {
      * TODO: add comment
      * 
      */
-    private void putVariablesToModel() {
+    private void changeWorkflowModel() {
         List<Variable> variablesModel = new ArrayList<Variable>();
         for (int i = 0; i < variables.getCount(); i++) {
+            //JS replace with copy
             Variable v = variables.getAt(i);
             Variable targetVar = new Variable();
             targetVar.setId(v.getId());

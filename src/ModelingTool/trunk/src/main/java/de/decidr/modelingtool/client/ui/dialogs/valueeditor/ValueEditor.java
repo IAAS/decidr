@@ -33,7 +33,10 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.command.ChangeVariablesCommand;
+import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.Variable;
+import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
@@ -124,7 +127,13 @@ public class ValueEditor extends Dialog {
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
-                        okButtonAction();
+                        changeWorkflowModel();
+                        /*
+                         * Refresh of the variable editor needed so that the
+                         * displayed values are updated
+                         */
+                        DialogRegistry.getInstance().getDialog(
+                                VariableEditor.class.getName()).refresh();
                         DialogRegistry.getInstance().hideDialog(
                                 ValueEditor.class.getName());
                     }
@@ -140,14 +149,28 @@ public class ValueEditor extends Dialog {
                 }));
     }
 
-    private void okButtonAction() {
-        List<String> values = new ArrayList<String>();
+    private void changeWorkflowModel() {
+        List<String> newValues = new ArrayList<String>();
         for (TextField<String> field : fields) {
-            values.add(field.getValue());
+            newValues.add(field.getValue());
         }
-        variable.setValues(values);
-        DialogRegistry.getInstance().getDialog(VariableEditor.class.getName())
-                .refresh();
+        /*
+         * Check if the variable is already in the workflow model. If that is
+         * the case, it means the value editor was called outside of the
+         * variable editor (for example, from an email activity. Therefore any
+         * changes have to be pushed in to the command stack. If the variable is
+         * not in the workflow model, it means that the variable is a reference
+         * to an element in the list store of the variable editor.
+         */
+        // JS check if changed
+        if (Workflow.getInstance().getModel().getVariables().contains(variable)) {
+            Variable newVariable = variable.copy();
+            newVariable.setValues(newValues);
+            CommandStack.getInstance().executeCommand(
+                    new ChangeVariablesCommand(newVariable));
+        } else {
+            variable.setValues(newValues);
+        }
     }
 
     private void addEntry(String fieldContent) {

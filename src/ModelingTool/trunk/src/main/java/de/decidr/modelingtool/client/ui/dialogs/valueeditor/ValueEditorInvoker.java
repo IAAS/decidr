@@ -40,7 +40,7 @@ public class ValueEditorInvoker {
 
     /**
      * 
-     * TODO: add comment (with a variable that is already in the model and cann
+     * TODO: add comment (with a variable that is already in the model and can
      * be identified by its id
      * 
      * @param id
