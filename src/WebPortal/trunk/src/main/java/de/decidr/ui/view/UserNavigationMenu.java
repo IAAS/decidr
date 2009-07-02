@@ -6,6 +6,8 @@ import com.vaadin.ui.Label;
 
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.controller.ShowChangeTenantAction;
+import de.decidr.ui.controller.ShowMyWorkitemsAction;
 import de.decidr.ui.controller.ShowProfileSettingsAction;
 
 public class UserNavigationMenu extends CustomComponent{
@@ -40,9 +42,9 @@ public class UserNavigationMenu extends CustomComponent{
 		verticalLayout = new VerticalLayout();
 		this.setCompositionRoot(verticalLayout);
 		
-		myWorkItemLink = new Button("My Workitems");
+		myWorkItemLink = new Button("My Workitems", new ShowMyWorkitemsAction());
 		myWorkItemLink.setStyleName(Button.STYLE_LINK);
-		changeTenantLink = new Button("Change Tenant");
+		changeTenantLink = new Button("Change Tenant", new ShowChangeTenantAction());
 		changeTenantLink.setStyleName(Button.STYLE_LINK);		
 		profileSettingsLink = new Button("Profile Settings", new ShowProfileSettingsAction());
 		profileSettingsLink.setStyleName(Button.STYLE_LINK);

@@ -23,6 +23,9 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.controller.ApproveTenantAction;
+import de.decidr.ui.controller.DeclineTenantAction;
+import de.decidr.ui.controller.DeleteTenantAction;
 import de.decidr.ui.data.TenantContainer;
 
 /**
@@ -79,9 +82,9 @@ public class EditTenantComponent extends CustomComponent {
         
         tenantTable = new TenantTable(tenantContainer, tenantContainer);
         
-        deleteButton = new Button("Delete");
-        approveButton = new Button("Approve");
-        declineButton = new Button("Decline");
+        deleteButton = new Button("Delete", new DeleteTenantAction(tenantTable));
+        approveButton = new Button("Approve", new ApproveTenantAction(tenantTable));
+        declineButton = new Button("Decline", new DeclineTenantAction(tenantTable));
         
         setCompositionRoot(verticalLayout);
         

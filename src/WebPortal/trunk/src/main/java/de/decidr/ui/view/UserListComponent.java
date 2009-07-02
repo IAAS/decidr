@@ -7,6 +7,10 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.controller.ActivateAccountAction;
+import de.decidr.ui.controller.DeactivateAccountAction;
+import de.decidr.ui.controller.RemoveUserFromTenantAction;
+import de.decidr.ui.controller.ShowInviteUserToTenantAction;
 import de.decidr.ui.data.UserListContainer;
 
 public class UserListComponent extends CustomComponent {
@@ -61,7 +65,7 @@ public class UserListComponent extends CustomComponent {
         
         userListTable = new UserListTable(userListContainer, userListContainer);
         
-        inviteUserButton = new Button("Invite user");
+        inviteUserButton = new Button("Invite user", new ShowInviteUserToTenantAction());
         inviteUserButton.setVisible(false);
         
         setCompositionRoot(verticalLayout);
@@ -81,9 +85,9 @@ public class UserListComponent extends CustomComponent {
      */
     public void changeToSuperAdmin(){
         init();
-        removeFromTenantButton = new Button("Remove from tenant");
-        deactivateAccountButton = new Button("Deactivate account");
-        activateAccountButton = new Button("Activate account");
+        removeFromTenantButton = new Button("Remove from tenant", new RemoveUserFromTenantAction(userListTable));
+        deactivateAccountButton = new Button("Deactivate account", new DeactivateAccountAction(userListTable));
+        activateAccountButton = new Button("Activate account", new ActivateAccountAction(userListTable));
         getInviteUserButton().setVisible(true);
         getButtonHorizontalLayout().addComponent(removeFromTenantButton);
         getButtonHorizontalLayout().addComponent(deactivateAccountButton);
@@ -97,7 +101,7 @@ public class UserListComponent extends CustomComponent {
      */
     public void changeToTenantAdmin(){
         init();
-        removeUserButton = new Button("Remove user");
+        removeUserButton = new Button("Remove user", new RemoveUserFromTenantAction(userListTable));
         promoteToTenantAdminButton = new Button("Promote to tenant admin");
         getButtonHorizontalLayout().addComponent(removeUserButton);
         getButtonHorizontalLayout().addComponent(promoteToTenantAdminButton);

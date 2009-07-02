@@ -5,7 +5,12 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.controller.ShowChangeTenantAction;
+import de.decidr.ui.controller.ShowCreateWorkflowInstanceAction;
+import de.decidr.ui.controller.ShowMyWorkitemsAction;
 import de.decidr.ui.controller.ShowProfileSettingsAction;
+import de.decidr.ui.controller.ShowUserListAction;
+import de.decidr.ui.controller.ShowWorkflowInstancesAction;
 
 public class WorkflowAdminNavigationMenu extends CustomComponent {
     
@@ -44,15 +49,15 @@ public class WorkflowAdminNavigationMenu extends CustomComponent {
         verticalLayout = new VerticalLayout();
         this.setCompositionRoot(verticalLayout);
         
-        myWorkItemLink = new Button("My Workitems");
+        myWorkItemLink = new Button("My Workitems", new ShowMyWorkitemsAction());
         myWorkItemLink.setStyleName(Button.STYLE_LINK);
-        changeTenantLink = new Button("Change Tenant");
+        changeTenantLink = new Button("Change Tenant", new ShowChangeTenantAction());
         changeTenantLink.setStyleName(Button.STYLE_LINK);
-        createWorkflowInstanceLink = new Button("Create Workflow Instance");
+        createWorkflowInstanceLink = new Button("Create Workflow Instance", new ShowCreateWorkflowInstanceAction());
         createWorkflowInstanceLink.setStyleName(Button.STYLE_LINK);
-        showWorkflowInstancesLink = new Button("Show Workflow Instances");
+        showWorkflowInstancesLink = new Button("Show Workflow Instances", new ShowWorkflowInstancesAction());
         showWorkflowInstancesLink.setStyleName(Button.STYLE_LINK);
-        showUserListLink = new Button("Show User List");
+        showUserListLink = new Button("Show User List", new ShowUserListAction());
         showUserListLink.setStyleName(Button.STYLE_LINK);
         profileSettingsLink = new Button("Profile Settings", new ShowProfileSettingsAction());
         profileSettingsLink.setStyleName(Button.STYLE_LINK);
