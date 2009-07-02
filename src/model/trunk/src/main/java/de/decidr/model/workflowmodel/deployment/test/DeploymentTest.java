@@ -27,24 +27,37 @@ import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author Modood Alvi
  */
 public class DeploymentTest {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @param args
-     * @throws JAXBException 
-     * @throws FileNotFoundException 
+     * @throws JAXBException
+     * @throws FileNotFoundException
      */
-    public static void main(String[] args) throws JAXBException, FileNotFoundException {
-        JAXBContext dwdlCntxt = JAXBContext.newInstance(TWorkflow.class);
-        Unmarshaller unmarshaller = dwdlCntxt.createUnmarshaller();
-        TWorkflow dwdlWorkflow = (TWorkflow) unmarshaller.unmarshal(new FileInputStream("sampleProcess"));
-        dwdlWorkflow.toString();
-
+    public static void main(String[] args) {
+        JAXBContext dwdlCntxt;
+        try {
+            dwdlCntxt = JAXBContext.newInstance(TWorkflow.class);
+            Unmarshaller unmarshaller;
+            unmarshaller = dwdlCntxt.createUnmarshaller();
+            TWorkflow dwdlWorkflow;
+            dwdlWorkflow = (TWorkflow) unmarshaller
+                    .unmarshal(new FileInputStream("sampleProcess"));
+            dwdlWorkflow.toString();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.out.println("filenotfound");
+        } catch (JAXBException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.out.println("jaxbexception");
+        }
     }
 
 }
