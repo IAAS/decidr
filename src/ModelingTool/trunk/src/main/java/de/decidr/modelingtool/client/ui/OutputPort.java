@@ -47,12 +47,14 @@ public class OutputPort extends Port {
         PickupDragController ipdc = DndRegistry.getInstance()
                 .getDragController("InputPortDragController");
         ipdc.registerDropController(getDropController());
+        dropControllerRegistered = true;
     }
 
     public void unregisterDropController() {
         PickupDragController ipdc = DndRegistry.getInstance()
                 .getDragController("InputPortDragController");
         ipdc.unregisterDropController(getDropController());
+        dropControllerRegistered = false;
     }
 
 }

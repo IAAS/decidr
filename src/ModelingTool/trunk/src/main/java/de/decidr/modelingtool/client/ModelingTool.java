@@ -26,10 +26,12 @@ import com.google.gwt.user.client.ui.RootPanel;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.command.CreateConnectionCommand;
 import de.decidr.modelingtool.client.command.CreateEmailInvokeNodeCommand;
+import de.decidr.modelingtool.client.command.CreateFlowContainerCommand;
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
 import de.decidr.modelingtool.client.menu.Menu;
 import de.decidr.modelingtool.client.model.ConnectionModel;
 import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
+import de.decidr.modelingtool.client.model.FlowContainerModel;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
@@ -95,7 +97,7 @@ public class ModelingTool implements EntryPoint {
                     }
                 }));
         RootPanel.get().add(buttonBar);
-        
+
         // create menu
         final Menu menu = new Menu();
         RootPanel.get("menu").add(menu);
@@ -111,20 +113,27 @@ public class ModelingTool implements EntryPoint {
 
         // create test elements
         try {
-            EmailInvokeNodeModel model1 = new EmailInvokeNodeModel(workflowModel);
+            EmailInvokeNodeModel model1 = new EmailInvokeNodeModel(
+                    workflowModel);
             CommandStack.getInstance().executeCommand(
                     new CreateEmailInvokeNodeCommand(model1, 50, 100));
 
-            EmailInvokeNodeModel model2 = new EmailInvokeNodeModel(workflowModel);
+            EmailInvokeNodeModel model2 = new EmailInvokeNodeModel(
+                    workflowModel);
             CommandStack.getInstance().executeCommand(
                     new CreateEmailInvokeNodeCommand(model2, 150, 250));
 
             ConnectionModel conModel = new ConnectionModel();
             conModel.setSource(model1);
             conModel.setTarget(model2);
-            conModel.setParentModel(workflow.getModel());
+            conModel.setParentModel(workflowModel);
             CommandStack.getInstance().executeCommand(
                     new CreateConnectionCommand(conModel));
+
+            FlowContainerModel flowModel = new FlowContainerModel(workflowModel);
+            CommandStack.getInstance().executeCommand(
+                    new CreateFlowContainerCommand(flowModel, 250, 100, 300,
+                            200));
         } catch (IncompleteModelDataException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -22,7 +22,11 @@ package de.decidr.modelingtool.client.model;
  * @author JE
  */
 public class IfContainerModel extends ContainerModel {
-
+    
+    public IfContainerModel() {
+        super();
+    }
+    
     /**
      * TODO: add comment
      *

@@ -27,4 +27,9 @@ public abstract class InvokeNode extends Node {
         super(parentPanel);
     }
     
+    @Override
+    public boolean isResizable() {
+        return false;
+    }
+    
 }

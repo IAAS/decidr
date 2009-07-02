@@ -23,6 +23,7 @@ import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -40,7 +41,7 @@ public abstract class Node extends AbsolutePanel implements
         ModelChangeListener, Selectable, HasMouseDownHandlers,
         HasMouseOutHandlers {
 
-    private final int BORDER_OFFSET = 5;
+    protected final int BORDER_OFFSET = 5;
 
     protected FocusPanel graphic = null;
 
@@ -101,18 +102,34 @@ public abstract class Node extends AbsolutePanel implements
         return graphic;
     }
 
-    public int getGraphicAbsoluteLeft() {
-        return graphic.getAbsoluteLeft()
-                - Workflow.getInstance().getAbsoluteLeft();
-    }
+//    public int getGraphicAbsoluteLeft() {
+//        return graphic.getAbsoluteLeft()
+//                - Workflow.getInstance().getAbsoluteLeft();
+//    }
 
     public void setParentPanel(HasChildren parentPanel) {
         this.parentPanel = parentPanel;
     }
 
-    public int getGraphicAbsoluteTop() {
-        return graphic.getAbsoluteTop()
-                - Workflow.getInstance().getAbsoluteTop();
+//    public int getGraphicAbsoluteTop() {
+//        return graphic.getAbsoluteTop()
+//                - Workflow.getInstance().getAbsoluteTop();
+//    }
+    
+    public int getGraphicLeft() {
+        if (graphic != null) {
+            return getLeft() + getWidgetLeft(graphic);
+        } else {
+            return 0;
+        }
+    }
+    
+    public int getGraphicTop() {
+        if (graphic != null) {
+            return getTop() + getWidgetTop(graphic);
+        } else {
+            return 0;
+        }
     }
 
     // protected void addPort(Port port) {
@@ -164,7 +181,7 @@ public abstract class Node extends AbsolutePanel implements
             return 0;
         }
     }
-    
+
     public void setPosition(int left, int top) {
         if (getParent() instanceof AbsolutePanel) {
             ((AbsolutePanel) getParent()).setWidgetPosition(this, left, top);
@@ -172,7 +189,7 @@ public abstract class Node extends AbsolutePanel implements
             if (isSelected()) {
                 Workflow.getInstance().getSelectionHandler().refreshSelection();
             }
-        } 
+        }
     }
 
     public boolean hasContainer() {
@@ -203,37 +220,59 @@ public abstract class Node extends AbsolutePanel implements
     }
 
     /**
-     * Callback function for the workflow, this function is called when the node
-     * is added to a workflow.
+     * Callback function for the parent panel, this function is called when the
+     * node is added to a workflow or container.
      */
     public void onPanelAdd(HasChildren parentPanel) {
         this.parentPanel = parentPanel;
 
         // set pixel size, this can only be set after setting a graphic and
-        // adding the node to a workflow
-        if (graphic != null) {
-            this.setPixelSize(graphic.getOffsetWidth() + BORDER_OFFSET * 2,
-                    graphic.getOffsetHeight() + BORDER_OFFSET * 2);
-        }
-        
+        // adding the node to a panel
+        // if (graphic != null) {
+        // this.setPixelSize(graphic.getOffsetWidth() + BORDER_OFFSET * 2,
+        // graphic.getOffsetHeight() + BORDER_OFFSET * 2);
+        // }
+
         // register port drop controllers
-        if (inputPort != null) {
+        if (inputPort != null && !inputPort.isDropControllerRegistered()) {
             inputPort.registerDropController();
         }
-        if (outputPort != null) {
+        if (outputPort != null && !outputPort.isDropControllerRegistered()) {
             outputPort.registerDropController();
         }
 
         // refresh the port positions
+        // refreshPortPositions();
+
+        refreshNodeSize();
+        
+        //Window.alert("onPaneladd");
+    }
+
+    public void setGraphicPixelSize(int width, int height) {
+        if (graphic != null) {
+            graphic.setPixelSize(width, height);
+            refreshNodeSize();
+        }
+    }
+
+    protected void refreshNodeSize() {
+        // set pixel size, this can only be set after setting a graphic and
+        // adding the node to a panel
+        if (graphic != null) {
+            this.setPixelSize(graphic.getOffsetWidth() + BORDER_OFFSET * 2,
+                    graphic.getOffsetHeight() + BORDER_OFFSET * 2);
+        }
+
         refreshPortPositions();
     }
-    
+
     public void onPanelRemove() {
         // unregister port drop controllers
-        if (inputPort != null) {
+        if (inputPort != null && inputPort.isDropControllerRegistered()) {
             inputPort.unregisterDropController();
         }
-        if (outputPort != null) {
+        if (outputPort != null && outputPort.isDropControllerRegistered()) {
             outputPort.unregisterDropController();
         }
     }
@@ -339,7 +378,7 @@ public abstract class Node extends AbsolutePanel implements
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
-    
+
     public UndoableCommand getRemoveConnectionsCommand() {
         CommandList cmdList = new CommandList();
 
@@ -349,7 +388,7 @@ public abstract class Node extends AbsolutePanel implements
         if (outputPort != null) {
             cmdList.addCommand(outputPort.getRemoveConnectionsCommand());
         }
-        
+
         return cmdList;
     }
 

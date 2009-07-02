@@ -22,7 +22,11 @@ package de.decidr.modelingtool.client.model;
  * @author JE
  */
 public class ForEachContainerModel extends ContainerModel {
-
+    
+    public ForEachContainerModel() {
+        super();
+    }
+    
     /**
      * TODO: add comment
      *

@@ -23,13 +23,14 @@ import com.google.gwt.event.dom.client.HasMouseDownHandlers;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import de.decidr.modelingtool.client.model.HasChildModels;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.dnd.ConnectionDragController;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
+import de.decidr.modelingtool.client.ui.dnd.ResizeDragController;
 import de.decidr.modelingtool.client.ui.dnd.WorkflowDragController;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
@@ -95,6 +96,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
                 this));
         dndr.register("OutputPortDragController", new ConnectionDragController(
                 this));
+        dndr.register("ResizeDragController", new ResizeDragController(this));
     }
 
     public void addConnection(Connection connection) {
@@ -196,6 +198,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
      * @param connection
      */
     public void removeConnection(Connection connection) {
+        childConnections.remove(connection);
         connection.remove();
     }
 
@@ -207,7 +210,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
     public void removeNode(Node node) {
         childNodes.remove(node);
 
-        // callbacl to node before remove
+        // callback to node before remove
         node.onPanelRemove();
 
         super.remove(node);
@@ -217,4 +220,34 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
         this.model = model;
     }
 
+    @Override
+    public void add(Widget w) {
+        super.add(w);
+        
+        if (w instanceof Node) {
+            Node node = (Node)w;
+            // add node to the nodes vector
+            childNodes.add(node);
+    
+            // callback to node after add
+            node.onPanelAdd(this);
+        }
+    }
+
+    @Override
+    public boolean remove(Widget w) {
+        if (w instanceof Node) {
+            Node node = (Node) w;
+            // remove node from the nodes collection
+            childNodes.remove(node);
+
+            // callback to node before remove
+            node.onPanelRemove();
+        }
+        
+        return super.remove(w);
+    }
+
+    
+    
 }

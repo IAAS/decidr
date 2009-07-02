@@ -46,14 +46,14 @@ public class SelectionHandler implements MouseDownHandler {
         this.selectedItem = selectedItem;
     }
 
-    private Workflow parentWorkflow = null;
+    private Workflow parentWorkflow;
 
     private NodeSelectionBox nodeSelectionBox = null;
 
     public SelectionHandler(Workflow parentWorkflow) {
         this.parentWorkflow = parentWorkflow;
 
-        nodeSelectionBox = new NodeSelectionBox(parentWorkflow);
+        nodeSelectionBox = new NodeSelectionBox();
     }
 
     @Override

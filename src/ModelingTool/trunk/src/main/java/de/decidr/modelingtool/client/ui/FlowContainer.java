@@ -14,27 +14,25 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
+package de.decidr.modelingtool.client.ui;
 
 /**
  * TODO: add comment
  *
  * @author JE
  */
-public class FlowContainerModel extends ContainerModel {
+public class FlowContainer extends Container {
 
-    public FlowContainerModel() {
-        super();
-    }
-    
     /**
      * TODO: add comment
      *
-     * @param parentModel
+     * @param parentPanel
      */
-    public FlowContainerModel(HasChildModels parentModel) {
-        super(parentModel);
+    public FlowContainer(HasChildren parentPanel) {
+        super(parentPanel);
         // TODO Auto-generated constructor stub
     }
 
+    
+    
 }

@@ -16,37 +16,75 @@
 
 package de.decidr.modelingtool.client.command;
 
+import com.google.gwt.user.client.Window;
+
+import de.decidr.modelingtool.client.ui.HasChildren;
 import de.decidr.modelingtool.client.ui.Node;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author JE
  */
 public class MoveNodeCommand implements UndoableCommand {
-    
+
     private Node node;
+
+    private HasChildren oldParentPanel;
     private int oldNodeLeft;
     private int oldNodeTop;
+
+    private HasChildren newParentPanel;
     private int newNodeLeft;
     private int newNodeTop;
 
-    public MoveNodeCommand(Node node, int oldNodeLeft, int oldNodeTop) {
+    private UndoableCommand removeConnectionsCmd;
+
+    public MoveNodeCommand(Node node, HasChildren oldParentPanel,
+            int oldNodeLeft, int oldNodeTop) {
         this.node = node;
+
+        this.oldParentPanel = oldParentPanel;
         this.oldNodeLeft = oldNodeLeft;
         this.oldNodeTop = oldNodeTop;
+
+        this.newParentPanel = node.getParentPanel();
         this.newNodeLeft = node.getLeft();
         this.newNodeTop = node.getTop();
+
+        removeConnectionsCmd = node.getRemoveConnectionsCommand();
     }
-    
+
     @Override
     public void undo() {
+        if (oldParentPanel != newParentPanel) {
+            
+            node.getModel().setParentModel(
+                    oldParentPanel.getHasChildModelsModel());
+            
+            newParentPanel.removeNode(node);
+            oldParentPanel.addNode(node);
+            
+            removeConnectionsCmd.undo();
+        }
+        
         node.setPosition(oldNodeLeft, oldNodeTop);
-
     }
 
     @Override
     public void execute() {
+        if (oldParentPanel != newParentPanel) {          
+            // remove connections if parent panel has changed
+            removeConnectionsCmd.execute();
+            
+            oldParentPanel.removeNode(node);
+            newParentPanel.addNode(node);
+            
+            // set new parent model
+            node.getModel().setParentModel(
+                    newParentPanel.getHasChildModelsModel());
+        }
+        
         node.setPosition(newNodeLeft, newNodeTop);
     }
 

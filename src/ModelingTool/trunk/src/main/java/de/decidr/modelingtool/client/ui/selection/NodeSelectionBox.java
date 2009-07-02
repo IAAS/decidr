@@ -19,8 +19,11 @@ package de.decidr.modelingtool.client.ui.selection;
 import java.util.List;
 import java.util.Vector;
 
+import com.allen_sauer.gwt.dnd.client.PickupDragController;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+
 import de.decidr.modelingtool.client.ui.Node;
-import de.decidr.modelingtool.client.ui.Workflow;
+import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 
 /**
  * TODO: add comment
@@ -29,14 +32,14 @@ import de.decidr.modelingtool.client.ui.Workflow;
  */
 public class NodeSelectionBox {
 
-    private Workflow parentWorkflow;
+    // private AbsolutePanel parentPanel;
 
     private List<DragBox> dragBoxes = new Vector<DragBox>();
 
     private Node assignedNode = null;
 
-    public NodeSelectionBox(Workflow parentWorkflow) {
-        this.parentWorkflow = parentWorkflow;
+    public NodeSelectionBox() {
+        // this.parentPanel = parentPanel;
 
         dragBoxes.add(new DragBox(DragBox.DragDirection.NORTH));
         dragBoxes.add(new DragBox(DragBox.DragDirection.NORTHEAST));
@@ -60,11 +63,10 @@ public class NodeSelectionBox {
 
     // parameters are a workaround for dragging, cause position of the node
     // is always 0 during dragging -- UPDATE: removed parameters
-    public void refreshPosition()
-            throws NullPointerException {
+    public void refreshPosition() throws NullPointerException {
         if (assignedNode != null) {
-            int nodeLeft = assignedNode.getGraphicAbsoluteLeft();
-            int nodeTop = assignedNode.getGraphicAbsoluteTop();
+            int nodeLeft = assignedNode.getGraphicLeft();
+            int nodeTop = assignedNode.getGraphicTop();
             int nodeWidth = assignedNode.getGraphicWidth();
             int nodeHeight = assignedNode.getGraphicHeight();
             int width;
@@ -111,7 +113,9 @@ public class NodeSelectionBox {
                     break;
                 }
 
-                parentWorkflow.setWidgetPosition(dragBox, left, top);
+                AbsolutePanel parentPanel = (AbsolutePanel) assignedNode
+                        .getParent();
+                parentPanel.setWidgetPosition(dragBox, left, top);
             }
         } else {
             throw new NullPointerException(
@@ -123,10 +127,21 @@ public class NodeSelectionBox {
      * Removes the drag boxes from the workflow.
      */
     public void unassign() {
-        assignedNode = null;
         for (DragBox dragBox : dragBoxes) {
-            parentWorkflow.remove(dragBox);
+            if (assignedNode != null) {
+                // make box not draggable if it was before
+                if (assignedNode.isResizable()) {
+                    PickupDragController rdc = DndRegistry.getInstance()
+                            .getDragController("ResizeDragController");
+                    rdc.makeNotDraggable(dragBox);
+                }
+
+                ((AbsolutePanel) dragBox.getParent()).remove(dragBox);
+            }
+
         }
+
+        assignedNode = null;
     }
 
     /**
@@ -137,11 +152,21 @@ public class NodeSelectionBox {
      *            The node which the drag boxes are assigned to.
      */
     public void assignTo(Node node) {
+        unassign();
         this.assignedNode = node;
 
         for (DragBox dragBox : dragBoxes) {
             dragBox.setVisible(true);
-            parentWorkflow.add(dragBox);
+            AbsolutePanel parentPanel = (AbsolutePanel) assignedNode
+                    .getParent();
+            parentPanel.add(dragBox);
+
+            PickupDragController rdc = DndRegistry.getInstance()
+                    .getDragController("ResizeDragController");
+
+            if (node.isResizable()) {
+                rdc.makeDraggable(dragBox);
+            }
         }
 
         refreshPosition();

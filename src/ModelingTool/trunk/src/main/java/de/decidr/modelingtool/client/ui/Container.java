@@ -21,7 +21,9 @@ import java.util.HashSet;
 
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import de.decidr.modelingtool.client.model.HasChildModels;
 
@@ -31,42 +33,6 @@ import de.decidr.modelingtool.client.model.HasChildModels;
  * @author engelhjs
  */
 public class Container extends Node implements HasChildren {
-
-    @Override
-    public void addConnection(Connection connection) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void addNode(Node node) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public Collection<Connection> getConnections() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Collection<Node> getNodes() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void removeConnection(Connection connection) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void removeNode(Node node) {
-        // TODO Auto-generated method stub
-        
-    }
 
     private Collection<Node> childNodes = new HashSet<Node>();
 
@@ -82,33 +48,112 @@ public class Container extends Node implements HasChildren {
         FocusPanel graphic = new FocusPanel();
         graphic.addStyleName("container-std");
         setGraphic(graphic);
-        
+
         setInputPort(new InputPort());
         setOutputPort(new OutputPort());
     }
 
-    public Collection<Node> getChildNodes() {
-        return childNodes;
-    }
+    @Override
+    public void addConnection(Connection connection) {
+        // add connection to the connections vector
+        childConnections.add(connection);
+        // callback to connection
+        connection.onPanelAdd(this);
 
-    public Collection<Connection> getChildConnections() {
-        return childConnections;
     }
 
     @Override
+    public void addNode(Node node) {
+        addNode(node, 0, 0);
+    }
+
+    /**
+     * Adds a node to the container in the specified position.
+     * 
+     * @param node
+     * @param x
+     * @param y
+     */
     public void addNode(Node node, int left, int top) {
-        // TODO Auto-generated method stub
-        
+        super.add(node, left, top);
+
+        // add node to the nodes collection
+        childNodes.add(node);
+
+        // callback to node after add
+        node.onPanelAdd(this);
     }
 
     @Override
-    public HasChildModels getHasChildModelsModel() {
-        // TODO Auto-generated method stub
-        return null;
+    public Collection<Connection> getConnections() {
+        return childConnections;
     }
 
     public DropController getDropController() {
         return dropController;
+    }
+
+    @Override
+    public HasChildModels getHasChildModelsModel() {
+        if (model instanceof HasChildModels) {
+            return (HasChildModels) model;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public Collection<Node> getNodes() {
+        return childNodes;
+    }
+
+    @Override
+    public void removeConnection(Connection connection) {
+        childConnections.remove(connection);
+        connection.remove();
+    }
+
+    @Override
+    public void removeNode(Node node) {
+        childNodes.remove(node);
+
+        // callback to node before remove
+        node.onPanelRemove();
+
+        super.remove(node);
+    }
+
+    @Override
+    public boolean isResizable() {
+        return true;
+    }
+
+    @Override
+    public void add(Widget w) {
+        super.add(w);
+
+        if (w instanceof Node) {
+            Node node = (Node) w;
+            // add node to the nodes collection
+            childNodes.add(node);
+
+            // callback to node after add
+            node.onPanelAdd(this);
+        }
+    }
+
+    @Override
+    public boolean remove(Widget w) {
+        if (w instanceof Node) {
+            Node node = (Node) w;
+            // remove node from the nodes collection
+            childNodes.remove(node);
+
+            // callback to node before remove
+            node.onPanelRemove();
+        }
+
+        return super.remove(w);
     }
 
 }

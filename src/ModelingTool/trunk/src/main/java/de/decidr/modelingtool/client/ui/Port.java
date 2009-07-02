@@ -57,6 +57,12 @@ public abstract class Port extends AbsolutePanel {
     public abstract void registerDropController();
     
     public abstract void unregisterDropController();
+    
+    protected boolean dropControllerRegistered;
+    
+    public boolean isDropControllerRegistered() {
+        return dropControllerRegistered;
+    }
 
     public List<ConnectionDragBox> getGluedDragBoxes() {
         return gluedDragBoxes;

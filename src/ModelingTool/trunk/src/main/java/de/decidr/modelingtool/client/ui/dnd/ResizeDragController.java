@@ -45,6 +45,8 @@ public class ResizeDragController extends PickupDragController {
      */
     @Override
     public void dragMove() {
+        super.dragMove();
+        
         if (this.context.draggable instanceof DragBox) {
             DragBox dragBox = (DragBox)this.context.draggable;
             

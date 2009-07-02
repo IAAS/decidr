@@ -19,6 +19,8 @@ package de.decidr.modelingtool.client.model;
 import java.util.List;
 import java.util.Vector;
 
+import com.google.gwt.user.client.ui.Widget;
+
 /**
  * TODO: add comment
  *
@@ -26,6 +28,10 @@ import java.util.Vector;
  */
 public class ContainerModel extends NodeModel {
 
+    public ContainerModel() {
+        super();
+    }
+    
     /**
      * TODO: add comment
      *
@@ -33,7 +39,6 @@ public class ContainerModel extends NodeModel {
      */
     public ContainerModel(HasChildModels parentModel) {
         super(parentModel);
-        // TODO Auto-generated constructor stub
     }
 
     private List<Model> childModels = new Vector<Model>();
