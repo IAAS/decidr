@@ -16,33 +16,53 @@
 
 package de.decidr.ui.controller;
 
+import javax.servlet.http.HttpSession;
+
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.facades.UserFacade;
+import de.decidr.model.permissions.Role;
+import de.decidr.model.permissions.UserRole;
+import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
+
 /**
- * This action switches between possible tenants of a user
+ * TODO: add comment
  *
- * @author Geoffrey-Alexeij Heinze
+ * @author AT
  */
 public class SwitchTenantAction implements ClickListener {
+    
+    private String tenant = null;
+    
+    private HttpSession session = Main.getCurrent().getSession();
+    private Class<? extends Role> role = null;
+    
+    private Long userId = (Long)session.getAttribute("userId");
+    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+    private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    
+    private Long tenantId = null;
 
-    private String tenantName = null;
-    
-    /**
-     * Contructor, expects the name of the tenant
-     *
-     * @param name: Tenant name
-     */
-    public SwitchTenantAction(String name){
-        tenantName = name.toLowerCase();
-    }
-    
     /* (non-Javadoc)
      * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //TODO: open url + ?tenantName
+        try{
+            tenant = Main.getCurrent().getParameterHandler().getKey();
+            tenantId = tenantFacade.getTenantId(tenant);
+            role = userFacade.getUserRoleForTenant(userId, tenantId);
+            Main.getCurrent().setTheme(tenant);
+            session.setAttribute("tenant", tenantId);
+            session.setAttribute("role", role);
+        }catch(TransactionException exception){
+            new TransactionErrorDialogComponent();
+        }
+
     }
 
 }

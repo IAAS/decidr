@@ -62,7 +62,6 @@ public class CurrentTenantModelTable extends Table implements Observer{
         addContainerProperty("Creation Date", String.class, null);
         addContainerProperty("Published", String.class, null);
         addContainerProperty("Edit", Button.class, null);
-        
     }
 
 

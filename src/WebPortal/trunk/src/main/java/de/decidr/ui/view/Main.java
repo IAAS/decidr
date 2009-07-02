@@ -2,14 +2,18 @@ package de.decidr.ui.view;
 
 import java.io.IOError;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.Application;
 import com.vaadin.service.ApplicationContext;
 import com.vaadin.service.ApplicationContext.TransactionListener;
+import com.vaadin.terminal.ParameterHandler;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Window;
+
+import de.decidr.ui.controller.MyParamterHandler;
 import de.decidr.ui.controller.UIDirector;
 
 /**
@@ -17,7 +21,7 @@ import de.decidr.ui.controller.UIDirector;
  * 
  * @author AT
  */
-public class Main extends Application implements TransactionListener {
+public class Main extends Application implements TransactionListener{
 
     /**
      * TODO: add comment
@@ -33,10 +37,12 @@ public class Main extends Application implements TransactionListener {
     Window main = new Window();
     UIBuilder ui = new SuperAdminViewBuilder();
     UIDirector director = UIDirector.getInstance();
+    MyParamterHandler parameterHandler = new MyParamterHandler();
 
     @Override
     public void init() {
         setMainWindow(main);
+        main.addParameterHandler(parameterHandler);
         setTheme("test");
         director.setUiBuilder(ui);
         director.createNewView();
@@ -46,18 +52,24 @@ public class Main extends Application implements TransactionListener {
             getContext().addTransactionListener(this);
         }   
         ctx = getContext();
-        webCtx = (WebApplicationContext)ctx;
-        try{
-            String url = (String)getURL().getContent();
-            System.out.println(url);
-        }catch(IOException exception){
-            
-        }
-        
+        webCtx = (WebApplicationContext)ctx;        
         session = webCtx.getHttpSession();
+
+        
     }
     
     
+
+    /**
+     * TODO: add comment
+     *
+     * @return
+     */
+    public MyParamterHandler getParameterHandler() {
+        return parameterHandler;
+    }
+
+
 
     /**
      * @return the current application instance
@@ -108,8 +120,17 @@ public class Main extends Application implements TransactionListener {
 
     }
     
+    /**
+     * TODO: add comment
+     *
+     * @return
+     */
     public HttpSession getSession(){
         return session;
     }
+
+
+
+    
 
 }
