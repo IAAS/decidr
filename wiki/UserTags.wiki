@@ -17,4 +17,4 @@ This page contains a mapping of user names to task tags as used in eclipse.
 || Jonas || JS ||
 || Thomas || TK ||
 || Modood || MA ||
-|| Daniel || ?? ||
+|| Daniel || DH ||
