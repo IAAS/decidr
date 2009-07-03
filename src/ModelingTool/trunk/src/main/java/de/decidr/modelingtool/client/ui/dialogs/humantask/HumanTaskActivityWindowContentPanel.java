@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.model.humantask.FormElement;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
@@ -52,12 +53,12 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
     private static final int STATICFIELDS = 3;
 
     private ComboBox<Variable> userField;
-    private ComboBox<Variable> formField;
+    private ComboBox<Variable> formContainerField;
     private CheckBox notifyCheckBox;
 
     private ScrollPanel taskScrollPanel;
     private FlexTable taskTable;
-    private List<TextField<String>> formElementFields = new ArrayList<TextField<String>>();
+    private List<FormElementFieldSet> formElementFields;
 
     public HumanTaskActivityWindowContentPanel() {
         super();
@@ -72,6 +73,8 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         taskTable.setCellSpacing(2);
         taskScrollPanel = new ScrollPanel(taskTable);
         this.add(taskScrollPanel);
+
+        formElementFields = new ArrayList<FormElementFieldSet>();
 
         createToolBar();
     }
@@ -92,18 +95,18 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
                 ModelingTool.messages.userLabel()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, userField);
 
-        formField = new ComboBox<Variable>();
-        formField.setDisplayField(Variable.NAME);
-        formField.setStore(VariablesFilter
+        formContainerField = new ComboBox<Variable>();
+        formContainerField.setDisplayField(Variable.NAME);
+        formContainerField.setStore(VariablesFilter
                 .getVariablesOfType(VariableType.FORM));
-        formField.setValue(VariablesFilter.getVariableById(model
+        formContainerField.setValue(VariablesFilter.getVariableById(model
                 .getFormVariableId()));
-        formField.setTypeAhead(true);
-        formField.setWidth("200px");
+        formContainerField.setTypeAhead(true);
+        formContainerField.setWidth("200px");
         taskTable.insertRow(taskTable.getRowCount());
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
                 ModelingTool.messages.formLabel()));
-        taskTable.setWidget(taskTable.getRowCount() - 1, 1, formField);
+        taskTable.setWidget(taskTable.getRowCount() - 1, 1, formContainerField);
 
         notifyCheckBox = new CheckBox();
         notifyCheckBox.setValue(model.getNotify());
@@ -111,6 +114,16 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
                 ModelingTool.messages.notifyLabel()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, notifyCheckBox);
+
+        createFormFields(model);
+    }
+
+    private void createFormFields(HumanTaskInvokeNodeModel model) {
+        if (model.getFormElements() != null) {
+            for (FormElement fe : model.getFormElements()) {
+                addEntry(fe.getLabel(), fe.getVariableId());
+            }
+        }
     }
 
     /**
@@ -124,7 +137,7 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
-                addEntry(ModelingTool.messages.newStringValue());
+                addEntry(ModelingTool.messages.newStringValue(), null);
             }
         });
         toolBar.add(addVar);
@@ -141,23 +154,29 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         this.setBottomComponent(toolBar);
     }
 
-    private void addEntry(String fieldContent) {
-        TextField<String> text = new TextField<String>();
-        text.setValue(fieldContent);
-        text.setAutoWidth(true);
-        formElementFields.add(text);
+    private void addEntry(String label, Long variableId) {
+        TextField<String> labelField = new TextField<String>();
+        labelField.setValue(label);
+        labelField.setAutoWidth(true);
         taskTable.insertRow(taskTable.getRowCount());
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
                 ModelingTool.messages.workItemLabel()));
-        taskTable.setWidget(taskTable.getRowCount() - 1, 1, text);
+        taskTable.setWidget(taskTable.getRowCount() - 1, 1, labelField);
 
-        ComboBox<Variable> combo = new ComboBox<Variable>();
-        combo.setDisplayField(Variable.NAME);
-        combo.setStore(VariablesFilter.getAllVariables());
-        combo.setTypeAhead(true);
+        ComboBox<Variable> variableComboBox = new ComboBox<Variable>();
+        variableComboBox.setDisplayField(Variable.NAME);
+        variableComboBox.setStore(VariablesFilter.getAllVariables());
+        if (variableId != null) {
+            variableComboBox.setValue(VariablesFilter
+                    .getVariableById(variableId));
+        }
+        variableComboBox.setTypeAhead(true);
         taskTable.setWidget(taskTable.getRowCount() - 1, 2, new Label(
                 ModelingTool.messages.workItemOutputVar()));
-        taskTable.setWidget(taskTable.getRowCount() - 1, 3, combo);
+        taskTable.setWidget(taskTable.getRowCount() - 1, 3, variableComboBox);
+
+        formElementFields.add(new FormElementFieldSet(labelField,
+                variableComboBox));
     }
 
     private void removeEntry() {
@@ -183,23 +202,31 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         return userField;
     }
 
-    public ComboBox<Variable> getFormField() {
-        return formField;
+    public ComboBox<Variable> getFormContainerField() {
+        return formContainerField;
     }
 
     public CheckBox getNotifyCheckBox() {
         return notifyCheckBox;
     }
 
+    public List<FormElementFieldSet> getFormElementFields() {
+        return formElementFields;
+    }
+
     public void setUserField(ComboBox<Variable> userField) {
         this.userField = userField;
     }
 
-    public void setFormField(ComboBox<Variable> formField) {
-        this.formField = formField;
+    public void setFormContainerField(ComboBox<Variable> formContainerField) {
+        this.formContainerField = formContainerField;
     }
 
     public void setNotifyCheckBox(CheckBox notifyCheckBox) {
         this.notifyCheckBox = notifyCheckBox;
+    }
+
+    public void setFormElementFields(List<FormElementFieldSet> formElementFields) {
+        this.formElementFields = formElementFields;
     }
 }

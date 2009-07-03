@@ -29,6 +29,11 @@ public class FormElement {
     private String label = null;
     private Long variableId = null;
 
+    public FormElement(String label, Long variableId) {
+        this.label = label;
+        this.variableId = variableId;
+    }
+
     public String getLabel() {
         return label;
     }

@@ -16,6 +16,9 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.humantask;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
@@ -25,6 +28,7 @@ import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.command.ChangeNodeModelCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
+import de.decidr.modelingtool.client.model.humantask.FormElement;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
@@ -93,8 +97,17 @@ public class HumanTaskActivityWindow extends Dialog {
         HumanTaskInvokeNodeModel newModel = new HumanTaskInvokeNodeModel(node
                 .getModel().getParentModel());
         newModel.setUserVariableId(taskPanel.getUserField().getValue().getId());
-        newModel.setFormVariableId(taskPanel.getFormField().getValue().getId());
+        newModel.setFormVariableId(taskPanel.getFormContainerField().getValue()
+                .getId());
         newModel.setNotifyVariableId(taskPanel.getNotifyCheckBox().getValue());
+        List<FormElement> formElements = new ArrayList<FormElement>();
+        for (FormElementFieldSet fields : taskPanel.getFormElementFields()) {
+            FormElement element = new FormElement(fields.getLabelField()
+                    .getValue(), fields.getVariableComboBox().getValue()
+                    .getId());
+            formElements.add(element);
+        }
+        newModel.setFormElements(formElements);
         // JS check if changed
         CommandStack
                 .getInstance()
