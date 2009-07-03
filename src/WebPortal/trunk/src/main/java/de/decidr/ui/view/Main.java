@@ -13,6 +13,7 @@ import com.vaadin.terminal.ParameterHandler;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Window;
 
+import de.decidr.ui.controller.InvitationParameterHandler;
 import de.decidr.ui.controller.MyParamterHandler;
 import de.decidr.ui.controller.UIDirector;
 
@@ -43,6 +44,7 @@ public class Main extends Application implements TransactionListener{
     public void init() {
         setMainWindow(main);
         main.addParameterHandler(parameterHandler);
+        main.addParameterHandler(new InvitationParameterHandler());
         setTheme("test");
         director.setUiBuilder(ui);
         director.createNewView();

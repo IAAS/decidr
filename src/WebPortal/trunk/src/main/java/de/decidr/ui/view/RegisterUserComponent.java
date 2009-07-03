@@ -25,6 +25,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.RegisterUserAction;
+import de.decidr.ui.controller.RegisterUserAsTenantMemberAction;
 
 /**
  * TODO: add comment
@@ -56,6 +57,18 @@ public class RegisterUserComponent extends CustomComponent {
      */
     public RegisterUserComponent(){
         init();
+        setCompleteListener();
+    }
+    
+    /**
+     * This constructor should be used for invitations from unregistered
+     * users, who should automatically accept the invitation after registration
+     *
+     * @param invId: invitation id
+     */
+    public RegisterUserComponent(Long invId){
+    	init();
+    	setCompleteListener(invId);
     }
     
     public void saveRegistrationForm(){
@@ -98,7 +111,7 @@ public class RegisterUserComponent extends CustomComponent {
         city = new TextField();
         city.setCaption("City");
         
-        completeRegistration = new Button("Complete Registration", new RegisterUserAction());
+        completeRegistration = new Button("Complete Registration");
         
         registrationForm.addField("userName", userName);
         registrationForm.addField("password", password);
@@ -120,5 +133,13 @@ public class RegisterUserComponent extends CustomComponent {
         verticalLayout.setComponentAlignment(completeRegistration, "right bottom");
         
         this.setCompositionRoot(verticalLayout);
+    }
+    
+    private void setCompleteListener(Long invId){
+    	completeRegistration.addListener(new RegisterUserAsTenantMemberAction(registrationForm, invId));
+    }
+
+    private void setCompleteListener(){
+    	completeRegistration.addListener(new RegisterUserAction());
     }
 }

@@ -16,10 +16,7 @@
 
 package de.decidr.ui.controller;
 
-import javax.servlet.http.HttpSession;
-
-import com.vaadin.service.ApplicationContext;
-import com.vaadin.terminal.gwt.server.WebApplicationContext;
+import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -27,43 +24,46 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.RegisterUserComponent;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * This action refuses an invitation
+ * This action creates a new user with already set tenant membership.
  *
  * @author Geoffrey-Alexeij Heinze
  */
-public class RefuseInvitationAction implements ClickListener{
-    
-    private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
-    private UserFacade userFacade = new UserFacade(new UserRole(userId));
-    
-    private Long invitationId = null;
-    
-    /**
-     * Constructor, requires id of the invitation
-     *
-     * @param invId: Id of the invitation
-     */
-    public RefuseInvitationAction(Long invId){
-        invitationId = invId;
-    }
+public class RegisterUserAsTenantMemberAction implements ClickListener  {
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
-     */
+    private UserFacade userFacade = new UserFacade(new UserRole());
+    
+    private Form settingsForm = null;
+    private Long invitationId = null;
+    private Long userId = null;
+    
+    public RegisterUserAsTenantMemberAction(Form form, Long invitationId){
+    	settingsForm = form;
+    	this.invitationId = invitationId;
+    }
+        
     @Override
     public void buttonClick(ClickEvent event) {
-                
+        settingsForm.commit();
+        
         try {
-            userFacade.refuseInviation(invitationId);
-            Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
+            userId = userFacade.registerUser(settingsForm.getItemProperty("email").getValue().toString(), settingsForm.getItemProperty("password").getValue().toString(), settingsForm);
+        } catch (NullPointerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
         }
         
+        if(userId != null){
+        	try {
+				userFacade.confirmInvitation(invitationId);
+			} catch (TransactionException e) {
+				Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+			}
+        }
     }
 }

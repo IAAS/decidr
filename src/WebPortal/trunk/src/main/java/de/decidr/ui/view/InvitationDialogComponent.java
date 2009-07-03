@@ -45,12 +45,12 @@ public class InvitationDialogComponent extends Window {
     private Button submitButton = null;
     private Button cancelButton = null;
         
-    public InvitationDialogComponent(Long invId){
+    public InvitationDialogComponent(String description, Long invId){
         invitationId = invId;
-        init();
+        init(description);
     }
     
-    private void init(){
+    private void init(String description){
         
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
@@ -62,8 +62,7 @@ public class InvitationDialogComponent extends Window {
         horizontalLayout.setMargin(false);
         horizontalLayout.setSizeUndefined();
         
-        infoLabel = new Label("You have been invited to join a new tenant: TENANTNAME",
-                        Label.CONTENT_XHTML);
+        infoLabel = new Label(description, Label.CONTENT_XHTML);
         infoLabel.setWidth(350,Label.UNITS_PIXELS);
         
 
@@ -85,21 +84,8 @@ public class InvitationDialogComponent extends Window {
         this.setModal(true);
         this.setName("InvitationDialog");
         this.setResizable(false);
-        this.setCaption("Change E-mail Address");
+        this.setCaption("Invitation");
         this.setContent(verticalLayout);
     }
     
-    public static InvitationDialogComponent getInstance(){
-        //if (invitationDialogComponent == null){
-        //    invitationDialogComponent = new InvitationDialogComponent(invId);
-        //}
-        return invitationDialogComponent;
-    }
-    
-    public static InvitationDialogComponent getInstance(Long invId){
-        //if (invitationDialogComponent == null){
-            invitationDialogComponent = new InvitationDialogComponent(invId);
-        //}
-        return invitationDialogComponent;
-    }
 }
