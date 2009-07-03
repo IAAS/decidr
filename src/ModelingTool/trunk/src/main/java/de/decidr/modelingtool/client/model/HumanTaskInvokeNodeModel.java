@@ -16,21 +16,64 @@
 
 package de.decidr.modelingtool.client.model;
 
+import java.util.List;
+
 /**
  * TODO: add comment
- *
- * @author JE
+ * 
+ * @author JE, Jonas Schlaak
  */
 public class HumanTaskInvokeNodeModel extends NodeModel {
 
+    private Long userVariableId = null;
+    private Long formVariableId = null;
+    private Boolean notify = false;
+    private List<FormElement> formElements = null;
+
     /**
      * TODO: add comment
-     *
+     * 
      * @param parentModel
      */
     public HumanTaskInvokeNodeModel(HasChildModels parentModel) {
         super(parentModel);
-        // TODO Auto-generated constructor stub
+    }
+
+    public HumanTaskInvokeNodeModel() {
+        super();
+    }
+
+    public Long getUserVariableId() {
+        return userVariableId;
+    }
+
+    public Long getFormVariableId() {
+        return formVariableId;
+    }
+
+    // JS method name: think is over
+    public Boolean getNotify() {
+        return notify;
+    }
+
+    public List<FormElement> getFormElements() {
+        return formElements;
+    }
+
+    public void setUserVariableId(Long userVariableId) {
+        this.userVariableId = userVariableId;
+    }
+
+    public void setFormVariableId(Long formVariableId) {
+        this.formVariableId = formVariableId;
+    }
+
+    public void setNotifyVariableId(Boolean notify) {
+        this.notify = notify;
+    }
+
+    public void setFormElements(List<FormElement> formElements) {
+        this.formElements = formElements;
     }
 
 }

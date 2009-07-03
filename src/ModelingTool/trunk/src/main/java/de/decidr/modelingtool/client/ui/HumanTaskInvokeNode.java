@@ -16,36 +16,54 @@
 
 package de.decidr.modelingtool.client.ui;
 
+import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.widget.button.Button;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 
+import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
+import de.decidr.modelingtool.client.ui.dialogs.humantask.HumanTaskActivityWindow;
+import de.decidr.modelingtool.client.ui.dialogs.humantask.HumanTaskActivityWindowInvoker;
+
 /**
  * TODO: add comment
- *
+ * 
  * @author JE
  */
 public class HumanTaskInvokeNode extends InvokeNode {
 
-//    private HumanTaskInvokeNodeModel model;
-//    
-//    public HumanTaskInvokeNodeModel getModel() {
-//        return model;
-//    }
-//
-//    public void setModel(HumanTaskInvokeNodeModel model) {
-//        this.model = model;
-//    }
+    // private HumanTaskInvokeNodeModel model;
+    //    
+    // public HumanTaskInvokeNodeModel getModel() {
+    // return model;
+    // }
+    //
+    // public void setModel(HumanTaskInvokeNodeModel model) {
+    // this.model = model;
+    // }
 
     public HumanTaskInvokeNode(HasChildren parentPanel) {
         super(parentPanel);
-        
+
         FocusPanel graphic = new FocusPanel();
         graphic.addStyleName("node-graphic-std");
         graphic.setWidget(new Label("HT"));
+        graphic.setWidget(new Button(ModelingTool.messages
+                .changePropertyButton(), new SelectionListener<ButtonEvent>() {
+            @Override
+            public void componentSelected(ButtonEvent ce) {
+                HumanTaskActivityWindowInvoker.invoke(HumanTaskInvokeNode.this);
+                DialogRegistry.getInstance().showDialog(
+                        HumanTaskActivityWindow.class.getName());
+            }
+        }));
+
         this.setGraphic(graphic);
-        
+
         setInputPort(new InputPort());
         setOutputPort(new OutputPort());
     }
-    
+
 }

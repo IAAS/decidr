@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.model.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.model.Variable;
 import de.decidr.modelingtool.client.model.VariableType;
 import de.decidr.modelingtool.client.model.VariablesFilter;
@@ -42,19 +43,23 @@ import de.decidr.modelingtool.client.model.VariablesFilter;
  * 
  * @author Jonas Schlaak
  */
-public class TaskPanel extends ContentPanel {
+public class HumanTaskActivityWindowContentPanel extends ContentPanel {
 
     /*
-     * This contstant holds die number of fields which are not to be removed by
+     * This constant holds die number of fields which are not to be removed by
      * the removeEntry method.
      */
     private static final int STATICFIELDS = 3;
 
+    private ComboBox<Variable> userField;
+    private ComboBox<Variable> formField;
+    private CheckBox notifyCheckBox;
+
     private ScrollPanel taskScrollPanel;
     private FlexTable taskTable;
-    private List<TextField<String>> fields = new ArrayList<TextField<String>>();
+    private List<TextField<String>> formElementFields = new ArrayList<TextField<String>>();
 
-    public TaskPanel() {
+    public HumanTaskActivityWindowContentPanel() {
         super();
 
         this.setHeading(ModelingTool.messages.humanTaskActivity());
@@ -71,22 +76,28 @@ public class TaskPanel extends ContentPanel {
         createToolBar();
     }
 
-    public void createFields() {
-        ComboBox<Variable> userField = new ComboBox<Variable>();
+    public void createFields(HumanTaskInvokeNodeModel model) {
+        // JS check notify variable and auto width of user field
+        userField = new ComboBox<Variable>();
         userField.setDisplayField(Variable.NAME);
         userField.setStore(VariablesFilter
                 .getVariablesOfType(VariableType.ROLE));
+        userField.setValue(VariablesFilter.getVariableById(model
+                .getUserVariableId()));
         userField.setTypeAhead(true);
         userField.setWidth("200px");
+        userField.setAutoWidth(true);
         taskTable.insertRow(taskTable.getRowCount());
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
                 ModelingTool.messages.userLabel()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, userField);
 
-        ComboBox<Variable> formField = new ComboBox<Variable>();
+        formField = new ComboBox<Variable>();
         formField.setDisplayField(Variable.NAME);
         formField.setStore(VariablesFilter
                 .getVariablesOfType(VariableType.FORM));
+        formField.setValue(VariablesFilter.getVariableById(model
+                .getFormVariableId()));
         formField.setTypeAhead(true);
         formField.setWidth("200px");
         taskTable.insertRow(taskTable.getRowCount());
@@ -94,7 +105,8 @@ public class TaskPanel extends ContentPanel {
                 ModelingTool.messages.formLabel()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, formField);
 
-        CheckBox notifyCheckBox = new CheckBox();
+        notifyCheckBox = new CheckBox();
+        notifyCheckBox.setValue(model.getNotify());
         taskTable.insertRow(taskTable.getRowCount());
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
                 ModelingTool.messages.notifyLabel()));
@@ -133,7 +145,7 @@ public class TaskPanel extends ContentPanel {
         TextField<String> text = new TextField<String>();
         text.setValue(fieldContent);
         text.setAutoWidth(true);
-        fields.add(text);
+        formElementFields.add(text);
         taskTable.insertRow(taskTable.getRowCount());
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
                 ModelingTool.messages.workItemLabel()));
@@ -151,7 +163,7 @@ public class TaskPanel extends ContentPanel {
     private void removeEntry() {
         if (taskTable.getRowCount() > STATICFIELDS) {
             taskTable.removeRow(taskTable.getRowCount() - 1);
-            fields.remove(taskTable.getRowCount() - STATICFIELDS);
+            formElementFields.remove(taskTable.getRowCount() - STATICFIELDS);
         }
     }
 
@@ -162,8 +174,32 @@ public class TaskPanel extends ContentPanel {
                 taskTable.removeRow(i - 1);
             }
         }
-        if (fields.size() > 0) {
-            fields.clear();
+        if (formElementFields.size() > 0) {
+            formElementFields.clear();
         }
+    }
+
+    public ComboBox<Variable> getUserField() {
+        return userField;
+    }
+
+    public ComboBox<Variable> getFormField() {
+        return formField;
+    }
+
+    public CheckBox getNotifyCheckBox() {
+        return notifyCheckBox;
+    }
+
+    public void setUserField(ComboBox<Variable> userField) {
+        this.userField = userField;
+    }
+
+    public void setFormField(ComboBox<Variable> formField) {
+        this.formField = formField;
+    }
+
+    public void setNotifyCheckBox(CheckBox notifyCheckBox) {
+        this.notifyCheckBox = notifyCheckBox;
     }
 }

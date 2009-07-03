@@ -23,6 +23,10 @@ import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
 import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.command.ChangeNodeModelCommand;
+import de.decidr.modelingtool.client.command.CommandStack;
+import de.decidr.modelingtool.client.model.HumanTaskInvokeNodeModel;
+import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
@@ -33,7 +37,10 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
  */
 public class HumanTaskActivityWindow extends Dialog {
 
-    private TaskPanel taskPanel;
+    private HumanTaskInvokeNode node;
+    private HumanTaskInvokeNodeModel model;
+
+    private HumanTaskActivityWindowContentPanel taskPanel;
 
     public HumanTaskActivityWindow() {
         // TODO: fix layout
@@ -50,7 +57,7 @@ public class HumanTaskActivityWindow extends Dialog {
          * There is no ContentPanel here. A taskPanel and a formPanel form the
          * "ContentPanel".
          */
-        taskPanel = new TaskPanel();
+        taskPanel = new HumanTaskActivityWindowContentPanel();
         this.add(taskPanel);
     }
 
@@ -60,7 +67,8 @@ public class HumanTaskActivityWindow extends Dialog {
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
-                        okButtonAction();
+                        // JS implement change listener
+                        changeWorkflowModel();
                         DialogRegistry.getInstance().hideDialog(
                                 HumanTaskActivityWindow.class.getName());
                     }
@@ -75,14 +83,30 @@ public class HumanTaskActivityWindow extends Dialog {
                 }));
     }
 
-    private void okButtonAction() {
-        // TODO: write method
+    public void setNode(HumanTaskInvokeNode node) {
+        this.node = node;
+        model = new HumanTaskInvokeNodeModel();
+        model = (HumanTaskInvokeNodeModel) node.getModel();
+    }
+
+    private void changeWorkflowModel() {
+        HumanTaskInvokeNodeModel newModel = new HumanTaskInvokeNodeModel(node
+                .getModel().getParentModel());
+        newModel.setUserVariableId(taskPanel.getUserField().getValue().getId());
+        newModel.setFormVariableId(taskPanel.getFormField().getValue().getId());
+        newModel.setNotifyVariableId(taskPanel.getNotifyCheckBox().getValue());
+        // JS check if changed
+        CommandStack
+                .getInstance()
+                .executeCommand(
+                        new ChangeNodeModelCommand<HumanTaskInvokeNode, HumanTaskInvokeNodeModel>(
+                                node, newModel));
     }
 
     @Override
     public void initialize() {
         // TODO Auto-generated method stub
-        taskPanel.createFields();
+        taskPanel.createFields(model);
     }
 
     @Override
