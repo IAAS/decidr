@@ -30,20 +30,20 @@ import de.decidr.modelingtool.client.model.variable.Variable;
 public class FormElementFieldSet {
 
     private TextField<String> labelField;
-    private ComboBox<Variable> variableComboBox;
+    private ComboBox<Variable> variableField;
 
     public FormElementFieldSet(TextField<String> labelField,
-            ComboBox<Variable> variableComboxBox) {
+            ComboBox<Variable> variableField) {
         this.labelField = labelField;
-        this.variableComboBox = variableComboxBox;
+        this.variableField = variableField;
     }
 
     public TextField<String> getLabelField() {
         return labelField;
     }
 
-    public ComboBox<Variable> getVariableComboBox() {
-        return variableComboBox;
+    public ComboBox<Variable> getVariableField() {
+        return variableField;
     }
 
 }

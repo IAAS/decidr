@@ -89,7 +89,6 @@ public class HumanTaskActivityWindow extends Dialog {
 
     public void setNode(HumanTaskInvokeNode node) {
         this.node = node;
-        model = new HumanTaskInvokeNodeModel();
         model = (HumanTaskInvokeNodeModel) node.getModel();
     }
 
@@ -103,7 +102,7 @@ public class HumanTaskActivityWindow extends Dialog {
         List<FormElement> formElements = new ArrayList<FormElement>();
         for (FormElementFieldSet fields : taskPanel.getFormElementFields()) {
             FormElement element = new FormElement(fields.getLabelField()
-                    .getValue(), fields.getVariableComboBox().getValue()
+                    .getValue(), fields.getVariableField().getValue()
                     .getId());
             formElements.add(element);
         }

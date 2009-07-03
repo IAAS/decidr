@@ -27,6 +27,7 @@ import de.decidr.modelingtool.client.model.HasChildModels;
 public class ForEachContainerModel extends ContainerModel {
     
     private Long iterationVariableId;
+    private ExitCondition exitCondition;
     
     public ForEachContainerModel() {
         super();
@@ -39,6 +40,22 @@ public class ForEachContainerModel extends ContainerModel {
      */
     public ForEachContainerModel(HasChildModels parentModel) {
         super(parentModel);
+    }
+
+    public Long getIterationVariableId() {
+        return iterationVariableId;
+    }
+
+    public ExitCondition getExitCondition() {
+        return exitCondition;
+    }
+
+    public void setIterationVariableId(Long iterationVariableId) {
+        this.iterationVariableId = iterationVariableId;
+    }
+
+    public void setExitCondition(ExitCondition exitCondition) {
+        this.exitCondition = exitCondition;
     }
 
 }

@@ -30,8 +30,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.command.ChangeNodeModelCommand;
+import de.decidr.modelingtool.client.command.CommandStack;
+import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
+import de.decidr.modelingtool.client.ui.ForEachContainer;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
@@ -42,20 +46,26 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
  */
 public class ForEachWindow extends Dialog {
 
+    private ForEachContainer node;
+    private ForEachContainerModel model;
+
     private ContentPanel contentPanel;
     private ScrollPanel scrollPanel;
     private FlexTable table;
+
+    private ComboBox<Variable> iterableField;
+    private RadioGroup exitConditionGroup;
 
     public ForEachWindow() {
         super();
         this.setLayout(new FitLayout());
         this.setSize(400, 200);
         this.setResizable(true);
-        createcontentPanel();
+        createContentPanel();
         createButtons();
     }
 
-    private void createcontentPanel() {
+    private void createContentPanel() {
         contentPanel = new ContentPanel();
 
         contentPanel.setHeading(ModelingTool.messages.forEachContainer());
@@ -70,28 +80,6 @@ public class ForEachWindow extends Dialog {
         scrollPanel = new ScrollPanel(table);
         contentPanel.add(scrollPanel);
 
-        ComboBox<Variable> iterableField = new ComboBox<Variable>();
-        iterableField.setDisplayField(Variable.NAME);
-        iterableField.setStore(VariablesFilter.getAllVariables());
-        iterableField.setTypeAhead(true);
-        iterableField.setWidth("200px");
-        table.insertRow(table.getRowCount());
-        table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingTool.messages.iterationVarLabel()));
-        table.setWidget(table.getRowCount() - 1, 1, iterableField);
-
-        RadioGroup exitConditionGroup = new RadioGroup();
-        Radio andBox = new Radio();
-        andBox.setBoxLabel(ModelingTool.messages.andConLabel());
-        exitConditionGroup.add(andBox);
-        Radio xorBox = new Radio();
-        xorBox.setBoxLabel(ModelingTool.messages.xorConLabel());
-        exitConditionGroup.add(xorBox);
-        table.insertRow(table.getRowCount());
-        table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingTool.messages.exitConLabel()));
-        table.setWidget(table.getRowCount() - 1, 1, exitConditionGroup);
-
         this.add(contentPanel);
     }
 
@@ -101,7 +89,7 @@ public class ForEachWindow extends Dialog {
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
-                        okButtonAction();
+                        changeWorkflowModel();
                         DialogRegistry.getInstance().hideDialog(
                                 ForEachWindow.class.getName());
                     }
@@ -116,21 +104,68 @@ public class ForEachWindow extends Dialog {
                 }));
     }
 
-    protected void okButtonAction() {
-        // TODO Auto-generated method stub
+    public void setNode(ForEachContainer node) {
+        this.node = node;
+        model = (ForEachContainerModel) node.getModel();
+    }
 
+    protected void changeWorkflowModel() {
+        ForEachContainerModel newModel = new ForEachContainerModel();
+        newModel.setIterationVariableId(iterableField.getValue().getId());
+        // newModel.setExitCondition(exitConditionGroup.getValue());
+        CommandStack
+                .getInstance()
+                .executeCommand(
+                        new ChangeNodeModelCommand<ForEachContainer, ForEachContainerModel>(
+                                node, newModel));
+    }
+
+    private void createFields() {
+        iterableField = new ComboBox<Variable>();
+        iterableField.setDisplayField(Variable.NAME);
+        iterableField.setStore(VariablesFilter.getAllVariables());
+        iterableField.setValue(VariablesFilter.getVariableById(model
+                .getIterationVariableId()));
+        iterableField.setTypeAhead(true);
+        iterableField.setWidth("200px");
+        table.insertRow(table.getRowCount());
+        table.setWidget(table.getRowCount() - 1, 0, new Label(
+                ModelingTool.messages.iterationVarLabel()));
+        table.setWidget(table.getRowCount() - 1, 1, iterableField);
+
+        exitConditionGroup = new RadioGroup();
+        Radio andBox = new Radio();
+        andBox.setBoxLabel(ModelingTool.messages.andConLabel());
+        exitConditionGroup.add(andBox);
+        Radio xorBox = new Radio();
+        xorBox.setBoxLabel(ModelingTool.messages.xorConLabel());
+        exitConditionGroup.add(xorBox);
+        // JS make this work (mapping enum->radiogroup), seh also
+        // changeWorkflowModel()
+        exitConditionGroup.setValue(null);
+        table.insertRow(table.getRowCount());
+        table.setWidget(table.getRowCount() - 1, 0, new Label(
+                ModelingTool.messages.exitConLabel()));
+        table.setWidget(table.getRowCount() - 1, 1, exitConditionGroup);
+    }
+
+    private void clearAllEntries() {
+        if (table.getRowCount() > 0) {
+            int start = table.getRowCount();
+            for (int i = start; i > 0; i--) {
+                table.removeRow(i - 1);
+            }
+        }
     }
 
     @Override
     public void initialize() {
-        // TODO Auto-generated method stub
-
+        createFields();
     }
 
     @Override
     public void reset() {
-        // TODO Auto-generated method stub
-
+        clearAllEntries();
     }
 
     @Override

@@ -163,20 +163,20 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
                 ModelingTool.messages.workItemLabel()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, labelField);
 
-        ComboBox<Variable> variableComboBox = new ComboBox<Variable>();
-        variableComboBox.setDisplayField(Variable.NAME);
-        variableComboBox.setStore(VariablesFilter.getAllVariables());
+        ComboBox<Variable> variableField = new ComboBox<Variable>();
+        variableField.setDisplayField(Variable.NAME);
+        variableField.setStore(VariablesFilter.getAllVariables());
         if (variableId != null) {
-            variableComboBox.setValue(VariablesFilter
+            variableField.setValue(VariablesFilter
                     .getVariableById(variableId));
         }
-        variableComboBox.setTypeAhead(true);
+        variableField.setTypeAhead(true);
         taskTable.setWidget(taskTable.getRowCount() - 1, 2, new Label(
                 ModelingTool.messages.workItemOutputVar()));
-        taskTable.setWidget(taskTable.getRowCount() - 1, 3, variableComboBox);
+        taskTable.setWidget(taskTable.getRowCount() - 1, 3, variableField);
 
         formElementFields.add(new FormElementFieldSet(labelField,
-                variableComboBox));
+                variableField));
     }
 
     private void removeEntry() {

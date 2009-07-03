@@ -110,13 +110,12 @@ public class EmailActivityWindow extends Dialog {
 
     public void setNode(EmailInvokeNode node) {
         this.node = node;
-        model = new EmailInvokeNodeModel();
         model = (EmailInvokeNodeModel) node.getModel();
     }
 
     private void changeWorkflowModel() {
         /*
-         * JS: Question: what if the fields are null?
+         * JS: cc, bcc, body, attchements are allowed to be null
          */
         EmailInvokeNodeModel newModel = new EmailInvokeNodeModel(node
                 .getModel().getParentModel());
@@ -153,17 +152,7 @@ public class EmailActivityWindow extends Dialog {
                 new ChangeValueButtonListener(field)));
     }
 
-    private void clearAllEntries() {
-        if (table.getRowCount() > 0) {
-            int start = table.getRowCount();
-            for (int i = start; i > 0; i--) {
-                table.removeRow(i - 1);
-            }
-        }
-    }
-
-    @Override
-    public void initialize() {
+    private void createFields() {
         toField = new ComboBox<Variable>();
         addComboField(toField, ModelingTool.messages.toFieldLabel(),
                 VariableType.STRING, model.getToVariableId());
@@ -183,6 +172,20 @@ public class EmailActivityWindow extends Dialog {
         addComboField(attachmentField, ModelingTool.messages
                 .attachmentFieldLabel(), VariableType.FILE, model
                 .getAttachmentVariableId());
+    }
+
+    private void clearAllEntries() {
+        if (table.getRowCount() > 0) {
+            int start = table.getRowCount();
+            for (int i = start; i > 0; i--) {
+                table.removeRow(i - 1);
+            }
+        }
+    }
+
+    @Override
+    public void initialize() {
+        createFields();
     }
 
     @Override
