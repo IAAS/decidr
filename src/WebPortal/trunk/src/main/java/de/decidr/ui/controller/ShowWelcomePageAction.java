@@ -20,6 +20,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.view.SiteFrame;
+import de.decidr.ui.view.WelcomePageComponent;
 
 /**
  * This action shows the XYZComponent in the content area
@@ -37,8 +38,7 @@ public class ShowWelcomePageAction  implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //TODO: welcomepage component
-
+        siteFrame.setContent(new WelcomePageComponent());
     }
     
 }
