@@ -14,9 +14,12 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
+package de.decidr.modelingtool.client.model.humantask;
 
 import java.util.List;
+
+import de.decidr.modelingtool.client.model.HasChildModels;
+import de.decidr.modelingtool.client.model.NodeModel;
 
 /**
  * TODO: add comment

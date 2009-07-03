@@ -24,8 +24,8 @@ import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
 
-import de.decidr.modelingtool.client.model.Variable;
-import de.decidr.modelingtool.client.model.VariableType;
+import de.decidr.modelingtool.client.model.variable.Variable;
+import de.decidr.modelingtool.client.model.variable.VariableType;
 
 /**
  * TODO: add comment

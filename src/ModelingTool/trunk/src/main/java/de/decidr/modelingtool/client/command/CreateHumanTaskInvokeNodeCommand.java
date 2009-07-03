@@ -17,7 +17,7 @@
 package de.decidr.modelingtool.client.command;
 
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
-import de.decidr.modelingtool.client.model.HumanTaskInvokeNodeModel;
+import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
 
 /**

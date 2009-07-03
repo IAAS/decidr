@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.ui.HasChildren;
 
 /**

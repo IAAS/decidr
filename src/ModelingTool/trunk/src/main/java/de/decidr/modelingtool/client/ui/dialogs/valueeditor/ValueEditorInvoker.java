@@ -16,8 +16,8 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.valueeditor;
 
-import de.decidr.modelingtool.client.model.Variable;
-import de.decidr.modelingtool.client.model.VariablesFilter;
+import de.decidr.modelingtool.client.model.variable.Variable;
+import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**

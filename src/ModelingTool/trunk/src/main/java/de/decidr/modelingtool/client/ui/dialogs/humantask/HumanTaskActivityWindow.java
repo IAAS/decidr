@@ -25,7 +25,7 @@ import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.command.ChangeNodeModelCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
-import de.decidr.modelingtool.client.model.HumanTaskInvokeNodeModel;
+import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;

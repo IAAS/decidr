@@ -35,7 +35,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.command.ChangeVariablesCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
-import de.decidr.modelingtool.client.model.Variable;
+import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;

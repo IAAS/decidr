@@ -33,10 +33,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingTool;
-import de.decidr.modelingtool.client.model.HumanTaskInvokeNodeModel;
-import de.decidr.modelingtool.client.model.Variable;
-import de.decidr.modelingtool.client.model.VariableType;
-import de.decidr.modelingtool.client.model.VariablesFilter;
+import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
+import de.decidr.modelingtool.client.model.variable.Variable;
+import de.decidr.modelingtool.client.model.variable.VariableType;
+import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 
 /**
  * TODO: add comment

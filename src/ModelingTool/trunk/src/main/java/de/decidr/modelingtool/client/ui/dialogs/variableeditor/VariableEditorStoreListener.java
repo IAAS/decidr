@@ -19,7 +19,7 @@ package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 import com.extjs.gxt.ui.client.store.StoreEvent;
 import com.extjs.gxt.ui.client.store.StoreListener;
 
-import de.decidr.modelingtool.client.model.Variable;
+import de.decidr.modelingtool.client.model.variable.Variable;
 
 /**
  * TODO: add comment

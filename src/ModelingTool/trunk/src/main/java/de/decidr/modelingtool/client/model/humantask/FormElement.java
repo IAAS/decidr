@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
+package de.decidr.modelingtool.client.model.humantask;
 
 /**
  * This class is container for the form elements of a human task. Every form

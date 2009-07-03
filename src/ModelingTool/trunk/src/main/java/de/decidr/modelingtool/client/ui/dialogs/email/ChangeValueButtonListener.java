@@ -20,7 +20,7 @@ import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 
-import de.decidr.modelingtool.client.model.Variable;
+import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditor;
 import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorInvoker;

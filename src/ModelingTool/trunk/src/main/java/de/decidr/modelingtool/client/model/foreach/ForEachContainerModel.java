@@ -14,7 +14,10 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
+package de.decidr.modelingtool.client.model.foreach;
+
+import de.decidr.modelingtool.client.model.ContainerModel;
+import de.decidr.modelingtool.client.model.HasChildModels;
 
 /**
  * TODO: add comment
@@ -22,6 +25,8 @@ package de.decidr.modelingtool.client.model;
  * @author JE
  */
 public class ForEachContainerModel extends ContainerModel {
+    
+    private Long iterationVariableId;
     
     public ForEachContainerModel() {
         super();
@@ -34,7 +39,6 @@ public class ForEachContainerModel extends ContainerModel {
      */
     public ForEachContainerModel(HasChildModels parentModel) {
         super(parentModel);
-        // TODO Auto-generated constructor stub
     }
 
 }
