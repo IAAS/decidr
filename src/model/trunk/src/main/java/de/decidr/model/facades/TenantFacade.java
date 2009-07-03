@@ -1,5 +1,6 @@
 package de.decidr.model.facades;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import de.decidr.model.commands.tenant.CreateWorkflowModelCommand;
 import de.decidr.model.commands.tenant.DeleteTenantCommand;
 import de.decidr.model.commands.tenant.DisapproveTenantsCommand;
 import de.decidr.model.commands.tenant.GetAllTenantsCommand;
+import de.decidr.model.commands.tenant.GetCurrentColorSchemeCommand;
 import de.decidr.model.commands.tenant.GetTenantIdCommand;
 import de.decidr.model.commands.tenant.GetTenantLogoCommand;
 import de.decidr.model.commands.tenant.GetTenantsToApproveCommand;
@@ -24,7 +26,11 @@ import de.decidr.model.commands.tenant.GetWorkflowModelsCommand;
 import de.decidr.model.commands.tenant.ImportPublishedWorkflowModelsCommand;
 import de.decidr.model.commands.tenant.InviteUsersAsTenantMemberCommand;
 import de.decidr.model.commands.tenant.RemoveWorkflowModelCommand;
+import de.decidr.model.commands.tenant.SetAdvancedColorSchemeCommand;
+import de.decidr.model.commands.tenant.SetCurrentColorSchemeCommand;
+import de.decidr.model.commands.tenant.SetSimpleColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetTenantDescriptionCommand;
+import de.decidr.model.commands.tenant.SetTenantLogoCommand;
 import de.decidr.model.entities.TenantSummaryView;
 import de.decidr.model.entities.TenantWithAdminView;
 import de.decidr.model.entities.User;
@@ -115,12 +121,10 @@ public class TenantFacade extends AbstractFacade {
 
     }
 
-    // SECIT FileHandling not yet implemented
     /**
      * 
-     * Returns the tenant logo as "UNKNOWN";
+     * Returns the tenant logo as InputStream.
      * 
-     * InputStream
      * 
      * @param tenantId
      * @return tenent logo
@@ -138,37 +142,137 @@ public class TenantFacade extends AbstractFacade {
 
     }
 
-    // SECIT FileHandling fehlt noch
+    /**
+     * 
+     * Saves the given FileInputStream as Logo of the given tenant.
+     * 
+     * @param tenantId
+     *            the tenant to which the logo will be set
+     * @param logo
+     *            the logo
+     * @param mimeType
+     *            the mimetype of the logo file
+     * @param fileName
+     *            the file name of the logo file
+     * @throws TransactionException
+     */
     @AllowedRole(TenantAdminRole.class)
-    public void setLogo(Long tenantId, InputStream logo) {
-        throw new UnsupportedOperationException();
+    public void setLogo(Long tenantId, FileInputStream logo, String mimeType,
+            String fileName) throws TransactionException {
+
+        TransactionCoordinator tac = HibernateTransactionCoordinator
+                .getInstance();
+        SetTenantLogoCommand command = new SetTenantLogoCommand(actor,
+                tenantId, logo, mimeType, fileName);
+
+        tac.runTransaction(command);
+
     }
 
-    // SECIT FileHandling fehlt noch
+    /**
+     * 
+     * Sets the simple color scheme of the given tenant.
+     * 
+     * @param tenantId
+     *            the id of the tenant where the scheme should be set
+     * @param simpleColorScheme
+     *            the color scheme file
+     * @param mimeType
+     *            mime type of the file
+     * @param fileName
+     *            file name of the file
+     * @throws TransactionException
+     */
     @AllowedRole(TenantAdminRole.class)
-    public void setSimpleColorScheme(InputStream simpleColorScheme,
-            Long tenantId) {
-        throw new UnsupportedOperationException();
+    public void setSimpleColorScheme(Long tenantId,
+            FileInputStream simpleColorScheme, String mimeType, String fileName)
+            throws TransactionException {
+
+        TransactionCoordinator tac = HibernateTransactionCoordinator
+                .getInstance();
+        SetSimpleColorSchemeCommand command = new SetSimpleColorSchemeCommand(
+                actor, tenantId, simpleColorScheme, mimeType, fileName);
+
+        tac.runTransaction(command);
+
     }
 
-    // SECIT FileHandling fehlt noch
+    /**
+     * 
+     * Sets the advanced color scheme of the given tenant.
+     * 
+     * @param tenantId
+     *            the id of the tenant where the scheme should be set
+     * @param advancedColorScheme
+     *            the color scheme file
+     * @param mimeType
+     *            mime type of the file
+     * @param fileName
+     *            file name of the file
+     * @throws TransactionException
+     */
     @AllowedRole(TenantAdminRole.class)
-    public void setAdvancedColorScheme(InputStream advancedColorScheme,
-            Long tenantId) {
-        throw new UnsupportedOperationException();
+    public void setAdvancedColorScheme(FileInputStream advancedColorScheme,
+            Long tenantId, String mimeType, String fileName)
+            throws TransactionException {
+
+        TransactionCoordinator tac = HibernateTransactionCoordinator
+                .getInstance();
+        SetAdvancedColorSchemeCommand command = new SetAdvancedColorSchemeCommand(
+                actor, tenantId, advancedColorScheme, mimeType, fileName);
+
+        tac.runTransaction(command);
+
     }
 
-    // SECIT FileHandling fehlt noch
+    /**
+     * 
+     * Sets the current color scheme of the given tenant.
+     * 
+     * @param tenantId
+     *            the id of the tenant where the scheme should be set
+     * @param advancedColorScheme
+     *            the color scheme file
+     * @param mimeType
+     *            mime type of the file
+     * @param fileName
+     *            file name of the file
+     * @throws TransactionException
+     */
+    @AllowedRole(TenantAdminRole.class)
+    public void setCurrentColorScheme(FileInputStream currentColorScheme,
+            Long tenantId, String mimeType, String fileName)
+            throws TransactionException {
+
+        TransactionCoordinator tac = HibernateTransactionCoordinator
+                .getInstance();
+        SetCurrentColorSchemeCommand command = new SetCurrentColorSchemeCommand(
+                actor, tenantId, currentColorScheme, mimeType, fileName);
+
+        tac.runTransaction(command);
+    }
+
+    /**
+     * 
+     * Returns the current color scheme as InputStream.
+     * 
+     * 
+     * @param tenantId
+     * @return 
+     * @return tenent logo
+     * @throws TransactionException 
+     */
     @AllowedRole(Role.class)
-    public void getCurrentColorScheme() {
-        throw new UnsupportedOperationException();
-    }
+    public InputStream getCurrentColorScheme(Long tenantId) throws TransactionException {
 
-    // SECIT FileHandling fehlt noch
-    @AllowedRole(TenantAdminRole.class)
-    public void setCurrentColorScheme(InputStream currentColorScheme,
-            Long tenantId) {
-        throw new UnsupportedOperationException();
+        TransactionCoordinator tac = HibernateTransactionCoordinator
+                .getInstance();
+        GetCurrentColorSchemeCommand command = new GetCurrentColorSchemeCommand(actor, tenantId);
+
+        tac.runTransaction(command);
+
+        return command.getSchemeStream();
+
     }
 
     /**
@@ -471,8 +575,8 @@ public class TenantFacade extends AbstractFacade {
         List<Item> outList = new ArrayList<Item>();
         List<TenantWithAdminView> inList = new ArrayList();
 
-        String[] properties = { "id", "adminFirstName", "adminLastName"};
-        
+        String[] properties = { "id", "adminFirstName", "adminLastName" };
+
         tac.runTransaction(command);
         inList = command.getResult();
 
@@ -582,16 +686,16 @@ public class TenantFacade extends AbstractFacade {
      * 
      */
     @AllowedRole(WorkflowAdminRole.class)
-    public void inviteUsersAsMembers(Long tenantId,
-            List<String> emails, List<String>userNames) throws TransactionException {
+    public void inviteUsersAsMembers(Long tenantId, List<String> emails,
+            List<String> userNames) throws TransactionException {
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
-        .getInstance();
+                .getInstance();
         InviteUsersAsTenantMemberCommand command = new InviteUsersAsTenantMemberCommand(
-        actor, tenantId, emails, userNames);
+                actor, tenantId, emails, userNames);
 
         tac.runTransaction(command);
-        
+
     }
 
     /**

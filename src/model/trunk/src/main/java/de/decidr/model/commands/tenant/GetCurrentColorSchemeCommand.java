@@ -15,26 +15,26 @@ import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * 
- * Returns the LogoData
+ * Returns the current color sheme as input stream
  * 
  * @author Markus Fischer
  * 
  * @version 0.1
  */
-public class GetTenantLogoCommand extends TenantCommand {
+public class GetCurrentColorSchemeCommand extends TenantCommand {
 
     private Long tenantId;
-    private InputStream logoStream;
+    private InputStream schemeStream;
 
     /**
      * 
-     * Creates a new GetTenantLogoCommand. This command load the logo from the
+     * Creates a new GetCurrentColorSchemeCommand. This command load the current color scheme from the
      * storage and saves it in result variable.
      * 
      * @param role
      * @param tenantId
      */
-    public GetTenantLogoCommand(Role role, Long tenantId) {
+    public GetCurrentColorSchemeCommand(Role role, Long tenantId) {
         super(role, null);
         this.tenantId = tenantId;
     }
@@ -44,7 +44,7 @@ public class GetTenantLogoCommand extends TenantCommand {
             throws TransactionException {
 
         Tenant tenant = (Tenant) evt.getSession().load(Tenant.class, tenantId);
-        Long logoid = tenant.getLogo().getId();
+        Long schemeId = tenant.getCurrentColorScheme().getId();
         StorageProviderFactory factory;
 
         try {
@@ -58,7 +58,7 @@ public class GetTenantLogoCommand extends TenantCommand {
         }
 
         try {
-            logoStream = factory.getStorageProvider().getFile(logoid);
+            schemeStream = factory.getStorageProvider().getFile(schemeId);
         } catch (StorageException e) {
             throw new TransactionException(e);
         } catch (IncompleteConfigurationException e) {
@@ -67,8 +67,8 @@ public class GetTenantLogoCommand extends TenantCommand {
 
     }
 
-    public InputStream getLogoStream() {
-        return logoStream;
+    public InputStream getSchemeStream() {
+        return schemeStream;
     }
 
 }
