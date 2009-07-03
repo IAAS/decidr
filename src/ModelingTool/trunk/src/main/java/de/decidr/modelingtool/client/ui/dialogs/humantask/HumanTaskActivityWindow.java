@@ -17,11 +17,10 @@
 package de.decidr.modelingtool.client.ui.dialogs.humantask;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
-import com.extjs.gxt.ui.client.Style.Orientation;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.widget.button.Button;
-import com.extjs.gxt.ui.client.widget.layout.RowLayout;
+import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
 import de.decidr.modelingtool.client.ModelingTool;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
@@ -35,14 +34,12 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 public class HumanTaskActivityWindow extends Dialog {
 
     private TaskPanel taskPanel;
-    private FormDesignPanel formPanel;
 
     public HumanTaskActivityWindow() {
-        // JS: fix layout problems
+        // TODO: fix layout
         super();
-        this.setHeading(ModelingTool.messages.humanTaskActivity());
-        this.setLayout(new RowLayout(Orientation.VERTICAL));
-        this.setSize(400, 600);
+        this.setLayout(new FitLayout());
+        this.setSize(600, 400);
         this.setResizable(true);
         createContentPanel();
         createButtons();
@@ -55,8 +52,6 @@ public class HumanTaskActivityWindow extends Dialog {
          */
         taskPanel = new TaskPanel();
         this.add(taskPanel);
-        formPanel = new FormDesignPanel();
-        this.add(formPanel);
     }
 
     private void createButtons() {
@@ -93,7 +88,6 @@ public class HumanTaskActivityWindow extends Dialog {
     @Override
     public void reset() {
         // TODO Auto-generated method stub
-        formPanel.clearAllEntries();
         taskPanel.clearAllEntries();
     }
 
