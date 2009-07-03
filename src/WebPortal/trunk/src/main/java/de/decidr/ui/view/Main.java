@@ -1,18 +1,14 @@
 package de.decidr.ui.view;
 
-import java.io.IOError;
-import java.io.IOException;
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.Application;
 import com.vaadin.service.ApplicationContext;
 import com.vaadin.service.ApplicationContext.TransactionListener;
-import com.vaadin.terminal.ParameterHandler;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Window;
 
+import de.decidr.ui.controller.ConfirmationParameterHandler;
 import de.decidr.ui.controller.InvitationParameterHandler;
 import de.decidr.ui.controller.MyParamterHandler;
 import de.decidr.ui.controller.UIDirector;
@@ -45,6 +41,7 @@ public class Main extends Application implements TransactionListener{
         setMainWindow(main);
         main.addParameterHandler(parameterHandler);
         main.addParameterHandler(new InvitationParameterHandler());
+        main.addParameterHandler(new ConfirmationParameterHandler());
         setTheme("test");
         director.setUiBuilder(ui);
         director.createNewView();

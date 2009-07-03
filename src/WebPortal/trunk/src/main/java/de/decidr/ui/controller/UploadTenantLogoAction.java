@@ -59,7 +59,7 @@ public class UploadTenantLogoAction implements Upload.SucceededListener,
             fis = new FileInputStream(file);
             
             tenant = (Item)session.getAttribute("tenant");
-            tenantFacade.setLogo((Long)tenant.getItemProperty("id").getValue(), fis);
+            //FIXME: tenantFacade.setLogo((Long)tenant.getItemProperty("id").getValue(), fis);
             
         } catch (final java.io.FileNotFoundException e) {
             // TODO
