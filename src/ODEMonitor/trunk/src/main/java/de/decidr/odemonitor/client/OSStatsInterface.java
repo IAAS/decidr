@@ -14,29 +14,34 @@
  * under the License.
  */
 
-package de.decidr.model.exceptions;
+package de.decidr.odemonitor.client;
 
 /**
- * When this exception is thrown, either a configuration is incomplete or not
- * applicable.
- * 
+ * RR: add comment
+ *
  * @author Reinhold
  */
-public class IncompleteConfigurationException extends Exception {
+public interface OSStatsInterface {
+    
+    /**
+     * RR: add comment
+     *
+     * @return
+     */
+    public int getCPULoad();
 
-    public IncompleteConfigurationException() {
-        super();
-    }
+    /**
+     * RR: add comment
+     *
+     * @return
+     */
+    public int getMemLoad();
 
-    public IncompleteConfigurationException(String message, Throwable cause) {
-        super(message, cause);
-    }
+    /**
+     * RR: add comment
+     *
+     * @return
+     */
+    public int getSystemLoad();
 
-    public IncompleteConfigurationException(String message) {
-        super(message);
-    }
-
-    public IncompleteConfigurationException(Throwable cause) {
-        super(cause);
-    }
 }

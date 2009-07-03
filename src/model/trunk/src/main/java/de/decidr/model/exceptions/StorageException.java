@@ -26,37 +26,19 @@ public class StorageException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 
-     */
     public StorageException() {
         super();
-        // RR
     }
 
-    /**
-     * @param message
-     * @param cause
-     */
     public StorageException(String message, Throwable cause) {
         super(message, cause);
-        // RR
     }
 
-    /**
-     * @param message
-     */
     public StorageException(String message) {
         super(message);
-        // RR
     }
 
-    /**
-     * @param cause
-     */
     public StorageException(Throwable cause) {
         super(cause);
-        // RR
     }
-
 }
