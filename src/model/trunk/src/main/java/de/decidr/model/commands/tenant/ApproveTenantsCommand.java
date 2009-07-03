@@ -3,6 +3,7 @@ package de.decidr.model.commands.tenant;
 import java.util.Date;
 import java.util.List;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
@@ -46,7 +47,7 @@ public class ApproveTenantsCommand extends AclEnabledCommand {
             Tenant tenant = (Tenant)evt.getSession().get(Tenant.class, tenantid);
             if(tenant != null){
                 if(tenant.getApprovedSince()==null){
-                    tenant.setApprovedSince(new Date());
+                    tenant.setApprovedSince(DecidrGlobals.getTime().getTime());
                     evt.getSession().update(tenant);
                 }
               }

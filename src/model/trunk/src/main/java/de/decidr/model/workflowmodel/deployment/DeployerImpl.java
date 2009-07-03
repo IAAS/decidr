@@ -33,6 +33,7 @@ import javax.xml.soap.SOAPMessage;
 
 import com.ibm.wsdl.xml.WSDLWriterImpl;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.entities.Server;
@@ -94,7 +95,7 @@ public class DeployerImpl implements Deployer {
         fileDeployer.deploy(zipFile);
 
         result = new DeploymentResultImpl();
-        result.setDoplementDate(new Date());
+        result.setDoplementDate(DecidrGlobals.getTime().getTime());
         result.setSOAPMessage(soap);
         result.setServers(serverList);
 

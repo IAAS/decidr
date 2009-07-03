@@ -20,6 +20,7 @@ import java.util.Date;
 
 import org.hibernate.Query;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
@@ -82,7 +83,7 @@ public class SaveWorkflowModelCommand extends WorkflowModelCommand {
             model.setDescription(description);
             model.setDwdl(dwdl);
             model.setModifiedByUser(user);
-            model.setModifiedDate(new Date());
+            model.setModifiedDate(DecidrGlobals.getTime().getTime());
             model.setName(name);
             model.setVersion(model.getVersion() + 1);
 

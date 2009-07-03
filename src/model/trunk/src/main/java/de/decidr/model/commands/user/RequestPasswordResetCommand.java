@@ -20,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.NotificationEvents;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.PasswordResetRequest;
@@ -74,7 +75,7 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
                 request.setUserId(user.getId());
                 request.setUser(user);
                 request.setAuthKey(Password.getRandomAuthKey());
-                request.setCreationDate(new Date());
+                request.setCreationDate(DecidrGlobals.getTime().getTime());
 
                 // Overwrite an existing password reset request
                 evt.getSession().saveOrUpdate(request);

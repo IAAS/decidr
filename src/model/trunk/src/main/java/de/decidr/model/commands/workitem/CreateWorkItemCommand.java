@@ -20,6 +20,7 @@ import java.util.Date;
 
 import org.hibernate.Query;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.NotificationEvents;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.User;
@@ -94,7 +95,7 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
         owningUser.setId(userId);
 
         WorkItem newWorkItem = new WorkItem();
-        newWorkItem.setCreationDate(new Date());
+        newWorkItem.setCreationDate(DecidrGlobals.getTime().getTime());
         newWorkItem.setData(data);
         newWorkItem.setDescription(description);
         newWorkItem.setName(name);

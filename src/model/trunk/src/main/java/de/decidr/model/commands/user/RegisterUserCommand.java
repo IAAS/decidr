@@ -23,6 +23,7 @@ import java.util.Date;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.RegistrationRequest;
 import de.decidr.model.entities.User;
@@ -138,7 +139,7 @@ public class RegisterUserCommand extends AclEnabledCommand {
             RegistrationRequest request = new RegistrationRequest();
 
             request.setAuthKey(Password.getRandomAuthKey());
-            request.setCreationDate(new Date());
+            request.setCreationDate(DecidrGlobals.getTime().getTime());
             request.setUser(existingUser);
             evt.getSession().saveOrUpdate(request);
 

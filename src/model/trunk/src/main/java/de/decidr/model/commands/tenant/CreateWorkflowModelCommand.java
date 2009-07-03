@@ -2,6 +2,7 @@ package de.decidr.model.commands.tenant;
 
 import java.util.Date;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
@@ -54,7 +55,7 @@ public class CreateWorkflowModelCommand extends TenantCommand {
 
             WorkflowModel model = new WorkflowModel();
             model.setName(WorkflowModelName);
-            model.setCreationDate(new Date());
+            model.setCreationDate(DecidrGlobals.getTime().getTime());
             model.setExecutable(false);
             model.setPublished(false);
             model.setTenant(tenant);

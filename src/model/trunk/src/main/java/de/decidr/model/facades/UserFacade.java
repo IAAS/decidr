@@ -10,9 +10,6 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 
-import de.decidr.model.NotificationEvents;
-import de.decidr.model.commands.AbstractTransactionalCommand;
-import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.user.CheckAuthKeyCommand;
 import de.decidr.model.commands.user.ConfirmInviationCommand;
 import de.decidr.model.commands.user.ConfirmPasswordResetCommand;
@@ -48,7 +45,6 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Provide a simplified interface to the business logic that deals with users.
@@ -149,7 +145,11 @@ public class UserFacade extends AbstractFacade {
 
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
-        return cmd.getUser().getId();
+        if (cmd.getPasswordCorrect()) {
+            return cmd.getUser().getId();
+        } else {
+            throw new EntityNotFoundException(User.class);
+        }
     }
 
     /**
@@ -685,5 +685,30 @@ public class UserFacade extends AbstractFacade {
 
         return outList;
 
+    }
+
+    /**
+     * Returns information about the given invitaion. The Vaadin item contains
+     * the following properties:
+     * <ul>
+     * <li>senderId: Long - the user id of the sender</li>
+     * <li>receiverId: Long - the user id of the receiver</li>
+     * <li>senderfirstName: String - FIXME continue here</li>
+     * <li></li>
+     * <li></li>
+     * <li></li>
+     * </ul>
+     * 
+     * @param invitationId
+     * @return Vaadin item con
+     */
+    public Item getInvitation(Long invitationId) {
+        // FIXME implement me!
+        return null;
+    }
+    
+    public Boolean isRegistered(Long userId) {
+        //FIXME implement and document me!
+        return false;
     }
 }

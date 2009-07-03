@@ -42,6 +42,7 @@ import org.apache.log4j.Priority;
 
 import com.sun.mail.smtp.SMTPTransport;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.logging.DefaultLogger;
 
 /**
@@ -807,7 +808,7 @@ public class MailBackend {
         if (!(headerBCC == null || headerBCC.isEmpty()))
             message.setRecipients(Message.RecipientType.BCC, headerBCC);
         message.setSubject(headerSubject);
-        message.setSentDate(new Date());
+        message.setSentDate(DecidrGlobals.getTime().getTime());
 
         log.debug("opening mail transport");
         SMTPTransport transport = (SMTPTransport) session

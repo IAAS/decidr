@@ -22,7 +22,9 @@ import java.security.NoSuchAlgorithmException;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.commands.AclEnabledCommand;
+import de.decidr.model.entities.Login;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
@@ -81,17 +83,20 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
         }
 
         try {
-
             String hash = Password.getHash(passwordPlaintext, existingUser
                     .getUserProfile().getPasswordSalt());
 
-            if (hash.equals(existingUser.getUserProfile().getPasswordHash())) {
-                // given password is correct
-                user = existingUser;
-            } else {
-                // given password is wrong
-                passwordCorrect = false;
-            }
+            // is the password correct?
+            passwordCorrect = hash.equals(existingUser.getUserProfile()
+                    .getPasswordHash());
+            user = existingUser;
+
+            // log the login to the database
+            Login thisLogin = new Login();
+            thisLogin.setLoginDate(DecidrGlobals.getTime().getTime());
+            thisLogin.setSuccess(passwordCorrect);
+            thisLogin.setUser(existingUser);
+            evt.getSession().save(thisLogin);
 
         } catch (NoSuchAlgorithmException e) {
             throw new TransactionException(e);
@@ -105,6 +110,13 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
      */
     public User getUser() {
         return user;
+    }
+
+    /**
+     * @return whether the given password was correct.
+     */
+    public Boolean getPasswordCorrect() {
+        return passwordCorrect;
     }
 
 }
