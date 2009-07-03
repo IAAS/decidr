@@ -16,28 +16,28 @@
 
 package de.decidr.modelingtool.client.command;
 
-import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
-import de.decidr.modelingtool.client.ui.EmailInvokeNode;
+import de.decidr.modelingtool.client.model.NodeModel;
+import de.decidr.modelingtool.client.ui.Node;
 
 /**
  * TODO: add comment
  * 
  * @author Jonas Schlaak
  */
-public class ChangeEmailInvokeNodeModelCommand implements UndoableCommand {
+public class ChangeNodeModelCommand<N extends Node, M extends NodeModel>
+        implements UndoableCommand {
 
-    private EmailInvokeNode node;
-    private EmailInvokeNodeModel oldModel;
-    private EmailInvokeNodeModel newmodel;
+    private N node;
+    private M oldModel;
+    private M newmodel;
 
     /**
      * TODO: add comment
      * 
      */
-    public ChangeEmailInvokeNodeModelCommand(EmailInvokeNode node,
-            EmailInvokeNodeModel newModel) {
+    public ChangeNodeModelCommand(N node, M newModel) {
         this.node = node;
-        this.oldModel = (EmailInvokeNodeModel) node.getModel();
+        this.oldModel = (M) node.getModel();
         this.newmodel = newModel;
     }
 

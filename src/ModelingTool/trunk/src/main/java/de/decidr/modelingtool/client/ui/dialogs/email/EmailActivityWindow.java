@@ -16,6 +16,8 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.email;
 
+import java.util.List;
+
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
@@ -28,7 +30,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingTool;
-import de.decidr.modelingtool.client.command.ChangeEmailInvokeNodeModelCommand;
+import de.decidr.modelingtool.client.command.ChangeNodeModelCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
 import de.decidr.modelingtool.client.model.Variable;
@@ -131,8 +133,11 @@ public class EmailActivityWindow extends Dialog {
         newModel.setMessageVariableId(messageField.getValue().getId());
         newModel.setAttachmentVariableId(attachmentField.getValue().getId());
         // JS check if changed
-        CommandStack.getInstance().executeCommand(
-                new ChangeEmailInvokeNodeModelCommand(node, newModel));
+        CommandStack
+                .getInstance()
+                .executeCommand(
+                        new ChangeNodeModelCommand<EmailInvokeNode, EmailInvokeNodeModel>(
+                                node, newModel));
     }
 
     private void addComboField(ComboBox<Variable> field, String label,
