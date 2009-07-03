@@ -177,7 +177,5 @@ public class HibernateTransactionCoordinatorTest {
         
     }
     
-    public void testRunInnerTransaction() {
-        // TODO
-    }
+    // FIXME @Tom: finish this test
 }
