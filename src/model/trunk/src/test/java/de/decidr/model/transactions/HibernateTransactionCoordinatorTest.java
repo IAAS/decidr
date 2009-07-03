@@ -177,5 +177,5 @@ public class HibernateTransactionCoordinatorTest {
         
     }
     
-    // FIXME @Tom: finish this test
+    // TK @Tom: finish this test
 }

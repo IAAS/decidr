@@ -23,20 +23,16 @@ public class PasswordTest {
         try {
             salt = Password.getRandomSalt();
         } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            fail("Problem by getting Salt");
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            fail("Problem by getting Salt");
         }
         try {
             hash = Password.getHash("user5", salt);
         } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            fail("Problem by getting Hash");
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            fail("Problem by getting Hash");
         }
         
         System.out.println("Salt: "+ salt);

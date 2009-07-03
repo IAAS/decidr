@@ -27,7 +27,6 @@ public class GetOdeUrlCommand extends WorkflowInstanceCommand {
         
         WorkflowInstance instance = (WorkflowInstance)evt.getSession().load(WorkflowInstance.class, id);
         
-        //FIXME nicht sicher was drinstehen soll
         result = instance.getServer().getLocation();
         
     }
