@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.jws.WebMethod;
+import javax.jws.WebService;
 import javax.mail.MessagingException;
 import javax.xml.bind.TypeConstraintException;
 
@@ -57,7 +58,7 @@ import de.decidr.model.webservices.EmailInterface;
  * 
  * @author Reinhold
  */
-@javax.jws.WebService(serviceName = "Email", portName = "EmailSOAP", targetNamespace = "http://decidr.de/webservices/Email", wsdlLocation = "file:Email.wsdl", endpointInterface = "de.decidr.webservices.email.EmailPT")
+@WebService(serviceName = "Email", portName = "EmailSOAP", targetNamespace = "http://decidr.de/webservices/Email", wsdlLocation = "file:Email.wsdl", endpointInterface = "de.decidr.webservices.email.EmailPT")
 public class EmailService implements EmailInterface {
 
     private static final String VERSION = "0.1";
@@ -99,6 +100,50 @@ public class EmailService implements EmailInterface {
         log.trace("Leaving " + EmailService.class.getSimpleName()
                 + ".addAttachments(MailBackend, IDList)");
         throw new UnsupportedOperationException("Wants implementation");
+    }
+
+    /**
+     * Extracts a list of email addresses from a list of
+     * <code>{@link Actor Actors}</code>.
+     * 
+     * @param users
+     *            The list of <code>{@link Actor Actors}</code>.
+     * @return A list of email addresses.
+     * @throws TransactionException
+     *             see
+     *             <code>{@link HibernateTransactionCoordinator#runTransaction(de.decidr.model.commands.TransactionalCommand)}</code>
+     */
+    @WebMethod(exclude=true)
+    private static List<String> extractActorAddresses(List<Actor> users)
+            throws TransactionException {
+        log.trace("Entering " + EmailService.class.getSimpleName()
+                + ".extractActorAddresses(List<Actor>)");
+        List<String> emails = new ArrayList<String>();
+        List<Long> userIDs = new ArrayList<Long>();
+
+        log.debug("extracting included addresses");
+        for (Actor actor : users) {
+            if (actor.getEmail() != null) {
+                emails.add(actor.getEmail());
+            } else {
+                userIDs.add(actor.getUserid());
+            }
+        }
+
+        if (!userIDs.isEmpty()) {
+            log.debug("asking the model for the users' email addresses");
+            GetUserPropertiesCommand cmd = new GetUserPropertiesCommand(
+                    EmailRole.getInstance(), userIDs, "email");
+            HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+            List<User> modelUsers = cmd.getUser();
+            for (User user : modelUsers) {
+                emails.add(user.getEmail());
+            }
+        }
+
+        log.trace("Leaving " + EmailService.class.getSimpleName()
+                + ".extractActorAddresses(List<Actor>)");
+       return emails;
     }
 
     /**
@@ -153,49 +198,6 @@ public class EmailService implements EmailInterface {
     }
 
     /**
-     * Extracts a list of email addresses from a list of
-     * <code>{@link Actor Actors}</code>.
-     * 
-     * @param users
-     *            The list of <code>{@link Actor Actors}</code>.
-     * @return A list of email addresses.
-     * @throws TransactionException
-     *             see
-     *             <code>{@link HibernateTransactionCoordinator#runTransaction(de.decidr.model.commands.TransactionalCommand)}</code>
-     */
-    private static List<String> extractActorAddresses(List<Actor> users)
-            throws TransactionException {
-        log.trace("Entering " + EmailService.class.getSimpleName()
-                + ".extractActorAddresses(List<Actor>)");
-        List<String> emails = new ArrayList<String>();
-        List<Long> userIDs = new ArrayList<Long>();
-
-        log.debug("extracting included addresses");
-        for (Actor actor : users) {
-            if (actor.getEmail() != null) {
-                emails.add(actor.getEmail());
-            } else {
-                userIDs.add(actor.getUserid());
-            }
-        }
-
-        if (!userIDs.isEmpty()) {
-            log.debug("asking the model for the users' email addresses");
-            GetUserPropertiesCommand cmd = new GetUserPropertiesCommand(
-                    EmailRole.getInstance(), userIDs, "email");
-            HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-            List<User> modelUsers = cmd.getUser();
-            for (User user : modelUsers) {
-                emails.add(user.getEmail());
-            }
-        }
-
-        log.trace("Leaving " + EmailService.class.getSimpleName()
-                + ".extractActorAddresses(List<Actor>)");
-       return emails;
-    }
-
-    /**
      * Takes a <code>{@link StringMap}</code> and parses it into a
      * <code>{@link Map}</code> containing mappings from
      * <code>{@link String strings}</code> to
@@ -225,6 +227,28 @@ public class EmailService implements EmailInterface {
         return result;
     }
 
+    /**
+     * Applies the configuration retrieved through the <code>model</code> to a
+     * <code>{@link MailBackend}</code>.
+     * 
+     * @param email
+     *            The <code>{@link MailBackend}</code> to be configured.
+     * @throws TransactionException
+     *             Thrown by the <code>{@link de.decidr.model}</code>.
+     */
+    @WebMethod(exclude=true)
+    private void applyConfig(MailBackend email) throws TransactionException {
+        GetSystemSettingsCommand command = new GetSystemSettingsCommand(
+                EmailRole.getInstance());
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+        SystemSettings config = command.getResult();
+
+        email.setXMailer(USER_AGENT);
+
+        // TODO get settings & apply
+        throw new UnsupportedOperationException("Wants implementation");
+    }
+
     public void sendEmail(AbstractUserList to, AbstractUserList cc,
             AbstractUserList bcc, String fromName, String fromAddress,
             String subject, StringMap headers, String bodyTXT, String bodyHTML,
@@ -232,7 +256,7 @@ public class EmailService implements EmailInterface {
             MalformedURLExceptionWrapper, TransactionException,
             IoExceptionWrapper, IllegalArgumentException {
         log.trace("Entering " + EmailService.class.getSimpleName()
-                + ".senEmail(...)");
+                + ".sendEmail(...)");
         log.debug("checking parameters for nulls");
         if (to == null || fromAddress == null || subject == null) {
             log.error("A main parameter (to, fromAddress, subject) is null!");
@@ -310,27 +334,6 @@ public class EmailService implements EmailInterface {
         }
 
         log.trace("Leaving " + EmailService.class.getSimpleName()
-                + ".senEmail(...)");
-    }
-
-    /**
-     * Applies the configuration retrieved through the <code>model</code> to a
-     * <code>{@link MailBackend}</code>.
-     * 
-     * @param email
-     *            The <code>{@link MailBackend}</code> to be configured.
-     * @throws TransactionException
-     *             Thrown by the <code>{@link de.decidr.model}</code>.
-     */
-    private void applyConfig(MailBackend email) throws TransactionException {
-        GetSystemSettingsCommand command = new GetSystemSettingsCommand(
-                EmailRole.getInstance());
-        HibernateTransactionCoordinator.getInstance().runTransaction(command);
-        SystemSettings config = command.getResult();
-
-        email.setXMailer(USER_AGENT);
-
-        // TODO get settings & apply
-        throw new UnsupportedOperationException("Wants implementation");
+                + ".sendEmail(...)");
     }
 }

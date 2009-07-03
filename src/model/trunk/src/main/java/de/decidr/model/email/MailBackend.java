@@ -46,7 +46,7 @@ import de.decidr.model.logging.DefaultLogger;
 
 /**
  * A representation of a JavaMail <code>{@link Message message}</code>.<br>
- * I works by first collecting all the necessary information and then calling
+ * It works by first collecting all the necessary information and then calling
  * JavaMail to construct and send the actual e-mail.<br>
  * <br>
  * Depends on JavaMail 1.4+
@@ -91,6 +91,7 @@ public class MailBackend {
             addresses.append(recipient);
             addresses.append(", ");
         }
+        // delete the ", " from the end of the string
         addresses.delete(addresses.length() - 2, addresses.length());
         log.debug("checking constructed address list: " + addresses);
         boolean result = validateAddresses(addresses.toString());
@@ -380,33 +381,31 @@ public class MailBackend {
          * Trim the string in case somebody tries to circumvent the filter using
          * spaces.
          */
-        headerName = headerName.trim();
+        headerName = headerName.trim().toLowerCase();
 
-        if (headerName.equalsIgnoreCase("To")) {
+        if (headerName.equals("to")) {
             log.warn("The To: header should not be set using the "
                     + "addHeader() method. Delegating to setReceiver()...");
             setReceiver(headerContent);
-        } else if (headerName.equalsIgnoreCase("From")) {
-            log.error("The From: header should not be set using the "
-                    + "addHeader() method. Use the "
-                    + "setSender(String, String) method...");
-            throw new IllegalArgumentException(
-                    "Attempted to set From: header using the addHeader() method");
-        } else if (headerName.equalsIgnoreCase("Subject")) {
+        } else if (headerName.equals("from")) {
+            log.warn("The From: header should not be set using the "
+                    + "addHeader() method. Delegating to setSender()...");
+            setSender(null, headerContent);
+        } else if (headerName.equals("subject")) {
             log.warn("The Subject: header should not be set using the "
                     + "addHeader() method. Delegating to setSubject()...");
             setSubject(headerContent);
-        } else if (headerName.equalsIgnoreCase("CC")) {
+        } else if (headerName.equals("cc")) {
             log.warn("The CC: header should not be set using the "
                     + "addHeader() method. Delegating to setCC()...");
             setCC(headerContent);
-        } else if (headerName.equalsIgnoreCase("BCC")) {
+        } else if (headerName.equals("bcc")) {
             log.warn("The BCC: header should not be set using the "
                     + "addHeader() method. Delegating to setBCC()...");
             setBCC(headerContent);
-        } else if (headerName.equalsIgnoreCase("X-Mailer")
-                || headerName.equalsIgnoreCase("User-Agent")
-                || headerName.equalsIgnoreCase("X-Newsreader")) {
+        } else if (headerName.equals("x-mailer")
+                || headerName.equals("user-agent")
+                || headerName.equals("x-newsreader")) {
             log.warn("The " + headerName + ": header should not "
                     + "be set using the addHeader() method. "
                     + "Delegating to setXMailer()...");
@@ -749,7 +748,7 @@ public class MailBackend {
             sysProps.setProperty("mail." + protocol + ".auth", "true");
         }
         Session session = Session.getInstance(sysProps, null);
-        // XXX check whether this should be <= or >=
+
         if (log.getLevel().toInt() <= Priority.DEBUG_INT) {
             session.setDebug(true);
         } else {

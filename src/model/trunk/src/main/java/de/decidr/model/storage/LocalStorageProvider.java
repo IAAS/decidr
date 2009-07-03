@@ -116,7 +116,7 @@ public class LocalStorageProvider implements StorageProvider {
             return new FileInputStream(new File(storageDirectory, "DecidR_"
                     + fileId + ".tmp"));
         } catch (FileNotFoundException e) {
-            log.error("File couln't be found");
+            log.error("File couldn't be found");
             throw new StorageException(e.getMessage(), e);
         }
     }
@@ -198,8 +198,9 @@ public class LocalStorageProvider implements StorageProvider {
         log.trace("Entering " + LocalStorageProvider.class.getSimpleName()
                 + ".putFile(FileInputStream, Long)");
         File newFile = new File(storageDirectory, "DecidR_" + fileId + ".tmp");
+        FileOutputStream fos = null;
         try {
-            FileOutputStream fos = new FileOutputStream(newFile, false);
+            fos = new FileOutputStream(newFile, false);
             int dataByte;
 
             log.debug("transferring data...");
@@ -212,6 +213,16 @@ public class LocalStorageProvider implements StorageProvider {
             log.error("IOException during access to either "
                     + "input or output file", e);
             throw new StorageException(e.getMessage(), e);
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    log.error("IOException while attempting"
+                            + " to close stream", e);
+                    throw new StorageException(e.getMessage(), e);
+                }
+            }
         }
         log.trace("Leaving " + LocalStorageProvider.class.getSimpleName()
                 + ".putFile(FileInputStream, Long)");
