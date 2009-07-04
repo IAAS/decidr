@@ -28,6 +28,7 @@
         <mapping resource="de/decidr/model/entities/ServerType.hbm.xml" />
         <mapping resource="de/decidr/model/entities/KnownWebService.hbm.xml" />
         <mapping resource="de/decidr/model/entities/UserProfile.hbm.xml" />
+        <mapping resource="de/decidr/model/entities/InvitationView.hbm.xml" />
         <mapping resource="de/decidr/model/entities/RegistrationRequest.hbm.xml" />
         <mapping resource="de/decidr/model/entities/Server.hbm.xml" />
         <mapping resource="de/decidr/model/entities/WorkItem.hbm.xml" />
@@ -42,7 +43,7 @@
         <mapping resource="de/decidr/model/entities/WorkItemSummaryView.hbm.xml" />
         <mapping resource="de/decidr/model/entities/TenantWithAdminView.hbm.xml" />
         <mapping resource="de/decidr/model/entities/DeployedWorkflowModel.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/Login.hbm.xml" />
         <mapping resource="de/decidr/model/entities/UserAdministratesWorkflowModel.hbm.xml" />
+        <mapping resource="de/decidr/model/entities/Login.hbm.xml" />
     </session-factory>
 </hibernate-configuration>
