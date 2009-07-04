@@ -701,6 +701,11 @@ CREATE TABLE IF NOT EXISTS `decidrdb`.`tenant_with_admin_view` (`id` INT);
 CREATE TABLE IF NOT EXISTS `decidrdb`.`startable_workflow_model_view` (`id` INT);
 
 -- -----------------------------------------------------
+-- Placeholder table for view `decidrdb`.`invitation_view`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `decidrdb`.`invitation_view` (`id` INT);
+
+-- -----------------------------------------------------
 -- View `decidrdb`.`server_load_view`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `decidrdb`.`server_load_view`;
@@ -788,6 +793,29 @@ SELECT w.* FROM workflow_model AS w
 JOIN deployed_workflow_model AS d ON 
   ( (d.originalWorkflowModelId = w.id) AND (d.version = w.version) )
 WHERE (w.executable = true);
+
+-- -----------------------------------------------------
+-- View `decidrdb`.`invitation_view`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `decidrdb`.`invitation_view`;
+# A view on invitations that includes the names of the joined tenant, sender, receiver and workflow model
+CREATE VIEW `decidrdb`.`invitation_view` AS
+SELECT i.*, snd.firstName AS senderFirstName, snd.lastName AS senderLastName,
+       rcv.firstName AS receiverFirstName, rcv. lastName AS receiverLastName,
+       wfm.name AS administratedWorkflowModelName,
+       dwfm.name AS participateWorfkwlowModelName,
+       t1.name AS joinTenantName,
+       t2.name AS workflowModelOwningTenantName,
+       t3.name AS participateTenantName
+FROM invitation AS i
+LEFT JOIN user_profile AS snd ON (snd.userId = i.senderId)
+LEFT JOIN user_profile AS rcv ON (rcv.userId = i.receiverId)
+LEFT JOIN tenant AS t1 ON (t1.id = i.joinTenantId)
+LEFT JOIN workflow_model AS wfm ON (wfm.id = i.administrateWorkflowModelId)
+LEFT JOIN tenant AS t2 ON (t2.id = wfm.tenantId)
+LEFT JOIN workflow_instance AS wfi ON (wfi.id = i.participateInWorkflowInstanceId)
+LEFT JOIN deployed_workflow_model AS dwfm ON (dwfm.id = wfi.deployedWorkflowModelId)
+LEFT JOIN tenant AS t3 ON (t3.id = dwfm.tenantId);
 USE `decidrdb`;
 
 DELIMITER //
@@ -976,17 +1004,6 @@ END;//
 
 
 DELIMITER ;
-
--- -----------------------------------------------------
--- Data for table `decidrdb`.`server_type`
--- -----------------------------------------------------
-SET AUTOCOMMIT=0;
-INSERT INTO `server_type` (`id`, `name`) VALUES (1, 'ode');
-INSERT INTO `server_type` (`id`, `name`) VALUES (2, 'portal');
-INSERT INTO `server_type` (`id`, `name`) VALUES (3, 'esb');
-INSERT INTO `server_type` (`id`, `name`) VALUES (4, 'storage');
-
-COMMIT;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
