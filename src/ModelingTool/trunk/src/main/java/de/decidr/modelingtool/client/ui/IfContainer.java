@@ -14,29 +14,23 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.menu;
-
-import com.google.gwt.user.client.Command;
-
-import de.decidr.modelingtool.client.command.CommandStack;
-import de.decidr.modelingtool.client.command.CreateInvokeNodeCommand;
-import de.decidr.modelingtool.client.ui.EmailInvokeNode;
-import de.decidr.modelingtool.client.ui.Workflow;
+package de.decidr.modelingtool.client.ui;
 
 /**
  * TODO: add comment
- * 
+ *
  * @author JE
  */
-public class CreateEmailInvokeNodeMenuItem implements Command {
+public class IfContainer extends Container {
 
-    @Override
-    public void execute() {
-        EmailInvokeNode node = new EmailInvokeNode(Workflow.getInstance());
-        Workflow.getInstance().addNode(node);
-
-        CommandStack.getInstance().executeCommand(
-                new CreateInvokeNodeCommand(node));
+    /**
+     * TODO: add comment
+     *
+     * @param parentPanel
+     */
+    public IfContainer(HasChildren parentPanel) {
+        super(parentPanel);
+        // TODO Auto-generated constructor stub
     }
 
 }

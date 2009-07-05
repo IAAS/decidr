@@ -19,7 +19,9 @@ package de.decidr.modelingtool.client.ui.selection;
 import java.util.List;
 import java.util.Vector;
 
+import com.allen_sauer.gwt.dnd.client.DragController;
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 import de.decidr.modelingtool.client.ui.Node;
@@ -51,7 +53,7 @@ public class NodeSelectionBox {
         dragBoxes.add(new DragBox(DragBox.DragDirection.NORTHWEST));
 
         for (DragBox dragBox : dragBoxes) {
-            dragBox.setStyleName("dragbox-node");
+            //dragBox.addStyleName("dragbox-node");
         }
     }
 
@@ -124,14 +126,14 @@ public class NodeSelectionBox {
     }
 
     /**
-     * Removes the drag boxes from the workflow.
+     * Removes the drag boxes from the parent panel.
      */
     public void unassign() {
         for (DragBox dragBox : dragBoxes) {
             if (assignedNode != null) {
                 // make box not draggable if it was before
                 if (assignedNode.isResizable()) {
-                    PickupDragController rdc = DndRegistry.getInstance()
+                    DragController rdc = DndRegistry.getInstance()
                             .getDragController("ResizeDragController");
                     rdc.makeNotDraggable(dragBox);
                 }
@@ -142,6 +144,8 @@ public class NodeSelectionBox {
         }
 
         assignedNode = null;
+        
+        //Window.alert(dragBoxes.get(0).getStyleName());
     }
 
     /**
@@ -161,16 +165,21 @@ public class NodeSelectionBox {
                     .getParent();
             parentPanel.add(dragBox);
 
-            PickupDragController rdc = DndRegistry.getInstance()
+            DragController rdc = DndRegistry.getInstance()
                     .getDragController("ResizeDragController");
+            
+            //dragBox.addStyleName("dragbox-node");
 
             if (node.isResizable()) {
                 rdc.makeDraggable(dragBox);
             }
+            
+            dragBox.addStyleName("dragbox-node");
         }
 
         refreshPosition();
-
+        
+        //Window.alert(dragBoxes.get(0).getStyleName());
     }
 
     public List<DragBox> getDragBoxes() {

@@ -17,25 +17,29 @@
 package de.decidr.modelingtool.client.command;
 
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
+import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
+import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
+import de.decidr.modelingtool.client.ui.EmailInvokeNode;
 import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
+import de.decidr.modelingtool.client.ui.InvokeNode;
 
 /**
- * Command for creating an email invoke node.
+ * Command for creating an invoke node.
  * 
  * @author JE
  */
-public class CreateHumanTaskInvokeNodeCommand implements UndoableCommand {
+public class CreateInvokeNodeCommand implements UndoableCommand {
 
     /**
      * The graphical node.
      */
-    HumanTaskInvokeNode node = null;
+    InvokeNode node = null;
 
     /**
      * The model of the node.
      */
-    HumanTaskInvokeNodeModel model = null;
+    NodeModel model = null;
 
     /**
      * X coordinate of the node.
@@ -47,14 +51,19 @@ public class CreateHumanTaskInvokeNodeCommand implements UndoableCommand {
      */
     int nodeTop;
 
-    public CreateHumanTaskInvokeNodeCommand(HumanTaskInvokeNode node) {
+    public CreateInvokeNodeCommand(InvokeNode node) {
         this.node = node;
         this.nodeLeft = node.getLeft();
         this.nodeTop = node.getTop();
 
         // create model
-        model = new HumanTaskInvokeNodeModel(node.getParentPanel()
-                .getHasChildModelsModel());
+        if (node instanceof EmailInvokeNode) {
+            model = new EmailInvokeNodeModel(node.getParentPanel()
+                    .getHasChildModelsModel());
+        } else if (node instanceof HumanTaskInvokeNode) {
+            model = new HumanTaskInvokeNodeModel(node.getParentPanel()
+                    .getHasChildModelsModel());
+        }
 
         // link node and model
         node.setModel(model);
@@ -64,7 +73,7 @@ public class CreateHumanTaskInvokeNodeCommand implements UndoableCommand {
         // model.setParentModel(node.getParentPanel().getHasChildModelsModel());
     }
 
-    public CreateHumanTaskInvokeNodeCommand(HumanTaskInvokeNodeModel model,
+    public CreateInvokeNodeCommand(NodeModel model,
             int nodeLeft, int nodeTop) throws IncompleteModelDataException {
         this.model = model;
         this.nodeLeft = nodeLeft;
@@ -75,8 +84,13 @@ public class CreateHumanTaskInvokeNodeCommand implements UndoableCommand {
         checkModelData();
 
         // create node
-        node = new HumanTaskInvokeNode(model.getParentModel()
-                .getHasChildrenChangeListener());
+        if (model instanceof EmailInvokeNodeModel) {
+            node = new EmailInvokeNode(model.getParentModel()
+                    .getHasChildrenChangeListener());
+        } else if (model instanceof HumanTaskInvokeNodeModel) {
+            node = new HumanTaskInvokeNode(model.getParentModel()
+                    .getHasChildrenChangeListener());
+        }
 
         // link node and model
         node.setModel(model);

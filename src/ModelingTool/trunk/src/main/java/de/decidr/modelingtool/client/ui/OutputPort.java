@@ -16,7 +16,6 @@
 
 package de.decidr.modelingtool.client.ui;
 
-import com.allen_sauer.gwt.dnd.client.DragController;
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
@@ -38,21 +37,21 @@ public class OutputPort extends Port {
         // registerDropController();
 
         // make connection drag box draggable
-        DragController dc = DndRegistry.getInstance().getDragController(
-                "OutputPortDragController");
+        PickupDragController dc = DndRegistry.getInstance()
+                .getPickupDragController("OutputPortDragController");
         dc.makeDraggable(connectionDragBox);
     }
 
     public void registerDropController() {
         PickupDragController ipdc = DndRegistry.getInstance()
-                .getDragController("InputPortDragController");
+                .getPickupDragController("InputPortDragController");
         ipdc.registerDropController(getDropController());
         dropControllerRegistered = true;
     }
 
     public void unregisterDropController() {
         PickupDragController ipdc = DndRegistry.getInstance()
-                .getDragController("InputPortDragController");
+                .getPickupDragController("InputPortDragController");
         ipdc.unregisterDropController(getDropController());
         dropControllerRegistered = false;
     }

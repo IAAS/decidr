@@ -16,59 +16,73 @@
 
 package de.decidr.modelingtool.client.model;
 
-import java.util.List;
-import java.util.Vector;
+import java.util.Collection;
+import java.util.HashSet;
 
-import com.google.gwt.user.client.ui.Widget;
+import de.decidr.modelingtool.client.ui.HasChildren;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author JE
  */
-public class ContainerModel extends NodeModel {
+public class ContainerModel extends NodeModel implements HasChildModels {
+
+    @Override
+    public Collection<Model> getChildModels() {
+        return childModels;
+    }
+
+    @Override
+    public HasChildren getHasChildrenChangeListener() {
+        if (changeListener instanceof HasChildren) {
+            return (HasChildren)changeListener;
+        } else {
+            return null;
+        }
+    }
 
     public ContainerModel() {
         super();
     }
-    
+
     /**
      * TODO: add comment
-     *
+     * 
      * @param parentModel
      */
     public ContainerModel(HasChildModels parentModel) {
         super(parentModel);
     }
 
-    private List<Model> childModels = new Vector<Model>();
-    
-    private List<ConnectionModel> startConnections = new Vector<ConnectionModel>();
-    
-    private List<ConnectionModel> endConnections = new Vector<ConnectionModel>();
-    
+    private Collection<Model> childModels = new HashSet<Model>();
+
+    private Collection<ConnectionModel> startConnections = new HashSet<ConnectionModel>();
+
+    private Collection<ConnectionModel> endConnections = new HashSet<ConnectionModel>();
+
     public void addModel(Model model) {
         childModels.add(model);
     }
-    
+
     public void removeModel(Model model) {
         childModels.remove(model);
     }
-    
+
     public void addStartConnection(ConnectionModel model) {
         startConnections.add(model);
     }
-    
+
     public void removeStartConnection(ConnectionModel model) {
         startConnections.remove(model);
     }
-    
+
     public void addEndConnection(ConnectionModel model) {
         endConnections.add(model);
     }
-    
+
     public void removeEndConnection(ConnectionModel model) {
         endConnections.remove(model);
     }
-    
+
 }

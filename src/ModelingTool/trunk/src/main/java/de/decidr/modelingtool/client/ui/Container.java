@@ -21,7 +21,6 @@ import java.util.HashSet;
 
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
 

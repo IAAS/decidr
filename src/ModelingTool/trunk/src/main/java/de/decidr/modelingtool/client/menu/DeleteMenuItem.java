@@ -17,14 +17,13 @@
 package de.decidr.modelingtool.client.menu;
 
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Window;
 
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.command.RemoveConnectionCommand;
-import de.decidr.modelingtool.client.command.RemoveInvokeNodeCommand;
+import de.decidr.modelingtool.client.command.RemoveNodeCommand;
 import de.decidr.modelingtool.client.command.UndoableCommand;
 import de.decidr.modelingtool.client.ui.Connection;
-import de.decidr.modelingtool.client.ui.InvokeNode;
+import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Selectable;
 import de.decidr.modelingtool.client.ui.Workflow;
 
@@ -49,8 +48,8 @@ public class DeleteMenuItem implements Command {
         selectedItem = Workflow.getInstance().getSelectedItem();
         if (selectedItem != null) {
             // create command according to item type
-            if (selectedItem instanceof InvokeNode) {
-                removeCmd = new RemoveInvokeNodeCommand((InvokeNode) selectedItem);
+            if (selectedItem instanceof Node) {
+                removeCmd = new RemoveNodeCommand((Node) selectedItem);
             } else if (selectedItem instanceof Connection) {
                 removeCmd = new RemoveConnectionCommand((Connection) selectedItem);
             }
@@ -60,7 +59,7 @@ public class DeleteMenuItem implements Command {
                 CommandStack.getInstance().executeCommand(removeCmd);
             //}
             // remove selection
-            Workflow.getInstance().getSelectionHandler().unselect();
+            //Workflow.getInstance().getSelectionHandler().unselect();
         }
     }
 

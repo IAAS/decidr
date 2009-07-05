@@ -16,10 +16,13 @@
 
 package de.decidr.modelingtool.client.command;
 
+
+
 import com.google.gwt.user.client.Window;
 
 import de.decidr.modelingtool.client.ui.HasChildren;
 import de.decidr.modelingtool.client.ui.Node;
+import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
  * TODO: add comment
@@ -57,35 +60,67 @@ public class MoveNodeCommand implements UndoableCommand {
 
     @Override
     public void undo() {
+        boolean selected = false;
+
         if (oldParentPanel != newParentPanel) {
+            // get selected state
+            selected = node.isSelected();
             
+            // unselect node, if selected (nessecary if parent panel of node is
+            // changed.
+            if (selected) {
+                Workflow.getInstance().getSelectionHandler().unselect();
+            }
+
             node.getModel().setParentModel(
                     oldParentPanel.getHasChildModelsModel());
-            
+
             newParentPanel.removeNode(node);
             oldParentPanel.addNode(node);
-            
+
             removeConnectionsCmd.undo();
         }
-        
+
         node.setPosition(oldNodeLeft, oldNodeTop);
+        
+        // select node, if unselected and was selected before
+        if (!node.isSelected() && selected) {
+            Workflow.getInstance().getSelectionHandler().select(node);
+        }
     }
 
     @Override
     public void execute() {
-        if (oldParentPanel != newParentPanel) {          
+        boolean selected = false;
+
+        if (oldParentPanel != newParentPanel) {
+            // get selected state
+            selected = node.isSelected();
+
+            // unselect node, if selected (nessecary if parent panel of node is
+            // changed.
+            if (selected) {
+                Workflow.getInstance().getSelectionHandler().unselect();
+            }
+
             // remove connections if parent panel has changed
             removeConnectionsCmd.execute();
-            
+
             oldParentPanel.removeNode(node);
             newParentPanel.addNode(node);
-            
+
             // set new parent model
             node.getModel().setParentModel(
                     newParentPanel.getHasChildModelsModel());
         }
-        
+
+        // set node to new position
         node.setPosition(newNodeLeft, newNodeTop);
+
+        // select node, if unselected and was selected before
+        if (!node.isSelected() && selected) {
+            Workflow.getInstance().getSelectionHandler().select(node);
+        }
     }
 
 }

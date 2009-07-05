@@ -25,8 +25,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.command.CreateConnectionCommand;
-import de.decidr.modelingtool.client.command.CreateEmailInvokeNodeCommand;
-import de.decidr.modelingtool.client.command.CreateFlowContainerCommand;
+import de.decidr.modelingtool.client.command.CreateInvokeNodeCommand;
+import de.decidr.modelingtool.client.command.CreateContainerCommand;
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
 import de.decidr.modelingtool.client.menu.Menu;
 import de.decidr.modelingtool.client.model.ConnectionModel;
@@ -116,12 +116,12 @@ public class ModelingTool implements EntryPoint {
             EmailInvokeNodeModel model1 = new EmailInvokeNodeModel(
                     workflowModel);
             CommandStack.getInstance().executeCommand(
-                    new CreateEmailInvokeNodeCommand(model1, 50, 100));
+                    new CreateInvokeNodeCommand(model1, 50, 100));
 
             EmailInvokeNodeModel model2 = new EmailInvokeNodeModel(
                     workflowModel);
             CommandStack.getInstance().executeCommand(
-                    new CreateEmailInvokeNodeCommand(model2, 150, 250));
+                    new CreateInvokeNodeCommand(model2, 150, 250));
 
             ConnectionModel conModel = new ConnectionModel();
             conModel.setSource(model1);
@@ -132,7 +132,7 @@ public class ModelingTool implements EntryPoint {
 
             FlowContainerModel flowModel = new FlowContainerModel(workflowModel);
             CommandStack.getInstance().executeCommand(
-                    new CreateFlowContainerCommand(flowModel, 250, 100, 300,
+                    new CreateContainerCommand(flowModel, 250, 100, 300,
                             200));
         } catch (IncompleteModelDataException e) {
             // TODO Auto-generated catch block

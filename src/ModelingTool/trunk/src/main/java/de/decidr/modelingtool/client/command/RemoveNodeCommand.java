@@ -18,42 +18,53 @@ package de.decidr.modelingtool.client.command;
 
 import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.ui.InvokeNode;
+import de.decidr.modelingtool.client.ui.Node;
+import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author JE
  */
-public class RemoveInvokeNodeCommand implements UndoableCommand {
+public class RemoveNodeCommand implements UndoableCommand {
 
-    private InvokeNode node;
-    
+    private Node node;
+
     private NodeModel model;
-    
+
     private int nodeLeft;
     private int nodeTop;
-    
+
+    private boolean selected;
+
     private UndoableCommand removeConnectionsCmd;
-    
-    public RemoveInvokeNodeCommand(InvokeNode node) {
+
+    public RemoveNodeCommand(Node node) {
         this.node = node;
         this.model = node.getModel();
-        
+
         this.nodeLeft = node.getLeft();
         this.nodeTop = node.getTop();
-        
+
+        this.selected = node.isSelected();
+
         removeConnectionsCmd = node.getRemoveConnectionsCommand();
     }
-    
+
     @Override
     public void undo() {
         // add node to parent panel and set position
         node.getParentPanel().addNode(node);
         node.setPosition(nodeLeft, nodeTop);
-        
+
         // link model
         model.getParentModel().addModel(model);
-        
+
+        // select node if was selected before
+        if (selected) {
+            Workflow.getInstance().getSelectionHandler().select(node);
+        }
+
         // add all connections removed before
         removeConnectionsCmd.undo();
     }
@@ -63,9 +74,14 @@ public class RemoveInvokeNodeCommand implements UndoableCommand {
         // remove all connections from the node
         removeConnectionsCmd.execute();
 
+        // unselect node if selected
+        if (selected) {
+            Workflow.getInstance().getSelectionHandler().unselect();
+        }
+
         // remove node from parent panel
         node.getParentPanel().removeNode(node);
-        
+
         // unlink model
         model.getParentModel().removeModel(model);
     }

@@ -14,6 +14,7 @@
 .container-std {
 	background-color: #6666FF;
 	border: solid 1px;
+	cursor: sw-resize;
 }
 
 .port-inputport {
@@ -35,6 +36,7 @@
 	height: 6px;
 	background-color: black;
 	font-size: 5px;
+	cursor: s-resize;
 }
 
 .dragbox-port {
@@ -67,9 +69,13 @@
 	font-size: 1px;
 }
 
-menu-std {
+.menu-std {
 	
 }
+
+
+
+
 
 /** Example rules used by the template application (remove for your app) */
 h1 {

@@ -19,6 +19,7 @@ package de.decidr.modelingtool.client.ui.dnd;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.allen_sauer.gwt.dnd.client.DragController;
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 
 /**
@@ -30,10 +31,10 @@ public class DndRegistry {
 
     private static DndRegistry instance = null;
 
-    private Map<String, PickupDragController> dragControllers = new HashMap<String, PickupDragController>();
+    private Map<String, DragController> dragControllers = new HashMap<String, DragController>();
 
     private DndRegistry() {
-       
+
     }
 
     public static DndRegistry getInstance() {
@@ -42,12 +43,22 @@ public class DndRegistry {
         }
         return instance;
     }
-    
-    public void register(String name, PickupDragController dragController) {
+
+    public void register(String name, DragController dragController) {
         dragControllers.put(name, dragController);
     }
-    
-    public PickupDragController getDragController(String name) {
+
+    public PickupDragController getPickupDragController(String name) {
+        DragController dc = dragControllers.get(name);
+
+        if (dc instanceof PickupDragController) {
+            return (PickupDragController) dc;
+        } else {
+            return null;
+        }
+    }
+
+    public DragController getDragController(String name) {
         return dragControllers.get(name);
     }
 

@@ -19,7 +19,7 @@ package de.decidr.modelingtool.client.menu;
 import com.google.gwt.user.client.Command;
 
 import de.decidr.modelingtool.client.command.CommandStack;
-import de.decidr.modelingtool.client.command.CreateHumanTaskInvokeNodeCommand;
+import de.decidr.modelingtool.client.command.CreateInvokeNodeCommand;
 import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
 import de.decidr.modelingtool.client.ui.Workflow;
 
@@ -36,7 +36,7 @@ public class CreateHumanTaskInvokeNodeMenuItem implements Command {
         Workflow.getInstance().addNode(node);
 
         CommandStack.getInstance().executeCommand(
-                new CreateHumanTaskInvokeNodeCommand(node));
+                new CreateInvokeNodeCommand(node));
     }
 
 }

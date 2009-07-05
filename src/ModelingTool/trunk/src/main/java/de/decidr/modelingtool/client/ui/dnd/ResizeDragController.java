@@ -17,7 +17,9 @@
 package de.decidr.modelingtool.client.ui.dnd;
 
 
-import com.allen_sauer.gwt.dnd.client.PickupDragController;
+import com.allen_sauer.gwt.dnd.client.AbstractDragController;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Widget;
 
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.selection.DragBox;
@@ -28,7 +30,7 @@ import de.decidr.modelingtool.client.ui.selection.DragBox;
  *
  * @author JE
  */
-public class ResizeDragController extends PickupDragController {
+public class ResizeDragController extends AbstractDragController {
 
     /**
      * TODO: add comment
@@ -36,19 +38,14 @@ public class ResizeDragController extends PickupDragController {
      * @param boundaryPanel
      */
     public ResizeDragController(Workflow workflow) {
-        super(workflow, true);
+        super(workflow);
         // TODO Auto-generated constructor stub
     }
 
-    /* (non-Javadoc)
-     * @see com.allen_sauer.gwt.dnd.client.DragController#dragMove()
-     */
     @Override
-    public void dragMove() {
-        super.dragMove();
-        
-        if (this.context.draggable instanceof DragBox) {
-            DragBox dragBox = (DragBox)this.context.draggable;
+    public void dragMove() {  
+        if (context.draggable instanceof DragBox) {
+            DragBox dragBox = (DragBox)context.draggable;
             
             switch (dragBox.getDirection()) {
             case NORTH:
@@ -64,7 +61,13 @@ public class ResizeDragController extends PickupDragController {
                 
                 break;
             case SOUTH:
-                
+                int delta = dragBox.getAbsoluteTop() - context.desiredDraggableY;
+                if (delta != 0) {
+                    Widget w = (Widget)Workflow.getInstance().getSelectedItem();
+                    // FIXME: selectedItem = null
+                    Window.alert(w.toString());
+                    w.setPixelSize(w.getOffsetWidth(), w.getOffsetHeight() + delta);
+                }
                 break;
             case SOUTHWEST:
                 
