@@ -52,7 +52,9 @@ public class Variable extends BaseModelData {
         set(NAME, ModelingTool.messages.enterVariableName());
         set(TYPE, VariableType.STRING);
         set(TYPELOCALNAME, VariableType.STRING.getLocalName());
-        set(VALUE, ModelingTool.messages.newStringValue());
+        ArrayList<String> values = new ArrayList<String>();
+        values.add(ModelingTool.messages.newStringValue());
+        set(VALUE, values);
         set(ARRAYVAR, false);
         set(CONFIGVAR, false);
     }
@@ -68,7 +70,9 @@ public class Variable extends BaseModelData {
         this.set(NAME, name);
         this.set(TYPE, type);
         this.set(TYPELOCALNAME, type.getLocalName());
-        this.set(VALUE, value);
+        ArrayList<String> values = new ArrayList<String>();
+        values.add(value);
+        this.set(VALUE, values);
         this.set(ARRAYVAR, false);
         this.set(CONFIGVAR, true);
     }
@@ -147,13 +151,9 @@ public class Variable extends BaseModelData {
          * If the variable is an array, return the arraylist, else add the
          * single value to an empty arraylist
          */
-        ArrayList<String> values = new ArrayList<String>();
-        if (isArray()) {
-            values = get(VALUE);
-        } else {
-            values.add((String) get(VALUE));
-        }
-        return values;
+
+        // JS check this, we don't have single types anymore
+        return get(VALUE);
     }
 
     /**

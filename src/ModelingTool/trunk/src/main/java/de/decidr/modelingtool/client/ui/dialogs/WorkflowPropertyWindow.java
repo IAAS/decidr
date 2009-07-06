@@ -29,9 +29,14 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.command.ChangeWorkflowPropertiesCommand;
+import de.decidr.modelingtool.client.command.CommandStack;
+import de.decidr.modelingtool.client.model.WorkflowModel;
+import de.decidr.modelingtool.client.model.WorkflowProperties;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
+import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
  * TODO: add comment
@@ -39,6 +44,8 @@ import de.decidr.modelingtool.client.model.variable.VariablesFilter;
  * @author Jonas Schlaak
  */
 public class WorkflowPropertyWindow extends Dialog {
+
+    private WorkflowModel model;
 
     private ContentPanel contentPanel;
     private ScrollPanel scrollPanel;
@@ -87,7 +94,7 @@ public class WorkflowPropertyWindow extends Dialog {
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
-                        okButtonAction();
+                        changeWorkflowModel();
                         DialogRegistry.getInstance().hideDialog(
                                 WorkflowPropertyWindow.class.getName());
                     }
@@ -102,20 +109,52 @@ public class WorkflowPropertyWindow extends Dialog {
                 }));
     }
 
-    private void okButtonAction() {
-        // TODO: write method
+    private void changeWorkflowModel() {
+        WorkflowProperties newProperties = new WorkflowProperties();
+        newProperties.setRecipientVariableId(recipientField.getValue().getId());
+        newProperties.setFaultMessageVariableId(faultMessageField.getValue()
+                .getId());
+        if (successMessageField.getValue() != null) {
+            newProperties.setSuccessMessageVariableId(successMessageField
+                    .getValue().getId());
+        }
+        newProperties.setNotifyOnSuccess(notifyBox.getValue());
+        // JS check if changed
+        CommandStack.getInstance().executeCommand(
+                new ChangeWorkflowPropertiesCommand(newProperties));
     }
 
     private void addComboField(ComboBox<Variable> field, String label,
-            VariableType type) {
-        field = new ComboBox<Variable>();
+            VariableType type, Long variableId) {
         field.setDisplayField(Variable.NAME);
         field.setStore(VariablesFilter.getVariablesOfType(type));
+        field.setValue(VariablesFilter.getVariableById(variableId));
         field.setTypeAhead(true);
         field.setWidth("200px");
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(label));
         table.setWidget(table.getRowCount() - 1, 1, field);
+    }
+
+    private void createFields() {
+        recipientField = new ComboBox<Variable>();
+        addComboField(recipientField, ModelingTool.messages
+                .recipientFieldLabel(), VariableType.ROLE, model
+                .getProperties().getRecipientVariableId());
+        faultMessageField = new ComboBox<Variable>();
+        addComboField(faultMessageField, ModelingTool.messages
+                .faultMessageFieldLabel(), VariableType.STRING, model
+                .getProperties().getFaultMessageVariableId());
+        successMessageField = new ComboBox<Variable>();
+        addComboField(successMessageField, ModelingTool.messages
+                .successMessageFieldLabel(), VariableType.STRING, model
+                .getProperties().getSuccessMessageVariableId());
+        notifyBox = new CheckBox();
+        notifyBox.setValue(model.getProperties().getNotifyOnSuccess());
+        table.insertRow(table.getRowCount());
+        table.setWidget(table.getRowCount() - 1, 0, new Label(
+                ModelingTool.messages.notifyCheckBox()));
+        table.setWidget(table.getRowCount() - 1, 1, notifyBox);
     }
 
     private void clearAllEntries() {
@@ -129,19 +168,8 @@ public class WorkflowPropertyWindow extends Dialog {
 
     @Override
     public void initialize() {
-        addComboField(recipientField, ModelingTool.messages
-                .recipientFieldLabel(), VariableType.ROLE);
-        addComboField(faultMessageField, ModelingTool.messages
-                .faultMessageFieldLabel(), VariableType.STRING);
-        addComboField(successMessageField, ModelingTool.messages
-                .successMessageFieldLabel(), VariableType.STRING);
-        notifyBox = new CheckBox();
-        notifyBox.setOriginalValue(false);
-        table.insertRow(table.getRowCount());
-        table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingTool.messages.notifyCheckBox()));
-        table.setWidget(table.getRowCount() - 1, 1, notifyBox);
-
+        model = Workflow.getInstance().getModel();
+        createFields();
     }
 
     @Override

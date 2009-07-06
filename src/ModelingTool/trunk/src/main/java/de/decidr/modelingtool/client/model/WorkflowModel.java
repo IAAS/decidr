@@ -27,14 +27,14 @@ import de.decidr.modelingtool.client.ui.HasChildren;
 /**
  * TODO: add comment
  * 
- * @author Jonas
+ * @author Jonas Schlaak
  */
 public class WorkflowModel extends AbstractModel implements HasChildModels {
-    
+
     @Override
     public HasChildren getHasChildrenChangeListener() {
         if (changeListener instanceof HasChildren) {
-            return (HasChildren)changeListener;
+            return (HasChildren) changeListener;
         } else {
             return null;
         }
@@ -47,16 +47,18 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
 
     private Collection<Model> childModels = new HashSet<Model>();
 
+    private WorkflowProperties properties;
     private List<Variable> variables;
 
     public WorkflowModel() {
+        properties = new WorkflowProperties();
         variables = new ArrayList<Variable>();
     }
-    
+
     public void addModel(Model model) {
         childModels.add(model);
     }
-    
+
     public void removeModel(Model model) {
         childModels.remove(model);
     }
@@ -65,8 +67,16 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
         return variables;
     }
 
+    public WorkflowProperties getProperties() {
+        return properties;
+    }
+
     public void setVariables(List<Variable> variables) {
         this.variables = variables;
+    }
+
+    public void setProperties(WorkflowProperties properties) {
+        this.properties = properties;
     }
 
 }
