@@ -33,6 +33,7 @@ import de.decidr.modelingtool.client.model.ConnectionModel;
 import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
 import de.decidr.modelingtool.client.model.FlowContainerModel;
 import de.decidr.modelingtool.client.model.WorkflowModel;
+import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.WorkflowPropertyWindow;
@@ -116,12 +117,12 @@ public class ModelingTool implements EntryPoint {
             EmailInvokeNodeModel model1 = new EmailInvokeNodeModel(
                     workflowModel);
             CommandStack.getInstance().executeCommand(
-                    new CreateInvokeNodeCommand(model1, 50, 100));
+                    new CreateInvokeNodeCommand(model1, 50, 50));
 
             EmailInvokeNodeModel model2 = new EmailInvokeNodeModel(
                     workflowModel);
             CommandStack.getInstance().executeCommand(
-                    new CreateInvokeNodeCommand(model2, 150, 250));
+                    new CreateInvokeNodeCommand(model2, 150, 150));
 
             ConnectionModel conModel = new ConnectionModel();
             conModel.setSource(model1);
@@ -132,8 +133,14 @@ public class ModelingTool implements EntryPoint {
 
             FlowContainerModel flowModel = new FlowContainerModel(workflowModel);
             CommandStack.getInstance().executeCommand(
-                    new CreateContainerCommand(flowModel, 250, 100, 300,
-                            200));
+                    new CreateContainerCommand(flowModel, 250, 50, 300, 200));
+
+            ForEachContainerModel forEachModel = new ForEachContainerModel(
+                    workflowModel);
+            CommandStack.getInstance()
+                    .executeCommand(
+                            new CreateContainerCommand(forEachModel, 50, 250,
+                                    150, 150));
         } catch (IncompleteModelDataException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
