@@ -57,13 +57,13 @@ public class VariablesFilter {
         return result;
     }
 
-    // JS: rewrite method
     public static Variable getVariableById(Long id) {
+        Variable result = null;
         for (Variable var : Workflow.getInstance().getModel().getVariables()) {
             if (var.getId() == id) {
-                return var;
+                result = var;
             }
         }
-        return null;
+        return result;
     }
 }

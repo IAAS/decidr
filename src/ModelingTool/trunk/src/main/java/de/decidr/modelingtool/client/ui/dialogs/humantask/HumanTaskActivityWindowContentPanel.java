@@ -80,7 +80,6 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
     }
 
     public void createFields(HumanTaskInvokeNodeModel model) {
-        // JS check notify variable and auto width of user field
         userField = new ComboBox<Variable>();
         userField.setDisplayField(Variable.NAME);
         userField.setStore(VariablesFilter
@@ -89,7 +88,6 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
                 .getUserVariableId()));
         userField.setTypeAhead(true);
         userField.setWidth("200px");
-        userField.setAutoWidth(true);
         taskTable.insertRow(taskTable.getRowCount());
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
                 ModelingTool.messages.userLabel()));
@@ -214,19 +212,4 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         return formElementFields;
     }
 
-    public void setUserField(ComboBox<Variable> userField) {
-        this.userField = userField;
-    }
-
-    public void setFormContainerField(ComboBox<Variable> formContainerField) {
-        this.formContainerField = formContainerField;
-    }
-
-    public void setNotifyCheckBox(CheckBox notifyCheckBox) {
-        this.notifyCheckBox = notifyCheckBox;
-    }
-
-    public void setFormElementFields(List<FormElementFieldSet> formElementFields) {
-        this.formElementFields = formElementFields;
-    }
 }

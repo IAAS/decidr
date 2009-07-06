@@ -25,29 +25,29 @@ import de.decidr.modelingtool.client.ModelingTool;
  */
 public enum VariableType {
 
-	STRING(ModelingTool.messages.typeString()), INTEGER(ModelingTool.messages
-			.typeInteger()), FLOAT(ModelingTool.messages.typeFloat()), BOOLEAN(
-			ModelingTool.messages.typeBoolean()), FILE(ModelingTool.messages
-			.typeFile()), DATE(ModelingTool.messages.typeDate()), ROLE(
-			ModelingTool.messages.typeRole()), FORM(ModelingTool.messages
-			.typeForm());
+    STRING(ModelingTool.messages.typeString()), INTEGER(ModelingTool.messages
+            .typeInteger()), FLOAT(ModelingTool.messages.typeFloat()), BOOLEAN(
+            ModelingTool.messages.typeBoolean()), FILE(ModelingTool.messages
+            .typeFile()), DATE(ModelingTool.messages.typeDate()), ROLE(
+            ModelingTool.messages.typeRole()), FORM(ModelingTool.messages
+            .typeForm());
 
-	private final String name;
+    private final String localName;
 
-	private VariableType(String name) {
-		this.name = name;
-	}
+    private VariableType(String localName) {
+        this.localName = localName;
+    }
 
-	public String getLocalName() {
-		return name;
-	}
+    public String getLocalName() {
+        return localName;
+    }
 
-	public static VariableType getTypeFromLocalName(String localName) {
-		VariableType result = null;
-		for (VariableType t : VariableType.values()) {
-			if (localName == t.getLocalName())
-				result = t;
-		}
-		return result;
-	}
+    public static VariableType getTypeFromLocalName(String localName) {
+        VariableType result = null;
+        for (VariableType t : VariableType.values()) {
+            if (localName == t.getLocalName())
+                result = t;
+        }
+        return result;
+    }
 }

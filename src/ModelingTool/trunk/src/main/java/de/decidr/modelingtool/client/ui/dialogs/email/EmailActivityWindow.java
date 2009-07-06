@@ -114,9 +114,6 @@ public class EmailActivityWindow extends Dialog {
     }
 
     private void changeWorkflowModel() {
-        /*
-         * JS: cc, bcc, body, attchements are allowed to be null
-         */
         EmailInvokeNodeModel newModel = new EmailInvokeNodeModel(node
                 .getModel().getParentModel());
         newModel.setToVariableId(toField.getValue().getId());
@@ -127,8 +124,13 @@ public class EmailActivityWindow extends Dialog {
             newModel.setBccVariableId(bccField.getValue().getId());
         }
         newModel.setSubjectVariableId(subjectField.getValue().getId());
-        newModel.setMessageVariableId(messageField.getValue().getId());
-        newModel.setAttachmentVariableId(attachmentField.getValue().getId());
+        if (messageField.getValue() != null) {
+            newModel.setMessageVariableId(messageField.getValue().getId());
+        }
+        if (attachmentField.getValue() != null) {
+            newModel
+                    .setAttachmentVariableId(attachmentField.getValue().getId());
+        }
         // JS check if changed
         CommandStack
                 .getInstance()

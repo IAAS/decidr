@@ -16,6 +16,8 @@
 
 package de.decidr.modelingtool.client.model.foreach;
 
+import de.decidr.modelingtool.client.ModelingTool;
+
 /**
  * This enumaration type holds all possible exit condition types a for each
  * container can have.
@@ -23,5 +25,32 @@ package de.decidr.modelingtool.client.model.foreach;
  * @author Jonas Schlaak
  */
 public enum ExitCondition {
-    AND, XOR
+    AND(ModelingTool.messages.andConLabel()), XOR(ModelingTool.messages
+            .xorConLabel());
+
+    private String label;
+
+    /**
+     * 
+     * Default constructor of an enumeration type
+     * 
+     * @param label
+     *            the label of the radio button
+     */
+    private ExitCondition(String label) {
+        this.label = label;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public static ExitCondition getTypeFromLabel(String localName) {
+        ExitCondition result = null;
+        for (ExitCondition e : ExitCondition.values()) {
+            if (localName == e.getLabel())
+                result = e;
+        }
+        return result;
+    }
 }

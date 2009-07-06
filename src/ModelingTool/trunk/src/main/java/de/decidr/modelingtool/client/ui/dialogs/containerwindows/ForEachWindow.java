@@ -22,8 +22,6 @@ import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
-import com.extjs.gxt.ui.client.widget.form.Radio;
-import com.extjs.gxt.ui.client.widget.form.RadioGroup;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -54,7 +52,7 @@ public class ForEachWindow extends Dialog {
     private FlexTable table;
 
     private ComboBox<Variable> iterableField;
-    private RadioGroup exitConditionGroup;
+    private ForEachRadioGroup exitConditionGroup;
 
     public ForEachWindow() {
         super();
@@ -112,7 +110,7 @@ public class ForEachWindow extends Dialog {
     protected void changeWorkflowModel() {
         ForEachContainerModel newModel = new ForEachContainerModel();
         newModel.setIterationVariableId(iterableField.getValue().getId());
-        // newModel.setExitCondition(exitConditionGroup.getValue());
+        newModel.setExitCondition(exitConditionGroup.getSelectedValue());
         CommandStack
                 .getInstance()
                 .executeCommand(
@@ -133,16 +131,8 @@ public class ForEachWindow extends Dialog {
                 ModelingTool.messages.iterationVarLabel()));
         table.setWidget(table.getRowCount() - 1, 1, iterableField);
 
-        exitConditionGroup = new RadioGroup();
-        Radio andBox = new Radio();
-        andBox.setBoxLabel(ModelingTool.messages.andConLabel());
-        exitConditionGroup.add(andBox);
-        Radio xorBox = new Radio();
-        xorBox.setBoxLabel(ModelingTool.messages.xorConLabel());
-        exitConditionGroup.add(xorBox);
-        // JS make this work (mapping enum->radiogroup), seh also
-        // changeWorkflowModel()
-        exitConditionGroup.setValue(null);
+        exitConditionGroup = new ForEachRadioGroup();
+        exitConditionGroup.setSelectedValue(model.getExitCondition());
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
                 ModelingTool.messages.exitConLabel()));
