@@ -31,13 +31,7 @@ public class VariablesFilter {
         ListStore<Variable> result = new ListStore<Variable>();
         for (Variable var : Workflow.getInstance().getModel().getVariables()) {
             if (var.getType() == type) {
-                Variable targetVar = new Variable();
-                targetVar.setId(var.getId());
-                targetVar.setName(var.getName());
-                targetVar.setType(var.getType());
-                targetVar.setValues(var.getValues());
-                targetVar.setConfig(var.isConfig());
-                result.add(targetVar);
+                result.add(var.copy());
             }
         }
         return result;
@@ -46,13 +40,7 @@ public class VariablesFilter {
     public static ListStore<Variable> getAllVariables() {
         ListStore<Variable> result = new ListStore<Variable>();
         for (Variable var : Workflow.getInstance().getModel().getVariables()) {
-            Variable targetVar = new Variable();
-            targetVar.setId(var.getId());
-            targetVar.setName(var.getName());
-            targetVar.setType(var.getType());
-            targetVar.setValues(var.getValues());
-            targetVar.setConfig(var.isConfig());
-            result.add(targetVar);
+            result.add(var.copy());
         }
         return result;
     }

@@ -33,8 +33,8 @@ public class ChangeVariablesCommand implements UndoableCommand {
     private List<Variable> newVariables;
 
     /**
-     * JS This constructor should be used when the variables are changed by the
-     * variable editor
+     * This constructor should be used when the variables are changed by the
+     * variable editor.
      * 
      * @param newVariables
      *            the new variables list which shall replace the old ones
@@ -45,9 +45,9 @@ public class ChangeVariablesCommand implements UndoableCommand {
     }
 
     /**
-     * This constructor should be used when the values of a single variable was
+     * This constructor should be used when the values of a single variable were
      * changed by the value editor. The value editor was not called within the
-     * variable editor
+     * variable editor.
      * 
      * @param newVariable
      *            the variable with the new values

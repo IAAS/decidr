@@ -54,7 +54,6 @@ public class HumanTaskInvokeNodeModel extends NodeModel {
         return formVariableId;
     }
 
-    // JS method name: think is over
     public Boolean getNotify() {
         return notify;
     }

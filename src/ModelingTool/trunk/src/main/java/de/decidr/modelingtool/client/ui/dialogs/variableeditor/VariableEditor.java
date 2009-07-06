@@ -211,15 +211,7 @@ public class VariableEditor extends Dialog {
     private void changeWorkflowModel() {
         List<Variable> variablesModel = new ArrayList<Variable>();
         for (int i = 0; i < variables.getCount(); i++) {
-            //JS replace with copy
-            Variable v = variables.getAt(i);
-            Variable targetVar = new Variable();
-            targetVar.setId(v.getId());
-            targetVar.setName(v.getName());
-            targetVar.setType(v.getType());
-            targetVar.setValues(v.getValues());
-            targetVar.setConfig(v.isConfig());
-            variablesModel.add(targetVar);
+            variablesModel.add(variables.getAt(i).copy());
         }
         CommandStack.getInstance().executeCommand(
                 new ChangeVariablesCommand(variablesModel));
