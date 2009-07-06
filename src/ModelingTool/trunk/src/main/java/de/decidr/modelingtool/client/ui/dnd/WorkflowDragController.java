@@ -17,7 +17,6 @@
 package de.decidr.modelingtool.client.ui.dnd;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
-import com.google.gwt.user.client.Window;
 
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.command.MoveNodeCommand;

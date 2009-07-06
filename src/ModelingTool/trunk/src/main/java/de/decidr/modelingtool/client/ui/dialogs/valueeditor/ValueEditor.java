@@ -32,7 +32,7 @@ import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ChangeVariablesCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.variable.Variable;
@@ -75,7 +75,7 @@ public class ValueEditor extends Dialog {
      */
     private void createContentPanel() {
         contentPanel = new ContentPanel();
-        contentPanel.setHeading(ModelingTool.messages.editVariable());
+        contentPanel.setHeading(ModelingToolWidget.messages.editVariable());
         contentPanel.setLayout(new FitLayout());
 
         // TODO: fix layout
@@ -96,16 +96,16 @@ public class ValueEditor extends Dialog {
     private void createToolBar() {
         ToolBar toolBar = new ToolBar();
 
-        TextToolItem addVar = new TextToolItem(ModelingTool.messages.addValue()); //$NON-NLS-1$
+        TextToolItem addVar = new TextToolItem(ModelingToolWidget.messages.addValue()); //$NON-NLS-1$
         addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
-                addEntry(ModelingTool.messages.newStringValue());
+                addEntry(ModelingToolWidget.messages.newStringValue());
             }
         });
         toolBar.add(addVar);
 
-        TextToolItem delVar = new TextToolItem(ModelingTool.messages.delValue()); //$NON-NLS-1$
+        TextToolItem delVar = new TextToolItem(ModelingToolWidget.messages.delValue()); //$NON-NLS-1$
         delVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
@@ -123,7 +123,7 @@ public class ValueEditor extends Dialog {
      */
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingTool.messages.okButton(),
+        addButton(new Button(ModelingToolWidget.messages.okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -139,7 +139,7 @@ public class ValueEditor extends Dialog {
                     }
 
                 }));
-        addButton(new Button(ModelingTool.messages.cancelButton(),
+        addButton(new Button(ModelingToolWidget.messages.cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {

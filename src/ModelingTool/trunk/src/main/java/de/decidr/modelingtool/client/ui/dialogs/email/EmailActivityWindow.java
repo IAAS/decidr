@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ChangeNodeModelCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
@@ -71,7 +71,7 @@ public class EmailActivityWindow extends Dialog {
     private void createcontentPanel() {
         contentPanel = new ContentPanel();
 
-        contentPanel.setHeading(ModelingTool.messages.emailActivity());
+        contentPanel.setHeading(ModelingToolWidget.messages.emailActivity());
         contentPanel.setLayout(new FitLayout());
 
         // TODO: fix layout
@@ -88,7 +88,7 @@ public class EmailActivityWindow extends Dialog {
 
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingTool.messages.okButton(),
+        addButton(new Button(ModelingToolWidget.messages.okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -98,7 +98,7 @@ public class EmailActivityWindow extends Dialog {
                                 EmailActivityWindow.class.getName());
                     }
                 }));
-        addButton(new Button(ModelingTool.messages.cancelButton(),
+        addButton(new Button(ModelingToolWidget.messages.cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -150,28 +150,30 @@ public class EmailActivityWindow extends Dialog {
         table.setWidget(table.getRowCount() - 1, 0, new Label(label));
         table.setWidget(table.getRowCount() - 1, 1, field);
         table.setWidget(table.getRowCount() - 1, 2, new Button(
-                ModelingTool.messages.changeValueButton(),
+                ModelingToolWidget.messages.changeValueButton(),
                 new ChangeValueButtonListener(field)));
     }
 
     private void createFields() {
         toField = new ComboBox<Variable>();
-        addComboField(toField, ModelingTool.messages.toFieldLabel(),
+        addComboField(toField, ModelingToolWidget.messages.toFieldLabel(),
                 VariableType.STRING, model.getToVariableId());
         ccField = new ComboBox<Variable>();
-        addComboField(ccField, ModelingTool.messages.ccFieldLabel(),
+        addComboField(ccField, ModelingToolWidget.messages.ccFieldLabel(),
                 VariableType.STRING, model.getCcVariableId());
         bccField = new ComboBox<Variable>();
-        addComboField(bccField, ModelingTool.messages.bccFieldLabel(),
+        addComboField(bccField, ModelingToolWidget.messages.bccFieldLabel(),
                 VariableType.STRING, model.getBccVariableId());
         subjectField = new ComboBox<Variable>();
-        addComboField(subjectField, ModelingTool.messages.subjectFieldLabel(),
-                VariableType.STRING, model.getSubjectVariableId());
+        addComboField(subjectField, ModelingToolWidget.messages
+                .subjectFieldLabel(), VariableType.STRING, model
+                .getSubjectVariableId());
         messageField = new ComboBox<Variable>();
-        addComboField(messageField, ModelingTool.messages.messageFieldLabel(),
-                VariableType.STRING, model.getMessageVariableId());
+        addComboField(messageField, ModelingToolWidget.messages
+                .messageFieldLabel(), VariableType.STRING, model
+                .getMessageVariableId());
         attachmentField = new ComboBox<Variable>();
-        addComboField(attachmentField, ModelingTool.messages
+        addComboField(attachmentField, ModelingToolWidget.messages
                 .attachmentFieldLabel(), VariableType.FILE, model
                 .getAttachmentVariableId());
     }

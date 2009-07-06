@@ -22,7 +22,7 @@ import com.extjs.gxt.ui.client.widget.button.Button;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 
-import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.humantask.HumanTaskActivityWindow;
 import de.decidr.modelingtool.client.ui.dialogs.humantask.HumanTaskActivityWindowInvoker;
@@ -50,7 +50,7 @@ public class HumanTaskInvokeNode extends InvokeNode {
         FocusPanel graphic = new FocusPanel();
         graphic.addStyleName("node-graphic-std");
         graphic.setWidget(new Label("HT"));
-        graphic.setWidget(new Button(ModelingTool.messages
+        graphic.setWidget(new Button(ModelingToolWidget.messages
                 .changePropertyButton(), new SelectionListener<ButtonEvent>() {
             @Override
             public void componentSelected(ButtonEvent ce) {

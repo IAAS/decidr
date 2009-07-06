@@ -22,7 +22,7 @@ import com.extjs.gxt.ui.client.widget.button.Button;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 
-import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.containerwindows.ForEachWindow;
 import de.decidr.modelingtool.client.ui.dialogs.containerwindows.ForEachWindowInvoker;
@@ -41,7 +41,7 @@ public class ForEachContainer extends Container {
         graphic.addStyleName("container-std");
         graphic.setWidget(new Label("ForEach"));
 
-        graphic.setWidget(new Button(ModelingTool.messages
+        graphic.setWidget(new Button(ModelingToolWidget.messages
                 .changePropertyButton(), new SelectionListener<ButtonEvent>() {
             @Override
             public void componentSelected(ButtonEvent ce) {

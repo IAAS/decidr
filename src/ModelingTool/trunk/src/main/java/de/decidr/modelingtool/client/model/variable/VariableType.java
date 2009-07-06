@@ -16,7 +16,7 @@
 
 package de.decidr.modelingtool.client.model.variable;
 
-import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.ModelingToolWidget;
 
 /**
  * TODO: add comment
@@ -25,11 +25,12 @@ import de.decidr.modelingtool.client.ModelingTool;
  */
 public enum VariableType {
 
-    STRING(ModelingTool.messages.typeString()), INTEGER(ModelingTool.messages
-            .typeInteger()), FLOAT(ModelingTool.messages.typeFloat()), BOOLEAN(
-            ModelingTool.messages.typeBoolean()), FILE(ModelingTool.messages
-            .typeFile()), DATE(ModelingTool.messages.typeDate()), ROLE(
-            ModelingTool.messages.typeRole()), FORM(ModelingTool.messages
+    STRING(ModelingToolWidget.messages.typeString()), INTEGER(ModelingToolWidget.messages
+            .typeInteger()), FLOAT(ModelingToolWidget.messages.typeFloat()), BOOLEAN(
+            ModelingToolWidget.messages.typeBoolean()), FILE(ModelingToolWidget.messages
+            .typeFile()), DATE(ModelingToolWidget.messages.typeDate()), ROLE(
+            ModelingToolWidget.messages.typeRole()), FORM(
+            ModelingToolWidget.messages
             .typeForm());
 
     private final String localName;

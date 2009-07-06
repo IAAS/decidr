@@ -32,7 +32,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.model.humantask.FormElement;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
@@ -63,7 +63,7 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
     public HumanTaskActivityWindowContentPanel() {
         super();
 
-        this.setHeading(ModelingTool.messages.humanTaskActivity());
+        this.setHeading(ModelingToolWidget.messages.humanTaskActivity());
         this.setLayout(new FitLayout());
 
         taskTable = new FlexTable();
@@ -90,7 +90,7 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         userField.setWidth("200px");
         taskTable.insertRow(taskTable.getRowCount());
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
-                ModelingTool.messages.userLabel()));
+                ModelingToolWidget.messages.userLabel()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, userField);
 
         formContainerField = new ComboBox<Variable>();
@@ -103,14 +103,14 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         formContainerField.setWidth("200px");
         taskTable.insertRow(taskTable.getRowCount());
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
-                ModelingTool.messages.formLabel()));
+                ModelingToolWidget.messages.formLabel()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, formContainerField);
 
         notifyCheckBox = new CheckBox();
         notifyCheckBox.setValue(model.getNotify());
         taskTable.insertRow(taskTable.getRowCount());
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
-                ModelingTool.messages.notifyLabel()));
+                ModelingToolWidget.messages.notifyLabel()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, notifyCheckBox);
 
         createFormFields(model);
@@ -131,16 +131,16 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
     private void createToolBar() {
         ToolBar toolBar = new ToolBar();
 
-        TextToolItem addVar = new TextToolItem(ModelingTool.messages.addValue()); //$NON-NLS-1$
+        TextToolItem addVar = new TextToolItem(ModelingToolWidget.messages.addValue()); //$NON-NLS-1$
         addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
-                addEntry(ModelingTool.messages.newStringValue(), null);
+                addEntry(ModelingToolWidget.messages.newStringValue(), null);
             }
         });
         toolBar.add(addVar);
 
-        TextToolItem delVar = new TextToolItem(ModelingTool.messages.delValue()); //$NON-NLS-1$
+        TextToolItem delVar = new TextToolItem(ModelingToolWidget.messages.delValue()); //$NON-NLS-1$
         delVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
@@ -158,7 +158,7 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         labelField.setAutoWidth(true);
         taskTable.insertRow(taskTable.getRowCount());
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
-                ModelingTool.messages.workItemLabel()));
+                ModelingToolWidget.messages.workItemLabel()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, labelField);
 
         ComboBox<Variable> variableField = new ComboBox<Variable>();
@@ -170,7 +170,7 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         }
         variableField.setTypeAhead(true);
         taskTable.setWidget(taskTable.getRowCount() - 1, 2, new Label(
-                ModelingTool.messages.workItemOutputVar()));
+                ModelingToolWidget.messages.workItemOutputVar()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 3, variableField);
 
         formElementFields.add(new FormElementFieldSet(labelField,

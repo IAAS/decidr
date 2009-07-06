@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ChangeNodeModelCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
@@ -66,7 +66,7 @@ public class ForEachWindow extends Dialog {
     private void createContentPanel() {
         contentPanel = new ContentPanel();
 
-        contentPanel.setHeading(ModelingTool.messages.forEachContainer());
+        contentPanel.setHeading(ModelingToolWidget.messages.forEachContainer());
         contentPanel.setLayout(new FitLayout());
 
         // TODO: fix layout
@@ -83,7 +83,7 @@ public class ForEachWindow extends Dialog {
 
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingTool.messages.okButton(),
+        addButton(new Button(ModelingToolWidget.messages.okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -92,7 +92,7 @@ public class ForEachWindow extends Dialog {
                                 ForEachWindow.class.getName());
                     }
                 }));
-        addButton(new Button(ModelingTool.messages.cancelButton(),
+        addButton(new Button(ModelingToolWidget.messages.cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -128,14 +128,14 @@ public class ForEachWindow extends Dialog {
         iterableField.setWidth("200px");
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingTool.messages.iterationVarLabel()));
+                ModelingToolWidget.messages.iterationVarLabel()));
         table.setWidget(table.getRowCount() - 1, 1, iterableField);
 
         exitConditionGroup = new ForEachRadioGroup();
         exitConditionGroup.setSelectedValue(model.getExitCondition());
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingTool.messages.exitConLabel()));
+                ModelingToolWidget.messages.exitConLabel()));
         table.setWidget(table.getRowCount() - 1, 1, exitConditionGroup);
     }
 

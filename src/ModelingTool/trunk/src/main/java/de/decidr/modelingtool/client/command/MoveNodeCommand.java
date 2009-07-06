@@ -18,8 +18,6 @@ package de.decidr.modelingtool.client.command;
 
 
 
-import com.google.gwt.user.client.Window;
-
 import de.decidr.modelingtool.client.ui.HasChildren;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Workflow;

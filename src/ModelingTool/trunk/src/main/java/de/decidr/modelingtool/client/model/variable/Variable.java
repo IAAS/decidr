@@ -22,7 +22,7 @@ import java.util.List;
 
 import com.extjs.gxt.ui.client.data.BaseModelData;
 
-import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.ModelingToolWidget;
 
 /**
  * TODO: add comment
@@ -49,11 +49,11 @@ public class Variable extends BaseModelData {
     public Variable() {
         super();
         set(ID, new Date().getTime());
-        set(NAME, ModelingTool.messages.enterVariableName());
+        set(NAME, ModelingToolWidget.messages.enterVariableName());
         set(TYPE, VariableType.STRING);
         set(TYPELOCALNAME, VariableType.STRING.getLocalName());
         ArrayList<String> values = new ArrayList<String>();
-        values.add(ModelingTool.messages.newStringValue());
+        values.add(ModelingToolWidget.messages.newStringValue());
         set(VALUE, values);
         set(ARRAYVAR, false);
         set(CONFIGVAR, false);

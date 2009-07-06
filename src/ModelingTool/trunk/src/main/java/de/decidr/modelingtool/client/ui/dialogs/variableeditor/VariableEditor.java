@@ -34,7 +34,7 @@ import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.TextToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 
-import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ChangeVariablesCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.variable.Variable;
@@ -75,25 +75,25 @@ public class VariableEditor extends Dialog {
         editorPanel = new ContentPanel();
 
         /* Do the layout of the panel which holds the grid */
-        editorPanel.setHeading(ModelingTool.messages.editorHeading());
+        editorPanel.setHeading(ModelingToolWidget.messages.editorHeading());
         editorPanel.setLayout(new FitLayout());
 
         /* Creating the columns and the Columns model */
         columns = new ArrayList<ColumnConfig>();
         NameColumn nameColumn = new NameColumn(Variable.NAME,
-                ModelingTool.messages.nameColumn());
+                ModelingToolWidget.messages.nameColumn());
         columns.add(nameColumn);
         TypeColumn typeColumn = new TypeColumn(Variable.TYPE,
-                ModelingTool.messages.typeColumn());
+                ModelingToolWidget.messages.typeColumn());
         columns.add(typeColumn);
         ValueColumn valueColumn = new ValueColumn(Variable.VALUE,
-                ModelingTool.messages.valueColumn());
+                ModelingToolWidget.messages.valueColumn());
         columns.add(valueColumn);
         ArrayVarColumn arrayVarColumn = new ArrayVarColumn(Variable.ARRAYVAR,
-                ModelingTool.messages.arrayVarColumn());
+                ModelingToolWidget.messages.arrayVarColumn());
         columns.add(arrayVarColumn);
         ConfigVarColumn configVarColumn = new ConfigVarColumn(
-                Variable.CONFIGVAR, ModelingTool.messages.configVarColumn());
+                Variable.CONFIGVAR, ModelingToolWidget.messages.configVarColumn());
         columns.add(configVarColumn);
 
         columnModel = new ColumnModel(columns);
@@ -114,7 +114,7 @@ public class VariableEditor extends Dialog {
     private void createToolBar() {
         toolBar = new ToolBar();
 
-        TextToolItem addVar = new TextToolItem(ModelingTool.messages
+        TextToolItem addVar = new TextToolItem(ModelingToolWidget.messages
                 .addVariable()); //$NON-NLS-1$
         addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
@@ -127,7 +127,7 @@ public class VariableEditor extends Dialog {
         });
         toolBar.add(addVar);
 
-        TextToolItem delVar = new TextToolItem(ModelingTool.messages
+        TextToolItem delVar = new TextToolItem(ModelingToolWidget.messages
                 .delVariable()); //$NON-NLS-1$
         delVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
@@ -138,7 +138,7 @@ public class VariableEditor extends Dialog {
         });
         toolBar.add(delVar);
 
-        TextToolItem editVar = new TextToolItem(ModelingTool.messages
+        TextToolItem editVar = new TextToolItem(ModelingToolWidget.messages
                 .editVariable());
         editVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
@@ -160,7 +160,7 @@ public class VariableEditor extends Dialog {
      */
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingTool.messages.okButton(),
+        addButton(new Button(ModelingToolWidget.messages.okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -172,7 +172,7 @@ public class VariableEditor extends Dialog {
                                 VariableEditor.class.getName());
                     }
                 }));
-        addButton(new Button(ModelingTool.messages.cancelButton(),
+        addButton(new Button(ModelingToolWidget.messages.cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {

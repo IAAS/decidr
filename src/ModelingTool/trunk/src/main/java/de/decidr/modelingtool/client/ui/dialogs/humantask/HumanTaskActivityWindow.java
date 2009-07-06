@@ -25,7 +25,7 @@ import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
-import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ChangeNodeModelCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.humantask.FormElement;
@@ -67,7 +67,7 @@ public class HumanTaskActivityWindow extends Dialog {
 
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingTool.messages.okButton(),
+        addButton(new Button(ModelingToolWidget.messages.okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -77,7 +77,7 @@ public class HumanTaskActivityWindow extends Dialog {
                                 HumanTaskActivityWindow.class.getName());
                     }
                 }));
-        addButton(new Button(ModelingTool.messages.cancelButton(),
+        addButton(new Button(ModelingToolWidget.messages.cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -102,8 +102,7 @@ public class HumanTaskActivityWindow extends Dialog {
         List<FormElement> formElements = new ArrayList<FormElement>();
         for (FormElementFieldSet fields : taskPanel.getFormElementFields()) {
             FormElement element = new FormElement(fields.getLabelField()
-                    .getValue(), fields.getVariableField().getValue()
-                    .getId());
+                    .getValue(), fields.getVariableField().getValue().getId());
             formElements.add(element);
         }
         newModel.setFormElements(formElements);

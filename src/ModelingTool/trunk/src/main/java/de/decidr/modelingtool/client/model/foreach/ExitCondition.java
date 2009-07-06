@@ -16,7 +16,7 @@
 
 package de.decidr.modelingtool.client.model.foreach;
 
-import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.ModelingToolWidget;
 
 /**
  * This enumaration type holds all possible exit condition types a for each
@@ -25,8 +25,8 @@ import de.decidr.modelingtool.client.ModelingTool;
  * @author Jonas Schlaak
  */
 public enum ExitCondition {
-    AND(ModelingTool.messages.andConLabel()), XOR(ModelingTool.messages
-            .xorConLabel());
+    AND(ModelingToolWidget.messages.andConLabel()), XOR(
+            ModelingToolWidget.messages.xorConLabel());
 
     private String label;
 

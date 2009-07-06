@@ -17,7 +17,6 @@
 package de.decidr.modelingtool.client.command;
 
 import de.decidr.modelingtool.client.model.NodeModel;
-import de.decidr.modelingtool.client.ui.InvokeNode;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Workflow;
 

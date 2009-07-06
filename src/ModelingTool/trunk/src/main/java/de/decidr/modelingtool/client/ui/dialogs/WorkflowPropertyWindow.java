@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-import de.decidr.modelingtool.client.ModelingTool;
+import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ChangeWorkflowPropertiesCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.WorkflowModel;
@@ -73,7 +73,7 @@ public class WorkflowPropertyWindow extends Dialog {
     private void createcontentPanel() {
         contentPanel = new ContentPanel();
 
-        contentPanel.setHeading(ModelingTool.messages.workflowProperty());
+        contentPanel.setHeading(ModelingToolWidget.messages.workflowProperty());
         contentPanel.setLayout(new FitLayout());
 
         // TODO: fix layout
@@ -90,7 +90,7 @@ public class WorkflowPropertyWindow extends Dialog {
 
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingTool.messages.okButton(),
+        addButton(new Button(ModelingToolWidget.messages.okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -99,7 +99,7 @@ public class WorkflowPropertyWindow extends Dialog {
                                 WorkflowPropertyWindow.class.getName());
                     }
                 }));
-        addButton(new Button(ModelingTool.messages.cancelButton(),
+        addButton(new Button(ModelingToolWidget.messages.cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -138,22 +138,22 @@ public class WorkflowPropertyWindow extends Dialog {
 
     private void createFields() {
         recipientField = new ComboBox<Variable>();
-        addComboField(recipientField, ModelingTool.messages
+        addComboField(recipientField, ModelingToolWidget.messages
                 .recipientFieldLabel(), VariableType.ROLE, model
                 .getProperties().getRecipientVariableId());
         faultMessageField = new ComboBox<Variable>();
-        addComboField(faultMessageField, ModelingTool.messages
+        addComboField(faultMessageField, ModelingToolWidget.messages
                 .faultMessageFieldLabel(), VariableType.STRING, model
                 .getProperties().getFaultMessageVariableId());
         successMessageField = new ComboBox<Variable>();
-        addComboField(successMessageField, ModelingTool.messages
+        addComboField(successMessageField, ModelingToolWidget.messages
                 .successMessageFieldLabel(), VariableType.STRING, model
                 .getProperties().getSuccessMessageVariableId());
         notifyBox = new CheckBox();
         notifyBox.setValue(model.getProperties().getNotifyOnSuccess());
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingTool.messages.notifyCheckBox()));
+                ModelingToolWidget.messages.notifyCheckBox()));
         table.setWidget(table.getRowCount() - 1, 1, notifyBox);
     }
 
