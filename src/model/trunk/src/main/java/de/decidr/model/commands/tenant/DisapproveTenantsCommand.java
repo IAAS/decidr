@@ -2,7 +2,7 @@ package de.decidr.model.commands.tenant;
 
 import java.util.List;
 
-import de.decidr.model.NotificationEvents;
+import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;

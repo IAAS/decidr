@@ -20,7 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
 import de.decidr.model.LifetimeValidator;
-import de.decidr.model.NotificationEvents;
+import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.entities.PasswordResetRequest;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.EntityNotFoundException;

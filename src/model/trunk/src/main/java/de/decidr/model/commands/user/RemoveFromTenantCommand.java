@@ -16,7 +16,7 @@
 
 package de.decidr.model.commands.user;
 
-import de.decidr.model.NotificationEvents;
+import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;

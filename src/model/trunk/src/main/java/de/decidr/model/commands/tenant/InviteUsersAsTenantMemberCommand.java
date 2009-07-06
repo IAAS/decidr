@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 
-import de.decidr.model.NotificationEvents;
+import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;

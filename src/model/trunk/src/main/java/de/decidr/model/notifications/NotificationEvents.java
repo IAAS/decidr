@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.model;
+package de.decidr.model.notifications;
 
 import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.Tenant;
@@ -29,6 +29,8 @@ import de.decidr.model.entities.WorkItem;
  */
 public final class NotificationEvents {
 
+    //FIXME ChangeEmailRequestNotification
+    
     public static void createdWorkItem(WorkItem newWorkItem) {
         // FIXME actually notify user
     }

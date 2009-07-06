@@ -21,7 +21,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import de.decidr.model.DecidrGlobals;
-import de.decidr.model.NotificationEvents;
+import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.PasswordResetRequest;
 import de.decidr.model.entities.User;

@@ -17,11 +17,13 @@ import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
 import de.decidr.model.commands.user.GetAdminstratedWorkflowInstancesCommand;
 import de.decidr.model.commands.user.GetAllUsersCommand;
 import de.decidr.model.commands.user.GetHighestUserRoleCommand;
+import de.decidr.model.commands.user.GetInvitationCommand;
 import de.decidr.model.commands.user.GetJoinedTenantsCommand;
 import de.decidr.model.commands.user.GetUserByLoginCommand;
 import de.decidr.model.commands.user.GetUserProfileCommand;
 import de.decidr.model.commands.user.GetUserRoleForTenantCommand;
 import de.decidr.model.commands.user.GetWorkitemsCommand;
+import de.decidr.model.commands.user.IsRegisteredCommand;
 import de.decidr.model.commands.user.LeaveTenantCommand;
 import de.decidr.model.commands.user.RefuseInviationCommand;
 import de.decidr.model.commands.user.RegisterUserCommand;
@@ -691,24 +693,48 @@ public class UserFacade extends AbstractFacade {
      * Returns information about the given invitaion. The Vaadin item contains
      * the following properties:
      * <ul>
-     * <li>senderId: Long - the user id of the sender</li>
-     * <li>receiverId: Long - the user id of the receiver</li>
-     * <li>senderfirstName: String - FIXME continue here</li>
-     * <li></li>
-     * <li></li>
-     * <li></li>
+     * <li>senderFirstName: String - first name of the sender</li>
+     * <li>senderLastName: String - last name of the sender</li>
+     * <li>receiverFirstName: String - first name of the receiver</li>
+     * <li>receiverLastName: String - last name of the receiver</li>
+     * <li>administratedWorkflowModelName: String - name of the administrated workflow model</li>
+     * <li>joinTenantName: String - name of the tenant which should be joined</li>
+     * <li>workflowInstanceId: Long - id of the participation instance</li>
+     * <li>creationDate: Date - Date on which the invitation was created</li>
      * </ul>
      * 
      * @param invitationId
-     * @return Vaadin item con
+     * @return Vaadin item
+     * @throws TransactionException 
      */
-    public Item getInvitation(Long invitationId) {
-        // FIXME implement me!
-        return null;
+    public Item getInvitation(Long invitationId) throws TransactionException {
+        
+
+        GetInvitationCommand command = new GetInvitationCommand(actor, invitationId);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+
+        return  new BeanItem(command.getResult());
+        
     }
     
-    public Boolean isRegistered(Long userId) {
-        //FIXME implement and document me!
-        return false;
+    /**
+     * 
+     * Returns true if the given user is registered else false.
+     * 
+     * @param userId
+     * @return
+     * @throws TransactionException 
+     */
+    public Boolean isRegistered(Long userId) throws TransactionException {
+
+
+        IsRegisteredCommand command = new IsRegisteredCommand(actor, userId);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+
+        return  command.getResult();
+
+        
     }
 }
