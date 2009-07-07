@@ -5,7 +5,13 @@
 
 *Please update this wiki article with issues, which should be discussed or should be transmitted to the team* 
 
-Add your issues to be descussed in the next "Weekly Meeting":
+*Add your issues to be descussed in the next "Weekly Meeting":
+*Update: As discussed in the last meeting(07/06/2009) everybody how cannot attend one or several meetings - please share this information in this wiki[/b]*. 
+
+== WM 06/07/09 ==
+Cannot attend: JS, RR, DH
+Issues:
+  # *definitive* Aleks holds the meeting (TK)
 
 == WM 06/09/09 ==
   # *definitive* date for StorageWS & Email-WS dicussions (RR)
