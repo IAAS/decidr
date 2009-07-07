@@ -5,11 +5,11 @@
 
 *Please update this wiki article with issues, which should be discussed or should be transmitted to the team* 
 
-*Add your issues to be descussed in the next "Weekly Meeting":
-*Update: As discussed in the last meeting(07/06/2009) everybody how cannot attend one or several meetings - please share this information in this wiki.* 
+*Add your issues to be discussed in the next "Weekly Meeting":*<br>
+*_Update: As discussed in the last meeting (07/06/2009), everybody who cannot attend one or several meetings - please share this information on this wiki page._* 
 
 == WM 06/07/09 ==
-Cannot attend: JS, RR, DH
+Cannot attend: JS, RR, DH<br>
 Issues:
   #  Aleks holds the meeting (TK)
 
