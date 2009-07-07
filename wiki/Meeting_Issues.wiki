@@ -11,10 +11,10 @@
 == WM 06/07/09 ==
 Cannot attend: JS, RR, DH
 Issues:
-  # *definitive* Aleks holds the meeting (TK)
+  #  Aleks holds the meeting (TK)
 
 == WM 06/09/09 ==
-  # *definitive* date for StorageWS & Email-WS dicussions (RR)
+  # date for StorageWS & Email-WS dicussions (RR)
   # Create coding guidelines in wiki (RR)
     * first entry: always comment empty blocks (esp. catch blocks)
     * use personalised task tags in comments (e.g. "RR: fix this, dammit")
