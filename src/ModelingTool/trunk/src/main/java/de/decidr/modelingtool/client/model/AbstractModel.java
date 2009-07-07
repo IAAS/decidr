@@ -27,6 +27,12 @@ public abstract class AbstractModel implements Model {
 
     ModelChangeListener changeListener = null;
 
+    private long id;
+
+    private String name;
+
+    private String description;
+
     public void fireDataChanged() {
         if (changeListener != null) {
             changeListener.onModelChange();
@@ -38,19 +44,33 @@ public abstract class AbstractModel implements Model {
         return changeListener;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     @Override
     public void setChangeListener(ModelChangeListener changeListener) {
         this.changeListener = changeListener;
     }
 
-    public void addModel(Model model) {
-        // operation is only supported by Workflow and Container classes
-        throw new UnsupportedOperationException();
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void removeModel(Model model) {
-        // operation is only supported by Workflow and Container classes
-        throw new UnsupportedOperationException();
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

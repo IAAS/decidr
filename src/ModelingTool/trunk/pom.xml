@@ -84,6 +84,12 @@
 			<artifactId>gxt</artifactId>
 			<version>1.2.4</version>
 		</dependency>
+		<dependency>
+			<groupId>de.decidr.WebPortal</groupId>
+			<artifactId>vaadin</artifactId>
+			<version>6.0.0</version>
+			<optional>false</optional>
+		</dependency>
 	</dependencies>
 	<profiles>
 		<profile>

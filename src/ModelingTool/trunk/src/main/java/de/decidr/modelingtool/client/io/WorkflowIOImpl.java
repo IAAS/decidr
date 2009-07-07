@@ -23,41 +23,53 @@ import de.decidr.modelingtool.client.model.WorkflowModel;
 
 /**
  * TODO: add comment
- *
- * @author Modood Alvi
+ * 
+ * @author Modood Alvi, Johannes Engelhardt
  * @version 0.1
  */
 public class WorkflowIOImpl implements WorkflowIO {
 
-    private DWDLIOServiceAsync service=null;
+    private DWDLIOServiceAsync service = null;
     private SaveCallback saveCallback = null;
     private LoadCallback loadCallback = null;
-    
-    public WorkflowIOImpl (){
+
+    public WorkflowIOImpl() {
         saveCallback = new SaveCallback();
         loadCallback = new LoadCallback();
-        service = (DWDLIOServiceAsync) GWT.create(DWDLIOService.class);
-        ((ServiceDefTarget) service).setServiceEntryPoint( GWT.getModuleBaseURL() +
-        "/bla/bla");
+        service = (DWDLIOServiceAsync) GWT.create(DWDLIOServiceAsync.class);
+        
+        // TODO: set correct url
+        ((ServiceDefTarget) service).setServiceEntryPoint(GWT
+                .getModuleBaseURL()
+                + "/bla/bla");
     }
-    
-    /* (non-Javadoc)
-     * @see de.decidr.modelingtool.client.io.WorkflowIO#loadWorkflow(java.lang.String)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.modelingtool.client.io.WorkflowIO#loadWorkflow(java.lang.String
+     * )
      */
     @Override
-    public WorkflowModel loadWorkflow() {
+    public WorkflowModel loadWorkflow(long workflowModelId) {
         DWDLParser dwdlParser = new DWDLParserImpl();
-        String xmldwdl = service.load(loadCallback);
+        String xmldwdl = service.load(workflowModelId, loadCallback);
+
         return dwdlParser.parse(xmldwdl);
     }
 
-    /* (non-Javadoc)
-     * @see de.decidr.modelingtool.client.io.WorkflowIO#saveWorkflow(de.decidr.modelingtool.client.model.WorkflowModel)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seede.decidr.modelingtool.client.io.WorkflowIO#saveWorkflow(de.decidr.
+     * modelingtool.client.model.WorkflowModel)
      */
     @Override
     public void saveWorkflow(WorkflowModel model) {
         WorkflowParser workflowParser = new WorkflowParserImpl();
         String xmldwdl = workflowParser.parse(model);
-        service.save(xmldwdl, saveCallback);
+        service.save(model.getId(), model.getName(), model.getDescription(),
+                xmldwdl, saveCallback);
     }
 }

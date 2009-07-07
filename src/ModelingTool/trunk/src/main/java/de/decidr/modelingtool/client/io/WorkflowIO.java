@@ -16,18 +16,20 @@
 
 package de.decidr.modelingtool.client.io;
 
+import de.decidr.modelingtool.client.exception.LoadDWDLException;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 
 /**
- * The WorkflowIO uses two components for converting DWDL to a WorkflowModel 
- * object and vice versa. 
- *
+ * The WorkflowIO uses two components for converting DWDL to a WorkflowModel
+ * object and vice versa.
+ * 
  * @author Modood Alvi
  */
 public interface WorkflowIO {
-    
+
     public void saveWorkflow(WorkflowModel model);
-    
-    public WorkflowModel loadWorkflow();
+
+    public WorkflowModel loadWorkflow(long workflowModelId)
+            throws LoadDWDLException;
 
 }

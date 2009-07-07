@@ -14,21 +14,17 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.io;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
+package de.decidr.modelingtool.client.exception;
 
 /**
  * TODO: add comment
- * 
- * @author Modood Alvi
- * @version 0.1
+ *
+ * @author JE
  */
-public interface DWDLIOServiceAsync {
+public class SaveDWDLException extends ModelingToolException {
 
-    public void save(long workflowModelId, String name, String description,
-            String dwdl, AsyncCallback<String> callback);
-
-    public String load(long workflowModelId, AsyncCallback<String> callback);
-
+    public SaveDWDLException(String msg) {
+        super(msg);
+    }
+    
 }

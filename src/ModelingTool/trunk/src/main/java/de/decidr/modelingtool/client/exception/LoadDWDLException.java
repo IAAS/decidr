@@ -14,33 +14,16 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.io;
-
-import com.google.gwt.user.client.rpc.RemoteService;
+package de.decidr.modelingtool.client.exception;
 
 /**
- * The interface of the remote service. It provides the two methods for saving 
- * a DWDL into the server and loading a DWDL from the server.
+ * TODO: add comment
  *
- * @uthor Modood Alvi
- * @version 0.1
+ * @author JE
  */
-public interface DWDLIOService extends RemoteService {
-    
-    /**
-     * TODO: add comment
-     *
-     * @param dwdl
-     */
-    public void save(String dwdl);
-    
-    /**
-     * TODO: add comment
-     *
-     * @return
-     */
-    public String load();
-    
-    
+public class LoadDWDLException extends ModelingToolException {
 
+    public LoadDWDLException(String msg) {
+        super(msg);
+    }
 }

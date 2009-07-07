@@ -16,27 +16,33 @@
 
 package de.decidr.modelingtool.client.io;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException;
 import com.google.gwt.user.client.rpc.InvocationException;
 
+import de.decidr.modelingtool.client.exception.SaveDWDLException;
+
 /**
  * TODO: add comment
  *
- * @author Modood Alvi
+ * @author Modood Alvi, Johannes Engelhardt
  * @version 0.1
  */
 public class SaveCallback implements AsyncCallback<String>{
     
     @Override
     public void onSuccess(String result) {
-        
+        Window.alert(result);
     }
     
     @Override
     public void onFailure(java.lang.Throwable caught){
         try {
             throw caught;
+        } catch (SaveDWDLException e) {
+            // saving the dwdl has failed
+            //Window.alert(e.getMessage());
         } catch (IncompatibleRemoteServiceException e) {
             // this client is not compatible with the server; cleanup and
             // refresh the
@@ -45,6 +51,7 @@ public class SaveCallback implements AsyncCallback<String>{
             // the call didn't complete cleanly
         } catch (Throwable e) {
             // last resort -- a very unexpected exception
+            Window.alert(e.getMessage());
         }
     }
     
