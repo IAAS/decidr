@@ -17,31 +17,20 @@
 package de.decidr.odemonitor.client;
 
 /**
- * RR: add comment
- *
+ * The main ODE monitoring class being started after the ODE instance is up.
+ * 
  * @author Reinhold
  */
-public interface OSStatsInterface {
-    
-    /**
-     * RR: add comment
-     *
-     * @return
-     */
-    public int getCPULoad();
+public class ODEMonitorClient {
 
     /**
-     * RR: add comment
-     *
-     * @return
+     * TODO: add comment
+     * 
+     * @param args
      */
-    public int getMemLoad();
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
 
-    /**
-     * RR: add comment
-     *
-     * @return
-     */
-    public int getSystemLoad();
+    }
 
 }

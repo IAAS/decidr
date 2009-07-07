@@ -27,7 +27,8 @@ public class LocalInstanceManager implements InstanceManager {
      * RR: add comment
      * 
      */
-    public static void startInstance() {
+    @Override
+    public void startInstance() {
         // RR send email to admin
     }
 
@@ -35,7 +36,18 @@ public class LocalInstanceManager implements InstanceManager {
      * RR: add comment
      * 
      */
-    public static void stopInstance() {
-        // RR do what?
+    @Override
+    public void stopInstance() {
+        // RR do what? send email that instance unneeded?
+    }
+
+    /**
+     * RR: add comment
+     * 
+     * @param locked
+     */
+    @Override
+    public void lockInstance(boolean locked) {
+        // RR implement
     }
 }

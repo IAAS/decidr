@@ -16,21 +16,34 @@
 
 package de.decidr.odemonitor.client;
 
+import org.apache.log4j.Logger;
+
+import de.decidr.model.logging.DefaultLogger;
+
 /**
- * RR: add comment
- *
+ * This class provides an interface to the ODE instance. It retrieves all stats
+ * needed by the ODE monitoring web service and ODE monitoring client to perform
+ * load balancing.
+ * 
  * @author Reinhold
  */
 public class LocalInstanceStats {
 
+    Logger log = DefaultLogger.getLogger(LocalInstanceStats.class);
+
     /**
-     * TODO: add comment
-     *
-     * @return
+     * Returns the number of workflow model instances running on this ODE
+     * instance.
+     * 
+     * @return The number of workflow model instances being executed on the ODE
+     *         instance.
      */
-    public int getNumInstances(){
+    public int getNumInstances() {
+        log.trace("Entering " + LocalInstanceStats.class.getSimpleName()
+                + ".getNumInstances()");
         // RR implement
+        log.trace("Leaving " + LocalInstanceStats.class.getSimpleName()
+                + ".getNumInstances()");
         return 0;
     }
-    
 }

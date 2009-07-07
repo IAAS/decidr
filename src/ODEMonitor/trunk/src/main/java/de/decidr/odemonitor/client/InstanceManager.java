@@ -17,10 +17,32 @@
 package de.decidr.odemonitor.client;
 
 /**
- * TODO: add comment
- *
+ * An <code>{@link InstanceManager}</code> manages an ODE instance. It mainly
+ * starts, stops, locks and unlocks it.<br>
+ * XXX: locking done here or in ode server?
+ * 
  * @author Reinhold
  */
 public interface InstanceManager {
+
+    /**
+     * Triggers the starting of a new ODE instance to be managed by this ODE
+     * instance manager.
+     */
+    public void startInstance();
+
+    /**
+     * Shuts the managed instance down.
+     */
+    public void stopInstance();
+
+    /**
+     * Un-/locks the monitored ODE instance so that instance starting will be
+     * suspended/restarted.<br>
+     * XXX: locking done here or in ode server?
+     * 
+     * @param locked
+     */
+    public void lockInstance(boolean locked);
 
 }
