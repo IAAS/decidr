@@ -30,6 +30,32 @@ public class NodeModel extends AbstractModel {
     
     private ConnectionModel output = null;
     
+    /**
+     * The x coordinate of the assigned change listener
+     */
+    private int changeListenerLeft = 0;
+    
+    /**
+     * The y coordinate of the assigned change listener
+     */
+    private int changeListenerTop;
+
+    public int getChangeListenerLeft() {
+        return changeListenerLeft = 0;
+    }
+
+    public void setChangeListenerLeft(int changeListenerLeft) {
+        this.changeListenerLeft = changeListenerLeft;
+    }
+
+    public int getChangeListenerTop() {
+        return changeListenerTop;
+    }
+
+    public void setChangeListenerTop(int changeListenerTop) {
+        this.changeListenerTop = changeListenerTop;
+    }
+
     public NodeModel(HasChildModels parentModel) {
         this.parentModel = parentModel;
     }

@@ -28,6 +28,32 @@ import de.decidr.modelingtool.client.ui.HasChildren;
  */
 public class ContainerModel extends NodeModel implements HasChildModels {
 
+    /**
+     * The height of the assigned changelistener
+     */
+    private int changeListenerWidth = 0;
+    
+    /**
+     * The width of the assigned changelistener
+     */
+    private int changeListenerHeight = 0;
+    
+    public int getChangeListenerWidth() {
+        return changeListenerWidth;
+    }
+
+    public void setChangeListenerWidth(int changeListenerWidth) {
+        this.changeListenerWidth = changeListenerWidth;
+    }
+
+    public int getChangeListenerHeight() {
+        return changeListenerHeight;
+    }
+
+    public void setChangeListenerHeight(int changeListenerHeight) {
+        this.changeListenerHeight = changeListenerHeight;
+    }
+
     @Override
     public Collection<Model> getChildModels() {
         return childModels;
