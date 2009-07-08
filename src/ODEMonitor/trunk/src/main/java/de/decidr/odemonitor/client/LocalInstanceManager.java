@@ -16,38 +16,58 @@
 
 package de.decidr.odemonitor.client;
 
+import org.apache.log4j.Logger;
+
+import de.decidr.model.logging.DefaultLogger;
+
 /**
- * RR: add comment
+ * Manages a local ODE instance. Needs the system administrator's help to start
+ * a new instance.
  * 
  * @author Reinhold
  */
 public class LocalInstanceManager implements InstanceManager {
 
+    Logger log = DefaultLogger.getLogger(LocalInstanceManager.class);
+
     /**
-     * RR: add comment
+     * Sends an email to the system administrator to request the addition of a
+     * new ODE instance on a different machine.
      * 
+     * @return - <code>true</code>, if the email was sent successfully,<br>
+     *         - <code>false</code>, if not
      */
     @Override
-    public void startInstance() {
+    public boolean startInstance() {
+        log.trace("Entering " + LocalInstanceManager.class.getSimpleName()
+                + ".startInstance()");
         // RR send email to admin
+        log.trace("Leaving " + LocalInstanceManager.class.getSimpleName()
+                + ".startInstance()");
+        return false;
     }
 
     /**
      * RR: add comment
      * 
+     * @return
      */
     @Override
-    public void stopInstance() {
+    public boolean stopInstance() {
+        log.trace("Entering " + LocalInstanceManager.class.getSimpleName()
+                + ".stopInstance()");
         // RR do what? send email that instance unneeded?
+        log.trace("Leaving " + LocalInstanceManager.class.getSimpleName()
+                + ".stopInstance()");
+        return false;
     }
 
-    /**
-     * RR: add comment
-     * 
-     * @param locked
-     */
     @Override
     public void lockInstance(boolean locked) {
+        log.trace("Entering " + LocalInstanceManager.class.getSimpleName()
+                + ".lockInstance(boolean)");
         // RR implement
+        log.trace("Leaving " + LocalInstanceManager.class.getSimpleName()
+                + ".lockInstance(boolean)");
     }
 }

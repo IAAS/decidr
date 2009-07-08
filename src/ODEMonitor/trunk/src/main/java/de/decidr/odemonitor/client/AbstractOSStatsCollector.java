@@ -35,6 +35,7 @@ public abstract class AbstractOSStatsCollector {
      * be the percentage of time the CPU processed jobs over the last second.
      * 
      * @return The CPU load over the last second rounded to the nearest percent.
+     *         <code>-1</code> means an error occurred.
      */
     public abstract int getCPULoad();
 
@@ -45,7 +46,8 @@ public abstract class AbstractOSStatsCollector {
      * TODO how does swap figure into this - weighed 0.5?
      * 
      * @return The amount of memory used as a percentage of the total available
-     *         memory, rounded to the nearest percent.
+     *         memory, rounded to the nearest percent. <code>-1</code> means an
+     *         error occurred.
      */
     public abstract int getMemLoad();
 
@@ -56,7 +58,7 @@ public abstract class AbstractOSStatsCollector {
      * that all system-dependent stats collectors provide a comparable system
      * load.
      * 
-     * @return The system load.
+     * @return The system load. <code>-1</code> means an error occurred.
      */
     public final int getSystemLoad() {
         log.trace("Entering " + AbstractOSStatsCollector.class.getSimpleName()
@@ -65,6 +67,10 @@ public abstract class AbstractOSStatsCollector {
         int cpu = getCPULoad();
         int sysLoad;
 
+        /*
+         * Use the larger value as system load. This also means that errors are
+         * ignored if only one value couldn't be retrieved.
+         */
         if (mem > cpu) {
             log.debug("using memory as system load: " + mem);
             sysLoad = mem;

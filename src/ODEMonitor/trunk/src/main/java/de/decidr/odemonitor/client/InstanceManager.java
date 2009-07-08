@@ -28,13 +28,21 @@ public interface InstanceManager {
     /**
      * Triggers the starting of a new ODE instance to be managed by this ODE
      * instance manager.
+     * 
+     * @return - <code>true</code>, if the starting of the instance was
+     *         successful or was successfully delegated,<br>
+     *         - <code>false</code>, if not
      */
-    public void startInstance();
+    public boolean startInstance();
 
     /**
      * Shuts the managed instance down.
+     * 
+     * 
+     * @return - <code>true</code>, if the instance was successfully shut down,<br>
+     *         - <code>false</code>, if not
      */
-    public void stopInstance();
+    public boolean stopInstance();
 
     /**
      * Un-/locks the monitored ODE instance so that instance starting will be
