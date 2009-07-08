@@ -40,12 +40,9 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
         }
     }
 
-    @Override
-    public Collection<Model> getChildModels() {
-        return childModels;
-    }
+    private Collection<NodeModel> childNodeModels = new HashSet<NodeModel>();
 
-    private Collection<Model> childModels = new HashSet<Model>();
+    private Collection<ConnectionModel> childConnectionModels = new HashSet<ConnectionModel>();
 
     private WorkflowProperties properties;
     private List<Variable> variables;
@@ -55,12 +52,34 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
         variables = new ArrayList<Variable>();
     }
 
-    public void addModel(Model model) {
-        childModels.add(model);
+    @Override
+    public void addConnectionModel(ConnectionModel model) {
+        childConnectionModels.add(model);
     }
 
-    public void removeModel(Model model) {
-        childModels.remove(model);
+    @Override
+    public void addNodeModel(NodeModel model) {
+        childNodeModels.add(model);
+    }
+
+    @Override
+    public Collection<ConnectionModel> getChildConnectionModels() {
+        return childConnectionModels;
+    }
+
+    @Override
+    public Collection<NodeModel> getChildNodeModels() {
+        return childNodeModels;
+    }
+
+    @Override
+    public void removeConnectionModel(ConnectionModel model) {
+        childConnectionModels.remove(model);
+    }
+
+    @Override
+    public void removeNodeModel(NodeModel model) {
+        childNodeModels.remove(model);
     }
 
     public List<Variable> getVariables() {

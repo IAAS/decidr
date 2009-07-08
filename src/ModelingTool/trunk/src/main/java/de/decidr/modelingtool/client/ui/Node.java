@@ -353,6 +353,14 @@ public abstract class Node extends AbsolutePanel implements
 
         // add graphic to node
         this.add(this.graphic, BORDER_OFFSET, BORDER_OFFSET);
+        
+        // bring ports to front, if present
+        if (inputPort != null) {
+            add(inputPort);
+        }
+        if (outputPort != null) {
+            add(outputPort);
+        }
     }
 
     protected void setInputPort(Port inputPort) {

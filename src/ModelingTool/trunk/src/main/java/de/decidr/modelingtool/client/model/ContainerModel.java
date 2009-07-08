@@ -31,42 +31,20 @@ public class ContainerModel extends NodeModel implements HasChildModels {
     /**
      * The height of the assigned changelistener
      */
-    private int changeListenerWidth = 0;
+    protected int changeListenerWidth = 150;
     
     /**
      * The width of the assigned changelistener
      */
-    private int changeListenerHeight = 0;
+    protected int changeListenerHeight = 100;
     
-    public int getChangeListenerWidth() {
-        return changeListenerWidth;
-    }
+    private Collection<NodeModel> childNodeModels = new HashSet<NodeModel>();
+    
+    private Collection<ConnectionModel> childConnectionModels = new HashSet<ConnectionModel>();
 
-    public void setChangeListenerWidth(int changeListenerWidth) {
-        this.changeListenerWidth = changeListenerWidth;
-    }
+    private Collection<ConnectionModel> startConnections = new HashSet<ConnectionModel>();
 
-    public int getChangeListenerHeight() {
-        return changeListenerHeight;
-    }
-
-    public void setChangeListenerHeight(int changeListenerHeight) {
-        this.changeListenerHeight = changeListenerHeight;
-    }
-
-    @Override
-    public Collection<Model> getChildModels() {
-        return childModels;
-    }
-
-    @Override
-    public HasChildren getHasChildrenChangeListener() {
-        if (changeListener instanceof HasChildren) {
-            return (HasChildren)changeListener;
-        } else {
-            return null;
-        }
-    }
+    private Collection<ConnectionModel> endConnections = new HashSet<ConnectionModel>();
 
     public ContainerModel() {
         super();
@@ -81,34 +59,72 @@ public class ContainerModel extends NodeModel implements HasChildModels {
         super(parentModel);
     }
 
-    private Collection<Model> childModels = new HashSet<Model>();
-
-    private Collection<ConnectionModel> startConnections = new HashSet<ConnectionModel>();
-
-    private Collection<ConnectionModel> endConnections = new HashSet<ConnectionModel>();
-
-    public void addModel(Model model) {
-        childModels.add(model);
+    public void addEndConnection(ConnectionModel model) {
+        endConnections.add(model);
     }
 
-    public void removeModel(Model model) {
-        childModels.remove(model);
+    @Override
+    public void addNodeModel(NodeModel model) {
+        childNodeModels.add(model);
     }
 
     public void addStartConnection(ConnectionModel model) {
         startConnections.add(model);
     }
 
-    public void removeStartConnection(ConnectionModel model) {
-        startConnections.remove(model);
+    public int getChangeListenerHeight() {
+        return changeListenerHeight;
     }
 
-    public void addEndConnection(ConnectionModel model) {
-        endConnections.add(model);
+    public int getChangeListenerWidth() {
+        return changeListenerWidth;
+    }
+
+    @Override
+    public Collection<NodeModel> getChildNodeModels() {
+        return childNodeModels;
+    }
+
+    @Override
+    public void addConnectionModel(ConnectionModel model) {
+        childConnectionModels.add(model);
+    }
+
+    @Override
+    public Collection<ConnectionModel> getChildConnectionModels() {
+        return childConnectionModels;
+    }
+
+    @Override
+    public void removeConnectionModel(ConnectionModel model) {
+        childConnectionModels.remove(model);
+    }
+
+    @Override
+    public void removeNodeModel(NodeModel model) {
+        childNodeModels.remove(model);
+    }
+
+    @Override
+    public HasChildren getHasChildrenChangeListener() {
+        if (changeListener instanceof HasChildren) {
+            return (HasChildren)changeListener;
+        } else {
+            return null;
+        }
     }
 
     public void removeEndConnection(ConnectionModel model) {
         endConnections.remove(model);
+    }
+
+    public void removeStartConnection(ConnectionModel model) {
+        startConnections.remove(model);
+    }
+
+    public void setChangeListenerSize(int width, int height) {
+        this.changeListenerWidth = width;
+        this.changeListenerHeight = height;
     }
 
 }

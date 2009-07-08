@@ -43,28 +43,9 @@ public class CreateContainerCommand implements UndoableCommand {
      */
     ContainerModel model = null;
 
-    /**
-     * X coordinate of the node.
-     */
-    int nodeLeft;
-
-    /**
-     * Y coordinate of the node.
-     */
-    int nodeTop;
-
-    int nodeWidth;
-
-    int nodeHeight;
-
     public CreateContainerCommand(Container node) {
         this.node = node;
-        this.nodeLeft = node.getLeft();
-        this.nodeTop = node.getTop();
-        this.nodeWidth = node.getOffsetWidth();
-        this.nodeHeight = node.getOffsetHeight();
 
-        
         // create model
         if (node instanceof FlowContainer) {
             model = new FlowContainerModel(node.getParentPanel()
@@ -77,6 +58,10 @@ public class CreateContainerCommand implements UndoableCommand {
                     .getHasChildModelsModel());
         }
 
+        model.setChangeListenerPosition(node.getLeft(), node.getTop());
+        model.setChangeListenerSize(node.getOffsetWidth(), node
+                .getOffsetHeight());
+
         // link node and model
         node.setModel(model);
         model.setChangeListener(node);
@@ -85,14 +70,9 @@ public class CreateContainerCommand implements UndoableCommand {
         // model.setParentModel(node.getParentPanel().getHasChildModelsModel());
     }
 
-    public CreateContainerCommand(ContainerModel model, int nodeLeft,
-            int nodeTop, int nodeWidth, int nodeHeight)
+    public CreateContainerCommand(ContainerModel model)
             throws IncompleteModelDataException {
         this.model = model;
-        this.nodeLeft = nodeLeft;
-        this.nodeTop = nodeTop;
-        this.nodeWidth = nodeWidth;
-        this.nodeHeight = nodeHeight;
 
         // check if model contains all needed information. if not, and
         // IncompleteModelDataException is thrown
@@ -121,18 +101,20 @@ public class CreateContainerCommand implements UndoableCommand {
         node.getParentPanel().removeNode(node);
 
         // remove model from workflow
-        model.getParentModel().removeModel(model);
+        model.getParentModel().removeNodeModel(model);
     }
 
     @Override
     public void execute() {
         // add node to parent panel
-        node.getParentPanel().addNode(node, nodeLeft, nodeTop);
+        node.getParentPanel().addNode(node, model.getChangeListenerLeft(),
+                model.getChangeListenerTop());
         // set size
-        node.setGraphicPixelSize(nodeWidth, nodeHeight);
+        node.setGraphicPixelSize(model.getChangeListenerWidth(), model
+                .getChangeListenerHeight());
 
         // add model to workflow
-        model.getParentModel().addModel(model);
+        model.getParentModel().addNodeModel(model);
     }
 
     /**

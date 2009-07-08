@@ -16,8 +16,6 @@
 
 package de.decidr.modelingtool.client.command;
 
-
-
 import de.decidr.modelingtool.client.ui.HasChildren;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Workflow;
@@ -63,7 +61,7 @@ public class MoveNodeCommand implements UndoableCommand {
         if (oldParentPanel != newParentPanel) {
             // get selected state
             selected = node.isSelected();
-            
+
             // unselect node, if selected (nessecary if parent panel of node is
             // changed.
             if (selected) {
@@ -79,8 +77,11 @@ public class MoveNodeCommand implements UndoableCommand {
             removeConnectionsCmd.undo();
         }
 
+        // set node to former position
         node.setPosition(oldNodeLeft, oldNodeTop);
-        
+        // set position data in model
+        node.getModel().setChangeListenerPosition(oldNodeLeft, oldNodeTop);
+
         // select node, if unselected and was selected before
         if (!node.isSelected() && selected) {
             Workflow.getInstance().getSelectionHandler().select(node);
@@ -114,6 +115,8 @@ public class MoveNodeCommand implements UndoableCommand {
 
         // set node to new position
         node.setPosition(newNodeLeft, newNodeTop);
+        // set position data in model
+        node.getModel().setChangeListenerPosition(newNodeLeft, newNodeTop);
 
         // select node, if unselected and was selected before
         if (!node.isSelected() && selected) {

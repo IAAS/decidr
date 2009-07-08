@@ -57,7 +57,7 @@ public class RemoveNodeCommand implements UndoableCommand {
         node.setPosition(nodeLeft, nodeTop);
 
         // link model
-        model.getParentModel().addModel(model);
+        model.getParentModel().addNodeModel(model);
 
         // select node if was selected before
         if (selected) {
@@ -82,7 +82,7 @@ public class RemoveNodeCommand implements UndoableCommand {
         node.getParentPanel().removeNode(node);
 
         // unlink model
-        model.getParentModel().removeModel(model);
+        model.getParentModel().removeNodeModel(model);
     }
 
 }

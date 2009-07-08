@@ -21,20 +21,18 @@ import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.button.ButtonBar;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
-import de.decidr.modelingtool.client.command.CommandStack;
-import de.decidr.modelingtool.client.command.CreateConnectionCommand;
-import de.decidr.modelingtool.client.command.CreateContainerCommand;
-import de.decidr.modelingtool.client.command.CreateInvokeNodeCommand;
+import de.decidr.modelingtool.client.command.CreateWorkflowCommand;
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
+import de.decidr.modelingtool.client.exception.LoadDWDLException;
+import de.decidr.modelingtool.client.io.WorkflowIO;
+import de.decidr.modelingtool.client.io.WorkflowIOStub;
 import de.decidr.modelingtool.client.menu.Menu;
-import de.decidr.modelingtool.client.model.ConnectionModel;
-import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
-import de.decidr.modelingtool.client.model.FlowContainerModel;
 import de.decidr.modelingtool.client.model.WorkflowModel;
-import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.WorkflowPropertyWindow;
@@ -59,12 +57,12 @@ public class ModelingToolWidget extends HTMLPanel {
 
     public ModelingToolWidget() {
         super(html);
-        
+
         /* Internationalization: "Instantiate" the Message interface class. */
         messages = GWT.create(Messages.class);
     }
-    
-    public void init() {
+
+    public void init(long workflowModelId) {
         ButtonBar buttonBar = new ButtonBar();
         buttonBar.add(new Button("Variables",
                 new SelectionListener<ButtonEvent>() {
@@ -113,45 +111,22 @@ public class ModelingToolWidget extends HTMLPanel {
         // create workflow and add to the root panel.
         Workflow workflow = Workflow.getInstance();
         this.add(workflow, "workflow");
+        
+        // Load Workflow Model
+        
+        // TODO: substitude stub by real implementation
+        WorkflowIO io = new WorkflowIOStub();
 
-        // create workflow model
-        WorkflowModel workflowModel = new WorkflowModel();
-        workflow.setModel(workflowModel);
-        workflowModel.setChangeListener(workflow);
-
-        // create test elements
         try {
-            EmailInvokeNodeModel model1 = new EmailInvokeNodeModel(
-                    workflowModel);
-            CommandStack.getInstance().executeCommand(
-                    new CreateInvokeNodeCommand(model1, 50, 50));
+            WorkflowModel workflowModel = io.loadWorkflow(workflowModelId);
+            Command createWorkflowCmd = new CreateWorkflowCommand(workflowModel);
+            createWorkflowCmd.execute();
 
-            EmailInvokeNodeModel model2 = new EmailInvokeNodeModel(
-                    workflowModel);
-            CommandStack.getInstance().executeCommand(
-                    new CreateInvokeNodeCommand(model2, 150, 150));
-
-            ConnectionModel conModel = new ConnectionModel();
-            conModel.setSource(model1);
-            conModel.setTarget(model2);
-            conModel.setParentModel(workflowModel);
-            CommandStack.getInstance().executeCommand(
-                    new CreateConnectionCommand(conModel));
-
-            FlowContainerModel flowModel = new FlowContainerModel(workflowModel);
-            CommandStack.getInstance().executeCommand(
-                    new CreateContainerCommand(flowModel, 250, 50, 300, 200));
-
-            ForEachContainerModel forEachModel = new ForEachContainerModel(
-                    workflowModel);
-            CommandStack.getInstance()
-                    .executeCommand(
-                            new CreateContainerCommand(forEachModel, 50, 250,
-                                    150, 150));
+        } catch (LoadDWDLException e) {
+            Window.alert(e.getMessage());
         } catch (IncompleteModelDataException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Window.alert(e.getMessage());
         }
     }
-    
+
 }

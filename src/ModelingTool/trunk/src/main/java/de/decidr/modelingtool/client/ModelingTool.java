@@ -19,7 +19,8 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
- * Entry point classes define <code>onModuleLoad()</code>.
+ * Entry point classes define <code>onModuleLoad()</code>. Only needed for test
+ * purposes.
  */
 public class ModelingTool implements EntryPoint {
 
@@ -30,7 +31,7 @@ public class ModelingTool implements EntryPoint {
 
         ModelingToolWidget mtw = new ModelingToolWidget();
         RootPanel.get("panel").add(mtw);
-        mtw.init();
+        mtw.init(0L);
 
     }
 

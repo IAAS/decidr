@@ -16,6 +16,8 @@
 
 package de.decidr.modelingtool.client.command;
 
+import com.google.gwt.user.client.Window;
+
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
 import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
 import de.decidr.modelingtool.client.model.NodeModel;
@@ -41,20 +43,8 @@ public class CreateInvokeNodeCommand implements UndoableCommand {
      */
     NodeModel model = null;
 
-    /**
-     * X coordinate of the node.
-     */
-    int nodeLeft;
-
-    /**
-     * Y coordinate of the node.
-     */
-    int nodeTop;
-
     public CreateInvokeNodeCommand(InvokeNode node) {
         this.node = node;
-        this.nodeLeft = node.getLeft();
-        this.nodeTop = node.getTop();
 
         // create model
         if (node instanceof EmailInvokeNode) {
@@ -64,6 +54,9 @@ public class CreateInvokeNodeCommand implements UndoableCommand {
             model = new HumanTaskInvokeNodeModel(node.getParentPanel()
                     .getHasChildModelsModel());
         }
+        
+        // set position in model
+        model.setChangeListenerPosition(node.getLeft(), node.getTop());
 
         // link node and model
         node.setModel(model);
@@ -73,11 +66,9 @@ public class CreateInvokeNodeCommand implements UndoableCommand {
         // model.setParentModel(node.getParentPanel().getHasChildModelsModel());
     }
 
-    public CreateInvokeNodeCommand(NodeModel model,
-            int nodeLeft, int nodeTop) throws IncompleteModelDataException {
+    public CreateInvokeNodeCommand(NodeModel model)
+            throws IncompleteModelDataException {
         this.model = model;
-        this.nodeLeft = nodeLeft;
-        this.nodeTop = nodeTop;
 
         // check if model contains all needed information. if not, and
         // IncompleteModelDataException is thrown
@@ -103,16 +94,17 @@ public class CreateInvokeNodeCommand implements UndoableCommand {
         node.getParentPanel().removeNode(node);
 
         // remove model from workflow
-        model.getParentModel().removeModel(model);
+        model.getParentModel().removeNodeModel(model);
     }
 
     @Override
     public void execute() {
         // add node to parent panel
-        node.getParentPanel().addNode(node, nodeLeft, nodeTop);
+        node.getParentPanel().addNode(node, model.getChangeListenerLeft(),
+                model.getChangeListenerTop());
 
         // add model to workflow
-        model.getParentModel().addModel(model);
+        model.getParentModel().addNodeModel(model);
     }
 
     /**

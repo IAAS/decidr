@@ -27,11 +27,17 @@ import de.decidr.modelingtool.client.ui.HasChildren;
  */
 public interface HasChildModels {
 
-    public void addModel(Model model);
+    public void addNodeModel(NodeModel model);
     
-    public void removeModel(Model model);
+    public void removeNodeModel(NodeModel model);
     
-    public Collection<Model> getChildModels();
+    public void addConnectionModel(ConnectionModel model);
+    
+    public void removeConnectionModel(ConnectionModel model);
+    
+    public Collection<NodeModel> getChildNodeModels();
+    
+    public Collection<ConnectionModel> getChildConnectionModels();
     
     public HasChildren getHasChildrenChangeListener();
     

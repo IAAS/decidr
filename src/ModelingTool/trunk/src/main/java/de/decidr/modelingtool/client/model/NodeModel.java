@@ -33,27 +33,24 @@ public class NodeModel extends AbstractModel {
     /**
      * The x coordinate of the assigned change listener
      */
-    private int changeListenerLeft = 0;
+    protected int changeListenerLeft = 0;
     
     /**
      * The y coordinate of the assigned change listener
      */
-    private int changeListenerTop;
+    protected int changeListenerTop = 0;
 
     public int getChangeListenerLeft() {
-        return changeListenerLeft = 0;
-    }
-
-    public void setChangeListenerLeft(int changeListenerLeft) {
-        this.changeListenerLeft = changeListenerLeft;
+        return changeListenerLeft;
     }
 
     public int getChangeListenerTop() {
         return changeListenerTop;
     }
 
-    public void setChangeListenerTop(int changeListenerTop) {
-        this.changeListenerTop = changeListenerTop;
+    public void setChangeListenerPosition(int left, int top) {
+        this.changeListenerLeft = left;
+        this.changeListenerTop = top;
     }
 
     public NodeModel(HasChildModels parentModel) {

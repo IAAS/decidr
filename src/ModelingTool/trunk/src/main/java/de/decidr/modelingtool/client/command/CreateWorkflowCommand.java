@@ -18,33 +18,82 @@ package de.decidr.modelingtool.client.command;
 
 import com.google.gwt.user.client.Command;
 
-import de.decidr.model.entities.WorkflowModel;
+import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
+import de.decidr.modelingtool.client.model.ConnectionModel;
+import de.decidr.modelingtool.client.model.ContainerModel;
 import de.decidr.modelingtool.client.model.NodeModel;
+import de.decidr.modelingtool.client.model.WorkflowModel;
+import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author JE
  */
 public class CreateWorkflowCommand implements Command {
 
-    WorkflowModel model;
-    
+    WorkflowModel workflowModel;
+
     CommandList cmdList = new CommandList();
-    
-    public CreateWorkflowCommand(WorkflowModel model) {
-        this.model = model;
-    }
-    
-    @Override
-    public void execute() {
-        // TODO Auto-generated method stub
+
+    public CreateWorkflowCommand(WorkflowModel workflowModel)
+            throws IncompleteModelDataException {
+        this.workflowModel = workflowModel;
+
+        // connect workflow to model
+        workflowModel.setChangeListener(Workflow.getInstance());
+
+        // iterate over all child nodes
+        for (NodeModel model : workflowModel.getChildNodeModels()) {
+            if (model instanceof ContainerModel) {
+                // create child nodes and connections of container
+                cmdList.addCommand(createContainer((ContainerModel) model));
+
+            } else {
+                // create invoke node
+                cmdList.addCommand(new CreateInvokeNodeCommand(model));
+            }
+        }
+
+        // iterate over all child connections
+        for (ConnectionModel model : workflowModel.getChildConnectionModels()) {
+            cmdList.addCommand(new CreateConnectionCommand(model));
+        }
 
     }
-    
-//    private UndoableCommand createNodeCommand(NodeModel nodeModel) {
-//        CommandList nodeModelCmdList = new CommandList();
-//        //nodeModelCmdList.addCommand(new CreateInvokeNodeCommand(nodeModel));
-//    }
+
+    @Override
+    public void execute() {
+        // connect model to workflow
+        Workflow.getInstance().setModel(workflowModel);
+        // create child nodes and connections
+        cmdList.execute();
+    }
+
+    private UndoableCommand createContainer(ContainerModel containerModel)
+            throws IncompleteModelDataException {
+        CommandList cmdList = new CommandList();
+        
+        // create container
+        cmdList.addCommand(new CreateContainerCommand(containerModel));
+
+        // iterate over all child nodes
+        for (NodeModel model : containerModel.getChildNodeModels()) {
+            if (model instanceof ContainerModel) {
+                // create container with its children
+                cmdList.addCommand(createContainer((ContainerModel) model));
+            } else {
+                // create invoke node
+                cmdList.addCommand(new CreateInvokeNodeCommand(model));
+            }
+        }
+
+        // iterate over all child connections
+        for (ConnectionModel model : containerModel.getChildConnectionModels()) {
+            cmdList.addCommand(new CreateConnectionCommand(model));
+        }
+
+        return cmdList;
+    }
 
 }

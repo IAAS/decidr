@@ -51,7 +51,7 @@ public class RemoveConnectionCommand implements UndoableCommand {
         connection.draw();
 
         // link model
-        model.getParentModel().addModel(model);
+        model.getParentModel().addConnectionModel(model);
         model.getSource().setOutput(model);
         model.getTarget().setInput(model);
     }
@@ -70,7 +70,7 @@ public class RemoveConnectionCommand implements UndoableCommand {
         connection.getParentPanel().removeConnection(connection);
 
         // unlink model
-        model.getParentModel().removeModel(model);
+        model.getParentModel().removeConnectionModel(model);
         model.getSource().setOutput(null);
         model.getTarget().setInput(null);
     }
