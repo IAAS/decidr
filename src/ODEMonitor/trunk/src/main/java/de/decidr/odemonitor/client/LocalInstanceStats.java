@@ -17,6 +17,7 @@
 package de.decidr.odemonitor.client;
 
 import org.apache.log4j.Logger;
+import org.apache.ode.bpel.pmapi.InstanceManagement;
 
 import de.decidr.model.logging.DefaultLogger;
 
