@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:tns="http://decidr.de/webservices/ODEMonitor" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dwsdl="http://decidr.de/wsdl/DecidrTypes"
+	xmlns:decidr="http://decidr.de/schema/DecidrTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" name="ODEMonitor"
+	targetNamespace="http://decidr.de/webservices/ODEMonitor">
+
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://decidr.de/webservices/ODEMonitor">
+			<!-- own type definitions -->
+			<xsd:import schemaLocation="DecidrTypes.xsd"
+				namespace="http://decidr.de/schema/DecidrTypes" />
+
+<!-- 
+
+Needed operations:
+
+sync	updateStats	(wfInstances : int, odeID : String)
+				  : (configChanged : timestamp, run : boolean)
+
+async	registerODE	(poolInstance : boolean, odeID : String)
+   				  : ()
+
+sync	getConfig	()
+   				   (updateInterval : int, configChanged : timestamp)
+
+ -->
+
+			<!-- operations -->
+			<xsd:element name="">
+				<xsd:complexType>
+					<xsd:sequence>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Response">
+				<xsd:complexType>
+					<xsd:sequence />
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="Request">
+		<wsdl:part element="tns:" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="Response">
+		<wsdl:part element="tns:Response" name="parameters" />
+	</wsdl:message>
+
+	<wsdl:portType name="EmailPT">
+		<wsdl:operation name="sendEmail">
+			<wsdl:input message="tns:Request" wsaw:Action="urn:" />
+			<wsdl:output message="tns:Response" wsaw:Action="urn:Response" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="ODEMonitorSOAP" type="tns:ODEMonitorPT">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="">
+			<soap:operation soapAction="http://decidr.de/webservices/ODEMonitor/"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<!-- needs to be adapted for deployment -->
+	<wsdl:service name="ODEMonitor">
+		<wsdl:port binding="tns:ODEMonitorSOAP" name="ODEMonitorSOAP">
+			<soap:address location="http://www.example.org/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
