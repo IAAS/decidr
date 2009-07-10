@@ -25,9 +25,9 @@ import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
  * @author engelhjs
  */
 public abstract class Connection implements Selectable, ModelChangeListener {
-    
+
     protected HasChildren parentPanel = null;
-    
+
     public Connection(HasChildren parentPanel) {
         this.parentPanel = parentPanel;
     }
@@ -56,22 +56,22 @@ public abstract class Connection implements Selectable, ModelChangeListener {
 
     protected ConnectionDragBox endDragBox;
 
-//    private Port sourcePort = null;
-//
-//    private Port targetPort = null;
+    // private Port sourcePort = null;
+    //
+    // private Port targetPort = null;
 
     public abstract void remove();
 
     public abstract void draw();
 
-//    public Port getSourcePort() {
-//        return sourcePort;
-//    }
-//    
-//    public Port getTargetPort() {
-//        return targetPort;
-//    }
-//    
+    // public Port getSourcePort() {
+    // return sourcePort;
+    // }
+    //    
+    // public Port getTargetPort() {
+    // return targetPort;
+    // }
+    //    
     public boolean isSelected() {
         return selected;
     }
@@ -82,9 +82,9 @@ public abstract class Connection implements Selectable, ModelChangeListener {
     }
 
     public void setEndDragBox(ConnectionDragBox endDragBox) {
-            this.endDragBox = endDragBox;
-            // FIXME: compiler error in this line
-            //endDragBox.setConnection(this);
+        this.endDragBox = endDragBox;
+        // FIXME: compiler error in this line
+        // endDragBox.setConnection(this);
     }
 
     public ConnectionDragBox getStartDragBox() {
@@ -97,20 +97,28 @@ public abstract class Connection implements Selectable, ModelChangeListener {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+
+        // bring start drag box to front
+        startDragBox.getGluedPort().add(startDragBox);
+        startDragBox.setVisibleStyle(selected);
+
+        // bring end drag box to front
+        endDragBox.getGluedPort().add(endDragBox);
+        endDragBox.setVisibleStyle(selected);
     }
 
-//    public void setSourcePort(Port sourcePort) {
-//        this.sourcePort = sourcePort;
-//    }
+    // public void setSourcePort(Port sourcePort) {
+    // this.sourcePort = sourcePort;
+    // }
 
     public void setStartDragBox(ConnectionDragBox startDragBox) {
         this.startDragBox = startDragBox;
         // FIXME: compiler error in this line
-        //startDragBox.setConnection(this);
+        // startDragBox.setConnection(this);
     }
 
-//    public void setTargetPort(Port targetPort) {
-//        this.targetPort = targetPort;
-//    }
+    // public void setTargetPort(Port targetPort) {
+    // this.targetPort = targetPort;
+    // }
 
 }

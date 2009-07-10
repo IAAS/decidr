@@ -54,9 +54,9 @@ public abstract class Node extends AbsolutePanel implements
 
     // private List<Port> ports = new Vector<Port>();
 
-    private Port inputPort = null;
+    private InputPort inputPort = null;
 
-    private Port outputPort = null;
+    private OutputPort outputPort = null;
 
     private HasChildren parentPanel = null;
 
@@ -157,7 +157,7 @@ public abstract class Node extends AbsolutePanel implements
         }
     }
 
-    public Port getInputPort() {
+    public InputPort getInputPort() {
         return inputPort;
     }
 
@@ -169,7 +169,7 @@ public abstract class Node extends AbsolutePanel implements
         }
     }
 
-    public Port getOutputPort() {
+    public OutputPort getOutputPort() {
         return outputPort;
     }
 
@@ -363,7 +363,7 @@ public abstract class Node extends AbsolutePanel implements
         }
     }
 
-    protected void setInputPort(Port inputPort) {
+    protected void setInputPort(InputPort inputPort) {
         this.inputPort = inputPort;
 
         this.add(inputPort);
@@ -374,7 +374,7 @@ public abstract class Node extends AbsolutePanel implements
         this.moveable = moveable;
     }
 
-    protected void setOutputPort(Port outputPort) {
+    protected void setOutputPort(OutputPort outputPort) {
         this.outputPort = outputPort;
 
         this.add(outputPort);

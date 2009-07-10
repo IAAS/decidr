@@ -19,6 +19,7 @@ package de.decidr.modelingtool.client.command;
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
 import de.decidr.modelingtool.client.model.ConnectionModel;
 import de.decidr.modelingtool.client.ui.Connection;
+import de.decidr.modelingtool.client.ui.InputPort;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.OrthogonalConnection;
 import de.decidr.modelingtool.client.ui.OutputPort;
@@ -73,10 +74,10 @@ public class CreateConnectionCommand implements UndoableCommand {
         checkModelData();
 
         // get source port
-        Port sourcePort = ((Node) model.getSource().getChangeListener())
+        OutputPort sourcePort = ((Node) model.getSource().getChangeListener())
                 .getOutputPort();
         // get targetPort
-        Port targetPort = ((Node) model.getTarget().getChangeListener())
+        InputPort targetPort = ((Node) model.getTarget().getChangeListener())
                 .getInputPort();
 
         // create connection
@@ -97,7 +98,7 @@ public class CreateConnectionCommand implements UndoableCommand {
         startDragBox.setConnection(connection);
 
         // make start drag box draggable
-        DndRegistry.getInstance().getDragController("OutputPortDragController")
+        DndRegistry.getInstance().getDragController("InputPortDragController")
                 .makeDraggable(startDragBox);
 
         // create and link end drag box
@@ -106,7 +107,7 @@ public class CreateConnectionCommand implements UndoableCommand {
         endDragBox.setConnection(connection);
 
         // make end drag box draggable
-        DndRegistry.getInstance().getDragController("InputPortDragController")
+        DndRegistry.getInstance().getDragController("OutputPortDragController")
                 .makeDraggable(endDragBox);
 
         // link connection

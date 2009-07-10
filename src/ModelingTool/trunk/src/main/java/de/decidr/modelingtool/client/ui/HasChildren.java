@@ -43,6 +43,10 @@ public interface HasChildren {
     
     public HasChildModels getHasChildModelsModel();
     
+    public int getLeft();
+    
+    public int getTop();
+    
     // widget operations
     //public void add(Widget w);
     

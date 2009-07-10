@@ -26,14 +26,14 @@ import de.decidr.modelingtool.client.ui.Workflow;
  * @author JE
  */
 public class ConnectionDragBox extends DragBox {
-    
+
     private Port gluedPort = null;
 
     /**
      * The connection the drag box is assigned to
      */
     private Connection connection = null;
-    
+
     /**
      * TODO: add comment
      * 
@@ -42,7 +42,7 @@ public class ConnectionDragBox extends DragBox {
     public ConnectionDragBox() {
         super(DragDirection.ALL);
     }
-    
+
     public ConnectionDragBox(Port gluedPort) {
         super(DragDirection.ALL);
         this.gluedPort = gluedPort;
@@ -57,10 +57,10 @@ public class ConnectionDragBox extends DragBox {
         if (this.gluedPort != null) {
             this.gluedPort.remove(this);
         }
-        
+
         // glue to new port
-        //gluedPort.add(this);
-        
+        // gluedPort.add(this);
+
         this.gluedPort = gluedPort;
     }
 
@@ -75,10 +75,10 @@ public class ConnectionDragBox extends DragBox {
      * @return
      */
     public int getMiddleLeft() {
-        return this.getAbsoluteLeft() + this.getOffsetWidth() / 2
-                - Workflow.getInstance().getAbsoluteLeft();
+         return this.getAbsoluteLeft() + this.getOffsetWidth() / 2
+         - Workflow.getInstance().getAbsoluteLeft();
     }
-    
+
     /**
      * 
      * Returns the workflow relative y coordinate of the center of the drag box.
@@ -91,7 +91,7 @@ public class ConnectionDragBox extends DragBox {
     }
 
     public void setConnection(Connection connection) {
-            this.connection = connection;
+        this.connection = connection;
     }
 
     public void setVisibleStyle(boolean visible) {

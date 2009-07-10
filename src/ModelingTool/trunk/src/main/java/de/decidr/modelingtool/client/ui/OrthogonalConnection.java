@@ -16,8 +16,10 @@
 
 package de.decidr.modelingtool.client.ui;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.HTML;
+
+import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 /**
  * TODO: add comment
@@ -27,15 +29,28 @@ import com.google.gwt.user.client.ui.HTML;
 public class OrthogonalConnection extends Connection {
 
     private final int LINE_WIDTH = 1;
-    private final String STYLE_HORIZONTAL = "connection-orthogonal-horizontalline";
-    private final String STYLE_VERTICAL = "connection-orthogonal-verticalline";
 
-    private HTML startLine = new HTML();
-    private HTML midLine = new HTML();
-    private HTML endLine = new HTML();
+    private ConnectionLine startLine = new ConnectionLine(this, LINE_WIDTH);
+    private ConnectionLine midLine = new ConnectionLine(this, LINE_WIDTH);
+    private ConnectionLine endLine = new ConnectionLine(this, LINE_WIDTH);
 
     public OrthogonalConnection(HasChildren parentPanel) {
         super(parentPanel);
+        
+        // register selection handler to lines
+        SelectionHandler sh = Workflow.getInstance().getSelectionHandler();
+        startLine.addMouseDownHandler(sh);
+        midLine.addMouseDownHandler(sh);
+        endLine.addMouseDownHandler(sh);
+    }
+
+    @Override
+    public void setSelected(boolean selected) {
+        super.setSelected(selected);
+        
+        startLine.setSelected(selected);
+        midLine.setSelected(selected);
+        endLine.setSelected(selected);
     }
 
     @Override
@@ -44,10 +59,10 @@ public class OrthogonalConnection extends Connection {
                 && endDragBox != null) {
             AbsolutePanel absPanel = (AbsolutePanel)parentPanel;
             
-            int startX = startDragBox.getMiddleLeft();
-            int startY = startDragBox.getMiddleTop();
-            int endX = endDragBox.getMiddleLeft();
-            int endY = endDragBox.getMiddleTop();
+            int startX = startDragBox.getMiddleLeft() - parentPanel.getLeft();
+            int startY = startDragBox.getMiddleTop() - parentPanel.getTop();
+            int endX = endDragBox.getMiddleLeft() - parentPanel.getLeft();
+            int endY = endDragBox.getMiddleTop() - parentPanel.getTop();
 
             // calculate height and width
             int width = Math.abs(startX - endX);
@@ -57,10 +72,6 @@ public class OrthogonalConnection extends Connection {
             absPanel.add(startLine);
             absPanel.add(midLine);
             absPanel.add(endLine);
-
-            startLine.setStyleName(STYLE_VERTICAL);
-            midLine.setStyleName(STYLE_HORIZONTAL);
-            endLine.setStyleName(STYLE_VERTICAL);
 
             if (startY <= endY) {
                 absPanel.setWidgetPosition(startLine, startX, startY);
@@ -79,14 +90,11 @@ public class OrthogonalConnection extends Connection {
                         (startY + endY) / 2);
             }
 
-            startLine.setHeight((height / 2) + "px");
-            startLine.setWidth(LINE_WIDTH + "px");
-
-            endLine.setHeight((height / 2) + "px");
-            endLine.setWidth(LINE_WIDTH + "px");
-
-            midLine.setWidth(width + "px");
-            midLine.setHeight(LINE_WIDTH + "px");
+            // set orientation and length of lines
+            startLine.setVerticalOrientation(height / 2);
+            endLine.setVerticalOrientation(height / 2);
+            midLine.setHorizontalOrientation(width);
+            
         } else {
             // TODO: Debug
             System.out.println("Connection cannot be drawn");

@@ -68,6 +68,7 @@ public class RemoveConnectionCommand implements UndoableCommand {
 
         // remove connection from parent panel
         connection.getParentPanel().removeConnection(connection);
+        connection.remove();
 
         // unlink model
         model.getParentModel().removeConnectionModel(model);

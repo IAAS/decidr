@@ -57,14 +57,14 @@
 	background-color: #00FF00;
 }
 
-.connection-orthogonal-verticalline {
+.connection-line {
 	background-color: black;
 	font-size: 1px;
 }
 
-.connection-orthogonal-horizontalline {
-	background-color: black;
-	font-size: 1px;
+.connection-line-selected {
+	background-color: red;
+	font-size: 1px;	
 }
 
 .menu-std {

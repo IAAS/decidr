@@ -248,6 +248,12 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
         return super.remove(w);
     }
 
+    public int getLeft() {
+        return 0;
+    }
     
+    public int getTop() {
+        return 0;
+    }
     
 }

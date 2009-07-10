@@ -21,9 +21,11 @@ import java.util.Vector;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.decidr.modelingtool.client.ui.Connection;
+import de.decidr.modelingtool.client.ui.ConnectionLine;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Selectable;
 import de.decidr.modelingtool.client.ui.Workflow;
@@ -72,10 +74,10 @@ public class SelectionHandler implements MouseDownHandler {
                 Node node = (Node) w.getParent();
                 select(node);
 
-            } else if (source instanceof Connection) {
-                Connection connection = (Connection) source;
+            } else if (source instanceof ConnectionLine) {
+                Connection connection = ((ConnectionLine) source).getConnection();
                 select(connection);
-                
+                //Window.alert(connection.toString());
             } else {
                 // unselect selected item
                 
@@ -95,14 +97,13 @@ public class SelectionHandler implements MouseDownHandler {
         // unselect the selected item
         unselect();
         
+        // assign node selection box, if selected item is a node
         if (selectedItem instanceof Node) {
             nodeSelectionBox.assignTo((Node)selectedItem);
-        } else if (selectedItem instanceof Connection) {
-            
         }
         
         this.selectedItem = selectedItem;
-        selectedItem.setSelected(true);    
+        selectedItem.setSelected(true);   
     }
 
     public void unselect() {

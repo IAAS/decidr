@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.decidr.modelingtool.client.command.CommandList;
 import de.decidr.modelingtool.client.command.RemoveConnectionCommand;
 import de.decidr.modelingtool.client.command.UndoableCommand;
+import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 import de.decidr.modelingtool.client.ui.dnd.PortDropController;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 
