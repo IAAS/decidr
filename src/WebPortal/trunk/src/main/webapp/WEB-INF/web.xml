@@ -11,6 +11,11 @@
   		<param-name>application</param-name>
   		<param-value>de.decidr.ui.view.Main</param-value>
   	</init-param>
+  	<init-param>
+            <param-name>widgetset</param-name>
+            <param-value>
+                de.decidr.ui.gwt.ModelingToolWidgetSet</param-value>
+    </init-param>  	
   </servlet>
   <servlet-mapping>
   	<servlet-name>WebPortal</servlet-name>

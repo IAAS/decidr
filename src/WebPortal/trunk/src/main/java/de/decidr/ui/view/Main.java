@@ -5,9 +5,12 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.Application;
 import com.vaadin.service.ApplicationContext;
 import com.vaadin.service.ApplicationContext.TransactionListener;
+import com.vaadin.terminal.ClassResource;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
+import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Window;
 
+import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.ui.controller.ConfirmationParameterHandler;
 import de.decidr.ui.controller.InvitationParameterHandler;
 import de.decidr.ui.controller.MyParamterHandler;
@@ -28,6 +31,8 @@ public class Main extends Application implements TransactionListener{
     private ApplicationContext ctx = null;
     private WebApplicationContext webCtx = null;
     private HttpSession session = null;
+    
+    private ModelingTool modelingTool = new ModelingTool();
 
     private static ThreadLocal<Main> currentApplication = new ThreadLocal<Main>();
 
@@ -40,13 +45,14 @@ public class Main extends Application implements TransactionListener{
     public void init() {
         setMainWindow(main);
         main.addParameterHandler(parameterHandler);
-        main.addParameterHandler(new InvitationParameterHandler());
+        //main.addParameterHandler(new InvitationParameterHandler());
         main.addParameterHandler(new ConfirmationParameterHandler());
-        setTheme("test");
+        //setTheme("test");
         director.setUiBuilder(ui);
         director.createNewView();
         director.constructView();
-        main.addComponent(director.getTemplateView());
+        main.addComponent(modelingTool);
+        //main.addComponent(director.getTemplateView());
         if (getContext() != null) {
             getContext().addTransactionListener(this);
         }   

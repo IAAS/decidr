@@ -33,22 +33,27 @@
 	</repositories>
 	<dependencies>
 		<dependency>
-			<groupId>de.decidr.WebPortal</groupId>
-			<artifactId>vaadin</artifactId>
-			<version>6.0.0</version>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>1.6.4</version>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
-			<groupId>de.decidr</groupId>
-			<artifactId>model</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<type>jar</type>
-			<scope>compile</scope>
+			<groupId>de.decidr.modelingtool</groupId>
+			<artifactId>gxt</artifactId>
+			<version>1.2.4</version>
+			<optional>false</optional>
 		</dependency>
 		<dependency>
-			<groupId>de.decidr</groupId>
-			<artifactId>ModelingTool</artifactId>
-			<version>0.0.1</version>
+			<groupId>de.decidr.modelingtool</groupId>
+			<artifactId>gwt-dnd</artifactId>
+			<version>2.6.0</version>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>de.decidr.WebPortal</groupId>
+			<artifactId>vaadin</artifactId>
+			<version>6.0.0</version>
 			<optional>false</optional>
 		</dependency>
 	</dependencies>

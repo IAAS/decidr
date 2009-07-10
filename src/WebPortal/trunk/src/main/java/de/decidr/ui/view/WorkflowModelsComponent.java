@@ -27,6 +27,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.LockWorkflowModelAction;
+import de.decidr.ui.controller.ModelinToolAction;
 import de.decidr.ui.controller.PublishWorkflowModelAction;
 import de.decidr.ui.controller.RemoveWorkflowModelAction;
 import de.decidr.ui.controller.UnlockWorkflowModelAction;
@@ -122,7 +123,7 @@ public class WorkflowModelsComponent extends CustomComponent {
            
        });
        
-       createNewModelButton = new Button("Create new model");
+       createNewModelButton = new Button("Create new model", new ModelinToolAction());
        removeModelButton = new Button("Remove", new RemoveWorkflowModelAction(currentTenantTable));
        lockModelButton = new Button("Lock", new LockWorkflowModelAction(currentTenantTable));
        unlockModelButton = new Button("Unlock", new UnlockWorkflowModelAction(currentTenantTable));

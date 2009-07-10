@@ -24,12 +24,14 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.data.Item;
 import com.vaadin.terminal.ParameterHandler;
 
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.InformationDialogComponent;
 import de.decidr.ui.view.InvitationDialogComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.RegisterUserComponent;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * TODO: add comment
@@ -72,6 +74,7 @@ public class InvitationParameterHandler implements ParameterHandler {
         	session = Main.getCurrent().getSession();
         	userFacade = new UserFacade(new UserRole(userId));
         	//GH: create useful text
+        	try{
         	Item invitationItem = userFacade.getInvitation(invitationId);
         	String invDescription = "Ha, you've been invited!<br/>Click here to join the World Of DecidRaft!";
         	//GH: check if user is already registered
@@ -85,6 +88,9 @@ public class InvitationParameterHandler implements ParameterHandler {
         	}else{
         		//User not yet registered
 				UIDirector.getInstance().getTemplateView().setContent(new RegisterUserComponent(invitationId));
+        	}
+        	}catch(TransactionException exception){
+        	    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
         	}
         
         }
