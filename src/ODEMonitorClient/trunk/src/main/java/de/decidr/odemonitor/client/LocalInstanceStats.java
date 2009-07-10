@@ -17,7 +17,6 @@
 package de.decidr.odemonitor.client;
 
 import org.apache.log4j.Logger;
-import org.apache.ode.bpel.pmapi.InstanceManagement;
 
 import de.decidr.model.logging.DefaultLogger;
 
@@ -31,7 +30,7 @@ import de.decidr.model.logging.DefaultLogger;
 public class LocalInstanceStats {
 
     Logger log = DefaultLogger.getLogger(LocalInstanceStats.class);
-
+//TODO num wfms
     /**
      * Returns the number of workflow model instances running on this ODE
      * instance.
@@ -42,9 +41,11 @@ public class LocalInstanceStats {
     public int getNumInstances() {
         log.trace("Entering " + LocalInstanceStats.class.getSimpleName()
                 + ".getNumInstances()");
+        int numInst = 0;
+        
         // RR implement
         log.trace("Leaving " + LocalInstanceStats.class.getSimpleName()
                 + ".getNumInstances()");
-        return 0;
+        return numInst;
     }
 }

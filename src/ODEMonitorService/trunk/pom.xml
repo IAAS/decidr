@@ -22,10 +22,10 @@
 				<extensions>true</extensions>
 				<version>1.5</version>
 				<configuration>
-					<aarName>EmailWS</aarName>
+					<aarName>ODEMonitorService</aarName>
 					<includeDependencies>false</includeDependencies>
-					<wsdlFile>META-INF/Email.wsdl</wsdlFile>
-					<wsdlFileName>Email.wsdl</wsdlFileName>
+					<wsdlFile>META-INF/ODEMonitor.wsdl</wsdlFile>
+					<wsdlFileName>ODEMonitor.wsdl</wsdlFileName>
 					<servicesXmlFile>META-INF/services.xml</servicesXmlFile>
 					<fileSets>
 						<fileSet>

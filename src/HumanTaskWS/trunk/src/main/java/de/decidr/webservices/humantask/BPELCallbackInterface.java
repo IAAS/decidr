@@ -17,6 +17,7 @@ package de.decidr.webservices.humantask;
 
 import javax.jws.WebService;
 
+import de.decidr.model.soap.types.ItemList;
 import de.decidr.model.soap.types.TaskIdentifier;
 
 /**
@@ -29,5 +30,5 @@ import de.decidr.model.soap.types.TaskIdentifier;
 @WebService(name = "BPELCallback")
 public interface BPELCallbackInterface {
 
-    public void taskCompleted(TaskIdentifier id, String data);
+    public void taskCompleted(TaskIdentifier taskID, ItemList dataList);
 }

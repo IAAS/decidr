@@ -46,7 +46,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = { "taskID", "processID", "userID" })
-@XmlRootElement(name = "createTaskResponse")
+@XmlRootElement(name = "tTaskIdentifier")
 public class TaskIdentifier {
 
     protected long taskID;

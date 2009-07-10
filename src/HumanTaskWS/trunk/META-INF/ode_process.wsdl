@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:tns="http://decidr.de/wsdl/basicProcess" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dwsdl="http://decidr.de/wsdl/DecidrTypes"
+	xmlns:decidr="http://decidr.de/schema/DecidrTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" name="basicProcess"
+	targetNamespace="http://decidr.de/wsdl/basicProcess">
+
+	<!-- Types -->
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://decidr.de/wsdl/basicProcess">
+			<!-- own type definitions -->
+			<xsd:import schemaLocation="DecidrTypes.xsd"
+				namespace="http://decidr.de/schema/DecidrTypes" />
+
+			<xsd:element name="taskCompleted">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="taskID" type="decidr:tTaskIdentifier"
+							minOccurs="1" maxOccurs="1" nillable="false" />
+						<xsd:element name="dataList" type="decidr:tItemList"
+							minOccurs="1" maxOccurs="1" nillable="false" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="taskCompletedResponse">
+				<xsd:complexType>
+					<xsd:sequence />
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+
+
+	<!-- Messages -->
+	<wsdl:message name="taskCompletedRequest">
+		<wsdl:part element="tns:taskCompleted" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="taskCompletedResponse">
+		<wsdl:part element="tns:taskCompletedResponse" name="parameters" />
+	</wsdl:message>
+
+
+	<!-- Operations -->
+	<wsdl:portType name="basicProcessPT">
+		<wsdl:operation name="taskCompleted">
+			<wsdl:input message="tns:taskCompletedRequest"
+				wsaw:Action="urn:taskCompleted" />
+			<wsdl:output message="tns:taskCompletedResponse"
+				wsaw:Action="urn:taskCompletedResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="basicProcessSOAP" type="tns:basicProcessPT">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="taskCompleted">
+			<soap:operation soapAction="http://decidr.de/wsdl/basicProcess/taskCompleted"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+</wsdl:definitions>

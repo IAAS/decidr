@@ -45,11 +45,7 @@
 			<xsd:element name="createTaskResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="taskID" type="decidr:tID"
-							minOccurs="1" maxOccurs="1" nillable="false" />
-						<xsd:element name="processID" type="xsd:string"
-							minOccurs="1" maxOccurs="1" nillable="false" />
-						<xsd:element name="userID" type="decidr:tID"
+						<xsd:element name="taskID" type="decidr:tTaskIdentifier"
 							minOccurs="1" maxOccurs="1" nillable="false" />
 					</xsd:sequence>
 				</xsd:complexType>

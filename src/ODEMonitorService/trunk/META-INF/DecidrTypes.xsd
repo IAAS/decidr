@@ -50,13 +50,7 @@
 	</xsd:simpleType>
 
 	<xsd:complexType name="tItem" abstract="true">
-		<xsd:sequence>
-			<xsd:element name="hint" type="xsd:string" />
-			<xsd:element name="label" type="xsd:string" />
-		</xsd:sequence>
 		<xsd:attribute name="name" type="xsd:string" use="required" />
-		<xsd:attribute name="readOnly" type="xsd:boolean"
-			default="false" />
 	</xsd:complexType>
 
 	<xsd:complexType name="tStringItem">
@@ -180,6 +174,17 @@
 		<xsd:sequence>
 			<xsd:element name="item" type="tns:tStringMapping"
 				minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="tTaskIdentifier">
+		<xsd:sequence>
+			<xsd:element name="taskID" type="decidr:tID" minOccurs="1"
+				maxOccurs="1" nillable="false" />
+			<xsd:element name="processID" type="xsd:string"
+				minOccurs="1" maxOccurs="1" nillable="false" />
+			<xsd:element name="userID" type="decidr:tID" minOccurs="1"
+				maxOccurs="1" nillable="false" />
 		</xsd:sequence>
 	</xsd:complexType>
 

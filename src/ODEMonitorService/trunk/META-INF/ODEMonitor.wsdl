@@ -23,7 +23,7 @@ async	registerODE	(poolInstance : boolean, odeID : String)
    				  : ()
 
 sync	getConfig	()
-   				   (updateInterval : int, configChanged : timestamp)
+   				    (updateInterval : int, configChanged : timestamp)
 
  -->
 
