@@ -26,6 +26,7 @@ import de.decidr.model.entities.SystemSettings;
 /**
  * FIXME add documentation
  * FIXME add properties file with configuration for ESB
+ * DH add version info (by RR)
  * 
  * @author Daniel Huss
  * @version 0.1

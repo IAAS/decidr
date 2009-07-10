@@ -65,8 +65,7 @@ public class BasicProcessClient extends Service {
      */
     @WebEndpoint(name = "basicProcessSOAP")
     public BasicProcessInterface getBPELCallbackInterfacePort() {
-        return super.getPort(new QName(BasicProcessInterface.TARGET_NAMESPACE,
-                "basicProcessSOAP"), BasicProcessInterface.class);
+        return super.getPort(BasicProcessInterface.ENDPOINT, BasicProcessInterface.class);
     }
 
     /**
@@ -78,7 +77,6 @@ public class BasicProcessClient extends Service {
     @WebEndpoint(name = "basicProcessSOAP")
     public BasicProcessInterface getBPELCallbackInterfacePort(
             WebServiceFeature... features) {
-        return super.getPort(new QName(BasicProcessInterface.TARGET_NAMESPACE,
-                "basicProcessSOAP"), BasicProcessInterface.class, features);
+        return super.getPort(BasicProcessInterface.ENDPOINT, BasicProcessInterface.class, features);
     }
 }

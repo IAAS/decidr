@@ -30,19 +30,19 @@ import de.decidr.model.soap.types.TaskIdentifier;
  * 
  * @author Reinhold
  */
-@WebService(targetNamespace = BasicProcessInterface.TARGET_NAMESPACE, name = "basicProcessPT")
+@WebService(targetNamespace = BasicProcessInterface.TARGET_NAMESPACE, name = BasicProcessInterface.PORT_TYPE_NAME)
 public interface BasicProcessInterface {
 
     public static final String SERVICE_NAME = "basicProcess";
-
-    /**
-     * The namespace of the ODE callback.
-     */
+    public static final String PORT_TYPE_NAME = "basicProcessPT";
     public static final String TARGET_NAMESPACE = "http://decidr.de/wsdl/basicProcess";
-    public static final QName SERVICE = new QName(TARGET_NAMESPACE, "basicProcess");
+    public static final QName SERVICE = new QName(TARGET_NAMESPACE,
+            SERVICE_NAME);
+    public static final QName ENDPOINT = new QName(TARGET_NAMESPACE,
+            "basicProcessSOAP");
 
     /**
-     * The callback method for when a human task is finished.
+     * The callback method for when a human task is completed.
      * 
      * @param taskID
      *            Information needed to identify the target ODE &amp; workflow
