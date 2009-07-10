@@ -15,6 +15,7 @@
  */
 package de.decidr.model.webservices;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -22,6 +23,8 @@ import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
+
+import de.decidr.model.DecidrGlobals;
 
 /**
  * Client for the <code>{@link EmailInterface}</code>. Needs at least the WSDL's
@@ -31,6 +34,12 @@ import javax.xml.ws.WebServiceFeature;
  */
 @WebServiceClient(name = "Email", wsdlLocation = "Email.wsdl", targetNamespace = EmailInterface.TARGET_NAMESPACE)
 public class EmailClient extends Service {
+
+    public EmailClient() throws MalformedURLException {
+        this(new URL(DecidrGlobals
+                .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME)),
+                EmailInterface.SERVICE);
+    }
 
     public EmailClient(URL wsdlLocation) {
         super(wsdlLocation, EmailInterface.SERVICE);
@@ -61,6 +70,7 @@ public class EmailClient extends Service {
      */
     @WebEndpoint(name = "EmailSOAP")
     public EmailInterface getEmailSOAP(WebServiceFeature... features) {
-        return super.getPort(EmailInterface.ENDPOINT, EmailInterface.class, features);
+        return super.getPort(EmailInterface.ENDPOINT, EmailInterface.class,
+                features);
     }
 }

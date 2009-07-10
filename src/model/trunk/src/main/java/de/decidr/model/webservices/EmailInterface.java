@@ -43,8 +43,8 @@ import de.decidr.model.soap.types.StringMap;
 @WebService(targetNamespace = EmailInterface.TARGET_NAMESPACE, name = EmailInterface.PORT_TYPE_NAME)
 public interface EmailInterface {
 
-    public static final String PORT_TYPE_NAME = "EmailPT";
     public static final String SERVICE_NAME = "Email";
+    public static final String PORT_TYPE_NAME = "EmailPT";
     public static final String TARGET_NAMESPACE = "http://decidr.de/webservices/Email";
     public final static QName SERVICE = new QName(TARGET_NAMESPACE,
             SERVICE_NAME);

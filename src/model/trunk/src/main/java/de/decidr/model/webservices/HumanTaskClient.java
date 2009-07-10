@@ -15,6 +15,7 @@
  */
 package de.decidr.model.webservices;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -22,6 +23,8 @@ import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
+
+import de.decidr.model.DecidrGlobals;
 
 /**
  * Client for the <code>{@link HumanTaskInterface}</code>. Needs at least the
@@ -32,13 +35,14 @@ import javax.xml.ws.WebServiceFeature;
 @WebServiceClient(name = "HumanTask", wsdlLocation = "HumanTask.wsdl", targetNamespace = HumanTaskInterface.TARGET_NAMESPACE)
 public class HumanTaskClient extends Service {
 
-    public final static QName SERVICE = new QName(
-            HumanTaskInterface.TARGET_NAMESPACE, "HumanTask");
-    public final static QName HUMAN_TASK_SOAP = new QName(
-            HumanTaskInterface.TARGET_NAMESPACE, "HumanTaskSOAP");
+    public HumanTaskClient() throws MalformedURLException {
+        this(new URL(DecidrGlobals
+                .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME)),
+                HumanTaskInterface.SERVICE);
+    }
 
     public HumanTaskClient(URL wsdlLocation) {
-        super(wsdlLocation, SERVICE);
+        super(wsdlLocation, HumanTaskInterface.SERVICE);
     }
 
     public HumanTaskClient(URL wsdlLocation, QName serviceName) {
@@ -51,7 +55,8 @@ public class HumanTaskClient extends Service {
      */
     @WebEndpoint(name = "HumanTaskSOAP")
     public HumanTaskInterface getEmailSOAP() {
-        return super.getPort(HUMAN_TASK_SOAP, HumanTaskInterface.class);
+        return super.getPort(HumanTaskInterface.ENDPOINT,
+                HumanTaskInterface.class);
     }
 
     /**
@@ -65,7 +70,7 @@ public class HumanTaskClient extends Service {
      */
     @WebEndpoint(name = "HumanTaskSOAP")
     public HumanTaskInterface getEmailSOAP(WebServiceFeature... features) {
-        return super.getPort(HUMAN_TASK_SOAP, HumanTaskInterface.class,
-                features);
+        return super.getPort(HumanTaskInterface.ENDPOINT,
+                HumanTaskInterface.class, features);
     }
 }

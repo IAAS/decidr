@@ -18,6 +18,7 @@ package de.decidr.model.webservices;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
+import javax.xml.namespace.QName;
 
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.soap.exceptions.ReportingException;
@@ -31,10 +32,16 @@ import de.decidr.model.soap.types.TaskIdentifier;
  * 
  * @author Reinhold
  */
-@WebService(name = "HumanTaskPT", portName = "HumanTaskSOAP", serviceName = "HumanTask", targetNamespace = HumanTaskInterface.TARGET_NAMESPACE, wsdlLocation = "HumanTask.wsdl")
+@WebService(name = HumanTaskInterface.PORT_TYPE_NAME, portName = "HumanTaskSOAP", serviceName = "HumanTask", targetNamespace = HumanTaskInterface.TARGET_NAMESPACE, wsdlLocation = "HumanTask.wsdl")
 public interface HumanTaskInterface {
 
+    public static final String SERVICE_NAME = "HumanTask";
+    public static final String PORT_TYPE_NAME = "HumanTaskPT";
     public static final String TARGET_NAMESPACE = "http://decidr.de/webservices/HumanTask";
+    public final static QName SERVICE = new QName(TARGET_NAMESPACE,
+            SERVICE_NAME);
+    public final static QName ENDPOINT = new QName(TARGET_NAMESPACE,
+            "HumanTaskSOAP");
 
     /**
      * This method creates an entry in the database representing a work item to

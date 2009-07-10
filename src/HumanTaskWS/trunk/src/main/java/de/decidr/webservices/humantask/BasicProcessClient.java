@@ -15,6 +15,7 @@
  */
 package de.decidr.webservices.humantask;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -22,6 +23,8 @@ import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
+
+import de.decidr.model.DecidrGlobals;
 
 /**
  * A web service client for the callback method provided by the BPEL process.
@@ -48,8 +51,13 @@ public class BasicProcessClient extends Service {
      *            service.
      */
     public BasicProcessClient(URL wsdlLocation) {
-        this(wsdlLocation, new QName(BasicProcessInterface.TARGET_NAMESPACE,
-                "basicProcess"));
+        this(wsdlLocation, BasicProcessInterface.SERVICE);
+    }
+
+    public BasicProcessClient() throws MalformedURLException {
+        this(new URL(DecidrGlobals
+                .getWebServiceWsdlUrl(BasicProcessInterface.SERVICE_NAME)),
+                BasicProcessInterface.SERVICE);
     }
 
     /**

@@ -17,7 +17,6 @@ package de.decidr.webservices.humantask;
 
 import java.io.StringReader;
 import java.net.MalformedURLException;
-import java.net.URL;
 
 import javax.jws.WebService;
 import javax.xml.bind.JAXBContext;
@@ -107,7 +106,6 @@ public class HumanTask implements HumanTaskInterface {
         TaskIdentifier id = new TaskIdentifier(taskID, workItem
                 .getWorkflowInstance().getOdePid(), workItem.getUser().getId());
 
-        // RR: get wsdl url from config
         try {
             log.debug("attempting to parse the data string into an Object");
             Unmarshaller unmarshaller = JAXBContext.newInstance(ItemList.class)
@@ -115,9 +113,9 @@ public class HumanTask implements HumanTaskInterface {
             JAXBElement<ItemList> list = unmarshaller.unmarshal(
                     new StreamSource(new StringReader(taskData.toString())),
                     ItemList.class);
-            
-            log.debug("calling ");
-            new BasicProcessClient(new URL("")).getBPELCallbackInterfacePort()
+
+            log.debug("calling Callback");
+            new BasicProcessClient().getBPELCallbackInterfacePort()
                     .taskCompleted(id, list.getValue());
         } catch (MalformedURLException e) {
             throw new ReportingException(e.getMessage(), e);
