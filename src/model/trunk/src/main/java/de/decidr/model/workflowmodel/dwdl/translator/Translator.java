@@ -17,15 +17,13 @@
 package de.decidr.model.workflowmodel.dwdl.translator;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-
 import javax.wsdl.Definition;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.soap.SOAPMessage;
-
+import javax.xml.transform.stream.StreamSource;
 import de.decidr.model.workflowmodel.bpel.TProcess;
 import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dwdl.TWorkflow;
@@ -49,15 +47,11 @@ public class Translator {
 
         JAXBContext dwdlCntxt = JAXBContext.newInstance(TWorkflow.class);
         Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
-        JAXBElement<TWorkflow> element = parse(dwdl, dwdlUnmarshaller);
-        
-        dwdlWorkflow = element.getValue();
-    }
+        JAXBElement<TWorkflow> element = dwdlUnmarshaller.unmarshal(
+                new StreamSource(new ByteArrayInputStream(dwdl)),
+                TWorkflow.class);
 
-    private JAXBElement<TWorkflow> parse(byte[] dwdl,
-            Unmarshaller dwdlUnmarshaller) throws JAXBException {
-        return (JAXBElement<TWorkflow>) dwdlUnmarshaller
-        .unmarshal(new ByteArrayInputStream(dwdl));
+        dwdlWorkflow = element.getValue();
     }
 
     public TProcess getBPEL() {

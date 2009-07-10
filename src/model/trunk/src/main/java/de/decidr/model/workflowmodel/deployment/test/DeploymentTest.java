@@ -16,19 +16,16 @@
 
 package de.decidr.model.workflowmodel.deployment.test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import de.decidr.model.workflowmodel.dwdl.*;
+import java.io.IOException;
+import java.io.InputStream;
+
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 import de.decidr.model.workflowmodel.bpel.TProcess;
-import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 import de.decidr.model.workflowmodel.dwdl.translator.Translator;
 
 /**
@@ -46,50 +43,52 @@ public class DeploymentTest {
      * @throws FileNotFoundException
      */
     public static void main(String[] args) {
-        JAXBContext dwdlCntxt;
-        JAXBContext bpelCntxt;
         try {
-            dwdlCntxt = JAXBContext.newInstance(TWorkflow.class);
-            Marshaller dwdlMarshaller = dwdlCntxt.createMarshaller();
-            Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
-            bpelCntxt = JAXBContext.newInstance(TProcess.class);
-            Marshaller bpelMarshaller = bpelCntxt.createMarshaller();
-            Unmarshaller bpelUnmarshaller = bpelCntxt.createUnmarshaller();
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            TWorkflow testWorkflow = getTestWorkflow();
-//            TWorkflow dwdlWorkflow = null;
-//            JAXBElement<TWorkflow> element = (JAXBElement<TWorkflow>) dwdlUnmarshaller
-//                    .unmarshal(new FileInputStream("sampleProcess.xml"));
-//            dwdlWorkflow = element.getValue();
-//            dwdlMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//            dwdlMarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-//            dwdlMarshaller.marshal(dwdlWorkflow, out);
-            dwdlMarshaller.marshal(testWorkflow, out);
-            System.out.println(out.toString());
             Translator t = new Translator();
-            t.load(out.toByteArray());
-            out.reset();
-            TProcess process = t.getBPEL();
-            bpelMarshaller.marshal(process, out);
-            System.out.println(out.toString());  
-                        
+            t.load(getBytesFromFile(new File("sampleProcess.xml")));
+            System.out.println("Done");
+            TProcess p = t.getBPEL();
+            JAXBContext cntxt = JAXBContext.newInstance(TProcess.class);
+            Marshaller marshaller = cntxt.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            marshaller.marshal(p, System.out);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             System.out.println("Ups");
         }
     }
-
-    /**
-     * MA: add comment
-     *
-     * @return
-     */
-    private static TWorkflow getTestWorkflow() {
-        ObjectFactory factory = new ObjectFactory();
-        TWorkflow w = factory.createTWorkflow();
-        w.setName("HalloWelt");
-
-        return w;
+    
+    public static byte[] getBytesFromFile(File file) throws IOException {
+        InputStream is = new FileInputStream(file);
+    
+        // Get the size of the file
+        long length = file.length();
+    
+        if (length > Integer.MAX_VALUE) {
+            // File is too large
+        }
+    
+        // Create the byte array to hold the data
+        byte[] bytes = new byte[(int)length];
+    
+        // Read in the bytes
+        int offset = 0;
+        int numRead = 0;
+        while (offset < bytes.length
+               && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
+            offset += numRead;
+        }
+    
+        // Ensure all the bytes have been read in
+        if (offset < bytes.length) {
+            throw new IOException("Could not completely read file "+file.getName());
+        }
+    
+        // Close the input stream and return bytes
+        is.close();
+        return bytes;
     }
-}    
+}

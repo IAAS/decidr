@@ -18,7 +18,6 @@ package de.decidr.model.workflowmodel.deployment;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -84,8 +83,9 @@ public class DeployerImpl implements Deployer {
         }
         translator = new Translator();
         translator.load(dwdl);
+
         TProcess bpel = translator.getBPEL();
-        Definition wsdl = translator.getWSDL("someloaction", "sometenantName");
+        Definition wsdl = translator.getWSDL("someloaction", tenantName);
         TDeployment dd = translator.getDD();
         SOAPMessage soap = translator.getSOAP();
         byte[] zipFile = getDeploymentBundle(tenantName, bpel, wsdl, dd);                

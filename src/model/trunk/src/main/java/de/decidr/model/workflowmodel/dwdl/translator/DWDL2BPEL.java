@@ -17,6 +17,10 @@
 package de.decidr.model.workflowmodel.dwdl.translator;
 
 import javax.xml.namespace.QName;
+
+import org.apache.log4j.Logger;
+import de.decidr.model.logging.DefaultLogger;
+
 import de.decidr.model.workflowmodel.bpel.ObjectFactory;
 import de.decidr.model.workflowmodel.bpel.TActivityContainer;
 import de.decidr.model.workflowmodel.bpel.TAssign;
@@ -50,6 +54,8 @@ import de.decidr.model.workflowmodel.dwdl.TWorkflow;
  */
 public class DWDL2BPEL {
 
+    private static Logger log = DefaultLogger.getLogger(DWDL2BPEL.class);
+
     private TProcess process = null;
     private TWorkflow dwdl = null;
     private ObjectFactory factory = null;
@@ -60,9 +66,9 @@ public class DWDL2BPEL {
 
         factory = new ObjectFactory();
         process = factory.createTProcess();
-        
+
         process.setName(dwdl.getName());
-        
+
         setDocumentation();
         setProcessAttributes();
         setImports();
@@ -79,7 +85,6 @@ public class DWDL2BPEL {
 
     private void setProcessVariables() {
         TVariables variables = factory.createTVariables();
-        process.setVariables(variables);
         TVariable startConfigurations = factory.createTVariable();
         TVariable wfmid = factory.createTVariable();
         TVariable faultMessage = factory.createTVariable();
@@ -89,6 +94,8 @@ public class DWDL2BPEL {
         TVariable taskMessage = factory.createTVariable();
         TVariable taskMessageResponse = factory.createTVariable();
         TVariable taskDataMessage = factory.createTVariable();
+
+        process.setVariables(variables);
         startConfigurations.setName("startConfigurations");
         startConfigurations.setMessageType(new QName("startMessage"));
         wfmid.setName("wfmid");
@@ -160,6 +167,7 @@ public class DWDL2BPEL {
     private String getXMLElement(TActor actor) {
         String xml = "<actor name=" + actor.getName() + " userid="
                 + actor.getUserId() + " email=" + actor.getEmail() + "/>";
+
         return xml;
     }
 
@@ -224,7 +232,7 @@ public class DWDL2BPEL {
                 for (TRecipient recipient : dwdl.getFaultHandler()
                         .getRecipient()) {
                     for (TSetProperty property : recipient.getSetProperty()) {
-                        if (property.getVariable().isEmpty()) {
+                        if (property.getVariable() != null) {
                             addCopyValueStatement(assign, property,
                                     getBPELVariableByName("faultMessage"));
                         } else {
@@ -364,6 +372,9 @@ public class DWDL2BPEL {
 
     private void setVariables() {
         if (dwdl.getVariables() != null) {
+            de.decidr.model.workflowmodel.bpel.TVariables vars = factory
+                    .createTVariables();
+            process.setVariables(vars);
             for (de.decidr.model.workflowmodel.dwdl.TVariable v : dwdl
                     .getVariables().getVariable()) {
                 de.decidr.model.workflowmodel.bpel.TVariable var = factory
