@@ -232,7 +232,6 @@ public class StorageProviderFactory {
     /**
      * Tries to find available <code>{@link StorageProvider}</code>.
      */
-    // RR: find better way of finding available providers
     private void discoverProviders() {
         log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
                 + ".discoverProviders()");

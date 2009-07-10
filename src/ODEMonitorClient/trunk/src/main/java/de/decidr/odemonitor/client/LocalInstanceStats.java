@@ -30,7 +30,7 @@ import de.decidr.model.logging.DefaultLogger;
 public class LocalInstanceStats {
 
     Logger log = DefaultLogger.getLogger(LocalInstanceStats.class);
-//TODO num wfms
+
     /**
      * Returns the number of workflow model instances running on this ODE
      * instance.
@@ -42,7 +42,23 @@ public class LocalInstanceStats {
         log.trace("Entering " + LocalInstanceStats.class.getSimpleName()
                 + ".getNumInstances()");
         int numInst = 0;
-        
+
+        // RR implement
+        log.trace("Leaving " + LocalInstanceStats.class.getSimpleName()
+                + ".getNumInstances()");
+        return numInst;
+    }
+
+    /**
+     * Returns the number of workflow models deployed on this ODE instance.
+     * 
+     * @return The number of workflow models deployed on the ODE instance.
+     */
+    public int getNumModels() {
+        log.trace("Entering " + LocalInstanceStats.class.getSimpleName()
+                + ".getNumInstances()");
+        int numInst = 0;
+
         // RR implement
         log.trace("Leaving " + LocalInstanceStats.class.getSimpleName()
                 + ".getNumInstances()");

@@ -61,13 +61,4 @@ public class LocalInstanceManager implements InstanceManager {
                 + ".stopInstance()");
         return false;
     }
-
-    @Override
-    public void lockInstance(boolean locked) {
-        log.trace("Entering " + LocalInstanceManager.class.getSimpleName()
-                + ".lockInstance(boolean)");
-        // RR implement
-        log.trace("Leaving " + LocalInstanceManager.class.getSimpleName()
-                + ".lockInstance(boolean)");
-    }
 }
