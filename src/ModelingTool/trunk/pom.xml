@@ -86,6 +86,11 @@
 			<version>1.2.4</version>
 		</dependency>
 		<dependency>
+			<groupId>de.decidr</groupId>
+			<artifactId>model</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>de.decidr.WebPortal</groupId>
 			<artifactId>vaadin</artifactId>
 			<version>6.0.0</version>
