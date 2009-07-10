@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 	<workflow id="jf54sdfasdfsdfeopei4" name="Party Organization" 
-	 targetNamespace="http://decidr.de/decidr/party" />
+	 targetNamespace="http://decidr.de/decidr/party"
+	 xmlns="http://decidr.de/schema/dwdl">
 		<description lang="de" source="www.iaas.uni-stuttgart.de">
 			Workflow to organize a party!
 		</description>
@@ -13,7 +14,7 @@
 		    </variable>
 		    <variable name="successOrganization" type="string">
 		      <initialValue>
-		        Party organization succesfully finished!
+		        Party organization successfully finished!
 		      </initialValue>
 		    </variable>
 			<variable name="invitationFormResult" type="form" />
@@ -68,10 +69,10 @@
 				</sources>
 				<setProperty 
 				 name="to"
-				 variable="guests">
+				 variable="guests" />
 				<setProperty 
 				 name="cc"
-				 variable="host">
+				 variable="host"/>
 				<setProperty 
 				 name="subject">
 					<propertyValue>
@@ -137,7 +138,7 @@
 						 name="description">
 							<propertyValue>
 								Please fill in the form. It would be nice if somebody
-								can birng a cake and a barbecue. I'm looking forward
+								can bring a cake and a barbecue. I'm looking forward
 								to meet you.
 							</propertyValue>
 						</setProperty>
@@ -169,7 +170,7 @@
 							</taskItem>
 							<taskItem name="food"
 							 type="string">
-								<label>Which fingerfood are you going to make?</label>
+								<label>Which finger food are you going to make?</label>
 								<hint>Don't forget the cake and the barbecue</hint>
 								<value>your choice ...</value>
 							</taskItem>

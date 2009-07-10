@@ -16,24 +16,30 @@
 
 package de.decidr.model.workflowmodel.deployment.test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
+import de.decidr.model.workflowmodel.dwdl.*;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import de.decidr.model.workflowmodel.bpel.TProcess;
 import de.decidr.model.workflowmodel.dwdl.TWorkflow;
+import de.decidr.model.workflowmodel.dwdl.translator.Translator;
 
 /**
- * TODO: add comment
+ * MA: add comment
  * 
  * @author Modood Alvi
  */
 public class DeploymentTest {
 
     /**
-     * TODO: add comment
+     * MA: add comment
      * 
      * @param args
      * @throws JAXBException
@@ -41,23 +47,49 @@ public class DeploymentTest {
      */
     public static void main(String[] args) {
         JAXBContext dwdlCntxt;
+        JAXBContext bpelCntxt;
         try {
             dwdlCntxt = JAXBContext.newInstance(TWorkflow.class);
-            Unmarshaller unmarshaller;
-            unmarshaller = dwdlCntxt.createUnmarshaller();
-            TWorkflow dwdlWorkflow;
-            dwdlWorkflow = (TWorkflow) unmarshaller
-                    .unmarshal(new FileInputStream("sampleProcess"));
-            dwdlWorkflow.toString();
-        } catch (FileNotFoundException e) {
+            Marshaller dwdlMarshaller = dwdlCntxt.createMarshaller();
+            Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
+            bpelCntxt = JAXBContext.newInstance(TProcess.class);
+            Marshaller bpelMarshaller = bpelCntxt.createMarshaller();
+            Unmarshaller bpelUnmarshaller = bpelCntxt.createUnmarshaller();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            TWorkflow testWorkflow = getTestWorkflow();
+//            TWorkflow dwdlWorkflow = null;
+//            JAXBElement<TWorkflow> element = (JAXBElement<TWorkflow>) dwdlUnmarshaller
+//                    .unmarshal(new FileInputStream("sampleProcess.xml"));
+//            dwdlWorkflow = element.getValue();
+//            dwdlMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//            dwdlMarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+//            dwdlMarshaller.marshal(dwdlWorkflow, out);
+            dwdlMarshaller.marshal(testWorkflow, out);
+            System.out.println(out.toString());
+            Translator t = new Translator();
+            t.load(out.toByteArray());
+            out.reset();
+            TProcess process = t.getBPEL();
+            bpelMarshaller.marshal(process, out);
+            System.out.println(out.toString());  
+                        
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            System.out.println("filenotfound");
-        } catch (JAXBException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            System.out.println("jaxbexception");
+            System.out.println("Ups");
         }
     }
 
-}
+    /**
+     * MA: add comment
+     *
+     * @return
+     */
+    private static TWorkflow getTestWorkflow() {
+        ObjectFactory factory = new ObjectFactory();
+        TWorkflow w = factory.createTWorkflow();
+        w.setName("HalloWelt");
+
+        return w;
+    }
+}    

@@ -78,8 +78,6 @@ public class DeployerImpl implements Deployer {
         if (!problems.isEmpty()) {
             throw new DWDLValidationException(problems);
         }
-        strategy = new StandardDeploymentStrategy();
-        //TODO integrate strategy
         serverList = strategy.selectServer(serverStatistics);
         if (serverList.isEmpty()) {
             throw new ODESelectorException(serverStatistics);
