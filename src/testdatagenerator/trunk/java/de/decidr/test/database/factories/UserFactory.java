@@ -15,6 +15,13 @@ import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.permissions.Password;
 
+/**
+ * Creates randomized users for testing purposes.
+ * 
+ * @author Thomas Karsten
+ * @author Daniel Huss
+ * @version 0.1
+ */
 public class UserFactory {
 
     private static String[] firstNames = { "Thomas", "Modood", "Jenny",
@@ -22,11 +29,41 @@ public class UserFactory {
             "Daniel", "三郎" };
 
     private static String[] lastNames = { "Kraxelhuber", "大輔", "Smith",
-            "Freeman", "Estacado" };
+            "Freeman", "Estacado", "Иванов", "Хус" };
+
+    private static String[] streets = { "Marktstraße", "Silly Lane",
+            "Red Light District", "Black Mesa", "Universitätsstraße" };
+
+    private static String[] cities = { "Stuttgart", "Köln", "Berlin",
+            "Ростов-на-Дону", "Київ", "Харьков", "Ялта", "Владивосток",
+            "Новосибирск", "Сочи", "東京", "横浜市" };
 
     private static Random rnd = new Random();
 
-    public static List<User> createRandomUsers(int numUsers) {
+    /**
+     * Constructor
+     */
+    public UserFactory() {
+        super();
+    }
+
+    /**
+     * Generates numUsers random users. (Hopefully) all user statuses are
+     * covered, including:
+     * 
+     * <ul>
+     * <li>Account disabled by the super admin</li>
+     * <li>Status set to "unavailable for workflow participation"</li>
+     * <li>Having an active change email request</li>
+     * <li>Having registered a user profile</li>
+     * <li>Having confirmed the registration request</li>
+     * <li>Having an active password reset</li>
+     * </ul>
+     * 
+     * @param numUsers
+     * @return
+     */
+    public List<User> createRandomUsers(int numUsers) {
         try {
             ArrayList<User> result = new ArrayList<User>(numUsers);
 
@@ -42,14 +79,15 @@ public class UserFactory {
                 // every 13th user is unavailable
                 user.setUnavailableSince((i % 13 == 0) ? now : null);
 
-                //every 31th user wants to change his email address
+                // every 31th user wants to change his email address
                 if (i % 31 == 0) {
                     ChangeEmailRequest request = new ChangeEmailRequest();
                     request.setAuthKey(Password.getRandomAuthKey());
                     request.setCreationDate(now);
                     request.setNewEmail("new_" + getUniqueEmailAddress(i));
+                    user.setChangeEmailRequest(request);
                 }
-                
+
                 // half our users will be registered users, the other half are
                 // unregistered users
                 if (i % 2 == 0) {
@@ -61,9 +99,10 @@ public class UserFactory {
                                     .nextInt(lastNames.length)]);
                     profile.setFirstName(firstNames[rnd
                             .nextInt(firstNames.length)]);
-                    profile.setCity("Stuttgart");
-                    profile.setPostalCode("70372");
-                    profile.setStreet("Marktstraße");
+                    profile.setCity(cities[rnd.nextInt(cities.length)]);
+                    profile.setPostalCode(Integer.toString(rnd.nextInt(99999)));
+                    profile.setStreet(streets[rnd.nextInt(streets.length)]
+                            + " " + Integer.toString(rnd.nextInt(999)));
                     String username = "user" + Integer.toString(i);
                     profile.setUsername(username);
                     profile.setPasswordSalt(Password.getRandomSalt());
@@ -82,23 +121,23 @@ public class UserFactory {
                         user.setRegistrationRequest(request);
                     }
 
-                    //every 29th registered user wants to reset his password
+                    // every 29th registered user wants to reset his password
                     if (i % 29 == 0) {
                         PasswordResetRequest request = new PasswordResetRequest();
                         request.setAuthKey(Password.getRandomAuthKey());
                         request.setCreationDate(now);
                         user.setPasswordResetRequest(request);
                     }
-                    
+
                 } else {
                     // the user is not registered
                     user.setAuthKey(Password.getRandomAuthKey());
                 }
                 result.add(user);
-                
+
             }
             return result;
-            
+
         } catch (NoSuchAlgorithmException e) {
             // this should never happen, abort!
             throw new RuntimeException(e);
@@ -107,10 +146,13 @@ public class UserFactory {
             throw new RuntimeException(e);
         }
 
-
     }
 
-    private static String getUniqueEmailAddress(int localPartNumber) {
+    /**
+     * @param localPartNumber
+     * @return a randomly generated email address.
+     */
+    private String getUniqueEmailAddress(int localPartNumber) {
         String localpart;
         try {
             localpart = "user_" + Integer.toString(localPartNumber) + "_"
@@ -122,7 +164,9 @@ public class UserFactory {
             // this should never happen, abort!
             throw new RuntimeException(e);
         }
-        String domain = "decidr.de";
+        // TODO the email web service must recognize this domain and redirect
+        // emails to a test inbox
+        String domain = "test.decidr.de";
 
         return localpart + "@" + domain;
     }

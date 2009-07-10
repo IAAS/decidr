@@ -1,37 +1,111 @@
 package de.decidr.test.database.factories;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.hibernate.Session;
 
+import de.decidr.model.DecidrGlobals;
+import de.decidr.model.entities.File;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 
 /**
- * This factory creates tenants for testing purposes. It is assumed that some
- * users are already available in the according database.
+ * Creates tenants for testing purposes. It is assumed that some users are
+ * already available in the target database (see UserFactory).
  * 
- * 
+ * @author Thomas Karsten
+ * @author Daniel Huss
+ * @version 0.1
  */
 public class TenantFactory {
 
+    private static char[] validTenantNameCharacters = { '0', '1', '2', '3',
+            '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g',
+            'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+            'u', 'v', 'w', 'x', 'y', 'z' };
+
+    private static int MAX_TENANT_NAME_LENTH = 50;
+
+    private static int MIN_TENANT_NAME_LENGTH = 2;
+
+    private static Random rnd = new Random();
+
     private Session session;
 
+    /**
+     * Constructor
+     * 
+     * @param session
+     */
     public TenantFactory(Session session) {
         this.session = session;
     }
 
-    public  List<Tenant> createRandomTenants(int numTenants) {
+    /**
+     * Creates numTenants random tenants.
+     * 
+     * @param numTenants
+     * @return
+     */
+    public List<Tenant> createRandomTenants(int numTenants) {
+
+        ArrayList<Tenant> result = new ArrayList<Tenant>(numTenants);
+
+        Date now = DecidrGlobals.getTime().getTime();
+
         for (int i = 0; i < numTenants; i++) {
             Tenant tenant = new Tenant();
-            
+
             tenant.setAdmin(getRandomAdmin());
-            //TODO continue here
-        
+            String tenantName = getRandomTenantName(i);
+            tenant.setName(tenantName);
+            tenant.setDescription(tenantName);
+
+            // every 5th tenant hasn't been approved yet
+            tenant.setApprovedSince(i % 5 == 0 ? null : now);
+
+            // 50 % use the simple color scheme
+            File advancedColorScheme = createDefaultColorScheme();
+            File simpleColorScheme = createDefaultColorScheme();
+
+            tenant.setAdvancedColorScheme(advancedColorScheme);
+            tenant.setSimpleColorScheme(simpleColorScheme);
+            tenant
+                    .setCurrentColorScheme(rnd.nextBoolean() ? advancedColorScheme
+                            : simpleColorScheme);
+
+            // No logo yet, too complicated!
+            tenant.setLogo(null);
+
+            result.add(tenant);
         }
-        return null;
+
+        return result;
     }
 
+    /**
+     * Creates a file reference that can be used as a color scheme.
+     * 
+     * @return
+     */
+    public File createDefaultColorScheme() {
+        File result = new File();
+        result.setFileName("uploaded.css");
+        result.setMayPublicRead(true);
+        result.setMimeType("text/css");
+        return result;
+    }
+
+    /**
+     * Retrieves a random user who can be promoted to tenant admin.
+     * 
+     * @return
+     * @throws RuntimeException
+     *             if no user can be found.
+     */
     public User getRandomAdmin() {
         String hql = "select u.id from User u"
                 + "where (u.disabledSince is null) and "
@@ -40,6 +114,38 @@ public class TenantFactory {
 
         User user = (User) session.createQuery(hql).uniqueResult();
 
+        if (user == null) {
+            throw new RuntimeException(
+                    "Cannot find a user who can be promoted to tenant admin.");
+        }
+
         return user;
+    }
+
+    /**
+     * Creates a random tenant name that meets the DecidR tenant name criteria.
+     * 
+     * @param id
+     *            tenant "id" appended to the end of the tenant name
+     * @return
+     */
+    private String getRandomTenantName(int id) {
+        StringBuffer randomName = new StringBuffer(MAX_TENANT_NAME_LENTH);
+        String idString = Integer.toString(id);
+
+        int nameLength = MIN_TENANT_NAME_LENGTH
+                + rnd.nextInt(MAX_TENANT_NAME_LENTH - MIN_TENANT_NAME_LENGTH
+                        - idString.length());
+
+        for (int i = 0; i < nameLength; i++) {
+            char c = validTenantNameCharacters[rnd
+                    .nextInt(validTenantNameCharacters.length)];
+
+            randomName.append(rnd.nextBoolean() ? Character.toUpperCase(c) : c);
+        }
+
+        randomName.append(idString);
+
+        return randomName.toString();
     }
 }
