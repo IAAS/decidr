@@ -15,6 +15,8 @@
  */
 package de.decidr.webservices.humantask;
 
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import de.decidr.model.soap.types.ItemList;
@@ -27,8 +29,24 @@ import de.decidr.model.soap.types.TaskIdentifier;
  * 
  * @author Reinhold
  */
-@WebService(name = "BPELCallback")
-public interface BPELCallbackInterface {
+@WebService(targetNamespace = BasicProcessInterface.TARGET_NAMESPACE, name = "basicProcessPT")
+public interface BasicProcessInterface {
 
-    public void taskCompleted(TaskIdentifier taskID, ItemList dataList);
+    /**
+     * The namespace of the ODE callback.
+     */
+    public static final String TARGET_NAMESPACE = "http://decidr.de/wsdl/basicProcess";
+
+    /**
+     * The callback method for when a human task is finished.
+     * 
+     * @param taskID
+     *            Information needed to identify the target ODE &amp; workflow
+     *            instances.
+     * @param dataList
+     *            The data produced by the work item.
+     */
+    @WebMethod(action = TARGET_NAMESPACE + "/taskCompleted", operationName = "taskCompleted")
+    public void taskCompleted(@WebParam(name = "taskID") TaskIdentifier taskID,
+            @WebParam(name = "dataList") ItemList dataList);
 }

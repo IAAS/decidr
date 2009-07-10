@@ -20,6 +20,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.soap.exceptions.ReportingException;
 import de.decidr.model.soap.types.IDList;
 import de.decidr.model.soap.types.TaskIdentifier;
 
@@ -30,8 +31,10 @@ import de.decidr.model.soap.types.TaskIdentifier;
  * 
  * @author Reinhold
  */
-@WebService(name = "HumanTaskPT", portName = "HumanTaskSOAP", serviceName = "HumanTask", targetNamespace = "http://decidr.de/webservices/HumanTask", wsdlLocation = "HumanTask.wsdl")
+@WebService(name = "HumanTaskPT", portName = "HumanTaskSOAP", serviceName = "HumanTask", targetNamespace = HumanTaskInterface.TARGET_NAMESPACE, wsdlLocation = "HumanTask.wsdl")
 public interface HumanTaskInterface {
+
+    public static final String TARGET_NAMESPACE = "http://decidr.de/webservices/HumanTask";
 
     /**
      * This method creates an entry in the database representing a work item to
@@ -61,7 +64,8 @@ public interface HumanTaskInterface {
      *             Should a <code>{@link TransactionException}</code> be thrown
      *             by the facade.
      */
-    @WebMethod(operationName = "createTask")
+    @WebMethod(operationName = "createTask", action = TARGET_NAMESPACE
+            + "/createTask")
     public TaskIdentifier createTask(@WebParam(name = "wfmID") long wfmID,
             @WebParam(name = "processID") String processID,
             @WebParam(name = "userID") long userID,
@@ -80,7 +84,8 @@ public interface HumanTaskInterface {
      *             Should a <code>{@link TransactionException}</code> be thrown
      *             by the facade.
      */
-    @WebMethod(operationName = "removeTask")
+    @WebMethod(operationName = "removeTask", action = TARGET_NAMESPACE
+            + "/removeTask")
     public void removeTask(@WebParam(name = "taskIDList") IDList taskIDList)
             throws TransactionException;
 
@@ -97,7 +102,8 @@ public interface HumanTaskInterface {
      *             Should a <code>{@link TransactionException}</code> be thrown
      *             by the facade.
      */
-    @WebMethod(operationName = "removeTasks")
+    @WebMethod(operationName = "removeTasks", action = TARGET_NAMESPACE
+            + "/removeTasks")
     public void removeTasks(@WebParam(name = "wfmID") long wfmID,
             @WebParam(name = "processID") String processID)
             throws TransactionException;
@@ -112,7 +118,8 @@ public interface HumanTaskInterface {
      *             Should a <code>{@link TransactionException}</code> be thrown
      *             by the facade.
      */
-    @WebMethod(operationName = "taskCompleted")
+    @WebMethod(operationName = "taskCompleted", action = TARGET_NAMESPACE
+            + "/taskCompleted")
     public void taskCompleted(@WebParam(name = "taskID") long taskID)
-            throws TransactionException;
+            throws TransactionException, ReportingException;
 }

@@ -24,12 +24,12 @@ package de.decidr.odemonitor.client;
 public class ODEMonitorClient {
 
     /**
-     * TODO: add comment
+     * RR: add comment
      * 
      * @param args
      */
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
+        // RR Auto-generated method stub
 
     }
 

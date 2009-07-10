@@ -29,13 +29,13 @@ import javax.xml.ws.WebServiceFeature;
  * 
  * @author Reinhold
  */
-@WebServiceClient(name = "HumanTask", wsdlLocation = "HumanTask.wsdl", targetNamespace = "http://decidr.de/webservices/HumanTask")
+@WebServiceClient(name = "HumanTask", wsdlLocation = "HumanTask.wsdl", targetNamespace = HumanTaskInterface.TARGET_NAMESPACE)
 public class HumanTaskClient extends Service {
 
     public final static QName SERVICE = new QName(
-            "http://decidr.de/webservices/HumanTask", "HumanTask");
+            HumanTaskInterface.TARGET_NAMESPACE, "HumanTask");
     public final static QName HUMAN_TASK_SOAP = new QName(
-            "http://decidr.de/webservices/HumanTask", "HumanTaskSOAP");
+            HumanTaskInterface.TARGET_NAMESPACE, "HumanTaskSOAP");
 
     public HumanTaskClient(URL wsdlLocation) {
         super(wsdlLocation, SERVICE);

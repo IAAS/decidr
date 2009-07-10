@@ -15,10 +15,16 @@
  */
 package de.decidr.webservices.humantask;
 
+import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.jws.WebService;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Logger;
 
@@ -30,7 +36,9 @@ import de.decidr.model.facades.WorkflowInstanceFacade;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.permissions.HumanTaskRole;
 import de.decidr.model.permissions.Role;
+import de.decidr.model.soap.exceptions.ReportingException;
 import de.decidr.model.soap.types.IDList;
+import de.decidr.model.soap.types.ItemList;
 import de.decidr.model.soap.types.TaskIdentifier;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.webservices.HumanTaskInterface;
@@ -86,10 +94,10 @@ public class HumanTask implements HumanTaskInterface {
     }
 
     @Override
-    public void taskCompleted(long taskID) throws TransactionException {
+    public void taskCompleted(long taskID) throws TransactionException,
+            ReportingException {
         log.trace("Entering method: taskCompleted");
         log.debug("getting data associated with task");
-
         GetWorkItemCommand cmd = new GetWorkItemCommand(HUMANTASK_ROLE, taskID);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
         WorkItem workItem = cmd.getResult();
@@ -101,11 +109,20 @@ public class HumanTask implements HumanTaskInterface {
 
         // RR: get wsdl url from config
         try {
-            new BPELCallbackClient(new URL("")).getBPELCallbackInterfacePort()
-                    .taskCompleted(id, taskData.toString());
+            log.debug("attempting to parse the data string into an Object");
+            Unmarshaller unmarshaller = JAXBContext.newInstance(ItemList.class)
+                    .createUnmarshaller();
+            JAXBElement<ItemList> list = unmarshaller.unmarshal(
+                    new StreamSource(new StringReader(taskData.toString())),
+                    ItemList.class);
+            
+            log.debug("calling ");
+            new BasicProcessClient(new URL("")).getBPELCallbackInterfacePort()
+                    .taskCompleted(id, list.getValue());
         } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new ReportingException(e.getMessage(), e);
+        } catch (JAXBException e) {
+            throw new ReportingException(e.getMessage(), e);
         }
 
         log.trace("Leaving method: taskCompleted");

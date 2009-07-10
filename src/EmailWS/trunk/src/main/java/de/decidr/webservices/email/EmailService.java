@@ -58,7 +58,7 @@ import de.decidr.model.webservices.EmailInterface;
  * 
  * @author Reinhold
  */
-@WebService(serviceName = "Email", portName = "EmailSOAP", targetNamespace = "http://decidr.de/webservices/Email", wsdlLocation = "file:Email.wsdl", endpointInterface = "de.decidr.webservices.email.EmailPT")
+@WebService(serviceName = "Email", portName = "EmailSOAP", targetNamespace = EmailInterface.TARGET_NAMESPACE, wsdlLocation = "Email.wsdl", endpointInterface = "de.decidr.webservices.email.EmailPT")
 public class EmailService implements EmailInterface {
 
     private static final String VERSION = "0.1";
@@ -245,7 +245,7 @@ public class EmailService implements EmailInterface {
 
         email.setXMailer(USER_AGENT);
 
-        // TODO get settings & apply
+        // RR get settings & apply
         throw new UnsupportedOperationException("Wants implementation");
     }
 

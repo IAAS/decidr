@@ -29,16 +29,11 @@ import javax.xml.ws.WebServiceFeature;
  * 
  * @author Reinhold
  */
-@WebServiceClient(name = "Email", wsdlLocation = "Email.wsdl", targetNamespace = "http://decidr.de/webservices/Email")
+@WebServiceClient(name = "Email", wsdlLocation = "Email.wsdl", targetNamespace = EmailInterface.TARGET_NAMESPACE)
 public class EmailClient extends Service {
 
-    public final static QName SERVICE = new QName(
-            "http://decidr.de/webservices/Email", "Email");
-    public final static QName EMAIL_SOAP = new QName(
-            "http://decidr.de/webservices/Email", "EmailSOAP");
-
     public EmailClient(URL wsdlLocation) {
-        super(wsdlLocation, SERVICE);
+        super(wsdlLocation, EmailInterface.SERVICE);
     }
 
     public EmailClient(URL wsdlLocation, QName serviceName) {
@@ -51,7 +46,7 @@ public class EmailClient extends Service {
      */
     @WebEndpoint(name = "EmailSOAP")
     public EmailInterface getEmailSOAP() {
-        return super.getPort(EMAIL_SOAP, EmailInterface.class);
+        return super.getPort(EmailInterface.ENDPOINT, EmailInterface.class);
     }
 
     /**
@@ -66,6 +61,6 @@ public class EmailClient extends Service {
      */
     @WebEndpoint(name = "EmailSOAP")
     public EmailInterface getEmailSOAP(WebServiceFeature... features) {
-        return super.getPort(EMAIL_SOAP, EmailInterface.class, features);
+        return super.getPort(EmailInterface.ENDPOINT, EmailInterface.class, features);
     }
 }

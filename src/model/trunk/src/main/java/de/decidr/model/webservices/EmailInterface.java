@@ -23,6 +23,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.mail.MessagingException;
 import javax.xml.bind.TypeConstraintException;
+import javax.xml.namespace.QName;
 
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.soap.exceptions.IoExceptionWrapper;
@@ -39,8 +40,16 @@ import de.decidr.model.soap.types.StringMap;
  * 
  * @author Reinhold
  */
-@WebService(targetNamespace = "http://decidr.de/webservices/Email", name = "EmailPT")
+@WebService(targetNamespace = EmailInterface.TARGET_NAMESPACE, name = EmailInterface.PORT_TYPE_NAME)
 public interface EmailInterface {
+
+    public static final String PORT_TYPE_NAME = "EmailPT";
+    public static final String SERVICE_NAME = "Email";
+    public static final String TARGET_NAMESPACE = "http://decidr.de/webservices/Email";
+    public final static QName SERVICE = new QName(TARGET_NAMESPACE,
+            SERVICE_NAME);
+    public final static QName ENDPOINT = new QName(TARGET_NAMESPACE,
+            "EmailSOAP");
 
     /**
      * The web service operation used to send an e-mail.
@@ -85,7 +94,7 @@ public interface EmailInterface {
      *             If an unknown subclass of <code>{@link AbstractUser}</code>
      *             is contained in a <code>{@link AbstractUserList}</code>.
      */
-    @WebMethod(action = "http://decidr.de/webservices/Email/sendEmail")
+    @WebMethod(action = TARGET_NAMESPACE + "/sendEmail", operationName = "sendEmail")
     public void sendEmail(
             @WebParam(name = "to", targetNamespace = "") AbstractUserList to,
             @WebParam(name = "cc", targetNamespace = "") AbstractUserList cc,

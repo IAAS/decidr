@@ -96,6 +96,7 @@
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="transactionException" type="xsd:string" />
+			<xsd:element name="reportingException" type="xsd:string" />
 		</xsd:schema>
 	</wsdl:types>
 
@@ -126,6 +127,9 @@
 	<wsdl:message name="transactionException">
 		<wsdl:part element="tns:transactionException" name="parameters" />
 	</wsdl:message>
+	<wsdl:message name="reportingException">
+		<wsdl:part element="tns:reportingException" name="parameters" />
+	</wsdl:message>
 
 	<wsdl:portType name="HumanTaskPT">
 		<wsdl:operation name="createTask">
@@ -140,6 +144,7 @@
 			<wsdl:output message="tns:taskCompletedResponse"
 				wsaw:Action="urn:taskCompletedResponse" />
 			<wsdl:fault name="transactionException" message="tns:transactionException" />
+			<wsdl:fault name="reportingException" message="tns:reportingException" />
 		</wsdl:operation>
 		<wsdl:operation name="removeTasks">
 			<wsdl:input message="tns:removeTasksRequest" wsaw:Action="urn:removeTasks" />
@@ -186,6 +191,9 @@
 				<soap:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
+				<soap:body use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="reportingException">
 				<soap:body use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
