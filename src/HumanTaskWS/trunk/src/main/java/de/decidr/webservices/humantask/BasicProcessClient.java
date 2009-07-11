@@ -31,7 +31,7 @@ import de.decidr.model.DecidrGlobals;
  * 
  * @author Reinhold
  */
-@WebServiceClient(name = "BPELCallbackClient", targetNamespace = BasicProcessInterface.TARGET_NAMESPACE, wsdlLocation = "ode_process.wsdl")
+@WebServiceClient(name = "BasicProcessClient", targetNamespace = BasicProcessInterface.TARGET_NAMESPACE, wsdlLocation = "ode_process.wsdl")
 public class BasicProcessClient extends Service {
 
     /**

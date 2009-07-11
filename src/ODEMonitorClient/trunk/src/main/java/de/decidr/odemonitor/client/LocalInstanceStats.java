@@ -16,6 +16,8 @@
 
 package de.decidr.odemonitor.client;
 
+import java.net.MalformedURLException;
+
 import org.apache.log4j.Logger;
 
 import de.decidr.model.logging.DefaultLogger;
@@ -30,20 +32,29 @@ import de.decidr.model.logging.DefaultLogger;
 public class LocalInstanceStats {
 
     Logger log = DefaultLogger.getLogger(LocalInstanceStats.class);
+    public static final String ODE_LOCATION = "http://localhost:8080/ode/processes/";
 
     /**
      * Returns the number of workflow model instances running on this ODE
      * instance.
      * 
      * @return The number of workflow model instances being executed on the ODE
-     *         instance.
+     *         instance. <code>-1</code> means an error occurred and the amount
+     *         of running instances could not be retrieved.
      */
     public int getNumInstances() {
         log.trace("Entering " + LocalInstanceStats.class.getSimpleName()
                 + ".getNumInstances()");
-        int numInst = 0;
+        int numInst = -1;
 
-        // RR implement
+        try {
+            numInst = new ODEManagementClient().getInstancePort()
+                    .listInstancesSummary(null, null, 0).getInstanceInfoList()
+                    .sizeOfInstanceInfoArray();
+        } catch (MalformedURLException e) {
+            log.error("The WSDL-URL was probably malformed...", e);
+        }
+
         log.trace("Leaving " + LocalInstanceStats.class.getSimpleName()
                 + ".getNumInstances()");
         return numInst;
@@ -53,15 +64,24 @@ public class LocalInstanceStats {
      * Returns the number of workflow models deployed on this ODE instance.
      * 
      * @return The number of workflow models deployed on the ODE instance.
+     *         <code>-1</code> means an error occurred and the amount of
+     *         deployed models could not be retrieved.
      */
     public int getNumModels() {
         log.trace("Entering " + LocalInstanceStats.class.getSimpleName()
                 + ".getNumInstances()");
-        int numInst = 0;
+        int numModels = -1;
 
-        // RR implement
+        try {
+            numModels = new ODEManagementClient().getProcessPort()
+                    .listAllProcesses().getProcessInfoList()
+                    .sizeOfProcessInfoArray();
+        } catch (MalformedURLException e) {
+            log.error("The WSDL-URL was probably malformed...", e);
+        }
+
         log.trace("Leaving " + LocalInstanceStats.class.getSimpleName()
                 + ".getNumInstances()");
-        return numInst;
+        return numModels;
     }
 }

@@ -32,7 +32,7 @@ import de.decidr.model.DecidrGlobals;
  * 
  * @author Reinhold
  */
-@WebServiceClient(name = "Email", wsdlLocation = "Email.wsdl", targetNamespace = EmailInterface.TARGET_NAMESPACE)
+@WebServiceClient(name = "Email", targetNamespace = EmailInterface.TARGET_NAMESPACE)
 public class EmailClient extends Service {
 
     public EmailClient() throws MalformedURLException {

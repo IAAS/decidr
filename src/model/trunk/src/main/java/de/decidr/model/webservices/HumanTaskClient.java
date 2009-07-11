@@ -32,7 +32,7 @@ import de.decidr.model.DecidrGlobals;
  * 
  * @author Reinhold
  */
-@WebServiceClient(name = "HumanTask", wsdlLocation = "HumanTask.wsdl", targetNamespace = HumanTaskInterface.TARGET_NAMESPACE)
+@WebServiceClient(name = "HumanTask", targetNamespace = HumanTaskInterface.TARGET_NAMESPACE)
 public class HumanTaskClient extends Service {
 
     public HumanTaskClient() throws MalformedURLException {

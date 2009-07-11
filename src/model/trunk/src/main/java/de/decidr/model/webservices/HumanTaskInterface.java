@@ -32,7 +32,7 @@ import de.decidr.model.soap.types.TaskIdentifier;
  * 
  * @author Reinhold
  */
-@WebService(name = HumanTaskInterface.PORT_TYPE_NAME, portName = "HumanTaskSOAP", serviceName = "HumanTask", targetNamespace = HumanTaskInterface.TARGET_NAMESPACE, wsdlLocation = "HumanTask.wsdl")
+@WebService(name = HumanTaskInterface.PORT_TYPE_NAME, portName = "HumanTaskSOAP", serviceName = "HumanTask", targetNamespace = HumanTaskInterface.TARGET_NAMESPACE)
 public interface HumanTaskInterface {
 
     public static final String SERVICE_NAME = "HumanTask";
