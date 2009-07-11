@@ -8,10 +8,15 @@
 *Add your issues to be discussed in the next "Weekly Meeting":*<br>
 *_Update: As discussed in the last meeting (07/06/2009), everybody who cannot attend one or several meetings - please share this information on this wiki page._* 
 
-== WM 06/07/09 ==
+== WM 07/13/09 ==
+Cannot attend: _none_<br>
+Issues:
+  # We need some method to distinguish between DecidR systems, e.g. name (backup vs. productive vs. experimental...) (RR)
+
+== WM 07/06/09 ==
 Cannot attend: JS, RR, DH<br>
 Issues:
-  #  Aleks holds the meeting (TK)
+  # Aleks holds the meeting (TK)
 
 == WM 06/09/09 ==
   # date for StorageWS & Email-WS dicussions (RR)
