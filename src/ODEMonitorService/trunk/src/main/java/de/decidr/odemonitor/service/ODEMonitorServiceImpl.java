@@ -16,17 +16,25 @@
 
 package de.decidr.odemonitor.service;
 
-import java.math.BigInteger;
-
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.Holder;
 
+import org.apache.log4j.Logger;
+
+import de.decidr.model.logging.DefaultLogger;
+
 /**
- * RR: add comment
+ * This implementation of the <code>{@link ODEMonitorService}</code> uses the
+ * model to access and store data.
  * 
  * @author Reinhold
  */
 public class ODEMonitorServiceImpl implements ODEMonitorService {
+
+    private static final Logger log = DefaultLogger
+            .getLogger(ODEMonitorServiceImpl.class);
 
     /*
      * (non-Javadoc)
@@ -36,10 +44,25 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
      * .Holder, javax.xml.ws.Holder)
      */
     @Override
-    public void getConfig(Holder<BigInteger> updateInterval,
+    public void getConfig(Holder<Integer> updateInterval,
             Holder<XMLGregorianCalendar> configChanged) {
-        // RR Auto-generated method stub
+        log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
+                + ".getConfig()");
+        log.debug("fetching update interval from model");
+        // RR actually do this
+        updateInterval.value = 60;
+        log.debug("fetching timestamp of last config change from model");
+        try {
+            // RR actually do this
+            configChanged.value = DatatypeFactory.newInstance()
+                    .newXMLGregorianCalendar(2009, 1, 1, 0, 0, 0, 0, 120);
+        } catch (DatatypeConfigurationException e) {
+            // RR Auto-generated catch block
+            e.printStackTrace();
+        }
 
+        log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
+                + ".getConfig()");
     }
 
     /*
@@ -49,8 +72,13 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
      */
     @Override
     public String registerODE(boolean poolInstance) {
+        log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
+                + ".registerODE()");
+        String odeID = null;
         // RR Auto-generated method stub
-        return null;
+        log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
+                + ".registerODE()");
+        return odeID;
     }
 
     /*
@@ -62,10 +90,12 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
      * javax.xml.ws.Holder)
      */
     @Override
-    public void updateStats(BigInteger wfInstances, BigInteger wfModels,
-            String odeID, Holder<XMLGregorianCalendar> configVersion,
-            Holder<Boolean> run) {
+    public void updateStats(int wfInstances, int wfModels, String odeID,
+            Holder<XMLGregorianCalendar> configVersion, Holder<Boolean> run) {
+        log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
+                + ".updateStats()");
         // RR Auto-generated method stub
-
+        log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
+                + ".updateStats()");
     }
 }

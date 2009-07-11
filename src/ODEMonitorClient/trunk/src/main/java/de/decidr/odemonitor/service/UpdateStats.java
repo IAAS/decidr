@@ -15,7 +15,6 @@
  */
 package de.decidr.odemonitor.service;
 
-import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -35,8 +34,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;wfInstances&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}integer&quot;/&gt;
- *         &lt;element name=&quot;wfModels&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}integer&quot;/&gt;
+ *         &lt;element name=&quot;wfInstances&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}int&quot;/&gt;
+ *         &lt;element name=&quot;wfModels&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}int&quot;/&gt;
  *         &lt;element name=&quot;odeID&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
@@ -52,19 +51,19 @@ import javax.xml.bind.annotation.XmlType;
 public class UpdateStats {
 
     @XmlElement(required = true)
-    protected BigInteger wfInstances;
+    protected Integer wfInstances;
     @XmlElement(required = true)
-    protected BigInteger wfModels;
+    protected Integer wfModels;
     @XmlElement(required = true)
     protected String odeID;
 
     /**
      * Gets the value of the wfInstances property.
      * 
-     * @return possible object is {@link BigInteger }
+     * @return possible object is {@link Integer }
      * 
      */
-    public BigInteger getWfInstances() {
+    public Integer getWfInstances() {
         return wfInstances;
     }
 
@@ -72,20 +71,20 @@ public class UpdateStats {
      * Sets the value of the wfInstances property.
      * 
      * @param value
-     *            allowed object is {@link BigInteger }
+     *            allowed object is {@link Integer }
      * 
      */
-    public void setWfInstances(BigInteger value) {
+    public void setWfInstances(Integer value) {
         this.wfInstances = value;
     }
 
     /**
      * Gets the value of the wfModels property.
      * 
-     * @return possible object is {@link BigInteger }
+     * @return possible object is {@link Integer }
      * 
      */
-    public BigInteger getWfModels() {
+    public Integer getWfModels() {
         return wfModels;
     }
 
@@ -93,10 +92,10 @@ public class UpdateStats {
      * Sets the value of the wfModels property.
      * 
      * @param value
-     *            allowed object is {@link BigInteger }
+     *            allowed object is {@link Integer }
      * 
      */
-    public void setWfModels(BigInteger value) {
+    public void setWfModels(Integer value) {
         this.wfModels = value;
     }
 
@@ -120,5 +119,4 @@ public class UpdateStats {
     public void setOdeID(String value) {
         this.odeID = value;
     }
-
 }

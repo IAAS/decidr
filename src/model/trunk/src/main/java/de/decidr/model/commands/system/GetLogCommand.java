@@ -16,36 +16,38 @@ public class GetLogCommand extends SystemCommand {
     private List<Log> result;
     private List<Filter> filters;
     private Paginator paginator;
-    
+
     /**
+     * Creates a new <code>{@link GetLogCommand}</code>. The command saves the
+     * logs in the variable result.
      * 
-     * Creates a new GetLogCommand. The command saves the logs in the variable
-     * result.
-     * 
-     * @param role the user which executes the command
-     * @param filters
-     * @param paginator
+     * @param role
+     *            the user who executes the command
+     * @param filters TODO document
+     * @param paginator TODO document
      */
     public GetLogCommand(Role role, List<Filter> filters, Paginator paginator) {
         super(role, null);
-        this.filters=filters;
-        this.paginator=paginator;
+        this.filters = filters;
+        this.paginator = paginator;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-        
-        PaginatingCriteria c = new PaginatingCriteria(Log.class,evt.getSession());
-        
+
+        PaginatingCriteria c = new PaginatingCriteria(Log.class, evt
+                .getSession());
+
         Filters.apply(c, filters, paginator);
-               
+
         result = c.list();
 
     }
 
     /**
+     * TODO document
      * 
      * @return
      */

@@ -22,12 +22,11 @@ import javax.xml.bind.annotation.XmlRegistry;
  * This object contains factory methods for each Java content interface and Java
  * element interface generated in the de.decidr.webservices.odemonitor package.
  * <p>
- * An ObjectFactory allows you to programatically construct new instances of the
- * Java representation for XML content. The Java representation of XML content
- * can consist of schema derived interfaces and classes representing the binding
- * of schema type definitions, element declarations and model groups. Factory
- * methods for each of these are provided in this class.
- * 
+ * An ObjectFactory allows you to programmatically construct new instances of
+ * the Java representation for XML content. The Java representation of XML
+ * content can consist of schema derived interfaces and classes representing the
+ * binding of schema type definitions, element declarations and model groups.
+ * Factory methods for each of these are provided in this class.
  */
 @XmlRegistry
 public class ObjectFactory {
@@ -35,14 +34,13 @@ public class ObjectFactory {
     /**
      * Create a new ObjectFactory that can be used to create new instances of
      * schema derived classes for package: de.decidr.webservices.odemonitor
-     * 
      */
     public ObjectFactory() {
+        // needed by JAXB
     }
 
     /**
      * Create an instance of {@link GetConfig }
-     * 
      */
     public GetConfig createGetConfig() {
         return new GetConfig();
@@ -50,7 +48,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RegisterODEResponse }
-     * 
      */
     public RegisterODEResponse createRegisterODEResponse() {
         return new RegisterODEResponse();
@@ -58,7 +55,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link UpdateStatsResponse }
-     * 
      */
     public UpdateStatsResponse createUpdateStatsResponse() {
         return new UpdateStatsResponse();
@@ -66,7 +62,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RegisterODE }
-     * 
      */
     public RegisterODE createRegisterODE() {
         return new RegisterODE();
@@ -74,7 +69,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link GetConfigResponse }
-     * 
      */
     public GetConfigResponse createGetConfigResponse() {
         return new GetConfigResponse();
@@ -82,10 +76,8 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link UpdateStats }
-     * 
      */
     public UpdateStats createUpdateStats() {
         return new UpdateStats();
     }
-
 }

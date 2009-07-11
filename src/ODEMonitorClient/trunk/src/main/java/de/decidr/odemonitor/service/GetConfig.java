@@ -46,5 +46,5 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "")
 @XmlRootElement(name = "getConfig")
 public class GetConfig {
-
+    // There are no parameters being passed, so this class is currently empty.
 }

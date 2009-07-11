@@ -12,8 +12,8 @@
 			<xsd:element name="updateStats">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="wfInstances" type="xsd:integer" />
-						<xsd:element name="wfModels" type="xsd:integer" />
+						<xsd:element name="wfInstances" type="xsd:int" />
+						<xsd:element name="wfModels" type="xsd:int" />
 						<xsd:element name="odeID" type="xsd:string" />
 					</xsd:sequence>
 				</xsd:complexType>
@@ -48,7 +48,7 @@
 			<xsd:element name="getConfigResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="updateInterval" type="xsd:integer">
+						<xsd:element name="updateInterval" type="xsd:int">
 							<xsd:annotation>
 								<xsd:documentation>Amount of time to wait between updates
 									(in seconds).</xsd:documentation>

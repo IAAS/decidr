@@ -228,7 +228,7 @@ public class NotificationText {
      * @param signature
      * @return complete email message
      */
-    public static String getDisaprovedTenantText(String userName,
+    public static String getDisapprovedTenantText(String userName,
             String tenantName, String signature) {
         String message = null;
         message = "Dear "
