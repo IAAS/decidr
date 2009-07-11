@@ -3,7 +3,7 @@
 	<service name="Email">
 		<messageReceivers>
 			<messageReceiver mep="http://www.w3.org/ns/wsdl/in-out"
-				class="de.decidr.webservices.email.EmailMessageReceiverInOut" />
+				class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
 		</messageReceivers>
 		<parameter name="ServiceClass">de.decidr.webservices.email.EmailService
 		</parameter>
@@ -13,7 +13,7 @@
 			namespace="http://decidr.de/webservices/Email">
 			<actionMapping>http://decidr.de/webservices/Email/sendEmail
 			</actionMapping>
-			<outputActionMapping>urn:sendEmailResponse
+			<outputActionMapping>http://decidr.de/webservices/Email/sendEmailResponse
 			</outputActionMapping>
 			<faultActionMapping faultName="malformedURLException">
 				http://decidr.de/webservices/Email/EmailPT/sendEmail/Fault/malformedURLException

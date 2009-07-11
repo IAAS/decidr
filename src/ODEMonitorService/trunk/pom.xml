@@ -112,5 +112,12 @@
 			<artifactId>mail</artifactId>
 			<version>1.4.1</version>
 		</dependency>
+		<dependency>
+			<groupId>de.decidr</groupId>
+			<artifactId>ODEMonitorClient</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 </project>

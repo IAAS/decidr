@@ -3,7 +3,7 @@
 	<service name="HumanTask">
 		<messageReceivers>
 			<messageReceiver mep="http://www.w3.org/ns/wsdl/in-out"
-				class="de.decidr.webservices.humantask.HumanTaskMessageReceiverInOut" />
+				class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
 		</messageReceivers>
 		<parameter name="ServiceClass">de.decidr.webservices.humantask.HumanTask
 		</parameter>
@@ -13,7 +13,8 @@
 			namespace="http://decidr.de/webservices/HumanTask">
 			<actionMapping>http://decidr.de/webservices/HumanTask/removeTask
 			</actionMapping>
-			<outputActionMapping>urn:removeTaskResponse
+			<outputActionMapping>
+				http://decidr.de/webservices/HumanTask/removeTaskResponse
 			</outputActionMapping>
 			<faultActionMapping faultName="transactionException">
 				http://decidr.de/webservices/HumanTask/HumanTaskPT/removeTask/Fault/transactionException
@@ -23,17 +24,22 @@
 			namespace="http://decidr.de/webservices/HumanTask">
 			<actionMapping>http://decidr.de/webservices/HumanTask/taskCompleted
 			</actionMapping>
-			<outputActionMapping>urn:taskCompletedResponse
+			<outputActionMapping>
+				http://decidr.de/webservices/HumanTask/taskCompletedResponse
 			</outputActionMapping>
 			<faultActionMapping faultName="transactionException">
 				http://decidr.de/webservices/HumanTask/HumanTaskPT/taskCompleted/Fault/transactionException
+			</faultActionMapping>
+			<faultActionMapping faultName="reportingException">
+				http://decidr.de/webservices/HumanTask/HumanTaskPT/taskCompleted/Fault/reportingException
 			</faultActionMapping>
 		</operation>
 		<operation name="createTask" mep="http://www.w3.org/ns/wsdl/in-out"
 			namespace="http://decidr.de/webservices/HumanTask">
 			<actionMapping>http://decidr.de/webservices/HumanTask/createTask
 			</actionMapping>
-			<outputActionMapping>urn:createTaskResponse
+			<outputActionMapping>
+				http://decidr.de/webservices/HumanTask/createTaskResponse
 			</outputActionMapping>
 			<faultActionMapping faultName="transactionException">
 				http://decidr.de/webservices/HumanTask/HumanTaskPT/createTask/Fault/transactionException
@@ -43,7 +49,8 @@
 			namespace="http://decidr.de/webservices/HumanTask">
 			<actionMapping>http://decidr.de/webservices/HumanTask/removeTasks
 			</actionMapping>
-			<outputActionMapping>urn:removeTasksResponse
+			<outputActionMapping>
+				http://decidr.de/webservices/HumanTask/removeTasksResponse
 			</outputActionMapping>
 			<faultActionMapping faultName="transactionException">
 				http://decidr.de/webservices/HumanTask/HumanTaskPT/removeTasks/Fault/transactionException

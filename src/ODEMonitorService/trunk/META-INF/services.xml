@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <serviceGroup>
-	<service name="Email">
+	<service name="ODEMonitor">
 		<messageReceivers>
 			<messageReceiver mep="http://www.w3.org/ns/wsdl/in-out"
-				class="de.decidr.webservices.email.EmailMessageReceiverInOut" />
+				class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
 		</messageReceivers>
-		<parameter name="ServiceClass">de.decidr.webservices.email.EmailService
+		<parameter name="ServiceClass">
+			de.decidr.odemonitor.service.ODEMonitorService
 		</parameter>
 		<parameter name="useOriginalwsdl">true</parameter>
 		<parameter name="modifyUserWSDLPortAddress">true</parameter>
-		<operation name="sendEmail" mep="http://www.w3.org/ns/wsdl/in-out"
-			namespace="http://decidr.de/webservices/Email">
-			<actionMapping>http://decidr.de/webservices/Email/sendEmail
+		<operation name="updateStats" mep="http://www.w3.org/ns/wsdl/in-out"
+			namespace="http://decidr.de/webservices/ODEMonitor">
+			<actionMapping>http://decidr.de/webservices/ODEMonitor/updateStats
 			</actionMapping>
-			<outputActionMapping>urn:sendEmailResponse
+			<outputActionMapping>
+				http://decidr.de/webservices/ODEMonitor/updateStatsResponse
 			</outputActionMapping>
-			<faultActionMapping faultName="malformedURLException">
-				http://decidr.de/webservices/Email/EmailPT/sendEmail/Fault/malformedURLException
-			</faultActionMapping>
-			<faultActionMapping faultName="ioException">
-				http://decidr.de/webservices/Email/EmailPT/sendEmail/Fault/ioException
-			</faultActionMapping>
-			<faultActionMapping faultName="transactionException">
-				http://decidr.de/webservices/Email/EmailPT/sendEmail/Fault/transactionException
-			</faultActionMapping>
-			<faultActionMapping faultName="messagingException">
-				http://decidr.de/webservices/Email/EmailPT/sendEmail/Fault/messagingException
-			</faultActionMapping>
+		</operation>
+		<operation name="registerODE" mep="http://www.w3.org/ns/wsdl/in-out"
+			namespace="http://decidr.de/webservices/ODEMonitor">
+			<actionMapping>http://decidr.de/webservices/ODEMonitor/registerODE
+			</actionMapping>
+			<outputActionMapping>
+				http://decidr.de/webservices/ODEMonitor/registerODEResponse
+			</outputActionMapping>
+		</operation>
+		<operation name="getConfig" mep="http://www.w3.org/ns/wsdl/in-out"
+			namespace="http://decidr.de/webservices/ODEMonitor">
+			<actionMapping>http://decidr.de/webservices/ODEMonitor/getConfig
+			</actionMapping>
+			<outputActionMapping>
+				http://decidr.de/webservices/ODEMonitor/getConfigResponse
+			</outputActionMapping>
 		</operation>
 	</service>
 </serviceGroup>
