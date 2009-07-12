@@ -44,6 +44,8 @@ public abstract class Port extends AbsolutePanel {
     private Position position;
     private int xOffset = 0;
     private int yOffset = 0;
+    
+    public abstract boolean isContainerPort();
 
     private boolean multipleConnectionsAllowed = false;
 

@@ -19,6 +19,7 @@ package de.decidr.modelingtool.client.command;
 import com.google.gwt.user.client.Window;
 
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
+import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
 import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
@@ -46,13 +47,17 @@ public class CreateInvokeNodeCommand implements UndoableCommand {
     public CreateInvokeNodeCommand(InvokeNode node) {
         this.node = node;
 
-        // create model
-        if (node instanceof EmailInvokeNode) {
-            model = new EmailInvokeNodeModel(node.getParentPanel()
-                    .getHasChildModelsModel());
-        } else if (node instanceof HumanTaskInvokeNode) {
-            model = new HumanTaskInvokeNodeModel(node.getParentPanel()
-                    .getHasChildModelsModel());
+        try {
+            // create model
+            if (node instanceof EmailInvokeNode) {
+                model = new EmailInvokeNodeModel(node.getParentPanel()
+                        .getHasChildModelsModel());
+            } else if (node instanceof HumanTaskInvokeNode) {
+                model = new HumanTaskInvokeNodeModel(node.getParentPanel()
+                        .getHasChildModelsModel());
+            }
+        } catch (InvalidTypeException e) {
+            e.printStackTrace();
         }
         
         // set position in model

@@ -16,6 +16,7 @@
 
 package de.decidr.modelingtool.client.command;
 
+import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.ui.HasChildren;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Workflow;
@@ -68,8 +69,12 @@ public class MoveNodeCommand implements UndoableCommand {
                 Workflow.getInstance().getSelectionHandler().unselect();
             }
 
-            node.getModel().setParentModel(
-                    oldParentPanel.getHasChildModelsModel());
+            try {
+                node.getModel().setParentModel(
+                        oldParentPanel.getHasChildModelsModel());
+            } catch (InvalidTypeException e) {
+                e.printStackTrace();
+            }
 
             newParentPanel.removeNode(node);
             oldParentPanel.addNode(node);
@@ -109,8 +114,12 @@ public class MoveNodeCommand implements UndoableCommand {
             newParentPanel.addNode(node);
 
             // set new parent model
-            node.getModel().setParentModel(
-                    newParentPanel.getHasChildModelsModel());
+            try {
+                node.getModel().setParentModel(
+                        newParentPanel.getHasChildModelsModel());
+            } catch (InvalidTypeException e) {
+                e.printStackTrace();
+            }
         }
 
         // set node to new position

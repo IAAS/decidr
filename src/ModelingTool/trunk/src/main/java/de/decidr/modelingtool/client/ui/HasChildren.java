@@ -18,6 +18,7 @@ package de.decidr.modelingtool.client.ui;
 
 import java.util.Collection;
 
+import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.model.HasChildModels;
 
 /**
@@ -41,7 +42,7 @@ public interface HasChildren {
     
     public Collection<Connection> getConnections();
     
-    public HasChildModels getHasChildModelsModel();
+    public HasChildModels getHasChildModelsModel() throws InvalidTypeException;
     
     public int getLeft();
     

@@ -61,5 +61,10 @@ public class InputPort extends Port {
         opdc.unregisterDropController(getDropController());
         dropControllerRegistered = false;
     }
+    
+    @Override
+    public boolean isContainerPort() {
+        return false;
+    }
 
 }

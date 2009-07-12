@@ -26,6 +26,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.model.HasChildModels;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.dnd.ConnectionDragController;
@@ -155,11 +156,11 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
     }
 
     @Override
-    public HasChildModels getHasChildModelsModel() {
+    public HasChildModels getHasChildModelsModel() throws InvalidTypeException {
         if (model instanceof HasChildModels) {
             return (HasChildModels) model;
         } else {
-            return null;
+            throw new InvalidTypeException("Model does not have children.");
         }
     }
 

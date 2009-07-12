@@ -17,6 +17,7 @@
 package de.decidr.modelingtool.client.command;
 
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
+import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.model.ContainerModel;
 import de.decidr.modelingtool.client.model.FlowContainerModel;
 import de.decidr.modelingtool.client.model.IfContainerModel;
@@ -46,16 +47,20 @@ public class CreateContainerCommand implements UndoableCommand {
     public CreateContainerCommand(Container node) {
         this.node = node;
 
-        // create model
-        if (node instanceof FlowContainer) {
-            model = new FlowContainerModel(node.getParentPanel()
-                    .getHasChildModelsModel());
-        } else if (node instanceof ForEachContainer) {
-            model = new ForEachContainerModel(node.getParentPanel()
-                    .getHasChildModelsModel());
-        } else if (node instanceof IfContainer) {
-            model = new IfContainerModel(node.getParentPanel()
-                    .getHasChildModelsModel());
+        try {
+            // create model
+            if (node instanceof FlowContainer) {
+                model = new FlowContainerModel(node.getParentPanel()
+                        .getHasChildModelsModel());
+            } else if (node instanceof ForEachContainer) {
+                model = new ForEachContainerModel(node.getParentPanel()
+                        .getHasChildModelsModel());
+            } else if (node instanceof IfContainer) {
+                model = new IfContainerModel(node.getParentPanel()
+                        .getHasChildModelsModel());
+            }
+        } catch (InvalidTypeException e) {
+            e.printStackTrace();
         }
 
         model.setChangeListenerPosition(node.getLeft(), node.getTop());

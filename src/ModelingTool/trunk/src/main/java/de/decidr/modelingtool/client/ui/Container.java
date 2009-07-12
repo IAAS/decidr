@@ -24,6 +24,7 @@ import com.allen_sauer.gwt.dnd.client.drop.DropController;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.model.HasChildModels;
 
 /**
@@ -32,6 +33,10 @@ import de.decidr.modelingtool.client.model.HasChildModels;
  * @author engelhjs
  */
 public class Container extends Node implements HasChildren {
+
+    private ContainerStartPort containerStartPort = null;
+
+    private ContainerExitPort containerExitPort = null;
 
     private Collection<Node> childNodes = new HashSet<Node>();
 
@@ -50,6 +55,22 @@ public class Container extends Node implements HasChildren {
 
         setInputPort(new InputPort());
         setOutputPort(new OutputPort());
+        setContainerStartPort(new ContainerStartPort());
+        setContainerExitPort(new ContainerExitPort());
+    }
+
+    @Override
+    public void add(Widget w) {
+        super.add(w);
+
+        if (w instanceof Node) {
+            Node node = (Node) w;
+            // add node to the nodes collection
+            childNodes.add(node);
+
+            // callback to node after add
+            node.onPanelAdd(this);
+        }
     }
 
     @Override
@@ -88,22 +109,93 @@ public class Container extends Node implements HasChildren {
         return childConnections;
     }
 
+    public ContainerExitPort getContainerExitPort() {
+        return containerExitPort;
+    }
+
+    public ContainerStartPort getContainerStartPort() {
+        return containerStartPort;
+    }
+    
     public DropController getDropController() {
         return dropController;
     }
 
     @Override
-    public HasChildModels getHasChildModelsModel() {
+    public HasChildModels getHasChildModelsModel() throws InvalidTypeException {
         if (model instanceof HasChildModels) {
             return (HasChildModels) model;
         } else {
-            return null;
+            throw new InvalidTypeException("Model does not have children.");
         }
     }
 
     @Override
     public Collection<Node> getNodes() {
         return childNodes;
+    }
+
+    @Override
+    public boolean isResizable() {
+        return true;
+    }
+
+    @Override
+    public void onPanelAdd(HasChildren parentPanel) {
+        // register port drop controllers
+        if (containerStartPort != null
+                && !containerStartPort.isDropControllerRegistered()) {
+            containerStartPort.registerDropController();
+        }
+        if (containerExitPort != null
+                && !containerExitPort.isDropControllerRegistered()) {
+            containerExitPort.registerDropController();
+        }
+
+        super.onPanelAdd(parentPanel);
+    }
+
+    @Override
+    public void onPanelRemove() {
+        // unregister port drop controllers
+        if (containerStartPort != null
+                && containerStartPort.isDropControllerRegistered()) {
+            containerStartPort.unregisterDropController();
+        }
+        if (containerExitPort != null
+                && containerExitPort.isDropControllerRegistered()) {
+            containerExitPort.unregisterDropController();
+        }
+
+        super.onPanelRemove();
+    }
+
+    @Override
+    protected void refreshPortPositions() {
+        // set position of container ports
+        if (containerStartPort != null) {
+            refreshPortPosition(containerStartPort);
+        }
+        if (containerExitPort != null) {
+            refreshPortPosition(containerExitPort);
+        }
+
+        // set position of node ports
+        super.refreshPortPositions();
+    }
+
+    @Override
+    public boolean remove(Widget w) {
+        if (w instanceof Node) {
+            Node node = (Node) w;
+            // remove node from the nodes collection
+            childNodes.remove(node);
+
+            // callback to node before remove
+            node.onPanelRemove();
+        }
+
+        return super.remove(w);
     }
 
     @Override
@@ -122,37 +214,18 @@ public class Container extends Node implements HasChildren {
         super.remove(node);
     }
 
-    @Override
-    public boolean isResizable() {
-        return true;
+    public void setContainerExitPort(ContainerExitPort containerExitPort) {
+        this.containerExitPort = containerExitPort;
+
+        this.add(containerExitPort);
+        containerExitPort.setParentNode(this);
     }
 
-    @Override
-    public void add(Widget w) {
-        super.add(w);
+    public void setContainerStartPort(ContainerStartPort containerStartPort) {
+        this.containerStartPort = containerStartPort;
 
-        if (w instanceof Node) {
-            Node node = (Node) w;
-            // add node to the nodes collection
-            childNodes.add(node);
-
-            // callback to node after add
-            node.onPanelAdd(this);
-        }
-    }
-
-    @Override
-    public boolean remove(Widget w) {
-        if (w instanceof Node) {
-            Node node = (Node) w;
-            // remove node from the nodes collection
-            childNodes.remove(node);
-
-            // callback to node before remove
-            node.onPanelRemove();
-        }
-
-        return super.remove(w);
+        this.add(containerStartPort);
+        containerStartPort.setParentNode(this);
     }
 
 }

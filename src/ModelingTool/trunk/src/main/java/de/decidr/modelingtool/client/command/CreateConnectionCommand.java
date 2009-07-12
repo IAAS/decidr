@@ -16,9 +16,13 @@
 
 package de.decidr.modelingtool.client.command;
 
+import com.google.gwt.user.client.Window;
+
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
+import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.model.ConnectionModel;
 import de.decidr.modelingtool.client.ui.Connection;
+import de.decidr.modelingtool.client.ui.ContainerStartPort;
 import de.decidr.modelingtool.client.ui.InputPort;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.OrthogonalConnection;
@@ -52,11 +56,17 @@ public class CreateConnectionCommand implements UndoableCommand {
         model.setChangeListener(connection);
 
         // set parent model
-        model.setParentModel(connection.getParentPanel()
-                .getHasChildModelsModel());
+        try {
+            model.setParentModel(connection.getParentPanel()
+                    .getHasChildModelsModel());
+        } catch (InvalidTypeException e) {
+            Window.alert(e.getMessage());
+            e.printStackTrace();
+        }
 
         // link connection model to node models
-        if (startPort instanceof OutputPort) {
+        if (startPort instanceof OutputPort
+                || startPort instanceof ContainerStartPort) {
             model.setSource(startPort.getParentNode().getModel());
             model.setTarget(endPort.getParentNode().getModel());
         } else {
@@ -89,8 +99,8 @@ public class CreateConnectionCommand implements UndoableCommand {
         model.setChangeListener(connection);
 
         // set parent panel of connection
-//        connection.setParentPanel(model.getParentModel()
-//                .getHasChildrenChangeListener());
+        // connection.setParentPanel(model.getParentModel()
+        // .getHasChildrenChangeListener());
 
         // create and link start drag box
         ConnectionDragBox startDragBox = new ConnectionDragBox();
@@ -152,9 +162,9 @@ public class CreateConnectionCommand implements UndoableCommand {
         model.getParentModel().addConnectionModel(model);
         model.getSource().setOutput(model);
         model.getTarget().setInput(model);
-        
+
         // TODO: DEBUG
-        //System.out.println(connection.getModel());
+        // System.out.println(connection.getModel());
     }
 
     /**

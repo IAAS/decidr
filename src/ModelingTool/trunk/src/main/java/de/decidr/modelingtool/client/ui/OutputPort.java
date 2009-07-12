@@ -55,5 +55,10 @@ public class OutputPort extends Port {
         ipdc.unregisterDropController(getDropController());
         dropControllerRegistered = false;
     }
+    
+    @Override
+    public boolean isContainerPort() {
+        return false;
+    }
 
 }

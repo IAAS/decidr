@@ -16,13 +16,26 @@
 
 package de.decidr.modelingtool.client.ui.selection;
 
+import com.allen_sauer.gwt.dnd.client.DragController;
+
+import de.decidr.modelingtool.client.exception.ModelingToolException;
 import de.decidr.modelingtool.client.ui.Connection;
+import de.decidr.modelingtool.client.ui.ContainerExitPort;
+import de.decidr.modelingtool.client.ui.ContainerStartPort;
+import de.decidr.modelingtool.client.ui.InputPort;
+import de.decidr.modelingtool.client.ui.OutputPort;
 import de.decidr.modelingtool.client.ui.Port;
 import de.decidr.modelingtool.client.ui.Workflow;
+import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 
 /**
  * TODO: add comment
  * 
+ * @author JE
+ */
+/**
+ * TODO: add comment
+ *
  * @author JE
  */
 public class ConnectionDragBox extends DragBox {
@@ -75,8 +88,8 @@ public class ConnectionDragBox extends DragBox {
      * @return
      */
     public int getMiddleLeft() {
-         return this.getAbsoluteLeft() + this.getOffsetWidth() / 2
-         - Workflow.getInstance().getAbsoluteLeft();
+        return this.getAbsoluteLeft() + this.getOffsetWidth() / 2
+                - Workflow.getInstance().getAbsoluteLeft();
     }
 
     /**
@@ -99,6 +112,26 @@ public class ConnectionDragBox extends DragBox {
             this.setStyleName("dragbox-port");
         } else {
             this.setStyleName("dragbox-invisible");
+        }
+    }
+
+    /**
+     * TODO: add comment
+     * getGluedPort must not be null.
+     */
+    public void makeDraggable() {
+        Port port = getGluedPort();
+        DragController dc;
+
+        if (port instanceof InputPort || port instanceof ContainerExitPort) {
+            dc = DndRegistry.getInstance().getDragController(
+                    "InputPortDragController");
+            dc.makeDraggable(this);
+        } else if (port instanceof OutputPort
+                || port instanceof ContainerStartPort) {
+            dc = DndRegistry.getInstance().getDragController(
+                    "OutputPortDragController");
+            dc.makeDraggable(this);
         }
     }
 }
