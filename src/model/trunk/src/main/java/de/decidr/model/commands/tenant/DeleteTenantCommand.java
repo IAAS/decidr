@@ -3,8 +3,12 @@ package de.decidr.model.commands.tenant;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.InvalidPropertiesFormatException;
+import java.util.List;
+
+import org.hibernate.Query;
 
 import de.decidr.model.entities.DeployedWorkflowModel;
+import de.decidr.model.entities.Server;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
@@ -12,6 +16,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.storage.StorageProviderFactory;
 import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.workflowmodel.deployment.DeployerImpl;
 
 /**
  * Deletes all tenants which corresponds to the given ids including all
@@ -41,11 +46,13 @@ public class DeleteTenantCommand extends TenantCommand {
         this.tenantId = tenantId;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
         Tenant tenant = (Tenant) evt.getSession().get(Tenant.class, tenantId);
+        DeployerImpl deployer = new de.decidr.model.workflowmodel.deployment.DeployerImpl();
 
         if (tenant != null) {
 
@@ -123,8 +130,24 @@ public class DeleteTenantCommand extends TenantCommand {
             for (DeployedWorkflowModel model : tenant
                     .getDeployedWorkflowModels()) {
 
-                // SECIT Say Modood that he should undeploy it
-
+                
+                
+                // Undeploy models from server
+                
+                String hql = "from Server s join WorkflowModelIsDeployedOnServer rel where rel.server = s and rel.deployedWorkflowModel.id = :toUndeploy";
+                
+                Query q = evt.getSession().createQuery(hql);
+                q.setLong("toUndeploy", model.getId());
+                List<Server> result = q.list();
+                
+                for(Server server: result){
+                    try {
+                        deployer.undeploy(model, server);
+                    } catch (Exception e) {
+                        throw new TransactionException(e);
+                    }
+                }
+                
                 /*
                  * corresponding WorkflowInstances and Workitems will be
                  * automatically deleted by the database

@@ -23,8 +23,10 @@ public class GetLogCommand extends SystemCommand {
      * 
      * @param role
      *            the user who executes the command
-     * @param filters TODO document
-     * @param paginator TODO document
+     * @param filters
+     *            filters the result by the given criteria
+     * @param paginator
+     *            splits the document into several pages
      */
     public GetLogCommand(Role role, List<Filter> filters, Paginator paginator) {
         super(role, null);
@@ -47,9 +49,9 @@ public class GetLogCommand extends SystemCommand {
     }
 
     /**
-     * TODO document
+     * Returns the result.
      * 
-     * @return
+     * @return List of the logs.
      */
     public List<Log> getResult() {
         return result;

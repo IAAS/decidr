@@ -43,8 +43,8 @@ public class SystemFacade extends AbstractFacade {
      * Creates a new system facade. All operations are executed by the given
      * actor.
      * 
-     * @param actor
-     *            TODO document
+     * @param actor user who will execute the commands of the created facade
+     *            
      */
     public SystemFacade(Role actor) {
         super(actor);
@@ -58,8 +58,8 @@ public class SystemFacade extends AbstractFacade {
      * <br>
      * 
      * @return system settings as item
-     * @throws TransactionException
-     *             TODO document
+     * @throws TransactionException if an error occurs during the transaction
+     *             
      */
     @AllowedRole(SuperAdminRole.class)
     public Item getSettings() throws TransactionException {
@@ -86,8 +86,8 @@ public class SystemFacade extends AbstractFacade {
      * <i>LogLever</i> - System wide log level setting
      * 
      * 
-     * @throws TransactionException
-     *             TODO document
+     * @throws TransactionException if an error occurs during the transaction
+     *             
      */
     @AllowedRole(SuperAdminRole.class)
     public void setSettings(Boolean AutoAcceptNewTenants, Level loglevel)
@@ -110,8 +110,8 @@ public class SystemFacade extends AbstractFacade {
      *            the location of the real server to which representation should
      *            be created<br>
      * 
-     * @throws TransactionException
-     *             TODO document
+     * @throws TransactionException if an error occurs during the transaction
+     *             
      */
     @AllowedRole(SuperAdminRole.class)
     public void addServer(String location) throws TransactionException {
@@ -133,8 +133,8 @@ public class SystemFacade extends AbstractFacade {
      * @param location
      *            location of the server representative which should be deleted
      * 
-     * @throws TransactionException
-     *             TODO document
+     * @throws TransactionException if an error occurs during the transaction
+     *          
      * 
      */
     @AllowedRole(SuperAdminRole.class)
@@ -158,8 +158,8 @@ public class SystemFacade extends AbstractFacade {
      * @param load
      *            new load server load as byte [0...100]
      * 
-     * @throws TransactionException
-     *             TODO document
+     * @throws TransactionException if an error occurs during the transaction
+     *             
      */
     @AllowedRole( { SuperAdminRole.class, ServerLoadUpdaterRole.class })
     public void updateServerLoad(String location, byte load)
@@ -186,8 +186,8 @@ public class SystemFacade extends AbstractFacade {
      * @param location
      *            location of the server representative which should be deleted
      * 
-     * @throws TransactionException
-     *             TODO document
+     * @throws TransactionException if an error occurs during the transaction
+     *            
      */
     //XXX ODE monitor needs to do this, too
     @AllowedRole(SuperAdminRole.class)
@@ -207,8 +207,8 @@ public class SystemFacade extends AbstractFacade {
      * @param location
      *            location of the server representative which should be deleted
      * 
-     * @throws TransactionException
-     *             TODO document
+     * @throws TransactionException if an error occurs during the transaction
+     *        
      */
     //XXX ODE monitor needs to do this, too
     @AllowedRole(SuperAdminRole.class)
@@ -227,13 +227,11 @@ public class SystemFacade extends AbstractFacade {
      * using filters and an optional paginator.
      * 
      * 
-     * @param filters
-     *            TODO document
-     * @param paginator
-     *            TODO document
+     * @param filters filters the result by the given criteria
+     * @param paginator splits the result in several pages
      * @return List<Item> Logs as items
-     * @throws TransactionException
-     *             TODO document
+     * @throws TransactionException if an error occurs during the transaction
+     *           
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(SuperAdminRole.class)
@@ -268,8 +266,8 @@ public class SystemFacade extends AbstractFacade {
      * - dynamicallyAdded
      * 
      * @return ServerStatistics as a List of Items
-     * @throws TransactionException
-     *             TODO document
+     * @throws TransactionException if an error occurs during the transaction
+     *             
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(SuperAdminRole.class)

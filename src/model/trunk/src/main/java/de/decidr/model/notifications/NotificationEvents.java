@@ -16,6 +16,7 @@
 
 package de.decidr.model.notifications;
 
+import de.decidr.model.email.MailBackend;
 import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
@@ -32,7 +33,9 @@ public final class NotificationEvents {
     //FIXME ChangeEmailRequestNotification
     
     public static void createdWorkItem(WorkItem newWorkItem) {
-        // FIXME actually notify user
+        
+        
+        
     }
 
     public static void createdPasswordResetRequest(User user) {

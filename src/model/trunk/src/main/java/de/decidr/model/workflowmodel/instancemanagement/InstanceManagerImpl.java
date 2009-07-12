@@ -50,5 +50,7 @@ public class InstanceManagerImpl implements InstanceManager {
         execution.invoke(serverID, soapMessage);
         return null;
     }
+    
+    //FIXME StopWorkflowInstance implementieren
 
 }
