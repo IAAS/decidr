@@ -18,7 +18,6 @@ package de.decidr.model.commands.user;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.notifications.NotificationEvents;

@@ -1,7 +1,5 @@
 package de.decidr.model.commands.tenant;
 
-import java.util.Date;
-
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.WorkflowModel;

@@ -16,8 +16,6 @@
 
 package de.decidr.model.commands.workflowmodel;
 
-import java.util.Date;
-
 import org.hibernate.Query;
 
 import de.decidr.model.DecidrGlobals;

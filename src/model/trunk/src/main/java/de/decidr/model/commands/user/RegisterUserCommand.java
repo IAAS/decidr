@@ -18,7 +18,6 @@ package de.decidr.model.commands.user;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
