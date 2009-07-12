@@ -27,7 +27,8 @@ import com.vaadin.ui.VerticalLayout;
 import de.decidr.ui.controller.InviteUserToTenantAction;
 
 /**
- * TODO: add comment
+ * In this component a user can be invited to a tenant. The tenant has to insert
+ * his email address or his username to be invited.
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -43,10 +44,18 @@ public class InviteUserToTenantComponent extends CustomComponent {
     private Button addField = null;
     private Button appointUsers = null;
     
+    /**
+     * Default constructor.
+     *
+     */
     public InviteUserToTenantComponent(){
         init();
     }
     
+    /**
+     * Initializes the components for the invite user to tenant component.
+     *
+     */
     private void init(){
         userCounter = 1;
         verticalLayout = new VerticalLayout();
@@ -87,6 +96,11 @@ public class InviteUserToTenantComponent extends CustomComponent {
         this.setCompositionRoot(verticalLayout);
     }
     
+    /**
+     * Adds a new field to the form of the component where the tenant
+     * can insert his username or his email address.
+     *
+     */
     private void addUser(){
         userCounter += 1;
         inviteForm.addField("user"+userCounter.toString(), new TextField("Username/E-Mail address:"));

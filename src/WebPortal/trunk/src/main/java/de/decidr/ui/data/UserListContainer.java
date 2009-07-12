@@ -34,9 +34,10 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * TODO: add comment
+ * The container holds the users. The users are repsresented as items in a table.
  *
  * @author AT
  */
@@ -55,6 +56,10 @@ public class UserListContainer extends Observable implements Container {
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
     
+    /**
+     * Default constructor. The user items are added to the container.
+     *
+     */
     public UserListContainer(){
         setChanged();
         notifyObservers();
@@ -64,7 +69,7 @@ public class UserListContainer extends Observable implements Container {
                 addItem(item);
             }
         }catch(TransactionException exception){
-         //TODO   
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
         }
         
         

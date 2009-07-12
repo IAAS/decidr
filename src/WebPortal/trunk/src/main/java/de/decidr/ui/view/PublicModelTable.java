@@ -25,7 +25,7 @@ import com.vaadin.ui.Table;
 import de.decidr.ui.data.PublicModelContainer;
 
 /**
- * TODO: add comment
+ * The tabel contains the public workflow models as items.
  *
  * @author AT
  */
@@ -40,7 +40,8 @@ public class PublicModelTable extends Table implements Observer{
     private Container publicModelContainer = null;
     
     /**
-     * Default constructor
+     * Default constructor. Adds this table as an observer to the container which 
+     * notifies the table if there are any changes in the data.
      *
      */
     public PublicModelTable(Observable observable, Container container) {
@@ -50,6 +51,12 @@ public class PublicModelTable extends Table implements Observer{
         init(observable, container);
     }
     
+    /**
+     * Initializes the table and sets the container and the properties.
+     *
+     * @param observable
+     * @param container
+     */
     private void init(Observable observable, Container container){
         setSizeFull();
         setContainerDataSource(container);

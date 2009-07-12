@@ -1,3 +1,18 @@
+/*
+ * The DecidR Development Team licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package de.decidr.ui.view;
 
 import com.vaadin.ui.Button;
@@ -13,6 +28,13 @@ import de.decidr.ui.controller.RemoveUserFromTenantAction;
 import de.decidr.ui.controller.ShowInviteUserToTenantAction;
 import de.decidr.ui.data.UserListContainer;
 
+/**
+ * The user are managed in a table and can be invited, removed,
+ * promoted to a tenant, removed from a tenant, deactivated and 
+ * activated.
+ *
+ * @author AT
+ */
 public class UserListComponent extends CustomComponent {
     
     /**
@@ -80,7 +102,7 @@ public class UserListComponent extends CustomComponent {
     }
     
     /**
-     * Changes the user list component view for the super admin.
+     * Changes the user list component view for the super administrator.
      *
      */
     public void changeToSuperAdmin(){
@@ -96,7 +118,7 @@ public class UserListComponent extends CustomComponent {
     }
     
     /**
-     * TODO: add comment
+     * Changes the user list component view for the tenant.
      *
      */
     public void changeToTenantAdmin(){
@@ -109,78 +131,44 @@ public class UserListComponent extends CustomComponent {
     }
     
     /**
-     * TODO: add comment
+     * Returns the button panel.
      *
-     * @return
+     * @return buttonPanel
      */
     public Panel getButtonPanel() {
         return buttonPanel;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @param buttonPanel
-     */
-    public void setButtonPanel(Panel buttonPanel) {
-        this.buttonPanel = buttonPanel;
-    }
-
+    
     
     /**
-     * TODO: add comment
+     * Returns the horizontal layout from the button panel.
      *
-     * @return
+     * @return buttonHorizontalLayout
      */
     public HorizontalLayout getButtonHorizontalLayout() {
         return buttonHorizontalLayout;
     }
-
-    /**
-     * TODO: add comment
-     *
-     * @param buttonHorizontalLayout
-     */
-    public void setButtonHorizontalLayout(HorizontalLayout buttonHorizontalLayout) {
-        this.buttonHorizontalLayout = buttonHorizontalLayout;
-    }
-
  
 
     /**
-     * TODO: add comment
+     * Returns the vertical layout.
      *
-     * @return
+     * @return verticalLayout
      */
     public VerticalLayout getVerticalLayout() {
         return verticalLayout;
     }
 
+   
     /**
-     * TODO: add comment
+     * Returns the button for inviting user.
      *
-     * @param verticalLayout
-     */
-    public void setVerticalLayout(VerticalLayout verticalLayout) {
-        this.verticalLayout = verticalLayout;
-    }
-
-
-    /**
-     * TODO: add comment
-     *
-     * @return
+     * @return inviteUserButton
      */
     public Button getInviteUserButton() {
         return inviteUserButton;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @param inviteUserButton
-     */
-    public void setInviteUserButton(Button inviteUserButton) {
-        this.inviteUserButton = inviteUserButton;
-    }
+   
 }

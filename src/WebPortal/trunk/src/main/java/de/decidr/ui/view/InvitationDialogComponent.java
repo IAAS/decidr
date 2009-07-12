@@ -17,7 +17,8 @@
 package de.decidr.ui.view;
 
 /**
- * TODO: add comment
+ * If a user is invited to a workflow process the user will see an invitation
+ * dialog which welcomes the user to the invited workflow.
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -32,8 +33,6 @@ import de.decidr.ui.controller.ConfirmInvitationAction;
 import de.decidr.ui.controller.RefuseInvitationAction;
 
 public class InvitationDialogComponent extends Window {
-
-    private static InvitationDialogComponent invitationDialogComponent = null;
     
     private Long invitationId = null;
     
@@ -45,11 +44,23 @@ public class InvitationDialogComponent extends Window {
     private Button submitButton = null;
     private Button cancelButton = null;
         
+    /**
+     * Default constructor. Stores the invitation id and calls the initialization
+     * with the given description.
+     *
+     * @param description
+     * @param invId
+     */
     public InvitationDialogComponent(String description, Long invId){
         invitationId = invId;
         init(description);
     }
     
+    /**
+     * Initializes the components for the invitation dialog with the given description.
+     *
+     * @param description
+     */
     private void init(String description){
         
         verticalLayout = new VerticalLayout();

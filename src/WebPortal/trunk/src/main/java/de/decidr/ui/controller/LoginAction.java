@@ -24,7 +24,8 @@ import de.decidr.ui.view.LoginComponent;
 import de.decidr.ui.view.Main;
 
 /**
- * TODO: add comment
+ * This action implements the login. It calls the authenticate method and 
+ * logs the user into the application.
  *
  * @author AT
  */

@@ -17,7 +17,14 @@
 package de.decidr.ui.view;
 
 /**
- * TODO: add comment
+ * This site frame is a template for the DecidR application. In this 
+ * site frame several components can be added. It is the structure of
+ * the DecidR application. Components like the header the horizontal 
+ * navigation menu, the vertical navigation menu and the content
+ * can be placed in this site frame. 
+ * 
+ * So only the specific component has to be changed and not the whole
+ * page.
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -36,10 +43,18 @@ public class SiteFrame extends CustomComponent{
         private Component header = null;
         private Component navigation = null;
         
+        /**
+         * Default constructor.
+         *
+         */
         public SiteFrame(){
                 init();
         }
         
+        /**
+         * Initializes the components for the site frame.
+         *
+         */
         private void init(){
         gridFrame = new GridLayout(3,5);
         this.setCompositionRoot(gridFrame);
@@ -65,33 +80,71 @@ public class SiteFrame extends CustomComponent{
         }
          
         
+        /**
+         * Sets the header into the site frame and stores the current
+         * header in a variable.
+         *
+         * @param header
+         */
         public void setHeader(Component header){
                 gridFrame.addComponent(header, 1, 1);
                 this.header = header;
         }
         
+        /**
+         * Sets the horizontal navigation menu into the site frame.
+         *
+         * @param navigation
+         */
         public void setHorizontalNavigation(Component navigation){
                 gridFrame.addComponent(navigation, 1, 2);
         }
         
+        /**
+         * Sets the vertical navigation menu into the site frame 
+         * and stores the current vertical navigation menu in a variable.
+         *
+         * @param navigation
+         */
         public void setVerticalNavigation(Component navigation){
                 splitPanel.setFirstComponent(navigation);
                 this.navigation = navigation;
         }
         
+        /**
+         * Sets the content into the site frame and stores the current
+         * content in a varibale.
+         *
+         * @param content
+         */
         public void setContent(Component content){
                 splitPanel.setSecondComponent(content);
                 this.content = content;
         }
         
+        /**
+         * Returns the current content.
+         *
+         * @return content
+         */
         public Component getContent(){
             return content;
         }
         
+        /**
+         * Returns the current header.
+         *
+         * @return header
+         */
         public Component getHeader() {
             return header;
         }
 
+        /**
+         * Returns the current vertical navigation menu.
+         *
+         * @return navigation
+         */
         public Component getNavigation() {
             return navigation;
         }

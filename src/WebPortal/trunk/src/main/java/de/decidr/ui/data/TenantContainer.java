@@ -16,27 +16,56 @@
 
 package de.decidr.ui.data;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Observable;
-
+import javax.servlet.http.HttpSession;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.permissions.UserRole;
+import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * TODO: add comment
+ * This container holds the tenants. The tenants are represented as items
+ * in a table.
  *
  * @author AT
  */
 public class TenantContainer extends Observable implements Container {
     
+    private HttpSession session = Main.getCurrent().getSession();
+    
+    private Long userId = (Long)session.getAttribute("userId");
+    
+    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+    
+    List<Item> tenantList = null;
+    
+    private ArrayList<Object> propertyIds = new ArrayList<Object>();
+    private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
+    
     /**
-     * TODO: add comment
+     * Default constructor. The tenant items are added to the container.
      *
      */
     public TenantContainer() {
         setChanged();
         notifyObservers();
+        try{
+            tenantList = tenantFacade.getAllTenants(null, null);
+            for(Item item : tenantList){
+                addItem(item);
+            }
+        }catch(TransactionException exception){
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+        }
+        
     }
 
     /* (non-Javadoc)
@@ -45,8 +74,13 @@ public class TenantContainer extends Observable implements Container {
     @Override
     public boolean addContainerProperty(Object propertyId, Class<?> type,
             Object defaultValue) throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
-        return false;
+        if(propertyIds.contains(propertyId)){
+            propertyIds.add(propertyId);
+            return false;
+            
+        }
+        
+        return true;
     }
 
     /* (non-Javadoc)
@@ -54,8 +88,7 @@ public class TenantContainer extends Observable implements Container {
      */
     @Override
     public Object addItem() throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /* (non-Javadoc)
@@ -63,8 +96,8 @@ public class TenantContainer extends Observable implements Container {
      */
     @Override
     public Item addItem(Object itemId) throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
-        return null;
+        items.put(itemId, itemId);
+        return getItem(itemId);
     }
 
     /* (non-Javadoc)
@@ -72,8 +105,7 @@ public class TenantContainer extends Observable implements Container {
      */
     @Override
     public boolean containsId(Object itemId) {
-        // TODO Auto-generated method stub
-        return false;
+        return items.containsKey(itemId);
     }
 
     /* (non-Javadoc)
@@ -81,8 +113,7 @@ public class TenantContainer extends Observable implements Container {
      */
     @Override
     public Property getContainerProperty(Object itemId, Object propertyId) {
-        // TODO Auto-generated method stub
-        return null;
+        return getItem(itemId).getItemProperty(propertyId);
     }
 
     /* (non-Javadoc)
@@ -90,8 +121,8 @@ public class TenantContainer extends Observable implements Container {
      */
     @Override
     public Collection<?> getContainerPropertyIds() {
-        // TODO Auto-generated method stub
-        return null;
+        
+        return propertyIds;
     }
 
     /* (non-Javadoc)
@@ -99,8 +130,8 @@ public class TenantContainer extends Observable implements Container {
      */
     @Override
     public Item getItem(Object itemId) {
-        // TODO Auto-generated method stub
-        return null;
+        Item item = (Item)items.get(itemId);
+        return item;
     }
 
     /* (non-Javadoc)
@@ -108,8 +139,8 @@ public class TenantContainer extends Observable implements Container {
      */
     @Override
     public Collection<?> getItemIds() {
-        // TODO Auto-generated method stub
-        return null;
+        
+        return items.keySet();
     }
 
     /* (non-Javadoc)
@@ -117,8 +148,8 @@ public class TenantContainer extends Observable implements Container {
      */
     @Override
     public Class<?> getType(Object propertyId) {
-        // TODO Auto-generated method stub
-        return null;
+        
+        return String.class;
     }
 
     /* (non-Javadoc)
@@ -126,8 +157,8 @@ public class TenantContainer extends Observable implements Container {
      */
     @Override
     public boolean removeAllItems() throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
-        return false;
+        items.clear();
+        return true;
     }
 
     /* (non-Javadoc)
@@ -136,8 +167,7 @@ public class TenantContainer extends Observable implements Container {
     @Override
     public boolean removeContainerProperty(Object propertyId)
             throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     /* (non-Javadoc)
@@ -146,8 +176,8 @@ public class TenantContainer extends Observable implements Container {
     @Override
     public boolean removeItem(Object itemId)
             throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
-        return false;
+        items.remove(itemId);
+        return true;
     }
 
     /* (non-Javadoc)
@@ -155,8 +185,8 @@ public class TenantContainer extends Observable implements Container {
      */
     @Override
     public int size() {
-        // TODO Auto-generated method stub
-        return 0;
+        return items.size();
     }
+
 
 }

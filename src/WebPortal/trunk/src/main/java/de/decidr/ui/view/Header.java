@@ -17,7 +17,8 @@
 package de.decidr.ui.view;
 
 /**
- * TODO: add comment
+ * The header contains the logo of the tenant which uses the decidr
+ * application.
  *
  * @author Geoffrey-Alexeij Heinze
  */

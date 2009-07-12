@@ -17,7 +17,8 @@
 package de.decidr.ui.view;
 
 /**
- * TODO: add comment
+ * The user can call the help site, to get information about the 
+ * DecidR application.
  *
  * @author Geoffrey-Alexeij Heinze
  */

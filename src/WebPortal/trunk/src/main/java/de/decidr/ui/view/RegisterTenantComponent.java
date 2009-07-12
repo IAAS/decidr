@@ -27,7 +27,10 @@ import com.vaadin.ui.VerticalLayout;
 import de.decidr.ui.controller.RegisterTenantAction;
 
 /**
- * TODO: add comment
+ * A tenant can be registered by inserting information about the tenant.
+ * These information contain the tenant name, the username, the password,
+ * the email address, the first name, the last name, the street, the 
+ * postal code and the city.
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -60,11 +63,20 @@ public class RegisterTenantComponent extends CustomComponent {
         init();
     }
     
+    /**
+     * Saves the information which are entered into the form.
+     *
+     */
     public void saveRegistrationForm(){
         //TODO: validation
         registrationForm.commit();
     }
     
+    /**
+     * Returns the registration form.
+     *
+     * @return registrationForm
+     */
     public Item getRegistrationForm(){
         return registrationForm;
     }

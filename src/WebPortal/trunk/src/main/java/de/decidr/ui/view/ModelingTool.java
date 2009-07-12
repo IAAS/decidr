@@ -20,6 +20,7 @@ import java.util.Map;
 
 import com.vaadin.terminal.PaintException;
 import com.vaadin.terminal.PaintTarget;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.AbstractField;
 
 /**
@@ -27,7 +28,7 @@ import com.vaadin.ui.AbstractField;
  *
  * @author AT
  */
-public class ModelingTool extends AbstractField {
+public class ModelingTool extends AbstractComponent {
     
     /**
      * TODO: add comment
@@ -38,23 +39,13 @@ public class ModelingTool extends AbstractField {
     }
 
     /* (non-Javadoc)
-     * @see com.vaadin.ui.AbstractField#getType()
-     */
-    @Override
-    public Class getType() {
-        
-        return String.class;
-    }
-
-    /* (non-Javadoc)
      * @see com.vaadin.ui.AbstractComponent#getTag()
      */
     @Override
     public String getTag() {
-        
-        return "modelingtool";
+         return "modelingtool";
     }
-    
+
     /* (non-Javadoc)
      * @see com.vaadin.ui.AbstractField#paintContent(com.vaadin.terminal.PaintTarget)
      */
@@ -62,6 +53,7 @@ public class ModelingTool extends AbstractField {
     public void paintContent(PaintTarget target) throws PaintException {
        
         super.paintContent(target);
+        
     }
     
     /* (non-Javadoc)

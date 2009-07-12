@@ -21,32 +21,26 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Observable;
-
 import javax.servlet.http.HttpSession;
-
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.service.ApplicationContext;
-import com.vaadin.terminal.gwt.server.WebApplicationContext;
-
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * TODO: add comment
+ * This container holds all workflow instances which are completed. 
+ * These items will be shown in a table.
  *
  * @author AT
  */
 public class CompletedInstancesContainer extends Observable implements
         Container {
     
-    private ApplicationContext ctx = Main.getCurrent().getContext();
-    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    private HttpSession session = webCtx.getHttpSession();
+    private HttpSession session = Main.getCurrent().getSession();
     
     private Long userId = (Long)session.getAttribute("userId");
     
@@ -57,6 +51,10 @@ public class CompletedInstancesContainer extends Observable implements
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
     
+    /**
+     * Default constructor. Adds completed instance items to the container.
+     *
+     */
     public CompletedInstancesContainer(){
         setChanged();
         notifyObservers();
@@ -68,7 +66,7 @@ public class CompletedInstancesContainer extends Observable implements
                 }
             }
         }catch(TransactionException exception){
-            //TODO
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
         }
        
     }

@@ -17,7 +17,7 @@
 package de.decidr.ui.view;
 
 /**
- * TODO: add comment
+ * The user can change his password by inserting his old and new password.
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -50,16 +50,16 @@ public class ChangePasswordComponent extends Window {
     private Button cancelButton = null;
     
     /**
-     * TODO: add comment
-     *
-     * @return
+     * Return the password form item which contains the new and the old password.
+     * 
+     * @return passwordForm
      */
     public Item getPasswords(){
         return passwordForm;
     }
     
     /**
-     * TODO: add comment
+     * Default constructor
      *
      */
     public ChangePasswordComponent(){
@@ -67,7 +67,7 @@ public class ChangePasswordComponent extends Window {
     }
     
     /**
-     * TODO: add comment
+     * Initializes the components for the change password component
      *
      */
     private void init(){

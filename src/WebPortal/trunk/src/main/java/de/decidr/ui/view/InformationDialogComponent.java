@@ -17,7 +17,8 @@
 package de.decidr.ui.view;
 
 /**
- * TODO: add comment
+ * Some information are shown in a subwindow to inform the user 
+ * about certain processes.
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -29,10 +30,7 @@ import com.vaadin.ui.Window;
 
 import de.decidr.ui.controller.HideDialogWindowAction;
 
-public class InformationDialogComponent extends Window {
-
-    private static InformationDialogComponent informationDialogComponent = null;
-    
+public class InformationDialogComponent extends Window {    
 
     private VerticalLayout verticalLayout = null;
     //private HorizontalLayout horizontalLayout = null;
@@ -41,10 +39,24 @@ public class InformationDialogComponent extends Window {
        
     private Button cancelButton = null;
     
+    /**
+     * Default constructor. The given text and caption are shown in 
+     * the subwindow.
+     *
+     * @param text
+     * @param caption
+     */
     public InformationDialogComponent(String text, String caption){
         init(text, caption);
     }
     
+    /**
+     * Initializes the components of the information dialog with the given text
+     * and the given caption
+     *
+     * @param text
+     * @param caption
+     */
     private void init (String text, String caption){
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);

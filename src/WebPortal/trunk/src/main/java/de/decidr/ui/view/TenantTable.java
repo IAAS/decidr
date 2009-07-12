@@ -25,7 +25,7 @@ import com.vaadin.ui.Table;
 import de.decidr.ui.data.TenantContainer;
 
 /**
- * TODO: add comment
+ * This table holds the tenants as items.
  *
  * @author AT
  */
@@ -41,7 +41,8 @@ public class TenantTable extends Table implements Observer{
     private Container tenantContainer = null;
     
     /**
-     * Default constructor.
+     * Default constructor. The table is added as an observer to the container
+     * so he can notify the table if the data has changed.
      *
      */
     public TenantTable(Observable observable, Container container) {
@@ -52,6 +53,12 @@ public class TenantTable extends Table implements Observer{
         
     }
     
+    /**
+     * Initializes the table and sets the container data source.
+     *
+     * @param observable
+     * @param container
+     */
     private void init(Observable observable, Container container){
         setSizeFull();
         setContainerDataSource(container);

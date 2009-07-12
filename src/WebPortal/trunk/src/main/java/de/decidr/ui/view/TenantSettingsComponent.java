@@ -16,14 +16,7 @@
 
 package de.decidr.ui.view;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-
 import javax.swing.JFileChooser;
-
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -41,7 +34,8 @@ import de.decidr.ui.controller.SaveTenantSettingsAction;
 import de.decidr.ui.controller.UploadTenantLogoAction;
 
 /**
- * TODO: add comment
+ * The tenant can change his settings. He change his theme by choosing
+ * a given background or font or he can enter his own CSS and upload it.
  *
  * @author AT
  */
@@ -52,7 +46,6 @@ public class TenantSettingsComponent extends CustomComponent {
      */
     private static final long serialVersionUID = -7841061147447361631L;
     
-    private JFileChooser jfc = new JFileChooser();
     
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout browseHorizontalLayout = null;
@@ -166,12 +159,23 @@ public class TenantSettingsComponent extends CustomComponent {
        
     }
     
+    /**
+     * Returns the text area.
+     *
+     * @return textArea
+     */
     public TextField getTenantDescription(){
     	return textArea;
     }
     
    
     
+    /**
+     * This method changes the view from advanced to basic. So only the
+     * basic information are visible and the tenant can choose a given background 
+     * or font.
+     *
+     */
     private void changeToBasic(){
         backgroundButton = new Button("Background");
         backgroundButton.setStyleName(Button.STYLE_LINK);
@@ -197,6 +201,11 @@ public class TenantSettingsComponent extends CustomComponent {
         getSchemeHorizontalLayout().setComponentAlignment(showAdvancedOptionsButton, Alignment.BOTTOM_RIGHT);
     }
     
+    /**
+     * This method changes the view from basic to advanced. So the 
+     * text area for the CSS is visible.
+     *
+     */
     private void changeToAdvanced(){
         showBasicOptionsButton = new Button("Show basic options");
         showBasicOptionsButton.addListener(new Button.ClickListener(){
@@ -216,12 +225,15 @@ public class TenantSettingsComponent extends CustomComponent {
     }
     
  
+    /**
+     * Returns the horizontal layout for the CSS panel.
+     *
+     * @return schemeHorizontalLayout
+     */
     public HorizontalLayout getSchemeHorizontalLayout() {
         return schemeHorizontalLayout;
     }
 
-    public void setSchemeHorizontalLayout(HorizontalLayout schemeHorizontalLayout) {
-        this.schemeHorizontalLayout = schemeHorizontalLayout;
-    }
+    
 
 }

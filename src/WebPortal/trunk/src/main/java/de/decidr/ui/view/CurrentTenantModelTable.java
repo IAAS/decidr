@@ -26,7 +26,7 @@ import com.vaadin.ui.Table;
 import de.decidr.ui.data.CurrentTenantContainer;
 
 /**
- * TODO: add comment
+ * The table holds the current tenant items. It is integrated in a component.
  *
  * @author AT
  */
@@ -40,7 +40,8 @@ public class CurrentTenantModelTable extends Table implements Observer{
     private Container currentTenantContainer = null;
     
     /**
-     * Default Constructor
+     * Default Constructor. Adds this table as an observer to the depending
+     * container.
      *
      */
     public CurrentTenantModelTable(Observable observable, Container container) {
@@ -52,7 +53,7 @@ public class CurrentTenantModelTable extends Table implements Observer{
 
     
     /**
-     * TODO: add comment
+     * Initializes the table and sets the container.
      *
      */
     private void init(Observable observable, Container container) {

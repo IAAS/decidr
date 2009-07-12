@@ -30,7 +30,9 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * TODO: add comment
+ * If a user switches the tenant this action is called. The session attributes
+ * role and tenant name will be overridden with the new tenant name and the
+ * new role. The new tenant theme is set.
  *
  * @author AT
  */
@@ -57,10 +59,10 @@ public class SwitchTenantAction implements ClickListener {
             tenantId = tenantFacade.getTenantId(tenant);
             role = userFacade.getUserRoleForTenant(userId, tenantId);
             Main.getCurrent().setTheme(tenant);
-            session.setAttribute("tenant", tenantId);
+            session.setAttribute("tenant", tenant);
             session.setAttribute("role", role);
         }catch(TransactionException exception){
-            new TransactionErrorDialogComponent();
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
         }
 
     }

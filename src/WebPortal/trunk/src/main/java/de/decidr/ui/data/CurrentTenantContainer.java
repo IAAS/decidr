@@ -21,30 +21,24 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Observable;
-
 import javax.servlet.http.HttpSession;
-
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.service.ApplicationContext;
-import com.vaadin.terminal.gwt.server.WebApplicationContext;
-
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
 
 /**
- * TODO: add comment
+ * This container holds all tenants which belong to the current user.
+ * The tenants will be represented as items in a table.
  *
  * @author AT
  */
 public class CurrentTenantContainer extends Observable implements Container {
     
-    private ApplicationContext ctx = Main.getCurrent().getContext();
-    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    private HttpSession session = webCtx.getHttpSession();
+    private HttpSession session = Main.getCurrent().getSession();
     
     private Long userId = (Long)session.getAttribute("userId");
     
@@ -55,6 +49,10 @@ public class CurrentTenantContainer extends Observable implements Container {
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
     
+    /**
+     * Default constructor. Adds tenant items to the container.
+     *
+     */
     public CurrentTenantContainer(){
         setChanged();
         notifyObservers();

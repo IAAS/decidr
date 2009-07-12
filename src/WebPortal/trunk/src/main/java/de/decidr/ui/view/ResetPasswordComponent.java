@@ -17,7 +17,7 @@
 package de.decidr.ui.view;
 
 /**
- * TODO: add comment
+ * By pushing the button the user can reset his password.
  *
  * @author Geoffrey-Alexeij Heinze
  */

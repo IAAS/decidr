@@ -17,7 +17,8 @@
 package de.decidr.ui.view;
 
 /**
- * TODO: add comment
+ * In this window the user can change his email address by inserting 
+ * his new email address.
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -53,10 +54,18 @@ public class ChangeEmailComponent extends Window {
         return emailForm;
     }
     
+    /**
+     * Default constructor
+     *
+     */
     public ChangeEmailComponent(){
         init();
     }
     
+    /**
+     * Initializes the components for the change email component.
+     *
+     */
     private void init(){
         emailForm = new Form();
         emailForm.setWriteThrough(false);

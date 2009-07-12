@@ -19,14 +19,14 @@ package de.decidr.ui.view;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.LoginForm;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.LoginAction;
 
 /**
- * TODO: add comment
+ * With the login component the user is able to authenticate himself
+ * to the application. He has to insert his username and his password.
  *
  * @author AT
  */
@@ -92,10 +92,20 @@ public class LoginComponent extends CustomComponent {
     }
     
 
+    /**
+     * Returns the username text field.
+     *
+     * @return usernameTextField
+     */
     public TextField getUsernameTextField() {
         return usernameTextField;
     }
 
+    /**
+     * Returns the password text field.
+     *
+     * @return passwordTextField
+     */
     public TextField getPasswordTextField() {
         return passwordTextField;
     }

@@ -26,7 +26,8 @@ import com.vaadin.ui.VerticalLayout;
 import de.decidr.ui.controller.CreateTenantAction;
 
 /**
- * TODO: add comment
+ * A tenant will be created by entering some information about the tenant.
+ * The informations are the tenant name and the tenant description.
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -43,10 +44,18 @@ private VerticalLayout verticalLayout = null;
     
     private Form createTenantForm = null;
     
+    /**
+     * Default constructor.
+     *
+     */
     public CreateTenantComponent(){
     	init();
     }
     
+    /**
+     * Initializes the components for the create tenent component.
+     *
+     */
     private void init(){
     	verticalLayout = new VerticalLayout();
     	verticalLayout.setSizeFull();

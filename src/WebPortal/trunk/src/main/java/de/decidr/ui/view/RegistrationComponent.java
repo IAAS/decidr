@@ -26,7 +26,7 @@ import de.decidr.ui.controller.ShowRegisterTenantAction;
 import de.decidr.ui.controller.ShowRegisterUserAction;
 
 /**
- * TODO: add comment
+ * Here the user can choose if he wants to register a new tenant or a new user.
  *
  * @author Geoffrey-Alexeij Heinze
  */

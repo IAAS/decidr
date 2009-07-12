@@ -24,6 +24,11 @@ package de.decidr.ui.view;
  */
 public class TransactionErrorDialogComponent extends InformationDialogComponent {
 
+    /**
+     * Calls the super constructor with the given text and shows a notification
+     * to the user.
+     *
+     */
     public TransactionErrorDialogComponent(){
         super("An error occured while performing your request.<br/>Please check your internet connection and try again later.", "Transaction Error");
     }

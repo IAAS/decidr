@@ -25,36 +25,35 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.service.ApplicationContext;
-import com.vaadin.terminal.gwt.server.WebApplicationContext;
-
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * TODO: add comment
+ * The container holds the work items. The work items are represented
+ * as items in a table.
  *
  * @author AT
  */
 public class WorkItemContainer extends Observable implements Container {
     
-    private ApplicationContext ctx = Main.getCurrent().getContext();
-    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
-    private HttpSession session = webCtx.getHttpSession();
+    private HttpSession session = Main.getCurrent().getSession();
     
     private Long userId = (Long)session.getAttribute("userId");
     
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
-    private WorkItemFacade workItemFacade = new WorkItemFacade(new UserRole(userId));
     
     private List<Item> workItemList = null;
     
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
     
+    /**
+     * Default constructor. The work item items are added to the container.
+     *
+     */
     public WorkItemContainer(){
         setChanged();
         notifyObservers();
@@ -64,7 +63,7 @@ public class WorkItemContainer extends Observable implements Container {
                 addItem(item);
              }
         }catch(TransactionException exception){
-            //TODO
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
         }
         
         

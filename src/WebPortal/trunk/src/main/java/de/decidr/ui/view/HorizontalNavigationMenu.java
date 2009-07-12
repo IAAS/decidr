@@ -27,7 +27,8 @@ import de.decidr.ui.controller.ShowWelcomePageAction;
 
 
 /**
- * TODO: add comment
+ * This menu represents five button links. The home button, the help button, 
+ * logout button, the legal information button and the terms of service button.
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -82,6 +83,11 @@ public class HorizontalNavigationMenu extends CustomComponent {
                 
         }
         
+        /**
+         * Returns the logout button.
+         *
+         * @return btnLogoutLink - The logout button
+         */
         public Button getLogoutButton(){
             return btnLogoutLink;
         }

@@ -81,8 +81,8 @@ See configure target to adjust this buildfile.
 	<target name="compile-widgetset" depends="init">
 		<echo>Compiling de.decidr.ui.view.ModelingToolWidgetSet</echo>
 		<echo>Modify this example ant-script to compile your own widgetsets.</echo>
-		<java classname="com.google.gwt.dev.GWTCompiler" failonerror="yes" fork="yes" maxmemory="256m">
-			<arg value="-out" />
+		<java classname="com.google.gwt.dev.Compiler" failonerror="yes" fork="yes" maxmemory="256m">
+			<arg value="-war" />
 			<arg value="${client-side-destination}" />
 			<arg value="de.decidr.ui.gwt.ModelingToolWidgetSet" />
             <jvmarg value="-Xss1024k"/>

@@ -18,7 +18,7 @@ package de.decidr.ui.data;
 
 
 /**
- * TODO: add comment
+ * This item stores the system settings.
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -30,9 +30,6 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
-import com.vaadin.service.ApplicationContext;
-import com.vaadin.terminal.gwt.server.WebApplicationContext;
-
 import de.decidr.model.facades.SystemFacade;
 import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;

@@ -17,7 +17,8 @@
 package de.decidr.ui.view;
 
 /**
- * TODO: add comment
+ * Represents the welcome page according to a specific tenant
+ * which is stored in the session.
  *
  * @author Geoffrey-Alexeij Heinze
  */

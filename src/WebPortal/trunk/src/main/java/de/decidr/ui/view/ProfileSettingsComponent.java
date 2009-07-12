@@ -1,3 +1,18 @@
+/*
+ * The DecidR Development Team licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package de.decidr.ui.view;
 
 import java.util.Arrays;
@@ -17,7 +32,6 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-
 import de.decidr.ui.controller.ChangeStatusAction;
 import de.decidr.ui.controller.SaveProfileAction;
 import de.decidr.ui.controller.ShowCancelMembershipAction;
@@ -27,7 +41,8 @@ import de.decidr.ui.controller.ShowLeaveTenantDialogAction;
 import de.decidr.ui.data.ProfileSettingsItem;
 
 /**
- * TODO: add comment
+ * The user can change his profile by inserting his personnel 
+ * information.
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -41,8 +56,6 @@ public class ProfileSettingsComponent extends CustomComponent {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	private static ProfileSettingsComponent profileSettings = null;
 	
 	private Panel profilePanel = null;
 	private Panel addressPanel = null;
@@ -86,11 +99,21 @@ public class ProfileSettingsComponent extends CustomComponent {
 
 	}
 	
+	/**
+	 * Returns the settings item where the information are stored.
+	 *
+	 * @return settingsItem
+	 */
 	public Item getSettingsItem(){
 	    
 	    return settingsItem;
 	}
 	
+	/**
+	 * Returns the status check box.
+	 *
+	 * @return statusCheckBox
+	 */ 
 	public CheckBox getStatus(){
 	        return statusCheckBox;
 	}

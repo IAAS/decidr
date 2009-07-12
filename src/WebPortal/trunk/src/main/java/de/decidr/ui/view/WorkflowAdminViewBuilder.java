@@ -17,7 +17,8 @@
 package de.decidr.ui.view;
 
 /**
- * TODO: add comment
+ * One concrete builder class which extends the UIBuilder and builds
+ * the workflow administrator specific header, content and navigation for the DecidR site.
  *
  * @author AT
  */

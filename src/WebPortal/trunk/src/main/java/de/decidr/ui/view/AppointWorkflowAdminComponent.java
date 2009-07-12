@@ -27,7 +27,8 @@ import com.vaadin.ui.VerticalLayout;
 import de.decidr.ui.controller.AppointWorkflowAdminAction;
 
 /**
- * TODO: add comment
+ * In this component a user can appoint a workflow administrator 
+ * for a workflow instance.
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -44,11 +45,20 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
     private Button addField = null;
     private Button appointUsers = null;
     
+    /**
+     * Default constructor. The given workflow model id is stored in a variable.
+     *
+     * @param workflowModelId
+     */
     public AppointWorkflowAdminComponent(Long workflowModelId){
         wfmId = workflowModelId;
         init();
     }
     
+    /**
+     * Initializes the components for the appoint workflow admin component.
+     *
+     */
     private void init(){
         userCounter = 1;
         verticalLayout = new VerticalLayout();
@@ -92,6 +102,10 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
         this.setCompositionRoot(verticalLayout);
     }
     
+    /**
+     * Adds a user to the form.
+     *
+     */
     private void addUser(){
         userCounter += 1;
         appointForm.addField("user"+userCounter.toString(), new TextField("Username:"));

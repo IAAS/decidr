@@ -36,7 +36,11 @@ import de.decidr.ui.data.CurrentTenantContainer;
 import de.decidr.ui.data.PublicModelContainer;
 
 /**
- * TODO: add comment
+ * This component represents the workflow models. They are stored in a 
+ * table. Also the user is able to choose if he wants to show the 
+ * public workflow models or all workflow models. A tenant table 
+ * is included, too. If the user selects a model he can create, remove,
+ * lock, publish, unpublish, appoint or import a model.
  *
  * @author AT
  */

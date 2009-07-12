@@ -1,3 +1,18 @@
+/*
+ * The DecidR Development Team licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package de.decidr.ui.view;
 
 import java.util.Arrays;
@@ -17,7 +32,10 @@ import de.decidr.ui.data.SystemSettingsItem;
 public class SystemSettingComponent extends CustomComponent {
     
     /**
-     * TODO: add comment
+     * The user can change the system settings. He can change the 
+     * log level and automtically approve all tenants.
+     * 
+     * @author AT
      */
     private static final long serialVersionUID = 3389525551936631625L;
     
@@ -45,6 +63,10 @@ public class SystemSettingComponent extends CustomComponent {
         init();
     }
     
+    /**
+     * Updates all changes since the previous commit to the data source.
+     *
+     */
     public void saveSettingsItem(){
     	try{
             settingsForm.commit();
@@ -54,6 +76,11 @@ public class SystemSettingComponent extends CustomComponent {
         }
     }
     
+    /**
+     * Returns the settings item.
+     *
+     * @return settingsItem
+     */
     public Item getSettingsItem(){
     	return settingsItem;
     }

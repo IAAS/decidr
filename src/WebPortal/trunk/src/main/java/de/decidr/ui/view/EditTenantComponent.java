@@ -29,7 +29,8 @@ import de.decidr.ui.controller.DeleteTenantAction;
 import de.decidr.ui.data.TenantContainer;
 
 /**
- * TODO: add comment
+ * The tenants can be edited. By selecting a tenant from the table, a 
+ * tenant can be deleted, approved or declined.
  *
  * @author AT
  */

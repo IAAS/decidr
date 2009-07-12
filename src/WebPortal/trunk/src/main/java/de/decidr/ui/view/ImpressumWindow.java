@@ -17,7 +17,7 @@
 package de.decidr.ui.view;
 
 /**
- * TODO: add comment
+ * In this component the legal information are stored. 
  *
  * @author Geoffrey-Alexeij Heinze
  */

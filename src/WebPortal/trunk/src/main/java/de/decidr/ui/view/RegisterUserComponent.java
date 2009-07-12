@@ -28,7 +28,9 @@ import de.decidr.ui.controller.RegisterUserAction;
 import de.decidr.ui.controller.RegisterUserAsTenantMemberAction;
 
 /**
- * TODO: add comment
+ * A new user can be registered by entering some information. This
+ * information contains the username, the password, the email address,
+ * the first name, the last name, the street, the postal code and the city.
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -71,11 +73,20 @@ public class RegisterUserComponent extends CustomComponent {
     	setCompleteListener(invId);
     }
     
+    /**
+     * Saves the entered data from the form.
+     *
+     */
     public void saveRegistrationForm(){
         //TODO: validation
         registrationForm.commit();
     }
     
+    /**
+     * Returns the registration form.
+     *
+     * @return registrationForm
+     */
     public Item getRegistrationForm(){
         return registrationForm;
     }
@@ -135,10 +146,19 @@ public class RegisterUserComponent extends CustomComponent {
         this.setCompositionRoot(verticalLayout);
     }
     
+    /**
+     * Sets a listener to the complete button with the given invitation id.
+     *
+     * @param invId
+     */
     private void setCompleteListener(Long invId){
     	completeRegistration.addListener(new RegisterUserAsTenantMemberAction(registrationForm, invId));
     }
 
+    /**
+     * Sets a listener to the complete button.
+     *
+     */
     private void setCompleteListener(){
     	completeRegistration.addListener(new RegisterUserAction());
     }

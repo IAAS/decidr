@@ -17,7 +17,7 @@
 package de.decidr.ui.view;
 
 /**
- * TODO: add comment
+ * The terms of service are represented in this component.
  *
  * @author Geoffrey-Alexeij Heinze
  */

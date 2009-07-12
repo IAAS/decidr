@@ -17,7 +17,8 @@
 package de.decidr.ui.view;
 
 /**
- * TODO: add comment
+ * The user can confirm his invitation to the decidr application via
+ * this dialog.
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -33,9 +34,6 @@ import de.decidr.ui.controller.HideDialogWindowAction;
 
 public class ConfirmDialogComponent extends Window {
 
-    private static ConfirmDialogComponent confirmDialogComponent = null;
-    
-
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
     
@@ -44,10 +42,22 @@ public class ConfirmDialogComponent extends Window {
     private Button submitButton = null;
     private Button cancelButton = null;
     
+    /**
+     * Default constructor.
+     *
+     * @param text
+     * @param listener
+     */
     public ConfirmDialogComponent(String text, ClickListener listener){
         init(text, listener);
     }
     
+    /**
+     * Initializes the components for the confirm dialog component.
+     *
+     * @param text
+     * @param listener
+     */
     private void init (String text, ClickListener listener){
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
