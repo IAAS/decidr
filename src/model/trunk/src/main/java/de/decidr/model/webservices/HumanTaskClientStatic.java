@@ -27,50 +27,50 @@ import javax.xml.ws.WebServiceFeature;
 import de.decidr.model.DecidrGlobals;
 
 /**
- * Client for the <code>{@link EmailInterface}</code>. Needs at least the WSDL's
- * location, as that has to be determined at runtime.
+ * Client for the <code>{@link HumanTaskInterface}</code>. Needs at least the
+ * WSDL's location, as that has to be determined at runtime.
  * 
  * @author Reinhold
  */
-@WebServiceClient(name = "Email", targetNamespace = EmailInterface.TARGET_NAMESPACE)
-public class EmailClient extends Service {
+@WebServiceClient(name = "HumanTask", targetNamespace = HumanTaskInterface.TARGET_NAMESPACE)
+public class HumanTaskClientStatic extends Service {
 
-    public EmailClient() throws MalformedURLException {
+    public HumanTaskClientStatic() throws MalformedURLException {
         this(new URL(DecidrGlobals
-                .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME)),
-                EmailInterface.SERVICE);
+                .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME)),
+                HumanTaskInterface.SERVICE);
     }
 
-    public EmailClient(URL wsdlLocation) {
-        super(wsdlLocation, EmailInterface.SERVICE);
+    public HumanTaskClientStatic(URL wsdlLocation) {
+        super(wsdlLocation, HumanTaskInterface.SERVICE);
     }
 
-    public EmailClient(URL wsdlLocation, QName serviceName) {
+    public HumanTaskClientStatic(URL wsdlLocation, QName serviceName) {
         super(wsdlLocation, serviceName);
     }
 
     /**
      * @return returns an implementation using SOAP 1.2 to access the
-     *         <code>{@link EmailInterface}</code>.
+     *         <code>{@link HumanTaskInterface}</code>.
      */
-    @WebEndpoint(name = "EmailSOAP")
-    public EmailInterface getEmailSOAP() {
-        return super.getPort(EmailInterface.ENDPOINT, EmailInterface.class);
+    @WebEndpoint(name = "HumanTaskSOAP")
+    public HumanTaskInterface getEmailSOAP() {
+        return super.getPort(HumanTaskInterface.ENDPOINT,
+                HumanTaskInterface.class);
     }
 
     /**
-     * 
      * @param features
      *            A list of {@link javax.xml.ws.WebServiceFeature} to configure
      *            on the proxy. Supported features not in the
      *            <code>features</code> parameter will have their default
      *            values.
      * @return returns an implementation using SOAP 1.2 to access the
-     *         <code>{@link EmailInterface}</code>.
+     *         <code>{@link HumanTaskInterface}</code>.
      */
-    @WebEndpoint(name = "EmailSOAP")
-    public EmailInterface getEmailSOAP(WebServiceFeature... features) {
-        return super.getPort(EmailInterface.ENDPOINT, EmailInterface.class,
-                features);
+    @WebEndpoint(name = "HumanTaskSOAP")
+    public HumanTaskInterface getEmailSOAP(WebServiceFeature... features) {
+        return super.getPort(HumanTaskInterface.ENDPOINT,
+                HumanTaskInterface.class, features);
     }
 }
