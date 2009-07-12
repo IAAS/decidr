@@ -38,7 +38,7 @@ public class DynamicClients {
         Service service = Service.create(new URL(DecidrGlobals
                 .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME)),
                 EmailInterface.SERVICE);
-        return service.getPort(EmailInterface.class);
+        return service.getPort(EmailInterface.ENDPOINT, EmailInterface.class);
     }
 
     public static EmailInterface getEmailClient(WebServiceFeature... features)
@@ -46,7 +46,8 @@ public class DynamicClients {
         Service service = Service.create(new URL(DecidrGlobals
                 .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME)),
                 EmailInterface.SERVICE);
-        return service.getPort(EmailInterface.class, features);
+        return service.getPort(EmailInterface.ENDPOINT, EmailInterface.class,
+                features);
     }
 
     public static HumanTaskInterface getHumanTaskClient()
@@ -54,7 +55,8 @@ public class DynamicClients {
         Service service = Service.create(new URL(DecidrGlobals
                 .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME)),
                 HumanTaskInterface.SERVICE);
-        return service.getPort(HumanTaskInterface.class);
+        return service.getPort(HumanTaskInterface.ENDPOINT,
+                HumanTaskInterface.class);
     }
 
     public static HumanTaskInterface getHumanTaskClient(
@@ -62,6 +64,7 @@ public class DynamicClients {
         Service service = Service.create(new URL(DecidrGlobals
                 .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME)),
                 HumanTaskInterface.SERVICE);
-        return service.getPort(HumanTaskInterface.class, features);
+        return service.getPort(HumanTaskInterface.ENDPOINT,
+                HumanTaskInterface.class, features);
     }
 }

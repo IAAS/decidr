@@ -227,8 +227,6 @@
 
 	<!-- needs to be adapted for deployment -->
 	<wsdl:service name="HumanTask">
-		<wsdl:port binding="tns:HumanTaskSOAP" name="HumanTaskSOAP">
-			<soap:address location="http://www.example.org/" />
-		</wsdl:port>
+		<wsdl:port binding="tns:HumanTaskSOAP" name="HumanTaskSOAP" />
 	</wsdl:service>
 </wsdl:definitions>

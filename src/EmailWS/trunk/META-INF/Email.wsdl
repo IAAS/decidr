@@ -111,8 +111,6 @@
 
 	<!-- needs to be adapted for deployment -->
 	<wsdl:service name="Email">
-		<wsdl:port binding="tns:EmailSOAP" name="EmailSOAP">
-			<soap:address location="http://www.example.org/" />
-		</wsdl:port>
+		<wsdl:port binding="tns:EmailSOAP" name="EmailSOAP" />
 	</wsdl:service>
 </wsdl:definitions>

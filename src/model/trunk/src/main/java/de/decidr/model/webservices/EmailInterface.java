@@ -40,7 +40,7 @@ import de.decidr.model.soap.types.StringMap;
  * 
  * @author Reinhold
  */
-@WebService(targetNamespace = EmailInterface.TARGET_NAMESPACE, name = EmailInterface.PORT_TYPE_NAME)
+@WebService(targetNamespace = EmailInterface.TARGET_NAMESPACE, name = EmailInterface.PORT_TYPE_NAME, wsdlLocation = "Email.wsdl")
 public interface EmailInterface {
 
     public static final String SERVICE_NAME = "Email";

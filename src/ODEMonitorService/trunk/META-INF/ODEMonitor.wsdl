@@ -134,8 +134,6 @@
 
 	<!-- needs to be adapted for deployment -->
 	<wsdl:service name="ODEMonitor">
-		<wsdl:port binding="tns:ODEMonitorSOAP" name="ODEMonitorSOAP">
-			<soap:address location="http://www.example.org/" />
-		</wsdl:port>
+		<wsdl:port binding="tns:ODEMonitorSOAP" name="ODEMonitorSOAP" />
 	</wsdl:service>
 </wsdl:definitions>

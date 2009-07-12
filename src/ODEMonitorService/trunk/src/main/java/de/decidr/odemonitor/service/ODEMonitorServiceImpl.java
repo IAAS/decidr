@@ -16,14 +16,19 @@
 
 package de.decidr.odemonitor.service;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.Holder;
+import javax.xml.ws.Service;
 
 import org.apache.log4j.Logger;
 
 import de.decidr.model.logging.DefaultLogger;
+import de.decidr.model.webservices.EmailInterface;
 
 /**
  * This implementation of the <code>{@link ODEMonitorService}</code> uses the
