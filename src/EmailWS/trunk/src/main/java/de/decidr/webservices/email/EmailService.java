@@ -22,18 +22,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.mail.MessagingException;
 import javax.xml.bind.TypeConstraintException;
-import javax.xml.ws.WebServiceContext;
 
 import org.apache.log4j.Logger;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 
 import de.decidr.model.commands.system.GetSystemSettingsCommand;
 import de.decidr.model.commands.user.GetUserPropertiesCommand;
@@ -73,33 +67,6 @@ public class EmailService implements EmailInterface {
 
     private static final Logger log = DefaultLogger
             .getLogger(EmailService.class);
-
-    @Resource
-    WebServiceContext webServiceContext;
-
-    private NamedNodeMap getNamespaces(Element e) {
-        
-        Element n = (Element) e.cloneNode(true);
-        NamedNodeMap attrs = n.getAttributes();
-        for (int i=0; i< attrs.getLength(); i++) {
-          Attr attr = (Attr) attrs.item(i);
-          String prefix = attr.getPrefix();
-          String name = attr.getLocalName();
-          if ( prefix == null || !prefix.equals("xmlns")) {
-            attrs.removeNamedItem(name);
-          }
-        }
-        Node parent = e.getParentNode();
-        if ( parent != null && parent.getNodeType() == Node.ELEMENT_NODE ) {
-          NamedNodeMap parentAttrs = getNamespaces((Element) parent);
-          for (int i=0; i<attrs.getLength(); i++) {
-            parentAttrs.setNamedItem(attrs.item(i).cloneNode(true));
-          }
-          return parentAttrs;
-        }
-        return attrs;
-        
-      }
 
     /**
      * Attaches files to a passed <code>{@link MailBackend}</code> provided they

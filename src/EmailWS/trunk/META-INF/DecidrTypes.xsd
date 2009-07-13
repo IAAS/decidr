@@ -154,10 +154,16 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<xsd:element name="user" type="tns:tAbstractUser" />
+	<xsd:element name="emailUser" substitutionGroup="tns:user"
+		type="tns:tEmailUser" />
+	<xsd:element name="actorUser" substitutionGroup="tns:user"
+		type="tns:tActorUser" />
+	<xsd:element name="roleUser" substitutionGroup="tns:user"
+		type="tns:tRoleUser" />
 	<xsd:complexType name="tAbstractUserList">
 		<xsd:sequence>
-			<xsd:element name="abstractUser" type="tns:tAbstractUser"
-				minOccurs="1" maxOccurs="unbounded" />
+			<xsd:element ref="tns:user" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
 
