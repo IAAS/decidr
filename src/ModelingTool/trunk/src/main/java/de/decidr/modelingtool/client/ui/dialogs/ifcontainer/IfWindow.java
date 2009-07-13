@@ -26,7 +26,9 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
-import de.decidr.modelingtool.client.model.IfContainerModel;
+import de.decidr.modelingtool.client.command.ChangeNodeModelCommand;
+import de.decidr.modelingtool.client.command.CommandStack;
+import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
 import de.decidr.modelingtool.client.ui.IfContainer;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
@@ -99,15 +101,25 @@ public class IfWindow extends Dialog {
     }
 
     private void changeWorkflowModel() {
-        // JS: replace stub
+        IfContainerModel newModel = new IfContainerModel();
+        CommandStack.getInstance().executeCommand(
+                new ChangeNodeModelCommand<IfContainer, IfContainerModel>(node,
+                        newModel));
     }
 
     private void createFields() {
-
+        // JS: replace stub
+        node.getConnections();
+        model.getChildNodeModels();
     }
 
     private void clearAllEntries() {
-
+        if (table.getRowCount() > 0) {
+            int start = table.getRowCount();
+            for (int i = start; i > 0; i--) {
+                table.removeRow(i - 1);
+            }
+        }
     }
 
     @Override

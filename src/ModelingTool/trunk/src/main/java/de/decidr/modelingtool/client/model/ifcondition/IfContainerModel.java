@@ -14,7 +14,10 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
+package de.decidr.modelingtool.client.model.ifcondition;
+
+import de.decidr.modelingtool.client.model.ContainerModel;
+import de.decidr.modelingtool.client.model.HasChildModels;
 
 /**
  * TODO: add comment

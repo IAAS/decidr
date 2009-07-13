@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui.dialogs.containerwindows;
+package de.decidr.modelingtool.client.ui.dialogs.foreachcontainer;
 
 import de.decidr.modelingtool.client.ui.ForEachContainer;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;

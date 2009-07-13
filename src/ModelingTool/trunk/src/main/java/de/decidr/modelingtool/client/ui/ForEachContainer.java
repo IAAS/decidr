@@ -24,8 +24,8 @@ import com.google.gwt.user.client.ui.Label;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
-import de.decidr.modelingtool.client.ui.dialogs.containerwindows.ForEachWindow;
-import de.decidr.modelingtool.client.ui.dialogs.containerwindows.ForEachWindowInvoker;
+import de.decidr.modelingtool.client.ui.dialogs.foreachcontainer.ForEachWindow;
+import de.decidr.modelingtool.client.ui.dialogs.foreachcontainer.ForEachWindowInvoker;
 
 /**
  * TODO: add comment

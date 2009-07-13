@@ -35,6 +35,7 @@ public class ChangeNodeModelCommand<N extends Node, M extends NodeModel>
      * TODO: add comment
      * 
      */
+    @SuppressWarnings("unchecked")
     public ChangeNodeModelCommand(N node, M newModel) {
         this.node = node;
         this.oldModel = (M) node.getModel();

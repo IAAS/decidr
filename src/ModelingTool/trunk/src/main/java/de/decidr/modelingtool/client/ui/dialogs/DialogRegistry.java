@@ -19,8 +19,8 @@ package de.decidr.modelingtool.client.ui.dialogs;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.decidr.modelingtool.client.ui.dialogs.containerwindows.ForEachWindow;
 import de.decidr.modelingtool.client.ui.dialogs.email.EmailActivityWindow;
+import de.decidr.modelingtool.client.ui.dialogs.foreachcontainer.ForEachWindow;
 import de.decidr.modelingtool.client.ui.dialogs.humantask.HumanTaskActivityWindow;
 import de.decidr.modelingtool.client.ui.dialogs.ifcontainer.IfWindow;
 import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditor;
