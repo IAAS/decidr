@@ -25,12 +25,35 @@ package de.decidr.model.notifications;
 
 public class NotificationText {
 
-    /*
+    //GH: check vs. \n and \r\n
+    private static String crlf = System.getProperty("line.separator");
+    
+    /**
      * 
-     * All functions require the parameter signature, which represents the last
-     * sentence of the generated messages and should be sth. like
-     * "--Your DecidR Team"
+     * Returns the email text which is sent to a user, whose account has been
+     * (re-)activated by a super admin
+     * 
+     * @param userName
+     * @param signature
+     * @return complete email message with HTML tags
      */
+    public static String getActivatedUserAccountHTML(String userName,
+            String signature) {
+        String message = null;
+        message = "Dear "
+                + userName
+                + ",<br><br>"
+                + "We like to inform you that your DecidR account \""
+                + userName
+                + "\" has been activated.<br>"
+                + "You may now login and use this account.<br><br><br>"
+                + signature
+                + "<br>"
+                + "(Please do not respond to this automatically generated mail)";
+
+        return message;
+    }
+
 
     /**
      * 
@@ -46,20 +69,72 @@ public class NotificationText {
         String message = null;
         message = "Dear "
                 + userName
-                + ",<br><br>"
-                +
-                // GH Bitte verwende keine Zeichen wie "“" und "”"
-                "We like to inform you that your DecidR account \""
+                + ","
+                + crlf
+                + crlf
+                +"We like to inform you that your DecidR account \""
                 + userName
-                + "\" has been activated.<br>"
-                + "You may now login and use this account.<br><br><br>"
+                + "\" has been activated."
+                + crlf
+                + "You may now login and use this account."
+                + crlf
+                + crlf
+                + crlf
+                + signature
+                + crlf
+                + "(Please do not respond to this automatically generated mail)";
+
+        return message;
+    }
+    
+    /**
+     * 
+     * Returns the email subject of the corresponding email text
+     *
+     * @return
+     */
+    public static String getActivatedUserAccountSubject(){
+        String message = "DecidR: Account Activated!";
+        return message;
+    }
+    
+    /**
+     * 
+     * Returns the email text which is sent to a registered user, who is already
+     * member of a tenant and has been appointed to a workflowmodel admin of
+     * this tenant
+     * 
+     * @param userName
+     * @param promoterName
+     *            username of the tenant admin, who appointed this user to wfm
+     *            admin
+     * @param tenantName
+     * @param wfmName
+     *            name of the workflow model
+     * @param signature
+     * @return complete email message with HTML tags
+     */
+    public static String getAppointedWorkflowModelAdminHTML(String userName,
+            String promoterName, String tenantName, String wfmName,
+            String signature) {
+        String message = null;
+        message = "Dear "
+                + userName
+                + "!<br><br>"
+                + promoterName
+                + " from the tenant "
+                + tenantName
+                + " has promoted you to the role of Workflow Administrator"
+                + " for the following Workflow Model:<br>"
+                + wfmName
+                + "<br><br><br>"
                 + signature
                 + "<br>"
                 + "(Please do not respond to this automatically generated mail)";
 
         return message;
     }
-
+    
     /**
      * 
      * Returns the email text which is sent to a registered user, who is already
@@ -82,14 +157,58 @@ public class NotificationText {
         String message = null;
         message = "Dear "
                 + userName
-                + "!<br><br>"
+                + "!"
+                + crlf
+                + crlf
                 + promoterName
                 + " from the tenant "
                 + tenantName
                 + " has promoted you to the role of Workflow Administrator"
-                + " for the following Workflow Model:<br>"
+                + " for the following Workflow Model:"
+                + crlf
                 + wfmName
-                + "<br><br><br>"
+                + crlf
+                + crlf
+                + crlf
+                + signature
+                + crlf
+                + "(Please do not respond to this automatically generated mail)";
+
+        return message;
+    }
+    
+    /**
+     * 
+     * Returns the email subject of the corresponding email text
+     *
+     * @return
+     */
+    public static String getAppointedWorkflowModelAdminSubject(){
+        String message = "DecidR: Workflow Model Admin Promotion";
+        return message;
+    }
+
+    /**
+     * 
+     * Returns the email text which is sent to a user, whose attempt to create a
+     * new tenant has been approved.
+     * 
+     * @param userName
+     * @param tenantName
+     * @param signature
+     * @return complete email message with HTML tags
+     */
+    public static String getApprovedTenantHTML(String userName,
+            String tenantName, String signature) {
+        String message = null;
+        message = "Dear "
+                + userName
+                + ",<br><br>"
+                + "We are happy to inform you that your request to create the tenant "
+                + tenantName
+                + " has been approved."
+                + "You have been set as tenant admin automatically and are now able to"
+                + " customize your tenant and invite other users to join your tenant.<br><br><br>"
                 + signature
                 + "<br>"
                 + "(Please do not respond to this automatically generated mail)";
@@ -112,12 +231,62 @@ public class NotificationText {
         String message = null;
         message = "Dear "
                 + userName
-                + ",<br><br>"
+                + ","
+                + crlf
+                + crlf
                 + "We are happy to inform you that your request to create the tenant "
                 + tenantName
                 + " has been approved."
                 + "You have been set as tenant admin automatically and are now able to"
-                + " customize your tenant and invite other users to join your tenant.<br><br><br>"
+                + " customize your tenant and invite other users to join your tenant."
+                + crlf
+                + crlf
+                + crlf
+                + signature
+                + crlf
+                + "(Please do not respond to this automatically generated mail)";
+
+        return message;
+    }
+    
+    /**
+     * 
+     * Returns the email subject of the corresponding email text
+     *
+     * @return
+     */
+    public static String getApprovedTenantSubject(){
+        String message = "DecidR: Tenant Approved!";
+        return message;
+    }
+
+    /**
+     * 
+     * Returns the email text which is sent to a user, who has requested to
+     * change his accounts email address
+     * 
+     * @param userName
+     * @param confirmationUrl
+     * @param expireDate
+     * @param signature
+     * @return complete email message with HTML tags
+     */
+    public static String getChangeEmailRequestHTML(String userName,
+            String confirmationUrl, String expireDate, String signature) {
+        String message = null;
+        message = "Dear "
+                + userName
+                + ",<br><br>"
+                + "You have requested to change the email address of your DecidR account. "
+                + "If that was not the case, please ignore this email.<br>"
+                + "To verify this new email address and complete the change, visit the following link:<br>"
+                + confirmationUrl
+                + "<br><br>"
+                + "If clicking the link in this message does not work, copy and"
+                + " paste it into the address bar of your browser.<br><br>"
+                + "Please note that the provided link is only valid for 3 days an will expire on "
+                + expireDate
+                + ".<br><br><br>"
                 + signature
                 + "<br>"
                 + "(Please do not respond to this automatically generated mail)";
@@ -141,15 +310,69 @@ public class NotificationText {
         String message = null;
         message = "Dear "
                 + userName
-                + ",<br><br>"
+                + ","
+                + crlf
+                + crlf
                 + "You have requested to change the email address of your DecidR account. "
-                + "If that was not the case, please ignore this email.<br>"
-                + "To verify this new email address and complete the change, visit the following link:<br>"
+                + "If that was not the case, please ignore this email."
+                + crlf
+                + "To verify this new email address and complete the change, visit the following link:"
+                + crlf
+                + confirmationUrl
+                + crlf
+                + crlf
+                + "If clicking the link in this message does not work, copy and"
+                + " paste it into the address bar of your browser."
+                + crlf
+                + crlf
+                + "Please note that the provided link is only valid for 3 days an will expire on "
+                + expireDate
+                + "."
+                + crlf
+                + crlf
+                + crlf
+                + signature
+                + crlf
+                + "(Please do not respond to this automatically generated mail)";
+
+        return message;
+    }
+    
+    /**
+     * 
+     * Returns the email subject of the corresponding email text
+     *
+     * @return
+     */
+    public static String getChangeEmailRequestSubject(){
+        String message = "DecidR: New E-Mail Address";
+        return message;
+    }
+
+    /**
+     * 
+     * Returns the email text which is sent to a newly registered user to
+     * confirm and activate his account.
+     * 
+     * @param userName
+     * @param confirmationUrl
+     * @param expireDate
+     * @param signature
+     * @return complete email message with HTML tags
+     */
+    public static String getConfirmRegistrationHTML(String userName,
+            String confirmationUrl, String expireDate, String signature) {
+        String message = null;
+        message = "Dear "
+                + userName
+                + ",<br><br>"
+                + "Thank you for registering and welcome to DecidR!<br><br>"
+                + "For being able to use your newly created account, please activate it by visiting the following link:<br>"
                 + confirmationUrl
                 + "<br><br>"
-                + "If clicking the link in this message does not work, copy and"
-                + " paste it into the address bar of your browser.<br><br>"
-                + "Please note that the provided link is only valid for 3 days an will expire on "
+                + "If clicking the link in this message does not work, copy and paste"
+                + " it into the address bar of your browser.<br><br>"
+                + "Please note that the provieded link is only valid for 3 days and will expire on "
                 + expireDate
                 + ".<br><br><br>"
                 + signature
@@ -175,16 +398,64 @@ public class NotificationText {
         String message = null;
         message = "Dear "
                 + userName
-                + ",<br><br>"
-                + "Thank you for registering and welcome to DecidR!<br><br>"
-                + "For being able to use your newly created account, please activate it by visiting the following link:<br>"
+                + ","
+                + crlf
+                + crlf
+                + "Thank you for registering and welcome to DecidR!"
+                + crlf
+                + crlf
+                + "For being able to use your newly created account, please activate it by visiting the following link:"
+                + crlf
                 + confirmationUrl
-                + "<br><br>"
+                + crlf
+                + crlf
                 + "If clicking the link in this message does not work, copy and paste"
-                + " it into the address bar of your browser.<br><br>"
+                + " it into the address bar of your browser."
+                + crlf
+                + crlf
                 + "Please note that the provieded link is only valid for 3 days and will expire on "
                 + expireDate
-                + ".<br><br><br>"
+                + "."
+                + crlf
+                + crlf
+                + crlf
+                + signature
+                + crlf
+                + "(Please do not respond to this automatically generated mail)";
+
+        return message;
+    }
+    
+    /**
+     * 
+     * Returns the email subject of the corresponding email text
+     *
+     * @return
+     */
+    public static String getConfirmRegistrationSubject(){
+        String message = "DecidR: Confirm Registration";
+        return message;
+    }
+
+    /**
+     * 
+     * Returns the email text which is sent to a user, whose account has been
+     * deactivated by a super admin
+     * 
+     * @param userName
+     * @param signature
+     * @return complete email message with HTML tags
+     */
+    public static String getDeactivatedUserAccountHTML(String userName,
+            String signature) {
+        String message = null;
+        message = "Dear "
+                + userName
+                + ",<br><br>"
+                + "We regret to inform you that your DecidR account \""
+                + userName
+                + "\" has been deactivated.<br>"
+                + "You will no longer be able to login and/or fulfill any tasks using this account.<br><br><br>"
                 + signature
                 + "<br>"
                 + "(Please do not respond to this automatically generated mail)";
@@ -206,11 +477,54 @@ public class NotificationText {
         String message = null;
         message = "Dear "
                 + userName
-                + ",<br><br>"
+                + ","
+                + crlf
+                + crlf
                 + "We regret to inform you that your DecidR account \""
                 + userName
-                + "\" has been deactivated.<br>"
-                + "You will no longer be able to login and/or fulfill any tasks using this account.<br><br><br>"
+                + "\" has been deactivated."
+                + crlf
+                + "You will no longer be able to login and/or fulfill any tasks using this account."
+                + crlf
+                + crlf
+                + crlf
+                + signature
+                + crlf
+                + "(Please do not respond to this automatically generated mail)";
+
+        return message;
+    }
+    
+    /**
+     * 
+     * Returns the email subject of the corresponding email text
+     *
+     * @return
+     */
+    public static String getDeactivatedUserAccountSubject(){
+        String message = "DecidR: Account Deactivated!";
+        return message;
+    }
+
+    /**
+     * 
+     * Returns the email text which is sent to a user, whose attempt to create a
+     * new tenant has been rejected.
+     * 
+     * @param userName
+     * @param tenantName
+     * @param signature
+     * @return complete email message with HTML tags
+     */
+    public static String getDisapprovedTenantHTML(String userName,
+            String tenantName, String signature) {
+        String message = null;
+        message = "Dear "
+                + userName
+                + ",<br><br>"
+                + "Unfortunately your request to create the tenant "
+                + tenantName
+                + " has been rejected.<br><br><br>"
                 + signature
                 + "<br>"
                 + "(Please do not respond to this automatically generated mail)";
@@ -233,10 +547,54 @@ public class NotificationText {
         String message = null;
         message = "Dear "
                 + userName
-                + ",<br><br>"
+                + ","
+                + crlf
+                + crlf
                 + "Unfortunately your request to create the tenant "
                 + tenantName
-                + " has been rejected.<br><br><br>"
+                + " has been rejected."
+                + crlf
+                + crlf
+                + crlf
+                + signature
+                + crlf
+                + "(Please do not respond to this automatically generated mail)";
+
+        return message;
+    }
+    
+    /**
+     * 
+     * Returns the email subject of the corresponding email text
+     *
+     * @return
+     */
+    public static String getDisapprovedTenantSubject(){
+        String message = "DecidR: Tenant disapproved";
+        return message;
+    }
+
+    /**
+     * 
+     * Returns the email text which is sent to a user, who successfully
+     * generated a new password
+     * 
+     * @param userName
+     * @param newPassword
+     * @param signature
+     * @return complete email message with HTML tags
+     */
+    public static String getGeneratedNewPasswordHTML(String userName,
+            String newPassword, String signature) {
+        String message = null;
+        message = "Dear "
+                + userName
+                + ",<br><br>"
+                + "You successfully requested a password reset.<br>"
+                + "Your new generated password is: "
+                + newPassword
+                + "<br>"
+                + "Please change this password as soon as possible.<br><br><br>"
                 + signature
                 + "<br>"
                 + "(Please do not respond to this automatically generated mail)";
@@ -259,16 +617,33 @@ public class NotificationText {
         String message = null;
         message = "Dear "
                 + userName
-                + ",<br><br>"
-                + "You successfully requested a password reset.<br>"
+                + ","
+                + crlf
+                + crlf
+                + "You successfully requested a password reset."
+                + crlf
                 + "Your new generated password is: "
                 + newPassword
-                + "<br>"
-                + "Please change this password as soon as possible.<br><br><br>"
+                + crlf
+                + "Please change this password as soon as possible."
+                + crlf
+                + crlf
+                + crlf
                 + signature
-                + "<br>"
+                + crlf
                 + "(Please do not respond to this automatically generated mail)";
 
+        return message;
+    }
+    
+    /**
+     * 
+     * Returns the email subject of the corresponding email text
+     *
+     * @return
+     */
+    public static String getGeneratedNewPasswordSubject(){
+        String message = "DecidR: New Password";
         return message;
     }
 
@@ -285,9 +660,9 @@ public class NotificationText {
      * @param invitationUrl
      * @param expireDate
      * @param signature
-     * @return complete email message
+     * @return complete email message with HTML tags
      */
-    public static String getInviteRegisteredUserAsTenantMemberText(
+    public static String getInviteRegisteredUserAsTenantMemberHTML(
             String userName, String inviterName, String tenantName,
             String tenantUrl, String invitationUrl, String expireDate,
             String signature) {
@@ -320,8 +695,9 @@ public class NotificationText {
     /**
      * 
      * Returns the email text which is sent to a user, who has been invited to
-     * join a tenant and is not yet registered
+     * join a tenant and is already registered
      * 
+     * @param userName
      * @param inviterName
      *            GH: The real name of the inviter?
      * @param tenantName
@@ -331,7 +707,71 @@ public class NotificationText {
      * @param signature
      * @return complete email message
      */
-    public static String getInviteUnregisteredUserAsTenantMemberText(
+    public static String getInviteRegisteredUserAsTenantMemberText(
+            String userName, String inviterName, String tenantName,
+            String tenantUrl, String invitationUrl, String expireDate,
+            String signature) {
+        String message = null;
+        message = "Dear "
+                + userName
+                + "!"
+                + crlf
+                + crlf
+                + inviterName
+                + " invited you to join the following DecidR tenant: "
+                + tenantName
+                + crlf
+                + "For further information about this tenant, please visit "
+                + tenantUrl
+                + crlf
+                + crlf
+                + "Please visit the following link and follow the instructions on the website to join the tenant:"
+                + invitationUrl
+                + crlf
+                + crlf
+                + "If clicking the link in this message does not work, copy and"
+                + " paste it into the address bar of your browser."
+                + crlf
+                + crlf
+                + "Please note that this invitation is only valid for 3 days and will expire on "
+                + expireDate
+                + "."
+                + crlf
+                + crlf
+                + crlf
+                + signature
+                + crlf
+                + "(Please do not respond to this automatically generated mail)";
+
+        return message;
+    }
+    
+    /**
+     * 
+     * Returns the email subject of the corresponding email text
+     *
+     * @return
+     */
+    public static String getInviteRegisteredUserAsTenantMemberSubject(String tenantName){
+        String message = "DecidR: Your Invitation to join " + tenantName + "!";
+        return message;
+    }
+
+    /**
+     * 
+     * Returns the email text which is sent to a user, who has been invited to
+     * join a tenant and is not yet registered
+     * 
+     * @param inviterName
+     *            GH: The real name of the inviter?
+     * @param tenantName
+     * @param tenantUrl
+     * @param invitationUrl
+     * @param expireDate
+     * @param signature
+     * @return complete email message with HTML tags
+     */
+    public static String getInviteUnregisteredUserAsTenantMemberHTML(
             String inviterName, String tenantName, String tenantUrl,
             String invitationUrl, String expireDate, String signature) {
         String message = null;
@@ -361,6 +801,68 @@ public class NotificationText {
 
     /**
      * 
+     * Returns the email text which is sent to a user, who has been invited to
+     * join a tenant and is not yet registered
+     * 
+     * @param inviterName
+     *            GH: The real name of the inviter?
+     * @param tenantName
+     * @param tenantUrl
+     * @param invitationUrl
+     * @param expireDate
+     * @param signature
+     * @return complete email message
+     */
+    public static String getInviteUnregisteredUserAsTenantMemberText(
+            String inviterName, String tenantName, String tenantUrl,
+            String invitationUrl, String expireDate, String signature) {
+        String message = null;
+        message = "Hello!"
+                + crlf
+                + crlf
+                + inviterName
+                + " invited you to join the following DecidR tenant: "
+                + tenantName
+                + crlf
+                + "For further information about this tenant, please visit "
+                + tenantUrl
+                + crlf
+                + crlf
+                + "Please visit the following link and follow the instructions on the"
+                + " website to create your own DecidR account and join the tenant:"
+                + invitationUrl
+                + crlf
+                + crlf
+                + "If clicking the link in this message does not work, copy and paste"
+                + " it into the address bar of your browser."
+                + crlf
+                + crlf
+                + "Please note that this invitation is only valid for 3 days and will expire on "
+                + expireDate
+                + "."
+                + crlf
+                + crlf
+                + crlf
+                + signature
+                + crlf
+                + "(Please do not respond to this automatically generated mail)";
+
+        return message;
+    }
+    
+    /**
+     * 
+     * Returns the email subject of the corresponding email text
+     *
+     * @return
+     */
+    public static String getInviteUnregisteredUserAsTenantMemberSubject(){
+        String message = "Your Invitation to DecidR!";
+        return message;
+    }
+
+    /**
+     * 
      * Returns the email text which is sent to a user, who has received a new
      * work item
      * 
@@ -368,9 +870,9 @@ public class NotificationText {
      * @param tenantName
      * @param workflowModelName
      * @param signature
-     * @return complete email message
+     * @return complete email message with HTML tags
      */
-    public static String getNewWorkItemText(String userName, String tenantName,
+    public static String getNewWorkItemHTML(String userName, String tenantName,
             String workflowModelName, String signature) {
         String message = null;
         message = "Dear "
@@ -388,6 +890,49 @@ public class NotificationText {
 
     /**
      * 
+     * Returns the email text which is sent to a user, who has received a new
+     * work item
+     * 
+     * @param userName
+     * @param tenantName
+     * @param workflowModelName
+     * @param signature
+     * @return complete email message
+     */
+    public static String getNewWorkItemText(String userName, String tenantName,
+            String workflowModelName, String signature) {
+        String message = null;
+        message = "Dear "
+                + userName
+                + ","
+                + crlf
+                + crlf
+                + "You have received a new work item from your tenant "
+                + tenantName
+                + "."
+                + crlf
+                + crlf
+                + crlf
+                + signature
+                + crlf
+                + "(Please do not respond to this automatically generated mail)";
+
+        return message;
+    }
+    
+    /**
+     * 
+     * Returns the email subject of the corresponding email text
+     *
+     * @return
+     */
+    public static String getNewWorkItemSubject(String tenantName){
+        String message = "DecidR: New Work Item From " + tenantName;
+        return message;
+    }
+
+    /**
+     * 
      * Returns the email text which is sent to a user, who has requested to
      * reset his password
      * 
@@ -395,9 +940,9 @@ public class NotificationText {
      * @param confirmationUrl
      * @param expireDate
      * @param signature
-     * @return complete email message
+     * @return complete email message with HTML tags
      */
-    public static String getPasswordResetRequestText(String userName,
+    public static String getPasswordResetRequestHTML(String userName,
             String confirmationUrl, String expireDate, String signature) {
         String message = null;
         message = "Dear "
@@ -424,6 +969,95 @@ public class NotificationText {
 
     /**
      * 
+     * Returns the email text which is sent to a user, who has requested to
+     * reset his password
+     * 
+     * @param userName
+     * @param confirmationUrl
+     * @param expireDate
+     * @param signature
+     * @return complete email message
+     */
+    public static String getPasswordResetRequestText(String userName,
+            String confirmationUrl, String expireDate, String signature) {
+        String message = null;
+        message = "Dear "
+                + userName
+                + ","
+                + crlf
+                + crlf
+                + "You have requested a reset of your password. If that was not"
+                + " the case, please ignore this email."
+                + crlf
+                + "To reset your password, please visit the following link:"
+                + crlf
+                + confirmationUrl
+                + crlf
+                + crlf
+                + "A new password will be generated and sent to you."
+                + crlf
+                + "If clicking the link in this message does not work, copy and"
+                + " paste it into the address bar of your browser."
+                + crlf
+                + crlf
+                + "Please note that this invitation is only valid for 3 days"
+                + " and will expire on "
+                + expireDate
+                + "."
+                + crlf
+                + crlf
+                + crlf
+                + signature
+                + crlf
+                + "(Please do not respond to this automatically generated mail)";
+
+        return message;
+    }
+    
+    /**
+     * 
+     * Returns the email subject of the corresponding email text
+     *
+     * @return
+     */
+    public static String getPasswordResetRequestSubject(){
+        String message = "DecidR: Password Reset";
+        return message;
+    }
+
+    /**
+     * 
+     * Returns the email text which is sent to a user, whose invitation has been
+     * rejected by another user
+     * 
+     * @param userName
+     *            user name of the inviter
+     * @param refusedByName
+     *            user name of the user who has been invited
+     * @param tenantName
+     * @param signature
+     * @return complete email message with HTML tags
+     */
+    public static String getRefusedInvitationHTML(String userName,
+            String refusedByName, String tenantName, String signature) {
+        String message = null;
+        message = "Dear "
+                + userName
+                + ",<br><br>"
+                + "The user "
+                + refusedByName
+                + " has refused your invitation to join the tenant "
+                + tenantName
+                + ".<br><br><br>"
+                + signature
+                + "<br>"
+                + "(Please do not respond to this automatically generated mail)";
+
+        return message;
+    }
+
+    /**
+     * 
      * Returns the email text which is sent to a user, whose invitation has been
      * rejected by another user
      * 
@@ -440,12 +1074,55 @@ public class NotificationText {
         String message = null;
         message = "Dear "
                 + userName
-                + ",<br><br>"
+                + ","
+                + crlf
+                + crlf
                 + "The user "
                 + refusedByName
                 + " has refused your invitation to join the tenant "
                 + tenantName
-                + ".<br><br><br>"
+                + "."
+                + crlf
+                + crlf
+                + crlf
+                + signature
+                + crlf
+                + "(Please do not respond to this automatically generated mail)";
+
+        return message;
+    }
+    
+    /**
+     * 
+     * Returns the email subject of the corresponding email text
+     *
+     * @return
+     */
+    public static String getRefusedInvitationSubject(){
+        String message = "DecidR: Invitation Refused";
+        return message;
+    }
+
+    /**
+     * 
+     * Returns the email text which is sent to a user, who has been removed from
+     * a tenant
+     * 
+     * @param userName
+     * @param tenantName
+     * @param signature
+     * @return complete email message with HTML tags
+     */
+    public static String getRemovedFromTenantHTML(String userName,
+            String tenantName, String signature) {
+        String message = null;
+        message = "Dear "
+                + userName
+                + ",<br><br>"
+                + "You have been removed from the following tenant: "
+                + tenantName
+                + "<br>"
+                + "You will no longer be able to work on tasks for this tenant.<br><br><br>"
                 + signature
                 + "<br>"
                 + "(Please do not respond to this automatically generated mail)";
@@ -468,15 +1145,31 @@ public class NotificationText {
         String message = null;
         message = "Dear "
                 + userName
-                + ",<br><br>"
+                + ","
+                + crlf
+                + crlf
                 + "You have been removed from the following tenant: "
                 + tenantName
-                + "<br>"
-                + "You will no longer be able to work on tasks for this tenant.<br><br><br>"
+                + crlf
+                + "You will no longer be able to work on tasks for this tenant."
+                + crlf
+                + crlf
+                + crlf
                 + signature
-                + "<br>"
+                + crlf
                 + "(Please do not respond to this automatically generated mail)";
 
+        return message;
+    }
+    
+    /**
+     * 
+     * Returns the email subject of the corresponding email text
+     *
+     * @return
+     */
+    public static String getRemovedFromTenantSubject(){
+        String message = "DecidR: Tenant Membership Canceled";
         return message;
     }
 
