@@ -85,6 +85,9 @@ public interface Messages extends Constants {
 
     String xorConLabel();
 
+    /* If container */
+    String ifContainer();
+
     /* Variable editor */
     String enterVariableName();
 
