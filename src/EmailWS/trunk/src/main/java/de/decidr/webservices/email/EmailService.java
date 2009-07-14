@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.mail.MessagingException;
@@ -59,6 +60,7 @@ import de.decidr.model.webservices.EmailInterface;
  * @author Reinhold
  */
 @WebService(serviceName = "Email", portName = "EmailSOAP", targetNamespace = EmailInterface.TARGET_NAMESPACE, wsdlLocation = "Email.wsdl", endpointInterface = "de.decidr.webservices.email.EmailPT")
+@HandlerChain(file="handler-chain.xml")
 public class EmailService implements EmailInterface {
 
     private static final String VERSION = "0.1";

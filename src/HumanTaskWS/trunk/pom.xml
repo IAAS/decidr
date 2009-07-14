@@ -37,6 +37,8 @@
 							<outputDirectory>META-INF</outputDirectory>
 							<includes>
 								<include>DecidrTypes.xsd</include>
+								<include>handler-chain.xml</include>
+								<include>wsdl/ode_process.wsdl</include>
 							</includes>
 						</fileSet>
 					</fileSets>

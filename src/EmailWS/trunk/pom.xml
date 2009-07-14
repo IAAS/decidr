@@ -34,6 +34,7 @@
 							<outputDirectory>META-INF</outputDirectory>
 							<includes>
 								<include>DecidrTypes.xsd</include>
+								<include>handler-chain.xml</include>
 							</includes>
 						</fileSet>
 					</fileSets>

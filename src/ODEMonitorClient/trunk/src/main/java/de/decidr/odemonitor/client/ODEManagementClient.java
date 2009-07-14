@@ -39,14 +39,14 @@ import org.apache.ode.bpel.pmapi.ProcessManagement;
 @WebServiceClient(name = "ProcessAndInstanceManagement", targetNamespace = ODEManagementClient.TARGET_NAMESPACE, wsdlLocation = ODEManagementClient.WSDL_LOCATION)
 public class ODEManagementClient extends Service {
 
-    private static final String TARGET_NAMESPACE = "http://www.apache.org/ode/pmapi";
-    private static final QName SERVICE = new QName(TARGET_NAMESPACE,
+    public static final String TARGET_NAMESPACE = "http://www.apache.org/ode/pmapi";
+    public static final QName SERVICE = new QName(TARGET_NAMESPACE,
             "ProcessAndInstanceManagement");
     // RR find proper local wsdl location
-    private static final String WSDL_LOCATION = "http://svn.apache.org/repos/asf/ode/trunk/axis2/src/main/wsdl/pmapi.wsdl";
-    private final static QName PROCESS_ENDPOINT = new QName(TARGET_NAMESPACE,
+    public static final String WSDL_LOCATION = "http://svn.apache.org/repos/asf/ode/trunk/axis2/src/main/wsdl/pmapi.wsdl";
+    public final static QName PROCESS_ENDPOINT = new QName(TARGET_NAMESPACE,
             "ProcessManagementPort");
-    private final static QName INSTANCE_ENDPOINT = new QName(TARGET_NAMESPACE,
+    public final static QName INSTANCE_ENDPOINT = new QName(TARGET_NAMESPACE,
             "InstanceManagementPort");
 
     public ODEManagementClient(URL wsdlDocumentLocation, QName serviceName) {

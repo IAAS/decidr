@@ -18,6 +18,7 @@ package de.decidr.webservices.humantask;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 
+import javax.jws.HandlerChain;
 import javax.jws.WebService;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -49,6 +50,7 @@ import de.decidr.model.webservices.HumanTaskInterface;
  * @author Reinhold
  */
 @WebService(endpointInterface = "HumanTaskInterface")
+@HandlerChain(file="handler-chain.xml")
 public class HumanTask implements HumanTaskInterface {
     private static Logger log = DefaultLogger.getLogger(HumanTask.class);
     private static final Role HUMANTASK_ROLE = HumanTaskRole.getInstance();
