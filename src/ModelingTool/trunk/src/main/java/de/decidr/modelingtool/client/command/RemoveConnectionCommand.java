@@ -57,7 +57,7 @@ public class RemoveConnectionCommand implements UndoableCommand {
     }
 
     @Override
-    public void execute() {
+    public void execute() {   
         // remove start drag box
         ConnectionDragBox startDragBox = connection.getStartDragBox();
         startDragBox.getGluedPort().remove(startDragBox);

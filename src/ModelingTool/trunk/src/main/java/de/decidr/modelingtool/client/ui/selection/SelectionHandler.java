@@ -78,6 +78,11 @@ public class SelectionHandler implements MouseDownHandler {
                 Connection connection = ((ConnectionLine) source).getConnection();
                 select(connection);
                 //Window.alert(connection.toString());
+            } else if (source instanceof ConnectionDragBox) {
+                Connection connection = ((ConnectionDragBox) source).getConnection();
+                if (connection != null) {
+                    select(connection);
+                }
             } else {
                 // unselect selected item
                 

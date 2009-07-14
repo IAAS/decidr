@@ -16,17 +16,17 @@
 
 package de.decidr.modelingtool.client.ui;
 
-import java.util.List;
-import java.util.Vector;
+import java.util.Collection;
+import java.util.HashSet;
 
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.decidr.modelingtool.client.command.CommandList;
 import de.decidr.modelingtool.client.command.RemoveConnectionCommand;
 import de.decidr.modelingtool.client.command.UndoableCommand;
-import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 import de.decidr.modelingtool.client.ui.dnd.PortDropController;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 
@@ -44,7 +44,7 @@ public abstract class Port extends AbsolutePanel {
     private Position position;
     private int xOffset = 0;
     private int yOffset = 0;
-    
+
     public abstract boolean isContainerPort();
 
     private boolean multipleConnectionsAllowed = false;
@@ -55,31 +55,43 @@ public abstract class Port extends AbsolutePanel {
 
     private DropController dropController = new PortDropController(this);
 
-    private List<ConnectionDragBox> gluedDragBoxes = new Vector<ConnectionDragBox>();
-    
+    private Collection<ConnectionDragBox> gluedDragBoxes = new HashSet<ConnectionDragBox>();
+
     public abstract void registerDropController();
-    
+
     public abstract void unregisterDropController();
-    
+
     protected boolean dropControllerRegistered;
-    
+
     public boolean isDropControllerRegistered() {
         return dropControllerRegistered;
     }
 
-    public List<ConnectionDragBox> getGluedDragBoxes() {
+    public Collection<ConnectionDragBox> getGluedDragBoxes() {
         return gluedDragBoxes;
     }
 
     // has to be made draggable by subclasses
-    protected ConnectionDragBox connectionDragBox = new ConnectionDragBox(this);
+    protected ConnectionDragBox connectionDragBox; // = new
+
+    // ConnectionDragBox(this);
 
     public Port(Position position) {
         this.position = position;
 
-        // set connection drag box preferences
-        this.add(connectionDragBox);
-        connectionDragBox.setVisibleStyle(false);
+        // create connection drag box
+        createConnectionDragBox();
+    }
+
+    public void createConnectionDragBox() {
+        // create drag box if drag box is not connected to a connetion or not
+        // present
+        if (!(connectionDragBox != null && connectionDragBox.getConnection() == null)) {
+            connectionDragBox = new ConnectionDragBox(this);
+            add(connectionDragBox);
+            connectionDragBox.setVisibleStyle(false);
+            connectionDragBox.makeDraggable();
+        }
     }
 
     public Port(Position position, int xOffset, int yOffset) {
@@ -87,9 +99,8 @@ public abstract class Port extends AbsolutePanel {
         this.xOffset = xOffset;
         this.yOffset = yOffset;
 
-        // set connection drag box preferences
-        this.add(connectionDragBox);
-        connectionDragBox.setVisibleStyle(false);
+        // create connection drag box
+        createConnectionDragBox();
     }
 
     public void refreshConnections() {
@@ -102,19 +113,22 @@ public abstract class Port extends AbsolutePanel {
 
     @Override
     public void add(Widget w) {
+        super.add(w);
+        setWidgetPosition(w, 0, 0);
+        
         if (w instanceof ConnectionDragBox) {
             gluedDragBoxes.add((ConnectionDragBox) w);
         }
-        super.add(w);
-        setWidgetPosition(w, 0, 0);
     }
 
     @Override
     public boolean remove(Widget w) {
+        boolean value = super.remove(w);
         if (w instanceof ConnectionDragBox) {
             gluedDragBoxes.remove((ConnectionDragBox) w);
         }
-        return super.remove(w);
+
+        return value;
     }
 
     // public List<Connection> getConnections() {

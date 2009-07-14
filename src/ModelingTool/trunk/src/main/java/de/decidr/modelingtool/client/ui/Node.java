@@ -16,6 +16,7 @@
 
 package de.decidr.modelingtool.client.ui;
 
+import com.allen_sauer.gwt.dnd.client.DragController;
 import com.google.gwt.event.dom.client.HasMouseDownHandlers;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -30,6 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.decidr.modelingtool.client.command.CommandList;
 import de.decidr.modelingtool.client.command.UndoableCommand;
 import de.decidr.modelingtool.client.model.NodeModel;
+import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 
 /**
  * This class represents an abstract node in a workflow.
@@ -101,20 +103,20 @@ public abstract class Node extends AbsolutePanel implements
         return graphic;
     }
 
-//    public int getGraphicAbsoluteLeft() {
-//        return graphic.getAbsoluteLeft()
-//                - Workflow.getInstance().getAbsoluteLeft();
-//    }
+    // public int getGraphicAbsoluteLeft() {
+    // return graphic.getAbsoluteLeft()
+    // - Workflow.getInstance().getAbsoluteLeft();
+    // }
 
     public void setParentPanel(HasChildren parentPanel) {
         this.parentPanel = parentPanel;
     }
 
-//    public int getGraphicAbsoluteTop() {
-//        return graphic.getAbsoluteTop()
-//                - Workflow.getInstance().getAbsoluteTop();
-//    }
-    
+    // public int getGraphicAbsoluteTop() {
+    // return graphic.getAbsoluteTop()
+    // - Workflow.getInstance().getAbsoluteTop();
+    // }
+
     public int getGraphicLeft() {
         if (graphic != null) {
             return getLeft() + getWidgetLeft(graphic);
@@ -122,7 +124,7 @@ public abstract class Node extends AbsolutePanel implements
             return 0;
         }
     }
-    
+
     public int getGraphicTop() {
         if (graphic != null) {
             return getTop() + getWidgetTop(graphic);
@@ -244,8 +246,8 @@ public abstract class Node extends AbsolutePanel implements
         // refreshPortPositions();
 
         refreshNodeSize();
-        
-        //Window.alert("onPaneladd");
+
+        // Window.alert("onPaneladd");
     }
 
     public void setGraphicPixelSize(int width, int height) {
@@ -353,7 +355,7 @@ public abstract class Node extends AbsolutePanel implements
 
         // add graphic to node
         this.add(this.graphic, BORDER_OFFSET, BORDER_OFFSET);
-        
+
         // bring ports to front, if present
         if (inputPort != null) {
             add(inputPort);
@@ -397,6 +399,12 @@ public abstract class Node extends AbsolutePanel implements
         }
 
         return cmdList;
+    }
+
+    public void makeDraggable() {
+        DragController dc = DndRegistry.getInstance().getDragController(
+                "WorkflowDragController");
+        dc.makeDraggable(this, getGraphic());
     }
 
 }

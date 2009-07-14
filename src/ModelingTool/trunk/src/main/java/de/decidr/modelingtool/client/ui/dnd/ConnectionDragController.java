@@ -62,7 +62,7 @@ public class ConnectionDragController extends PickupDragController {
      */
     public ConnectionDragController(AbsolutePanel boundaryPanel) {
         super(boundaryPanel, false);
-        // TODO Auto-generated constructor stub
+        //setBehaviorDragStartSensitivity(1);
     }
 
     @Override
@@ -182,13 +182,14 @@ public class ConnectionDragController extends PickupDragController {
 
                 // create new drag box and add to the port from which the
                 // dragged drag box is dragged from
-                newDragBox = new ConnectionDragBox();
-                newDragBox.setGluedPort(draggedPort);
-                newDragBox.getGluedPort().add(newDragBox);
-                newDragBox.setVisibleStyle(false);
+                //draggedPort.createConnectionDragBox();
+//                newDragBox = new ConnectionDragBox();
+//                newDragBox.setGluedPort(draggedPort);
+//                newDragBox.getGluedPort().add(newDragBox);
+//                newDragBox.setVisibleStyle(false);
 
                 // make new dragbox draggable
-                newDragBox.makeDraggable();
+                //newDragBox.makeDraggable();
 
                 // DEBUG: newDragBox.setStyleName("dragbox-debug");
             } else {

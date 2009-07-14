@@ -54,11 +54,17 @@ public class ConnectionDragBox extends DragBox {
      */
     public ConnectionDragBox() {
         super(DragDirection.ALL);
+        
+        SelectionHandler sh = Workflow.getInstance().getSelectionHandler();
+        this.addMouseDownHandler(sh);
     }
 
     public ConnectionDragBox(Port gluedPort) {
         super(DragDirection.ALL);
         this.gluedPort = gluedPort;
+        
+        SelectionHandler sh = Workflow.getInstance().getSelectionHandler();
+        this.addMouseDownHandler(sh);
     }
 
     public Port getGluedPort() {

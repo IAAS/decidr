@@ -142,13 +142,12 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
 
         // make node draggable, only draggable at graphic widget of the node
         if (node.isMoveable()) {
-            dragController.makeDraggable(node, node.getGraphic());
+            node.makeDraggable();
         }
 
         // if node is a container, register the drop controller
         if (node instanceof Container) {
-            dragController.registerDropController(((Container) node)
-                    .getDropController());
+            //((Container)node).registerDropController();
         }
 
         // callback to node after add

@@ -47,6 +47,8 @@ public class WorkflowDragController extends PickupDragController {
      */
     public WorkflowDragController(Workflow workflow) {
         super(workflow, true);
+        this.setBehaviorDragStartSensitivity(0);
+        this.setBehaviorMultipleSelection(false);
 
         this.workflow = workflow;
     }

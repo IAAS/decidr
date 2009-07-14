@@ -19,6 +19,7 @@ package de.decidr.modelingtool.client.ui;
 import java.util.Collection;
 import java.util.HashSet;
 
+import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
 import com.google.gwt.user.client.ui.FocusPanel;
@@ -26,6 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.model.HasChildModels;
+import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 
 /**
  * TODO: add comment
@@ -152,6 +154,11 @@ public class Container extends Node implements HasChildren {
             containerExitPort.registerDropController();
         }
 
+        // register drop controller
+        if (!isDropControllerRegistered()) {
+            registerDropController();
+        }
+
         super.onPanelAdd(parentPanel);
     }
 
@@ -165,6 +172,11 @@ public class Container extends Node implements HasChildren {
         if (containerExitPort != null
                 && containerExitPort.isDropControllerRegistered()) {
             containerExitPort.unregisterDropController();
+        }
+        
+        // unregister drop controller
+        if (isDropControllerRegistered()) {
+            unregisterDropController();
         }
 
         super.onPanelRemove();
@@ -226,6 +238,26 @@ public class Container extends Node implements HasChildren {
 
         this.add(containerStartPort);
         containerStartPort.setParentNode(this);
+    }
+    
+    public void registerDropController() {
+        PickupDragController dc = DndRegistry.getInstance()
+                .getPickupDragController("WorkflowDragController");
+        dc.registerDropController(getDropController());
+        dropControllerRegistered = true;
+    }
+
+    public void unregisterDropController() {
+        PickupDragController dc = DndRegistry.getInstance()
+        .getPickupDragController("WorkflowDragController");
+        dc.unregisterDropController(getDropController());
+        dropControllerRegistered = false;
+    }
+    
+    private boolean dropControllerRegistered = false;
+    
+    public boolean isDropControllerRegistered() {
+        return dropControllerRegistered;
     }
 
 }

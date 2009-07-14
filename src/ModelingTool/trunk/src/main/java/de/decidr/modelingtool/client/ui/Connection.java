@@ -98,13 +98,15 @@ public abstract class Connection implements Selectable, ModelChangeListener {
     public void setSelected(boolean selected) {
         this.selected = selected;
 
-        // bring start drag box to front
-        startDragBox.getGluedPort().add(startDragBox);
-        startDragBox.setVisibleStyle(selected);
-
-        // bring end drag box to front
-        endDragBox.getGluedPort().add(endDragBox);
-        endDragBox.setVisibleStyle(selected);
+        if (selected) {
+            // bring start drag box to front
+            startDragBox.getGluedPort().add(startDragBox);
+            startDragBox.setVisibleStyle(selected);
+    
+            // bring end drag box to front
+            endDragBox.getGluedPort().add(endDragBox);
+            endDragBox.setVisibleStyle(selected);
+        }
     }
 
     // public void setSourcePort(Port sourcePort) {
