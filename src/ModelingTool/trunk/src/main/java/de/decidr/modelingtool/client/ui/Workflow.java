@@ -98,6 +98,11 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
         dndr.register("OutputPortDragController", new ConnectionDragController(
                 this));
         dndr.register("ResizeDragController", new ResizeDragController(this));
+        
+        // add empty workflow model
+        WorkflowModel model = new WorkflowModel();
+        model.setChangeListener(this);
+        setModel(model);
     }
 
     public void addConnection(Connection connection) {

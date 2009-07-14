@@ -28,7 +28,7 @@ import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
  */
 public class OrthogonalConnection extends Connection {
 
-    private final int LINE_WIDTH = 1;
+    private final int LINE_WIDTH = 2;
 
     private ConnectionLine startLine = new ConnectionLine(this, LINE_WIDTH);
     private ConnectionLine midLine = new ConnectionLine(this, LINE_WIDTH);
@@ -36,7 +36,7 @@ public class OrthogonalConnection extends Connection {
 
     public OrthogonalConnection(HasChildren parentPanel) {
         super(parentPanel);
-        
+
         // register selection handler to lines
         SelectionHandler sh = Workflow.getInstance().getSelectionHandler();
         startLine.addMouseDownHandler(sh);
@@ -47,7 +47,7 @@ public class OrthogonalConnection extends Connection {
     @Override
     public void setSelected(boolean selected) {
         super.setSelected(selected);
-        
+
         startLine.setSelected(selected);
         midLine.setSelected(selected);
         endLine.setSelected(selected);
@@ -57,15 +57,17 @@ public class OrthogonalConnection extends Connection {
     public void draw() {
         if (parentPanel instanceof AbsolutePanel && startDragBox != null
                 && endDragBox != null) {
-            AbsolutePanel absPanel = (AbsolutePanel)parentPanel;
-            
-            int startX = startDragBox.getMiddleLeft() - parentPanel.getLeft();
+            AbsolutePanel absPanel = (AbsolutePanel) parentPanel;
+
+            int startX = startDragBox.getMiddleLeft() - parentPanel.getLeft()
+                    - LINE_WIDTH / 2;
             int startY = startDragBox.getMiddleTop() - parentPanel.getTop();
-            int endX = endDragBox.getMiddleLeft() - parentPanel.getLeft();
+            int endX = endDragBox.getMiddleLeft() - parentPanel.getLeft()
+                    - LINE_WIDTH / 2;
             int endY = endDragBox.getMiddleTop() - parentPanel.getTop();
 
             // calculate height and width
-            int width = Math.abs(startX - endX);
+            int width = Math.abs(startX - endX) + LINE_WIDTH;
             int height = Math.abs(startY - endY);
 
             // add lines to panel / brint to front
@@ -77,24 +79,23 @@ public class OrthogonalConnection extends Connection {
                 absPanel.setWidgetPosition(startLine, startX, startY);
                 absPanel.setWidgetPosition(endLine, endX, endY - height / 2);
             } else {
-                absPanel.setWidgetPosition(startLine, startX, startY
-                        - height / 2);
+                absPanel.setWidgetPosition(startLine, startX, startY - height
+                        / 2);
                 absPanel.setWidgetPosition(endLine, endX, endY);
             }
 
             if (startX <= endX) {
-                absPanel.setWidgetPosition(midLine, startX,
-                        (startY + endY) / 2);
+                absPanel
+                        .setWidgetPosition(midLine, startX, (startY + endY) / 2);
             } else {
-                absPanel.setWidgetPosition(midLine, endX,
-                        (startY + endY) / 2);
+                absPanel.setWidgetPosition(midLine, endX, (startY + endY) / 2);
             }
 
             // set orientation and length of lines
             startLine.setVerticalOrientation(height / 2);
             endLine.setVerticalOrientation(height / 2);
             midLine.setHorizontalOrientation(width);
-            
+
         } else {
             // TODO: Debug
             System.out.println("Connection cannot be drawn");
@@ -104,7 +105,7 @@ public class OrthogonalConnection extends Connection {
     @Override
     public void onModelChange() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
