@@ -24,8 +24,7 @@ import org.hibernate.Session;
 import de.decidr.model.entities.SystemSettings;
 
 /**
- * FIXME add documentation
- * FIXME add properties file with configuration for ESB
+ * FIXME add documentation FIXME add properties file with configuration for ESB
  * DH add version info (by RR)
  * 
  * @author Daniel Huss
@@ -47,6 +46,7 @@ public class DecidrGlobals {
      * Fetches the current system settings.
      * 
      * @param session
+     *            TODO document
      * @return the current system settings.
      */
     public static SystemSettings getSettings(Session session) {
@@ -54,9 +54,15 @@ public class DecidrGlobals {
         return (SystemSettings) session.createQuery(hql).uniqueResult();
     }
 
+    public static String getWebServiceLocationOnESB() {
+        // FIXME DH document and implement stub!
+        return "soap/";
+    }
+
     public static String getWebServiceUrl(String webServiceName) {
         // FIXME DH document and implement stub!
-        return "https://localhost:8280/soap/" + webServiceName;
+        return "https://localhost:8280/" + getWebServiceLocationOnESB()
+                + webServiceName;
     }
 
     public static String getWebServiceWsdlUrl(String webServiceName) {

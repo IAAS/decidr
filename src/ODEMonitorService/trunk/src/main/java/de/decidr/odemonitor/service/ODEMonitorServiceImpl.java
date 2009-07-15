@@ -73,14 +73,12 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
      * @see de.decidr.odemonitor.service.ODEMonitorService#registerODE(boolean)
      */
     @Override
-    public String registerODE(boolean poolInstance) {
+    public void registerODE(Holder<Boolean> poolInstance, Holder<String> odeID) {
         log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".registerODE()");
-        String odeID = null;
         // RR Auto-generated method stub
         log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".registerODE()");
-        return odeID;
     }
 
     /*
@@ -92,7 +90,8 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
      * javax.xml.ws.Holder)
      */
     @Override
-    public void updateStats(int wfInstances, int wfModels, String odeID,
+    public void updateStats(int wfInstances, int wfModels, int cpuUsage,
+            int memUsage, String odeID,
             Holder<XMLGregorianCalendar> configVersion, Holder<Boolean> run) {
         log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".updateStats()");

@@ -8,12 +8,20 @@
 
 	<wsdl:types>
 		<xsd:schema targetNamespace="http://decidr.de/webservices/ODEMonitor">
+			<xsd:simpleType name="zeroHundredInt">
+				<xsd:restriction base="xsd:int">
+					<xsd:minInclusive value="0" />
+					<xsd:maxInclusive value="100" />
+				</xsd:restriction>
+			</xsd:simpleType>
 			<!-- operations -->
 			<xsd:element name="updateStats">
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="wfInstances" type="xsd:int" />
 						<xsd:element name="wfModels" type="xsd:int" />
+						<xsd:element name="cpuUsage" type="tns:zeroHundredInt" />
+						<xsd:element name="memUsage" type="tns:zeroHundredInt" />
 						<xsd:element name="odeID" type="xsd:string" />
 					</xsd:sequence>
 				</xsd:complexType>
@@ -28,14 +36,13 @@
 			</xsd:element>
 			<xsd:element name="registerODE">
 				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="poolInstance" type="xsd:boolean" />
-					</xsd:sequence>
+					<xsd:sequence />
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="registerODEResponse">
 				<xsd:complexType>
 					<xsd:sequence>
+						<xsd:element name="poolInstance" type="xsd:boolean" />
 						<xsd:element name="odeID" type="xsd:string" />
 					</xsd:sequence>
 				</xsd:complexType>

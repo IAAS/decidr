@@ -102,16 +102,33 @@ public class ODEMonitorClient {
      *            </table>
      */
     public static void main(String[] args) {
+        int interval = -1;
+        String esbLocation = null;
+
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("--wfm")) {
                 System.out.println(new LocalInstanceStats().getNumModels());
                 return;
             } else if (args[i].equals("-i")) {
-                // RR implement
+                i++;
+                interval = new Integer(args[i]);
+                if (monitor != null) {
+                    monitor.changeInterval(interval);
+                }
             } else if (args[i].equals("--config")) {
-                // RR implement
+                if (monitor != null) {
+                    monitor.fetchNewConfig();
+                    monitor.interrupt();
+                } else {
+                    System.err.println("Error: ODE monitoring instance has "
+                            + "not been started yet.");
+                }
             } else if (args[i].equals("--esb")) {
-                // RR implement
+                i++;
+                esbLocation = args[i];
+                if (monitor != null) {
+                    monitor.useESB(esbLocation);
+                }
             } else if (args[i].equals("--help") || args[i].equals("-h")) {
                 printUsage();
                 return;
@@ -144,8 +161,12 @@ public class ODEMonitorClient {
             }
         }
 
+        new LocalInstanceManager().startInstance();
+
         monitor = new MonitoringThread();
-        // RR implement
+        monitor.changeInterval(interval);
+        monitor.useESB(esbLocation);
+        monitor.start();
     }
 
     /**

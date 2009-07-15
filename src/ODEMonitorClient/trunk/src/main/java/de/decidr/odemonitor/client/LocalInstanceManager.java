@@ -29,6 +29,7 @@ import de.decidr.model.logging.DefaultLogger;
 public class LocalInstanceManager implements InstanceManager {
 
     Logger log = DefaultLogger.getLogger(LocalInstanceManager.class);
+    private boolean state = true;
 
     /**
      * Sends an email to the system administrator to request the addition of a
@@ -41,10 +42,11 @@ public class LocalInstanceManager implements InstanceManager {
     public boolean startInstance() {
         log.trace("Entering " + LocalInstanceManager.class.getSimpleName()
                 + ".startInstance()");
+        state = true;
         // RR send email to admin
         log.trace("Leaving " + LocalInstanceManager.class.getSimpleName()
                 + ".startInstance()");
-        return false;
+        return state;
     }
 
     /**
@@ -56,9 +58,10 @@ public class LocalInstanceManager implements InstanceManager {
     public boolean stopInstance() {
         log.trace("Entering " + LocalInstanceManager.class.getSimpleName()
                 + ".stopInstance()");
+        state = false;
         // RR do what? send email that instance unneeded?
         log.trace("Leaving " + LocalInstanceManager.class.getSimpleName()
                 + ".stopInstance()");
-        return false;
+        return !state;
     }
 }

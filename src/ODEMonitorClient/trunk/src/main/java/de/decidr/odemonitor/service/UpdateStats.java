@@ -13,6 +13,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package de.decidr.odemonitor.service;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -36,6 +37,8 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence&gt;
  *         &lt;element name=&quot;wfInstances&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}int&quot;/&gt;
  *         &lt;element name=&quot;wfModels&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}int&quot;/&gt;
+ *         &lt;element name=&quot;cpuUsage&quot; type=&quot;{http://decidr.de/webservices/ODEMonitor}zeroHundredInt&quot;/&gt;
+ *         &lt;element name=&quot;memUsage&quot; type=&quot;{http://decidr.de/webservices/ODEMonitor}zeroHundredInt&quot;/&gt;
  *         &lt;element name=&quot;odeID&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
@@ -46,57 +49,80 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "wfInstances", "wfModels", "odeID" })
+@XmlType(name = "", propOrder = { "wfInstances", "wfModels", "cpuUsage",
+        "memUsage", "odeID" })
 @XmlRootElement(name = "updateStats")
 public class UpdateStats {
 
-    @XmlElement(required = true)
-    protected Integer wfInstances;
-    @XmlElement(required = true)
-    protected Integer wfModels;
+    protected int wfInstances;
+    protected int wfModels;
+    protected int cpuUsage;
+    protected int memUsage;
     @XmlElement(required = true)
     protected String odeID;
 
     /**
      * Gets the value of the wfInstances property.
      * 
-     * @return possible object is {@link Integer }
-     * 
      */
-    public Integer getWfInstances() {
+    public int getWfInstances() {
         return wfInstances;
     }
 
     /**
      * Sets the value of the wfInstances property.
      * 
-     * @param value
-     *            allowed object is {@link Integer }
-     * 
      */
-    public void setWfInstances(Integer value) {
+    public void setWfInstances(int value) {
         this.wfInstances = value;
     }
 
     /**
      * Gets the value of the wfModels property.
      * 
-     * @return possible object is {@link Integer }
-     * 
      */
-    public Integer getWfModels() {
+    public int getWfModels() {
         return wfModels;
     }
 
     /**
      * Sets the value of the wfModels property.
      * 
-     * @param value
-     *            allowed object is {@link Integer }
+     */
+    public void setWfModels(int value) {
+        this.wfModels = value;
+    }
+
+    /**
+     * Gets the value of the cpuUsage property.
      * 
      */
-    public void setWfModels(Integer value) {
-        this.wfModels = value;
+    public int getCpuUsage() {
+        return cpuUsage;
+    }
+
+    /**
+     * Sets the value of the cpuUsage property.
+     * 
+     */
+    public void setCpuUsage(int value) {
+        this.cpuUsage = value;
+    }
+
+    /**
+     * Gets the value of the memUsage property.
+     * 
+     */
+    public int getMemUsage() {
+        return memUsage;
+    }
+
+    /**
+     * Sets the value of the memUsage property.
+     * 
+     */
+    public void setMemUsage(int value) {
+        this.memUsage = value;
     }
 
     /**
@@ -119,4 +145,5 @@ public class UpdateStats {
     public void setOdeID(String value) {
         this.odeID = value;
     }
+
 }

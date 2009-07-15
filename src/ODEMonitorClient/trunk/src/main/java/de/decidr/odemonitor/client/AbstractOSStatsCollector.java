@@ -43,7 +43,7 @@ public abstract class AbstractOSStatsCollector {
      * Extending classes should provide an OS-dependent memory load, which
      * should be the percentage of RAM + swap actually used by applications and
      * the kernel (not buffers and disk cache).<br>
-     * TODO how does swap figure into this - weighed 0.5?
+     * RR how does swap figure into this - weighed 0.5?
      * 
      * @return The amount of memory used as a percentage of the total available
      *         memory, rounded to the nearest percent. <code>-1</code> means an
@@ -63,24 +63,29 @@ public abstract class AbstractOSStatsCollector {
     public final int getSystemLoad() {
         log.trace("Entering " + AbstractOSStatsCollector.class.getSimpleName()
                 + ".getSystemLoad()");
-        int mem = getMemLoad();
-        int cpu = getCPULoad();
-        int sysLoad;
-
-        /*
-         * Use the larger value as system load. This also means that errors are
-         * ignored if only one value couldn't be retrieved.
-         */
-        if (mem > cpu) {
-            log.debug("using memory as system load: " + mem);
-            sysLoad = mem;
-        } else {
-            log.debug("using cpu as system load: " + cpu);
-            sysLoad = cpu;
-        }
 
         log.trace("Leaving " + AbstractOSStatsCollector.class.getSimpleName()
                 + ".getSystemLoad()");
-        return sysLoad;
+        return getSystemLoad(getCPULoad(), getMemLoad());
+    }
+
+    /**
+     * Returns the system load. This method may not be overridden by extending
+     * classes to guarantee that all system-dependent stats collectors provide a
+     * comparable system load.
+     * 
+     * @param cpu
+     *            the CPU load percentage
+     * @param mem
+     *            the Memory load percentage
+     * @return The system load. <code>-1</code> means an error occurred.
+     */
+    public final int getSystemLoad(int cpu, int mem) {
+        log.trace("Entering " + AbstractOSStatsCollector.class.getSimpleName()
+                + ".getSystemLoad(int, int)");
+
+        log.trace("Leaving " + AbstractOSStatsCollector.class.getSimpleName()
+                + ".getSystemLoad(int, int)");
+        return Math.max(cpu, mem);
     }
 }

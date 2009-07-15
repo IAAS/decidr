@@ -35,20 +35,21 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
+ *         &lt;element name=&quot;poolInstance&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}boolean&quot;/&gt;
  *         &lt;element name=&quot;odeID&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "odeID" })
+@XmlType(name = "", propOrder = { "poolInstance", "odeID" })
 @XmlRootElement(name = "registerODEResponse")
 public class RegisterODEResponse {
 
+    @XmlElement(required = true)
+    protected boolean poolInstance;
     @XmlElement(required = true)
     protected String odeID;
 
@@ -56,7 +57,6 @@ public class RegisterODEResponse {
      * Gets the value of the odeID property.
      * 
      * @return possible object is {@link String }
-     * 
      */
     public String getOdeID() {
         return odeID;
@@ -67,10 +67,22 @@ public class RegisterODEResponse {
      * 
      * @param value
      *            allowed object is {@link String }
-     * 
      */
     public void setOdeID(String value) {
         this.odeID = value;
     }
 
+    /**
+     * Gets the value of the poolInstance property.
+     */
+    public boolean isPoolInstance() {
+        return poolInstance;
+    }
+
+    /**
+     * Sets the value of the poolInstance property.
+     */
+    public void setPoolInstance(boolean value) {
+        this.poolInstance = value;
+    }
 }

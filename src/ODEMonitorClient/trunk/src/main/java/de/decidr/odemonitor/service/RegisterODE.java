@@ -33,9 +33,7 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;complexType&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
- *       &lt;sequence&gt;
- *         &lt;element name=&quot;poolInstance&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}boolean&quot;/&gt;
- *       &lt;/sequence&gt;
+ *       &lt;sequence /&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
@@ -47,23 +45,5 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = { "poolInstance" })
 @XmlRootElement(name = "registerODE")
 public class RegisterODE {
-
-    protected boolean poolInstance;
-
-    /**
-     * Gets the value of the poolInstance property.
-     * 
-     */
-    public boolean isPoolInstance() {
-        return poolInstance;
-    }
-
-    /**
-     * Sets the value of the poolInstance property.
-     * 
-     */
-    public void setPoolInstance(boolean value) {
-        this.poolInstance = value;
-    }
-
+    // no parameters
 }
