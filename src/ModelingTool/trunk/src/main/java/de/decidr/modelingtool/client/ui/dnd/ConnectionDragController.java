@@ -62,12 +62,11 @@ public class ConnectionDragController extends PickupDragController {
      */
     public ConnectionDragController(AbsolutePanel boundaryPanel) {
         super(boundaryPanel, false);
-        //setBehaviorDragStartSensitivity(1);
+        // setBehaviorDragStartSensitivity(1);
     }
 
     @Override
     public void dragMove() {
-        // TODO Auto-generated method stub
         super.dragMove();
 
         if (connection != null) {
@@ -182,14 +181,14 @@ public class ConnectionDragController extends PickupDragController {
 
                 // create new drag box and add to the port from which the
                 // dragged drag box is dragged from
-                //draggedPort.createConnectionDragBox();
-//                newDragBox = new ConnectionDragBox();
-//                newDragBox.setGluedPort(draggedPort);
-//                newDragBox.getGluedPort().add(newDragBox);
-//                newDragBox.setVisibleStyle(false);
+                // draggedPort.createConnectionDragBox();
+                // newDragBox = new ConnectionDragBox();
+                // newDragBox.setGluedPort(draggedPort);
+                // newDragBox.getGluedPort().add(newDragBox);
+                // newDragBox.setVisibleStyle(false);
 
                 // make new dragbox draggable
-                //newDragBox.makeDraggable();
+                // newDragBox.makeDraggable();
 
                 // DEBUG: newDragBox.setStyleName("dragbox-debug");
             } else {
@@ -208,8 +207,16 @@ public class ConnectionDragController extends PickupDragController {
 
     @Override
     public void previewDragEnd() throws VetoDragException {
-        // TODO Auto-generated method stub
         super.previewDragEnd();
+
+        // if (context.dropController.getDropTarget() instanceof Port) {
+        // Port port = (Port) context.dropController.getDropTarget();
+        //
+        // if (port != null && !port.isMultipleConnectionsAllowed()
+        // && !port.getGluedDragBoxes().isEmpty()) {
+        // throw new VetoDragException();
+        // }
+        // }
     }
 
 }

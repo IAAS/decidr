@@ -43,9 +43,9 @@ public class ContainerStartPort extends Port {
         // registerDropController();
 
         // make connection drag box draggable
-        PickupDragController dc = DndRegistry.getInstance()
-                .getPickupDragController("OutputPortDragController");
-        dc.makeDraggable(connectionDragBox);
+//        PickupDragController dc = DndRegistry.getInstance()
+//                .getPickupDragController("OutputPortDragController");
+//        dc.makeDraggable(connectionDragBox);
     }
 
     public void registerDropController() {

@@ -148,11 +148,11 @@ public class CreateConnectionCommand implements UndoableCommand {
     public void execute() {
         // add start drag box
         ConnectionDragBox startDragBox = connection.getStartDragBox();
-        startDragBox.getGluedPort().add(startDragBox);
+        startDragBox.getGluedPort().addConnectionDragBox(startDragBox);
 
         // add end drag box
         ConnectionDragBox endDragBox = connection.getEndDragBox();
-        endDragBox.getGluedPort().add(endDragBox);
+        endDragBox.getGluedPort().addConnectionDragBox(endDragBox);
 
         // add connection to parent panel
         connection.getParentPanel().addConnection(connection);

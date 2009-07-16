@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -45,53 +44,26 @@ public abstract class Port extends AbsolutePanel {
     private int xOffset = 0;
     private int yOffset = 0;
 
-    public abstract boolean isContainerPort();
-
     private boolean multipleConnectionsAllowed = false;
 
-    // private List<Connection> connections = new Vector<Connection>();
-
     private Node parentNode = null;
+
+    // private List<Connection> connections = new Vector<Connection>();
 
     private DropController dropController = new PortDropController(this);
 
     private Collection<ConnectionDragBox> gluedDragBoxes = new HashSet<ConnectionDragBox>();
 
-    public abstract void registerDropController();
-
-    public abstract void unregisterDropController();
-
     protected boolean dropControllerRegistered;
 
-    public boolean isDropControllerRegistered() {
-        return dropControllerRegistered;
-    }
-
-    public Collection<ConnectionDragBox> getGluedDragBoxes() {
-        return gluedDragBoxes;
-    }
-
-    // has to be made draggable by subclasses
-    protected ConnectionDragBox connectionDragBox; // = new
-
-    // ConnectionDragBox(this);
+    /** has to be made draggable by subclasses. **/
+    protected ConnectionDragBox singleDragBox;
 
     public Port(Position position) {
         this.position = position;
 
         // create connection drag box
-        createConnectionDragBox();
-    }
-
-    public void createConnectionDragBox() {
-        // create drag box if drag box is not connected to a connetion or not
-        // present
-        if (!(connectionDragBox != null && connectionDragBox.getConnection() == null)) {
-            connectionDragBox = new ConnectionDragBox(this);
-            add(connectionDragBox);
-            connectionDragBox.setVisibleStyle(false);
-            connectionDragBox.makeDraggable();
-        }
+        createSingleDragBox();
     }
 
     public Port(Position position, int xOffset, int yOffset) {
@@ -100,43 +72,104 @@ public abstract class Port extends AbsolutePanel {
         this.yOffset = yOffset;
 
         // create connection drag box
-        createConnectionDragBox();
+        createSingleDragBox();
     }
 
-    public void refreshConnections() {
-        for (ConnectionDragBox dragBox : gluedDragBoxes) {
-            if (dragBox.getConnection() != null) {
-                dragBox.getConnection().draw();
-            }
+    public void addConnectionDragBox(ConnectionDragBox dragBox) {
+        assert dragBox.getConnection() != null;
+
+        if (!multipleConnectionsAllowed) {
+            //assert gluedDragBoxes.isEmpty();
+            removeSingleDragBox();
         }
-    }
 
+        //gluedDragBoxes.add(dragBox);
+        add(dragBox);
+        //setWidgetPosition(dragBox, 0, 0);
+    }
+    
     @Override
     public void add(Widget w) {
         super.add(w);
         setWidgetPosition(w, 0, 0);
         
-        if (w instanceof ConnectionDragBox) {
+        if (w instanceof ConnectionDragBox && w != singleDragBox) {
             gluedDragBoxes.add((ConnectionDragBox) w);
         }
     }
 
+    // public void removeConnectionDragBox(ConnectionDragBox dragBox) {
+    // if (dragBox == singleDragBox) {
+    // singleDragBox = null;
+    // } else {
+    // gluedDragBoxes.remove(dragBox);
+    // }
+    // remove(dragBox);
+    //
+    // if (multipleConnectionsAllowed) {
+    //
+    // }
+    // }
+
     @Override
     public boolean remove(Widget w) {
         boolean value = super.remove(w);
+
         if (w instanceof ConnectionDragBox) {
-            gluedDragBoxes.remove((ConnectionDragBox) w);
+            ConnectionDragBox dragBox = (ConnectionDragBox) w;
+            
+            if (dragBox == singleDragBox) {
+                singleDragBox = null;
+            } else {
+                // remove from glued dag boxes, if present
+                gluedDragBoxes.remove(dragBox);
+            }
+
+            if (multipleConnectionsAllowed) {
+                if (singleDragBox == null) {
+                    createSingleDragBox();
+                }
+            } else {
+                if (singleDragBox == null && gluedDragBoxes.isEmpty()) {
+                    createSingleDragBox();
+                }
+            }
+
         }
+        //gluedDragBoxes.remove((ConnectionDragBox)w);
 
         return value;
     }
 
-    // public List<Connection> getConnections() {
-    // return connections;
-    // }
+    protected void createSingleDragBox() {
+        // create drag box if drag box is not connected to a connection or not
+        // present
+        if (!(singleDragBox != null && singleDragBox.getConnection() == null)) {
+            singleDragBox = new ConnectionDragBox(this);
+
+            add(singleDragBox);
+            //setWidgetPosition(singleDragBox, 0, 0);
+
+            singleDragBox.setVisibleStyle(false);
+            singleDragBox.makeDraggable();
+        }
+    }
+
+    protected void removeSingleDragBox() {
+        if (singleDragBox != null && singleDragBox.getConnection() == null) {
+            super.remove(singleDragBox);
+            singleDragBox = null;
+        }
+    }
 
     public DropController getDropController() {
         return dropController;
+    }
+
+    // ConnectionDragBox(this);
+
+    public Collection<ConnectionDragBox> getGluedDragBoxes() {
+        return gluedDragBoxes;
     }
 
     public Node getParentNode() {
@@ -147,6 +180,20 @@ public abstract class Port extends AbsolutePanel {
         return position;
     }
 
+    public UndoableCommand getRemoveConnectionsCommand() {
+        CommandList cmdList = new CommandList();
+
+        for (ConnectionDragBox dragBox : gluedDragBoxes) {
+            // check if drag box is not the drag box with out connection
+            if (dragBox.getConnection() != null) {
+                cmdList.addCommand(new RemoveConnectionCommand(dragBox
+                        .getConnection()));
+            }
+        }
+
+        return cmdList;
+    }
+
     public int getXOffset() {
         return xOffset;
     }
@@ -155,9 +202,29 @@ public abstract class Port extends AbsolutePanel {
         return yOffset;
     }
 
+    // public List<Connection> getConnections() {
+    // return connections;
+    // }
+
+    public abstract boolean isContainerPort();
+
+    public boolean isDropControllerRegistered() {
+        return dropControllerRegistered;
+    }
+
     public boolean isMultipleConnectionsAllowed() {
         return multipleConnectionsAllowed;
     }
+
+    public void refreshConnections() {
+        for (ConnectionDragBox dragBox : gluedDragBoxes) {
+            if (dragBox.getConnection() != null) {
+                dragBox.getConnection().draw();
+            }
+        }
+    }
+
+    public abstract void registerDropController();
 
     public void setMultipleConnectionsAllowed(boolean mcAllowed) {
         this.multipleConnectionsAllowed = mcAllowed;
@@ -175,18 +242,6 @@ public abstract class Port extends AbsolutePanel {
         yOffset = offset;
     }
 
-    public UndoableCommand getRemoveConnectionsCommand() {
-        CommandList cmdList = new CommandList();
-
-        for (ConnectionDragBox dragBox : gluedDragBoxes) {
-            // check if drag box is not the drag box with out connection
-            if (dragBox.getConnection() != null) {
-                cmdList.addCommand(new RemoveConnectionCommand(dragBox
-                        .getConnection()));
-            }
-        }
-
-        return cmdList;
-    }
+    public abstract void unregisterDropController();
 
 }

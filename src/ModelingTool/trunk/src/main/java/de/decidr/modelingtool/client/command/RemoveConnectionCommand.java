@@ -40,11 +40,11 @@ public class RemoveConnectionCommand implements UndoableCommand {
     public void undo() {
         // add start drag box
         ConnectionDragBox startDragBox = connection.getStartDragBox();
-        startDragBox.getGluedPort().add(startDragBox);
+        startDragBox.getGluedPort().addConnectionDragBox(startDragBox);
 
         // add end drag box
         ConnectionDragBox endDragBox = connection.getEndDragBox();
-        endDragBox.getGluedPort().add(endDragBox);
+        endDragBox.getGluedPort().addConnectionDragBox(endDragBox);
 
         // add connection to parent panel
         connection.getParentPanel().addConnection(connection);
@@ -57,7 +57,7 @@ public class RemoveConnectionCommand implements UndoableCommand {
     }
 
     @Override
-    public void execute() {   
+    public void execute() {
         // remove start drag box
         ConnectionDragBox startDragBox = connection.getStartDragBox();
         startDragBox.getGluedPort().remove(startDragBox);

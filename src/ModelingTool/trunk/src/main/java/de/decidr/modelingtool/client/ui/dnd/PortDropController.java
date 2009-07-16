@@ -26,14 +26,14 @@ import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author JE
  */
 public class PortDropController extends AbstractDropController {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @param dropTarget
      */
     public PortDropController(Widget dropTarget) {
@@ -51,18 +51,20 @@ public class PortDropController extends AbstractDropController {
     public void onDrop(DragContext context) {
         // TODO Auto-generated method stub
         super.onDrop(context);
-        
+
         // dragged drag box
-        ConnectionDragBox cdb = (ConnectionDragBox)context.draggable;
+        ConnectionDragBox cdb = (ConnectionDragBox) context.draggable;
         // target port
-        Port port = (Port)getDropTarget();
+        Port port = (Port) getDropTarget();
         // remove drag box from old port
         cdb.getGluedPort().remove(cdb);
         // add drag box to target port
         cdb.setGluedPort(port);
-        port.add(cdb);
-        port.setWidgetPosition(cdb, 0, 0);
-        
+
+        port.addConnectionDragBox(cdb);
+
+        // port.setWidgetPosition(cdb, 0, 0);
+
         // redraw connection
         cdb.getConnection().draw();
     }
@@ -87,9 +89,16 @@ public class PortDropController extends AbstractDropController {
 
     @Override
     public void onPreviewDrop(DragContext context) throws VetoDragException {
-        // TODO Auto-generated method stub
         super.onPreviewDrop(context);
+
+        if (context.dropController.getDropTarget() instanceof Port) {
+            Port port = (Port) context.dropController.getDropTarget();
+
+            if (port != null && !port.isMultipleConnectionsAllowed()
+                    && !port.getGluedDragBoxes().isEmpty()) {
+                throw new VetoDragException();
+            }
+        }
     }
 
-    
 }
