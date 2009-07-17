@@ -31,16 +31,18 @@ public class Menu extends MenuBar {
 
         this.addStyleName("menu-std");
 
-//        MenuBar createMenu = new MenuBar(true);
-//        createMenu.addItem("Email", new CreateEmailInvokeNodeMenuItem());
-//        createMenu.addItem("Human Task",
-//                new CreateHumanTaskInvokeNodeMenuItem());
+        // MenuBar createMenu = new MenuBar(true);
+        // createMenu.addItem("Email", new CreateEmailInvokeNodeMenuItem());
+        // createMenu.addItem("Human Task",
+        // new CreateHumanTaskInvokeNodeMenuItem());
 
         addItem("Undo", new UndoMenuItem());
         addItem("Redo", new RedoMenuItem());
         addItem("Create Email", new CreateEmailInvokeNodeMenuItem());
         addItem("Create HumanTask", new CreateHumanTaskInvokeNodeMenuItem());
         addItem("Delete", new DeleteMenuItem());
+        addItem("Edit Variables", new EditVariablesMenuItem());
+
     }
 
 }
