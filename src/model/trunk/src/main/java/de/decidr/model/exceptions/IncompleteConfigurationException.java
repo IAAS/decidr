@@ -16,13 +16,43 @@
 
 package de.decidr.model.exceptions;
 
+import javax.xml.ws.WebFault;
+
 /**
  * When this exception is thrown, either a configuration is incomplete or not
  * applicable.
  * 
  * @author Reinhold
  */
+@WebFault(targetNamespace = "http://decidr.de/exceptions", name = "incompleteConfigurationException")
 public class IncompleteConfigurationException extends Exception {
+    private String serviceDetail = "";
+
+    /**
+     * Implementation of {@link #TransactionException(String, Throwable)} needed
+     * for {@link WebFault} annotation.
+     */
+    public IncompleteConfigurationException(String message, String detail, Throwable cause) {
+        this(message, cause);
+        serviceDetail = detail;
+    }
+
+    /**
+     * Implementation of {@link #TransactionException(String)} needed for
+     * {@link WebFault} annotation.
+     */
+    public IncompleteConfigurationException(String message, String detail) {
+        this(message);
+        serviceDetail = detail;
+    }
+
+    /**
+     * Method returning {@link TransactionException#serviceDetail} needed for
+     * {@link WebFault} annotation.
+     */
+    String getServiceDetail() {
+        return serviceDetail;
+    }
 
     private static final long serialVersionUID = 1L;
 

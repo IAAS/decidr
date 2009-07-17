@@ -32,6 +32,7 @@ import javax.xml.ws.ResponseWrapper;
  */
 // RR: how to maintain the average & stuff?
 // RR: what if a client stops updating?
+// RR: un-register
 @WebService(name = "ODEMonitorPT", targetNamespace = ODEMonitorService.TARGET_NAMESPACE, wsdlLocation = "ODEMonitor.wsdl")
 @XmlSeeAlso( { ObjectFactory.class })
 public interface ODEMonitorService {

@@ -17,6 +17,7 @@ package de.decidr.model.email;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -341,7 +342,7 @@ public class MailBackend {
      * @param file
      *            A <code>{@link URL}</code> pointing to the file to attach.
      * @throws MessagingException
-     *             see <code>{@link URL#openStream()}</code>
+     *             see <code>{@link #addFile(InputStream)}</code>
      * @throws IOException
      *             see
      *             <code>{@link MimeBodyPart#MimeBodyPart(java.io.InputStream)}</code>
@@ -351,12 +352,34 @@ public class MailBackend {
             IOException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addFile(URL)");
-        log.debug("Opening stream to passed URL and adding it "
-                + "to message's body");
-        MimeBodyPart result = new MimeBodyPart(file.openStream());
-        addMimePart(result);
+        log.debug("Opening stream to passed URL "
+                + "and calling addFile(InputStream)");
+        MimeBodyPart result = addFile(file.openStream());
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".addFile(URL)");
+        return result;
+    }
+
+    /**
+     * Attaches the file specified by the <code>{@link InputStream}</code>
+     * parameter.
+     * 
+     * @param file
+     *            A <code>{@link InputStream}</code> containing the file to
+     *            attach.
+     * @return The <code>{@link MimeBodyPart}</code> containing the file
+     * @throws MessagingException
+     *             see
+     *             <code>{@link MimeBodyPart#MimeBodyPart(InputStream)}</code>
+     */
+    public MimeBodyPart addFile(InputStream file) throws MessagingException {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".addFile(InputStream)");
+        log.debug("Adding stream to message's body");
+        MimeBodyPart result = new MimeBodyPart(file);
+        addMimePart(result);
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".addFile(InputStream)");
         return result;
     }
 

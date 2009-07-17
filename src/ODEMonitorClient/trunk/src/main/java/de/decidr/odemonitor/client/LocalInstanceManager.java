@@ -36,7 +36,8 @@ public class LocalInstanceManager implements InstanceManager {
      * new ODE instance on this machine, unless there is already a running
      * instance.
      * 
-     * @return - <code>true</code>, if the email was sent successfully,<br>
+     * @return - <code>true</code>, if the email was sent successfully or the
+     *         instance is already running,<br>
      *         - <code>false</code>, if not
      */
     @Override
@@ -45,8 +46,15 @@ public class LocalInstanceManager implements InstanceManager {
                 + ".startInstance()");
         boolean state = isRunning();
         if (!state) {
-            // RR somehow get local machine identifier
-            NotificationEvents.requestNewODEInstance("");
+            try {
+                // RR somehow get local machine identifier
+                NotificationEvents.requestNewODEInstance("");
+                state = true;
+            } catch (RuntimeException e) {
+                throw e;
+            } catch (Exception e) {
+                state = false;
+            }
         }
         log.trace("Leaving " + LocalInstanceManager.class.getSimpleName()
                 + ".startInstance()");
@@ -54,20 +62,16 @@ public class LocalInstanceManager implements InstanceManager {
     }
 
     /**
-     * RR: add comment
+     * Not implemented by this <code>{@link InstanceManager}</code>;
      * 
-     * @return
+     * @return <code>false</code>
      */
     @Override
     public boolean stopInstance() {
-        log.trace("Entering " + LocalInstanceManager.class.getSimpleName()
+        log.trace("Entering & leaving "
+                + LocalInstanceManager.class.getSimpleName()
                 + ".stopInstance()");
-        boolean state = !isRunning();
-        // MA kann ich aus java die ODE-Instanz herunterfahren
-        // RR do what? send email that instance unneeded?
-        log.trace("Leaving " + LocalInstanceManager.class.getSimpleName()
-                + ".stopInstance()");
-        return state;
+        return false;
     }
 
     /**

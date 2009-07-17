@@ -22,6 +22,13 @@ public class ObjectFactory {
     private final static QName _TransactionException_QNAME = new QName(
             "http://decidr.de/webservices/Email", "transactionException");
 
+    private final static QName _StorageException_QNAME = new QName(
+            "http://decidr.de/webservices/Email", "storageException");
+
+    private final static QName _IncompleteConfigurationException_QNAME = new QName(
+            "http://decidr.de/webservices/Email",
+            "incompleteConfiguratioException");
+
     /**
      * Create a new ObjectFactory that can be used to create new instances of
      * schema derived classes for package: de.decidr.webservices.email
@@ -38,6 +45,27 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "transactionException")
     public JAXBElement<String> createTransactionException(String value) {
         return new JAXBElement<String>(_TransactionException_QNAME,
+                String.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "storageException")
+    public JAXBElement<String> createStorageException(String value) {
+        return new JAXBElement<String>(_StorageException_QNAME, String.class,
+                null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "incompleteConfiguratioException")
+    public JAXBElement<String> createIncompleteConfigurationException(
+            String value) {
+        return new JAXBElement<String>(_IncompleteConfigurationException_QNAME,
                 String.class, null, value);
     }
 }

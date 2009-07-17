@@ -15,6 +15,8 @@
  */
 package de.decidr.model.exceptions;
 
+import javax.xml.ws.WebFault;
+
 /**
  * Thrown upon file storage backend failures.
  * 
@@ -22,9 +24,37 @@ package de.decidr.model.exceptions;
  * @author Markus Fischer
  * @version 0.1
  */
+@WebFault(targetNamespace = "http://decidr.de/exceptions", name = "storageException")
 public class StorageException extends Exception {
 
+    private String serviceDetail = "";
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Implementation of {@link #TransactionException(String, Throwable)} needed
+     * for {@link WebFault} annotation.
+     */
+    public StorageException(String message, String detail, Throwable cause) {
+        this(message, cause);
+        serviceDetail = detail;
+    }
+
+    /**
+     * Implementation of {@link #TransactionException(String)} needed for
+     * {@link WebFault} annotation.
+     */
+    public StorageException(String message, String detail) {
+        this(message);
+        serviceDetail = detail;
+    }
+
+    /**
+     * Method returning {@link TransactionException#serviceDetail} needed for
+     * {@link WebFault} annotation.
+     */
+    String getServiceDetail() {
+        return serviceDetail;
+    }
 
     public StorageException() {
         super();

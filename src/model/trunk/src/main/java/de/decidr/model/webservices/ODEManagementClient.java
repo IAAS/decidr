@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.odemonitor.client;
+package de.decidr.model.webservices;
 
 import java.net.MalformedURLException;
 import java.net.URL;

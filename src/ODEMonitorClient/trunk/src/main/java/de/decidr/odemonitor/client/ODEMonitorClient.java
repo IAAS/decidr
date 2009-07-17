@@ -51,13 +51,6 @@ public class ODEMonitorClient {
      *            <td>Forces fetching the configuration.</td>
      *            </tr>
      *            <tr>
-     *            <td><code>--esb&nbsp;&lt;ESB_URL_AND_PATH&gt;</code></td>
-     *            <td>Forces the use of the specified ESB rather than the
-     *            default one. If either &quot;<code>default</code>&quot; or
-     *            &quot;<code>config</code>&quot; are passed, the default ESB is
-     *            used.</td>
-     *            </tr>
-     *            <tr>
      *            <td><code>--help | -h</code></td>
      *            <td>A summary of the available options is printed to stdout.</td>
      *            </tr>
@@ -104,7 +97,6 @@ public class ODEMonitorClient {
      */
     public static void main(String[] args) {
         int interval = -1;
-        String esbLocation = null;
 
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("--wfm")) {
@@ -123,12 +115,6 @@ public class ODEMonitorClient {
                 } else {
                     System.err.println("Error: ODE monitoring instance has "
                             + "not been started yet.");
-                }
-            } else if (args[i].equals("--esb")) {
-                i++;
-                esbLocation = args[i];
-                if (monitor != null) {
-                    monitor.useESB(esbLocation);
                 }
             } else if (args[i].equals("--help") || args[i].equals("-h")) {
                 printUsage();
@@ -166,7 +152,6 @@ public class ODEMonitorClient {
 
         monitor = new MonitoringThread();
         monitor.changeInterval(interval);
-        monitor.useESB(esbLocation);
         monitor.start();
     }
 

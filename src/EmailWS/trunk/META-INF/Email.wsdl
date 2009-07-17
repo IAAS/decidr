@@ -41,6 +41,9 @@
 					<xsd:sequence />
 				</xsd:complexType>
 			</xsd:element>
+			<xsd:element name="incompleteConfigurationException"
+				type="xsd:string" />
+			<xsd:element name="storageException" type="xsd:string" />
 			<xsd:element name="transactionException" type="xsd:string" />
 			<xsd:element name="messagingException" type="xsd:string" />
 			<xsd:element name="ioException" type="xsd:string" />
@@ -53,6 +56,13 @@
 	</wsdl:message>
 	<wsdl:message name="sendEmailResponse">
 		<wsdl:part element="tns:sendEmailResponse" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="incompleteConfigurationException">
+		<wsdl:part element="tns:incompleteConfigurationException"
+			name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="storageException">
+		<wsdl:part element="tns:storageException" name="parameters" />
 	</wsdl:message>
 	<wsdl:message name="transactionException">
 		<wsdl:part element="tns:transactionException" name="parameters" />
@@ -71,16 +81,18 @@
 		<wsdl:operation name="sendEmail">
 			<wsdl:input message="tns:sendEmailRequest" wsaw:Action="urn:sendEmail" />
 			<wsdl:output message="tns:sendEmailResponse" wsaw:Action="urn:sendEmailResponse" />
+			<wsdl:fault name="incompleteConfigurationException"
+				message="tns:incompleteConfigurationException" />
+			<wsdl:fault name="storageException" message="tns:storageException" />
 			<wsdl:fault name="transactionException" message="tns:transactionException" />
 			<wsdl:fault name="ioException" message="tns:ioException" />
 			<wsdl:fault name="malformedURLException" message="tns:malformedURLException" />
 			<wsdl:fault name="messagingException" message="tns:messagingException" />
 		</wsdl:operation>
 	</wsdl:portType>
-	<!--
-		<plnk:partnerLinkType name="EmailPLT"> <plnk:role name="EmailProvider"
-		portType="tns:EmailPT" /> </plnk:partnerLinkType>
-	-->
+	<plnk:partnerLinkType name="EmailPLT">
+		<plnk:role name="EmailProvider" portType="tns:EmailPT" />
+	</plnk:partnerLinkType>
 
 	<wsdl:binding name="EmailSOAP" type="tns:EmailPT">
 		<soap:binding style="document"
@@ -94,6 +106,12 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
+			<wsdl:fault name="incompleteConfigurationException">
+				<soap:body use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="storageException">
+				<soap:body use="literal" />
+			</wsdl:fault>
 			<wsdl:fault name="transactionException">
 				<soap:body use="literal" />
 			</wsdl:fault>

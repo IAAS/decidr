@@ -24,7 +24,7 @@
 				<version>1.5</version>
 				<configuration>
 					<aarName>EmailWS</aarName>
-					<includeDependencies>true</includeDependencies>
+					<includeDependencies>false</includeDependencies>
 					<wsdlFile>META-INF/Email.wsdl</wsdlFile>
 					<wsdlFileName>Email.wsdl</wsdlFileName>
 					<servicesXmlFile>META-INF/services.xml</servicesXmlFile>

@@ -35,6 +35,8 @@ import de.decidr.model.commands.user.GetUserPropertiesCommand;
 import de.decidr.model.email.MailBackend;
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.entities.User;
+import de.decidr.model.exceptions.IncompleteConfigurationException;
+import de.decidr.model.exceptions.StorageException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.permissions.EmailRole;
@@ -50,6 +52,8 @@ import de.decidr.model.soap.types.IDList;
 import de.decidr.model.soap.types.RoleUser;
 import de.decidr.model.soap.types.StringMap;
 import de.decidr.model.soap.types.StringMapping;
+import de.decidr.model.storage.StorageProvider;
+import de.decidr.model.storage.StorageProviderFactory;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.webservices.EmailInterface;
 
@@ -60,7 +64,7 @@ import de.decidr.model.webservices.EmailInterface;
  * @author Reinhold
  */
 @WebService(serviceName = "Email", portName = "EmailSOAP", targetNamespace = EmailInterface.TARGET_NAMESPACE, wsdlLocation = "Email.wsdl", endpointInterface = "de.decidr.webservices.email.EmailPT")
-@HandlerChain(file="handler-chain.xml")
+@HandlerChain(file = "handler-chain.xml")
 public class EmailService implements EmailInterface {
 
     private static final String VERSION = "0.1";
@@ -84,20 +88,40 @@ public class EmailService implements EmailInterface {
      *             see <code>{@link MailBackend#addFile(java.net.URI)}</code>
      * @throws TransactionException
      *             Thrown by the <code>{@link de.decidr.model}</code>.
+     * @throws StorageException
+     *             see <code>{@link StorageProvider#getFile(Long)}</code>
+     * @throws IncompleteConfigurationException
+     *             see
+     *             <code>{@link StorageProviderFactory#getStorageProvider()}</code>
      * @throws IoExceptionWrapper
      *             see <code>{@link MailBackend#addFile(java.net.URI)}</code>
      */
     @WebMethod(exclude = true)
     private static void addAttachments(MailBackend email, IDList attachments)
             throws MessagingException, MalformedURLException,
-            TransactionException, IOException {
+            TransactionException, IOException, StorageException,
+            IncompleteConfigurationException {
         log.trace("Entering " + EmailService.class.getSimpleName()
                 + ".addAttachments(MailBackend, IDList)");
+        StorageProvider store = StorageProviderFactory.getDefaultFactory()
+                .getStorageProvider();
+        // RR get value from model
+        long maxBytes = 100000000;
+        long currBytes = 0;
+        // RR get value from model
+        int maxAtts = 10;
+        if (attachments.getId().toArray().length > maxAtts) {
+            throw new IllegalArgumentException("too many attachments");
+        }
+        
 
-        // RR: spec says amount of attachments & size need to be limited
         for (Long id : attachments.getId()) {
-            // RR finish
-            // email.addFile(model.getURIFromFileRef(id));
+            // RR get proper size from model
+            currBytes += 10;
+            if (currBytes > maxBytes) {
+                throw new IllegalArgumentException("files too large");
+            }
+            email.addFile(store.getFile(id));
         }
         log.trace("Leaving " + EmailService.class.getSimpleName()
                 + ".addAttachments(MailBackend, IDList)");
@@ -256,7 +280,8 @@ public class EmailService implements EmailInterface {
             String subject, StringMap headers, String bodyTXT, String bodyHTML,
             IDList attachments) throws MessagingExceptionWrapper,
             MalformedURLExceptionWrapper, TransactionException,
-            IoExceptionWrapper, IllegalArgumentException {
+            IoExceptionWrapper, IllegalArgumentException, StorageException,
+            IncompleteConfigurationException {
         log.trace("Entering " + EmailService.class.getSimpleName()
                 + ".sendEmail(...)");
         log.debug("checking parameters for nulls");

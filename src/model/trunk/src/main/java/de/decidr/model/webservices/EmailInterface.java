@@ -25,6 +25,8 @@ import javax.mail.MessagingException;
 import javax.xml.bind.TypeConstraintException;
 import javax.xml.namespace.QName;
 
+import de.decidr.model.exceptions.IncompleteConfigurationException;
+import de.decidr.model.exceptions.StorageException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.soap.exceptions.IoExceptionWrapper;
 import de.decidr.model.soap.exceptions.MalformedURLExceptionWrapper;
@@ -33,6 +35,7 @@ import de.decidr.model.soap.types.AbstractUser;
 import de.decidr.model.soap.types.AbstractUserList;
 import de.decidr.model.soap.types.IDList;
 import de.decidr.model.soap.types.StringMap;
+import de.decidr.model.storage.StorageProvider;
 
 /**
  * The DecidR e-mail interface. It allows sending an e-mail message to a list of
@@ -90,6 +93,12 @@ public interface EmailInterface {
      * @throws IllegalArgumentException
      *             Thrown whenever a parameter contains illegal values or wasn't
      *             set even though it should be.
+     * @throws IncompleteConfigurationException
+     *             Thrown if the <code>{@link StorageProvider StorageProvider's}</code>
+     *             configuration doesn't contain some values it needs.
+     * @throws StorageException
+     *             Thrown if there was an exception in the storage backend (e.g.
+     *             an <code>{@link IOException}</code>)
      * @throws TypeConstraintException
      *             If an unknown subclass of <code>{@link AbstractUser}</code>
      *             is contained in a <code>{@link AbstractUserList}</code>.
@@ -107,5 +116,6 @@ public interface EmailInterface {
             @WebParam(name = "bodyHTML", targetNamespace = "") String bodyHTML,
             @WebParam(name = "attachments", targetNamespace = "") IDList attachments)
             throws MessagingExceptionWrapper, MalformedURLExceptionWrapper,
-            TransactionException, IoExceptionWrapper, IllegalArgumentException;
+            TransactionException, IoExceptionWrapper, IllegalArgumentException,
+            StorageException, IncompleteConfigurationException;
 }

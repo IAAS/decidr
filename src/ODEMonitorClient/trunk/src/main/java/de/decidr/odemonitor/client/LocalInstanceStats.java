@@ -21,6 +21,7 @@ import java.net.MalformedURLException;
 import org.apache.log4j.Logger;
 
 import de.decidr.model.logging.DefaultLogger;
+import de.decidr.model.webservices.ODEManagementClient;
 
 /**
  * This class provides an interface to the ODE instance. It retrieves all stats

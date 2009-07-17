@@ -22,7 +22,6 @@ import java.net.URL;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.Holder;
 
-import de.decidr.model.DecidrGlobals;
 import de.decidr.odemonitor.service.ODEMonitor;
 import de.decidr.odemonitor.service.ODEMonitorService;
 
@@ -37,7 +36,6 @@ public class MonitoringThread extends Thread {
 
     private static final int DEFAULT_INTERVAL = 60;
     private int updateInterval = DEFAULT_INTERVAL;
-    private String alternateESB = null;
     private String odeID = null;
     private boolean poolInstance = true;
     private XMLGregorianCalendar lastUpdate;
@@ -68,17 +66,6 @@ public class MonitoringThread extends Thread {
         getServer().getConfig(intervalHolder, calendarHolder);
         updateInterval = intervalHolder.value;
         lastUpdate = calendarHolder.value;
-    }
-
-    /**
-     * Change the location for accessing the ESB.<br>
-     * <em>NOTE: This feature is currently useless, as the current version of DecidR cannot handle more than one ESB!</em>
-     * 
-     * @param esbLocation
-     *            The URL to access the ESB on.
-     */
-    public void useESB(String esbLocation) {
-        alternateESB = esbLocation;
     }
 
     /*
@@ -153,21 +140,9 @@ public class MonitoringThread extends Thread {
     private ODEMonitorService getServer() {
         ODEMonitorService server;
         try {
-            if (alternateESB == null) {
-                server = new ODEMonitor(new URL(alternateESB
-                        + DecidrGlobals.getWebServiceLocationOnESB()
-                        + ODEMonitorService.SERVICE_NAME + "?wsdl"))
-                        .getODEMonitorSOAP();
-            } else {
-                server = new ODEMonitor().getODEMonitorSOAP();
-            }
+            server = new ODEMonitor().getODEMonitorSOAP();
         } catch (MalformedURLException e) {
-            if (alternateESB == null) {
-                System.err.println("Error: can't access system ESB");
-            } else {
-                System.err.println("Error: can't access provided ESB: "
-                        + alternateESB);
-            }
+            System.err.println("Error: can't access ESB");
             System.err.println("Java stack trace, providing reason:");
             e.printStackTrace();
             throw new IllegalArgumentException("unusable ESB", e);
