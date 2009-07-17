@@ -29,6 +29,8 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.decidr.modelingtool.client.command.CommandList;
+import de.decidr.modelingtool.client.command.CommandStack;
+import de.decidr.modelingtool.client.command.MoveNodeCommand;
 import de.decidr.modelingtool.client.command.UndoableCommand;
 import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
@@ -216,7 +218,24 @@ public abstract class Node extends AbsolutePanel implements
 
     @Override
     public void onModelChange() {
-        // TODO Auto-generated method stub
+        int modelLeft = model.getChangeListenerLeft();
+        int modelTop = model.getChangeListenerTop();
+        int left = getLeft();
+        int top = getTop();
+        HasChildren parentPanel = getParentPanel();
+
+        // if position parameters in model have changed
+        if (modelLeft != left || modelTop != top) {
+            // set node to new position
+            setPosition(modelLeft, modelTop);
+            // and new parent, if changed
+            setParentPanel(model.getParentModel()
+                    .getHasChildrenChangeListener());
+
+            // create move command
+            CommandStack.getInstance().executeCommand(
+                    new MoveNodeCommand(this, parentPanel, left, top));
+        }
 
     }
 

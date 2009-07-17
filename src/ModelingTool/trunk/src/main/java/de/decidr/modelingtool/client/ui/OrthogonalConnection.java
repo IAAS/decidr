@@ -30,6 +30,9 @@ public class OrthogonalConnection extends Connection {
 
     private final int LINE_WIDTH = 2;
 
+    private final int LABEL_XOFFSET = 5;
+    private final int LABEL_YOFFSET = -20;
+
     private ConnectionLine startLine = new ConnectionLine(this, LINE_WIDTH);
     private ConnectionLine midLine = new ConnectionLine(this, LINE_WIDTH);
     private ConnectionLine endLine = new ConnectionLine(this, LINE_WIDTH);
@@ -42,6 +45,7 @@ public class OrthogonalConnection extends Connection {
         startLine.addMouseDownHandler(sh);
         midLine.addMouseDownHandler(sh);
         endLine.addMouseDownHandler(sh);
+        //label.addMouseDownHandler(sh);
     }
 
     @Override
@@ -74,6 +78,8 @@ public class OrthogonalConnection extends Connection {
             absPanel.add(startLine);
             absPanel.add(midLine);
             absPanel.add(endLine);
+            // add label to panel /bring to front
+            absPanel.add(label);
 
             if (startY <= endY) {
                 absPanel.setWidgetPosition(startLine, startX, startY);
@@ -85,10 +91,13 @@ public class OrthogonalConnection extends Connection {
             }
 
             if (startX <= endX) {
-                absPanel
-                        .setWidgetPosition(midLine, startX, (startY + endY) / 2);
+                absPanel.setWidgetPosition(midLine, startX, (startY + endY) / 2);
+                absPanel.setWidgetPosition(label, startX + LABEL_XOFFSET,
+                        (startY + endY) / 2 + LABEL_YOFFSET);
             } else {
                 absPanel.setWidgetPosition(midLine, endX, (startY + endY) / 2);
+                absPanel.setWidgetPosition(label, endX + LABEL_XOFFSET,
+                        (startY + endY) / 2 + LABEL_YOFFSET);
             }
 
             // set orientation and length of lines
@@ -103,16 +112,11 @@ public class OrthogonalConnection extends Connection {
     }
 
     @Override
-    public void onModelChange() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void remove() {
         startLine.removeFromParent();
         midLine.removeFromParent();
         endLine.removeFromParent();
+        label.removeFromParent();
     }
 
 }

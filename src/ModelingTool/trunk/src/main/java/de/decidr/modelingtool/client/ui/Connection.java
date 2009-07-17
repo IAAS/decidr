@@ -16,6 +16,8 @@
 
 package de.decidr.modelingtool.client.ui;
 
+import com.google.gwt.user.client.ui.Label;
+
 import de.decidr.modelingtool.client.model.ConnectionModel;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 
@@ -27,28 +29,11 @@ import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 public abstract class Connection implements Selectable, ModelChangeListener {
 
     protected HasChildren parentPanel = null;
-
-    public Connection(HasChildren parentPanel) {
-        this.parentPanel = parentPanel;
-    }
+    
+    // subclasses have to implement this in draw() operation
+    protected Label label = new Label();
 
     private boolean selected;
-
-    public HasChildren getParentPanel() {
-        return parentPanel;
-    }
-
-    public void setParentPanel(HasChildren parentPanel) {
-        this.parentPanel = parentPanel;
-    }
-
-    public ConnectionModel getModel() {
-        return model;
-    }
-
-    public void setModel(ConnectionModel model) {
-        this.model = model;
-    }
 
     private ConnectionModel model;
 
@@ -56,13 +41,34 @@ public abstract class Connection implements Selectable, ModelChangeListener {
 
     protected ConnectionDragBox endDragBox;
 
+    public Connection(HasChildren parentPanel) {
+        this.parentPanel = parentPanel;
+        
+        // TODO: debug
+        label.setText("ConnectionLabel");
+    }
+
+    public abstract void draw();
+
+    public ConnectionDragBox getEndDragBox() {
+        return endDragBox;
+    }
+
+    public ConnectionModel getModel() {
+        return model;
+    }
+
+    public HasChildren getParentPanel() {
+        return parentPanel;
+    }
+
+    public ConnectionDragBox getStartDragBox() {
+        return startDragBox;
+    }
+
     // private Port sourcePort = null;
     //
     // private Port targetPort = null;
-
-    public abstract void remove();
-
-    public abstract void draw();
 
     // public Port getSourcePort() {
     // return sourcePort;
@@ -76,10 +82,18 @@ public abstract class Connection implements Selectable, ModelChangeListener {
         return selected;
     }
 
+    @Override
+    public void onModelChange() {
+        label.setText(model.getName()); 
+        draw();
+    }
+
     public void onPanelAdd(HasChildren parentPanel) {
         this.parentPanel = parentPanel;
         draw();
     }
+
+    public abstract void remove();
 
     public void setEndDragBox(ConnectionDragBox endDragBox) {
         this.endDragBox = endDragBox;
@@ -87,12 +101,12 @@ public abstract class Connection implements Selectable, ModelChangeListener {
         // endDragBox.setConnection(this);
     }
 
-    public ConnectionDragBox getStartDragBox() {
-        return startDragBox;
+    public void setModel(ConnectionModel model) {
+        this.model = model;
     }
 
-    public ConnectionDragBox getEndDragBox() {
-        return endDragBox;
+    public void setParentPanel(HasChildren parentPanel) {
+        this.parentPanel = parentPanel;
     }
 
     public void setSelected(boolean selected) {
