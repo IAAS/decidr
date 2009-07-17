@@ -16,4 +16,6 @@
 	<inherits name='com.allen_sauer.gwt.dnd.gwt-dnd' />
 	<!-- Inherit extjs support                                      -->
 	<inherits name='com.extjs.gxt.ui.GXT' />
+	
+	<stylesheet src='ModelingToolWidget.css'/>
 </module>

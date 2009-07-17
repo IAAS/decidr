@@ -20,4 +20,6 @@
   <!-- Specify the app entry point class.                         -->
   <entry-point class='de.decidr.modelingtool.client.ModelingTool'/>
   
+  <stylesheet src='ModelingToolWidget.css'/>
+  
 </module>
