@@ -17,11 +17,17 @@
 package de.decidr.odemonitor.client;
 
 /**
- * TODO: add comment
+ * Gets OS-dependent stats on Microsoft Windows.
  * 
  * @author Reinhold
  */
 public class WindowsStatsCollector extends AbstractOSStatsCollector {
+
+    // TODO implement script
+    private static final String SCRIPTS_MEMORY_USAGE = "scripts/mac/getMemoryUsage.sh";
+
+    // TODO implement script
+    private static final String SCRIPTS_CPU_USAGE = "scripts/mac/getCPUUsage.sh";
 
     /*
      * (non-Javadoc)
@@ -31,7 +37,7 @@ public class WindowsStatsCollector extends AbstractOSStatsCollector {
     @Override
     public int getCPULoad() {
         // TODO Auto-generated method stub
-        return 0;
+        return -1;
     }
 
     /*
@@ -42,7 +48,6 @@ public class WindowsStatsCollector extends AbstractOSStatsCollector {
     @Override
     public int getMemLoad() {
         // TODO Auto-generated method stub
-        return 0;
+        return -1;
     }
-
 }

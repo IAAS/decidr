@@ -25,6 +25,7 @@ import javax.xml.ws.Holder;
 import org.apache.log4j.Logger;
 
 import de.decidr.model.logging.DefaultLogger;
+import de.decidr.model.notifications.NotificationEvents;
 
 /**
  * This implementation of the <code>{@link ODEMonitorService}</code> uses the
@@ -96,6 +97,8 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".updateStats()");
         // RR Auto-generated method stub
+        // RR if need new ode:
+        NotificationEvents.requestNewODEInstance(null);
         log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".updateStats()");
     }

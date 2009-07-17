@@ -29,12 +29,10 @@ import de.decidr.model.entities.WorkItem;
  */
 public final class NotificationEvents {
 
-    //FIXME ChangeEmailRequestNotification
-    
+    // FIXME ChangeEmailRequestNotification
+
     public static void createdWorkItem(WorkItem newWorkItem) {
-        
-        
-        
+
     }
 
     public static void createdPasswordResetRequest(User user) {
@@ -65,6 +63,11 @@ public final class NotificationEvents {
     public static void generatedNewPassword(User user, String newPassword) {
         // FIXME actually notify user
 
+    }
+
+    // where = null => anywhere
+    public static void requestNewODEInstance(String where) {
+        // FIXME actually notify user
     }
 
 }

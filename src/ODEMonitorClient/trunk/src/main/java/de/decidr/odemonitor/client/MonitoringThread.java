@@ -97,7 +97,7 @@ public class MonitoringThread extends Thread {
         LocalInstanceStats localStats = new LocalInstanceStats();
         AbstractOSStatsCollector osStats = OSStatsCollectorFactory
                 .getCollector();
-        LocalInstanceManager manager = new LocalInstanceManager();
+        InstanceManager manager = new LocalInstanceManager();
 
         // register with server
         Holder<String> odeIDHolder = new Holder<String>();
@@ -163,10 +163,10 @@ public class MonitoringThread extends Thread {
             }
         } catch (MalformedURLException e) {
             if (alternateESB == null) {
-                System.err.println("Error: can't system ESB");
+                System.err.println("Error: can't access system ESB");
             } else {
-                System.err
-                        .println("Error: can't provided ESB: " + alternateESB);
+                System.err.println("Error: can't access provided ESB: "
+                        + alternateESB);
             }
             System.err.println("Java stack trace, providing reason:");
             e.printStackTrace();

@@ -31,6 +31,8 @@ public class OSStatsCollectorFactory {
     private static AbstractOSStatsCollector collector;
 
     public static AbstractOSStatsCollector getCollector() {
+        log.trace("Entering " + AbstractOSStatsCollector.class.getSimpleName()
+                + ".getCollector()");
         if (collector == null) {
             String osName = System.getProperty("os.name");
             if (osName.toLowerCase().contains("win")) {
@@ -47,6 +49,8 @@ public class OSStatsCollectorFactory {
             }
         }
 
+        log.trace("Leaving " + AbstractOSStatsCollector.class.getSimpleName()
+                + ".getCollector()");
         return collector;
     }
 }

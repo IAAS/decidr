@@ -26,7 +26,7 @@ public interface InstanceManager {
 
     /**
      * Triggers the starting of a new ODE instance to be managed by this ODE
-     * instance manager.
+     * instance manager if there is no ODE instance running locally.
      * 
      * @return - <code>true</code>, if the starting of the instance was
      *         successful or was successfully delegated,<br>
@@ -35,7 +35,7 @@ public interface InstanceManager {
     public boolean startInstance();
 
     /**
-     * Shuts the managed instance down.
+     * Shuts the managed instance down if it is running.
      * 
      * 
      * @return - <code>true</code>, if the instance was successfully shut down,<br>

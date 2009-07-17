@@ -23,8 +23,10 @@ package de.decidr.odemonitor.client;
  */
 public class MacStatsCollector extends UnixStatsCollector {
 
+    // TODO implement script
     private static final String SCRIPTS_MEMORY_USAGE = "scripts/mac/getMemoryUsage.sh";
 
+    // TODO implement script
     private static final String SCRIPTS_CPU_USAGE = "scripts/mac/getCPUUsage.sh";
 
     @Override

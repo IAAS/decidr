@@ -22,8 +22,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
- * Contains code for getting stats on UNIX systems. Only the script constants
- * need to be set by extending classes.
+ * Contains basic code for getting stats on UNIX systems.
  * 
  * @author Reinhold
  */

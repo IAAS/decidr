@@ -81,10 +81,8 @@ public abstract class AbstractOSStatsCollector {
      * @return The system load. <code>-1</code> means an error occurred.
      */
     public final int getSystemLoad(int cpu, int mem) {
-        log.trace("Entering " + AbstractOSStatsCollector.class.getSimpleName()
-                + ".getSystemLoad(int, int)");
-
-        log.trace("Leaving " + AbstractOSStatsCollector.class.getSimpleName()
+        log.trace("Entering & Leaving "
+                + AbstractOSStatsCollector.class.getSimpleName()
                 + ".getSystemLoad(int, int)");
         return Math.max(cpu, mem);
     }

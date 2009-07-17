@@ -19,10 +19,11 @@ package de.decidr.odemonitor.client;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.logging.DefaultLogger;
 
 /**
- * The main ODE monitoring class being started after the ODE instance is up.
+ * The main ODE monitoring class to be started after the ODE instance is up.
  * 
  * @author Reinhold
  */
@@ -161,7 +162,7 @@ public class ODEMonitorClient {
             }
         }
 
-        new LocalInstanceManager().startInstance();
+        // RR make sure local instance is running
 
         monitor = new MonitoringThread();
         monitor.changeInterval(interval);
@@ -173,15 +174,12 @@ public class ODEMonitorClient {
      * Prints the version information to stdout.
      */
     private static void printVersion() {
-        // TODO add correct version
-        System.out.println("DecidR version " + "0.0.1");
+        System.out.println("DecidR version " + DecidrGlobals.getVersion());
         System.out.println("ODE Monitoring Tool version " + VERSION);
     }
 
     /**
      * Prints the usage information to stdout.
-     * 
-     * @param args
      */
     private static void printUsage() {
         printVersion();
