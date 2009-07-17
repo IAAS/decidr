@@ -21,5 +21,6 @@
   <entry-point class='de.decidr.modelingtool.client.ModelingTool'/>
   
   <stylesheet src='ModelingToolWidget.css'/>
+  <stylesheet src='css/ext-all.css'/>
   
 </module>

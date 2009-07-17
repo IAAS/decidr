@@ -18,4 +18,5 @@
 	<inherits name='com.extjs.gxt.ui.GXT' />
 	
 	<stylesheet src='ModelingToolWidget.css'/>
+	<stylesheet src='css/ext-all.css'/>
 </module>
