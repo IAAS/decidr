@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 04.07.2009 15:27:24 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 17.07.2009 15:40:19 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.SystemSettings" table="system_settings" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="java.lang.Long">
@@ -13,6 +13,12 @@
         </many-to-one>
         <property name="autoAcceptNewTenants" type="boolean">
             <column name="autoAcceptNewTenants" not-null="true" />
+        </property>
+        <property name="systemName" type="string">
+            <column name="systemName" not-null="true" />
+        </property>
+        <property name="systemEmailAddress" type="string">
+            <column name="systemEmailAddress" not-null="true" />
         </property>
         <property name="logLevel" type="string">
             <column name="logLevel" length="30" not-null="true" />
@@ -36,6 +42,35 @@
             <column name="invitationLifetimeSeconds" not-null="true">
                 <comment>Default is 72 hours</comment>
             </column>
+        </property>
+        <property name="mtaHostname" type="string">
+            <column name="mtaHostname" not-null="true">
+                <comment>Mail Transfer Agent hostname</comment>
+            </column>
+        </property>
+        <property name="mtaPort" type="int">
+            <column name="mtaPort" not-null="true">
+                <comment>Server port of the Mail Transfer Agent</comment>
+            </column>
+        </property>
+        <property name="mtaUseTls" type="boolean">
+            <column name="mtaUseTls" not-null="true">
+                <comment>Whether or not TLS should be used when connecting to the MTA.</comment>
+            </column>
+        </property>
+        <property name="mtaUsername" type="string">
+            <column name="mtaUsername" not-null="true" />
+        </property>
+        <property name="mtaPassword" type="string">
+            <column name="mtaPassword" not-null="true" />
+        </property>
+        <property name="maxUploadFileSizeBytes" type="long">
+            <column name="maxUploadFileSizeBytes" not-null="true">
+                <comment>Default is 10 MB.</comment>
+            </column>
+        </property>
+        <property name="maxAttachmentsPerEmail" type="int">
+            <column name="maxAttachmentsPerEmail" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

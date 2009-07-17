@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 04.07.2009 15:27:24 by Hibernate Tools 3.2.4.GA
+// Generated 17.07.2009 15:40:18 by Hibernate Tools 3.2.4.GA
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +18,7 @@ public class File implements java.io.Serializable {
     private String fileName;
     private String mimeType;
     private boolean mayPublicRead;
+    private long fileSizeBytes;
     private Set<Tenant> tenantsForAdvancedColorSchemeId = new HashSet<Tenant>(0);
     private Set<Tenant> tenantsForSimpleColorSchemeId = new HashSet<Tenant>(0);
     private Set<Tenant> tenantsForLogoId = new HashSet<Tenant>(0);
@@ -28,14 +29,16 @@ public class File implements java.io.Serializable {
     public File() {
     }
 
-    public File(String fileName, String mimeType, boolean mayPublicRead) {
+    public File(String fileName, String mimeType, boolean mayPublicRead,
+            long fileSizeBytes) {
         this.fileName = fileName;
         this.mimeType = mimeType;
         this.mayPublicRead = mayPublicRead;
+        this.fileSizeBytes = fileSizeBytes;
     }
 
     public File(String fileName, String mimeType, boolean mayPublicRead,
-            Set<Tenant> tenantsForAdvancedColorSchemeId,
+            long fileSizeBytes, Set<Tenant> tenantsForAdvancedColorSchemeId,
             Set<Tenant> tenantsForSimpleColorSchemeId,
             Set<Tenant> tenantsForLogoId,
             Set<Tenant> tenantsForCurrentColorSchemeId,
@@ -43,6 +46,7 @@ public class File implements java.io.Serializable {
         this.fileName = fileName;
         this.mimeType = mimeType;
         this.mayPublicRead = mayPublicRead;
+        this.fileSizeBytes = fileSizeBytes;
         this.tenantsForAdvancedColorSchemeId = tenantsForAdvancedColorSchemeId;
         this.tenantsForSimpleColorSchemeId = tenantsForSimpleColorSchemeId;
         this.tenantsForLogoId = tenantsForLogoId;
@@ -80,6 +84,14 @@ public class File implements java.io.Serializable {
 
     public void setMayPublicRead(boolean mayPublicRead) {
         this.mayPublicRead = mayPublicRead;
+    }
+
+    public long getFileSizeBytes() {
+        return this.fileSizeBytes;
+    }
+
+    public void setFileSizeBytes(long fileSizeBytes) {
+        this.fileSizeBytes = fileSizeBytes;
     }
 
     public Set<Tenant> getTenantsForAdvancedColorSchemeId() {
