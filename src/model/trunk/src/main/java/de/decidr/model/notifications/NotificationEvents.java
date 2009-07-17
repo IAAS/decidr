@@ -617,7 +617,7 @@ public final class NotificationEvents {
      * 
      */
     @SuppressWarnings("unchecked")
-    public static void requestNewODEInstance(User user, String where) throws TransactionException {
+    public static void requestNewODEInstance(String where) throws TransactionException {
 
         try {
             client = de.decidr.model.webservices.DynamicClients.getEmailClient();
@@ -647,8 +647,8 @@ public final class NotificationEvents {
         IDList attachements = null;
         
         //fill "to" list
-        EmailUser eUser = new EmailUser();
-        eUser.setUser(user.getEmail());
+        EmailUser eUser = new EmailUser();    
+        eUser.setUser(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
 
         List<AbstractUser> users= new ArrayList();
         users.add(eUser);
