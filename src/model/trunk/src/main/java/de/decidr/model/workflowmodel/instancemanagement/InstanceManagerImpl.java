@@ -16,6 +16,8 @@
 
 package de.decidr.model.workflowmodel.instancemanagement;
 
+import java.util.List;
+
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.WorkflowInstance;
@@ -30,16 +32,13 @@ import de.decidr.model.entities.WorkflowInstance;
  */
 public class InstanceManagerImpl implements InstanceManager {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seede.decidr.model.workflowmodel.instancemanagement.IInstanceManager#
-     * startInstance(de.decidr.model.entities.DeployedWorkflowModel, byte[],
-     * de.decidr.model.entities.ServerLoadView)
+
+    /* (non-Javadoc)
+     * @see de.decidr.model.workflowmodel.instancemanagement.InstanceManager#startInstance(de.decidr.model.entities.DeployedWorkflowModel, byte[], java.util.List)
      */
     @Override
     public WorkflowInstance startInstance(DeployedWorkflowModel dwfm,
-            byte[] startConfiguration, ServerLoadView serverStatistics)
+            byte[] startConfiguration, List<ServerLoadView> serverStatistics)
             throws Exception {
         ServerSelector selector = new ServerSelector();
         long serverID = selector.selectServer(serverStatistics);
@@ -49,6 +48,15 @@ public class InstanceManagerImpl implements InstanceManager {
         SOAPExecution execution = new SOAPExecution();
         execution.invoke(serverID, soapMessage);
         return null;
+    }
+
+    /* (non-Javadoc)
+     * @see de.decidr.model.workflowmodel.instancemanagement.InstanceManager#stopInstance(de.decidr.model.entities.WorkflowInstance)
+     */
+    @Override
+    public void stopInstance(WorkflowInstance instance) {
+        // TODO Auto-generated method stub
+        
     }
     
     //FIXME StopWorkflowInstance implementieren

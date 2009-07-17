@@ -16,6 +16,8 @@
 
 package de.decidr.model.workflowmodel.instancemanagement;
 
+import java.util.List;
+
 import de.decidr.model.entities.ServerLoadView;
 
 /**
@@ -35,7 +37,7 @@ public class ServerSelector {
      * @param serverStatistics
      * @return ID of server with least load
      */
-    public long selectServer(ServerLoadView serverStatistics) {
+    public long selectServer(List<ServerLoadView> serverStatistics) {
         return 1l;
     }
 

@@ -26,6 +26,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
 import de.decidr.model.workflowmodel.bpel.TProcess;
+import de.decidr.model.workflowmodel.dwdl.translator.DWDL2BPEL;
 import de.decidr.model.workflowmodel.dwdl.translator.Translator;
 
 /**
@@ -36,7 +37,7 @@ import de.decidr.model.workflowmodel.dwdl.translator.Translator;
 public class DeploymentTest {
 
     /**
-     * MA: add comment
+     * This class tests the translator component {@link DWDL2BPEL}
      * 
      * @param args
      * @throws JAXBException

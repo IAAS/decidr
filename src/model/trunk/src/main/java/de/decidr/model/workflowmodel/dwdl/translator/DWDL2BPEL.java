@@ -16,11 +16,10 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
-
 import org.apache.log4j.Logger;
 import de.decidr.model.logging.DefaultLogger;
-
 import de.decidr.model.workflowmodel.bpel.ObjectFactory;
 import de.decidr.model.workflowmodel.bpel.TActivityContainer;
 import de.decidr.model.workflowmodel.bpel.TAssign;
@@ -60,6 +59,30 @@ public class DWDL2BPEL {
     private TWorkflow dwdl = null;
     private ObjectFactory factory = null;
 
+    private void addCopyStatement(TAssign assign, TSetProperty property,
+            TVariable toVariable) {
+        TCopy copy = factory.createTCopy();
+        TFrom from = factory.createTFrom();
+        TTo to = factory.createTTo();
+        from.setVariable(property.getVariable());
+        to.setVariable(toVariable.getName());
+        to.setProperty(new QName(property.getName()));
+        assign.getCopyOrExtensionAssignOperation().add(copy);
+    }
+
+    private void addCopyValueStatement(TAssign assign, TSetProperty property,
+            TVariable toVariable) {
+        TCopy copy = factory.createTCopy();
+        TFrom from = factory.createTFrom();
+        TTo to = factory.createTTo();
+        TLiteral literal = factory.createTLiteral();
+        literal.getContent().add(property.getPropertyValue());
+        from.getContent().add(literal);
+        to.setVariable(toVariable.getName());
+        to.setProperty(new QName(property.getName()));
+        assign.getCopyOrExtensionAssignOperation().add(copy);
+    }
+
     public TProcess getBPEL(TWorkflow dwdl) {
 
         this.dwdl = dwdl;
@@ -67,14 +90,13 @@ public class DWDL2BPEL {
         factory = new ObjectFactory();
         process = factory.createTProcess();
 
-        process.setName(dwdl.getName());
-
-        setDocumentation();
+        log.trace("setting process attributes");
         setProcessAttributes();
+        setDocumentation();
         setImports();
         setPartnerLinks();
-        setVariables();
         setProcessVariables();
+        setVariables();
         setVariablesFromRoles();
         initVariables();
         setCorrelationSets();
@@ -83,45 +105,21 @@ public class DWDL2BPEL {
         return process;
     }
 
-    private void setProcessVariables() {
-        TVariables variables = factory.createTVariables();
-        TVariable startConfigurations = factory.createTVariable();
-        TVariable wfmid = factory.createTVariable();
-        TVariable faultMessage = factory.createTVariable();
-        TVariable faultMessageResponse = factory.createTVariable();
-        TVariable successMessage = factory.createTVariable();
-        TVariable successMessageResponse = factory.createTVariable();
-        TVariable taskMessage = factory.createTVariable();
-        TVariable taskMessageResponse = factory.createTVariable();
-        TVariable taskDataMessage = factory.createTVariable();
+    private de.decidr.model.workflowmodel.bpel.TVariable getBPELVariableByName(
+            String variableName) {
+        for (TVariable var : process.getVariables().getVariable()) {
+            if (var.getName().equals(variableName)) {
+                return var;
+            }
+        }
+        return null;
+    }
 
-        process.setVariables(variables);
-        startConfigurations.setName("startConfigurations");
-        startConfigurations.setMessageType(new QName("startMessage"));
-        wfmid.setName("wfmid");
-        wfmid.setType(new QName("xsd:ID"));
-        faultMessage.setName("faultMessage");
-        faultMessage.setMessageType(new QName("sendEmailRequest"));
-        faultMessageResponse.setName("faultMessageResponse");
-        faultMessageResponse.setMessageType(new QName("sendEmailResponse"));
-        successMessage.setName("successMessage");
-        successMessage.setMessageType(new QName("sendEmailRequest"));
-        successMessageResponse.setName("successMessageResponse");
-        successMessageResponse.setMessageType(new QName("sendEmailResponse"));
-        taskMessage.setName("createTaskMessage");
-        taskMessage.setMessageType(new QName("createTaskRequest"));
-        taskMessageResponse.setName("createTaskMessageResponse");
-        taskMessageResponse.setMessageType(new QName("createTaskResponse"));
-        taskDataMessage.setName("taskDataMessage");
-        taskDataMessage.setMessageType(new QName("taskDataRequest"));
-        process.getVariables().getVariable().add(startConfigurations);
-        process.getVariables().getVariable().add(faultMessage);
-        process.getVariables().getVariable().add(faultMessageResponse);
-        process.getVariables().getVariable().add(successMessage);
-        process.getVariables().getVariable().add(successMessageResponse);
-        process.getVariables().getVariable().add(taskMessage);
-        process.getVariables().getVariable().add(taskMessageResponse);
-        process.getVariables().getVariable().add(taskDataMessage);
+    private String getXMLElement(TActor actor) {
+        String xml = "<actor name=" + actor.getName() + " userid="
+                + actor.getUserId() + " email=" + actor.getEmail() + "/>";
+
+        return xml;
     }
 
     private void initRoles(TAssign assign) {
@@ -164,13 +162,6 @@ public class DWDL2BPEL {
         }
     }
 
-    private String getXMLElement(TActor actor) {
-        String xml = "<actor name=" + actor.getName() + " userid="
-                + actor.getUserId() + " email=" + actor.getEmail() + "/>";
-
-        return xml;
-    }
-
     private void initVariables() {
         TAssign assign = factory.createTAssign();
         assign.setName("init");
@@ -204,6 +195,27 @@ public class DWDL2BPEL {
 
     private void setActivity() {
 
+    }
+
+    private void setCorrelationSets() {
+        TCorrelationSets correlationSets = factory.createTCorrelationSets();
+        process.setCorrelationSets(correlationSets);
+        TCorrelationSet correlation = factory.createTCorrelationSet();
+        correlation.setName("standard-correlation");
+        correlation.getProperties().add(new QName(process.getTargetNamespace(),"processID","tns"));
+        correlation.getProperties().add(new QName(process.getTargetNamespace(),"userID","tns"));
+        correlation.getProperties().add(new QName(process.getTargetNamespace(),"taskID","tns"));
+        process.getCorrelationSets().getCorrelationSet().add(correlation);
+    }
+
+    private void setDocumentation() {
+        TDocumentation documentation = null;
+        if (dwdl.getDescription() != null) {
+            documentation = factory.createTDocumentation();
+            documentation.getContent().addAll(
+                    dwdl.getDescription().getContent());
+            process.getDocumentation().add(documentation);
+        }
     }
 
     private void setFaultHandler() {
@@ -242,7 +254,7 @@ public class DWDL2BPEL {
                     }
                 }
             }
-            emailInvoke.setPartnerLink(BPELConstants.EWSPL);
+            emailInvoke.setPartnerLink(BPELConstants.EWS_PARTNERLINK);
             emailInvoke.setOperation("sendEmail");
             emailInvoke.setInputVariable("faultMessage");
             emailInvoke.setOutputVariable("faultMessageResponse");
@@ -253,49 +265,144 @@ public class DWDL2BPEL {
         }
     }
 
-    private void addCopyStatement(TAssign assign, TSetProperty property,
-            TVariable toVariable) {
-        TCopy copy = factory.createTCopy();
-        TFrom from = factory.createTFrom();
-        TTo to = factory.createTTo();
-        from.setVariable(property.getVariable());
-        to.setVariable(toVariable.getName());
-        to.setProperty(new QName(property.getName()));
-        assign.getCopyOrExtensionAssignOperation().add(copy);
+    private void setImports() {
+        TImport htwsImport = factory.createTImport();
+        TImport ewsImport = factory.createTImport();
+        TImport dtImport = factory.createTImport();
+        TImport odeImport = factory.createTImport();
+        TImport pwsdlImport = factory.createTImport();
+        
+        //setting import for HumanTaskWS
+        htwsImport.setNamespace(BPELConstants.HTWS_NAMESPACE);
+        htwsImport.setImportType(BPELConstants.WSDL_IMPORTTYPE);
+        htwsImport.setLocation(BPELConstants.HTWS_LOCATION);
+        
+        //setting import for EmailWS
+        ewsImport.setNamespace(BPELConstants.EWS_NAMESPACE);
+        ewsImport.setImportType(BPELConstants.WSDL_IMPORTTYPE);
+        ewsImport.setLocation(BPELConstants.EWS_LOCATION);
+        
+        //setting import for DecidrTypes
+        dtImport.setNamespace(BPELConstants.DECIDRTYPES_NAMESPACE);
+        dtImport.setImportType(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        dtImport.setLocation(BPELConstants.DECIDRTYPES_LOCATION);
+        
+        //setting import for Ode extension
+        odeImport.setNamespace(BPELConstants.ODE_NAMESPACE);
+        odeImport.setImportType(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        
+        //setting import for process wsdl
+        pwsdlImport.setNamespace(process.getTargetNamespace());
+        pwsdlImport.setImportType(BPELConstants.WSDL_IMPORTTYPE);
+        //replace all space with underscore
+        pwsdlImport.setLocation(process.getName().replace(" ", "_")+".wsdl");
+        
+        //add imports to process
+        process.getImport().add(odeImport);
+        process.getImport().add(htwsImport);
+        process.getImport().add(ewsImport);
+        process.getImport().add(dtImport);
+        process.getImport().add(pwsdlImport);
     }
 
-    private void addCopyValueStatement(TAssign assign, TSetProperty property,
-            TVariable toVariable) {
-        TCopy copy = factory.createTCopy();
-        TFrom from = factory.createTFrom();
-        TTo to = factory.createTTo();
-        TLiteral literal = factory.createTLiteral();
-        literal.getContent().add(property.getPropertyValue());
-        from.getContent().add(literal);
-        to.setVariable(toVariable.getName());
-        to.setProperty(new QName(property.getName()));
-        assign.getCopyOrExtensionAssignOperation().add(copy);
+    private void setPartnerLinks() {
+        TPartnerLinks pls = factory.createTPartnerLinks();
+        process.setPartnerLinks(pls);
+        
+        //create HumanTaskWS partnerlink
+        TPartnerLink htwsPL = factory.createTPartnerLink();
+        htwsPL.setName(BPELConstants.HTWS_PARTNERLINK);
+        htwsPL.setPartnerLinkType(new QName(BPELConstants.HTWS_NAMESPACE, BPELConstants.HTWS_PARTNERLINKTYPE,"hWS"));
+        htwsPL.setPartnerRole(BPELConstants.HTWS_PARTNERROLE);
+        htwsPL.setMyRole(BPELConstants.HTWS_MYROLE);
+        
+        //create EmailWS partnerlink
+        TPartnerLink ewsPL = factory.createTPartnerLink();
+        ewsPL.setName(BPELConstants.EWS_PARTNERLINK);
+        ewsPL.setPartnerLinkType(new QName(BPELConstants.EWS_PARTNERLINKTYPE,BPELConstants.EWS_PARTNERLINKTYPE,"eWS"));
+        ewsPL.setPartnerRole(BPELConstants.EWS_PARTNERROLE);
+        
+        //create process client partnerlink
+        TPartnerLink processPL = factory.createTPartnerLink();
+        processPL.setName("Client");
+        processPL.setPartnerLinkType(new QName(process.getTargetNamespace(),"ProcessPLT","tns"));
+        processPL.setMyRole("ProcessProvider");
+        
+        //add partnerlinks to process
+        process.getPartnerLinks().getPartnerLink().add(htwsPL);
+        process.getPartnerLinks().getPartnerLink().add(ewsPL);
+        process.getPartnerLinks().getPartnerLink().add(processPL);
     }
 
-    private de.decidr.model.workflowmodel.bpel.TVariable getBPELVariableByName(
-            String variableName) {
-        for (TVariable var : process.getVariables().getVariable()) {
-            if (var.getName().equals(variableName)) {
-                return var;
+    private void setProcessAttributes() {
+        
+        //sets the targetNamespace and name of the process
+        if (dwdl.getName() != null){
+            process.setName(dwdl.getName());
+            process.setTargetNamespace(dwdl.getTargetNamespace());
+        }
+        
+        //add id attribute
+        process.getOtherAttributes().put(new QName(BPELConstants.DECIDRTYPES_NAMESPACE,"id","decidr"), dwdl.getId());
+    }
+
+    private void setProcessVariables() {
+        //instantiation of variables object
+        TVariables variables = factory.createTVariables();
+        
+        TVariable startConfigurations = factory.createTVariable();
+        TVariable wfmid = factory.createTVariable();
+        TVariable faultMessage = factory.createTVariable();
+        TVariable faultMessageResponse = factory.createTVariable();
+        TVariable successMessage = factory.createTVariable();
+        TVariable successMessageResponse = factory.createTVariable();
+        TVariable taskMessage = factory.createTVariable();
+        TVariable taskMessageResponse = factory.createTVariable();
+        TVariable taskDataMessage = factory.createTVariable();
+
+        //creates global process variables
+        startConfigurations.setName("startConfigurations");
+        startConfigurations.setMessageType(new QName(process.getTargetNamespace(),"startMessage","tns"));
+        wfmid.setName("wfmid");
+        wfmid.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI,"ID","xsd"));
+        faultMessage.setName("faultMessage");
+        faultMessage.setMessageType(new QName(BPELConstants.EWS_NAMESPACE,"sendEmailRequest","eWS"));
+        faultMessageResponse.setName("faultMessageResponse");
+        faultMessageResponse.setMessageType(new QName(BPELConstants.EWS_NAMESPACE,"sendEmailResponse","eWS"));
+        successMessage.setName("successMessage");
+        successMessage.setMessageType(new QName(BPELConstants.EWS_NAMESPACE,"sendEmailRequest","eWS"));
+        successMessageResponse.setName("successMessageResponse");
+        successMessageResponse.setMessageType(new QName(BPELConstants.EWS_NAMESPACE,"sendEmailResponse","eWS"));
+        taskMessage.setName("createTaskMessage");
+        taskMessage.setMessageType(new QName(BPELConstants.HTWS_NAMESPACE,"createTaskRequest","hWS"));
+        taskMessageResponse.setName("createTaskMessageResponse");
+        taskMessageResponse.setMessageType(new QName(BPELConstants.HTWS_NAMESPACE,"createTaskResponse","hWS"));
+        taskDataMessage.setName("taskDataMessage");
+        taskDataMessage.setMessageType(new QName(BPELConstants.HTWS_NAMESPACE,"taskDataRequest","hWS"));
+        
+        //set variables
+        process.setVariables(variables);
+        process.getVariables().getVariable().add(startConfigurations);
+        process.getVariables().getVariable().add(faultMessage);
+        process.getVariables().getVariable().add(faultMessageResponse);
+        process.getVariables().getVariable().add(successMessage);
+        process.getVariables().getVariable().add(successMessageResponse);
+        process.getVariables().getVariable().add(taskMessage);
+        process.getVariables().getVariable().add(taskMessageResponse);
+        process.getVariables().getVariable().add(taskDataMessage);
+    }
+
+    private void setVariables() {
+        if (dwdl.getVariables() != null) {
+            for (de.decidr.model.workflowmodel.dwdl.TVariable v : dwdl
+                    .getVariables().getVariable()) {
+                de.decidr.model.workflowmodel.bpel.TVariable var = factory
+                        .createTVariable();
+                var.setName(v.getName());
+                var.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI,v.getType(),"xsd"));
+                process.getVariables().getVariable().add(var);
             }
         }
-        return null;
-    }
-
-    private void setCorrelationSets() {
-        TCorrelationSets correlationSets = factory.createTCorrelationSets();
-        process.setCorrelationSets(correlationSets);
-        TCorrelationSet correlation = factory.createTCorrelationSet();
-        correlation.setName("standard-correlation");
-        correlation.getProperties().add(new QName("processID"));
-        correlation.getProperties().add(new QName("userID"));
-        correlation.getProperties().add(new QName("taskID"));
-        process.getCorrelationSets().getCorrelationSet().add(correlation);
     }
 
     private void setVariablesFromRoles() {
@@ -305,7 +412,7 @@ public class DWDL2BPEL {
                     de.decidr.model.workflowmodel.bpel.TVariable role = factory
                             .createTVariable();
                     role.setName(r.getName());
-                    role.setElement(new QName("decidr:role"));
+                    role.setElement(new QName(BPELConstants.DECIDRTYPES_NAMESPACE,"role","decidr"));
                     process.getVariables().getVariable().add(role);
                 }
             }
@@ -314,74 +421,9 @@ public class DWDL2BPEL {
                     de.decidr.model.workflowmodel.bpel.TVariable actor = factory
                             .createTVariable();
                     actor.setName(a.getName());
-                    actor.setElement(new QName("decidr:actor"));
+                    actor.setElement(new QName(BPELConstants.DECIDRTYPES_NAMESPACE,"actor","decidr"));
                     process.getVariables().getVariable().add(actor);
                 }
-            }
-        }
-    }
-
-    private void setPartnerLinks() {
-        TPartnerLinks pls = factory.createTPartnerLinks();
-        process.setPartnerLinks(pls);
-        TPartnerLink htwsPL = factory.createTPartnerLink();
-        TPartnerLink ewsPL = factory.createTPartnerLink();
-        htwsPL.setName(BPELConstants.HTWSPL);
-        htwsPL.setPartnerLinkType(new QName(BPELConstants.HTWSPLT));
-        htwsPL.setPartnerRole("provider");
-        htwsPL.setMyRole("client");
-        ewsPL.setName(BPELConstants.EWSPL);
-        ewsPL.setPartnerLinkType(new QName(BPELConstants.EWSPLT));
-        ewsPL.setPartnerRole("provider");
-        process.getPartnerLinks().getPartnerLink().add(htwsPL);
-        process.getPartnerLinks().getPartnerLink().add(ewsPL);
-    }
-
-    private void setImports() {
-        TImport htwsImport = factory.createTImport();
-        TImport ewsImport = factory.createTImport();
-        TImport dtImport = factory.createTImport();
-        htwsImport.setNamespace(BPELConstants.HTWSNAMESPACE);
-        htwsImport.setImportType(BPELConstants.WSDLIMPORTTYPE);
-        htwsImport.setLocation(BPELConstants.HTWSLOCATION);
-        ewsImport.setNamespace(BPELConstants.EWSNAMESPACE);
-        ewsImport.setImportType(BPELConstants.WSDLIMPORTTYPE);
-        ewsImport.setLocation(BPELConstants.EWSLOCATION);
-        dtImport.setNamespace(BPELConstants.DECIDRTYPESNAMESPACE);
-        dtImport.setImportType(BPELConstants.XSDIMPORTTYPE);
-        dtImport.setLocation("DecidrTypes.xsd");
-        process.getImport().add(htwsImport);
-        process.getImport().add(ewsImport);
-        process.getImport().add(dtImport);
-    }
-
-    private void setProcessAttributes() {
-        process.setName(dwdl.getName() + "_" + dwdl.getId());
-        process.setTargetNamespace(dwdl.getTargetNamespace() + "_"
-                + dwdl.getId());
-    }
-
-    private void setDocumentation() {
-        TDocumentation documentation = factory.createTDocumentation();
-        if (dwdl.getDescription() != null) {
-            documentation.getContent().addAll(
-                    dwdl.getDescription().getContent());
-            process.getDocumentation().add(documentation);
-        }
-    }
-
-    private void setVariables() {
-        if (dwdl.getVariables() != null) {
-            de.decidr.model.workflowmodel.bpel.TVariables vars = factory
-                    .createTVariables();
-            process.setVariables(vars);
-            for (de.decidr.model.workflowmodel.dwdl.TVariable v : dwdl
-                    .getVariables().getVariable()) {
-                de.decidr.model.workflowmodel.bpel.TVariable var = factory
-                        .createTVariable();
-                var.setName(v.getName());
-                var.setType(new QName("xsd:" + v.getType()));
-                process.getVariables().getVariable().add(var);
             }
         }
     }

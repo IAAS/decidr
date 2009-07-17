@@ -16,6 +16,8 @@
 
 package de.decidr.model.workflowmodel.instancemanagement;
 
+import java.util.List;
+
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.WorkflowInstance;
@@ -46,7 +48,15 @@ public interface InstanceManager {
      * @return The newly created WorkflowInstance
      */
     public WorkflowInstance startInstance(DeployedWorkflowModel dwfm,
-            byte[] startConfiguration, ServerLoadView serverStatistics)
+            byte[] startConfiguration, List<ServerLoadView> serverStatistics)
             throws Exception;
+    
+    /**
+     * This method is called to stop a workflow instance.
+     *
+     * @param instance
+     *            The instance to be stopped.
+     */
+    public void stopInstance(WorkflowInstance instance);
 
 }

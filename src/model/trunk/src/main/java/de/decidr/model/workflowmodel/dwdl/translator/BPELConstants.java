@@ -16,50 +16,35 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Properties;
-
 /**
- * TODO: add comment
+ * A class holding constants used in the transformation process of
+ * {@link DWDL2BPEL}
  * 
  * @author Modood Alvi
  * @version 0.1
  */
 public final class BPELConstants {
 
-    public static final String WSDLIMPORTTYPE = "http://schemas.xmlsoap.org/wsdl/";
-    public static final String XSDIMPORTTYPE = "http://www.w3.org/2001/XMLSchema";
-    public static final String DECIDRTYPESNAMESPACE = "http://decidr.de/schema/DecidrTypes";
-    public static final String HTWSNAMESPACE = "http://decidr.de/webservices/HumanTask";
-    public static final String EWSNAMESPACE = "http://decidr.de/webservices/Email";
-    public static final String EWSPL = "Email-PL";
-    public static final String HTWSPL = "HumanTask-PL";
-    public static final String EWSPLT = "Email-PLT";
-    public static final String HTWSPLT = "HumanTask-PLT";
-    public static final String HTWSLOCATION = "HumanTask.wsdl";
-    public static final String EWSLOCATION = "Email.wsdl";
-
+    public static final String BPEL_NAMESPACE = "http://docs.oasis-pen.org/wsbpel/2.0/process/executable";
+    public static final String DECIDRTYPES_NAMESPACE = "http://decidr.de/schema/DecidrTypes";
+    public static final String HTWS_NAMESPACE = "http://decidr.de/webservices/HumanTask";
+    public static final String EWS_NAMESPACE = "http://decidr.de/webservices/Email";
+    public static final String ODE_NAMESPACE = "http://www.apache.org/ode/type/extension";
+    public static final String WSDL_IMPORTTYPE = "http://schemas.xmlsoap.org/wsdl/";
+    public static final String EWS_PARTNERLINK = "EmailPL";
+    public static final String HTWS_PARTNERLINK = "HumanTaskPL";
+    public static final String EWS_PARTNERLINKTYPE = "EmailPLT";
+    public static final String HTWS_PARTNERLINKTYPE = "HumanTaskPLT";
+    public static final String HTWS_LOCATION = "HumanTask.wsdl";
+    public static final String EWS_LOCATION = "Email.wsdl";
+    public static final String DECIDRTYPES_LOCATION = "DecidrTypes.xsd";
+    public static final String HTWS_PARTNERROLE = "HumanTaskProvider";
+    public static final String HTWS_MYROLE = "HumanTaskClient";
+    public static final String EWS_PARTNERROLE = "EmailProvider";
+    
+    
     private BPELConstants() {
         // do nothing
-    }
-
-    public static Properties properties = new Properties();
-    static {
-        FileInputStream inStream = null;
-        try {
-            inStream = new FileInputStream("p.properties");
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        try {
-            properties.load(inStream);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 
 }
