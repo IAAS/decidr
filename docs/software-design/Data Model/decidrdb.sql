@@ -64,6 +64,7 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`file` (
   `fileName` VARCHAR(255) NOT NULL ,
   `mimeType` VARCHAR(150) NOT NULL COMMENT 'The content typ of the file as reported by the original uploader.' ,
   `mayPublicRead` BOOLEAN NOT NULL COMMENT 'Whether or not this file is accessible by anyone' ,
+  `fileSizeBytes` BIGINT NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
@@ -570,12 +571,21 @@ ENGINE = InnoDB;
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`system_settings` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `autoAcceptNewTenants` BOOLEAN NOT NULL DEFAULT FALSE ,
+  `systemName` VARCHAR(255) NOT NULL DEFAULT 'DecidR' ,
+  `systemEmailAddress` VARCHAR(255) NOT NULL DEFAULT 'system@decidr.de' ,
   `logLevel` VARCHAR(30) NOT NULL ,
   `superAdminId` BIGINT NULL ,
   `passwordResetRequestLifetimeSeconds` INT NOT NULL DEFAULT 259200 COMMENT 'Default is 72 hours' ,
   `registrationRequestLifetimeSeconds` INT NOT NULL DEFAULT 259200 COMMENT 'Default is 72 hours' ,
   `changeEmailRequestLifetimeSeconds` INT NOT NULL DEFAULT 259200 COMMENT 'Default is 72 hours' ,
   `invitationLifetimeSeconds` INT NOT NULL DEFAULT 259200 COMMENT 'Default is 72 hours' ,
+  `mtaHostname` VARCHAR(255) NOT NULL DEFAULT 'localhost' COMMENT 'Mail Transfer Agent hostname' ,
+  `mtaPort` INT NOT NULL DEFAULT 25 COMMENT 'Server port of the Mail Transfer Agent' ,
+  `mtaUseTls` BOOLEAN NOT NULL DEFAULT true COMMENT 'Whether or not TLS should be used when connecting to the MTA.' ,
+  `mtaUsername` VARCHAR(255) NOT NULL DEFAULT 'decidr' ,
+  `mtaPassword` VARCHAR(255) NOT NULL DEFAULT 'gn!le42' ,
+  `maxUploadFileSizeBytes` BIGINT NOT NULL DEFAULT 10485760 COMMENT 'Default is 10 MB.' ,
+  `maxAttachmentsPerEmail` INT NOT NULL DEFAULT 10 ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_system_settings_user` (`superAdminId` ASC) ,
   CONSTRAINT `fk_system_settings_user`
@@ -798,7 +808,7 @@ WHERE (w.executable = true);
 -- View `decidrdb`.`invitation_view`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `decidrdb`.`invitation_view`;
-# A view on invitations that includes the names of the joined tenant, sender, receiver and workflow model
+# A view on invitations that includes the sender's full name
 CREATE VIEW `decidrdb`.`invitation_view` AS
 SELECT i.*, snd.firstName AS senderFirstName, snd.lastName AS senderLastName,
        rcv.firstName AS receiverFirstName, rcv. lastName AS receiverLastName,
@@ -1004,6 +1014,17 @@ END;//
 
 
 DELIMITER ;
+
+-- -----------------------------------------------------
+-- Data for table `decidrdb`.`server_type`
+-- -----------------------------------------------------
+SET AUTOCOMMIT=0;
+INSERT INTO `server_type` (`id`, `name`) VALUES (1, 'Ode');
+INSERT INTO `server_type` (`id`, `name`) VALUES (2, 'WebPortal');
+INSERT INTO `server_type` (`id`, `name`) VALUES (3, 'Esb');
+INSERT INTO `server_type` (`id`, `name`) VALUES (4, 'Storage');
+
+COMMIT;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
