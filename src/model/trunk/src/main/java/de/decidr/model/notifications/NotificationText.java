@@ -1173,4 +1173,39 @@ public class NotificationText {
         return message;
     }
 
+    /**
+     * 
+     * GH: Add text
+     * 
+     * @param location
+     * @return
+     */
+    public static String getRequestNewODEInstanceHTML(String location){
+        String message = "";
+        return message;
+    }
+
+    /**
+     * 
+     * GH: Add text
+     * 
+     * @param location
+     * @return
+     */
+    public static String getRequestNewODEInstanceText(String location){
+        String message = "";
+        return message;
+    }
+
+    /**
+     * 
+     * GH: Add text
+     * 
+     * @param location
+     * @return
+     */
+    public static String getRequestNewODEInstanceSubject(){
+        String message = "";
+        return message;
+    }
 }
