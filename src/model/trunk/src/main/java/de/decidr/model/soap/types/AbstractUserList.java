@@ -77,4 +77,13 @@ public class AbstractUserList {
         }
         return this.abstractUser;
     }
+    
+    /**
+     * Sets the Abstract user list.
+     * 
+     * @param list the new list
+     */
+    public void setAbstractUser(List<AbstractUser> list) {
+        this.abstractUser = list;
+    }
 }

@@ -1,7 +1,6 @@
 package de.decidr.model.commands.tenant;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.InvalidPropertiesFormatException;
 
@@ -61,24 +60,30 @@ public class SetTenantLogoCommand extends TenantCommand {
             throws TransactionException {
 
         StorageProviderFactory factory;
+        
+        Tenant tenant = (Tenant) evt.getSession().load(Tenant.class,
+                getTenantId());
+        File logoFile;
 
-        File logoFile = new File();
+        if(tenant.getAdvancedColorScheme()==null){
+            logoFile = new File();    
+        }
+        else{
+            logoFile = tenant.getAdvancedColorScheme();
+        }
+
         logoFile.setMimeType(mimeType);
         logoFile.setMayPublicRead(true);
         logoFile.setFileName(fileName);
 
         evt.getSession().save(logoFile);
-
-        Tenant tenant = (Tenant) evt.getSession().load(Tenant.class,
-                getTenantId());
+        
         tenant.setLogo(logoFile);
         evt.getSession().update(tenant);
 
         try {
             factory = StorageProviderFactory.getDefaultFactory();
         } catch (InvalidPropertiesFormatException e) {
-            throw new TransactionException(e);
-        } catch (FileNotFoundException e) {
             throw new TransactionException(e);
         } catch (IOException e) {
             throw new TransactionException(e);

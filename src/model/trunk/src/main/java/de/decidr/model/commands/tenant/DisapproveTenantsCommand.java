@@ -47,7 +47,7 @@ public class DisapproveTenantsCommand extends AclEnabledCommand {
                     tenantid);
             if (tenant != null) {
                 if (tenant.getApprovedSince() == null) {
-                    NotificationEvents.disapprovedTenant(tenant.getAdmin().getEmail(), tenant.getName());
+                    NotificationEvents.disapprovedTenant(tenant.getAdmin(), tenant.getName());
                     evt.getSession().delete(tenant);
                 }
 

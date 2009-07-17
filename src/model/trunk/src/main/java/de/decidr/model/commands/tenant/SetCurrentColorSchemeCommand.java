@@ -53,16 +53,24 @@ public class SetCurrentColorSchemeCommand extends TenantCommand {
             throws TransactionException {
         
         StorageProviderFactory factory;
+        Tenant tenant = (Tenant) evt.getSession().load(Tenant.class,
+                getTenantId());
+        File schemeFile;
 
-        File schemeFile = new File();
+        if(tenant.getAdvancedColorScheme()==null){
+            schemeFile = new File();    
+        }
+        else{
+            schemeFile = tenant.getAdvancedColorScheme();
+        }
+        
         schemeFile.setMimeType(mimeType);
         schemeFile.setMayPublicRead(true);
         schemeFile.setFileName(fileName);
 
         evt.getSession().save(schemeFile);
 
-        Tenant tenant = (Tenant) evt.getSession().load(Tenant.class,
-                getTenantId());
+        
         tenant.setCurrentColorScheme(schemeFile);
         evt.getSession().update(tenant);
 

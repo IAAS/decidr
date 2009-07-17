@@ -24,6 +24,8 @@ package de.decidr.model.exceptions;
  */
 public class IncompleteConfigurationException extends Exception {
 
+    private static final long serialVersionUID = 1L;
+
     public IncompleteConfigurationException() {
         super();
     }

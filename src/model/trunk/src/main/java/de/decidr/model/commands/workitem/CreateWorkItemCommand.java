@@ -16,6 +16,8 @@
 
 package de.decidr.model.commands.workitem;
 
+import java.net.MalformedURLException;
+
 import org.hibernate.Query;
 
 import de.decidr.model.DecidrGlobals;
@@ -25,6 +27,7 @@ import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.enums.WorkItemStatus;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Permission;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
@@ -75,7 +78,7 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt) {
+    public void transactionAllowed(TransactionEvent evt) throws TransactionException {
         /*
          * A workflow instance is also uniquely identified by its deployed
          * workflow model and the ode process id. We're using this fact here to
@@ -106,7 +109,11 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
         workItemId = newWorkItem.getId();
 
         if (notifyUser) {
-            NotificationEvents.createdWorkItem(newWorkItem);
+            try {
+                NotificationEvents.createdWorkItem(newWorkItem);
+            } catch (MalformedURLException e) {
+                throw new TransactionException(e);
+            }
         }
     }
 

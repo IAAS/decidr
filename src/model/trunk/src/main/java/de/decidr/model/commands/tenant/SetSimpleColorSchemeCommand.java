@@ -54,15 +54,26 @@ public class SetSimpleColorSchemeCommand extends TenantCommand {
         
         StorageProviderFactory factory;
 
-        File schemeFile = new File();
+
+        Tenant tenant = (Tenant) evt.getSession().load(Tenant.class,
+                getTenantId());
+        
+        File schemeFile;
+
+        if(tenant.getAdvancedColorScheme()==null){
+            schemeFile = new File();    
+        }
+        else{
+            schemeFile = tenant.getAdvancedColorScheme();
+        }
+
+        
         schemeFile.setMimeType(mimeType);
         schemeFile.setMayPublicRead(true);
         schemeFile.setFileName(fileName);
 
         evt.getSession().save(schemeFile);
 
-        Tenant tenant = (Tenant) evt.getSession().load(Tenant.class,
-                getTenantId());
         tenant.setSimpleColorScheme(schemeFile);
         evt.getSession().update(tenant);
 

@@ -10,6 +10,6 @@ public abstract class WorkflowInstanceCommand extends AclEnabledCommand{
 
     public WorkflowInstanceCommand(Role role, Collection<Permission> permission) {
         super(role, permission);
-        // TODO Auto-generated constructor stub
+        // nothing to do
     }
 }

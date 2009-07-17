@@ -79,7 +79,7 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
                 // Overwrite an existing password reset request
                 evt.getSession().saveOrUpdate(request);
 
-                NotificationEvents.createdPasswordResetRequest(user);
+                NotificationEvents.createdPasswordResetRequest(request);
                 requestWasCreated = true;
 
             } catch (UnsupportedEncodingException e) {
