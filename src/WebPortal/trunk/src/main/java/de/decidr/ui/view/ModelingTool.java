@@ -16,12 +16,9 @@
 
 package de.decidr.ui.view;
 
-import java.util.Map;
-
-import com.vaadin.terminal.PaintException;
-import com.vaadin.terminal.PaintTarget;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * TODO: add comment
@@ -30,39 +27,9 @@ import com.vaadin.ui.AbstractField;
  */
 public class ModelingTool extends AbstractComponent {
     
-    /**
-     * TODO: add comment
-     *
-     */
-    public ModelingTool() {
-       super();
-    }
-
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.AbstractComponent#getTag()
-     */
     @Override
     public String getTag() {
-         return "modelingtool";
-    }
-
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.AbstractField#paintContent(com.vaadin.terminal.PaintTarget)
-     */
-    @Override
-    public void paintContent(PaintTarget target) throws PaintException {
-       
-        super.paintContent(target);
-        
-    }
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.AbstractField#changeVariables(java.lang.Object, java.util.Map)
-     */
-    @Override
-    public void changeVariables(Object source, Map variables) {
-        
-        super.changeVariables(source, variables);
+        return "modelingtool";
     }
 
 }

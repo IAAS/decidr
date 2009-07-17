@@ -29,6 +29,7 @@ import com.vaadin.ui.VerticalLayout;
 import de.decidr.ui.controller.LockWorkflowModelAction;
 import de.decidr.ui.controller.PublishWorkflowModelAction;
 import de.decidr.ui.controller.RemoveWorkflowModelAction;
+import de.decidr.ui.controller.ShowModelingToolAction;
 import de.decidr.ui.controller.UnlockWorkflowModelAction;
 import de.decidr.ui.controller.UnpublishWorkflowModelAction;
 import de.decidr.ui.data.CurrentTenantContainer;
@@ -69,6 +70,7 @@ public class WorkflowModelsComponent extends CustomComponent {
     private NativeSelect nativeSelect = null;
     
     private Button createNewModelButton = null;
+    private Button editWorkflowModelButton = null;
     private Button removeModelButton = null;
     private Button lockModelButton = null;
     private Button unlockModelButton = null;
@@ -126,7 +128,8 @@ public class WorkflowModelsComponent extends CustomComponent {
            
        });
        
-       createNewModelButton = new Button("Create new model");
+       createNewModelButton = new Button("Create new model", new ShowModelingToolAction());
+       editWorkflowModelButton = new Button("Edit model", new ShowModelingToolAction());
        removeModelButton = new Button("Remove", new RemoveWorkflowModelAction(currentTenantTable));
        lockModelButton = new Button("Lock", new LockWorkflowModelAction(currentTenantTable));
        unlockModelButton = new Button("Unlock", new UnlockWorkflowModelAction(currentTenantTable));
@@ -144,6 +147,7 @@ public class WorkflowModelsComponent extends CustomComponent {
        searchPanel.getSearchHorizontalLayout().addComponent(nativeSelect);
        
        verticalLayout.addComponent(createNewModelButton);
+       verticalLayout.addComponent(editWorkflowModelButton);
        verticalLayout.addComponent(currentTenantTable);
        verticalLayout.addComponent(buttonPanel);
        

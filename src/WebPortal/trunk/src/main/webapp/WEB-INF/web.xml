@@ -13,8 +13,7 @@
   	</init-param>
   	<init-param>
             <param-name>widgetset</param-name>
-            <param-value>
-                de.decidr.ui.gwt.ModelingToolWidgetSet</param-value>
+            <param-value>de.decidr.ui.view.MainWidgetset</param-value>
     </init-param>  	
   </servlet>
   <servlet-mapping>
