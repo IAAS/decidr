@@ -69,6 +69,13 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     private ArrayList<TransactionalCommand> notifiedReceivers = null;
 
     /**
+     * @return the singleton instance.
+     */
+    public static HibernateTransactionCoordinator getInstance() {
+        return instance;
+    }
+
+    /**
      * Constructor.
      */
     private HibernateTransactionCoordinator() {
@@ -77,6 +84,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 .buildSessionFactory();
         this.currentTransaction = null;
         this.transactionDepth = 0;
+        this.session = null;
         this.notifiedReceivers = new ArrayList<TransactionalCommand>();
     }
 
@@ -132,6 +140,14 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 transactionDepth = 0;
             }
         }
+    }
+
+    /**
+     * @return the current Hibernate session or null if no session has been
+     *         opened yet. The returned session is not necessarily open.
+     */
+    public Session getCurrentSession() {
+        return session;
     }
 
     /**
@@ -227,13 +243,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         TransactionAbortedEvent event = new TransactionAbortedEvent(session,
                 caughtException, transactionDepth > 1);
         receiver.transactionAborted(event);
-    }
-
-    /**
-     * @return the singleton instance.
-     */
-    public static TransactionCoordinator getInstance() {
-        return instance;
     }
 
 }

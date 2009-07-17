@@ -22,6 +22,8 @@ import java.util.TimeZone;
 import org.hibernate.Session;
 
 import de.decidr.model.entities.SystemSettings;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.transactions.HibernateTransactionCoordinator;
 
 /**
  * FIXME add documentation<br>
@@ -51,15 +53,35 @@ public class DecidrGlobals {
     }
 
     /**
-     * Fetches the current system settings.
+     * Fetches the current system settings from the database.
      * 
      * @param session
-     *            TODO document
+     *            the hibernate session that will be used to retrieve the
+     *            settings.
      * @return the current system settings.
      */
     public static SystemSettings getSettings(Session session) {
+        if (session == null) {
+            session = HibernateTransactionCoordinator.getInstance()
+                    .getCurrentSession();
+        }
+
+        if (!session.isOpen()) {
+            throw new IllegalArgumentException(
+                    "An open session is required to fetch the system settings.");
+        }
+
         String hql = "from SystemSettings limit 1";
         return (SystemSettings) session.createQuery(hql).uniqueResult();
+    }
+
+    /**
+     * Fetches the current system settings from the database.
+     * 
+     * @return the current system settings.
+     */
+    public static SystemSettings getSettings() {
+        return getSettings(null);
     }
 
     public static String getWebServiceLocationOnESB() {

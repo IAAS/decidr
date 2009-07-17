@@ -20,6 +20,10 @@ public enum ServerTypeEnum {
     /**
      * Web front-end / gui
      */
-    WebPortal
+    WebPortal,
+    /**
+     * File storage provider
+     */
+    Storage
 
 }
