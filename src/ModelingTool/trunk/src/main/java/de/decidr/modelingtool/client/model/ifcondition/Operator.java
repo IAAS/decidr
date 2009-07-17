@@ -16,11 +16,54 @@
 
 package de.decidr.modelingtool.client.model.ifcondition;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import de.decidr.modelingtool.client.model.variable.VariableType;
+
 /**
  * TODO: add comment
  * 
  * @author Jonas Schlaak
  */
 public enum Operator {
-    EQUAL, NOTEQUAL, SMALLER, SMALLEREQUALS, GREATER, GREATEREQUALS, CONTAINS
+    EQUAL("=="), NOTEQUAL("!="), SMALLER("<"), SMALLEREQUALS("<="), GREATER(">"), GREATEREQUALS(
+            ">="), CONTAINS("?=");
+
+    private String displayString;
+    private VariableType[] types;
+
+    private Operator(String displayString, VariableType... types) {
+        this.displayString = displayString;
+        this.types = types;
+    }
+
+    public String getDisplayString() {
+        return displayString;
+    }
+
+    public VariableType[] getTypes() {
+        return types;
+    }
+
+    public List<Operator> getOperatorsForType(VariableType type) {
+        List<Operator> list = new ArrayList<Operator>();
+        for (Operator op : Operator.values()) {
+            if (op.hasType(type)) {
+                list.add(op);
+            }
+        }
+        return list;
+    }
+
+    private boolean hasType(VariableType type) {
+        boolean result = false;
+        for (VariableType t : types) {
+            if (t == type) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
 }

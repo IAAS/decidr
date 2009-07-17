@@ -16,40 +16,48 @@
 
 package de.decidr.modelingtool.client.model.ifcondition;
 
-import java.util.List;
-
-import de.decidr.modelingtool.client.model.ContainerModel;
-import de.decidr.modelingtool.client.model.HasChildModels;
-
 /**
  * TODO: add comment
  * 
- * @author JE
+ * @author Jonas Schlaak
  */
-public class IfContainerModel extends ContainerModel {
+public class Condition {
 
-    private List<Condition> conditions;
+    private String label;
+    private Long operand1;
+    private Operator operator;
+    private Long operand2;
 
-    public IfContainerModel() {
-        super();
+    public String getLabel() {
+        return label;
     }
 
-    /**
-     * TODO: add comment
-     * 
-     * @param parentModel
-     */
-    public IfContainerModel(HasChildModels parentModel) {
-        super(parentModel);
-        // TODO Auto-generated constructor stub
+    public Long getOperand1() {
+        return operand1;
     }
 
-    public List<Condition> getConditions() {
-        return conditions;
+    public Operator getOperator() {
+        return operator;
     }
 
-    public void setConditions(List<Condition> conditions) {
-        this.conditions = conditions;
+    public Long getOperand2() {
+        return operand2;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public void setOperand1(Long operand1) {
+        this.operand1 = operand1;
+    }
+
+    public void setOperator(Operator operator) {
+        this.operator = operator;
+    }
+
+    public void setOperand2(Long operand2) {
+        this.operand2 = operand2;
     }
 
 }
