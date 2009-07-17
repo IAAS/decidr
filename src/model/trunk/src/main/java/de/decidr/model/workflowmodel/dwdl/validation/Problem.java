@@ -24,4 +24,22 @@ package de.decidr.model.workflowmodel.dwdl.validation;
  */
 public class Problem implements IProblem {
 
+    private String errorDescription = null;
+    private String errorPosition = null;
+    
+    public Problem(String desciption, String position){
+        errorDescription = desciption;
+        errorPosition = position;
+    }
+    
+    @Override
+    public String getErrorDescription() {
+        return errorDescription;
+    }
+
+    @Override
+    public String getErrorPosition() {
+        return errorPosition;
+    }
+
 }
