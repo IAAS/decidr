@@ -16,7 +16,10 @@
 
 package de.decidr.modelingtool.client.menu;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.ImageBundle;
 import com.google.gwt.user.client.ui.MenuBar;
+
 
 /**
  * TODO: add comment
@@ -33,14 +36,26 @@ public class Menu extends MenuBar {
 
         // MenuBar createMenu = new MenuBar(true);
         // createMenu.addItem("Email", new CreateEmailInvokeNodeMenuItem());
-        // createMenu.addItem("Human Task",
-        // new CreateHumanTaskInvokeNodeMenuItem());
+        // createMenu.addItem("HumanTask", new
+        // CreateHumanTaskInvokeNodeMenuItem());
+        // createMenu.addItem("Flow Container", new
+        // CreateFlowContainerMenuItem());
+        // createMenu.addItem("If Container", new CreateIfContainerMenuItem());
+        // createMenu.addItem("For Each Container", new
+        // CreateForEachContainerMenuItem());
 
-        addItem("Undo", new UndoMenuItem());
-        addItem("Redo", new RedoMenuItem());
-        addItem("Create Email", new CreateEmailInvokeNodeMenuItem());
-        addItem("Create HumanTask", new CreateHumanTaskInvokeNodeMenuItem());
-        addItem("Delete", new DeleteMenuItem());
+        MenuImageBundle imgBundle = GWT.create(MenuImageBundle.class);
+
+        addItem(imgBundle.undo().getHTML(), true, new UndoMenuItem());
+        addItem(imgBundle.redo().getHTML(), true, new RedoMenuItem());
+        addItem(imgBundle.save().getHTML(), true, new SaveMenuItem());
+        addItem(imgBundle.delete().getHTML(), true, new DeleteMenuItem());
+
+        addItem(imgBundle.email().getHTML(), true,
+                new CreateEmailInvokeNodeMenuItem());
+        addItem(imgBundle.humantask().getHTML(), true,
+                new CreateHumanTaskInvokeNodeMenuItem());
+
         addItem("Edit Variables", new EditVariablesMenuItem());
 
     }

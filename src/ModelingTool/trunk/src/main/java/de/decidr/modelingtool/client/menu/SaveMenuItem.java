@@ -14,21 +14,24 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client;
+package de.decidr.modelingtool.client.menu;
 
-import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.Command;
 
 /**
  * TODO: add comment
- * 
- * @author Jonas
+ *
+ * @author JE
  */
-public class ModelingToolComposite extends Composite {
+public class SaveMenuItem implements Command {
 
-    public ModelingToolComposite() {
-        ModelingToolWidget mtw = new ModelingToolWidget();
-        mtw.init(0L);
-        this.initWidget(mtw);
+    /* (non-Javadoc)
+     * @see com.google.gwt.user.client.Command#execute()
+     */
+    @Override
+    public void execute() {
+        // TODO Auto-generated method stub
+
     }
 
 }
