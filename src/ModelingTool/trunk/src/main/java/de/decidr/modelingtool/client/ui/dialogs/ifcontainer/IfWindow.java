@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ChangeNodeModelCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
+import de.decidr.modelingtool.client.model.ifcondition.Condition;
 import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
 import de.decidr.modelingtool.client.ui.IfContainer;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
@@ -108,9 +109,25 @@ public class IfWindow extends Dialog {
     }
 
     private void createFields() {
-        // JS: replace stub
-        node.getConnections();
-        model.getChildNodeModels();
+        // JS: remove this lines
+        Condition con1 = new Condition();
+        con1.setLabel("muhaha");
+        model.getConditions().add(new Condition());
+        for (Condition con : model.getConditions()) {
+            table.insertRow(table.getRowCount());
+            // JS make fields sets accessible
+            FieldSet fieldset = new FieldSet(con);
+            table.setWidget(table.getRowCount() - 1, 0, fieldset.getLabel());
+            table.setWidget(table.getRowCount() - 1, 1, fieldset
+                    .getTypeSelector());
+            table.setWidget(table.getRowCount() - 1, 2, fieldset
+                    .getOperand1Field());
+            table.setWidget(table.getRowCount() - 1, 3, fieldset
+                    .getOperatorList());
+//            table.setWidget(table.getRowCount() - 1, 4, fieldset
+//                    .getOperand2Field());
+
+        }
     }
 
     private void clearAllEntries() {

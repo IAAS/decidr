@@ -27,8 +27,12 @@ import de.decidr.modelingtool.client.model.variable.VariableType;
  * @author Jonas Schlaak
  */
 public enum Operator {
-    EQUAL("=="), NOTEQUAL("!="), SMALLER("<"), SMALLEREQUALS("<="), GREATER(">"), GREATEREQUALS(
-            ">="), CONTAINS("?=");
+    // JS finish
+    EQUAL("==", VariableType.STRING, VariableType.INTEGER, VariableType.BOOLEAN), NOTEQUAL(
+            "!=", VariableType.STRING, VariableType.INTEGER,
+            VariableType.BOOLEAN), SMALLER("<", VariableType.INTEGER), SMALLEREQUALS(
+            "<="), GREATER(">"), GREATEREQUALS(">="), CONTAINS("?=",
+            VariableType.STRING);
 
     private String displayString;
     private VariableType[] types;
@@ -46,7 +50,7 @@ public enum Operator {
         return types;
     }
 
-    public List<Operator> getOperatorsForType(VariableType type) {
+    public static List<Operator> getOperatorsForType(VariableType type) {
         List<Operator> list = new ArrayList<Operator>();
         for (Operator op : Operator.values()) {
             if (op.hasType(type)) {
@@ -56,6 +60,7 @@ public enum Operator {
         return list;
     }
 
+    // JS rename this method
     private boolean hasType(VariableType type) {
         boolean result = false;
         for (VariableType t : types) {

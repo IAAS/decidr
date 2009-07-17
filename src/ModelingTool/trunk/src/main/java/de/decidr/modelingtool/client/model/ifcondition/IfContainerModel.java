@@ -16,6 +16,7 @@
 
 package de.decidr.modelingtool.client.model.ifcondition;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.decidr.modelingtool.client.model.ContainerModel;
@@ -41,6 +42,7 @@ public class IfContainerModel extends ContainerModel {
      */
     public IfContainerModel(HasChildModels parentModel) {
         super(parentModel);
+        conditions = new ArrayList<Condition>();
         // TODO Auto-generated constructor stub
     }
 

@@ -80,6 +80,8 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
     }
 
     public void createFields(HumanTaskInvokeNodeModel model) {
+        taskTable.insertRow(taskTable.getRowCount());
+
         userField = new ComboBox<Variable>();
         userField.setDisplayField(Variable.NAME);
         userField.setStore(VariablesFilter
@@ -88,7 +90,6 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
                 .getUserVariableId()));
         userField.setTypeAhead(true);
         userField.setWidth("200px");
-        taskTable.insertRow(taskTable.getRowCount());
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
                 ModelingToolWidget.messages.userLabel()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, userField);
@@ -131,7 +132,8 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
     private void createToolBar() {
         ToolBar toolBar = new ToolBar();
 
-        TextToolItem addVar = new TextToolItem(ModelingToolWidget.messages.addValue()); //$NON-NLS-1$
+        TextToolItem addVar = new TextToolItem(ModelingToolWidget.messages
+                .addValue()); //$NON-NLS-1$
         addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
@@ -140,7 +142,8 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         });
         toolBar.add(addVar);
 
-        TextToolItem delVar = new TextToolItem(ModelingToolWidget.messages.delValue()); //$NON-NLS-1$
+        TextToolItem delVar = new TextToolItem(ModelingToolWidget.messages
+                .delValue()); //$NON-NLS-1$
         delVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
@@ -153,10 +156,11 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
     }
 
     private void addEntry(String label, Long variableId) {
+        taskTable.insertRow(taskTable.getRowCount());
+
         TextField<String> labelField = new TextField<String>();
         labelField.setValue(label);
         labelField.setAutoWidth(true);
-        taskTable.insertRow(taskTable.getRowCount());
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
                 ModelingToolWidget.messages.workItemLabel()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, labelField);
@@ -165,16 +169,15 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         variableField.setDisplayField(Variable.NAME);
         variableField.setStore(VariablesFilter.getAllVariables());
         if (variableId != null) {
-            variableField.setValue(VariablesFilter
-                    .getVariableById(variableId));
+            variableField.setValue(VariablesFilter.getVariableById(variableId));
         }
         variableField.setTypeAhead(true);
         taskTable.setWidget(taskTable.getRowCount() - 1, 2, new Label(
                 ModelingToolWidget.messages.workItemOutputVar()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 3, variableField);
 
-        formElementFields.add(new FormElementFieldSet(labelField,
-                variableField));
+        formElementFields
+                .add(new FormElementFieldSet(labelField, variableField));
     }
 
     private void removeEntry() {

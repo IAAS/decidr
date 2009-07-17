@@ -22,6 +22,7 @@ import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
 import de.decidr.modelingtool.client.model.FlowContainerModel;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
+import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
 
 /**
  * This is a stub to simulate loading and saving a workflow model.
@@ -61,6 +62,10 @@ public class WorkflowIOStub implements WorkflowIO {
         forEachModel.setChangeListenerPosition(50, 250);
         forEachModel.setChangeListenerSize(150, 130);
         workflowModel.addNodeModel(forEachModel);
+        
+        IfContainerModel ifModel = new IfContainerModel(workflowModel
+                );
+        workflowModel.addNodeModel(ifModel);
         
         return workflowModel;
     }
