@@ -3,8 +3,6 @@ package de.decidr.model.facades;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Level;
-
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 
@@ -13,7 +11,6 @@ import de.decidr.model.commands.system.AddServerCommand;
 import de.decidr.model.commands.system.GetLogCommand;
 import de.decidr.model.commands.system.GetServerStatisticsCommand;
 import de.decidr.model.commands.system.GetSystemSettingsCommand;
-import de.decidr.model.commands.system.LockServerCommand;
 import de.decidr.model.commands.system.RemoveServerCommand;
 import de.decidr.model.commands.system.SetSystemSettingsCommand;
 import de.decidr.model.commands.system.UnLockServerCommand;
@@ -21,6 +18,7 @@ import de.decidr.model.commands.system.UpdateServerLoadCommand;
 import de.decidr.model.entities.Log;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
+import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
@@ -54,57 +52,67 @@ public class SystemFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the current system settings as item with the following
-     * properties:<br>
-     * - logLevel<br>
-     * - autoAcceptNewTenants<br>
-     * FIXME add all system property <br>
+     * Returns the current system settings as a Vaadin item with the following
+     * properties:
+     * <ul>
+     * <li>autoAcceptNewTenants: Boolean - whether new tenants don't have to be
+     * approved by the super admin</li>
+     * <li>systemName: String - name of the system (usually "DecidR")</li>
+     * <li>domain: String - domain where the system can be reached
+     * ("decidr.de"). Used for URL generation.</li>
+     * <li>systemEmailAddress: String - from-Address to use when sending
+     * notifications to users</li>
+     * <li>logLevel: String - current global log level</li>
+     * <li>passwordResetRequestLifeTimeSeconds: Integer - the user has this many
+     * seconds to confirm his password reset.</li>
+     * <li>registrationRequestLifetimeSeconds: Integer - the user has this many
+     * seconds to confirm his registration.</li>
+     * <li>changeEmailRequestLifetimeSeconds: Integer - the user has this many
+     * seconds to confirm his new email address</li>
+     * <li>invitationLifetimeSeconds: Integer - the user has this many seconds
+     * to confirm or reject an invitation.</li>
+     * <li>mtaHostname: String - mail transfer agent hostname.</li>
+     * <li>mtaPort: Integer - mail transfer agent port.</li>
+     * <li>mtaUseTls: Boolean - whether transport layer security should be used
+     * when sending emails.</li>
+     * <li>mtaUsername: String - username to use when sending email.</li>
+     * <li>mtaPassword: String - password to use when seding email</li>
+     * <li>maxUploadFileSizeByte: Long - maximum filesize for any file uploads</li>
+     * <li>maxAttachmentsPerEmail: Integer - maximum number of attachments an
+     * email sent by the system can have.</li>
+     * </ul>
      * 
      * @return system settings as item
      * @throws TransactionException
      *             if an error occurs during the transaction
-     * 
      */
     @AllowedRole(SuperAdminRole.class)
     public Item getSettings() throws TransactionException {
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
-
         GetSystemSettingsCommand command = new GetSystemSettingsCommand(actor);
-        String[] properties = { "logLevel", "autoAcceptNewTenants" };
-
-        tac.runTransaction(command);
-
+        String[] properties = { "autoAcceptNewTenants", "systemName", "domain",
+                "systemEmailAddress", "logLevel",
+                "passwordResetRequestLifeTimeSeconds",
+                "registrationRequestLifetimeSeconds",
+                "changeEmailRequestLifetimeSeconds",
+                "invitationLifetimeSeconds", "mtaHostname", "mtaPort",
+                "mtaUseTls", "mtaUsername", "mtaPassword",
+                "maxUploadFileSizeByte", "maxAttachmentsPerEmail" };
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
         return new BeanItem(command.getResult(), properties);
-
     }
 
     /**
-     * 
-     * Sets the given system settings.<br>
-     * <br>
-     * <i>AutoAcceptNewTenants</i> - new tenants will be automatically accepted
-     * by the system and don't have to be approved manually by the super admin<br>
-     * <br>
-     * <i>LogLever</i> - System wide log level setting
-     * 
-     * FIXME add all system settings
+     * Sets the given system settings.
      * 
      * @throws TransactionException
-     *             if an error occurs during the transaction
-     * 
+     *             if an error occurs during the transaction s
      */
     @AllowedRole(SuperAdminRole.class)
-    public void setSettings(Boolean AutoAcceptNewTenants, Level loglevel)
+    public void setSettings(SystemSettings newSettings)
             throws TransactionException {
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         SetSystemSettingsCommand command = new SetSystemSettingsCommand(actor,
-                loglevel, AutoAcceptNewTenants);
-
-        tac.runTransaction(command);
+                newSettings);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
     }
 
@@ -154,6 +162,7 @@ public class SystemFacade extends AbstractFacade {
     }
 
     /**
+     * FIXME how does our server load updater work??
      * 
      * Updates the load of the representative object of the server at the
      * database. The load must be in the range of 0 to 100. If given server does
@@ -186,34 +195,14 @@ public class SystemFacade extends AbstractFacade {
     }
 
     /**
+     * Sets or releases the lock flag of the given server. If server does not
+     * exist, no exception is thrown.
      * 
-     * Sets the lock flag of the representative object for the given server. If
-     * Server does not exist, nothing will happen.
-     * 
-     * @param location
-     *            location of the server representative which should be deleted
-     * 
-     * @throws TransactionException
-     *             if an error occurs during the transaction
-     * 
-     */
-    // XXX ODE monitor needs to do this, too
-    @AllowedRole(SuperAdminRole.class)
-    public void lockServer(String location) throws TransactionException {
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
-        LockServerCommand command = new LockServerCommand(actor, location);
-
-        tac.runTransaction(command);
-    }
-
-    /**
-     * 
-     * Releases the lock flag of the representative object for the given server.
-     * If Server does not exist, nothing will happen.
-     * 
-     * @param location
-     *            location of the server representative which should be deleted
+     * @param serverId
+     *            id of server to lock or unlock
+     * @param lock
+     *            whether the server should be locked. If false, the server will
+     *            be unlocked
      * 
      * @throws TransactionException
      *             if an error occurs during the transaction
@@ -221,13 +210,11 @@ public class SystemFacade extends AbstractFacade {
      */
     // XXX ODE monitor needs to do this, too
     @AllowedRole(SuperAdminRole.class)
-    public void unlockServer(String location) throws TransactionException {
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
-        UnLockServerCommand command = new UnLockServerCommand(actor, location);
-
-        tac.runTransaction(command);
+    public void setServerLock(Long serverId, Boolean lock)
+            throws TransactionException {
+        UnLockServerCommand command = new UnLockServerCommand(actor, serverId,
+                lock);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
@@ -269,15 +256,18 @@ public class SystemFacade extends AbstractFacade {
     }
 
     /**
-     * Returns a list of the existing unlocked servers as Item list. Each Item
-     * has the following properties:<br>
-     * - id<br>
-     * - location<br>
-     * - load<br>
-     * - numInstances<br>
-     * - dynamicallyAdded
+     * Returns a list of the existing unlocked servers as a list of Vaadin
+     * items. Each item has the following properties:
+     * <ul>
+     * <li>id: Long - the server id</li>
+     * <li>location: String - server location (url or hostname)</li>
+     * <li>load: Byte - the server load in percent</li>
+     * <li>numInstances: Long - the number of workflow instances on that server</li>
+     * <li>dynamicallyAdded: Boolean - whether the server was dynamically added</li>
+     * <li>serverType: String - type of server</li>
+     * </ul>
      * 
-     * @return ServerStatistics as a List of Items
+     * @return ServerStatistics as a list of Vaadin items
      * @throws TransactionException
      *             if an error occurs during the transaction
      * 
@@ -285,24 +275,20 @@ public class SystemFacade extends AbstractFacade {
     @SuppressWarnings("unchecked")
     @AllowedRole(SuperAdminRole.class)
     public List<Item> getServerStatistics() throws TransactionException {
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         GetServerStatisticsCommand command = new GetServerStatisticsCommand(
                 actor);
 
-        List<Item> outList = new ArrayList<Item>();
-        List<ServerLoadView> inList = new ArrayList();
+        List<ServerLoadView> servers = new ArrayList();
         String[] properties = { "id", "location", "load", "numInstances",
-                "dynamicallyAdded" };
+                "dynamicallyAdded", "serverType" };
 
-        tac.runTransaction(command);
-        inList = command.getResult();
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+        servers = command.getResult();
 
-        for (ServerLoadView server : inList) {
-            outList.add(new BeanItem(server, properties));
+        List<Item> result = new ArrayList<Item>();
+        for (ServerLoadView server : servers) {
+            result.add(new BeanItem(server, properties));
         }
-
-        return outList;
+        return result;
     }
 }

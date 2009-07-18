@@ -1,10 +1,5 @@
 package de.decidr.model.commands.system;
 
-import java.util.List;
-
-import org.apache.log4j.Level;
-import org.hibernate.Query;
-
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
@@ -15,50 +10,61 @@ import de.decidr.model.transactions.TransactionEvent;
  * Sets the System Settings.
  * 
  * @author Markus Fischer
- *
+ * @author Daniel Huss
+ * 
  * @version 0.1
  */
 public class SetSystemSettingsCommand extends SystemCommand {
 
-    private Level loglevel;
-    private Boolean autoAcceptNewTenants;
-       
-/**
- * Sets the system settings loglevel and autoAcceptNewTenants.
- * 
- * @param role the user which executes the command
- * @param loglevel
- * @param autoAcceptNewTenants
- */
-    public SetSystemSettingsCommand(Role role, Level loglevel, Boolean autoAcceptNewTenants) {
-        super(role, null);
-        
-        this.loglevel=loglevel;
-        this.autoAcceptNewTenants=autoAcceptNewTenants;
+    private SystemSettings newSettings;
+
+    /**
+     * Sets the system settings loglevel and autoAcceptNewTenants.
+     * 
+     * @param role
+     *            the user which executes the command
+     */
+    public SetSystemSettingsCommand(Role actor, SystemSettings newSettings) {
+        super(actor, null);
+        this.newSettings = newSettings;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt) throws TransactionException {
-        
-        Query q = evt.getSession().createQuery("from SystemSettings");
-        List<SystemSettings> results = q.list();
-        SystemSettings newSettings = null;
-        
-        if(results.size()>1){
-            throw new TransactionException("More than one SystemSettings found, but SystemSettings must be unique");
-        }
-        else if(results.size()==0){
-            throw new EntityNotFoundException(SystemSettings.class);
-        }else{
-            newSettings = results.get(0);
-            newSettings.setAutoAcceptNewTenants(autoAcceptNewTenants);
-            newSettings.setLogLevel(loglevel.toString());
-            evt.getSession().update(newSettings);
-        }  
+    public void transactionAllowed(TransactionEvent evt)
+            throws TransactionException {
+        SystemSettings currentSettings = (SystemSettings) evt.getSession()
+                .createQuery("from SystemSettings limit 1").uniqueResult();
 
-       
-        
+        if (currentSettings == null) {
+            throw new EntityNotFoundException(SystemSettings.class);
+        }
+
+        currentSettings.setAutoAcceptNewTenants(newSettings
+                .isAutoAcceptNewTenants());
+        currentSettings.setChangeEmailRequestLifetimeSeconds(newSettings
+                .getChangeEmailRequestLifetimeSeconds());
+        currentSettings.setDomain(newSettings.getDomain());
+        currentSettings.setInvitationLifetimeSeconds(newSettings
+                .getInvitationLifetimeSeconds());
+        currentSettings.setLogLevel(newSettings.getLogLevel());
+        currentSettings.setMaxAttachmentsPerEmail(newSettings
+                .getMaxAttachmentsPerEmail());
+        currentSettings.setMaxUploadFileSizeBytes(newSettings
+                .getMaxUploadFileSizeBytes());
+        currentSettings.setMtaHostname(newSettings.getMtaHostname());
+        currentSettings.setMtaPassword(newSettings.getMtaPassword());
+        currentSettings.setMtaPort(newSettings.getMtaPort());
+        currentSettings.setMtaUsername(newSettings.getMtaUsername());
+        currentSettings.setMtaUseTls(newSettings.isMtaUseTls());
+        currentSettings.setPasswordResetRequestLifetimeSeconds(newSettings
+                .getPasswordResetRequestLifetimeSeconds());
+        currentSettings.setRegistrationRequestLifetimeSeconds(newSettings
+                .getRegistrationRequestLifetimeSeconds());
+        currentSettings.setSystemEmailAddress(newSettings
+                .getSystemEmailAddress());
+        currentSettings.setSystemName(newSettings.getSystemName());
+
+        evt.getSession().update(currentSettings);
     }
 
 }
