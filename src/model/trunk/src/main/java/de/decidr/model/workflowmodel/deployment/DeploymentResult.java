@@ -41,4 +41,6 @@ public interface DeploymentResult {
     
     public void setSOAPMessage(SOAPMessage soap);
 
+    public byte[] getSOAPTemplate();
+
 }

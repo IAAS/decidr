@@ -17,6 +17,7 @@
 package de.decidr.model.commands.workflowmodel;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Query;
 
@@ -65,47 +66,55 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException, WorkflowModelNotStartableException {
-        
+
         InstanceManagerImpl iManager = new InstanceManagerImpl();
-        
+
         // create instance in database
         WorkflowInstance instance = new WorkflowInstance();
         instance.setStartedDate(DecidrGlobals.getTime().getTime());
         instance.setStartConfiguration(startConfiguration);
-                
+
         evt.getSession().save(instance);
-        createdWorkflowInstance=instance;
-        
+        createdWorkflowInstance = instance;
+
         // get server list
         String serverStatString = "from ServerLoadView";
         Query q = evt.getSession().createQuery(serverStatString);
         List<ServerLoadView> servers = q.list();
-        
+
         // get deployed workflow model with highest version
-        String HqlString ="from DeployedWorkflowModel w where w.id = :wid and w.version = (select max(w2.version) from DeployedWorkflowModel w2)";
+        String HqlString = "from DeployedWorkflowModel w where w.id = :wid and w.version = (select max(w2.version) from DeployedWorkflowModel w2)";
         Query q2 = evt.getSession().createQuery(HqlString);
-        
+
         DeployedWorkflowModel dwfm = (DeployedWorkflowModel) q2.uniqueResult();
-        
+
         // start instance
         try {
-            instance = iManager.startInstance(dwfm, startConfiguration, servers);
+            instance = iManager
+                    .startInstance(dwfm, startConfiguration, servers);
             evt.getSession().update(instance);
-            createdWorkflowInstance=instance;
+
+            // add instance to deployedWorkflowModel
+            Set<WorkflowInstance> instances = dwfm.getWorkflowInstances();
+            instances.add(instance);
+
+            // update deployedWorkflowModel
+            createdWorkflowInstance = instance;
+
         } catch (Exception e) {
             throw new TransactionException(e);
         }
-        
+
     }
 
     @Override
     public void transactionAborted(TransactionAbortedEvent evt)
             throws TransactionException {
-        
+
         InstanceManagerImpl iManager = new InstanceManagerImpl();
         iManager.stopInstance(createdWorkflowInstance);
         evt.getSession().delete(createdWorkflowInstance);
-        
+
     }
 
     /**

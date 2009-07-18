@@ -16,25 +16,41 @@
 
 package de.decidr.model.commands.workflowmodel;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.hibernate.Query;
 
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.entities.DeployedWorkflowModel;
+import de.decidr.model.entities.KnownWebService;
+import de.decidr.model.entities.Server;
+import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.WorkflowModel;
+import de.decidr.model.entities.WorkflowModelIsDeployedOnServer;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.workflowmodel.deployment.DeployerImpl;
+import de.decidr.model.workflowmodel.deployment.DeploymentResult;
+import de.decidr.model.workflowmodel.deployment.StandardDeploymentStrategy;
 
 /**
  * Deploys the given workflow model on the Apache ODE if it isn't already
- * deployed.
+ * deployed. The deployment result will be saved in the result variable.
  * 
  * @author Daniel Huss
+ * @author Markus Fischer
+ * 
  * @version 0.1
  */
 public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
         TransactionalCommand {
+
+    private DeployedWorkflowModel newDeployedWorkflowModel;
+    private DeploymentResult result;
 
     private DeployedWorkflowModel deployedWorkflowModel = null;
 
@@ -48,6 +64,7 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
         super(role, workflowModelId);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -67,25 +84,90 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
                 .uniqueResult();
 
         if (existing == null) {
+
             /*
              * There is no current deployed version of our workflow model, so we
              * have to deploy it now.
-             * 
-             * FIXME need deployment component to continue
              */
-            existing = null;
-        }
 
-        deployedWorkflowModel = existing;
+            DeployerImpl dManager = new DeployerImpl();
+
+            // Fill deployedWorkflowModel with data
+            DeployedWorkflowModel dwfm = new DeployedWorkflowModel();
+            dwfm.setOriginalWorkflowModel(workflowModel);
+            dwfm.setTenant(workflowModel.getTenant());
+            dwfm.setName(workflowModel.getName());
+            dwfm.setDescription(workflowModel.getDescription());
+            dwfm.setDwdl(workflowModel.getDwdl());
+            dwfm.setVersion(workflowModel.getVersion());
+
+            evt.getSession().save(dwfm);
+
+            // Create ServerStatistics
+            String hqlString = "from ServerLoadView";
+            Query q2 = evt.getSession().createQuery(hqlString);
+            List<ServerLoadView> serverStatistics = q2.list();
+
+            // Create WebserviceInformation
+            String hqlString2 = "from KnownWebService";
+            Query q3 = evt.getSession().createQuery(hqlString2);
+            List<KnownWebService> webservices = q3.list();
+
+            // deploy it
+            try {
+                result = dManager.deploy(workflowModel.getDwdl(), webservices,
+                        workflowModel.getTenant().getName(), serverStatistics,
+                        new StandardDeploymentStrategy());
+
+                // get servers on which it has been deployed
+
+                List<Long> serverId = result.getServers();
+                Set<WorkflowModelIsDeployedOnServer> dbEntry = new HashSet();
+
+                for (Long sid : serverId) {
+
+                    WorkflowModelIsDeployedOnServer entry = new WorkflowModelIsDeployedOnServer();
+                    entry.setDeployedWorkflowModel(dwfm);
+                    entry.setServer((Server) evt.getSession().load(
+                            Server.class, sid));
+
+                }
+
+                dwfm.setDeployDate(result.getDoplementDate());
+
+                dwfm.setSoapTemplate(result.getSOAPTemplate());
+
+                // XXX stay empty at the moment
+                // dwfm.setWsdl();
+
+                dwfm.setWorkflowModelIsDeployedOnServers(dbEntry);
+
+                newDeployedWorkflowModel = dwfm;
+
+            } catch (Exception e) {
+                throw new TransactionException(e);
+            }
+
+        }
     }
 
     @Override
     public void transactionAborted(TransactionAbortedEvent evt)
             throws TransactionException {
-        /*
-         * TODO (low priority) add compensation action -> try to undeploy any
-         * workflow models that have been deployed
-         */
+
+        DeployerImpl dManager = new DeployerImpl();
+
+        for (Long serverId : result.getServers()) {
+
+            try {
+                dManager.undeploy(newDeployedWorkflowModel, (Server) evt
+                        .getSession().load(Server.class, serverId));
+            } catch (Exception e) {
+                throw new TransactionException(e);
+            }
+
+        }
+
     }
 
     /**

@@ -58,5 +58,12 @@ public class DeploymentResultImpl implements DeploymentResult {
         this.servers = servers;
     }
     
+    // MA IMPLEMENT ME !!!!
+    @Override
+    public byte[] getSOAPTemplate() {
+        // MA Auto-generated method stub
+        return null;
+    }
+    
 
 }
