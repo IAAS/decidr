@@ -21,7 +21,7 @@ import java.util.List;
 import de.decidr.model.entities.ServerLoadView;
 
 /**
- * TODO: add comment
+ * MA add comment
  * 
  * @author Modood Alvi
  * @version 0.1
@@ -33,7 +33,7 @@ public class StandardDeploymentStrategy implements DeploymentStrategy {
      */
     @Override
     public List<Long> selectServer(List<ServerLoadView> serverStatistics) {
-        // TODO Auto-generated method stub
+        // MA Auto-generated method stub
         return null;
     }
 

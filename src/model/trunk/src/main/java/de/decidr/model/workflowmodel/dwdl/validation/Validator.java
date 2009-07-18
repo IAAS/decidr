@@ -57,17 +57,17 @@ public class Validator {
             
             marshaller.setSchema(schema);
         } catch (JAXBException e) {
-            // TODO Auto-generated catch block
+            // MA Auto-generated catch block
             e.printStackTrace();
         }
         catch (SAXException e) {
-            // TODO Auto-generated catch block
+            // MA Auto-generated catch block
             e.printStackTrace();
         }     
     }
     
     /**
-     * TODO: add comment
+     * MA: add comment
      * 
      * @param dwdl
      *            The DWDL workflow to validate
@@ -120,7 +120,7 @@ public class Validator {
     }
 
     /**
-     * TODO: add comment
+     * MA: add comment
      * 
      * @param dwdl
      *            The DWDL workflow to validate

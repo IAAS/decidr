@@ -19,7 +19,7 @@ package de.decidr.model.workflowmodel.dwdl.translator;
 import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 
 /**
- * TODO: add comment
+ * MA: add comment
  *
  * @author Modood Alvi
  * @version 0.1

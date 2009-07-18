@@ -31,12 +31,12 @@ import de.decidr.model.workflowmodel.dwdl.validation.Validator;
 public class DWDLValidationException extends Exception {
 
     /**
-     * TODO: add comment
+     * MA add comment
      * 
      * @param problems
      */
     public DWDLValidationException(List<IProblem> problems) {
-        // TODO Auto-generated constructor stub
+        // MA Auto-generated constructor stub
     }
 
     private static final long serialVersionUID = 1L;

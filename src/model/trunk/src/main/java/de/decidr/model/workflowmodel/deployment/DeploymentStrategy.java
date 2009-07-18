@@ -21,7 +21,7 @@ import java.util.List;
 import de.decidr.model.entities.ServerLoadView;
 
 /**
- * TODO: add comment
+ * MA add comment
  * 
  * @author Modood Alvi
  * @version 0.1
@@ -30,7 +30,7 @@ public interface DeploymentStrategy {
     
     
     /**
-     * TODO: add comment
+     * MA add comment
      *
      * @param serverStatistics
      * @return

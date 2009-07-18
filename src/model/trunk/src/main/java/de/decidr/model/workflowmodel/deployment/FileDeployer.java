@@ -44,7 +44,7 @@ public class FileDeployer {
 
 
     /**
-     * TODO: add comment
+     * MA add comment
      *
      * @param zipFile
      * @throws AxisFault

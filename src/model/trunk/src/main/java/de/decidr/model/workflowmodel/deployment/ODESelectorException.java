@@ -21,23 +21,23 @@ import java.util.List;
 import de.decidr.model.entities.ServerLoadView;
 
 /**
- * TODO: add comment
+ * MA add comment
  * 
  * @author mod2
  */
 public class ODESelectorException extends Exception {
 
     /**
-     * TODO: add comment
+     * MA add comment
      * 
      * @param serverStatistics
      */
     public ODESelectorException(List<ServerLoadView> serverStatistics) {
-        // TODO Auto-generated constructor stub
+        // MA Auto-generated constructor stub
     }
 
     /**
-     * TODO: add comment
+     * MA add comment
      */
     private static final long serialVersionUID = 1L;
 
