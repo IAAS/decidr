@@ -467,7 +467,7 @@ public class WorkflowModelFacade extends AbstractFacade {
         HibernateTransactionCoordinator.getInstance().runTransaction(startCmd,
                 saveCmd);
 
-        return startCmd.getNewWorkflowInstance().getId();
+        return startCmd.getCreatedWorkflowInstance().getId();
     }
 
     /**
