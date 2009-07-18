@@ -60,7 +60,8 @@ public class DecidrGlobals {
      * @return Returns the global DecidR version <code>{@link String}</code>.
      */
     public static String getVersion() {
-        // DH add version info (by RR)
+        // if you need a more "accurate" version please use the SVN
+        // revision number.
         return "0.0.1";
     }
 

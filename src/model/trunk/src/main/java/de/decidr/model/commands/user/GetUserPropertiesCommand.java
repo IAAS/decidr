@@ -35,7 +35,7 @@ import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Retrieves the desired properties of one or more users.
- * FIXME add doc
+ * 
  * @author Daniel Huss
  * @version 0.1
  */
@@ -46,18 +46,42 @@ public class GetUserPropertiesCommand extends AclEnabledCommand {
 
     private List<User> users = null;
 
-    public GetUserPropertiesCommand(Role role, Collection<Long> userIds,
+    /**
+     * Creates a new GetUserPropertiesCommand
+     * 
+     * @param actor
+     *            the user or system invoking this command
+     * @param userIds
+     * @param propertiesToGet
+     */
+    public GetUserPropertiesCommand(Role actor, Collection<Long> userIds,
             Collection<String> propertiesToGet) {
-        super(role, (Permission) null);
+        super(actor, (Permission) null);
         this.propertiesToGet = propertiesToGet;
         this.userIds = userIds;
     }
 
+    /**
+     * Creates a new GetUserPropertiesCommand
+     * 
+     * @param actor
+     *            the user or system invoking this command
+     * @param userIds
+     * @param propertiesToGet
+     */
     public GetUserPropertiesCommand(Role role, Collection<Long> userIds,
             String... propertiesToGet) {
         this(role, userIds, Arrays.asList(propertiesToGet));
     }
 
+    /**
+     * Creates a new GetUserPropertiesCommand
+     * 
+     * @param actor
+     *            the user or system invoking this command
+     * @param userId
+     * @param propertiesToGet
+     */
     public GetUserPropertiesCommand(Role role, Long userId,
             String... propertiesToGet) {
         this(role, new ArrayList<Long>(), propertiesToGet);
@@ -82,7 +106,7 @@ public class GetUserPropertiesCommand extends AclEnabledCommand {
     }
 
     /**
-     * @return the user
+     * @return the users
      */
     public List<User> getUser() {
         return users;

@@ -19,31 +19,42 @@ package de.decidr.model.commands.system;
 import de.decidr.model.commands.AbstractTransactionalCommand;
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.storage.StorageProvider;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * FIXME document me! 
- *
+ * Retrieves file metainformation from the database. To retrieve the acutal file
+ * contents, see {@link StorageProvider}.
+ * 
  * @author Daniel Huss
  * @version 0.1
  */
 public class GetFileCommand extends AbstractTransactionalCommand {
 
     private Long fileId;
-    
+
     private File file = null;
-    
+
+    /**
+     * Creates a new GetFileCommand
+     * 
+     * @param fileId
+     *            the file to retrieve
+     */
     public GetFileCommand(Long fileId) {
         super();
         this.fileId = fileId;
     }
-    
+
     @Override
     public void transactionStarted(TransactionEvent evt)
             throws TransactionException {
-       file = (File) evt.getSession().load(File.class, fileId);
+        file = (File) evt.getSession().load(File.class, fileId);
     }
 
+    /**
+     * @return the file
+     */
     public File getFile() {
         return file;
     }
