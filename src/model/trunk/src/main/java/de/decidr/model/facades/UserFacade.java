@@ -397,11 +397,13 @@ public class UserFacade extends AbstractFacade {
         }
     }
 
+    //FIXME Implement Me
     public void confirmRegistration(Long userId, String authKey)
             throws TransactionException {
         throw new UnsupportedOperationException();
     }
 
+    //FIXME Implement Me
     public void confirmChangeEmailRequest(Long userId, String requestAuthKey)
             throws TransactionException {
         throw new UnsupportedOperationException();
