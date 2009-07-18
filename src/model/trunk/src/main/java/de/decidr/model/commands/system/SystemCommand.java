@@ -7,11 +7,10 @@ import de.decidr.model.permissions.Permission;
 import de.decidr.model.permissions.Role;
 
 /**
- * 
  * The abstract system command. All system commands are derived from this class
- *  
+ * 
  * @author Markus Fischer
- *
+ * 
  * @version 0.1
  */
 public abstract class SystemCommand extends AclEnabledCommand {

@@ -1,43 +1,41 @@
 package de.decidr.model.commands.system;
 
-import org.hibernate.Query;
-
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Removes the server from the database. The corresponding real Server
- * will not be closed. If the server doesn't exist the command will be ignored.
+ * Removes the server from the database. The corresponding real server will not
+ * be closed. If the server doesn't exist the command will be ignored.
  * 
  * @author Markus Fischer
- *
+ * @author Daniel Huss
+ * 
  * @version 0.1
  */
 public class RemoveServerCommand extends SystemCommand {
 
-    private String location = null;
-    
+    private Long serverId = null;
+
     /**
      * 
-     * Creates a new RemoveServerCommand. The command
-     * removes the server from the database. The corresponding real Server
-     * will not be closed. If the server doesn't exist the command will be ignored.
+     * Creates a new RemoveServerCommand. The command removes the server from
+     * the database. The corresponding real server will not be closed. If the
+     * server doesn't exist the command will be ignored.
      * 
-     * @param role the user who wants to execute the command
-     * @param location the location of the server which should be unlocked
+     * @param role
+     *            the user who wants to execute the command
+     * @param serverId
+     *            the id of the server to "remove"
      */
-    public RemoveServerCommand(Role role, String location) {
+    public RemoveServerCommand(Role role, Long serverId) {
         super(role, null);
-        this.location=location;
+        this.serverId = serverId;
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt) {
-                 
-        Query q = evt.getSession().createQuery("delete Server where location = :loc");
-        q.setString("loc", location);
-        q.executeUpdate();
-        
+        evt.getSession().createQuery("delete from Server s where s.id = :serverId")
+                .setLong("serverId", serverId).executeUpdate();
     }
 
 }

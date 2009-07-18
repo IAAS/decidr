@@ -25,6 +25,7 @@ import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.PasswordResetRequest;
 import de.decidr.model.entities.RegistrationRequest;
+import de.decidr.model.exceptions.TransactionException;
 
 /**
  * Uses the global system settings to determine whether the lifetime of certain
@@ -42,11 +43,13 @@ public class LifetimeValidator {
      * @param request
      * @param session
      * @return true iff the given password reset request is still valid
+     * @throws TransactionException
      */
     public static Boolean isPasswordResetRequestValid(
-            PasswordResetRequest request, Session session) {
+            PasswordResetRequest request, Session session)
+            throws TransactionException {
         return requestIsAlive(request.getCreationDate(), DecidrGlobals
-                .getSettings(session).getPasswordResetRequestLifetimeSeconds());
+                .getSettings().getPasswordResetRequestLifetimeSeconds());
     }
 
     /**
@@ -55,11 +58,12 @@ public class LifetimeValidator {
      * @param invitation
      * @param session
      * @return true iff the given invitation is still valid
+     * @throws TransactionException
      */
-    public static Boolean isInvitationValid(Invitation invitation,
-            Session session) {
+    public static Boolean isInvitationValid(Invitation invitation)
+            throws TransactionException {
         return requestIsAlive(invitation.getCreationDate(), DecidrGlobals
-                .getSettings(session).getInvitationLifetimeSeconds());
+                .getSettings().getInvitationLifetimeSeconds());
     }
 
     /**
@@ -68,24 +72,25 @@ public class LifetimeValidator {
      * @param request
      * @param session
      * @return true iff the given registration request is still valid.
+     * @throws TransactionException
      */
-    public static Boolean isRegistrationRequestValid(
-            RegistrationRequest request, Session session) {
+    public static Boolean isRegistrationRequestValid(RegistrationRequest request)
+            throws TransactionException {
         return requestIsAlive(request.getCreationDate(), DecidrGlobals
-                .getSettings(session).getRegistrationRequestLifetimeSeconds());
+                .getSettings().getRegistrationRequestLifetimeSeconds());
     }
 
     /**
      * Checks whether a change email request is still valid.
      * 
      * @param request
-     * @param session
      * @return true iff the given request is still valid.
+     * @throws TransactionException
      */
-    public static Boolean isChangeEmailRequestValid(ChangeEmailRequest request,
-            Session session) {
+    public static Boolean isChangeEmailRequestValid(ChangeEmailRequest request)
+            throws TransactionException {
         return requestIsAlive(request.getCreationDate(), DecidrGlobals
-                .getSettings(session).getChangeEmailRequestLifetimeSeconds());
+                .getSettings().getChangeEmailRequestLifetimeSeconds());
     }
 
     /**

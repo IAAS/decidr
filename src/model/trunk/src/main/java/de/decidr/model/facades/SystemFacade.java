@@ -19,7 +19,9 @@ import de.decidr.model.commands.system.SetSystemSettingsCommand;
 import de.decidr.model.commands.system.UnLockServerCommand;
 import de.decidr.model.commands.system.UpdateServerLoadCommand;
 import de.decidr.model.entities.Log;
+import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
+import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
@@ -43,8 +45,9 @@ public class SystemFacade extends AbstractFacade {
      * Creates a new system facade. All operations are executed by the given
      * actor.
      * 
-     * @param actor user who will execute the commands of the created facade
-     *            
+     * @param actor
+     *            user who will execute the commands of the created facade
+     * 
      */
     public SystemFacade(Role actor) {
         super(actor);
@@ -55,11 +58,12 @@ public class SystemFacade extends AbstractFacade {
      * properties:<br>
      * - logLevel<br>
      * - autoAcceptNewTenants<br>
-     * <br>
+     * FIXME add all system property <br>
      * 
      * @return system settings as item
-     * @throws TransactionException if an error occurs during the transaction
-     *             
+     * @throws TransactionException
+     *             if an error occurs during the transaction
+     * 
      */
     @AllowedRole(SuperAdminRole.class)
     public Item getSettings() throws TransactionException {
@@ -81,13 +85,15 @@ public class SystemFacade extends AbstractFacade {
      * Sets the given system settings.<br>
      * <br>
      * <i>AutoAcceptNewTenants</i> - new tenants will be automatically accepted
-     * by the system and must not be approved manually by the super admin<br>
+     * by the system and don't have to be approved manually by the super admin<br>
      * <br>
      * <i>LogLever</i> - System wide log level setting
      * 
+     * FIXME add all system settings
      * 
-     * @throws TransactionException if an error occurs during the transaction
-     *             
+     * @throws TransactionException
+     *             if an error occurs during the transaction
+     * 
      */
     @AllowedRole(SuperAdminRole.class)
     public void setSettings(Boolean AutoAcceptNewTenants, Level loglevel)
@@ -103,63 +109,64 @@ public class SystemFacade extends AbstractFacade {
     }
 
     /**
-     * Adds an server to the Database. This command will not set up an new
-     * Server. The added server is only a representation of a real one.
+     * Adds a server to the database. This command does not actually set up a
+     * new server, it only adds a reference to the server to the database.
      * 
+     * @param type
+     *            server type
      * @param location
-     *            the location of the real server to which representation should
-     *            be created<br>
-     * 
-     * @throws TransactionException if an error occurs during the transaction
-     *             
+     *            server "location" (e.g. a URL or a hostname)
+     * @param initialLoad
+     *            initial server load
+     * @param locked
+     *            whether or not the new server should be flagged as locked
+     * @param dynamicallyAdded
+     *            whether or not the new server should be flagged as
+     *            "dynamically added"
+     * @return the new server
+     * @throws TransactionException
+     *             if an error occurs during the transaction
      */
     @AllowedRole(SuperAdminRole.class)
-    public void addServer(String location) throws TransactionException {
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
-        AddServerCommand command = new AddServerCommand(actor, location);
-
-        tac.runTransaction(command);
+    public Server addServer(ServerTypeEnum type, String location,
+            Byte initialLoad, Boolean locked, Boolean dynamicallyAdded)
+            throws TransactionException {
+        AddServerCommand cmd = new AddServerCommand(actor, type, location,
+                initialLoad, locked, dynamicallyAdded);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        return cmd.getNewServer();
     }
 
     /**
      * Removes the server from the database. This command will not shut down the
-     * server. The server is only a representation of a real one and only the
-     * representative will be deleted.<br>
-     * <br>
+     * server. <br>
      * If the server doesn't exist the command will be ignored.
      * 
-     * @param location
-     *            location of the server representative which should be deleted
+     * @param serverId
      * 
-     * @throws TransactionException if an error occurs during the transaction
-     *          
-     * 
+     * @throws TransactionException
+     *             if an error occurs during the transaction
      */
     @AllowedRole(SuperAdminRole.class)
-    public void removeServer(String location) throws TransactionException {
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
-        RemoveServerCommand command = new RemoveServerCommand(actor, location);
-
-        tac.runTransaction(command);
+    public void removeServer(Long serverId) throws TransactionException {
+        RemoveServerCommand command = new RemoveServerCommand(actor, serverId);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
      * 
      * Updates the load of the representative object of the server at the
      * database. The load must be in the range of 0 to 100. If given server does
-     * not exists nothing will happen.
+     * not exist no exception will be raised.
      * 
      * @param location
      *            location of the server representative which should be deleted
      * @param load
      *            new load server load as byte [0...100]
      * 
-     * @throws TransactionException if an error occurs during the transaction
-     *             
+     * @throws TransactionException
+     *             if an error occurs during the transaction
+     * 
      */
     @AllowedRole( { SuperAdminRole.class, ServerLoadUpdaterRole.class })
     public void updateServerLoad(String location, byte load)
@@ -186,10 +193,11 @@ public class SystemFacade extends AbstractFacade {
      * @param location
      *            location of the server representative which should be deleted
      * 
-     * @throws TransactionException if an error occurs during the transaction
-     *            
+     * @throws TransactionException
+     *             if an error occurs during the transaction
+     * 
      */
-    //XXX ODE monitor needs to do this, too
+    // XXX ODE monitor needs to do this, too
     @AllowedRole(SuperAdminRole.class)
     public void lockServer(String location) throws TransactionException {
         TransactionCoordinator tac = HibernateTransactionCoordinator
@@ -207,10 +215,11 @@ public class SystemFacade extends AbstractFacade {
      * @param location
      *            location of the server representative which should be deleted
      * 
-     * @throws TransactionException if an error occurs during the transaction
-     *        
+     * @throws TransactionException
+     *             if an error occurs during the transaction
+     * 
      */
-    //XXX ODE monitor needs to do this, too
+    // XXX ODE monitor needs to do this, too
     @AllowedRole(SuperAdminRole.class)
     public void unlockServer(String location) throws TransactionException {
 
@@ -227,11 +236,14 @@ public class SystemFacade extends AbstractFacade {
      * using filters and an optional paginator.
      * 
      * 
-     * @param filters filters the result by the given criteria
-     * @param paginator splits the result in several pages
+     * @param filters
+     *            filters the result by the given criteria
+     * @param paginator
+     *            splits the result in several pages
      * @return List<Item> Logs as items
-     * @throws TransactionException if an error occurs during the transaction
-     *           
+     * @throws TransactionException
+     *             if an error occurs during the transaction
+     * 
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(SuperAdminRole.class)
@@ -266,8 +278,9 @@ public class SystemFacade extends AbstractFacade {
      * - dynamicallyAdded
      * 
      * @return ServerStatistics as a List of Items
-     * @throws TransactionException if an error occurs during the transaction
-     *             
+     * @throws TransactionException
+     *             if an error occurs during the transaction
+     * 
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(SuperAdminRole.class)

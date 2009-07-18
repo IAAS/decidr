@@ -37,7 +37,7 @@ public class EntityNotFoundException extends TransactionException {
     }
 
     public EntityNotFoundException(Class<? extends Serializable> entityClass) {
-        super(String.format("The %1$s with was not found in the database",
+        super(String.format("The %1$s was not found in the database",
                 entityClass == null ? "null" : entityClass.getName()));
 
     }

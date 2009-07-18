@@ -42,7 +42,7 @@ public class ConfirmInviationCommand extends UserCommand {
         
         Invitation i = (Invitation) evt.getSession().load(Invitation.class, invitationId);
         
-        LifetimeValidator.isInvitationValid(i, evt.getSession());
+        LifetimeValidator.isInvitationValid(i);
         
         if (i.getAdministrateWorkflowModel() != null){
             
