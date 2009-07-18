@@ -248,8 +248,8 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`workflow_instance` (
   `deployedWorkflowModelId` BIGINT NOT NULL ,
   `odePid` VARCHAR(255) NOT NULL COMMENT 'The ID given to the workflow instance by the Apache ODE (is this required?)' ,
   `startConfiguration` LONGBLOB NOT NULL ,
-  `startedDate` DATETIME NOT NULL ,
-  `completedDate` DATETIME NULL ,
+  `startedDate` DATETIME NULL COMMENT 'if null, the workflow instance is waiting to be started' ,
+  `completedDate` DATETIME NULL COMMENT 'if not null, the workflow instance is no longer running' ,
   `serverId` BIGINT NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_workflowInstance_deployedWorkflowModel` (`deployedWorkflowModelId` ASC) ,
@@ -572,6 +572,7 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`system_settings` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `autoAcceptNewTenants` BOOLEAN NOT NULL DEFAULT FALSE ,
   `systemName` VARCHAR(255) NOT NULL DEFAULT 'DecidR' ,
+  `domain` VARCHAR(255) NOT NULL DEFAULT 'decidr.de' ,
   `systemEmailAddress` VARCHAR(255) NOT NULL DEFAULT 'system@decidr.de' ,
   `logLevel` VARCHAR(30) NOT NULL ,
   `superAdminId` BIGINT NULL ,
@@ -1014,17 +1015,6 @@ END;//
 
 
 DELIMITER ;
-
--- -----------------------------------------------------
--- Data for table `decidrdb`.`server_type`
--- -----------------------------------------------------
-SET AUTOCOMMIT=0;
-INSERT INTO `server_type` (`id`, `name`) VALUES (1, 'Ode');
-INSERT INTO `server_type` (`id`, `name`) VALUES (2, 'WebPortal');
-INSERT INTO `server_type` (`id`, `name`) VALUES (3, 'Esb');
-INSERT INTO `server_type` (`id`, `name`) VALUES (4, 'Storage');
-
-COMMIT;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
