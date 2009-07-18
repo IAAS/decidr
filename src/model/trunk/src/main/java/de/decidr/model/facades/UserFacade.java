@@ -1,3 +1,18 @@
+/*
+ * The DecidR Development Team licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package de.decidr.model.facades;
 
 import java.util.ArrayList;
@@ -410,30 +425,28 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * 
-     * Confirms the given Invitation.
+     * Confirms the given invitation.
      * 
      * @param invitationId
      * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
      */
     public void confirmInvitation(Long invitationId)
             throws TransactionException {
-
         ConfirmInviationCommand command = new ConfirmInviationCommand(actor,
                 invitationId);
-
-        // FIXME confirming the invitation is very complex. Does the command
-        // start "waiting" workflow instances? Add more documentation.
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
      * 
-     * Refuses the given invitation an send an information email. to the
+     * Refuses the given invitation an sends a notification email to the
      * inviting user.
      * 
      * @param invitationId
+     *            invitation to refuse
      * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
      */
     public void refuseInviation(Long invitationId) throws TransactionException {
 
@@ -441,16 +454,24 @@ public class UserFacade extends AbstractFacade {
                 invitationId);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
     }
 
     /**
-     * 
-     * Returns the user profile of the given user.
+     * Returns the user profile of the given user that contains the following
+     * properties:
+     * <ul>
+     * <li>city: String - city part of user address</li>
+     * <li>firstName: String</li>
+     * <li>lastName: String</li>
+     * <li>postalCode: String - postal code part of user address</li>
+     * <li>street: String - street part of user address</li>
+     * <li>username: String</li>
+     * </ul>
      * 
      * @param userId
-     * @return
+     * @return Vaadin item
      * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
      */
     public Item getUserProfile(Long userId) throws TransactionException {
 
@@ -458,13 +479,27 @@ public class UserFacade extends AbstractFacade {
                 "street", "username" };
 
         GetUserProfileCommand command = new GetUserProfileCommand(actor, userId);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
         return new BeanItem(command.getResult(), properties);
-
     }
 
+    /**
+     * Returns a list of all users as vaadin items with the following
+     * properties:
+     * <ul>
+     * <li>id: Long</li>
+     * <li>email: String</li>
+     * <li>firstName: String</li>
+     * <li>lastName: String</li>
+     * <li>username</li>
+     * </ul>
+     * 
+     * @param filters
+     * @param paginator
+     * @return list of vaadin items
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     */
     @SuppressWarnings("unchecked")
     public List<Item> getAllUsers(List<Filter> filters, Paginator paginator)
             throws TransactionException {
@@ -511,6 +546,7 @@ public class UserFacade extends AbstractFacade {
      * @param userId
      * @return
      * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
      */
     public Class<? extends UserRole> getHighestUserRole(Long userId)
             throws TransactionException {
@@ -521,7 +557,6 @@ public class UserFacade extends AbstractFacade {
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
         return command.getResult();
-
     }
 
     /**
@@ -534,6 +569,7 @@ public class UserFacade extends AbstractFacade {
      * @param tenantId
      * @return
      * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
      */
     public Class<? extends UserRole> getUserRoleForTenant(Long userId,
             Long tenantId) throws TransactionException {
@@ -544,7 +580,6 @@ public class UserFacade extends AbstractFacade {
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
         return command.getResult();
-
     }
 
     /**
@@ -559,6 +594,7 @@ public class UserFacade extends AbstractFacade {
      * @param userId
      * @return
      * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
      */
     @SuppressWarnings("unchecked")
     public List<Item> getAdminstratedWorkflowInstances(Long userId)
@@ -598,6 +634,8 @@ public class UserFacade extends AbstractFacade {
      * 
      * @param userId
      * @return Vaadin items representing the joined tenants.
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
      */
     @SuppressWarnings("unchecked")
     public List<Item> getJoinedTenants(Long userId) throws TransactionException {
@@ -632,6 +670,7 @@ public class UserFacade extends AbstractFacade {
      * @param userId
      * @return
      * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
      */
     public List<Item> getAdministratedWorkflowModels(Long userId)
             throws TransactionException {
@@ -667,6 +706,7 @@ public class UserFacade extends AbstractFacade {
      * @param paginator
      * @return
      * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
      */
     @SuppressWarnings("unchecked")
     public List<Item> getWorkItems(Long userId, List<Filter> filters,
@@ -688,7 +728,6 @@ public class UserFacade extends AbstractFacade {
         }
 
         return outList;
-
     }
 
     /**
@@ -699,7 +738,8 @@ public class UserFacade extends AbstractFacade {
      * <li>senderLastName: String - last name of the sender</li>
      * <li>receiverFirstName: String - first name of the receiver</li>
      * <li>receiverLastName: String - last name of the receiver</li>
-     * <li>administratedWorkflowModelName: String - name of the administrated workflow model</li>
+     * <li>administratedWorkflowModelName: String - name of the administrated
+     * workflow model</li>
      * <li>joinTenantName: String - name of the tenant which should be joined</li>
      * <li>workflowInstanceId: Long - id of the participation instance</li>
      * <li>creationDate: Date - Date on which the invitation was created</li>
@@ -707,36 +747,32 @@ public class UserFacade extends AbstractFacade {
      * 
      * @param invitationId
      * @return Vaadin item
-     * @throws TransactionException 
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
      */
     public Item getInvitation(Long invitationId) throws TransactionException {
-        
-
-        GetInvitationCommand command = new GetInvitationCommand(actor, invitationId);
+        GetInvitationCommand command = new GetInvitationCommand(actor,
+                invitationId);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
-        return  new BeanItem(command.getResult());
-        
+        return new BeanItem(command.getResult());
     }
-    
+
     /**
      * 
      * Returns true if the given user is registered else false.
      * 
      * @param userId
      * @return
-     * @throws TransactionException 
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
      */
     public Boolean isRegistered(Long userId) throws TransactionException {
-
-
         IsRegisteredCommand command = new IsRegisteredCommand(actor, userId);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
-        return  command.getResult();
-
-        
+        return command.getResult();
     }
 }

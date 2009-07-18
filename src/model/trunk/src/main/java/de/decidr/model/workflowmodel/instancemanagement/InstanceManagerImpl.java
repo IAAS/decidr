@@ -32,9 +32,12 @@ import de.decidr.model.entities.WorkflowInstance;
  */
 public class InstanceManagerImpl implements InstanceManager {
 
-
-    /* (non-Javadoc)
-     * @see de.decidr.model.workflowmodel.instancemanagement.InstanceManager#startInstance(de.decidr.model.entities.DeployedWorkflowModel, byte[], java.util.List)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seede.decidr.model.workflowmodel.instancemanagement.InstanceManager#
+     * startInstance(de.decidr.model.entities.DeployedWorkflowModel, byte[],
+     * java.util.List)
      */
     @Override
     public WorkflowInstance startInstance(DeployedWorkflowModel dwfm,
@@ -47,18 +50,23 @@ public class InstanceManagerImpl implements InstanceManager {
                 .toString(), startConfiguration);
         SOAPExecution execution = new SOAPExecution();
         execution.invoke(serverID, soapMessage);
-        return null;
+        return null; // FIXME please create a new instance or alternatively
+                     // create a new type "StartInstanceResult".
     }
 
-    /* (non-Javadoc)
-     * @see de.decidr.model.workflowmodel.instancemanagement.InstanceManager#stopInstance(de.decidr.model.entities.WorkflowInstance)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.model.workflowmodel.instancemanagement.InstanceManager#stopInstance
+     * (de.decidr.model.entities.WorkflowInstance)
      */
     @Override
     public void stopInstance(WorkflowInstance instance) {
         // MA Auto-generated method stub
-        
+
     }
-    
-    //MA StopWorkflowInstance implementieren
+
+    // MA StopWorkflowInstance implementieren
 
 }

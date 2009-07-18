@@ -58,6 +58,9 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
  * Provides an interface for retrieving and modifying (deployed) workflow
  * models.
  * 
+ * FIXME make it possible to choose between starting a workflow instance
+ * immediately and only when the last user confirms his invitation!
+ * 
  * @author Daniel Huss
  * @version 0.1
  */
@@ -483,7 +486,7 @@ public class WorkflowModelFacade extends AbstractFacade {
     @AllowedRole(WorkflowAdminRole.class)
     public byte[] getLastStartConfiguration(Long workflowModelId)
             throws TransactionException {
-        
+
         GetLastStartConfigurationCommand cmd = new GetLastStartConfigurationCommand(
                 actor, workflowModelId);
 

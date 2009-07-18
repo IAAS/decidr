@@ -17,7 +17,6 @@
 package de.decidr.model.commands.workflowmodel;
 
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.Query;
 
@@ -93,14 +92,14 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
             instance = iManager
                     .startInstance(dwfm, startConfiguration, servers);
             evt.getSession().update(instance);
-
-            // add instance to deployedWorkflowModel
-            Set<WorkflowInstance> instances = dwfm.getWorkflowInstances();
-            instances.add(instance);
-
-            // update deployedWorkflowModel
+            instance.setDeployedWorkflowModel(dwfm);
+            instance.setCompletedDate(null);
+            instance.setId(null); //make sure a new instance is inserted
+            instance.setStartedDate(DecidrGlobals.getTime().getTime());
+            // add new instance
+            evt.getSession().save(instance);
+            
             createdWorkflowInstance = instance;
-
         } catch (Exception e) {
             throw new TransactionException(e);
         }
