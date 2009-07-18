@@ -2,14 +2,9 @@ package de.decidr.ui.view.client.ui;
 
 
 
-import com.vaadin.data.Item;
 import com.vaadin.terminal.gwt.client.ApplicationConnection;
 import com.vaadin.terminal.gwt.client.Paintable;
 import com.vaadin.terminal.gwt.client.UIDL;
-import de.decidr.ui.controller.UIDirector;
-import de.decidr.ui.view.CurrentTenantModelTable;
-import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.WorkflowModelsComponent;
 
 
 public class VModelingTool extends de.decidr.modelingtool.client.ModelingToolWidget implements Paintable {
@@ -26,8 +21,8 @@ public class VModelingTool extends de.decidr.modelingtool.client.ModelingToolWid
     /** Reference to the server connection object. */
     ApplicationConnection client;
     
-    private UIDirector uiDirector = UIDirector.getInstance();
-    private SiteFrame siteFrame = uiDirector.getTemplateView();
+    //private UIDirector uiDirector = UIDirector.getInstance();
+    //private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     /**
      * The constructor should first call super() to initialize the component and
@@ -58,13 +53,13 @@ public class VModelingTool extends de.decidr.modelingtool.client.ModelingToolWid
         //item from the table. From this item the workflow model id is extracted
         //and passed through to the init method. So the modeling tool can be loaded
         //with the adequate worklfow model.
-        WorkflowModelsComponent component = (WorkflowModelsComponent)siteFrame.getContent();
-        CurrentTenantModelTable table = component.getCurrentTenantTable();
+        //WorkflowModelsComponent component = (WorkflowModelsComponent)siteFrame.getContent();
+        //CurrentTenantModelTable table = component.getCurrentTenantTable();
         
-        Item item = table.getItem(table.getValue());
-        Long workflowModelId = (Long)item.getItemProperty("id").getValue();
+        //Item item = table.getItem(table.getValue());
+        //Long workflowModelId = (Long)item.getItemProperty("id").getValue();
         
-        init(workflowModelId);
+        init(10L);
         
     }
 
