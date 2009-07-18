@@ -19,20 +19,32 @@ package de.decidr.model;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import org.hibernate.Session;
-
+import de.decidr.model.commands.AbstractTransactionalCommand;
+import de.decidr.model.entities.Server;
 import de.decidr.model.entities.SystemSettings;
+import de.decidr.model.enums.ServerTypeEnum;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
+import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * FIXME add documentation<br>
- * FIXME add properties file with configuration for ESB<br>
+ * Contains utility methods that can be used by all system components.
  * 
  * @author Daniel Huss
  * @version 0.1
  */
 public class DecidrGlobals {
+
+    /**
+     * The last time when the ESB url was updated
+     */
+    private static Calendar lastEsbUrlFetch = null;
+
+    /**
+     * The last cached esb
+     */
+    private static Server esb = null;
 
     /**
      * For scalability, the entire application should use the same time zone
@@ -55,48 +67,119 @@ public class DecidrGlobals {
     /**
      * Fetches the current system settings from the database.
      * 
-     * @param session
-     *            the hibernate session that will be used to retrieve the
-     *            settings.
-     * @return the current system settings.
-     */
-    public static SystemSettings getSettings(Session session) {
-        if (session == null) {
-            session = HibernateTransactionCoordinator.getInstance()
-                    .getCurrentSession();
-        }
-
-        if (!session.isOpen()) {
-            throw new IllegalArgumentException(
-                    "An open session is required to fetch the system settings.");
-        }
-
-        String hql = "from SystemSettings limit 1";
-        return (SystemSettings) session.createQuery(hql).uniqueResult();
-    }
-
-    /**
-     * Fetches the current system settings from the database.
-     * 
      * @return the current system settings.
      */
     public static SystemSettings getSettings() {
-        return getSettings(null);
+        /**
+         * Inline command that fetches the settings from the db.
+         */
+        FetchSettingsCommand cmd = new FetchSettingsCommand();
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        } catch (TransactionException e) {
+            throw new RuntimeException(e);
+        }
+        return cmd.settings;
     }
 
-    public static String getWebServiceLocationOnESB() {
-        // DH document and implement stub!
-        return "soap/";
+    /**
+     * Internal command that fetches the settings from the database.
+     */
+    private static class FetchSettingsCommand extends
+            AbstractTransactionalCommand {
+        public SystemSettings settings = null;
+
+        @Override
+        public void transactionStarted(TransactionEvent evt)
+                throws TransactionException {
+            settings = (SystemSettings) evt.getSession().createQuery(
+                    "from SystemSettings s join fetch s.superAdmin limit 1")
+                    .uniqueResult();
+        }
     }
 
+    /**
+     * Internal command that fetches the ESB data from the database.
+     */
+    private static class FetchEsbCommand extends AbstractTransactionalCommand {
+        public Server esb = null;
+
+        @Override
+        public void transactionStarted(TransactionEvent evt)
+                throws TransactionException {
+            esb = (Server) evt
+                    .getSession()
+                    .createQuery(
+                            "from Server s join fetch s.serverType where s.serverType.name = :serverType limit 1")
+                    .setString("serverType", ServerTypeEnum.Esb.toString())
+                    .uniqueResult();
+            if (esb == null) {
+                throw new EntityNotFoundException(Server.class);
+            }
+        }
+    }
+
+    /**
+     * Fetches the details of the Enterprise Service Bus from the database. The
+     * result will be cached for one minute before another database query is
+     * made.
+     * 
+     * An open session is required to communicate with the database
+     * 
+     * @return the esb server
+     */
+    public static Server getEsb() {
+        // primitive caching
+        Calendar now = getTime();
+        Calendar expireTime = getTime();
+
+        if ((lastEsbUrlFetch == null) || (esb == null)) {
+            // esb url hasn't been fetched yet
+            expireTime.setTime(now.getTime());
+        } else {
+            expireTime.setTime(lastEsbUrlFetch.getTime());
+            expireTime.add(Calendar.MINUTE, 1); // expire after one minute
+        }
+
+        if (now.compareTo(expireTime) >= 0) {
+            // now is greater or equal to expireTime -> cache miss, refresh the
+            // cache
+            FetchEsbCommand cmd = new FetchEsbCommand();
+            try {
+                HibernateTransactionCoordinator.getInstance().runTransaction(
+                        cmd);
+            } catch (TransactionException e) {
+                throw new RuntimeException(e);
+            }
+            esb = cmd.esb;
+        } else {
+            // cache hit, nothing needs to be done
+        }
+
+        return esb;
+    }
+
+    /**
+     * @param webServiceName
+     * @return An URL which can be used to connect to the web service identified
+     *         by webServiceName
+     */
     public static String getWebServiceUrl(String webServiceName) {
-        // DH document and implement stub!
-        return "https://localhost:8280/" + getWebServiceLocationOnESB()
-                + webServiceName;
+        // This may change if we switch from Synapse to another ESB that's not
+        // based on Axis2
+        return getEsb().getLocation() + "/soap/" + webServiceName;
     }
 
+    /**
+     * 
+     * @param webServiceName
+     * @return An URL which can be used to retrieve the WSDL of the web service
+     *         identified by webServiceName
+     */
     public static String getWebServiceWsdlUrl(String webServiceName) {
-        // DH document and implement stub!
-        return getWebServiceUrl(webServiceName) + "?wsdl";
+        // This may change if we switch from Synapse to another ESB that's not
+        // based on Axis2
+        return getEsb().getLocation() + getWebServiceUrl(webServiceName)
+                + "?wsdl";
     }
 }
