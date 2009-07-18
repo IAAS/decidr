@@ -19,66 +19,40 @@
 # fail on error
 set -e
 # uncomment for debugging:
-#set -x
-echo 'ERROR: not yet implemented'
-exit 1
+set -x
+
 # variables
 decimals=2
 [ -n "${1}" ] && decimals=${1}
 
-# functions
-extractUnit ()
+echo "WARNING: incomplete dummy data"
+getTotalMem()
 {
-  echo "${1##*\ }"
+  echo "100"
 }
 
-extractValue ()
+getTotalSwap()
 {
-  value="${1%\ *}"
-  value="${value##*\ }"
-  echo "${value}"
+  echo "100"
 }
 
-# get contents of /proc/meminfo
-memTotal="$(cat /proc/meminfo | grep -i '^MemTotal:')"
-swapTotal="$(cat /proc/meminfo | grep -i '^SwapTotal:')"
-memFree="$(cat /proc/meminfo | grep -i '^MemFree:')"
-swapFree="$(cat /proc/meminfo | grep -i '^SwapFree:')"
-memBuffers="$(cat /proc/meminfo | grep -i '^Buffers:')"
-memCached="$(cat /proc/meminfo | grep -i '^Cached:')"
-swapCached="$(cat /proc/meminfo | grep -i '^SwapCached:')"
+getFreeMem()
+{
+  echo "100"
+}
 
-# extract units
-memTotalUnit=$(extractUnit "${memTotal}")
-swapTotalUnit=$(extractUnit "${swapTotal}")
-memFreeUnit=$(extractUnit "${memFree}")
-swapFreeUnit=$(extractUnit "${swapFree}")
-memBuffersUnit=$(extractUnit "${memBuffers}")
-memCachedUnit=$(extractUnit "${memCached}")
-swapCachedUnit=$(extractUnit "${swapCached}")
+getFreeSwap()
+{
+  echo "100"
+}
 
-#extract values
-memTotal="$(extractValue "${memTotal}")"
-swapTotal="$(extractValue "${swapTotal}")"
-memFree="$(extractValue "${memFree}")"
-swapFree="$(extractValue "${swapFree}")"
-memBuffers="$(extractValue "${memBuffers}")"
-memCached="$(extractValue "${memCached}")"
-swapCached="$(extractValue "${swapCached}")"
+memTotal=$(getTotalMem)
+swapTotal=$(getTotalSwap)
+memFree=$(getFreeMem)
+swapFree=$(getFreeSwap)
 
-if [ "${memTotalUnit}" = "${swapTotalUnit}" ] && \
-   [ "${memFreeUnit}" = "${swapFreeUnit}" ] && \
-   [ "${memCachedUnit}" = "${swapCachedUnit}" ] && \
-   [ "${swapTotalUnit}" = "${swapFreeUnit}" ] && \
-   [ "${swapCachedUnit}" = "${memBuffersUnit}" ] && \
-   [ "${swapFreeUnit}" = "${memBuffersUnit}" ]; then
-  memTotal=$((${memTotal}+${swapTotal}))
-  memUsed=$((${memTotal}-${memFree}-${swapFree}-${memCached}-${swapCached}-${memBuffers}))
-  # percentage used
-  memPercent=$($(which echo) -e "scale=${decimals}\n${memUsed}00/${memTotal}" | bc)
-else
-  echo "ERROR: /proc/meminfo entries have different units"
-  exit 1
-fi
+memTotal=$((${memTotal}+${swapTotal}))
+memFree=$((${memFree}+${swapFree}))
+memUsed=$((${memTotal}-${memFree}))
 
-echo ${memPercent}
+echo $($(which echo) -e "scale=${decimals}\n${memUsed}00/${memTotal}" | bc)

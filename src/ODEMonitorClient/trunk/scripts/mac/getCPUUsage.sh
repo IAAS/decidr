@@ -21,20 +21,21 @@
 set -e
 # uncomment for debugging:
 #set -x
-echo 'ERROR: not yet implemented'
-exit 1
+
+
 # variables
 sampleDelay=1
 [ -n "${1}" ] && sampleDelay=${1} 
 decimals=2
 [ -n "${2}" ] && decimals=${2}
 
-uptime1=$(cat /proc/uptime)
+top1=$(top -l 1 | head -n 4 | grep -i CPU)
 sleep ${sampleDelay}
-uptime2=$(cat /proc/uptime)
+top2=$(top -l 1 | head -n 4 | grep -i CPU)
 
-secondsDiff=$(echo "${uptime2%%\ *}-${uptime1%%\ *}" | bc)
-idleDiff=$(echo "(${uptime2##*\ }-${uptime1##*\ })*100" | bc)
+top1=${top1%%% idle*}
+top2=${top2%%% idle*}
+top1=${top1##* }
+top2=${top2##* }
 
-idlePercent=$($(which echo) -e "scale=${decimals}\n${idleDiff}/${secondsDiff}" | bc)
-echo $(echo "100.0-${idlePercent}" | bc)
+echo $($(which echo) -e "scale=${decimals}\n(${top1}+${top2})/2" | bc)
