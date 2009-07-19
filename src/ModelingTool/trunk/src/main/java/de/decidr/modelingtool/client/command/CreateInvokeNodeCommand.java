@@ -16,8 +16,6 @@
 
 package de.decidr.modelingtool.client.command;
 
-import com.google.gwt.user.client.Window;
-
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
 import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
@@ -28,22 +26,24 @@ import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
 import de.decidr.modelingtool.client.ui.InvokeNode;
 
 /**
- * Command for creating an invoke node.
+ * This command adds an invoke node to the workflow
  * 
  * @author JE
  */
 public class CreateInvokeNodeCommand implements UndoableCommand {
 
-    /**
-     * The graphical node.
-     */
+    /** The graphical invoke node. */
     InvokeNode node = null;
 
-    /**
-     * The model of the node.
-     */
+    /** The model of the invoke node. */
     NodeModel model = null;
 
+    /**
+     * Contructor for creating a node model from an already added node. The
+     * model is created from the data of the node.
+     *
+     * @param node The node that has been added
+     */
     public CreateInvokeNodeCommand(InvokeNode node) {
         this.node = node;
 
@@ -71,6 +71,12 @@ public class CreateInvokeNodeCommand implements UndoableCommand {
         // model.setParentModel(node.getParentPanel().getHasChildModelsModel());
     }
 
+    /**
+     * Contructor for creating a node from an existing and linked node model.
+     * The container is drawn from the data of the model.
+     *
+     * @param model The linked node model.
+     */
     public CreateInvokeNodeCommand(NodeModel model)
             throws IncompleteModelDataException {
         this.model = model;
@@ -113,11 +119,11 @@ public class CreateInvokeNodeCommand implements UndoableCommand {
     }
 
     /**
-     * 
-     * TODO: add comment
-     * 
-     * @return
-     * @throws IncompleteModelDataException
+     * Checks the node model if it consists all required data for drawing the
+     * container: its parent model.
+     *
+     * @return True, if all required data is not null.
+     * @throws IncompleteModelDataException if any relevant data is null.
      */
     private boolean checkModelData() throws IncompleteModelDataException {
         if (model.getParentModel() == null) {

@@ -20,9 +20,9 @@ import java.util.Stack;
 
 /**
  * Every user performed command is added to the command stack. Commands added
- * here can be undone and redone.
+ * here can be undone and redone. The command stack is a singleton.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class CommandStack {
 
@@ -36,7 +36,7 @@ public class CommandStack {
      * made undone at later time.
      */
     private Stack<UndoableCommand> undoStack = new Stack<UndoableCommand>();
-    
+
     /**
      * Every undone user operation is pushed on this stack that it can be
      * executed again. If the user performes a new action, the redo stack is
@@ -51,7 +51,7 @@ public class CommandStack {
     /**
      * Returns the command stack instance.
      * 
-     * @return the command stack instance
+     * @return The command stack instance
      */
     public static CommandStack getInstance() {
         if (instance == null) {

@@ -26,16 +26,27 @@ import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
- * TODO: add comment
+ * This command creates a complete workflow from a workflow model.
+ * All add operations are realized throw its create commands.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class CreateWorkflowCommand implements Command {
 
+    /** The workflow model from which the workflow is created. */
     WorkflowModel workflowModel;
 
+    /** All create commands are added to this command list to be executed. */
     CommandList cmdList = new CommandList();
 
+    /**
+     * Constructor for creating the create command list from the workflow
+     * model.
+     *
+     * @param workflowModel The workflow model from which the workflow is
+     * created.
+     *
+     */
     public CreateWorkflowCommand(WorkflowModel workflowModel)
             throws IncompleteModelDataException {
         this.workflowModel = workflowModel;
@@ -70,6 +81,13 @@ public class CreateWorkflowCommand implements Command {
         cmdList.execute();
     }
 
+    /**
+     * Creates a command list for creating a container with all its children.
+     *
+     * @param containerModel The model of the container.
+     * @return A command list with the create commands of the container and its
+     * children.
+     */
     private UndoableCommand createContainer(ContainerModel containerModel)
             throws IncompleteModelDataException {
         CommandList cmdList = new CommandList();

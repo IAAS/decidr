@@ -28,22 +28,24 @@ import de.decidr.modelingtool.client.ui.ForEachContainer;
 import de.decidr.modelingtool.client.ui.IfContainer;
 
 /**
- * TODO: add comment
+ * This command adds a container to the workflow.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class CreateContainerCommand implements UndoableCommand {
 
-    /**
-     * The graphical container node.
-     */
+    /** The graphical container node. */
     Container node = null;
 
-    /**
-     * The model of the node.
-     */
+    /** The model of the container node. */
     ContainerModel model = null;
-
+    
+    /**
+     * Contructor for creating a container model from an already added
+     * container node. The model is created from the data of the node.
+     *
+     * @param node The container node that has been added
+     */
     public CreateContainerCommand(Container node) {
         this.node = node;
 
@@ -75,6 +77,12 @@ public class CreateContainerCommand implements UndoableCommand {
         // model.setParentModel(node.getParentPanel().getHasChildModelsModel());
     }
 
+    /**
+     * Contructor for creating a container node from an existing and linked
+     * container model. The container is drawn from the data of the model.
+     *
+     * @param model The linked container model.
+     */
     public CreateContainerCommand(ContainerModel model)
             throws IncompleteModelDataException {
         this.model = model;
@@ -123,11 +131,11 @@ public class CreateContainerCommand implements UndoableCommand {
     }
 
     /**
-     * 
-     * TODO: add comment
-     * 
-     * @return
-     * @throws IncompleteModelDataException
+     * Checks the container model if it consists all required data for
+     * drawing the container: its parent model.
+     *
+     * @return True, if all required data is not null.
+     * @throws IncompleteModelDataException if any relevant data is null.
      */
     private boolean checkModelData() throws IncompleteModelDataException {
         if (model.getParentModel() == null) {

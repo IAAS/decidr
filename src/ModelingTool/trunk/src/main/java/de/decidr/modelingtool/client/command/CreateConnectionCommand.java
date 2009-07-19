@@ -32,15 +32,25 @@ import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 
 /**
- * TODO: add comment
+ * This command adds a connection between to existing nodes to the workflow.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class CreateConnectionCommand implements UndoableCommand {
-
+    
+    /** The connection to be added. */
     private Connection connection;
+
+    /** The connection model of the connection to be added. */
     private ConnectionModel model;
 
+    /**
+     * Constructor for creating a connection model from an already drawn
+     * connection. The model is created from the data of the drawn
+     * connection.
+     *
+     * @param connection The connection which has been drawn
+     */
     public CreateConnectionCommand(Connection connection) {
         this.connection = connection;
 
@@ -74,7 +84,13 @@ public class CreateConnectionCommand implements UndoableCommand {
             model.setTarget(startPort.getParentNode().getModel());
         }
     }
-
+  
+    /**
+     * Contructor for creating a connection from an existing and linked
+     * connection model. The connection is drawn from the data of the model.
+     *
+     * @param model The connection model from which the connection is drawn.
+     */
     public CreateConnectionCommand(ConnectionModel model)
             throws IncompleteModelDataException {
         this.model = model;
@@ -168,11 +184,11 @@ public class CreateConnectionCommand implements UndoableCommand {
     }
 
     /**
-     * 
-     * TODO: add comment
-     * 
-     * @return
-     * @throws IncompleteModelDataException
+     * Checks the connection model if it consists all required data for
+     * drawing the connection: its parent model, target and source node.
+     *
+     * @return True, if all required data is not null.
+     * @throws IncompleteModelDataException if any relevant data is null.
      */
     private boolean checkModelData() throws IncompleteModelDataException {
         if (model.getSource() == null) {
