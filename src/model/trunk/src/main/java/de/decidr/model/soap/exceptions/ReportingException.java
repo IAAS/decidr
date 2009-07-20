@@ -17,14 +17,12 @@ package de.decidr.model.soap.exceptions;
 
 import javax.xml.ws.WebFault;
 
-import de.decidr.model.webservices.HumanTaskInterface;
-
 /**
  * This exception means that an error occurred during a reporting operation.
  * 
  * @author Reinhold
  */
-@WebFault(name = "reportingException", targetNamespace = HumanTaskInterface.TARGET_NAMESPACE)
+@WebFault(name = "reportingException", targetNamespace = "http://decidr.de/exceptions")
 public class ReportingException extends Exception {
     public static final long serialVersionUID = 20090710155853L;
 

@@ -37,29 +37,24 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence&gt;
  *         &lt;element name=&quot;wfInstances&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}int&quot;/&gt;
  *         &lt;element name=&quot;wfModels&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}int&quot;/&gt;
- *         &lt;element name=&quot;cpuUsage&quot; type=&quot;{http://decidr.de/webservices/ODEMonitor}zeroHundredInt&quot;/&gt;
- *         &lt;element name=&quot;memUsage&quot; type=&quot;{http://decidr.de/webservices/ODEMonitor}zeroHundredInt&quot;/&gt;
- *         &lt;element name=&quot;odeID&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
+ *         &lt;element name=&quot;avgLoad&quot; type=&quot;{http://decidr.de/webservices/ODEMonitor}zeroHundredInt&quot;/&gt;
+ *         &lt;element name=&quot;odeID&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}long&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "wfInstances", "wfModels", "cpuUsage",
-        "memUsage", "odeID" })
+@XmlType(name = "", propOrder = { "wfInstances", "wfModels", "avgLoad", "odeID" })
 @XmlRootElement(name = "updateStats")
 public class UpdateStats {
 
     protected int wfInstances;
     protected int wfModels;
-    protected int cpuUsage;
-    protected int memUsage;
+    protected int avgLoad;
     @XmlElement(required = true)
-    protected String odeID;
+    protected long odeID;
 
     /**
      * Gets the value of the wfInstances property.
@@ -94,44 +89,27 @@ public class UpdateStats {
     }
 
     /**
-     * Gets the value of the cpuUsage property.
+     * Gets the value of the avgLoad property.
      * 
      */
-    public int getCpuUsage() {
-        return cpuUsage;
+    public int getAvgLoad() {
+        return avgLoad;
     }
 
     /**
-     * Sets the value of the cpuUsage property.
+     * Sets the value of the avgLoad property.
      * 
      */
-    public void setCpuUsage(int value) {
-        this.cpuUsage = value;
-    }
-
-    /**
-     * Gets the value of the memUsage property.
-     * 
-     */
-    public int getMemUsage() {
-        return memUsage;
-    }
-
-    /**
-     * Sets the value of the memUsage property.
-     * 
-     */
-    public void setMemUsage(int value) {
-        this.memUsage = value;
+    public void setAvgLoad(int value) {
+        this.avgLoad = value;
     }
 
     /**
      * Gets the value of the odeID property.
      * 
-     * @return possible object is {@link String }
-     * 
+     * @return possible object is {@link Long }
      */
-    public String getOdeID() {
+    public long getOdeID() {
         return odeID;
     }
 
@@ -139,11 +117,9 @@ public class UpdateStats {
      * Sets the value of the odeID property.
      * 
      * @param value
-     *            allowed object is {@link String }
-     * 
+     *            allowed object is {@link Long }
      */
-    public void setOdeID(String value) {
+    public void setOdeID(long value) {
         this.odeID = value;
     }
-
 }

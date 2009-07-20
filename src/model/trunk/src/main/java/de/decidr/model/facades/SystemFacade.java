@@ -28,7 +28,7 @@ import de.decidr.model.commands.system.GetServerStatisticsCommand;
 import de.decidr.model.commands.system.GetSystemSettingsCommand;
 import de.decidr.model.commands.system.RemoveServerCommand;
 import de.decidr.model.commands.system.SetSystemSettingsCommand;
-import de.decidr.model.commands.system.UnLockServerCommand;
+import de.decidr.model.commands.system.LockServerCommand;
 import de.decidr.model.commands.system.UpdateServerLoadCommand;
 import de.decidr.model.entities.Log;
 import de.decidr.model.entities.Server;
@@ -228,7 +228,7 @@ public class SystemFacade extends AbstractFacade {
     @AllowedRole(SuperAdminRole.class)
     public void setServerLock(Long serverId, Boolean lock)
             throws TransactionException {
-        UnLockServerCommand command = new UnLockServerCommand(actor, serverId,
+        LockServerCommand command = new LockServerCommand(actor, serverId,
                 lock);
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }

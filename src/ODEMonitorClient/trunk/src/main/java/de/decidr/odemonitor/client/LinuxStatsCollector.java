@@ -16,6 +16,10 @@
 
 package de.decidr.odemonitor.client;
 
+import org.apache.log4j.Logger;
+
+import de.decidr.model.logging.DefaultLogger;
+
 /**
  * Gets OS-dependent stats on Linux.
  * 
@@ -23,6 +27,8 @@ package de.decidr.odemonitor.client;
  */
 public class LinuxStatsCollector extends UnixStatsCollector {
 
+    private static final Logger log = DefaultLogger
+            .getLogger(LinuxStatsCollector.class);
     private static final String SCRIPTS_MEMORY_USAGE = "scripts/linux/getMemoryUsage.sh";
 
     private static final String SCRIPTS_CPU_USAGE = "scripts/linux/getCPUUsage.sh";

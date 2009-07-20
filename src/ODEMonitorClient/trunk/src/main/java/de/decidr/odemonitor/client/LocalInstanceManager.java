@@ -75,9 +75,10 @@ public class LocalInstanceManager implements InstanceManager {
     }
 
     /**
-     * RR: add comment
+     * Checks if the local ODE instance is running.
      * 
-     * @return
+     * @return - <code>true</code>, if it is running<br>
+     *         - <code>false</code>, if it isn't.
      */
     private boolean isRunning() {
         log.trace("Entering " + LocalInstanceManager.class.getSimpleName()
@@ -88,5 +89,4 @@ public class LocalInstanceManager implements InstanceManager {
                 + ".isRunning()");
         return running;
     }
-
 }

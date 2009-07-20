@@ -38,22 +38,24 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
  *         &lt;element name=&quot;updateInterval&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}int&quot;/&gt;
+ *         &lt;element name=&quot;averagePeriod&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}int&quot;/&gt;
  *         &lt;element name=&quot;configChanged&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}dateTime&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "updateInterval", "configChanged" })
+@XmlType(name = "", propOrder = { "updateInterval", "averagePeriod",
+        "configChanged" })
 @XmlRootElement(name = "getConfigResponse")
 public class GetConfigResponse {
 
     @XmlElement(required = true)
     protected Integer updateInterval;
+    @XmlElement(required = true)
+    protected Integer averagePeriod;
     @XmlElement(required = true)
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar configChanged;
@@ -62,7 +64,6 @@ public class GetConfigResponse {
      * Gets the value of the updateInterval property.
      * 
      * @return possible object is {@link Integer }
-     * 
      */
     public Integer getUpdateInterval() {
         return updateInterval;
@@ -73,10 +74,28 @@ public class GetConfigResponse {
      * 
      * @param value
      *            allowed object is {@link Integer }
-     * 
      */
     public void setUpdateInterval(Integer value) {
         this.updateInterval = value;
+    }
+
+    /**
+     * Gets the value of the averagePeriod property.
+     * 
+     * @return possible object is {@link Integer }
+     */
+    public Integer getAveragePeriod() {
+        return averagePeriod;
+    }
+
+    /**
+     * Sets the value of the averagePeriod property.
+     * 
+     * @param value
+     *            allowed object is {@link Integer }
+     */
+    public void setAveragePeriod(Integer value) {
+        this.averagePeriod = value;
     }
 
     /**

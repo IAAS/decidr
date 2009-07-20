@@ -25,6 +25,7 @@ public class UpdateServerLoadCommand extends SystemCommand{
      * @param location the location of the server, which should be updated
      * @param load the new load
      */
+    //FIXME servers should be identified through their ID - location might be the same
     public UpdateServerLoadCommand(Role role, String location, byte load) {
         super(role, null);
         this.location = location;

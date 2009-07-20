@@ -28,7 +28,8 @@ import de.decidr.model.logging.DefaultLogger;
  */
 public abstract class AbstractOSStatsCollector {
 
-    Logger log = DefaultLogger.getLogger(AbstractOSStatsCollector.class);
+    private static final Logger log = DefaultLogger
+            .getLogger(AbstractOSStatsCollector.class);
 
     /**
      * Extending classes should provide an OS-dependent CPU load, which should
@@ -80,7 +81,7 @@ public abstract class AbstractOSStatsCollector {
      *            the Memory load percentage
      * @return The system load. <code>-1</code> means an error occurred.
      */
-    public final int getSystemLoad(int cpu, int mem) {
+    public static final int getSystemLoad(int cpu, int mem) {
         log.trace("Entering & Leaving "
                 + AbstractOSStatsCollector.class.getSimpleName()
                 + ".getSystemLoad(int, int)");

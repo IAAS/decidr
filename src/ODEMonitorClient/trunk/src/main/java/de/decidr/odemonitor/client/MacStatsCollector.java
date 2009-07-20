@@ -16,6 +16,10 @@
 
 package de.decidr.odemonitor.client;
 
+import org.apache.log4j.Logger;
+
+import de.decidr.model.logging.DefaultLogger;
+
 /**
  * Gets OS-dependent stats on MacOS X.
  * 
@@ -23,6 +27,8 @@ package de.decidr.odemonitor.client;
  */
 public class MacStatsCollector extends UnixStatsCollector {
 
+    private static final Logger log = DefaultLogger
+            .getLogger(MacStatsCollector.class);
     // TODO implement script
     private static final String SCRIPTS_MEMORY_USAGE = "scripts/mac/getMemoryUsage.sh";
 

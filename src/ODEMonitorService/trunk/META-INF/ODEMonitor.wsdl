@@ -3,10 +3,13 @@
 	xmlns:tns="http://decidr.de/webservices/ODEMonitor" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dwsdl="http://decidr.de/wsdl/DecidrTypes"
 	xmlns:decidr="http://decidr.de/schema/DecidrTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
-	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" name="ODEMonitor"
-	targetNamespace="http://decidr.de/webservices/ODEMonitor">
+	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:ex="http://decidr.de/exceptions"
+	name="ODEMonitor" targetNamespace="http://decidr.de/webservices/ODEMonitor">
 
 	<wsdl:types>
+		<xsd:schema targetNamespace="http://decidr.de/exceptions">
+			<xsd:element name="transactionException" type="xsd:string" />
+		</xsd:schema>
 		<xsd:schema targetNamespace="http://decidr.de/webservices/ODEMonitor">
 			<xsd:simpleType name="zeroHundredInt">
 				<xsd:restriction base="xsd:int">
@@ -20,9 +23,8 @@
 					<xsd:sequence>
 						<xsd:element name="wfInstances" type="xsd:int" />
 						<xsd:element name="wfModels" type="xsd:int" />
-						<xsd:element name="cpuUsage" type="tns:zeroHundredInt" />
-						<xsd:element name="memUsage" type="tns:zeroHundredInt" />
-						<xsd:element name="odeID" type="xsd:string" />
+						<xsd:element name="avgLoad" type="tns:zeroHundredInt" />
+						<xsd:element name="odeID" type="xsd:long" />
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -43,8 +45,20 @@
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="poolInstance" type="xsd:boolean" />
-						<xsd:element name="odeID" type="xsd:string" />
+						<xsd:element name="odeID" type="xsd:long" />
 					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="unregisterODE">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="odeID" type="xsd:long" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="unregisterODEResponse">
+				<xsd:complexType>
+					<xsd:sequence />
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="getConfig">
@@ -59,6 +73,12 @@
 							<xsd:annotation>
 								<xsd:documentation>Amount of time to wait between updates
 									(in seconds).</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="averagePeriod" type="xsd:int">
+							<xsd:annotation>
+								<xsd:documentation>Amount of time to average the load
+									average over (in seconds).</xsd:documentation>
 							</xsd:annotation>
 						</xsd:element>
 						<xsd:element name="configChanged" type="xsd:dateTime" />
@@ -80,11 +100,20 @@
 	<wsdl:message name="registerODEResponse">
 		<wsdl:part element="tns:registerODEResponse" name="parameters" />
 	</wsdl:message>
+	<wsdl:message name="unregisterODERequest">
+		<wsdl:part element="tns:unregisterODE" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="unregisterODEResponse">
+		<wsdl:part element="tns:unregisterODEResponse" name="parameters" />
+	</wsdl:message>
 	<wsdl:message name="getConfigRequest">
 		<wsdl:part element="tns:getConfig" name="parameters" />
 	</wsdl:message>
 	<wsdl:message name="getConfigResponse">
 		<wsdl:part element="tns:getConfigResponse" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="transactionException">
+		<wsdl:part element="ex:transactionException" name="parameters" />
 	</wsdl:message>
 
 	<wsdl:portType name="ODEMonitorPT">
@@ -92,15 +121,25 @@
 			<wsdl:input message="tns:updateStatsRequest" wsaw:Action="urn:updateStats" />
 			<wsdl:output message="tns:updateStatsResponse"
 				wsaw:Action="urn:updateStatsResponse" />
+			<wsdl:fault name="transactionException" message="tns:transactionException" />
 		</wsdl:operation>
 		<wsdl:operation name="registerODE">
 			<wsdl:input message="tns:registerODERequest" wsaw:Action="urn:registerODE" />
 			<wsdl:output message="tns:registerODEResponse"
 				wsaw:Action="urn:registerODEResponse" />
+			<wsdl:fault name="transactionException" message="tns:transactionException" />
+		</wsdl:operation>
+		<wsdl:operation name="unregisterODE">
+			<wsdl:input message="tns:unregisterODERequest"
+				wsaw:Action="urn:unregisterODE" />
+			<wsdl:output message="tns:unregisterODEResponse"
+				wsaw:Action="urn:unregisterODEResponse" />
+			<wsdl:fault name="transactionException" message="tns:transactionException" />
 		</wsdl:operation>
 		<wsdl:operation name="getConfig">
 			<wsdl:input message="tns:getConfigRequest" wsaw:Action="urn:getConfig" />
 			<wsdl:output message="tns:getConfigResponse" wsaw:Action="urn:getConfigResponse" />
+			<wsdl:fault name="transactionException" message="tns:transactionException" />
 		</wsdl:operation>
 	</wsdl:portType>
 
@@ -116,6 +155,9 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
+			<wsdl:fault name="transactionException">
+				<soap:body use="literal" />
+			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="registerODE">
 			<soap:operation soapAction="http://decidr.de/webservices/ODEMonitor/registerODE"
@@ -126,6 +168,23 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
+			<wsdl:fault name="transactionException">
+				<soap:body use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="unregisterODE">
+			<soap:operation
+				soapAction="http://decidr.de/webservices/ODEMonitor/unregisterODE"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="transactionException">
+				<soap:body use="literal" />
+			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="getConfig">
 			<soap:operation soapAction="http://decidr.de/webservices/ODEMonitor/getConfig"
@@ -136,6 +195,9 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
+			<wsdl:fault name="transactionException">
+				<soap:body use="literal" />
+			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>
 

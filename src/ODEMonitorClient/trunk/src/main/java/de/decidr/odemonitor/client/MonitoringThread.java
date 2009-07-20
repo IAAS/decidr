@@ -18,10 +18,14 @@ package de.decidr.odemonitor.client;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.Holder;
 
+import de.decidr.model.DecidrGlobals;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.odemonitor.service.ODEMonitor;
 import de.decidr.odemonitor.service.ODEMonitorService;
 
@@ -35,10 +39,15 @@ import de.decidr.odemonitor.service.ODEMonitorService;
 public class MonitoringThread extends Thread {
 
     private static final int DEFAULT_INTERVAL = 60;
+    private static final int DEFAULT_PERIOD = 300;
+    private static final AbstractOSStatsCollector osStats = OSStatsCollectorFactory
+            .getCollector();
     private int updateInterval = DEFAULT_INTERVAL;
-    private String odeID = null;
+    private long odeID = -1;
+    private int averagePeriod = DEFAULT_PERIOD;
     private boolean poolInstance = true;
     private XMLGregorianCalendar lastUpdate;
+    private Map<Long, Integer> loadMap = new HashMap<Long, Integer>();
 
     /**
      * Change the updating interval and force an update.
@@ -56,15 +65,31 @@ public class MonitoringThread extends Thread {
     }
 
     /**
+     * Change the period of time to average the system load over
+     * 
+     * @param interval
+     *            the period of time to average over
+     */
+    public void changePeriod(int period) {
+        if (period > 0) {
+            averagePeriod = period;
+        } else {
+            averagePeriod = DEFAULT_PERIOD;
+        }
+    }
+
+    /**
      * Updates the current config from the
      * <code>{@link ODEMonitorService}</code>.
      */
     public void fetchNewConfig() {
         Holder<Integer> intervalHolder = new Holder<Integer>();
+        Holder<Integer> periodHolder = new Holder<Integer>();
         Holder<XMLGregorianCalendar> calendarHolder = new Holder<XMLGregorianCalendar>();
 
-        getServer().getConfig(intervalHolder, calendarHolder);
-        updateInterval = intervalHolder.value;
+        getServer().getConfig(intervalHolder, periodHolder, calendarHolder);
+        changeInterval(intervalHolder.value);
+        changePeriod(periodHolder.value);
         lastUpdate = calendarHolder.value;
     }
 
@@ -82,13 +107,23 @@ public class MonitoringThread extends Thread {
         Holder<Boolean> booleanHolder = new Holder<Boolean>();
         ODEMonitorService server = getServer();
         LocalInstanceStats localStats = new LocalInstanceStats();
-        AbstractOSStatsCollector osStats = OSStatsCollectorFactory
-                .getCollector();
         InstanceManager manager = new LocalInstanceManager();
 
         // register with server
-        Holder<String> odeIDHolder = new Holder<String>();
-        server.registerODE(booleanHolder, odeIDHolder);
+        Holder<Long> odeIDHolder = new Holder<Long>();
+        // try to register every updateInterval until we succeed
+        while (true) {
+            try {
+                server.registerODE(booleanHolder, odeIDHolder);
+                break;
+            } catch (TransactionException e) {
+                try {
+                    Thread.sleep(updateInterval);
+                } catch (InterruptedException ex) {
+                    // we wake and resume work due to someone watching us
+                }
+            }
+        }
         poolInstance = booleanHolder.value;
         odeID = odeIDHolder.value;
         odeIDHolder = null;
@@ -105,14 +140,17 @@ public class MonitoringThread extends Thread {
             server = getServer();
 
             // update stats & config, if necessary
-            server.updateStats(localStats.getNumInstances(), localStats
-                    .getNumModels(), osStats.getCPULoad(),
-                    osStats.getMemLoad(), odeID, calendarHolder, booleanHolder);
-            // start/stop instance, unless we are a pool instance
-            if (!poolInstance && booleanHolder.value) {
-                manager.startInstance();
-            } else {
+            try {
+                server.updateStats(localStats.getNumInstances(), localStats
+                        .getNumModels(), getAvgLoad(), odeID, calendarHolder,
+                        booleanHolder);
+            } catch (TransactionException e1) {
+                // try again during next iteration
+            }
+            // stop instance, unless we are a pool instance
+            if (!poolInstance && !booleanHolder.value) {
                 manager.stopInstance();
+                break;
             }
             // get new config if it was altered
             if (calendarHolder.value.toGregorianCalendar().after(
@@ -125,7 +163,56 @@ public class MonitoringThread extends Thread {
             } catch (InterruptedException e) {
                 // we wake and resume work due to someone watching us
             }
+
+            // attempt to unregister until we are successful
+            while (true) {
+                try {
+                    server.unregisterODE(odeID);
+                    break;
+                } catch (TransactionException e) {
+                    try {
+                        Thread.sleep(updateInterval);
+                    } catch (InterruptedException ex) {
+                        // we wake and resume work due to someone watching us
+                    }
+                }
+            }
         }
+    }
+
+    /**
+     * Gets the average system load over the configured period of time.
+     * 
+     * @return The average system load
+     */
+    private int getAvgLoad() {
+        int average = 0;
+        int total = 0;
+        int systemLoad = osStats.getSystemLoad();
+        long oldestTime = DecidrGlobals.getTime().getTimeInMillis()
+                - averagePeriod;
+
+        // clean Map of outdated entries
+        for (Long time : loadMap.keySet()) {
+            if (time < oldestTime) {
+                loadMap.remove(time);
+            }
+        }
+
+        // add new entry
+        loadMap.put(DecidrGlobals.getTime().getTimeInMillis(), systemLoad);
+
+        // get average
+        for (Long time : loadMap.keySet()) {
+            average += loadMap.get(time);
+            total++;
+        }
+        if (total == 0) {
+            average = systemLoad;
+        } else {
+            average = Math.round(((float) average) / total);
+        }
+        return average;
     }
 
     /**

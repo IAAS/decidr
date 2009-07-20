@@ -28,6 +28,14 @@
 				http://decidr.de/webservices/ODEMonitor/registerODEResponse
 			</outputActionMapping>
 		</operation>
+		<operation name="unregisterODE" mep="http://www.w3.org/ns/wsdl/in-only"
+			namespace="http://decidr.de/webservices/ODEMonitor">
+			<actionMapping>http://decidr.de/webservices/ODEMonitor/unregisterODE
+			</actionMapping>
+			<outputActionMapping>
+				http://decidr.de/webservices/ODEMonitor/unregisterODEResponse
+			</outputActionMapping>
+		</operation>
 		<operation name="getConfig" mep="http://www.w3.org/ns/wsdl/in-out"
 			namespace="http://decidr.de/webservices/ODEMonitor">
 			<actionMapping>http://decidr.de/webservices/ODEMonitor/getConfig

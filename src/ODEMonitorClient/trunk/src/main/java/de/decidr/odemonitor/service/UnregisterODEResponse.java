@@ -18,7 +18,6 @@ package de.decidr.odemonitor.service;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -34,55 +33,15 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;complexType&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
- *       &lt;sequence&gt;
- *         &lt;element name=&quot;poolInstance&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}boolean&quot;/&gt;
- *         &lt;element name=&quot;odeID&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}long&quot;/&gt;
- *       &lt;/sequence&gt;
+ *       &lt;sequence /&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "poolInstance", "odeID" })
-@XmlRootElement(name = "registerODEResponse")
-public class RegisterODEResponse {
-
-    @XmlElement(required = true)
-    protected boolean poolInstance;
-    @XmlElement(required = true)
-    protected long odeID;
-
-    /**
-     * Gets the value of the odeID property.
-     * 
-     * @return possible object is {@link Long }
-     */
-    public long getOdeID() {
-        return odeID;
-    }
-
-    /**
-     * Sets the value of the odeID property.
-     * 
-     * @param value
-     *            allowed object is {@link Long }
-     */
-    public void setOdeID(long value) {
-        this.odeID = value;
-    }
-
-    /**
-     * Gets the value of the poolInstance property.
-     */
-    public boolean isPoolInstance() {
-        return poolInstance;
-    }
-
-    /**
-     * Sets the value of the poolInstance property.
-     */
-    public void setPoolInstance(boolean value) {
-        this.poolInstance = value;
-    }
+@XmlType(name = "", propOrder = { })
+@XmlRootElement(name = "unregisterODEResponse")
+public class UnregisterODEResponse {
+    // no parameters
 }

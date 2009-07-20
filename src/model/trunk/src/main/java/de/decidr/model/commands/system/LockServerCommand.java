@@ -12,7 +12,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * @author Daniel Huss
  * @version 0.1
  */
-public class UnLockServerCommand extends SystemCommand {
+public class LockServerCommand extends SystemCommand {
 
     private Boolean lock = false;
     private Long serverId = null;
@@ -25,10 +25,11 @@ public class UnLockServerCommand extends SystemCommand {
      *            user, who wants to execute the command
      * @param serverId
      *            id of server to unlock
-     * @param whether
-     *            the server should be locked. If false, the server is unlocked.
+     * @param lock
+     *            whether the server should be locked. If false, the server is
+     *            unlocked.
      */
-    public UnLockServerCommand(Role role, Long serverId, Boolean lock) {
+    public LockServerCommand(Role role, Long serverId, Boolean lock) {
         super(role, null);
         this.serverId = serverId;
         this.lock = lock;

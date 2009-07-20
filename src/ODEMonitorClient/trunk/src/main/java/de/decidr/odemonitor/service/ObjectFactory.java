@@ -89,4 +89,17 @@ public class ObjectFactory {
         return new GetConfigResponse();
     }
 
+    /**
+     * Create an instance of {@link UnregisterODE }
+     */
+    public UnregisterODE createUnregisterODE() {
+        return new UnregisterODE();
+    }
+
+    /**
+     * Create an instance of {@link UnregisterODEResponse }
+     */
+    public UnregisterODEResponse createUnregisterODEResponse() {
+        return new UnregisterODEResponse();
+    }
 }

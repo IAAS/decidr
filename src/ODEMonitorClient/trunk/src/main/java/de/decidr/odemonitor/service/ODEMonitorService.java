@@ -26,13 +26,13 @@ import javax.xml.ws.Holder;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
+import de.decidr.model.exceptions.TransactionException;
+
 /**
  * The web service part of the ODE monitor. Interacts with the database and
  * makes decisions on which server gets locked.
  */
-// RR: how to maintain the average & stuff?
-// RR: what if a client stops updating?
-// RR: un-register
+// RR design needs to be updated as server does not handle instance allocation
 @WebService(name = "ODEMonitorPT", targetNamespace = ODEMonitorService.TARGET_NAMESPACE, wsdlLocation = "ODEMonitor.wsdl")
 @XmlSeeAlso( { ObjectFactory.class })
 public interface ODEMonitorService {
@@ -51,10 +51,8 @@ public interface ODEMonitorService {
      *            The amount of workflow instances running on the client's ODE.
      * @param wfModels
      *            The amount of workflow models deployed on the client's ODE.
-     * @param cpuUsage
-     *            The CPU usage percentage on the client's machine
-     * @param memUsage
-     *            The memory usage percentage on the client's machine
+     * @param avgLoad
+     *            The average system load over a configurable period of time.
      * @param odeID
      *            The ID of the updating ODE instance/monitor.
      * @param configVersion
@@ -62,18 +60,21 @@ public interface ODEMonitorService {
      * @param run
      *            Whether the client should consider shutting its instance down
      *            or re-starting it.
+     * @throws TransactionException
+     *             thrown during database access, whenever an error occurs.
      */
+    // RR design needs to be updated to conform to this behaviour
     @WebMethod(action = "http://decidr.de/webservices/ODEMonitor/updateStats")
     @RequestWrapper(localName = "updateStats", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.UpdateStats")
     @ResponseWrapper(localName = "updateStatsResponse", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.UpdateStatsResponse")
     public void updateStats(
             @WebParam(name = "wfInstances", targetNamespace = "") int wfInstances,
             @WebParam(name = "wfModels", targetNamespace = "") int wfModels,
-            @WebParam(name = "cpuUsage", targetNamespace = "") int cpuUsage,
-            @WebParam(name = "memUsage", targetNamespace = "") int memUsage,
-            @WebParam(name = "odeID", targetNamespace = "") String odeID,
+            @WebParam(name = "avgLoad", targetNamespace = "") int avgLoad,
+            @WebParam(name = "odeID", targetNamespace = "") long odeID,
             @WebParam(name = "configVersion", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<XMLGregorianCalendar> configVersion,
-            @WebParam(name = "run", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Boolean> run);
+            @WebParam(name = "run", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Boolean> run)
+            throws TransactionException;
 
     /**
      * Called to register a new ODE instance/monitor.
@@ -82,19 +83,40 @@ public interface ODEMonitorService {
      *            Whether the ODE instance was declared a pool instance.
      * @param odeID
      *            The ID of the registered ODE instance/monitor.
+     * @throws TransactionException
+     *             May be thrown during the attempt to register the server
      */
     @WebMethod(action = "http://decidr.de/webservices/ODEMonitor/registerODE")
     @RequestWrapper(localName = "registerODE", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.RegisterODE")
     @ResponseWrapper(localName = "registerODEResponse", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.RegisterODEResponse")
     public void registerODE(
             @WebParam(name = "poolInstance", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Boolean> poolInstance,
-            @WebParam(name = "odeID", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<String> odeID);
+            @WebParam(name = "odeID", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Long> odeID)
+            throws TransactionException;
+
+    /**
+     * Called to unregister an ODE instance/monitor.
+     * 
+     * @param odeID
+     *            The ID of the registered ODE instance/monitor.
+     * @throws TransactionException
+     *             May be thrown during the attempt to remove the server
+     */
+    @WebMethod(action = "http://decidr.de/webservices/ODEMonitor/unregisterODE")
+    @RequestWrapper(localName = "unregisterODE", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.UnregisterODE")
+    @ResponseWrapper(localName = "unregisterODEResponse", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.UnregisterODEResponse")
+    public void unregisterODE(
+            @WebParam(name = "odeID", targetNamespace = "") long odeID)
+            throws TransactionException;
 
     /**
      * Returns the current configuration.
      * 
      * @param configChanged
      *            The timestamp of the last config change.
+     * @param averagePeriod
+     *            The period of time (in seconds) to average the system load
+     *            over.
      * @param updateInterval
      *            The interval (in seconds) between updates to the client's
      *            status.
@@ -104,5 +126,6 @@ public interface ODEMonitorService {
     @ResponseWrapper(localName = "getConfigResponse", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.GetConfigResponse")
     public void getConfig(
             @WebParam(name = "updateInterval", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Integer> updateInterval,
+            @WebParam(name = "averagePeriod", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Integer> averagePeriod,
             @WebParam(name = "configChanged", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<XMLGregorianCalendar> configChanged);
 }

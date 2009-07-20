@@ -22,7 +22,7 @@ import javax.xml.namespace.QName;
 
 /**
  * This object contains factory methods for each Java content interface and Java
- * element interface generated in the de.decidr.webservices.email package.
+ * element interface generated in the de.decidr.model.soap.exceptions package.
  * <p>
  * An ObjectFactory allows you to programatically construct new instances of the
  * Java representation for XML content. The Java representation of XML content
@@ -35,16 +35,17 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _IoException_QNAME = new QName(
-            "http://decidr.de/webservices/Email", "ioException");
+            "http://decidr.de/exceptions", "ioException");
     private final static QName _MalformedURLException_QNAME = new QName(
-            "http://decidr.de/webservices/Email", "malformedURLException");
+            "http://decidr.de/exceptions", "malformedURLException");
     private final static QName _MessagingException_QNAME = new QName(
-            "http://decidr.de/webservices/Email", "messagingException");
+            "http://decidr.de/exceptions", "messagingException");
+    private final static QName _ReportingException_QNAME = new QName(
+            "http://decidr.de/exceptions", "reportingException");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of
-     * schema derived classes for package: de.decidr.webservices.email
-     * 
+     * schema derived classes for package: de.decidr.model.soap.exceptions
      */
     public ObjectFactory() {
         // needed by JAXB
@@ -52,9 +53,8 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
      */
-    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "ioException")
+    @XmlElementDecl(namespace = "http://decidr.de/exceptions", name = "ioException")
     public JAXBElement<String> createIoExceptionWrapper(String value) {
         return new JAXBElement<String>(_IoException_QNAME, String.class, null,
                 value);
@@ -62,9 +62,8 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
      */
-    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "malformedURLException")
+    @XmlElementDecl(namespace = "http://decidr.de/exceptions", name = "malformedURLException")
     public JAXBElement<String> createMalformedURLExceptionWrapper(String value) {
         return new JAXBElement<String>(_MalformedURLException_QNAME,
                 String.class, null, value);
@@ -72,11 +71,19 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
      */
-    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "messagingException")
+    @XmlElementDecl(namespace = "http://decidr.de/exceptions", name = "messagingException")
     public JAXBElement<String> createMessagingExceptionWrapper(String value) {
         return new JAXBElement<String>(_MessagingException_QNAME, String.class,
+                null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://decidr.de/exceptions", name = "reportingException")
+    public JAXBElement<String> createReportingExceptionWrapper(String value) {
+        return new JAXBElement<String>(_ReportingException_QNAME, String.class,
                 null, value);
     }
 }

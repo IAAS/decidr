@@ -21,12 +21,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.apache.log4j.Logger;
+
+import de.decidr.model.logging.DefaultLogger;
+
 /**
  * Contains basic code for getting stats on UNIX systems.
  * 
  * @author Reinhold
  */
 public abstract class UnixStatsCollector extends AbstractOSStatsCollector {
+
+    private static final Logger log = DefaultLogger
+            .getLogger(UnixStatsCollector.class);
 
     /**
      * Calls the script and parses the output to a float.
@@ -73,7 +80,7 @@ public abstract class UnixStatsCollector extends AbstractOSStatsCollector {
                 BufferedReader outputReader = new BufferedReader(
                         new InputStreamReader(stdout));
                 try {
-                   memLoad = new Float(outputReader.readLine());
+                    memLoad = new Float(outputReader.readLine());
                 } catch (Exception e) {
                     log
                             .error("Error parsing output of script "
