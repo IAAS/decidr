@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # The DecidR Development Team licenses this file to you under
 # the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License.
@@ -28,22 +28,60 @@ decimals=2
 echo "WARNING: incomplete dummy data"
 getTotalMem()
 {
-  echo "100"
+  totMem=$(sysctl hw.physmem)
+  totMem=$(totMem##* )
+  echo $totMem
 }
 
 getTotalSwap()
 {
-  echo "100"
+  # This is *very* format-dependent - find better way
+  swapTot=$(sysctl vm.swapusage)
+  lastChar=${swapTot: -1}
+  swapTot=${swapTot%%${lastChar}*}
+  swapTot=${swapTot##* }
+  case ${lastChar} in
+    M|m) factor=$((1024*1024));;
+    k|K) factor=1024;;
+    g|G) factor=$((1024*1024*1024));;
+    T|t) factor=$((1024*1024*1024*1024));;
+    *) factor=1;;
+  esac
+  echo $(bc <<< ${swapTot}*${factor})
 }
 
 getFreeMem()
 {
-  echo "100"
+  freeMem=$(top -l 1 | head -n 4 | grep -i PhysMem)
+  freeMem=${freeMem% free*}
+  freeMem=$(freeMem##* )
+  lastChar=${freeMem: -1}
+  freeMem=${freeMem%${lastChar}*}
+  case ${lastChar} in
+    M|m) factor=$((1024*1024));;
+    k|K) factor=1024;;
+    g|G) factor=$((1024*1024*1024));;
+    T|t) factor=$((1024*1024*1024*1024));;
+    *) factor=1;;
+  esac
+  echo $(bc <<< ${freeMem}*${factor})
 }
 
 getFreeSwap()
 {
-  echo "100"
+  # This is *very* format-dependent - find better way
+  swapFree=$(sysctl vm.swapusage)
+  lastChar=${swapTot: -1}
+  swapFree=${swapFree%${lastChar}*}
+  swapFree=${swapFree##* }
+  case ${lastChar} in
+    M|m) factor=$((1024*1024));;
+    k|K) factor=1024;;
+    g|G) factor=$((1024*1024*1024));;
+    T|t) factor=$((1024*1024*1024*1024));;
+    *) factor=1;;
+  esac
+  echo $(bc <<< ${swapFree}*${factor})
 }
 
 memTotal=$(getTotalMem)
@@ -51,8 +89,8 @@ swapTotal=$(getTotalSwap)
 memFree=$(getFreeMem)
 swapFree=$(getFreeSwap)
 
-memTotal=$((${memTotal}+${swapTotal}))
-memFree=$((${memFree}+${swapFree}))
-memUsed=$((${memTotal}-${memFree}))
+memTotal=$(bc <<< ${memTotal}+${swapTotal})
+memFree=$(bc <<< ${memFree}+${swapFree})
+memUsed=$(bc <<< ${memTotal}-${memFree})
 
-echo $($(which echo) -e "scale=${decimals}\n${memUsed}00/${memTotal}" | bc)
+echo $(echo -e "scale=${decimals}\n(${memUsed}/${memTotal})*100" | bc)

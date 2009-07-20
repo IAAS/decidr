@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # The DecidR Development Team licenses this file to you under
 # the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License.
@@ -38,4 +38,4 @@ top2=${top2%%% idle*}
 top1=${top1##* }
 top2=${top2##* }
 
-echo $($(which echo) -e "scale=${decimals}\n(${top1}+${top2})/2" | bc)
+echo $(echo -e "scale=${decimals}\n100.0-((${top1}+${top2})/2.0)" | bc)

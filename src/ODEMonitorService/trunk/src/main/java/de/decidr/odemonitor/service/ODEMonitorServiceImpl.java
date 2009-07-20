@@ -24,6 +24,7 @@ import javax.xml.ws.Holder;
 
 import org.apache.log4j.Logger;
 
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.notifications.NotificationEvents;
 
@@ -98,7 +99,20 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
                 + ".updateStats()");
         // RR Auto-generated method stub
         // RR if need new ode:
-        NotificationEvents.requestNewODEInstance(null);
+        for (int i = 3; i > 0; i--) {
+            try {
+                NotificationEvents.requestNewODEInstance(null);
+                break;
+            } catch (TransactionException e) {
+                if (i > 1) {
+                    log.error("Couldn't request new ODE instance", e);
+                } else {
+                    log.fatal("Need a new ODE instance but can't"
+                            + " send request by mail...", e);
+                }
+            }
+        }
+
         log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".updateStats()");
     }
