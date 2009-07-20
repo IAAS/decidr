@@ -86,8 +86,7 @@ public class DecidrGlobals {
     /**
      * Internal command that fetches the settings from the database.
      */
-    private static class FetchSettingsCommand extends
-            AbstractTransactionalCommand {
+    static class FetchSettingsCommand extends AbstractTransactionalCommand {
         public SystemSettings settings = null;
 
         @Override
@@ -102,7 +101,7 @@ public class DecidrGlobals {
     /**
      * Internal command that fetches the ESB data from the database.
      */
-    private static class FetchEsbCommand extends AbstractTransactionalCommand {
+    static class FetchEsbCommand extends AbstractTransactionalCommand {
         public Server esb = null;
 
         @Override

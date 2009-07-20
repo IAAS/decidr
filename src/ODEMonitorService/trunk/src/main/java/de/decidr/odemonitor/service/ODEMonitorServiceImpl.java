@@ -130,7 +130,7 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         // RR get from config
         int maxSysLoad = 100;
         // RR get from config
-        int minHighSysLoad = 0;
+        int minHighSysLoad = 70;
         // RR get from config
         int minSysLoad = 0;
         // RR get from config
