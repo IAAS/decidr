@@ -12,6 +12,7 @@
 Cannot attend: _none_<br>
 Issues:
   # ODE Monitor: Need a volunteer for Windows version od CPU & Memory getters, Mac ones need testing (RR)
+  # Hudson: We are running out of disk space on our iaassrv7 server. Must talk to Ralph to get more disk space (AT)
 
 == WM 07/13/09 ==
 Cannot attend: _none_<br>
