@@ -58,7 +58,7 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
 
     private ScrollPanel taskScrollPanel;
     private FlexTable taskTable;
-    private List<FormElementFieldSet> formElementFields;
+    private List<HTFieldSet> fieldsets;
 
     public HumanTaskActivityWindowContentPanel() {
         super();
@@ -74,7 +74,7 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         taskScrollPanel = new ScrollPanel(taskTable);
         this.add(taskScrollPanel);
 
-        formElementFields = new ArrayList<FormElementFieldSet>();
+        fieldsets = new ArrayList<HTFieldSet>();
 
         createToolBar();
     }
@@ -156,6 +156,7 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
     }
 
     private void addEntry(String label, Long variableId) {
+        // JS change this to a similar behavior like in if window
         taskTable.insertRow(taskTable.getRowCount());
 
         TextField<String> labelField = new TextField<String>();
@@ -176,14 +177,13 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
                 ModelingToolWidget.messages.workItemOutputVar()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 3, variableField);
 
-        formElementFields
-                .add(new FormElementFieldSet(labelField, variableField));
+        fieldsets.add(new HTFieldSet(labelField, variableField));
     }
 
     private void removeEntry() {
         if (taskTable.getRowCount() > STATICFIELDS) {
             taskTable.removeRow(taskTable.getRowCount() - 1);
-            formElementFields.remove(taskTable.getRowCount() - STATICFIELDS);
+            fieldsets.remove(taskTable.getRowCount() - STATICFIELDS);
         }
     }
 
@@ -194,8 +194,8 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
                 taskTable.removeRow(i - 1);
             }
         }
-        if (formElementFields.size() > 0) {
-            formElementFields.clear();
+        if (fieldsets.size() > 0) {
+            fieldsets.clear();
         }
     }
 
@@ -211,8 +211,8 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         return notifyCheckBox;
     }
 
-    public List<FormElementFieldSet> getFormElementFields() {
-        return formElementFields;
+    public List<HTFieldSet> getFormElementFields() {
+        return fieldsets;
     }
 
 }

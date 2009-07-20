@@ -57,6 +57,7 @@ public class HumanTaskActivityWindow extends Dialog {
     }
 
     private void createContentPanel() {
+        // JS rewrite, form panel is obsolete
         /*
          * There is no ContentPanel here. A taskPanel and a formPanel form the
          * "ContentPanel".
@@ -100,7 +101,7 @@ public class HumanTaskActivityWindow extends Dialog {
                 .getId());
         newModel.setNotifyVariableId(taskPanel.getNotifyCheckBox().getValue());
         List<FormElement> formElements = new ArrayList<FormElement>();
-        for (FormElementFieldSet fields : taskPanel.getFormElementFields()) {
+        for (HTFieldSet fields : taskPanel.getFormElementFields()) {
             FormElement element = new FormElement(fields.getLabelField()
                     .getValue(), fields.getVariableField().getValue().getId());
             formElements.add(element);

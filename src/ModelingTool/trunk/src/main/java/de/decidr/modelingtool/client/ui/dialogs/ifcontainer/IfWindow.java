@@ -52,7 +52,7 @@ public class IfWindow extends Dialog {
     private ScrollPanel scrollPanel;
     private FlexTable table;
 
-    private List<FieldSet> fieldsets;
+    private List<IfFieldSet> fieldsets;
 
     public IfWindow() {
         super();
@@ -62,7 +62,7 @@ public class IfWindow extends Dialog {
         createContentPanel();
         createButtons();
 
-        fieldsets = new ArrayList<FieldSet>();
+        fieldsets = new ArrayList<IfFieldSet>();
     }
 
     private void createContentPanel() {
@@ -111,7 +111,7 @@ public class IfWindow extends Dialog {
 
     private void changeWorkflowModel() {
         IfContainerModel newModel = new IfContainerModel();
-        for (FieldSet fs : fieldsets) {
+        for (IfFieldSet fs : fieldsets) {
             String label = fs.getLabel().getText();
             Long operand1Id = fs.getOperand1Field().getValue().getId();
             Operator operator = Operator.getOperatorFromDisplayString(fs
@@ -130,7 +130,7 @@ public class IfWindow extends Dialog {
         for (Condition con : model.getConditions()) {
             table.insertRow(table.getRowCount());
 
-            FieldSet fieldset = new FieldSet(con);
+            IfFieldSet fieldset = new IfFieldSet(con);
             fieldsets.add(fieldset);
             table.setWidget(table.getRowCount() - 1, 0, fieldset.getLabel());
             table.setWidget(table.getRowCount() - 1, 1, fieldset

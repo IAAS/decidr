@@ -33,7 +33,7 @@ import de.decidr.modelingtool.client.model.variable.VariablesFilter;
  * 
  * @author Jonas Schlaak
  */
-public class FieldSet {
+public class IfFieldSet {
 
     private Label label;
     private SimpleComboBox<String> typeSelector;
@@ -41,7 +41,7 @@ public class FieldSet {
     private SimpleComboBox<String> operatorList;
     private ComboBox<Variable> operand2Field;
 
-    public FieldSet(Condition condition) {
+    public IfFieldSet(Condition condition) {
         label = new Label(condition.getLabel());
 
         typeSelector = new SimpleComboBox<String>();
