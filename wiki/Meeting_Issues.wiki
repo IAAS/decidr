@@ -11,7 +11,7 @@
 == WM 07/20/09 ==
 Cannot attend: _none_<br>
 Issues:
-  # 
+  # ODE Monitor: Need a volunteer for Windows version od CPU & Memory getters, Mac ones need testing (RR)
 
 == WM 07/13/09 ==
 Cannot attend: _none_<br>
