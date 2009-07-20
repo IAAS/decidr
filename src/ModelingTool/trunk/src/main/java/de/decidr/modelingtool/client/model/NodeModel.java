@@ -58,7 +58,7 @@ public class NodeModel extends AbstractModel {
     }
 
     public NodeModel() {
-        // TODO Auto-generated constructor stub
+        super();
     }
 
     public ConnectionModel getInput() {

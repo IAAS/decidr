@@ -21,7 +21,7 @@ package de.decidr.modelingtool.client.model;
  * 
  * @author JE, Jonas Schlaak
  */
-public class EmailInvokeNodeModel extends NodeModel {
+public class EmailInvokeNodeModel extends InvokeNodeModel {
 
     private Long toVariableId = null;
     private Long ccVariableId = null;

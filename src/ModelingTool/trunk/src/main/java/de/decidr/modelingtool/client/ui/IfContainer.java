@@ -39,7 +39,6 @@ public class IfContainer extends Container {
      */
     public IfContainer(HasChildren parentPanel) {
         super(parentPanel);
-        // TODO Auto-generated constructor stub
 
         graphic.setWidget(new Button(ModelingToolWidget.messages
                 .changePropertyButton(), new SelectionListener<ButtonEvent>() {

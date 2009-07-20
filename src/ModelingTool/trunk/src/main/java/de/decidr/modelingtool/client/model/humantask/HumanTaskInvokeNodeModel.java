@@ -19,14 +19,14 @@ package de.decidr.modelingtool.client.model.humantask;
 import java.util.List;
 
 import de.decidr.modelingtool.client.model.HasChildModels;
-import de.decidr.modelingtool.client.model.NodeModel;
+import de.decidr.modelingtool.client.model.InvokeNodeModel;
 
 /**
  * TODO: add comment
  * 
  * @author JE, Jonas Schlaak
  */
-public class HumanTaskInvokeNodeModel extends NodeModel {
+public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
 
     private Long userVariableId = null;
     private Long formVariableId = null;

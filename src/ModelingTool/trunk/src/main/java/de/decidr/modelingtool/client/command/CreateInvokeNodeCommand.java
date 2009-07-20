@@ -19,7 +19,7 @@ package de.decidr.modelingtool.client.command;
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
 import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
-import de.decidr.modelingtool.client.model.NodeModel;
+import de.decidr.modelingtool.client.model.InvokeNodeModel;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.ui.EmailInvokeNode;
 import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
@@ -36,10 +36,10 @@ public class CreateInvokeNodeCommand implements UndoableCommand {
     InvokeNode node = null;
 
     /** The model of the invoke node. */
-    NodeModel model = null;
+    InvokeNodeModel model = null;
 
     /**
-     * Contructor for creating a node model from an already added node. The
+     * Constructor for creating a node model from an already added node. The
      * model is created from the data of the node.
      *
      * @param node The node that has been added
@@ -72,13 +72,13 @@ public class CreateInvokeNodeCommand implements UndoableCommand {
     }
 
     /**
-     * Contructor for creating a node from an existing and linked node model.
-     * The container is drawn from the data of the model.
+     * Constructor for creating a node from an existing and linked node model.
+     * The invoke node is drawn from the data of the model.
      *
      * @param model The linked node model.
      */
-    public CreateInvokeNodeCommand(NodeModel model)
-            throws IncompleteModelDataException {
+    public CreateInvokeNodeCommand(InvokeNodeModel model)
+            throws IncompleteModelDataException { 
         this.model = model;
 
         // check if model contains all needed information. if not, and

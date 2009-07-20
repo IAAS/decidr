@@ -102,6 +102,15 @@ public class Container extends Node implements HasChildren {
         // add node to the nodes collection
         childNodes.add(node);
 
+        // register the selection Handler
+        // must happen before makeDraggable because of handler order!!!
+        node.addSelectionHandler(Workflow.getInstance().getSelectionHandler());
+
+        // make node draggable, only draggable at graphic widget of the node
+        if (node.isMoveable()) {
+            node.makeDraggable();
+        }
+
         // callback to node after add
         node.onPanelAdd(this);
     }
@@ -118,7 +127,7 @@ public class Container extends Node implements HasChildren {
     public ContainerStartPort getContainerStartPort() {
         return containerStartPort;
     }
-    
+
     public DropController getDropController() {
         return dropController;
     }
@@ -173,7 +182,7 @@ public class Container extends Node implements HasChildren {
                 && containerExitPort.isDropControllerRegistered()) {
             containerExitPort.unregisterDropController();
         }
-        
+
         // unregister drop controller
         if (isDropControllerRegistered()) {
             unregisterDropController();
@@ -239,7 +248,7 @@ public class Container extends Node implements HasChildren {
         this.add(containerStartPort);
         containerStartPort.setParentNode(this);
     }
-    
+
     public void registerDropController() {
         PickupDragController dc = DndRegistry.getInstance()
                 .getPickupDragController("WorkflowDragController");
@@ -249,13 +258,13 @@ public class Container extends Node implements HasChildren {
 
     public void unregisterDropController() {
         PickupDragController dc = DndRegistry.getInstance()
-        .getPickupDragController("WorkflowDragController");
+                .getPickupDragController("WorkflowDragController");
         dc.unregisterDropController(getDropController());
         dropControllerRegistered = false;
     }
-    
+
     private boolean dropControllerRegistered = false;
-    
+
     public boolean isDropControllerRegistered() {
         return dropControllerRegistered;
     }

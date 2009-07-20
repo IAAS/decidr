@@ -21,9 +21,14 @@ import com.google.gwt.user.client.Window;
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
 import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.model.ConnectionModel;
+import de.decidr.modelingtool.client.model.ContainerExitConnectionModel;
+import de.decidr.modelingtool.client.model.ContainerStartConnectionModel;
+import de.decidr.modelingtool.client.model.ifcondition.Condition;
 import de.decidr.modelingtool.client.ui.Connection;
+import de.decidr.modelingtool.client.ui.Container;
+import de.decidr.modelingtool.client.ui.ContainerExitPort;
 import de.decidr.modelingtool.client.ui.ContainerStartPort;
-import de.decidr.modelingtool.client.ui.InputPort;
+import de.decidr.modelingtool.client.ui.IfContainer;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.OrthogonalConnection;
 import de.decidr.modelingtool.client.ui.OutputPort;
@@ -37,7 +42,7 @@ import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
  * @author Johannes Engelhardt
  */
 public class CreateConnectionCommand implements UndoableCommand {
-    
+
     /** The connection to be added. */
     private Connection connection;
 
@@ -46,10 +51,10 @@ public class CreateConnectionCommand implements UndoableCommand {
 
     /**
      * Constructor for creating a connection model from an already drawn
-     * connection. The model is created from the data of the drawn
-     * connection.
-     *
-     * @param connection The connection which has been drawn
+     * connection. The model is created from the data of the drawn connection.
+     * 
+     * @param connection
+     *            The connection which has been drawn
      */
     public CreateConnectionCommand(Connection connection) {
         this.connection = connection;
@@ -58,8 +63,29 @@ public class CreateConnectionCommand implements UndoableCommand {
         Port startPort = connection.getStartDragBox().getGluedPort();
         Port endPort = connection.getEndDragBox().getGluedPort();
 
-        // create connection model
-        model = new ConnectionModel();
+        // check if connection is a container start connection in an if
+        // container
+        if ((startPort instanceof ContainerStartPort && startPort
+                .getParentNode() instanceof IfContainer)
+                || (endPort instanceof ContainerStartPort && startPort
+                        .getParentNode() instanceof IfContainer)) {
+            // create condition
+            model = new Condition();
+
+            // check if connection is another container start connection
+        } else if (startPort instanceof ContainerStartPort
+                || endPort instanceof ContainerStartPort) {
+            // create container start connection model
+            model = new ContainerStartConnectionModel();
+
+        } else if (startPort instanceof ContainerExitPort
+                || endPort instanceof ContainerExitPort) {
+            // create container exit condition model
+            model = new ContainerExitConnectionModel();
+        } else {
+            // create connection model
+            model = new ConnectionModel();
+        }
 
         // link connection and model
         connection.setModel(model);
@@ -84,12 +110,13 @@ public class CreateConnectionCommand implements UndoableCommand {
             model.setTarget(startPort.getParentNode().getModel());
         }
     }
-  
+
     /**
-     * Contructor for creating a connection from an existing and linked
+     * Constructor for creating a connection from an existing and linked
      * connection model. The connection is drawn from the data of the model.
-     *
-     * @param model The connection model from which the connection is drawn.
+     * 
+     * @param model
+     *            The connection model from which the connection is drawn.
      */
     public CreateConnectionCommand(ConnectionModel model)
             throws IncompleteModelDataException {
@@ -99,12 +126,31 @@ public class CreateConnectionCommand implements UndoableCommand {
         // IncompleteModelDataException is thrown
         checkModelData();
 
-        // get source port
-        OutputPort sourcePort = ((Node) model.getSource().getChangeListener())
-                .getOutputPort();
-        // get targetPort
-        InputPort targetPort = ((Node) model.getTarget().getChangeListener())
-                .getInputPort();
+        Port sourcePort;
+        Port targetPort;
+
+        if (model instanceof ContainerStartConnectionModel) {
+            // get container start port
+            sourcePort = ((Container) model.getSource().getChangeListener())
+                    .getContainerStartPort();
+        } else {
+            // get source port
+            sourcePort = ((Node) model.getSource().getChangeListener())
+                    .getOutputPort();
+        }
+
+        // check if connection is a exit container connection
+        if (model instanceof ContainerExitConnectionModel) {
+            // get container exit port
+            // targetPort = ((Container) model.getTarget().getChangeListener())
+            // .getContainerExitPort();
+            targetPort = ((Node) model.getTarget().getChangeListener())
+                    .getInputPort();
+        } else {
+            // get targetPort
+            targetPort = ((Node) model.getTarget().getChangeListener())
+                    .getInputPort();
+        }
 
         // create connection
         connection = new OrthogonalConnection(model.getParentModel()
@@ -184,23 +230,27 @@ public class CreateConnectionCommand implements UndoableCommand {
     }
 
     /**
-     * Checks the connection model if it consists all required data for
-     * drawing the connection: its parent model, target and source node.
-     *
+     * Checks the connection model if it consists all required data for drawing
+     * the connection: its parent model, target and source node.
+     * 
      * @return True, if all required data is not null.
-     * @throws IncompleteModelDataException if any relevant data is null.
+     * @throws IncompleteModelDataException
+     *             if any relevant data is null.
      */
     private boolean checkModelData() throws IncompleteModelDataException {
         if (model.getSource() == null) {
-            throw new IncompleteModelDataException("model.source is null.");
+            throw new IncompleteModelDataException(
+                    "ConnectionModel.source is null.");
         }
 
         if (model.getTarget() == null) {
-            throw new IncompleteModelDataException("model.target is null.");
+            throw new IncompleteModelDataException(
+                    "ConnectionModel.target is null.");
         }
 
         if (model.getParentModel() == null) {
-            throw new IncompleteModelDataException("model.parentModel is null.");
+            throw new IncompleteModelDataException(
+                    "ConnectionModel.parentModel is null.");
         }
 
         return true;

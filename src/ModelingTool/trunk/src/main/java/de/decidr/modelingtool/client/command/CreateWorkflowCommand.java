@@ -21,13 +21,16 @@ import com.google.gwt.user.client.Command;
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
 import de.decidr.modelingtool.client.model.ConnectionModel;
 import de.decidr.modelingtool.client.model.ContainerModel;
+import de.decidr.modelingtool.client.model.EndNodeModel;
+import de.decidr.modelingtool.client.model.InvokeNodeModel;
 import de.decidr.modelingtool.client.model.NodeModel;
+import de.decidr.modelingtool.client.model.StartNodeModel;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
- * This command creates a complete workflow from a workflow model.
- * All add operations are realized throw its create commands.
+ * This command creates a complete workflow from a workflow model. All add
+ * operations are realized throw its create commands.
  * 
  * @author Johannes Engelhardt
  */
@@ -40,12 +43,11 @@ public class CreateWorkflowCommand implements Command {
     CommandList cmdList = new CommandList();
 
     /**
-     * Constructor for creating the create command list from the workflow
-     * model.
-     *
-     * @param workflowModel The workflow model from which the workflow is
-     * created.
-     *
+     * Constructor for creating the create command list from the workflow model.
+     * 
+     * @param workflowModel
+     *            The workflow model from which the workflow is created.
+     * 
      */
     public CreateWorkflowCommand(WorkflowModel workflowModel)
             throws IncompleteModelDataException {
@@ -60,9 +62,18 @@ public class CreateWorkflowCommand implements Command {
                 // create child nodes and connections of container
                 cmdList.addCommand(createContainer((ContainerModel) model));
 
-            } else {
+            } else if (model instanceof InvokeNodeModel) {
                 // create invoke node
-                cmdList.addCommand(new CreateInvokeNodeCommand(model));
+                cmdList.addCommand(new CreateInvokeNodeCommand(
+                        (InvokeNodeModel) model));
+            } else if (model instanceof StartNodeModel) {
+                // create start node
+                cmdList.addCommand(new CreateStartEndNodeCommand(
+                        (StartNodeModel) model));
+            } else if (model instanceof EndNodeModel) {
+                // create end node
+                cmdList.addCommand(new CreateStartEndNodeCommand(
+                        (EndNodeModel) model));
             }
         }
 
@@ -83,15 +94,16 @@ public class CreateWorkflowCommand implements Command {
 
     /**
      * Creates a command list for creating a container with all its children.
-     *
-     * @param containerModel The model of the container.
+     * 
+     * @param containerModel
+     *            The model of the container.
      * @return A command list with the create commands of the container and its
-     * children.
+     *         children.
      */
     private UndoableCommand createContainer(ContainerModel containerModel)
             throws IncompleteModelDataException {
         CommandList cmdList = new CommandList();
-        
+
         // create container
         cmdList.addCommand(new CreateContainerCommand(containerModel));
 
@@ -100,9 +112,10 @@ public class CreateWorkflowCommand implements Command {
             if (model instanceof ContainerModel) {
                 // create container with its children
                 cmdList.addCommand(createContainer((ContainerModel) model));
-            } else {
+            } else if (model instanceof InvokeNodeModel) {
                 // create invoke node
-                cmdList.addCommand(new CreateInvokeNodeCommand(model));
+                cmdList.addCommand(new CreateInvokeNodeCommand(
+                        (InvokeNodeModel) model));
             }
         }
 

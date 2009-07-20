@@ -146,9 +146,9 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
         }
 
         // if node is a container, register the drop controller
-        if (node instanceof Container) {
-            //((Container)node).registerDropController();
-        }
+//        if (node instanceof Container) {
+//            //((Container)node).registerDropController();
+//        }
 
         // callback to node after add
         node.onPanelAdd(this);

@@ -16,14 +16,14 @@
 
 package de.decidr.modelingtool.client.model.ifcondition;
 
-import de.decidr.modelingtool.client.model.ConnectionModel;
+import de.decidr.modelingtool.client.model.ContainerStartConnectionModel;
 
 /**
  * TODO: add comment
  * 
  * @author Jonas Schlaak
  */
-public class Condition extends ConnectionModel {
+public class Condition extends ContainerStartConnectionModel {
 
     private String label;
     private Long operand1Id;

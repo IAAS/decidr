@@ -18,7 +18,6 @@ package de.decidr.modelingtool.client.ui.selection;
 
 import com.allen_sauer.gwt.dnd.client.DragController;
 
-import de.decidr.modelingtool.client.exception.ModelingToolException;
 import de.decidr.modelingtool.client.ui.Connection;
 import de.decidr.modelingtool.client.ui.ContainerExitPort;
 import de.decidr.modelingtool.client.ui.ContainerStartPort;
