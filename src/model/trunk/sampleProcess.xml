@@ -2,9 +2,6 @@
 	<workflow id="jf54sdfasdfsdfeopei4" name="Party Organization" 
 	 targetNamespace="http://decidr.de/decidr/party"
 	 xmlns="http://decidr.de/schema/dwdl">
-		<description lang="de" source="www.iaas.uni-stuttgart.de">
-			Workflow to organize a party!
-		</description>
 		<variables>
 			<variable name="partydate" type="date"
 		     configurationVariable="yes" >
@@ -12,10 +9,8 @@
 		    <variable name="faultMessage" type="string"
 		     configurationVariable="yes" >
 		    </variable>
-		    <variable name="successOrganization" type="string">
-		      <initialValue>
-		        Party organization successfully finished!
-		      </initialValue>
+		    <variable name="successOrganizationMessage" type="string">
+		      <initialValue>Party organization successfully finished</initialValue>
 		    </variable>
 			<variable name="invitationFormResult" type="form" />
 		</variables>
@@ -186,7 +181,7 @@
 		      <notificationOfSuccess>
 		        <setProperty
 		         name="successMessage"
-		         variable="successOrganization">
+		         variable="successOrganizationMessage">
 		        </setProperty>
 				<setProperty
 		         name="to"
