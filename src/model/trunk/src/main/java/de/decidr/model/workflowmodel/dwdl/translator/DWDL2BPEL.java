@@ -20,29 +20,19 @@ import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import org.apache.log4j.Logger;
 import de.decidr.model.logging.DefaultLogger;
-import de.decidr.model.workflowmodel.bpel.ObjectFactory;
-import de.decidr.model.workflowmodel.bpel.TActivityContainer;
-import de.decidr.model.workflowmodel.bpel.TAssign;
-import de.decidr.model.workflowmodel.bpel.TCopy;
-import de.decidr.model.workflowmodel.bpel.TCorrelationSet;
-import de.decidr.model.workflowmodel.bpel.TCorrelationSets;
-import de.decidr.model.workflowmodel.bpel.TDocumentation;
-import de.decidr.model.workflowmodel.bpel.TFaultHandlers;
-import de.decidr.model.workflowmodel.bpel.TFrom;
-import de.decidr.model.workflowmodel.bpel.TImport;
-import de.decidr.model.workflowmodel.bpel.TInvoke;
-import de.decidr.model.workflowmodel.bpel.TLiteral;
-import de.decidr.model.workflowmodel.bpel.TPartnerLink;
-import de.decidr.model.workflowmodel.bpel.TPartnerLinks;
-import de.decidr.model.workflowmodel.bpel.TProcess;
-import de.decidr.model.workflowmodel.bpel.TSequence;
-import de.decidr.model.workflowmodel.bpel.TTo;
-import de.decidr.model.workflowmodel.bpel.TVariable;
-import de.decidr.model.workflowmodel.bpel.TVariables;
+import de.decidr.model.workflowmodel.bpel.*;
 import de.decidr.model.workflowmodel.dwdl.TActor;
+import de.decidr.model.workflowmodel.dwdl.TArc;
+import de.decidr.model.workflowmodel.dwdl.TBasicNode;
+import de.decidr.model.workflowmodel.dwdl.TEndNode;
+import de.decidr.model.workflowmodel.dwdl.TFlowNode;
+import de.decidr.model.workflowmodel.dwdl.TForEachNode;
+import de.decidr.model.workflowmodel.dwdl.TIfNode;
+import de.decidr.model.workflowmodel.dwdl.TInvokeNode;
 import de.decidr.model.workflowmodel.dwdl.TRecipient;
 import de.decidr.model.workflowmodel.dwdl.TRole;
 import de.decidr.model.workflowmodel.dwdl.TSetProperty;
+import de.decidr.model.workflowmodel.dwdl.TStartNode;
 import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 
 /**
@@ -106,10 +96,11 @@ public class DWDL2BPEL {
         return process;
     }
 
-    private void initRoles() {
-        TAssign assign = factory.createTAssign();
-        assign.setName("initRoles");
+    private TAssign initRoles() {
+        TAssign assign = null;
         if (dwdl.getRoles() != null) {
+            assign = factory.createTAssign();
+            assign.setName("initRoles");
             TCopy copyRole = factory.createTCopy();
             if (!dwdl.getRoles().getRole().isEmpty()) {
                 for (TRole role : dwdl.getRoles().getRole()) {
@@ -117,17 +108,19 @@ public class DWDL2BPEL {
                         TFrom from = factory.createTFrom();
                         TTo to = factory.createTTo();
                         TLiteral literal = factory.createTLiteral();
-                        String content = "<decidr:role name=" + role.getName() + ">";
+                        StringBuffer content = new StringBuffer();
+                        content.append("<decidr:role name=" + role.getName() + ">");
                         for (TActor actor : role.getActor()) {
-                            String actorXML = "<decidr:actor";
-                            actorXML+=(actor.getName()!=null ? " name="+actor.getName() : "");
-                            actorXML+=(actor.getUserId()!=null ? " userId="+actor.getUserId() : "");
-                            actorXML+=(actor.getEmail()!=null ? " email="+actor.getEmail() : "");
-                            actorXML+="/>";
-                            content = content.concat(actorXML);
+                            StringBuffer actorXML = new StringBuffer();
+                                actorXML.append("<decidr:actor");
+                            actorXML.append(actor.getName()!=null ? " name="+actor.getName() : "");
+                            actorXML.append(actor.getUserId()!=null ? " userId="+actor.getUserId() : "");
+                            actorXML.append(actor.getEmail()!=null ? " email="+actor.getEmail() : "");
+                            actorXML.append("/>");
+                            content.append(actorXML);
                         }
-                        content.concat("</decidr:role>");
-                        literal.getContent().add(content);
+                        content.append("</decidr:role>");
+                        literal.getContent().add((content.toString()));
                         from.getContent().add(literal);
                         to.setVariable(role.getName());
                         copyRole.setFrom(from);
@@ -143,12 +136,13 @@ public class DWDL2BPEL {
                     TFrom from = factory.createTFrom();
                     TTo to = factory.createTTo();
                     TLiteral literal = factory.createTLiteral();
-                    String actorXML = "<decidr:actor";
-                    actorXML+=(actor.getName()!=null ? " name="+actor.getName() : "");
-                    actorXML+=(actor.getUserId()!=null ? " userId="+actor.getUserId() : "");
-                    actorXML+=(actor.getEmail()!=null ? " email="+actor.getEmail() : "");
-                    actorXML+="/>";
-                    literal.getContent().add(actorXML);
+                    StringBuffer actorXML = new StringBuffer();
+                    actorXML.append("<decidr:actor");
+                    actorXML.append(actor.getName()!=null ? " name="+actor.getName() : "");
+                    actorXML.append(actor.getUserId()!=null ? " userId="+actor.getUserId() : "");
+                    actorXML.append(actor.getEmail()!=null ? " email="+actor.getEmail() : "");
+                    actorXML.append("/>");
+                    literal.getContent().add(actorXML.toString());
                     from.getContent().add(literal);
                     to.setVariable(actor.getName());
                     copyActor.setFrom(from);
@@ -156,14 +150,15 @@ public class DWDL2BPEL {
                 }
                 assign.getCopyOrExtensionAssignOperation().add(copyActor);
             }
-            process.setAssign(assign);
         }
+        return assign;
     }
 
-    private void initVariables() {
-        TAssign assign = factory.createTAssign();
-        assign.setName("initVariables");
+    private TAssign initVariables() {
+        TAssign assign = null;     
         if (dwdl.getVariables() != null) {
+            assign = factory.createTAssign();
+            assign.setName("initVariables");
             if (!dwdl.getVariables().getVariable().isEmpty()) {
                 TCopy copy = factory.createTCopy();
                 for (de.decidr.model.workflowmodel.dwdl.TVariable var : dwdl
@@ -172,6 +167,7 @@ public class DWDL2BPEL {
                         TFrom from = factory.createTFrom();
                         TTo to = factory.createTTo();
                         TLiteral literal = factory.createTLiteral();
+                        log.debug(var.getInitialValue().getContent().get(0));
                         literal.getContent().addAll(
                                 var.getInitialValue().getContent());
                         from.getContent().add(literal);
@@ -193,14 +189,76 @@ public class DWDL2BPEL {
                     }
                 }
             }
-            process.setAssign(assign);
         }
+        return assign;
     }
 
     private void setActivity() {
-        initVariables();
-        initRoles();
+        TSequence mainSequence = factory.createTSequence();
+        mainSequence.setName("mainSequence");
+        TAssign initVariables = initVariables();
+        TAssign initRoles = initRoles();
+        mainSequence.getActivity().add(initVariables);
+        mainSequence.getActivity().add(initRoles);
+        TFlow mainFlow = factory.createTFlow();
+        for (TBasicNode node : dwdl.getNodes().getAllNodes()){
+            if (node instanceof TStartNode){
+                TReceive receive = getReceiveActivity((TStartNode) node);
+                mainFlow.getActivity().add(receive);
+            } else if (node instanceof TEndNode){
+                TReply reply = getReplyActivity((TEndNode) node);
+                mainFlow.getActivity().add(reply);
+            } else if (node instanceof TFlowNode){
+                TFlow flow = getFlowActivity((TFlowNode) node);
+                mainFlow.getActivity().add(flow);
+            } else if (node instanceof TForEachNode){
+                TForEach foreach = getForEachActivity((TForEachNode) node);
+                mainFlow.getActivity().add(foreach);
+            } else if (node instanceof TIfNode){
+                TIf ifActivity = getIfActivity((TIfNode) node);
+                mainFlow.getActivity().add(ifActivity);
+            } else if (node instanceof TInvokeNode){
+                TInvoke invoke = getInvokeActivity((TInvokeNode) node);
+                mainFlow.getActivity().add(invoke);
+            }
+        }
+        TLinks links = factory.createTLinks();
+        mainFlow.setLinks(links);
+        for (TArc arc : dwdl.getArcs().getArc()){
+            TLink link = factory.createTLink();
+            link.setName(arc.getSourceNode()+"-to-"+arc.getTargetNode());
+            mainFlow.getLinks().getLink().add(link);
+        }
+        process.setSequence(mainSequence);
+    }
 
+    private TInvoke getInvokeActivity(TInvokeNode node) {
+        
+        return null;
+    }
+
+    private TIf getIfActivity(TIfNode node) {
+        return null;
+    }
+
+    private TForEach getForEachActivity(TForEachNode node) {
+        
+        return null;
+    }
+
+    private TFlow getFlowActivity(TFlowNode node) {
+        
+        return null;
+    }
+
+    private TReply getReplyActivity(TEndNode node) {
+        
+        return null;
+    }
+
+    private TReceive getReceiveActivity(TStartNode node) {
+        
+        return null;
     }
 
     private void setCorrelationSets() {

@@ -30,7 +30,7 @@ import de.decidr.model.workflowmodel.dwdl.translator.DWDL2BPEL;
 import de.decidr.model.workflowmodel.dwdl.translator.Translator;
 
 /**
- * MA: add comment
+ * Simple deployment test class
  * 
  * @author Modood Alvi
  */

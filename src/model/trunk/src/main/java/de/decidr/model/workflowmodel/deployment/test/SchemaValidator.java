@@ -23,7 +23,7 @@ import javax.xml.validation.Validator;
 import org.xml.sax.SAXException;
 
 /**
- * MA: add comment
+ * A simple schema validator
  * 
  * @author mod2
  */
