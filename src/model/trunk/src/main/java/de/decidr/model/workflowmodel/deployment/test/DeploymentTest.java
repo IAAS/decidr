@@ -56,7 +56,6 @@ public class DeploymentTest {
 
             marshaller.marshal(p, System.out);
         } catch (Exception e) {
-            // MA Auto-generated catch block
             e.printStackTrace();
             System.out.println("Ups");
         }

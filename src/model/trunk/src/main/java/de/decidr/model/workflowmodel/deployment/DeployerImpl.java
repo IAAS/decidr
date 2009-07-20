@@ -28,7 +28,7 @@ import javax.wsdl.xml.WSDLWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.soap.SOAPMessage;
+//import javax.xml.soap.SOAPMessage;
 
 import com.ibm.wsdl.xml.WSDLWriterImpl;
 
@@ -87,14 +87,14 @@ public class DeployerImpl implements Deployer {
         TProcess bpel = translator.getBPEL();
         Definition wsdl = translator.getWSDL("someloaction", tenantName);
         TDeployment dd = translator.getDD();
-        SOAPMessage soap = translator.getSOAP();
+        //SOAPMessage soap = translator.getSOAP();
         byte[] zipFile = getDeploymentBundle(tenantName, bpel, wsdl, dd);                
         fileDeployer = new FileDeployer();
         fileDeployer.deploy(zipFile);
 
         result = new DeploymentResultImpl();
         result.setDoplementDate(DecidrGlobals.getTime().getTime());
-        result.setSOAPMessage(soap);
+        //result.setSOAPMessage(soap);
         result.setServers(serverList);
 
         return result;

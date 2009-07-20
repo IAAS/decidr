@@ -18,11 +18,9 @@ package de.decidr.model.workflowmodel.deployment;
 
 import java.util.Date;
 import java.util.List;
-import javax.xml.soap.SOAPMessage;
-
 
 /**
- * MA add comment
+ * Holds all relevant data created during deployment of a dwdl workflow. 
  * 
  * @author Modood Alvi
  * @version 0.1
@@ -30,8 +28,6 @@ import javax.xml.soap.SOAPMessage;
 public interface DeploymentResult {
 
     public List<Long> getServers();
-
-    public SOAPMessage getSOAPMessage();
     
     public Date getDoplementDate();
     
@@ -39,7 +35,7 @@ public interface DeploymentResult {
     
     public void setServers(List<Long> servers);
     
-    public void setSOAPMessage(SOAPMessage soap);
+    public void setSOAPTemplate(byte[] soap);
 
     public byte[] getSOAPTemplate();
 

@@ -35,30 +35,46 @@ import de.decidr.model.entities.ServerLoadView;
  */
 public interface Deployer {
 
-
     /**
-     * MA add comment
-     *
-     * @param dwdl DWDL file of the workflow
-     * @param tenantName The tenant name or process owner
-     * @param serverStatistics An list of servers containing server load information
-     * @param strategy The deployment strategy defines for example how to choose servers
-     * @param webservices A list of known web services
-     * @return The deployment result contains information about the deployment 
+     * This interface provides functionality for other components to deploy a
+     * workflow instance. The interface contains the function {@code
+     * DeploymentResult deploy()}. This function expects the workflow model is
+     * to be deployed and a list server load views, which lists all available
+     * servers and details of these servers, like server load, running
+     * instances, deployed models. The function returns a list of Long values,
+     * the IDs of the servers, on which the workflow model has been deployed on,
+     * changes to the deployed workflow model don’t have to be returned to the
+     * calling component, since the Decidr Workflow Model (dwfm) is passed by
+     * reference.
+     * 
+     * 
+     * @param dwdl
+     *            DWDL file of the workflow
+     * @param tenantName
+     *            The tenant name or process owner
+     * @param serverStatistics
+     *            An list of servers containing server load information
+     * @param strategy
+     *            The deployment strategy defines for example how to choose
+     *            servers
+     * @param webservices
+     *            A list of known web services
+     * @return The deployment result contains information about the deployment
      * @throws DWDLValidationException
      * @throws ODESelectorException
      * @throws IOException
      * @throws JAXBException
      * @throws WSDLException
      */
- public DeploymentResult deploy(byte[] dwdl, List<KnownWebService> webservices, String tenantName,
+    public DeploymentResult deploy(byte[] dwdl,
+            List<KnownWebService> webservices, String tenantName,
             List<ServerLoadView> serverStatistics, DeploymentStrategy strategy)
             throws DWDLValidationException, ODESelectorException, IOException,
             JAXBException, WSDLException;
 
     /**
      * MA add comment
-     *
+     * 
      * @param dwfm
      * @param server
      * @throws Exception

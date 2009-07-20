@@ -18,8 +18,6 @@ package de.decidr.model.workflowmodel.deployment;
 
 import java.util.Date;
 import java.util.List;
-import javax.xml.soap.SOAPMessage;
-
 
 
 /**
@@ -31,15 +29,11 @@ import javax.xml.soap.SOAPMessage;
 public class DeploymentResultImpl implements DeploymentResult {
 
     private List<Long> servers;
-    private SOAPMessage soapMessage;
+    private byte[] soapMessage;
     private Date deployDate;
     @Override
     public Date getDoplementDate() {
         return deployDate;
-    }
-    @Override
-    public SOAPMessage getSOAPMessage() {
-        return soapMessage;
     }
     @Override
     public List<Long> getServers() {
@@ -50,7 +44,7 @@ public class DeploymentResultImpl implements DeploymentResult {
         deployDate = deploymentDate;
     }
     @Override
-    public void setSOAPMessage(SOAPMessage soap) {
+    public void setSOAPTemplate(byte[] soap) {
         soapMessage = soap;
     }
     @Override
@@ -58,11 +52,9 @@ public class DeploymentResultImpl implements DeploymentResult {
         this.servers = servers;
     }
     
-    // MA IMPLEMENT ME !!!!
     @Override
     public byte[] getSOAPTemplate() {
-        // MA Auto-generated method stub
-        return null;
+        return soapMessage;
     }
     
 
