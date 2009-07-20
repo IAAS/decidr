@@ -21,7 +21,6 @@ import com.extjs.gxt.ui.client.event.SelectionChangedListener;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 
 import de.decidr.modelingtool.client.model.ifcondition.Condition;
 import de.decidr.modelingtool.client.model.ifcondition.Operator;
@@ -39,7 +38,7 @@ public class FieldSet {
     private Label label;
     private SimpleComboBox<String> typeSelector;
     private ComboBox<Variable> operand1Field;
-    private ListBox operatorList;
+    private SimpleComboBox<String> operatorList;
     private ComboBox<Variable> operand2Field;
 
     public FieldSet(Condition condition) {
@@ -55,7 +54,30 @@ public class FieldSet {
                     @Override
                     public void selectionChanged(
                             SelectionChangedEvent<Variable> se) {
-                        // JS this is not finished
+                        // JS: rewrite this
+                        operand1Field.setEnabled(true);
+                        operand1Field.getStore().removeAll();
+                        operand1Field
+                                .getStore()
+                                .add(
+                                        VariablesFilter
+                                                .getVariablesOfType(
+                                                        VariableType
+                                                                .getTypeFromLocalName(typeSelector
+                                                                        .getValue()
+                                                                        .getValue()))
+                                                .getModels());
+                        operand2Field.getStore().removeAll();
+                        operand2Field
+                                .getStore()
+                                .add(
+                                        VariablesFilter
+                                                .getVariablesOfType(
+                                                        VariableType
+                                                                .getTypeFromLocalName(typeSelector
+                                                                        .getValue()
+                                                                        .getValue()))
+                                                .getModels());
                     }
                 });
 
@@ -67,29 +89,41 @@ public class FieldSet {
                     .getOperand1Id()));
         }
         operand1Field.setEditable(false);
+        operand1Field.setEnabled(false);
         operand1Field
                 .addSelectionChangedListener(new SelectionChangedListener<Variable>() {
                     @Override
                     public void selectionChanged(
                             SelectionChangedEvent<Variable> se) {
-                        operatorList.clear();
+                        operatorList.getStore().removeAll();
                         for (Operator op : Operator
                                 .getOperatorsForType(operand1Field.getValue()
                                         .getType())) {
-                            operatorList.addItem(op.getDisplayString());
+                            operatorList.add(op.getDisplayString());
                         }
                     }
                 });
 
-        operatorList = new ListBox(false);
+        operatorList = new SimpleComboBox<String>();
+        // JS check this if condition
         if (condition.getOperand1Id() != null) {
             for (Operator op : Operator.getOperatorsForType(VariablesFilter
                     .getVariableById(condition.getOperand1Id()).getType())) {
-                operatorList.addItem(op.getDisplayString());
+                operatorList.add(op.getDisplayString());
+
             }
+            operatorList.setSimpleValue(condition.getOperator()
+                    .getDisplayString());
         }
 
-        // operand2Field = new ComboBox<Variable>();
+        operand2Field = new ComboBox<Variable>();
+        operand2Field.setDisplayField(Variable.NAME);
+        operand2Field.setStore(VariablesFilter.getAllVariables());
+        if (condition.getOperand2Id() != null) {
+            operand2Field.setValue(VariablesFilter.getVariableById(condition
+                    .getOperand2Id()));
+        }
+        operand2Field.setEditable(false);
     }
 
     public Label getLabel() {
@@ -104,7 +138,7 @@ public class FieldSet {
         return operand1Field;
     }
 
-    public ListBox getOperatorList() {
+    public SimpleComboBox<String> getOperatorList() {
         return operatorList;
     }
 

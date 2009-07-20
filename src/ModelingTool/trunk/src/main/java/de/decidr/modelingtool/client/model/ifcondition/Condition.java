@@ -35,6 +35,14 @@ public class Condition extends ConnectionModel {
         // JS null fields
     }
 
+    public Condition(String label, Long operand1Id, Operator operator,
+            Long operand2Id) {
+        this.label = label;
+        this.operand1Id = operand1Id;
+        this.operator = operator;
+        this.operand2Id = operand2Id;
+    }
+
     public String getLabel() {
         return label;
     }

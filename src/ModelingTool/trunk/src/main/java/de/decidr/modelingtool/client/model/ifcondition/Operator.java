@@ -28,11 +28,13 @@ import de.decidr.modelingtool.client.model.variable.VariableType;
  */
 public enum Operator {
     // JS finish
-    EQUAL("==", VariableType.STRING, VariableType.INTEGER, VariableType.BOOLEAN), NOTEQUAL(
-            "!=", VariableType.STRING, VariableType.INTEGER,
-            VariableType.BOOLEAN), SMALLER("<", VariableType.INTEGER), SMALLEREQUALS(
-            "<="), GREATER(">"), GREATEREQUALS(">="), CONTAINS("?=",
-            VariableType.STRING);
+    EQUAL("==", VariableType.STRING, VariableType.INTEGER, VariableType.FLOAT, VariableType.DATE, VariableType.BOOLEAN, VariableType.DATE, VariableType.ROLE),
+    NOTEQUAL("!=", VariableType.STRING, VariableType.INTEGER, VariableType.FLOAT, VariableType.DATE, VariableType.BOOLEAN, VariableType.DATE, VariableType.ROLE),
+    SMALLER("<", VariableType.INTEGER, VariableType.FLOAT, VariableType.DATE),
+    SMALLEREQUALS("<=", VariableType.INTEGER, VariableType.FLOAT),
+    GREATER(">", VariableType.INTEGER, VariableType.FLOAT, VariableType.DATE),
+    GREATEREQUALS(">=", VariableType.INTEGER, VariableType.FLOAT),
+    CONTAINS("?=", VariableType.STRING);
 
     private String displayString;
     private VariableType[] types;
@@ -44,6 +46,16 @@ public enum Operator {
 
     public String getDisplayString() {
         return displayString;
+    }
+
+    public static Operator getOperatorFromDisplayString(String displayString) {
+        Operator result = null;
+        for (Operator op : Operator.values()) {
+            if (op.getDisplayString().equals(displayString)) {
+                result = op;
+            }
+        }
+        return result;
     }
 
     public VariableType[] getTypes() {

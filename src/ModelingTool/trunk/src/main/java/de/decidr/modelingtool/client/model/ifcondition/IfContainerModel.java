@@ -29,7 +29,7 @@ import de.decidr.modelingtool.client.model.HasChildModels;
  */
 public class IfContainerModel extends ContainerModel {
 
-    private List<Condition> conditions;
+    private List<Condition> conditions = new ArrayList<Condition>();
 
     public IfContainerModel() {
         super();
@@ -42,8 +42,6 @@ public class IfContainerModel extends ContainerModel {
      */
     public IfContainerModel(HasChildModels parentModel) {
         super(parentModel);
-        conditions = new ArrayList<Condition>();
-        // TODO Auto-generated constructor stub
     }
 
     public List<Condition> getConditions() {

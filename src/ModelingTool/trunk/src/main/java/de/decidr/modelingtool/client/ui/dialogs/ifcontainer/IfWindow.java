@@ -16,6 +16,9 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.ifcontainer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
@@ -30,6 +33,7 @@ import de.decidr.modelingtool.client.command.ChangeNodeModelCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.ifcondition.Condition;
 import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
+import de.decidr.modelingtool.client.model.ifcondition.Operator;
 import de.decidr.modelingtool.client.ui.IfContainer;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
@@ -48,6 +52,8 @@ public class IfWindow extends Dialog {
     private ScrollPanel scrollPanel;
     private FlexTable table;
 
+    private List<FieldSet> fieldsets;
+
     public IfWindow() {
         super();
         this.setLayout(new FitLayout());
@@ -55,6 +61,8 @@ public class IfWindow extends Dialog {
         this.setResizable(true);
         createContentPanel();
         createButtons();
+
+        fieldsets = new ArrayList<FieldSet>();
     }
 
     private void createContentPanel() {
@@ -103,20 +111,27 @@ public class IfWindow extends Dialog {
 
     private void changeWorkflowModel() {
         IfContainerModel newModel = new IfContainerModel();
+        for (FieldSet fs : fieldsets) {
+            String label = fs.getLabel().getText();
+            Long operand1Id = fs.getOperand1Field().getValue().getId();
+            Operator operator = Operator.getOperatorFromDisplayString(fs
+                    .getOperatorList().getValue().getValue());
+            Long operand2Id = fs.getOperand2Field().getValue().getId();
+            System.out.println(operand1Id + " " + operand2Id);
+            newModel.getConditions().add(
+                    new Condition(label, operand1Id, operator, operand2Id));
+        }
         CommandStack.getInstance().executeCommand(
                 new ChangeNodeModelCommand<IfContainer, IfContainerModel>(node,
                         newModel));
     }
 
     private void createFields() {
-        // JS: remove this lines
-        Condition con1 = new Condition();
-        con1.setLabel("muhaha");
-        model.getConditions().add(new Condition());
         for (Condition con : model.getConditions()) {
             table.insertRow(table.getRowCount());
-            // JS make fields sets accessible
+
             FieldSet fieldset = new FieldSet(con);
+            fieldsets.add(fieldset);
             table.setWidget(table.getRowCount() - 1, 0, fieldset.getLabel());
             table.setWidget(table.getRowCount() - 1, 1, fieldset
                     .getTypeSelector());
@@ -124,9 +139,8 @@ public class IfWindow extends Dialog {
                     .getOperand1Field());
             table.setWidget(table.getRowCount() - 1, 3, fieldset
                     .getOperatorList());
-//            table.setWidget(table.getRowCount() - 1, 4, fieldset
-//                    .getOperand2Field());
-
+            table.setWidget(table.getRowCount() - 1, 4, fieldset
+                    .getOperand2Field());
         }
     }
 
@@ -137,10 +151,19 @@ public class IfWindow extends Dialog {
                 table.removeRow(i - 1);
             }
         }
+        if (fieldsets.size() > 0) {
+            fieldsets.clear();
+        }
     }
 
     @Override
     public void initialize() {
+        // JS: remove this lines
+        if (model.getConditions().isEmpty()) {
+            Condition con1 = new Condition();
+            con1.setLabel("muhaha");
+            model.getConditions().add(con1);
+        }
         createFields();
     }
 
