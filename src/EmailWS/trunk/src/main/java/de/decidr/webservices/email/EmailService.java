@@ -103,22 +103,32 @@ public class EmailService implements EmailInterface {
             IncompleteConfigurationException {
         log.trace("Entering " + EmailService.class.getSimpleName()
                 + ".addAttachments(MailBackend, IDList)");
+        log.debug("getting system settings from database");
         StorageProvider store = StorageProviderFactory.getDefaultFactory()
                 .getStorageProvider();
+        GetSystemSettingsCommand command = new GetSystemSettingsCommand(
+                EmailRole.getInstance());
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+        SystemSettings config = command.getResult();
+
         // RR get value from model
-        long maxBytes = 100000000;
         long currBytes = 0;
-        // RR get value from model
-        int maxAtts = 10;
+        log.debug("getting settings");
+        long maxBytes = 100000000;
+        int maxAtts = config.getMaxAttachmentsPerEmail();
+
+        log.debug("checking that there aren't too many attachments");
         if (attachments.getId().toArray().length > maxAtts) {
             throw new IllegalArgumentException("too many attachments");
         }
-        
 
+        log.debug("attaching files");
         for (Long id : attachments.getId()) {
             // RR get proper size from model
             currBytes += 10;
             if (currBytes > maxBytes) {
+                log.error("the sum of the attachments' file sizes "
+                        + "is too large");
                 throw new IllegalArgumentException("files too large");
             }
             email.addFile(store.getFile(id));
@@ -263,16 +273,24 @@ public class EmailService implements EmailInterface {
      *             Thrown by the <code>{@link de.decidr.model}</code>.
      */
     @WebMethod(exclude = true)
-    private void applyConfig(MailBackend email) throws TransactionException {
+    private static void applyConfig(MailBackend email)
+            throws TransactionException {
+        log.trace("Entering " + EmailService.class.getSimpleName()
+                + ".applyConfig(MailBackend)");
+        log.debug("fetching system settings from database");
         GetSystemSettingsCommand command = new GetSystemSettingsCommand(
                 EmailRole.getInstance());
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
         SystemSettings config = command.getResult();
 
+        log.debug("applying settings to mail");
         email.setXMailer(USER_AGENT);
-
-        // RR get settings & apply
-        throw new UnsupportedOperationException("Wants implementation");
+        email.setAuthInfo(config.getMtaUsername(), config.getMtaPassword());
+        email.setHostname(config.getMtaHostname());
+        email.setPortNum(config.getMtaPort());
+        email.useTLS(config.isMtaUseTls());
+        log.trace("Leaving " + EmailService.class.getSimpleName()
+                + ".applyConfig(MailBackend)");
     }
 
     public void sendEmail(AbstractUserList to, AbstractUserList cc,

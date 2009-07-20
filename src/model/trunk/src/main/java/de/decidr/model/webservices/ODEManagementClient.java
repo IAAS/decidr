@@ -42,6 +42,8 @@ public class ODEManagementClient extends Service {
     public static final String TARGET_NAMESPACE = "http://www.apache.org/ode/pmapi";
     public static final QName SERVICE = new QName(TARGET_NAMESPACE,
             "ProcessAndInstanceManagement");
+    // RR find proper local ODE location
+    public static final String LOCAL_ODE_LOCATION = "http://127.0.0.1:8888";
     // RR find proper local wsdl location
     public static final String WSDL_LOCATION = "http://svn.apache.org/repos/asf/ode/trunk/axis2/src/main/wsdl/pmapi.wsdl";
     public final static QName PROCESS_ENDPOINT = new QName(TARGET_NAMESPACE,

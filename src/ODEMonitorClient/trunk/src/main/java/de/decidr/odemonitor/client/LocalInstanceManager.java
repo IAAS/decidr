@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.notifications.NotificationEvents;
+import de.decidr.model.webservices.ODEManagementClient;
 
 /**
  * Manages a local ODE instance. Needs the system administrator's help to start
@@ -47,13 +48,12 @@ public class LocalInstanceManager implements InstanceManager {
         boolean state = isRunning();
         if (!state) {
             try {
-                // RR somehow get local machine identifier
-                NotificationEvents.requestNewODEInstance("");
+                NotificationEvents.requestNewODEInstance(null);
                 state = true;
             } catch (RuntimeException e) {
                 throw e;
             } catch (Exception e) {
-                state = false;
+                // can't request new instance - leave state as false
             }
         }
         log.trace("Leaving " + LocalInstanceManager.class.getSimpleName()
@@ -71,6 +71,7 @@ public class LocalInstanceManager implements InstanceManager {
         log.trace("Entering & leaving "
                 + LocalInstanceManager.class.getSimpleName()
                 + ".stopInstance()");
+        log.info("This InstanceManager cannot stop it's ODE instance!");
         return false;
     }
 
@@ -84,7 +85,13 @@ public class LocalInstanceManager implements InstanceManager {
         log.trace("Entering " + LocalInstanceManager.class.getSimpleName()
                 + ".isRunning()");
         boolean running = false;
-        // RR check if local instance is running
+        try {// RR try opening http connection instead
+            ODEManagementClient manager = new ODEManagementClient();
+            manager.getProcessPort();
+            running = true;
+        } catch (Exception e) {
+            // apparently the local instance isn't accessible
+        }
         log.trace("Leaving " + LocalInstanceManager.class.getSimpleName()
                 + ".isRunning()");
         return running;

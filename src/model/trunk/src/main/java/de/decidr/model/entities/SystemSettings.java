@@ -7,9 +7,6 @@ package de.decidr.model.entities;
  */
 public class SystemSettings implements java.io.Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
     private Long id;
     private User superAdmin;
@@ -27,6 +24,8 @@ public class SystemSettings implements java.io.Serializable {
     private boolean mtaUseTls;
     private String mtaUsername;
     private String mtaPassword;
+    // DH reichen die oder brauchen wir noch ein maxEmailAttachmentsBytes, also
+    // eine maximalgröße für alle Attachments zusammengerechnet?
     private long maxUploadFileSizeBytes;
     private int maxAttachmentsPerEmail;
 

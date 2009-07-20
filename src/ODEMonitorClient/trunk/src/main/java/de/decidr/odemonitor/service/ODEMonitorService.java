@@ -32,7 +32,6 @@ import de.decidr.model.exceptions.TransactionException;
  * The web service part of the ODE monitor. Interacts with the database and
  * makes decisions on which server gets locked.
  */
-// RR design needs to be updated as server does not handle instance allocation
 @WebService(name = "ODEMonitorPT", targetNamespace = ODEMonitorService.TARGET_NAMESPACE, wsdlLocation = "ODEMonitor.wsdl")
 @XmlSeeAlso( { ObjectFactory.class })
 public interface ODEMonitorService {
@@ -63,7 +62,6 @@ public interface ODEMonitorService {
      * @throws TransactionException
      *             thrown during database access, whenever an error occurs.
      */
-    // RR design needs to be updated to conform to this behaviour
     @WebMethod(action = "http://decidr.de/webservices/ODEMonitor/updateStats")
     @RequestWrapper(localName = "updateStats", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.UpdateStats")
     @ResponseWrapper(localName = "updateStatsResponse", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.UpdateStatsResponse")
