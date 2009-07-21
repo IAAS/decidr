@@ -44,12 +44,12 @@ public class FileDeployer {
 
 
     /**
-     * MA add comment
+     * This class actually deploys the zip file on the selected server
      *
      * @param zipFile
      * @throws AxisFault
      */
-    public void deploy(byte[] zipFile) throws AxisFault{
+    public void deploy(byte[] zipFile, String location) throws AxisFault{
 
         
         String packageName = "somepackageName";
@@ -63,6 +63,7 @@ public class FileDeployer {
             opts.setProperty(Constants.Configuration.HTTP_METHOD,
                     Constants.Configuration.HTTP_METHOD_POST);
             opts.setTo(new EndpointReference(
+                    //MA adjust Endpoint Reference
                     "http://localhost:8080/ode/processes/DeploymentService"));
             OMElement payload = null;
             OMFactory omFactory = OMAbstractFactory.getOMFactory();

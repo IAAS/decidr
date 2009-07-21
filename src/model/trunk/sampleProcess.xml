@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	<workflow id="jf54sdfasdfsdfeopei4" name="Party Organization" 
+	<workflow id="1544" name="PartyOrganization" 
 	 targetNamespace="http://decidr.de/decidr/party"
 	 xmlns="http://decidr.de/schema/dwdl">
 		<variables>
@@ -44,23 +44,23 @@
 		    </recipient>
 		</faultHandler>
 		<nodes>
-		    <startNode id="1">
-				<graphics height="20" width="30"/>
+		    <startNode id="s1">
+				<graphics x="20" y="30"/>
 				<sources>
-					<source arcID="0123456789"/>
+					<source arcID="s1-to-i1"/>
 				</sources>
 			</startNode>
-			<invokeNode id="2"
+			<invokeNode id="i1"
 		     activity="Decidr-Email">
 				<description>
 					Sends all guest an invitation
 				</description>
-				<graphics height="20" width="30"/>
+				<graphics x="20" y="30"/>
 				<targets>
-					<target arcId="0123456789" />
+					<target arcID="s1-to-i1" />
 				</targets>
 				<sources>
-					<source arcId="0123456790"/>
+					<source arcID="i1-to-f1"/>
 				</sources>
 				<setProperty 
 				 name="to"
@@ -84,15 +84,15 @@
 					</propertyValue>
 				</setProperty>
 			</invokeNode>
-			<forEachNode id="3"
+			<forEachNode id="f1"
 		     counterName="g"
 		     parallel="yes">
-				<graphics height="20" width="30"/>
+				<graphics x="20" y="30"/>
 				<targets>
-					<target arcId="0123456790"/>
+					<target arcID="i1-to-f1"/>
 				</targets>
 				<sources>
-					<source arcId="0123456791"/>
+					<source arcID="f1-to-e1"/>
 				</sources>
 				<startCounterValue>
 					1
@@ -104,7 +104,7 @@
 					AND
 				</completionCondition>
 				<nodes>
-					<invokeNode id="4"
+					<invokeNode id="i2"
 					 activity="Decidr-HumanTask">
 						<description>
 							Task to figure out who will attend the party
@@ -114,7 +114,7 @@
 						<setProperty 
 						 name="wfmID">
 							<propertyValue>
-								jf54sdfasdfsdfeopei4
+								544
 							</propertyValue>
 						</setProperty>
 						<setProperty 
@@ -173,10 +173,10 @@
 					</invokeNode>
 				</nodes>
 		    </forEachNode>
-		    <endNode id="5">
-		      <graphics height="20" width="30"/>
+		    <endNode id="e1">
+		      <graphics x="20" y="30"/>
 		      <targets>
-		        <target arcId="0123456791" />
+		        <target arcID="f1-to-e1" />
 		      </targets>
 		      <notificationOfSuccess>
 		        <setProperty
@@ -191,8 +191,8 @@
 		    </endNode>
 		  </nodes>
 		  <arcs>
-		    <arc id="0123456789" sourceNode="1" targetNode="2"/>
-			<arc id="0123456790" sourceNode="2" targetNode="3"/>
-			<arc id="0123456791" sourceNode="3" targetNode="5"/>
+		    <arc id="s1-to-i1" sourceNode="s1" targetNode="i1"/>
+			<arc id="i1-to-f1" sourceNode="i1" targetNode="f1"/>
+			<arc id="f1-to-e1" sourceNode="f1" targetNode="e1"/>
 		  </arcs>
 		</workflow>

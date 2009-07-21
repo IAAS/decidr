@@ -7,15 +7,15 @@
 		<xsd:documentation>
 			Schema for Executable Workflow for DWDL 1.0
 			Last
-			modified date: 26th March, 2009
+			modified date: 21th June, 2009
 
 			2009-01-30: MA: Creation date
 			2009-03-26: MA: Extended previous version with form element
 			2009-05-09: MA: Invoke activity changed with setProperty element
 			2009-05-19: MA: Notification of success added
 			2009-05-22: MA: Form element respecified
-                  2009-06-21: MA: Type TFaultHandler added and group nodeTypes deleted.
-                                  Some structure modification in TNodes.
+            2009-06-21: MA: Type TFaultHandler added and group nodeTypes deleteted.
+                            Some strucutre modification in TNodes.
 		</xsd:documentation>
 	</xsd:annotation>
 
@@ -39,7 +39,7 @@
 			<xsd:element ref="arcs" minOccurs="0" maxOccurs="1" />
 		</xsd:sequence>
 		<xsd:attribute name="name" type="xsd:NCName" use="required" />
-		<xsd:attribute name="id" type="xsd:ID" use="required" />
+		<xsd:attribute name="id" type="xsd:long" use="required" />
 		<xsd:attribute name="targetNamespace" type="xsd:anyURI" use="required" />
 	</xsd:complexType>
 
@@ -62,7 +62,7 @@
 	<xsd:complexType name="tVariable">
 		<xsd:sequence>
 			<xsd:choice minOccurs="0" maxOccurs="1">
-				<xsd:element name="initialValue" type="xsd:anySimpleType" />
+				<xsd:element name="initialValue" type="tLiteral" />
 				<xsd:element name="initialValues" type="tInitialValues" />
 			</xsd:choice>
 		</xsd:sequence>
@@ -71,9 +71,14 @@
 		<xsd:attribute name="configurationVariable" type="tBoolean"
 			default="no" />
 	</xsd:complexType>
+	<xsd:complexType name="tLiteral" mixed="true">
+		<xsd:sequence>
+			<xsd:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
 	<xsd:complexType name="tInitialValues">
 		<xsd:sequence>
-			<xsd:element name="initialValue" type="xsd:anySimpleType"
+			<xsd:element name="initialValue" type="tLiteral"
 				minOccurs="1" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
@@ -87,8 +92,8 @@
 	</xsd:complexType>
 	<xsd:element name="actor" type="tActor" />
 	<xsd:complexType name="tActor">
-		<xsd:attribute name="userId" type="xsd:ID" use="optional" />
-		<xsd:attribute name="name" type="xsd:string" use="optional" />
+		<xsd:attribute name="userId" type="xsd:long" use="optional" />
+		<xsd:attribute name="name" type="DWDLVariableName" use="optional" />
 		<xsd:attribute name="email" type="tEmail" use="optional" />
 		<xsd:attribute name="configurationVariable" type="tBoolean"
 			default="no" />
@@ -96,9 +101,9 @@
 	<xsd:element name="role" type="tRole" />
 	<xsd:complexType name="tRole">
 		<xsd:sequence>
-			<xsd:element ref="actor" minOccurs="1" maxOccurs="unbounded" />
+			<xsd:element ref="actor" minOccurs="0" maxOccurs="unbounded" />
 		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:NCName" use="required" />
+		<xsd:attribute name="name" type="DWDLVariableName" use="required" />
 		<xsd:attribute name="configurationVariable" type="tBoolean"
 			default="no" />
 	</xsd:complexType>
@@ -181,7 +186,13 @@
 		<xsd:attribute name="arcID" type="xsd:IDREF" use="required" />
 	</xsd:complexType>
 
-	<xsd:element name="startNode" type="tBasicNode" />
+	<xsd:element name="startNode" type="tStartNode" />
+	<xsd:complexType name="tStartNode">
+		<xsd:complexContent>
+			<xsd:extension base="tBasicNode">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 
 	<xsd:element name="endNode" type="tEndNode" />
 	<xsd:complexType name="tEndNode">
@@ -280,7 +291,7 @@
 	<xsd:element name="setProperty" type="tSetProperty" />
 	<xsd:complexType name="tSetProperty">
 		<xsd:sequence>
-			<xsd:element name="propertyValue" type="xsd:anyType"
+			<xsd:element name="propertyValue" type="tLiteral"
 				minOccurs="0" maxOccurs="1" />
 		</xsd:sequence>
 		<xsd:attribute name="name" type="xsd:NCName" use="required" />

@@ -50,6 +50,8 @@ public final class BPELConstants {
     private final static String[] complexTypes = {"form", "list-integer", "list-float", "list-string", "list-boolean", "list-date", "list-anyURI"};
     public static final Set<String> DWDL_BASIC_TYPES = new HashSet<String>(Arrays.asList(simpleTypes));
     public static final Set<String> DWDL_COMPLEX_TYPES = new HashSet<String>(Arrays.asList(complexTypes));
+    public static final String EWS_NAME = "Email";
+    public static final String HTWS_NAME = "HumanTask";
     
     private BPELConstants() {
         // do nothing

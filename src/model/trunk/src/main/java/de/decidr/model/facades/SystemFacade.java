@@ -307,4 +307,6 @@ public class SystemFacade extends AbstractFacade {
         }
         return result;
     }
+    
+    //FIXME Hi Jungs, brauche die location eines Servers von dem ich die Id habe.
 }

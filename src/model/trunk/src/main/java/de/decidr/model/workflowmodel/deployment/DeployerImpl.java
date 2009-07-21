@@ -28,10 +28,7 @@ import javax.wsdl.xml.WSDLWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-//import javax.xml.soap.SOAPMessage;
-
 import com.ibm.wsdl.xml.WSDLWriterImpl;
-
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.KnownWebService;
@@ -82,19 +79,23 @@ public class DeployerImpl implements Deployer {
             throw new ODESelectorException(serverStatistics);
         }
         translator = new Translator();
-        translator.load(dwdl);
-
+        translator.load(dwdl, webservices);
         TProcess bpel = translator.getBPEL();
-        Definition wsdl = translator.getWSDL("someloaction", tenantName);
-        TDeployment dd = translator.getDD();
-        //SOAPMessage soap = translator.getSOAP();
-        byte[] zipFile = getDeploymentBundle(tenantName, bpel, wsdl, dd);                
+        byte[] soap = translator.getSOAP(); 
+        Definition wsdl = null;
+        TDeployment dd = null;
         fileDeployer = new FileDeployer();
-        fileDeployer.deploy(zipFile);
-
+        for (long serverId : serverList){
+            // MA get right server
+            Server s = new Server();
+            wsdl = translator.getWSDL(s.getLocation(), tenantName);
+            dd = translator.getDD();
+            byte[] zipFile = getDeploymentBundle(tenantName, bpel, wsdl, dd);
+            fileDeployer.deploy(zipFile, s.getLocation());
+        }
         result = new DeploymentResultImpl();
         result.setDoplementDate(DecidrGlobals.getTime().getTime());
-        //result.setSOAPMessage(soap);
+        result.setSOAPTemplate(soap);
         result.setServers(serverList);
 
         return result;
@@ -110,8 +111,6 @@ public class DeployerImpl implements Deployer {
     @Override
     public void undeploy(DeployedWorkflowModel dwfm, Server server)
             throws Exception {
-        // MA Auto-generated method stub
-
     }
     
     private byte[] getDeploymentBundle(String name, TProcess bpel,
