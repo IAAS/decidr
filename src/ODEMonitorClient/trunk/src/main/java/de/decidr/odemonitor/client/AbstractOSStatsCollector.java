@@ -62,10 +62,7 @@ public abstract class AbstractOSStatsCollector {
      * @return The system load. <code>-1</code> means an error occurred.
      */
     public final int getSystemLoad() {
-        log.trace("Entering " + AbstractOSStatsCollector.class.getSimpleName()
-                + ".getSystemLoad()");
-
-        log.trace("Leaving " + AbstractOSStatsCollector.class.getSimpleName()
+        log.trace("Entering + leaving " + AbstractOSStatsCollector.class.getSimpleName()
                 + ".getSystemLoad()");
         return getSystemLoad(getCPULoad(), getMemLoad());
     }

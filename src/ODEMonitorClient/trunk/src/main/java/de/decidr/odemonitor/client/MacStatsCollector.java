@@ -29,10 +29,8 @@ public class MacStatsCollector extends UnixStatsCollector {
 
     private static final Logger log = DefaultLogger
             .getLogger(MacStatsCollector.class);
-    // TODO implement script
+    // RR implement script
     private static final String SCRIPTS_MEMORY_USAGE = "scripts/mac/getMemoryUsage.sh";
-
-    // TODO implement script
     private static final String SCRIPTS_CPU_USAGE = "scripts/mac/getCPUUsage.sh";
 
     @Override

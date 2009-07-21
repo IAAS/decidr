@@ -29,14 +29,18 @@ import org.apache.log4j.Logger;
 
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.system.AddServerCommand;
+import de.decidr.model.commands.system.GetServerStatisticsCommand;
+import de.decidr.model.commands.system.GetSystemSettingsCommand;
 import de.decidr.model.commands.system.LockServerCommand;
 import de.decidr.model.commands.system.RemoveServerCommand;
 import de.decidr.model.commands.system.UpdateServerLoadCommand;
+import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.permissions.ODERole;
+import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 
 /**
@@ -48,6 +52,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
 @WebService(endpointInterface = "de.decidr.odemonitor.service.ODEMonitorService")
 public class ODEMonitorServiceImpl implements ODEMonitorService {
 
+    private static final Role ODE_ROLE = ODERole.getInstance();
     private static final Logger log = DefaultLogger
             .getLogger(ODEMonitorServiceImpl.class);
 
@@ -103,7 +108,7 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         }
 
         // RR add location?
-        AddServerCommand cmd = new AddServerCommand(ODERole.getInstance(),
+        AddServerCommand cmd = new AddServerCommand(ODE_ROLE,
                 ServerTypeEnum.Ode, null, (byte) 0, false, !poolInstance.value);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
         odeID.value = cmd.getNewServer().getId();
@@ -119,14 +124,39 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
      * BigInteger, java.math.BigInteger, java.lang.String, javax.xml.ws.Holder,
      * javax.xml.ws.Holder)
      */
-    // RR server needs to know when it was last updated
-    // RR step through all servers and remove ones that don't update
     @Override
     public void updateStats(int wfInstances, int wfModels, int avgLoad,
             long odeID, Holder<XMLGregorianCalendar> configVersion,
             Holder<Boolean> run) throws TransactionException {
         log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".updateStats()");
+        List<TransactionalCommand> commands = new ArrayList<TransactionalCommand>(
+                5);
+        // RR use something that only returns ODEs
+        GetServerStatisticsCommand cmd1 = new GetServerStatisticsCommand(
+                ODE_ROLE);
+        GetSystemSettingsCommand cmd2 = new GetSystemSettingsCommand(ODE_ROLE);
+        commands.add(cmd1);
+        commands.add(cmd2);
+        HibernateTransactionCoordinator.getInstance().runTransaction(commands);
+        int unlockedServers = 0;
+        ServerLoadView server = null;
+        for (ServerLoadView loadView : cmd1.getResult()) {
+            if (loadView.getId() == odeID) {
+                server = loadView;
+            }
+            if (loadView.getServerType().equals(ServerTypeEnum.Ode.toString())) {
+                if (!loadView.isLocked()) {
+                    unlockedServers++;
+                }
+
+                // RR remove servers that don't update
+            }
+        }
+        if (server == null) {
+            log.error("Coudn't find server with ID " + odeID);
+            throw new IllegalArgumentException("unknown ODE server ID");
+        }
         // RR get from config
         int maxSysLoad = 100;
         // RR get from config
@@ -139,23 +169,19 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         int maxInstances = 5;
         // RR get from config
         int minUnlockedServers = 1;
-        // RR get from config
-        boolean isLocked = false;
-        List<TransactionalCommand> commands = new ArrayList<TransactionalCommand>(
-                5);
+        boolean isLocked = server.isLocked();
+
+        commands.clear();
         if ((isLocked && ((minInstances > wfInstances) || (avgLoad < minHighSysLoad)))
                 || (!isLocked && ((maxInstances < wfInstances) || (avgLoad > maxSysLoad)))) {
-            commands.add(new LockServerCommand(ODERole.getInstance(), odeID,
-                    !isLocked));
+            commands.add(new LockServerCommand(ODE_ROLE, odeID, !isLocked));
         }
-        if (minSysLoad > avgLoad) {
+        if (server.isDynamicallyAdded() && minSysLoad > avgLoad) {
             run.value = false;
         } else {
             run.value = true;
         }
 
-        // RR get from config
-        int unlockedServers = 1;
         if (unlockedServers < minUnlockedServers) {
             for (int i = 3; i > 0; i--) {
                 try {
@@ -172,10 +198,12 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
             }
         }
 
-        commands.add(new UpdateServerLoadCommand(ODERole.getInstance(), null,
+        // RR use ID instead of location
+        commands.add(new UpdateServerLoadCommand(ODE_ROLE, (String) null,
                 (byte) avgLoad));
         HibernateTransactionCoordinator.getInstance().runTransaction(commands);
 
+        // RR better way to get config version
         getConfig(new Holder<Integer>(), new Holder<Integer>(), configVersion);
         log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".updateStats()");
@@ -192,9 +220,11 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
     public void unregisterODE(long odeID) throws TransactionException {
         log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".unregisterODE(String)");
-        RemoveServerCommand cmd = new RemoveServerCommand(
-                ODERole.getInstance(), odeID);
+        log.debug("attempting to remove the server corresponding"
+                + " to the passed ODE ID...");
+        RemoveServerCommand cmd = new RemoveServerCommand(ODE_ROLE, odeID);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        log.debug("...success");
         log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".unregisterODE(String)");
     }

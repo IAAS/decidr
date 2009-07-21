@@ -42,4 +42,12 @@ public interface InstanceManager {
      *         - <code>false</code>, if not
      */
     public boolean stopInstance();
+
+    /**
+     * Checks whether the managed ODE instance is running.
+     * 
+     * @return - <code>true</code>, if the managed instance is running<br>
+     *         - <code>false</code>, if it isn't.
+     */
+    public boolean isRunning();
 }

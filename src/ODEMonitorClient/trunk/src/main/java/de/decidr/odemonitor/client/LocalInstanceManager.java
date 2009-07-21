@@ -16,6 +16,9 @@
 
 package de.decidr.odemonitor.client;
 
+import java.net.URL;
+import java.net.URLConnection;
+
 import org.apache.log4j.Logger;
 
 import de.decidr.model.logging.DefaultLogger;
@@ -81,13 +84,17 @@ public class LocalInstanceManager implements InstanceManager {
      * @return - <code>true</code>, if it is running<br>
      *         - <code>false</code>, if it isn't.
      */
-    private boolean isRunning() {
+    @Override
+    public boolean isRunning() {
         log.trace("Entering " + LocalInstanceManager.class.getSimpleName()
                 + ".isRunning()");
         boolean running = false;
-        try {// RR try opening http connection instead
-            ODEManagementClient manager = new ODEManagementClient();
-            manager.getProcessPort();
+        try {
+            URL localOdeUrl = new URL(ODEManagementClient.LOCAL_ODE_LOCATION);
+            URLConnection con = localOdeUrl.openConnection();
+            con.connect();
+            con.getInputStream().close();
+            con.getOutputStream().close();
             running = true;
         } catch (Exception e) {
             // apparently the local instance isn't accessible

@@ -97,6 +97,7 @@ public class ODEMonitorClient {
      */
     public static void main(String[] args) {
         int interval = -1;
+        LocalInstanceManager localInstanceManager = new LocalInstanceManager();
 
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("--wfm")) {
@@ -127,10 +128,10 @@ public class ODEMonitorClient {
                 printVersion();
                 return;
             } else if (args[i].equals("--start")) {
-                new LocalInstanceManager().startInstance();
+                localInstanceManager.startInstance();
                 return;
             } else if (args[i].equals("--stop")) {
-                new LocalInstanceManager().stopInstance();
+                localInstanceManager.stopInstance();
                 return;
             } else if (args[i].equals("--mem")) {
                 System.out.println(OSStatsCollectorFactory.getCollector()
@@ -148,7 +149,29 @@ public class ODEMonitorClient {
             }
         }
 
-        // RR make sure local instance is running
+        if (!localInstanceManager.isRunning()
+                && !localInstanceManager.startInstance()) {
+            System.err.println("Error: can't start any instances locally");
+        }
+
+        // in milliseconds
+        long timeToWait = 5000;
+        long maxTimeToWait = 300000;
+        double waitingFactor = 1.1;
+        while (!localInstanceManager.isRunning()) {
+            System.out.println("Waiting " + Math.round(timeToWait / 1000.0)
+                    + "s for local instance to become available...");
+            try {
+                Thread.sleep(timeToWait);
+                timeToWait = Math.round(timeToWait * waitingFactor);
+                if (timeToWait > maxTimeToWait) {
+                    timeToWait = maxTimeToWait;
+                }
+            } catch (InterruptedException e) {
+                // we were interrupted - nothing to do, so see if we should
+                // continue sleeping
+            }
+        }
 
         monitor = new MonitoringThread();
         monitor.changeInterval(interval);

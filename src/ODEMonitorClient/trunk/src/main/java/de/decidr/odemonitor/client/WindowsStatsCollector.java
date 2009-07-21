@@ -23,11 +23,10 @@ package de.decidr.odemonitor.client;
  */
 public class WindowsStatsCollector extends AbstractOSStatsCollector {
 
-    // TODO implement script
-    private static final String SCRIPTS_MEMORY_USAGE = "scripts/mac/getMemoryUsage.sh";
-
-    // TODO implement script
-    private static final String SCRIPTS_CPU_USAGE = "scripts/mac/getCPUUsage.sh";
+    // RR implement script
+    private static final String SCRIPTS_MEMORY_USAGE = "scripts/win/getMemoryUsage.bat";
+    // RR implement script
+    private static final String SCRIPTS_CPU_USAGE = "scripts/win/getCPUUsage.bat";
 
     /*
      * (non-Javadoc)
@@ -36,7 +35,7 @@ public class WindowsStatsCollector extends AbstractOSStatsCollector {
      */
     @Override
     public int getCPULoad() {
-        // TODO Auto-generated method stub
+        // RR Auto-generated method stub
         return -1;
     }
 
@@ -47,7 +46,7 @@ public class WindowsStatsCollector extends AbstractOSStatsCollector {
      */
     @Override
     public int getMemLoad() {
-        // TODO Auto-generated method stub
+        // RR Auto-generated method stub
         return -1;
     }
 }

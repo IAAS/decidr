@@ -25,7 +25,6 @@ set -x
 decimals=2
 [ -n "${1}" ] && decimals=${1}
 
-echo "WARNING: incomplete dummy data"
 getTotalMem()
 {
   totMem=$(sysctl hw.physmem)
@@ -52,6 +51,7 @@ getTotalSwap()
 
 getFreeMem()
 {
+  # This is *very* format-dependent - find better way
   freeMem=$(top -l 1 | head -n 4 | grep -i PhysMem)
   freeMem=${freeMem% free*}
   freeMem=$(freeMem##* )
