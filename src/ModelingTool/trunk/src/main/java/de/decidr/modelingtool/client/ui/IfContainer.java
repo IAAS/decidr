@@ -28,7 +28,7 @@ import de.decidr.modelingtool.client.ui.dialogs.ifcontainer.IfWindowInvoker;
 /**
  * TODO: add comment
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class IfContainer extends Container {
 

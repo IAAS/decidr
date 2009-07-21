@@ -17,9 +17,10 @@
 package de.decidr.modelingtool.client.exception;
 
 /**
- * TODO: add comment
+ * The super exception for the modeling tool. All exceptions in the modeling
+ * tool extend this class.
  *
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class ModelingToolException extends Exception {
     

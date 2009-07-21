@@ -30,7 +30,7 @@ import de.decidr.modelingtool.client.ui.dialogs.humantask.HumanTaskActivityWindo
 /**
  * TODO: add comment
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class HumanTaskInvokeNode extends InvokeNode {
 

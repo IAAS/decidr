@@ -21,7 +21,7 @@ import de.decidr.modelingtool.client.ui.ModelChangeListener;
 /**
  * TODO: add comment
  *
- * @author JE
+ * @author Johannes Engelhardt
  */
 public interface Model {
     

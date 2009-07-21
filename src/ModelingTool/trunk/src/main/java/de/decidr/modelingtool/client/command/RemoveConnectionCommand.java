@@ -21,16 +21,23 @@ import de.decidr.modelingtool.client.ui.Connection;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 
 /**
- * TODO: add comment
+ * This command removes a connection from the workflow.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class RemoveConnectionCommand implements UndoableCommand {
 
+    /** The connection to remove. */
     private Connection connection;
 
+    /** The model of the connection to remove. */
     private ConnectionModel model;
 
+    /**
+     * Constructor for removing the connection.
+     *
+     * @param connection The connection to remove
+     */
     public RemoveConnectionCommand(Connection connection) {
         this.connection = connection;
         this.model = connection.getModel();

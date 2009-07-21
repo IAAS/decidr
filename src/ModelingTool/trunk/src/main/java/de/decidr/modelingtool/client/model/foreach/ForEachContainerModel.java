@@ -22,7 +22,7 @@ import de.decidr.modelingtool.client.model.HasChildModels;
 /**
  * TODO: add comment
  *
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class ForEachContainerModel extends ContainerModel {
     

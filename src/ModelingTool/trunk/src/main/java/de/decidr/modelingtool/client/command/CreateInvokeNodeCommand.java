@@ -26,9 +26,9 @@ import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
 import de.decidr.modelingtool.client.ui.InvokeNode;
 
 /**
- * This command adds an invoke node to the workflow
+ * This command adds an invoke node to the workflow.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class CreateInvokeNodeCommand implements UndoableCommand {
 

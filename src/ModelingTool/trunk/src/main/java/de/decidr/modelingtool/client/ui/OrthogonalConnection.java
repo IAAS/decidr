@@ -16,7 +16,6 @@
 
 package de.decidr.modelingtool.client.ui;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
@@ -41,7 +40,7 @@ public class OrthogonalConnection extends Connection {
         super(parentPanel);
 
         // register selection handler to lines
-        SelectionHandler sh = Workflow.getInstance().getSelectionHandler();
+        SelectionHandler sh = SelectionHandler.getInstance();
         startLine.addMouseDownHandler(sh);
         midLine.addMouseDownHandler(sh);
         endLine.addMouseDownHandler(sh);

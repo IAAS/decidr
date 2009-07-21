@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.model.HasChildModels;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
+import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 /**
  * TODO: add comment
@@ -104,7 +105,7 @@ public class Container extends Node implements HasChildren {
 
         // register the selection Handler
         // must happen before makeDraggable because of handler order!!!
-        node.addSelectionHandler(Workflow.getInstance().getSelectionHandler());
+        node.addSelectionHandler(SelectionHandler.getInstance());
 
         // make node draggable, only draggable at graphic widget of the node
         if (node.isMoveable()) {

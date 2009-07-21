@@ -24,7 +24,7 @@ import de.decidr.modelingtool.client.model.InvokeNodeModel;
 /**
  * TODO: add comment
  * 
- * @author JE, Jonas Schlaak
+ * @author Johannes Engelhardt, Jonas Schlaak
  */
 public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
 

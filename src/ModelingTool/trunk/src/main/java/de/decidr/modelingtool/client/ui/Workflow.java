@@ -57,8 +57,6 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
      */
     private WorkflowDragController dragController;
 
-    private SelectionHandler selectionHandler;
-
     private WorkflowModel model = null;
 
     /**
@@ -81,11 +79,8 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
         this.addStyleName("workflow");
         this.setSize("600px", "400px");
 
-        // create selection handler
-        selectionHandler = new SelectionHandler(this);
-
         // register workflow to selection handler
-        this.addMouseDownHandler(selectionHandler);
+        this.addMouseDownHandler(SelectionHandler.getInstance());
 
         // create drag controller
         dragController = new WorkflowDragController(this);
@@ -138,7 +133,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
 
         // register the selection Handler
         // must happen before makeDraggable because of handler order!!!
-        node.addSelectionHandler(selectionHandler);
+        node.addSelectionHandler(SelectionHandler.getInstance());
 
         // make node draggable, only draggable at graphic widget of the node
         if (node.isMoveable()) {
@@ -183,13 +178,9 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
         return childNodes;
     }
 
-    public SelectionHandler getSelectionHandler() {
-        return selectionHandler;
-    }
-
-    public Selectable getSelectedItem() {
-        return selectionHandler.getSelectedItem();
-    }
+//    public Selectable getSelectedItem() {
+//        return selectionHandler.getSelectedItem();
+//    }
 
     @Override
     public void onModelChange() {

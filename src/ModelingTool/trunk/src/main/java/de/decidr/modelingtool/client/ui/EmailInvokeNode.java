@@ -30,7 +30,7 @@ import de.decidr.modelingtool.client.ui.dialogs.email.EmailActivityWindowInvoker
 /**
  * TODO: add comment
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class EmailInvokeNode extends InvokeNode {
 

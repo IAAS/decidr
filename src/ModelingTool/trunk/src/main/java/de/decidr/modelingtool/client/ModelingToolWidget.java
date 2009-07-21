@@ -49,7 +49,7 @@ import de.decidr.modelingtool.client.ui.resources.Messages;
 /**
  * TODO: add comment
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class ModelingToolWidget extends Composite implements HasAllMouseHandlers {
 

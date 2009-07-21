@@ -19,20 +19,27 @@ package de.decidr.modelingtool.client.ui;
 import com.google.gwt.user.client.ui.HTML;
 
 /**
- * TODO: add comment
+ * A single line in a connection.
  *
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class ConnectionLine extends HTML {
     
+    /** The thickness of the line in pixels. */
     private int thickness;
     
     public Connection getConnection() {
         return connection;
     }
 
+    /** The connection which owns the connection line. */
     private Connection connection;
     
+    /**
+     * The constructor.
+     * @param connection The parent connection of the connection line
+     * @param thickness The thickness of the line in pixels
+     */
     public ConnectionLine(Connection connection, int thickness) {
         this.connection = connection;
         this.thickness = thickness;
@@ -40,14 +47,29 @@ public class ConnectionLine extends HTML {
         setStyleName("connection-line");
     }
     
+    /**
+     * Sets the orientation of the line to horizontal.
+     *
+     * @param width The length of the horizontal line
+     */
     public void setHorizontalOrientation(int width) {
         setPixelSize(width, thickness);
     }
     
+    /**
+     * Sets the orientation of the line to vertical.
+     *
+     * @param width The length of the vertical line
+     */
     public void setVerticalOrientation(int height) {
         setPixelSize(thickness, height);
     }
     
+    /**
+     * Sets the graphical selected representation of the line.
+     *
+     * @param selected The selected state of the line.
+     */
     public void setSelected(boolean selected) {
         if (selected) {
             setStyleName("connection-line-selected");
@@ -55,4 +77,5 @@ public class ConnectionLine extends HTML {
             setStyleName("connection-line");
         }
     }
+    
 }

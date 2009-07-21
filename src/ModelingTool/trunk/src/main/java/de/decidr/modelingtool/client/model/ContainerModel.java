@@ -24,7 +24,7 @@ import de.decidr.modelingtool.client.ui.HasChildren;
 /**
  * TODO: add comment
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class ContainerModel extends NodeModel implements HasChildModels {
 

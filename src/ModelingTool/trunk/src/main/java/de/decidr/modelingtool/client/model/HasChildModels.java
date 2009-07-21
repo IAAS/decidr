@@ -23,7 +23,7 @@ import de.decidr.modelingtool.client.ui.HasChildren;
 /**
  * TODO: add comment
  *
- * @author JE
+ * @author Johannes Engelhardt
  */
 public interface HasChildModels {
 

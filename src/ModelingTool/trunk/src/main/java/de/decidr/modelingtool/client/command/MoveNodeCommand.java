@@ -19,27 +19,47 @@ package de.decidr.modelingtool.client.command;
 import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.ui.HasChildren;
 import de.decidr.modelingtool.client.ui.Node;
-import de.decidr.modelingtool.client.ui.Workflow;
+import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 /**
- * TODO: add comment
+ * This command moves a node to a specific position / container.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class MoveNodeCommand implements UndoableCommand {
 
+    /** The node to move. */
     private Node node;
 
+    /** The parent panel of the node before moving. */
     private HasChildren oldParentPanel;
+    /** The X coordinate of the node before moving. */
     private int oldNodeLeft;
+    /** The Y coordinate of the node before moving. */
     private int oldNodeTop;
 
+    /** The parent panel of the node after moving. */
     private HasChildren newParentPanel;
+    /** The x coordinate of the node after moving. */
     private int newNodeLeft;
+    /** The y coordiante of the node after moving. */
     private int newNodeTop;
 
+    /**
+     * This command removes any connections connected to the node, if the node
+     * is moved to another panel and the connections get illegal.
+     */
     private UndoableCommand removeConnectionsCmd;
 
+    /**
+     * 
+     * Constructor for the already moved graphical node.
+     *
+     * @param node The graphical node (already moved to new position and panel)
+     * @param oldParentPanel The parent panel of the node before moving
+     * @param oldNodeLeft The x coordinate of the node before moving
+     * @param oldNodeTop The y coordinate of the node before moving
+     */
     public MoveNodeCommand(Node node, HasChildren oldParentPanel,
             int oldNodeLeft, int oldNodeTop) {
         this.node = node;
@@ -66,7 +86,7 @@ public class MoveNodeCommand implements UndoableCommand {
             // unselect node, if selected (nessecary if parent panel of node is
             // changed.
             if (selected) {
-                Workflow.getInstance().getSelectionHandler().unselect();
+                SelectionHandler.getInstance().unselect();
             }
 
             try {
@@ -89,7 +109,7 @@ public class MoveNodeCommand implements UndoableCommand {
 
         // select node, if unselected and was selected before
         if (!node.isSelected() && selected) {
-            Workflow.getInstance().getSelectionHandler().select(node);
+            SelectionHandler.getInstance().select(node);
         }
     }
 
@@ -104,7 +124,7 @@ public class MoveNodeCommand implements UndoableCommand {
             // unselect node, if selected (nessecary if parent panel of node is
             // changed.
             if (selected) {
-                Workflow.getInstance().getSelectionHandler().unselect();
+                SelectionHandler.getInstance().unselect();
             }
 
             // remove connections if parent panel has changed
@@ -129,7 +149,7 @@ public class MoveNodeCommand implements UndoableCommand {
 
         // select node, if unselected and was selected before
         if (!node.isSelected() && selected) {
-            Workflow.getInstance().getSelectionHandler().select(node);
+            SelectionHandler.getInstance().select(node);
         }
     }
 

@@ -32,38 +32,35 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 /**
- * TODO: add comment
+ * The generic drag box. Implements mouse handle interfaces to be draggable.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class DragBox extends AbsolutePanel implements HasMouseDownHandlers,
         HasMouseUpHandlers, HasMouseMoveHandlers, HasMouseOutHandlers {
 
-    @Override
-    public HandlerRegistration addMouseUpHandler(MouseUpHandler handler) {
-        return addDomHandler(handler, MouseUpEvent.getType());
-    }
-
-    @Override
-    public HandlerRegistration addMouseMoveHandler(MouseMoveHandler handler) {
-        return addDomHandler(handler, MouseMoveEvent.getType());
-    }
-
+    /**
+     * Enum constants for the drag direction of the drag box. The drag direction
+     * indicates the direction in which the drag box is draggable and/or its
+     * position.
+     */
     public static enum DragDirection {
         NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST, ALL
-    };
+    }
 
+    /** the drag direction of the drag box. */
     protected DragDirection direction;
 
+    /**
+     * The constructor.
+     *
+     * @param direction The drag direction of the drag box.
+     */
     public DragBox(DragDirection direction) {
         super();
 
         this.direction = direction;
-    }
-
-    public DragDirection getDirection() {
-        return direction;
-    }
+    };
 
     @Override
     public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
@@ -71,7 +68,21 @@ public class DragBox extends AbsolutePanel implements HasMouseDownHandlers,
     }
 
     @Override
+    public HandlerRegistration addMouseMoveHandler(MouseMoveHandler handler) {
+        return addDomHandler(handler, MouseMoveEvent.getType());
+    }
+
+    @Override
     public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
         return addDomHandler(handler, MouseOutEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addMouseUpHandler(MouseUpHandler handler) {
+        return addDomHandler(handler, MouseUpEvent.getType());
+    }
+
+    public DragDirection getDirection() {
+        return direction;
     }
 }

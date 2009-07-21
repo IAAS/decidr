@@ -19,7 +19,7 @@ package de.decidr.modelingtool.client.ui;
 /**
  * TODO: add comment
  *
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class FlowContainer extends Container {
 

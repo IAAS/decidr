@@ -23,12 +23,14 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.selection.DragBox;
+import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 
 /**
  * TODO: add comment
- *
- * @author JE
+ * JE: To be implemented!
+ * 
+ * @author Johannes Engelhardt
  */
 public class ResizeDragController extends AbstractDragController {
 
@@ -63,7 +65,7 @@ public class ResizeDragController extends AbstractDragController {
             case SOUTH:
                 int delta = dragBox.getAbsoluteTop() - context.desiredDraggableY;
                 if (delta != 0) {
-                    Widget w = (Widget)Workflow.getInstance().getSelectedItem();
+                    Widget w = (Widget)SelectionHandler.getInstance().getSelectedItem();
                     // FIXME: selectedItem = null
                     Window.alert(w.toString());
                     w.setPixelSize(w.getOffsetWidth(), w.getOffsetHeight() + delta);

@@ -25,25 +25,26 @@ import de.decidr.modelingtool.client.ui.Port;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 
 /**
- * TODO: add comment
+ * This drop controller handles the drop operations of the connection drag
+ * boxes on the ports. Every port has a port drop controller. A connection drag
+ * box is only droppable on the port if the controller is registered to the drag
+ * controller the connection drag box is dragged with.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class PortDropController extends AbstractDropController {
 
     /**
-     * TODO: add comment
+     * The constructor.
      * 
-     * @param dropTarget
+     * @param dropTarget The port which is made to handle drop operations.
      */
     public PortDropController(Widget dropTarget) {
         super(dropTarget);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
     public Widget getDropTarget() {
-        // TODO Auto-generated method stub
         return super.getDropTarget();
     }
 
@@ -94,6 +95,8 @@ public class PortDropController extends AbstractDropController {
         if (context.dropController.getDropTarget() instanceof Port) {
             Port port = (Port) context.dropController.getDropTarget();
 
+            // cancel drop operation if there is already a connection connected
+            // to the port and multiple connections are not allowed
             if (port != null && !port.isMultipleConnectionsAllowed()
                     && !port.getGluedDragBoxes().isEmpty()) {
                 throw new VetoDragException();

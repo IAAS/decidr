@@ -23,7 +23,7 @@ import de.decidr.modelingtool.client.command.CommandStack;
 /**
  * Command for undoing the last user performed action.
  *
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class UndoMenuItem implements Command {
 

@@ -28,41 +28,36 @@ import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 
 /**
- * TODO: add comment
- * 
- * @author JE
- */
-/**
- * TODO: add comment
+ * This drag box is used to drag connections. Every connection has a connection
+ * drag box at each end.
  *
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class ConnectionDragBox extends DragBox {
 
+    /** The port, the drag box is glued to. Null, if not glued. */
     private Port gluedPort = null;
 
-    /**
-     * The connection the drag box is assigned to
-     */
+    /** The connection, the drag box is assigned to. */
     private Connection connection = null;
 
     /**
-     * TODO: add comment
-     * 
-     * @param direction
+     * The default constructor.
      */
     public ConnectionDragBox() {
-        super(DragDirection.ALL);
-        
-        SelectionHandler sh = Workflow.getInstance().getSelectionHandler();
-        this.addMouseDownHandler(sh);
+        this(null);
     }
 
+    /**
+     * Initializes the drag box an sets the glued port.
+     *
+     * @param gluedPort The glued port
+     */
     public ConnectionDragBox(Port gluedPort) {
         super(DragDirection.ALL);
         this.gluedPort = gluedPort;
         
-        SelectionHandler sh = Workflow.getInstance().getSelectionHandler();
+        SelectionHandler sh = SelectionHandler.getInstance();
         this.addMouseDownHandler(sh);
     }
 
@@ -76,9 +71,6 @@ public class ConnectionDragBox extends DragBox {
             this.gluedPort.remove(this);
         }
 
-        // glue to new port
-        // gluedPort.add(this);
-
         this.gluedPort = gluedPort;
     }
 
@@ -87,10 +79,9 @@ public class ConnectionDragBox extends DragBox {
     }
 
     /**
-     * 
      * Returns the workflow relative x coordinate of the center of the drag box.
      * 
-     * @return
+     * @return The x coordinate
      */
     public int getMiddleLeft() {
         return this.getAbsoluteLeft() + this.getOffsetWidth() / 2
@@ -98,10 +89,9 @@ public class ConnectionDragBox extends DragBox {
     }
 
     /**
-     * 
      * Returns the workflow relative y coordinate of the center of the drag box.
      * 
-     * @return
+     * @return The y coordinate
      */
     public int getMiddleTop() {
         return this.getAbsoluteTop() + this.getOffsetHeight() / 2
@@ -112,6 +102,11 @@ public class ConnectionDragBox extends DragBox {
         this.connection = connection;
     }
 
+    /**
+     * Sets the style of the drag box to normal or invisible.
+     *
+     * @param visible The visibility state of the drag box.
+     */
     public void setVisibleStyle(boolean visible) {
         if (visible) {
             this.setStyleName("dragbox-port");
@@ -121,8 +116,8 @@ public class ConnectionDragBox extends DragBox {
     }
 
     /**
-     * TODO: add comment
-     * getGluedPort must not be null.
+     * Gets the right drag controller from the dnd registry and makes this
+     * draggable, if gluedPort is not null.
      */
     public void makeDraggable() {
         Port port = getGluedPort();
@@ -139,4 +134,5 @@ public class ConnectionDragBox extends DragBox {
             dc.makeDraggable(this);
         }
     }
+    
 }

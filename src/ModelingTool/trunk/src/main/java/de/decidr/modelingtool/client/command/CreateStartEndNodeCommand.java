@@ -25,9 +25,9 @@ import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.StartNode;
 
 /**
- * TODO: add comment
+ * This command adds a start or end node to the workflow.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class CreateStartEndNodeCommand implements UndoableCommand {
 

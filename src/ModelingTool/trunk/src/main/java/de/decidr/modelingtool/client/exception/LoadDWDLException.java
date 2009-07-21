@@ -17,9 +17,10 @@
 package de.decidr.modelingtool.client.exception;
 
 /**
- * TODO: add comment
- *
- * @author JE
+ * This exception is thrown if anything during loading the dwdl from the model
+ * goes wrong.
+ * 
+ * @author Johannes Engelhardt
  */
 public class LoadDWDLException extends ModelingToolException {
 

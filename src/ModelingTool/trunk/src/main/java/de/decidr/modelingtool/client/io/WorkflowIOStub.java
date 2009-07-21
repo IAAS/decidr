@@ -31,7 +31,7 @@ import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
 /**
  * This is a stub to simulate loading and saving a workflow model.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class WorkflowIOStub implements WorkflowIO {
 

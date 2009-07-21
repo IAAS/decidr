@@ -26,7 +26,7 @@ import de.decidr.modelingtool.client.ui.Workflow;
 /**
  * TODO: add comment
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class CreateEmailInvokeNodeMenuItem implements Command {
 

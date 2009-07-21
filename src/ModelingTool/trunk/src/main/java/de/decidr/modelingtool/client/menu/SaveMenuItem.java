@@ -21,7 +21,7 @@ import com.google.gwt.user.client.Command;
 /**
  * TODO: add comment
  *
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class SaveMenuItem implements Command {
 

@@ -25,12 +25,12 @@ import de.decidr.modelingtool.client.command.UndoableCommand;
 import de.decidr.modelingtool.client.ui.Connection;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Selectable;
-import de.decidr.modelingtool.client.ui.Workflow;
+import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 /**
  * Menu item command for deleting the selected item.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class DeleteMenuItem implements Command {
 
@@ -45,7 +45,7 @@ public class DeleteMenuItem implements Command {
     @Override
     public void execute() {
         // get selected item
-        selectedItem = Workflow.getInstance().getSelectedItem();
+        selectedItem = SelectionHandler.getInstance().getSelectedItem();
         if (selectedItem != null) {
             // create command according to item type
             if (selectedItem instanceof Node) {

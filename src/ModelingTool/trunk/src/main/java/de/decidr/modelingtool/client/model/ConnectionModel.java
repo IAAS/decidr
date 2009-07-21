@@ -19,7 +19,7 @@ package de.decidr.modelingtool.client.model;
 /**
  * TODO: add comment
  *
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class ConnectionModel extends AbstractModel {
     

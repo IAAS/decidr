@@ -23,7 +23,7 @@ import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 /**
  * TODO: add comment
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class OutputPort extends Port {
 

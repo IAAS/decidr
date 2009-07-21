@@ -17,14 +17,15 @@
 package de.decidr.modelingtool.client.exception;
 
 /**
- * TODO: add comment
- *
- * @author JE
+ * This exception is thrown if anything during saving the dwdl from the model
+ * goes wrong.
+ * 
+ * @author Johannes Engelhardt
  */
 public class SaveDWDLException extends ModelingToolException {
 
     public SaveDWDLException(String msg) {
         super(msg);
     }
-    
+
 }

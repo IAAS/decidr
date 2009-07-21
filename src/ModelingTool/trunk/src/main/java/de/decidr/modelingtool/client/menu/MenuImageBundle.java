@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.MenuBar;
 /**
  * TODO: add comment
  *
- * @author JE
+ * @author Johannes Engelhardt
  */
 public interface MenuImageBundle extends MenuBar.MenuBarImages {
 

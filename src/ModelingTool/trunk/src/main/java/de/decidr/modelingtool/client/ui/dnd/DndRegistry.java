@@ -23,20 +23,28 @@ import com.allen_sauer.gwt.dnd.client.DragController;
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 
 /**
- * TODO: add comment
+ * The registry of drag controllers. Any drag controller is registered here to
+ * make it globally accessible. Every drag controller is associated with a name.
+ * This is a singleton.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class DndRegistry {
 
+    /** The instance of the dnd registry. */
     private static DndRegistry instance = null;
 
+    /** The map containing the drag controllers. */
     private Map<String, DragController> dragControllers = new HashMap<String, DragController>();
 
-    private DndRegistry() {
+    /** Private contructor. */
+    private DndRegistry() {}
 
-    }
-
+    /**
+     * Creates a new instance, if not done before, and returns it.
+     *
+     * @return The instance.
+     */
     public static DndRegistry getInstance() {
         if (instance == null) {
             instance = new DndRegistry();
@@ -44,10 +52,23 @@ public class DndRegistry {
         return instance;
     }
 
+    /**
+     * Registers a new drag controller-
+     *
+     * @param name The name of the drag controller
+     * @param dragController The drag controller object
+     */
     public void register(String name, DragController dragController) {
         dragControllers.put(name, dragController);
     }
 
+    /**
+     * Returns the drag controller associated with the given name as a
+     * PickupDragController, if it is an instance of this class.
+     *
+     * @param name The name of the drag controller
+     * @return The PickupDragController object if it is one, else null
+     */
     public PickupDragController getPickupDragController(String name) {
         DragController dc = dragControllers.get(name);
 
@@ -58,6 +79,12 @@ public class DndRegistry {
         }
     }
 
+    /**
+     * Returns the drag controller associated with the given name.
+     *
+     * @param name The name of the drag controller
+     * @return The crag controller object
+     */
     public DragController getDragController(String name) {
         return dragControllers.get(name);
     }

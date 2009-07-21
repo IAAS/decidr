@@ -26,21 +26,24 @@ import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 
 /**
- * TODO: add comment
+ * This class is responsible for the graphical representation of the selected
+ * state of any node in the workflow. The selected node gets a 9-box assigned.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class NodeSelectionBox {
 
-    // private AbsolutePanel parentPanel;
-
+    /** The List of the drag boxes. */
     private List<DragBox> dragBoxes = new Vector<DragBox>();
 
+    /** The node currently selected. Null if none is selected. */
     private Node assignedNode = null;
 
+    /**
+     * The constructor.
+     */
     public NodeSelectionBox() {
-        // this.parentPanel = parentPanel;
-
+        // add drag boxes
         dragBoxes.add(new DragBox(DragBox.DragDirection.NORTH));
         dragBoxes.add(new DragBox(DragBox.DragDirection.NORTHEAST));
         dragBoxes.add(new DragBox(DragBox.DragDirection.EAST));
@@ -49,77 +52,66 @@ public class NodeSelectionBox {
         dragBoxes.add(new DragBox(DragBox.DragDirection.SOUTHWEST));
         dragBoxes.add(new DragBox(DragBox.DragDirection.WEST));
         dragBoxes.add(new DragBox(DragBox.DragDirection.NORTHWEST));
-
-        for (DragBox dragBox : dragBoxes) {
-            //dragBox.addStyleName("dragbox-node");
-        }
     }
 
-    // public void refreshPosition() {
-    // int nodeTop = assignedNode.getGraphicAbsoluteTop();
-    // int nodeLeft = assignedNode.getGraphicAbsoluteLeft();
-    // refreshPosition(nodeTop, nodeLeft);
-    // }
+    /**
+     * Refreshes the position of the drag boxes. assignedNode must not be null.
+     */
+    public void refreshPosition() {
+        // make sure that assignedNode is not null
+        assert assignedNode != null;
 
-    // parameters are a workaround for dragging, cause position of the node
-    // is always 0 during dragging -- UPDATE: removed parameters
-    public void refreshPosition() throws NullPointerException {
-        if (assignedNode != null) {
-            int nodeLeft = assignedNode.getGraphicLeft();
-            int nodeTop = assignedNode.getGraphicTop();
-            int nodeWidth = assignedNode.getGraphicWidth();
-            int nodeHeight = assignedNode.getGraphicHeight();
-            int width;
-            int height;
-            int left = 0;
-            int top = 0;
+        int nodeLeft = assignedNode.getGraphicLeft();
+        int nodeTop = assignedNode.getGraphicTop();
+        int nodeWidth = assignedNode.getGraphicWidth();
+        int nodeHeight = assignedNode.getGraphicHeight();
+        int width;
+        int height;
+        int left = 0;
+        int top = 0;
 
-            for (DragBox dragBox : dragBoxes) {
-                width = dragBox.getOffsetWidth();
-                height = dragBox.getOffsetHeight();
+        for (DragBox dragBox : dragBoxes) {
+            width = dragBox.getOffsetWidth();
+            height = dragBox.getOffsetHeight();
 
-                switch (dragBox.getDirection()) {
-                case NORTH:
-                    top = nodeTop - height;
-                    left = nodeLeft + nodeWidth / 2 - width / 2;
-                    break;
-                case NORTHEAST:
-                    top = nodeTop - height;
-                    left = nodeLeft + nodeWidth;
-                    break;
-                case EAST:
-                    top = nodeTop + nodeHeight / 2 - height / 2;
-                    left = nodeLeft + nodeWidth;
-                    break;
-                case SOUTHEAST:
-                    top = nodeTop + nodeHeight;
-                    left = nodeLeft + nodeWidth;
-                    break;
-                case SOUTH:
-                    top = nodeTop + nodeHeight;
-                    left = nodeLeft + nodeWidth / 2 - width / 2;
-                    break;
-                case SOUTHWEST:
-                    top = nodeTop + nodeHeight;
-                    left = nodeLeft - width;
-                    break;
-                case WEST:
-                    top = nodeTop + nodeHeight / 2 - height / 2;
-                    left = nodeLeft - width;
-                    break;
-                case NORTHWEST:
-                    top = nodeTop - height;
-                    left = nodeLeft - width;
-                    break;
-                }
-
-                AbsolutePanel parentPanel = (AbsolutePanel) assignedNode
-                        .getParent();
-                parentPanel.setWidgetPosition(dragBox, left, top);
+            switch (dragBox.getDirection()) {
+            case NORTH:
+                top = nodeTop - height;
+                left = nodeLeft + nodeWidth / 2 - width / 2;
+                break;
+            case NORTHEAST:
+                top = nodeTop - height;
+                left = nodeLeft + nodeWidth;
+                break;
+            case EAST:
+                top = nodeTop + nodeHeight / 2 - height / 2;
+                left = nodeLeft + nodeWidth;
+                break;
+            case SOUTHEAST:
+                top = nodeTop + nodeHeight;
+                left = nodeLeft + nodeWidth;
+                break;
+            case SOUTH:
+                top = nodeTop + nodeHeight;
+                left = nodeLeft + nodeWidth / 2 - width / 2;
+                break;
+            case SOUTHWEST:
+                top = nodeTop + nodeHeight;
+                left = nodeLeft - width;
+                break;
+            case WEST:
+                top = nodeTop + nodeHeight / 2 - height / 2;
+                left = nodeLeft - width;
+                break;
+            case NORTHWEST:
+                top = nodeTop - height;
+                left = nodeLeft - width;
+                break;
             }
-        } else {
-            throw new NullPointerException(
-                    "Cannot refresh position, assignedNode is null.");
+
+            AbsolutePanel parentPanel = (AbsolutePanel) assignedNode
+                    .getParent();
+            parentPanel.setWidgetPosition(dragBox, left, top);
         }
     }
 
@@ -142,8 +134,6 @@ public class NodeSelectionBox {
         }
 
         assignedNode = null;
-        
-        //Window.alert(dragBoxes.get(0).getStyleName());
     }
 
     /**
@@ -163,21 +153,21 @@ public class NodeSelectionBox {
                     .getParent();
             parentPanel.add(dragBox);
 
-            DragController rdc = DndRegistry.getInstance()
-                    .getDragController("ResizeDragController");
-            
-            //dragBox.addStyleName("dragbox-node");
+            DragController rdc = DndRegistry.getInstance().getDragController(
+                    "ResizeDragController");
+
+            // dragBox.addStyleName("dragbox-node");
 
             if (node.isResizable()) {
                 rdc.makeDraggable(dragBox);
             }
-            
+
             dragBox.addStyleName("dragbox-node");
         }
 
         refreshPosition();
-        
-        //Window.alert(dragBoxes.get(0).getStyleName());
+
+        // Window.alert(dragBoxes.get(0).getStyleName());
     }
 
     public List<DragBox> getDragBoxes() {

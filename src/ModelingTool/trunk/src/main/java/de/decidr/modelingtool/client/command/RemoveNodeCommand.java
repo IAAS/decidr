@@ -18,26 +18,38 @@ package de.decidr.modelingtool.client.command;
 
 import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.ui.Node;
-import de.decidr.modelingtool.client.ui.Workflow;
+import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 /**
- * TODO: add comment
- * 
- * @author JE
+ * This command removes a node from the workflow and all connections connected
+ * to it.
+ *
+ * @author Johannes Engelhardt
  */
 public class RemoveNodeCommand implements UndoableCommand {
 
+    /** The node to remove. */
     private Node node;
 
+    /** The model of the node to remove. */
     private NodeModel model;
 
+    /** The x coordinate of the node. */
     private int nodeLeft;
+    /** The y coordinate of the node. */
     private int nodeTop;
 
+    /** The selected state of the node. */
     private boolean selected;
 
+    /** This Command removes any connections connected to the node. */
     private UndoableCommand removeConnectionsCmd;
 
+    /**
+     * Constructor for removing the node.
+     *
+     * @param node The node to remove.
+     */
     public RemoveNodeCommand(Node node) {
         this.node = node;
         this.model = node.getModel();
@@ -61,7 +73,7 @@ public class RemoveNodeCommand implements UndoableCommand {
 
         // select node if was selected before
         if (selected) {
-            Workflow.getInstance().getSelectionHandler().select(node);
+            SelectionHandler.getInstance().select(node);
         }
 
         // add all connections removed before
@@ -75,7 +87,7 @@ public class RemoveNodeCommand implements UndoableCommand {
 
         // unselect node if selected
         if (selected) {
-            Workflow.getInstance().getSelectionHandler().unselect();
+            SelectionHandler.getInstance().unselect();
         }
 
         // remove node from parent panel

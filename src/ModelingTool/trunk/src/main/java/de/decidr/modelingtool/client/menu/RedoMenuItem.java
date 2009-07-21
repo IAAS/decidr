@@ -25,7 +25,7 @@ import de.decidr.modelingtool.client.command.CommandStack;
  * action was not a undo action, the redo stack is emtpy and no redo action is
  * performed.
  *
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class RedoMenuItem implements Command {
 

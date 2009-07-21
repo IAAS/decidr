@@ -27,23 +27,22 @@ import de.decidr.modelingtool.client.ui.Connection;
 import de.decidr.modelingtool.client.ui.HasChildren;
 import de.decidr.modelingtool.client.ui.OrthogonalConnection;
 import de.decidr.modelingtool.client.ui.Port;
-import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
+import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 /**
- * TODO: add comment
+ * This drag controller is used to drag the connections. All connection drag
+ * boxes are made draggable by this class.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class ConnectionDragController extends PickupDragController {
 
-    /**
-     * The connection currently be dragged
-     */
+    /** The connection currently eeing dragged */
     private Connection connection = null;
 
     /**
-     * Indicated if the connection being dragged is a new or an existing
+     * Indicates if the connection being dragged is a new or an existing
      * connection.
      */
     private boolean existingConnection;
@@ -55,10 +54,10 @@ public class ConnectionDragController extends PickupDragController {
     private ConnectionDragBox newDragBox = null;
 
     /**
-     * TODO: add comment
+     * The constructor.
      * 
      * @param boundaryPanel
-     * @param allowDroppingOnBoundaryPanel
+     *            The boundary panel, should be the workflow itself.
      */
     public ConnectionDragController(AbsolutePanel boundaryPanel) {
         super(boundaryPanel, false);
@@ -98,8 +97,7 @@ public class ConnectionDragController extends PickupDragController {
                     CommandStack.getInstance().executeCommand(
                             new CreateConnectionCommand(connection));
                     // select connection
-                    Workflow.getInstance().getSelectionHandler().select(
-                            connection);
+                    SelectionHandler.getInstance().select(connection);
 
                 } else {
                     if (existingConnection) {
@@ -121,10 +119,9 @@ public class ConnectionDragController extends PickupDragController {
                         // delete connection
                         connection.remove();
                     }
+
                     connection = null;
-
                 }
-
             }
         }
     }
@@ -156,11 +153,6 @@ public class ConnectionDragController extends PickupDragController {
                             .getParentNode().getParentPanel());
                 }
 
-                // set parent panel of connection to parent panel of involved
-                // node
-                // connection.setParentPanel(draggedDragBox.getGluedPort()
-                // .getParentNode().getParentPanel());
-
                 // create start drag box
                 ConnectionDragBox startDragBox = new ConnectionDragBox();
                 // glue to port
@@ -179,18 +171,6 @@ public class ConnectionDragController extends PickupDragController {
                 draggedDragBox.setConnection(connection);
                 connection.getParentPanel().addConnection(connection);
 
-                // create new drag box and add to the port from which the
-                // dragged drag box is dragged from
-                // draggedPort.createConnectionDragBox();
-                // newDragBox = new ConnectionDragBox();
-                // newDragBox.setGluedPort(draggedPort);
-                // newDragBox.getGluedPort().add(newDragBox);
-                // newDragBox.setVisibleStyle(false);
-
-                // make new dragbox draggable
-                // newDragBox.makeDraggable();
-
-                // DEBUG: newDragBox.setStyleName("dragbox-debug");
             } else {
                 // connection is an existing connection
                 existingConnection = true;
@@ -198,25 +178,12 @@ public class ConnectionDragController extends PickupDragController {
 
         }
 
-        // create drag box and add to workflow
-        // ConnectionDragBox startDragBox = new ConnectionDragBox();
-        // Workflow.getInstance().add(startDragBox);
-
         super.dragStart();
     }
 
     @Override
     public void previewDragEnd() throws VetoDragException {
         super.previewDragEnd();
-
-        // if (context.dropController.getDropTarget() instanceof Port) {
-        // Port port = (Port) context.dropController.getDropTarget();
-        //
-        // if (port != null && !port.isMultipleConnectionsAllowed()
-        // && !port.getGluedDragBoxes().isEmpty()) {
-        // throw new VetoDragException();
-        // }
-        // }
     }
 
 }

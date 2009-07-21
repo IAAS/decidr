@@ -34,11 +34,12 @@ import de.decidr.modelingtool.client.command.MoveNodeCommand;
 import de.decidr.modelingtool.client.command.UndoableCommand;
 import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
+import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 /**
  * This class represents an abstract node in a workflow.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public abstract class Node extends AbsolutePanel implements
         ModelChangeListener, Selectable, HasMouseDownHandlers,
@@ -190,7 +191,7 @@ public abstract class Node extends AbsolutePanel implements
             ((AbsolutePanel) getParent()).setWidgetPosition(this, left, top);
             refreshConnections();
             if (isSelected()) {
-                Workflow.getInstance().getSelectionHandler().refreshSelection();
+                SelectionHandler.getInstance().refreshSelection();
             }
         }
     }

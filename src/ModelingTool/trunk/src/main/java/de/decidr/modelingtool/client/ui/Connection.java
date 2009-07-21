@@ -22,32 +22,50 @@ import de.decidr.modelingtool.client.model.ConnectionModel;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 
 /**
- * TODO: add comment
+ * An abstract connection without graphical representation. Subclasses have to
+ * implement the draw() and delete() operations.
  * 
- * @author engelhjs
+ * @author Johannes Engelhardt
  */
 public abstract class Connection implements Selectable, ModelChangeListener {
 
+    /** The parent panel of the connection. */
     protected HasChildren parentPanel = null;
-    
-    // subclasses have to implement this in draw() operation
+
+    /**
+     * The connection label. Subclasses have to implement this in their draw()
+     * operation to make it visible.
+     */
     protected Label label = new Label();
 
+    /** The selected state of the connection. */
     private boolean selected;
 
+    /** The model of the connection. */
     private ConnectionModel model;
 
+    /** The start drag box of the connection. */
     protected ConnectionDragBox startDragBox;
 
+    /** The end drag box of the connection. */
     protected ConnectionDragBox endDragBox;
 
+    /**
+     * The constructor.
+     *
+     * @param parentPanel The parent panel of the connection
+     */
     public Connection(HasChildren parentPanel) {
         this.parentPanel = parentPanel;
-        
-        // TODO: debug
-        label.setText("ConnectionLabel");
+
+        // debug
+        //label.setText("ConnectionLabel");
     }
 
+    /**
+     * Draws the connection. Subclasses have to care how the connection is
+     * drawn.
+     */
     public abstract void draw();
 
     public ConnectionDragBox getEndDragBox() {
@@ -66,39 +84,35 @@ public abstract class Connection implements Selectable, ModelChangeListener {
         return startDragBox;
     }
 
-    // private Port sourcePort = null;
-    //
-    // private Port targetPort = null;
-
-    // public Port getSourcePort() {
-    // return sourcePort;
-    // }
-    //    
-    // public Port getTargetPort() {
-    // return targetPort;
-    // }
-    //    
     public boolean isSelected() {
         return selected;
     }
 
     @Override
     public void onModelChange() {
-        label.setText(model.getName()); 
+        label.setText(model.getName());
         draw();
     }
 
+    /**
+     * Callback method for the parent panel. This is called after the connection
+     * has been added.
+     *
+     * @param parentPanel The parent panel the connection has been added to.
+     */
     public void onPanelAdd(HasChildren parentPanel) {
         this.parentPanel = parentPanel;
         draw();
     }
 
+    /**
+     * Removes the connection. Subclasses have to care that all drawn elements
+     * are removed.
+     */
     public abstract void remove();
 
     public void setEndDragBox(ConnectionDragBox endDragBox) {
         this.endDragBox = endDragBox;
-        // FIXME: compiler error in this line
-        // endDragBox.setConnection(this);
     }
 
     public void setModel(ConnectionModel model) {
@@ -116,25 +130,15 @@ public abstract class Connection implements Selectable, ModelChangeListener {
             // bring start drag box to front
             startDragBox.getGluedPort().add(startDragBox);
             startDragBox.setVisibleStyle(selected);
-    
+
             // bring end drag box to front
             endDragBox.getGluedPort().add(endDragBox);
             endDragBox.setVisibleStyle(selected);
         }
     }
 
-    // public void setSourcePort(Port sourcePort) {
-    // this.sourcePort = sourcePort;
-    // }
-
     public void setStartDragBox(ConnectionDragBox startDragBox) {
         this.startDragBox = startDragBox;
-        // FIXME: compiler error in this line
-        // startDragBox.setConnection(this);
     }
-
-    // public void setTargetPort(Port targetPort) {
-    // this.targetPort = targetPort;
-    // }
 
 }
