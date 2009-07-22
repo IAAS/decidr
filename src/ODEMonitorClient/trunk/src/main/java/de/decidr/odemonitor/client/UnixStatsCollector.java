@@ -17,6 +17,7 @@
 package de.decidr.odemonitor.client;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -47,9 +48,14 @@ public abstract class UnixStatsCollector extends AbstractOSStatsCollector {
                 + ".runCommand()");
         float memLoad;
 
-        // use /bin/sh to execute the script
+        // use /bin/bash to execute the script if possible, falls back to
+        // /bin/sh as necessary
         String[] executableCommand = new String[command.length + 1];
-        executableCommand[0] = "/bin/sh";
+        if (new File("/bin/bash").exists()) {
+            executableCommand[0] = "/bin/bash";
+        } else {
+            executableCommand[0] = "/bin/sh";
+        }
         for (int i = 0; i < command.length; i++) {
             executableCommand[i + 1] = command[i];
         }

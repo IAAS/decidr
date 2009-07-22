@@ -19,7 +19,7 @@
 # fail on error
 set -e
 # uncomment for debugging:
-set -x
+#set -x
 
 # variables
 decimals=2
@@ -28,7 +28,7 @@ decimals=2
 getTotalMem()
 {
   totMem=$(sysctl hw.physmem)
-  totMem=$(totMem##* )
+  totMem=${totMem##* }
   echo $totMem
 }
 
@@ -37,6 +37,11 @@ getTotalSwap()
   # This is *very* format-dependent - find better way
   swapTot=$(sysctl vm.swapusage)
   lastChar=${swapTot: -1}
+  while [ "${lastChar}" = ' ' ]
+  do
+    swapTot=${swapTot% }
+    lastChar=${swapTot#${swapTot%?}}
+  done
   swapTot=${swapTot%%${lastChar}*}
   swapTot=${swapTot##* }
   case ${lastChar} in
@@ -46,16 +51,22 @@ getTotalSwap()
     T|t) factor=$((1024*1024*1024*1024));;
     *) factor=1;;
   esac
-  echo $(bc <<< ${swapTot}*${factor})
+  result=$(bc <<< ${swapTot}*${factor})
+  echo ${result%.*}
 }
 
 getFreeMem()
 {
   # This is *very* format-dependent - find better way
-  freeMem=$(top -l 1 | head -n 4 | grep -i PhysMem)
+  freeMem=$(top -l 1 | head -n 6 | grep -i PhysMem)
   freeMem=${freeMem% free*}
-  freeMem=$(freeMem##* )
+  freeMem=${freeMem##* }
   lastChar=${freeMem: -1}
+  while [ "${lastChar}" = ' ' ]
+  do
+    freeMem=${freeMem% }
+    lastChar=${freeMem#${freeMem%?}}
+  done
   freeMem=${freeMem%${lastChar}*}
   case ${lastChar} in
     M|m) factor=$((1024*1024));;
@@ -64,14 +75,20 @@ getFreeMem()
     T|t) factor=$((1024*1024*1024*1024));;
     *) factor=1;;
   esac
-  echo $(bc <<< ${freeMem}*${factor})
+  result=$(bc <<< ${freeMem}*${factor})
+  echo ${result%.*}
 }
 
 getFreeSwap()
 {
   # This is *very* format-dependent - find better way
   swapFree=$(sysctl vm.swapusage)
-  lastChar=${swapTot: -1}
+  lastChar=${swapFree: -1}
+  while [ "${lastChar}" = ' ' ]
+  do
+    swapFree=${swapFree% }
+    lastChar=${swapFree#${swapFree%?}}
+  done
   swapFree=${swapFree%${lastChar}*}
   swapFree=${swapFree##* }
   case ${lastChar} in
@@ -81,7 +98,8 @@ getFreeSwap()
     T|t) factor=$((1024*1024*1024*1024));;
     *) factor=1;;
   esac
-  echo $(bc <<< ${swapFree}*${factor})
+  result=$(bc <<< ${swapFree}*${factor})
+  echo ${result%.*}
 }
 
 memTotal=$(getTotalMem)
