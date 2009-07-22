@@ -224,7 +224,6 @@ public class SystemFacade extends AbstractFacade {
      *             if an error occurs during the transaction
      * 
      */
-    // XXX ODE monitor needs to do this, too
     @AllowedRole(SuperAdminRole.class)
     public void setServerLock(Long serverId, Boolean lock)
             throws TransactionException {
@@ -307,6 +306,4 @@ public class SystemFacade extends AbstractFacade {
         }
         return result;
     }
-    
-    //FIXME Hi Jungs, brauche die location eines Servers von dem ich die Id habe.
 }
