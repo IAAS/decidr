@@ -6,7 +6,7 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Deletes the given WorkflowModel. If the given workflow model doesn't exist
+ * Deletes the given WorkflowModel. If the given workflow model doesn't exist,
  * nothing will happen.
  * 
  * @author Markus Fischer
@@ -18,7 +18,6 @@ public class RemoveWorkflowModelCommand extends TenantCommand {
     private Long workflowModelId;
 
     /**
-     * 
      * Creates a new RemoveWorkflowModelCommand. This command deletes the given
      * WorkflowModel. If the given workflow model doesn't exist nothing will
      * happen.
@@ -26,13 +25,14 @@ public class RemoveWorkflowModelCommand extends TenantCommand {
      * @param role
      *            user which executes the command
      * @param tenantId
+     *            TODO document
      * @param workflowModelId
+     *            TODO document
      */
     public RemoveWorkflowModelCommand(Role role, Long workflowModelId) {
         super(role, null);
 
         this.workflowModelId = workflowModelId;
-
     }
 
     @Override
@@ -44,7 +44,5 @@ public class RemoveWorkflowModelCommand extends TenantCommand {
         if (model != null) {
             evt.getSession().delete(model);
         }
-
     }
-
 }

@@ -37,12 +37,12 @@ import de.decidr.model.transactions.TransactionEvent;
 public class DecidrGlobals {
 
     /**
-     * The last time when the ESB url was updated
+     * The last time when the ESB URL was updated.
      */
     private static Calendar lastEsbUrlFetch = null;
 
     /**
-     * The last cached esb
+     * The last cached ESB.
      */
     private static Server esb = null;
 
@@ -62,6 +62,7 @@ public class DecidrGlobals {
     public static String getVersion() {
         // if you need a more "accurate" version please use the SVN
         // revision number.
+        // XXX ^-- an die kommt man aber nicht von Java aus
         return "0.0.1";
     }
 
@@ -72,7 +73,7 @@ public class DecidrGlobals {
      */
     public static SystemSettings getSettings() {
         /**
-         * Inline command that fetches the settings from the db.
+         * Inline command that fetches the settings from the DB.
          */
         FetchSettingsCommand cmd = new FetchSettingsCommand();
         try {
@@ -138,7 +139,8 @@ public class DecidrGlobals {
             expireTime.setTime(now.getTime());
         } else {
             expireTime.setTime(lastEsbUrlFetch.getTime());
-            expireTime.add(Calendar.MINUTE, 1); // expire after one minute
+            // expire after one minute
+            expireTime.add(Calendar.MINUTE, 1);
         }
 
         if (now.compareTo(expireTime) >= 0) {
@@ -161,6 +163,7 @@ public class DecidrGlobals {
 
     /**
      * @param webServiceName
+     *            TODO document
      * @return An URL which can be used to connect to the web service identified
      *         by webServiceName
      */
@@ -171,8 +174,7 @@ public class DecidrGlobals {
     }
 
     /**
-     * 
-     * @param webServiceName
+     * @param webServiceName TODO document
      * @return An URL which can be used to retrieve the WSDL of the web service
      *         identified by webServiceName
      */

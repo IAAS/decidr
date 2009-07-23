@@ -15,11 +15,10 @@ import de.decidr.model.storage.StorageProviderFactory;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * 
  * Sets the current color scheme of the given tenant.
  * 
  * @author Markus Fischer
- *
+ * 
  * @version 0.1
  */
 public class SetCurrentColorSchemeCommand extends TenantCommand {
@@ -28,49 +27,52 @@ public class SetCurrentColorSchemeCommand extends TenantCommand {
     String mimeType;
     String fileName;
 
-    
     /**
+     * Creates a new SetCurrentColorSchemeCommand. This command sets the current
+     * color scheme of the given tenant.
      * 
-     * Creates a new SetCurrentColorSchemeCommand. This command sets the current color scheme of the given tenant.
-     * 
-     * @param role      user which executes the command
-     * @param tenantId  the id of the tenant where the current color scheme should be set
-     * @param simpleColorScheme the color scheme file
-     * @param mimeType  mime type of the file
-     * @param fileName  name of the file
+     * @param role
+     *            user which executes the command
+     * @param tenantId
+     *            the id of the tenant where the current color scheme should be
+     *            set
+     * @param simpleColorScheme
+     *            the color scheme file
+     * @param mimeType
+     *            mime type of the file
+     * @param fileName
+     *            name of the file
      */
-    public SetCurrentColorSchemeCommand(Role role, Long tenantId, FileInputStream currentColorScheme, String mimeType,
-            String fileName) {
-        
+    public SetCurrentColorSchemeCommand(Role role, Long tenantId,
+            FileInputStream currentColorScheme, String mimeType, String fileName) {
+
         super(role, tenantId);
-        this.currentColorScheme=currentColorScheme;
-        this.mimeType=mimeType;
-        this.fileName=fileName;
+        this.currentColorScheme = currentColorScheme;
+        this.mimeType = mimeType;
+        this.fileName = fileName;
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-        
+
         StorageProviderFactory factory;
         Tenant tenant = (Tenant) evt.getSession().load(Tenant.class,
                 getTenantId());
         File schemeFile;
 
-        if(tenant.getAdvancedColorScheme()==null){
-            schemeFile = new File();    
-        }
-        else{
+        if (tenant.getAdvancedColorScheme() == null) {
+            schemeFile = new File();
+        } else {
             schemeFile = tenant.getAdvancedColorScheme();
         }
-        
+
         schemeFile.setMimeType(mimeType);
         schemeFile.setMayPublicRead(true);
         schemeFile.setFileName(fileName);
 
         evt.getSession().save(schemeFile);
 
-        
         tenant.setCurrentColorScheme(schemeFile);
         evt.getSession().update(tenant);
 
@@ -85,13 +87,12 @@ public class SetCurrentColorSchemeCommand extends TenantCommand {
         }
 
         try {
-            factory.getStorageProvider().putFile(currentColorScheme, schemeFile.getId());
+            factory.getStorageProvider().putFile(currentColorScheme,
+                    schemeFile.getId());
         } catch (StorageException e) {
             throw new TransactionException(e);
         } catch (IncompleteConfigurationException e) {
             throw new TransactionException(e);
         }
-        
     }
-
 }

@@ -23,8 +23,8 @@ import de.decidr.model.storage.StorageProvider;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Retrieves file metainformation from the database. To retrieve the acutal file
- * contents, see {@link StorageProvider}.
+ * Retrieves file meta-information from the database. To retrieve the acutal
+ * file contents, see {@link StorageProvider}.
  * 
  * @author Daniel Huss
  * @version 0.1

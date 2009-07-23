@@ -19,7 +19,7 @@ import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.deployment.DeployerImpl;
 
 /**
- * Deletes all tenants which corresponds to the given ids including all
+ * Deletes all tenants which corresponds to the given IDs including all
  * corresponding WorkflowInstances and workitems.
  * 
  * @author Markus Fischer
@@ -31,14 +31,13 @@ public class DeleteTenantCommand extends TenantCommand {
     private Long tenantId;
 
     /**
-     * 
      * Creates a new DeleteTenantsCommand. This Command will delete all tenants
-     * which corresponds to the given ids including all corresponding
+     * which corresponds to the given IDs including all corresponding
      * WorkflowInstances and workitems. all .
      * 
      * @param role
      *            the user which executes the command
-     * @param tenantId
+     * @param tenantId TODO document
      */
     public DeleteTenantCommand(Role role, Long tenantId) {
         super(role, null);
@@ -68,8 +67,6 @@ public class DeleteTenantCommand extends TenantCommand {
                 throw new TransactionException(e);
             }
             
-            
-            
             // delete File logo (permanent storage)
             try {
                 factory.getStorageProvider().removeFile(tenant.getLogo().getId());
@@ -81,9 +78,6 @@ public class DeleteTenantCommand extends TenantCommand {
             
             // delete File logo (db representation)
             evt.getSession().delete(tenant.getLogo());
-            
-            
-            
             
             // delete File simpleColorScheme (permanent storage)
             try {
@@ -97,9 +91,6 @@ public class DeleteTenantCommand extends TenantCommand {
             // delete File simplecolorScheme (db representation)
             evt.getSession().delete(tenant.getSimpleColorScheme());
             
-            
-            
-            
             // delete File advancedColorScheme (permanent storage)
             try {
                 factory.getStorageProvider().removeFile(tenant.getAdvancedColorScheme().getId());
@@ -111,8 +102,6 @@ public class DeleteTenantCommand extends TenantCommand {
             
             // delete File advancedColorScheme (db representation)
             evt.getSession().delete(tenant.getAdvancedColorScheme());
-            
-            
             
             // delete File currentColorScheme (permanent storage)
             try {
@@ -129,9 +118,6 @@ public class DeleteTenantCommand extends TenantCommand {
             
             for (DeployedWorkflowModel model : tenant
                     .getDeployedWorkflowModels()) {
-
-                
-                
                 // Undeploy models from server
                 
                 String hql = "from Server s join WorkflowModelIsDeployedOnServer rel where rel.server = s and rel.deployedWorkflowModel.id = :toUndeploy";
@@ -158,9 +144,6 @@ public class DeleteTenantCommand extends TenantCommand {
             
             // finally delete tenant object
             evt.getSession().delete(tenant);
-
         }
-
     }
-
 }

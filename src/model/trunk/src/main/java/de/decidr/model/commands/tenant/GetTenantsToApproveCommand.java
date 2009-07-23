@@ -16,8 +16,7 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * 
- * Save all Tenants which have to bee approve in the result variable.
+ * Save all tenants which have to be approved in the result variable.
  * 
  * @author Markus Fischer
  * 
@@ -30,22 +29,22 @@ public class GetTenantsToApproveCommand extends AclEnabledCommand {
     private List<TenantWithAdminView> result;
 
     /**
-     * 
      * Creates a new GetTenantsTo ApproveCommand. This command will save all
      * Tenants which have to bee approve in the result variable.
      * 
      * @param role
      *            the user which executes the command
      * @param filters
+     *            TODO document
      * @param paginator
+     *            TODO document
      */
     public GetTenantsToApproveCommand(Role role, List<Filter> filters,
             Paginator paginator) {
-        super(role, (Permission)null);
+        super(role, (Permission) null);
 
         this.paginator = paginator;
         this.filters = filters;
-
     }
 
     @SuppressWarnings("unchecked")
@@ -60,15 +59,14 @@ public class GetTenantsToApproveCommand extends AclEnabledCommand {
         Filters.apply(c, filters, paginator);
 
         result = c.list();
-
     }
 
     /**
+     * TODO document
      * 
      * @return the result
      */
     public List<TenantWithAdminView> getResult() {
         return result;
     }
-
 }

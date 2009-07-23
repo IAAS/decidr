@@ -43,8 +43,7 @@ public abstract class AbstractOSStatsCollector {
     /**
      * Extending classes should provide an OS-dependent memory load, which
      * should be the percentage of RAM + swap actually used by applications and
-     * the kernel (not buffers and disk cache).<br>
-     * RR how does swap figure into this - weighed 0.5?
+     * the kernel (not buffers and disk cache).
      * 
      * @return The amount of memory used as a percentage of the total available
      *         memory, rounded to the nearest percent. <code>-1</code> means an

@@ -4,7 +4,6 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * 
  * Sets the server of the given server to locked or unlocked. If the server does
  * not exist, nothing will happen.
  * 
@@ -42,5 +41,4 @@ public class LockServerCommand extends SystemCommand {
                 .setBoolean("newLock", lock).setLong("serverId", serverId)
                 .executeUpdate();
     }
-
 }

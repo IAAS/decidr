@@ -11,8 +11,7 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * 
- * Disapproves all tenants which corresponds to the given ids (tenants will be
+ * Disapproves all tenants which corresponds to the given IDs (tenants will be
  * deleted).
  * 
  * @author Markus Fischer
@@ -24,16 +23,16 @@ public class DisapproveTenantsCommand extends AclEnabledCommand {
     private List<Long> tenantIds;
 
     /**
-     * 
      * Creates a new ApproveTenantsCommand. This Command will disapprove all
-     * tenants which corresponds to the given ids (tenants will be deleted).
+     * tenants which corresponds to the given IDs (tenants will be deleted).
      * 
      * @param role
      *            the user which executes the command
      * @param tenantIds
+     *            TODO document
      */
     public DisapproveTenantsCommand(Role role, List<Long> tenantIds) {
-        super(role, (Permission)null);
+        super(role, (Permission) null);
 
         this.tenantIds = tenantIds;
     }
@@ -47,14 +46,11 @@ public class DisapproveTenantsCommand extends AclEnabledCommand {
                     tenantid);
             if (tenant != null) {
                 if (tenant.getApprovedSince() == null) {
-                    NotificationEvents.disapprovedTenant(tenant.getAdmin(), tenant.getName());
+                    NotificationEvents.disapprovedTenant(tenant.getAdmin(),
+                            tenant.getName());
                     evt.getSession().delete(tenant);
                 }
-
             }
-
         }
-
     }
-
 }

@@ -41,9 +41,12 @@ public class LifetimeValidator {
      * Checks whether a password reset request is still valid.
      * 
      * @param request
+     *            TODO document
      * @param session
+     *            TODO document
      * @return true iff the given password reset request is still valid
      * @throws TransactionException
+     *             TODO document
      */
     public static Boolean isPasswordResetRequestValid(
             PasswordResetRequest request, Session session)
@@ -56,9 +59,12 @@ public class LifetimeValidator {
      * Checks whether an invitation is still valid.
      * 
      * @param invitation
+     *            TODO document
      * @param session
+     *            TODO document
      * @return true iff the given invitation is still valid
      * @throws TransactionException
+     *             TODO document
      */
     public static Boolean isInvitationValid(Invitation invitation)
             throws TransactionException {
@@ -70,9 +76,12 @@ public class LifetimeValidator {
      * Checks whether a registration request is still valid.
      * 
      * @param request
+     *            TODO document
      * @param session
+     *            TODO document
      * @return true iff the given registration request is still valid.
      * @throws TransactionException
+     *             TODO document
      */
     public static Boolean isRegistrationRequestValid(RegistrationRequest request)
             throws TransactionException {
@@ -84,8 +93,10 @@ public class LifetimeValidator {
      * Checks whether a change email request is still valid.
      * 
      * @param request
+     *            TODO document
      * @return true iff the given request is still valid.
      * @throws TransactionException
+     *             TODO document
      */
     public static Boolean isChangeEmailRequestValid(ChangeEmailRequest request)
             throws TransactionException {
@@ -98,8 +109,10 @@ public class LifetimeValidator {
      * lifetime.
      * 
      * @param creationDate
+     *            TODO document
      * @param lifetimeSeconds
-     * @return true iff the request is still alive / valid
+     *            TODO document
+     * @return true iff the request is still alive/valid
      */
     private static Boolean requestIsAlive(Date creationDate, int lifetimeSeconds) {
         // request is alive <-> createdDate + lifetime > now
@@ -108,5 +121,4 @@ public class LifetimeValidator {
         maxValidDate.add(Calendar.SECOND, lifetimeSeconds);
         return maxValidDate.after(DecidrGlobals.getTime());
     }
-
 }

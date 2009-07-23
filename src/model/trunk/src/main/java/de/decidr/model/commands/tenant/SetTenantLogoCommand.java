@@ -14,7 +14,6 @@ import de.decidr.model.storage.StorageProviderFactory;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * 
  * Sets the given logo as tenant logo to the given tenant. The logo will be
  * saved on permanent storage an a file entity will be created. The id of the
  * entity and the id of the file in the storage service for will be the same.
@@ -30,7 +29,6 @@ public class SetTenantLogoCommand extends TenantCommand {
     String fileName;
 
     /**
-     * 
      * Creates a new SetTenantLogoCommand. This commands sets the given logo as
      * tenant logo to the given tenant. The logo will be saved on permanent
      * storage an a file entity will be created. The id of the entity and the id
@@ -60,15 +58,14 @@ public class SetTenantLogoCommand extends TenantCommand {
             throws TransactionException {
 
         StorageProviderFactory factory;
-        
+
         Tenant tenant = (Tenant) evt.getSession().load(Tenant.class,
                 getTenantId());
         File logoFile;
 
-        if(tenant.getAdvancedColorScheme()==null){
-            logoFile = new File();    
-        }
-        else{
+        if (tenant.getAdvancedColorScheme() == null) {
+            logoFile = new File();
+        } else {
             logoFile = tenant.getAdvancedColorScheme();
         }
 
@@ -77,7 +74,7 @@ public class SetTenantLogoCommand extends TenantCommand {
         logoFile.setFileName(fileName);
 
         evt.getSession().save(logoFile);
-        
+
         tenant.setLogo(logoFile);
         evt.getSession().update(tenant);
 
@@ -96,7 +93,5 @@ public class SetTenantLogoCommand extends TenantCommand {
         } catch (IncompleteConfigurationException e) {
             throw new TransactionException(e);
         }
-
     }
-
 }

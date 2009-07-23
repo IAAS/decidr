@@ -5,22 +5,21 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.permissions.TenantPermission;
 
 /**
- * 
- * The Abstact Tennant Command. 
+ * The Abstract Tenant Command. TODO: what does it do?
  * 
  * @author Markus Fischer
  * @author Daniel Huss
- *
+ * 
  * @version 0.1
  */
-public abstract class TenantCommand extends AclEnabledCommand{
+public abstract class TenantCommand extends AclEnabledCommand {
 
     private Long tenantId;
-    
+
     public TenantCommand(Role role, Long tenantId) {
         super(role, new TenantPermission(tenantId));
-        this.tenantId=tenantId;
-        }
+        this.tenantId = tenantId;
+    }
 
     public Long getTenantId() {
         return tenantId;

@@ -3,6 +3,7 @@ package de.decidr.model.commands.tenant;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import de.decidr.model.entities.WorkflowInstance;
@@ -25,21 +26,21 @@ public class GetWorkflowInstancesCommand extends TenantCommand {
     private List<WorkflowInstance> result;
 
     /**
-     * 
      * Creates a new GetWorkflowInstanceCommand. The command will save all
      * WorkflowInstances for the given tenant in the result variable.
      * 
      * @param role
      *            the user which executes the command
      * @param tenantId
+     *            TODO document
      * @param paginator
+     *            TODO document
      */
     public GetWorkflowInstancesCommand(Role role, Long tenantId,
             Paginator paginator) {
         super(role, tenantId);
 
         this.paginator = paginator;
-
     }
 
     @SuppressWarnings("unchecked")
@@ -52,15 +53,16 @@ public class GetWorkflowInstancesCommand extends TenantCommand {
 
         Criteria c2;
 
-         // create criteria 2nd level and project to name
-         c2 = c.createCriteria("deployedWorkflowModel", Criteria.INNER_JOIN)
-                .setProjection(Projections.property("name"));
-         
-         // create criteria 3rd level and project to name
-         c2.createCriteria("tenant", Criteria.INNER_JOIN).setProjection(Projections.property("name")).add(
+        // create criteria 2nd level and project to name
+        c2 = c.createCriteria("deployedWorkflowModel",
+                CriteriaSpecification.INNER_JOIN).setProjection(
+                Projections.property("name"));
+
+        // create criteria 3rd level and project to name
+        c2.createCriteria("tenant", CriteriaSpecification.INNER_JOIN)
+                .setProjection(Projections.property("name")).add(
                         Restrictions.idEq(getTenantId()));
 
-         
         if (paginator != null) {
             paginator.apply(c);
         }
@@ -70,11 +72,9 @@ public class GetWorkflowInstancesCommand extends TenantCommand {
     }
 
     /**
-     * 
-     * @return the result
+     * @return the result TODO document
      */
     public List<WorkflowInstance> getResult() {
         return result;
     }
-
 }

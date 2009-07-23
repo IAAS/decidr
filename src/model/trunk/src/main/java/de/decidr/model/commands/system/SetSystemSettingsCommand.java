@@ -66,5 +66,4 @@ public class SetSystemSettingsCommand extends SystemCommand {
 
         evt.getSession().update(currentSettings);
     }
-
 }

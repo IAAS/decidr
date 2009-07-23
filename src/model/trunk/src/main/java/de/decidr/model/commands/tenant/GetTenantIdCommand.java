@@ -11,8 +11,7 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * 
- * Writes the id of the given tenant in the variable result. If the tenantName
+ * Writes the ID of the given tenant in the variable result. If the tenantName
  * doesn't exists, an exception will be thrown.
  * 
  * @author Markus Fischer
@@ -25,7 +24,6 @@ public class GetTenantIdCommand extends TenantCommand {
     private Long tenantId = null;
 
     /**
-     * 
      * Creates a new GetTenantIsCommand. This Command writes the id of the given
      * tenant in the variable result. If the tenantName doesn't exists, an
      * exception will be thrown.
@@ -33,6 +31,7 @@ public class GetTenantIdCommand extends TenantCommand {
      * @param role
      *            user which executes the command
      * @param tenantName
+     *            TODO document
      */
     public GetTenantIdCommand(Role role, String tenantName) {
         super(role, null);
@@ -56,11 +55,10 @@ public class GetTenantIdCommand extends TenantCommand {
         } else {
             tenantId = result.get(0).getId();
         }
-
     }
 
+    @Override
     public Long getTenantId() {
         return tenantId;
     }
-
 }

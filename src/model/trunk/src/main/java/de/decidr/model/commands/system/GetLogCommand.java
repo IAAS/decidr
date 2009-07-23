@@ -11,6 +11,11 @@ import de.decidr.model.filters.Paginator;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
+/**
+ * TODO: add comment
+ *
+ * @author TODO
+ */
 public class GetLogCommand extends SystemCommand {
 
     private List<Log> result;
@@ -45,7 +50,6 @@ public class GetLogCommand extends SystemCommand {
         Filters.apply(c, filters, paginator);
 
         result = c.list();
-
     }
 
     /**
@@ -56,5 +60,4 @@ public class GetLogCommand extends SystemCommand {
     public List<Log> getResult() {
         return result;
     }
-
 }

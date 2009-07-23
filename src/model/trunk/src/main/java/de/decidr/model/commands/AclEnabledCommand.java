@@ -44,7 +44,7 @@ import de.decidr.model.transactions.TransactionEvent;
  */
 public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
     /**
-     * The user / system that is requesting to execute this action.
+     * The user/system that is requesting to execute this action.
      */
     protected Role role;
 
@@ -58,11 +58,11 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
      * Creates a new AclEnabledCommand using the given role and permissions.
      * 
      * @param role
-     *            user / system that is requesting access to this command and
-     *            the given permissions
+     *            user/system that is requesting access to this command and the
+     *            given permissions
      * @param additionalPermissions
-     *            {@link Permission}s besides the command that are involved in
-     *            the transaction.
+     *            {@link Permission Permissions} besides the command that are
+     *            involved in the transaction.
      */
     public AclEnabledCommand(Role role,
             Collection<Permission> additionalPermissions) {
@@ -76,8 +76,8 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
      * Creates a new AclEnabledCommand using the given role and permission.
      * 
      * @param role
-     *            user / system that is requesting access to this command and
-     *            the given permissions
+     *            user/system that is requesting access to this command and the
+     *            given permissions
      * @param additionalPermission
      *            {@link Permission} besides the command that is involved in the
      *            transaction.
@@ -112,7 +112,7 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
             this.transactionAllowed(evt);
         } else {
             String roleName = role == null ? "null" : role.getClass().getName();
-            StringBuffer permissions = new StringBuffer(); 
+            StringBuffer permissions = new StringBuffer();
             permissions.append(this.getClass().getName());
 
             for (Permission p : additionalPermissions) {
@@ -133,6 +133,7 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
      * @param evt
      *            forwarded transaction event
      * @throws TransactionException
+     *             TODO document
      */
     public abstract void transactionAllowed(TransactionEvent evt)
             throws TransactionException;
@@ -152,5 +153,4 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
             ArrayList<Permission> additionalPermissions) {
         this.additionalPermissions = additionalPermissions;
     }
-
 }

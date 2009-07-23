@@ -14,13 +14,10 @@ import de.decidr.model.permissions.Permission;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
-
 /**
- * saves all Tenants in the result variable.
+ * Saves all Tenants in the result variable.
  * 
  * @author Markus Fischer
- * 
- * 
  * @version 0.1
  */
 @SuppressWarnings("unchecked")
@@ -31,21 +28,22 @@ public class GetAllTenantsCommand extends AclEnabledCommand {
     private List<TenantSummaryView> result;
 
     /**
-     * 
      * Creates a new GetAllTenantsCommand. This command saves all Tenants in the
      * result variable.
      * 
-     * @param role user which executes the command
+     * @param role
+     *            user which executes the command
      * @param filters
+     *            TODO document
      * @param paginator
+     *            TODO document
      */
     public GetAllTenantsCommand(Role role, List<Filter> filters,
             Paginator paginator) {
-        super(role, (Permission)null);
+        super(role, (Permission) null);
 
         this.filters = filters;
         this.paginator = paginator;
-
     }
 
     @Override
@@ -57,15 +55,14 @@ public class GetAllTenantsCommand extends AclEnabledCommand {
         Filters.apply(c, filters, paginator);
 
         result = c.list();
-
     }
 
     /**
+     * TODO document
      * 
      * @return the result
      */
     public List<TenantSummaryView> getResult() {
         return result;
     }
-
 }

@@ -13,10 +13,11 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Saves the result in the variable result as List<WorkflowModel>.
+ * Saves the result in the variable result as
+ * <code>{@link List<WorkflowModel>}</code>.
  * 
  * @author Markus Fischer
- *
+ * 
  * @version 0.1
  */
 public class GetWorkflowModelsCommand extends TenantCommand {
@@ -24,50 +25,53 @@ public class GetWorkflowModelsCommand extends TenantCommand {
     private List<Filter> filters;
     private Paginator paginator;
     private List<WorkflowModel> result;
-    
+
     /**
-     * 
-     * Creates a new GetWorkflowModelsCommand. The command saves the result in the
-     * variable result as List<WorkflowModel>.
+     * Creates a new GetWorkflowModelsCommand. The command saves the result in
+     * the variable result as List<WorkflowModel>.
      * 
      * @param role
+     *            TODO document
      * @param tenantId
+     *            TODO document
      * @param filters
+     *            TODO document
      * @param paginator
+     *            TODO document
      */
-    public GetWorkflowModelsCommand(Role role, Long tenantId, List<Filter> filters,
-            Paginator paginator) {
+    public GetWorkflowModelsCommand(Role role, Long tenantId,
+            List<Filter> filters, Paginator paginator) {
         super(role, tenantId);
-        
-        this.filters=filters;
-        this.paginator=paginator;
-        
+
+        this.filters = filters;
+        this.paginator = paginator;
+
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-        
+
         Tenant t = new Tenant();
         t.setId(getTenantId());
-        
-        PaginatingCriteria c = new PaginatingCriteria(WorkflowModel.class,evt.getSession());
-        
+
+        PaginatingCriteria c = new PaginatingCriteria(WorkflowModel.class, evt
+                .getSession());
+
         c.add(Restrictions.eq("tenant", t));
-        
+
         Filters.apply(c, filters, paginator);
-        
+
         result = c.list();
-        
     }
 
-   /**
-    * 
-    * @return the result
-    */
+    /**
+     * TODO document
+     * 
+     * @return the result FIXME der Kommentar is nich ganz hilfreich :-P
+     */
     public List<WorkflowModel> getResult() {
         return result;
     }
-
 }

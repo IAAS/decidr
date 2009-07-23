@@ -33,13 +33,15 @@ public abstract class AbstractTransactionalCommand implements
         TransactionalCommand {
 
     /**
-     *{@inheritDoc}
+     * XXX: inheritDoc funktioniert nur bei andersweitig leeren JavaDocs und ist
+     * somit komplett nutzlos. {@inheritDoc}
      * 
      * @throws TransactionException
+     *             TODO document (or leave so that inheritDoc might work)
      */
     public void transactionStarted(TransactionEvent evt)
             throws TransactionException {
-        // intentionally left empty 
+        // intentionally left empty
     }
 
     /**

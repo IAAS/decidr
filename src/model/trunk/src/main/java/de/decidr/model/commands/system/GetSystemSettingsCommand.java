@@ -57,5 +57,4 @@ public class GetSystemSettingsCommand extends SystemCommand {
     public SystemSettings getResult() {
         return result;
     }
-
 }

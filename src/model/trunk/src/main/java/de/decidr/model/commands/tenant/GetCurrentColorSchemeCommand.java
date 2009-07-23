@@ -14,8 +14,7 @@ import de.decidr.model.storage.StorageProviderFactory;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * 
- * Returns the current color sheme as input stream
+ * Returns the current color scheme as input stream.
  * 
  * @author Markus Fischer
  * 
@@ -27,12 +26,13 @@ public class GetCurrentColorSchemeCommand extends TenantCommand {
     private InputStream schemeStream;
 
     /**
-     * 
-     * Creates a new GetCurrentColorSchemeCommand. This command load the current color scheme from the
-     * storage and saves it in result variable.
+     * Creates a new GetCurrentColorSchemeCommand. This command load the current
+     * color scheme from the storage and saves it in result variable.
      * 
      * @param role
+     *            TODO document
      * @param tenantId
+     *            TODO document
      */
     public GetCurrentColorSchemeCommand(Role role, Long tenantId) {
         super(role, null);
@@ -64,11 +64,9 @@ public class GetCurrentColorSchemeCommand extends TenantCommand {
         } catch (IncompleteConfigurationException e) {
             throw new TransactionException(e);
         }
-
     }
 
     public InputStream getSchemeStream() {
         return schemeStream;
     }
-
 }

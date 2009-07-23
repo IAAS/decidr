@@ -10,11 +10,10 @@ import de.decidr.model.transactions.TransactionCoordinator;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * 
  * Creates a tenant with the given properties.
  * 
  * @author Markus Fischer
- *
+ * 
  * @version 0.1
  */
 public class CreateTenantCommand extends TenantCommand {
@@ -24,68 +23,71 @@ public class CreateTenantCommand extends TenantCommand {
     private Long adminId;
     private Long tenantId;
     private Role actor;
-    
+
     /**
-     * Creates a new CreateTenantCommand. The tenant which will be created in this
-     * command will have the given properties.
+     * Creates a new CreateTenantCommand. The tenant which will be created in
+     * this command will have the given properties.
      * 
-     * @param role user which executes the command
-     * @param name tenant name
-     * @param description tenant description
-     * @param adminId id of the tenant admin
+     * @param role
+     *            user which executes the command
+     * @param name
+     *            tenant name
+     * @param description
+     *            tenant description
+     * @param adminId
+     *            ID of the tenant admin
      */
-    public CreateTenantCommand(Role role,String name, String description, Long adminId) {
+    public CreateTenantCommand(Role role, String name, String description,
+            Long adminId) {
         super(role, null);
-        
-        this.adminId=adminId;
-        this.name=name;
-        this.description=description;
+
+        this.adminId = adminId;
+        this.name = name;
+        this.description = description;
         this.actor = role;
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt) throws TransactionException{
-    
-        User admin = (User)evt.getSession().get(User.class, adminId);
-        
-        if(admin==null){
-          throw new EntityNotFoundException(User.class, adminId);  
+    public void transactionAllowed(TransactionEvent evt)
+            throws TransactionException {
+
+        User admin = (User) evt.getSession().get(User.class, adminId);
+
+        if (admin == null) {
+            throw new EntityNotFoundException(User.class, adminId);
         }
-        
+
         TransactionCoordinator tac = HibernateTransactionCoordinator
-        .getInstance();
-    
-        GetTenantIdCommand command = new GetTenantIdCommand(actor,name);
-        
+                .getInstance();
+
+        GetTenantIdCommand command = new GetTenantIdCommand(actor, name);
+
         try {
             tac.runTransaction(command);
         } catch (EntityNotFoundException e) {
-            
+
             Tenant tenant = new Tenant();
             tenant.setName(name);
             tenant.setDescription(description);
             tenant.setAdmin(admin);
             tenant.setApprovedSince(null);
-               
+
             evt.getSession().save(tenant);
-            
+
             tenantId = tenant.getId();
             return;
-            
-        } catch (TransactionException e){
+
+        } catch (TransactionException e) {
             throw e;
         }
-        
-        throw new TransactionException("Tenant name already exists.");
-                  
-      
 
+        throw new TransactionException("Tenant name already exists.");
     }
 
     /**
-     * 
-     * @return id of the new tenant
+     * @return The ID of the new tenant
      */
+    @Override
     public Long getTenantId() {
         return tenantId;
     }

@@ -17,7 +17,6 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * 
  * Sends invitation mails to the given users. An Invitation object will be
  * created at the database. If the user doesn't exist yet an user object will be
  * created too. If a username does not exist an exception will be thrown.
@@ -38,9 +37,13 @@ public class InviteUsersAsTenantMemberCommand extends TenantCommand {
      * created too. If a username does not exist an exception will be thrown.
      * 
      * @param role
+     *            TODO document
      * @param tenantId
+     *            TODO document
      * @param emails
+     *            TODO document
      * @param usernames
+     *            TODO document
      */
     public InviteUsersAsTenantMemberCommand(Role role, Long tenantId,
             List<String> emails, List<String> usernames) {
@@ -114,7 +117,5 @@ public class InviteUsersAsTenantMemberCommand extends TenantCommand {
 
             NotificationEvents.invitedUnregisteredUserAsTenantMember(invi);
         }
-
     }
-
 }

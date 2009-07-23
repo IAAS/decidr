@@ -8,14 +8,13 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
-
 /**
- * Creates a new workflow model with the given property Name. Furthermore the model will
- * be added to the given tenant. If the given tenant does not exist an exception
- * will be thrown.
+ * Creates a new workflow model with the given property Name. Furthermore the
+ * model will be added to the given tenant. If the given tenant does not exist
+ * an exception will be thrown.
  * 
  * @author Markus Fischer
- *
+ * 
  * @version 0.1
  */
 public class CreateWorkflowModelCommand extends TenantCommand {
@@ -25,15 +24,17 @@ public class CreateWorkflowModelCommand extends TenantCommand {
     private Long workflowModelId;
 
     /**
-     * 
      * Creates a new CreateWorkflowModelCommand. This command creates a new
      * Workflow model with the given property Name. Furthermore the model will
-     * be added to the given tenant. If the given tenant does not exist an exception
-     * will be thrown.
+     * be added to the given tenant. If the given tenant does not exist an
+     * exception will be thrown.
      * 
      * @param role
+     *            TODO document
      * @param tenantId
+     *            TODO document
      * @param WorkflowModelName
+     *            TODO document
      */
     public CreateWorkflowModelCommand(Role role, Long tenantId,
             String WorkflowModelName) {
@@ -62,11 +63,9 @@ public class CreateWorkflowModelCommand extends TenantCommand {
 
             workflowModelId = model.getId();
         }
-
     }
 
     public Long getWorkflowModelId() {
         return workflowModelId;
     }
-
 }

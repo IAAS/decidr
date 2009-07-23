@@ -44,17 +44,22 @@ public class AddServerCommand extends SystemCommand {
     private Server newServer = null;
 
     /**
-     * 
      * Creates a new AddServerCommand. The created command adds a server to the
      * DecidR database. The server will not really be created. It's only a
      * representation of the real server.
      * 
      * @param actor
+     *            TODO document
      * @param type
+     *            TODO document
      * @param location
+     *            TODO document
      * @param initialLoad
+     *            TODO document
      * @param locked
+     *            TODO document
      * @param dynamicallyAdded
+     *            TODO document
      */
     public AddServerCommand(Role actor, ServerTypeEnum type, String location,
             Byte initialLoad, Boolean locked, Boolean dynamicallyAdded) {

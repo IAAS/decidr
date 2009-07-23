@@ -22,6 +22,7 @@ package de.decidr.model;
  * @author Daniel Huss
  * @version 0.1
  */
+// XXX does this class have *any* purpose? --reinhold
 public class HibernateTools {
 
     /**
@@ -30,5 +31,4 @@ public class HibernateTools {
     private HibernateTools() {
         super();
     }
-
 }

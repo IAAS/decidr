@@ -14,7 +14,6 @@
  * under the License.
  */
 
-
 package de.decidr.model.commands.system;
 
 import de.decidr.model.permissions.Role;
@@ -34,7 +33,6 @@ public class RemoveServerCommand extends SystemCommand {
     private Long serverId = null;
 
     /**
-     * 
      * Creates a new RemoveServerCommand. The command removes the server from
      * the database. The corresponding real server will not be closed. If the
      * server doesn't exist the command will be ignored.
@@ -42,7 +40,7 @@ public class RemoveServerCommand extends SystemCommand {
      * @param role
      *            the user who wants to execute the command
      * @param serverId
-     *            the id of the server to "remove"
+     *            the id of the server to remove from the database
      */
     public RemoveServerCommand(Role role, Long serverId) {
         super(role, null);
@@ -51,8 +49,8 @@ public class RemoveServerCommand extends SystemCommand {
 
     @Override
     public void transactionAllowed(TransactionEvent evt) {
-        evt.getSession().createQuery("delete from Server s where s.id = :serverId")
-                .setLong("serverId", serverId).executeUpdate();
+        evt.getSession().createQuery(
+                "delete from Server s where s.id = :serverId").setLong(
+                "serverId", serverId).executeUpdate();
     }
-
 }

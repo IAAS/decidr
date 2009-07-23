@@ -25,7 +25,6 @@ import de.decidr.model.permissions.Role;
 
 
 /**
- * 
  * Shows the roles which are allowed to execute a command.
  * This annotation is has no semantic value. It should only
  * inform the invoking developer.
@@ -41,5 +40,4 @@ import de.decidr.model.permissions.Role;
 public @interface AllowedRole {
 
     Class<? extends Role>[] value();
- 
 }

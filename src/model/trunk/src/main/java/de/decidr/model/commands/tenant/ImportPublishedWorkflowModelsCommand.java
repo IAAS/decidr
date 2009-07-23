@@ -23,14 +23,16 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand {
     private List<WorkflowModel> modelList;
 
     /**
-     * 
      * Creates a new ImportPublishedWorkflowModelsCommand. This command imports
      * the given workflow models to the given tenant. If one or more of the
      * given models are not public an exception will be thrown.
      * 
      * @param role
+     *            TODO document
      * @param tenantId
+     *            TODO document
      * @param workflowModelIds
+     *            TODO document
      */
     public ImportPublishedWorkflowModelsCommand(Role role, Long tenantId,
             List<Long> workflowModelIds) {
@@ -54,17 +56,15 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand {
         }
 
         for (WorkflowModel model : modelList) {
-          
-          if(model.isPublished()){
-            model.setId(null);
-            model.setTenant(t);
-            evt.getSession().save(t);
-          }
-          else{
-              throw new TransactionException("Given workflowModel is not published.");
-          }
+
+            if (model.isPublished()) {
+                model.setId(null);
+                model.setTenant(t);
+                evt.getSession().save(t);
+            } else {
+                throw new TransactionException(
+                        "Given workflowModel is not published.");
+            }
         }
-
     }
-
 }

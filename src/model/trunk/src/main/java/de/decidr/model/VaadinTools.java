@@ -20,7 +20,7 @@ import com.vaadin.data.Property;
 import com.vaadin.data.util.ObjectProperty;
 
 /**
- * Tool class for working with Vaadin {@link Item}s.
+ * Tool class for working with Vaadin {@link Item Items}.
  * 
  * @author Daniel Huss
  * @version 0.1
@@ -30,10 +30,9 @@ public class VaadinTools {
     /**
      * Returns an empty property.
      * 
-     * @return
+     * @return an empty <code>{@link Property}</code>
      */
     public static Property getEmptyProperty() {
         return new ObjectProperty(null, Object.class);
     }
-
 }
