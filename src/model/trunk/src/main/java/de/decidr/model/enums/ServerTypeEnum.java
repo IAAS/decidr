@@ -18,12 +18,11 @@ public enum ServerTypeEnum {
      */
     Esb,
     /**
-     * Web front-end / gui
+     * Web front-end/gui
      */
     WebPortal,
     /**
      * File storage provider
      */
     Storage
-
 }

@@ -67,10 +67,10 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
 public class WorkflowModelFacade extends AbstractFacade {
 
     /**
-     * Constructor
+     * Constructor TODO document
      * 
      * @param actor
-     *            user / system that is using this facade to access workflow
+     *            user/system that is using this facade to access workflow
      *            models.
      */
     public WorkflowModelFacade(Role actor) {
@@ -80,7 +80,7 @@ public class WorkflowModelFacade extends AbstractFacade {
     /**
      * Saves the given workflow model.
      * 
-     * expected properties of the given Vaadin item:
+     * Expected properties of the given Vaadin item: TODO
      * 
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
@@ -98,7 +98,8 @@ public class WorkflowModelFacade extends AbstractFacade {
      * Returns the properties of the given workflow model as a Vaadin Item.
      * 
      * @param workflowModelId
-     * @return
+     *            TODO document
+     * @return TODO document
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
@@ -269,7 +270,9 @@ public class WorkflowModelFacade extends AbstractFacade {
      * "state" property of the type UserWorkflowAdminState.
      * 
      * @param workflowModelId
+     *            TODO document
      * @param usernamesOrEmails
+     *            TODO document
      * @return a list of corresponding users
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
@@ -317,6 +320,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * models that still have running instances.
      * 
      * @param workflowModelIds
+     *            TODO document
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
@@ -357,7 +361,9 @@ public class WorkflowModelFacade extends AbstractFacade {
      * </ul>
      * 
      * @param workflowModelId
+     *            TODO document
      * @param paginator
+     *            TODO document
      * @return Vaadin items representing the workflow instances that are
      *         associated swith this model.
      * @throws TransactionException
@@ -449,7 +455,9 @@ public class WorkflowModelFacade extends AbstractFacade {
      * configuration of the workflow model.
      * 
      * @param workflowModelId
+     *            TODO document
      * @param startConfiguration
+     *            TODO document
      * @return the id of the created workflow instance.
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
@@ -479,6 +487,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * returned.
      * 
      * @param workflowModelId
+     *            TODO document
      * @return the raw XML data of the last used start configuration or null.
      * @throws TransactionException
      *             if the transaction is aborted for any reason.

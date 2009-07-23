@@ -26,5 +26,4 @@ public abstract class WorkItemCommand extends AclEnabledCommand {
     public Long getWorkItemId() {
         return workItemId;
     }
-
 }

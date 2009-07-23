@@ -50,7 +50,7 @@ public class DefaultAccessControlList implements AccessControlList {
      * 
      * @version 0.1
      */
-    private class Key {
+    class Key {
 
         private Role role;
         private Permission permission;
@@ -127,9 +127,9 @@ public class DefaultAccessControlList implements AccessControlList {
      * 
      * @version 0.1
      */
-    private class Value {
-        private Set<Asserter> asserters;
-        private AssertMode assertMode;
+    class Value {
+        Set<Asserter> asserters;
+        AssertMode assertMode;
 
         /**
          * Constructor of the compound value.

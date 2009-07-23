@@ -48,7 +48,9 @@ public class ConfirmPasswordResetCommand extends UserCommand {
      * Creates a new ConfirmPasswordResetCommand.
      * 
      * @param role
+     *            TODO document
      * @param userId
+     *            TODO document
      */
     public ConfirmPasswordResetCommand(Role role, Long userId, String authKey) {
         super(role, userId);
@@ -96,9 +98,10 @@ public class ConfirmPasswordResetCommand extends UserCommand {
 
                 // save new password
                 evt.getSession().save(profile);
-                
-                //notify the user
-                NotificationEvents.generatedNewPassword(profile.getUser(), newPassword);
+
+                // notify the user
+                NotificationEvents.generatedNewPassword(profile.getUser(),
+                        newPassword);
             } catch (NoSuchAlgorithmException e) {
                 throw new TransactionException(e);
             } catch (UnsupportedEncodingException e) {

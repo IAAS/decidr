@@ -37,8 +37,11 @@ public class SetUserProfileCommand extends UserCommand {
      * Creates a new SetUserProfileCommand.
      * 
      * @param role
+     *            TODO document
      * @param userId
+     *            TODO document
      * @param newProfile
+     *            TODO document
      */
     public SetUserProfileCommand(Role role, Long userId, UserProfile newProfile) {
         super(role, userId);
@@ -69,5 +72,4 @@ public class SetUserProfileCommand extends UserCommand {
 
         evt.getSession().update(currentProfile);
     }
-
 }

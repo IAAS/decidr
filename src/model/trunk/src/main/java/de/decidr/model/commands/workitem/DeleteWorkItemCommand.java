@@ -32,10 +32,12 @@ import de.decidr.model.transactions.TransactionEvent;
 public class DeleteWorkItemCommand extends WorkItemCommand {
 
     /**
-     * Constructor
+     * Constructor TODO document
      * 
      * @param role
+     *            TODO document
      * @param workItemId
+     *            TODO document
      */
     public DeleteWorkItemCommand(Role role, Long workItemId) {
         super(role, workItemId);
@@ -43,9 +45,9 @@ public class DeleteWorkItemCommand extends WorkItemCommand {
 
     @Override
     public void transactionAllowed(TransactionEvent evt) {
-        Query q = evt.getSession().createQuery("delete from WorkItem w where w.id = :workItemId");
+        Query q = evt.getSession().createQuery(
+                "delete from WorkItem w where w.id = :workItemId");
         q.setLong("workItemId", workItemId);
         q.executeUpdate();
     }
-
 }

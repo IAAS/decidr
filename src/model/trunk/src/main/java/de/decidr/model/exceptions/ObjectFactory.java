@@ -32,7 +32,6 @@ public class ObjectFactory {
     /**
      * Create a new ObjectFactory that can be used to create new instances of
      * schema derived classes for package: de.decidr.webservices.email
-     * 
      */
     public ObjectFactory() {
         // needed by JAXB
@@ -40,7 +39,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "transactionException")
     public JAXBElement<String> createTransactionException(String value) {
@@ -50,7 +48,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "storageException")
     public JAXBElement<String> createStorageException(String value) {
@@ -60,7 +57,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "incompleteConfiguratioException")
     public JAXBElement<String> createIncompleteConfigurationException(

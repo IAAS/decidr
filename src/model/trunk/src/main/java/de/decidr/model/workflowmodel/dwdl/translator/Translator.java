@@ -92,7 +92,7 @@ public class Translator {
         return bpelProcess;
     }
 
-    public Definition getWSDL(String loaction, String tenantName) {
+    public Definition getWSDL(String location, String tenantName) {
         return wsdl;
     }
 

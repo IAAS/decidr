@@ -52,7 +52,9 @@ public class GetUserPropertiesCommand extends AclEnabledCommand {
      * @param actor
      *            the user or system invoking this command
      * @param userIds
+     *            TODO document
      * @param propertiesToGet
+     *            TODO document
      */
     public GetUserPropertiesCommand(Role actor, Collection<Long> userIds,
             Collection<String> propertiesToGet) {
@@ -67,7 +69,9 @@ public class GetUserPropertiesCommand extends AclEnabledCommand {
      * @param actor
      *            the user or system invoking this command
      * @param userIds
+     *            TODO document
      * @param propertiesToGet
+     *            TODO document
      */
     public GetUserPropertiesCommand(Role role, Collection<Long> userIds,
             String... propertiesToGet) {
@@ -80,7 +84,9 @@ public class GetUserPropertiesCommand extends AclEnabledCommand {
      * @param actor
      *            the user or system invoking this command
      * @param userId
+     *            TODO document
      * @param propertiesToGet
+     *            TODO document
      */
     public GetUserPropertiesCommand(Role role, Long userId,
             String... propertiesToGet) {
@@ -118,5 +124,4 @@ public class GetUserPropertiesCommand extends AclEnabledCommand {
     public User getFirstUser() {
         return users.get(0);
     }
-
 }

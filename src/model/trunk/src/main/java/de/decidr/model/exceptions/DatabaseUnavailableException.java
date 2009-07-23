@@ -15,24 +15,27 @@
  */
 package de.decidr.model.exceptions;
 
-
-
+/**
+ * TODO: add comment
+ * 
+ * @author TODO
+ */
 public class DatabaseUnavailableException extends TransactionException {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public DatabaseUnavailableException() {
-		super();
-	}
+    public DatabaseUnavailableException() {
+        super();
+    }
 
-	public DatabaseUnavailableException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public DatabaseUnavailableException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-	public DatabaseUnavailableException(String message) {
-		super(message);
-	}
+    public DatabaseUnavailableException(String message) {
+        super(message);
+    }
 
-	public DatabaseUnavailableException(Throwable cause) {
-		super(cause);
-	}
+    public DatabaseUnavailableException(Throwable cause) {
+        super(cause);
+    }
 }

@@ -61,7 +61,9 @@ public class PaginatingCriteria implements Criteria {
      * to retrieve the row count.
      * 
      * @param clazz
+     *            TODO document
      * @param session
+     *            TODO document
      */
     @SuppressWarnings("unchecked")
     public PaginatingCriteria(Class clazz, Session session) {
@@ -74,7 +76,9 @@ public class PaginatingCriteria implements Criteria {
      * Used internally to provide mehod chaining.
      * 
      * @param criteria
+     *            TODO document
      * @param clone
+     *            TODO document
      */
     private PaginatingCriteria(Criteria criteria, Criteria clone) {
         this.criteria = criteria;

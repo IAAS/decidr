@@ -5,7 +5,6 @@
 // Generated on: 2009.06.26 at 12:15:57 PM GMT+01:00 
 //
 
-
 package de.decidr.model.workflowmodel.wsc;
 
 import javax.xml.bind.JAXBElement;
@@ -13,35 +12,38 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
-
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the de.decidr.model.workflowmodel.wsc package. 
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
- * provided in this class.
+ * This object contains factory methods for each Java content interface and Java
+ * element interface generated in the de.decidr.model.workflowmodel.wsc package.
+ * <p>
+ * An ObjectFactory allows you to programatically construct new instances of the
+ * Java representation for XML content. The Java representation of XML content
+ * can consist of schema derived interfaces and classes representing the binding
+ * of schema type definitions, element declarations and model groups. Factory
+ * methods for each of these are provided in this class.
  * 
  */
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _Roles_QNAME = new QName("http://decidr.de/schema/wsc", "roles");
-    private final static QName _Assignment_QNAME = new QName("http://decidr.de/schema/wsc", "assignment");
-    private final static QName _Configurations_QNAME = new QName("http://decidr.de/schema/wsc", "configurations");
-    private final static QName _Actor_QNAME = new QName("http://decidr.de/schema/wsc", "actor");
-    private final static QName _Role_QNAME = new QName("http://decidr.de/schema/wsc", "role");
+    private final static QName _Roles_QNAME = new QName(
+            "http://decidr.de/schema/wsc", "roles");
+    private final static QName _Assignment_QNAME = new QName(
+            "http://decidr.de/schema/wsc", "assignment");
+    private final static QName _Configurations_QNAME = new QName(
+            "http://decidr.de/schema/wsc", "configurations");
+    private final static QName _Actor_QNAME = new QName(
+            "http://decidr.de/schema/wsc", "actor");
+    private final static QName _Role_QNAME = new QName(
+            "http://decidr.de/schema/wsc", "role");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: de.decidr.model.workflowmodel.wsc
+     * Create a new ObjectFactory that can be used to create new instances of
+     * schema derived classes for package: de.decidr.model.workflowmodel.wsc
      * 
      */
     public ObjectFactory() {
+        // needed by JAXB
     }
 
     /**
@@ -85,7 +87,7 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TRoles }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TRoles }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/wsc", name = "roles")
@@ -94,25 +96,29 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TAssignment }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TAssignment }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/wsc", name = "assignment")
     public JAXBElement<TAssignment> createAssignment(TAssignment value) {
-        return new JAXBElement<TAssignment>(_Assignment_QNAME, TAssignment.class, null, value);
+        return new JAXBElement<TAssignment>(_Assignment_QNAME,
+                TAssignment.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TConfiguration }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TConfiguration }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/wsc", name = "configurations")
     public JAXBElement<TConfiguration> createConfigurations(TConfiguration value) {
-        return new JAXBElement<TConfiguration>(_Configurations_QNAME, TConfiguration.class, null, value);
+        return new JAXBElement<TConfiguration>(_Configurations_QNAME,
+                TConfiguration.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TActor }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TActor }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/wsc", name = "actor")
@@ -121,7 +127,7 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TRole }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TRole }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/wsc", name = "role")

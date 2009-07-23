@@ -7,7 +7,6 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * 
  * Refuses the given invitation and sends an information email to the inviting
  * user.
  * 
@@ -20,12 +19,15 @@ public class RefuseInviationCommand extends UserCommand {
     private Long invitationId;
 
     /**
-     * 
      * Creates a new RefuseInviationCommand. The command refuses the given
-     * invitation and sends an information email to the inviting user.
+     * invitation and sends an information email to the inviting user.<br>
+     * XXX: should the cancelling user not be notified that the request
+     * successfully cancelled? Does the UI do this?
      * 
      * @param role
+     *            TODO document
      * @param invitationId
+     *            TODO document
      */
     public RefuseInviationCommand(Role role, Long invitationId) {
         super(role, null);
@@ -44,5 +46,4 @@ public class RefuseInviationCommand extends UserCommand {
         NotificationEvents.refusedInvitation(invitation);
 
     }
-
 }

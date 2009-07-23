@@ -50,7 +50,8 @@ public class SetPasswordCommand extends UserCommand {
             throws TransactionException {
         passwordWasChanged = false;
 
-        UserProfile profile = (UserProfile) evt.getSession().get(UserProfile.class, getUserId());
+        UserProfile profile = (UserProfile) evt.getSession().get(
+                UserProfile.class, getUserId());
 
         if (profile == null) {
             // the user does not have a password and is identified via
@@ -85,5 +86,4 @@ public class SetPasswordCommand extends UserCommand {
     public Boolean getPasswordWasChanged() {
         return passwordWasChanged;
     }
-
 }

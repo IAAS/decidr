@@ -41,7 +41,9 @@ public class SetUserPropertyCommand extends UserCommand {
      * Creates a new SetUserPropertyCommand.
      * 
      * @param role
+     *            TODO document
      * @param userId
+     *            TODO document
      * @param properties
      *            maps property names to the new Values.
      */
@@ -60,7 +62,7 @@ public class SetUserPropertyCommand extends UserCommand {
 
         User user = new User();
         user.setId(getUserId());
-        //use reflection to set the desired user properties
+        // use reflection to set the desired user properties
         try {
             PropertyDescriptor[] descriptors = Introspector.getBeanInfo(
                     User.class).getPropertyDescriptors();
@@ -73,7 +75,7 @@ public class SetUserPropertyCommand extends UserCommand {
                     setter.invoke(user, entry.getValue());
                 }
             }
-            
+
             evt.getSession().update(user);
         } catch (Exception e) {
             throw new TransactionException(e);
@@ -85,9 +87,11 @@ public class SetUserPropertyCommand extends UserCommand {
      * property descriptors
      * 
      * @param propertyName
+     *            TODO document
      * @param descriptors
-     * @return the setter method or null if the property is not writable / does
-     *         not exist.
+     *            TODO document
+     * @return the setter method or <code>null</code> if the property is not
+     *         writable/does not exist.
      */
     private Method findSetter(String propertyName,
             PropertyDescriptor[] descriptors) {
@@ -99,5 +103,4 @@ public class SetUserPropertyCommand extends UserCommand {
         // the property wasn't found.
         return null;
     }
-
 }

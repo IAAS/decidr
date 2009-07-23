@@ -33,21 +33,24 @@ public class GetWorkItemCommand extends WorkItemCommand {
     private WorkItem result = null;
 
     /**
-     * Constructor
+     * Constructor TODO document
      * 
      * @param role
+     *            TODO document
      * @param workItemId
+     *            TODO document
      */
     public GetWorkItemCommand(Role role, Long workItemId) {
         super(role, workItemId);
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt) throws TransactionException {
+    public void transactionAllowed(TransactionEvent evt)
+            throws TransactionException {
         result = (WorkItem) evt.getSession().get(WorkItem.class, workItemId);
 
         if (result != null) {
-            //make sure the required properties are loaded.
+            // make sure the required properties are loaded.
             result.getData();
             result.getWorkflowInstance();
         } else {
@@ -56,10 +59,9 @@ public class GetWorkItemCommand extends WorkItemCommand {
     }
 
     /**
-     * @return the result
+     * @return the result TODO document
      */
     public WorkItem getResult() {
         return result;
     }
-
 }

@@ -14,7 +14,6 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * 
  * Saves the workitem of the given user in the result variable as
  * list<WorkItemSummaryView>.
  * 
@@ -29,18 +28,21 @@ public class GetWorkitemsCommand extends UserCommand {
     private List<Filter> filters;
 
     /**
-     * 
      * Creates a new GetWorkitemsCommand. The command saves the workitem of the
-     * given user in the result variable as list<WorkItemSummaryView>.
+     * given user in the result variable as
+     * <code>{@link List<WorkItemSummaryView>}</code>.
      * 
      * @param role
+     *            TODO document
      * @param userId
+     *            TODO document
      */
-    public GetWorkitemsCommand(Role role, Long userId,List<Filter> filters, Paginator paginator) {
+    public GetWorkitemsCommand(Role role, Long userId, List<Filter> filters,
+            Paginator paginator) {
         super(role, userId);
-        
-        this.paginator=paginator;
-        this.filters=filters;
+
+        this.paginator = paginator;
+        this.filters = filters;
 
     }
 
@@ -49,16 +51,17 @@ public class GetWorkitemsCommand extends UserCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        PaginatingCriteria c = new PaginatingCriteria(WorkItemSummaryView.class,evt.getSession());
+        PaginatingCriteria c = new PaginatingCriteria(
+                WorkItemSummaryView.class, evt.getSession());
         c.add(Restrictions.eq("userId", getUserId()));
 
         Filters.apply(c, filters, paginator);
-        
-        result = c.list();
 
+        result = c.list();
     }
 
     /**
+     * TODO document
      * 
      * @return the result
      */
@@ -66,5 +69,4 @@ public class GetWorkitemsCommand extends UserCommand {
 
         return result;
     }
-
 }

@@ -23,7 +23,9 @@ public abstract class UserCommand extends AclEnabledCommand {
      * Creates a new UserCommand.
      * 
      * @param role
+     *            TODO document
      * @param additionalPermissions
+     *            TODO document
      */
     public UserCommand(Role role, Long userId) {
         super(role, (Permission) null);
@@ -35,7 +37,7 @@ public abstract class UserCommand extends AclEnabledCommand {
      * 
      * @param session
      *            the Hibernate session to use for lookup.
-     * @return
+     * @return TODO document
      * @throws EntityNotFoundException
      *             if no user is found
      */

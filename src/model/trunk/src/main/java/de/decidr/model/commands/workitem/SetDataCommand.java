@@ -7,7 +7,7 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Overwrites the raw xml data of a work item with the given raw bytes.
+ * Overwrites the raw XML data of a work item with the given raw bytes.
  * 
  * @author Daniel Huss
  * @version 0.1
@@ -17,11 +17,14 @@ public class SetDataCommand extends WorkItemCommand {
     private byte[] data;
 
     /**
-     * Constructor
+     * Constructor TODO document
      * 
      * @param role
+     *            TODO document
      * @param workItemId
+     *            TODO document
      * @param data
+     *            TODO document
      */
     public SetDataCommand(Role role, Long workItemId, byte[] data) {
         super(role, workItemId);
@@ -29,7 +32,8 @@ public class SetDataCommand extends WorkItemCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt) throws TransactionException{
+    public void transactionAllowed(TransactionEvent evt)
+            throws TransactionException {
         WorkItem workItem = (WorkItem) evt.getSession().get(WorkItem.class,
                 workItemId);
 
@@ -40,5 +44,4 @@ public class SetDataCommand extends WorkItemCommand {
             throw new EntityNotFoundException(WorkItem.class, workItemId);
         }
     }
-
 }

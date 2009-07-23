@@ -20,7 +20,6 @@ import de.decidr.model.permissions.WorkflowAdminRole;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * 
  * Saves the highest role of the user in the given tenant in the result
  * variable. If the user is not even a tenant member the result will be null.
  * 
@@ -34,14 +33,16 @@ public class GetUserRoleForTenantCommand extends UserCommand {
     Class<? extends UserRole> result;
 
     /**
-     * 
      * Creates a new GetUserRoleForTenantCommand. This command saves the highest
      * role of the user in the given tenant in the result variable. If the user
      * is not even a tenant member the result will be null.
      * 
      * @param role
+     *            TODO document
      * @param userId
+     *            TODO document
      * @param tenantId
+     *            TODO document
      */
     public GetUserRoleForTenantCommand(Role role, Long userId, Long tenantId) {
         super(role, userId);
@@ -120,14 +121,12 @@ public class GetUserRoleForTenantCommand extends UserCommand {
 
         // if user has no role
         result = null;
-
     }
 
     /**
-     * @return the result
+     * @return the result TODO document
      */
     public Class<? extends UserRole> getResult() {
         return result;
     }
-
 }

@@ -20,7 +20,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 
 /**
- * Adds one or more {@link Order}s to the query.
+ * Adds one or more {@link Order orders} to the query.
  * 
  * @author Daniel Huss
  * @version 0.1
@@ -30,9 +30,10 @@ public class OrderByFilter implements Filter {
     private Order[] orders;
 
     /**
-     * Constructor
+     * Constructor TODO document
      * 
      * @param orders
+     *            TODO document
      */
     public OrderByFilter(Order... orders) {
         this.orders = orders;
@@ -44,5 +45,4 @@ public class OrderByFilter implements Filter {
             criteria.addOrder(order);
         }
     }
-
 }

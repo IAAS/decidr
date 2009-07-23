@@ -16,11 +16,9 @@ import de.decidr.model.permissions.WorkflowAdminRole;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * 
  * Saves the highest role of the given user in the result variable.
  * 
  * @author Markus Fischer
- * 
  * @version 0.1
  */
 public class GetHighestUserRoleCommand extends UserCommand {
@@ -28,12 +26,13 @@ public class GetHighestUserRoleCommand extends UserCommand {
     Class<? extends UserRole> result;
 
     /**
-     * 
      * Creates a new GetHighestUserRoleCommand. This command saves the highest
      * role of the given user in the result variable.
      * 
      * @param role
+     *            TODO document
      * @param userId
+     *            TODO document
      */
     public GetHighestUserRoleCommand(Role role, Long userId) {
         super(role, userId);
@@ -63,7 +62,7 @@ public class GetHighestUserRoleCommand extends UserCommand {
             return;
         }
 
-        // check if tenant admin
+        // check if tenant admin TODO if the tenant admin what?
 
         Query q = evt.getSession().createQuery(
                 "select count(*) from Tenant a where a.admin.id = :userId");
@@ -78,7 +77,7 @@ public class GetHighestUserRoleCommand extends UserCommand {
             return;
         }
 
-        // check if workflow admin
+        // check if workflow admin TODO if the workflow admin what?
         Query q2 = evt
                 .getSession()
                 .createQuery(
@@ -94,8 +93,7 @@ public class GetHighestUserRoleCommand extends UserCommand {
             return;
         }
 
-        // check if member
-
+        // check if member TODO if member what?
         Query q3 = evt
                 .getSession()
                 .createQuery(
@@ -113,14 +111,12 @@ public class GetHighestUserRoleCommand extends UserCommand {
 
         // if user isn't member of any tenant
         result = null;
-
     }
 
     /**
-     * @return the result
+     * @return the result TODO document
      */
     public Class<? extends UserRole> getResult() {
         return result;
     }
-
 }

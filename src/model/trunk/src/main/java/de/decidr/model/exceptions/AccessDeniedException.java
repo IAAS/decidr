@@ -1,8 +1,8 @@
 package de.decidr.model.exceptions;
 
 /**
- * Thrown to indicate that a transaction was aborted due to missing rights /
- * permissions.
+ * Thrown to indicate that a transaction was aborted due to missing
+ * rights/permissions.
  * 
  * @author Daniel Huss
  * @version 0.1
@@ -38,5 +38,4 @@ public class AccessDeniedException extends TransactionException {
     public AccessDeniedException(Throwable cause) {
         super(cause);
     }
-
 }

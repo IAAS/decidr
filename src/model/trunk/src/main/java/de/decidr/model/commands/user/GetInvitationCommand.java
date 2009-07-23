@@ -21,8 +21,7 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * 
- * Saves the invitation which corresponds to the given id in the result
+ * Saves the invitation which corresponds to the given ID in the result
  * variable.
  * 
  * @author Markus Fischer
@@ -35,13 +34,15 @@ public class GetInvitationCommand extends UserCommand {
     private Long invitationId;
 
     /**
-     * 
      * Creates a new GetInvitationCommand. The command saves the invitation
-     * which corresponds to the given id in the result variable.
+     * which corresponds to the given ID in the result variable.
      * 
      * @param role
+     *            TODO document
      * @param userId
+     *            TODO document
      * @param invitationId
+     *            TODO document
      */
     public GetInvitationCommand(Role role, Long invitationId) {
         super(role, null);
@@ -61,5 +62,4 @@ public class GetInvitationCommand extends UserCommand {
     public InvitationView getResult() {
         return result;
     }
-
 }

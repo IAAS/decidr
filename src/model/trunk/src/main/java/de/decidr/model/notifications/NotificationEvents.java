@@ -54,28 +54,30 @@ public final class NotificationEvents {
      * Informs the user, that he has a new Workitem.
      * 
      * @param newWorkItem
-     * @throws TransactionException 
+     *            TODO document
+     * @throws TransactionException
+     *             TODO document
      */
     @SuppressWarnings("unchecked")
     public static void createdWorkItem(WorkItem newWorkItem)
-            throws MalformedURLException, TransactionException {
+            throws TransactionException {
 
         try {
-            client = de.decidr.model.webservices.DynamicClients.getEmailClient();
+            client = de.decidr.model.webservices.DynamicClients
+                    .getEmailClient();
         } catch (MalformedURLException e) {
             throw new TransactionException(e);
         }
 
         // content creation
         String username;
-        
-        if (newWorkItem.getUser().getUserProfile() == null){
+
+        if (newWorkItem.getUser().getUserProfile() == null) {
             username = newWorkItem.getUser().getEmail();
-        }
-        else{
+        } else {
             username = newWorkItem.getUser().getUserProfile().getUsername();
         }
-        
+
         String tenantName = newWorkItem.getWorkflowInstance()
                 .getDeployedWorkflowModel().getTenant().getName();
         String workflowModelName = newWorkItem.getWorkflowInstance()
@@ -90,456 +92,472 @@ public final class NotificationEvents {
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc= new AbstractUserList();
+        AbstractUserList cc = new AbstractUserList();
         AbstractUserList bcc = new AbstractUserList();
-        
+
         SystemSettings settings = DecidrGlobals.getSettings();
-        
+
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        
         StringMap headers = null;
         IDList attachements = null;
-        
-        //fill "to" list
+
+        // fill "to" list
         EmailUser user = new EmailUser();
         user.setUser(newWorkItem.getUser().getEmail());
 
-        List<AbstractUser> users= new ArrayList();
+        List<AbstractUser> users = new ArrayList();
         users.add(user);
-        
-        to.setAbstractUser(users);     
-        
+
+        to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject, headers,
-                    bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
+                    headers, bodyTXT, bodyHTML, attachements);
         } catch (Exception e) {
-           throw new TransactionException(e);
+            throw new TransactionException(e);
         }
     }
 
     /**
-     * 
      * Sends the user the password request mail.
      * 
      * @param request
-     * @throws TransactionException 
+     *            TODO document
+     * @throws TransactionException
+     *             TODO document
      */
     @SuppressWarnings("unchecked")
-    public static void createdPasswordResetRequest(PasswordResetRequest request) throws TransactionException {
+    public static void createdPasswordResetRequest(PasswordResetRequest request)
+            throws TransactionException {
 
         SystemSettings settings = DecidrGlobals.getSettings();
-        
+
         try {
-            client = de.decidr.model.webservices.DynamicClients.getEmailClient();
+            client = de.decidr.model.webservices.DynamicClients
+                    .getEmailClient();
         } catch (MalformedURLException e) {
             throw new TransactionException(e);
         }
 
         // content creation
-        
         String userName;
-        
-        if (request.getUser().getUserProfile() == null){
+
+        if (request.getUser().getUserProfile() == null) {
             userName = request.getUser().getEmail();
-        }
-        else{
+        } else {
             userName = request.getUser().getUserProfile().getUsername();
         }
-        
-        //FIXME Where to I get this? ID Password Reset Request
+
+        // FIXME Where to I get this? ID Password Reset Request
         String confirmationUrl = "";
-        
-        // calculate Date 
+
+        // calculate Date
         int requestLifeTime = settings.getPasswordResetRequestLifetimeSeconds();
-        
+
         Calendar creationDate = Calendar.getInstance();
         creationDate.setTime(request.getCreationDate());
         creationDate.add(Calendar.SECOND, requestLifeTime);
-        
-        SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
-        String expireDate=sd.format(new Date());
-        
-        // create body text       
-        String signature="";
 
-        String bodyTXT = NotificationText.getPasswordResetRequestText(userName, confirmationUrl, expireDate, signature);
-        String bodyHTML = NotificationText.getPasswordResetRequestHTML(userName, confirmationUrl, expireDate, signature);
+        SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
+        String expireDate = sd.format(new Date());
+
+        // create body text
+        String signature = "";
+
+        String bodyTXT = NotificationText.getPasswordResetRequestText(userName,
+                confirmationUrl, expireDate, signature);
+        String bodyHTML = NotificationText.getPasswordResetRequestHTML(
+                userName, confirmationUrl, expireDate, signature);
         String subject = NotificationText.getPasswordResetRequestSubject();
 
-        
-        
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc= new AbstractUserList();
+        AbstractUserList cc = new AbstractUserList();
         AbstractUserList bcc = new AbstractUserList();
-        
 
-        
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
-        
+
         StringMap headers = null;
         IDList attachements = null;
-        
-        //fill "to" list
+
+        // fill "to" list
         EmailUser user = new EmailUser();
         user.setUser(request.getUser().getEmail());
 
-        List<AbstractUser> users= new ArrayList();
+        List<AbstractUser> users = new ArrayList();
         users.add(user);
-        
-        to.setAbstractUser(users);     
-        
+
+        to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject, headers,
-                    bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
+                    headers, bodyTXT, bodyHTML, attachements);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
-        
     }
 
     /**
-     * 
      * Informs the user, that is tenant has been disapproved.
      * 
      * @param email
+     *            TODO document
      * @param tenantName
-     * @throws TransactionException 
+     *            TODO document
+     * @throws TransactionException
+     *             TODO document
      */
     @SuppressWarnings("unchecked")
-    public static void disapprovedTenant(User user, String tenantName) throws TransactionException {
-        
+    public static void disapprovedTenant(User user, String tenantName)
+            throws TransactionException {
+
         try {
-            client = de.decidr.model.webservices.DynamicClients.getEmailClient();
+            client = de.decidr.model.webservices.DynamicClients
+                    .getEmailClient();
         } catch (MalformedURLException e) {
             throw new TransactionException(e);
         }
 
-        
-        // create body text       
-        String signature="";
+        // create body text
+        String signature = "";
 
-        String bodyTXT = NotificationText.getDisapprovedTenantText(user.getUserProfile().getUsername(), tenantName, signature);
-        String bodyHTML = NotificationText.getDisapprovedTenantHTML(user.getUserProfile().getUsername(), tenantName, signature);
+        String bodyTXT = NotificationText.getDisapprovedTenantText(user
+                .getUserProfile().getUsername(), tenantName, signature);
+        String bodyHTML = NotificationText.getDisapprovedTenantHTML(user
+                .getUserProfile().getUsername(), tenantName, signature);
         String subject = NotificationText.getDisapprovedTenantSubject();
-      
+
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc= new AbstractUserList();
+        AbstractUserList cc = new AbstractUserList();
         AbstractUserList bcc = new AbstractUserList();
-        
+
         SystemSettings settings = DecidrGlobals.getSettings();
-        
+
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        
         StringMap headers = null;
         IDList attachements = null;
-        
-        //fill "to" list
+
+        // fill "to" list
         EmailUser eUser = new EmailUser();
         eUser.setUser(user.getEmail());
 
-        List<AbstractUser> users= new ArrayList();
+        List<AbstractUser> users = new ArrayList();
         users.add(eUser);
-        
-        to.setAbstractUser(users);     
-        
+
+        to.setAbstractUser(users);
+
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject, headers,
-                    bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
+                    headers, bodyTXT, bodyHTML, attachements);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
     }
 
     /**
-     * 
      * Informs the registered user that he has been invited as a tenant member.
      * 
      * @param invitation
-     * @throws TransactionException 
+     *            TODO document
+     * @throws TransactionException
+     *             TODO document
      */
     @SuppressWarnings("unchecked")
-    public static void invitedRegisteredUserAsTenantMember(Invitation invitation) throws TransactionException {
-        
+    public static void invitedRegisteredUserAsTenantMember(Invitation invitation)
+            throws TransactionException {
+
         SystemSettings settings = DecidrGlobals.getSettings();
-        
+
         try {
-            client = de.decidr.model.webservices.DynamicClients.getEmailClient();
+            client = de.decidr.model.webservices.DynamicClients
+                    .getEmailClient();
         } catch (MalformedURLException e) {
             throw new TransactionException(e);
         }
 
-        String userName = invitation.getReceiver().getUserProfile().getUsername();
-        String inviterName = invitation.getSender().getUserProfile().getUsername();
+        String userName = invitation.getReceiver().getUserProfile()
+                .getUsername();
+        String inviterName = invitation.getSender().getUserProfile()
+                .getUsername();
         String tenantName = invitation.getJoinTenant().getName();
-        
-        String tenantUrl = "http://"+settings.getDomain()+"/"+tenantName;
-        
-        //FIXME Where to I get this? ID von invitation Objekt
-        String invitationUrl="http://"+settings.getDomain()+"/";
-        
-        // calculate Date 
+
+        String tenantUrl = "http://" + settings.getDomain() + "/" + tenantName;
+
+        // FIXME Where to I get this? ID von invitation Objekt
+        String invitationUrl = "http://" + settings.getDomain() + "/";
+
+        // calculate Date
         int invitationLifeTime = settings.getInvitationLifetimeSeconds();
-        
+
         Calendar creationDate = Calendar.getInstance();
         creationDate.setTime(invitation.getCreationDate());
         creationDate.add(Calendar.SECOND, invitationLifeTime);
-        
-        SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
-        String expireDate=sd.format(new Date());
-        
-        
-        // create body text       
-        String signature="";
 
-        String bodyTXT = NotificationText.getInviteRegisteredUserAsTenantMemberText(userName, inviterName, tenantName, tenantUrl, invitationUrl, expireDate, signature);
-        String bodyHTML = NotificationText.getInviteRegisteredUserAsTenantMemberHTML(userName, inviterName, tenantName, tenantUrl, invitationUrl, expireDate, signature);
-        String subject = NotificationText.getInviteRegisteredUserAsTenantMemberSubject(tenantName);
-      
+        SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
+        String expireDate = sd.format(new Date());
+
+        // create body text
+        String signature = "";
+
+        String bodyTXT = NotificationText
+                .getInviteRegisteredUserAsTenantMemberText(userName,
+                        inviterName, tenantName, tenantUrl, invitationUrl,
+                        expireDate, signature);
+        String bodyHTML = NotificationText
+                .getInviteRegisteredUserAsTenantMemberHTML(userName,
+                        inviterName, tenantName, tenantUrl, invitationUrl,
+                        expireDate, signature);
+        String subject = NotificationText
+                .getInviteRegisteredUserAsTenantMemberSubject(tenantName);
+
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc= new AbstractUserList();
+        AbstractUserList cc = new AbstractUserList();
         AbstractUserList bcc = new AbstractUserList();
-        
 
-        
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        
         StringMap headers = null;
         IDList attachements = null;
-        
-        //fill "to" list
+
+        // fill "to" list
         EmailUser eUser = new EmailUser();
         eUser.setUser(invitation.getReceiver().getEmail());
 
-        List<AbstractUser> users= new ArrayList();
+        List<AbstractUser> users = new ArrayList();
         users.add(eUser);
-        
-        to.setAbstractUser(users);     
-        
+
+        to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject, headers,
-                    bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
+                    headers, bodyTXT, bodyHTML, attachements);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
-        
     }
 
     /**
-     * 
-     * Informs the unregistered User that he has been invited to a tenant as as member.
+     * Informs the unregistered User that he has been invited to a tenant as as
+     * member.
      * 
      * @param invitation
-     * @throws TransactionException 
+     *            TODO document
+     * @throws TransactionException
+     *             TODO document
      */
     @SuppressWarnings("unchecked")
     public static void invitedUnregisteredUserAsTenantMember(
             Invitation invitation) throws TransactionException {
 
         SystemSettings settings = DecidrGlobals.getSettings();
-        
+
         try {
-            client = de.decidr.model.webservices.DynamicClients.getEmailClient();
+            client = de.decidr.model.webservices.DynamicClients
+                    .getEmailClient();
         } catch (MalformedURLException e) {
             throw new TransactionException(e);
         }
 
-        String inviterName = invitation.getSender().getUserProfile().getUsername();
+        String inviterName = invitation.getSender().getUserProfile()
+                .getUsername();
         String tenantName = invitation.getJoinTenant().getName();
-        
-        
-        String tenantUrl = "http://"+settings.getDomain()+"/"+tenantName;
-        
-        //FIXME Where to I get this? ID von invitation Objekt
-        String invitationUrl="";
-        
-        // calculate Date 
+
+        String tenantUrl = "http://" + settings.getDomain() + "/" + tenantName;
+
+        // FIXME Where to I get this? ID von invitation Objekt
+        String invitationUrl = "";
+
+        // calculate Date
         int invitationLifeTime = settings.getInvitationLifetimeSeconds();
-        
+
         Calendar creationDate = Calendar.getInstance();
         creationDate.setTime(invitation.getCreationDate());
         creationDate.add(Calendar.SECOND, invitationLifeTime);
-        
-        SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
-        String expireDate=sd.format(new Date());
-        
-        
-        // create body text       
-        String signature="";
 
-        String bodyTXT = NotificationText.getInviteUnregisteredUserAsTenantMemberText(inviterName, tenantName, tenantUrl, invitationUrl, expireDate, signature);
-        String bodyHTML = NotificationText.getInviteUnregisteredUserAsTenantMemberHTML(inviterName, tenantName, tenantUrl, invitationUrl, expireDate, signature);
-        String subject = NotificationText.getInviteUnregisteredUserAsTenantMemberSubject();
-      
+        SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
+        String expireDate = sd.format(new Date());
+
+        // create body text
+        String signature = "";
+
+        String bodyTXT = NotificationText
+                .getInviteUnregisteredUserAsTenantMemberText(inviterName,
+                        tenantName, tenantUrl, invitationUrl, expireDate,
+                        signature);
+        String bodyHTML = NotificationText
+                .getInviteUnregisteredUserAsTenantMemberHTML(inviterName,
+                        tenantName, tenantUrl, invitationUrl, expireDate,
+                        signature);
+        String subject = NotificationText
+                .getInviteUnregisteredUserAsTenantMemberSubject();
+
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc= new AbstractUserList();
+        AbstractUserList cc = new AbstractUserList();
         AbstractUserList bcc = new AbstractUserList();
-        
-        
-        
+
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        
         StringMap headers = null;
         IDList attachements = null;
-        
-        //fill "to" list
+
+        // fill "to" list
         EmailUser eUser = new EmailUser();
         eUser.setUser(invitation.getReceiver().getEmail());
 
-        List<AbstractUser> users= new ArrayList();
+        List<AbstractUser> users = new ArrayList();
         users.add(eUser);
-        
-        to.setAbstractUser(users);     
-        
+
+        to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject, headers,
-                    bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
+                    headers, bodyTXT, bodyHTML, attachements);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
     }
 
     /**
-     * 
      * Informs the user that he has been removed from the tenant.
      * 
      * @param user
+     *            TODO document
      * @param tenant
-     * @throws TransactionException 
+     *            TODO document
+     * @throws TransactionException
+     *             TODO document
      */
     @SuppressWarnings("unchecked")
-    public static void removedFromTenant(User user, Tenant tenant) throws TransactionException {
+    public static void removedFromTenant(User user, Tenant tenant)
+            throws TransactionException {
 
         try {
-            client = de.decidr.model.webservices.DynamicClients.getEmailClient();
+            client = de.decidr.model.webservices.DynamicClients
+                    .getEmailClient();
         } catch (MalformedURLException e) {
             throw new TransactionException(e);
         }
 
         String userName;
-        
-        if (user.getUserProfile() == null){
+
+        if (user.getUserProfile() == null) {
             userName = user.getEmail();
-        }
-        else{
+        } else {
             userName = user.getUserProfile().getUsername();
         }
-        
-        String tenantName = tenant.getName();
-           
-        // create body text       
-        String signature="";
 
-        String bodyTXT = NotificationText.getRemovedFromTenantText(userName, tenantName, signature);
-        String bodyHTML = NotificationText.getRemovedFromTenantHTML(userName, tenantName, signature);
+        String tenantName = tenant.getName();
+
+        // create body text
+        String signature = "";
+
+        String bodyTXT = NotificationText.getRemovedFromTenantText(userName,
+                tenantName, signature);
+        String bodyHTML = NotificationText.getRemovedFromTenantHTML(userName,
+                tenantName, signature);
         String subject = NotificationText.getRemovedFromTenantSubject();
-      
+
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc= new AbstractUserList();
+        AbstractUserList cc = new AbstractUserList();
         AbstractUserList bcc = new AbstractUserList();
-        
+
         SystemSettings settings = DecidrGlobals.getSettings();
-        
+
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        
         StringMap headers = null;
         IDList attachements = null;
-        
-        //fill "to" list
+
+        // fill "to" list
         EmailUser eUser = new EmailUser();
         eUser.setUser(user.getEmail());
 
-        List<AbstractUser> users= new ArrayList();
+        List<AbstractUser> users = new ArrayList();
         users.add(eUser);
-        
-        to.setAbstractUser(users);     
-        
+
+        to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject, headers,
-                    bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
+                    headers, bodyTXT, bodyHTML, attachements);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
     }
 
-    
     /**
      * Informs the sender of an invitation that the invitation has been refused.
      * 
      * @param invitation
-     * @throws TransactionException 
+     *            TODO document
+     * @throws TransactionException
+     *             TODO document
      */
     @SuppressWarnings("unchecked")
-    public static void refusedInvitation(Invitation invitation) throws TransactionException {
+    public static void refusedInvitation(Invitation invitation)
+            throws TransactionException {
 
         try {
-            client = de.decidr.model.webservices.DynamicClients.getEmailClient();
+            client = de.decidr.model.webservices.DynamicClients
+                    .getEmailClient();
         } catch (MalformedURLException e) {
             throw new TransactionException(e);
         }
 
         String userName = invitation.getSender().getUserProfile().getUsername();
-        String refusedByName = invitation.getReceiver().getUserProfile().getUsername();
+        String refusedByName = invitation.getReceiver().getUserProfile()
+                .getUsername();
         String tenantName = invitation.getJoinTenant().getName();
-           
-        // create body text       
-        String signature="";
 
-        String bodyTXT = NotificationText.getRefusedInvitationText(userName, refusedByName, tenantName, signature);
-        String bodyHTML = NotificationText.getRefusedInvitationText(userName, refusedByName, tenantName, signature);
+        // create body text
+        String signature = "";
+
+        String bodyTXT = NotificationText.getRefusedInvitationText(userName,
+                refusedByName, tenantName, signature);
+        String bodyHTML = NotificationText.getRefusedInvitationText(userName,
+                refusedByName, tenantName, signature);
         String subject = NotificationText.getRefusedInvitationSubject();
-      
+
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc= new AbstractUserList();
+        AbstractUserList cc = new AbstractUserList();
         AbstractUserList bcc = new AbstractUserList();
-        
+
         SystemSettings settings = DecidrGlobals.getSettings();
-        
+
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        
         StringMap headers = null;
         IDList attachements = null;
-        
-        //fill "to" list
+
+        // fill "to" list
         EmailUser eUser = new EmailUser();
         eUser.setUser(invitation.getSender().getEmail());
 
-        List<AbstractUser> users= new ArrayList();
+        List<AbstractUser> users = new ArrayList();
         users.add(eUser);
-        
-        to.setAbstractUser(users);     
-        
+
+        to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject, headers,
-                    bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
+                    headers, bodyTXT, bodyHTML, attachements);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
-        
     }
 
     /**
@@ -548,121 +566,120 @@ public final class NotificationEvents {
      * The password will be delivered too.
      * 
      * @param user
+     *            TODO document
      * @param newPassword
-     * @throws TransactionException 
+     *            TODO document
+     * @throws TransactionException
+     *             TODO document
      */
     @SuppressWarnings("unchecked")
-    public static void generatedNewPassword(User user, String newPassword) throws TransactionException {
-        
+    public static void generatedNewPassword(User user, String newPassword)
+            throws TransactionException {
+
         try {
-            client = de.decidr.model.webservices.DynamicClients.getEmailClient();
+            client = de.decidr.model.webservices.DynamicClients
+                    .getEmailClient();
         } catch (MalformedURLException e) {
             throw new TransactionException(e);
         }
-        
+
         String userName;
-        
-        if (user.getUserProfile() == null){
+
+        if (user.getUserProfile() == null) {
             userName = user.getEmail();
-        }
-        else{
+        } else {
             userName = user.getUserProfile().getUsername();
         }
-        
-        
-        // create body text       
-        String signature="";
 
-        String bodyTXT = NotificationText.getGeneratedNewPasswordText(userName, newPassword, signature);
-        String bodyHTML = NotificationText.getGeneratedNewPasswordHTML(userName, newPassword, signature);
+        // create body text
+        String signature = "";
+
+        String bodyTXT = NotificationText.getGeneratedNewPasswordText(userName,
+                newPassword, signature);
+        String bodyHTML = NotificationText.getGeneratedNewPasswordHTML(
+                userName, newPassword, signature);
         String subject = NotificationText.getGeneratedNewPasswordSubject();
-      
+
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc= new AbstractUserList();
+        AbstractUserList cc = new AbstractUserList();
         AbstractUserList bcc = new AbstractUserList();
-        
+
         SystemSettings settings = DecidrGlobals.getSettings();
-        
+
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
         StringMap headers = null;
         IDList attachements = null;
-        
-        //fill "to" list
+
+        // fill "to" list
         EmailUser eUser = new EmailUser();
         eUser.setUser(user.getEmail());
 
-        List<AbstractUser> users= new ArrayList();
+        List<AbstractUser> users = new ArrayList();
         users.add(eUser);
-        
-        to.setAbstractUser(users);     
-        
+
+        to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject, headers,
-                    bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
+                    headers, bodyTXT, bodyHTML, attachements);
         } catch (Exception e) {
-           throw new TransactionException(e);
+            throw new TransactionException(e);
         }
-
     }
-    
-    
+
     /**
      * Send an email to the super admin that he should start a new ODE instance.
      * 
-     * If parameter "where = null" = anywhere
-     * 
+     * If parameter &quot;where == null&quot; = anywhere
      */
     @SuppressWarnings("unchecked")
-    public static void requestNewODEInstance(String where) throws TransactionException {
+    public static void requestNewODEInstance(String where)
+            throws TransactionException {
 
         try {
-            client = de.decidr.model.webservices.DynamicClients.getEmailClient();
+            client = de.decidr.model.webservices.DynamicClients
+                    .getEmailClient();
         } catch (MalformedURLException e) {
             throw new TransactionException(e);
         }
-        
-        
-        // create body text       
-        //String signature="";
+
+        // create body text
+        // String signature="";
 
         String bodyTXT = NotificationText.getRequestNewODEInstanceText(where);
         String bodyHTML = NotificationText.getRequestNewODEInstanceHTML(where);
         String subject = NotificationText.getRequestNewODEInstanceSubject();
-      
+
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc= new AbstractUserList();
+        AbstractUserList cc = new AbstractUserList();
         AbstractUserList bcc = new AbstractUserList();
-        
+
         SystemSettings settings = DecidrGlobals.getSettings();
-        
+
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
         StringMap headers = null;
         IDList attachements = null;
-        
-        //fill "to" list
-        EmailUser eUser = new EmailUser();    
+
+        // fill "to" list
+        EmailUser eUser = new EmailUser();
         eUser.setUser(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
 
-        List<AbstractUser> users= new ArrayList();
+        List<AbstractUser> users = new ArrayList();
         users.add(eUser);
-        
-        to.setAbstractUser(users);     
-        
+
+        to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject, headers,
-                    bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
+                    headers, bodyTXT, bodyHTML, attachements);
         } catch (Exception e) {
-           throw new TransactionException(e);
+            throw new TransactionException(e);
         }
-        
     }
-
 }

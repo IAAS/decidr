@@ -18,15 +18,15 @@ import de.decidr.model.transactions.TransactionEvent;
 public class GetUserProfileCommand extends UserCommand {
 
     private UserProfile result;
-    
+
     /**
-     * 
      * Creates a new GetUserProfileCommand. The command saves the user profile
      * of the given user in the result variable.
      * 
      * @param role
      *            user which executes the command
      * @param userId
+     *            TODO document
      */
     public GetUserProfileCommand(Role role, Long userId) {
         super(role, userId);
@@ -38,16 +38,14 @@ public class GetUserProfileCommand extends UserCommand {
 
         Criteria c = evt.getSession().createCriteria(UserProfile.class);
         c.add(Restrictions.eq("userId", getUserId()));
-        
-        result = (UserProfile) c.uniqueResult();
 
+        result = (UserProfile) c.uniqueResult();
     }
 
     /**
-     * @return the result
+     * @return the result TODO document
      */
     public UserProfile getResult() {
         return result;
     }
-
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
 
 import de.decidr.model.entities.User;
@@ -14,7 +15,6 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * 
  * Saves all administrated WorkflowInstances of the given user in the result
  * 
  * @author Markus Fischer
@@ -27,13 +27,14 @@ public class GetAdminstratedWorkflowInstancesCommand extends UserCommand {
     List<WorkflowInstance> result = new ArrayList();
 
     /**
-     * 
      * Creates a new GetAdminstratedWorkflowInstancesCommand. This Command saves
      * all administrated WorkflowInstances of the given user in the result
      * variable.
      * 
      * @param role
+     *            TODO document
      * @param userId
+     *            TODO document
      */
     public GetAdminstratedWorkflowInstancesCommand(Role role, Long userId) {
         super(role, userId);
@@ -49,7 +50,8 @@ public class GetAdminstratedWorkflowInstancesCommand extends UserCommand {
         user.setId(getUserId());
 
         Criteria c = evt.getSession().createCriteria(
-                UserAdministratesWorkflowInstance.class).createCriteria("deployedWorkflowModel", Criteria.LEFT_JOIN);
+                UserAdministratesWorkflowInstance.class).createCriteria(
+                "deployedWorkflowModel", CriteriaSpecification.LEFT_JOIN);
         c.add(Restrictions.eq("user", user));
 
         list = c.list();
@@ -57,14 +59,12 @@ public class GetAdminstratedWorkflowInstancesCommand extends UserCommand {
         for (UserAdministratesWorkflowInstance item : list) {
             result.add(item.getWorkflowInstance());
         }
-
     }
 
     /**
-     * @return the result
+     * @return the result TODO document
      */
     public List<WorkflowInstance> getResult() {
         return result;
     }
-
 }

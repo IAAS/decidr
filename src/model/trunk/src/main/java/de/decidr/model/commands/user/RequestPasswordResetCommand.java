@@ -47,7 +47,9 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
      * Creates a new RequestPasswordResetCommand.
      * 
      * @param role
+     *            TODO document
      * @param emailOrUsername
+     *            TODO document
      */
     public RequestPasswordResetCommand(Role role, String emailOrUsername) {
         super(role, (Permission) null);
@@ -91,9 +93,9 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
     }
 
     /**
-     * @return true if the password reqest has been created an a notification
-     *         email has been sent. False if the user with the given email
-     *         address or username ordoesn't exist.
+     * @return <code>true</code> if the password request has been created an a
+     *         notification email has been sent. <code>false</code> if the user
+     *         with the given email address or username or doesn't exist.
      */
     public Boolean getRequestWasCreated() {
         return requestWasCreated;

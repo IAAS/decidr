@@ -26,13 +26,13 @@ public class Paginator {
      */
     protected Integer itemsPerPage = 1;
     /**
-     * The first item has the index 0. startIndex is always <= endIndex
+     * The first item has the index 0. startIndex is always &lt;= endIndex
      */
     protected Integer startIndex = 0;
 
     /**
-     * The last item has the index totalNumberOfItems - 1. endIndex is always >=
-     * startIndex
+     * The last item has the index totalNumberOfItems - 1. endIndex is always
+     * &gt;= startIndex
      */
     protected Integer endIndex = 0;
 
@@ -71,6 +71,7 @@ public class Paginator {
      * Changes startIndex and endIndex accordingly.
      * 
      * @param currentPage
+     *            TODO document
      */
     public void setCurrentPage(Integer currentPage) {
         setStartIndex(this.itemsPerPage
@@ -89,6 +90,7 @@ public class Paginator {
      * updated using the new value.
      * 
      * @param itemsPerPage
+     *            TODO document
      */
     public void setItemsPerPage(Integer itemsPerPage) {
         if (itemsPerPage < 1) {
@@ -110,6 +112,7 @@ public class Paginator {
      * Sets the start index. EndIndex is updated using itemsPerPage.
      * 
      * @param startIndex
+     *            TODO document
      */
     public void setStartIndex(Integer startIndex) {
         this.startIndex = startIndex;

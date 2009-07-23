@@ -43,7 +43,9 @@ public class LeaveTenantCommand extends UserCommand {
      * Creates a new LeaveTenantCommand.
      * 
      * @param role
+     *            TODO document
      * @param userId
+     *            TODO document
      * @param tenantId
      *            tenant to leave
      */
@@ -98,5 +100,4 @@ public class LeaveTenantCommand extends UserCommand {
     public Boolean getLeftTenant() {
         return leftTenant;
     }
-
 }

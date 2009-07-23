@@ -5,36 +5,34 @@
 // Generated on: 2009.06.13 at 08:32:08 PM GMT+01:00 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tBoolean-expr complex type.
+ * <p>
+ * Java class for tBoolean-expr complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;complexType name="tBoolean-expr">
- *   &lt;complexContent>
- *     &lt;extension base="{http://docs.oasis-open.org/wsbpel/2.0/process/executable}tExpression">
- *       &lt;anyAttribute processContents='lax' namespace='##other'/>
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name=&quot;tBoolean-expr&quot;&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;extension base=&quot;{http://docs.oasis-open.org/wsbpel/2.0/process/executable}tExpression&quot;&gt;
+ *       &lt;anyAttribute processContents='lax' namespace='##other'/&gt;
+ *     &lt;/extension&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tBoolean-expr")
-public class TBooleanExpr
-    extends TExpression
-{
-
-
+public class TBooleanExpr extends TExpression {
+    // MA document
 }

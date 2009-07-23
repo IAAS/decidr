@@ -5,7 +5,6 @@
 // Generated on: 2009.07.20 at 08:21:08 PM GMT+01:00 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import javax.xml.bind.JAXBElement;
@@ -13,61 +12,91 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
-
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the de.decidr.model.workflowmodel.dwdl package. 
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
- * provided in this class.
+ * This object contains factory methods for each Java content interface and Java
+ * element interface generated in the de.decidr.model.workflowmodel.dwdl
+ * package.
+ * <p>
+ * An ObjectFactory allows you to programatically construct new instances of the
+ * Java representation for XML content. The Java representation of XML content
+ * can consist of schema derived interfaces and classes representing the binding
+ * of schema type definitions, element declarations and model groups. Factory
+ * methods for each of these are provided in this class.
  * 
  */
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _ForEachNode_QNAME = new QName("http://decidr.de/schema/dwdl", "forEachNode");
-    private final static QName _StartNode_QNAME = new QName("http://decidr.de/schema/dwdl", "startNode");
-    private final static QName _Actor_QNAME = new QName("http://decidr.de/schema/dwdl", "actor");
-    private final static QName _CompletionCondition_QNAME = new QName("http://decidr.de/schema/dwdl", "completionCondition");
-    private final static QName _StartCounterValue_QNAME = new QName("http://decidr.de/schema/dwdl", "startCounterValue");
-    private final static QName _Sources_QNAME = new QName("http://decidr.de/schema/dwdl", "sources");
-    private final static QName _Recipient_QNAME = new QName("http://decidr.de/schema/dwdl", "recipient");
-    private final static QName _InvokeNode_QNAME = new QName("http://decidr.de/schema/dwdl", "invokeNode");
-    private final static QName _Description_QNAME = new QName("http://decidr.de/schema/dwdl", "description");
-    private final static QName _Role_QNAME = new QName("http://decidr.de/schema/dwdl", "role");
-    private final static QName _BasicNode_QNAME = new QName("http://decidr.de/schema/dwdl", "basicNode");
-    private final static QName _Graphics_QNAME = new QName("http://decidr.de/schema/dwdl", "graphics");
-    private final static QName _Targets_QNAME = new QName("http://decidr.de/schema/dwdl", "targets");
-    private final static QName _FinalCounterValue_QNAME = new QName("http://decidr.de/schema/dwdl", "finalCounterValue");
-    private final static QName _IfNode_QNAME = new QName("http://decidr.de/schema/dwdl", "ifNode");
-    private final static QName _FaultHandler_QNAME = new QName("http://decidr.de/schema/dwdl", "faultHandler");
-    private final static QName _Condition_QNAME = new QName("http://decidr.de/schema/dwdl", "condition");
-    private final static QName _HumanTaskData_QNAME = new QName("http://decidr.de/schema/dwdl", "humanTaskData");
-    private final static QName _SetProperty_QNAME = new QName("http://decidr.de/schema/dwdl", "setProperty");
-    private final static QName _Workflow_QNAME = new QName("http://decidr.de/schema/dwdl", "workflow");
-    private final static QName _EndNode_QNAME = new QName("http://decidr.de/schema/dwdl", "endNode");
-    private final static QName _Variables_QNAME = new QName("http://decidr.de/schema/dwdl", "variables");
-    private final static QName _Arcs_QNAME = new QName("http://decidr.de/schema/dwdl", "arcs");
-    private final static QName _Content_QNAME = new QName("http://decidr.de/schema/dwdl", "content");
-    private final static QName _FlowNode_QNAME = new QName("http://decidr.de/schema/dwdl", "flowNode");
-    private final static QName _Source_QNAME = new QName("http://decidr.de/schema/dwdl", "source");
-    private final static QName _Roles_QNAME = new QName("http://decidr.de/schema/dwdl", "roles");
-    private final static QName _GetProperty_QNAME = new QName("http://decidr.de/schema/dwdl", "getProperty");
-    private final static QName _Nodes_QNAME = new QName("http://decidr.de/schema/dwdl", "nodes");
-    private final static QName _Target_QNAME = new QName("http://decidr.de/schema/dwdl", "target");
-    private final static QName _Variable_QNAME = new QName("http://decidr.de/schema/dwdl", "variable");
+    private final static QName _ForEachNode_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "forEachNode");
+    private final static QName _StartNode_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "startNode");
+    private final static QName _Actor_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "actor");
+    private final static QName _CompletionCondition_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "completionCondition");
+    private final static QName _StartCounterValue_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "startCounterValue");
+    private final static QName _Sources_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "sources");
+    private final static QName _Recipient_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "recipient");
+    private final static QName _InvokeNode_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "invokeNode");
+    private final static QName _Description_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "description");
+    private final static QName _Role_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "role");
+    private final static QName _BasicNode_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "basicNode");
+    private final static QName _Graphics_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "graphics");
+    private final static QName _Targets_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "targets");
+    private final static QName _FinalCounterValue_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "finalCounterValue");
+    private final static QName _IfNode_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "ifNode");
+    private final static QName _FaultHandler_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "faultHandler");
+    private final static QName _Condition_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "condition");
+    private final static QName _HumanTaskData_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "humanTaskData");
+    private final static QName _SetProperty_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "setProperty");
+    private final static QName _Workflow_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "workflow");
+    private final static QName _EndNode_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "endNode");
+    private final static QName _Variables_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "variables");
+    private final static QName _Arcs_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "arcs");
+    private final static QName _Content_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "content");
+    private final static QName _FlowNode_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "flowNode");
+    private final static QName _Source_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "source");
+    private final static QName _Roles_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "roles");
+    private final static QName _GetProperty_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "getProperty");
+    private final static QName _Nodes_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "nodes");
+    private final static QName _Target_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "target");
+    private final static QName _Variable_QNAME = new QName(
+            "http://decidr.de/schema/dwdl", "variable");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: de.decidr.model.workflowmodel.dwdl
+     * Create a new ObjectFactory that can be used to create new instances of
+     * schema derived classes for package: de.decidr.model.workflowmodel.dwdl
      * 
      */
     public ObjectFactory() {
+        // needed by JAXB
     }
 
     /**
@@ -367,25 +396,29 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TForEachNode }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TForEachNode }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "forEachNode")
     public JAXBElement<TForEachNode> createForEachNode(TForEachNode value) {
-        return new JAXBElement<TForEachNode>(_ForEachNode_QNAME, TForEachNode.class, null, value);
+        return new JAXBElement<TForEachNode>(_ForEachNode_QNAME,
+                TForEachNode.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TStartNode }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TStartNode }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "startNode")
     public JAXBElement<TStartNode> createStartNode(TStartNode value) {
-        return new JAXBElement<TStartNode>(_StartNode_QNAME, TStartNode.class, null, value);
+        return new JAXBElement<TStartNode>(_StartNode_QNAME, TStartNode.class,
+                null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TActor }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TActor }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "actor")
@@ -394,61 +427,73 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TExpression }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TExpression }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "completionCondition")
     public JAXBElement<TExpression> createCompletionCondition(TExpression value) {
-        return new JAXBElement<TExpression>(_CompletionCondition_QNAME, TExpression.class, null, value);
+        return new JAXBElement<TExpression>(_CompletionCondition_QNAME,
+                TExpression.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TExpression }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TExpression }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "startCounterValue")
     public JAXBElement<TExpression> createStartCounterValue(TExpression value) {
-        return new JAXBElement<TExpression>(_StartCounterValue_QNAME, TExpression.class, null, value);
+        return new JAXBElement<TExpression>(_StartCounterValue_QNAME,
+                TExpression.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TSources }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TSources }{@code
+     * >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "sources")
     public JAXBElement<TSources> createSources(TSources value) {
-        return new JAXBElement<TSources>(_Sources_QNAME, TSources.class, null, value);
+        return new JAXBElement<TSources>(_Sources_QNAME, TSources.class, null,
+                value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TRecipient }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TRecipient }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "recipient")
     public JAXBElement<TRecipient> createRecipient(TRecipient value) {
-        return new JAXBElement<TRecipient>(_Recipient_QNAME, TRecipient.class, null, value);
+        return new JAXBElement<TRecipient>(_Recipient_QNAME, TRecipient.class,
+                null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TInvokeNode }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TInvokeNode }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "invokeNode")
     public JAXBElement<TInvokeNode> createInvokeNode(TInvokeNode value) {
-        return new JAXBElement<TInvokeNode>(_InvokeNode_QNAME, TInvokeNode.class, null, value);
+        return new JAXBElement<TInvokeNode>(_InvokeNode_QNAME,
+                TInvokeNode.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TDescription }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TDescription }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "description")
     public JAXBElement<TDescription> createDescription(TDescription value) {
-        return new JAXBElement<TDescription>(_Description_QNAME, TDescription.class, null, value);
+        return new JAXBElement<TDescription>(_Description_QNAME,
+                TDescription.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TRole }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TRole }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "role")
@@ -457,115 +502,139 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TBasicNode }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TBasicNode }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "basicNode")
     public JAXBElement<TBasicNode> createBasicNode(TBasicNode value) {
-        return new JAXBElement<TBasicNode>(_BasicNode_QNAME, TBasicNode.class, null, value);
+        return new JAXBElement<TBasicNode>(_BasicNode_QNAME, TBasicNode.class,
+                null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TGraphics }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TGraphics }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "graphics")
     public JAXBElement<TGraphics> createGraphics(TGraphics value) {
-        return new JAXBElement<TGraphics>(_Graphics_QNAME, TGraphics.class, null, value);
+        return new JAXBElement<TGraphics>(_Graphics_QNAME, TGraphics.class,
+                null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TTargets }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TTargets }{@code
+     * >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "targets")
     public JAXBElement<TTargets> createTargets(TTargets value) {
-        return new JAXBElement<TTargets>(_Targets_QNAME, TTargets.class, null, value);
+        return new JAXBElement<TTargets>(_Targets_QNAME, TTargets.class, null,
+                value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TExpression }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TExpression }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "finalCounterValue")
     public JAXBElement<TExpression> createFinalCounterValue(TExpression value) {
-        return new JAXBElement<TExpression>(_FinalCounterValue_QNAME, TExpression.class, null, value);
+        return new JAXBElement<TExpression>(_FinalCounterValue_QNAME,
+                TExpression.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TIfNode }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TIfNode }{@code
+     * >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "ifNode")
     public JAXBElement<TIfNode> createIfNode(TIfNode value) {
-        return new JAXBElement<TIfNode>(_IfNode_QNAME, TIfNode.class, null, value);
+        return new JAXBElement<TIfNode>(_IfNode_QNAME, TIfNode.class, null,
+                value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TFaultHandler }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TFaultHandler }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "faultHandler")
     public JAXBElement<TFaultHandler> createFaultHandler(TFaultHandler value) {
-        return new JAXBElement<TFaultHandler>(_FaultHandler_QNAME, TFaultHandler.class, null, value);
+        return new JAXBElement<TFaultHandler>(_FaultHandler_QNAME,
+                TFaultHandler.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TCondition }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TCondition }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "condition")
     public JAXBElement<TCondition> createCondition(TCondition value) {
-        return new JAXBElement<TCondition>(_Condition_QNAME, TCondition.class, null, value);
+        return new JAXBElement<TCondition>(_Condition_QNAME, TCondition.class,
+                null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link THumanTaskData }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link THumanTaskData }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "humanTaskData")
     public JAXBElement<THumanTaskData> createHumanTaskData(THumanTaskData value) {
-        return new JAXBElement<THumanTaskData>(_HumanTaskData_QNAME, THumanTaskData.class, null, value);
+        return new JAXBElement<THumanTaskData>(_HumanTaskData_QNAME,
+                THumanTaskData.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TSetProperty }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TSetProperty }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "setProperty")
     public JAXBElement<TSetProperty> createSetProperty(TSetProperty value) {
-        return new JAXBElement<TSetProperty>(_SetProperty_QNAME, TSetProperty.class, null, value);
+        return new JAXBElement<TSetProperty>(_SetProperty_QNAME,
+                TSetProperty.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TWorkflow }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TWorkflow }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "workflow")
     public JAXBElement<TWorkflow> createWorkflow(TWorkflow value) {
-        return new JAXBElement<TWorkflow>(_Workflow_QNAME, TWorkflow.class, null, value);
+        return new JAXBElement<TWorkflow>(_Workflow_QNAME, TWorkflow.class,
+                null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TEndNode }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TEndNode }{@code
+     * >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "endNode")
     public JAXBElement<TEndNode> createEndNode(TEndNode value) {
-        return new JAXBElement<TEndNode>(_EndNode_QNAME, TEndNode.class, null, value);
+        return new JAXBElement<TEndNode>(_EndNode_QNAME, TEndNode.class, null,
+                value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TVariables }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TVariables }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "variables")
     public JAXBElement<TVariables> createVariables(TVariables value) {
-        return new JAXBElement<TVariables>(_Variables_QNAME, TVariables.class, null, value);
+        return new JAXBElement<TVariables>(_Variables_QNAME, TVariables.class,
+                null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TArcs }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TArcs }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "arcs")
@@ -574,34 +643,40 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TContent }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TContent }{@code
+     * >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "content")
     public JAXBElement<TContent> createContent(TContent value) {
-        return new JAXBElement<TContent>(_Content_QNAME, TContent.class, null, value);
+        return new JAXBElement<TContent>(_Content_QNAME, TContent.class, null,
+                value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TFlowNode }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TFlowNode }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "flowNode")
     public JAXBElement<TFlowNode> createFlowNode(TFlowNode value) {
-        return new JAXBElement<TFlowNode>(_FlowNode_QNAME, TFlowNode.class, null, value);
+        return new JAXBElement<TFlowNode>(_FlowNode_QNAME, TFlowNode.class,
+                null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TSource }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TSource }{@code
+     * >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "source")
     public JAXBElement<TSource> createSource(TSource value) {
-        return new JAXBElement<TSource>(_Source_QNAME, TSource.class, null, value);
+        return new JAXBElement<TSource>(_Source_QNAME, TSource.class, null,
+                value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TRoles }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TRoles }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "roles")
@@ -610,16 +685,18 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TGetProperty }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TGetProperty }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "getProperty")
     public JAXBElement<TGetProperty> createGetProperty(TGetProperty value) {
-        return new JAXBElement<TGetProperty>(_GetProperty_QNAME, TGetProperty.class, null, value);
+        return new JAXBElement<TGetProperty>(_GetProperty_QNAME,
+                TGetProperty.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TNodes }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TNodes }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "nodes")
@@ -628,21 +705,25 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TTarget }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TTarget }{@code
+     * >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "target")
     public JAXBElement<TTarget> createTarget(TTarget value) {
-        return new JAXBElement<TTarget>(_Target_QNAME, TTarget.class, null, value);
+        return new JAXBElement<TTarget>(_Target_QNAME, TTarget.class, null,
+                value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link TVariable }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TVariable }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/dwdl", name = "variable")
     public JAXBElement<TVariable> createVariable(TVariable value) {
-        return new JAXBElement<TVariable>(_Variable_QNAME, TVariable.class, null, value);
+        return new JAXBElement<TVariable>(_Variable_QNAME, TVariable.class,
+                null, value);
     }
 
 }

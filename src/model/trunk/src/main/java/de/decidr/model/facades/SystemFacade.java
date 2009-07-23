@@ -61,7 +61,6 @@ public class SystemFacade extends AbstractFacade {
      * 
      * @param actor
      *            user who will execute the commands of the created facade
-     * 
      */
     public SystemFacade(Role actor) {
         super(actor);
@@ -71,34 +70,39 @@ public class SystemFacade extends AbstractFacade {
      * Returns the current system settings as a Vaadin item with the following
      * properties:
      * <ul>
-     * <li>autoAcceptNewTenants: Boolean - whether new tenants don't have to be
-     * approved by the super admin</li>
-     * <li>systemName: String - name of the system (usually "DecidR")</li>
-     * <li>domain: String - domain where the system can be reached
-     * ("decidr.de"). Used for URL generation.</li>
-     * <li>systemEmailAddress: String - from-Address to use when sending
-     * notifications to users</li>
-     * <li>logLevel: String - current global log level</li>
-     * <li>passwordResetRequestLifeTimeSeconds: Integer - the user has this many
-     * seconds to confirm his password reset.</li>
-     * <li>registrationRequestLifetimeSeconds: Integer - the user has this many
-     * seconds to confirm his registration.</li>
-     * <li>changeEmailRequestLifetimeSeconds: Integer - the user has this many
-     * seconds to confirm his new email address</li>
-     * <li>invitationLifetimeSeconds: Integer - the user has this many seconds
-     * to confirm or reject an invitation.</li>
-     * <li>mtaHostname: String - mail transfer agent hostname.</li>
-     * <li>mtaPort: Integer - mail transfer agent port.</li>
-     * <li>mtaUseTls: Boolean - whether transport layer security should be used
-     * when sending emails.</li>
-     * <li>mtaUsername: String - username to use when sending email.</li>
-     * <li>mtaPassword: String - password to use when seding email</li>
-     * <li>maxUploadFileSizeByte: Long - maximum filesize for any file uploads</li>
-     * <li>maxAttachmentsPerEmail: Integer - maximum number of attachments an
-     * email sent by the system can have.</li>
+     * <li>autoAcceptNewTenants: <code>{@link Boolean}</code> - whether new
+     * tenants don't have to be approved by the super admin</li>
+     * <li>systemName: <code>{@link }</code> - name of the system (usually
+     * "DecidR")</li>
+     * <li>domain: <code>{@link String}</code> - domain where the system can be
+     * reached ("decidr.de"). Used for URL generation.</li>
+     * <li>systemEmailAddress: <code>{@link String}</code> - from-Address to use
+     * when sending notifications to users</li>
+     * <li>logLevel: <code>{@link String}</code> - current global log level</li>
+     * <li>passwordResetRequestLifeTimeSeconds: <code>{@link Integer}</code> -
+     * the user has this many seconds to confirm his password reset.</li>
+     * <li>registrationRequestLifetimeSeconds: <code>{@link Integer}</code> -
+     * the user has this many seconds to confirm his registration.</li>
+     * <li>changeEmailRequestLifetimeSeconds: <code>{@link Integer}</code> - the
+     * user has this many seconds to confirm his new email address</li>
+     * <li>invitationLifetimeSeconds: <code>{@link Integer}</code> - the user
+     * has this many seconds to confirm or reject an invitation.</li>
+     * <li>mtaHostname: <code>{@link String}</code> - mail transfer agent
+     * hostname.</li>
+     * <li>mtaPort: <code>{@link Integer}</code> - mail transfer agent port.</li>
+     * <li>mtaUseTls: <code>{@link Boolean}</code> - whether transport layer
+     * security should be used when sending emails.</li>
+     * <li>mtaUsername: <code>{@link String}</code> - username to use when
+     * sending email.</li>
+     * <li>mtaPassword: <code>{@link String}</code> - password to use when
+     * seding email</li>
+     * <li>maxUploadFileSizeByte: <code>{@link Long}</code> - maximum filesize
+     * for any file uploads</li>
+     * <li>maxAttachmentsPerEmail: <code>{@link Integer}</code> - maximum number
+     * of attachments an email sent by the system can have.</li>
      * </ul>
      * 
-     * @return system settings as item
+     * @return system settings as <code>{@link Item}</code>
      * @throws TransactionException
      *             if an error occurs during the transaction
      */
@@ -167,7 +171,7 @@ public class SystemFacade extends AbstractFacade {
      * If the server doesn't exist the command will be ignored.
      * 
      * @param serverId
-     * 
+     *            TODO document
      * @throws TransactionException
      *             if an error occurs during the transaction
      */
@@ -188,10 +192,8 @@ public class SystemFacade extends AbstractFacade {
      *            location of the server representative which should be deleted
      * @param load
      *            new load server load as byte [0...100]
-     * 
      * @throws TransactionException
      *             if an error occurs during the transaction
-     * 
      */
     @AllowedRole( { SuperAdminRole.class, ServerLoadUpdaterRole.class })
     public void updateServerLoad(String location, byte load)
@@ -219,33 +221,27 @@ public class SystemFacade extends AbstractFacade {
      * @param lock
      *            whether the server should be locked. If false, the server will
      *            be unlocked
-     * 
      * @throws TransactionException
      *             if an error occurs during the transaction
-     * 
      */
     @AllowedRole(SuperAdminRole.class)
     public void setServerLock(Long serverId, Boolean lock)
             throws TransactionException {
-        LockServerCommand command = new LockServerCommand(actor, serverId,
-                lock);
+        LockServerCommand command = new LockServerCommand(actor, serverId, lock);
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
-     * 
-     * Returns the system logs as a list of items. The List can be filtered by
+     * Returns the system logs as a list of items. The list can be filtered by
      * using filters and an optional paginator.
-     * 
      * 
      * @param filters
      *            filters the result by the given criteria
      * @param paginator
      *            splits the result in several pages
-     * @return List<Item> Logs as items
+     * @return <code>{@link List<Item>}</code> Logs as items
      * @throws TransactionException
      *             if an error occurs during the transaction
-     * 
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(SuperAdminRole.class)
@@ -267,22 +263,25 @@ public class SystemFacade extends AbstractFacade {
         }
 
         return outList;
-
     }
 
     /**
      * Returns a list of the existing unlocked servers as a list of Vaadin
      * items. Each item has the following properties:
      * <ul>
-     * <li>id: Long - the server id</li>
-     * <li>location: String - server location (url or hostname)</li>
-     * <li>load: Byte - the server load in percent</li>
-     * <li>numInstances: Long - the number of workflow instances on that server</li>
-     * <li>dynamicallyAdded: Boolean - whether the server was dynamically added</li>
-     * <li>serverType: String - type of server</li>
+     * <li>id: <code>{@link Long}</code> - the server id</li>
+     * <li>location: <code>{@link String}</code> - server location (url or
+     * hostname)</li>
+     * <li>load: <code>{@link Byte}</code> - the server load in percent</li>
+     * <li>numInstances: <code>{@link Long}</code> - the number of workflow
+     * instances on that server</li>
+     * <li>dynamicallyAdded: <code>{@link Boolean}</code> - whether the server
+     * was dynamically added</li>
+     * <li>serverType: <code>{@link String}</code> - type of server</li>
      * </ul>
      * 
-     * @return ServerStatistics as a list of Vaadin items
+     * @return ServerStatistics as a list of Vaadin
+     *         <code>{@link Item items}</code>
      * @throws TransactionException
      *             if an error occurs during the transaction
      * 

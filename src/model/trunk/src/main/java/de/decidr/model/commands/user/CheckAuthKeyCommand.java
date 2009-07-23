@@ -37,8 +37,11 @@ public class CheckAuthKeyCommand extends UserCommand {
      * Creates a new CheckAuthKeyCommand.
      * 
      * @param role
+     *            TODO document
      * @param userId
+     *            TODO document
      * @param authKey
+     *            TODO document
      */
     public CheckAuthKeyCommand(Role role, Long userId, String authKey) {
         super(role, userId);
@@ -57,10 +60,10 @@ public class CheckAuthKeyCommand extends UserCommand {
     }
 
     /**
-     * @return true iff the auth key matched the auth key in the database.
+     * @return <code>true</code> iff the auth key matched the auth key in the
+     *         database.
      */
     public Boolean getAuthKeyMatches() {
         return authKeyMatches;
     }
-
 }

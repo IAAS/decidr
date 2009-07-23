@@ -23,7 +23,6 @@ public class GetAdministratedWorkflowModelCommand extends UserCommand {
     private List<WorkflowModel> result;
 
     /**
-     * 
      * Creates a new GetAdministratedWorkflowModelCommand. This command will
      * write all WorkflowModels which the user administrates as a list in the
      * result variable.
@@ -31,6 +30,7 @@ public class GetAdministratedWorkflowModelCommand extends UserCommand {
      * @param role
      *            user which executes the command
      * @param userId
+     *            TODO document
      */
     public GetAdministratedWorkflowModelCommand(Role role, Long userId) {
         super(role, null);
@@ -53,10 +53,9 @@ public class GetAdministratedWorkflowModelCommand extends UserCommand {
     }
 
     /**
-     * @return the result
+     * @return the result TODO document
      */
     public List<WorkflowModel> getResult() {
         return result;
     }
-
 }

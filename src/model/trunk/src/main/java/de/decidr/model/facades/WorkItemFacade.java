@@ -43,10 +43,10 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
 public class WorkItemFacade extends AbstractFacade {
 
     /**
-     * Constructor
+     * Constructor TODO document
      * 
      * @param actor
-     *            user / system that is using this facade to access work items.
+     *            user/system that is using this facade to access work items.
      */
     public WorkItemFacade(Role actor) {
         super(actor);
@@ -60,22 +60,23 @@ public class WorkItemFacade extends AbstractFacade {
      * <li>status: String - see WorkItemStatus</li>
      * <li>data: byte[] - raw xml bytes</li>
      * <li>name: String - work item name</li>
-     * <li>description: String - </li>
+     * <li>description: String -</li>
      * </ul>
      * 
      * @param workItemId
-     * @return Vaadin item
+     *            TODO document
+     * @return Vaadin item TODO document
      * @throws TransactionException
      *             on rollback or if the given work item doesn't exist.
      */
     @AllowedRole(UserRole.class)
     public Item getWorkItem(Long workItemId) throws TransactionException {
-        
+
         GetWorkItemCommand cmd = new GetWorkItemCommand(actor, workItemId);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
-        String[] properties = { "id", "creationDate",
-                "status", "data", "name", "description" };
+        String[] properties = { "id", "creationDate", "status", "data", "name",
+                "description" };
 
         return new BeanItem(cmd.getResult(), properties);
     }
@@ -98,7 +99,7 @@ public class WorkItemFacade extends AbstractFacade {
      * @param notifyUser
      *            whether the user should be notified by email that a new work
      *            item has been created.
-     * @return the id of the new work item.
+     * @return the ID of the new work item.
      * @throws TransactionException
      *             on rollback
      */
@@ -117,7 +118,7 @@ public class WorkItemFacade extends AbstractFacade {
     }
 
     /**
-     * Overwrites the xml data of the given work item with the given raw data.
+     * Overwrites the XML data of the given work item with the given raw data.
      * 
      * @param workItemId
      *            the work item to modify
@@ -157,6 +158,7 @@ public class WorkItemFacade extends AbstractFacade {
      * Sets the work item status of the given work item to "done".
      * 
      * @param workItemId
+     *            TODO document
      * @throws TransactionException
      *             on rollback
      */
@@ -170,10 +172,11 @@ public class WorkItemFacade extends AbstractFacade {
      * Deletes the given work item from the database.
      * 
      * @param workItemId
+     *            TODO document
      * @throws TransactionException
      *             on rollback
      */
-    @AllowedRole({WorkflowAdminRole.class,HumanTaskRole.class})
+    @AllowedRole( { WorkflowAdminRole.class, HumanTaskRole.class })
     public void deleteWorkItem(Long workItemId) throws TransactionException {
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 new DeleteWorkItemCommand(actor, workItemId));

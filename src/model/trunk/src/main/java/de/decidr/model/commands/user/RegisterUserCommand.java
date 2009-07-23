@@ -20,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
 
 import de.decidr.model.DecidrGlobals;
@@ -54,8 +55,11 @@ public class RegisterUserCommand extends AclEnabledCommand {
      * given email address.
      * 
      * @param role
+     *            TODO document
      * @param email
+     *            TODO document
      * @param passwordPlaintext
+     *            TODO document
      * @param profile
      *            profile data to apply to the new user account.
      */
@@ -81,7 +85,7 @@ public class RegisterUserCommand extends AclEnabledCommand {
          * does a user who has the given email or username already exist?
          */
         Criteria crit = evt.getSession().createCriteria(User.class, "u");
-        crit.createAlias("userProfile", "p", Criteria.LEFT_JOIN);
+        crit.createAlias("userProfile", "p", CriteriaSpecification.LEFT_JOIN);
         crit.add(Restrictions.or(Restrictions.eq("u.email", email),
                 Restrictions.eq("p.username", profile.getUsername())));
 
@@ -157,5 +161,4 @@ public class RegisterUserCommand extends AclEnabledCommand {
     public User getRegisteredUser() {
         return registeredUser;
     }
-
 }

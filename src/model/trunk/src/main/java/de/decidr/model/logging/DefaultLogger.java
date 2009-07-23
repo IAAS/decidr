@@ -13,7 +13,7 @@ import org.apache.log4j.PatternLayout;
  * <p>
  * TODO use JDBC appender instead of or in addition to console appender, add
  * support for remotely triggered log level changes. See
- * http://www.dankomannhaupt.de/projects/index.htmlfor an improved JDBC
+ * http://www.dankomannhaupt.de/projects/index.html for an improved JDBC
  * appender.
  */
 public class DefaultLogger {

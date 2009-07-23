@@ -20,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
 
 import de.decidr.model.DecidrGlobals;
@@ -34,7 +35,7 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Finds the user that belongs to the given username|email / password
+ * Finds the user that belongs to the given username or a email/password
  * combination.
  * 
  * @author Daniel Huss
@@ -54,8 +55,11 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
      * password combination.
      * 
      * @param role
+     *            TODO document
      * @param emailOrUsername
+     *            TODO document
      * @param passwordPlaintext
+     *            TODO document
      */
     public GetUserByLoginCommand(Role role, String emailOrUsername,
             String passwordPlaintext) {
@@ -71,7 +75,7 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
 
         // find the existing user
         Criteria crit = evt.getSession().createCriteria(User.class, "u");
-        crit.createAlias("userProfile", "p", Criteria.LEFT_JOIN);
+        crit.createAlias("userProfile", "p", CriteriaSpecification.LEFT_JOIN);
         crit.add(Restrictions.or(Restrictions.eq("u.email", emailOrUsername),
                 Restrictions.eq("p.username", emailOrUsername)));
 
@@ -118,5 +122,4 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
     public Boolean getPasswordCorrect() {
         return passwordCorrect;
     }
-
 }

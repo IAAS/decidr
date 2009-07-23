@@ -44,7 +44,7 @@ public class EqualsFilter implements Filter {
     private Object propertyValue = null;
 
     /**
-     * Constructor
+     * Constructor TODO document
      * 
      * @param include
      *            whether matches are included or excluded
@@ -115,5 +115,4 @@ public class EqualsFilter implements Filter {
     public Boolean getInclude() {
         return include;
     }
-
 }

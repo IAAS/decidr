@@ -23,14 +23,19 @@ import de.decidr.model.permissions.WorkflowAdminRole;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
 
+/**
+ * TODO: add comment
+ * 
+ * @author TODO
+ */
 public class WorkflowInstanceFacade extends AbstractFacade {
 
     /**
-     * 
      * Creates a new WorkflowInstaceFacade. All Commands will be executed by the
      * given actor.
      * 
      * @param actor
+     *            TODO document
      */
     public WorkflowInstanceFacade(Role actor) {
         super(actor);
@@ -40,7 +45,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * Stops the given WorkflowInstance.
      * 
      * @param workflowInstanceId
-     *            the id of the WorkflowInstance
+     *            the ID of the WorkflowInstance
      */
     @AllowedRole(WorkflowAdminRole.class)
     public void stopWorkflowInstance(Long workflowInstanceId)
@@ -52,14 +57,14 @@ public class WorkflowInstanceFacade extends AbstractFacade {
                 actor, workflowInstanceId);
 
         tac.runTransaction(command);
-
     }
 
     /**
-     * Returns all Participants of the given WorkflowInstance
+     * Returns all participants of the given WorkflowInstance
      * 
      * @param workflowInstanceId
-     * @return
+     *            TODO document
+     * @return TODO document
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(WorkflowAdminRole.class)
@@ -91,7 +96,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * object at the database.
      * 
      * @param workflowInstanceId
-     *            the id of the WorkflowInstance
+     *            the ID of the WorkflowInstance
      */
     @AllowedRole(WorkflowAdminRole.class)
     public void deleteWorkflowInstance(Long workflowInstanceId)
@@ -117,7 +122,9 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * instance itself is <b>not</b> deleted from the database.
      * 
      * @param odePid
+     *            TODO document
      * @param deployedWorkflowModelId
+     *            TODO document
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -137,11 +144,14 @@ public class WorkflowInstanceFacade extends AbstractFacade {
     /**
      * 
      * Returns all WorkItems of a WorkflowInstance as a Vaadin-Item with the
-     * following properties: - id
+     * following properties:<br>
+     * <ul>
+     * <li>id</li>
+     * </ul>
      * 
      * @param workflowInstanceId
-     *            the Id of the WorkflowInstance
-     * @return List<Items>
+     *            the ID of the WorkflowInstance
+     * @return List<Items> TODO document
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(WorkflowAdminRole.class)

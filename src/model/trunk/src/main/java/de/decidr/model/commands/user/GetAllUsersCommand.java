@@ -2,7 +2,7 @@ package de.decidr.model.commands.user;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
+import org.hibernate.criterion.CriteriaSpecification;
 
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
@@ -27,20 +27,22 @@ public class GetAllUsersCommand extends UserCommand {
     private List<User> result;
 
     /**
-     * 
      * Creates a new GetAllUsersCommand. This command saves all system users in
      * the result variable.
      * 
      * @param role
      *            the user which executes the command
      * @param userId
+     *            TODO document
      * @param filters
+     *            TODO document
      * @param paginator
+     *            TODO document
      */
     public GetAllUsersCommand(Role role, List<Filter> filters,
             Paginator paginator) {
         super(role, null);
-        
+
         this.filters = filters;
         this.paginator = paginator;
     }
@@ -52,21 +54,20 @@ public class GetAllUsersCommand extends UserCommand {
 
         PaginatingCriteria c = new PaginatingCriteria(User.class, evt
                 .getSession());
-        
-        c.createCriteria("userProfile",Criteria.LEFT_JOIN);
+
+        c.createCriteria("userProfile", CriteriaSpecification.LEFT_JOIN);
 
         Filters.apply(c, filters, paginator);
 
         result = c.list();
-
     }
 
     /**
+     * TODO document
      * 
      * @return the result
      */
     public List<User> getResult() {
         return result;
     }
-
 }

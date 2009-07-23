@@ -65,7 +65,6 @@ public class Filters {
     }
 
     /**
-     * 
      * Applies a single filter and a criteria
      * 
      * @param criteria

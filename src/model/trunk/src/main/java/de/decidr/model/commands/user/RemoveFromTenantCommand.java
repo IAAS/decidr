@@ -32,8 +32,11 @@ public class RemoveFromTenantCommand extends LeaveTenantCommand {
      * Creates a new RemoveFromTenantCommand.
      * 
      * @param role
+     *            TODO document
      * @param userId
+     *            TODO document
      * @param tenantId
+     *            TODO document
      */
     public RemoveFromTenantCommand(Role role, Long userId, Long tenantId) {
         super(role, userId, tenantId);
@@ -49,5 +52,4 @@ public class RemoveFromTenantCommand extends LeaveTenantCommand {
             leftTenant = true;
         }
     }
-
 }

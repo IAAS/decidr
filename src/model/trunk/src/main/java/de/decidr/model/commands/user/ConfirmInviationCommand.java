@@ -51,7 +51,9 @@ public class ConfirmInviationCommand extends AclEnabledCommand {
      * Creates a new ConfirmInviationCommand.
      * 
      * @param role
+     *            TODO document
      * @param invitationId
+     *            TODO document
      */
     public ConfirmInviationCommand(Role role, Long invitationId) {
         super(role, (Permission) null);
@@ -152,6 +154,5 @@ public class ConfirmInviationCommand extends AclEnabledCommand {
         } else {
             // nothing to do
         }
-
     }
 }

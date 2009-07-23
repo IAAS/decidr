@@ -34,11 +34,14 @@ public class SetStatusCommand extends WorkItemCommand {
     private WorkItemStatus newStatus;
 
     /**
-     * Constructor
+     * Constructor TODO document
      * 
      * @param role
+     *            TODO document
      * @param workItemId
+     *            TODO document
      * @param newStatus
+     *            TODO document
      */
     public SetStatusCommand(Role role, Long workItemId, WorkItemStatus newStatus) {
         super(role, workItemId);
@@ -46,7 +49,8 @@ public class SetStatusCommand extends WorkItemCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt) throws TransactionException{
+    public void transactionAllowed(TransactionEvent evt)
+            throws TransactionException {
         WorkItem workItem = (WorkItem) evt.getSession().get(WorkItem.class,
                 workItemId);
 
@@ -57,5 +61,4 @@ public class SetStatusCommand extends WorkItemCommand {
             throw new EntityNotFoundException(WorkItem.class, workItemId);
         }
     }
-
 }

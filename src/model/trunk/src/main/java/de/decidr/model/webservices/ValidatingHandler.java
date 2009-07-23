@@ -219,7 +219,7 @@ public class ValidatingHandler implements SOAPHandler<SOAPMessageContext> {
         }
 
         log.debug("getting WSDL location");
-        Set<Object> wsdlSet = sContext.getResourcePaths("/META-INF/");
+        Set<?> wsdlSet = sContext.getResourcePaths("/META-INF/");
         String wsdlPath = null;
         // gets the location of the first WSDL found - valid, since we only
         // provide one WSDL

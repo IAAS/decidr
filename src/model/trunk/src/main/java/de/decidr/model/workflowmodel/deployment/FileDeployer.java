@@ -39,19 +39,19 @@ import de.decidr.model.logging.DefaultLogger;
  * @version 0.1
  */
 public class FileDeployer {
-    
-    private static Logger logger = DefaultLogger.getLogger(FileDeployer.class);
 
+    private static Logger logger = DefaultLogger.getLogger(FileDeployer.class);
 
     /**
      * This class actually deploys the zip file on the selected server
-     *
+     * 
      * @param zipFile
+     *            TODO document
      * @throws AxisFault
+     *             TODO document
      */
-    public void deploy(byte[] zipFile, String location) throws AxisFault{
+    public void deploy(byte[] zipFile, String location) throws AxisFault {
 
-        
         String packageName = "somepackageName";
         if (!Base64.isArrayByteBase64(zipFile)) {
             byte[] encodedBytes = Base64.encodeBase64(zipFile);
@@ -63,7 +63,7 @@ public class FileDeployer {
             opts.setProperty(Constants.Configuration.HTTP_METHOD,
                     Constants.Configuration.HTTP_METHOD_POST);
             opts.setTo(new EndpointReference(
-                    //MA adjust Endpoint Reference
+            // MA adjust Endpoint Reference
                     "http://localhost:8080/ode/processes/DeploymentService"));
             OMElement payload = null;
             OMFactory omFactory = OMAbstractFactory.getOMFactory();
@@ -93,11 +93,11 @@ public class FileDeployer {
                         logger.info("Package deployement failed!");
                     }
                 } catch (AxisFault axisFault) {
-                    logger.error("Axis2 Fault Occurred while Sending the request!",axisFault);
+                    logger.error(
+                            "Axis2 Fault Occurred while Sending the request!",
+                            axisFault);
                 }
             }
         }
-
     }
-
 }
