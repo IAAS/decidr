@@ -111,10 +111,7 @@ public class EmailService implements EmailInterface {
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
         SystemSettings config = command.getResult();
 
-        // RR get value from model
-        long currBytes = 0;
         log.debug("getting settings");
-        long maxBytes = 100000000;
         int maxAtts = config.getMaxAttachmentsPerEmail();
 
         log.debug("checking that there aren't too many attachments");
@@ -124,13 +121,6 @@ public class EmailService implements EmailInterface {
 
         log.debug("attaching files");
         for (Long id : attachments.getId()) {
-            // RR get proper size from model
-            currBytes += 10;
-            if (currBytes > maxBytes) {
-                log.error("the sum of the attachments' file sizes "
-                        + "is too large");
-                throw new IllegalArgumentException("files too large");
-            }
             email.addFile(store.getFile(id));
         }
         log.trace("Leaving " + EmailService.class.getSimpleName()
