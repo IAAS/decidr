@@ -29,7 +29,6 @@ public class MacStatsCollector extends UnixStatsCollector {
 
     private static final Logger log = DefaultLogger
             .getLogger(MacStatsCollector.class);
-    // RR implement script
     private static final String SCRIPTS_MEMORY_USAGE = "scripts/mac/getMemoryUsage.sh";
     private static final String SCRIPTS_CPU_USAGE = "scripts/mac/getCPUUsage.sh";
 

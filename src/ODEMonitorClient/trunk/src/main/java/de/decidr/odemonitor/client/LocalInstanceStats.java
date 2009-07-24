@@ -21,7 +21,8 @@ import java.net.MalformedURLException;
 import org.apache.log4j.Logger;
 
 import de.decidr.model.logging.DefaultLogger;
-import de.decidr.model.webservices.ODEManagementClient;
+import de.decidr.model.webservices.ODEInstanceClient;
+import de.decidr.model.webservices.ODEProcessClient;
 
 /**
  * This class provides an interface to the ODE instance. It retrieves all stats
@@ -49,7 +50,7 @@ public class LocalInstanceStats {
         int numInst = -1;
 
         try {
-            numInst = new ODEManagementClient().getInstancePort()
+            numInst = new ODEInstanceClient().getInstancePort()
                     .listInstancesSummary(null, null, 0).getInstanceInfoList()
                     .sizeOfInstanceInfoArray();
         } catch (MalformedURLException e) {
@@ -74,7 +75,7 @@ public class LocalInstanceStats {
         int numModels = -1;
 
         try {
-            numModels = new ODEManagementClient().getProcessPort()
+            numModels = new ODEProcessClient().getProcessPort()
                     .listAllProcesses().getProcessInfoList()
                     .sizeOfProcessInfoArray();
         } catch (MalformedURLException e) {

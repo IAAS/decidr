@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
 
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.notifications.NotificationEvents;
-import de.decidr.model.webservices.ODEManagementClient;
+import de.decidr.model.webservices.ODEInstanceClient;
 
 /**
  * Manages a local ODE instance. Needs the system administrator's help to start
@@ -90,12 +90,21 @@ public class LocalInstanceManager implements InstanceManager {
                 + ".isRunning()");
         boolean running = false;
         try {
-            URL localOdeUrl = new URL(ODEManagementClient.LOCAL_ODE_LOCATION);
+            // get URLConnection
+            URL localOdeUrl = new URL(ODEInstanceClient.LOCAL_ODE_LOCATION);
             URLConnection con = localOdeUrl.openConnection();
+
+            // set connection properties & connect
+            con.setDoInput(true);
+            con.setUseCaches(false);
             con.connect();
+
+            // see if we got a return code 2xx or 3xx (OK or forward)
+            running = con.getHeaderField(0).matches("2\\d\\d|3\\d\\d");
+
+            // close unneeded streams
             con.getInputStream().close();
             con.getOutputStream().close();
-            running = true;
         } catch (Exception e) {
             // apparently the local instance isn't accessible
         }

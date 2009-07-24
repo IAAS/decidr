@@ -25,53 +25,35 @@ import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
-import org.apache.ode.bpel.pmapi.InstanceManagement;
 import org.apache.ode.bpel.pmapi.ProcessManagement;
 
 /**
- * This is a WS-Client for the <code>{@link ProcessManagement}</code> and
- * <code>{@link InstanceManagement}</code> web services provided by the ODE
- * engine. Provides a simple and intuitive way of accessing the above-mentioned
- * web services from inside java using JAX-WS.
+ * This is a WS-Client for the <code>{@link ProcessManagement}</code> web
+ * service provided by the ODE engine. Provides a simple and intuitive way of
+ * accessing the above-mentioned web services from inside java using JAX-WS.
  * 
  * @author Reinhold
  */
-@WebServiceClient(name = "ProcessAndInstanceManagement", targetNamespace = ODEManagementClient.TARGET_NAMESPACE, wsdlLocation = ODEManagementClient.WSDL_LOCATION)
-public class ODEManagementClient extends Service {
+@WebServiceClient(name = "ProcessManagement", targetNamespace = ODEProcessClient.TARGET_NAMESPACE, wsdlLocation = ODEProcessClient.WSDL_LOCATION)
+public class ODEProcessClient extends Service {
 
     public static final String TARGET_NAMESPACE = "http://www.apache.org/ode/pmapi";
     public static final QName SERVICE = new QName(TARGET_NAMESPACE,
-            "ProcessAndInstanceManagement");
-    // RR find proper local ODE location
-    public static final String LOCAL_ODE_LOCATION = "http://127.0.0.1:8888";
-    // RR find proper local wsdl location
-    public static final String WSDL_LOCATION = "http://svn.apache.org/repos/asf/ode/trunk/axis2/src/main/wsdl/pmapi.wsdl";
+            "ProcessManagement");
+    public static final String WSDL_LOCATION = "http://127.0.0.1:8080/ode/processes/ProcessManagement?wsdl";
     public final static QName PROCESS_ENDPOINT = new QName(TARGET_NAMESPACE,
             "ProcessManagementPort");
-    public final static QName INSTANCE_ENDPOINT = new QName(TARGET_NAMESPACE,
-            "InstanceManagementPort");
 
-    public ODEManagementClient(URL wsdlDocumentLocation, QName serviceName) {
+    public ODEProcessClient(URL wsdlDocumentLocation, QName serviceName) {
         super(wsdlDocumentLocation, serviceName);
     }
 
-    public ODEManagementClient(URL wsdlDocumentLocation) {
+    public ODEProcessClient(URL wsdlDocumentLocation) {
         this(wsdlDocumentLocation, SERVICE);
     }
 
-    public ODEManagementClient() throws MalformedURLException {
+    public ODEProcessClient() throws MalformedURLException {
         this(new URL(WSDL_LOCATION));
-    }
-
-    @WebEndpoint(name = "InstanceManagementPort")
-    public InstanceManagement getInstancePort() {
-        return super.getPort(INSTANCE_ENDPOINT, InstanceManagement.class);
-    }
-
-    @WebEndpoint(name = "InstanceManagementPort")
-    public InstanceManagement getInstancePort(WebServiceFeature... features) {
-        return super.getPort(INSTANCE_ENDPOINT, InstanceManagement.class,
-                features);
     }
 
     @WebEndpoint(name = "ProcessManagementPort")
