@@ -250,7 +250,11 @@ public class DefaultAccessControlList implements AccessControlList {
      * will include key itself if it is currently present in the ruleset.
      */
     private void removeImpliedRules(Key key) {
-        // FIXME implement this!
+        for (Key impliedKey : ruleMap.keySet()) {
+            if (!key.equals(impliedKey) && key.implies(impliedKey)) {
+                ruleMap.remove(impliedKey);
+            }
+        }
     }
 
     /**

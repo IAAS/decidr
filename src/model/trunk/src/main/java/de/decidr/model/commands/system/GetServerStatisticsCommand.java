@@ -23,7 +23,7 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Writes a list of the existing unlocked servers in the result variable.
+ * Writes a list of the existing servers to the result variable.
  * 
  * @author Markus Fischer
  * @version 0.1
@@ -33,8 +33,8 @@ public class GetServerStatisticsCommand extends SystemCommand {
     List<ServerLoadView> result;
 
     /**
-     * Creates a new GetServerStatisticsCommand. The command saves all unlocked
-     * servers in the result variable.
+     * Creates a new GetServerStatisticsCommand. The command saves all servers
+     * in the result variable.
      * 
      * @param role
      *            the user who wants to execute the command
@@ -46,9 +46,7 @@ public class GetServerStatisticsCommand extends SystemCommand {
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt) {
-
-        result = evt.getSession().createQuery(
-                "from ServerLoadView where locked=false").list();
+        result = evt.getSession().createQuery("from ServerLoadView").list();
     }
 
     /**
@@ -57,4 +55,5 @@ public class GetServerStatisticsCommand extends SystemCommand {
     public List<ServerLoadView> getResult() {
         return result;
     }
+
 }

@@ -1,7 +1,5 @@
 package de.decidr.model.commands.system;
 
-import org.hibernate.Query;
-
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
@@ -9,12 +7,13 @@ import de.decidr.model.transactions.TransactionEvent;
  * Updates the server load of a given server at the database.
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  * 
  * @version 0.1
  */
 public class UpdateServerLoadCommand extends SystemCommand {
 
-    private String location = null;
+    private Long serverId = null;
     private byte load;
 
     /**
@@ -23,25 +22,23 @@ public class UpdateServerLoadCommand extends SystemCommand {
      * 
      * @param role
      *            the user who wants to execute the command
-     * @param location
-     *            the location of the server, which should be updated
+     * @param serverid
+     *            the id of the server to update
      * @param load
      *            the new load
      */
-    // FIXME servers should be identified through their ID - location might be
-    // the same
-    public UpdateServerLoadCommand(Role role, String location, byte load) {
+    public UpdateServerLoadCommand(Role role, Long serverId, byte load) {
         super(role, null);
-        this.location = location;
+        this.serverId = serverId;
         this.load = load;
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt) {
-        Query q = evt.getSession().createQuery(
-                "update Server set load =  :newLoad where location= :loc");
-        q.setString("newLoad", String.valueOf(load));
-        q.setString("loc", location);
-        q.executeUpdate();
+
+        evt.getSession().createQuery(
+                "update Server set load = :newLoad where id = :serverId")
+                .setByte("newLoad", load).setLong("serverId", serverId)
+                .executeUpdate();
     }
 }

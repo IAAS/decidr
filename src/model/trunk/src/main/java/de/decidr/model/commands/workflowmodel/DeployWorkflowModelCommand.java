@@ -134,12 +134,7 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
                 }
 
                 dwfm.setDeployDate(result.getDoplementDate());
-
                 dwfm.setSoapTemplate(result.getSOAPTemplate());
-
-                // XXX stay empty at the moment
-                // dwfm.setWsdl();
-
                 dwfm.setWorkflowModelIsDeployedOnServers(dbEntry);
 
                 newDeployedWorkflowModel = dwfm;

@@ -25,6 +25,7 @@ import de.decidr.model.annotations.AllowedRole;
 import de.decidr.model.commands.system.AddServerCommand;
 import de.decidr.model.commands.system.GetLogCommand;
 import de.decidr.model.commands.system.GetServerStatisticsCommand;
+import de.decidr.model.commands.system.GetServersCommand;
 import de.decidr.model.commands.system.GetSystemSettingsCommand;
 import de.decidr.model.commands.system.RemoveServerCommand;
 import de.decidr.model.commands.system.SetSystemSettingsCommand;
@@ -168,7 +169,7 @@ public class SystemFacade extends AbstractFacade {
     /**
      * Removes the server from the database. This command will not shut down the
      * server. <br>
-     * If the server doesn't exist the command will be ignored.
+     * If the server doesn't exist no exception is thrown.
      * 
      * @param serverId
      *            TODO document
@@ -182,33 +183,29 @@ public class SystemFacade extends AbstractFacade {
     }
 
     /**
-     * FIXME how does our server load updater work??
-     * 
      * Updates the load of the representative object of the server at the
      * database. The load must be in the range of 0 to 100. If given server does
      * not exist no exception will be raised.
      * 
-     * @param location
-     *            location of the server representative which should be deleted
+     * @param serverId
+     *            id of the server to update
      * @param load
      *            new load server load as byte [0...100]
      * @throws TransactionException
      *             if an error occurs during the transaction
      */
     @AllowedRole( { SuperAdminRole.class, ServerLoadUpdaterRole.class })
-    public void updateServerLoad(String location, byte load)
+    public void updateServerLoad(Long serverId, byte load)
             throws TransactionException {
-
         if ((load < 0) || (load > 100)) {
             throw new IllegalArgumentException(
                     "The load must be in the range from 0 to 100.");
         } else {
-            TransactionCoordinator tac = HibernateTransactionCoordinator
-                    .getInstance();
             UpdateServerLoadCommand command = new UpdateServerLoadCommand(
-                    actor, location, load);
+                    actor, serverId, load);
 
-            tac.runTransaction(command);
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    command);
         }
     }
 
@@ -232,8 +229,8 @@ public class SystemFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the system logs as a list of items. The list can be filtered by
-     * using filters and an optional paginator.
+     * Returns the system logs as a list of vaadin items. The list can be
+     * filtered by using filters and an optional paginator.
      * 
      * @param filters
      *            filters the result by the given criteria
@@ -266,8 +263,8 @@ public class SystemFacade extends AbstractFacade {
     }
 
     /**
-     * Returns a list of the existing unlocked servers as a list of Vaadin
-     * items. Each item has the following properties:
+     * Returns a list of the existing servers as a list of Vaadin items. Each
+     * item has the following properties:
      * <ul>
      * <li>id: <code>{@link Long}</code> - the server id</li>
      * <li>location: <code>{@link String}</code> - server location (url or
@@ -304,5 +301,23 @@ public class SystemFacade extends AbstractFacade {
             result.add(new BeanItem(server, properties));
         }
         return result;
+    }
+
+    /**
+     * Retrieves server metainformation from the database. You can specify which
+     * types of servers the result should include.
+     * 
+     * @param serverTypes
+     *            server types to include. If null, all server types are
+     *            included
+     * @return list of servers that match one of the given server types
+     * @throws TransactionException
+     *             if the transaction is aborted for any reason.
+     */
+    public List<Server> getServers(ServerTypeEnum... serverTypes)
+            throws TransactionException {
+        GetServersCommand cmd = new GetServersCommand(actor, serverTypes);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        return cmd.getResult();
     }
 }
