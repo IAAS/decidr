@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
-import de.decidr.modelingtool.client.command.ChangeNodeModelCommand;
+import de.decidr.modelingtool.client.command.ChangeNodePropertiesCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
@@ -114,6 +114,7 @@ public class EmailActivityWindow extends Dialog {
     }
 
     private void changeWorkflowModel() {
+        // JS make this nicer
         EmailInvokeNodeModel newModel = new EmailInvokeNodeModel(node
                 .getModel().getParentModel());
         newModel.setToVariableId(toField.getValue().getId());
@@ -132,11 +133,9 @@ public class EmailActivityWindow extends Dialog {
                     .setAttachmentVariableId(attachmentField.getValue().getId());
         }
         // JS check if changed
-        CommandStack
-                .getInstance()
-                .executeCommand(
-                        new ChangeNodeModelCommand<EmailInvokeNode, EmailInvokeNodeModel>(
-                                node, newModel));
+        CommandStack.getInstance().executeCommand(
+                new ChangeNodePropertiesCommand<EmailInvokeNode>(node, newModel
+                        .getProperties()));
     }
 
     private void addComboField(ComboBox<Variable> field, String label,

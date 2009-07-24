@@ -61,12 +61,16 @@ public class DialogRegistry {
     public void showDialog(String dialogName) {
         Dialog dialog = getDialog(dialogName);
         dialog.initialize();
-        dialog.setVisible(true);
+        dialog.setModal(true);
+//        ModelingToolWidget.view.mask();
+        dialog.show();
     }
 
     public void hideDialog(String dialogName) {
         Dialog dialog = getDialog(dialogName);
-        dialog.setVisible(false);
+        dialog.hide();
+        dialog.setModal(false);
+//        ModelingToolWidget.view.unmask();
         dialog.reset();
     }
 

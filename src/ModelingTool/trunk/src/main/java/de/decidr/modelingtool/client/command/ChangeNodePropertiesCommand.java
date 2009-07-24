@@ -16,7 +16,7 @@
 
 package de.decidr.modelingtool.client.command;
 
-import de.decidr.modelingtool.client.model.NodeModel;
+import de.decidr.modelingtool.client.model.NodePropertyData;
 import de.decidr.modelingtool.client.ui.Node;
 
 /**
@@ -24,22 +24,21 @@ import de.decidr.modelingtool.client.ui.Node;
  * 
  * @author Jonas Schlaak
  */
-public class ChangeNodeModelCommand<N extends Node, M extends NodeModel>
-        implements UndoableCommand {
+public class ChangeNodePropertiesCommand<N extends Node> implements
+        UndoableCommand {
 
     private N node;
-    private M oldModel;
-    private M newmodel;
+    private NodePropertyData oldProperties;
+    private NodePropertyData newProperties;
 
     /**
      * TODO: add comment
      * 
      */
-    @SuppressWarnings("unchecked")
-    public ChangeNodeModelCommand(N node, M newModel) {
+    public ChangeNodePropertiesCommand(N node, NodePropertyData newModel) {
         this.node = node;
-        this.oldModel = (M) node.getModel();
-        this.newmodel = newModel;
+        this.oldProperties = node.getModel().getProperties();
+        this.newProperties = newModel;
     }
 
     /*
@@ -49,7 +48,7 @@ public class ChangeNodeModelCommand<N extends Node, M extends NodeModel>
      */
     @Override
     public void execute() {
-        node.setModel(newmodel);
+        node.getModel().setProperties(newProperties);
     }
 
     /*
@@ -59,7 +58,7 @@ public class ChangeNodeModelCommand<N extends Node, M extends NodeModel>
      */
     @Override
     public void undo() {
-        node.setModel(oldModel);
+        node.getModel().setProperties(oldProperties);
     }
 
 }

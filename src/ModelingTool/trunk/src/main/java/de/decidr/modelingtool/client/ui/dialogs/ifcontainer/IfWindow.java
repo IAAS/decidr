@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
-import de.decidr.modelingtool.client.command.ChangeNodeModelCommand;
+import de.decidr.modelingtool.client.command.ChangeNodePropertiesCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.ifcondition.Condition;
 import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
@@ -110,6 +110,7 @@ public class IfWindow extends Dialog {
     }
 
     private void changeWorkflowModel() {
+        // JS make this nicer
         IfContainerModel newModel = new IfContainerModel();
         for (IfFieldSet fs : fieldsets) {
             String label = fs.getLabel().getText();
@@ -118,12 +119,12 @@ public class IfWindow extends Dialog {
                     .getOperatorList().getValue().getValue());
             Long operand2Id = fs.getOperand2Field().getValue().getId();
             System.out.println(operand1Id + " " + operand2Id);
-            newModel.getConditions().add(
-                    new Condition(label, operand1Id, operator, operand2Id));
+            newModel.addCondition(new Condition(label, operand1Id, operator,
+                    operand2Id));
         }
         CommandStack.getInstance().executeCommand(
-                new ChangeNodeModelCommand<IfContainer, IfContainerModel>(node,
-                        newModel));
+                new ChangeNodePropertiesCommand<IfContainer>(node, newModel
+                        .getProperties()));
     }
 
     private void createFields() {

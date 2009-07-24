@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
-import de.decidr.modelingtool.client.command.ChangeNodeModelCommand;
+import de.decidr.modelingtool.client.command.ChangeNodePropertiesCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
@@ -108,14 +108,13 @@ public class ForEachWindow extends Dialog {
     }
 
     protected void changeWorkflowModel() {
+        // JS make this nicer
         ForEachContainerModel newModel = new ForEachContainerModel();
         newModel.setIterationVariableId(iterableField.getValue().getId());
         newModel.setExitCondition(exitConditionGroup.getSelectedValue());
-        CommandStack
-                .getInstance()
-                .executeCommand(
-                        new ChangeNodeModelCommand<ForEachContainer, ForEachContainerModel>(
-                                node, newModel));
+        CommandStack.getInstance().executeCommand(
+                new ChangeNodePropertiesCommand<ForEachContainer>(node,
+                        newModel.getProperties()));
     }
 
     private void createFields() {

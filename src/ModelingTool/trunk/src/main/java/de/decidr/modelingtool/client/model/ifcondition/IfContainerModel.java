@@ -19,8 +19,10 @@ package de.decidr.modelingtool.client.model.ifcondition;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.decidr.modelingtool.client.model.ConnectionModel;
 import de.decidr.modelingtool.client.model.ContainerModel;
 import de.decidr.modelingtool.client.model.HasChildModels;
+import de.decidr.modelingtool.client.model.NodePropertyData;
 
 /**
  * TODO: add comment
@@ -28,8 +30,6 @@ import de.decidr.modelingtool.client.model.HasChildModels;
  * @author Johannes Engelhardt
  */
 public class IfContainerModel extends ContainerModel {
-
-    private List<Condition> conditions = new ArrayList<Condition>();
 
     public IfContainerModel() {
         super();
@@ -44,12 +44,60 @@ public class IfContainerModel extends ContainerModel {
         super(parentModel);
     }
 
-    public List<Condition> getConditions() {
-        return conditions;
+    @Override
+    public NodePropertyData getProperties() {
+        NodePropertyData result = new NodePropertyData();
+        for (ConnectionModel con : getChildConnectionModels()) {
+            if (con instanceof Condition) {
+                // JS this is not finished
+                result.set(((Condition) con).getName(), con);
+            }
+        }
+        return result;
     }
 
-    public void setConditions(List<Condition> conditions) {
-        this.conditions = conditions;
+    @Override
+    public void setProperties(NodePropertyData properties) {
+        /* remove old objects */
+        for (ConnectionModel con : getChildConnectionModels()) {
+            if (con instanceof Condition) {
+                // JS coverthink complete method
+                getChildConnectionModels().remove(con);
+            }
+        }
+        for (Object ob : properties.getValues()) {
+            getChildConnectionModels().add((Condition) ob);
+        }
+    }
+
+    private void setConditions(List<Condition> conditions) {
+        /*
+         * delete the old conditions before the new ones are added.
+         */
+        for (ConnectionModel con : getChildConnectionModels()) {
+            if (con instanceof Condition) {
+                // JS check if this is safe to do
+                getChildConnectionModels().remove(con);
+            }
+        }
+        /* add the new conditions */
+        for (Condition con : conditions) {
+            getChildConnectionModels().add(con);
+        }
+    }
+
+    public void addCondition(Condition con) {
+        getChildConnectionModels().add(con);
+    }
+
+    public List<Condition> getConditions() {
+        List<Condition> result = new ArrayList<Condition>();
+        for (ConnectionModel con : getChildConnectionModels()) {
+            if (con instanceof Condition) {
+                result.add((Condition) con);
+            }
+        }
+        return result;
     }
 
 }

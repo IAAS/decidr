@@ -21,21 +21,22 @@ import de.decidr.modelingtool.client.model.HasChildModels;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author Johannes Engelhardt
  */
 public class ForEachContainerModel extends ContainerModel {
-    
-    private Long iterationVariableId;
-    private ExitCondition exitCondition;
-    
+
+    // JS rename
+    private final String iterationVariableId = "iteration";
+    private final String exitCondition = "exit";
+
     public ForEachContainerModel() {
         super();
     }
-    
+
     /**
      * TODO: add comment
-     *
+     * 
      * @param parentModel
      */
     public ForEachContainerModel(HasChildModels parentModel) {
@@ -43,19 +44,19 @@ public class ForEachContainerModel extends ContainerModel {
     }
 
     public Long getIterationVariableId() {
-        return iterationVariableId;
+        return properties.get(iterationVariableId);
     }
 
     public ExitCondition getExitCondition() {
-        return exitCondition;
+        return properties.get(exitCondition);
     }
 
     public void setIterationVariableId(Long iterationVariableId) {
-        this.iterationVariableId = iterationVariableId;
+        this.properties.set(this.iterationVariableId, iterationVariableId);
     }
 
     public void setExitCondition(ExitCondition exitCondition) {
-        this.exitCondition = exitCondition;
+        this.properties.set(this.exitCondition, exitCondition);
     }
 
 }

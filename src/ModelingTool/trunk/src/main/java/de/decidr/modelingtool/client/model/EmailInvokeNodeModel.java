@@ -23,12 +23,13 @@ package de.decidr.modelingtool.client.model;
  */
 public class EmailInvokeNodeModel extends InvokeNodeModel {
 
-    private Long toVariableId = null;
-    private Long ccVariableId = null;
-    private Long bccVariableId = null;
-    private Long subjectVariableId = null;
-    private Long messageVariableId = null;
-    private Long attachmentVariableId = null;
+    // JS rename
+    private final String toVariableId = "to";
+    private final String ccVariableId = "cc";
+    private final String bccVariableId = "bcc";
+    private final String subjectVariableId = "subject";
+    private final String messageVariableId = "message";
+    private final String attachmentVariableId = "attachment";
 
     /**
      * TODO: add comment
@@ -45,51 +46,51 @@ public class EmailInvokeNodeModel extends InvokeNodeModel {
     }
 
     public Long getToVariableId() {
-        return toVariableId;
+        return properties.get(toVariableId);
     }
 
     public Long getCcVariableId() {
-        return ccVariableId;
+        return properties.get(ccVariableId);
     }
 
     public Long getBccVariableId() {
-        return bccVariableId;
+        return properties.get(bccVariableId);
     }
 
     public Long getSubjectVariableId() {
-        return subjectVariableId;
+        return properties.get(subjectVariableId);
     }
 
     public Long getMessageVariableId() {
-        return messageVariableId;
+        return properties.get(messageVariableId);
     }
 
     public Long getAttachmentVariableId() {
-        return attachmentVariableId;
+        return properties.get(attachmentVariableId);
     }
 
     public void setToVariableId(Long toVariableId) {
-        this.toVariableId = toVariableId;
+        this.properties.set(this.toVariableId, toVariableId);
     }
 
     public void setCcVariableId(Long ccVariableId) {
-        this.ccVariableId = ccVariableId;
+        this.properties.set(this.ccVariableId, ccVariableId);
     }
 
     public void setBccVariableId(Long bccVariableId) {
-        this.bccVariableId = bccVariableId;
+        this.properties.set(this.ccVariableId, ccVariableId);
     }
 
     public void setSubjectVariableId(Long subjectVariableId) {
-        this.subjectVariableId = subjectVariableId;
+        this.properties.set(this.bccVariableId, bccVariableId);
     }
 
     public void setMessageVariableId(Long messageVariableId) {
-        this.messageVariableId = messageVariableId;
+        this.properties.set(this.subjectVariableId, subjectVariableId);
     }
 
     public void setAttachmentVariableId(Long attachmentVariableId) {
-        this.attachmentVariableId = attachmentVariableId;
+        this.properties.set(this.attachmentVariableId, attachmentVariableId);
     }
 
 }

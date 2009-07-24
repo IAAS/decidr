@@ -26,7 +26,7 @@ import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
-import de.decidr.modelingtool.client.command.ChangeNodeModelCommand;
+import de.decidr.modelingtool.client.command.ChangeNodePropertiesCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.humantask.FormElement;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
@@ -108,11 +108,9 @@ public class HumanTaskActivityWindow extends Dialog {
         }
         newModel.setFormElements(formElements);
         // JS check if changed
-        CommandStack
-                .getInstance()
-                .executeCommand(
-                        new ChangeNodeModelCommand<HumanTaskInvokeNode, HumanTaskInvokeNodeModel>(
-                                node, newModel));
+        CommandStack.getInstance().executeCommand(
+                new ChangeNodePropertiesCommand<HumanTaskInvokeNode>(node,
+                        newModel.getProperties()));
     }
 
     @Override

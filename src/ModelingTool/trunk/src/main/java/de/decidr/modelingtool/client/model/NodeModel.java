@@ -16,25 +16,26 @@
 
 package de.decidr.modelingtool.client.model;
 
-
 /**
  * TODO: add comment
- *
+ * 
  * @author Johannes Engelhardt
  */
 public class NodeModel extends AbstractModel {
 
     private HasChildModels parentModel = null;
-    
+
     private ConnectionModel input = null;
-    
+
     private ConnectionModel output = null;
-    
+
+    protected NodePropertyData properties;
+
     /**
      * The x coordinate of the assigned change listener
      */
     protected int changeListenerLeft = 0;
-    
+
     /**
      * The y coordinate of the assigned change listener
      */
@@ -54,11 +55,14 @@ public class NodeModel extends AbstractModel {
     }
 
     public NodeModel(HasChildModels parentModel) {
+        super();
         this.parentModel = parentModel;
+        properties = new NodePropertyData();
     }
 
     public NodeModel() {
         super();
+        properties = new NodePropertyData();
     }
 
     public ConnectionModel getInput() {
@@ -84,5 +88,13 @@ public class NodeModel extends AbstractModel {
     public void setParentModel(HasChildModels parentModel) {
         this.parentModel = parentModel;
     }
-    
+
+    public NodePropertyData getProperties() {
+        return this.properties;
+    }
+
+    public void setProperties(NodePropertyData properties) {
+        this.properties = properties;
+    }
+
 }
