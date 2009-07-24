@@ -61,9 +61,9 @@ public class PaginatingCriteria implements Criteria {
      * to retrieve the row count.
      * 
      * @param clazz
-     *            TODO document
+     *            class to which the critria should be applied
      * @param session
-     *            TODO document
+     *            current hibernate session
      */
     @SuppressWarnings("unchecked")
     public PaginatingCriteria(Class clazz, Session session) {
@@ -76,9 +76,9 @@ public class PaginatingCriteria implements Criteria {
      * Used internally to provide method chaining.
      * 
      * @param criteria
-     *            TODO document
-     * @param clone
-     *            TODO document
+     *            class to which the critria should be applied
+     * @param clone the copy
+     * 
      */
     private PaginatingCriteria(Criteria criteria, Criteria clone) {
         this.criteria = criteria;
