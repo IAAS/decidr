@@ -19,14 +19,24 @@ package de.decidr.modelingtool.client.model;
 import de.decidr.modelingtool.client.ui.ModelChangeListener;
 
 /**
- * TODO: add comment
+ * This interface provides methods to register a change listener to a model.
  *
  * @author Johannes Engelhardt
  */
 public interface Model {
     
+    /**
+     * Sets the change listener object.
+     *
+     * @param changeListener
+     */
     public void setChangeListener(ModelChangeListener changeListener);
     
+    /**
+     * Returns the change listener object.
+     *
+     * @return The change listener
+     */
     public ModelChangeListener getChangeListener();
     
 }

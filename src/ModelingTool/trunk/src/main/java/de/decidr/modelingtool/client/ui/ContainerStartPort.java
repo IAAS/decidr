@@ -21,33 +21,25 @@ import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 
 /**
- * TODO: add comment
+ * The start port of the container. All flows in the container has to start from
+ * this port.
  * 
  * @author Johannes Engelhardt
  */
 public class ContainerStartPort extends Port {
 
+    /** The y coordinate offset of this port */
     private static final int Y_OFFSET = 20;
 
-    /**
-     * TODO: add comment
-     * 
-     */
     public ContainerStartPort() {
         super(Port.Position.TOP, 0, Y_OFFSET);
 
         // set properties
         this.addStyleName("port-container-startport");
-
-        // register drop controller to drag controller
-        // registerDropController();
-
-        // make connection drag box draggable
-//        PickupDragController dc = DndRegistry.getInstance()
-//                .getPickupDragController("OutputPortDragController");
-//        dc.makeDraggable(connectionDragBox);
     }
 
+    
+    @Override
     public void registerDropController() {
         PickupDragController ipdc = DndRegistry.getInstance()
                 .getPickupDragController("InputPortDragController");
@@ -55,6 +47,7 @@ public class ContainerStartPort extends Port {
         dropControllerRegistered = true;
     }
 
+    @Override
     public void unregisterDropController() {
         PickupDragController ipdc = DndRegistry.getInstance()
                 .getPickupDragController("InputPortDragController");

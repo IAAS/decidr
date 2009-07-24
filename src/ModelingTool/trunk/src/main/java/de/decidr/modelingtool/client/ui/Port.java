@@ -30,42 +30,83 @@ import de.decidr.modelingtool.client.ui.dnd.PortDropController;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 
 /**
- * TODO: add comment
+ * The super class of all ports.
  * 
- * @author engelhjs
+ * @author Johannes Engelhardt
  */
 public abstract class Port extends AbsolutePanel {
 
+    /**
+     * Indicates where the port is located on its parent node. TOP, BOTTOM,
+     * LEFT and RIGHT indicate that the port is located at the according border
+     * of the node. ABSOLUTE indicated that the port is located in an absolute
+     * position on the node, offset origin is the upper left corner of the node.
+     */
     public static enum Position {
-        TOP, LEFT, RIGHT, BOTTOM, ABSOLUTE
+        TOP, BOTTOM, LEFT, RIGHT, ABSOLUTE
     };
 
+    /** The position of the port. */
     private Position position;
+    
+    /**
+     * The x offset of the port in pixels. This value is added to the position
+     * specified by the position attribute.
+     */
     private int xOffset = 0;
+    
+    /**
+     * The y offset of the port in pixels. This value is added to the position
+     * specified by the position attribute.
+     */
     private int yOffset = 0;
 
+    /**
+     * Flag, indicates if the port may be connected to multiple connections at
+     * the same time or not. Default is false.
+     */
     private boolean multipleConnectionsAllowed = false;
 
+    /**  The node the port is assigned to. */
     private Node parentNode = null;
 
-    // private List<Connection> connections = new Vector<Connection>();
-
+    /** The drop controller of the port. */
     private DropController dropController = new PortDropController(this);
+    
+    /** Indicates id a drop controller is registeres to the port. */
+    protected boolean dropControllerRegistered = false;
 
+    /**
+     * The collection of the glued drag boxes currently glued to the port. If
+     * multipleConnectionsAllowed = false, this collection has at most one item.
+     */
     private Collection<ConnectionDragBox> gluedDragBoxes = new HashSet<ConnectionDragBox>();
 
-    protected boolean dropControllerRegistered;
+    /** Indicates if a drop controller is registered or not.
+    protected boolean dropControllerRegistered = false;
 
-    /** has to be made draggable by subclasses. **/
+    /**
+     * Dummy drag box for drawing a new connection. Has to be made draggable by
+     * subclasses.
+     */
     protected ConnectionDragBox singleDragBox;
 
+    /**
+     * Constructor.
+     *
+     * @param position The position of the port in the node
+     */
     public Port(Position position) {
-        this.position = position;
-
-        // create connection drag box
-        createSingleDragBox();
+        this(position, 0, 0);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param position The position of the port in the node
+     * @param xOffset x direction offset in pixels
+     * @param yOffset y direction offset in pixels
+     */
     public Port(Position position, int xOffset, int yOffset) {
         this.position = position;
         this.xOffset = xOffset;
@@ -75,19 +116,6 @@ public abstract class Port extends AbsolutePanel {
         createSingleDragBox();
     }
 
-    public void addConnectionDragBox(ConnectionDragBox dragBox) {
-        assert dragBox.getConnection() != null;
-
-        if (!multipleConnectionsAllowed) {
-            //assert gluedDragBoxes.isEmpty();
-            removeSingleDragBox();
-        }
-
-        //gluedDragBoxes.add(dragBox);
-        add(dragBox);
-        //setWidgetPosition(dragBox, 0, 0);
-    }
-    
     @Override
     public void add(Widget w) {
         super.add(w);
@@ -97,19 +125,115 @@ public abstract class Port extends AbsolutePanel {
             gluedDragBoxes.add((ConnectionDragBox) w);
         }
     }
+    
+    /**
+     * Adds a dragbox to the port. The drag box has to be part of a connection.
+     * 
+     * @param dragBox The dragbox to be added.
+     */
+    public void addConnectionDragBox(ConnectionDragBox dragBox) {
+        assert dragBox.getConnection() != null;
 
-    // public void removeConnectionDragBox(ConnectionDragBox dragBox) {
-    // if (dragBox == singleDragBox) {
-    // singleDragBox = null;
-    // } else {
-    // gluedDragBoxes.remove(dragBox);
-    // }
-    // remove(dragBox);
-    //
-    // if (multipleConnectionsAllowed) {
-    //
-    // }
-    // }
+        if (!multipleConnectionsAllowed) {
+            //assert gluedDragBoxes.isEmpty();
+            removeSingleDragBox();
+        }
+
+        add(dragBox);
+    }
+
+    /**
+     * Creates a new single drag box, if the old one was used for drawing a
+     * connection.
+     */
+    protected void createSingleDragBox() {
+        // create drag box if drag box is not connected to a connection or not
+        // present
+        if (!(singleDragBox != null && singleDragBox.getConnection() == null)) {
+            singleDragBox = new ConnectionDragBox(this);
+
+            add(singleDragBox);
+            //setWidgetPosition(singleDragBox, 0, 0);
+
+            singleDragBox.setVisibleStyle(false);
+            singleDragBox.makeDraggable();
+        }
+    }
+
+    public DropController getDropController() {
+        return dropController;
+    }
+
+    public Collection<ConnectionDragBox> getGluedDragBoxes() {
+        return gluedDragBoxes;
+    }
+
+    public Node getParentNode() {
+        return parentNode;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    /**
+     * Creates and returns a command which removes all connections connected to
+     * this port.
+     */
+    public UndoableCommand getRemoveConnectionsCommand() {
+        CommandList cmdList = new CommandList();
+
+        for (ConnectionDragBox dragBox : gluedDragBoxes) {
+            // check if drag box is not the drag box with out connection
+            if (dragBox.getConnection() != null) {
+                cmdList.addCommand(new RemoveConnectionCommand(dragBox
+                        .getConnection()));
+            }
+        }
+
+        return cmdList;
+    }
+
+    public int getXOffset() {
+        return xOffset;
+    }
+
+    public int getYOffset() {
+        return yOffset;
+    }
+
+    /**
+     * Indicated if this port is a container port (instance of ContainerExitPort
+     * or ContainerStartPort) or not. Has to be implemented by subclasses.
+     *
+     * @return True, if this port is a container port.
+     */
+    public abstract boolean isContainerPort();
+
+    public boolean isDropControllerRegistered() {
+        return dropControllerRegistered;
+    }
+
+    public boolean isMultipleConnectionsAllowed() {
+        return multipleConnectionsAllowed;
+    }
+
+    /**
+     * Redraws all connections connected to this port.
+     */
+    public void refreshConnections() {
+        for (ConnectionDragBox dragBox : gluedDragBoxes) {
+            if (dragBox.getConnection() != null) {
+                dragBox.getConnection().draw();
+            }
+        }
+    }
+
+    /**
+     * Registers the drop controller of this port to its according drag
+     * controller. Has to be implemented by subclasses.
+     */
+    public abstract void registerDropController();
 
     @Override
     public boolean remove(Widget w) {
@@ -136,95 +260,19 @@ public abstract class Port extends AbsolutePanel {
             }
 
         }
-        //gluedDragBoxes.remove((ConnectionDragBox)w);
 
         return value;
     }
 
-    protected void createSingleDragBox() {
-        // create drag box if drag box is not connected to a connection or not
-        // present
-        if (!(singleDragBox != null && singleDragBox.getConnection() == null)) {
-            singleDragBox = new ConnectionDragBox(this);
-
-            add(singleDragBox);
-            //setWidgetPosition(singleDragBox, 0, 0);
-
-            singleDragBox.setVisibleStyle(false);
-            singleDragBox.makeDraggable();
-        }
-    }
-
+    /**
+     * Removes the single drag box from the port, if present.
+     */
     protected void removeSingleDragBox() {
         if (singleDragBox != null && singleDragBox.getConnection() == null) {
             super.remove(singleDragBox);
             singleDragBox = null;
         }
     }
-
-    public DropController getDropController() {
-        return dropController;
-    }
-
-    // ConnectionDragBox(this);
-
-    public Collection<ConnectionDragBox> getGluedDragBoxes() {
-        return gluedDragBoxes;
-    }
-
-    public Node getParentNode() {
-        return parentNode;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public UndoableCommand getRemoveConnectionsCommand() {
-        CommandList cmdList = new CommandList();
-
-        for (ConnectionDragBox dragBox : gluedDragBoxes) {
-            // check if drag box is not the drag box with out connection
-            if (dragBox.getConnection() != null) {
-                cmdList.addCommand(new RemoveConnectionCommand(dragBox
-                        .getConnection()));
-            }
-        }
-
-        return cmdList;
-    }
-
-    public int getXOffset() {
-        return xOffset;
-    }
-
-    public int getYOffset() {
-        return yOffset;
-    }
-
-    // public List<Connection> getConnections() {
-    // return connections;
-    // }
-
-    public abstract boolean isContainerPort();
-
-    public boolean isDropControllerRegistered() {
-        return dropControllerRegistered;
-    }
-
-    public boolean isMultipleConnectionsAllowed() {
-        return multipleConnectionsAllowed;
-    }
-
-    public void refreshConnections() {
-        for (ConnectionDragBox dragBox : gluedDragBoxes) {
-            if (dragBox.getConnection() != null) {
-                dragBox.getConnection().draw();
-            }
-        }
-    }
-
-    public abstract void registerDropController();
 
     public void setMultipleConnectionsAllowed(boolean mcAllowed) {
         this.multipleConnectionsAllowed = mcAllowed;
@@ -242,6 +290,10 @@ public abstract class Port extends AbsolutePanel {
         yOffset = offset;
     }
 
+    /**
+     * Unegisters the drop controller of this port from its according drag
+     * controller. Has to be implemented by subclasses.
+     */
     public abstract void unregisterDropController();
 
 }

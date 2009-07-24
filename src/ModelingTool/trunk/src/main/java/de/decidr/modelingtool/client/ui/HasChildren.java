@@ -22,35 +22,85 @@ import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.model.HasChildModels;
 
 /**
- * TODO: add comment
+ * Interface with methods needed for nodes which have children
+ * (workflows and containers).
  *
  * @author Johannes Engelhardt
  */
 public interface HasChildren {
 
-    public void addNode(Node node);
-    
-    public void addNode(Node node, int left, int top);
-    
-    public void removeNode(Node node);
-    
-    public Collection<Node> getNodes();
-    
+    /**
+     * Adds a connection.
+     *
+     * @param connection The connections to add.
+     */
     public void addConnection(Connection connection);
     
-    public void removeConnection(Connection connection);
+    /**
+     * Adds a node.
+     *
+     * @param node The node to add.
+     */
+    public void addNode(Node node);
     
+    /**
+     * Adds a node in a specified position.
+     * 
+     * @param node The node to add.
+     * @param x Desired x coordinate of the node relative to the container
+     * @param y Desired y coordinate of the node relative to the container
+     */
+    public void addNode(Node node, int left, int top);
+    
+    /**
+     * Returns all connections.
+     *
+     * @return A collection containing all connections.
+     */
     public Collection<Connection> getConnections();
     
+    /**
+     * Returns the model as type HasChildModels.
+     *
+     * @return The model as HasChildModels
+     * @throws InvalidTypeException if the model isn't an instance of
+     * HasChildModels
+     */
     public HasChildModels getHasChildModelsModel() throws InvalidTypeException;
     
+    /**
+     * Returns the x coordinate of the upper left cordner.
+     *
+     * @return The x coordinate in pixels.
+     */
     public int getLeft();
     
+    /**
+     * Returns all nodes.
+     *
+     * @return A collection containing all nodes.
+     */
+    public Collection<Node> getNodes();
+    
+    /**
+     * Returns the y coordinate of the upper left cordner.
+     *
+     * @return The y coordinate in pixels.
+     */
     public int getTop();
     
-    // widget operations
-    //public void add(Widget w);
+    /**
+     * Removes a connection.
+     *
+     * @param connection The connection to remove.
+     */
+    public void removeConnection(Connection connection);
     
-    //public void setWidgetPosition(Widget w, int left, int top);
+    /**
+     * Removes a node.
+     *
+     * @param node The node to remove
+     */
+    public void removeNode(Node node);
     
 }

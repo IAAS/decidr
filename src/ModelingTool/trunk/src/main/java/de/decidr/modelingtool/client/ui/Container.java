@@ -31,22 +31,33 @@ import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 /**
- * TODO: add comment
+ * The basic class of every container. Provides attriutes to manage children.
  * 
- * @author engelhjs
+ * @author Johannes Engelhardt
  */
 public class Container extends Node implements HasChildren {
 
+    /** The container start port. */
     private ContainerStartPort containerStartPort = null;
 
+    /** The container exit port. */
     private ContainerExitPort containerExitPort = null;
 
+    /** Collection of the child nodes. */
     private Collection<Node> childNodes = new HashSet<Node>();
 
+    /** Collection of the child connections. */
     private Collection<Connection> childConnections = new HashSet<Connection>();
 
+    /** The drop controller of the container. */
     private DropController dropController = new AbsolutePositionDropController(
             this);
+
+    /**
+     * Indicates if the drop controller of the container is registered to the
+     * drag controller.
+     */
+    private boolean dropControllerRegistered = false;
 
     public Container(HasChildren parentPanel) {
         super(parentPanel);
@@ -90,13 +101,7 @@ public class Container extends Node implements HasChildren {
         addNode(node, 0, 0);
     }
 
-    /**
-     * Adds a node to the container in the specified position.
-     * 
-     * @param node
-     * @param x
-     * @param y
-     */
+    @Override
     public void addNode(Node node, int left, int top) {
         super.add(node, left, top);
 
@@ -134,7 +139,7 @@ public class Container extends Node implements HasChildren {
     }
 
     @Override
-    public HasChildModels getHasChildModelsModel() throws InvalidTypeException {
+    public HasChildModels getHasChildModelsModel() throws InvalidTypeException {   
         if (model instanceof HasChildModels) {
             return (HasChildModels) model;
         } else {
@@ -145,6 +150,10 @@ public class Container extends Node implements HasChildren {
     @Override
     public Collection<Node> getNodes() {
         return childNodes;
+    }
+
+    public boolean isDropControllerRegistered() {
+        return dropControllerRegistered;
     }
 
     @Override
@@ -206,6 +215,16 @@ public class Container extends Node implements HasChildren {
         super.refreshPortPositions();
     }
 
+    /**
+     * Registeres the container drop controller to the workflow drag controller.
+     */
+    public void registerDropController() {
+        PickupDragController dc = DndRegistry.getInstance()
+                .getPickupDragController("WorkflowDragController");
+        dc.registerDropController(getDropController());
+        dropControllerRegistered = true;
+    }
+
     @Override
     public boolean remove(Widget w) {
         if (w instanceof Node) {
@@ -250,24 +269,15 @@ public class Container extends Node implements HasChildren {
         containerStartPort.setParentNode(this);
     }
 
-    public void registerDropController() {
-        PickupDragController dc = DndRegistry.getInstance()
-                .getPickupDragController("WorkflowDragController");
-        dc.registerDropController(getDropController());
-        dropControllerRegistered = true;
-    }
-
+    /**
+     * Unregisteres the container drop controller from the workflow drag
+     * controller.
+     */
     public void unregisterDropController() {
         PickupDragController dc = DndRegistry.getInstance()
                 .getPickupDragController("WorkflowDragController");
         dc.unregisterDropController(getDropController());
         dropControllerRegistered = false;
-    }
-
-    private boolean dropControllerRegistered = false;
-
-    public boolean isDropControllerRegistered() {
-        return dropControllerRegistered;
     }
 
 }

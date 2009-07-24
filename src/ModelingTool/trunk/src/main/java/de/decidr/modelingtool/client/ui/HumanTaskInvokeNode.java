@@ -28,21 +28,11 @@ import de.decidr.modelingtool.client.ui.dialogs.humantask.HumanTaskActivityWindo
 import de.decidr.modelingtool.client.ui.dialogs.humantask.HumanTaskActivityWindowInvoker;
 
 /**
- * TODO: add comment
+ * This node represents a human task activity.
  * 
  * @author Johannes Engelhardt
  */
 public class HumanTaskInvokeNode extends InvokeNode {
-
-    // private HumanTaskInvokeNodeModel model;
-    //    
-    // public HumanTaskInvokeNodeModel getModel() {
-    // return model;
-    // }
-    //
-    // public void setModel(HumanTaskInvokeNodeModel model) {
-    // this.model = model;
-    // }
 
     public HumanTaskInvokeNode(HasChildren parentPanel) {
         super(parentPanel);

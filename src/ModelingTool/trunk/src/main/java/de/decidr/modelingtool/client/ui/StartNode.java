@@ -17,13 +17,11 @@
 package de.decidr.modelingtool.client.ui;
 
 /**
- * TODO: add comment
+ * Start node of every workflow. This is neither deletable nor resizable.
  *
- * @author engelhjs
+ * @author Johanes Engelhardt
  */
 public class StartNode extends Node implements ModelChangeListener {
-
-    //private StartNodeModel model;
     
     public StartNode(HasChildren parentPanel) {
         super(parentPanel);

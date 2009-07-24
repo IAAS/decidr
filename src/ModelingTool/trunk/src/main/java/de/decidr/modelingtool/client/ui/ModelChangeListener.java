@@ -17,15 +17,17 @@
 package de.decidr.modelingtool.client.ui;
 
 /**
- * TODO: add comment
+ * Listener interface which provides a callback method which can be called by
+ * a model class registered to the implementing class to indicate that any model
+ * data has changed.
  *
- * @author engelhjs
+ * @author Johannes Engelhardt
  */
 public interface ModelChangeListener {
 
     /**
-     * TODO: add comment
-     *
+     * Callback method for the registered model class. Called by the model if
+     * any model data has changed.
      */
     public void onModelChange();
     

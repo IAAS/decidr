@@ -21,19 +21,25 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 /**
- * TODO: add comment
+ * A connection with orthogonal lines.
  * 
- * @author engelhjs
+ * @author Johannes Engelhardt
  */
 public class OrthogonalConnection extends Connection {
 
+    /** The width of the connection lines. */
     private final int LINE_WIDTH = 2;
 
+    /** X coordinate offset of the label position relative to the middle line. */
     private final int LABEL_XOFFSET = 5;
+    /** Y coordinate offset of the label position relative to the middle line. */
     private final int LABEL_YOFFSET = -20;
 
+    /** the start line of the connection. */
     private ConnectionLine startLine = new ConnectionLine(this, LINE_WIDTH);
+    /** The middle line of the connection. */
     private ConnectionLine midLine = new ConnectionLine(this, LINE_WIDTH);
+    /** The end line of the connection. */
     private ConnectionLine endLine = new ConnectionLine(this, LINE_WIDTH);
 
     public OrthogonalConnection(HasChildren parentPanel) {

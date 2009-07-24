@@ -21,7 +21,7 @@ import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 
 /**
- * TODO: add comment
+ * Port holding the outgoing connection(s) of the parent node.
  * 
  * @author Johannes Engelhardt
  */
@@ -32,16 +32,9 @@ public class OutputPort extends Port {
 
         // set properties
         this.addStyleName("port-outputport");
-
-        // register drop controller to drag controller
-        // registerDropController();
-
-        // make connection drag box draggable
-//        PickupDragController dc = DndRegistry.getInstance()
-//                .getPickupDragController("OutputPortDragController");
-//        dc.makeDraggable(singleDragBox);
     }
 
+    @Override
     public void registerDropController() {
         PickupDragController ipdc = DndRegistry.getInstance()
                 .getPickupDragController("InputPortDragController");
@@ -49,6 +42,7 @@ public class OutputPort extends Port {
         dropControllerRegistered = true;
     }
 
+    @Override
     public void unregisterDropController() {
         PickupDragController ipdc = DndRegistry.getInstance()
                 .getPickupDragController("InputPortDragController");

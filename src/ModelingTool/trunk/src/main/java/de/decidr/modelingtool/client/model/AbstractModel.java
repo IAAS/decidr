@@ -19,20 +19,29 @@ package de.decidr.modelingtool.client.model;
 import de.decidr.modelingtool.client.ui.ModelChangeListener;
 
 /**
- * TODO: add comment
+ * This abstract model provides basic functionality of all models; id, name,
+ * description, change listener.
  * 
  * @author Johannes Engelhardt
  */
 public abstract class AbstractModel implements Model {
 
-    ModelChangeListener changeListener = null;
+    /** The change listener of this model. Null, if none is registered. */
+    protected ModelChangeListener changeListener = null;
 
+    /** The unique id of the model. */
     private long id;
 
+    /** The name of the model. */
     private String name;
 
+    /** The description of the model. */
     private String description;
 
+    /**
+     * Notifies the change listener (if present) that any data in the model has
+     * changed. Has to be called manually.
+     */
     public void fireDataChanged() {
         if (changeListener != null) {
             changeListener.onModelChange();

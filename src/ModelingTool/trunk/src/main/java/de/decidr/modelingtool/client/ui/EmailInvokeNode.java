@@ -28,21 +28,11 @@ import de.decidr.modelingtool.client.ui.dialogs.email.EmailActivityWindow;
 import de.decidr.modelingtool.client.ui.dialogs.email.EmailActivityWindowInvoker;
 
 /**
- * TODO: add comment
+ * This node represents an email activity.
  * 
  * @author Johannes Engelhardt
  */
 public class EmailInvokeNode extends InvokeNode {
-
-    // private EmailInvokeNodeModel model = null;
-
-    // public EmailInvokeNodeModel getModel() {
-    // return model;
-    // }
-    //
-    // public void setModel(EmailInvokeNodeModel model) {
-    // this.model = model;
-    // }
 
     public EmailInvokeNode(HasChildren parentPanel) {
         super(parentPanel);

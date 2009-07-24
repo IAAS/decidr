@@ -17,13 +17,11 @@
 package de.decidr.modelingtool.client.ui;
 
 /**
- * TODO: add comment
+ * End node of every workflow. This is neither deletable nor resizable.
  *
- * @author engelhjs
+ * @author Johannes Engelhardt
  */
 public class EndNode extends Node implements ModelChangeListener {
-
-    //private EndNodeModel model;
     
     public EndNode(HasChildren parentPanel) {
         super(parentPanel);

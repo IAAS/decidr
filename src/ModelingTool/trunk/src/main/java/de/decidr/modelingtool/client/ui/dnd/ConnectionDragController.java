@@ -51,7 +51,7 @@ public class ConnectionDragController extends PickupDragController {
      * On drag start a connectionless dragbox is added to the port to be able to
      * drag new connections from that port at later time (if allowed).
      */
-    private ConnectionDragBox newDragBox = null;
+    //private ConnectionDragBox newDragBox = null;
 
     /**
      * The constructor.

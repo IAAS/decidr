@@ -17,9 +17,9 @@
 package de.decidr.modelingtool.client.ui;
 
 /**
- * TODO: add comment
+ * Superclass for all invoke nodes (activities). Invoke nodes are not resizable.
  *
- * @author engelhjs
+ * @author Johannes Engelhardt
  */
 public abstract class InvokeNode extends Node {
 

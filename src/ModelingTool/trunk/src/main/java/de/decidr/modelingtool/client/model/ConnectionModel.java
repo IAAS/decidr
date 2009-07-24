@@ -17,16 +17,20 @@
 package de.decidr.modelingtool.client.model;
 
 /**
- * TODO: add comment
+ * This is te basic model of all connection in the workflow. It contains
+ * pointers to its connection nodes and the parent model.
  *
  * @author Johannes Engelhardt
  */
 public class ConnectionModel extends AbstractModel {
     
+    /** The parent model of the connection. */
     private HasChildModels parentModel = null;
 
+    /** The source node of the connection. */
     private NodeModel source = null;
     
+    /** The target node of the connection. */
     private NodeModel target = null;
     
     public HasChildModels getParentModel() {

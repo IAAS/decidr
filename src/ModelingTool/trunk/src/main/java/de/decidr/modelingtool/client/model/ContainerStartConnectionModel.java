@@ -17,16 +17,13 @@
 package de.decidr.modelingtool.client.model;
 
 /**
- * TODO: add comment
+ * The connection model of connection which are connected to a container start
+ * port. This class is used for identification.
  *
  * @author Johannes Engelhardt
  */
 public class ContainerStartConnectionModel extends ConnectionModel {
 
-    /**
-     * TODO: add comment
-     *
-     */
     public ContainerStartConnectionModel() {
         super();
     }

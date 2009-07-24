@@ -17,16 +17,13 @@
 package de.decidr.modelingtool.client.model;
 
 /**
- * TODO: add comment
+ * The connection model of connection which are connected to a container exit
+ * port. This class is used for identification.
  *
  * @author Johannes Engelhardt
  */
 public class ContainerExitConnectionModel extends ConnectionModel {
 
-    /**
-     * TODO: add comment
-     *
-     */
     public ContainerExitConnectionModel() {
         super();
     }

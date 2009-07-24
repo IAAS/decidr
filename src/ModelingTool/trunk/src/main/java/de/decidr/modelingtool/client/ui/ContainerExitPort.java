@@ -21,34 +21,24 @@ import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 
 /**
- * TODO: add comment
+ * The exit port of the container. All flows in the container has to end up in
+ * this port.
  * 
  * @author Johannes Engelhardt
  */
 public class ContainerExitPort extends Port {
 
+    /** The y coordinate offset of this port */
     private static final int Y_OFFSET = -20;
     
-    /**
-     * TODO: add comment
-     * 
-     * @param position
-     */
     public ContainerExitPort() {
         super(Port.Position.BOTTOM, 0, Y_OFFSET);
         
         // set properties
         this.addStyleName("port-container-exitport");
-
-        // register drop controller to drag controller
-        // registerDropController();
-
-        // make connection drag box draggable
-//        PickupDragController ipdc = DndRegistry.getInstance()
-//                .getPickupDragController("InputPortDragController");
-//        ipdc.makeDraggable(connectionDragBox);
     }
 
+    @Override
     public void registerDropController() {
         PickupDragController opdc = DndRegistry.getInstance()
                 .getPickupDragController("OutputPortDragController");
@@ -56,6 +46,7 @@ public class ContainerExitPort extends Port {
         dropControllerRegistered = true;
     }
 
+    @Override
     public void unregisterDropController() {
         PickupDragController opdc = DndRegistry.getInstance()
                 .getPickupDragController("OutputPortDragController");
