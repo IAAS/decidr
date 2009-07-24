@@ -37,13 +37,13 @@ public class InviteUsersAsTenantMemberCommand extends TenantCommand {
      * created too. If a username does not exist an exception will be thrown.
      * 
      * @param role
-     *            TODO document
+     *            user which executes the command
      * @param tenantId
-     *            TODO document
+     *            the ID of the tenant to which the given users should be invited
      * @param emails
-     *            TODO document
+     *            list of the email addresses of unregistered user which should be invited
      * @param usernames
-     *            TODO document
+     *            list of usernames of registered user which should be invited
      */
     public InviteUsersAsTenantMemberCommand(Role role, Long tenantId,
             List<String> emails, List<String> usernames) {

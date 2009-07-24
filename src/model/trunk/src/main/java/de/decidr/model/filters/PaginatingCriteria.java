@@ -73,7 +73,7 @@ public class PaginatingCriteria implements Criteria {
     }
 
     /**
-     * Used internally to provide mehod chaining.
+     * Used internally to provide method chaining.
      * 
      * @param criteria
      *            TODO document

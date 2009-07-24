@@ -24,9 +24,11 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
 
 /**
- * TODO: add comment
+ * The WorkflowInstanceFacade contains all functions which are available to
+ * create and control workflow instacnes.
  * 
- * @author TODO
+ * @author Daniel Huss
+ * @author Markus Fischer
  */
 public class WorkflowInstanceFacade extends AbstractFacade {
 
@@ -34,8 +36,8 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * Creates a new WorkflowInstaceFacade. All Commands will be executed by the
      * given actor.
      * 
-     * @param actor
-     *            TODO document
+     * @param actor user which executes all commands of the created facade
+     * 
      */
     public WorkflowInstanceFacade(Role actor) {
         super(actor);
@@ -63,8 +65,8 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * Returns all participants of the given WorkflowInstance
      * 
      * @param workflowInstanceId
-     *            TODO document
-     * @return TODO document
+     *            the ID of the workflow instance whose participating users should be requested
+     * @return List of participatin Users
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(WorkflowAdminRole.class)
@@ -122,9 +124,9 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * instance itself is <b>not</b> deleted from the database.
      * 
      * @param odePid
-     *            TODO document
+     *            the process ID of the workflow at the ODE
      * @param deployedWorkflowModelId
-     *            TODO document
+     *            ID of the deployed workflow model whose workitems should be removed
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -151,7 +153,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * 
      * @param workflowInstanceId
      *            the ID of the WorkflowInstance
-     * @return List<Items> TODO document
+     * @return List<Items> list of items described above
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(WorkflowAdminRole.class)

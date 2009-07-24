@@ -37,11 +37,11 @@ public class CheckAuthKeyCommand extends UserCommand {
      * Creates a new CheckAuthKeyCommand.
      * 
      * @param role
-     *            TODO document
+     *            the user which executes the command
      * @param userId
-     *            TODO document
+     *            the id of the user
      * @param authKey
-     *            TODO document
+     *            the given auth key
      */
     public CheckAuthKeyCommand(Role role, Long userId, String authKey) {
         super(role, userId);

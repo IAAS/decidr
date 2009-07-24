@@ -32,9 +32,9 @@ public class GetAdminstratedWorkflowInstancesCommand extends UserCommand {
      * variable.
      * 
      * @param role
-     *            TODO document
+     *            user which executes the command
      * @param userId
-     *            TODO document
+     *            the ID of the user whose administrated workflow instances should be requested
      */
     public GetAdminstratedWorkflowInstancesCommand(Role role, Long userId) {
         super(role, userId);
@@ -62,7 +62,7 @@ public class GetAdminstratedWorkflowInstancesCommand extends UserCommand {
     }
 
     /**
-     * @return the result TODO document
+     * @return List of WorkflowInstances which are administrated by the given user
      */
     public List<WorkflowInstance> getResult() {
         return result;

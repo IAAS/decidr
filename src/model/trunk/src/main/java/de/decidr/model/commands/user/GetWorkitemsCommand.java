@@ -33,9 +33,9 @@ public class GetWorkitemsCommand extends UserCommand {
      * <code>{@link List<WorkItemSummaryView>}</code>.
      * 
      * @param role
-     *            TODO document
+     *            the user which executes the command
      * @param userId
-     *            TODO document
+     *            the id of the user whose workitems should be requested
      */
     public GetWorkitemsCommand(Role role, Long userId, List<Filter> filters,
             Paginator paginator) {
@@ -61,9 +61,8 @@ public class GetWorkitemsCommand extends UserCommand {
     }
 
     /**
-     * TODO document
-     * 
-     * @return the result
+     *  
+     * @return list of the workitems of the given user
      */
     public List<WorkItemSummaryView> getResult() {
 

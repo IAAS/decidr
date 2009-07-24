@@ -5,7 +5,7 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.permissions.TenantPermission;
 
 /**
- * The Abstract Tenant Command. TODO: what does it do?
+ * The Abstract Tenant Command.
  * 
  * @author Markus Fischer
  * @author Daniel Huss

@@ -48,9 +48,9 @@ public class ConfirmPasswordResetCommand extends UserCommand {
      * Creates a new ConfirmPasswordResetCommand.
      * 
      * @param role
-     *            TODO document
+     *            the user which executes the command
      * @param userId
-     *            TODO document
+     *            the id of the user whose password reset request should be confirmed
      */
     public ConfirmPasswordResetCommand(Role role, Long userId, String authKey) {
         super(role, userId);

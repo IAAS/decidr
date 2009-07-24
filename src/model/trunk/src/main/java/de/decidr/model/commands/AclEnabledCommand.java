@@ -132,8 +132,6 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
      * 
      * @param evt
      *            forwarded transaction event
-     * @throws TransactionException
-     *             TODO document
      */
     public abstract void transactionAllowed(TransactionEvent evt)
             throws TransactionException;

@@ -35,9 +35,9 @@ public class GetTenantsToApproveCommand extends AclEnabledCommand {
      * @param role
      *            the user which executes the command
      * @param filters
-     *            TODO document
+     *            {@link Filter}
      * @param paginator
-     *            TODO document
+     *            {@link Paginator}
      */
     public GetTenantsToApproveCommand(Role role, List<Filter> filters,
             Paginator paginator) {
@@ -62,9 +62,7 @@ public class GetTenantsToApproveCommand extends AclEnabledCommand {
     }
 
     /**
-     * TODO document
-     * 
-     * @return the result
+     * @return List of all tenants which have to been approved
      */
     public List<TenantWithAdminView> getResult() {
         return result;

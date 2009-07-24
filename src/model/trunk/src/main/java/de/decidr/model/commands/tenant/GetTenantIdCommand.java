@@ -31,7 +31,7 @@ public class GetTenantIdCommand extends TenantCommand {
      * @param role
      *            user which executes the command
      * @param tenantName
-     *            TODO document
+     *            the name of the tenant whose ID should be requested
      */
     public GetTenantIdCommand(Role role, String tenantName) {
         super(role, null);

@@ -41,9 +41,9 @@ public class SetUserPropertyCommand extends UserCommand {
      * Creates a new SetUserPropertyCommand.
      * 
      * @param role
-     *            TODO document
+     *            user which executes the command
      * @param userId
-     *            TODO document
+     *            ID of the user whose property should be set
      * @param properties
      *            maps property names to the new Values.
      */
@@ -87,9 +87,9 @@ public class SetUserPropertyCommand extends UserCommand {
      * property descriptors
      * 
      * @param propertyName
-     *            TODO document
+     *            name of the property which should be set
      * @param descriptors
-     *            TODO document
+     *            property descriptors to search
      * @return the setter method or <code>null</code> if the property is not
      *         writable/does not exist.
      */

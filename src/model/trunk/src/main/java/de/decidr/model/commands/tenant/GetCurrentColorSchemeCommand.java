@@ -30,9 +30,9 @@ public class GetCurrentColorSchemeCommand extends TenantCommand {
      * color scheme from the storage and saves it in result variable.
      * 
      * @param role
-     *            TODO document
+     *            the user which executes the command
      * @param tenantId
-     *            TODO document
+     *            the ID of the tenant whose color scheme should be returned
      */
     public GetCurrentColorSchemeCommand(Role role, Long tenantId) {
         super(role, null);

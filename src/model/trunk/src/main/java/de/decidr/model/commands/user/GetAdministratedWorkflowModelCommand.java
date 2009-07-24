@@ -30,7 +30,7 @@ public class GetAdministratedWorkflowModelCommand extends UserCommand {
      * @param role
      *            user which executes the command
      * @param userId
-     *            TODO document
+     *            the id of the user whose administrated wokflow models should be requested
      */
     public GetAdministratedWorkflowModelCommand(Role role, Long userId) {
         super(role, null);
@@ -53,7 +53,7 @@ public class GetAdministratedWorkflowModelCommand extends UserCommand {
     }
 
     /**
-     * @return the result TODO document
+     * @return List of workflow models which are administrated by the given user
      */
     public List<WorkflowModel> getResult() {
         return result;

@@ -1,9 +1,9 @@
 package de.decidr.model.exceptions;
 
 /**
- * MA: add comment
+ * MA: add comment, add author
  * 
- * @author TODO
+ * @author 
  */
 public class ValidateException extends DeploymentException {
     // MA

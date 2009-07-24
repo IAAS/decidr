@@ -26,7 +26,7 @@ public class GetUserProfileCommand extends UserCommand {
      * @param role
      *            user which executes the command
      * @param userId
-     *            TODO document
+     *            the ID of the user whose profile schould be requested
      */
     public GetUserProfileCommand(Role role, Long userId) {
         super(role, userId);
@@ -43,7 +43,7 @@ public class GetUserProfileCommand extends UserCommand {
     }
 
     /**
-     * @return the result TODO document
+     * @return the user profile of the given user
      */
     public UserProfile getResult() {
         return result;

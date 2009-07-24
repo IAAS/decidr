@@ -32,12 +32,10 @@ public class GetAllUsersCommand extends UserCommand {
      * 
      * @param role
      *            the user which executes the command
-     * @param userId
-     *            TODO document
      * @param filters
-     *            TODO document
+     *            {@link Filter}
      * @param paginator
-     *            TODO document
+     *            {@link Paginator}
      */
     public GetAllUsersCommand(Role role, List<Filter> filters,
             Paginator paginator) {
@@ -63,9 +61,7 @@ public class GetAllUsersCommand extends UserCommand {
     }
 
     /**
-     * TODO document
-     * 
-     * @return the result
+     * @return List of all users of the system expect of them which has been rejected
      */
     public List<User> getResult() {
         return result;

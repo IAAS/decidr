@@ -172,7 +172,7 @@ public class SystemFacade extends AbstractFacade {
      * If the server doesn't exist no exception is thrown.
      * 
      * @param serverId
-     *            TODO document
+     *            ID of the server which should be removed
      * @throws TransactionException
      *             if an error occurs during the transaction
      */

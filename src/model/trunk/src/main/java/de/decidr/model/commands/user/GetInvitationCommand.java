@@ -38,11 +38,9 @@ public class GetInvitationCommand extends UserCommand {
      * which corresponds to the given ID in the result variable.
      * 
      * @param role
-     *            TODO document
-     * @param userId
-     *            TODO document
+     *            the user which executes the command
      * @param invitationId
-     *            TODO document
+     *            the id of the invitation which should be returned
      */
     public GetInvitationCommand(Role role, Long invitationId) {
         super(role, null);

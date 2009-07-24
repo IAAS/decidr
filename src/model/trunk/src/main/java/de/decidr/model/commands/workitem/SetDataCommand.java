@@ -17,14 +17,14 @@ public class SetDataCommand extends WorkItemCommand {
     private byte[] data;
 
     /**
-     * Constructor TODO document
+     * Creates a new instance of the SetDataCommand
      * 
      * @param role
-     *            TODO document
+     *            user who executes the command
      * @param workItemId
-     *            TODO document
+     *            the ID of the workitem whose data should be set
      * @param data
-     *            TODO document
+     *            the new data
      */
     public SetDataCommand(Role role, Long workItemId, byte[] data) {
         super(role, workItemId);

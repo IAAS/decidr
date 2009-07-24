@@ -32,9 +32,9 @@ public class GetWorkflowInstancesCommand extends TenantCommand {
      * @param role
      *            the user which executes the command
      * @param tenantId
-     *            TODO document
+     *            the ID of the tenant for which the workflow instances should be requested
      * @param paginator
-     *            TODO document
+     *            {@link Paginator}
      */
     public GetWorkflowInstancesCommand(Role role, Long tenantId,
             Paginator paginator) {
@@ -72,7 +72,7 @@ public class GetWorkflowInstancesCommand extends TenantCommand {
     }
 
     /**
-     * @return the result TODO document
+     * @return List of WorkflowInstances which are part of the given tenant
      */
     public List<WorkflowInstance> getResult() {
         return result;

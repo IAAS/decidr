@@ -49,17 +49,17 @@ public class AddServerCommand extends SystemCommand {
      * representation of the real server.
      * 
      * @param actor
-     *            TODO document
+     *            the user which executes the command
      * @param type
-     *            TODO document
+     *            the type of the server
      * @param location
-     *            TODO document
+     *            the location of the real existing server
      * @param initialLoad
-     *            TODO document
+     *            the start load of the server (default is 0)
      * @param locked
-     *            TODO document
+     *            lock status of the server
      * @param dynamicallyAdded
-     *            TODO document
+     *            yes if server has been added automatically, else false
      */
     public AddServerCommand(Role actor, ServerTypeEnum type, String location,
             Byte initialLoad, Boolean locked, Boolean dynamicallyAdded) {

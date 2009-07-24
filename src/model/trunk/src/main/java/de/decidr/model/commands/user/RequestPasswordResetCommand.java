@@ -47,9 +47,9 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
      * Creates a new RequestPasswordResetCommand.
      * 
      * @param role
-     *            TODO document
+     *            user which executes the command
      * @param emailOrUsername
-     *            TODO document
+     *            the username or email address of the user whose password should be reset
      */
     public RequestPasswordResetCommand(Role role, String emailOrUsername) {
         super(role, (Permission) null);

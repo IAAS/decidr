@@ -50,24 +50,24 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
     private Long workItemId = null;
 
     /**
-     * Constructor TODO document
+     * Creates a new instance of the CreateWorkItemCommand.
      * 
      * @param role
-     *            TODO document
+     *            user which executes the command
      * @param userId
-     *            TODO document
+     *            the ID of the user which owns the new workitem
      * @param deployedWorkflowModelId
-     *            TODO document
+     *            the ID of the WorkflowModel 
      * @param odePid
-     *            TODO document
+     *            the Process ID of the instance at the ODE
      * @param name
-     *            TODO document
+     *            the name of the new workitem
      * @param description
-     *            TODO document
+     *            the description of the workitem (what has the user to do)
      * @param data
-     *            TODO document
+     *            the workitem data as byte[]
      * @param notifyUser
-     *            TODO document
+     *            true if user should be notified that he has a new workitem, else false
      * 
      */
     public CreateWorkItemCommand(Role role, Long userId,

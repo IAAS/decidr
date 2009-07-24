@@ -30,7 +30,7 @@ public class CreateWorkflowModelCommand extends TenantCommand {
      * exception will be thrown.
      * 
      * @param role
-     *            TODO document
+     *            the user which executes the command
      * @param tenantId
      *            the id of the tenant to which the model should be added
      * @param WorkflowModelName

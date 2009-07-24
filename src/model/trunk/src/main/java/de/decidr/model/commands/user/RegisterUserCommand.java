@@ -55,11 +55,11 @@ public class RegisterUserCommand extends AclEnabledCommand {
      * given email address.
      * 
      * @param role
-     *            TODO document
+     *            user which executes the command
      * @param email
-     *            TODO document
+     *            the email address of the user which should be registered
      * @param passwordPlaintext
-     *            TODO document
+     *            the password as plain text of the user which should be registered
      * @param profile
      *            profile data to apply to the new user account.
      */

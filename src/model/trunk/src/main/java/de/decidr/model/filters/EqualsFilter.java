@@ -44,7 +44,7 @@ public class EqualsFilter implements Filter {
     private Object propertyValue = null;
 
     /**
-     * Constructor TODO document
+     * Creates an instance of the EqualsFilter.
      * 
      * @param include
      *            whether matches are included or excluded

@@ -22,9 +22,9 @@ public class IsRegisteredCommand extends UserCommand {
      * <code>false</code>.
      * 
      * @param role
-     *            TODO document
+     *            the user which executes the command
      * @param userId
-     *            TODO document
+     *            the id of the user which should be checked
      */
     public IsRegisteredCommand(Role role, Long userId) {
         super(role, userId);
@@ -45,7 +45,8 @@ public class IsRegisteredCommand extends UserCommand {
     }
 
     /**
-     * @return the result TODO document
+     * @return <code>true</code> if the given user is registered, else
+     *         <code>false</code>.
      */
     public boolean getResult() {
         return result;

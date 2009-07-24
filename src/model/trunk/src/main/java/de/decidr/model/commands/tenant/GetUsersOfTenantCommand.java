@@ -28,9 +28,9 @@ public class GetUsersOfTenantCommand extends TenantCommand {
      * @param role
      *            the user which executes the command
      * @param tenantId
-     *            TODO document
+     *            the ID of the tenant whose users should be requested
      * @param paginator
-     *            TODO document
+     *            {@link Paginator}
      */
     public GetUsersOfTenantCommand(Role role, Long tenantId, Paginator paginator) {
         super(role, tenantId);

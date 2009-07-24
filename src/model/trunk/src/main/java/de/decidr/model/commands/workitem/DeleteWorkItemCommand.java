@@ -32,12 +32,12 @@ import de.decidr.model.transactions.TransactionEvent;
 public class DeleteWorkItemCommand extends WorkItemCommand {
 
     /**
-     * Constructor TODO document
+     * Creates a new instance of the DeleteWorkItemCommand
      * 
      * @param role
-     *            TODO document
+     *            the user which executes the command
      * @param workItemId
-     *            TODO document
+     *            the ID of the workitem which should be deleted
      */
     public DeleteWorkItemCommand(Role role, Long workItemId) {
         super(role, workItemId);

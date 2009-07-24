@@ -25,9 +25,9 @@ public class RemoveWorkflowModelCommand extends TenantCommand {
      * @param role
      *            user which executes the command
      * @param tenantId
-     *            TODO document
+     *            ID of the tenant where the model should be removed
      * @param workflowModelId
-     *            TODO document
+     *            ID of the workflow model which should be removed
      */
     public RemoveWorkflowModelCommand(Role role, Long workflowModelId) {
         super(role, null);

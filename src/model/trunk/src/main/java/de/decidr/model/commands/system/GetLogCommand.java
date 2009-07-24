@@ -12,9 +12,9 @@ import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * TODO: add comment
+ * Returns the logs saved in the database.
  *
- * @author TODO
+ * @author Daniel Huss
  */
 public class GetLogCommand extends SystemCommand {
 

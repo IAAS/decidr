@@ -31,13 +31,13 @@ public class GetWorkflowModelsCommand extends TenantCommand {
      * the variable result as List<WorkflowModel>.
      * 
      * @param role
-     *            TODO document
+     *            the user which executes the command
      * @param tenantId
-     *            TODO document
+     *            the ID of the tenant whose workflow models should be returned
      * @param filters
-     *            TODO document
+     *            {@link Filter}
      * @param paginator
-     *            TODO document
+     *            {@link Paginator}
      */
     public GetWorkflowModelsCommand(Role role, Long tenantId,
             List<Filter> filters, Paginator paginator) {
@@ -67,9 +67,8 @@ public class GetWorkflowModelsCommand extends TenantCommand {
     }
 
     /**
-     * TODO document
      * 
-     * @return the result FIXME der Kommentar is nich ganz hilfreich :-P
+     * @return list of all workflow models for the given tenant which survived the filters ;)
      */
     public List<WorkflowModel> getResult() {
         return result;

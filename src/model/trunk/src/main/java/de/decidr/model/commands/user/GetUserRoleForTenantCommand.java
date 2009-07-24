@@ -38,11 +38,11 @@ public class GetUserRoleForTenantCommand extends UserCommand {
      * is not even a tenant member the result will be null.
      * 
      * @param role
-     *            TODO document
+     *            the user which executes the command
      * @param userId
-     *            TODO document
+     *            the ID of the user whose role should be requested for the given tenant
      * @param tenantId
-     *            TODO document
+     *            the ID of the tenant for which the role should be appointed
      */
     public GetUserRoleForTenantCommand(Role role, Long userId, Long tenantId) {
         super(role, userId);
@@ -124,7 +124,7 @@ public class GetUserRoleForTenantCommand extends UserCommand {
     }
 
     /**
-     * @return the result TODO document
+     * @return the highest UserRole of the user for the given tenant
      */
     public Class<? extends UserRole> getResult() {
         return result;

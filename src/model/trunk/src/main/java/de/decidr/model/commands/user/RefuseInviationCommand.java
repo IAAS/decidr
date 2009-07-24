@@ -25,9 +25,9 @@ public class RefuseInviationCommand extends UserCommand {
      * successfully cancelled? Does the UI do this?
      * 
      * @param role
-     *            TODO document
+     *            user which executes the command
      * @param invitationId
-     *            TODO document
+     *            the ID of the invitation which should be refused
      */
     public RefuseInviationCommand(Role role, Long invitationId) {
         super(role, null);

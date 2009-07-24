@@ -430,7 +430,7 @@ public class TenantFacade extends AbstractFacade {
      * @param tenantId
      *            the id of the tenant of which the users should be given back
      * @param paginator
-     *            TODO document
+     *            {@link Paginator}
      * @return <code>{@link List<Item>}</code> Users of the given tenant
      */
     @SuppressWarnings("unchecked")
@@ -491,8 +491,8 @@ public class TenantFacade extends AbstractFacade {
      * @param tenantId
      *            id of the tenant
      * @param paginator
-     *            TODO document
-     * @return TODO document
+     *            {@link Paginator}
+     * @return list of vaadin items described above
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(WorkflowAdminRole.class)
@@ -541,10 +541,10 @@ public class TenantFacade extends AbstractFacade {
      * </ul>
      * 
      * @param filters
-     *            TODO document
+     *            {@link Filter}
      * @param paginator
-     *            TODO document
-     * @return TODO document
+     *            {@link Paginator}
+     * @return list of vaadin items described above
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(SuperAdminRole.class)
@@ -589,10 +589,10 @@ public class TenantFacade extends AbstractFacade {
      * </ul>
      * 
      * @param filters
-     *            TODO document
+     *            {@link Filter}
      * @param paginator
-     *            TODO document
-     * @return TODO document
+     *            {@link Paginator}
+     * @return list of vaadin items described above
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(SuperAdminRole.class)
@@ -629,12 +629,12 @@ public class TenantFacade extends AbstractFacade {
      * </ul>
      * 
      * @param tenantId
-     *            TODO document
+     *            ID of the tenant whose workflow models should be requested
      * @param filters
-     *            TODO document
+     *            {@link Filter}
      * @param paginator
-     *            TODO document
-     * @return TODO document
+     *            {@link Paginator}
+     * @return list of vaadin items described above
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(TenantAdminRole.class)

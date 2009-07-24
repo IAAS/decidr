@@ -55,11 +55,11 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
      * password combination.
      * 
      * @param role
-     *            TODO document
+     *            the user which executes the command
      * @param emailOrUsername
-     *            TODO document
+     *            the users username or email address
      * @param passwordPlaintext
-     *            TODO document
+     *            the users password input in plain text
      */
     public GetUserByLoginCommand(Role role, String emailOrUsername,
             String passwordPlaintext) {

@@ -78,9 +78,7 @@ public class WorkflowModelFacade extends AbstractFacade {
     }
 
     /**
-     * Saves the given workflow model.
-     * 
-     * Expected properties of the given Vaadin item: TODO
+     * Saves the given properties as workflow model.
      * 
      * @throws TransactionException
      *             if the transaction is aborted for any reason.

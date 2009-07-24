@@ -34,9 +34,9 @@ public class RemoveFromTenantCommand extends LeaveTenantCommand {
      * @param role
      *            user which executes the command
      * @param userId
-     *            TODO document
+     *            the id of the user who should be removed from tenant
      * @param tenantId
-     *            TODO document
+     *            id of the tenant where the user should be removed
      */
     public RemoveFromTenantCommand(Role role, Long userId, Long tenantId) {
         super(role, userId, tenantId);

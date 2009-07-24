@@ -30,10 +30,10 @@ public class OrderByFilter implements Filter {
     private Order[] orders;
 
     /**
-     * Constructor TODO document
+     * Creates a new instance of the OrderByFilter.
      * 
-     * @param orders
-     *            TODO document
+     * @param orders {@link org.hibernate.criterion.Order}
+     *            
      */
     public OrderByFilter(Order... orders) {
         this.orders = orders;

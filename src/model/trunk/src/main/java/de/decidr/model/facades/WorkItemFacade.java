@@ -43,7 +43,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
 public class WorkItemFacade extends AbstractFacade {
 
     /**
-     * Constructor TODO document
+     * Creates a new instance of the WorkItemFacade.
      * 
      * @param actor
      *            user/system that is using this facade to access work items.
@@ -64,8 +64,8 @@ public class WorkItemFacade extends AbstractFacade {
      * </ul>
      * 
      * @param workItemId
-     *            TODO document
-     * @return Vaadin item TODO document
+     *            the ID of the workitem which should be requested
+     * @return Vaadin item described above
      * @throws TransactionException
      *             on rollback or if the given work item doesn't exist.
      */
@@ -158,7 +158,7 @@ public class WorkItemFacade extends AbstractFacade {
      * Sets the work item status of the given work item to "done".
      * 
      * @param workItemId
-     *            TODO document
+     *           ID of the workitem which should be marked as done
      * @throws TransactionException
      *             on rollback
      */
@@ -172,7 +172,7 @@ public class WorkItemFacade extends AbstractFacade {
      * Deletes the given work item from the database.
      * 
      * @param workItemId
-     *            TODO document
+     *            ID of the workitem which should be deleted
      * @throws TransactionException
      *             on rollback
      */

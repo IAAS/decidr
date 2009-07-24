@@ -22,13 +22,13 @@ public class GetJoinedTenantsCommand extends UserCommand {
     private List<Tenant> result;
 
     /**
-     * Creates a new getJoinedTenantsCommand. This command writes all tenante
+     * Creates a new getJoinedTenantsCommand. This command writes all tenants
      * the given user is member of in the result variable.
      * 
      * @param role
      *            the user which executes the command
      * @param userId
-     *            TODO document
+     *            the ID of the user whose joined tenants should be returned
      */
     public GetJoinedTenantsCommand(Role role, Long userId) {
         super(role, userId);

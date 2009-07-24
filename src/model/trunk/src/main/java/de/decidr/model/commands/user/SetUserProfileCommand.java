@@ -37,11 +37,11 @@ public class SetUserProfileCommand extends UserCommand {
      * Creates a new SetUserProfileCommand.
      * 
      * @param role
-     *            TODO document
+     *            user who executes the command
      * @param userId
-     *            TODO document
+     *            the ID of the user whose profile should be updated
      * @param newProfile
-     *            TODO document
+     *            the new user profile
      */
     public SetUserProfileCommand(Role role, Long userId, UserProfile newProfile) {
         super(role, userId);

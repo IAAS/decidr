@@ -264,7 +264,7 @@ public class UserFacade extends AbstractFacade {
      * is correct.
      * 
      * @param userId
-     *            TODO document
+     *            the id of the user whose password should be set
      * @param oldPassword
      *            the user's current password (plaintext).
      * @param newPassword
@@ -289,7 +289,7 @@ public class UserFacade extends AbstractFacade {
      * address. A notification email is sent to the user
      * 
      * @param emailOrUsername
-     *            TODO document
+     *            the email address or username whose password should be reset
      * @return true iff the notification mail has been sent to the user, false
      *         if no user with the given username or email exists.
      * @throws TransactionException
@@ -319,9 +319,9 @@ public class UserFacade extends AbstractFacade {
      * Other properties will be ignored.
      * 
      * @param userId
-     *            TODO document
+     *            the id of the user whose profile should be set
      * @param newProfile
-     *            TODO document
+     *            the profile by which the old one should be replaced
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
@@ -368,10 +368,10 @@ public class UserFacade extends AbstractFacade {
      * tenant.
      * 
      * @param userId
-     *            TODO document
+     *            the ID of the user which should leave the tenant
      * @param tenantId
-     *            TODO document
-     * @return true iff the tenant was sucessfully left.
+     *            the ID of the tenant which the user should leave
+     * @return true iff the tenant was successfully left.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -386,9 +386,9 @@ public class UserFacade extends AbstractFacade {
      * Removes the user from the given tenant and notifies the user.
      * 
      * @param userId
-     *            TODO document
+     *            the ID of the user which should be removed from tenant
      * @param tenantId
-     *            TODO document
+     *            the ID of the tenent where the user should be removed
      * @return true iff the user was sucessfully removed from the tenant.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
@@ -408,9 +408,9 @@ public class UserFacade extends AbstractFacade {
      * email about the new password.
      * 
      * @param userId
-     *            TODO document
+     *            the id of the user whose request should be confirmed
      * @param authKey
-     *            TODO document
+     *            the auth key which was sent to user by requesting the reset
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
@@ -445,7 +445,7 @@ public class UserFacade extends AbstractFacade {
      * Confirms the given invitation.
      * 
      * @param invitationId
-     *            TODO document
+     *            the id of the invitation which should be confirmed
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -486,8 +486,8 @@ public class UserFacade extends AbstractFacade {
      * </ul>
      * 
      * @param userId
-     *            TODO document
-     * @return Vaadin item TODO document
+     *            the id of the user whose profile should be returned
+     * @return Vaadin item which is described above
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -512,11 +512,11 @@ public class UserFacade extends AbstractFacade {
      * <li>username</li>
      * </ul>
      * 
-     * @param filters
-     *            TODO document
+     * @param filters {@link Filter}
+     *            
      * @param paginator
-     *            TODO document
-     * @return list of vaadin items TODO document
+     *            {@link Paginator}
+     * @return list of vaadin items which are described above
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -564,8 +564,8 @@ public class UserFacade extends AbstractFacade {
      * Returns the highest user role of the given system.
      * 
      * @param userId
-     *            TODO document
-     * @return TODO document
+     *            the ID of the user whose highest role should be requested
+     * @return UserRole highest user role of the user
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -586,10 +586,11 @@ public class UserFacade extends AbstractFacade {
      * <code>null</code>.
      * 
      * @param userId
-     *            TODO document
+     *            the ID of the user whose role should be requested for the
+     *            given tenant
      * @param tenantId
-     *            TODO document
-     * @return TODO document
+     *            the ID of the tenant where the role should be appointed
+     * @return UserRole highest user role of the user for the given tenant
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -615,8 +616,8 @@ public class UserFacade extends AbstractFacade {
      * </ul>
      * 
      * @param userId
-     *            TODO document
-     * @return TODO document
+     *            the id of the user whose administrated workflow models should be requested
+     * @return List of workflow models which are administrated by the given user
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -657,7 +658,7 @@ public class UserFacade extends AbstractFacade {
      * </ul>
      * 
      * @param userId
-     *            TODO document
+     *            the ID of the user whose joined tenants should be requested
      * @return Vaadin items representing the joined tenants.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
@@ -693,8 +694,9 @@ public class UserFacade extends AbstractFacade {
      * </ul>
      * 
      * @param userId
-     *            TODO document
-     * @return TODO document
+     *            the ID of the user whose administrated workflow models should
+     *            be requested
+     * @return list of workflow models which are administrated by the given user
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -731,12 +733,12 @@ public class UserFacade extends AbstractFacade {
      * </ul>
      * 
      * @param userId
-     *            TODO document
+     *            the ID of the user whose workitems should be requested
      * @param filters
-     *            TODO document
+     *            {@link Filter}
      * @param paginator
-     *            TODO document
-     * @return TODO document
+     *            {@link Paginator}
+     * @return list ob vaadin item described above
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -778,8 +780,8 @@ public class UserFacade extends AbstractFacade {
      * </ul>
      * 
      * @param invitationId
-     *            TODO document
-     * @return Vaadin item TODO document
+     *            the ID of the invitation which should be returned
+     * @return Vaadin item described above
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -797,8 +799,10 @@ public class UserFacade extends AbstractFacade {
      * <code>false</code>.
      * 
      * @param userId
-     *            TODO document
-     * @return TODO document
+     *            the ID of the user which should be checked if he's registered
+     *            or not
+     * @return <code>true</code> if the given user is registered else
+     *         <code>false</code>.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */

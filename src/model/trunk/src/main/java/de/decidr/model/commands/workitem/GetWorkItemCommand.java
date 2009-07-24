@@ -33,12 +33,12 @@ public class GetWorkItemCommand extends WorkItemCommand {
     private WorkItem result = null;
 
     /**
-     * Constructor TODO document
+     * Creates a new instance of the GetWorkItemCommand.
      * 
      * @param role
-     *            TODO document
+     *            user which executes the command
      * @param workItemId
-     *            TODO document
+     *            the ID of the workitem which should be returned
      */
     public GetWorkItemCommand(Role role, Long workItemId) {
         super(role, workItemId);
@@ -59,7 +59,7 @@ public class GetWorkItemCommand extends WorkItemCommand {
     }
 
     /**
-     * @return the result TODO document
+     * @return the corresponding workitem to the given ID
      */
     public WorkItem getResult() {
         return result;

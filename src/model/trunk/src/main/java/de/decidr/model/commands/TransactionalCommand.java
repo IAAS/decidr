@@ -37,10 +37,8 @@ public interface TransactionalCommand {
      * so, the event object provides the current Hibernate Session object. If
      * this method throws an exception, the transaction is rolled back.
      * 
-     * @param evt
-     *            TODO document
-     * @throws TransactionException
-     *             TODO document
+     * @param evt started event data
+     *            
      */
     public void transactionStarted(TransactionEvent evt)
             throws TransactionException;
@@ -50,10 +48,8 @@ public interface TransactionalCommand {
      * this method to react to a rollback (e.g. by logging the exception that
      * occurred).
      * 
-     * @param evt
-     *            TODO document
-     * @throws TransactionException
-     *             TODO document
+     * @param evt abort event data
+     *            
      */
     public void transactionAborted(TransactionAbortedEvent evt)
             throws TransactionException;
@@ -63,10 +59,8 @@ public interface TransactionalCommand {
      * event is part of a nested transaction, the command may assume that its
      * changes have been applied to the database.
      * 
-     * @param evt
-     *            TODO document
-     * @throws TransactionException
-     *             TODO document
+     * @param evt commit event data
+     *            
      */
     public void transactionCommitted(TransactionEvent evt)
             throws TransactionException;

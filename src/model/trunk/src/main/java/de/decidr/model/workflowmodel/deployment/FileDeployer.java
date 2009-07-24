@@ -46,9 +46,9 @@ public class FileDeployer {
      * This class actually deploys the zip file on the selected server
      * 
      * @param zipFile
-     *            TODO document
+     *            MA document
      * @throws AxisFault
-     *             TODO document
+     *             MA document
      */
     public void deploy(byte[] zipFile, String location) throws AxisFault {
 

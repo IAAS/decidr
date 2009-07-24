@@ -28,11 +28,11 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand {
      * given models are not public an exception will be thrown.
      * 
      * @param role
-     *            TODO document
+     *            user which executes the command
      * @param tenantId
-     *            TODO document
+     *            the ID of the tenant into which the models should be imported
      * @param workflowModelIds
-     *            TODO document
+     *            the IDs of the models which should be imported
      */
     public ImportPublishedWorkflowModelsCommand(Role role, Long tenantId,
             List<Long> workflowModelIds) {

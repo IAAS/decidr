@@ -37,7 +37,7 @@ public class DeleteTenantCommand extends TenantCommand {
      * 
      * @param role
      *            the user which executes the command
-     * @param tenantId TODO document
+     * @param tenantId the id of the tenant which should be deleted
      */
     public DeleteTenantCommand(Role role, Long tenantId) {
         super(role, null);

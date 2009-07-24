@@ -43,9 +43,9 @@ public class LeaveTenantCommand extends UserCommand {
      * Creates a new LeaveTenantCommand.
      * 
      * @param role
-     *            TODO document
+     *            user which executes the command
      * @param userId
-     *            TODO document
+     *            the ID of the user which wants to leave the tenant
      * @param tenantId
      *            tenant to leave
      */

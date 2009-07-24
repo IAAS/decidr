@@ -34,9 +34,9 @@ public class GetAllTenantsCommand extends AclEnabledCommand {
      * @param role
      *            user which executes the command
      * @param filters
-     *            TODO document
+     *            {@link Filter}
      * @param paginator
-     *            TODO document
+     *            {@link Paginator}
      */
     public GetAllTenantsCommand(Role role, List<Filter> filters,
             Paginator paginator) {

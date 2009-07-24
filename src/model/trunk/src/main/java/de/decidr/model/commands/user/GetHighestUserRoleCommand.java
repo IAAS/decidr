@@ -30,9 +30,9 @@ public class GetHighestUserRoleCommand extends UserCommand {
      * role of the given user in the result variable.
      * 
      * @param role
-     *            TODO document
+     *            user which executes the command
      * @param userId
-     *            TODO document
+     *            the ID of the user whose highest role should be requested
      */
     public GetHighestUserRoleCommand(Role role, Long userId) {
         super(role, userId);

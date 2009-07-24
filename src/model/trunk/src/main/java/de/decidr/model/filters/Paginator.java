@@ -71,7 +71,7 @@ public class Paginator {
      * Changes startIndex and endIndex accordingly.
      * 
      * @param currentPage
-     *            TODO document
+     *            number of the current page
      */
     public void setCurrentPage(Integer currentPage) {
         setStartIndex(this.itemsPerPage
@@ -90,7 +90,7 @@ public class Paginator {
      * updated using the new value.
      * 
      * @param itemsPerPage
-     *            TODO document
+     *            items of number which should be maximal on one page
      */
     public void setItemsPerPage(Integer itemsPerPage) {
         if (itemsPerPage < 1) {
@@ -112,7 +112,7 @@ public class Paginator {
      * Sets the start index. EndIndex is updated using itemsPerPage.
      * 
      * @param startIndex
-     *            TODO document
+     *            sets the index on which page the output should be started
      */
     public void setStartIndex(Integer startIndex) {
         this.startIndex = startIndex;

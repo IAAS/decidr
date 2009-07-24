@@ -34,14 +34,14 @@ public class SetStatusCommand extends WorkItemCommand {
     private WorkItemStatus newStatus;
 
     /**
-     * Constructor TODO document
+     * Creates a new instance of the SetStatusCommand.
      * 
      * @param role
-     *            TODO document
+     *            user who executes the command
      * @param workItemId
-     *            TODO document
+     *            the ID of the workitem whose status should be set
      * @param newStatus
-     *            TODO document
+     *            the new status as {@link WorkItemStatus}
      */
     public SetStatusCommand(Role role, Long workItemId, WorkItemStatus newStatus) {
         super(role, workItemId);

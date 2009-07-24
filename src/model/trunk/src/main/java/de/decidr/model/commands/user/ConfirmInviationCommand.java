@@ -56,9 +56,9 @@ public class ConfirmInviationCommand extends AclEnabledCommand {
      * Creates a new ConfirmInviationCommand.
      * 
      * @param role
-     *            TODO document
+     *            the user which executes the command
      * @param invitationId
-     *            TODO document
+     *            the id of the invitation which should be confirmed
      */
     public ConfirmInviationCommand(Role role, Long invitationId) {
         super(role, (Permission) null);
