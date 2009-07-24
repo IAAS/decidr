@@ -107,9 +107,8 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
             poolInstance.value = false;
         }
 
-        // RR add location?
         AddServerCommand cmd = new AddServerCommand(ODE_ROLE,
-                ServerTypeEnum.Ode, null, (byte) 0, false, !poolInstance.value);
+                ServerTypeEnum.Ode, "", (byte) 0, false, !poolInstance.value);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
         odeID.value = cmd.getNewServer().getId();
         log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
@@ -166,17 +165,20 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         // RR get from config
         int minInstances = 0;
         // RR get from config
+        int minHighInstances = 0;
+        // RR get from config
         int maxInstances = 5;
         // RR get from config
         int minUnlockedServers = 1;
         boolean isLocked = server.isLocked();
 
         commands.clear();
-        if ((isLocked && ((minInstances > wfInstances) || (avgLoad < minHighSysLoad)))
+        if ((isLocked && ((minHighInstances > wfInstances) || (avgLoad < minHighSysLoad)))
                 || (!isLocked && ((maxInstances < wfInstances) || (avgLoad > maxSysLoad)))) {
             commands.add(new LockServerCommand(ODE_ROLE, odeID, !isLocked));
         }
-        if (server.isDynamicallyAdded() && minSysLoad > avgLoad) {
+        if (server.isDynamicallyAdded()
+                && (minSysLoad > avgLoad && wfInstances < minInstances)) {
             run.value = false;
         } else {
             run.value = true;
@@ -198,8 +200,7 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
             }
         }
 
-        // RR use ID instead of location
-        commands.add(new UpdateServerLoadCommand(ODE_ROLE, (String) null,
+        commands.add(new UpdateServerLoadCommand(ODE_ROLE, odeID,
                 (byte) avgLoad));
         HibernateTransactionCoordinator.getInstance().runTransaction(commands);
 

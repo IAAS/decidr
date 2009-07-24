@@ -22,16 +22,18 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import javax.mail.internet.MimeBodyPart;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import de.decidr.model.email.MailBackend;
-import de.decidr.model.logging.DefaultLogger;
 
 /**
  * Test cases for <code>{@link MailBackend}</code>.
@@ -40,15 +42,6 @@ import de.decidr.model.logging.DefaultLogger;
  */
 public class MailBackendTest {
     MailBackend testMail;
-    static {
-        // make sure that DefaultLogger doesn't override the settings in out
-        // beautiful constructor
-        new DefaultLogger();
-    }
-
-    public MailBackendTest() {
-        Logger.getRootLogger().setLevel(Level.TRACE);
-    }
 
     @Before
     public void setUpBeforeEachTest() {
@@ -56,9 +49,7 @@ public class MailBackendTest {
     }
 
     /**
-     * Test method for
-     * {@link de.decidr.model.email.MailBackend#validateAddresses(java.lang.String)}
-     * .
+     * Test method for {@link MailBackend#validateAddresses(String)}.
      */
     @Test
     public void testValidateAddressesString() {
@@ -93,9 +84,7 @@ public class MailBackendTest {
     }
 
     /**
-     * Test method for
-     * {@link de.decidr.model.email.MailBackend#validateAddresses(java.util.List)}
-     * .
+     * Test method for {@link MailBackend#validateAddresses(List)}.
      */
     @Test
     public void testValidateAddressesListOfString() {
@@ -122,8 +111,7 @@ public class MailBackendTest {
     }
 
     /**
-     * Test method for
-     * {@link de.decidr.model.email.MailBackend#addBCC(String)} .
+     * Test method for {@link MailBackend#addBCC(String)}.
      */
     @Test
     public void testAddBCC() {
@@ -168,5 +156,475 @@ public class MailBackendTest {
         testMail.addBCC("");
         assertNotNull(testMail.getHeaderBCC());
         assertEquals("", testMail.getHeaderBCC());
+    }
+
+    /**
+     * Test method for
+     * {@link MailBackend#MailBackend(String, String, String, String)}.
+     */
+    @Test
+    public void testMailBackendStringStringStringString() {
+        // should *not* throw exceptions
+        new MailBackend("a@bc.de", "AAA", "a@bc.de", "");
+        new MailBackend("a@bc.de", "AAA", "a@bc.de", null);
+        new MailBackend("a@bc.de", "", "a@bc.de", "");
+        new MailBackend("a@bc.de", null, "a@bc.de", null);
+
+        // RR should throw exceptions
+        try {
+            new MailBackend("", "", "", "");
+            fail("all parameters empty should fail");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+        try {
+            new MailBackend((String) null, "AAA", "a@bc.de", "sub");
+            fail("To: null should be invalid");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+        try {
+            new MailBackend("", "AAA", "a@bc.de", "sub");
+            fail("Empty To: should be invalid");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+        try {
+            new MailBackend("a@bc.de", "AAA", "", "sub");
+            fail("Empty From: should be invalid");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+        try {
+            new MailBackend("a@bc.de", "AAA", null, "sub");
+            fail("From: null should be invalid");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+    }
+
+    /**
+     * Test method for
+     * {@link MailBackend#MailBackend(List, String, String, String)}.
+     */
+    @Test
+    public void testMailBackendListOfStringStringStringString() {
+        // RR use lists, not strings
+        List<String> validEmails = new ArrayList<String>();
+        List<String> invalidEmails = new ArrayList<String>();
+
+        // should *not* throw exceptions
+        new MailBackend("a@bc.de", "AAA", "a@bc.de", "");
+        new MailBackend("a@bc.de", "AAA", "a@bc.de", null);
+        new MailBackend("a@bc.de", "", "a@bc.de", "");
+        new MailBackend("a@bc.de", null, "a@bc.de", null);
+
+        // RR should throw exceptions
+        try {
+            new MailBackend("", "", "", "");
+            fail("all parameters empty should fail");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+        try {
+            new MailBackend((String) null, "AAA", "a@bc.de", "sub");
+            fail("To: null should be invalid");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+        try {
+            new MailBackend("", "AAA", "a@bc.de", "sub");
+            fail("Empty To: should be invalid");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+        try {
+            new MailBackend("a@bc.de", "AAA", "", "sub");
+            fail("Empty From: should be invalid");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+        try {
+            new MailBackend("a@bc.de", "AAA", null, "sub");
+            fail("From: null should be invalid");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+    }
+
+    /**
+     * Test method for {@link MailBackend#addCC(String)}.
+     */
+    @Test
+    public void testAddCC() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#addFile(File)}.
+     */
+    @Test
+    public void testAddFileFile() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#addFile(URI)}.
+     */
+    @Test
+    public void testAddFileURI() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#addFile(URL)}.
+     */
+    @Test
+    public void testAddFileURL() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#addFile(InputStream)}.
+     */
+    @Test
+    public void testAddFileInputStream() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#addHeader(String, String)}.
+     */
+    @Test
+    public void testAddHeader() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#addHeaders(Map)}.
+     */
+    @Test
+    public void testAddHeaders() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#addMimePart(MimeBodyPart)}.
+     */
+    @Test
+    public void testAddMimePart() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#addMimeParts(List)}.
+     */
+    @Test
+    public void testAddMimeParts() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#addReceiver(String)}.
+     */
+    @Test
+    public void testAddReceiver() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#getAdditionalHeaderMap()}.
+     */
+    @Test
+    public void testGetAdditionalHeaderMap() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#getHeaderBCC()}.
+     */
+    @Test
+    public void testGetHeaderBCC() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#getHeaderCC()}.
+     */
+    @Test
+    public void testGetHeaderCC() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#getHeaderFromName()}.
+     */
+    @Test
+    public void testGetHeaderFromName() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#getHeaderFromMail()}.
+     */
+    @Test
+    public void testGetHeaderFromMail() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#getHeaderSubject()}.
+     */
+    @Test
+    public void testGetHeaderSubject() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#getHeaderTo()}.
+     */
+    @Test
+    public void testGetHeaderTo() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#getHeaderXMailer()}.
+     */
+    @Test
+    public void testGetHeaderXMailer() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#getMessageParts()}.
+     */
+    @Test
+    public void testGetMessageParts() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#getPassword()}.
+     */
+    @Test
+    public void testGetPassword() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#getSMTPPortNum()}.
+     */
+    @Test
+    public void testGetSMTPPortNum() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#getSMTPServerHost()}.
+     */
+    @Test
+    public void testGetSMTPServerHost() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#getUsername()}.
+     */
+    @Test
+    public void testGetUsername() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#isUseTLS()}.
+     */
+    @Test
+    public void testIsUseTLS() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#removeHeader(String)}.
+     */
+    @Test
+    public void testRemoveHeader() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#removeHeaders(List)}.
+     */
+    @Test
+    public void testRemoveHeaders() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#removeMimePart(MimeBodyPart)}.
+     */
+    @Test
+    public void testRemoveMimePart() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#removeMimeParts(List)}.
+     */
+    @Test
+    public void testRemoveMimeParts() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#sendMessage()}.
+     */
+    @Test
+    public void testSendMessage() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setAuthInfo(String, String)} .
+     */
+    @Test
+    public void testSetAuthInfo() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setBCC(List)}.
+     */
+    @Test
+    public void testSetBCCListOfString() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setBCC(String)}.
+     */
+    @Test
+    public void testSetBCCString() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setBodyText(String)}.
+     */
+    @Test
+    public void testSetBodyText() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setBodyHTML(String)}.
+     */
+    @Test
+    public void testSetBodyHTML() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setCC(List)}.
+     */
+    @Test
+    public void testSetCCListOfString() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setCC(String)}.
+     */
+    @Test
+    public void testSetCCString() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setHostname(String)}.
+     */
+    @Test
+    public void testSetHostname() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setPassword(String)}.
+     */
+    @Test
+    public void testSetPassword() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setPortNum(int)}.
+     */
+    @Test
+    public void testSetPortNum() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setReceiver(List)}.
+     */
+    @Test
+    public void testSetReceiverListOfString() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setReceiver(String)}.
+     */
+    @Test
+    public void testSetReceiverString() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setSender(String, String)}.
+     */
+    @Test
+    public void testSetSender() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setServerInfo(String, int)}.
+     */
+    @Test
+    public void testSetServerInfo() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setSubject(String)}.
+     */
+    @Test
+    public void testSetSubject() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setUsername(String)}.
+     */
+    @Test
+    public void testSetUsername() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#setXMailer(String)}.
+     */
+    @Test
+    public void testSetXMailer() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for {@link MailBackend#useTLS(boolean)}.
+     */
+    @Test
+    public void testUseTLS() {
+        fail("Not yet implemented"); // RR
     }
 }
