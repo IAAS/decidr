@@ -58,9 +58,8 @@ public class GetAllTenantsCommand extends AclEnabledCommand {
     }
 
     /**
-     * TODO document
      * 
-     * @return the result
+     * @return TenantSummaryView
      */
     public List<TenantSummaryView> getResult() {
         return result;

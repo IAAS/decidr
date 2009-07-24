@@ -14,7 +14,7 @@ import de.decidr.model.storage.StorageProviderFactory;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Returns the LogoData TODO document
+ * Used to load the logo from the storage.
  * 
  * @author Markus Fischer
  * 
@@ -30,9 +30,9 @@ public class GetTenantLogoCommand extends TenantCommand {
      * storage and saves it in result variable.
      * 
      * @param role
-     *            TODO document
+     *            the user which executes the command
      * @param tenantId
-     *            TODO document
+     *            the id of the tenant
      */
     public GetTenantLogoCommand(Role role, Long tenantId) {
         super(role, null);

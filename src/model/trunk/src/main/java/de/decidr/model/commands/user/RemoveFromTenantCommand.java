@@ -32,7 +32,7 @@ public class RemoveFromTenantCommand extends LeaveTenantCommand {
      * Creates a new RemoveFromTenantCommand.
      * 
      * @param role
-     *            TODO document
+     *            user which executes the command
      * @param userId
      *            TODO document
      * @param tenantId

@@ -67,7 +67,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
 public class WorkflowModelFacade extends AbstractFacade {
 
     /**
-     * Constructor TODO document
+     * Creates a new WorkflowModelFacade.
      * 
      * @param actor
      *            user/system that is using this facade to access workflow
@@ -98,7 +98,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * Returns the properties of the given workflow model as a Vaadin Item.
      * 
      * @param workflowModelId
-     *            TODO document
+     *            the ID of the workflow model which should be returned
      * @return TODO document
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
@@ -487,7 +487,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * returned.
      * 
      * @param workflowModelId
-     *            TODO document
+     *            the id of the workflow model to which the last stat configuration should be requested
      * @return the raw XML data of the last used start configuration or null.
      * @throws TransactionException
      *             if the transaction is aborted for any reason.

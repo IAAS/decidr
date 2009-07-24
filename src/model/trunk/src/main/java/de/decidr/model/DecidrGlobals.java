@@ -193,7 +193,7 @@ public class DecidrGlobals {
 
     /**
      * @param webServiceName
-     *            name of the web service such as "EmailWS"
+     *            the name of the webservice of which the url should be requested
      * @return An URL which can be used to connect to the web service identified
      *         by webServiceName
      */

@@ -62,7 +62,7 @@ public class TenantFacade extends AbstractFacade {
      * actor.
      * 
      * @param actor
-     *            TODO document
+     *            actor which executes all command of the facade
      */
     public TenantFacade(Role actor) {
         super(actor);
@@ -78,8 +78,6 @@ public class TenantFacade extends AbstractFacade {
      * @param adminId
      *            the id of the tenant admin user
      * @return id of the new tenant
-     * @throws TransactionException
-     *             TODO document
      */
     @AllowedRole(UserRole.class)
     public Long createTenant(String name, String description, Long adminId)
@@ -104,8 +102,6 @@ public class TenantFacade extends AbstractFacade {
      *            the id of the tenant which should be changed
      * @param description
      *            the new description
-     * @throws TransactionException
-     *             TODO document
      */
     @AllowedRole(TenantAdminRole.class)
     public void setDescription(Long tenantId, String description)
@@ -124,8 +120,8 @@ public class TenantFacade extends AbstractFacade {
      * Returns the tenant logo as <code>{@link InputStream}</code>.
      * 
      * @param tenantId
-     *            TODO document
-     * @return tenant logo
+     *            the id of the tenant
+     * @return tenant logo the logo of the tenant
      */
     @AllowedRole(Role.class)
     public InputStream getLogo(Long tenantId) throws TransactionException {
@@ -152,8 +148,6 @@ public class TenantFacade extends AbstractFacade {
      *            the mimetype of the logo file
      * @param fileName
      *            the file name of the logo file
-     * @throws TransactionException
-     *             TODO document
      */
     @AllowedRole(TenantAdminRole.class)
     public void setLogo(Long tenantId, FileInputStream logo, String mimeType,
@@ -179,8 +173,6 @@ public class TenantFacade extends AbstractFacade {
      *            mime type of the file
      * @param fileName
      *            file name of the file
-     * @throws TransactionException
-     *             TODO document
      */
     @AllowedRole(TenantAdminRole.class)
     public void setSimpleColorScheme(Long tenantId,
@@ -207,8 +199,6 @@ public class TenantFacade extends AbstractFacade {
      *            mime type of the file
      * @param fileName
      *            file name of the file
-     * @throws TransactionException
-     *             TODO document
      */
     @AllowedRole(TenantAdminRole.class)
     public void setAdvancedColorScheme(FileInputStream advancedColorScheme,
@@ -235,8 +225,6 @@ public class TenantFacade extends AbstractFacade {
      *            mime type of the file
      * @param fileName
      *            file name of the file
-     * @throws TransactionException
-     *             TODO document
      */
     @AllowedRole(TenantAdminRole.class)
     public void setCurrentColorScheme(FileInputStream currentColorScheme,
@@ -255,10 +243,8 @@ public class TenantFacade extends AbstractFacade {
      * Returns the current color scheme as <code>{@link InputStream}</code>.
      * 
      * @param tenantId
-     *            TODO document
+     *           the ID of the tenant for which the color scheme is requested
      * @return tenant logo
-     * @throws TransactionException
-     *             TODO document
      */
     @AllowedRole(Role.class)
     public InputStream getCurrentColorScheme(Long tenantId)
@@ -279,11 +265,9 @@ public class TenantFacade extends AbstractFacade {
      * Adds a user as member of a tenant. Both IDs mustn't be <code>null</code>.
      * 
      * @param tenantId
-     *            TODO document
+     *            the ID of the tenant to which the user should be added
      * @param memberId
-     *            TODO document
-     * @throws TransactionException
-     *             TODO document
+     *            the ID of the user
      */
     @AllowedRole(TenantAdminRole.class)
     public void addTenantMember(Long tenantId, Long memberId)
@@ -309,12 +293,10 @@ public class TenantFacade extends AbstractFacade {
      * <code>null</code>.
      * 
      * @param tenantId
-     *            TODO document
+     *            the id of the tenant to which the workflow model should be added
      * @param name
-     *            TODO document
+     *            the name of the workflow model which should be created
      * @return id of the new workflow model
-     * @throws TransactionException
-     *             TODO document
      */
     @AllowedRole(TenantAdminRole.class)
     public Long createWorkflowModel(Long tenantId, String name)
@@ -340,11 +322,9 @@ public class TenantFacade extends AbstractFacade {
      * the given workflow model doesn't exist nothing will happen.
      * 
      * @param tenantId
-     *            TODO document
+     *            the id of the tenant from which the model should be removed
      * @param workflowModelId
-     *            TODO document
-     * @throws TransactionException
-     *             TODO document
+     *            the id of the model which should be removed
      */
     @AllowedRole(TenantAdminRole.class)
     public void removeWorkflowModel(Long workflowModelId)
@@ -363,7 +343,7 @@ public class TenantFacade extends AbstractFacade {
      * tenants will we ignored.
      * 
      * @param tenantIds
-     *            TODO document
+     *            a list of tenant IDs which should be approved
      */
     @AllowedRole(TenantAdminRole.class)
     public void approveTenants(List<Long> tenantIds)
@@ -383,9 +363,7 @@ public class TenantFacade extends AbstractFacade {
      * owners. Already approved/disapproved tenants will be ignored.
      * 
      * @param tenantIds
-     *            TODO document
-     * @throws TransactionException
-     *             TODO document
+     *            a list of IDs of tenants which should be disapproved
      */
     @AllowedRole(TenantAdminRole.class)
     public void disapproveTenants(List<Long> tenantIds)
@@ -404,7 +382,7 @@ public class TenantFacade extends AbstractFacade {
      * Deletes given tenant. Non-existing tenants will be ignored.
      * 
      * @param tenantIds
-     *            TODO document
+     *            a list of IDs of tenants which should be deleted
      */
     @AllowedRole(SuperAdminRole.class)
     public void deleteTenant(Long tenantId) throws TransactionException {
@@ -422,7 +400,7 @@ public class TenantFacade extends AbstractFacade {
      * If the tenantName doesn't exists, an exception will be thrown.
      * 
      * @param tenantName
-     *            TODO document
+     *            the name of the tenant
      * @return tenandId, if tenant doesn't exist, an exception is thrown
      * @throws TransactionException
      *             if tenant is not unique
@@ -442,19 +420,18 @@ public class TenantFacade extends AbstractFacade {
      * The tenant admin will not be part of the result. <br>
      * <br>
      * The returned Items contain the following properties:<br>
-     * TODO HTML list<br>
-     * - username<br>
-     * - first_name<br>
-     * - last_name<br>
-     * - email
+     * <ul>
+     * <il>username</il>
+     * <il>first_name</il>
+     * <il>last_name</il>
+     * <il>email</il>
+     * </ul>
      * 
      * @param tenantId
-     *            TODO document
+     *            the id of the tenant of which the users should be given back
      * @param paginator
      *            TODO document
      * @return <code>{@link List<Item>}</code> Users of the given tenant
-     * @throws TransactionException
-     *             TODO document
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(WorkflowAdminRole.class)
@@ -504,19 +481,18 @@ public class TenantFacade extends AbstractFacade {
      * Returns the WorkflowItems of the given tenant. <br>
      * <br>
      * The returned Items contain the following properties:<br>
-     * TODO HTML list<br>
-     * - id<br>
-     * - startDate<br>
-     * - workflow_model<br>
-     * - tenant_name
+     * <ul>
+     * <li>id</li>
+     * <li>startDate</li>
+     * <li>workflow_model</li>
+     * <li>tenant_name</li>
+     * </ul>
      * 
      * @param tenantId
-     *            TODO document
+     *            id of the tenant
      * @param paginator
      *            TODO document
      * @return TODO document
-     * @throws TransactionException
-     *             TODO document
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(WorkflowAdminRole.class)
@@ -557,19 +533,18 @@ public class TenantFacade extends AbstractFacade {
     /**
      * Returns a list of all tenants which have to be approved as List<Item>
      * Each Item has the following properties:<br>
-     * TODO HTML list<br>
-     * - id<br>
-     * - tenant_name<br>
-     * - first_name<br>
-     * - last_name<br>
+     * <ul>
+     * <li>id</li>
+     * <li>tenant_name</li>
+     * <li>first_name</li>
+     * <li>last_name</li>
+     * </ul>
      * 
      * @param filters
      *            TODO document
      * @param paginator
      *            TODO document
      * @return TODO document
-     * @throws TransactionException
-     *             TODO document
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(SuperAdminRole.class)
@@ -603,22 +578,21 @@ public class TenantFacade extends AbstractFacade {
      * Returns a list of all Tenants as <code>{@link List<Item>}</code>. The
      * result can be filtered by using filters and split in several pages by
      * using a paginator. Each item has the following properties:<br>
-     * TODO HTML list<br>
-     * -adminFirstName<br>
-     * -adminLastName<br>
-     * -id<br>
-     * -numDeployedWorkflowModels<br>
-     * -numMembers<br>
-     * -numWorkflowInstance<br>
-     * -tenantName<br>
+     * <ul>
+     * <li>adminFirstName</li>
+     * <li>adminLastName</li>
+     * <li>id</li>
+     * <li>numDeployedWorkflowModels</li>
+     * <li>numMembers</li>
+     * <li>numWorkflowInstance</li>
+     * <li>tenantName</li>
+     * </ul>
      * 
      * @param filters
      *            TODO document
      * @param paginator
      *            TODO document
      * @return TODO document
-     * @throws TransactionException
-     *             TODO document
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(SuperAdminRole.class)
@@ -648,10 +622,11 @@ public class TenantFacade extends AbstractFacade {
     /**
      * Returns the WorkflowModels of the given tenant as List<Item>. Each Item
      * has the following properties<br>
-     * TODO HTML list<br>
-     * - name<br>
-     * - creationDate<br>
-     * - published<br>
+     * <ul>
+     * <li>name</li>
+     * <li>creationDate</li>
+     * <li>published</li>
+     * </ul>
      * 
      * @param tenantId
      *            TODO document
@@ -660,8 +635,6 @@ public class TenantFacade extends AbstractFacade {
      * @param paginator
      *            TODO document
      * @return TODO document
-     * @throws TransactionException
-     *             TODO document
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(TenantAdminRole.class)
@@ -694,11 +667,9 @@ public class TenantFacade extends AbstractFacade {
      * will be thrown.
      * 
      * @param tenantId
-     *            TODO document
+     *            the id of the tenant where the users should be invited to
      * @param emailOrUsernames
-     *            TODO document
-     * @throws TransactionException
-     *             TODO document
+     *            a list of strings which includes email addresses and usernames which should be invited
      */
     @AllowedRole(WorkflowAdminRole.class)
     public void inviteUsersAsMembers(Long tenantId, List<String> emails,
@@ -717,11 +688,9 @@ public class TenantFacade extends AbstractFacade {
      * the given models are not public an exception will be thrown.
      * 
      * @param tenantId
-     *            TODO document
+     *            id of the tenant where the models should be imported
      * @param workflowModelIds
-     *            TODO document
-     * @throws TransactionException
-     *             TODO document
+     *            a list of the IDs of the models which should be imported
      */
     @AllowedRole(TenantAdminRole.class)
     public void importPublishedWorkflowModels(Long tenantId,

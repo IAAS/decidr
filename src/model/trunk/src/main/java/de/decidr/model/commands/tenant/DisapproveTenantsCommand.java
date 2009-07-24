@@ -29,7 +29,7 @@ public class DisapproveTenantsCommand extends AclEnabledCommand {
      * @param role
      *            the user which executes the command
      * @param tenantIds
-     *            TODO document
+     *            list of tenantIds which should be disapproved
      */
     public DisapproveTenantsCommand(Role role, List<Long> tenantIds) {
         super(role, (Permission) null);

@@ -24,11 +24,5 @@ package de.decidr.model.enums;
  */
 public enum WorkItemStatus {
 
-    Fresh {// TODO why empty? should be removed/commented --reini
-    },
-    InProgress {
-    },
-    Done {
-    }
-
+    Fresh, InProgress, Done
 }

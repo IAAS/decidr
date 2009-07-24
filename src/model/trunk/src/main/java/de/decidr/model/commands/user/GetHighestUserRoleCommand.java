@@ -62,7 +62,7 @@ public class GetHighestUserRoleCommand extends UserCommand {
             return;
         }
 
-        // check if tenant admin TODO if the tenant admin what?
+        // check if user is tenant admin
 
         Query q = evt.getSession().createQuery(
                 "select count(*) from Tenant a where a.admin.id = :userId");
@@ -77,7 +77,7 @@ public class GetHighestUserRoleCommand extends UserCommand {
             return;
         }
 
-        // check if workflow admin TODO if the workflow admin what?
+        // check if user is workflow admin
         Query q2 = evt
                 .getSession()
                 .createQuery(
@@ -93,7 +93,7 @@ public class GetHighestUserRoleCommand extends UserCommand {
             return;
         }
 
-        // check if member TODO if member what?
+        // check if user is member
         Query q3 = evt
                 .getSession()
                 .createQuery(
@@ -114,7 +114,7 @@ public class GetHighestUserRoleCommand extends UserCommand {
     }
 
     /**
-     * @return the result TODO document
+     * @return highest role of the given user
      */
     public Class<? extends UserRole> getResult() {
         return result;

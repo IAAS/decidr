@@ -30,7 +30,7 @@ public class ApproveTenantsCommand extends AclEnabledCommand {
      * @param role
      *            the user which executes the command
      * @param tenantIds
-     *            TODO document
+     *            list of IDs of tenants which should be approved
      */
     public ApproveTenantsCommand(Role role, List<Long> tenantIds) {
         super(role, (Permission) null);

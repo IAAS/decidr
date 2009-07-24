@@ -77,7 +77,7 @@ public class UserFacade extends AbstractFacade {
      * actor.
      * 
      * @param actor
-     *            TODO document
+     *            the user which will execute all commands of the facade
      */
     public UserFacade(Role actor) {
         super(actor);
@@ -99,7 +99,7 @@ public class UserFacade extends AbstractFacade {
      * @param email
      *            email address of user to register
      * @param passwordPlaintext
-     *            TODO document
+     *            the password as plain text string
      * @param userProfile
      *            the user profile data
      * @return The ID of the user that has been registered
@@ -199,9 +199,9 @@ public class UserFacade extends AbstractFacade {
      * Sets the email address of the given user to the new value.
      * 
      * @param userId
-     *            TODO document
+     *            the id of the user whose email address should be set
      * @param newEmail
-     *            TODO document
+     *            the new email address
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -221,7 +221,7 @@ public class UserFacade extends AbstractFacade {
      * to null.
      * 
      * @param userId
-     *            TODO document
+     *            the id of the user whose disable date should be set
      * @param date
      *            to re-active the user, set this parameter to null.
      * @throws TransactionException
@@ -243,7 +243,7 @@ public class UserFacade extends AbstractFacade {
      * set his unavailable date to null.
      * 
      * @param userId
-     *            TODO document
+     *            the id of the user whose unavailable date should be set
      * @param date
      *            to flag the user as available, set this parameter to null.
      * @throws TransactionException
@@ -607,11 +607,12 @@ public class UserFacade extends AbstractFacade {
     /**
      * Returns all administrated workflow instances of the given user as Item.
      * Each item has the following properties:<br>
-     * TODO use proper HTML list<br>
-     * -id<br>
-     * -startedDate<br>
-     * -completedDate<br>
-     * -model
+     * <ul>
+     * <li>id</li>
+     * <li>startedDate</li>
+     * <li>completedDate</li>
+     * <li>model</li>
+     * </ul>
      * 
      * @param userId
      *            TODO document
@@ -720,12 +721,14 @@ public class UserFacade extends AbstractFacade {
     /**
      * Returns the workitems of the given user as List<Item> with the following
      * properties:<br>
-     * TODO HTML list<br>
-     * - creationDate<br>
-     * - userId<br>
-     * - id<br>
-     * - tenantName<br - workItemName<br>
-     * - workItemStatus
+     * <ul>
+     * <li>creationDate</li>
+     * <li>userId</li>
+     * <li>id</li>
+     * <li>tenantName</li>
+     * <li>workItemName</li>
+     * <li>workItemStatus</li>
+     * </ul>
      * 
      * @param userId
      *            TODO document

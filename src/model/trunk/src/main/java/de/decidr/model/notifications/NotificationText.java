@@ -35,9 +35,9 @@ public class NotificationText {
      * (re-)activated by a super admin.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message with HTML tags
      */
     public static String getActivatedUserAccountHTML(String userName,
@@ -62,9 +62,9 @@ public class NotificationText {
      * (re-)activated by a super admin.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message
      */
     public static String getActivatedUserAccountText(String userName,
@@ -93,7 +93,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return TODO document
+     * @return GH document
      */
     public static String getActivatedUserAccountSubject() {
         String message = "DecidR: Account Activated!";
@@ -106,16 +106,16 @@ public class NotificationText {
      * this tenant.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param promoterName
      *            username of the tenant admin, who appointed this user to wfm
      *            admin
      * @param tenantName
-     *            TODO document
+     *            GH document
      * @param wfmName
      *            name of the workflow model
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message with HTML tags
      */
     public static String getAppointedWorkflowModelAdminHTML(String userName,
@@ -145,16 +145,16 @@ public class NotificationText {
      * this tenant.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param promoterName
      *            username of the tenant admin, who appointed this user to wfm
      *            admin
      * @param tenantName
-     *            TODO document
+     *            GH document
      * @param wfmName
      *            name of the workflow model
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message
      */
     public static String getAppointedWorkflowModelAdminText(String userName,
@@ -186,7 +186,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return TODO document
+     * @return GH document
      */
     public static String getAppointedWorkflowModelAdminSubject() {
         String message = "DecidR: Workflow Model Admin Promotion";
@@ -198,11 +198,11 @@ public class NotificationText {
      * new tenant has been approved.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param tenantName
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message with HTML tags
      */
     public static String getApprovedTenantHTML(String userName,
@@ -228,11 +228,11 @@ public class NotificationText {
      * new tenant has been approved.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param tenantName
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message
      */
     public static String getApprovedTenantText(String userName,
@@ -261,7 +261,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return TODO document
+     * @return GH document
      */
     public static String getApprovedTenantSubject() {
         String message = "DecidR: Tenant Approved!";
@@ -273,13 +273,13 @@ public class NotificationText {
      * change his accounts email address.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param confirmationUrl
-     *            TODO document
+     *            GH document
      * @param expireDate
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message with HTML tags
      */
     public static String getChangeEmailRequestHTML(String userName,
@@ -310,13 +310,13 @@ public class NotificationText {
      * change his accounts email address.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param confirmationUrl
-     *            TODO document
+     *            GH document
      * @param expireDate
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message
      */
     public static String getChangeEmailRequestText(String userName,
@@ -355,7 +355,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return TODO document
+     * @return GH document
      */
     public static String getChangeEmailRequestSubject() {
         String message = "DecidR: New E-Mail Address";
@@ -367,13 +367,13 @@ public class NotificationText {
      * confirm and activate his account.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param confirmationUrl
-     *            TODO document
+     *            GH document
      * @param expireDate
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message with HTML tags
      */
     public static String getConfirmRegistrationHTML(String userName,
@@ -403,13 +403,13 @@ public class NotificationText {
      * confirm and activate his account.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param confirmationUrl
-     *            TODO document
+     *            GH document
      * @param expireDate
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message
      */
     public static String getConfirmRegistrationText(String userName,
@@ -448,7 +448,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return TODO document
+     * @return GH document
      */
     public static String getConfirmRegistrationSubject() {
         String message = "DecidR: Confirm Registration";
@@ -460,9 +460,9 @@ public class NotificationText {
      * deactivated by a super admin.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message with HTML tags
      */
     public static String getDeactivatedUserAccountHTML(String userName,
@@ -487,9 +487,9 @@ public class NotificationText {
      * deactivated by a super admin.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message
      */
     public static String getDeactivatedUserAccountText(String userName,
@@ -518,23 +518,23 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return TODO document
+     * @return GH document
      */
     public static String getDeactivatedUserAccountSubject() {
         String message = "DecidR: Account Deactivated!";
         return message;
     }
 
-    /**
+    /**GH ToDo
      * Returns the email text which is sent to a user, whose attempt to create a
      * new tenant has been rejected.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param tenantName
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message with HTML tags
      */
     public static String getDisapprovedTenantHTML(String userName,
@@ -558,11 +558,11 @@ public class NotificationText {
      * new tenant has been rejected.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param tenantName
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message
      */
     public static String getDisapprovedTenantText(String userName,
@@ -589,7 +589,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return TODO document
+     * @return GH document
      */
     public static String getDisapprovedTenantSubject() {
         String message = "DecidR: Tenant disapproved";
@@ -601,11 +601,11 @@ public class NotificationText {
      * generated a new password.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param newPassword
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message with HTML tags
      */
     public static String getGeneratedNewPasswordHTML(String userName,
@@ -631,11 +631,11 @@ public class NotificationText {
      * generated a new password.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param newPassword
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message
      */
     public static String getGeneratedNewPasswordText(String userName,
@@ -665,7 +665,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return TODO document
+     * @return GH document
      */
     public static String getGeneratedNewPasswordSubject() {
         String message = "DecidR: New Password";
@@ -677,19 +677,19 @@ public class NotificationText {
      * join a tenant and is already registered.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param inviterName
      *            GH: The real name of the inviter?
      * @param tenantName
-     *            TODO document
+     *            GH document
      * @param tenantUrl
-     *            TODO document
+     *            GH document
      * @param invitationUrl
-     *            TODO document
+     *            GH document
      * @param expireDate
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message with HTML tags
      */
     public static String getInviteRegisteredUserAsTenantMemberHTML(
@@ -727,19 +727,19 @@ public class NotificationText {
      * join a tenant and is already registered.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param inviterName
      *            GH: The real name of the inviter?
      * @param tenantName
-     *            TODO document
+     *            GH document
      * @param tenantUrl
-     *            TODO document
+     *            GH document
      * @param invitationUrl
-     *            TODO document
+     *            GH document
      * @param expireDate
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message
      */
     public static String getInviteRegisteredUserAsTenantMemberText(
@@ -784,7 +784,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return TODO document
+     * @return GH document
      */
     public static String getInviteRegisteredUserAsTenantMemberSubject(
             String tenantName) {
@@ -799,15 +799,15 @@ public class NotificationText {
      * @param inviterName
      *            GH: The real name of the inviter?
      * @param tenantName
-     *            TODO document
+     *            GH document
      * @param tenantUrl
-     *            TODO document
+     *            GH document
      * @param invitationUrl
-     *            TODO document
+     *            GH document
      * @param expireDate
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message with HTML tags
      */
     public static String getInviteUnregisteredUserAsTenantMemberHTML(
@@ -845,15 +845,15 @@ public class NotificationText {
      * @param inviterName
      *            GH: The real name of the inviter?
      * @param tenantName
-     *            TODO document
+     *            GH document
      * @param tenantUrl
-     *            TODO document
+     *            GH document
      * @param invitationUrl
-     *            TODO document
+     *            GH document
      * @param expireDate
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message
      */
     public static String getInviteUnregisteredUserAsTenantMemberText(
@@ -896,7 +896,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return TODO document
+     * @return GH document
      */
     public static String getInviteUnregisteredUserAsTenantMemberSubject() {
         String message = "Your Invitation to DecidR!";
@@ -908,13 +908,13 @@ public class NotificationText {
      * work item.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param tenantName
-     *            TODO document
+     *            GH document
      * @param workflowModelName
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message with HTML tags
      */
     public static String getNewWorkItemHTML(String userName, String tenantName,
@@ -938,13 +938,13 @@ public class NotificationText {
      * work item.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param tenantName
-     *            TODO document
+     *            GH document
      * @param workflowModelName
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message
      */
     public static String getNewWorkItemText(String userName, String tenantName,
@@ -971,7 +971,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return TODO document
+     * @return GH document
      */
     public static String getNewWorkItemSubject(String tenantName) {
         String message = "DecidR: New Work Item From " + tenantName;
@@ -983,13 +983,13 @@ public class NotificationText {
      * reset his password.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param confirmationUrl
-     *            TODO document
+     *            GH document
      * @param expireDate
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message with HTML tags
      */
     public static String getPasswordResetRequestHTML(String userName,
@@ -1022,13 +1022,13 @@ public class NotificationText {
      * reset his password.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param confirmationUrl
-     *            TODO document
+     *            GH document
      * @param expireDate
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message
      */
     public static String getPasswordResetRequestText(String userName,
@@ -1070,7 +1070,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return TODO document
+     * @return GH document
      */
     public static String getPasswordResetRequestSubject() {
         String message = "DecidR: Password Reset";
@@ -1086,9 +1086,9 @@ public class NotificationText {
      * @param refusedByName
      *            user name of the user who has been invited
      * @param tenantName
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message with HTML tags
      */
     public static String getRefusedInvitationHTML(String userName,
@@ -1118,9 +1118,9 @@ public class NotificationText {
      * @param refusedByName
      *            user name of the user who has been invited
      * @param tenantName
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message
      */
     public static String getRefusedInvitationText(String userName,
@@ -1149,7 +1149,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return TODO document
+     * @return GH document
      */
     public static String getRefusedInvitationSubject() {
         String message = "DecidR: Invitation Refused";
@@ -1161,11 +1161,11 @@ public class NotificationText {
      * a tenant.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param tenantName
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message with HTML tags
      */
     public static String getRemovedFromTenantHTML(String userName,
@@ -1190,11 +1190,11 @@ public class NotificationText {
      * a tenant.
      * 
      * @param userName
-     *            TODO document
+     *            GH document
      * @param tenantName
-     *            TODO document
+     *            GH document
      * @param signature
-     *            TODO document
+     *            GH document
      * @return complete email message
      */
     public static String getRemovedFromTenantText(String userName,
@@ -1222,7 +1222,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return TODO document
+     * @return GH document
      */
     public static String getRemovedFromTenantSubject() {
         String message = "DecidR: Tenant Membership Canceled";

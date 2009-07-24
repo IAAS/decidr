@@ -54,9 +54,7 @@ public final class NotificationEvents {
      * Informs the user, that he has a new Workitem.
      * 
      * @param newWorkItem
-     *            TODO document
-     * @throws TransactionException
-     *             TODO document
+     *            the corresponding workitem which has been created         
      */
     @SuppressWarnings("unchecked")
     public static void createdWorkItem(WorkItem newWorkItem)
@@ -124,9 +122,7 @@ public final class NotificationEvents {
      * Sends the user the password request mail.
      * 
      * @param request
-     *            TODO document
-     * @throws TransactionException
-     *             TODO document
+     *            the password request which has been created
      */
     @SuppressWarnings("unchecked")
     public static void createdPasswordResetRequest(PasswordResetRequest request)
@@ -203,12 +199,10 @@ public final class NotificationEvents {
     /**
      * Informs the user, that is tenant has been disapproved.
      * 
-     * @param email
-     *            TODO document
+     * @param user
+     *            user who created the tenant
      * @param tenantName
-     *            TODO document
-     * @throws TransactionException
-     *             TODO document
+     *            name of the tenant which has been disapproved
      */
     @SuppressWarnings("unchecked")
     public static void disapprovedTenant(User user, String tenantName)
@@ -264,9 +258,7 @@ public final class NotificationEvents {
      * Informs the registered user that he has been invited as a tenant member.
      * 
      * @param invitation
-     *            TODO document
-     * @throws TransactionException
-     *             TODO document
+     *            the corresponding invitation
      */
     @SuppressWarnings("unchecked")
     public static void invitedRegisteredUserAsTenantMember(Invitation invitation)
@@ -349,9 +341,7 @@ public final class NotificationEvents {
      * member.
      * 
      * @param invitation
-     *            TODO document
-     * @throws TransactionException
-     *             TODO document
+     *            the corresponding invitation
      */
     @SuppressWarnings("unchecked")
     public static void invitedUnregisteredUserAsTenantMember(
@@ -431,11 +421,9 @@ public final class NotificationEvents {
      * Informs the user that he has been removed from the tenant.
      * 
      * @param user
-     *            TODO document
+     *            the user who has been removed
      * @param tenant
-     *            TODO document
-     * @throws TransactionException
-     *             TODO document
+     *            the tenant from which the user has been removed
      */
     @SuppressWarnings("unchecked")
     public static void removedFromTenant(User user, Tenant tenant)
@@ -501,9 +489,7 @@ public final class NotificationEvents {
      * Informs the sender of an invitation that the invitation has been refused.
      * 
      * @param invitation
-     *            TODO document
-     * @throws TransactionException
-     *             TODO document
+     *            corresponding invitation
      */
     @SuppressWarnings("unchecked")
     public static void refusedInvitation(Invitation invitation)
@@ -566,11 +552,9 @@ public final class NotificationEvents {
      * The password will be delivered too.
      * 
      * @param user
-     *            TODO document
+     *            the user which should be informed
      * @param newPassword
-     *            TODO document
-     * @throws TransactionException
-     *             TODO document
+     *            the new password as string
      */
     @SuppressWarnings("unchecked")
     public static void generatedNewPassword(User user, String newPassword)

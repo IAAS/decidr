@@ -41,12 +41,10 @@ public class LifetimeValidator {
      * Checks whether a password reset request is still valid.
      * 
      * @param request
-     *            TODO document
+     *            the request which should be checked
      * @param session
-     *            TODO document
+     *            the current session
      * @return true iff the given password reset request is still valid
-     * @throws TransactionException
-     *             TODO document
      */
     public static Boolean isPasswordResetRequestValid(
             PasswordResetRequest request, Session session)
@@ -59,12 +57,10 @@ public class LifetimeValidator {
      * Checks whether an invitation is still valid.
      * 
      * @param invitation
-     *            TODO document
+     *            the invitation which should be checked
      * @param session
-     *            TODO document
+     *            the current session
      * @return true iff the given invitation is still valid
-     * @throws TransactionException
-     *             TODO document
      */
     public static Boolean isInvitationValid(Invitation invitation)
             throws TransactionException {
@@ -76,12 +72,10 @@ public class LifetimeValidator {
      * Checks whether a registration request is still valid.
      * 
      * @param request
-     *            TODO document
+     *            the request which should be checked
      * @param session
-     *            TODO document
+     *            the current session
      * @return true iff the given registration request is still valid.
-     * @throws TransactionException
-     *             TODO document
      */
     public static Boolean isRegistrationRequestValid(RegistrationRequest request)
             throws TransactionException {
@@ -93,10 +87,8 @@ public class LifetimeValidator {
      * Checks whether a change email request is still valid.
      * 
      * @param request
-     *            TODO document
+     *            the request which should be checked
      * @return true iff the given request is still valid.
-     * @throws TransactionException
-     *             TODO document
      */
     public static Boolean isChangeEmailRequestValid(ChangeEmailRequest request)
             throws TransactionException {
@@ -109,9 +101,9 @@ public class LifetimeValidator {
      * lifetime.
      * 
      * @param creationDate
-     *            TODO document
+     *            the date of the creation
      * @param lifetimeSeconds
-     *            TODO document
+     *            the lifetime of the object
      * @return true iff the request is still alive/valid
      */
     private static Boolean requestIsAlive(Date creationDate, int lifetimeSeconds) {

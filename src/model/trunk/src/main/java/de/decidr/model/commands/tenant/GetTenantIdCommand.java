@@ -24,7 +24,7 @@ public class GetTenantIdCommand extends TenantCommand {
     private Long tenantId = null;
 
     /**
-     * Creates a new GetTenantIsCommand. This Command writes the id of the given
+     * Creates a new GetTenantIdCommand. This command writes the ID of the given
      * tenant in the variable result. If the tenantName doesn't exists, an
      * exception will be thrown.
      * 

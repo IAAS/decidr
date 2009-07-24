@@ -32,9 +32,9 @@ public class CreateWorkflowModelCommand extends TenantCommand {
      * @param role
      *            TODO document
      * @param tenantId
-     *            TODO document
+     *            the id of the tenant to which the model should be added
      * @param WorkflowModelName
-     *            TODO document
+     *            the name of the model which should be created
      */
     public CreateWorkflowModelCommand(Role role, Long tenantId,
             String WorkflowModelName) {
