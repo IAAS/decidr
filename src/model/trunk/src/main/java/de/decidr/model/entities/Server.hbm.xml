@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 17.07.2009 17:02:43 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 24.07.2009 17:05:33 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.Server" table="server" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="java.lang.Long">
@@ -18,6 +18,9 @@
             <column name="load" not-null="true">
                 <comment>Ranges from 0 to 100 percent</comment>
             </column>
+        </property>
+        <property name="lastLoadUpdate" type="timestamp">
+            <column name="lastLoadUpdate" length="19" />
         </property>
         <property name="locked" type="boolean">
             <column name="locked" not-null="true">

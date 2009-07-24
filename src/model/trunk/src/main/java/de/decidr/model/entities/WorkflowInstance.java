@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 17.07.2009 17:02:43 by Hibernate Tools 3.2.4.GA
+// Generated 24.07.2009 17:05:33 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -33,13 +33,11 @@ public class WorkflowInstance implements java.io.Serializable {
     }
 
     public WorkflowInstance(DeployedWorkflowModel deployedWorkflowModel,
-            Server server, String odePid, byte[] startConfiguration,
-            Date startedDate) {
+            Server server, String odePid, byte[] startConfiguration) {
         this.deployedWorkflowModel = deployedWorkflowModel;
         this.server = server;
         this.odePid = odePid;
         this.startConfiguration = startConfiguration;
-        this.startedDate = startedDate;
     }
 
     public WorkflowInstance(

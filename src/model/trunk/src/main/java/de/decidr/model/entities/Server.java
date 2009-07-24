@@ -1,7 +1,8 @@
 package de.decidr.model.entities;
 
-// Generated 17.07.2009 17:02:43 by Hibernate Tools 3.2.4.GA
+// Generated 24.07.2009 17:05:33 by Hibernate Tools 3.2.4.GA
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ public class Server implements java.io.Serializable {
     private ServerType serverType;
     private String location;
     private byte load;
+    private Date lastLoadUpdate;
     private boolean locked;
     private boolean dynamicallyAdded;
     private Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers = new HashSet<WorkflowModelIsDeployedOnServer>(
@@ -41,6 +43,7 @@ public class Server implements java.io.Serializable {
             ServerType serverType,
             String location,
             byte load,
+            Date lastLoadUpdate,
             boolean locked,
             boolean dynamicallyAdded,
             Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers,
@@ -48,6 +51,7 @@ public class Server implements java.io.Serializable {
         this.serverType = serverType;
         this.location = location;
         this.load = load;
+        this.lastLoadUpdate = lastLoadUpdate;
         this.locked = locked;
         this.dynamicallyAdded = dynamicallyAdded;
         this.workflowModelIsDeployedOnServers = workflowModelIsDeployedOnServers;
@@ -84,6 +88,14 @@ public class Server implements java.io.Serializable {
 
     public void setLoad(byte load) {
         this.load = load;
+    }
+
+    public Date getLastLoadUpdate() {
+        return this.lastLoadUpdate;
+    }
+
+    public void setLastLoadUpdate(Date lastLoadUpdate) {
+        this.lastLoadUpdate = lastLoadUpdate;
     }
 
     public boolean isLocked() {
