@@ -35,5 +35,5 @@ public interface DeploymentStrategy {
      * @param serverStatistics
      * @return
      */
-    public List<Long> selectServer(List<ServerLoadView> serverStatistics);
+    public List<ServerLoadView> selectServer(List<ServerLoadView> serverStatistics);
 }

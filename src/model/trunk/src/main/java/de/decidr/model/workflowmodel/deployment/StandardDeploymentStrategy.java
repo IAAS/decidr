@@ -32,7 +32,7 @@ public class StandardDeploymentStrategy implements DeploymentStrategy {
      * @see de.decidr.model.workflowmodel.deployment.DeploymentStrategy#selectServer(java.util.List)
      */
     @Override
-    public List<Long> selectServer(List<ServerLoadView> serverStatistics) {
+    public List<ServerLoadView> selectServer(List<ServerLoadView> serverStatistics) {
         // MA Auto-generated method stub
         return null;
     }

@@ -50,8 +50,9 @@ public class Translator {
     private byte[] soap = null;
     private Definition wsdl = null;
     private List<Definition> webservicesWSDLs = null;
+    private String tenantName = null;
 
-    public void load(byte[] dwdl) throws JAXBException {
+    public void load(byte[] dwdl, String tenantName) throws JAXBException {
         JAXBContext dwdlCntxt = JAXBContext.newInstance(TWorkflow.class);
         Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
         JAXBElement<TWorkflow> element = dwdlUnmarshaller.unmarshal(
@@ -59,10 +60,11 @@ public class Translator {
                 TWorkflow.class);
 
         dwdlWorkflow = element.getValue();
+        this.tenantName = tenantName;
     }
 
-    public void load(byte[] dwdl, List<KnownWebService> webservices)
-            throws JAXBException, WSDLException, IOException {
+    public void load(byte[] dwdl, List<KnownWebService> webservices,
+            String tenantName) throws JAXBException, WSDLException, IOException {
 
         webservicesWSDLs = new ArrayList<Definition>();
         JAXBContext dwdlCntxt = JAXBContext.newInstance(TWorkflow.class);
@@ -84,11 +86,13 @@ public class Translator {
             webservicesWSDLs.add(def);
         }
         dwdlWorkflow = element.getValue();
+        this.tenantName = tenantName;
     }
 
     public TProcess getBPEL() {
         DWDL2BPEL bpelConverter = new DWDL2BPEL();
-        bpelProcess = bpelConverter.getBPEL(dwdlWorkflow, webservicesWSDLs);
+        bpelProcess = bpelConverter.getBPEL(dwdlWorkflow, webservicesWSDLs,
+                tenantName);
         return bpelProcess;
     }
 

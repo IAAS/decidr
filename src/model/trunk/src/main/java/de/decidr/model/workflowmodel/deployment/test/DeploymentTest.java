@@ -46,7 +46,7 @@ public class DeploymentTest {
     public static void main(String[] args) {
         try {
             Translator t = new Translator();
-            t.load(getBytesFromFile(new File("sampleProcess.xml")));
+            t.load(getBytesFromFile(new File("sampleProcess.xml")), "IAAS");
             System.out.println("Done");
             TProcess p = t.getBPEL();
             JAXBContext cntxt = JAXBContext.newInstance(TProcess.class);

@@ -18,6 +18,7 @@ package de.decidr.model.workflowmodel.deployment;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -49,7 +50,8 @@ import de.decidr.model.workflowmodel.dwdl.validation.Validator;
  */
 public class DeployerImpl implements Deployer {
 
-    private List<Long> serverList = null;
+    private List<ServerLoadView> serverLoadViewList = null;
+    private List<Long> serverList = new ArrayList<Long>();
     private Validator validator = null;
     private List<IProblem> problems = null;
     private Translator translator = null;
@@ -74,24 +76,23 @@ public class DeployerImpl implements Deployer {
         if (!problems.isEmpty()) {
             throw new DWDLValidationException(problems);
         }
-        serverList = strategy.selectServer(serverStatistics);
-        if (serverList.isEmpty()) {
+        serverLoadViewList = strategy.selectServer(serverStatistics);
+        if (serverLoadViewList.isEmpty()) {
             throw new ODESelectorException(serverStatistics);
         }
         translator = new Translator();
-        translator.load(dwdl, webservices);
+        translator.load(dwdl, webservices, tenantName);
         TProcess bpel = translator.getBPEL();
         byte[] soap = translator.getSOAP(); 
         Definition wsdl = null;
         TDeployment dd = null;
         fileDeployer = new FileDeployer();
-        for (long serverId : serverList){
-            // MA get right server
-            Server s = new Server();
-            wsdl = translator.getWSDL(s.getLocation(), tenantName);
+        for (ServerLoadView server : serverLoadViewList){
+            wsdl = translator.getWSDL(server.getLocation(), tenantName);
             dd = translator.getDD();
             byte[] zipFile = getDeploymentBundle(tenantName, bpel, wsdl, dd);
-            fileDeployer.deploy(zipFile, s.getLocation());
+            fileDeployer.deploy(zipFile, server.getLocation());
+            serverList.add(server.getId());
         }
         result = new DeploymentResultImpl();
         result.setDoplementDate(DecidrGlobals.getTime().getTime());
