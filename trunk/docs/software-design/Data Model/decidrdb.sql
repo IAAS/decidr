@@ -226,6 +226,7 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`server` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `location` VARCHAR(255) NOT NULL ,
   `load` TINYINT UNSIGNED NOT NULL COMMENT 'Ranges from 0 to 100 percent' ,
+  `lastLoadUpdate` DATETIME NULL ,
   `locked` BOOLEAN NOT NULL COMMENT 'Whether or not new workflow models may be deployed on this server.' ,
   `dynamicallyAdded` BOOLEAN NOT NULL ,
   `serverTypeId` BIGINT NOT NULL ,
@@ -570,6 +571,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`system_settings` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
+  `modifiedDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   `autoAcceptNewTenants` BOOLEAN NOT NULL DEFAULT FALSE ,
   `systemName` VARCHAR(255) NOT NULL DEFAULT 'DecidR' ,
   `domain` VARCHAR(255) NOT NULL DEFAULT 'decidr.de' ,
@@ -587,6 +589,16 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`system_settings` (
   `mtaPassword` VARCHAR(255) NOT NULL DEFAULT 'gn!le42' ,
   `maxUploadFileSizeBytes` BIGINT NOT NULL DEFAULT 10485760 COMMENT 'Default is 10 MB.' ,
   `maxAttachmentsPerEmail` INT NOT NULL DEFAULT 10 ,
+  `monitorUpdateIntervalSeconds` INT NOT NULL DEFAULT 60 COMMENT 'the monitor clients will send server load data this often to the load collector service' ,
+  `monitorAveragingPeriodSeconds` INT NOT NULL DEFAULT 300 COMMENT 'server load data is averaged over this time period when calculating the server load' ,
+  `serverPoolInstances` INT NOT NULL DEFAULT 5 COMMENT 'number of server instances that should never be shut down automatically by the monitor service' ,
+  `minServerLoadForLock` TINYINT NOT NULL DEFAULT 80 COMMENT 'If server load goes above this value, the server will be locked.' ,
+  `maxServerLoadForUnlock` TINYINT NOT NULL DEFAULT 80 COMMENT 'if server load goes below this value, the server will be unlocked\n' ,
+  `maxServerLoadForShutdown` TINYINT NOT NULL DEFAULT 20 COMMENT 'If server load goes below this value, the load monitor will consider shutting down the affected server.' ,
+  `minUnlockedServers` INT NOT NULL DEFAULT 1 COMMENT 'Number of servers that should remain unlocked even if their load is above minServerLoadForLock' ,
+  `minWorkflowInstancesForLock` INT NOT NULL DEFAULT 10 COMMENT 'If a server has more than minWorkflowInstancesForLock workflow instances it will be locked by the load monitor' ,
+  `maxWorkflowInstancesForUnlock` INT NOT NULL DEFAULT 8 ,
+  `maxWorkflowInstancesForShutdown` INT NOT NULL DEFAULT 1 COMMENT 'if a server has less than maxWorkflowInstancesForShutdown workflow instances, the load monitor will consider shutting it down.' ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_system_settings_user` (`superAdminId` ASC) ,
   CONSTRAINT `fk_system_settings_user`
@@ -1015,6 +1027,17 @@ END;//
 
 
 DELIMITER ;
+
+-- -----------------------------------------------------
+-- Data for table `decidrdb`.`server_type`
+-- -----------------------------------------------------
+SET AUTOCOMMIT=0;
+INSERT INTO `server_type` (`id`, `name`) VALUES (1, 'Ode');
+INSERT INTO `server_type` (`id`, `name`) VALUES (2, 'WebPortal');
+INSERT INTO `server_type` (`id`, `name`) VALUES (3, 'Esb');
+INSERT INTO `server_type` (`id`, `name`) VALUES (4, 'Storage');
+
+COMMIT;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
