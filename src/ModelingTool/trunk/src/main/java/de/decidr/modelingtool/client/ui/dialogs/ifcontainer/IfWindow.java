@@ -159,12 +159,6 @@ public class IfWindow extends Dialog {
 
     @Override
     public void initialize() {
-        // JS: remove this lines
-        if (model.getConditions().isEmpty()) {
-            Condition con1 = new Condition();
-            con1.setLabel("muhaha");
-            model.getConditions().add(con1);
-        }
         createFields();
     }
 

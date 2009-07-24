@@ -70,22 +70,6 @@ public class IfContainerModel extends ContainerModel {
         }
     }
 
-    private void setConditions(List<Condition> conditions) {
-        /*
-         * delete the old conditions before the new ones are added.
-         */
-        for (ConnectionModel con : getChildConnectionModels()) {
-            if (con instanceof Condition) {
-                // JS check if this is safe to do
-                getChildConnectionModels().remove(con);
-            }
-        }
-        /* add the new conditions */
-        for (Condition con : conditions) {
-            getChildConnectionModels().add(con);
-        }
-    }
-
     public void addCondition(Condition con) {
         getChildConnectionModels().add(con);
     }
