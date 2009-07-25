@@ -62,7 +62,7 @@ public class MailBackend {
      */
     private static final String WARNING_TESTING = "This method is for testing use only!";
 
-    private static final String EMPTY_SUBJECT = "<no subject>";
+    static final String EMPTY_SUBJECT = "<no subject>";
 
     private static Logger log = DefaultLogger.getLogger(MailBackend.class);
 
@@ -400,36 +400,43 @@ public class MailBackend {
     public void addHeader(String headerName, String headerContent) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addHeader(String, String)");
+        if (headerName == null || headerContent == null || headerName.isEmpty()
+                || headerContent.isEmpty()) {
+            log.error("headerName or headerContent was null or empty");
+            throw new IllegalArgumentException(
+                    "neither header name nor header value may be empty");
+        }
+
         /*
          * Trim the string in case somebody tries to circumvent the filter using
          * spaces.
          */
-        headerName = headerName.trim().toLowerCase();
+        String lowHeaderName = headerName.trim().toLowerCase();
 
-        if (headerName.equals("to")) {
+        if (lowHeaderName.equals("to")) {
             log.warn("The To: header should not be set using the "
                     + "addHeader() method. Delegating to setReceiver()...");
             setReceiver(headerContent);
-        } else if (headerName.equals("from")) {
+        } else if (lowHeaderName.equals("from")) {
             log.warn("The From: header should not be set using the "
                     + "addHeader() method. Delegating to setSender()...");
             setSender(null, headerContent);
-        } else if (headerName.equals("subject")) {
+        } else if (lowHeaderName.equals("subject")) {
             log.warn("The Subject: header should not be set using the "
                     + "addHeader() method. Delegating to setSubject()...");
             setSubject(headerContent);
-        } else if (headerName.equals("cc")) {
+        } else if (lowHeaderName.equals("cc")) {
             log.warn("The CC: header should not be set using the "
                     + "addHeader() method. Delegating to setCC()...");
             setCC(headerContent);
-        } else if (headerName.equals("bcc")) {
+        } else if (lowHeaderName.equals("bcc")) {
             log.warn("The BCC: header should not be set using the "
                     + "addHeader() method. Delegating to setBCC()...");
             setBCC(headerContent);
-        } else if (headerName.equals("x-mailer")
-                || headerName.equals("user-agent")
-                || headerName.equals("x-newsreader")) {
-            log.warn("The " + headerName + ": header should not "
+        } else if (lowHeaderName.equals("x-mailer")
+                || lowHeaderName.equals("user-agent")
+                || lowHeaderName.equals("x-newsreader")) {
+            log.warn("The " + lowHeaderName + ": header should not "
                     + "be set using the addHeader() method. "
                     + "Delegating to setXMailer()...");
             setXMailer(headerContent);
@@ -1014,7 +1021,7 @@ public class MailBackend {
                 + ".setCC(String)");
         if (cc == null || cc.trim().isEmpty()) {
             log.debug("detected empty parameter");
-            headerBCC = "";
+            headerCC = "";
             log.trace("Leaving " + MailBackend.class.getSimpleName()
                     + ".setCC(String)");
             return;
@@ -1095,17 +1102,27 @@ public class MailBackend {
     public void setReceiver(List<String> to) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setReceiver(List<String>)");
-        StringBuilder tos = new StringBuilder(to.size() * 20);
+        if (to == null) {
+            log.debug("parameter was null - delegating to "
+                    + "setReceiver(String) for error handling");
+            setReceiver((String) null);
+        } else {
+            StringBuilder tos = new StringBuilder(to.size() * 20);
+            if (to.size() == 0) {
+                log.debug("empty list detected");
+                tos.append("");
+            } else {
+                log.debug("Constructing header string from list...");
+                for (String recipient : to) {
+                    tos.append(recipient);
+                    tos.append(", ");
+                }
+                tos.delete(tos.length() - 2, tos.length());
+            }
 
-        log.debug("Constructing header string from list...");
-        for (String recipient : to) {
-            tos.append(recipient);
-            tos.append(", ");
+            log.debug("delegating to setReceiver(String)");
+            setReceiver(tos.toString());
         }
-        tos.delete(tos.length() - 2, tos.length());
-
-        log.debug("delegating to setReceiver(String)");
-        setReceiver(tos.toString());
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".setReceiver(List<String>)");
     }
@@ -1179,6 +1196,14 @@ public class MailBackend {
     public void setServerInfo(String hostname, int portNum) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setServerInfo(String, int)");
+        if (hostname == null || hostname.isEmpty()) {
+            log.error("An empty or null hostname is not valid");
+            throw new IllegalArgumentException("hostname null or empty");
+        }
+        if (portNum < -1) {
+            portNum = -1;
+        }
+
         setHostname(hostname);
         setPortNum(portNum);
         log.trace("Leaving " + MailBackend.class.getSimpleName()
@@ -1216,6 +1241,9 @@ public class MailBackend {
     public void setUsername(String username) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setUsername(String)");
+        if (username != null && username.isEmpty()) {
+            username = null;
+        }
         log.debug("setting username");
         this.username = username;
         log.trace("Leaving " + MailBackend.class.getSimpleName()
@@ -1234,6 +1262,9 @@ public class MailBackend {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setXMailer(String)");
         log.debug("setting user agent");
+        if (newXMailer != null && newXMailer.isEmpty()) {
+            newXMailer = null;
+        }
         headerXMailer = newXMailer;
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".setXMailer(String)");
