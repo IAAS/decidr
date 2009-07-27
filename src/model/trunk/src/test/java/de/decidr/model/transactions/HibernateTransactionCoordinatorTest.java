@@ -59,7 +59,7 @@ public class HibernateTransactionCoordinatorTest {
 
     }
 
-    class testCommandAboart extends AbstractTransactionalCommand {
+    class testCommandAbort extends AbstractTransactionalCommand {
 
         private Boolean started = false;
         private Boolean committed = false;
@@ -124,7 +124,7 @@ public class HibernateTransactionCoordinatorTest {
         TransactionCoordinator htc = HibernateTransactionCoordinator
                 .getInstance();
         testCommandCommit c = new testCommandCommit();
-        testCommandAboart c2 = new testCommandAboart();
+        testCommandAbort c2 = new testCommandAbort();
         Boolean transactionThrown = false;
 
         try {

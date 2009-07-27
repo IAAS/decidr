@@ -49,5 +49,4 @@ public class PasswordTest {
     public void testGetRandomSalt() {
         fail("not implemented");
     }
-
 }

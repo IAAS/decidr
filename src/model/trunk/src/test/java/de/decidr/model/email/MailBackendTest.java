@@ -41,6 +41,7 @@ import org.junit.Test;
  * 
  * @author Reinhold
  */
+// TODO somebody check for completeness
 public class MailBackendTest {
     MailBackend testMail;
 

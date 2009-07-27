@@ -34,6 +34,7 @@ public class DefaultLoggerTest {
 
         assertNotNull(logger);
 
+        // make sure no exceptions are thrown
         logger.debug("Debug");
         logger.info("Info");
         logger.warn("Warn");

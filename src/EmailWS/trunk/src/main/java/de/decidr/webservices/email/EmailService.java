@@ -329,8 +329,6 @@ public class EmailService implements EmailInterface {
                 email.setBodyHTML(bodyHTML);
             } catch (MessagingException e) {
                 throw new MessagingExceptionWrapper(e.getMessage());
-            } catch (IOException e) {
-                throw new IoExceptionWrapper(e.getMessage(), e.getCause());
             }
         }
 
@@ -340,8 +338,6 @@ public class EmailService implements EmailInterface {
                 email.setBodyText(bodyTXT);
             } catch (MessagingException e) {
                 throw new MessagingExceptionWrapper(e.getMessage());
-            } catch (IOException e) {
-                throw new IoExceptionWrapper(e.getMessage(), e.getCause());
             }
         }
 
