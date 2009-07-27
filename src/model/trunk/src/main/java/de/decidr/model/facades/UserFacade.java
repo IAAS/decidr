@@ -26,8 +26,10 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 
 import de.decidr.model.commands.user.CheckAuthKeyCommand;
+import de.decidr.model.commands.user.ConfirmChangeEmailRequestCommand;
 import de.decidr.model.commands.user.ConfirmInviationCommand;
 import de.decidr.model.commands.user.ConfirmPasswordResetCommand;
+import de.decidr.model.commands.user.ConfirmRegistrationCommand;
 import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
 import de.decidr.model.commands.user.GetAdminstratedWorkflowInstancesCommand;
 import de.decidr.model.commands.user.GetAllUsersCommand;
@@ -429,16 +431,45 @@ public class UserFacade extends AbstractFacade {
         }
     }
 
-    // FIXME Implement Me
+    /**
+     * Creates the user profile for the given user and removes the auth key.
+     * After that the user will be registered.
+     * 
+     * @param userId
+     *            ID of the user whose registration should be treated
+     * @param authKey
+     *            secret key which allows the user to confirm the registration
+     *            (was sent via email to the user)
+     */
     public void confirmRegistration(Long userId, String authKey)
             throws TransactionException {
-        throw new UnsupportedOperationException();
+
+        ConfirmRegistrationCommand command = new ConfirmRegistrationCommand(
+                actor, userId, authKey);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+
     }
 
-    // FIXME Implement Me
+    /**
+     * 
+     * This command changes the email address of the given user iff the given
+     * auth key is correct. If not an exception will be thrown. The request
+     * object will be deleted as all.
+     * 
+     * @param userId
+     *            ID of the user whose request should be treated
+     * @param requestAuthKey
+     *            the auth key which allows the user to change the address
+     */
     public void confirmChangeEmailRequest(Long userId, String requestAuthKey)
             throws TransactionException {
-        throw new UnsupportedOperationException();
+
+        ConfirmChangeEmailRequestCommand command = new ConfirmChangeEmailRequestCommand(
+                actor, userId, requestAuthKey);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+
     }
 
     /**
@@ -451,6 +482,7 @@ public class UserFacade extends AbstractFacade {
      */
     public void confirmInvitation(Long invitationId)
             throws TransactionException {
+
         ConfirmInviationCommand command = new ConfirmInviationCommand(actor,
                 invitationId);
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
@@ -512,8 +544,9 @@ public class UserFacade extends AbstractFacade {
      * <li>username</li>
      * </ul>
      * 
-     * @param filters {@link Filter}
-     *            
+     * @param filters
+     *            {@link Filter}
+     * 
      * @param paginator
      *            {@link Paginator}
      * @return list of vaadin items which are described above
@@ -616,7 +649,8 @@ public class UserFacade extends AbstractFacade {
      * </ul>
      * 
      * @param userId
-     *            the id of the user whose administrated workflow models should be requested
+     *            the id of the user whose administrated workflow models should
+     *            be requested
      * @return List of workflow models which are administrated by the given user
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
