@@ -50,7 +50,7 @@ public class InstanceManagerImpl implements InstanceManager {
                 .toString(), startConfiguration);
         SOAPExecution execution = new SOAPExecution();
         execution.invoke(serverID, soapMessage);
-        return null; // FIXME please create a new instance or alternatively
+        return null; // MA please create a new instance or alternatively
                      // create a new type "StartInstanceResult".
     }
 
