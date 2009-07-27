@@ -18,6 +18,11 @@ package de.decidr.modelingtool.client.menu;
 
 import com.google.gwt.user.client.Command;
 
+import de.decidr.modelingtool.client.exception.SaveDWDLException;
+import de.decidr.modelingtool.client.io.WorkflowIO;
+import de.decidr.modelingtool.client.io.WorkflowIOStub;
+import de.decidr.modelingtool.client.ui.Workflow;
+
 /**
  * TODO: add comment
  *
@@ -30,7 +35,14 @@ public class SaveMenuItem implements Command {
      */
     @Override
     public void execute() {
-        // TODO Auto-generated method stub
+        // JS replace with real implementation
+        WorkflowIO io = new WorkflowIOStub();
+        try {
+            io.saveWorkflow(Workflow.getInstance().getModel());
+        } catch (SaveDWDLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
 

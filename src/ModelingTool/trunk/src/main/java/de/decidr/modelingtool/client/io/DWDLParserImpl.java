@@ -16,23 +16,35 @@
 
 package de.decidr.modelingtool.client.io;
 
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.XMLParser;
+
 import de.decidr.modelingtool.client.model.WorkflowModel;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author Modood Alvi
  * @version 0.1
  */
 public class DWDLParserImpl implements DWDLParser {
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.decidr.modelingtool.client.io.DWDLParser#parse(java.lang.String)
      */
     @Override
     public WorkflowModel parse(String dwdl) {
         // TODO Auto-generated method stub
-        return null;
+        Document doc;
+        doc = XMLParser.createDocument();
+        doc = XMLParser.parse(dwdl);
+
+        WorkflowModel model = new WorkflowModel();
+        doc.getFirstChild().getNodeType();
+
+        return model;
     }
 
 }

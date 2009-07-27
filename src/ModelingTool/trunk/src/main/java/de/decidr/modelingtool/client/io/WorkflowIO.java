@@ -17,6 +17,7 @@
 package de.decidr.modelingtool.client.io;
 
 import de.decidr.modelingtool.client.exception.LoadDWDLException;
+import de.decidr.modelingtool.client.exception.SaveDWDLException;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 
 /**
@@ -27,7 +28,7 @@ import de.decidr.modelingtool.client.model.WorkflowModel;
  */
 public interface WorkflowIO {
 
-    public void saveWorkflow(WorkflowModel model);
+    public void saveWorkflow(WorkflowModel model) throws SaveDWDLException;
 
     public WorkflowModel loadWorkflow(long workflowModelId)
             throws LoadDWDLException;

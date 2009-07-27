@@ -17,6 +17,7 @@
 package de.decidr.modelingtool.client.io;
 
 import de.decidr.modelingtool.client.exception.LoadDWDLException;
+import de.decidr.modelingtool.client.exception.SaveDWDLException;
 import de.decidr.modelingtool.client.model.ConnectionModel;
 import de.decidr.modelingtool.client.model.ContainerStartConnectionModel;
 import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
@@ -45,7 +46,7 @@ public class WorkflowIOStub implements WorkflowIO {
         StartNodeModel start = new StartNodeModel(workflowModel);
         start.setChangeListenerPosition(20, 20);
         workflowModel.addNodeModel(start);
-        
+
         EndNodeModel end = new EndNodeModel(workflowModel);
         end.setChangeListenerPosition(490, 320);
         workflowModel.addNodeModel(end);
@@ -64,11 +65,12 @@ public class WorkflowIOStub implements WorkflowIO {
         flowModel.setChangeListenerPosition(250, 50);
         flowModel.setChangeListenerSize(150, 120);
         workflowModel.addNodeModel(flowModel);
-        
-        HumanTaskInvokeNodeModel model1 = new HumanTaskInvokeNodeModel(flowModel);
+
+        HumanTaskInvokeNodeModel model1 = new HumanTaskInvokeNodeModel(
+                flowModel);
         model1.setChangeListenerPosition(10, 30);
         flowModel.addNodeModel(model1);
-        
+
         ConnectionModel con2Model = new ContainerStartConnectionModel();
         con2Model.setSource(flowModel);
         con2Model.setTarget(model1);
@@ -80,19 +82,20 @@ public class WorkflowIOStub implements WorkflowIO {
         forEachModel.setChangeListenerPosition(50, 250);
         forEachModel.setChangeListenerSize(150, 130);
         workflowModel.addNodeModel(forEachModel);
-        
+
         IfContainerModel ifModel = new IfContainerModel(workflowModel);
         ifModel.setChangeListenerPosition(230, 250);
         ifModel.setChangeListenerSize(150, 130);
         workflowModel.addNodeModel(ifModel);
-        
+
         return workflowModel;
     }
 
     @Override
-    public void saveWorkflow(WorkflowModel model) {
-        // TODO Auto-generated method stub
-
+    public void saveWorkflow(WorkflowModel model) throws SaveDWDLException {
+        WorkflowParser workflowParser = new WorkflowParserImpl();
+        // TODO: remove this line once the impl is done
+        System.out.println(workflowParser.parse(model));
     }
 
 }

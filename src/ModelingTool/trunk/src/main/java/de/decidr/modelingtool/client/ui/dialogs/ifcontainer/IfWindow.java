@@ -118,7 +118,6 @@ public class IfWindow extends Dialog {
             Operator operator = Operator.getOperatorFromDisplayString(fs
                     .getOperatorList().getValue().getValue());
             Long operand2Id = fs.getOperand2Field().getValue().getId();
-            System.out.println(operand1Id + " " + operand2Id);
             newModel.addCondition(new Condition(label, operand1Id, operator,
                     operand2Id));
         }
