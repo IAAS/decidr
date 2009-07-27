@@ -730,28 +730,32 @@ public class MailBackendTest {
      */
     @Test
     public void testSetBodyText() throws MessagingException, IOException {
-        testMail.getMessageParts().clear();
-        assertTrue(testMail.getMessageParts().isEmpty());
-
-        testMail.addMimePart(new MimeBodyPart());
         testMail.setBodyText("Testbody");
-        assertEquals(2, testMail.getMessageParts().size());
-        assertEquals("text/plain", testMail.getMessageParts().get(0)
-                .getContentType());
-        assertEquals("Testbody", testMail.getMessageParts().get(0).getContent());
+        assertEquals("text/plain", testMail.getTextPart().getContentType());
+        assertEquals("Testbody", testMail.getTextPart().getContent());
+        testMail.setBodyText("");
+        assertEquals("text/plain", testMail.getTextPart().getContentType());
+        assertEquals("", testMail.getTextPart().getContent());
 
-        fail("Not yet implemented"); // RR how to test
+        testMail.setBodyText(null);
+        assertNull(testMail.getTextPart());
     }
 
     /**
      * Test method for {@link MailBackend#setBodyHTML(String)}.
      */
     @Test
-    public void testSetBodyHTML() {
-        testMail.getMessageParts().clear();
-        assertTrue(testMail.getMessageParts().isEmpty());
+    public void testSetBodyHTML() throws MessagingException, IOException {
+        testMail.setBodyHTML("<html>Testbody</html>");
+        assertEquals("text/html", testMail.getHtmlPart().getContentType());
+        assertEquals("<html>Testbody</html>", testMail.getHtmlPart()
+                .getContent());
+        testMail.setBodyHTML("<html></html>");
+        assertEquals("text/html", testMail.getHtmlPart().getContentType());
+        assertEquals("<html></html>", testMail.getHtmlPart().getContent());
 
-        fail("Not yet implemented"); // RR how to test
+        testMail.setBodyHTML(null);
+        assertNull(testMail.getHtmlPart());
     }
 
     /**

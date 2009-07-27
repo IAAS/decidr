@@ -23,11 +23,11 @@ import java.net.URI;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.Vector;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -156,7 +156,9 @@ public class MailBackend {
      * List of parts. If there are more than one, a multipart message is
      * constructed.
      */
-    private List<MimeBodyPart> messageParts = new Vector<MimeBodyPart>();
+    private HashSet<MimeBodyPart> messageParts = new HashSet<MimeBodyPart>();
+    private MimeBodyPart textPart = null;
+    private MimeBodyPart htmlPart = null;
 
     /**
      * The port number of the SMTP server. Defaults to whatever the protocol
@@ -641,7 +643,7 @@ public class MailBackend {
      * 
      * @return the messageParts
      */
-    final List<MimeBodyPart> getMessageParts() {
+    final Set<MimeBodyPart> getMessageParts() {
         log.warn(WARNING_TESTING);
         return messageParts;
     }
@@ -684,6 +686,26 @@ public class MailBackend {
     final String getUsername() {
         log.warn(WARNING_TESTING);
         return username;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the textPart
+     */
+    final MimeBodyPart getTextPart() {
+        log.warn(WARNING_TESTING);
+        return textPart;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the htmlPart
+     */
+    final MimeBodyPart getHtmlPart() {
+        log.warn(WARNING_TESTING);
+        return htmlPart;
     }
 
     /**
@@ -817,17 +839,32 @@ public class MailBackend {
 
         MimeMessage message = new MimeMessage(session);
 
-        if (messageParts.size() == 0) {
+        if (messageParts.isEmpty() && textPart == null && htmlPart == null) {
             log.error("Can't send a message without a body!");
             throw new IllegalArgumentException(
                     "You need to add some content to your message.");
-        } else if (messageParts.size() == 1
-                && messageParts.get(0).getContent() instanceof String) {
+        } else if (messageParts.isEmpty()
+                && (textPart == null || htmlPart == null)) {
             log.debug("constructing message with simple body");
-            message.setText((String) (messageParts.get(0).getContent()));
+            MimeBodyPart usedPart;
+            if (textPart != null) {
+                usedPart = textPart;
+            } else {
+                usedPart = htmlPart;
+            }
+
+            message
+                    .setContent(usedPart.getContent(), usedPart
+                            .getContentType());
         } else {
             log.debug("constructing multipart message.");
             MimeMultipart multipartMessage = new MimeMultipart();
+            if (textPart != null) {
+                multipartMessage.addBodyPart(textPart);
+            }
+            if (htmlPart != null) {
+                multipartMessage.addBodyPart(htmlPart);
+            }
             for (MimeBodyPart part : messageParts) {
                 multipartMessage.addBodyPart(part);
             }
@@ -977,29 +1014,19 @@ public class MailBackend {
      * @param message
      *            The primary text message of the Email.
      * @throws MessagingException
-     *             May be thrown while setting/getting message contents.
-     * @throws IOException
-     *             see <code>{@link MimeBodyPart#getContent()}</code>
+     *             May be thrown while setting message contents.
      */
-    public void setBodyText(String message) throws MessagingException,
-            IOException {
+    public void setBodyText(String message) throws MessagingException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setBodyText(String)");
-        // add a new part if the first one is not a string or there are no parts
-        boolean stringContent;
-        if (!messageParts.isEmpty()) {
-            stringContent = messageParts.get(0).getContentType().equals(
-                    "text/plain");
+        if (message == null) {
+            log.debug("removing text part");
+            textPart = null;
         } else {
-            stringContent = false;
+            log.debug("setting body text");
+            textPart = new MimeBodyPart();
+            textPart.setContent(message, "text/plain");
         }
-        if (!stringContent) {
-            log.debug("adding new first MimeBodyPart");
-            messageParts.add(0, new MimeBodyPart());
-        }
-
-        log.debug("setting body text");
-        messageParts.get(0).setText(message);
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".setBodyText(String)");
     }
@@ -1010,26 +1037,20 @@ public class MailBackend {
      * @param message
      *            The HTML message to add to the Email.
      * @throws MessagingException
-     *             May be thrown while setting/getting message contents.
-     * @throws IOException
-     *             see <code>{@link MimeBodyPart#getContent()}</code>
+     *             May be thrown while setting message contents.
      */
-    public void setBodyHTML(String message) throws MessagingException,
-            IOException {
+    public void setBodyHTML(String message) throws MessagingException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setBodyHTML(String)");
-        MimeBodyPart contents = new MimeBodyPart();
-        contents.setContent(message, "text/html");
-
-        if (!messageParts.isEmpty()
-                && messageParts.get(0).getContentType().equals("text/plain")) {
-            log.debug("adding new second MimeBodyPart");
-            messageParts.add(1, contents);
+        if (message == null) {
+            log.debug("removing HTML part");
+            htmlPart = null;
         } else {
-            log.debug("adding new first MimeBodyPart");
-            messageParts.add(0, contents);
+            log.debug("setting body HTML");
+            htmlPart = new MimeBodyPart();
+            htmlPart.setContent(message, "text/html");
+            htmlPart.setHeader("Content-Type", "text/html");
         }
-
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".setBodyHTML(String)");
     }
