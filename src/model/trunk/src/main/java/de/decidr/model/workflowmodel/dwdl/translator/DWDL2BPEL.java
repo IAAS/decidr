@@ -17,7 +17,6 @@
 package de.decidr.model.workflowmodel.dwdl.translator;
 
 import java.util.List;
-
 import javax.wsdl.Definition;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
@@ -101,11 +100,23 @@ public class DWDL2BPEL {
         return process;
     }
 
+    private TInvoke getEmailActivity(TInvokeNode node) {
+         TInvoke emailInvoke = factory.createTInvoke();
+         setNameAndDocumentation(node, emailInvoke);
+         setSourceAndTargets(node, emailInvoke);
+         emailInvoke.setPartnerLink(BPELConstants.EWS_PARTNERLINK);
+         emailInvoke.setOperation("sendEmail");
+         emailInvoke.setInputVariable("standardMessageRequest");
+         emailInvoke.setOutputVariable("standardMessageResponse");
+         return emailInvoke;
+    }
+
     private TSequence getEndActivity(TEndNode node) {
         TSequence sequence = factory.createTSequence();
         TAssign assign = factory.createTAssign();
         TInvoke emailInvoke = factory.createTInvoke();
         setNameAndDocumentation(node, sequence);
+        setSourceAndTargets(node, sequence);
         for (TSetProperty property : node.getNotificationOfSuccess()
                 .getSetProperty()) {
             addCopyStatement(assign, property, "successMessageRequest");
@@ -122,39 +133,107 @@ public class DWDL2BPEL {
         emailInvoke.setOutputVariable("successMessageResponse");
         sequence.getActivity().add(assign);
         sequence.getActivity().add(emailInvoke);
-        setSourceAndTargets(node, sequence);
         return sequence;
     }
 
     private TFlow getFlowActivity(TFlowNode node) {
         TFlow flow = factory.createTFlow();
+        TLinks links = factory.createTLinks();
+        flow.setLinks(links);
         setNameAndDocumentation(node, flow);
         setSourceAndTargets(node, flow);
+        setArcs(node.getArcs().getArc(), flow.getLinks().getLink());
         setActivityNode(flow.getActivity(), node.getNodes().getAllNodes());
         return flow;
     }
 
     private TForEach getForEachActivity(TForEachNode node) {
+        TForEach foreach = factory.createTForEach();
+        setNameAndDocumentation(node, foreach);
+        setSourceAndTargets(node, foreach);
+        if (node.getParallel().equals(TBoolean.YES)){
+            foreach.setParallel(TBoolean.YES);
+        } else if (node.getParallel().equals(TBoolean.NO)){
+            foreach.setParallel(TBoolean.NO);
+        }
+        foreach.setCounterName(node.getCounterName());
+        TExpression startExpression = factory.createTExpression();
+        startExpression.getContent().add(node.getStartCounterValue());
+        foreach.setStartCounterValue(startExpression);
+        TExpression endExpression = factory.createTExpression();
+        endExpression.getContent().add(node.getFinalCounterValue());
+        foreach.setFinalCounterValue(endExpression);
+        TCompletionCondition completeConditon = factory.createTCompletionCondition();
+        TBranches branches = factory.createTBranches();
+        branches.setSuccessfulBranchesOnly(TBoolean.YES);
+        branches.getContent().add(node.getCompletionCondition());
+        completeConditon.setBranches(branches);
+        foreach.setCompletionCondition(completeConditon);
+        TScope scope = factory.createTScope();
+        TFlow flow = factory.createTFlow();
+        setActivityNode(flow.getActivity(), node.getNodes().getAllNodes());
+        scope.setFlow(flow);
+        foreach.setScope(scope);
+        return foreach;
+    }
 
-        return null;
+    private TInvoke getHumanTaskActivity(TInvokeNode node) {
+        
+        return factory.createTInvoke(); 
     }
 
     private TIf getIfActivity(TIfNode node) {
         TIf ifActivity = factory.createTIf();
         setNameAndDocumentation(node, ifActivity);
         setDocumentation(node, ifActivity);
-        for (TCondition dwdlCondition : node.getCondition()){
-            if (dwdlCondition.getDefaultCondition().equals(TBoolean.YES)){
-                //de.decidr.model.workflowmodel.bpel.TCondition bpelCondition = factory.createTCondition();
+        if (!node.getCondition().isEmpty()){
+            for (TCondition dwdlCondition : node.getCondition()){
+                TBooleanExpr bpelCondition = factory.createTBooleanExpr();
+                bpelCondition.getContent().add(dwdlCondition.getLeftOperand());
+                bpelCondition.getContent().add(dwdlCondition.getOperator());
+                bpelCondition.getContent().add(dwdlCondition.getRightOperand());
+                TFlow flow = factory.createTFlow();
+                TLinks links = factory.createTLinks();
+                flow.setLinks(links);
+                setArcs(dwdlCondition.getArcs().getArc(), flow.getLinks().getLink());
+                setActivityNode(flow.getActivity(), dwdlCondition.getNodes().getAllNodes());
+                if(dwdlCondition.equals(node.getCondition().get(0))){
+                    ifActivity.setCondition(bpelCondition);
+                    ifActivity.setFlow(flow);
+                } else if(dwdlCondition.equals(node.getCondition().get(node.getCondition().size()-1))){
+                    TActivityContainer activityContainer = factory.createTActivityContainer();
+                    activityContainer.setFlow(flow);
+                    ifActivity.setElse(activityContainer);
+                } else {
+                    TElseif elseif = factory.createTElseif();
+                    elseif.setCondition(bpelCondition);
+                    elseif.setFlow(flow);
+                    ifActivity.getElseif().add(elseif);
+                }
                 
             }
         }
-        return ifActivity;
+        return ifActivity;        
     }
 
-    private TInvoke getInvokeActivity(TInvokeNode node) {
-
-        return null;
+    private TSequence getInvokeSequence(TInvokeNode node) {
+        TInvoke invoke = null;
+        TSequence sequence = factory.createTSequence();
+        setSourceAndTargets(node, sequence);
+        TAssign assign = factory.createTAssign();
+        if (node.getActivity().equals("Decidr-HumanTask")){
+            for (TSetProperty property : node.getSetProperty()){
+                addCopyStatement(assign, property, "standardMessageRequest");
+            }
+            sequence.getActivity().add(assign);
+            invoke = getHumanTaskActivity(node);
+        } else if (node.getActivity().equals("Decidr-Email")){
+            
+            invoke = getEmailActivity(node);
+        }
+        setNameAndDocumentation(node, invoke);
+        sequence.getActivity().add(invoke);
+        return sequence;
     }
 
     private TReceive getReceiveActivity(TStartNode node) {
@@ -287,17 +366,13 @@ public class DWDL2BPEL {
         TLinks links = factory.createTLinks();
         mainFlow.setName("mainFlow");
         mainFlow.setLinks(links);
-        for (TArc arc : dwdl.getArcs().getArc()) {
-            TLink link = factory.createTLink();
-            link.setName(arc.getSourceNode() + "-to-" + arc.getTargetNode());
-            mainFlow.getLinks().getLink().add(link);
-        }
+        setArcs(dwdl.getArcs().getArc(), mainFlow.getLinks().getLink());
         setActivityNode(mainFlow.getActivity(), dwdl.getNodes().getAllNodes());
 
         mainSequence.getActivity().add(mainFlow);
         process.setSequence(mainSequence);
     }
-
+    
     private void setActivityNode(List<Object> activityList,
             List<TBasicNode> nodes) {
         for (TBasicNode node : nodes) {
@@ -317,11 +392,19 @@ public class DWDL2BPEL {
                 TIf ifActivity = getIfActivity((TIfNode) node);
                 activityList.add(ifActivity);
             } else if (node instanceof TInvokeNode) {
-                TInvoke invoke = getInvokeActivity((TInvokeNode) node);
-                activityList.add(invoke);
+                TSequence invokeSequence = getInvokeSequence((TInvokeNode) node);
+                activityList.add(invokeSequence);
             }
         }
 
+    }
+
+    private void setArcs (List<TArc> arcs, List<TLink> links){
+        for (TArc arc : arcs){
+            TLink link = factory.createTLink();
+            link.setName(arc.getSourceNode() + "-to-" + arc.getTargetNode());
+            links.add(link);
+        }
     }
 
     private void setCorrelationSets() {
@@ -339,11 +422,11 @@ public class DWDL2BPEL {
     }
 
     private void setDocumentation(TBasicNode fromNode,
-            TExtensibleElements toNode) {
+            TExtensibleElements toActivity) {
         TDocumentation documentation = factory.createTDocumentation();
         documentation.getContent().addAll(
                 fromNode.getDescription().getContent());
-        toNode.getDocumentation().add(documentation);
+        toActivity.getDocumentation().add(documentation);
     }
 
     private void setFaultHandler() {
@@ -473,7 +556,7 @@ public class DWDL2BPEL {
         // add id attribute
         process.getOtherAttributes().put(
                 new QName(BPELConstants.DECIDRTYPES_NAMESPACE, "id", "decidr"),
-                dwdl.getId());
+                String.valueOf(dwdl.getId()));
     }
 
     private void setProcessDocumentation() {
@@ -496,6 +579,8 @@ public class DWDL2BPEL {
         TVariable faultMessageResponse = factory.createTVariable();
         TVariable successMessage = factory.createTVariable();
         TVariable successMessageResponse = factory.createTVariable();
+        TVariable standardMessage = factory.createTVariable();
+        TVariable standardMessageResponse = factory.createTVariable();
         TVariable taskMessage = factory.createTVariable();
         TVariable taskMessageResponse = factory.createTVariable();
         TVariable taskDataMessage = factory.createTVariable();
@@ -520,6 +605,12 @@ public class DWDL2BPEL {
         successMessageResponse.setName("successMessageResponse");
         successMessageResponse.setMessageType(new QName(
                 BPELConstants.EWS_NAMESPACE, "sendEmailResponse", "eWS"));
+        standardMessage.setName("standardMessageRequest");
+        standardMessage.setMessageType(new QName(BPELConstants.EWS_NAMESPACE,
+                "sendEmailRequest", "eWS"));
+        standardMessageResponse.setName("standardMessageResponse");
+        standardMessageResponse.setMessageType(new QName(
+                BPELConstants.EWS_NAMESPACE, "sendEmailResponse", "eWS"));
         taskMessage.setName("createTaskMessageRequest");
         taskMessage.setMessageType(new QName(BPELConstants.HTWS_NAMESPACE,
                 "createTaskRequest", "hWS"));
@@ -542,7 +633,7 @@ public class DWDL2BPEL {
         process.getVariables().getVariable().add(taskDataMessage);
     }
 
-    private void setSourceAndTargets(TBasicNode fromNode, TActivity toNode) {
+    private void setSourceAndTargets(TBasicNode fromNode, TActivity toActivity) {
         if (fromNode.getSources() != null
                 && !fromNode.getSources().getSource().isEmpty()) {
             TSources sources = factory.createTSources();
@@ -552,7 +643,7 @@ public class DWDL2BPEL {
                 source.setLinkName(src.getArcID().toString());
                 sources.getSource().add(source);
             }
-            toNode.setSources(sources);
+            toActivity.setSources(sources);
         }
         if (fromNode.getTargets() != null
                 && !fromNode.getTargets().getTarget().isEmpty()) {
@@ -563,7 +654,7 @@ public class DWDL2BPEL {
                 target.setLinkName(trg.getArcID().toString());
                 targets.getTarget().add(target);
             }
-            toNode.setTargets(targets);
+            toActivity.setTargets(targets);
         }
     }
 
