@@ -25,20 +25,43 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
  */
 public enum VariableType {
 
-    STRING(ModelingToolWidget.messages.typeString()), INTEGER(ModelingToolWidget.messages
-            .typeInteger()), FLOAT(ModelingToolWidget.messages.typeFloat()), BOOLEAN(
-            ModelingToolWidget.messages.typeBoolean()), FILE(ModelingToolWidget.messages
-            .typeFile()), DATE(ModelingToolWidget.messages.typeDate()), ROLE(
-            ModelingToolWidget.messages.typeRole()), FORM(
-            ModelingToolWidget.messages
-            .typeForm());
+    // JS externalize dwdl name
+    STRING("string", ModelingToolWidget.messages.typeString()), INTEGER(
+            "integer", ModelingToolWidget.messages.typeInteger()), FLOAT(
+            "float", ModelingToolWidget.messages.typeFloat()), BOOLEAN(
+            "boolean", ModelingToolWidget.messages.typeBoolean()), FILE(
+            "anyURI", ModelingToolWidget.messages.typeFile()), DATE("date",
+            ModelingToolWidget.messages.typeDate()), ROLE("null",
+            ModelingToolWidget.messages.typeRole()), FORM("form",
+            ModelingToolWidget.messages.typeForm());
+
+    private final String dwdlName;
 
     private final String localName;
 
-    private VariableType(String localName) {
+    private VariableType(String dwdlName, String localName) {
+        this.dwdlName = dwdlName;
         this.localName = localName;
     }
 
+    /**
+     * 
+     * This method returns the dwdl name the variable type has according to the
+     * dwdl structure document.
+     * 
+     * @return dwdl name
+     */
+    public String getDwdlName() {
+        return dwdlName;
+    }
+
+    /**
+     * 
+     * This methods returns the localized name of the variable type (e.g.
+     * "Datei" for "File") in a proper format (i.e. no caps).
+     * 
+     * @return local name
+     */
     public String getLocalName() {
         return localName;
     }

@@ -30,7 +30,7 @@ public abstract class AbstractModel implements Model {
     protected ModelChangeListener changeListener = null;
 
     /** The unique id of the model. */
-    private long id;
+    private Long id;
 
     /** The name of the model. */
     private String name;
@@ -57,7 +57,7 @@ public abstract class AbstractModel implements Model {
         return description;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -74,7 +74,7 @@ public abstract class AbstractModel implements Model {
         this.description = description;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

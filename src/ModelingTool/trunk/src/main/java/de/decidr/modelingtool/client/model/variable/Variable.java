@@ -55,7 +55,7 @@ public class Variable extends BaseModelData {
         ArrayList<String> values = new ArrayList<String>();
         values.add(ModelingToolWidget.messages.newStringValue());
         set(VALUE, values);
-        set(ARRAYVAR, false);
+        setArray();
         set(CONFIGVAR, false);
     }
 
@@ -73,7 +73,7 @@ public class Variable extends BaseModelData {
         ArrayList<String> values = new ArrayList<String>();
         values.add(value);
         this.set(VALUE, values);
-        this.set(ARRAYVAR, false);
+        this.setArray();
         this.set(CONFIGVAR, true);
     }
 
@@ -83,7 +83,7 @@ public class Variable extends BaseModelData {
         copy.setName(this.getName());
         copy.setType(this.getType());
         copy.setValues(this.getValues());
-        copy.setArray(this.isArray());
+        copy.setArray();
         copy.setConfig(this.isConfig());
         return copy;
     }
@@ -164,7 +164,7 @@ public class Variable extends BaseModelData {
      */
     public void setValues(List<String> values) {
         set(VALUE, values);
-        setArray(true);
+        setArray();
     }
 
     /**
@@ -173,7 +173,11 @@ public class Variable extends BaseModelData {
      * @return the array
      */
     public boolean isArray() {
-        return (Boolean) get(ARRAYVAR);
+        Boolean result = false;
+        if (getValues().size() > 1) {
+            result = true;
+        }
+        return result;
     }
 
     /**
@@ -182,8 +186,8 @@ public class Variable extends BaseModelData {
      * @param array
      *            the array to set
      */
-    private void setArray(boolean array) {
-        set(ARRAYVAR, array);
+    private void setArray() {
+        set(ARRAYVAR, isArray());
     }
 
     /**
