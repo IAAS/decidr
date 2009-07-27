@@ -49,6 +49,10 @@ public class GetWorkflowModelCommand extends WorkflowModelCommand {
         result.getDwdl();
         result.getModifiedDate();
         result.getCreationDate();
+        if (result.getModifiedByUser() != null) {
+            result.getModifiedByUser().getUserProfile();
+        }
+
     }
 
     /**

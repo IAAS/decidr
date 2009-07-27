@@ -16,24 +16,51 @@
 
 package de.decidr.model.commands.workflowmodel;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.type.AssociationType;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.commands.user.CreateNewUnregisteredUserCommand;
 import de.decidr.model.entities.DeployedWorkflowModel;
+import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.ServerLoadView;
+import de.decidr.model.entities.SystemSettings;
+import de.decidr.model.entities.User;
+import de.decidr.model.entities.UserParticipatesInWorkflow;
+import de.decidr.model.entities.UserParticipatesInWorkflowId;
 import de.decidr.model.entities.WorkflowInstance;
+import de.decidr.model.entities.WorkflowModel;
+import de.decidr.model.enums.UserWorkflowAdminState;
+import de.decidr.model.enums.UserWorkflowParticipationState;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.exceptions.UserDisabledException;
+import de.decidr.model.exceptions.UserUnavailableException;
+import de.decidr.model.exceptions.UsernameNotFoundException;
 import de.decidr.model.exceptions.WorkflowModelNotStartableException;
+import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.permissions.Role;
+import de.decidr.model.permissions.UserRole;
+import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
 
 /**
- * Creates a new workflow instance on the Apache ODE and writes a corresponding
- * entry to the database.
+ * Creates a new workflow instance in the database. Sends invitations to users
+ * that are unknown to the system or aren't members of the tenant that owns the
+ * workflow instance.
+ * <p>
+ * Depending on the startImmediately parameter, this command may also create a
+ * new workflow instance on the Apache ODE. Otherwise the ODE workflow instance
+ * will be created when the last invited user confirms his invitation.
+ * 
  * 
  * @author Daniel Huss
  * @author Markus Fischer
@@ -43,77 +70,236 @@ import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
 public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
 
     private byte[] startConfiguration;
-    private WorkflowInstance createdWorkflowInstance;
+    private WorkflowInstance createdWorkflowInstance = null;
+    private Boolean startImmediately;
+    private List<String> participantUsernames;
+    private List<String> participantEmails;
 
-    /**
-     * Constructor.
-     * <p>
-     * This command creates a new workflow instance on the Apache ODE and writes
-     * a corresponding entry to the database.
-     * 
-     * @param role
-     * @param workflowModelId
-     * @param startConfiguration
-     */
+    private List<User> usersThatNeedInvitations = null;
+    private List<User> usersThatAreAlreadyTenantMembers = null;
+
     public StartWorkflowInstanceCommand(Role role, Long workflowModelId,
-            byte[] startConfiguration) {
+            byte[] startConfiguration, Boolean startImmediately,
+            List<String> participantUsernames, List<String> participantEmails) {
         super(role, workflowModelId);
         this.startConfiguration = startConfiguration;
+        this.startImmediately = startImmediately;
+        this.participantEmails = participantEmails;
+        this.participantUsernames = participantUsernames;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
-            throws TransactionException, WorkflowModelNotStartableException {
+            throws TransactionException, WorkflowModelNotStartableException,
+            UserDisabledException, UserUnavailableException,
+            UsernameNotFoundException {
 
-        InstanceManagerImpl iManager = new InstanceManagerImpl();
+        // make sure the workflow model is actually startable by finding its
+        // corresponding deployed workflow model
+        WorkflowModel model = fetchWorkflowModel(evt.getSession());
+        DeployedWorkflowModel deployedWorkflowModel = fetchCurrentDeployedWorkflowModel(evt
+                .getSession());
 
-        // create instance in database
-        WorkflowInstance instance = new WorkflowInstance();
-        instance.setStartedDate(DecidrGlobals.getTime().getTime());
-        instance.setStartConfiguration(startConfiguration);
-
-        evt.getSession().save(instance);
-        createdWorkflowInstance = instance;
-
-        // get server list
-        String serverStatString = "from ServerLoadView";
-        Query q = evt.getSession().createQuery(serverStatString);
-        List<ServerLoadView> servers = q.list();
-
-        // get deployed workflow model with highest version
-        String HqlString = "from DeployedWorkflowModel w where w.id = :wid and w.version = (select max(w2.version) from DeployedWorkflowModel w2)";
-        Query q2 = evt.getSession().createQuery(HqlString);
-
-        DeployedWorkflowModel dwfm = (DeployedWorkflowModel) q2.uniqueResult();
-
-        // start instance
-        try {
-            instance = iManager
-                    .startInstance(dwfm, startConfiguration, servers);
-            evt.getSession().update(instance);
-            instance.setDeployedWorkflowModel(dwfm);
-            instance.setCompletedDate(null);
-            instance.setId(null); //make sure a new instance is inserted
-            instance.setStartedDate(DecidrGlobals.getTime().getTime());
-            // add new instance
-            evt.getSession().save(instance);
-            
-            createdWorkflowInstance = instance;
-        } catch (Exception e) {
-            throw new TransactionException(e);
+        if ((!model.isExecutable()) || (deployedWorkflowModel == null)) {
+            throw new WorkflowModelNotStartableException(workflowModelId);
         }
 
+        processUserWorkflowParticipationState();
+        // usersThatNeedInvitations and usersThatAreAlreadyTenantMembers are now
+        // filled.
+
+        // create the new workflow instance in the database
+        createWorkflowInstance(deployedWorkflowModel, evt.getSession());
+
+        // create invitations
+        createInvitations(usersThatNeedInvitations, evt.getSession());
+
+        // associate users with the new workflow instance
+        associateWithNewWorkflowInstance(usersThatAreAlreadyTenantMembers, evt
+                .getSession());
+        if (startImmediately) {
+            // also associate invited users
+            associateWithNewWorkflowInstance(usersThatNeedInvitations, evt
+                    .getSession());
+        }
+
+        // send notification emails
+        for (User invitedUser : usersThatNeedInvitations) {
+            NotificationEvents.invitedUserAsWorkflowParticipant(invitedUser,
+                    createdWorkflowInstance);
+        }
+    }
+
+    /**
+     * Makes the given list of users participants of the new workflow instance.
+     * 
+     * @param users
+     *            users to make participants of the new workflow instance
+     * @param session
+     *            current Hibernate session
+     */
+    private void associateWithNewWorkflowInstance(List<User> users,
+            Session session) {
+        for (User user : users) {
+            UserParticipatesInWorkflow relation = new UserParticipatesInWorkflow();
+            relation.setId(new UserParticipatesInWorkflowId(user.getId(),
+                    createdWorkflowInstance.getId()));
+            relation.setUser(user);
+            relation.setWorkflowInstance(createdWorkflowInstance);
+            session.save(relation);
+        }
+    }
+
+    /**
+     * Creates workflow participation invitations for the given users.
+     * 
+     * @param invitedUsers
+     *            list of users to invite
+     * @param session
+     *            current Hibernate sesion
+     */
+    private void createInvitations(List<User> invitedUsers, Session session) {
+        for (User invitedUser : invitedUsers) {
+            Invitation invitation = new Invitation();
+            invitation.setAdministrateWorkflowModel(null);
+            invitation.setCreationDate(DecidrGlobals.getTime().getTime());
+            invitation.setJoinTenant(null);
+            invitation
+                    .setParticipateInWorkflowInstance(createdWorkflowInstance);
+            invitation.setReceiver(invitedUser);
+
+            User sender;
+            if (role instanceof UserRole) {
+                sender = (User) session.load(User.class, role.getActorId());
+            } else {
+                sender = DecidrGlobals.getSettings().getSuperAdmin();
+            }
+
+            invitation.setSender(sender);
+
+            session.save(invitation);
+        }
+    }
+
+    private void createWorkflowInstance(DeployedWorkflowModel deployedModel,
+            Session session) {
+        if ((usersThatNeedInvitations.size() == 0) || (startImmediately)) {
+            InstanceManager manager = new InstanceManagerImpl();
+            List<ServerLoadView> serverStatistics = null;
+            // DH continue here, also have a look at confirmInvitation
+            try {
+                createdWorkflowInstance = manager.startInstance(deployedModel,
+                        startConfiguration, serverStatistics);
+            } catch (Exception e) {
+                // FIXME discuss with MA what kind of exception is thrown,
+                // "Exception" is not very helpful
+            }
+        } else {
+            createdWorkflowInstance = new WorkflowInstance();
+        }
+
+    }
+
+    private void processUserWorkflowParticipationState()
+            throws TransactionException, UserDisabledException,
+            UserUnavailableException, UsernameNotFoundException {
+
+        GetWorkflowParticipationStateCommand cmd = new GetWorkflowParticipationStateCommand(
+                role, workflowModelId, participantUsernames, participantEmails);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+
+        Map<User, UserWorkflowParticipationState> map = cmd.getResult();
+
+        // make sure that we know at least the email address of all "unknown"
+        // users, otherwise we cannot create new user accounts for them. Also
+        // make sure that there are no disabled or unavailable users in the
+        // given lists.
+        assertOnlyValidUsers(map);
+
+        usersThatAreAlreadyTenantMembers = new ArrayList<User>();
+        usersThatNeedInvitations = new ArrayList<User>();
+
+        for (Entry<User, UserWorkflowParticipationState> entry : map.entrySet()) {
+
+            switch (entry.getValue()) {
+            case IsAlreadyTenantMember:
+                usersThatAreAlreadyTenantMembers.add(entry.getKey());
+                break;
+
+            case IsUnknownUser:
+                // create users that are unknown to the system
+                HibernateTransactionCoordinator.getInstance().runTransaction(
+                        new CreateNewUnregisteredUserCommand(role, entry
+                                .getKey()));
+                usersThatNeedInvitations.add(entry.getKey());
+                break;
+
+            case NeedsTenantMembership:
+                usersThatNeedInvitations.add(entry.getKey());
+                break;
+
+            default:
+                break;
+            }
+        }
+    }
+
+    /**
+     * Makes sure that the given user state map contains no unknown usernames,
+     * disabled or unavailable users by throwing the corresponding exception if
+     * one of these is detected.
+     * 
+     * @param map
+     *            user state map to search
+     * @throws UserDisabledException
+     *             if a disabled user is found
+     * @throws UserUnavailableException
+     *             if an unavailable user is found
+     * @throws UsernameNotFoundException
+     *             if an unknown username is detected
+     */
+    private void assertOnlyValidUsers(
+            Map<User, UserWorkflowParticipationState> map)
+            throws UserDisabledException, UserUnavailableException,
+            UsernameNotFoundException {
+
+        for (User user : map.keySet()) {
+            UserWorkflowParticipationState state = map.get(user);
+            if (UserWorkflowParticipationState.IsUnknownUser.equals(state)) {
+
+                if ((user.getUserProfile() != null)
+                        && (user.getUserProfile().getUsername() != null)) {
+                    // the user is unknown but has a username, whoops!
+                    throw new UsernameNotFoundException(user.getUserProfile()
+                            .getUsername());
+                } else if (user.getEmail() == null) {
+                    throw new IllegalArgumentException(
+                            "An unknown user is missing an email address: cannot send invitation.");
+                }
+                if (user.getId() != null) {
+                    // user is known to the system
+                    if (user.getDisabledSince() != null) {
+                        throw new UserDisabledException(user);
+                    }
+                    if (user.getUnavailableSince() != null) {
+                        throw new UserUnavailableException(user);
+                    }
+                }
+            }
+        }
     }
 
     @Override
     public void transactionAborted(TransactionAbortedEvent evt)
             throws TransactionException {
-
+        // an instance may have been started, try to kill it
         InstanceManagerImpl iManager = new InstanceManagerImpl();
-        iManager.stopInstance(createdWorkflowInstance);
-        evt.getSession().delete(createdWorkflowInstance);
-
+        if ((createdWorkflowInstance != null)
+                && (createdWorkflowInstance.getStartedDate() != null)) {
+            iManager.stopInstance(createdWorkflowInstance);
+        }
+        createdWorkflowInstance = null;
     }
 
     /**

@@ -14,21 +14,15 @@
  * under the License.
  */
 
-package de.decidr.model;
+package de.decidr.model.enums;
 
 /**
- * Static tool methods for Hibernate.
+ * The state of a user regarding the question
+ * "what do I have to do to allow this user to participate in a workflow instance?"
  * 
  * @author Daniel Huss
  * @version 0.1
  */
-// DH remove this class on release if it contains no methods
-public class HibernateTools {
-
-    /**
-     * Hidden constructor to prevent instantiation.
-     */
-    private HibernateTools() {
-        super();
-    }
+public enum UserWorkflowParticipationState {
+    IsUnknownUser, NeedsTenantMembership, IsAlreadyTenantMember
 }

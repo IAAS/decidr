@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.xpath.operations.Mod;
+
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
@@ -46,6 +48,9 @@ import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.enums.UserWorkflowAdminState;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.exceptions.UserDisabledException;
+import de.decidr.model.exceptions.UserUnavailableException;
+import de.decidr.model.exceptions.UsernameNotFoundException;
 import de.decidr.model.exceptions.WorkflowModelNotStartableException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
@@ -93,11 +98,27 @@ public class WorkflowModelFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the properties of the given workflow model as a Vaadin Item.
+     * Returns the properties of the given workflow model as a Vaadin item with
+     * the following properties:
+     * <ul>
+     * <li>id: Long - workflow model id</li>
+     * <li>dwdl: byte[] - dwdl raw xml data</li>
+     * <li>modifiedDate: Date - date of last modification</li>
+     * <li>version: Long - version/revision number of the workflow model</li>
+     * <li>name: String - workflow model name</li>
+     * <li>description: String - workflow model description</li>
+     * <li>creationDate: Date - date when the workflow model was created</li>
+     * <li>published: Boolean - whether the workflow model</li>
+     * <li>modifyingUserFirstName: String - modifying user first name</li>
+     * <li>modifyingUserLastName: String - modifying user last name</li>
+     * <li>modifyingUserId: Long - modifying user id</li>
+     * <li>modifyingUserEmail: String - modifying user email</li>
+     * <li>modifyingUserUsername: String - modifying user username</li>
+     * </ul>
      * 
      * @param workflowModelId
-     *            the ID of the workflow model which should be returned
-     * @return TODO document
+     *            the id of the workflow model which should be returned
+     * @return Vaadin item
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
@@ -113,7 +134,36 @@ public class WorkflowModelFacade extends AbstractFacade {
 
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
-        return new BeanItem(cmd.getResult(), properties);
+        // build Vaadin item
+        WorkflowModel model = cmd.getResult();
+        User modifyingUser = model.getModifiedByUser();
+
+        BeanItem result = new BeanItem(model, properties);
+
+        if (modifyingUser != null) {
+            result.addItemProperty("modifyingUserId", new ObjectProperty(
+                    modifyingUser.getId(), Long.class));
+            result.addItemProperty("modifyingUserEmail", new ObjectProperty(
+                    modifyingUser.getEmail(), String.class));
+
+            UserProfile profile = modifyingUser.getUserProfile();
+            if (profile != null) {
+                result
+                        .addItemProperty("modifyingUserFirstName",
+                                new ObjectProperty(profile.getFirstName(),
+                                        String.class));
+                result
+                        .addItemProperty("modifyingUserLastName",
+                                new ObjectProperty(profile.getLastName(),
+                                        String.class));
+                result
+                        .addItemProperty("modifyingUserUsername",
+                                new ObjectProperty(profile.getUsername(),
+                                        String.class));
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -222,95 +272,45 @@ public class WorkflowModelFacade extends AbstractFacade {
 
     /**
      * Sets the users that may administrate the given workflow model. The tenant
-     * admin always implicitly administrates all workflow models. If his user id
-     * is included in userIds, he will be ignored. Only members of the tenant
-     * that owns the given worflow model can be set as tenant admin using this
-     * method.
+     * admin always implicitly administrates all workflow models. If the lists
+     * of new workflow admins contain the tenant admin he will be ignored.
+     * <p>
+     * Invitations are automatically sent to unregistered users and to users who
+     * are not already a member of the tenant that owns the workflow model.
+     * <p>
+     * This method will fail with an exception if the lists new workflow admins
+     * contain:
+     * <ul>
+     * <li>a username that is unknown to the system</li>
+     * <li>a username that belongs to an inactive, disabled or unavailable user
+     * account</li>
+     * <li>an email address that belongs to an inactive, disabled or unavailable
+     * user account</li>
+     * </ul>
      * 
      * @param workflowModelId
      *            the workflow model to administrate
-     * @param userIds
-     *            the appointed workflow administrators excluding the tenant
-     *            admin. If this list is empty or null, no one except the tenant
-     *            admin may administrate the workflow model.
+     * @param newAdminEmails
+     *            email addresses of new tenant administrators
+     * @param newAdminUsernames
+     *            usernames of new tenant administrators
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
+     * @throws UsernameNotFoundException
+     *             if a username is unknown to the system
+     * @throws UserUnavailableException
+     *             if a user has set his status to unavailable
+     * @throws UserDisabledException
+     *             if a user has been disabled by the super admin
      */
     @AllowedRole(TenantAdminRole.class)
     public void setWorkflowAdministrators(Long workflowModelId,
-            List<Long> userIds) throws TransactionException {
-
-        if (userIds == null) {
-            userIds = new ArrayList<Long>();
-        }
-
-        HibernateTransactionCoordinator.getInstance().runTransaction(
-                new SetWorkflowAdministratorsCommand(actor, workflowModelId,
-                        userIds));
-    }
-
-    /**
-     * Returns a list of items that can be used to tell whether the given
-     * usernames or emails belong to:
-     * 
-     * <ul>
-     * <li>users that are unknown to the system. (invitations type A must be
-     * sent)</li>
-     * <li>users that are known to the system, but are not a member of the
-     * tenant that owns the given workflow. (invitations type B must be sent)</li>
-     * <li>users that are members of the tenant, but do not currently
-     * administrate the given workflow model.</li>
-     * <li>users that already administrate the given workflow model.</li>
-     * </ul>
-     * 
-     * <p>
-     * Each item contains the user's properties "id" , "username", "email" and a
-     * "state" property of the type UserWorkflowAdminState.
-     * 
-     * @param workflowModelId
-     *            TODO document
-     * @param usernamesOrEmails
-     *            TODO document
-     * @return a list of corresponding users
-     * @throws TransactionException
-     *             if the transaction is aborted for any reason.
-     */
-    @AllowedRole(TenantAdminRole.class)
-    public List<Item> getWorkflowAdministrationState(Long workflowModelId,
-            List<String> usernames, List<String> emails)
-            throws TransactionException {
-
-        String[] properties = { "id", "email" };
-
-        GetWorkflowAdministrationStateCommand cmd = new GetWorkflowAdministrationStateCommand(
-                actor, workflowModelId, usernames, emails);
-
+            List<String> newAdminEmails, List<String> newAdminUsernames)
+            throws TransactionException, UsernameNotFoundException,
+            UserUnavailableException, UserDisabledException {
+        SetWorkflowAdministratorsCommand cmd = new SetWorkflowAdministratorsCommand(
+                actor, workflowModelId, newAdminUsernames, newAdminEmails);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-
-        /*
-         * Build the Vaadin item
-         */
-        List<Item> result = new ArrayList<Item>();
-        Map<User, UserWorkflowAdminState> map = cmd.getResult();
-
-        for (User u : map.keySet()) {
-            UserWorkflowAdminState state = map.get(u);
-
-            BeanItem item = new BeanItem(u, properties);
-            if (u.getUserProfile() != null) {
-                item.addItemProperty("username", new ObjectProperty(u
-                        .getUserProfile().getUsername()));
-            } else {
-                item.addItemProperty("username", new ObjectProperty(null,
-                        Object.class, true));
-            }
-
-            item.addItemProperty("state", new ObjectProperty(state));
-
-            result.add(item);
-        }
-
-        return result;
     }
 
     /**
@@ -318,7 +318,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * models that still have running instances.
      * 
      * @param workflowModelIds
-     *            TODO document
+     *            list of ids of the workflow models to delete
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
@@ -328,7 +328,7 @@ public class WorkflowModelFacade extends AbstractFacade {
         /*
          * We can't delete all workflow models in a single transaction since a
          * SOAP communication failure would cause a rollback, possibly leaving
-         * the database in an inconsistent state.s
+         * the database in an inconsistent state.
          */
         for (Long workflowModelId : workflowModelIds) {
 
@@ -359,9 +359,10 @@ public class WorkflowModelFacade extends AbstractFacade {
      * </ul>
      * 
      * @param workflowModelId
-     *            TODO document
+     *            id of workflow model of which all workflow instances should be
+     *            retrieved.
      * @param paginator
-     *            TODO document
+     *            optional pagination component
      * @return Vaadin items representing the workflow instances that are
      *         associated swith this model.
      * @throws TransactionException
@@ -402,12 +403,12 @@ public class WorkflowModelFacade extends AbstractFacade {
      * properties are:
      * 
      * <ul>
-     * <li>id</li>
-     * <li>name</li>
-     * <li>description</li>
-     * <li>modifiedDate</li>
-     * <li>tenantName</li>
-     * <li>tenantId</li>
+     * <li>id: Long</li>
+     * <li>name: String</li>
+     * <li>description: String</li>
+     * <li>modifiedDate: Date</li>
+     * <li>tenantName: String</li>
+     * <li>tenantId: Long</li>
      * </ul>
      * 
      * @param filters
@@ -449,26 +450,55 @@ public class WorkflowModelFacade extends AbstractFacade {
      * Creates a new instance of the the given workflow model, assuming that the
      * workflow model has already been deployed and is flagged as executable.
      * <p>
+     * Invitations are automatically sent to users that are not already a member
+     * of the tenant that owns the workflow model.
+     * 
+     * This method will fail with an exception if participatingUsers cotains:
+     * <ul>
+     * <li>a username that is unknown to the system</li>
+     * <li>a username that belongs to an inactive, disabled or unavailable user
+     * account</li>
+     * <li>an email address that belongs to an inactive, disabled or unavailable
+     * user account</li>
+     * </ul>
+     * <p>
      * Upon success, the given start configuration is saved as the last start
      * configuration of the workflow model.
      * 
      * @param workflowModelId
-     *            TODO document
+     *            id of workflow model of which an instance should be started
      * @param startConfiguration
-     *            TODO document
+     *            raw xml data of start configuration to use
+     * @param participantUsernames
+     *            a list of usernames of the users that have been assigned to
+     *            the new workflow instance.
+     * @param participantEmails
+     *            a list of email addresses that have been assigned to the new
+     *            workflow instance.
+     * @param startImmediately
+     *            whether the system should delay creating the workflow instance
+     *            on the ODE until all users have confirmed their invitations.
      * @return the id of the created workflow instance.
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      * @throws WorkflowModelNotStartableException
      *             if the workflow model to start is not really startable.
+     * @throws UserUnavailableException
+     *             if a user has set his status to unavailable
+     * @throws UserDisabledException
+     *             if a user account has been deactivated by the superadmin.
      */
     @AllowedRole(WorkflowAdminRole.class)
     public Long startWorkflowInstance(Long workflowModelId,
-            byte[] startConfiguration) throws TransactionException,
-            WorkflowModelNotStartableException {
+            byte[] startConfiguration, Boolean startImmediately,
+            List<String> participantUsernames, List<String> participantEmails)
+            throws TransactionException, WorkflowModelNotStartableException,
+            UserUnavailableException, UserDisabledException,
+            UsernameNotFoundException {
 
         StartWorkflowInstanceCommand startCmd = new StartWorkflowInstanceCommand(
-                actor, workflowModelId, startConfiguration);
+                actor, workflowModelId, startConfiguration, startImmediately,
+                participantUsernames, participantEmails);
 
         SaveStartConfigurationCommand saveCmd = new SaveStartConfigurationCommand(
                 actor, workflowModelId, startConfiguration);
@@ -481,11 +511,12 @@ public class WorkflowModelFacade extends AbstractFacade {
 
     /**
      * Returns the raw XML data of the last used start configuration of the
-     * given workflow model. If applicable start configuration exists, null is
-     * returned.
+     * given workflow model. If no applicable start configuration exists, null
+     * is returned.
      * 
      * @param workflowModelId
-     *            the id of the workflow model to which the last stat configuration should be requested
+     *            the id of the workflow model to which the last stat
+     *            configuration should be requested
      * @return the raw XML data of the last used start configuration or null.
      * @throws TransactionException
      *             if the transaction is aborted for any reason.

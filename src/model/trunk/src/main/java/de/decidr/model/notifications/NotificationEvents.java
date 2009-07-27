@@ -17,11 +17,14 @@
 package de.decidr.model.notifications;
 
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.Invitation;
@@ -30,6 +33,8 @@ import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkItem;
+import de.decidr.model.entities.WorkflowInstance;
+import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.soap.types.AbstractUser;
 import de.decidr.model.soap.types.AbstractUserList;
@@ -54,7 +59,7 @@ public final class NotificationEvents {
      * Informs the user, that he has a new Workitem.
      * 
      * @param newWorkItem
-     *            the corresponding workitem which has been created         
+     *            the corresponding workitem which has been created
      */
     @SuppressWarnings("unchecked")
     public static void createdWorkItem(WorkItem newWorkItem)
@@ -665,5 +670,52 @@ public final class NotificationEvents {
         } catch (Exception e) {
             throw new TransactionException(e);
         }
+    }
+
+    /**
+     * Sends a notification email to invitedUser that informs the user that he
+     * has to register at the DecidR web site and join the tenant that owns the
+     * workflow model if he wants to accept the workflow admin invitation.
+     * 
+     * @param invitedUser
+     *            receiver of the notification
+     * @param model
+     *            workflow model [and tenant via getTenant()] to administrate
+     */
+    public static void invitedUnregisteredUserAsWorkflowAdmin(User invitedUser,
+            WorkflowModel model) {
+        // FIXME Auto-generated method stub
+    }
+
+    /**
+     * Sends a notification email to invitedUser that informs the already
+     * registered user that he has to join the tenant that owns the workflow
+     * model if he wants to accept the workflow admin invitation.
+     * 
+     * @param invitedUser
+     *            receiver of the notification
+     * @param model
+     *            workflow model [and tenant via getTenant()] to administrate
+     */
+    public static void invitedRegisteredUserAsWorkflowAdmin(User invitedUser,
+            WorkflowModel model) {
+        // FIXME Auto-generated method stub
+
+    }
+
+    /**
+     * Sends a notification email to inviteduser that informs the (registered or
+     * unregistered) user that he was invited to participate in a workflow of a
+     * tenant that he is not a member of.
+     * 
+     * @param invitedUser
+     *            receiver of the notification
+     * @param createdWorkflowInstance
+     *            workflow instance in which the invited user should participate
+     */
+    public static void invitedUserAsWorkflowParticipant(User invitedUser,
+            WorkflowInstance createdWorkflowInstance) {
+        // FIXME Auto-generated method stub
+
     }
 }

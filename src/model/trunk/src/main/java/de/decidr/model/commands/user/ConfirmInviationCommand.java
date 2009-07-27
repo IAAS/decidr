@@ -28,6 +28,8 @@ import de.decidr.model.entities.UserAdministratesWorkflowModel;
 import de.decidr.model.entities.UserAdministratesWorkflowModelId;
 import de.decidr.model.entities.UserIsMemberOfTenant;
 import de.decidr.model.entities.UserParticipatesInWorkflow;
+import de.decidr.model.exceptions.AccessDeniedException;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.permissions.Permission;
@@ -106,6 +108,12 @@ public class ConfirmInviationCommand extends AclEnabledCommand {
             User user = i.getReceiver();
             Tenant tenant = i.getAdministrateWorkflowModel().getTenant();
             makeMemberOfTenant(user, tenant, evt.getSession());
+
+            // only registered users can do this
+            if (user.getUserProfile() == null) {
+                throw new AccessDeniedException(
+                        "You must be registered to become workflow administrator");
+            }
 
             // add as WorkflowAdmin only if not already a workflow admin
             Query q = evt

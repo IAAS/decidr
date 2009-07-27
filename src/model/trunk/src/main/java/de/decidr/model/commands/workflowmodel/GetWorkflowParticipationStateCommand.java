@@ -28,7 +28,7 @@ import org.hibernate.Session;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.entities.WorkflowModel;
-import de.decidr.model.enums.UserWorkflowAdminState;
+import de.decidr.model.enums.UserWorkflowParticipationState;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
@@ -41,31 +41,35 @@ import de.decidr.model.transactions.TransactionEvent;
  * <li>users that are unknown to the system. (invitations type A must be sent)</li>
  * <li>users that are known to the system, but are not a member of the tenant
  * that owns the given workflow. (invitations type B must be sent)</li>
- * <li>users that are members of the tenant, but do not currently administrate
- * the given workflow model.</li>
- * <li>users that already administrate the given workflow model.</li>
+ * <li>users that are members of the tenant that owns the workflow model and do
+ * not need to be invited to participate in a workflow instance</li>
  * </ul>
  * 
  * @author Daniel Huss
  * @version 0.1
  */
-public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand {
+public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
 
     private List<String> usernames;
 
     private List<String> emails;
 
-    private Map<User, UserWorkflowAdminState> result;
+    private Map<User, UserWorkflowParticipationState> result;
 
     /**
-     * Constructor
+     * Creates a new GetWorkflowParticipationStateCommand that retrieves the
+     * participation state.
      * 
      * @param role
+     *            user / system executing the command
      * @param workflowModelId
+     *            workflow model of which a new instance will be created
      * @param usernames
+     *            list of usernames to search for
      * @param emails
+     *            list of email addresses to search for
      */
-    public GetWorkflowAdministrationStateCommand(Role role,
+    public GetWorkflowParticipationStateCommand(Role role,
             Long workflowModelId, List<String> usernames, List<String> emails) {
         super(role, workflowModelId);
         this.usernames = usernames;
@@ -76,9 +80,8 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        result = new HashMap<User, UserWorkflowAdminState>();
+        result = new HashMap<User, UserWorkflowParticipationState>();
         WorkflowModel model = fetchWorkflowModel(evt.getSession());
-
         /*
          * First get a list of all known users so we can sort out those that are
          * unknown.
@@ -86,14 +89,8 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
         List<User> knownUsers = getKnownUsers(evt.getSession());
         List<User> unknownUsers = getUnknownUsers(knownUsers);
         /*
-         * The found workflow admins are removed from the list of known users as
-         * a side-effect. We assume that a workflow admin is also a member.
-         */
-        List<User> workflowAdmins = getWorkflowAdmins(knownUsers, model, evt
-                .getSession());
-        /*
-         * The found members are removed from the list of known users as a
-         * side-effect.
+         * The found tenant members are removed from the list of known users as
+         * a side-effect.
          */
         List<User> members = getMembers(knownUsers, model, evt.getSession());
         /*
@@ -102,10 +99,11 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
          */
         List<User> nonMembers = knownUsers;
 
-        putResults(unknownUsers, UserWorkflowAdminState.IsUnknownUser);
-        putResults(nonMembers, UserWorkflowAdminState.NeedsTenantMembership);
-        putResults(members, UserWorkflowAdminState.IsTenantMember);
-        putResults(workflowAdmins, UserWorkflowAdminState.IsAlreadyWorkflowAdmin);
+        putResults(unknownUsers, UserWorkflowParticipationState.IsUnknownUser);
+        putResults(nonMembers,
+                UserWorkflowParticipationState.NeedsTenantMembership);
+        putResults(members,
+                UserWorkflowParticipationState.IsAlreadyTenantMember);
     }
 
     /**
@@ -116,7 +114,8 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
      * @param state
      *            value in the result map
      */
-    private void putResults(List<User> users, UserWorkflowAdminState state) {
+    private void putResults(List<User> users,
+            UserWorkflowParticipationState state) {
         for (User key : users) {
             result.put(key, state);
         }
@@ -127,6 +126,7 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
      * usernames and emails.
      * 
      * @param session
+     *            current Hibernate session
      * @return list of known users
      */
     @SuppressWarnings("unchecked")
@@ -143,59 +143,17 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
     }
 
     /**
-     * Finds all workflow admins in knownUsers of the given workflow model and
-     * removes them from knownUsers.
-     * 
-     * @param knownUsers
-     * @param model
-     * @param session
-     * @return the workflow admins that were removed from knownUsers
-     */
-    @SuppressWarnings("unchecked")
-    private List<User> getWorkflowAdmins(List<User> knownUsers,
-            WorkflowModel model, Session session) {
-
-        String hql = "selelct u.id from User as u "
-                + "inner join UserAdministratesWorkflow as rel "
-                + "where (rel.workflowModel = :model) and "
-                + "( (rel.user = u) or (rel.workflowModel.tenant.admin = u) and "
-                + "u in (:knownUsers))";
-
-        Query q = session.createQuery(hql).setEntity("model", model)
-                .setParameterList("knownUsers", knownUsers);
-
-        List<User> admins = q.list();
-
-        /*
-         * Since our entities use the default equals() implementation, two
-         * entities with the same id are not necessarily considered equal.
-         * 
-         * Implementing equals() based on the entity id can lead to several
-         * problems, therefore we iterate manually through the lists.
-         */
-        List<User> knownUsersToRemove = new ArrayList<User>();
-        for (User admin : admins) {
-            for (User knownUser : knownUsers) {
-                if (knownUser.getId().equals(admin.getId())) {
-                    knownUsersToRemove.add(knownUser);
-                }
-            }
-        }
-        // now knownUsersToRemove contains all admins including their profiles
-        knownUsers.removeAll(knownUsersToRemove);
-
-        return knownUsersToRemove;
-    }
-
-    /**
      * Returns a list of those users in knownUsers that are members of the
      * tenant that owns the given workflow model. The found users are removed
      * from knownUsers.
      * 
      * @param knownUsers
+     *            list of known users to modify
      * @param model
+     *            workflow model to check against
      * @param session
-     * @return
+     *            current Hibernate session
+     * @return see above
      */
     @SuppressWarnings("unchecked")
     private List<User> getMembers(List<User> knownUsers, WorkflowModel model,
@@ -237,7 +195,7 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
      * by looking at the given list of known users and the current list of
      * usernames and emails.
      * 
-     * @param knownUsers
+     * @param knownUsers list of known users to modify
      * @return all unknown users
      */
     private List<User> getUnknownUsers(List<User> knownUsers) {
@@ -304,7 +262,7 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
     /**
      * @return the result
      */
-    public Map<User, UserWorkflowAdminState> getResult() {
+    public Map<User, UserWorkflowParticipationState> getResult() {
         return result;
     }
 }
