@@ -23,15 +23,14 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.File;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeBodyPart;
 
 import org.junit.Before;
@@ -86,18 +85,18 @@ public class MailBackendTest {
     }
 
     /**
-     * Test method for {@link MailBackend#validateAddresses(List)}.
+     * Test method for {@link MailBackend#validateAddresses(Set)}.
      */
     @Test
-    public void testValidateAddressesListOfString() {
-        List<String> strList = new ArrayList<String>(1001);
+    public void testValidateAddressesSetOfString() {
+        Set<String> strList = new HashSet<String>(1001);
         for (int i = 0; i <= 1000; i++) {
             strList.add("ab" + i + "@c.de");
         }
         assertTrue("1000 addresses test", MailBackend
                 .validateAddresses(strList));
 
-        assertFalse(MailBackend.validateAddresses((List<String>) null));
+        assertFalse(MailBackend.validateAddresses((Set<String>) null));
         strList.add("");
         // XXX This seems to be a JavaMail implementation bug
         // assertFalse(MailBackend.validateAddresses(strList));
@@ -207,12 +206,12 @@ public class MailBackendTest {
 
     /**
      * Test method for
-     * {@link MailBackend#MailBackend(List, String, String, String)}.
+     * {@link MailBackend#MailBackend(Set, String, String, String)}.
      */
     @Test
-    public void testMailBackendListOfStringStringStringString() {
+    public void testMailBackendSetOfStringStringStringString() {
         // construct a list of valid email adresses
-        List<String> validEmails = new ArrayList<String>();
+        Set<String> validEmails = new HashSet<String>();
         validEmails.add("abc@de.uk");
         validEmails.add("ab.c@de.uk");
         validEmails.add("ab@de.co.uk");
@@ -227,19 +226,19 @@ public class MailBackendTest {
 
         // should throw exceptions
         try {
-            new MailBackend(new ArrayList<String>(), "", "", "");
+            new MailBackend(new HashSet<String>(), "", "", "");
             fail("all parameters empty should fail");
         } catch (IllegalArgumentException e) {
             // This test is supposed to fail
         }
         try {
-            new MailBackend((List<String>) null, "AAA", "a@bc.de", "sub");
+            new MailBackend((HashSet<String>) null, "AAA", "a@bc.de", "sub");
             fail("To: null should be invalid");
         } catch (IllegalArgumentException e) {
             // This test is supposed to fail
         }
         try {
-            new MailBackend(new ArrayList<String>(), "AAA", "a@bc.de", "sub");
+            new MailBackend(new HashSet<String>(), "AAA", "a@bc.de", "sub");
             fail("Empty To: should be invalid");
         } catch (IllegalArgumentException e) {
             // This test is supposed to fail
@@ -304,38 +303,6 @@ public class MailBackendTest {
         testMail.addCC("");
         assertNotNull(testMail.getHeaderCC());
         assertEquals("", testMail.getHeaderCC());
-    }
-
-    /**
-     * Test method for {@link MailBackend#addFile(File)}.
-     */
-    @Test
-    public void testAddFileFile() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link MailBackend#addFile(URI)}.
-     */
-    @Test
-    public void testAddFileURI() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link MailBackend#addFile(URL)}.
-     */
-    @Test
-    public void testAddFileURL() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link MailBackend#addFile(InputStream)}.
-     */
-    @Test
-    public void testAddFileInputStream() {
-        fail("Not yet implemented"); // RR
     }
 
     /**
@@ -419,6 +386,16 @@ public class MailBackendTest {
                 headerMap.values()));
         assertTrue(testMail.getAdditionalHeaderMap().entrySet().containsAll(
                 headerMap.entrySet()));
+        testMail.getAdditionalHeaderMap().clear();
+        assertTrue(testMail.getAdditionalHeaderMap().isEmpty());
+        testMail.addHeaders(new HashMap<String, String>());
+
+        try {
+            testMail.addHeaders(null);
+            fail("Null content should fail");
+        } catch (IllegalArgumentException e) {
+            // The exception is supposed to be thrown
+        }
     }
 
     /**
@@ -426,7 +403,21 @@ public class MailBackendTest {
      */
     @Test
     public void testAddMimePart() {
-        fail("Not yet implemented"); // RR
+        MimeBodyPart plainBodyPart = new MimeBodyPart();
+
+        testMail.getMessageParts().clear();
+        assertTrue(testMail.getMessageParts().isEmpty());
+
+        testMail.addMimePart(plainBodyPart);
+        assertTrue(testMail.getMessageParts().size() == 1);
+        assertTrue(testMail.getMessageParts().contains(plainBodyPart));
+
+        try {
+            testMail.addMimePart(null);
+            fail("Adding null mimepart should fail");
+        } catch (IllegalArgumentException e) {
+            // Exception is supposed to be thrown
+        }
     }
 
     /**
@@ -434,7 +425,29 @@ public class MailBackendTest {
      */
     @Test
     public void testAddMimeParts() {
-        fail("Not yet implemented"); // RR
+        Set<MimeBodyPart> parts = new HashSet<MimeBodyPart>(1);
+        MimeBodyPart plainBodyPart = new MimeBodyPart();
+        parts.add(plainBodyPart);
+
+        testMail.getMessageParts().clear();
+        assertTrue(testMail.getMessageParts().isEmpty());
+
+        testMail.addMimeParts(parts);
+        for (MimeBodyPart mimeBodyPart : parts) {
+            assertTrue(testMail.getMessageParts().contains(mimeBodyPart));
+        }
+
+        testMail.getMessageParts().clear();
+        assertTrue(testMail.getMessageParts().isEmpty());
+        testMail.addMimeParts(new HashSet<MimeBodyPart>());
+        assertTrue(testMail.getMessageParts().isEmpty());
+
+        try {
+            testMail.addMimeParts(null);
+            fail("Adding null list should fail");
+        } catch (IllegalArgumentException e) {
+            // Exception is supposed to be thrown
+        }
     }
 
     /**
@@ -459,15 +472,89 @@ public class MailBackendTest {
      */
     @Test
     public void testRemoveHeader() {
-        fail("Not yet implemented"); // RR
+        Map<String, String> headerMap = new HashMap<String, String>();
+        headerMap.put("X-A", "A");
+        headerMap.put("X-B", "B");
+        headerMap.put("X-C", "C");
+        headerMap.put("X-D", "D");
+        headerMap.put("X-E", "E");
+
+        Map<String, String> lesserMap = new HashMap<String, String>();
+        lesserMap.put("X-A", "A");
+        lesserMap.put("X-C", "C");
+        lesserMap.put("X-D", "D");
+
+        testMail.removeHeader("Non-Existent-Header");
+        assertTrue(testMail.getAdditionalHeaderMap().isEmpty());
+
+        testMail.getAdditionalHeaderMap().clear();
+        assertTrue(testMail.getAdditionalHeaderMap().isEmpty());
+
+        testMail.addHeaders(headerMap);
+        assertTrue(testMail.getAdditionalHeaderMap().entrySet().containsAll(
+                headerMap.entrySet()));
+
+        testMail.removeHeader("X-E");
+        assertFalse(testMail.getAdditionalHeaderMap().containsKey("X-E"));
+        testMail.removeHeader("X-B");
+        assertTrue(testMail.getAdditionalHeaderMap().entrySet().containsAll(
+                lesserMap.entrySet()));
+        assertFalse(testMail.getAdditionalHeaderMap().containsKey("X-B"));
+        testMail.removeHeader("X-C");
+        assertFalse(testMail.getAdditionalHeaderMap().containsKey("X-C"));
+        testMail.removeHeader("X-D");
+        assertFalse(testMail.getAdditionalHeaderMap().containsKey("X-D"));
+        testMail.removeHeader("X-A");
+        assertTrue(testMail.getAdditionalHeaderMap().isEmpty());
+        testMail.removeHeader("Non-Existent-Header");
+        assertTrue(testMail.getAdditionalHeaderMap().isEmpty());
+
+        testMail.removeHeader("");
+        testMail.removeHeader(null);
     }
 
     /**
-     * Test method for {@link MailBackend#removeHeaders(List)}.
+     * Test method for {@link MailBackend#removeHeaders(Set)}.
      */
     @Test
     public void testRemoveHeaders() {
-        fail("Not yet implemented"); // RR
+        Map<String, String> headerMap = new HashMap<String, String>();
+        headerMap.put("X-A", "A");
+        headerMap.put("X-B", "B");
+        headerMap.put("X-C", "C");
+        headerMap.put("X-D", "D");
+        headerMap.put("X-E", "E");
+
+        Set<String> lesserSet = new HashSet<String>();
+        lesserSet.add("X-A");
+        lesserSet.add("X-C");
+        lesserSet.add("X-D");
+
+        Map<String, String> diffMap = new HashMap<String, String>();
+        diffMap.putAll(headerMap);
+        for (String key : lesserSet) {
+            diffMap.remove(key);
+        }
+
+        testMail.getAdditionalHeaderMap().clear();
+        assertTrue(testMail.getAdditionalHeaderMap().isEmpty());
+
+        testMail.addHeaders(headerMap);
+        assertTrue(testMail.getAdditionalHeaderMap().entrySet().containsAll(
+                headerMap.entrySet()));
+
+        testMail.removeHeaders(lesserSet);
+        assertTrue(testMail.getAdditionalHeaderMap().entrySet().containsAll(
+                diffMap.entrySet()));
+
+        testMail.removeHeaders(diffMap.keySet());
+        assertTrue(testMail.getAdditionalHeaderMap().isEmpty());
+
+        testMail.removeHeaders(headerMap.keySet());
+        assertTrue(testMail.getAdditionalHeaderMap().isEmpty());
+
+        testMail.removeHeaders(new HashSet<String>());
+        testMail.removeHeaders(null);
     }
 
     /**
@@ -475,15 +562,56 @@ public class MailBackendTest {
      */
     @Test
     public void testRemoveMimePart() {
-        fail("Not yet implemented"); // RR
+        MimeBodyPart plainBodyPart = new MimeBodyPart();
+
+        testMail.getMessageParts().clear();
+        assertTrue(testMail.getMessageParts().isEmpty());
+
+        testMail.addMimePart(plainBodyPart);
+        assertTrue(testMail.getMessageParts().contains(plainBodyPart));
+
+        testMail.removeMimePart(plainBodyPart);
+        assertFalse(testMail.getMessageParts().contains(plainBodyPart));
+        assertTrue(testMail.getMessageParts().isEmpty());
+
+        try {
+            testMail.removeMimePart(null);
+            fail("Removing null mimepart should fail");
+        } catch (IllegalArgumentException e) {
+            // Exception is supposed to be thrown
+        }
     }
 
     /**
-     * Test method for {@link MailBackend#removeMimeParts(List)}.
+     * Test method for {@link MailBackend#removeMimeParts(Set)}.
      */
     @Test
     public void testRemoveMimeParts() {
-        fail("Not yet implemented"); // RR
+        Set<MimeBodyPart> parts = new HashSet<MimeBodyPart>(1);
+        MimeBodyPart plainBodyPart = new MimeBodyPart();
+        parts.add(plainBodyPart);
+
+        testMail.getMessageParts().clear();
+        assertTrue(testMail.getMessageParts().isEmpty());
+
+        testMail.addMimeParts(parts);
+        assertTrue(testMail.getMessageParts().containsAll(parts));
+
+        testMail.removeMimeParts(parts);
+        for (MimeBodyPart mimeBodyPart : parts) {
+            assertFalse(testMail.getMessageParts().contains(mimeBodyPart));
+        }
+        assertTrue(testMail.getMessageParts().isEmpty());
+
+        testMail.removeMimeParts(new HashSet<MimeBodyPart>());
+        assertTrue(testMail.getMessageParts().isEmpty());
+
+        try {
+            testMail.removeMimePart(null);
+            fail("Removing null mimepart should fail");
+        } catch (IllegalArgumentException e) {
+            // Exception is supposed to be thrown
+        }
     }
 
     /**
@@ -491,15 +619,87 @@ public class MailBackendTest {
      */
     @Test
     public void testSetAuthInfo() {
-        fail("Not yet implemented"); // RR
+        testMail.setAuthInfo("decidr", "asd");
+        assertEquals("decidr", testMail.getUsername());
+        assertEquals("asd", testMail.getPassword());
+        testMail.setAuthInfo("decidr", "SdfF");
+        assertEquals("decidr", testMail.getUsername());
+        assertEquals("SdfF", testMail.getPassword());
+        testMail.setAuthInfo("decidr", "");
+        assertEquals("decidr", testMail.getUsername());
+        assertEquals("", testMail.getPassword());
+        testMail.setAuthInfo("decidr", null);
+        assertEquals("decidr", testMail.getUsername());
+        assertNull(testMail.getPassword());
+
+        testMail.setAuthInfo("DeCiDr", "asd");
+        assertEquals("DeCiDr", testMail.getUsername());
+        assertEquals("asd", testMail.getPassword());
+        testMail.setAuthInfo("DeCiDr", "SdfF");
+        assertEquals("DeCiDr", testMail.getUsername());
+        assertEquals("SdfF", testMail.getPassword());
+        testMail.setAuthInfo("DeCiDr", "");
+        assertEquals("DeCiDr", testMail.getUsername());
+        assertEquals("", testMail.getPassword());
+        testMail.setAuthInfo("DeCiDr", null);
+        assertEquals("DeCiDr", testMail.getUsername());
+        assertNull(testMail.getPassword());
+
+        testMail.setAuthInfo("", "asd");
+        assertNull(testMail.getUsername());
+        assertEquals("asd", testMail.getPassword());
+        testMail.setAuthInfo("", "SdfF");
+        assertNull(testMail.getUsername());
+        assertEquals("SdfF", testMail.getPassword());
+        testMail.setAuthInfo("", "");
+        assertNull(testMail.getUsername());
+        assertEquals("", testMail.getPassword());
+        testMail.setAuthInfo("", null);
+        assertNull(testMail.getUsername());
+        assertNull(testMail.getPassword());
+
+        testMail.setAuthInfo(null, "asd");
+        assertNull(testMail.getUsername());
+        assertEquals("asd", testMail.getPassword());
+        testMail.setAuthInfo(null, "SdfF");
+        assertNull(testMail.getUsername());
+        assertEquals("SdfF", testMail.getPassword());
+        testMail.setAuthInfo(null, "");
+        assertNull(testMail.getUsername());
+        assertEquals("", testMail.getPassword());
+        testMail.setAuthInfo(null, null);
+        assertNull(testMail.getUsername());
+        assertNull(testMail.getPassword());
     }
 
     /**
-     * Test method for {@link MailBackend#setBCC(List)}.
+     * Test method for {@link MailBackend#setBCC(Set)}.
      */
     @Test
-    public void testSetBCCListOfString() {
-        fail("Not yet implemented"); // RR
+    public void testSetBCCSetOfString() {
+        Set<String> validSet = new HashSet<String>();
+        Set<String> invalidSet = new HashSet<String>();
+
+        validSet.add("asd@qw.ru");
+        validSet.add("asd.efg@qw.ru");
+
+        invalidSet.add("ads@asd@das");
+
+        testMail.setBCC(validSet);
+        assertTrue(testMail.getHeaderBCC().contains("asd@qw.ru"));
+        assertTrue(testMail.getHeaderBCC().contains("asd.efg@qw.ru"));
+
+        testMail.setBCC((Set<String>) null);
+        assertEquals("", testMail.getHeaderBCC());
+        testMail.setBCC(new HashSet<String>());
+        assertEquals("", testMail.getHeaderBCC());
+
+        try {
+            testMail.setBCC(invalidSet);
+            fail("Set of invalid addresses should fail");
+        } catch (IllegalArgumentException e) {
+            assertFalse(testMail.getHeaderBCC().contains("ads@asd@das"));
+        }
     }
 
     /**
@@ -507,15 +707,40 @@ public class MailBackendTest {
      */
     @Test
     public void testSetBCCString() {
-        fail("Not yet implemented"); // RR
+        testMail.setBCC("anonymous@coward.net");
+        assertEquals("anonymous@coward.net", testMail.getHeaderBCC());
+        testMail.setBCC("anonymousE@coward.net");
+        assertEquals("anonymousE@coward.net", testMail.getHeaderBCC());
+
+        testMail.setBCC("");
+        assertEquals("", testMail.getHeaderBCC());
+        testMail.setBCC((String) null);
+        assertEquals("", testMail.getHeaderBCC());
+
+        try {
+            testMail.setBCC("in@va@lid");
+            fail("invalid format is invalid");
+        } catch (IllegalArgumentException e) {
+            // The exception is supposed to be thrown
+        }
     }
 
     /**
      * Test method for {@link MailBackend#setBodyText(String)}.
      */
     @Test
-    public void testSetBodyText() {
-        fail("Not yet implemented"); // RR
+    public void testSetBodyText() throws MessagingException, IOException {
+        testMail.getMessageParts().clear();
+        assertTrue(testMail.getMessageParts().isEmpty());
+
+        testMail.addMimePart(new MimeBodyPart());
+        testMail.setBodyText("Testbody");
+        assertEquals(2, testMail.getMessageParts().size());
+        assertEquals("text/plain", testMail.getMessageParts().get(0)
+                .getContentType());
+        assertEquals("Testbody", testMail.getMessageParts().get(0).getContent());
+
+        fail("Not yet implemented"); // RR how to test
     }
 
     /**
@@ -523,15 +748,40 @@ public class MailBackendTest {
      */
     @Test
     public void testSetBodyHTML() {
-        fail("Not yet implemented"); // RR
+        testMail.getMessageParts().clear();
+        assertTrue(testMail.getMessageParts().isEmpty());
+
+        fail("Not yet implemented"); // RR how to test
     }
 
     /**
-     * Test method for {@link MailBackend#setCC(List)}.
+     * Test method for {@link MailBackend#setCC(Set)}.
      */
     @Test
-    public void testSetCCListOfString() {
-        fail("Not yet implemented"); // RR
+    public void testSetCCSetOfString() {
+        Set<String> validSet = new HashSet<String>();
+        Set<String> invalidSet = new HashSet<String>();
+
+        validSet.add("asd@qw.ru");
+        validSet.add("asd.efg@qw.ru");
+
+        invalidSet.add("ads@asd@das");
+
+        testMail.setCC(validSet);
+        assertTrue(testMail.getHeaderCC().contains("asd@qw.ru"));
+        assertTrue(testMail.getHeaderCC().contains("asd.efg@qw.ru"));
+
+        testMail.setCC((Set<String>) null);
+        assertEquals("", testMail.getHeaderCC());
+        testMail.setCC(new HashSet<String>());
+        assertEquals("", testMail.getHeaderCC());
+
+        try {
+            testMail.setCC(invalidSet);
+            fail("Set of invalid addresses should fail");
+        } catch (IllegalArgumentException e) {
+            assertFalse(testMail.getHeaderCC().contains("ads@asd@das"));
+        }
     }
 
     /**
@@ -539,7 +789,22 @@ public class MailBackendTest {
      */
     @Test
     public void testSetCCString() {
-        fail("Not yet implemented"); // RR
+        testMail.setCC("anonymous@coward.net");
+        assertEquals("anonymous@coward.net", testMail.getHeaderCC());
+        testMail.setCC("anonymousE@coward.net");
+        assertEquals("anonymousE@coward.net", testMail.getHeaderCC());
+
+        testMail.setCC("");
+        assertEquals("", testMail.getHeaderCC());
+        testMail.setCC((String) null);
+        assertEquals("", testMail.getHeaderCC());
+
+        try {
+            testMail.setCC("in@va@lid");
+            fail("invalid format is invalid");
+        } catch (IllegalArgumentException e) {
+            // The exception is supposed to be thrown
+        }
     }
 
     /**
@@ -547,7 +812,14 @@ public class MailBackendTest {
      */
     @Test
     public void testSetHostname() {
-        fail("Not yet implemented"); // RR
+        testMail.setHostname("decidr.de");
+        assertEquals("decidr.de", testMail.getSMTPServerHost());
+        testMail.setHostname("heise.de");
+        assertEquals("heise.de", testMail.getSMTPServerHost());
+        testMail.setHostname("");
+        assertEquals("localhost", testMail.getSMTPServerHost());
+        testMail.setHostname(null);
+        assertEquals("localhost", testMail.getSMTPServerHost());
     }
 
     /**
@@ -555,7 +827,14 @@ public class MailBackendTest {
      */
     @Test
     public void testSetPassword() {
-        fail("Not yet implemented"); // RR
+        testMail.setPassword("asd");
+        assertEquals("asd", testMail.getPassword());
+        testMail.setPassword("SdfF");
+        assertEquals("SdfF", testMail.getPassword());
+        testMail.setPassword("");
+        assertEquals("", testMail.getPassword());
+        testMail.setPassword(null);
+        assertNull(testMail.getPassword());
     }
 
     /**
@@ -563,15 +842,52 @@ public class MailBackendTest {
      */
     @Test
     public void testSetPortNum() {
-        fail("Not yet implemented"); // RR
+        testMail.setPortNum(0);
+        assertEquals(0, testMail.getSMTPPortNum());
+        testMail.setPortNum(2020);
+        assertEquals(2020, testMail.getSMTPPortNum());
+        testMail.setPortNum(-1);
+        assertEquals(-1, testMail.getSMTPPortNum());
+        testMail.setPortNum(-1230);
+        assertEquals(-1, testMail.getSMTPPortNum());
     }
 
     /**
-     * Test method for {@link MailBackend#setReceiver(List)}.
+     * Test method for {@link MailBackend#setReceiver(Set)}.
      */
     @Test
-    public void testSetReceiverListOfString() {
-        fail("Not yet implemented"); // RR
+    public void testSetReceiverSetOfString() {
+        Set<String> validSet = new HashSet<String>();
+        Set<String> invalidSet = new HashSet<String>();
+
+        validSet.add("asd@qw.ru");
+        validSet.add("asd.efg@qw.ru");
+
+        invalidSet.add("ads@asd@das");
+
+        testMail.setReceiver(validSet);
+        assertTrue(testMail.getHeaderTo().contains("asd@qw.ru"));
+        assertTrue(testMail.getHeaderTo().contains("asd.efg@qw.ru"));
+
+        try {
+            testMail.setReceiver(invalidSet);
+            fail("Set of invalid addresses should fail");
+        } catch (IllegalArgumentException e) {
+            assertFalse(testMail.getHeaderTo().contains("ads@asd@das"));
+        }
+
+        try {
+            testMail.setReceiver((Set<String>) null);
+            fail("Null Set should fail");
+        } catch (IllegalArgumentException e) {
+            // Exception should be thrown
+        }
+        try {
+            testMail.setReceiver(new HashSet<String>());
+            fail("Null Set should fail");
+        } catch (IllegalArgumentException e) {
+            // Exception should be thrown
+        }
     }
 
     /**
@@ -579,7 +895,29 @@ public class MailBackendTest {
      */
     @Test
     public void testSetReceiverString() {
-        fail("Not yet implemented"); // RR
+        testMail.setReceiver("anonymous@coward.net");
+        assertEquals("anonymous@coward.net", testMail.getHeaderTo());
+        testMail.setReceiver("anonymousE@coward.net");
+        assertEquals("anonymousE@coward.net", testMail.getHeaderTo());
+
+        try {
+            testMail.setReceiver("");
+            fail("Empty receiver is invalid");
+        } catch (IllegalArgumentException e) {
+            // The exception is supposed to be thrown
+        }
+        try {
+            testMail.setReceiver((String) null);
+            fail("null receiver is invalid");
+        } catch (IllegalArgumentException e) {
+            // The exception is supposed to be thrown
+        }
+        try {
+            testMail.setReceiver("in@va@lid");
+            fail("invalid format is invalid");
+        } catch (IllegalArgumentException e) {
+            // The exception is supposed to be thrown
+        }
     }
 
     /**
@@ -635,18 +973,12 @@ public class MailBackendTest {
         assertEquals("decidr.de", testMail.getSMTPServerHost());
         assertEquals(0, testMail.getSMTPPortNum());
 
-        try {
-            testMail.setServerInfo("", 0);
-            fail("Empty hostname is invalid");
-        } catch (IllegalArgumentException e) {
-            // The exception is supposed to be thrown
-        }
-        try {
-            testMail.setServerInfo(null, 0);
-            fail("Null hostname is invalid");
-        } catch (IllegalArgumentException e) {
-            // The exception is supposed to be thrown
-        }
+        testMail.setServerInfo("", 0);
+        assertEquals("localhost", testMail.getSMTPServerHost());
+        assertEquals(0, testMail.getSMTPPortNum());
+        testMail.setServerInfo(null, 0);
+        assertEquals("localhost", testMail.getSMTPServerHost());
+        assertEquals(0, testMail.getSMTPPortNum());
     }
 
     /**

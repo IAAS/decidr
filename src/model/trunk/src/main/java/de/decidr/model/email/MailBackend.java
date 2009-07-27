@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.mail.Message;
@@ -70,25 +71,25 @@ public class MailBackend {
      * Uses <code>{@link #validateAddresses(String)}</code> to verify that a
      * list of e-mail addresses are formatted correctly.
      * 
-     * @param addressList
+     * @param addressSet
      *            A list of e-mail addresses.
      * @return <code>true</code> - if the list parses correctly<br>
      *         <code>false</code> - otherwise
      */
-    public static boolean validateAddresses(List<String> addressList) {
+    public static boolean validateAddresses(Set<String> addressSet) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".validateAddresses(List<String>)");
-        if (addressList == null || addressList.isEmpty()) {
+        if (addressSet == null || addressSet.isEmpty()) {
             log.debug("empty parameter => invalid addresses");
             log.trace("Leaving " + MailBackend.class.getSimpleName()
                     + ".validateAddresses(List<String>)");
             return false;
         }
 
-        StringBuilder addresses = new StringBuilder(addressList.size() * 20);
+        StringBuilder addresses = new StringBuilder(addressSet.size() * 20);
 
         log.debug("Constructing header string from list...");
-        for (String recipient : addressList) {
+        for (String recipient : addressSet) {
             addresses.append(recipient);
             addresses.append(", ");
         }
@@ -207,7 +208,7 @@ public class MailBackend {
     /**
      * @param to
      *            The recipients of the Email. See
-     *            <code>{@link #setReceiver(List<String>)}</code>.
+     *            <code>{@link #setReceiver(Set<String>)}</code>.
      * @param fromName
      *            The name of the sender of the Email. See
      *            <code>{@link #setSender(String, String)}</code>.
@@ -218,7 +219,7 @@ public class MailBackend {
      *            The subject of the Email. See
      *            <code>{@link #setSubject(String)}</code>.
      */
-    public MailBackend(List<String> to, String fromName, String fromMail,
+    public MailBackend(Set<String> to, String fromName, String fromMail,
             String subject) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + " constructor");
@@ -463,10 +464,20 @@ public class MailBackend {
     public void addHeaders(Map<String, String> headers) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addHeaders(Map<String, String>)");
-        log.debug("Stepping through headers Map and "
-                + "delegating to addHeader(String, String)...");
-        for (String headerName : headers.keySet()) {
-            addHeader(headerName, headers.get(headerName));
+        if (headers == null) {
+            log.debug("detected null headers Map (input parameter)");
+            log.trace("Leaving " + MailBackend.class.getSimpleName()
+                    + ".addHeaders(Map<String, String>)");
+            throw new IllegalArgumentException(
+                    "The passed Map may not be null!");
+        }
+        if (!headers.isEmpty()) {
+
+            log.debug("Stepping through headers Map and "
+                    + "delegating to addHeader(String, String)...");
+            for (String headerName : headers.keySet()) {
+                addHeader(headerName, headers.get(headerName));
+            }
         }
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".addHeaders(Map<String, String>)");
@@ -479,11 +490,16 @@ public class MailBackend {
      * @param part
      *            The <code>{@link MimeBodyPart}</code> to add at the end of the
      *            MIME parts list.
-     * @return see <code>{@link List#add(Object)}</code>
+     * @return see <code>{@link List#add}</code>
      */
     public boolean addMimePart(MimeBodyPart part) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addMimePart(MimeBodyPart)");
+        if (part == null) {
+            log.debug("Detected null parameter");
+            throw new IllegalArgumentException("Can't add null MimeBodyPart!");
+        }
+
         boolean result = messageParts.add(part);
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".addMimePart(MimeBodyPart)");
@@ -497,11 +513,16 @@ public class MailBackend {
      * @param parts
      *            The <code>{@link MimeBodyPart MimeBodyParts}</code> to add at
      *            the end of the MIME parts list.
-     * @return see <code>{@link List#addAll(Collection)}</code>
+     * @return see <code>{@link Set#addAll(Collection)}</code>
      */
-    public boolean addMimeParts(List<MimeBodyPart> parts) {
+    public boolean addMimeParts(Set<MimeBodyPart> parts) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addMimeParts(List<MimeBodyPart>)");
+        if (parts == null) {
+            log.debug("detected null parameter");
+            throw new IllegalArgumentException("Can't handle null List");
+        }
+
         boolean result = messageParts.addAll(parts);
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".addMimeParts(List<MimeBodyPart>)");
@@ -697,17 +718,20 @@ public class MailBackend {
      * for every item in the list.
      * 
      * @param headers
-     *            A <code>{@link List}</code> of headers to remove.
+     *            A <code>{@link Set}</code> of headers to remove.
      */
-    public void removeHeaders(List<String> headers) {
+    public void removeHeaders(Set<String> headers) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
-                + ".removeHeaders(List<String>)");
-        log.debug("attempting to remove the specified strings");
-        for (String header : headers) {
-            additionalHeaderMap.remove(header);
+                + ".removeHeaders(Set<String>)");
+        if (headers != null) {
+            log.debug("attempting to remove the specified strings");
+            for (String header : headers) {
+                log.debug("removing " + header);
+                additionalHeaderMap.remove(header);
+            }
         }
         log.trace("Leaving " + MailBackend.class.getSimpleName()
-                + ".removeHeaders(List<String>)");
+                + ".removeHeaders(Set<String>)");
     }
 
     /**
@@ -720,6 +744,12 @@ public class MailBackend {
     public boolean removeMimePart(MimeBodyPart part) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".removeMimePart(MimeBodyPart)");
+        if (part == null) {
+            log.debug("Detected null parameter");
+            throw new IllegalArgumentException(
+                    "Can't remove null MimeBodyPart!");
+        }
+
         log.debug("attempting to remove the specified body part");
         boolean result = messageParts.remove(part);
         log.trace("Leaving " + MailBackend.class.getSimpleName()
@@ -735,13 +765,13 @@ public class MailBackend {
      *            The <code>{@link MimeBodyPart MimeBodyParts}</code> to remove.
      * @return see <code>{@link List#removeAll(Collection)}</code>
      */
-    public boolean removeMimeParts(List<MimeBodyPart> parts) {
+    public boolean removeMimeParts(Set<MimeBodyPart> parts) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
-                + ".removeMimeParts(List<MimeBodyPart>)");
+                + ".removeMimeParts(Set<MimeBodyPart>)");
         log.debug("attempting to remove the specified body parts");
         boolean result = messageParts.removeAll(parts);
         log.trace("Leaving " + MailBackend.class.getSimpleName()
-                + ".removeMimeParts(List<MimeBodyPart>)");
+                + ".removeMimeParts(Set<MimeBodyPart>)");
         return result;
     }
 
@@ -882,22 +912,33 @@ public class MailBackend {
      * @param bcc
      *            A list of recipients.
      */
-    public void setBCC(List<String> bcc) {
+    public void setBCC(Set<String> bcc) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
-                + ".setBCC(List<String>)");
-        StringBuilder bccs = new StringBuilder(bcc.size() * 20);
+                + ".setBCC(Set<String>)");
+        if (bcc == null) {
+            log.debug("parameter was null - delegating to "
+                    + "setBCC(String) for possible error handling");
+            setBCC((String) null);
+        } else {
+            StringBuilder bccs = new StringBuilder(bcc.size() * 20);
 
-        log.debug("Constructing header string from list...");
-        for (String recipient : bcc) {
-            bccs.append(recipient);
-            bccs.append(", ");
+            if (bcc.size() == 0) {
+                log.debug("empty set detected");
+                bccs.append("");
+            } else {
+                log.debug("Constructing header string from list...");
+                for (String recipient : bcc) {
+                    bccs.append(recipient);
+                    bccs.append(", ");
+                }
+                bccs.delete(bccs.length() - 2, bccs.length());
+            }
+
+            log.debug("delegating to setBCC(String)");
+            setBCC(bccs.toString());
         }
-        bccs.delete(bccs.length() - 2, bccs.length());
-
-        log.debug("delegating to setBCC(String)");
-        setBCC(bccs.toString());
         log.trace("Leaving " + MailBackend.class.getSimpleName()
-                + ".setBCC(List<String>)");
+                + ".setBCC(Set<String>)");
     }
 
     /**
@@ -944,9 +985,15 @@ public class MailBackend {
             IOException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setBodyText(String)");
-        // add a new part if the first on is not a string or there are no parts
-        if (messageParts.isEmpty()
-                || !(messageParts.get(0).getContent() instanceof String)) {
+        // add a new part if the first one is not a string or there are no parts
+        boolean stringContent;
+        if (!messageParts.isEmpty()) {
+            stringContent = messageParts.get(0).getContentType().equals(
+                    "text/plain");
+        } else {
+            stringContent = false;
+        }
+        if (!stringContent) {
             log.debug("adding new first MimeBodyPart");
             messageParts.add(0, new MimeBodyPart());
         }
@@ -974,12 +1021,13 @@ public class MailBackend {
         MimeBodyPart contents = new MimeBodyPart();
         contents.setContent(message, "text/html");
 
-        if (messageParts.isEmpty()) {
-            log.debug("adding new first MimeBodyPart");
-            messageParts.add(0, contents);
-        } else if (messageParts.get(0).getContent() instanceof String) {
+        if (!messageParts.isEmpty()
+                && messageParts.get(0).getContentType().equals("text/plain")) {
             log.debug("adding new second MimeBodyPart");
             messageParts.add(1, contents);
+        } else {
+            log.debug("adding new first MimeBodyPart");
+            messageParts.add(0, contents);
         }
 
         log.trace("Leaving " + MailBackend.class.getSimpleName()
@@ -992,22 +1040,33 @@ public class MailBackend {
      * @param cc
      *            A list of recipients.
      */
-    public void setCC(List<String> cc) {
+    public void setCC(Set<String> cc) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
-                + ".setCC(List<String>)");
-        StringBuilder ccs = new StringBuilder(cc.size() * 20);
+                + ".setCC(Set<String>)");
+        if (cc == null) {
+            log.debug("parameter was null - delegating to "
+                    + "setCC(String) for possible error handling");
+            setCC((String) null);
+        } else {
+            StringBuilder ccs = new StringBuilder(cc.size() * 20);
 
-        log.debug("Constructing header string from list...");
-        for (String recipient : cc) {
-            ccs.append(recipient);
-            ccs.append(", ");
+            if (cc.size() == 0) {
+                log.debug("empty set detected");
+                ccs.append("");
+            } else {
+                log.debug("Constructing header string from list...");
+                for (String recipient : cc) {
+                    ccs.append(recipient);
+                    ccs.append(", ");
+                }
+                ccs.delete(ccs.length() - 2, ccs.length());
+            }
+
+            log.debug("delegating to setCC(String)");
+            setCC(ccs.toString());
         }
-        ccs.delete(ccs.length() - 2, ccs.length());
-
-        log.debug("delegating to setCC(String)");
-        setCC(ccs.toString());
         log.trace("Leaving " + MailBackend.class.getSimpleName()
-                + ".setCC(List<String>)");
+                + ".setCC(Set<String>)");
     }
 
     /**
@@ -1087,6 +1146,10 @@ public class MailBackend {
     public void setPortNum(int portNum) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setProtNum(int)");
+        if (portNum < -1) {
+            portNum = -1;
+        }
+
         log.debug("setting port number");
         SMTPPortNum = portNum;
         log.trace("Leaving " + MailBackend.class.getSimpleName()
@@ -1099,9 +1162,9 @@ public class MailBackend {
      * @param to
      *            A list of recipients.
      */
-    public void setReceiver(List<String> to) {
+    public void setReceiver(Set<String> to) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
-                + ".setReceiver(List<String>)");
+                + ".setReceiver(Set<String>)");
         if (to == null) {
             log.debug("parameter was null - delegating to "
                     + "setReceiver(String) for error handling");
@@ -1124,7 +1187,7 @@ public class MailBackend {
             setReceiver(tos.toString());
         }
         log.trace("Leaving " + MailBackend.class.getSimpleName()
-                + ".setReceiver(List<String>)");
+                + ".setReceiver(Set<String>)");
     }
 
     /**
@@ -1196,14 +1259,6 @@ public class MailBackend {
     public void setServerInfo(String hostname, int portNum) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setServerInfo(String, int)");
-        if (hostname == null || hostname.isEmpty()) {
-            log.error("An empty or null hostname is not valid");
-            throw new IllegalArgumentException("hostname null or empty");
-        }
-        if (portNum < -1) {
-            portNum = -1;
-        }
-
         setHostname(hostname);
         setPortNum(portNum);
         log.trace("Leaving " + MailBackend.class.getSimpleName()

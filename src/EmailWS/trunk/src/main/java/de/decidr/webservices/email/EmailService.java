@@ -19,8 +19,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
@@ -179,16 +181,16 @@ public class EmailService implements EmailInterface {
      * @param userList
      *            The <code>{@link AbstractUserList}</code> containing the
      *            e-mail addresses.
-     * @return A <code>{@link List}</code> containing e-mail addresses.
+     * @return A <code>{@link Set}</code> containing e-mail addresses.
      * @throws TransactionException
      *             see <code>{@link #extractActorAddresses(List)}</code>
      */
     @WebMethod(exclude = true)
-    private static List<String> extractEmails(AbstractUserList userList)
+    private static Set<String> extractEmails(AbstractUserList userList)
             throws TransactionException {
         log.trace("Entering " + EmailService.class.getSimpleName()
                 + ".extractEmails(AbstractUserList)");
-        List<String> emailList = new ArrayList<String>(userList
+        Set<String> emailList = new HashSet<String>(userList
                 .getAbstractUser().size());
         List<Actor> actorList = new ArrayList<Actor>();
 
