@@ -29,9 +29,9 @@ sampleDelay=1
 decimals=2
 [ -n "${2}" ] && decimals=${2}
 
-top1=$(top -l 2 -n 1 | tail -n 7 | grep -i "CPU usage")
+top1=$(top -l 2 -n 1 | tail -n 8 | head -n 3 | grep -i "CPU usage")
 sleep ${sampleDelay}
-top2=$(top -l 2 -n 1 | tail -n 7 | grep -i "CPU usage")
+top2=$(top -l 2 -n 1 | tail -n 8 | head -n 3 | grep -i "CPU usage")
 
 top1=${top1%%% idle*}
 top2=${top2%%% idle*}
