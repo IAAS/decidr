@@ -22,6 +22,7 @@ package de.decidr.modelingtool.client.exception;
  * 
  * @author Johannes Engelhardt
  */
+@SuppressWarnings("serial")
 public class SaveDWDLException extends ModelingToolException {
 
     public SaveDWDLException(String msg) {

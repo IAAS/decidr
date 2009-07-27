@@ -24,6 +24,7 @@ import com.google.gwt.xml.client.XMLParser;
 
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
+import de.decidr.modelingtool.client.ui.EmailInvokeNode;
 
 /**
  * TODO: add comment
@@ -68,7 +69,7 @@ public class WorkflowParserImpl implements WorkflowParser {
 
         /* Create fault handler node */
         workflow.appendChild(createFaultHandlerNode(doc, model));
-        
+
         /* append tree to root element */
         doc.appendChild(workflow);
         return doc.toString();
@@ -133,5 +134,11 @@ public class WorkflowParserImpl implements WorkflowParser {
         Element faultHandler = doc.createElement("faultHandler");
         // JS implement
         return faultHandler;
+    }
+
+    private Node createEmailNode(Document doc, EmailInvokeNode node) {
+        Element emailNode = doc.createElement("invokeNode");
+        
+        return emailNode;
     }
 }

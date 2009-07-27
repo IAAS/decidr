@@ -22,6 +22,7 @@ package de.decidr.modelingtool.client.exception;
  *
  * @author Johannes Engelhardt
  */
+@SuppressWarnings("serial")
 public class IncompleteModelDataException extends ModelingToolException {
     
     public IncompleteModelDataException(String msg) {

@@ -22,6 +22,7 @@ package de.decidr.modelingtool.client.exception;
  *
  * @author Johannes Engelhardt
  */
+@SuppressWarnings("serial")
 public class ModelingToolException extends Exception {
     
     public ModelingToolException(String msg) {
