@@ -58,11 +58,12 @@ public class DialogRegistry {
         getDialogs().put(dialog.getClass().getName(), dialog);
     }
 
+    // JS modality
     public void showDialog(String dialogName) {
         Dialog dialog = getDialog(dialogName);
         dialog.initialize();
         dialog.setModal(true);
-//        ModelingToolWidget.view.mask();
+        // ModelingToolWidget.view.mask();
         dialog.show();
     }
 
@@ -70,7 +71,7 @@ public class DialogRegistry {
         Dialog dialog = getDialog(dialogName);
         dialog.hide();
         dialog.setModal(false);
-//        ModelingToolWidget.view.unmask();
+        // ModelingToolWidget.view.unmask();
         dialog.reset();
     }
 

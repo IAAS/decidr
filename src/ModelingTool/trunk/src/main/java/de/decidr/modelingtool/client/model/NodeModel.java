@@ -16,6 +16,8 @@
 
 package de.decidr.modelingtool.client.model;
 
+import de.decidr.modelingtool.client.ui.Node;
+
 /**
  * TODO: add comment
  * 
@@ -24,10 +26,9 @@ package de.decidr.modelingtool.client.model;
 public class NodeModel extends AbstractModel {
 
     private HasChildModels parentModel = null;
-
     private ConnectionModel input = null;
-
     private ConnectionModel output = null;
+    private Node node = null;
 
     protected NodePropertyData properties;
 
@@ -41,17 +42,9 @@ public class NodeModel extends AbstractModel {
      */
     protected int changeListenerTop = 0;
 
-    public int getChangeListenerLeft() {
-        return changeListenerLeft;
-    }
-
-    public int getChangeListenerTop() {
-        return changeListenerTop;
-    }
-
-    public void setChangeListenerPosition(int left, int top) {
-        this.changeListenerLeft = left;
-        this.changeListenerTop = top;
+    public NodeModel() {
+        super();
+        properties = new NodePropertyData();
     }
 
     public NodeModel(HasChildModels parentModel) {
@@ -60,37 +53,53 @@ public class NodeModel extends AbstractModel {
         properties = new NodePropertyData();
     }
 
-    public NodeModel() {
-        super();
-        properties = new NodePropertyData();
+    public int getChangeListenerLeft() {
+        return changeListenerLeft;
+    }
+
+    public int getChangeListenerTop() {
+        return changeListenerTop;
     }
 
     public ConnectionModel getInput() {
         return input;
     }
 
-    public void setInput(ConnectionModel input) {
-        this.input = input;
+    public Node getNode() {
+        return node;
     }
 
     public ConnectionModel getOutput() {
         return output;
     }
 
-    public void setOutput(ConnectionModel output) {
-        this.output = output;
-    }
-
     public HasChildModels getParentModel() {
         return parentModel;
     }
 
-    public void setParentModel(HasChildModels parentModel) {
-        this.parentModel = parentModel;
-    }
-
     public NodePropertyData getProperties() {
         return this.properties;
+    }
+
+    public void setChangeListenerPosition(int left, int top) {
+        this.changeListenerLeft = left;
+        this.changeListenerTop = top;
+    }
+
+    public void setInput(ConnectionModel input) {
+        this.input = input;
+    }
+
+    public void setNode(Node node) {
+        this.node = node;
+    }
+
+    public void setOutput(ConnectionModel output) {
+        this.output = output;
+    }
+
+    public void setParentModel(HasChildModels parentModel) {
+        this.parentModel = parentModel;
     }
 
     public void setProperties(NodePropertyData properties) {

@@ -184,7 +184,7 @@ public abstract class Node extends AbsolutePanel implements
 
     /**
      * Returns the x coordinate of this node relative to its parent element.
-     *
+     * 
      * @return The x coordinate in pixels.
      */
     public int getLeft() {
@@ -231,7 +231,7 @@ public abstract class Node extends AbsolutePanel implements
 
     /**
      * Returns the x coordinate of this node relative to its parent element.
-     *
+     * 
      * @return The x coordinate in pixels.
      */
     public int getTop() {
@@ -339,7 +339,7 @@ public abstract class Node extends AbsolutePanel implements
             outputPort.refreshConnections();
         }
     }
-    
+
     /**
      * Refreshes the node size and adapts the graphic.
      */
@@ -347,8 +347,8 @@ public abstract class Node extends AbsolutePanel implements
         // set pixel size, this can only be set after setting a graphic and
         // adding the node to a panel
         // JE: check
-        assert(graphic != null);
-        
+        assert (graphic != null);
+
         if (graphic != null) {
             this.setPixelSize(graphic.getOffsetWidth() + BORDER_OFFSET * 2,
                     graphic.getOffsetHeight() + BORDER_OFFSET * 2);
@@ -359,8 +359,9 @@ public abstract class Node extends AbsolutePanel implements
 
     /**
      * Refreshes the position of the given port.
-     *
-     * @param port The port to refresh
+     * 
+     * @param port
+     *            The port to refresh
      */
     protected void refreshPortPosition(Port port) {
         int portWidth = port.getOffsetWidth();
@@ -438,9 +439,11 @@ public abstract class Node extends AbsolutePanel implements
 
     /**
      * Sets the pixel size of the graphic.
-     *
-     * @param width The desired width of the graphic
-     * @param height The desired height of the graphic
+     * 
+     * @param width
+     *            The desired width of the graphic
+     * @param height
+     *            The desired height of the graphic
      */
     public void setGraphicPixelSize(int width, int height) {
         if (graphic != null) {
@@ -458,6 +461,7 @@ public abstract class Node extends AbsolutePanel implements
 
     public void setModel(NodeModel model) {
         this.model = model;
+        model.setNode(this);
     }
 
     public void setMoveable(boolean moveable) {
@@ -477,14 +481,16 @@ public abstract class Node extends AbsolutePanel implements
 
     /**
      * Sets the position of the node relative to its parent panel.
-     *
-     * @param left The desired x coordinate of the node
-     * @param top The desired y coordinate of the node
+     * 
+     * @param left
+     *            The desired x coordinate of the node
+     * @param top
+     *            The desired y coordinate of the node
      */
     public void setPosition(int left, int top) {
         // JE: check
-        assert(getParent() instanceof AbsolutePanel);
-        
+        assert (getParent() instanceof AbsolutePanel);
+
         if (getParent() instanceof AbsolutePanel) {
             ((AbsolutePanel) getParent()).setWidgetPosition(this, left, top);
             refreshConnections();
