@@ -19,7 +19,6 @@ package de.decidr.modelingtool.client.menu;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.MenuBar;
 
-
 /**
  * TODO: add comment
  * 
@@ -39,7 +38,7 @@ public class Menu extends MenuBar {
         addItem(imgBundle.redo().getHTML(), true, new RedoMenuItem());
         addItem(imgBundle.save().getHTML(), true, new SaveMenuItem());
         addItem(imgBundle.delete().getHTML(), true, new DeleteMenuItem());
-        
+
         addSeparator();
 
         addItem(imgBundle.email().getHTML(), true,
@@ -47,7 +46,9 @@ public class Menu extends MenuBar {
         addItem(imgBundle.humantask().getHTML(), true,
                 new CreateHumanTaskInvokeNodeMenuItem());
 
-        addItem("Edit Variables", new EditVariablesMenuItem());
+        // JS externalize or replace with Icons
+        addItem("Variables", new VariablesMenuItem());
+        addItem("Properties", new PropertiesMenuItem());
 
     }
 
