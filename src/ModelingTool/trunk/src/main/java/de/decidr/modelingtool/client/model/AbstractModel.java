@@ -16,6 +16,8 @@
 
 package de.decidr.modelingtool.client.model;
 
+import java.util.Date;
+
 import de.decidr.modelingtool.client.ui.ModelChangeListener;
 
 /**
@@ -32,7 +34,7 @@ public abstract class AbstractModel implements Model {
     /** The unique id of the model. */
     private Long id;
 
-    private static Long idCounter = 0L;
+    private static Long lastAssignedId = 0L;
 
     /** The name of the model. */
     private String name;
@@ -59,8 +61,30 @@ public abstract class AbstractModel implements Model {
         return description;
     }
 
+    /**
+     * 
+     * Gets the id of a model. If no id has been assigned to the model, a new id
+     * equal to the time stamp will be assigned. However, if the time stamp is
+     * smaller than the last assigned id, the assigned id to the model will be
+     * lastAssignedId + 1.
+     * 
+     * @return the id of the model
+     */
     public Long getId() {
-        // JS implement automatic id generation
+        /*
+         * If the id is null, use timestamp as id. To ensure that the ids are
+         * unique, timestamp has to be greater that the last assigned id.
+         */
+        if (this.id == null) {
+            Long time = new Date().getTime();
+            if (time > lastAssignedId) {
+                this.id = time;
+                lastAssignedId = time;
+            } else {
+                lastAssignedId++;
+                this.id = lastAssignedId;
+            }
+        }
         return id;
     }
 
@@ -77,8 +101,20 @@ public abstract class AbstractModel implements Model {
         this.description = description;
     }
 
+    /**
+     * 
+     * Sets the id of the model. The uniqueness of the id will not be tested,
+     * i.e. the caller of this method has to be sure that the id given to this
+     * method is not assigned elsewhere.
+     * 
+     * @param id
+     *            the id to set
+     */
     public void setId(Long id) {
         this.id = id;
+        if (id > lastAssignedId) {
+            lastAssignedId = id;
+        }
     }
 
     public void setName(String name) {

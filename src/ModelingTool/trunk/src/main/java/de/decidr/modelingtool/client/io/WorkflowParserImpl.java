@@ -155,7 +155,6 @@ public class WorkflowParserImpl implements WorkflowParser {
 
     private Element createChildNodeElements(Document doc, HasChildModels model) {
         Element nodes = doc.createElement("nodes");
-
         for (NodeModel node : model.getChildNodeModels()) {
             if (node instanceof StartNodeModel) {
                 nodes
@@ -174,9 +173,7 @@ public class WorkflowParserImpl implements WorkflowParser {
                 nodes.appendChild(createFlowElement(doc,
                         (FlowContainerModel) node));
             }
-
         }
-
         return nodes;
     }
 
