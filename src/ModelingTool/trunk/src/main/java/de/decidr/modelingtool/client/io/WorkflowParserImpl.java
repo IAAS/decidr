@@ -18,12 +18,14 @@ package de.decidr.modelingtool.client.io;
 
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
-import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.Text;
 import com.google.gwt.xml.client.XMLParser;
 
+import de.decidr.modelingtool.client.model.ConnectionModel;
 import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
 import de.decidr.modelingtool.client.model.EndNodeModel;
+import de.decidr.modelingtool.client.model.FlowContainerModel;
+import de.decidr.modelingtool.client.model.HasChildModels;
 import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.model.StartNodeModel;
 import de.decidr.modelingtool.client.model.WorkflowModel;
@@ -71,26 +73,28 @@ public class WorkflowParserImpl implements WorkflowParser {
         // JS implement (also server get method in value editor)
         // workflow.appendChild(createRoles(doc, model));
         /* Create fault handler node */
-        workflow.appendChild(createFaultHandlerNode(doc, model));
+        workflow.appendChild(createFaultHandlerElement(doc, model));
 
         /* Create container and invoke nodes */
-        workflow.appendChild(createNodes(doc, model));
+        workflow.appendChild(createChildNodeElements(doc, model));
+
+        /* Create Arcs */
+        workflow.appendChild(createArcElements(doc, model));
 
         /* append tree to root element */
         doc.appendChild(workflow);
         return doc.toString();
     }
 
-    private Node createVariables(Document doc, WorkflowModel model) {
+    private Element createVariables(Document doc, WorkflowModel model) {
         Element variables = doc.createElement("variables");
-
         for (Variable var : model.getVariables()) {
-            variables.appendChild(createVariableNode(doc, var));
+            variables.appendChild(createVariableElement(doc, var));
         }
         return variables;
     }
 
-    private Node createVariableNode(Document doc, Variable var) {
+    private Element createVariableElement(Document doc, Variable var) {
         Element variable = doc.createElement("variable");
         /* Name */
         variable.setAttribute("name", var.getName());
@@ -104,7 +108,6 @@ public class WorkflowParserImpl implements WorkflowParser {
         /* Configuration variable */
         if (var.isConfig()) {
             variable.setAttribute("configurationVariable", "yes");
-
         } else {
             variable.setAttribute("configurationVariable", "no");
         }
@@ -114,15 +117,15 @@ public class WorkflowParserImpl implements WorkflowParser {
          */
         if (var.isArray()) {
             Element values = doc.createElement("initialValues");
-            appendValueNodes(doc, var, values);
+            appendValueElements(doc, var, values);
             variable.appendChild(values);
         } else {
-            appendValueNodes(doc, var, variable);
+            appendValueElements(doc, var, variable);
         }
         return variable;
     }
 
-    private void appendValueNodes(Document doc, Variable var, Node parent) {
+    private void appendValueElements(Document doc, Variable var, Element parent) {
         for (String val : var.getValues()) {
             Element element = doc.createElement("initialValue");
             Text value = doc.createTextNode(val);
@@ -131,61 +134,45 @@ public class WorkflowParserImpl implements WorkflowParser {
         }
     }
 
-    private Node createRoles(Document doc, WorkflowModel model) {
+    private Element createRoles(Document doc, WorkflowModel model) {
         // TODO Auto-generated method stub
         return null;
     }
 
-    private Node createFaultHandlerNode(Document doc, WorkflowModel model) {
+    private Element createFaultHandlerElement(Document doc, WorkflowModel model) {
         Element faultHandler = doc.createElement("faultHandler");
 
         /* Create the property node for the fault message */
-        Element messageProperty = doc.createElement("setProperty");
-        messageProperty.setAttribute("name", "insert name here");
-        messageProperty.setAttribute("variable", model.getProperties()
-                .getFaultMessageVariableId().toString());
-
-        /* Create the child node which contains the actual fault message */
-        Element messageValue = doc.createElement("propertyValue");
-        Text messageText = doc.createTextNode(VariablesFilter.getVariableById(
-                model.getProperties().getFaultMessageVariableId()).getValues()
-                .get(0));
-        messageValue.appendChild(messageText);
-        messageProperty.appendChild(messageValue);
-        faultHandler.appendChild(messageProperty);
+        faultHandler.appendChild(createPropertyElement(doc, "message", model
+                .getProperties().getFaultMessageVariableId()));
 
         /* Create the property node for the recipient */
-        Element recipient = doc.createElement("recipient");
-        Element recipientProperty = doc.createElement("setProperty");
-        // JS ASK what name is about
-        recipientProperty.setAttribute("name", "insert name here");
-        recipientProperty.setAttribute("variable", model.getProperties()
-                .getRecipientVariableId().toString());
-        Text recipientValue = doc
-                .createTextNode(VariablesFilter.getVariableById(
-                        model.getProperties().getRecipientVariableId())
-                        .getValues().get(0));
-        recipientProperty.appendChild(recipientValue);
-        recipient.appendChild(recipientProperty);
-        faultHandler.appendChild(recipient);
+        faultHandler.appendChild(createPropertyElement(doc, "recipient", model
+                .getProperties().getRecipientVariableId()));
 
         return faultHandler;
     }
 
-    private Node createNodes(Document doc, WorkflowModel model) {
+    private Element createChildNodeElements(Document doc, HasChildModels model) {
         Element nodes = doc.createElement("nodes");
 
         for (NodeModel node : model.getChildNodeModels()) {
             if (node instanceof StartNodeModel) {
-                nodes.appendChild(createStartNode(doc, (StartNodeModel) node));
+                nodes
+                        .appendChild(createStartElement(doc,
+                                (StartNodeModel) node));
             } else if (node instanceof EndNodeModel) {
-                nodes.appendChild(createEndNode(doc, (EndNodeModel) node));
+                nodes.appendChild(createEndElement(doc, (WorkflowModel) model,
+                        (EndNodeModel) node));
             } else if (node instanceof EmailInvokeNodeModel) {
-                nodes.appendChild(createEmailNode(doc,
+                nodes.appendChild(createEmailElement(doc,
                         (EmailInvokeNodeModel) node));
             } else if (node instanceof HumanTaskInvokeNodeModel) {
-                nodes.appendChild(createHumanTaskNode(doc,
+                nodes.appendChild(createHumanTaskElement(doc,
                         (HumanTaskInvokeNodeModel) node));
+            } else if (node instanceof FlowContainerModel) {
+                nodes.appendChild(createFlowElement(doc,
+                        (FlowContainerModel) node));
             }
 
         }
@@ -193,7 +180,7 @@ public class WorkflowParserImpl implements WorkflowParser {
         return nodes;
     }
 
-    private Node createStartNode(Document doc, StartNodeModel node) {
+    private Element createStartElement(Document doc, StartNodeModel node) {
         // JS: ASK what is the id about
         Element startNode = doc.createElement("startNode");
         startNode.setAttribute("name", "insert name here");
@@ -205,30 +192,66 @@ public class WorkflowParserImpl implements WorkflowParser {
         return startNode;
     }
 
-    private Node createEndNode(Document doc, EndNodeModel node) {
-        Element endNode = doc.createElement("endNode");
-        endNode.setAttribute("name", "insert name here");
-        endNode.setAttribute("id", "insert is here");
+    private Element createEndElement(Document doc, WorkflowModel model,
+            EndNodeModel node) {
+        Element endElement = doc.createElement("endNode");
+        endElement.setAttribute("name", "insert name here");
+        endElement.setAttribute("id", "insert is here");
 
-        endNode.appendChild(createGraphicsElement(doc, node));
-        endNode.appendChild(createTargetElement(doc, node));
+        endElement.appendChild(createGraphicsElement(doc, node));
+        endElement.appendChild(createTargetElement(doc, node));
 
-        return endNode;
+        Element notification = doc.createElement("notificationOfSuccess");
+        notification.appendChild(createPropertyElement(doc, "successMessage",
+                model.getProperties().getSuccessMessageVariableId()));
+        notification.appendChild(createPropertyElement(doc, "recipient", model
+                .getProperties().getRecipientVariableId()));
+        return endElement;
     }
 
-    private Node createEmailNode(Document doc, EmailInvokeNodeModel node) {
-        Element emailNode = doc.createElement("invokeNode");
-
-        return emailNode;
+    private Element createEmailElement(Document doc, EmailInvokeNodeModel node) {
+        Element emailElement = doc.createElement("invokeNode");
+        emailElement.setAttribute("name", node.getName());
+        emailElement.setAttribute("id", node.getId().toString());
+        emailElement.setAttribute("activity", "Decidr-Email");
+        emailElement.appendChild(createGraphicsElement(doc, node));
+        emailElement.appendChild(createSourceElement(doc, node));
+        emailElement.appendChild(createTargetElement(doc, node));
+        emailElement.appendChild(createPropertyElement(doc, "to", node
+                .getToVariableId()));
+        emailElement.appendChild(createPropertyElement(doc, "cc", node
+                .getCcVariableId()));
+        emailElement.appendChild(createPropertyElement(doc, "bcc", node
+                .getBccVariableId()));
+        emailElement.appendChild(createPropertyElement(doc, "subject", node
+                .getSubjectVariableId()));
+        emailElement.appendChild(createPropertyElement(doc, "message", node
+                .getMessageVariableId()));
+        emailElement.appendChild(createPropertyElement(doc, "attachement", node
+                .getAttachmentVariableId()));
+        return emailElement;
     }
 
-    private Node createHumanTaskNode(Document doc, HumanTaskInvokeNodeModel node) {
-        Element humanTaskNode = doc.createElement("invokeNode");
-
-        return humanTaskNode;
+    private Element createHumanTaskElement(Document doc,
+            HumanTaskInvokeNodeModel node) {
+        Element humanTaskElement = doc.createElement("invokeNode");
+        // TODO: implement
+        return humanTaskElement;
     }
 
-    private Node createGraphicsElement(Document doc, NodeModel node) {
+    private Element createFlowElement(Document doc, FlowContainerModel node) {
+        Element flowElement = doc.createElement("flowNode");
+        // JS implement attributes name, id, description
+        flowElement.appendChild(createGraphicsElement(doc, node));
+        flowElement.appendChild(createTargetElement(doc, node));
+        flowElement.appendChild(createSourceElement(doc, node));
+        // JS implement arcs
+        flowElement.appendChild(createChildNodeElements(doc, node));
+        flowElement.appendChild(createArcElements(doc, node));
+        return flowElement;
+    }
+
+    private Element createGraphicsElement(Document doc, NodeModel node) {
         Element graphics = doc.createElement("graphics");
         graphics.setAttribute("x", ((Integer) node.getNode().getGraphicLeft())
                 .toString());
@@ -241,7 +264,22 @@ public class WorkflowParserImpl implements WorkflowParser {
         return graphics;
     }
 
-    private Node createSourceElement(Document doc, NodeModel node) {
+    private Element createPropertyElement(Document doc, String name,
+            Long variableId) {
+        Element property = doc.createElement("setProperty");
+        // JS ASK what name is about (name of recipient property)
+        property.setAttribute("name", name);
+        property.setAttribute("variable", variableId.toString());
+        Element propertyValue = doc.createElement("propertyValue");
+        // JS think this over (get(0)), what about multiple values?
+        Text valueText = doc.createTextNode(VariablesFilter.getVariableById(
+                variableId).getValues().get(0));
+        propertyValue.appendChild(valueText);
+        property.appendChild(propertyValue);
+        return property;
+    }
+
+    private Element createSourceElement(Document doc, NodeModel node) {
         // JS ASK what about multiple sources?
         Element sources = doc.createElement("sources");
         Element source = doc.createElement("source");
@@ -251,7 +289,7 @@ public class WorkflowParserImpl implements WorkflowParser {
         return sources;
     }
 
-    private Node createTargetElement(Document doc, NodeModel node) {
+    private Element createTargetElement(Document doc, NodeModel node) {
         // JS ASK what about multiple sources?
         Element targets = doc.createElement("targets");
         Element target = doc.createElement("target");
@@ -259,6 +297,20 @@ public class WorkflowParserImpl implements WorkflowParser {
         target.setAttribute("arcId", "insert id here");
         targets.appendChild(target);
         return targets;
+    }
+
+    private Element createArcElements(Document doc, HasChildModels node) {
+        Element arcs = doc.createElement("arcs");
+        for (ConnectionModel con : node.getChildConnectionModels()) {
+            Element arc = doc.createElement("arc");
+            arc.setAttribute("name", con.getName());
+            arc.setAttribute("id", con.getId().toString());
+            // JS implements Ids for Nodes
+            arc.setAttribute("source", con.getSource().getId().toString());
+            arc.setAttribute("target", con.getTarget().getId().toString());
+            arcs.appendChild(arc);
+        }
+        return arcs;
     }
 
 }

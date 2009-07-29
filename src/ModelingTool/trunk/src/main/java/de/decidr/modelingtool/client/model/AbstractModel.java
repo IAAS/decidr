@@ -32,6 +32,8 @@ public abstract class AbstractModel implements Model {
     /** The unique id of the model. */
     private Long id;
 
+    private static Long idCounter = 0L;
+
     /** The name of the model. */
     private String name;
 
@@ -58,6 +60,7 @@ public abstract class AbstractModel implements Model {
     }
 
     public Long getId() {
+        // JS implement automatic id generation
         return id;
     }
 
