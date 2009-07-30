@@ -44,7 +44,7 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
  */
 public class ForEachWindow extends Dialog {
 
-    // JS todo: visibility of iteration variable
+    // JS todo: visibility of iteration variable and execution mehod(parallel)
     private ForEachContainer node;
     private ForEachContainerModel model;
 

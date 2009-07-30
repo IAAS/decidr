@@ -32,7 +32,7 @@ public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
     private final String userVariableId = "user";
     private final String formVariableId = "form";
     private final String notify = "notify";
-    private final String formElements = "formElements";
+    private final String taskItems = "taskItems";
 
     /**
      * TODO: add comment
@@ -59,8 +59,8 @@ public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
         return properties.get(notify);
     }
 
-    public List<TaskItem> getFormElements() {
-        return properties.get(formElements);
+    public List<TaskItem> getTaskItems() {
+        return properties.get(taskItems);
     }
 
     public void setUserVariableId(Long userVariableId) {
@@ -75,8 +75,8 @@ public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
         this.properties.set(this.notify, notify);
     }
 
-    public void setFormElements(List<TaskItem> formElements) {
-        this.properties.set(this.formElements, formElements);
+    public void setTaskItems(List<TaskItem> taskItems) {
+        this.properties.set(this.taskItems, taskItems);
     }
 
 }

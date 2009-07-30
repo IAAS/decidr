@@ -100,13 +100,13 @@ public class HumanTaskActivityWindow extends Dialog {
         newModel.setFormVariableId(taskPanel.getFormContainerField().getValue()
                 .getId());
         newModel.setNotifyVariableId(taskPanel.getNotifyCheckBox().getValue());
-        List<TaskItem> formElements = new ArrayList<TaskItem>();
+        List<TaskItem> taskItems = new ArrayList<TaskItem>();
         for (HTFieldSet fields : taskPanel.getFormElementFields()) {
-            TaskItem element = new TaskItem(fields.getLabelField()
-                    .getValue(), fields.getVariableField().getValue().getId());
-            formElements.add(element);
+            TaskItem item = new TaskItem(fields.getLabelField().getValue(),
+                    fields.getVariableField().getValue().getId());
+            taskItems.add(item);
         }
-        newModel.setFormElements(formElements);
+        newModel.setTaskItems(taskItems);
         // JS check if changed
         CommandStack.getInstance().executeCommand(
                 new ChangeNodePropertiesCommand<HumanTaskInvokeNode>(node,

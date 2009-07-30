@@ -29,6 +29,7 @@ public class Condition extends ContainerStartConnectionModel {
     private Long operand1Id;
     private Operator operator;
     private Long operand2Id;
+    private Integer order;
 
     public Condition() {
         super();
@@ -36,7 +37,7 @@ public class Condition extends ContainerStartConnectionModel {
     }
 
     public Condition(String label, Long operand1Id, Operator operator,
-            Long operand2Id) {
+            Long operand2Id, Integer order) {
         this.label = label;
         this.operand1Id = operand1Id;
         this.operator = operator;
@@ -59,6 +60,10 @@ public class Condition extends ContainerStartConnectionModel {
         return operand2Id;
     }
 
+    public Integer getOrder() {
+        return order;
+    }
+
     public void setLabel(String label) {
         this.label = label;
     }
@@ -73,6 +78,10 @@ public class Condition extends ContainerStartConnectionModel {
 
     public void setOperand2Id(Long operand2Id) {
         this.operand2Id = operand2Id;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
     }
 
 }

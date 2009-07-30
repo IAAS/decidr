@@ -118,9 +118,9 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
     }
 
     private void createFormFields(HumanTaskInvokeNodeModel model) {
-        if (model.getFormElements() != null) {
-            for (TaskItem fe : model.getFormElements()) {
-                addEntry(fe.getLabel(), fe.getVariableId());
+        if (model.getTaskItems() != null) {
+            for (TaskItem ti : model.getTaskItems()) {
+                addEntry(ti.getLabel(), ti.getVariableId());
             }
         }
     }

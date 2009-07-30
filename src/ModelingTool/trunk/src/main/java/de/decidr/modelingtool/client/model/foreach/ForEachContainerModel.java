@@ -29,6 +29,7 @@ public class ForEachContainerModel extends ContainerModel {
     // JS rename
     private final String iterationVariableId = "iteration";
     private final String exitCondition = "exit";
+    private final String parallel = "parallel";
 
     public ForEachContainerModel() {
         super();
@@ -51,6 +52,10 @@ public class ForEachContainerModel extends ContainerModel {
         return properties.get(exitCondition);
     }
 
+    public Boolean isParallel() {
+        return properties.get(parallel);
+    }
+
     public void setIterationVariableId(Long iterationVariableId) {
         this.properties.set(this.iterationVariableId, iterationVariableId);
     }
@@ -59,4 +64,7 @@ public class ForEachContainerModel extends ContainerModel {
         this.properties.set(this.exitCondition, exitCondition);
     }
 
+    public void setParallel(Boolean parallel) {
+        this.properties.set(this.parallel, parallel);
+    }
 }

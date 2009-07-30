@@ -29,7 +29,11 @@ import de.decidr.modelingtool.client.model.HasChildModels;
 import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.model.StartNodeModel;
 import de.decidr.modelingtool.client.model.WorkflowModel;
+import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
+import de.decidr.modelingtool.client.model.humantask.TaskItem;
+import de.decidr.modelingtool.client.model.ifcondition.Condition;
+import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 
@@ -61,10 +65,9 @@ public class WorkflowParserImpl implements WorkflowParser {
         workflow.setAttribute("targetNamespace", "insert namespace here");
 
         /* Create description node */
-        Element description = doc.createElement("description");
-        Text descTest = doc.createTextNode("this is a simple workflow");
-        description.appendChild(descTest);
-        workflow.appendChild(description);
+        // JS replace by actual description
+        workflow.appendChild(createTextElement(doc, "description",
+                "this is a simple workflow"));
 
         /* Create variable node */
         workflow.appendChild(createVariables(doc, model));
@@ -125,12 +128,10 @@ public class WorkflowParserImpl implements WorkflowParser {
         return variable;
     }
 
-    private void appendValueElements(Document doc, Variable var, Element parent) {
-        for (String val : var.getValues()) {
-            Element element = doc.createElement("initialValue");
-            Text value = doc.createTextNode(val);
-            element.appendChild(value);
-            parent.appendChild(element);
+    private void appendValueElements(Document doc, Variable variable,
+            Element parent) {
+        for (String value : variable.getValues()) {
+            parent.appendChild(createTextElement(doc, "initialValue", value));
         }
     }
 
@@ -172,6 +173,13 @@ public class WorkflowParserImpl implements WorkflowParser {
             } else if (node instanceof FlowContainerModel) {
                 nodes.appendChild(createFlowElement(doc,
                         (FlowContainerModel) node));
+            } else if (node instanceof IfContainerModel) {
+                nodes
+                        .appendChild(createIfElement(doc,
+                                (IfContainerModel) node));
+            } else if (node instanceof ForEachContainerModel) {
+                nodes.appendChild(createForEachElement(doc,
+                        (ForEachContainerModel) node));
             }
         }
         return nodes;
@@ -180,6 +188,7 @@ public class WorkflowParserImpl implements WorkflowParser {
     private Element createStartElement(Document doc, StartNodeModel node) {
         // JS: ASK what is the id about
         Element startNode = doc.createElement("startNode");
+
         startNode.setAttribute("name", "insert name here");
         startNode.setAttribute("id", "insert is here");
 
@@ -232,20 +241,122 @@ public class WorkflowParserImpl implements WorkflowParser {
     private Element createHumanTaskElement(Document doc,
             HumanTaskInvokeNodeModel node) {
         Element humanTaskElement = doc.createElement("invokeNode");
-        // TODO: implement
+
+        humanTaskElement.setAttribute("name", node.getName());
+        humanTaskElement.setAttribute("id", node.getId().toString());
+        humanTaskElement.setAttribute("activity", "Decidr-HumanTask");
+        humanTaskElement.appendChild(createGraphicsElement(doc, node));
+        humanTaskElement.appendChild(createTargetElement(doc, node));
+        humanTaskElement.appendChild(createSourceElement(doc, node));
+        // JS ASK
+
+        /* Create property elements for user */
+        humanTaskElement.appendChild(createPropertyElement(doc, "wfmID", 0L));
+        humanTaskElement.appendChild(createPropertyElement(doc, "user", node
+                .getUserVariableId()));
+
+        /*
+         * Create set property for user notification variable. Cannot use
+         * createPropertyElement method here because it does not take into
+         * account that boolean values have to be converted to "yes"/"no".
+         */
+        Element userNotification = doc.createElement("setProperty");
+        userNotification.setAttribute("name", "userNotification");
+        String valueText;
+        if (node.getNotify()) {
+            valueText = "yes";
+        } else {
+            valueText = "no";
+        }
+        userNotification.appendChild(createTextElement(doc, "propertyValue",
+                valueText));
+        humanTaskElement.appendChild(userNotification);
+
+        /* Create get property of human task */
+        Element getProperty = doc.createElement("getProperty");
+        getProperty.setAttribute("name", "taskResult");
+        getProperty.setAttribute("variable", node.getFormVariableId()
+                .toString());
+        // JS ASK parameters and information item
+        Element humanTaskData = doc.createElement("humanTaskData");
+        /* Create task items */
+        for (TaskItem ti : node.getTaskItems()) {
+            Element taskItem = doc.createElement("taskItem");
+            Variable variable = VariablesFilter.getVariableById(ti
+                    .getVariableId());
+            taskItem.setAttribute("name", "name");
+            taskItem.setAttribute("variable", variable.getId().toString());
+            taskItem.setAttribute("type", variable.getType().getDwdlName());
+            taskItem
+                    .appendChild(createTextElement(doc, "label", ti.getLabel()));
+            taskItem.appendChild(createTextElement(doc, "value", variable
+                    .getValues().get(0)));
+            humanTaskData.appendChild(taskItem);
+        }
+        getProperty.appendChild(humanTaskData);
+
+        humanTaskElement.appendChild(getProperty);
         return humanTaskElement;
     }
 
     private Element createFlowElement(Document doc, FlowContainerModel node) {
         Element flowElement = doc.createElement("flowNode");
-        // JS implement attributes name, id, description
         flowElement.appendChild(createGraphicsElement(doc, node));
         flowElement.appendChild(createTargetElement(doc, node));
         flowElement.appendChild(createSourceElement(doc, node));
-        // JS implement arcs
         flowElement.appendChild(createChildNodeElements(doc, node));
         flowElement.appendChild(createArcElements(doc, node));
         return flowElement;
+    }
+
+    private Element createIfElement(Document doc, IfContainerModel node) {
+        Element ifElement = doc.createElement("ifNode");
+        ifElement.appendChild(createGraphicsElement(doc, node));
+        ifElement.appendChild(createTargetElement(doc, node));
+        ifElement.appendChild(createSourceElement(doc, node));
+        /* Create condition elements */
+        for (ConnectionModel connectionModel : node.getChildConnectionModels()) {
+            if (connectionModel instanceof Condition) {
+                Condition conModel = (Condition) connectionModel;
+                Element conElement = doc.createElement("condition");
+                conElement.setAttribute("oder", conModel.getOrder().toString());
+                if (conModel.getOrder() == 1) {
+                    conElement.setAttribute("defaultCondition", "yes");
+                } else {
+                    conElement.setAttribute("defaultCondition", "no");
+                }
+                conElement.appendChild(createTextElement(doc, "left-operand",
+                        conModel.getOperand1Id().toString()));
+                conElement.appendChild(createTextElement(doc, "operator",
+                        conModel.getOperator().getDisplayString()));
+                conElement.appendChild(createTextElement(doc, "right-operand",
+                        conModel.getOperand2Id().toString()));
+                conElement.appendChild(createChildNodeElements(doc, node));
+                conElement.appendChild(createArcElements(doc, node));
+                ifElement.appendChild(conElement);
+            }
+        }
+        return ifElement;
+    }
+
+    private Element createForEachElement(Document doc,
+            ForEachContainerModel node) {
+        Element forEachElement = doc.createElement("forEachNode");
+        forEachElement.setAttribute("countername", node
+                .getIterationVariableId().toString());
+        if (node.isParallel()) {
+            forEachElement.setAttribute("parallel", "yes");
+        } else {
+            forEachElement.setAttribute("parallel", "no");
+        }
+        forEachElement.appendChild(createGraphicsElement(doc, node));
+        forEachElement.appendChild(createTargetElement(doc, node));
+        forEachElement.appendChild(createSourceElement(doc, node));
+        forEachElement.appendChild(createChildNodeElements(doc, node));
+        forEachElement.appendChild(createArcElements(doc, node));
+
+        return forEachElement;
+
     }
 
     private Element createGraphicsElement(Document doc, NodeModel node) {
@@ -261,17 +372,23 @@ public class WorkflowParserImpl implements WorkflowParser {
         return graphics;
     }
 
+    private Element createTextElement(Document doc, String tagName, String data) {
+        Element element = doc.createElement(tagName);
+        Text text = doc.createTextNode(data);
+        element.appendChild(text);
+        return element;
+    }
+
     private Element createPropertyElement(Document doc, String name,
             Long variableId) {
         Element property = doc.createElement("setProperty");
         // JS ASK what name is about (name of recipient property)
         property.setAttribute("name", name);
         property.setAttribute("variable", variableId.toString());
-        Element propertyValue = doc.createElement("propertyValue");
         // JS think this over (get(0)), what about multiple values?
-        Text valueText = doc.createTextNode(VariablesFilter.getVariableById(
-                variableId).getValues().get(0));
-        propertyValue.appendChild(valueText);
+        String data = VariablesFilter.getVariableById(variableId).getValues()
+                .get(0);
+        Element propertyValue = createTextElement(doc, "propertyValue", data);
         property.appendChild(propertyValue);
         return property;
     }
@@ -302,7 +419,6 @@ public class WorkflowParserImpl implements WorkflowParser {
             Element arc = doc.createElement("arc");
             arc.setAttribute("name", con.getName());
             arc.setAttribute("id", con.getId().toString());
-            // JS implements Ids for Nodes
             arc.setAttribute("source", con.getSource().getId().toString());
             arc.setAttribute("target", con.getTarget().getId().toString());
             arcs.appendChild(arc);

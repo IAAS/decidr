@@ -118,8 +118,9 @@ public class IfWindow extends Dialog {
             Operator operator = Operator.getOperatorFromDisplayString(fs
                     .getOperatorList().getValue().getValue());
             Long operand2Id = fs.getOperand2Field().getValue().getId();
+            //JS implement order properly
             newModel.addCondition(new Condition(label, operand1Id, operator,
-                    operand2Id));
+                    operand2Id, fieldsets.indexOf(fs)));
         }
         CommandStack.getInstance().executeCommand(
                 new ChangeNodePropertiesCommand<IfContainer>(node, newModel
