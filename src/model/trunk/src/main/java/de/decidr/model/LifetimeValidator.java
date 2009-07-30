@@ -25,7 +25,6 @@ import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.PasswordResetRequest;
 import de.decidr.model.entities.RegistrationRequest;
-import de.decidr.model.exceptions.TransactionException;
 
 /**
  * Uses the global system settings to determine whether the lifetime of certain
@@ -47,8 +46,7 @@ public class LifetimeValidator {
      * @return true iff the given password reset request is still valid
      */
     public static Boolean isPasswordResetRequestValid(
-            PasswordResetRequest request, Session session)
-            throws TransactionException {
+            PasswordResetRequest request, Session session) {
         return requestIsAlive(request.getCreationDate(), DecidrGlobals
                 .getSettings().getPasswordResetRequestLifetimeSeconds());
     }
@@ -62,8 +60,7 @@ public class LifetimeValidator {
      *            the current session
      * @return true iff the given invitation is still valid
      */
-    public static Boolean isInvitationValid(Invitation invitation)
-            throws TransactionException {
+    public static Boolean isInvitationValid(Invitation invitation) {
         return requestIsAlive(invitation.getCreationDate(), DecidrGlobals
                 .getSettings().getInvitationLifetimeSeconds());
     }
@@ -77,8 +74,7 @@ public class LifetimeValidator {
      *            the current session
      * @return true iff the given registration request is still valid.
      */
-    public static Boolean isRegistrationRequestValid(RegistrationRequest request)
-            throws TransactionException {
+    public static Boolean isRegistrationRequestValid(RegistrationRequest request) {
         return requestIsAlive(request.getCreationDate(), DecidrGlobals
                 .getSettings().getRegistrationRequestLifetimeSeconds());
     }
@@ -90,8 +86,7 @@ public class LifetimeValidator {
      *            the request which should be checked
      * @return true iff the given request is still valid.
      */
-    public static Boolean isChangeEmailRequestValid(ChangeEmailRequest request)
-            throws TransactionException {
+    public static Boolean isChangeEmailRequestValid(ChangeEmailRequest request) {
         return requestIsAlive(request.getCreationDate(), DecidrGlobals
                 .getSettings().getChangeEmailRequestLifetimeSeconds());
     }
