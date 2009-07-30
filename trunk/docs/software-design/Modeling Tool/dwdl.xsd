@@ -6,8 +6,7 @@
 	<xsd:annotation>
 		<xsd:documentation>
 			Schema for Executable Workflow for DWDL 1.0
-			Last
-			modified date: 21th June, 2009
+			Last modified date: 21th June, 2009
 
 			2009-01-30: MA: Creation date
 			2009-03-26: MA: Extended previous version with form element
