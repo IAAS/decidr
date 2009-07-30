@@ -35,6 +35,7 @@ import de.decidr.modelingtool.client.model.humantask.TaskItem;
 import de.decidr.modelingtool.client.model.ifcondition.Condition;
 import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
+import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 
 /**
@@ -69,8 +70,8 @@ public class WorkflowParserImpl implements WorkflowParser {
         workflow.appendChild(createTextElement(doc, "description",
                 "this is a simple workflow"));
 
-        /* Create variable node */
-        workflow.appendChild(createVariables(doc, model));
+        /* Create variable and role nodes */
+        createVariablesAndRoles(doc, workflow, model);
 
         /* Create role node */
         // JS implement (also server get method in value editor)
@@ -81,7 +82,7 @@ public class WorkflowParserImpl implements WorkflowParser {
         /* Create container and invoke nodes */
         workflow.appendChild(createChildNodeElements(doc, model));
 
-        /* Create Arcs */
+        /* Create arcs */
         workflow.appendChild(createArcElements(doc, model));
 
         /* append tree to root element */
@@ -89,55 +90,82 @@ public class WorkflowParserImpl implements WorkflowParser {
         return doc.toString();
     }
 
-    private Element createVariables(Document doc, WorkflowModel model) {
+    private void createVariablesAndRoles(Document doc, Element parent,
+            WorkflowModel model) {
+        /*
+         * Because a role is just a variable of the type role, it is easier to
+         * create both variables and roles node here and append it to the root
+         * element.
+         */
         Element variables = doc.createElement("variables");
+        Element roles = doc.createElement("roles");
         for (Variable var : model.getVariables()) {
-            variables.appendChild(createVariableElement(doc, var));
+            /* Distinguish between "normal" variables and roles */
+            if (var.getType() == VariableType.ROLE) {
+                roles.appendChild(createRoleElement(doc, var));
+            } else {
+                variables.appendChild(createVariableElement(doc, var));
+            }
+
         }
-        return variables;
+        /* Append variables and roles node to parent element */
+        parent.appendChild(variables);
+        parent.appendChild(roles);
     }
 
-    private Element createVariableElement(Document doc, Variable var) {
-        Element variable = doc.createElement("variable");
+    private Element createVariableElement(Document doc, Variable variable) {
+        Element variableElement = doc.createElement("variable");
         /* Name */
-        variable.setAttribute("name", var.getName());
+        variableElement.setAttribute("name", variable.getName());
         /* Array */
-        if (var.isArray()) {
-            variable
-                    .setAttribute("type", "list-" + var.getType().getDwdlName());
+        if (variable.isArray()) {
+            variableElement.setAttribute("type", "list-"
+                    + variable.getType().getDwdlName());
         } else {
-            variable.setAttribute("type", var.getType().getDwdlName());
+            variableElement.setAttribute("type", variable.getType()
+                    .getDwdlName());
         }
         /* Configuration variable */
-        if (var.isConfig()) {
-            variable.setAttribute("configurationVariable", "yes");
+        if (variable.isConfig()) {
+            variableElement.setAttribute("configurationVariable", "yes");
         } else {
-            variable.setAttribute("configurationVariable", "no");
+            variableElement.setAttribute("configurationVariable", "no");
         }
         /*
-         * Values, if the variable has multiple values an additional node is
-         * created which has the values as children
+         * Values of the variable, if the variable has multiple values an
+         * additional node is created which has the values as children
          */
-        if (var.isArray()) {
+        if (variable.isArray()) {
             Element values = doc.createElement("initialValues");
-            appendValueElements(doc, var, values);
-            variable.appendChild(values);
+            for (String value : variable.getValues()) {
+                values
+                        .appendChild(createTextElement(doc, "initialValue",
+                                value));
+            }
+            variableElement.appendChild(values);
         } else {
-            appendValueElements(doc, var, variable);
+            variableElement.appendChild(createTextElement(doc, "initialValue",
+                    variable.getValues().get(0)));
         }
-        return variable;
+        return variableElement;
     }
 
-    private void appendValueElements(Document doc, Variable variable,
-            Element parent) {
-        for (String value : variable.getValues()) {
-            parent.appendChild(createTextElement(doc, "initialValue", value));
+    private Element createRoleElement(Document doc, Variable role) {
+        /* Create parent element for one role */
+        Element roleElement = doc.createElement("role");
+        if (role.isConfig()) {
+            roleElement.setAttribute("configurationVariable", "yes");
+        } else {
+            roleElement.setAttribute("configurationVariable", "no");
         }
-    }
-
-    private Element createRoles(Document doc, WorkflowModel model) {
-        // TODO Auto-generated method stub
-        return null;
+        /* Append the values of the role variables as actors */
+        for (String value : role.getValues()) {
+            Element actor = doc.createElement("actor");
+            // JS fetch user ids properly
+            actor.setAttribute("userId", value);
+            roleElement.appendChild(actor);
+        }
+        return roleElement;
     }
 
     private Element createFaultHandlerElement(Document doc, WorkflowModel model) {
@@ -155,8 +183,13 @@ public class WorkflowParserImpl implements WorkflowParser {
     }
 
     private Element createChildNodeElements(Document doc, HasChildModels model) {
+        /*
+         * Create nodes element which contains all child nodes of a workflow or
+         * a container
+         */
         Element nodes = doc.createElement("nodes");
         for (NodeModel node : model.getChildNodeModels()) {
+            /* Find out type and call the according node */
             if (node instanceof StartNodeModel) {
                 nodes
                         .appendChild(createStartElement(doc,
@@ -193,6 +226,7 @@ public class WorkflowParserImpl implements WorkflowParser {
         startNode.setAttribute("id", "insert is here");
 
         startNode.appendChild(createGraphicsElement(doc, node));
+        /* start node is only source to connections */
         startNode.appendChild(createSourceElement(doc, node));
 
         return startNode;
@@ -205,8 +239,10 @@ public class WorkflowParserImpl implements WorkflowParser {
         endElement.setAttribute("id", "insert is here");
 
         endElement.appendChild(createGraphicsElement(doc, node));
+        /* end node is only target to connections */
         endElement.appendChild(createTargetElement(doc, node));
 
+        /* notification of success and recipient */
         Element notification = doc.createElement("notificationOfSuccess");
         notification.appendChild(createPropertyElement(doc, "successMessage",
                 model.getProperties().getSuccessMessageVariableId()));
@@ -352,6 +388,18 @@ public class WorkflowParserImpl implements WorkflowParser {
         forEachElement.appendChild(createGraphicsElement(doc, node));
         forEachElement.appendChild(createTargetElement(doc, node));
         forEachElement.appendChild(createSourceElement(doc, node));
+
+        /*
+         * Creating counter values and completion condition elements. The start
+         * counter value is always set to 1.
+         */
+        forEachElement.appendChild(createTextElement(doc, "startCounterValue",
+                "1"));
+        forEachElement.appendChild(createTextElement(doc, "finalCounterValue",
+                node.getIterationVariableId().toString()));
+        forEachElement.appendChild(createTextElement(doc,
+                "completionCondition", node.getExitCondition().toString()));
+
         forEachElement.appendChild(createChildNodeElements(doc, node));
         forEachElement.appendChild(createArcElements(doc, node));
 
@@ -361,10 +409,15 @@ public class WorkflowParserImpl implements WorkflowParser {
 
     private Element createGraphicsElement(Document doc, NodeModel node) {
         Element graphics = doc.createElement("graphics");
+        /*
+         * the position of a node is defined by the x and y coordinates of the
+         * top left pixel
+         */
         graphics.setAttribute("x", ((Integer) node.getNode().getGraphicLeft())
                 .toString());
         graphics.setAttribute("y", ((Integer) node.getNode().getGraphicTop())
                 .toString());
+        /* width and height of the node */
         graphics.setAttribute("width", ((Integer) node.getNode()
                 .getGraphicWidth()).toString());
         graphics.setAttribute("height", ((Integer) node.getNode()
@@ -373,6 +426,9 @@ public class WorkflowParserImpl implements WorkflowParser {
     }
 
     private Element createTextElement(Document doc, String tagName, String data) {
+        /*
+         * The created element looks like this: <tagName>data</tagName>
+         */
         Element element = doc.createElement(tagName);
         Text text = doc.createTextNode(data);
         element.appendChild(text);
