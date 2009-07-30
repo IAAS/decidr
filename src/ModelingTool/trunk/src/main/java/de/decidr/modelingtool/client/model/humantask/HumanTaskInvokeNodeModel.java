@@ -59,7 +59,7 @@ public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
         return properties.get(notify);
     }
 
-    public List<FormElement> getFormElements() {
+    public List<TaskItem> getFormElements() {
         return properties.get(formElements);
     }
 
@@ -75,7 +75,7 @@ public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
         this.properties.set(this.notify, notify);
     }
 
-    public void setFormElements(List<FormElement> formElements) {
+    public void setFormElements(List<TaskItem> formElements) {
         this.properties.set(this.formElements, formElements);
     }
 

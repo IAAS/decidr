@@ -24,12 +24,12 @@ package de.decidr.modelingtool.client.model.humantask;
  * 
  * @author Jonas Schlaak
  */
-public class FormElement {
+public class TaskItem {
 
     private String label = null;
     private Long variableId = null;
 
-    public FormElement(String label, Long variableId) {
+    public TaskItem(String label, Long variableId) {
         this.label = label;
         this.variableId = variableId;
     }

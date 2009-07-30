@@ -28,7 +28,7 @@ import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ChangeNodePropertiesCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
-import de.decidr.modelingtool.client.model.humantask.FormElement;
+import de.decidr.modelingtool.client.model.humantask.TaskItem;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
@@ -100,9 +100,9 @@ public class HumanTaskActivityWindow extends Dialog {
         newModel.setFormVariableId(taskPanel.getFormContainerField().getValue()
                 .getId());
         newModel.setNotifyVariableId(taskPanel.getNotifyCheckBox().getValue());
-        List<FormElement> formElements = new ArrayList<FormElement>();
+        List<TaskItem> formElements = new ArrayList<TaskItem>();
         for (HTFieldSet fields : taskPanel.getFormElementFields()) {
-            FormElement element = new FormElement(fields.getLabelField()
+            TaskItem element = new TaskItem(fields.getLabelField()
                     .getValue(), fields.getVariableField().getValue().getId());
             formElements.add(element);
         }

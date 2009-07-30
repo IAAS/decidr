@@ -33,7 +33,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
-import de.decidr.modelingtool.client.model.humantask.FormElement;
+import de.decidr.modelingtool.client.model.humantask.TaskItem;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
@@ -119,7 +119,7 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
 
     private void createFormFields(HumanTaskInvokeNodeModel model) {
         if (model.getFormElements() != null) {
-            for (FormElement fe : model.getFormElements()) {
+            for (TaskItem fe : model.getFormElements()) {
                 addEntry(fe.getLabel(), fe.getVariableId());
             }
         }
