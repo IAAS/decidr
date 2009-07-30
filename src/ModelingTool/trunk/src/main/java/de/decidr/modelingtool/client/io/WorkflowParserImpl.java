@@ -66,9 +66,8 @@ public class WorkflowParserImpl implements WorkflowParser {
         workflow.setAttribute("targetNamespace", "insert namespace here");
 
         /* Create description node */
-        // JS replace by actual description
-        workflow.appendChild(createTextElement(doc, "description",
-                "this is a simple workflow"));
+        workflow.appendChild(createTextElement(doc, "description", model
+                .getDescription()));
 
         /* Create variable and role nodes */
         createVariablesAndRoles(doc, workflow, model);
@@ -220,16 +219,17 @@ public class WorkflowParserImpl implements WorkflowParser {
 
     private Element createStartElement(Document doc, StartNodeModel node) {
         // JS: ASK what is the id about
-        Element startNode = doc.createElement("startNode");
+        Element startElement = doc.createElement("startNode");
 
-        startNode.setAttribute("name", "insert name here");
-        startNode.setAttribute("id", "insert is here");
-
-        startNode.appendChild(createGraphicsElement(doc, node));
+        startElement.setAttribute("name", "insert name here");
+        startElement.setAttribute("id", "insert is here");
+        startElement.appendChild(createTextElement(doc, "description", node
+                .getDescription()));
+        startElement.appendChild(createGraphicsElement(doc, node));
         /* start node is only source to connections */
-        startNode.appendChild(createSourceElement(doc, node));
+        startElement.appendChild(createSourceElement(doc, node));
 
-        return startNode;
+        return startElement;
     }
 
     private Element createEndElement(Document doc, WorkflowModel model,
@@ -237,7 +237,8 @@ public class WorkflowParserImpl implements WorkflowParser {
         Element endElement = doc.createElement("endNode");
         endElement.setAttribute("name", "insert name here");
         endElement.setAttribute("id", "insert is here");
-
+        endElement.appendChild(createTextElement(doc, "description", node
+                .getDescription()));
         endElement.appendChild(createGraphicsElement(doc, node));
         /* end node is only target to connections */
         endElement.appendChild(createTargetElement(doc, node));
@@ -256,6 +257,10 @@ public class WorkflowParserImpl implements WorkflowParser {
         emailElement.setAttribute("name", node.getName());
         emailElement.setAttribute("id", node.getId().toString());
         emailElement.setAttribute("activity", "Decidr-Email");
+
+        emailElement.appendChild(createTextElement(doc, "description", node
+                .getDescription()));
+
         emailElement.appendChild(createGraphicsElement(doc, node));
         emailElement.appendChild(createSourceElement(doc, node));
         emailElement.appendChild(createTargetElement(doc, node));
@@ -277,15 +282,17 @@ public class WorkflowParserImpl implements WorkflowParser {
     private Element createHumanTaskElement(Document doc,
             HumanTaskInvokeNodeModel node) {
         Element humanTaskElement = doc.createElement("invokeNode");
-
         humanTaskElement.setAttribute("name", node.getName());
         humanTaskElement.setAttribute("id", node.getId().toString());
         humanTaskElement.setAttribute("activity", "Decidr-HumanTask");
+
+        humanTaskElement.appendChild(createTextElement(doc, "description", node
+                .getDescription()));
+
         humanTaskElement.appendChild(createGraphicsElement(doc, node));
         humanTaskElement.appendChild(createTargetElement(doc, node));
         humanTaskElement.appendChild(createSourceElement(doc, node));
         // JS ASK
-
         /* Create property elements for user */
         humanTaskElement.appendChild(createPropertyElement(doc, "wfmID", 0L));
         humanTaskElement.appendChild(createPropertyElement(doc, "user", node
@@ -337,6 +344,8 @@ public class WorkflowParserImpl implements WorkflowParser {
 
     private Element createFlowElement(Document doc, FlowContainerModel node) {
         Element flowElement = doc.createElement("flowNode");
+        flowElement.appendChild(createTextElement(doc, "description", node
+                .getDescription()));
         flowElement.appendChild(createGraphicsElement(doc, node));
         flowElement.appendChild(createTargetElement(doc, node));
         flowElement.appendChild(createSourceElement(doc, node));
@@ -347,6 +356,8 @@ public class WorkflowParserImpl implements WorkflowParser {
 
     private Element createIfElement(Document doc, IfContainerModel node) {
         Element ifElement = doc.createElement("ifNode");
+        ifElement.appendChild(createTextElement(doc, "description", node
+                .getDescription()));
         ifElement.appendChild(createGraphicsElement(doc, node));
         ifElement.appendChild(createTargetElement(doc, node));
         ifElement.appendChild(createSourceElement(doc, node));
@@ -385,6 +396,8 @@ public class WorkflowParserImpl implements WorkflowParser {
         } else {
             forEachElement.setAttribute("parallel", "no");
         }
+        forEachElement.appendChild(createTextElement(doc, "description", node
+                .getDescription()));
         forEachElement.appendChild(createGraphicsElement(doc, node));
         forEachElement.appendChild(createTargetElement(doc, node));
         forEachElement.appendChild(createSourceElement(doc, node));
@@ -453,18 +466,24 @@ public class WorkflowParserImpl implements WorkflowParser {
         // JS ASK what about multiple sources?
         Element sources = doc.createElement("sources");
         Element source = doc.createElement("source");
-        // JS set arcId properly
-        source.setAttribute("arcId", "insert id here");
+        /*
+         * Source means: the node is source of a connection. So get the id of
+         * the connection which is attached to the output port of the node.
+         */
+        source.setAttribute("arcId", node.getOutput().getId().toString());
         sources.appendChild(source);
         return sources;
     }
 
     private Element createTargetElement(Document doc, NodeModel node) {
-        // JS ASK what about multiple sources?
+        // JS ASK what about multiple targets?
         Element targets = doc.createElement("targets");
         Element target = doc.createElement("target");
-        // JS set arcId properly
-        target.setAttribute("arcId", "insert id here");
+        /*
+         * Target means: the node is target of a connection. So get the id of
+         * the connection which is attached to the input port of the node.
+         */
+        target.setAttribute("arcId", node.getInput().getId().toString());
         targets.appendChild(target);
         return targets;
     }

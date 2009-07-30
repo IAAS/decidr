@@ -21,6 +21,7 @@ import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.form.CheckBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -44,7 +45,7 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
  */
 public class ForEachWindow extends Dialog {
 
-    // JS todo: visibility of iteration variable and execution mehod(parallel)
+    // JS todo: visibility of iteration variable
     private ForEachContainer node;
     private ForEachContainerModel model;
 
@@ -54,6 +55,7 @@ public class ForEachWindow extends Dialog {
 
     private ComboBox<Variable> iterableField;
     private ForEachRadioGroup exitConditionGroup;
+    private CheckBox parallelField;
 
     public ForEachWindow() {
         super();
@@ -110,9 +112,11 @@ public class ForEachWindow extends Dialog {
 
     protected void changeWorkflowModel() {
         // JS make this nicer
-        ForEachContainerModel newModel = new ForEachContainerModel();
+        ForEachContainerModel newModel = new ForEachContainerModel(node
+                .getModel().getParentModel());
         newModel.setIterationVariableId(iterableField.getValue().getId());
         newModel.setExitCondition(exitConditionGroup.getSelectedValue());
+        newModel.setParallel(parallelField.getValue());
         CommandStack.getInstance().executeCommand(
                 new ChangeNodePropertiesCommand<ForEachContainer>(node,
                         newModel.getProperties()));
@@ -137,6 +141,14 @@ public class ForEachWindow extends Dialog {
         table.setWidget(table.getRowCount() - 1, 0, new Label(
                 ModelingToolWidget.messages.exitConLabel()));
         table.setWidget(table.getRowCount() - 1, 1, exitConditionGroup);
+
+        parallelField = new CheckBox();
+        parallelField.setValue(model.isParallel());
+        table.insertRow(table.getRowCount());
+        table.setWidget(table.getRowCount() - 1, 0, new Label(
+                ModelingToolWidget.messages.parallelLabel()));
+        table.setWidget(table.getRowCount() - 1, 1, parallelField);
+
     }
 
     private void clearAllEntries() {

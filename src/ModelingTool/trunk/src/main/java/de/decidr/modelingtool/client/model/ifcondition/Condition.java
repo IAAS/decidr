@@ -42,6 +42,7 @@ public class Condition extends ContainerStartConnectionModel {
         this.operand1Id = operand1Id;
         this.operator = operator;
         this.operand2Id = operand2Id;
+        this.order = order;
     }
 
     public String getLabel() {

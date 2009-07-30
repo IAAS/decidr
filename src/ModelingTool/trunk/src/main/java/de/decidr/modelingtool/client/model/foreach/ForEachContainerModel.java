@@ -22,14 +22,13 @@ import de.decidr.modelingtool.client.model.HasChildModels;
 /**
  * TODO: add comment
  * 
- * @author Johannes Engelhardt
+ * @author Johannes Engelhardt, Jonas Schlaak
  */
 public class ForEachContainerModel extends ContainerModel {
 
-    // JS rename
-    private final String iterationVariableId = "iteration";
-    private final String exitCondition = "exit";
-    private final String parallel = "parallel";
+    private final String iterationFieldName = "iteration";
+    private final String exitConditionFieldName = "exit";
+    private final String parallelFieldName = "parallel";
 
     public ForEachContainerModel() {
         super();
@@ -45,26 +44,26 @@ public class ForEachContainerModel extends ContainerModel {
     }
 
     public Long getIterationVariableId() {
-        return properties.get(iterationVariableId);
+        return properties.get(iterationFieldName);
     }
 
     public ExitCondition getExitCondition() {
-        return properties.get(exitCondition);
+        return properties.get(exitConditionFieldName);
     }
 
     public Boolean isParallel() {
-        return properties.get(parallel);
+        return properties.get(parallelFieldName);
     }
 
     public void setIterationVariableId(Long iterationVariableId) {
-        this.properties.set(this.iterationVariableId, iterationVariableId);
+        this.properties.set(this.iterationFieldName, iterationVariableId);
     }
 
     public void setExitCondition(ExitCondition exitCondition) {
-        this.properties.set(this.exitCondition, exitCondition);
+        this.properties.set(this.exitConditionFieldName, exitCondition);
     }
 
     public void setParallel(Boolean parallel) {
-        this.properties.set(this.parallel, parallel);
+        this.properties.set(this.parallelFieldName, parallel);
     }
 }

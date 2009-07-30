@@ -58,6 +58,9 @@ public abstract class AbstractModel implements Model {
     }
 
     public String getDescription() {
+        if (description == null) {
+            description = "";
+        }
         return description;
     }
 

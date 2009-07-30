@@ -147,12 +147,6 @@ public class Variable extends BaseModelData {
      * @return the values
      */
     public List<String> getValues() {
-        /*
-         * If the variable is an array, return the arraylist, else add the
-         * single value to an empty arraylist
-         */
-
-        // JS check this, we don't have single types anymore
         return get(VALUE);
     }
 

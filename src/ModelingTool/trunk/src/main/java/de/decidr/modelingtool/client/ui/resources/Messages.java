@@ -85,6 +85,8 @@ public interface Messages extends Constants {
 
     String xorConLabel();
 
+    String parallelLabel();
+
     /* If container */
     String ifContainer();
 

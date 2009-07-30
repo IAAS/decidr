@@ -28,11 +28,10 @@ import de.decidr.modelingtool.client.model.InvokeNodeModel;
  */
 public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
 
-    // JS rename
-    private final String userVariableId = "user";
-    private final String formVariableId = "form";
-    private final String notify = "notify";
-    private final String taskItems = "taskItems";
+    private final String userFieldName = "user";
+    private final String formFieldName = "form";
+    private final String notifyFieldName = "notify";
+    private final String taskItemsFieldName = "taskItems";
 
     /**
      * TODO: add comment
@@ -48,35 +47,35 @@ public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
     }
 
     public Long getUserVariableId() {
-        return properties.get(userVariableId);
+        return properties.get(userFieldName);
     }
 
     public Long getFormVariableId() {
-        return properties.get(formVariableId);
+        return properties.get(formFieldName);
     }
 
     public Boolean getNotify() {
-        return properties.get(notify);
+        return properties.get(notifyFieldName);
     }
 
     public List<TaskItem> getTaskItems() {
-        return properties.get(taskItems);
+        return properties.get(taskItemsFieldName);
     }
 
     public void setUserVariableId(Long userVariableId) {
-        this.properties.set(this.userVariableId, userVariableId);
+        this.properties.set(this.userFieldName, userVariableId);
     }
 
     public void setFormVariableId(Long formVariableId) {
-        this.properties.set(this.formVariableId, formVariableId);
+        this.properties.set(this.formFieldName, formVariableId);
     }
 
     public void setNotifyVariableId(Boolean notify) {
-        this.properties.set(this.notify, notify);
+        this.properties.set(this.notifyFieldName, notify);
     }
 
     public void setTaskItems(List<TaskItem> taskItems) {
-        this.properties.set(this.taskItems, taskItems);
+        this.properties.set(this.taskItemsFieldName, taskItems);
     }
 
 }
