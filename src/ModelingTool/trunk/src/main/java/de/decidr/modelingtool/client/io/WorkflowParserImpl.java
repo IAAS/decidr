@@ -39,7 +39,7 @@ import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 
 /**
- * TODO: add comment
+ * The actual implementation of a workflow parser.
  * 
  * @author Modood Alvi, Jonas Schlaak
  * @version 0.1

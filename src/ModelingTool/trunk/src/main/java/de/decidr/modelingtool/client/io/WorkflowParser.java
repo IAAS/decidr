@@ -20,16 +20,18 @@ import de.decidr.modelingtool.client.model.WorkflowModel;
 
 /**
  * The WorkflowParser is responsible for converting a WorkflowModel to a DWDL
- *
+ * 
  * @author Modood Alvi
  */
 public interface WorkflowParser {
-    
+
     /**
-     * TODO: add comment
-     *
-     * @param model The model to be converted into an XML string
-     * @return
+     * Converts a workflow model and its variables and child nodes into a DWDL
+     * document.
+     * 
+     * @param model
+     *            The model to be converted into an XML string
+     * @return the model as XML string
      */
     public String parse(WorkflowModel model);
 
