@@ -16,21 +16,22 @@
 
 package de.decidr.model.workflowmodel.dwdl.validation;
 
-import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.ValidationEvent;
-import javax.xml.bind.util.ValidationEventCollector;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.dom4j.io.DocumentResult;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import de.decidr.model.workflowmodel.dwdl.TVariable;
 import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 
 /**
@@ -42,31 +43,57 @@ import de.decidr.model.workflowmodel.dwdl.TWorkflow;
  */
 public class Validator {
 
-    private JAXBContext context = null;
-    // MA never use deprecated stuff
-    private javax.xml.bind.Validator validator = null;
-    private Marshaller marshaller = null;
+
+    private javax.xml.validation.Validator validator = null;
     private Schema schema = null;
 
     public Validator() {
         try {
-            context = JAXBContext.newInstance("");
-            validator = context.createValidator();
-            marshaller = context.createMarshaller();
             SchemaFactory sf = SchemaFactory
                     .newInstance("http://www.w3.org/2001/XMLSchema");
-            schema = sf.newSchema(new File("dwdl.xsd"));
+            schema = sf.newSchema(new StreamSource("dwdl.xsd"));
 
-            marshaller.setSchema(schema);
-        } catch (JAXBException e) {
-            // MA Auto-generated catch block
-            e.printStackTrace();
+            validator = schema.newValidator();
         } catch (SAXException e) {
             // MA Auto-generated catch block
             e.printStackTrace();
         }
     }
 
+
+    /**
+     * GH testing only
+     * @param dwdl
+     * @return
+     */
+    public List<IProblem> validate(StreamSource dwdl) {
+        DWDLErrorHandler errHandler = null;
+        List<IProblem> errList = null;
+        
+        validator.setErrorHandler(new DWDLErrorHandler());
+        try {
+            validator.validate(dwdl);
+        } catch (SAXException e) {
+            if (errList == null) {
+                errList = new ArrayList<IProblem>();
+            }
+            errList.add(new Problem(e.getMessage(),"global"));
+        } catch (IOException e) {
+            if (errList == null) {
+                errList = new ArrayList<IProblem>();
+            }
+            errList.add(new Problem(e.getMessage(),"global"));
+        }
+
+        errHandler = (DWDLErrorHandler)(validator.getErrorHandler());
+        errList = errHandler.getProblemList();
+        
+        //GH how to transform from byte[] to TWorkflow?
+        //errList.addAll(checkVariables(dwdl));
+        
+        return errList;
+    }
+    
     /**
      * MA: add comment
      * 
@@ -75,49 +102,33 @@ public class Validator {
      * @return List of problems found during validation process.
      */
     public List<IProblem> validate(TWorkflow dwdl) {
-        ValidationEventCollector vec = new ValidationEventCollector();
-        List<IProblem> errorList = null;
-        DocumentResult dr = new DocumentResult();
-
-        // GH: jaxb2: validation only allowed when un/marshalling
-
+        DWDLErrorHandler errHandler = null;
+        
+        //GH requires confirmation
+        DOMSource dom = new DOMSource((Node) dwdl);
+        List<IProblem> errList = null;
+        
+        validator.setErrorHandler(new DWDLErrorHandler());
         try {
-            validator.setEventHandler(vec);
-
-            validator.validate(dwdl);
-
-            if (vec != null && vec.hasEvents()) {
-                errorList = new ArrayList<IProblem>();
-                for (ValidationEvent event : vec.getEvents()) {
-                    String msg = event.getMessage();
-                    String loc = "line: " + event.getLocator().getLineNumber();
-                    Problem p = new Problem(msg, loc);
-                    errorList.add(p);
-                }
+            validator.validate(dom);
+        } catch (SAXException e) {
+            if (errList == null) {
+                errList = new ArrayList<IProblem>();
             }
-            // redundant?
-            vec.reset();
-            marshaller.setEventHandler(vec);
-            marshaller.marshal(dwdl, dr);
-            if (vec != null && vec.hasEvents()) {
-                errorList = new ArrayList<IProblem>();
-                for (ValidationEvent event : vec.getEvents()) {
-                    String msg = event.getMessage();
-                    String loc = "line: " + event.getLocator().getLineNumber();
-                    Problem p = new Problem(msg, loc);
-                    errorList.add(p);
-                }
+            errList.add(new Problem(e.getMessage(),"global"));
+        } catch (IOException e) {
+            if (errList == null) {
+                errList = new ArrayList<IProblem>();
             }
-            dr = null;
-
-        } catch (JAXBException e) {
-            if (errorList == null) {
-                errorList = new ArrayList<IProblem>();
-                errorList.add(new Problem(e.getMessage(), "global"));
-            }
+            errList.add(new Problem(e.getMessage(),"global"));
         }
 
-        return errorList;
+        errHandler = (DWDLErrorHandler)(validator.getErrorHandler());
+        errList = errHandler.getProblemList();
+        
+        errList.addAll(checkVariables(dwdl));
+        
+        return errList;
     }
 
     /**
@@ -129,6 +140,59 @@ public class Validator {
      */
     public List<IProblem> validate(byte[] dwdl) {
         return null;
+    }
+    
+    
+    private List<IProblem> checkVariables(TWorkflow dwdl){
+        List<IProblem> varErr = new ArrayList<IProblem>();
+        SimpleDateFormat sdfD = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
+        
+        for (Iterator iter = dwdl.getVariables().getVariable().listIterator(); iter.hasNext();){
+            TVariable tVar = (TVariable) iter.next();
+            String type = tVar.getType();
+            
+            //GH how to get value of variables?
+            if (type.toLowerCase().equals("integer")){
+                try{
+                    Integer.parseInt(tVar.getInitialValue().toString());    
+                }catch (NumberFormatException e){
+                    varErr.add(new Problem("value is not integer!",tVar.getName()));
+                }
+                
+            }else if(type.toLowerCase().equals("float")){
+                try{
+                    Float.parseFloat(tVar.getInitialValue().toString());    
+                }catch (NumberFormatException e){
+                    varErr.add(new Problem("value is not float!",tVar.getName()));
+                }
+                
+            }else if(type.toLowerCase().equals("string")){
+                //GH even required?
+                
+            }else if(type.toLowerCase().equals("boolean")){
+                if (!(tVar.getInitialValue().toString() == "true" || tVar.getInitialValue().toString() == "false")){
+                    varErr.add(new Problem("value is not boolean!",tVar.getName()));
+                }
+                
+            }else if(type.toLowerCase().equals("date")){
+                try{
+                    sdfD.parse(tVar.getInitialValue().toString());    
+                } catch (ParseException e) {
+                    varErr.add(new Problem("value is not a valid date!",tVar.getName()));
+                }
+                
+            }else if(type.toLowerCase().equals("time")){
+                try{
+                    sdfT.parse(tVar.getInitialValue().toString());    
+                } catch (ParseException e) {
+                    varErr.add(new Problem("value is not a valid time!",tVar.getName()));
+                }
+                
+            }
+        }
+        
+        return varErr;
     }
 
 }

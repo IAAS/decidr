@@ -16,11 +16,13 @@
 
 package de.decidr.model.workflowmodel.deployment.test;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-import org.xml.sax.SAXException;
+
+import de.decidr.model.workflowmodel.dwdl.validation.IProblem;
+import de.decidr.model.workflowmodel.dwdl.validation.Problem;
 
 /**
  * A simple schema validator
@@ -34,25 +36,43 @@ public class SchemaValidator {
      * validation.
      */
     public static void main(String[] args) {
-        try {
-            // define the type of schema - we use W3C:
-            String schemaLang = "http://www.w3.org/2001/XMLSchema";
-
-            // get validation driver:
-            SchemaFactory factory = SchemaFactory.newInstance(schemaLang);
-
-            // create schema by reading it from an XSD file:
-            Schema schema = factory.newSchema(new StreamSource("dwdl.xsd"));
-            Validator validator = schema.newValidator();
-
-            // at last perform validation:
-            validator.validate(new StreamSource("sampleProcess.xml"));
-
-        } catch (SAXException ex) {
-            // we are here if the document is not valid:
-            ex.printStackTrace();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+//        try {
+//            // define the type of schema - we use W3C:
+//            String schemaLang = "http://www.w3.org/2001/XMLSchema";
+//
+//            // get validation driver:
+//            SchemaFactory factory = SchemaFactory.newInstance(schemaLang);
+//
+//            // create schema by reading it from an XSD file:
+//            Schema schema = factory.newSchema(new StreamSource("dwdl.xsd"));
+//            Validator validator = schema.newValidator();
+//
+//            // at last perform validation:
+//            validator.validate(new StreamSource("sampleProcess.xml"));
+//
+//        } catch (SAXException ex) {
+//            // we are here if the document is not valid:
+//            ex.printStackTrace();
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+        dwdlValidator();
+    }
+    
+    private static void dwdlValidator(){
+        de.decidr.model.workflowmodel.dwdl.validation.Validator val = new de.decidr.model.workflowmodel.dwdl.validation.Validator();
+        List<IProblem> errList = null;
+        
+        errList = val.validate(new StreamSource("sampleProcess.xml"));
+        if (errList == null) {
+            System.out.println("no errors.");
+        } else {
+            System.out.println(errList.size() + " errors.");
+            Problem prob = null;
+            for (Iterator iter = errList.iterator(); iter.hasNext();){
+                prob = (Problem)iter.next();
+                System.out.println(prob.getErrorPosition() + ": " + prob.getErrorDescription());
+            }
         }
     }
 }

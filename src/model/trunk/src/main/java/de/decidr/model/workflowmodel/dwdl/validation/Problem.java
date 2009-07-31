@@ -27,8 +27,8 @@ public class Problem implements IProblem {
     private String errorDescription = null;
     private String errorPosition = null;
     
-    public Problem(String desciption, String position){
-        errorDescription = desciption;
+    public Problem(String description, String position){
+        errorDescription = description;
         errorPosition = position;
     }
     
