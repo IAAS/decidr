@@ -59,10 +59,12 @@ public class WorkflowParserImpl implements WorkflowParser {
 
         /* Create work flow root element */
         Element workflow = doc.createElement(DWDLTagNames.root);
-        // JS work flow id and name space, make window appear when saving
+        // JS set namespace properly
         workflow.setAttribute(DWDLTagNames.name, model.getName());
         workflow.setAttribute(DWDLTagNames.id, model.getId().toString());
-        workflow.setAttribute(DWDLTagNames.namespace, "insert namespace here");
+        workflow.setAttribute(DWDLTagNames.namespace, "http://decidr.de/"
+                + "insert tenant name here" + "processes/" + model.getName());
+        workflow.setAttribute("xmlns", "http://decidr.de/schema/dwdl");
 
         /* Create description node */
         workflow.appendChild(createTextElement(doc, DWDLTagNames.description,
@@ -71,9 +73,6 @@ public class WorkflowParserImpl implements WorkflowParser {
         /* Create variable and role nodes */
         createVariablesAndRoles(doc, workflow, model);
 
-        /* Create role node */
-        // JS implement (also server get method in value editor)
-        // workflow.appendChild(createRoles(doc, model));
         /* Create fault handler node */
         workflow.appendChild(createFaultHandlerElement(doc, model));
 
@@ -176,9 +175,10 @@ public class WorkflowParserImpl implements WorkflowParser {
                         .getFaultMessageVariableId()));
 
         /* Create the property node for the recipient */
-        faultHandler.appendChild(createPropertyElement(doc,
-                DWDLTagNames.recipient, model.getProperties()
-                        .getRecipientVariableId()));
+        Element recipient = doc.createElement(DWDLTagNames.recipient);
+        recipient.appendChild(createPropertyElement(doc, DWDLTagNames.name,
+                model.getProperties().getRecipientVariableId()));
+        faultHandler.appendChild(recipient);
 
         return faultHandler;
     }
@@ -220,11 +220,9 @@ public class WorkflowParserImpl implements WorkflowParser {
     }
 
     private Element createStartElement(Document doc, StartNodeModel node) {
-        // JS: ASK what is the id about
         Element startElement = doc.createElement(DWDLTagNames.startNode);
-
-        startElement.setAttribute(DWDLTagNames.name, "insert name here");
-        startElement.setAttribute(DWDLTagNames.id, "insert is here");
+        startElement.setAttribute(DWDLTagNames.name, node.getName());
+        startElement.setAttribute(DWDLTagNames.id, node.getId().toString());
         startElement.appendChild(createTextElement(doc,
                 DWDLTagNames.description, node.getDescription()));
         startElement.appendChild(createGraphicsElement(doc, node));
@@ -237,8 +235,8 @@ public class WorkflowParserImpl implements WorkflowParser {
     private Element createEndElement(Document doc, WorkflowModel model,
             EndNodeModel node) {
         Element endElement = doc.createElement(DWDLTagNames.endNode);
-        endElement.setAttribute(DWDLTagNames.name, "insert name here");
-        endElement.setAttribute(DWDLTagNames.id, "insert is here");
+        endElement.setAttribute(DWDLTagNames.name, node.getName());
+        endElement.setAttribute(DWDLTagNames.id, node.getId().toString());
         endElement.appendChild(createTextElement(doc, DWDLTagNames.description,
                 node.getDescription()));
         endElement.appendChild(createGraphicsElement(doc, node));
@@ -299,7 +297,7 @@ public class WorkflowParserImpl implements WorkflowParser {
         humanTaskElement.appendChild(createGraphicsElement(doc, node));
         humanTaskElement.appendChild(createTargetElement(doc, node));
         humanTaskElement.appendChild(createSourceElement(doc, node));
-        // JS ASK
+
         /* Create property elements for user */
         humanTaskElement.appendChild(createPropertyElement(doc,
                 DWDLTagNames.wfId, 0L));
@@ -329,7 +327,6 @@ public class WorkflowParserImpl implements WorkflowParser {
         getProperty.setAttribute(DWDLTagNames.name, DWDLTagNames.taskResult);
         getProperty.setAttribute(DWDLTagNames.variable, node
                 .getFormVariableId().toString());
-        // JS ASK parameters and information item
         Element humanTaskData = doc.createElement(DWDLTagNames.humanTaskData);
         /* Create task items */
         for (TaskItem ti : node.getTaskItems()) {
@@ -471,7 +468,6 @@ public class WorkflowParserImpl implements WorkflowParser {
     private Element createPropertyElement(Document doc, String name,
             Long variableId) {
         Element property = doc.createElement(DWDLTagNames.setProperty);
-        // JS ASK what name is about (name of recipient property)
         property.setAttribute(DWDLTagNames.name, name);
         property.setAttribute(DWDLTagNames.variable, variableId.toString());
         // JS think this over (get(0)), what about multiple values?
