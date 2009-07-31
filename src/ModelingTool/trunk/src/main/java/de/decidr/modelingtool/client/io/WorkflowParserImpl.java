@@ -45,7 +45,6 @@ import de.decidr.modelingtool.client.model.variable.VariablesFilter;
  * @version 0.1
  */
 public class WorkflowParserImpl implements WorkflowParser {
-    // JS externalize dwdl tag names?
 
     /*
      * (non-Javadoc)
@@ -59,15 +58,15 @@ public class WorkflowParserImpl implements WorkflowParser {
         Document doc = XMLParser.createDocument();
 
         /* Create work flow root element */
-        Element workflow = doc.createElement("workflow");
+        Element workflow = doc.createElement(DWDLTagNames.root);
         // JS work flow id and name space, make window appear when saving
-        workflow.setAttribute("name", "decision process");
-        workflow.setAttribute("ID", "123");
-        workflow.setAttribute("targetNamespace", "insert namespace here");
+        workflow.setAttribute(DWDLTagNames.name, model.getName());
+        workflow.setAttribute(DWDLTagNames.id, model.getId().toString());
+        workflow.setAttribute(DWDLTagNames.namespace, "insert namespace here");
 
         /* Create description node */
-        workflow.appendChild(createTextElement(doc, "description", model
-                .getDescription()));
+        workflow.appendChild(createTextElement(doc, DWDLTagNames.description,
+                model.getDescription()));
 
         /* Create variable and role nodes */
         createVariablesAndRoles(doc, workflow, model);
@@ -96,8 +95,8 @@ public class WorkflowParserImpl implements WorkflowParser {
          * create both variables and roles node here and append it to the root
          * element.
          */
-        Element variables = doc.createElement("variables");
-        Element roles = doc.createElement("roles");
+        Element variables = doc.createElement(DWDLTagNames.variables);
+        Element roles = doc.createElement(DWDLTagNames.roles);
         for (Variable var : model.getVariables()) {
             /* Distinguish between "normal" variables and roles */
             if (var.getType() == VariableType.ROLE) {
@@ -113,70 +112,73 @@ public class WorkflowParserImpl implements WorkflowParser {
     }
 
     private Element createVariableElement(Document doc, Variable variable) {
-        Element variableElement = doc.createElement("variable");
+        Element variableElement = doc.createElement(DWDLTagNames.variable);
         /* Name */
-        variableElement.setAttribute("name", variable.getName());
+        variableElement.setAttribute(DWDLTagNames.name, variable.getName());
         /* Array */
         if (variable.isArray()) {
-            variableElement.setAttribute("type", "list-"
-                    + variable.getType().getDwdlName());
+            variableElement.setAttribute(DWDLTagNames.type,
+                    DWDLTagNames.listprefix + variable.getType().getDwdlName());
         } else {
-            variableElement.setAttribute("type", variable.getType()
+            variableElement.setAttribute(DWDLTagNames.type, variable.getType()
                     .getDwdlName());
         }
         /* Configuration variable */
         if (variable.isConfig()) {
-            variableElement.setAttribute("configurationVariable", "yes");
+            variableElement.setAttribute(DWDLTagNames.configVar,
+                    DWDLTagNames.yes);
         } else {
-            variableElement.setAttribute("configurationVariable", "no");
+            variableElement.setAttribute(DWDLTagNames.configVar,
+                    DWDLTagNames.no);
         }
         /*
          * Values of the variable, if the variable has multiple values an
          * additional node is created which has the values as children
          */
         if (variable.isArray()) {
-            Element values = doc.createElement("initialValues");
+            Element values = doc.createElement(DWDLTagNames.initValues);
             for (String value : variable.getValues()) {
-                values
-                        .appendChild(createTextElement(doc, "initialValue",
-                                value));
+                values.appendChild(createTextElement(doc,
+                        DWDLTagNames.initValue, value));
             }
             variableElement.appendChild(values);
         } else {
-            variableElement.appendChild(createTextElement(doc, "initialValue",
-                    variable.getValues().get(0)));
+            variableElement.appendChild(createTextElement(doc,
+                    DWDLTagNames.initValue, variable.getValues().get(0)));
         }
         return variableElement;
     }
 
     private Element createRoleElement(Document doc, Variable role) {
         /* Create parent element for one role */
-        Element roleElement = doc.createElement("role");
+        Element roleElement = doc.createElement(DWDLTagNames.role);
         if (role.isConfig()) {
-            roleElement.setAttribute("configurationVariable", "yes");
+            roleElement.setAttribute(DWDLTagNames.configVar, DWDLTagNames.yes);
         } else {
-            roleElement.setAttribute("configurationVariable", "no");
+            roleElement.setAttribute(DWDLTagNames.configVar, DWDLTagNames.no);
         }
         /* Append the values of the role variables as actors */
         for (String value : role.getValues()) {
-            Element actor = doc.createElement("actor");
+            Element actor = doc.createElement(DWDLTagNames.actor);
             // JS fetch user ids properly
-            actor.setAttribute("userId", value);
+            actor.setAttribute(DWDLTagNames.userId, value);
             roleElement.appendChild(actor);
         }
         return roleElement;
     }
 
     private Element createFaultHandlerElement(Document doc, WorkflowModel model) {
-        Element faultHandler = doc.createElement("faultHandler");
+        Element faultHandler = doc.createElement(DWDLTagNames.faultHandler);
 
         /* Create the property node for the fault message */
-        faultHandler.appendChild(createPropertyElement(doc, "message", model
-                .getProperties().getFaultMessageVariableId()));
+        faultHandler.appendChild(createPropertyElement(doc,
+                DWDLTagNames.message, model.getProperties()
+                        .getFaultMessageVariableId()));
 
         /* Create the property node for the recipient */
-        faultHandler.appendChild(createPropertyElement(doc, "recipient", model
-                .getProperties().getRecipientVariableId()));
+        faultHandler.appendChild(createPropertyElement(doc,
+                DWDLTagNames.recipient, model.getProperties()
+                        .getRecipientVariableId()));
 
         return faultHandler;
     }
@@ -186,7 +188,7 @@ public class WorkflowParserImpl implements WorkflowParser {
          * Create nodes element which contains all child nodes of a workflow or
          * a container
          */
-        Element nodes = doc.createElement("nodes");
+        Element nodes = doc.createElement(DWDLTagNames.nodes);
         for (NodeModel node : model.getChildNodeModels()) {
             /* Find out type and call the according node */
             if (node instanceof StartNodeModel) {
@@ -219,12 +221,12 @@ public class WorkflowParserImpl implements WorkflowParser {
 
     private Element createStartElement(Document doc, StartNodeModel node) {
         // JS: ASK what is the id about
-        Element startElement = doc.createElement("startNode");
+        Element startElement = doc.createElement(DWDLTagNames.startNode);
 
-        startElement.setAttribute("name", "insert name here");
-        startElement.setAttribute("id", "insert is here");
-        startElement.appendChild(createTextElement(doc, "description", node
-                .getDescription()));
+        startElement.setAttribute(DWDLTagNames.name, "insert name here");
+        startElement.setAttribute(DWDLTagNames.id, "insert is here");
+        startElement.appendChild(createTextElement(doc,
+                DWDLTagNames.description, node.getDescription()));
         startElement.appendChild(createGraphicsElement(doc, node));
         /* start node is only source to connections */
         startElement.appendChild(createSourceElement(doc, node));
@@ -234,106 +236,115 @@ public class WorkflowParserImpl implements WorkflowParser {
 
     private Element createEndElement(Document doc, WorkflowModel model,
             EndNodeModel node) {
-        Element endElement = doc.createElement("endNode");
-        endElement.setAttribute("name", "insert name here");
-        endElement.setAttribute("id", "insert is here");
-        endElement.appendChild(createTextElement(doc, "description", node
-                .getDescription()));
+        Element endElement = doc.createElement(DWDLTagNames.endNode);
+        endElement.setAttribute(DWDLTagNames.name, "insert name here");
+        endElement.setAttribute(DWDLTagNames.id, "insert is here");
+        endElement.appendChild(createTextElement(doc, DWDLTagNames.description,
+                node.getDescription()));
         endElement.appendChild(createGraphicsElement(doc, node));
         /* end node is only target to connections */
         endElement.appendChild(createTargetElement(doc, node));
 
         /* notification of success and recipient */
-        Element notification = doc.createElement("notificationOfSuccess");
-        notification.appendChild(createPropertyElement(doc, "successMessage",
-                model.getProperties().getSuccessMessageVariableId()));
-        notification.appendChild(createPropertyElement(doc, "recipient", model
-                .getProperties().getRecipientVariableId()));
+        Element notification = doc
+                .createElement(DWDLTagNames.notificationOfSuccess);
+        notification.appendChild(createPropertyElement(doc,
+                DWDLTagNames.successMsg, model.getProperties()
+                        .getSuccessMessageVariableId()));
+        notification.appendChild(createPropertyElement(doc,
+                DWDLTagNames.recipient, model.getProperties()
+                        .getRecipientVariableId()));
         return endElement;
     }
 
     private Element createEmailElement(Document doc, EmailInvokeNodeModel node) {
-        Element emailElement = doc.createElement("invokeNode");
-        emailElement.setAttribute("name", node.getName());
-        emailElement.setAttribute("id", node.getId().toString());
-        emailElement.setAttribute("activity", "Decidr-Email");
+        Element emailElement = doc.createElement(DWDLTagNames.invokeNode);
+        emailElement.setAttribute(DWDLTagNames.name, node.getName());
+        emailElement.setAttribute(DWDLTagNames.id, node.getId().toString());
+        emailElement.setAttribute(DWDLTagNames.activity,
+                DWDLTagNames.decidrEmail);
 
-        emailElement.appendChild(createTextElement(doc, "description", node
-                .getDescription()));
+        emailElement.appendChild(createTextElement(doc,
+                DWDLTagNames.description, node.getDescription()));
 
         emailElement.appendChild(createGraphicsElement(doc, node));
         emailElement.appendChild(createSourceElement(doc, node));
         emailElement.appendChild(createTargetElement(doc, node));
-        emailElement.appendChild(createPropertyElement(doc, "to", node
-                .getToVariableId()));
-        emailElement.appendChild(createPropertyElement(doc, "cc", node
-                .getCcVariableId()));
-        emailElement.appendChild(createPropertyElement(doc, "bcc", node
-                .getBccVariableId()));
-        emailElement.appendChild(createPropertyElement(doc, "subject", node
-                .getSubjectVariableId()));
-        emailElement.appendChild(createPropertyElement(doc, "message", node
-                .getMessageVariableId()));
-        emailElement.appendChild(createPropertyElement(doc, "attachement", node
-                .getAttachmentVariableId()));
+        emailElement.appendChild(createPropertyElement(doc, DWDLTagNames.to,
+                node.getToVariableId()));
+        emailElement.appendChild(createPropertyElement(doc, DWDLTagNames.cc,
+                node.getCcVariableId()));
+        emailElement.appendChild(createPropertyElement(doc, DWDLTagNames.bcc,
+                node.getBccVariableId()));
+        emailElement.appendChild(createPropertyElement(doc,
+                DWDLTagNames.subject, node.getSubjectVariableId()));
+        emailElement.appendChild(createPropertyElement(doc,
+                DWDLTagNames.message, node.getMessageVariableId()));
+        emailElement.appendChild(createPropertyElement(doc,
+                DWDLTagNames.attachment, node.getAttachmentVariableId()));
         return emailElement;
     }
 
     private Element createHumanTaskElement(Document doc,
             HumanTaskInvokeNodeModel node) {
-        Element humanTaskElement = doc.createElement("invokeNode");
-        humanTaskElement.setAttribute("name", node.getName());
-        humanTaskElement.setAttribute("id", node.getId().toString());
-        humanTaskElement.setAttribute("activity", "Decidr-HumanTask");
+        Element humanTaskElement = doc.createElement(DWDLTagNames.invokeNode);
+        humanTaskElement.setAttribute(DWDLTagNames.name, node.getName());
+        humanTaskElement.setAttribute(DWDLTagNames.id, node.getId().toString());
+        humanTaskElement.setAttribute(DWDLTagNames.activity,
+                DWDLTagNames.decidrHumanTask);
 
-        humanTaskElement.appendChild(createTextElement(doc, "description", node
-                .getDescription()));
+        humanTaskElement.appendChild(createTextElement(doc,
+                DWDLTagNames.description, node.getDescription()));
 
         humanTaskElement.appendChild(createGraphicsElement(doc, node));
         humanTaskElement.appendChild(createTargetElement(doc, node));
         humanTaskElement.appendChild(createSourceElement(doc, node));
         // JS ASK
         /* Create property elements for user */
-        humanTaskElement.appendChild(createPropertyElement(doc, "wfmID", 0L));
-        humanTaskElement.appendChild(createPropertyElement(doc, "user", node
-                .getUserVariableId()));
+        humanTaskElement.appendChild(createPropertyElement(doc,
+                DWDLTagNames.wfId, 0L));
+        humanTaskElement.appendChild(createPropertyElement(doc,
+                DWDLTagNames.user, node.getUserVariableId()));
 
         /*
          * Create set property for user notification variable. Cannot use
          * createPropertyElement method here because it does not take into
          * account that boolean values have to be converted to "yes"/"no".
          */
-        Element userNotification = doc.createElement("setProperty");
-        userNotification.setAttribute("name", "userNotification");
+        Element userNotification = doc.createElement(DWDLTagNames.setProperty);
+        userNotification.setAttribute(DWDLTagNames.name,
+                DWDLTagNames.userNotification);
         String valueText;
         if (node.getNotify()) {
-            valueText = "yes";
+            valueText = DWDLTagNames.yes;
         } else {
-            valueText = "no";
+            valueText = DWDLTagNames.no;
         }
-        userNotification.appendChild(createTextElement(doc, "propertyValue",
-                valueText));
+        userNotification.appendChild(createTextElement(doc,
+                DWDLTagNames.propertyValue, valueText));
         humanTaskElement.appendChild(userNotification);
 
         /* Create get property of human task */
-        Element getProperty = doc.createElement("getProperty");
-        getProperty.setAttribute("name", "taskResult");
-        getProperty.setAttribute("variable", node.getFormVariableId()
-                .toString());
+        Element getProperty = doc.createElement(DWDLTagNames.getProperty);
+        getProperty.setAttribute(DWDLTagNames.name, DWDLTagNames.taskResult);
+        getProperty.setAttribute(DWDLTagNames.variable, node
+                .getFormVariableId().toString());
         // JS ASK parameters and information item
-        Element humanTaskData = doc.createElement("humanTaskData");
+        Element humanTaskData = doc.createElement(DWDLTagNames.humanTaskData);
         /* Create task items */
         for (TaskItem ti : node.getTaskItems()) {
-            Element taskItem = doc.createElement("taskItem");
+            Element taskItem = doc.createElement(DWDLTagNames.taskItem);
             Variable variable = VariablesFilter.getVariableById(ti
                     .getVariableId());
-            taskItem.setAttribute("name", "name");
-            taskItem.setAttribute("variable", variable.getId().toString());
-            taskItem.setAttribute("type", variable.getType().getDwdlName());
-            taskItem
-                    .appendChild(createTextElement(doc, "label", ti.getLabel()));
-            taskItem.appendChild(createTextElement(doc, "value", variable
-                    .getValues().get(0)));
+            taskItem.setAttribute(DWDLTagNames.name, "name");
+            taskItem.setAttribute(DWDLTagNames.variable, variable.getId()
+                    .toString());
+            taskItem.setAttribute(DWDLTagNames.type, variable.getType()
+                    .getDwdlName());
+            taskItem.appendChild(createTextElement(doc, DWDLTagNames.label, ti
+                    .getLabel()));
+            taskItem.appendChild(createTextElement(doc, DWDLTagNames.value,
+                    variable.getValues().get(0)));
             humanTaskData.appendChild(taskItem);
         }
         getProperty.appendChild(humanTaskData);
@@ -343,9 +354,9 @@ public class WorkflowParserImpl implements WorkflowParser {
     }
 
     private Element createFlowElement(Document doc, FlowContainerModel node) {
-        Element flowElement = doc.createElement("flowNode");
-        flowElement.appendChild(createTextElement(doc, "description", node
-                .getDescription()));
+        Element flowElement = doc.createElement(DWDLTagNames.flowNode);
+        flowElement.appendChild(createTextElement(doc,
+                DWDLTagNames.description, node.getDescription()));
         flowElement.appendChild(createGraphicsElement(doc, node));
         flowElement.appendChild(createTargetElement(doc, node));
         flowElement.appendChild(createSourceElement(doc, node));
@@ -355,9 +366,9 @@ public class WorkflowParserImpl implements WorkflowParser {
     }
 
     private Element createIfElement(Document doc, IfContainerModel node) {
-        Element ifElement = doc.createElement("ifNode");
-        ifElement.appendChild(createTextElement(doc, "description", node
-                .getDescription()));
+        Element ifElement = doc.createElement(DWDLTagNames.ifNode);
+        ifElement.appendChild(createTextElement(doc, DWDLTagNames.description,
+                node.getDescription()));
         ifElement.appendChild(createGraphicsElement(doc, node));
         ifElement.appendChild(createTargetElement(doc, node));
         ifElement.appendChild(createSourceElement(doc, node));
@@ -365,19 +376,25 @@ public class WorkflowParserImpl implements WorkflowParser {
         for (ConnectionModel connectionModel : node.getChildConnectionModels()) {
             if (connectionModel instanceof Condition) {
                 Condition conModel = (Condition) connectionModel;
-                Element conElement = doc.createElement("condition");
-                conElement.setAttribute("oder", conModel.getOrder().toString());
+                Element conElement = doc.createElement(DWDLTagNames.condition);
+                conElement.setAttribute(DWDLTagNames.order, conModel.getOrder()
+                        .toString());
                 if (conModel.getOrder() == 1) {
-                    conElement.setAttribute("defaultCondition", "yes");
+                    conElement.setAttribute(DWDLTagNames.defaultCondition,
+                            DWDLTagNames.yes);
                 } else {
-                    conElement.setAttribute("defaultCondition", "no");
+                    conElement.setAttribute(DWDLTagNames.defaultCondition,
+                            DWDLTagNames.no);
                 }
-                conElement.appendChild(createTextElement(doc, "left-operand",
-                        conModel.getOperand1Id().toString()));
-                conElement.appendChild(createTextElement(doc, "operator",
-                        conModel.getOperator().getDisplayString()));
-                conElement.appendChild(createTextElement(doc, "right-operand",
-                        conModel.getOperand2Id().toString()));
+                conElement.appendChild(createTextElement(doc,
+                        DWDLTagNames.leftOp, conModel.getOperand1Id()
+                                .toString()));
+                conElement.appendChild(createTextElement(doc,
+                        DWDLTagNames.operator, conModel.getOperator()
+                                .getDisplayString()));
+                conElement.appendChild(createTextElement(doc,
+                        DWDLTagNames.rightOp, conModel.getOperand2Id()
+                                .toString()));
                 conElement.appendChild(createChildNodeElements(doc, node));
                 conElement.appendChild(createArcElements(doc, node));
                 ifElement.appendChild(conElement);
@@ -388,16 +405,17 @@ public class WorkflowParserImpl implements WorkflowParser {
 
     private Element createForEachElement(Document doc,
             ForEachContainerModel node) {
-        Element forEachElement = doc.createElement("forEachNode");
-        forEachElement.setAttribute("countername", node
+        Element forEachElement = doc.createElement(DWDLTagNames.forEachNode);
+        forEachElement.setAttribute(DWDLTagNames.countername, node
                 .getIterationVariableId().toString());
         if (node.isParallel()) {
-            forEachElement.setAttribute("parallel", "yes");
+            forEachElement
+                    .setAttribute(DWDLTagNames.parallel, DWDLTagNames.yes);
         } else {
-            forEachElement.setAttribute("parallel", "no");
+            forEachElement.setAttribute(DWDLTagNames.parallel, DWDLTagNames.no);
         }
-        forEachElement.appendChild(createTextElement(doc, "description", node
-                .getDescription()));
+        forEachElement.appendChild(createTextElement(doc,
+                DWDLTagNames.description, node.getDescription()));
         forEachElement.appendChild(createGraphicsElement(doc, node));
         forEachElement.appendChild(createTargetElement(doc, node));
         forEachElement.appendChild(createSourceElement(doc, node));
@@ -406,12 +424,14 @@ public class WorkflowParserImpl implements WorkflowParser {
          * Creating counter values and completion condition elements. The start
          * counter value is always set to 1.
          */
-        forEachElement.appendChild(createTextElement(doc, "startCounterValue",
-                "1"));
-        forEachElement.appendChild(createTextElement(doc, "finalCounterValue",
-                node.getIterationVariableId().toString()));
         forEachElement.appendChild(createTextElement(doc,
-                "completionCondition", node.getExitCondition().toString()));
+                DWDLTagNames.startCounterValue, "1"));
+        forEachElement.appendChild(createTextElement(doc,
+                DWDLTagNames.finalCounterValue, node.getIterationVariableId()
+                        .toString()));
+        forEachElement
+                .appendChild(createTextElement(doc, DWDLTagNames.completionCon,
+                        node.getExitCondition().toString()));
 
         forEachElement.appendChild(createChildNodeElements(doc, node));
         forEachElement.appendChild(createArcElements(doc, node));
@@ -421,19 +441,19 @@ public class WorkflowParserImpl implements WorkflowParser {
     }
 
     private Element createGraphicsElement(Document doc, NodeModel node) {
-        Element graphics = doc.createElement("graphics");
+        Element graphics = doc.createElement(DWDLTagNames.graphics);
         /*
          * the position of a node is defined by the x and y coordinates of the
          * top left pixel
          */
-        graphics.setAttribute("x", ((Integer) node.getNode().getGraphicLeft())
-                .toString());
-        graphics.setAttribute("y", ((Integer) node.getNode().getGraphicTop())
-                .toString());
+        graphics.setAttribute(DWDLTagNames.x, ((Integer) node.getNode()
+                .getGraphicLeft()).toString());
+        graphics.setAttribute(DWDLTagNames.y, ((Integer) node.getNode()
+                .getGraphicTop()).toString());
         /* width and height of the node */
-        graphics.setAttribute("width", ((Integer) node.getNode()
+        graphics.setAttribute(DWDLTagNames.width, ((Integer) node.getNode()
                 .getGraphicWidth()).toString());
-        graphics.setAttribute("height", ((Integer) node.getNode()
+        graphics.setAttribute(DWDLTagNames.height, ((Integer) node.getNode()
                 .getGraphicHeight()).toString());
         return graphics;
     }
@@ -450,52 +470,57 @@ public class WorkflowParserImpl implements WorkflowParser {
 
     private Element createPropertyElement(Document doc, String name,
             Long variableId) {
-        Element property = doc.createElement("setProperty");
+        Element property = doc.createElement(DWDLTagNames.setProperty);
         // JS ASK what name is about (name of recipient property)
-        property.setAttribute("name", name);
-        property.setAttribute("variable", variableId.toString());
+        property.setAttribute(DWDLTagNames.name, name);
+        property.setAttribute(DWDLTagNames.variable, variableId.toString());
         // JS think this over (get(0)), what about multiple values?
         String data = VariablesFilter.getVariableById(variableId).getValues()
                 .get(0);
-        Element propertyValue = createTextElement(doc, "propertyValue", data);
+        Element propertyValue = createTextElement(doc,
+                DWDLTagNames.propertyValue, data);
         property.appendChild(propertyValue);
         return property;
     }
 
     private Element createSourceElement(Document doc, NodeModel node) {
         // JS ASK what about multiple sources?
-        Element sources = doc.createElement("sources");
-        Element source = doc.createElement("source");
+        Element sources = doc.createElement(DWDLTagNames.sources);
+        Element source = doc.createElement(DWDLTagNames.source);
         /*
          * Source means: the node is source of a connection. So get the id of
          * the connection which is attached to the output port of the node.
          */
-        source.setAttribute("arcId", node.getOutput().getId().toString());
+        source.setAttribute(DWDLTagNames.arcId, node.getOutput().getId()
+                .toString());
         sources.appendChild(source);
         return sources;
     }
 
     private Element createTargetElement(Document doc, NodeModel node) {
         // JS ASK what about multiple targets?
-        Element targets = doc.createElement("targets");
-        Element target = doc.createElement("target");
+        Element targets = doc.createElement(DWDLTagNames.targets);
+        Element target = doc.createElement(DWDLTagNames.target);
         /*
          * Target means: the node is target of a connection. So get the id of
          * the connection which is attached to the input port of the node.
          */
-        target.setAttribute("arcId", node.getInput().getId().toString());
+        target.setAttribute(DWDLTagNames.arcId, node.getInput().getId()
+                .toString());
         targets.appendChild(target);
         return targets;
     }
 
     private Element createArcElements(Document doc, HasChildModels node) {
-        Element arcs = doc.createElement("arcs");
+        Element arcs = doc.createElement(DWDLTagNames.arcs);
         for (ConnectionModel con : node.getChildConnectionModels()) {
-            Element arc = doc.createElement("arc");
-            arc.setAttribute("name", con.getName());
-            arc.setAttribute("id", con.getId().toString());
-            arc.setAttribute("source", con.getSource().getId().toString());
-            arc.setAttribute("target", con.getTarget().getId().toString());
+            Element arc = doc.createElement(DWDLTagNames.arc);
+            arc.setAttribute(DWDLTagNames.name, con.getName());
+            arc.setAttribute(DWDLTagNames.id, con.getId().toString());
+            arc.setAttribute(DWDLTagNames.source, con.getSource().getId()
+                    .toString());
+            arc.setAttribute(DWDLTagNames.target, con.getTarget().getId()
+                    .toString());
             arcs.appendChild(arc);
         }
         return arcs;
