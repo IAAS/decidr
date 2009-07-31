@@ -22,7 +22,7 @@ package de.decidr.model.permissions;
  * @author Reinhold Rumberger
  * @version 0.1
  */
-public class HumanTaskRole extends AbstractRole {
+public class HumanTaskRole extends BasicRole {
 
     private static final Long HUMAN_TASK_ACTOR_ID = -1337L;
 

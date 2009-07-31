@@ -22,7 +22,7 @@ package de.decidr.model.permissions;
  * @author Reinhold Rumberger
  * @version 0.1
  */
-public class EmailRole extends AbstractRole {
+public class EmailRole extends BasicRole {
 
     private static final Long EMAIL_ACTOR_ID = -01337L;
 

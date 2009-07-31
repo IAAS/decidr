@@ -22,7 +22,7 @@ package de.decidr.model.permissions;
  * @author Reinhold Rumberger
  * @version 0.1
  */
-public class ODERole extends AbstractRole {
+public class ODERole extends BasicRole {
 
     private static final Long ODE_ACTOR_ID = -07331L;
 

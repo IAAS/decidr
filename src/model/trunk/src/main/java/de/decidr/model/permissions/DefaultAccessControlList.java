@@ -21,8 +21,35 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import de.decidr.model.commands.system.AddServerCommand;
+import de.decidr.model.commands.system.GetLogCommand;
+import de.decidr.model.commands.system.GetServerStatisticsCommand;
+import de.decidr.model.commands.system.GetSystemSettingsCommand;
+import de.decidr.model.commands.system.LockServerCommand;
+import de.decidr.model.commands.system.RemoveServerCommand;
+import de.decidr.model.commands.system.SetSystemSettingsCommand;
+import de.decidr.model.commands.system.UpdateServerLoadCommand;
+import de.decidr.model.commands.tenant.AddTenantMemberCommand;
+import de.decidr.model.commands.tenant.CreateTenantCommand;
+import de.decidr.model.commands.tenant.CreateWorkflowModelCommand;
+import de.decidr.model.commands.tenant.GetCurrentColorSchemeCommand;
+import de.decidr.model.commands.tenant.GetTenantIdCommand;
+import de.decidr.model.commands.tenant.GetTenantLogoCommand;
+import de.decidr.model.commands.tenant.GetUsersOfTenantCommand;
+import de.decidr.model.commands.tenant.GetWorkflowInstancesCommand;
+import de.decidr.model.commands.tenant.GetWorkflowModelsCommand;
+import de.decidr.model.commands.tenant.ImportPublishedWorkflowModelsCommand;
+import de.decidr.model.commands.tenant.InviteUsersAsTenantMemberCommand;
+import de.decidr.model.commands.tenant.RemoveWorkflowModelCommand;
+import de.decidr.model.commands.tenant.SetAdvancedColorSchemeCommand;
+import de.decidr.model.commands.tenant.SetCurrentColorSchemeCommand;
+import de.decidr.model.commands.tenant.SetSimpleColorSchemeCommand;
+import de.decidr.model.commands.tenant.SetTenantDescriptionCommand;
+import de.decidr.model.commands.tenant.SetTenantLogoCommand;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.asserters.IsSuperAdmin;
+import de.decidr.model.permissions.asserters.IsTenantAdmin;
+import de.decidr.model.permissions.asserters.IsWorkflowAdminOfInstance;
 
 /**
  * Provides a centralized mechanism for permissions checking. The default ACL
@@ -219,6 +246,96 @@ public class DefaultAccessControlList implements AccessControlList {
         // The superadmin can do anything
         setRule(new SuperAdminRole(), new Permission("*"), new IsSuperAdmin(),
                 AssertMode.SatisfyAny);
+
+        /**
+         * Command Permissions System Facade
+         * 
+         * Nothing to do except one rule. All other commands are always allowed
+         * by SuperAdmin. These commands are already covered by the first rule.
+         * 
+         */
+        setRule(ServerLoadUpdaterRole.getInstance(), new CommandPermission(
+                UpdateServerLoadCommand.class), alwaysTrueAsserter,
+                AssertMode.SatisfyAny);
+
+        
+        
+        /**
+         *  Command Permissions Tenant Facade
+         */
+        setRule(new TenantAdminRole(), new CommandPermission(
+                AddTenantMemberCommand.class), new IsTenantAdmin(),
+                AssertMode.SatisfyAny);
+
+        setRule(new UserRole(), new CommandPermission(
+                CreateTenantCommand.class), alwaysTrueAsserter,
+                AssertMode.SatisfyAny);
+        
+        setRule(new TenantAdminRole(), new CommandPermission(
+                CreateWorkflowModelCommand.class), alwaysTrueAsserter,
+                AssertMode.SatisfyAny);
+        
+        setRule(new BasicRole(null), new CommandPermission(
+                GetCurrentColorSchemeCommand.class), alwaysTrueAsserter,
+                AssertMode.SatisfyAny);
+        
+        setRule(new BasicRole(null), new CommandPermission(
+                GetCurrentColorSchemeCommand.class), alwaysTrueAsserter,
+                AssertMode.SatisfyAny);
+  
+        setRule(new BasicRole(null), new CommandPermission(
+                GetTenantLogoCommand.class), alwaysTrueAsserter,
+                AssertMode.SatisfyAny);
+        
+        setRule(new WorkflowAdminRole(), new CommandPermission(
+                GetUsersOfTenantCommand.class), new IsWorkflowAdminOfInstance(),
+                AssertMode.SatisfyAny);
+        
+        setRule(new WorkflowAdminRole(), new CommandPermission(
+                GetWorkflowInstancesCommand.class), new IsWorkflowAdminOfInstance(),
+                AssertMode.SatisfyAny);
+        
+        setRule(new TenantAdminRole(), new CommandPermission(
+                GetWorkflowModelsCommand.class), new IsTenantAdmin(),
+                AssertMode.SatisfyAny);
+        
+        setRule(new TenantAdminRole(), new CommandPermission(
+                ImportPublishedWorkflowModelsCommand.class), new IsTenantAdmin(),
+                AssertMode.SatisfyAny);
+        
+        setRule(new WorkflowAdminRole(), new CommandPermission(
+                InviteUsersAsTenantMemberCommand.class), new IsWorkflowAdminOfInstance(),
+                AssertMode.SatisfyAny);
+
+        setRule(new TenantAdminRole(), new CommandPermission(
+                RemoveWorkflowModelCommand.class), new IsTenantAdmin(),
+                AssertMode.SatisfyAny);    
+        
+        setRule(new TenantAdminRole(), new CommandPermission(
+                SetAdvancedColorSchemeCommand.class), new IsTenantAdmin(),
+                AssertMode.SatisfyAny); 
+        
+        setRule(new TenantAdminRole(), new CommandPermission(
+                SetCurrentColorSchemeCommand.class), new IsTenantAdmin(),
+                AssertMode.SatisfyAny); 
+        
+        setRule(new TenantAdminRole(), new CommandPermission(
+                SetTenantDescriptionCommand.class), new IsTenantAdmin(),
+                AssertMode.SatisfyAny); 
+        
+        setRule(new TenantAdminRole(), new CommandPermission(
+                SetTenantLogoCommand.class), new IsTenantAdmin(),
+                AssertMode.SatisfyAny);
+        
+        setRule(new TenantAdminRole(), new CommandPermission(
+                SetSimpleColorSchemeCommand.class), new IsTenantAdmin(),
+                AssertMode.SatisfyAny);
+        
+        /**
+         *  Command Permissions User Facade
+         */
+        
+        
     }
 
     /**

@@ -22,7 +22,7 @@ package de.decidr.model.permissions;
  * @author Daniel Huss
  * @version 0.1
  */
-public class ServerLoadUpdaterRole extends AbstractRole {
+public class ServerLoadUpdaterRole extends BasicRole {
 
     private static final Long SERVER_LOAD_UPDATER_ACTOR_ID = -0x1337L;
 

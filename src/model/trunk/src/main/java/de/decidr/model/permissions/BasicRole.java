@@ -23,7 +23,7 @@ package de.decidr.model.permissions;
  * 
  * @version 0.1
  */
-public abstract class AbstractRole implements Role {
+public class BasicRole implements Role {
 
     /**
      * Id of the person / system / pricipal that is requesting access to a
@@ -38,7 +38,7 @@ public abstract class AbstractRole implements Role {
      *            Id of the person / system / pricipal that is requesting access
      *            to a permission.
      */
-    public AbstractRole(Long actorId) {
+    public BasicRole(Long actorId) {
         super();
         this.actorId = actorId;
     }

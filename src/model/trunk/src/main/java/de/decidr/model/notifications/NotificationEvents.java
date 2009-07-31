@@ -704,7 +704,7 @@ public final class NotificationEvents {
     }
 
     /**
-     * Sends a notification email to inviteduser that informs the (registered or
+     * Sends a notification email to invited user that informs the (registered or
      * unregistered) user that he was invited to participate in a workflow of a
      * tenant that he is not a member of.
      * 

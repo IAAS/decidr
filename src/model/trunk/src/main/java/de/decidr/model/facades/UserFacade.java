@@ -74,6 +74,8 @@ import de.decidr.model.transactions.TransactionCoordinator;
  */
 public class UserFacade extends AbstractFacade {
 
+    //FIXME FIXME Add allowed users
+    
     /**
      * Creates a new UserFacade. All operations will be executed as the given
      * actor.
@@ -188,6 +190,7 @@ public class UserFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             iff the given user does not exist.
      */
+    //FIXME add allowed user and add to ACL
     public Boolean authKeyMatches(Long userId, String authKey)
             throws TransactionException, EntityNotFoundException {
         CheckAuthKeyCommand cmd = new CheckAuthKeyCommand(actor, userId,

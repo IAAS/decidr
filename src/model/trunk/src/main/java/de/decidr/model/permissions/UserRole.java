@@ -23,7 +23,7 @@ package de.decidr.model.permissions;
  * 
  * @version 0.1
  */
-public class UserRole extends AbstractRole {
+public class UserRole extends BasicRole {
 
     /**
      * The lowest user id that can belong to a logged in user.

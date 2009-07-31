@@ -345,7 +345,7 @@ public class TenantFacade extends AbstractFacade {
      * @param tenantIds
      *            a list of tenant IDs which should be approved
      */
-    @AllowedRole(TenantAdminRole.class)
+    @AllowedRole(SuperAdminRole.class)
     public void approveTenants(List<Long> tenantIds)
             throws TransactionException {
 
@@ -365,7 +365,7 @@ public class TenantFacade extends AbstractFacade {
      * @param tenantIds
      *            a list of IDs of tenants which should be disapproved
      */
-    @AllowedRole(TenantAdminRole.class)
+    @AllowedRole(SuperAdminRole.class)
     public void disapproveTenants(List<Long> tenantIds)
             throws TransactionException {
 

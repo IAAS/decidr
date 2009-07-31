@@ -314,6 +314,7 @@ public class SystemFacade extends AbstractFacade {
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
+    //FIXME Add Roles and add to ACL
     public List<Server> getServers(ServerTypeEnum... serverTypes)
             throws TransactionException {
         GetServersCommand cmd = new GetServersCommand(actor, serverTypes);
