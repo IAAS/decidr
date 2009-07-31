@@ -13,8 +13,9 @@
 			2009-05-09: MA: Invoke activity changed with setProperty element
 			2009-05-19: MA: Notification of success added
 			2009-05-22: MA: Form element respecified
-            2009-06-21: MA: Type TFaultHandler added and group nodeTypes deleteted.
-                            Some strucutre modification in TNodes.
+                        2009-06-21: MA: Type TFaultHandler added and group nodeTypes deleteted.
+                                        Some strucutre modification in TNodes.
+                        2009-07-31: MA: Id type changed to long
 		</xsd:documentation>
 	</xsd:annotation>
 
@@ -65,6 +66,7 @@
 				<xsd:element name="initialValues" type="tInitialValues" />
 			</xsd:choice>
 		</xsd:sequence>
+                <xsd:attribute name="id" type="xsd:long" use="required" />
 		<xsd:attribute name="name" type="DWDLVariableName" use="required" />
 		<xsd:attribute name="type" type="DWDLVariableType" use="required" />
 		<xsd:attribute name="configurationVariable" type="tBoolean"
@@ -154,7 +156,7 @@
 			<xsd:element ref="targets" minOccurs="0" maxOccurs="1" />
 			<xsd:element ref="sources" minOccurs="0" maxOccurs="1" />
 		</xsd:sequence>
-		<xsd:attribute name="id" type="xsd:ID" use="required" />
+		<xsd:attribute name="id" type="xsd:lond" use="required" />
 		<xsd:attribute name="name" type="xsd:NCName" use="optional" />
 	</xsd:complexType>
 	<xsd:element name="graphics" type="tGraphics" />
@@ -366,9 +368,9 @@
 	</xsd:complexType>
 	<xsd:complexType name="tArc">
 		<xsd:attribute name="name" type="xsd:NCName" use="optional" />
-		<xsd:attribute name="id" type="xsd:ID" use="required" />
-		<xsd:attribute name="sourceNode" type="xsd:IDREF" use="required" />
-		<xsd:attribute name="targetNode" type="xsd:IDREF" use="required" />
+		<xsd:attribute name="id" type="xsd:long" use="required" />
+		<xsd:attribute name="sourceNode" type="xsd:long" use="required" />
+		<xsd:attribute name="targetNode" type="xsd:long" use="required" />
 	</xsd:complexType>
 
 	<xsd:simpleType name="DWDLVariableName">
