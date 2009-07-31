@@ -31,6 +31,11 @@ import javax.xml.validation.SchemaFactory;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.UserFacade;
+import de.decidr.model.permissions.UserRole;
+import de.decidr.model.workflowmodel.dwdl.TActor;
+import de.decidr.model.workflowmodel.dwdl.TLiteral;
 import de.decidr.model.workflowmodel.dwdl.TVariable;
 import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 
@@ -90,6 +95,7 @@ public class Validator {
         
         //GH how to transform from byte[] to TWorkflow?
         //errList.addAll(checkVariables(dwdl));
+        //errList.addAll(checkUsers(dwdl));
         
         return errList;
     }
@@ -127,6 +133,7 @@ public class Validator {
         errList = errHandler.getProblemList();
         
         errList.addAll(checkVariables(dwdl));
+        errList.addAll(checkUsers(dwdl));
         
         return errList;
     }
@@ -141,8 +148,51 @@ public class Validator {
     public List<IProblem> validate(byte[] dwdl) {
         return null;
     }
+
+    /**
+     * 
+     * Checks for all users, whether they are registered
+     * 
+     * @param dwdl
+     *          TWorkflow - the actual DWDL
+     * @return
+     *          A list of Problems with unregistered users
+     */
+    private List<IProblem> checkUsers(TWorkflow dwdl){
+        List<IProblem> userErr = new ArrayList<IProblem>();
+        UserFacade userFacade = new UserFacade(new UserRole());
+        //GH: where to find the users:
+        //    - Actors
+        //    - EMail Activity
+        //    - Human Task
+        
+        for (Iterator iter = dwdl.getRoles().getActor().listIterator(); iter.hasNext();){
+            TActor actor = (TActor) iter.next();
+            try {
+                if (!userFacade.isRegistered(actor.getUserId()) ){
+                    userErr.add(new Problem("User " + actor.getName() + "("+ actor.getEmail()+ "" +
+                    		"does not exist!", actor.getEmail()));
+                }
+            } catch (TransactionException e) {
+                userErr.add(new Problem("Connection to Database failed!", "global"));
+                break;
+            }
+        }
+                
+        return userErr;
+    }
     
-    
+    /**
+     * 
+     * Checks for all variables, whether the value matches the
+     * variable type and returns a list of all found errors.
+     * 
+     * @param dwdl
+     *          TWorkflow - the actual DWDL
+     * @return
+     *          List with all variables (including an error
+     *          description) where value and type mismatch
+     */
     private List<IProblem> checkVariables(TWorkflow dwdl){
         List<IProblem> varErr = new ArrayList<IProblem>();
         SimpleDateFormat sdfD = new SimpleDateFormat("yyyy-MM-dd");
@@ -152,43 +202,97 @@ public class Validator {
             TVariable tVar = (TVariable) iter.next();
             String type = tVar.getType();
             
-            //GH how to get value of variables?
-            if (type.toLowerCase().equals("integer")){
-                try{
-                    Integer.parseInt(tVar.getInitialValue().toString());    
-                }catch (NumberFormatException e){
-                    varErr.add(new Problem("value is not integer!",tVar.getName()));
+            if (tVar.getInitialValue() != null){
+                if (type.toLowerCase().equals("integer")){
+                    if (tVar.getInitialValues() == null){
+                        try{
+                            Integer.parseInt(tVar.getInitialValue().toString());    
+                        }catch (NumberFormatException e){
+                            varErr.add(new Problem("value is not integer!",tVar.getName()));
+                        }
+                    }else{
+                        for (Iterator literals = tVar.getInitialValues().getInitialValue().iterator(); literals.hasNext();){
+                            try{
+                                Integer.parseInt(((TLiteral)literals.next()).toString());    
+                            }catch (NumberFormatException e){
+                                varErr.add(new Problem("value(s) not integer!",tVar.getName()));
+                                break;
+                            }
+                        }
+                    }
+                    
+                }else if(type.toLowerCase().equals("float")){
+                    if (tVar.getInitialValues() == null){
+                        try{
+                            Float.parseFloat(tVar.getInitialValue().toString());    
+                        }catch (NumberFormatException e){
+                            varErr.add(new Problem("value is not float!",tVar.getName()));
+                        }
+                    }else{
+                        for (Iterator literals = tVar.getInitialValues().getInitialValue().iterator(); literals.hasNext();){
+                            try{
+                                Float.parseFloat(((TLiteral)literals.next()).toString());    
+                            }catch (NumberFormatException e){
+                                varErr.add(new Problem("value(s) not float!",tVar.getName()));
+                                break;
+                            }
+                        }
+                    }
+                    
+                }else if(type.toLowerCase().equals("string")){
+                    //GH even required?
+                    
+                }else if(type.toLowerCase().equals("boolean")){
+                    if (tVar.getInitialValues() == null){
+                        if (!(tVar.getInitialValue().toString() == "true" || tVar.getInitialValue().toString() == "false")){
+                            varErr.add(new Problem("value is not boolean!",tVar.getName()));
+                        }
+                    }else{
+                        for (Iterator literals = tVar.getInitialValues().getInitialValue().iterator(); literals.hasNext();){
+                            if (!(((TLiteral)literals.next()).toString() == "true" || ((TLiteral)literals.next()).toString() == "false")){
+                                varErr.add(new Problem("value(s) not boolean!",tVar.getName()));
+                                break;
+                            }
+                        }
+                    }
+                    
+                }else if(type.toLowerCase().equals("date")){
+                    if (tVar.getInitialValues() == null){
+                        try{
+                            sdfD.parse(tVar.getInitialValue().toString());    
+                        } catch (ParseException e) {
+                            varErr.add(new Problem("value is not a valid date!",tVar.getName()));
+                        }
+                    }else{
+                        for (Iterator literals = tVar.getInitialValues().getInitialValue().iterator(); literals.hasNext();){
+                            try{
+                                sdfD.parse(((TLiteral)literals.next()).toString());    
+                            } catch (ParseException e) {
+                                varErr.add(new Problem("value(s) are not a valid date!",tVar.getName()));
+                                break;
+                            }
+                        }
+                    }
+                    
+                }else if(type.toLowerCase().equals("time")){
+                    if (tVar.getInitialValues() == null){
+                        try{
+                            sdfT.parse(tVar.getInitialValue().toString());    
+                        } catch (ParseException e) {
+                            varErr.add(new Problem("value is not a valid time!",tVar.getName()));
+                        }
+                    }else{
+                        for (Iterator literals = tVar.getInitialValues().getInitialValue().iterator(); literals.hasNext();){
+                            try{
+                                sdfT.parse(((TLiteral)literals.next()).toString());    
+                            } catch (ParseException e) {
+                                varErr.add(new Problem("value(s) are not a valid time!",tVar.getName()));
+                                break;
+                            }
+                        }
+                    }
+                    
                 }
-                
-            }else if(type.toLowerCase().equals("float")){
-                try{
-                    Float.parseFloat(tVar.getInitialValue().toString());    
-                }catch (NumberFormatException e){
-                    varErr.add(new Problem("value is not float!",tVar.getName()));
-                }
-                
-            }else if(type.toLowerCase().equals("string")){
-                //GH even required?
-                
-            }else if(type.toLowerCase().equals("boolean")){
-                if (!(tVar.getInitialValue().toString() == "true" || tVar.getInitialValue().toString() == "false")){
-                    varErr.add(new Problem("value is not boolean!",tVar.getName()));
-                }
-                
-            }else if(type.toLowerCase().equals("date")){
-                try{
-                    sdfD.parse(tVar.getInitialValue().toString());    
-                } catch (ParseException e) {
-                    varErr.add(new Problem("value is not a valid date!",tVar.getName()));
-                }
-                
-            }else if(type.toLowerCase().equals("time")){
-                try{
-                    sdfT.parse(tVar.getInitialValue().toString());    
-                } catch (ParseException e) {
-                    varErr.add(new Problem("value is not a valid time!",tVar.getName()));
-                }
-                
             }
         }
         
