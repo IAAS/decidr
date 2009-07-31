@@ -28,6 +28,7 @@ import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
+import de.decidr.modelingtool.client.model.variable.Variable;
 
 /**
  * This is a stub to simulate loading and saving a workflow model.
@@ -41,6 +42,42 @@ public class WorkflowIOStub implements WorkflowIO {
             throws LoadDWDLException {
         // create workflow model
         WorkflowModel workflowModel = new WorkflowModel();
+        workflowModel.setName("Simple Workflow");
+
+        // create test variables
+        Variable faultMessage = new Variable();
+        faultMessage.setId(123L);
+        faultMessage.setConfig(false);
+        faultMessage.setName("Fault Message");
+        faultMessage.getValues().add(new String("Workflow failed"));
+        Variable successMessage = new Variable();
+        successMessage.setId(12L);
+        successMessage.setConfig(false);
+        successMessage.setName("Success Message");
+        successMessage.getValues().add(new String("Workflow succeded"));
+        Variable recipient = new Variable();
+        recipient.setId(345L);
+        recipient.setConfig(false);
+        recipient.setName("Recipient");
+        recipient.getValues().add(new String("decidradmin"));
+        
+        Variable sampleText = new Variable();
+        sampleText.setId(768768L);
+        sampleText.setName("Text");
+        sampleText.setConfig(true);
+        sampleText.getValues().add(new String("Loram Ipsum"));
+
+        workflowModel.getVariables().add(faultMessage);
+        workflowModel.getVariables().add(successMessage);
+        workflowModel.getVariables().add(recipient);
+        workflowModel.getVariables().add(sampleText);
+
+        workflowModel.getProperties().setFaultMessageVariableId(
+                faultMessage.getId());
+        workflowModel.getProperties().setSuccessMessageVariableId(
+                successMessage.getId());
+        workflowModel.getProperties().setRecipientVariableId(recipient.getId());
+        workflowModel.getProperties().setNotifyOnSuccess(true);
 
         // create test elements
         StartNodeModel start = new StartNodeModel(workflowModel);

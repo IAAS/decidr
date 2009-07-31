@@ -455,16 +455,25 @@ public class WorkflowParserImpl implements WorkflowParser {
         return graphics;
     }
 
+    /*
+     * The created element looks like this: <tagName>data</tagName>
+     */
     private Element createTextElement(Document doc, String tagName, String data) {
-        /*
-         * The created element looks like this: <tagName>data</tagName>
-         */
+
         Element element = doc.createElement(tagName);
         Text text = doc.createTextNode(data);
         element.appendChild(text);
         return element;
     }
 
+    /*
+     * The created element looks like this:
+     * <setProperty name="<name>" variable="<variableID>">
+     *   <propertyValue>
+     *      variableID.value
+     *   </propertyValue>
+     * </setProperty>  
+     */
     private Element createPropertyElement(Document doc, String name,
             Long variableId) {
         Element property = doc.createElement(DWDLTagNames.setProperty);
