@@ -30,6 +30,9 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
+
+import org.xml.sax.InputSource;
+
 import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.workflowmodel.bpel.TProcess;
 import de.decidr.model.workflowmodel.dd.TDeployment;
@@ -69,23 +72,17 @@ public class Translator {
         webservicesWSDLs = new ArrayList<Definition>();
         JAXBContext dwdlCntxt = JAXBContext.newInstance(TWorkflow.class);
         Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
-        JAXBElement<TWorkflow> element = dwdlUnmarshaller.unmarshal(
+        JAXBElement<TWorkflow> dwdlElement = dwdlUnmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(dwdl)),
                 TWorkflow.class);
         WSDLReader reader = new com.ibm.wsdl.xml.WSDLReaderImpl();
-        File f = null;
-        FileOutputStream outFile = null;
+        InputSource in = null;
         for (KnownWebService webservice : webservices) {
-            f = File.createTempFile("temp", "wsdl");
-            f.deleteOnExit();
-            outFile = new FileOutputStream(f);
-            outFile.write(webservice.getWsdl());
-            outFile.flush();
-            outFile.close();
-            Definition def = reader.readWSDL(f.toURI().toString());
+            in = new InputSource(new ByteArrayInputStream(webservice.getWsdl()));
+            Definition def = reader.readWSDL(null,in);
             webservicesWSDLs.add(def);
         }
-        dwdlWorkflow = element.getValue();
+        dwdlWorkflow = dwdlElement.getValue();
         this.tenantName = tenantName;
     }
 
