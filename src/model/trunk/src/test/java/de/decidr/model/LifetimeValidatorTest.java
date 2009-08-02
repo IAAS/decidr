@@ -16,9 +16,16 @@
 
 package de.decidr.model;
 
+import static org.junit.Assert.fail;
 import static org.junit.Assert.*;
 
+import org.hibernate.Session;
 import org.junit.Test;
+
+import de.decidr.model.entities.ChangeEmailRequest;
+import de.decidr.model.entities.Invitation;
+import de.decidr.model.entities.PasswordResetRequest;
+import de.decidr.model.entities.RegistrationRequest;
 
 /**
  * RR: add comment
@@ -34,6 +41,19 @@ public class LifetimeValidatorTest extends AbstractDatabaseTest {
      */
     @Test
     public void testIsPasswordResetRequestValid() {
+        Session session = null;
+        PasswordResetRequest validRequest = null;
+        PasswordResetRequest invalidRequest = null;
+
+        // RR create hibernate session
+
+        // RR create valid password request
+        assertTrue(LifetimeValidator.isPasswordResetRequestValid(validRequest,
+                session));
+
+        // RR create invalid password request
+        assertFalse(LifetimeValidator.isPasswordResetRequestValid(invalidRequest,
+                session));
         fail("Not yet implemented"); // RR
     }
 
