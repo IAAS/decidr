@@ -41,7 +41,8 @@ import org.hibernate.mapping.MetaAttribute;
  * the code in this class.
  * <p>
  * If the meaning of a method is not apparent, please consult the
- * hibernate-tools documentation at https://www.hibernate.org
+ * hibernate-tools documentation at <a
+ * href="https://www.hibernate.org">https://www.hibernate.org</a>
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -52,8 +53,6 @@ public class DecidrReverseEngineeringStrategy extends
         DelegatingReverseEngineeringStrategy {
 
     /**
-     * Constructor
-     * 
      * @param delegate
      *            Fallback strategy
      */
@@ -62,13 +61,15 @@ public class DecidrReverseEngineeringStrategy extends
     }
 
     /**
-     * Turns MySQL underscored table_names into camelCased identifiers.
+     * Turns MySQL underscored table_names into camelCased identifiers.<br>
+     * FIXME: what happens to _leading and trailing_ underscores?
      * 
      * @param tableName
      *            underscored table name
      * @return camelCased table name
      */
-    public String convertTableNameToIdentifier(String tableName) {
+    // FIXME: unit test: handle null input
+    public static String convertTableNameToIdentifier(String tableName) {
         String[] split = tableName.toLowerCase().split("_");
         String result = split[0];
         for (int i = 1; i < split.length; i++) {
@@ -85,8 +86,8 @@ public class DecidrReverseEngineeringStrategy extends
             TableIdentifier fromTable, List fromColumns,
             TableIdentifier referencedTable, List referencedColumns,
             boolean uniqueReference) {
-
         String result = null;
+
         /*
          * The following special case has been hardcoded. Should more than a few
          * special cases occur, please consider using a configuration file.
@@ -106,8 +107,10 @@ public class DecidrReverseEngineeringStrategy extends
         /*
          * Treatment for silly special cases such as "settingses"
          */
+        // FIXME NPE ob result==null
         if ((result.endsWith("Settingses")) || (result.endsWith("Accesses"))) {
-            result = result.substring(0, result.length() - "es".length());
+            // trim last two characters ("es")
+            result = result.substring(0, result.length() - 2);
         }
 
         return result;
@@ -119,7 +122,7 @@ public class DecidrReverseEngineeringStrategy extends
             TableIdentifier fromTable, List fromColumnNames,
             TableIdentifier referencedTable, List referencedColumnNames,
             boolean uniqueReference) {
-
+        // FIXME NullPointerException on fromColumnNames==null
         String fromColumn = ((Column) fromColumnNames.get(0)).getName();
         if (fromColumn.endsWith("Id")) {
             return fromColumn.substring(0, fromColumn.length() - 2);
@@ -134,7 +137,7 @@ public class DecidrReverseEngineeringStrategy extends
     public String foreignKeyToManyToManyName(ForeignKey fromKey,
             TableIdentifier middleTable, ForeignKey toKey,
             boolean uniqueReference) {
-
+        // FIXME NPE on middleTable==null
         return convertTableNameToIdentifier(middleTable.getName());
     }
 
@@ -160,8 +163,8 @@ public class DecidrReverseEngineeringStrategy extends
     @Override
     public List getPrimaryKeyColumnNames(TableIdentifier identifier) {
         ArrayList<String> columns = new ArrayList<String>();
-
-        /**
+        // FIXME NPE on identifier == null
+        /*
          * For each MySQL view, we have to set the primary key manually since we
          * can't define one in the database schema.
          * 
@@ -180,7 +183,7 @@ public class DecidrReverseEngineeringStrategy extends
     public void setSettings(ReverseEngineeringSettings settings) {
         super.setSettings(settings);
         // We rely on the "many-to-many-entities" being present.
+        // FIXME NPE on settings==false
         settings.setDetectManyToMany(false);
     }
-
 }

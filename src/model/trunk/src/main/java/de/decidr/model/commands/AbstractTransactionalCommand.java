@@ -34,9 +34,7 @@ public abstract class AbstractTransactionalCommand implements
 
     /**
      * {@inheritDoc}
-     * 
      */
-     
     public void transactionStarted(TransactionEvent evt)
             throws TransactionException {
         // intentionally left empty
