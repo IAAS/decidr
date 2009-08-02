@@ -129,6 +129,7 @@ public class SystemFacade extends AbstractFacade {
      *             if an error occurs during the transaction s
      */
     @AllowedRole(SuperAdminRole.class)
+    //XXX Inconsistency: getSettings returns an Item, but setSettings expects a SystemSettings!
     public void setSettings(SystemSettings newSettings)
             throws TransactionException {
         SetSystemSettingsCommand command = new SetSystemSettingsCommand(actor,

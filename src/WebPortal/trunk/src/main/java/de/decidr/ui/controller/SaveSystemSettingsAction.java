@@ -32,6 +32,7 @@ import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.SystemFacade;
 import de.decidr.model.permissions.UserRole;
@@ -42,29 +43,38 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 public class SaveSystemSettingsAction implements ClickListener {
 
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
+
+    private Long userId = (Long) session.getAttribute("userId");
     private SystemFacade systemFacade = new SystemFacade(new UserRole(userId));
-    
+
     private SystemSettingComponent content = null;
     private Item item = null;
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-    	content = (SystemSettingComponent) UIDirector.getInstance().getTemplateView().getContent();
-    	content.saveSettingsItem();
-    	item = content.getSettingsItem();
-    	try {
-            systemFacade.setSettings((Boolean)item.getItemProperty("autoAcceptNewTenants").getValue(), (Level)item.getItemProperty("logLevel").getValue());
-        } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
-        }
-        
-        //TODO: remove
-    	Main.getCurrent().getMainWindow().showNotification("System Settings Saved");
+        content = (SystemSettingComponent) UIDirector.getInstance()
+                .getTemplateView().getContent();
+        content.saveSettingsItem();
+        item = content.getSettingsItem();
+        // GH: SystemFacade.setSettings has changed
+//        try {
+//            systemFacade.setSettings((Boolean) item.getItemProperty(
+//                    "autoAcceptNewTenants").getValue(), (Level) item
+//                    .getItemProperty("logLevel").getValue());
+//        } catch (TransactionException e) {
+//            Main.getCurrent().getMainWindow().addWindow(
+//                    new TransactionErrorDialogComponent());
+//        }
+
+        // TODO: remove
+        Main.getCurrent().getMainWindow().showNotification(
+                "System Settings Saved");
     }
 
 }

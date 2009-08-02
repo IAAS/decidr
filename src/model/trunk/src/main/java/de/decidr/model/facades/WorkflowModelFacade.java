@@ -18,9 +18,6 @@ package de.decidr.model.facades;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import org.apache.xpath.operations.Mod;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
@@ -30,7 +27,6 @@ import de.decidr.model.annotations.AllowedRole;
 import de.decidr.model.commands.workflowmodel.DeleteWorkflowModelCommand;
 import de.decidr.model.commands.workflowmodel.GetLastStartConfigurationCommand;
 import de.decidr.model.commands.workflowmodel.GetPublishedWorkflowModelsCommand;
-import de.decidr.model.commands.workflowmodel.GetWorkflowAdministrationStateCommand;
 import de.decidr.model.commands.workflowmodel.GetWorkflowAdminstratorsCommand;
 import de.decidr.model.commands.workflowmodel.GetWorkflowInstancesCommand;
 import de.decidr.model.commands.workflowmodel.GetWorkflowModelCommand;
@@ -46,7 +42,6 @@ import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
-import de.decidr.model.enums.UserWorkflowAdminState;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.exceptions.UserDisabledException;
 import de.decidr.model.exceptions.UserUnavailableException;
