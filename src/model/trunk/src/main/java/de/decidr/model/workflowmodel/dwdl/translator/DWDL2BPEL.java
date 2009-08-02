@@ -49,11 +49,34 @@ import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 public class DWDL2BPEL {
 
     private static Logger log = DefaultLogger.getLogger(DWDL2BPEL.class);
+    
+    private final String EMAIL_INPUT_VARIABLE = "standardMessageRequest";
+    private final String EMAIL_OUTPUT_VARIABLE = "standardMessageResponse";
+    private final String HUMANTASK_INPUT_VARIABLE = "createTaskMessageResquest";
+    private final String HUMANTASK_OUTPUT_VARIABLE = "createTaskMessageResponse";
+    private final String SUCCESS_MESSAGE_REQUEST = "successMessageRequest";
+    private final String SUCCESS_MESSAGE_RESPONSE = "successMessageResponse";
+    private final String FAULT_MESSAGE_REQUEST = "faultMessageRequest";
+    private final String FAULT_MESSAGE_RESPONSE = "faultMessageResponse";
+    
+    public static final String HUMANTASK_PREFIX = "hWS";
+    public static final String EMAIL_PREFIX = "eWS";
+    
+    private final String PROCESS_INPUT_VARIABLE = "startConfigurations";
+    private final String PROCESS_OPERATION = "startProcess";
+    private final String PROCESS_REQUEST_MESSAGE = "startMessage";
+    private final String PROCESS_PARTNERLINK = "ProcessPL";
+    private final String PROCESS_PARTNERLINKTYPE = "ProcessPLT";
+    private final String PROCESS_PREFIX = "tns";
+    private final String PROCESS_HUMANTASK_INPUT_VARIABLE = "taskDataMessageRequest";
+    private final String PROCESS_HUMANTASK_REQUEST_MESSAGE = ""; 
 
     private TProcess process = null;
     private TWorkflow dwdl = null;
     private ObjectFactory factory = null;
     private String tenantName = null;
+    private DecidrWebservice humanTask = new HumanTaskWebservice();
+    private DecidrWebservice email = new EmailWebservice();
 
     private void addCopyStatement(TAssign assign, TSetProperty property,
             String toVariable) {
@@ -104,10 +127,10 @@ public class DWDL2BPEL {
          TInvoke emailInvoke = factory.createTInvoke();
          setNameAndDocumentation(node, emailInvoke);
          setSourceAndTargets(node, emailInvoke);
-         emailInvoke.setPartnerLink(BPELConstants.EWS_PARTNERLINK);
-         emailInvoke.setOperation("sendEmail");
-         emailInvoke.setInputVariable("standardMessageRequest");
-         emailInvoke.setOutputVariable("standardMessageResponse");
+         emailInvoke.setPartnerLink(email.PARTNERLINK);
+         emailInvoke.setOperation(email.OPERATION);
+         emailInvoke.setInputVariable(EMAIL_INPUT_VARIABLE);
+         emailInvoke.setOutputVariable(EMAIL_OUTPUT_VARIABLE);
          return emailInvoke;
     }
 
@@ -119,18 +142,18 @@ public class DWDL2BPEL {
         setSourceAndTargets(node, sequence);
         for (TSetProperty property : node.getNotificationOfSuccess()
                 .getSetProperty()) {
-            addCopyStatement(assign, property, "successMessageRequest");
+            addCopyStatement(assign, property, SUCCESS_MESSAGE_REQUEST);
         }
         for (TRecipient recipient : node.getNotificationOfSuccess()
                 .getRecipient()) {
             for (TSetProperty property : recipient.getSetProperty()) {
-                addCopyStatement(assign, property, "successMessageRequest");
+                addCopyStatement(assign, property, SUCCESS_MESSAGE_REQUEST);
             }
         }
-        emailInvoke.setPartnerLink(BPELConstants.EWS_PARTNERLINK);
-        emailInvoke.setOperation("sendEmail");
-        emailInvoke.setInputVariable("successMessageRequest");
-        emailInvoke.setOutputVariable("successMessageResponse");
+        emailInvoke.setPartnerLink(email.PARTNERLINK);
+        emailInvoke.setOperation(email.OPERATION);
+        emailInvoke.setInputVariable(SUCCESS_MESSAGE_REQUEST);
+        emailInvoke.setOutputVariable(SUCCESS_MESSAGE_RESPONSE);
         sequence.getActivity().add(assign);
         sequence.getActivity().add(emailInvoke);
         return sequence;
@@ -221,14 +244,16 @@ public class DWDL2BPEL {
         TSequence sequence = factory.createTSequence();
         setSourceAndTargets(node, sequence);
         TAssign assign = factory.createTAssign();
-        if (node.getActivity().equals("Decidr-HumanTask")){
+        if (node.getActivity().equals("Decidr-"+humanTask.NAME)){
             for (TSetProperty property : node.getSetProperty()){
-                addCopyStatement(assign, property, "standardMessageRequest");
+                addCopyStatement(assign, property, EMAIL_INPUT_VARIABLE);
             }
             sequence.getActivity().add(assign);
             invoke = getHumanTaskActivity(node);
-        } else if (node.getActivity().equals("Decidr-Email")){
-            
+        } else if (node.getActivity().equals("Decidr-"+email.NAME)){
+            for (TSetProperty property: node.getSetProperty()){
+                addCopyStatement(assign, property, HUMANTASK_INPUT_VARIABLE);
+            }
             invoke = getEmailActivity(node);
         }
         setNameAndDocumentation(node, invoke);
@@ -240,8 +265,8 @@ public class DWDL2BPEL {
         TReceive receive = factory.createTReceive();
         setNameAndDocumentation(node, receive);
         receive.setPartnerLink(tenantName);
-        receive.setOperation("startProcess");
-        receive.setVariable("startConfigurations");
+        receive.setOperation(PROCESS_OPERATION);
+        receive.setVariable(PROCESS_INPUT_VARIABLE);
         receive.setCreateInstance(TBoolean.YES);
         setSourceAndTargets(node, receive);
 
@@ -441,21 +466,21 @@ public class DWDL2BPEL {
                 && !dwdl.getFaultHandler().getSetProperty().isEmpty()) {
             for (TSetProperty property : dwdl.getFaultHandler()
                     .getSetProperty()) {
-                addCopyStatement(assign, property, "faultMessageRequest");
+                addCopyStatement(assign, property, FAULT_MESSAGE_REQUEST);
             }
             if (!dwdl.getFaultHandler().getRecipient().isEmpty()) {
                 for (TRecipient recipient : dwdl.getFaultHandler()
                         .getRecipient()) {
                     for (TSetProperty property : recipient.getSetProperty()) {
                         addCopyStatement(assign, property,
-                                "faultMessageRequest");
+                                FAULT_MESSAGE_REQUEST);
                     }
                 }
             }
-            emailInvoke.setPartnerLink(BPELConstants.EWS_PARTNERLINK);
-            emailInvoke.setOperation("sendEmail");
-            emailInvoke.setInputVariable("faultMessageRequest");
-            emailInvoke.setOutputVariable("faultMessageResponse");
+            emailInvoke.setPartnerLink(email.PARTNERLINK);
+            emailInvoke.setOperation(email.OPERATION);
+            emailInvoke.setInputVariable(FAULT_MESSAGE_REQUEST);
+            emailInvoke.setOutputVariable(FAULT_MESSAGE_RESPONSE);
             sequence.getActivity().add(assign);
             sequence.getActivity().add(emailInvoke);
             activityContainer.setSequence(sequence);
@@ -473,14 +498,14 @@ public class DWDL2BPEL {
         TImport pwsdlImport = factory.createTImport();
 
         // setting import for HumanTaskWS
-        htwsImport.setNamespace(BPELConstants.HTWS_NAMESPACE);
+        htwsImport.setNamespace(humanTask.NAMESPACE);
         htwsImport.setImportType(BPELConstants.WSDL_IMPORTTYPE);
-        htwsImport.setLocation(BPELConstants.HTWS_LOCATION);
+        htwsImport.setLocation(humanTask.LOCATION);
 
         // setting import for EmailWS
-        ewsImport.setNamespace(BPELConstants.EWS_NAMESPACE);
+        ewsImport.setNamespace(email.NAMESPACE);
         ewsImport.setImportType(BPELConstants.WSDL_IMPORTTYPE);
-        ewsImport.setLocation(BPELConstants.EWS_LOCATION);
+        ewsImport.setLocation(email.LOCATION);
 
         // setting import for DecidrTypes
         dtImport.setNamespace(BPELConstants.DECIDRTYPES_NAMESPACE);
@@ -520,24 +545,24 @@ public class DWDL2BPEL {
 
         // create HumanTaskWS partnerlink
         TPartnerLink htwsPL = factory.createTPartnerLink();
-        htwsPL.setName(BPELConstants.HTWS_PARTNERLINK);
-        htwsPL.setPartnerLinkType(new QName(BPELConstants.HTWS_NAMESPACE,
-                BPELConstants.HTWS_PARTNERLINKTYPE, "hWS"));
+        htwsPL.setName(humanTask.PARTNERLINK);
+        htwsPL.setPartnerLinkType(new QName(humanTask.NAMESPACE,
+                humanTask.PARTNERLINKTYPE, HUMANTASK_PREFIX));
         htwsPL.setPartnerRole(BPELConstants.HTWS_PARTNERROLE);
         htwsPL.setMyRole(BPELConstants.HTWS_MYROLE);
 
         // create EmailWS partnerlink
         TPartnerLink ewsPL = factory.createTPartnerLink();
-        ewsPL.setName(BPELConstants.EWS_PARTNERLINK);
-        ewsPL.setPartnerLinkType(new QName(BPELConstants.EWS_PARTNERLINKTYPE,
-                BPELConstants.EWS_PARTNERLINKTYPE, "eWS"));
+        ewsPL.setName(email.PARTNERLINK);
+        ewsPL.setPartnerLinkType(new QName(email.PARTNERLINKTYPE,
+                email.PARTNERLINKTYPE, EMAIL_PREFIX));
         ewsPL.setPartnerRole(BPELConstants.EWS_PARTNERROLE);
 
         // create process client partnerlink
         TPartnerLink processPL = factory.createTPartnerLink();
-        processPL.setName(tenantName);
+        processPL.setName(PROCESS_PARTNERLINK);
         processPL.setPartnerLinkType(new QName(process.getTargetNamespace(),
-                "ProcessPLT", "tns"));
+                PROCESS_PARTNERLINKTYPE, "tns"));
         processPL.setMyRole("ProcessProvider");
 
         // add partnerlinks to process
@@ -587,40 +612,40 @@ public class DWDL2BPEL {
         TVariable taskDataMessage = factory.createTVariable();
 
         // creates global process variables
-        startConfigurations.setName("startConfigurations");
+        startConfigurations.setName(PROCESS_INPUT_VARIABLE);
         startConfigurations.setMessageType(new QName(process
-                .getTargetNamespace(), "startMessage", "tns"));
+                .getTargetNamespace(), PROCESS_REQUEST_MESSAGE, PROCESS_PREFIX));
         wfmid.setName("wfmid");
         wfmid
                 .setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "ID",
                         "xsd"));
-        faultMessage.setName("faultMessageRequest");
-        faultMessage.setMessageType(new QName(BPELConstants.EWS_NAMESPACE,
-                "sendEmailRequest", "eWS"));
-        faultMessageResponse.setName("faultMessageResponse");
+        faultMessage.setName(FAULT_MESSAGE_REQUEST);
+        faultMessage.setMessageType(new QName(email.NAMESPACE,
+                email.REQUEST_MESSAGE, "eWS"));
+        faultMessageResponse.setName(FAULT_MESSAGE_RESPONSE);
         faultMessageResponse.setMessageType(new QName(
-                BPELConstants.EWS_NAMESPACE, "sendEmailResponse", "eWS"));
+                email.NAMESPACE, email.RESPONSE_MESSAGE, EMAIL_PREFIX));
         successMessage.setName("successMessageRequest");
-        successMessage.setMessageType(new QName(BPELConstants.EWS_NAMESPACE,
-                "sendEmailRequest", "eWS"));
+        successMessage.setMessageType(new QName(email.NAMESPACE,
+                email.REQUEST_MESSAGE, EMAIL_PREFIX));
         successMessageResponse.setName("successMessageResponse");
         successMessageResponse.setMessageType(new QName(
-                BPELConstants.EWS_NAMESPACE, "sendEmailResponse", "eWS"));
-        standardMessage.setName("standardMessageRequest");
-        standardMessage.setMessageType(new QName(BPELConstants.EWS_NAMESPACE,
-                "sendEmailRequest", "eWS"));
-        standardMessageResponse.setName("standardMessageResponse");
+                email.NAMESPACE, email.RESPONSE_MESSAGE, EMAIL_PREFIX));
+        standardMessage.setName(EMAIL_INPUT_VARIABLE);
+        standardMessage.setMessageType(new QName(email.NAMESPACE,
+                email.REQUEST_MESSAGE, EMAIL_PREFIX));
+        standardMessageResponse.setName(EMAIL_OUTPUT_VARIABLE);
         standardMessageResponse.setMessageType(new QName(
-                BPELConstants.EWS_NAMESPACE, "sendEmailResponse", "eWS"));
-        taskMessage.setName("createTaskMessageRequest");
-        taskMessage.setMessageType(new QName(BPELConstants.HTWS_NAMESPACE,
-                "createTaskRequest", "hWS"));
-        taskMessageResponse.setName("createTaskMessageResponse");
+                email.NAMESPACE, email.RESPONSE_MESSAGE, EMAIL_PREFIX));
+        taskMessage.setName(HUMANTASK_INPUT_VARIABLE);
+        taskMessage.setMessageType(new QName(humanTask.NAMESPACE,
+                humanTask.REQUEST_MESSAGE, HUMANTASK_PREFIX));
+        taskMessageResponse.setName(HUMANTASK_OUTPUT_VARIABLE);
         taskMessageResponse.setMessageType(new QName(
-                BPELConstants.HTWS_NAMESPACE, "createTaskResponse", "hWS"));
-        taskDataMessage.setName("taskDataMessageRequest");
-        taskDataMessage.setMessageType(new QName(BPELConstants.HTWS_NAMESPACE,
-                "taskDataRequest", "hWS"));
+                humanTask.NAMESPACE, humanTask.RESPONSE_MESSAGE, HUMANTASK_PREFIX));
+        taskDataMessage.setName(PROCESS_HUMANTASK_INPUT_VARIABLE);
+        taskDataMessage.setMessageType(new QName(humanTask.NAMESPACE,
+                PROCESS_HUMANTASK_REQUEST_MESSAGE, HUMANTASK_PREFIX));
 
         // set variables
         process.setVariables(variables);

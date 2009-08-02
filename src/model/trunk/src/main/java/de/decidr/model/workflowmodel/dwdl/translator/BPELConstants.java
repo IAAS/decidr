@@ -32,27 +32,22 @@ public final class BPELConstants {
     public static final String BPEL_NAMESPACE = "http://docs.oasis-pen.org/wsbpel/2.0/process/executable";
     public static final String DWDL_NAMESPACE = "http://decidr.de/schema/dwdl";
     public static final String DECIDRTYPES_NAMESPACE = "http://decidr.de/schema/DecidrTypes";
-    public static final String HTWS_NAMESPACE = "http://decidr.de/webservices/HumanTask";
-    public static final String EWS_NAMESPACE = "http://decidr.de/webservices/Email";
     public static final String ODE_NAMESPACE = "http://www.apache.org/ode/type/extension";
     public static final String WSDL_IMPORTTYPE = "http://schemas.xmlsoap.org/wsdl/";
-    public static final String EWS_PARTNERLINK = "EmailPL";
-    public static final String HTWS_PARTNERLINK = "HumanTaskPL";
-    public static final String EWS_PARTNERLINKTYPE = "EmailPLT";
-    public static final String HTWS_PARTNERLINKTYPE = "HumanTaskPLT";
-    public static final String HTWS_LOCATION = "HumanTask.wsdl";
-    public static final String EWS_LOCATION = "Email.wsdl";
     public static final String DECIDRTYPES_LOCATION = "DecidrTypes.xsd";
     public static final String HTWS_PARTNERROLE = "HumanTaskProvider";
     public static final String HTWS_MYROLE = "HumanTaskClient";
     public static final String EWS_PARTNERROLE = "EmailProvider";
-    private final static String[] simpleTypes = {"integer", "float", "string", "boolean", "date", "anyURI"};
-    private final static String[] complexTypes = {"form", "list-integer", "list-float", "list-string", "list-boolean", "list-date", "list-anyURI"};
-    public static final Set<String> DWDL_BASIC_TYPES = new HashSet<String>(Arrays.asList(simpleTypes));
-    public static final Set<String> DWDL_COMPLEX_TYPES = new HashSet<String>(Arrays.asList(complexTypes));
-    public static final String EWS_NAME = "Email";
-    public static final String HTWS_NAME = "HumanTask";
-    
+    private final static String[] simpleTypes = { "integer", "float", "string",
+            "boolean", "date", "anyURI" };
+    private final static String[] complexTypes = { "form", "list-integer",
+            "list-float", "list-string", "list-boolean", "list-date",
+            "list-anyURI" };
+    public static final Set<String> DWDL_BASIC_TYPES = new HashSet<String>(
+            Arrays.asList(simpleTypes));
+    public static final Set<String> DWDL_COMPLEX_TYPES = new HashSet<String>(
+            Arrays.asList(complexTypes));
+
     private BPELConstants() {
         // do nothing
     }
