@@ -5,35 +5,31 @@
 // Generated on: 2009.07.27 at 02:02:16 PM GMT+01:00 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tStartNode complex type.
+ * <p>
+ * Java class for tStartNode complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;complexType name="tStartNode">
- *   &lt;complexContent>
- *     &lt;extension base="{http://decidr.de/schema/dwdl}tBasicNode">
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name=&quot;tStartNode&quot;&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;extension base=&quot;{http://decidr.de/schema/dwdl}tBasicNode&quot;&gt;
+ *     &lt;/extension&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tStartNode")
-public class TStartNode
-    extends TBasicNode
-{
-
-
+public class TStartNode extends TBasicNode {
+    // MA empty block. document
 }

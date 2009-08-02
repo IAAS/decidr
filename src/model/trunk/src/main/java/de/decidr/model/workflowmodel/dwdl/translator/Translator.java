@@ -17,11 +17,9 @@
 package de.decidr.model.workflowmodel.dwdl.translator;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
 import javax.wsdl.xml.WSDLReader;
@@ -67,7 +65,7 @@ public class Translator {
     }
 
     public void load(byte[] dwdl, List<KnownWebService> webservices,
-            String tenantName) throws JAXBException, WSDLException, IOException {
+            String tenantName) throws JAXBException, WSDLException {
 
         webservicesWSDLs = new ArrayList<Definition>();
         JAXBContext dwdlCntxt = JAXBContext.newInstance(TWorkflow.class);

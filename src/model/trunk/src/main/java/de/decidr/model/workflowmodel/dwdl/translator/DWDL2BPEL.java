@@ -310,6 +310,7 @@ public class DWDL2BPEL {
                     to.setVariable(actor.getName());
                     copyActor.setFrom(from);
                     copyActor.setTo(to);
+                    // MA: "assign" might be null if first if's condition was false
                     assign.getCopyOrExtensionAssignOperation().add(copyActor);
                 }
             }

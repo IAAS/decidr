@@ -73,6 +73,7 @@ public class FileDeployer {
             OMElement omName = omFactory.createOMElement("name", ns);
             OMElement packageCont = omFactory.createOMElement("package", ns);
             OMElement zipEle = omFactory.createOMElement("zip", ns);
+            // MA: die beiden können hier gar nicht null sein - wird das oben vielleicht noch angepasst und sollte mit einem Task Tag versehen werden?
             if (packageName != null && encodedString != null) {
 
                 packageCont.addChild(zipEle);

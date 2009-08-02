@@ -46,8 +46,8 @@ import de.decidr.model.workflowmodel.dwdl.TWorkflow;
  * @author Modood Alvi
  * @version 0.1
  */
+// MA: bitte hier drin mal <ctrl><shift><f> drücken!
 public class Validator {
-
 
     private javax.xml.validation.Validator validator = null;
     private Schema schema = null;
@@ -65,7 +65,6 @@ public class Validator {
         }
     }
 
-
     /**
      * GH testing only
      * @param dwdl
@@ -79,11 +78,13 @@ public class Validator {
         try {
             validator.validate(dwdl);
         } catch (SAXException e) {
+            // MA errList ist hier immer null
             if (errList == null) {
                 errList = new ArrayList<IProblem>();
             }
             errList.add(new Problem(e.getMessage(),"global"));
         } catch (IOException e) {
+            // MA errList ist hier immer null
             if (errList == null) {
                 errList = new ArrayList<IProblem>();
             }
@@ -118,11 +119,13 @@ public class Validator {
         try {
             validator.validate(dom);
         } catch (SAXException e) {
+            // MA errList ist hier immer null
             if (errList == null) {
                 errList = new ArrayList<IProblem>();
             }
             errList.add(new Problem(e.getMessage(),"global"));
         } catch (IOException e) {
+            // MA errList ist hier immer null
             if (errList == null) {
                 errList = new ArrayList<IProblem>();
             }
@@ -150,7 +153,6 @@ public class Validator {
     }
 
     /**
-     * 
      * Checks for all users, whether they are registered
      * 
      * @param dwdl
@@ -166,8 +168,8 @@ public class Validator {
         //    - EMail Activity
         //    - Human Task
         
-        for (Iterator iter = dwdl.getRoles().getActor().listIterator(); iter.hasNext();){
-            TActor actor = (TActor) iter.next();
+        for (Iterator<TActor> iter = dwdl.getRoles().getActor().listIterator(); iter.hasNext();){
+            TActor actor = iter.next();
             try {
                 if (!userFacade.isRegistered(actor.getUserId()) ){
                     userErr.add(new Problem("User " + actor.getName() + "("+ actor.getEmail()+ "" +
@@ -183,7 +185,6 @@ public class Validator {
     }
     
     /**
-     * 
      * Checks for all variables, whether the value matches the
      * variable type and returns a list of all found errors.
      * 
@@ -198,8 +199,10 @@ public class Validator {
         SimpleDateFormat sdfD = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
         
-        for (Iterator iter = dwdl.getVariables().getVariable().listIterator(); iter.hasNext();){
-            TVariable tVar = (TVariable) iter.next();
+        // MA bitte delegiere den nächsten Task Tag an den, der das implementiert hat, wenn du das nicht warst
+        // MA Gesame Klasse: schonmal was von 'nem "foreach" und "Generics" gehört?
+        for (Iterator<TVariable> iter = dwdl.getVariables().getVariable().listIterator(); iter.hasNext();){
+            TVariable tVar = iter.next();
             String type = tVar.getType();
             
             if (tVar.getInitialValue() != null){
@@ -211,9 +214,9 @@ public class Validator {
                             varErr.add(new Problem("value is not integer!",tVar.getName()));
                         }
                     }else{
-                        for (Iterator literals = tVar.getInitialValues().getInitialValue().iterator(); literals.hasNext();){
+                        for (Iterator<TLiteral> literals = tVar.getInitialValues().getInitialValue().iterator(); literals.hasNext();){
                             try{
-                                Integer.parseInt(((TLiteral)literals.next()).toString());    
+                                Integer.parseInt(literals.next().toString());    
                             }catch (NumberFormatException e){
                                 varErr.add(new Problem("value(s) not integer!",tVar.getName()));
                                 break;
@@ -229,9 +232,9 @@ public class Validator {
                             varErr.add(new Problem("value is not float!",tVar.getName()));
                         }
                     }else{
-                        for (Iterator literals = tVar.getInitialValues().getInitialValue().iterator(); literals.hasNext();){
+                        for (Iterator<TLiteral> literals = tVar.getInitialValues().getInitialValue().iterator(); literals.hasNext();){
                             try{
-                                Float.parseFloat(((TLiteral)literals.next()).toString());    
+                                Float.parseFloat(literals.next().toString());    
                             }catch (NumberFormatException e){
                                 varErr.add(new Problem("value(s) not float!",tVar.getName()));
                                 break;
@@ -248,8 +251,8 @@ public class Validator {
                             varErr.add(new Problem("value is not boolean!",tVar.getName()));
                         }
                     }else{
-                        for (Iterator literals = tVar.getInitialValues().getInitialValue().iterator(); literals.hasNext();){
-                            if (!(((TLiteral)literals.next()).toString() == "true" || ((TLiteral)literals.next()).toString() == "false")){
+                        for (Iterator<TLiteral> literals = tVar.getInitialValues().getInitialValue().iterator(); literals.hasNext();){
+                            if (!(literals.next().toString() == "true" || literals.next().toString() == "false")){
                                 varErr.add(new Problem("value(s) not boolean!",tVar.getName()));
                                 break;
                             }
@@ -264,9 +267,9 @@ public class Validator {
                             varErr.add(new Problem("value is not a valid date!",tVar.getName()));
                         }
                     }else{
-                        for (Iterator literals = tVar.getInitialValues().getInitialValue().iterator(); literals.hasNext();){
+                        for (Iterator<TLiteral> literals = tVar.getInitialValues().getInitialValue().iterator(); literals.hasNext();){
                             try{
-                                sdfD.parse(((TLiteral)literals.next()).toString());    
+                                sdfD.parse(literals.next().toString());    
                             } catch (ParseException e) {
                                 varErr.add(new Problem("value(s) are not a valid date!",tVar.getName()));
                                 break;
@@ -282,21 +285,19 @@ public class Validator {
                             varErr.add(new Problem("value is not a valid time!",tVar.getName()));
                         }
                     }else{
-                        for (Iterator literals = tVar.getInitialValues().getInitialValue().iterator(); literals.hasNext();){
+                        for (Iterator<TLiteral> literals = tVar.getInitialValues().getInitialValue().iterator(); literals.hasNext();){
                             try{
-                                sdfT.parse(((TLiteral)literals.next()).toString());    
+                                sdfT.parse(literals.next().toString());    
                             } catch (ParseException e) {
                                 varErr.add(new Problem("value(s) are not a valid time!",tVar.getName()));
                                 break;
                             }
                         }
                     }
-                    
                 }
             }
         }
         
         return varErr;
     }
-
 }

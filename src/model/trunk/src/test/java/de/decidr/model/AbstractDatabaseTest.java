@@ -24,52 +24,49 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 
 /**
- * RR: add comment
+ * This is the abstract base class for all test classes testing database
+ * interaction.<br>
+ * It insures a working hibernate configuration and a consistent database for
+ * each test.
  * 
  * @author Reinhold
  */
 public abstract class AbstractDatabaseTest {
 
     /**
-     * RR: add comment
-     * 
-     * @throws java.lang.Exception
+     * Fails if hibernate is not working properly and no working condition can
+     * be produced. Creates a testing database.
      */
     @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    public static void setUpBeforeClass() {
         // RR do hibernate settings & make sure DB is available
         fail("not yet implemented");
     }
 
     /**
-     * RR: add comment
-     * 
-     * @throws java.lang.Exception
+     * Removes the testing database.
      */
     @AfterClass
-    public static void tearDownAfterClass() throws Exception {
+    public static void tearDownAfterClass() {
         // RR Do DB cleanup
         fail("not yet implemented");
     }
 
     /**
-     * RR: add comment
-     * 
-     * @throws java.lang.Exception
+     * Creates testing tables and entries without utilising model functionality
+     * other than entities.
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         // RR ensure a well-defined state of the DB
         fail("not yet implemented");
     }
 
     /**
-     * RR: add comment
-     * 
-     * @throws java.lang.Exception
+     * Removes testing tables.
      */
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         // RR clean up if necessary
         fail("not yet implemented");
     }
