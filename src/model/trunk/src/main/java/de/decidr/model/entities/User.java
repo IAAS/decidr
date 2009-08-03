@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 24.07.2009 17:05:33 by Hibernate Tools 3.2.4.GA
+// Generated 03.08.2009 16:06:28 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -21,6 +21,7 @@ public class User implements java.io.Serializable {
     private Date disabledSince;
     private Date unavailableSince;
     private Date registeredSince;
+    private Date creationDate;
     private Set<WorkItem> workItems = new HashSet<WorkItem>(0);
     private Set<Invitation> invitationsForSenderId = new HashSet<Invitation>(0);
     private Set<WorkflowModel> workflowModels = new HashSet<WorkflowModel>(0);
@@ -47,12 +48,17 @@ public class User implements java.io.Serializable {
     public User() {
     }
 
+    public User(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
     public User(
             String authKey,
             String email,
             Date disabledSince,
             Date unavailableSince,
             Date registeredSince,
+            Date creationDate,
             Set<WorkItem> workItems,
             Set<Invitation> invitationsForSenderId,
             Set<WorkflowModel> workflowModels,
@@ -73,6 +79,7 @@ public class User implements java.io.Serializable {
         this.disabledSince = disabledSince;
         this.unavailableSince = unavailableSince;
         this.registeredSince = registeredSince;
+        this.creationDate = creationDate;
         this.workItems = workItems;
         this.invitationsForSenderId = invitationsForSenderId;
         this.workflowModels = workflowModels;
@@ -137,6 +144,14 @@ public class User implements java.io.Serializable {
 
     public void setRegisteredSince(Date registeredSince) {
         this.registeredSince = registeredSince;
+    }
+
+    public Date getCreationDate() {
+        return this.creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public Set<WorkItem> getWorkItems() {

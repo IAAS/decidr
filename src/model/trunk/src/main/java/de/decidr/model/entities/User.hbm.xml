@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 24.07.2009 17:05:33 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 03.08.2009 16:06:29 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.User" table="user" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="java.lang.Long">
@@ -32,6 +32,11 @@
         <property name="registeredSince" type="timestamp">
             <column name="registeredSince" length="19">
                 <comment>If this field is null the user has never successfully registered.</comment>
+            </column>
+        </property>
+        <property name="creationDate" type="timestamp">
+            <column name="creationDate" length="19" not-null="true">
+                <comment>Date when the user was created</comment>
             </column>
         </property>
         <set name="workItems" inverse="true" lazy="true" table="work_item" fetch="select">

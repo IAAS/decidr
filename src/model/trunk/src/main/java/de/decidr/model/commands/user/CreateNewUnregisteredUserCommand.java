@@ -19,6 +19,7 @@ package de.decidr.model.commands.user;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
@@ -74,7 +75,8 @@ public class CreateNewUnregisteredUserCommand extends AclEnabledCommand {
         newUser.setDisabledSince(null);
         newUser.setUnavailableSince(null);
         newUser.setUserProfile(null);
-
+        newUser.setCreationDate(DecidrGlobals.getTime().getTime());
+        
         evt.getSession().save(newUser);
     }
 

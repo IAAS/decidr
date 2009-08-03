@@ -32,6 +32,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Password;
 import de.decidr.model.permissions.Permission;
 import de.decidr.model.permissions.Role;
+import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
@@ -59,7 +60,8 @@ public class RegisterUserCommand extends AclEnabledCommand {
      * @param email
      *            the email address of the user which should be registered
      * @param passwordPlaintext
-     *            the password as plain text of the user which should be registered
+     *            the password as plain text of the user which should be
+     *            registered
      * @param profile
      *            profile data to apply to the new user account.
      */
@@ -96,18 +98,9 @@ public class RegisterUserCommand extends AclEnabledCommand {
              * There is no such user - create one!
              */
             existingUser = new User();
-            try {
-                existingUser.setAuthKey(Password.getRandomAuthKey());
-            } catch (UnsupportedEncodingException e) {
-                throw new TransactionException(e);
-            } catch (NoSuchAlgorithmException e) {
-                throw new TransactionException(e);
-            }
-            existingUser.setDisabledSince(null);
             existingUser.setEmail(email);
-            existingUser.setRegisteredSince(null);
-            existingUser.setUnavailableSince(null);
-            evt.getSession().save(existingUser);
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    new CreateNewUnregisteredUserCommand(role, existingUser));
         } else {
             /*
              * there is a user with the given email address. Has the user

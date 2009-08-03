@@ -36,6 +36,7 @@ import de.decidr.model.entities.UserParticipatesInWorkflow;
 import de.decidr.model.entities.UserParticipatesInWorkflowId;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
+import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.enums.UserWorkflowAdminState;
 import de.decidr.model.enums.UserWorkflowParticipationState;
 import de.decidr.model.exceptions.TransactionException;
@@ -78,6 +79,23 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
     private List<User> usersThatNeedInvitations = null;
     private List<User> usersThatAreAlreadyTenantMembers = null;
 
+    /**
+     * Creates a new StartWorkflowInstanceCommand
+     * 
+     * @param role
+     *            user / system that is executing the command
+     * @param workflowModelId
+     *            workflow model of which an instance should be started
+     * @param startConfiguration
+     *            start configuration to use
+     * @param startImmediately
+     *            If true the system will start the workflow instance even if
+     *            invitations must be sent. Otherwise the system delays the
+     *            start of the workflow instance until the last user confirms
+     *            his invitation.
+     * @param participantUsernames
+     * @param participantEmails
+     */
     public StartWorkflowInstanceCommand(Role role, Long workflowModelId,
             byte[] startConfiguration, Boolean startImmediately,
             List<String> participantUsernames, List<String> participantEmails) {
@@ -181,25 +199,55 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         }
     }
 
+    /**
+     * Creates the new workflow instance. If no users need invitations or the
+     * immediate start is enforced, the workflow instance is also started on the
+     * ODE.
+     * 
+     * @param deployedModel
+     *            workflow model to start;
+     * @param session
+     *            current Hibernate Session
+     */
+    @SuppressWarnings("unchecked")
     private void createWorkflowInstance(DeployedWorkflowModel deployedModel,
             Session session) {
         if ((usersThatNeedInvitations.size() == 0) || (startImmediately)) {
             InstanceManager manager = new InstanceManagerImpl();
-            List<ServerLoadView> serverStatistics = null;
-            // DH continue here, also have a look at confirmInvitation
-            try {
-                createdWorkflowInstance = manager.startInstance(deployedModel,
-                        startConfiguration, serverStatistics);
-            } catch (Exception e) {
-                // FIXME discuss with MA what kind of exception is thrown,
-                // "Exception" is not very helpful
-            }
+
+            Query q = session
+                    .createQuery(
+                            "from ServerLoadView s where s.serverType.name = :serverType")
+                    .setString("serverType", ServerTypeEnum.Ode.toString());
+
+            List<ServerLoadView> serverStatistics = q.list();
+
+            createdWorkflowInstance = manager.startInstance(deployedModel,
+                    startConfiguration, serverStatistics);
+            createdWorkflowInstance.setStartedDate(DecidrGlobals.getTime()
+                    .getTime());
+
         } else {
             createdWorkflowInstance = new WorkflowInstance();
+            createdWorkflowInstance.setStartedDate(null);
         }
 
+        createdWorkflowInstance.setCompletedDate(null);
+        createdWorkflowInstance.setDeployedWorkflowModel(deployedModel);
+        createdWorkflowInstance.setId(null);
+        createdWorkflowInstance.setStartConfiguration(startConfiguration);
     }
 
+    /**
+     * Decides which users must be added to the system as new users, which users
+     * must be sent an invitation and which users can be added as workflow
+     * participants immediately.
+     * 
+     * @throws TransactionException
+     * @throws UserDisabledException
+     * @throws UserUnavailableException
+     * @throws UsernameNotFoundException
+     */
     private void processUserWorkflowParticipationState()
             throws TransactionException, UserDisabledException,
             UserUnavailableException, UsernameNotFoundException {

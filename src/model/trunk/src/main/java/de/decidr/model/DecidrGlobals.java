@@ -198,6 +198,9 @@ public class DecidrGlobals {
      *         by webServiceName
      */
     public static String getWebServiceUrl(String webServiceName) {
+        if ((webServiceName == null) || (webServiceName == "")) {
+            throw new IllegalArgumentException("Web service name cannot be empty");
+        }
         // This may change if we switch from Synapse to another ESB that's not
         // based on Axis2
         return getEsb().getLocation() + "/soap/" + webServiceName;

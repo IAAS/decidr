@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.Query;
 
 import de.decidr.model.notifications.NotificationEvents;
+import de.decidr.model.commands.user.CreateNewUnregisteredUserCommand;
 import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
@@ -14,6 +15,7 @@ import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.permissions.Password;
 import de.decidr.model.permissions.Role;
+import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
@@ -39,9 +41,11 @@ public class InviteUsersAsTenantMemberCommand extends TenantCommand {
      * @param role
      *            user which executes the command
      * @param tenantId
-     *            the ID of the tenant to which the given users should be invited
+     *            the ID of the tenant to which the given users should be
+     *            invited
      * @param emails
-     *            list of the email addresses of unregistered user which should be invited
+     *            list of the email addresses of unregistered user which should
+     *            be invited
      * @param usernames
      *            list of usernames of registered user which should be invited
      */
@@ -97,16 +101,8 @@ public class InviteUsersAsTenantMemberCommand extends TenantCommand {
             // create new unregistered user
             User newUser = new User();
             newUser.setEmail(email);
-
-            try {
-                newUser.setAuthKey(Password.getRandomAuthKey());
-            } catch (UnsupportedEncodingException e) {
-                throw new TransactionException(e);
-            } catch (NoSuchAlgorithmException e) {
-                throw new TransactionException(e);
-            }
-
-            evt.getSession().save(newUser);
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    new CreateNewUnregisteredUserCommand(role, newUser));
 
             // create invitation
             invi = new Invitation();

@@ -66,8 +66,6 @@ public class DecidrGlobalsTest extends AbstractDatabaseTest {
         assertNotNull(settings.getSuperAdmin());
         assertNotNull(settings.getSystemName());
         assertNotNull(settings.getSystemEmailAddress());
-        // DH: are these constraints correct?
-        // DH: May they become -1 to indicate a default value?
         assertTrue(settings.getChangeEmailRequestLifetimeSeconds() >= 0);
         assertTrue(settings.getInvitationLifetimeSeconds() >= 0);
         assertTrue(settings.getMaxAttachmentsPerEmail() >= 0);
@@ -81,7 +79,7 @@ public class DecidrGlobalsTest extends AbstractDatabaseTest {
         assertTrue(settings.getMinWorkflowInstancesForLock() >= 0);
         assertTrue(settings.getMonitorAveragingPeriodSeconds() >= 0);
         assertTrue(settings.getMonitorUpdateIntervalSeconds() >= 0);
-        assertTrue(settings.getMtaPort() >= -1);
+        assertTrue(settings.getMtaPort() >= 0);
         assertTrue(settings.getPasswordResetRequestLifetimeSeconds() >= 0);
         assertTrue(settings.getRegistrationRequestLifetimeSeconds() >= 0);
         assertTrue(settings.getServerPoolInstances() >= 0);

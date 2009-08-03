@@ -129,7 +129,9 @@ public class SystemFacade extends AbstractFacade {
      *             if an error occurs during the transaction s
      */
     @AllowedRole(SuperAdminRole.class)
-    //XXX Inconsistency: getSettings returns an Item, but setSettings expects a SystemSettings!
+    // XXX Inconsistency: getSettings returns an Item, but setSettings expects a
+    // SystemSettings! Not an inconsistency, we don't have Vaadin Items as INPUT
+    // parameters anywhere.
     public void setSettings(SystemSettings newSettings)
             throws TransactionException {
         SetSystemSettingsCommand command = new SetSystemSettingsCommand(actor,

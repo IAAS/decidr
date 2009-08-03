@@ -78,7 +78,7 @@ import de.decidr.model.transactions.TransactionCoordinator;
  * @version 0.1
  */
 public class UserFacade extends AbstractFacade {
-  
+
     /**
      * Creates a new UserFacade. All operations will be executed as the given
      * actor.
@@ -466,7 +466,6 @@ public class UserFacade extends AbstractFacade {
                 actor, userId, authKey);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
     }
 
     /**
@@ -498,6 +497,10 @@ public class UserFacade extends AbstractFacade {
      *            the id of the invitation which should be confirmed
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws RequestExpiredException
+     *             iff the invitation has expired.
+     * @throws EntityNotFoundException
+     *             iff the invitation does not exist.
      */
     @AllowedRole(UserRole.class)
     public void confirmInvitation(Long invitationId)

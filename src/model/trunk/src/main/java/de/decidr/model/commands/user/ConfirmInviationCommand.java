@@ -15,26 +15,35 @@
  */
 package de.decidr.model.commands.user;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.LifetimeValidator;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.Invitation;
+import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserAdministratesWorkflowModel;
 import de.decidr.model.entities.UserAdministratesWorkflowModelId;
 import de.decidr.model.entities.UserIsMemberOfTenant;
 import de.decidr.model.entities.UserParticipatesInWorkflow;
+import de.decidr.model.entities.WorkflowInstance;
+import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.AccessDeniedException;
 import de.decidr.model.exceptions.EntityNotFoundException;
+import de.decidr.model.exceptions.RequestExpiredException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.permissions.Permission;
 import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
+import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
 
 /**
  * Confirms a single invitation by associating the user with the corresponding
@@ -53,6 +62,13 @@ public class ConfirmInviationCommand extends AclEnabledCommand {
             .getLogger(ConfirmInviationCommand.class);
 
     private Long invitationId;
+
+    private Invitation invitation = null;
+
+    /**
+     * Current Hibernate Session
+     */
+    private Session session = null;
 
     /**
      * Creates a new ConfirmInviationCommand.
@@ -73,10 +89,13 @@ public class ConfirmInviationCommand extends AclEnabledCommand {
      * 
      * @param user
      * @param tenant
-     * @param session
-     *            Hibernate session to use for database queries
      */
-    private void makeMemberOfTenant(User user, Tenant tenant, Session session) {
+    private void makeMemberOfTenant(User user, Tenant tenant) {
+        if (tenant == null || user == null) {
+            throw new IllegalArgumentException(
+                    "User and tenant must not be null");
+        }
+
         Query q = session
                 .createQuery("select count(*) from UserIsMemberOfTenant a "
                         + "where (a.tenant = :tenant AND a.user = :user) or a.tenant.admin = :user");
@@ -94,81 +113,156 @@ public class ConfirmInviationCommand extends AclEnabledCommand {
         }
     }
 
+    /**
+     * Makes the receiver of the invitation a member of the tenant and allows
+     * him to administrate the workflow model that is specified by the
+     * invitation.
+     * 
+     * @throws AccessDeniedException
+     */
+    private void processWorkflowModelInvitation() throws AccessDeniedException {
+        User user = invitation.getReceiver();
+        Tenant tenant = invitation.getAdministrateWorkflowModel().getTenant();
+        makeMemberOfTenant(user, tenant);
+
+        // only registered users can do this
+        if (user.getUserProfile() == null) {
+            throw new AccessDeniedException(
+                    "You must be registered to become workflow administrator");
+        }
+
+        // add as WorkflowAdmin only if not already a workflow admin
+        Query q = session
+                .createQuery("select count(*) from UserAdministratesWorkflowModel rel "
+                        + "where rel.user = :user and rel.workflowModel = :workflowModel");
+        q.setEntity("user", user).setEntity("workflowModel",
+                invitation.getAdministrateWorkflowModel());
+
+        if (((Number) q.uniqueResult()).intValue() < 1) {
+            // the user is currently not administrating the workflow model
+            UserAdministratesWorkflowModel relation = new UserAdministratesWorkflowModel();
+            relation.setUser(user);
+            relation
+                    .setWorkflowModel(invitation.getAdministrateWorkflowModel());
+            session.save(relation);
+        }
+    }
+
+    /**
+     * Makes the receiver of the invitation a member of the tenant that is
+     * specified by the invitation.
+     */
+    private void processJoinTenantInvitation() {
+        makeMemberOfTenant(invitation.getReceiver(), invitation.getJoinTenant());
+    }
+
+    /**
+     * Makes the receiver of the invitation a member of the tenant that owns the
+     * workflow instance to participate in. Associates the receiver with the
+     * workflow instance and starts the instance if the receiver was the last
+     * user who had to confirm his invitation.
+     * 
+     * @throws EntityNotFoundException
+     */
+    @SuppressWarnings("unchecked")
+    private void processWorkflowInstanceInvitation()
+            throws EntityNotFoundException {
+        User user = invitation.getReceiver();
+        Tenant tenant = invitation.getParticipateInWorkflowInstance()
+                .getDeployedWorkflowModel().getTenant();
+
+        makeMemberOfTenant(user, tenant);
+
+        // Add as WorkflowParticipant if not already a participant
+        Query q = session
+                .createQuery("select count(*) from UserParticipatesInWorkflow rel "
+                        + "where rel.user = :user and rel.workflowInstance = :workflowInstance");
+        q.setEntity("user", user).setEntity("workflowInstance",
+                invitation.getParticipateInWorkflowInstance());
+
+        if (((Number) q.uniqueResult()).intValue() < 1) {
+            // the user is currently not participating in the workflow
+            UserParticipatesInWorkflow relation = new UserParticipatesInWorkflow();
+            relation.setUser(user);
+            relation.setWorkflowInstance(invitation
+                    .getParticipateInWorkflowInstance());
+            session.save(relation);
+        }
+
+        // start the (delayed) workflow instance if this is the last invitation.
+        WorkflowInstance instance = invitation
+                .getParticipateInWorkflowInstance();
+
+        if (instance == null) {
+            throw new EntityNotFoundException(WorkflowInstance.class);
+        }
+
+        String hql = "select count(*) from Invitation i where "
+                + "i.participateInWorkflowInstance = :instance and "
+                + "i.participateInWorkflowInstance is not null and "
+                + "i.participateInWorkflowInstance.startedDate is null";
+
+        Number remainingInvitations = (Number) session.createQuery(hql)
+                .setEntity("instance", instance).uniqueResult();
+
+        if (remainingInvitations.intValue() == 1) {
+            // this is the last invitation
+            InstanceManager manager = new InstanceManagerImpl();
+            q = session
+                    .createQuery("from ServerLoadView s where s.serverType.name = :serverType");
+            List<ServerLoadView> serverStatistics = q.setString("serverType",
+                    ServerTypeEnum.Ode.toString()).list();
+            WorkflowInstance newInstance = manager.startInstance(instance
+                    .getDeployedWorkflowModel(), instance
+                    .getStartConfiguration(), serverStatistics);
+            // XXX this is kind of weird because the instance manager creates a
+            // new instance that is discarded almost immediately.
+            instance.setOdePid(newInstance.getOdePid());
+            instance.setStartedDate(DecidrGlobals.getTime().getTime());
+            instance.setServer(newInstance.getServer());
+            session.save(instance);
+        }
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        Invitation i = (Invitation) evt.getSession().load(Invitation.class,
+        session = evt.getSession();
+
+        invitation = (Invitation) evt.getSession().get(Invitation.class,
                 invitationId);
 
-        LifetimeValidator.isInvitationValid(i);
+        // does the invitation exist?
+        if (invitation == null) {
+            throw new EntityNotFoundException(Invitation.class, invitationId);
+        }
 
-        if (i.getAdministrateWorkflowModel() != null) {
+        // is the invitation still valid?
+        if (!LifetimeValidator.isInvitationValid(invitation)) {
+            throw new RequestExpiredException("The invitation has expired.");
+        }
+
+        if (invitation.getAdministrateWorkflowModel() != null) {
             // Invitation tye: administrate workflow model
-            User user = i.getReceiver();
-            Tenant tenant = i.getAdministrateWorkflowModel().getTenant();
-            makeMemberOfTenant(user, tenant, evt.getSession());
-
-            // only registered users can do this
-            if (user.getUserProfile() == null) {
-                throw new AccessDeniedException(
-                        "You must be registered to become workflow administrator");
-            }
-
-            // add as WorkflowAdmin only if not already a workflow admin
-            Query q = evt
-                    .getSession()
-                    .createQuery(
-                            "select count(*) from UserAdministratesWorkflowModel rel "
-                                    + "where rel.user = :user and rel.workflowModel = :workflowModel");
-            q.setEntity("user", user).setEntity("workflowModel",
-                    i.getAdministrateWorkflowModel());
-
-            if (((Number) q.uniqueResult()).intValue() < 1) {
-                // the user is currently not administrating the workflow model
-                UserAdministratesWorkflowModel relation = new UserAdministratesWorkflowModel();
-                relation.setUser(user);
-                relation.setWorkflowModel(i.getAdministrateWorkflowModel());
-                evt.getSession().save(relation);
-            }
-
-        } else if (i.getJoinTenant() != null) {
+            processWorkflowModelInvitation();
+        } else if (invitation.getJoinTenant() != null) {
             // Invitation tye: simply join tenant as member
-            makeMemberOfTenant(i.getReceiver(), i.getJoinTenant(), evt
-                    .getSession());
-        } else if (i.getParticipateInWorkflowInstance() != null) {
-            // add to tenant if user isn't tenant member
-            User user = i.getReceiver();
-            Tenant tenant = i.getParticipateInWorkflowInstance()
-                    .getDeployedWorkflowModel().getTenant();
-
-            makeMemberOfTenant(user, tenant, evt.getSession());
-
-            // Add as WorkflowParticipant if not already a participant
-            Query q = evt
-                    .getSession()
-                    .createQuery(
-                            "select count(*) from UserParticipatesInWorkflow rel "
-                                    + "where rel.user = :user and rel.workflowInstance = :workflowInstance");
-            q.setEntity("user", user).setEntity("workflowInstance",
-                    i.getParticipateInWorkflowInstance());
-
-            if (((Number) q.uniqueResult()).intValue() < 1) {
-                // the user is currently not participating in the workflow
-                UserParticipatesInWorkflow relation = new UserParticipatesInWorkflow();
-                relation.setUser(user);
-                relation.setWorkflowInstance(i
-                        .getParticipateInWorkflowInstance());
-                evt.getSession().save(relation);
-            }
+            processJoinTenantInvitation();
+        } else if (invitation.getParticipateInWorkflowInstance() != null) {
+            // add to tenant if user isn't tenant member and start delayed
+            // workflow instances
+            processWorkflowInstanceInvitation();
         } else {
             // not a valid invitation type
             String warnMessage = String
                     .format(
                             "An invitation (id: %1$s) was confirmed but had no type "
                                     + "[workflowInstance = null, tenant = null, workflowModel = null]",
-                            i.getId().toString());
+                            invitation.getId().toString());
             logger.warn(warnMessage);
         }
+
+        session.delete(invitation);
     }
 }
