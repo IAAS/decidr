@@ -21,8 +21,6 @@ public class RefuseInviationCommand extends UserCommand {
     /**
      * Creates a new RefuseInviationCommand. The command refuses the given
      * invitation and sends an information email to the inviting user.<br>
-     * XXX: should the cancelling user not be notified that the request
-     * successfully cancelled? Does the UI do this?
      * 
      * @param role
      *            user which executes the command
