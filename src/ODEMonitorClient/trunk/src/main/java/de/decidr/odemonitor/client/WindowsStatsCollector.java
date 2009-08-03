@@ -17,16 +17,12 @@
 package de.decidr.odemonitor.client;
 
 /**
- * Gets OS-dependent stats on Microsoft Windows.
+ * Gets OS-dependent stats on Microsoft Windows. As we currently don't quite
+ * know how to do that, we just return <code>-1</code> to indicate an error.
  * 
  * @author Reinhold
  */
 public class WindowsStatsCollector extends AbstractOSStatsCollector {
-
-    // RR implement script
-    private static final String SCRIPTS_MEMORY_USAGE = "scripts/win/getMemoryUsage.bat";
-    // RR implement script
-    private static final String SCRIPTS_CPU_USAGE = "scripts/win/getCPUUsage.bat";
 
     /*
      * (non-Javadoc)
@@ -35,7 +31,6 @@ public class WindowsStatsCollector extends AbstractOSStatsCollector {
      */
     @Override
     public int getCPULoad() {
-        // RR Auto-generated method stub
         return -1;
     }
 
@@ -46,7 +41,6 @@ public class WindowsStatsCollector extends AbstractOSStatsCollector {
      */
     @Override
     public int getMemLoad() {
-        // RR Auto-generated method stub
         return -1;
     }
 }

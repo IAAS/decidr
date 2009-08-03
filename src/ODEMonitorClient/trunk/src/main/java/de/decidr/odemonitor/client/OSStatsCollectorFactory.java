@@ -34,6 +34,10 @@ public class OSStatsCollectorFactory {
         log.trace("Entering " + AbstractOSStatsCollector.class.getSimpleName()
                 + ".getCollector()");
         if (collector == null) {
+            useSIGARPlugin();
+        }
+
+        if (collector == null) {
             String osName = System.getProperty("os.name");
             if (osName.toLowerCase().contains("win")) {
                 log.debug("detected Windows");
@@ -52,5 +56,20 @@ public class OSStatsCollectorFactory {
         log.trace("Leaving " + AbstractOSStatsCollector.class.getSimpleName()
                 + ".getCollector()");
         return collector;
+    }
+
+    /**
+     * Uses reflection to see whether the SIGAR plugin can be found. If so, use
+     * that.
+     */
+    private static void useSIGARPlugin() {
+        try {
+            collector = (AbstractOSStatsCollector) Class.forName(
+                    "de.decidr.odemonitor.client.CrossPlatformStatsCollector")
+                    .newInstance();
+        } catch (Exception e) {
+            // something bad happened, meaning that we can't use the SIGAR
+            // plugin; leave collector as it was
+        }
     }
 }

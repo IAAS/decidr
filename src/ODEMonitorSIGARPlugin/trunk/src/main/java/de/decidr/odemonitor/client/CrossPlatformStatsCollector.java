@@ -16,29 +16,55 @@
 
 package de.decidr.odemonitor.client;
 
+import org.hyperic.sigar.Sigar;
+import org.hyperic.sigar.SigarException;
+
 /**
- * RR: add comment
- *
+ * Uses the <a href="http://www.hyperic.com/products/sigar.html">SIGAR API</a>
+ * to collect CPU and memory statistics in a platform-independent manner.
+ * 
  * @author Reinhold
  */
 public class CrossPlatformStatsCollector extends AbstractOSStatsCollector {
 
-    /* (non-Javadoc)
+    Sigar sigar = new Sigar();
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.decidr.odemonitor.client.AbstractOSStatsCollector#getCPULoad()
      */
     @Override
     public int getCPULoad() {
-        // RR Auto-generated method stub
-        return 0;
+        int load = -1;
+
+        try {
+            load = (int) Math.round(sigar.getCpuPerc().getCombined() * 100);
+        } catch (SigarException e) {
+            // failed getting CPU load => leave load at -1
+        }
+
+        return load;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.decidr.odemonitor.client.AbstractOSStatsCollector#getMemLoad()
      */
     @Override
     public int getMemLoad() {
-        // RR Auto-generated method stub
-        return 0;
-    }
+        int load = -1;
 
+        try {
+            long total = sigar.getMem().getTotal() + sigar.getSwap().getTotal();
+            long free = sigar.getMem().getActualFree()
+                    + sigar.getSwap().getFree();
+            load = (int) Math.round(((total - free) / (double) total) * 100);
+        } catch (SigarException e) {
+            // failed getting memory load => leave load at -1
+        }
+
+        return load;
+    }
 }

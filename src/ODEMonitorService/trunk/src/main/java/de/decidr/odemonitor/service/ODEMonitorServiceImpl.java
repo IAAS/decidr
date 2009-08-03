@@ -173,8 +173,8 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         boolean isLocked = server.isLocked();
 
         commands.clear();
-        if ((isLocked && ((minHighInstances > wfInstances) || (avgLoad < minHighSysLoad)))
-                || (!isLocked && ((maxInstances < wfInstances) || (avgLoad > maxSysLoad)))) {
+        if ((isLocked && ((minHighInstances > wfInstances) || (avgLoad > -1 && avgLoad < minHighSysLoad)))
+                || (!isLocked && ((maxInstances < wfInstances) || (avgLoad > -1 && avgLoad > maxSysLoad)))) {
             commands.add(new LockServerCommand(ODE_ROLE, odeID, !isLocked));
         }
         if (server.isDynamicallyAdded()
