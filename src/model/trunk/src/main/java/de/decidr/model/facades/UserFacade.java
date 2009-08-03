@@ -25,6 +25,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 
+import de.decidr.model.annotations.AllowedRole;
 import de.decidr.model.commands.user.CheckAuthKeyCommand;
 import de.decidr.model.commands.user.ConfirmChangeEmailRequestCommand;
 import de.decidr.model.commands.user.ConfirmInviationCommand;
@@ -60,8 +61,12 @@ import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
+import de.decidr.model.permissions.BasicRole;
 import de.decidr.model.permissions.Role;
+import de.decidr.model.permissions.SuperAdminRole;
+import de.decidr.model.permissions.TenantAdminRole;
 import de.decidr.model.permissions.UserRole;
+import de.decidr.model.permissions.WorkflowAdminRole;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
 
@@ -112,6 +117,7 @@ public class UserFacade extends AbstractFacade {
      * @throws NullPointerException
      *             if at least one of the required properties is missing.
      */
+    @AllowedRole(UserRole.class)
     public Long registerUser(String email, String passwordPlaintext,
             Item userProfile) throws TransactionException, NullPointerException {
 
@@ -159,6 +165,7 @@ public class UserFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             iff no such account exists or the password doesn't match.
      */
+    @AllowedRole(BasicRole.class)
     public Long getUserIdByLogin(String emailOrUsername,
             String passwordPlaintext) throws TransactionException,
             EntityNotFoundException {
@@ -190,7 +197,7 @@ public class UserFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             iff the given user does not exist.
      */
-    //FIXME add allowed user and add to ACL
+    @AllowedRole(UserRole.class)
     public Boolean authKeyMatches(Long userId, String authKey)
             throws TransactionException, EntityNotFoundException {
         CheckAuthKeyCommand cmd = new CheckAuthKeyCommand(actor, userId,
@@ -210,6 +217,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
+    @AllowedRole(UserRole.class)
     public void setEmailAddress(Long userId, String newEmail)
             throws TransactionException {
         Map<String, String> properties = new HashMap<String, String>();
@@ -232,6 +240,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
+    @AllowedRole(TenantAdminRole.class)
     public void setDisableSince(Long userId, Date date)
             throws TransactionException {
         Map<String, Date> properties = new HashMap<String, Date>();
@@ -254,6 +263,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
+    @AllowedRole(UserRole.class)
     public void setUnavailableSince(Long userId, Date date)
             throws TransactionException {
         Map<String, Date> properties = new HashMap<String, Date>();
@@ -279,6 +289,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
+    @AllowedRole(UserRole.class)
     public Boolean setPassword(Long userId, String oldPassword,
             String newPassword) throws TransactionException {
         SetPasswordCommand cmd = new SetPasswordCommand(actor, userId,
@@ -300,6 +311,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
+    @AllowedRole(UserRole.class)
     public Boolean requestPasswordReset(String emailOrUsername)
             throws TransactionException {
         RequestPasswordResetCommand cmd = new RequestPasswordResetCommand(
@@ -335,6 +347,7 @@ public class UserFacade extends AbstractFacade {
      * @throws NullPointerException
      *             if at least one of the required properties is missing.
      */
+    @AllowedRole(UserRole.class)
     public void setProfile(Long userId, Item newProfile)
             throws TransactionException, EntityNotFoundException,
             NullPointerException {
@@ -380,6 +393,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
+    @AllowedRole(UserRole.class)
     public Boolean leaveTenant(Long userId, Long tenantId)
             throws TransactionException {
         LeaveTenantCommand cmd = new LeaveTenantCommand(actor, userId, tenantId);
@@ -398,6 +412,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
+    @AllowedRole(TenantAdminRole.class)
     public Boolean removeFromTenant(Long userId, Long tenantId)
             throws TransactionException {
         RemoveFromTenantCommand cmd = new RemoveFromTenantCommand(actor,
@@ -423,6 +438,7 @@ public class UserFacade extends AbstractFacade {
      *             password reset request or the authentication key doesn't
      *             match or the request has expired.
      */
+    @AllowedRole(UserRole.class)
     public void confirmPasswordReset(Long userId, String authKey)
             throws TransactionException, EntityNotFoundException {
         ConfirmPasswordResetCommand cmd = new ConfirmPasswordResetCommand(
@@ -444,6 +460,7 @@ public class UserFacade extends AbstractFacade {
      *            secret key which allows the user to confirm the registration
      *            (was sent via email to the user)
      */
+    @AllowedRole(UserRole.class)
     public void confirmRegistration(Long userId, String authKey)
             throws TransactionException {
 
@@ -465,6 +482,7 @@ public class UserFacade extends AbstractFacade {
      * @param requestAuthKey
      *            the auth key which allows the user to change the address
      */
+    @AllowedRole(UserRole.class)
     public void confirmChangeEmailRequest(Long userId, String requestAuthKey)
             throws TransactionException {
 
@@ -483,6 +501,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
+    @AllowedRole(UserRole.class)
     public void confirmInvitation(Long invitationId)
             throws TransactionException {
 
@@ -500,6 +519,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
+    @AllowedRole(UserRole.class)
     public void refuseInviation(Long invitationId) throws TransactionException {
 
         RefuseInviationCommand command = new RefuseInviationCommand(actor,
@@ -526,6 +546,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
+    @AllowedRole(UserRole.class)
     public Item getUserProfile(Long userId) throws TransactionException {
 
         String[] properties = { "city", "firstName", "lastName", "postalCode",
@@ -557,6 +578,7 @@ public class UserFacade extends AbstractFacade {
      *             iff the transaction is aborted for any reason.
      */
     @SuppressWarnings("unchecked")
+    @AllowedRole(SuperAdminRole.class)
     public List<Item> getAllUsers(List<Filter> filters, Paginator paginator)
             throws TransactionException {
 
@@ -605,6 +627,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
+    @AllowedRole(BasicRole.class)
     public Class<? extends UserRole> getHighestUserRole(Long userId)
             throws TransactionException {
 
@@ -630,6 +653,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
+    @AllowedRole(BasicRole.class)
     public Class<? extends UserRole> getUserRoleForTenant(Long userId,
             Long tenantId) throws TransactionException {
 
@@ -659,6 +683,7 @@ public class UserFacade extends AbstractFacade {
      *             iff the transaction is aborted for any reason.
      */
     @SuppressWarnings("unchecked")
+    @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getAdminstratedWorkflowInstances(Long userId)
             throws TransactionException {
 
@@ -701,6 +726,7 @@ public class UserFacade extends AbstractFacade {
      *             iff the transaction is aborted for any reason.
      */
     @SuppressWarnings("unchecked")
+    @AllowedRole(UserRole.class)
     public List<Item> getJoinedTenants(Long userId) throws TransactionException {
 
         GetJoinedTenantsCommand command = new GetJoinedTenantsCommand(actor,
@@ -737,6 +763,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
+    @AllowedRole(TenantAdminRole.class)
     public List<Item> getAdministratedWorkflowModels(Long userId)
             throws TransactionException {
 
@@ -780,6 +807,7 @@ public class UserFacade extends AbstractFacade {
      *             iff the transaction is aborted for any reason.
      */
     @SuppressWarnings("unchecked")
+    @AllowedRole(UserRole.class)
     public List<Item> getWorkItems(Long userId, List<Filter> filters,
             Paginator paginator) throws TransactionException {
 
@@ -822,6 +850,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
+    @AllowedRole(UserRole.class)
     public Item getInvitation(Long invitationId) throws TransactionException {
         GetInvitationCommand command = new GetInvitationCommand(actor,
                 invitationId);
@@ -843,6 +872,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
+    @AllowedRole(BasicRole.class)
     public Boolean isRegistered(Long userId) throws TransactionException {
         IsRegisteredCommand command = new IsRegisteredCommand(actor, userId);
 
