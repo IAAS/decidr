@@ -17,6 +17,8 @@
 package de.decidr.odemonitor.service;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -27,16 +29,17 @@ import javax.xml.ws.Holder;
 
 import org.apache.log4j.Logger;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.system.AddServerCommand;
-import de.decidr.model.commands.system.GetServerStatisticsCommand;
-import de.decidr.model.commands.system.GetSystemSettingsCommand;
+import de.decidr.model.commands.system.GetServersCommand;
 import de.decidr.model.commands.system.LockServerCommand;
-import de.decidr.model.commands.system.RemoveServerCommand;
 import de.decidr.model.commands.system.UpdateServerLoadCommand;
-import de.decidr.model.entities.ServerLoadView;
+import de.decidr.model.entities.Server;
+import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.SystemFacade;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.permissions.ODERole;
@@ -70,17 +73,19 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".getConfig()");
         log.debug("fetching update interval from model");
-        // RR actually do this
-        updateInterval.value = 60;
-        // RR actually do this
-        averagePeriod.value = 300;
+        SystemSettings config = DecidrGlobals.getSettings();
+        updateInterval.value = config.getMonitorUpdateIntervalSeconds();
+        averagePeriod.value = config.getMonitorAveragingPeriodSeconds();
         log.debug("fetching timestamp of last config change from model");
         try {
-            // RR actually do this
+            GregorianCalendar date = new GregorianCalendar();
+            date.setTime(config.getModifiedDate());
             configChanged.value = DatatypeFactory.newInstance()
-                    .newXMLGregorianCalendar(2009, 1, 1, 0, 0, 0, 0, 120);
+                    .newXMLGregorianCalendar(date);
         } catch (DatatypeConfigurationException e) {
-            // RR remove when logic is there
+            log.error("Couldn't make new XMLGregorianCalendar"
+                    + " => serious misconfiguration", e);
+            configChanged.value = null;
         }
 
         log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
@@ -97,10 +102,18 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
             throws TransactionException {
         log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".registerODE()");
-        // RR find out amount of pool instances needed
-        int neededInstances = 0;
-        // RR find out amount of pool instances
+        GetServersCommand cmd1 = new GetServersCommand(ODE_ROLE,
+                ServerTypeEnum.Ode);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd1);
+
+        int neededInstances = DecidrGlobals.getSettings()
+                .getServerPoolInstances();
         int presentInstances = 0;
+        for (Server serv : cmd1.getResult()) {
+            if (!serv.isDynamicallyAdded()) {
+                presentInstances++;
+            }
+        }
         if (neededInstances > presentInstances) {
             poolInstance.value = true;
         } else {
@@ -129,47 +142,49 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
             Holder<Boolean> run) throws TransactionException {
         log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".updateStats()");
+        SystemSettings config = DecidrGlobals.getSettings();
         List<TransactionalCommand> commands = new ArrayList<TransactionalCommand>(
                 5);
-        // RR use something that only returns ODEs
-        GetServerStatisticsCommand cmd1 = new GetServerStatisticsCommand(
-                ODE_ROLE);
-        GetSystemSettingsCommand cmd2 = new GetSystemSettingsCommand(ODE_ROLE);
-        commands.add(cmd1);
-        commands.add(cmd2);
-        HibernateTransactionCoordinator.getInstance().runTransaction(commands);
-        int unlockedServers = 0;
-        ServerLoadView server = null;
-        for (ServerLoadView loadView : cmd1.getResult()) {
-            if (loadView.getId() == odeID) {
-                server = loadView;
-            }
-            if (loadView.getServerType().equals(ServerTypeEnum.Ode.toString())) {
-                if (!loadView.isLocked()) {
-                    unlockedServers++;
-                }
+        GetServersCommand cmd1 = new GetServersCommand(ODE_ROLE,
+                ServerTypeEnum.Ode);
 
-                // RR remove servers that don't update
+        commands.add(cmd1);
+        HibernateTransactionCoordinator.getInstance().runTransaction(commands);
+
+        int unlockedServers = 0;
+        Date deadTime = new Date(DecidrGlobals.getTime().getTimeInMillis()
+                - (config.getMonitorUpdateIntervalSeconds() * 10 * 1000));
+        Server server = null;
+        for (Server serv : cmd1.getResult()) {
+            if (serv.getId() == odeID) {
+                server = serv;
+            }
+
+            // remove servers that don't update
+            if (serv.getLastLoadUpdate().before(deadTime)) {
+                try {
+                    new SystemFacade(ODERole.getInstance()).removeServer(serv
+                            .getId());
+                } catch (Exception e) {
+                    log.warn("Couldn't remove a dead server!", e);
+                }
+            }
+
+            if (!serv.isLocked()) {
+                unlockedServers++;
             }
         }
         if (server == null) {
             log.error("Coudn't find server with ID " + odeID);
             throw new IllegalArgumentException("unknown ODE server ID");
         }
-        // RR get from config
-        int maxSysLoad = 100;
-        // RR get from config
-        int minHighSysLoad = 70;
-        // RR get from config
-        int minSysLoad = 0;
-        // RR get from config
-        int minInstances = 0;
-        // RR get from config
-        int minHighInstances = 0;
-        // RR get from config
-        int maxInstances = 5;
-        // RR get from config
-        int minUnlockedServers = 1;
+        int maxSysLoad = config.getMinServerLoadForLock();
+        int minHighSysLoad = config.getMaxServerLoadForUnlock();
+        int minSysLoad = config.getMaxServerLoadForShutdown();
+        int minInstances = config.getMaxWorkflowInstancesForShutdown();
+        int minHighInstances = config.getMaxWorkflowInstancesForUnlock();
+        int maxInstances = config.getMinWorkflowInstancesForLock();
+        int minUnlockedServers = config.getMinUnlockedServers();
         boolean isLocked = server.isLocked();
 
         commands.clear();
@@ -204,8 +219,16 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
                 (byte) avgLoad));
         HibernateTransactionCoordinator.getInstance().runTransaction(commands);
 
-        // RR better way to get config version
-        getConfig(new Holder<Integer>(), new Holder<Integer>(), configVersion);
+        try {
+            GregorianCalendar date = new GregorianCalendar();
+            date.setTime(config.getModifiedDate());
+            configVersion.value = DatatypeFactory.newInstance()
+                    .newXMLGregorianCalendar(date);
+        } catch (DatatypeConfigurationException e) {
+            log.error("Couldn't make new XMLGregorianCalendar"
+                    + " => serious misconfiguration", e);
+            configVersion.value = null;
+        }
         log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".updateStats()");
     }
@@ -223,8 +246,7 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
                 + ".unregisterODE(String)");
         log.debug("attempting to remove the server corresponding"
                 + " to the passed ODE ID...");
-        RemoveServerCommand cmd = new RemoveServerCommand(ODE_ROLE, odeID);
-        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        new SystemFacade(ODERole.getInstance()).removeServer(odeID);
         log.debug("...success");
         log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".unregisterODE(String)");

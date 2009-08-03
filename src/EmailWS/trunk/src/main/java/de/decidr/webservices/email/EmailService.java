@@ -32,7 +32,7 @@ import javax.xml.bind.TypeConstraintException;
 
 import org.apache.log4j.Logger;
 
-import de.decidr.model.commands.system.GetSystemSettingsCommand;
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.commands.user.GetUserPropertiesCommand;
 import de.decidr.model.email.MailBackend;
 import de.decidr.model.entities.SystemSettings;
@@ -108,10 +108,7 @@ public class EmailService implements EmailInterface {
         log.debug("getting system settings from database");
         StorageProvider store = StorageProviderFactory.getDefaultFactory()
                 .getStorageProvider();
-        GetSystemSettingsCommand command = new GetSystemSettingsCommand(
-                EmailRole.getInstance());
-        HibernateTransactionCoordinator.getInstance().runTransaction(command);
-        SystemSettings config = command.getResult();
+        SystemSettings config = DecidrGlobals.getSettings();
 
         log.debug("getting settings");
         int maxAtts = config.getMaxAttachmentsPerEmail();
@@ -270,10 +267,7 @@ public class EmailService implements EmailInterface {
         log.trace("Entering " + EmailService.class.getSimpleName()
                 + ".applyConfig(MailBackend)");
         log.debug("fetching system settings from database");
-        GetSystemSettingsCommand command = new GetSystemSettingsCommand(
-                EmailRole.getInstance());
-        HibernateTransactionCoordinator.getInstance().runTransaction(command);
-        SystemSettings config = command.getResult();
+        SystemSettings config = DecidrGlobals.getSettings();
 
         log.debug("applying settings to mail");
         email.setXMailer(USER_AGENT);
