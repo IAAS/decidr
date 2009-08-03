@@ -78,9 +78,7 @@ import de.decidr.model.transactions.TransactionCoordinator;
  * @version 0.1
  */
 public class UserFacade extends AbstractFacade {
-
-    //FIXME FIXME Add allowed users
-    
+  
     /**
      * Creates a new UserFacade. All operations will be executed as the given
      * actor.
