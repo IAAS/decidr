@@ -17,7 +17,6 @@
 package de.decidr.model.workflowmodel.dwdl.translator;
 
 import java.util.List;
-import javax.wsdl.Definition;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import org.apache.log4j.Logger;
@@ -49,7 +48,8 @@ import de.decidr.model.workflowmodel.dwdl.TWorkflow;
 public class DWDL2BPEL {
 
     private static Logger log = DefaultLogger.getLogger(DWDL2BPEL.class);
-    
+
+    // global process variables names
     private final String EMAIL_INPUT_VARIABLE = "standardMessageRequest";
     private final String EMAIL_OUTPUT_VARIABLE = "standardMessageResponse";
     private final String HUMANTASK_INPUT_VARIABLE = "createTaskMessageResquest";
@@ -58,25 +58,32 @@ public class DWDL2BPEL {
     private final String SUCCESS_MESSAGE_RESPONSE = "successMessageResponse";
     private final String FAULT_MESSAGE_REQUEST = "faultMessageRequest";
     private final String FAULT_MESSAGE_RESPONSE = "faultMessageResponse";
-    
-    public static final String HUMANTASK_PREFIX = "hWS";
-    public static final String EMAIL_PREFIX = "eWS";
-    
+    private final String PROCESS_HUMANTASK_INPUT_VARIABLE = "taskDataMessageRequest";
+    private final String PROCESS_HUMANTASK_OUTPUT_VARIABLE = "taskDataMessageRequest";
+
+    // namespace prefixes
+    private static final String HUMANTASK_PREFIX = "hWS";
+    private static final String EMAIL_PREFIX = "eWS";
+    private static final String DECIDRTYPES_PREFIX = "decidr";
+    private final String PROCESS_PREFIX = "tns";
+
+    // process message types
     private final String PROCESS_INPUT_VARIABLE = "startConfigurations";
     private final String PROCESS_OPERATION = "startProcess";
     private final String PROCESS_REQUEST_MESSAGE = "startMessage";
+    private final String PROCESS_HUMANTASK_REQUEST_MESSAGE = "taskCompletedRequest";
+    private final String PROCESS_HUMANTASK_RESPONSE_MESSAGE = "taskCompletedResponse";
+
+    // process partnerlink names and types
     private final String PROCESS_PARTNERLINK = "ProcessPL";
     private final String PROCESS_PARTNERLINKTYPE = "ProcessPLT";
-    private final String PROCESS_PREFIX = "tns";
-    private final String PROCESS_HUMANTASK_INPUT_VARIABLE = "taskDataMessageRequest";
-    private final String PROCESS_HUMANTASK_REQUEST_MESSAGE = ""; 
 
     private TProcess process = null;
     private TWorkflow dwdl = null;
     private ObjectFactory factory = null;
     private String tenantName = null;
-    private DecidrWebservice humanTask = new HumanTaskWebservice();
-    private DecidrWebservice email = new EmailWebservice();
+    private HumanTaskWebservice humanTask = new HumanTaskWebservice();
+    private EmailWebservice email = new EmailWebservice();
 
     private void addCopyStatement(TAssign assign, TSetProperty property,
             String toVariable) {
@@ -95,14 +102,13 @@ public class DWDL2BPEL {
         }
         to.setVariable(toVariable);
         to.setProperty(new QName(process.getTargetNamespace(), property
-                .getName(), "tns"));
+                .getName(), PROCESS_PREFIX));
         copy.setFrom(from);
         copy.setTo(to);
         assign.getCopyOrExtensionAssignOperation().add(copy);
     }
 
-    public TProcess getBPEL(TWorkflow dwdl, List<Definition> webservices,
-            String tenant) {
+    public TProcess getBPEL(TWorkflow dwdl, String tenant) {
 
         this.dwdl = dwdl;
         factory = new ObjectFactory();
@@ -111,27 +117,46 @@ public class DWDL2BPEL {
 
         log.trace("setting process attributes");
         setProcessAttributes();
+
+        log.trace("setting process documentation");
         setProcessDocumentation();
+
+        log.trace("setting process imports");
         setImports();
+
+        log.trace("setting process partnerlinks");
         setPartnerLinks();
+
+        log.trace("setting standard global process variables");
         setProcessVariables();
+
+        log.trace("setting process variables");
         setVariables();
+
+        log.trace("setting process variables representing roles");
         setVariablesFromRoles();
+
+        log.trace("setting process correlation sets");
         setCorrelationSets();
+
+        log.trace("setting process fault handler");
         setFaultHandler();
+
+        log.trace("setting process main activity");
         setActivity();
+
         return process;
     }
 
     private TInvoke getEmailActivity(TInvokeNode node) {
-         TInvoke emailInvoke = factory.createTInvoke();
-         setNameAndDocumentation(node, emailInvoke);
-         setSourceAndTargets(node, emailInvoke);
-         emailInvoke.setPartnerLink(email.PARTNERLINK);
-         emailInvoke.setOperation(email.OPERATION);
-         emailInvoke.setInputVariable(EMAIL_INPUT_VARIABLE);
-         emailInvoke.setOutputVariable(EMAIL_OUTPUT_VARIABLE);
-         return emailInvoke;
+        TInvoke emailInvoke = factory.createTInvoke();
+        setNameAndDocumentation(node, emailInvoke);
+        setSourceAndTargets(node, emailInvoke);
+        emailInvoke.setPartnerLink(email.PARTNERLINK);
+        emailInvoke.setOperation(email.OPERATION);
+        emailInvoke.setInputVariable(EMAIL_INPUT_VARIABLE);
+        emailInvoke.setOutputVariable(EMAIL_OUTPUT_VARIABLE);
+        return emailInvoke;
     }
 
     private TSequence getEndActivity(TEndNode node) {
@@ -174,9 +199,9 @@ public class DWDL2BPEL {
         TForEach foreach = factory.createTForEach();
         setNameAndDocumentation(node, foreach);
         setSourceAndTargets(node, foreach);
-        if (node.getParallel().equals(TBoolean.YES)){
+        if (node.getParallel().equals(TBoolean.YES)) {
             foreach.setParallel(TBoolean.YES);
-        } else if (node.getParallel().equals(TBoolean.NO)){
+        } else if (node.getParallel().equals(TBoolean.NO)) {
             foreach.setParallel(TBoolean.NO);
         }
         foreach.setCounterName(node.getCounterName());
@@ -186,7 +211,8 @@ public class DWDL2BPEL {
         TExpression endExpression = factory.createTExpression();
         endExpression.getContent().add(node.getFinalCounterValue());
         foreach.setFinalCounterValue(endExpression);
-        TCompletionCondition completeConditon = factory.createTCompletionCondition();
+        TCompletionCondition completeConditon = factory
+                .createTCompletionCondition();
         TBranches branches = factory.createTBranches();
         branches.setSuccessfulBranchesOnly(TBoolean.YES);
         branches.getContent().add(node.getCompletionCondition());
@@ -201,16 +227,16 @@ public class DWDL2BPEL {
     }
 
     private TInvoke getHumanTaskActivity(TInvokeNode node) {
-        
-        return factory.createTInvoke(); 
+
+        return factory.createTInvoke();
     }
 
     private TIf getIfActivity(TIfNode node) {
         TIf ifActivity = factory.createTIf();
         setNameAndDocumentation(node, ifActivity);
         setDocumentation(node, ifActivity);
-        if (!node.getCondition().isEmpty()){
-            for (TCondition dwdlCondition : node.getCondition()){
+        if (!node.getCondition().isEmpty()) {
+            for (TCondition dwdlCondition : node.getCondition()) {
                 TBooleanExpr bpelCondition = factory.createTBooleanExpr();
                 bpelCondition.getContent().add(dwdlCondition.getLeftOperand());
                 bpelCondition.getContent().add(dwdlCondition.getOperator());
@@ -218,13 +244,17 @@ public class DWDL2BPEL {
                 TFlow flow = factory.createTFlow();
                 TLinks links = factory.createTLinks();
                 flow.setLinks(links);
-                setArcs(dwdlCondition.getArcs().getArc(), flow.getLinks().getLink());
-                setActivityNode(flow.getActivity(), dwdlCondition.getNodes().getAllNodes());
-                if(dwdlCondition.equals(node.getCondition().get(0))){
+                setArcs(dwdlCondition.getArcs().getArc(), flow.getLinks()
+                        .getLink());
+                setActivityNode(flow.getActivity(), dwdlCondition.getNodes()
+                        .getAllNodes());
+                if (dwdlCondition.equals(node.getCondition().get(0))) {
                     ifActivity.setCondition(bpelCondition);
                     ifActivity.setFlow(flow);
-                } else if(dwdlCondition.equals(node.getCondition().get(node.getCondition().size()-1))){
-                    TActivityContainer activityContainer = factory.createTActivityContainer();
+                } else if (dwdlCondition.equals(node.getCondition().get(
+                        node.getCondition().size() - 1))) {
+                    TActivityContainer activityContainer = factory
+                            .createTActivityContainer();
                     activityContainer.setFlow(flow);
                     ifActivity.setElse(activityContainer);
                 } else {
@@ -233,10 +263,10 @@ public class DWDL2BPEL {
                     elseif.setFlow(flow);
                     ifActivity.getElseif().add(elseif);
                 }
-                
+
             }
         }
-        return ifActivity;        
+        return ifActivity;
     }
 
     private TSequence getInvokeSequence(TInvokeNode node) {
@@ -244,14 +274,14 @@ public class DWDL2BPEL {
         TSequence sequence = factory.createTSequence();
         setSourceAndTargets(node, sequence);
         TAssign assign = factory.createTAssign();
-        if (node.getActivity().equals("Decidr-"+humanTask.NAME)){
-            for (TSetProperty property : node.getSetProperty()){
+        if (node.getActivity().equals("Decidr-" + humanTask.NAME)) {
+            for (TSetProperty property : node.getSetProperty()) {
                 addCopyStatement(assign, property, EMAIL_INPUT_VARIABLE);
             }
             sequence.getActivity().add(assign);
             invoke = getHumanTaskActivity(node);
-        } else if (node.getActivity().equals("Decidr-"+email.NAME)){
-            for (TSetProperty property: node.getSetProperty()){
+        } else if (node.getActivity().equals("Decidr-" + email.NAME)) {
+            for (TSetProperty property : node.getSetProperty()) {
                 addCopyStatement(assign, property, HUMANTASK_INPUT_VARIABLE);
             }
             invoke = getEmailActivity(node);
@@ -282,7 +312,8 @@ public class DWDL2BPEL {
             for (TRole role : dwdl.getRoles().getRole()) {
                 if (!role.getActor().isEmpty()
                         && (role.getConfigurationVariable() == null || role
-                                .getConfigurationVariable().equals(TBoolean.NO))) {
+                                .getConfigurationVariable().value()
+                                .equals("no"))) {
                     copyRole = factory.createTCopy();
                     TFrom from = factory.createTFrom();
                     TTo to = factory.createTTo();
@@ -316,7 +347,7 @@ public class DWDL2BPEL {
             TCopy copyActor = null;
             for (TActor actor : dwdl.getRoles().getActor()) {
                 if (actor.getConfigurationVariable() == null
-                        || actor.getConfigurationVariable().equals(TBoolean.NO)) {
+                        || actor.getConfigurationVariable().value().equals("no")) {
                     copyActor = factory.createTCopy();
                     TFrom from = factory.createTFrom();
                     TTo to = factory.createTTo();
@@ -335,7 +366,8 @@ public class DWDL2BPEL {
                     to.setVariable(actor.getName());
                     copyActor.setFrom(from);
                     copyActor.setTo(to);
-                    // MA: "assign" might be null if first if's condition was false
+                    // MA: "assign" might be null if first if's condition was
+                    // false
                     assign.getCopyOrExtensionAssignOperation().add(copyActor);
                 }
             }
@@ -398,7 +430,7 @@ public class DWDL2BPEL {
         mainSequence.getActivity().add(mainFlow);
         process.setSequence(mainSequence);
     }
-    
+
     private void setActivityNode(List<Object> activityList,
             List<TBasicNode> nodes) {
         for (TBasicNode node : nodes) {
@@ -425,11 +457,13 @@ public class DWDL2BPEL {
 
     }
 
-    private void setArcs (List<TArc> arcs, List<TLink> links){
-        for (TArc arc : arcs){
-            TLink link = factory.createTLink();
-            link.setName(arc.getSourceNode() + "-to-" + arc.getTargetNode());
-            links.add(link);
+    private void setArcs(List<TArc> arcs, List<TLink> links) {
+        if (arcs != null && !arcs.isEmpty()) {
+            for (TArc arc : arcs) {
+                TLink link = factory.createTLink();
+                link.setName("a" + String.valueOf(arc.getId()));
+                links.add(link);
+            }
         }
     }
 
@@ -438,12 +472,11 @@ public class DWDL2BPEL {
         process.setCorrelationSets(correlationSets);
         TCorrelationSet correlation = factory.createTCorrelationSet();
         correlation.setName("standard-correlation");
-        correlation.getProperties().add(
-                new QName(process.getTargetNamespace(), "processID", "tns"));
-        correlation.getProperties().add(
-                new QName(process.getTargetNamespace(), "userID", "tns"));
-        correlation.getProperties().add(
-                new QName(process.getTargetNamespace(), "taskID", "tns"));
+        for (String propertyName : BPELConstants.DWDL_STANDARD_CORRELATION_PROPERTIES) {
+            correlation.getProperties().add(
+                    new QName(process.getTargetNamespace(), propertyName,
+                            PROCESS_PREFIX));
+        }
         process.getCorrelationSets().getCorrelationSet().add(correlation);
     }
 
@@ -562,7 +595,7 @@ public class DWDL2BPEL {
         TPartnerLink processPL = factory.createTPartnerLink();
         processPL.setName(PROCESS_PARTNERLINK);
         processPL.setPartnerLinkType(new QName(process.getTargetNamespace(),
-                PROCESS_PARTNERLINKTYPE, "tns"));
+                PROCESS_PARTNERLINKTYPE, PROCESS_PREFIX));
         processPL.setMyRole("ProcessProvider");
 
         // add partnerlinks to process
@@ -579,10 +612,10 @@ public class DWDL2BPEL {
             process.setTargetNamespace(dwdl.getTargetNamespace());
         }
 
-        // add id attribute
+        // add id attribute to process element
         process.getOtherAttributes().put(
-                new QName(BPELConstants.DECIDRTYPES_NAMESPACE, "id", "decidr"),
-                String.valueOf(dwdl.getId()));
+                new QName(BPELConstants.DECIDRTYPES_NAMESPACE, "id",
+                        DECIDRTYPES_PREFIX), String.valueOf(dwdl.getId()));
     }
 
     private void setProcessDocumentation() {
@@ -596,58 +629,65 @@ public class DWDL2BPEL {
     }
 
     private void setProcessVariables() {
-        // instantiation of variables object
         TVariables variables = factory.createTVariables();
 
+        // create global process variables
         TVariable startConfigurations = factory.createTVariable();
         TVariable wfmid = factory.createTVariable();
         TVariable faultMessage = factory.createTVariable();
         TVariable faultMessageResponse = factory.createTVariable();
         TVariable successMessage = factory.createTVariable();
         TVariable successMessageResponse = factory.createTVariable();
-        TVariable standardMessage = factory.createTVariable();
-        TVariable standardMessageResponse = factory.createTVariable();
+        TVariable standardEmailMessage = factory.createTVariable();
+        TVariable standardEmailMessageResponse = factory.createTVariable();
         TVariable taskMessage = factory.createTVariable();
         TVariable taskMessageResponse = factory.createTVariable();
         TVariable taskDataMessage = factory.createTVariable();
 
-        // creates global process variables
+        // setting process start variable
         startConfigurations.setName(PROCESS_INPUT_VARIABLE);
-        startConfigurations.setMessageType(new QName(process
-                .getTargetNamespace(), PROCESS_REQUEST_MESSAGE, PROCESS_PREFIX));
+        startConfigurations
+                .setMessageType(new QName(process.getTargetNamespace(),
+                        PROCESS_REQUEST_MESSAGE, PROCESS_PREFIX));
+        // setting process id variable
         wfmid.setName("wfmid");
         wfmid
                 .setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "ID",
                         "xsd"));
+        // setting fault handler variables
         faultMessage.setName(FAULT_MESSAGE_REQUEST);
         faultMessage.setMessageType(new QName(email.NAMESPACE,
-                email.REQUEST_MESSAGE, "eWS"));
+                email.REQUEST_MESSAGE, HUMANTASK_PREFIX));
         faultMessageResponse.setName(FAULT_MESSAGE_RESPONSE);
-        faultMessageResponse.setMessageType(new QName(
-                email.NAMESPACE, email.RESPONSE_MESSAGE, EMAIL_PREFIX));
-        successMessage.setName("successMessageRequest");
+        faultMessageResponse.setMessageType(new QName(email.NAMESPACE,
+                email.RESPONSE_MESSAGE, EMAIL_PREFIX));
+        // setting success notification variables
+        successMessage.setName(SUCCESS_MESSAGE_REQUEST);
         successMessage.setMessageType(new QName(email.NAMESPACE,
                 email.REQUEST_MESSAGE, EMAIL_PREFIX));
-        successMessageResponse.setName("successMessageResponse");
-        successMessageResponse.setMessageType(new QName(
-                email.NAMESPACE, email.RESPONSE_MESSAGE, EMAIL_PREFIX));
-        standardMessage.setName(EMAIL_INPUT_VARIABLE);
-        standardMessage.setMessageType(new QName(email.NAMESPACE,
+        successMessageResponse.setName(SUCCESS_MESSAGE_RESPONSE);
+        successMessageResponse.setMessageType(new QName(email.NAMESPACE,
+                email.RESPONSE_MESSAGE, EMAIL_PREFIX));
+        // setting standard email web service invocation variables
+        standardEmailMessage.setName(EMAIL_INPUT_VARIABLE);
+        standardEmailMessage.setMessageType(new QName(email.NAMESPACE,
                 email.REQUEST_MESSAGE, EMAIL_PREFIX));
-        standardMessageResponse.setName(EMAIL_OUTPUT_VARIABLE);
-        standardMessageResponse.setMessageType(new QName(
-                email.NAMESPACE, email.RESPONSE_MESSAGE, EMAIL_PREFIX));
+        standardEmailMessageResponse.setName(EMAIL_OUTPUT_VARIABLE);
+        standardEmailMessageResponse.setMessageType(new QName(email.NAMESPACE,
+                email.RESPONSE_MESSAGE, EMAIL_PREFIX));
+        // setting standard humantask web service invocation variables
         taskMessage.setName(HUMANTASK_INPUT_VARIABLE);
         taskMessage.setMessageType(new QName(humanTask.NAMESPACE,
                 humanTask.REQUEST_MESSAGE, HUMANTASK_PREFIX));
         taskMessageResponse.setName(HUMANTASK_OUTPUT_VARIABLE);
-        taskMessageResponse.setMessageType(new QName(
-                humanTask.NAMESPACE, humanTask.RESPONSE_MESSAGE, HUMANTASK_PREFIX));
+        taskMessageResponse.setMessageType(new QName(humanTask.NAMESPACE,
+                humanTask.RESPONSE_MESSAGE, HUMANTASK_PREFIX));
+        // setting process human task data receiving variables
         taskDataMessage.setName(PROCESS_HUMANTASK_INPUT_VARIABLE);
-        taskDataMessage.setMessageType(new QName(humanTask.NAMESPACE,
-                PROCESS_HUMANTASK_REQUEST_MESSAGE, HUMANTASK_PREFIX));
+        taskDataMessage.setMessageType(new QName(process.getTargetNamespace(),
+                PROCESS_HUMANTASK_REQUEST_MESSAGE, PROCESS_PREFIX));
 
-        // set variables
+        // add variables to process
         process.setVariables(variables);
         process.getVariables().getVariable().add(startConfigurations);
         process.getVariables().getVariable().add(faultMessage);
@@ -666,7 +706,7 @@ public class DWDL2BPEL {
             for (TSource src : fromNode.getSources().getSource()) {
                 de.decidr.model.workflowmodel.bpel.TSource source = factory
                         .createTSource();
-                source.setLinkName(src.getArcID().toString());
+                source.setLinkName("a" + String.valueOf(src.getArcID()));
                 sources.getSource().add(source);
             }
             toActivity.setSources(sources);
@@ -677,15 +717,19 @@ public class DWDL2BPEL {
             for (TTarget trg : fromNode.getTargets().getTarget()) {
                 de.decidr.model.workflowmodel.bpel.TTarget target = factory
                         .createTTarget();
-                target.setLinkName(trg.getArcID().toString());
+                target.setLinkName("a" + String.valueOf(trg.getArcID()));
                 targets.getTarget().add(target);
             }
             toActivity.setTargets(targets);
         }
     }
 
+    /**
+     * This function creates and sets variables defined by the dwdl workflow
+     */
     private void setVariables() {
-        if (dwdl.getVariables() != null) {
+        if (dwdl.getVariables() != null
+                && !dwdl.getVariables().getVariable().isEmpty()) {
             for (de.decidr.model.workflowmodel.dwdl.TVariable v : dwdl
                     .getVariables().getVariable()) {
                 de.decidr.model.workflowmodel.bpel.TVariable var = factory
@@ -696,8 +740,15 @@ public class DWDL2BPEL {
                             .getType(), "xsd"));
                 } else if (BPELConstants.DWDL_COMPLEX_TYPES.contains(v
                         .getType())) {
-                    var.setType(new QName(BPELConstants.DECIDRTYPES_NAMESPACE,
-                            v.getType(), "decidr"));
+                    if (v.getType().equals("form")) {
+                        var.setType(new QName(
+                                BPELConstants.DECIDRTYPES_NAMESPACE,
+                                "tItemList", DECIDRTYPES_PREFIX));
+                    } else {
+                        var.setType(new QName(
+                                BPELConstants.DECIDRTYPES_NAMESPACE, v
+                                        .getType(), DECIDRTYPES_PREFIX));
+                    }
                 } else {
                     var.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI,
                             "anyType", "xsd"));
@@ -716,7 +767,7 @@ public class DWDL2BPEL {
                     role.setName(r.getName());
                     role.setElement(new QName(
                             BPELConstants.DECIDRTYPES_NAMESPACE, "role",
-                            "decidr"));
+                            DECIDRTYPES_PREFIX));
                     process.getVariables().getVariable().add(role);
                 }
             }
@@ -727,7 +778,7 @@ public class DWDL2BPEL {
                     actor.setName(a.getName());
                     actor.setElement(new QName(
                             BPELConstants.DECIDRTYPES_NAMESPACE, "actor",
-                            "decidr"));
+                            DECIDRTYPES_PREFIX));
                     process.getVariables().getVariable().add(actor);
                 }
             }

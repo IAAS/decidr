@@ -17,21 +17,12 @@
 package de.decidr.model.workflowmodel.dwdl.translator;
 
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.wsdl.Definition;
-import javax.wsdl.WSDLException;
-import javax.wsdl.xml.WSDLReader;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
-
-import org.xml.sax.InputSource;
-
-import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.workflowmodel.bpel.TProcess;
 import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dwdl.TWorkflow;
@@ -50,7 +41,6 @@ public class Translator {
     private TDeployment dd = null;
     private byte[] soap = null;
     private Definition wsdl = null;
-    private List<Definition> webservicesWSDLs = null;
     private String tenantName = null;
 
     public void load(byte[] dwdl, String tenantName) throws JAXBException {
@@ -64,30 +54,9 @@ public class Translator {
         this.tenantName = tenantName;
     }
 
-    public void load(byte[] dwdl, List<KnownWebService> webservices,
-            String tenantName) throws JAXBException, WSDLException {
-
-        webservicesWSDLs = new ArrayList<Definition>();
-        JAXBContext dwdlCntxt = JAXBContext.newInstance(TWorkflow.class);
-        Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
-        JAXBElement<TWorkflow> dwdlElement = dwdlUnmarshaller.unmarshal(
-                new StreamSource(new ByteArrayInputStream(dwdl)),
-                TWorkflow.class);
-        WSDLReader reader = new com.ibm.wsdl.xml.WSDLReaderImpl();
-        InputSource in = null;
-        for (KnownWebService webservice : webservices) {
-            in = new InputSource(new ByteArrayInputStream(webservice.getWsdl()));
-            Definition def = reader.readWSDL(null,in);
-            webservicesWSDLs.add(def);
-        }
-        dwdlWorkflow = dwdlElement.getValue();
-        this.tenantName = tenantName;
-    }
-
     public TProcess getBPEL() {
         DWDL2BPEL bpelConverter = new DWDL2BPEL();
-        bpelProcess = bpelConverter.getBPEL(dwdlWorkflow, webservicesWSDLs,
-                tenantName);
+        bpelProcess = bpelConverter.getBPEL(dwdlWorkflow, tenantName);
         return bpelProcess;
     }
 

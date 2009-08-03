@@ -81,7 +81,7 @@ public class DeployerImpl implements Deployer {
             throw new ODESelectorException(serverStatistics);
         }
         translator = new Translator();
-        translator.load(dwdl, webservices, tenantName);
+        translator.load(dwdl, tenantName);
         TProcess bpel = translator.getBPEL();
         byte[] soap = translator.getSOAP(); 
         Definition wsdl = null;

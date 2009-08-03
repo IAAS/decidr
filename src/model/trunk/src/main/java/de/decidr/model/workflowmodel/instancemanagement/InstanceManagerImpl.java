@@ -41,8 +41,7 @@ public class InstanceManagerImpl implements InstanceManager {
      */
     @Override
     public WorkflowInstance startInstance(DeployedWorkflowModel dwfm,
-            byte[] startConfiguration, List<ServerLoadView> serverStatistics)
-            throws Exception {
+            byte[] startConfiguration, List<ServerLoadView> serverStatistics){
         ServerSelector selector = new ServerSelector();
         long serverID = selector.selectServer(serverStatistics);
         SOAPGenerator generator = new SOAPGenerator();

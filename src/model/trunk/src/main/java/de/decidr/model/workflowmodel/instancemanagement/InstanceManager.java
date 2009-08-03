@@ -48,8 +48,7 @@ public interface InstanceManager {
      * @return The newly created WorkflowInstance
      */
     public WorkflowInstance startInstance(DeployedWorkflowModel dwfm,
-            byte[] startConfiguration, List<ServerLoadView> serverStatistics)
-            throws Exception;
+            byte[] startConfiguration, List<ServerLoadView> serverStatistics);
     
     /**
      * This method is called to stop a workflow instance.

@@ -44,23 +44,23 @@
 		    </recipient>
 		</faultHandler>
 		<nodes>
-		    <startNode id="s1">
+		    <startNode id="238479283">
 				<graphics x="20" y="30"/>
 				<sources>
-					<source arcID="s1-to-i1"/>
+					<source arcID="32487"/>
 				</sources>
 			</startNode>
-			<invokeNode id="i1"
+			<invokeNode id="459230485"
 		     activity="Decidr-Email">
 				<description>
 					Sends all guest an invitation
 				</description>
 				<graphics x="20" y="30"/>
 				<targets>
-					<target arcID="s1-to-i1" />
+					<target arcID="32487" />
 				</targets>
 				<sources>
-					<source arcID="i1-to-f1"/>
+					<source arcID="3485328"/>
 				</sources>
 				<setProperty 
 				 name="to"
@@ -84,15 +84,15 @@
 					</propertyValue>
 				</setProperty>
 			</invokeNode>
-			<forEachNode id="f1"
+			<forEachNode id="23419328749"
 		     counterName="g"
 		     parallel="yes">
 				<graphics x="20" y="30"/>
 				<targets>
-					<target arcID="i1-to-f1"/>
+					<target arcID="3485328"/>
 				</targets>
 				<sources>
-					<source arcID="f1-to-e1"/>
+					<source arcID="238746123985"/>
 				</sources>
 				<startCounterValue>
 					1
@@ -104,7 +104,7 @@
 					AND
 				</completionCondition>
 				<nodes>
-					<invokeNode id="i2"
+					<invokeNode id="8934759"
 					 activity="Decidr-HumanTask">
 						<description>
 							Task to figure out who will attend the party
@@ -173,10 +173,10 @@
 					</invokeNode>
 				</nodes>
 		    </forEachNode>
-		    <endNode id="e1">
+		    <endNode id="93287434556">
 		      <graphics x="20" y="30"/>
 		      <targets>
-		        <target arcID="f1-to-e1" />
+		        <target arcID="238746123985" />
 		      </targets>
 		      <notificationOfSuccess>
 		        <setProperty
@@ -191,8 +191,8 @@
 		    </endNode>
 		  </nodes>
 		  <arcs>
-		    <arc id="s1-to-i1" sourceNode="s1" targetNode="i1"/>
-			<arc id="i1-to-f1" sourceNode="i1" targetNode="f1"/>
-			<arc id="f1-to-e1" sourceNode="f1" targetNode="e1"/>
+		    <arc id="32487" sourceNode="238479283" targetNode="459230485"/>
+			<arc id="3485328" sourceNode="459230485" targetNode="23419328749"/>
+			<arc id="238746123985" sourceNode="23419328749" targetNode="93287434556"/>
 		  </arcs>
 		</workflow>
