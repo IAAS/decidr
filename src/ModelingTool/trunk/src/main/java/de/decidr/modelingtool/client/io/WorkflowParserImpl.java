@@ -243,15 +243,18 @@ public class WorkflowParserImpl implements WorkflowParser {
         /* end node is only target to connections */
         endElement.appendChild(createTargetElement(doc, node));
 
-        /* notification of success and recipient */
-        Element notification = doc
-                .createElement(DWDLTagNames.notificationOfSuccess);
-        notification.appendChild(createPropertyElement(doc,
-                DWDLTagNames.successMsg, model.getProperties()
-                        .getSuccessMessageVariableId()));
-        notification.appendChild(createPropertyElement(doc,
-                DWDLTagNames.recipient, model.getProperties()
-                        .getRecipientVariableId()));
+        /* notification of success and recipient, create only if set to true */
+        if (model.getProperties().getNotifyOnSuccess()) {
+            Element notification = doc
+                    .createElement(DWDLTagNames.notificationOfSuccess);
+            notification.appendChild(createPropertyElement(doc,
+                    DWDLTagNames.successMsg, model.getProperties()
+                            .getSuccessMessageVariableId()));
+            notification.appendChild(createPropertyElement(doc,
+                    DWDLTagNames.recipient, model.getProperties()
+                            .getRecipientVariableId()));
+        }
+
         return endElement;
     }
 
@@ -467,12 +470,9 @@ public class WorkflowParserImpl implements WorkflowParser {
     }
 
     /*
-     * The created element looks like this:
-     * <setProperty name="<name>" variable="<variableID>">
-     *   <propertyValue>
-     *      variableID.value
-     *   </propertyValue>
-     * </setProperty>  
+     * The created element looks like this: <setProperty name="<name>"
+     * variable="<variableID>"> <propertyValue> variableID.value
+     * </propertyValue> </setProperty>
      */
     private Element createPropertyElement(Document doc, String name,
             Long variableId) {

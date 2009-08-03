@@ -43,7 +43,7 @@ public class ContainerModel extends NodeModel implements HasChildModels {
     private Collection<ConnectionModel> childConnectionModels = new HashSet<ConnectionModel>();
 
     /**
-     * If this constructor is called, parentModel has tobe set manually.
+     * If this constructor is called, parentModel has to be set manually.
      */
     public ContainerModel() {
         super();
