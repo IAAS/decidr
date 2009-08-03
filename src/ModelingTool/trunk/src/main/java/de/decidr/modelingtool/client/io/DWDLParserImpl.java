@@ -22,6 +22,7 @@ import java.util.List;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
+import com.google.gwt.xml.client.Text;
 import com.google.gwt.xml.client.XMLParser;
 
 import de.decidr.modelingtool.client.model.ConnectionModel;
@@ -94,11 +95,11 @@ public class DWDLParserImpl implements DWDLParser {
         /* parse faultHandlerElement and set fault message id and recipient */
         Element faultHandler = getChildNodesByTagName(root,
                 DWDLTagNames.faultHandler).get(0);
-        properties.setFaultMessageVariableId(getPropertyVariableIdFromElement(
+        properties.setFaultMessageVariableId(getVariableIdFromPropertyElement(
                 faultHandler, DWDLTagNames.message));
         Element recipient = getChildNodesByTagName(faultHandler,
                 DWDLTagNames.recipient).get(0);
-        properties.setRecipientVariableId(getPropertyVariableIdFromElement(
+        properties.setRecipientVariableId(getVariableIdFromPropertyElement(
                 recipient, DWDLTagNames.name));
 
         /*
@@ -113,7 +114,7 @@ public class DWDLParserImpl implements DWDLParser {
             Element notification = getChildNodesByTagName(endNode,
                     DWDLTagNames.notificationOfSuccess).get(0);
             properties
-                    .setSuccessMessageVariableId(getPropertyVariableIdFromElement(
+                    .setSuccessMessageVariableId(getVariableIdFromPropertyElement(
                             notification, DWDLTagNames.successMsg));
         }
         model.setProperties(properties);
@@ -216,7 +217,7 @@ public class DWDLParserImpl implements DWDLParser {
         }
     }
 
-    private Long getPropertyVariableIdFromElement(Element parent,
+    private Long getVariableIdFromPropertyElement(Element parent,
             String propertyName) {
         Long variableId = null;
         /*
@@ -287,7 +288,7 @@ public class DWDLParserImpl implements DWDLParser {
     private NodeModel createTarget(ConnectionModel input, String targetNodeId,
             Element nodesContainer, HasChildModels parentModel) {
         NodeModel nodeModel = null;
-        List<Element> childNodeElements = getChildNodesAsList(nodesContainer);
+        List<Element> childNodeElements = getChildElementsAsList(nodesContainer);
         /*
          * Go through all child node elements and check if which one has the
          * target id
@@ -298,16 +299,18 @@ public class DWDLParserImpl implements DWDLParser {
                 if (nodeElement.getNodeName() == DWDLTagNames.invokeNode) {
                     /* Check which invoke node type the node has */
                     if (nodeElement.getAttribute(DWDLTagNames.activity) == DWDLTagNames.decidrEmail) {
-                        nodeModel = createEmailInvokeNode(parentModel);
+                        nodeModel = createEmailInvokeNode(nodeElement,
+                                parentModel);
                     } else if (nodeElement.getAttribute(DWDLTagNames.activity) == DWDLTagNames.decidrHumanTask) {
-                        nodeModel = createHumanTaskInvokeNode(parentModel);
+                        nodeModel = createHumanTaskInvokeNode(nodeElement,
+                                parentModel);
                     }
                 } else if (nodeElement.getNodeName() == DWDLTagNames.flowNode) {
                     nodeModel = createFlowModel(nodeElement, parentModel);
                 } else if (nodeElement.getNodeName() == DWDLTagNames.ifNode) {
                     nodeModel = createIfModel(parentModel);
                 } else if (nodeElement.getNodeName() == DWDLTagNames.forEachNode) {
-                    nodeModel = crearteForEachModel(parentModel);
+                    nodeModel = createForEachModel(parentModel);
                 }
                 nodeModel.setInput(input);
                 List<Element> arcs = getChildNodesByTagName(
@@ -320,29 +323,79 @@ public class DWDLParserImpl implements DWDLParser {
         return nodeModel;
     }
 
-    private EmailInvokeNodeModel createEmailInvokeNode(
+    private EmailInvokeNodeModel createEmailInvokeNode(Element emailElement,
             HasChildModels parentModel) {
-        EmailInvokeNodeModel email = new EmailInvokeNodeModel(parentModel);
-        // TODO Auto-generated method stub
-        return email;
+        EmailInvokeNodeModel emailModel = new EmailInvokeNodeModel(parentModel);
+
+        /* Set name id and graphics */
+        emailModel.setName(emailElement.getAttribute(DWDLTagNames.name));
+        emailModel.setId(new Long(emailElement.getAttribute(DWDLTagNames.id)));
+        setGraphics(emailElement, emailModel);
+
+        /* Set properties of the email */
+        emailModel.setToVariableId(getVariableIdFromPropertyElement(
+                emailElement, DWDLTagNames.to));
+        emailModel.setCcVariableId(getVariableIdFromPropertyElement(
+                emailElement, DWDLTagNames.cc));
+        emailModel.setBccVariableId(getVariableIdFromPropertyElement(
+                emailElement, DWDLTagNames.bcc));
+        emailModel.setSubjectVariableId(getVariableIdFromPropertyElement(
+                emailElement, DWDLTagNames.subject));
+        emailModel.setMessageVariableId(getVariableIdFromPropertyElement(
+                emailElement, DWDLTagNames.message));
+        emailModel.setAttachmentVariableId(getVariableIdFromPropertyElement(
+                emailElement, DWDLTagNames.attachment));
+
+        return emailModel;
     }
 
-    private NodeModel createHumanTaskInvokeNode(HasChildModels parentModel) {
-        HumanTaskInvokeNodeModel humanTask = new HumanTaskInvokeNodeModel(
+    private NodeModel createHumanTaskInvokeNode(Element humanTaskElement,
+            HasChildModels parentModel) {
+        HumanTaskInvokeNodeModel humanTaskModel = new HumanTaskInvokeNodeModel(
                 parentModel);
-        // TODO Auto-generated method stub
-        return humanTask;
+
+        /* Set name id and graphics */
+        humanTaskModel
+                .setName(humanTaskElement.getAttribute(DWDLTagNames.name));
+        humanTaskModel.setId(new Long(humanTaskElement
+                .getAttribute(DWDLTagNames.id)));
+        setGraphics(humanTaskElement, humanTaskModel);
+
+        /* Set properties of the human task */
+        humanTaskModel.setUserVariableId(getVariableIdFromPropertyElement(
+                humanTaskElement, DWDLTagNames.user));
+        humanTaskModel
+                .setWorkItemNameVariableId(getVariableIdFromPropertyElement(
+                        humanTaskElement, DWDLTagNames.name));
+        humanTaskModel
+                .setWorkItemDescriptionVariableId(getVariableIdFromPropertyElement(
+                        humanTaskElement, DWDLTagNames.description));
+        /* Get user notification property */
+        for (Element propertyElement : getChildElementsAsList(humanTaskElement)) {
+            if (propertyElement.getAttribute(DWDLTagNames.name) == DWDLTagNames.userNotification) {
+                Element valueElement = getChildNodesByTagName(propertyElement,
+                        DWDLTagNames.propertyValue).get(0);
+                Text valueText = (Text) valueElement.getChildNodes().item(0);
+                if (valueText.getNodeValue() == DWDLTagNames.yes) {
+                    humanTaskModel.setNotifyVariableId(true);
+                } else {
+                    humanTaskModel.setNotifyVariableId(false);
+                }
+            }
+        }
+
+        return humanTaskModel;
     }
 
-    private ContainerModel createFlowModel(Element flowNode,
+    private ContainerModel createFlowModel(Element flowElement,
             HasChildModels model) {
         FlowContainerModel flowModel = new FlowContainerModel(model);
 
         /* Set name id and graphics */
-        flowModel.setName(flowNode.getAttribute(DWDLTagNames.name));
-        flowModel.setId(new Long(flowNode.getAttribute(DWDLTagNames.id)));
-        setGraphics(flowNode, flowModel);
-        
+        flowModel.setName(flowElement.getAttribute(DWDLTagNames.name));
+        flowModel.setId(new Long(flowElement.getAttribute(DWDLTagNames.id)));
+        setGraphics(flowElement, flowModel);
+
         // JS inner children
 
         return flowModel;
@@ -354,7 +407,7 @@ public class DWDLParserImpl implements DWDLParser {
         return ifModel;
     }
 
-    private ContainerModel crearteForEachModel(HasChildModels parentModel) {
+    private ContainerModel createForEachModel(HasChildModels parentModel) {
         ForEachContainerModel forEachModel = new ForEachContainerModel();
         // TODO Auto-generated method stub
         return forEachModel;
@@ -369,7 +422,7 @@ public class DWDLParserImpl implements DWDLParser {
         Integer top = new Integer(graphics.getAttribute(DWDLTagNames.y));
         model.setChangeListenerPosition(left, top);
 
-        /* If model is a container, it has also a with and size */
+        /* If model is a container, it has also a width and height */
         if (model instanceof ContainerModel) {
             Integer height = new Integer(graphics
                     .getAttribute(DWDLTagNames.height));
@@ -391,10 +444,10 @@ public class DWDLParserImpl implements DWDLParser {
         return result;
     }
 
-    private List<Element> getChildNodesAsList(Element nodesContainer) {
+    private List<Element> getChildElementsAsList(Element parentElement) {
         List<Element> list = new ArrayList<Element>();
-        for (int i = 0; i < nodesContainer.getChildNodes().getLength(); i++) {
-            list.add((Element) nodesContainer.getChildNodes().item(i));
+        for (int i = 0; i < parentElement.getChildNodes().getLength(); i++) {
+            list.add((Element) parentElement.getChildNodes().item(i));
         }
         return list;
     }

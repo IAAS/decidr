@@ -29,6 +29,8 @@ import de.decidr.modelingtool.client.model.InvokeNodeModel;
 public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
 
     private final String userFieldName = "user";
+    private final String workItemNameFieldName = "workitem";
+    private final String workItemDescriptionFieldName = "workitemDesc";
     private final String formFieldName = "form";
     private final String notifyFieldName = "notify";
     private final String taskItemsFieldName = "taskItems";
@@ -50,6 +52,14 @@ public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
         return properties.get(userFieldName);
     }
 
+    public Long getWorkItemNameVariableId() {
+        return properties.get(workItemNameFieldName);
+    }
+
+    public Long getWorkItemDescriptionVariableId() {
+        return properties.get(workItemDescriptionFieldName);
+    }
+
     public Long getFormVariableId() {
         return properties.get(formFieldName);
     }
@@ -64,6 +74,16 @@ public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
 
     public void setUserVariableId(Long userVariableId) {
         this.properties.set(this.userFieldName, userVariableId);
+    }
+
+    public void setWorkItemNameVariableId(Long workItemNameVariableId) {
+        this.properties.set(this.workItemNameFieldName, workItemNameVariableId);
+    }
+
+    public void setWorkItemDescriptionVariableId(
+            Long workItemDescriptionVariableId) {
+        this.properties.set(this.workItemDescriptionFieldName,
+                workItemDescriptionVariableId);
     }
 
     public void setFormVariableId(Long formVariableId) {

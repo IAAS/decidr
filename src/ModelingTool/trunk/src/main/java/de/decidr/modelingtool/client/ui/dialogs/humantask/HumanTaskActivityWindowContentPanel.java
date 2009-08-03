@@ -45,7 +45,7 @@ import de.decidr.modelingtool.client.model.variable.VariablesFilter;
  * @author Jonas Schlaak
  */
 public class HumanTaskActivityWindowContentPanel extends ContentPanel {
-
+    // JS work item name and description
     /*
      * This constant holds die number of fields which are not to be removed by
      * the removeEntry method.

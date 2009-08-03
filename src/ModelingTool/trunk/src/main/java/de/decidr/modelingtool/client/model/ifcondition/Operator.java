@@ -58,7 +58,7 @@ public enum Operator {
      * 
      * @param displayString
      *            the display string
-     * @return the opertaor belonging to the display string
+     * @return the operator belonging to the display string
      */
     public static Operator getOperatorFromDisplayString(String displayString) {
         Operator result = null;
