@@ -1,0 +1,264 @@
+
+<jxb:bindings version="1.0"
+  xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" 
+  jxb:extensionBindingPrefixes="xjc">
+    <jxb:bindings schemaLocation="ws-bpel_executable.xsd" node="/xs:schema">
+        <jxb:globalBindings
+   	collectionType = "java.util.ArrayList"
+  	fixedAttributeAsConstantProperty  = "false"
+  	generateIsSetMethod  = "true"
+  	enableFailFastCheck = "false"
+  	choiceContentProperty = "false"
+  	underscoreBinding = "asWordSeparator"
+  	typesafeEnumBase = "xs:NCName"
+  	typesafeEnumMemberName = "generateError"
+  	enableJavaNamingConventions = "true">
+        <jxb:javaType name="java.util.Date" xmlType="xsd:date" />
+        </jxb:globalBindings>
+        <jxb:schemaBindings>
+            <jxb:package name="de.decidr.model.workflowmodel.bpel" />
+        </jxb:schemaBindings>
+        <jxb:bindings node="//xs:complexType[@name='tProcess']">
+            <jxb:class name = "Process" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tExtensibleElements']">
+            <jxb:class name = "ExtensibleElements" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tDocumentation']">
+            <jxb:class name = "Document" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tExtensions']">
+            <jxb:class name = "Extensions" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tExtension']">
+            <jxb:class name = "Extension" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tImport']">
+            <jxb:class name = "Import" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tVariables']">
+            <jxb:class name = "Variables" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tPartnerLinks']">
+            <jxb:class name = "PartnerLinks" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tPartnerLink']">
+            <jxb:property name = "PartnerLink" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tMessageExchanges']">
+            <jxb:class name = "MessageExchanges" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tVariables']">
+            <jxb:class name = "Variables" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tMessageExchange']">
+            <jxb:class name = "MessageExchange" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tVariables']">
+            <jxb:class name = "Variables" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tVariable']">
+            <jxb:class name = "Variable" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tCorrelationSets']">
+            <jxb:class name = "CorrelationSets" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tCorrelationSet']">
+            <jxb:class name = "CorrelationSet" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tFaultHandlers']">
+            <jxb:class name = "FaultHandlers" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tCatch']">
+            <jxb:class name = "Catch" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tActivityContainer']">
+            <jxb:class name = "ActivityContainer" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tEventHandlers']">
+            <jxb:class name = "EventHandlers" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tOnEvent']">
+            <jxb:class name = "OnEvent" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tOnMsgCommon']">
+            <jxb:class name = "OnMsgCommon" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tCorrelations']">
+            <jxb:class name = "Correlations" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tCorrelation']">
+            <jxb:class name = "Correlation" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tInitiate']">
+            <jxb:class name = "Initiate" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tOnAlarmEvent']">
+            <jxb:class name = "OnAlarmEvent" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tDuration-expr']">
+            <jxb:class name = "DurationExpression" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tDeadline-expr']">
+            <jxb:class name = "DeadlineExpression" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tActivity']">
+            <jxb:class name = "Activity" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tTargets']">
+            <jxb:class name = "Targets" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tCondition']">
+            <jxb:class name = "Condition" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tTarget']">
+            <jxb:class name = "Target" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tSources']">
+            <jxb:class name = "Sources" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tSource']">
+            <jxb:class name = "Source" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tAssign']">
+            <jxb:class name = "Assign" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tCopy']">
+            <jxb:class name = "Copy" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tFrom']">
+            <jxb:class name = "From" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tLiteral']">
+            <jxb:class name = "Literal" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tQuery']">
+            <jxb:class name = "Query" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tRoles']">
+            <jxb:class name = "Roles" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tTo']">
+            <jxb:class name = "To" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tExtensionAssignOperation']">
+            <jxb:class name = "ExtensionAssignOperation" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tCompensate']">
+            <jxb:class name = "Compensate" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tCompensateScope']">
+            <jxb:class name = "CompensateScope" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tEmpty']">
+            <jxb:class name = "Empty" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tExit']">
+            <jxb:class name = "Exit" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tExtensionActivity']">
+            <jxb:class name = "ExtensionActivity" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tFlow']">
+            <jxb:class name = "Flow" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tLinks']">
+            <jxb:class name = "Links" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tLink']">
+            <jxb:class name = "Link" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tForEach']">
+            <jxb:class name = "ForEach" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tExpression']">
+            <jxb:class name = "Expression" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tCompletionCondition']">
+            <jxb:class name = "CompletionCondition" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tBranches']">
+            <jxb:class name = "Branches" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tIf']">
+            <jxb:class name = "If" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tElseif']">
+            <jxb:class name = "Elseif" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tInvoke']">
+            <jxb:class name = "Invoke" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tCorrelationsWithPattern']">
+            <jxb:class name = "CorrelationsWithPattern" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tCorrelationWithPattern']">
+            <jxb:class name = "CorrelationWithPattern" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tFromParts']">
+            <jxb:class name = "FromParts" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tFromParts']">
+            <jxb:class name = "If" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tFromPart']">
+            <jxb:class name = "FromPart" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tToParts']">
+            <jxb:class name = "ToParts" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tToPart']">
+            <jxb:class name = "ToPart" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tPick']">
+            <jxb:class name = "Pick" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tOnMessage']">
+            <jxb:class name = "OnMessage" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tOnAlarmPick']">
+            <jxb:class name = "OnAlarmPick" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tReceive']">
+            <jxb:class name = "Receive" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tRepeatUntil']">
+            <jxb:class name = "RepeatUntil" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tReply']">
+            <jxb:class name = "Reply" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tRethrow']">
+            <jxb:class name = "Rethrow" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tScope']">
+            <jxb:class name = "Scope" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tSequence']">
+            <jxb:class name = "Sequence" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tThrow']">
+            <jxb:class name = "Throw" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tValidate']">
+            <jxb:class name = "Validate" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tWait']">
+            <jxb:class name = "Wait" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tWhile']">
+            <jxb:class name = "While" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tBoolean-expr']">
+            <jxb:class name = "BooleanExpression" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:simpleType[@name='tPattern']">
+            <jxb:typesafeEnumClass name = "Pattern" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:simpleType[@name='tBoolean']">
+            <jxb:typesafeEnumClass name = "Boolean" />
+        </jxb:bindings>
+    </jxb:bindings>
+</jxb:bindings>

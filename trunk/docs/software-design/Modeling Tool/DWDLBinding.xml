@@ -16,10 +16,10 @@
   	enableJavaNamingConventions = "true">
    </jxb:globalBindings>
    <jxb:schemaBindings>
-   	<jxb:package name="de.decidr.model.workflowmodel.bpel" />
+   	<jxb:package name="de.decidr.model.workflowmodel.dwdl" />
    </jxb:schemaBindings>
-   <jxb:bindings node="//xs:complexType[@name='tProcess']">
-    <jxb:class name = "Process" />
+   <jxb:bindings node="//xs:complexType[@name='tWorkflow']">
+    <jxb:class name = "Workflow" />
    </jxb:bindings>
    <jxb:bindings node="//xs:complexType[@name='tVariables']">
     <jxb:property name = "Variables" />
