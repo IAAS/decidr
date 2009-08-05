@@ -156,7 +156,7 @@
 			<xsd:element ref="targets" minOccurs="0" maxOccurs="1" />
 			<xsd:element ref="sources" minOccurs="0" maxOccurs="1" />
 		</xsd:sequence>
-		<xsd:attribute name="id" type="xsd:lond" use="required" />
+		<xsd:attribute name="id" type="xsd:long" use="required" />
 		<xsd:attribute name="name" type="xsd:NCName" use="optional" />
 	</xsd:complexType>
 	<xsd:element name="graphics" type="tGraphics" />
@@ -174,7 +174,7 @@
 	</xsd:complexType>
 	<xsd:element name="target" type="tTarget" />
 	<xsd:complexType name="tTarget">
-		<xsd:attribute name="arcID" type="xsd:IDREF" use="required" />
+		<xsd:attribute name="arcID" type="xsd:long" use="required" />
 	</xsd:complexType>
 	<xsd:element name="sources" type="tSources" />
 	<xsd:complexType name="tSources">
@@ -184,7 +184,7 @@
 	</xsd:complexType>
 	<xsd:element name="source" type="tSource" />
 	<xsd:complexType name="tSource">
-		<xsd:attribute name="arcID" type="xsd:IDREF" use="required" />
+		<xsd:attribute name="arcID" type="xsd:long" use="required" />
 	</xsd:complexType>
 
 	<xsd:element name="startNode" type="tStartNode" />
