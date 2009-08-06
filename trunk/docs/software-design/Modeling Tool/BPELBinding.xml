@@ -15,7 +15,6 @@
   	typesafeEnumBase = "xs:NCName"
   	typesafeEnumMemberName = "generateError"
   	enableJavaNamingConventions = "true">
-        <jxb:javaType name="java.util.Date" xmlType="xsd:date" />
         </jxb:globalBindings>
         <jxb:schemaBindings>
             <jxb:package name="de.decidr.model.workflowmodel.bpel" />
@@ -27,7 +26,7 @@
             <jxb:class name = "ExtensibleElements" />
         </jxb:bindings>
         <jxb:bindings node="//xs:complexType[@name='tDocumentation']">
-            <jxb:class name = "Document" />
+            <jxb:class name = "Documentation" />
         </jxb:bindings>
         <jxb:bindings node="//xs:complexType[@name='tExtensions']">
             <jxb:class name = "Extensions" />
@@ -45,19 +44,13 @@
             <jxb:class name = "PartnerLinks" />
         </jxb:bindings>
         <jxb:bindings node="//xs:complexType[@name='tPartnerLink']">
-            <jxb:property name = "PartnerLink" />
+            <jxb:class name = "PartnerLink" />
         </jxb:bindings>
         <jxb:bindings node="//xs:complexType[@name='tMessageExchanges']">
             <jxb:class name = "MessageExchanges" />
         </jxb:bindings>
-        <jxb:bindings node="//xs:complexType[@name='tVariables']">
-            <jxb:class name = "Variables" />
-        </jxb:bindings>
         <jxb:bindings node="//xs:complexType[@name='tMessageExchange']">
             <jxb:class name = "MessageExchange" />
-        </jxb:bindings>
-        <jxb:bindings node="//xs:complexType[@name='tVariables']">
-            <jxb:class name = "Variables" />
         </jxb:bindings>
         <jxb:bindings node="//xs:complexType[@name='tVariable']">
             <jxb:class name = "Variable" />
@@ -91,9 +84,6 @@
         </jxb:bindings>
         <jxb:bindings node="//xs:complexType[@name='tCorrelation']">
             <jxb:class name = "Correlation" />
-        </jxb:bindings>
-        <jxb:bindings node="//xs:complexType[@name='tInitiate']">
-            <jxb:class name = "Initiate" />
         </jxb:bindings>
         <jxb:bindings node="//xs:complexType[@name='tOnAlarmEvent']">
             <jxb:class name = "OnAlarmEvent" />
@@ -136,9 +126,6 @@
         </jxb:bindings>
         <jxb:bindings node="//xs:complexType[@name='tQuery']">
             <jxb:class name = "Query" />
-        </jxb:bindings>
-        <jxb:bindings node="//xs:complexType[@name='tRoles']">
-            <jxb:class name = "Roles" />
         </jxb:bindings>
         <jxb:bindings node="//xs:complexType[@name='tTo']">
             <jxb:class name = "To" />
@@ -200,9 +187,6 @@
         <jxb:bindings node="//xs:complexType[@name='tFromParts']">
             <jxb:class name = "FromParts" />
         </jxb:bindings>
-        <jxb:bindings node="//xs:complexType[@name='tFromParts']">
-            <jxb:class name = "If" />
-        </jxb:bindings>
         <jxb:bindings node="//xs:complexType[@name='tFromPart']">
             <jxb:class name = "FromPart" />
         </jxb:bindings>
@@ -253,6 +237,12 @@
         </jxb:bindings>
         <jxb:bindings node="//xs:complexType[@name='tBoolean-expr']">
             <jxb:class name = "BooleanExpression" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:simpleType[@name='tInitiate']">
+            <jxb:typesafeEnumClass name = "Initiate" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:simpleType[@name='tRoles']">
+            <jxb:typesafeEnumClass name = "Role" />
         </jxb:bindings>
         <jxb:bindings node="//xs:simpleType[@name='tPattern']">
             <jxb:typesafeEnumClass name = "Pattern" />

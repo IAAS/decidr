@@ -1,10 +1,11 @@
+
 <jxb:bindings version="1.0"
   xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" 
   jxb:extensionBindingPrefixes="xjc">
-  <jxb:bindings schemaLocation="ws-bpel_executable.xsd" node="/xs:schema">
-    <jxb:globalBindings
+    <jxb:bindings schemaLocation="dwdl.xsd" node="/xs:schema">
+        <jxb:globalBindings
    	collectionType = "java.util.ArrayList"
   	fixedAttributeAsConstantProperty  = "false"
   	generateIsSetMethod  = "false"
@@ -14,15 +15,123 @@
   	typesafeEnumBase = "xs:NCName"
   	typesafeEnumMemberName = "generateError"
   	enableJavaNamingConventions = "true">
-   </jxb:globalBindings>
-   <jxb:schemaBindings>
-   	<jxb:package name="de.decidr.model.workflowmodel.dwdl" />
-   </jxb:schemaBindings>
-   <jxb:bindings node="//xs:complexType[@name='tWorkflow']">
-    <jxb:class name = "Workflow" />
-   </jxb:bindings>
-   <jxb:bindings node="//xs:complexType[@name='tVariables']">
-    <jxb:property name = "Variables" />
-   </jxb:bindings>
-  </jxb:bindings>
+        </jxb:globalBindings>
+        <jxb:schemaBindings>
+            <jxb:package name="de.decidr.model.workflowmodel.dwdl" />
+        </jxb:schemaBindings>
+        <jxb:bindings node="//xs:complexType[@name='tWorkflow']">
+            <jxb:class name = "Workflow" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tVariables']">
+            <jxb:class name = "Variables" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tVariable']">
+            <jxb:class name = "Variable" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tLiteral']">
+            <jxb:class name = "Literal" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tInitialValues']">
+            <jxb:class name = "InitialValues" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tRoles']">
+            <jxb:class name = "Roles" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tActor']">
+            <jxb:class name = "Actor" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tRole']">
+            <jxb:class name = "Role" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tFaultHandler']">
+            <jxb:class name = "FaultHandler" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tNotification']">
+            <jxb:class name = "Notification" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tRecipient']">
+            <jxb:class name = "Recipient" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tNodes']">
+            <jxb:class name = "Nodes" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tBasicNode']">
+            <jxb:class name = "BasicNode" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tGraphics']">
+            <jxb:class name = "Graphics" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tTargets']">
+            <jxb:class name = "Targets" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tTarget']">
+            <jxb:class name = "Target" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tSources']">
+            <jxb:class name = "Sources" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tSource']">
+            <jxb:class name = "Source" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tStartNode']">
+            <jxb:class name = "StartNode" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tEndNode']">
+            <jxb:class name = "EndNode" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tFlowNode']">
+            <jxb:class name = "FlowNode" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tForEachNode']">
+            <jxb:class name = "ForEachNode" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tIfNode']">
+            <jxb:class name = "IfNode" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tCondition']">
+            <jxb:class name = "Condition" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tInvokeNode']">
+            <jxb:class name = "InvokeNode" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tSetProperty']">
+            <jxb:class name = "SetProperty" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tGetProperty']">
+            <jxb:class name = "GetProperty" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tHumanTaskData']">
+            <jxb:class name = "HumanTaskData" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tParameters']">
+            <jxb:class name = "Parameters" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tParameter']">
+            <jxb:class name = "Parameter" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tTaskItem']">
+            <jxb:class name = "TaskItem" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tInformation']">
+            <jxb:class name = "Information" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tContent']">
+            <jxb:class name = "Content" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tArcs']">
+            <jxb:class name = "Arcs" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:complexType[@name='tArc']">
+            <jxb:class name = "Arc" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:simpleType[@name='DWDLSimpleVariableType']">
+            <jxb:typesafeEnumClass name = "SimpleType" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:simpleType[@name='DWDLComplexVariableType']">
+            <jxb:typesafeEnumClass name = "ComplexVariableType" />
+        </jxb:bindings>
+        <jxb:bindings node="//xs:simpleType[@name='tBoolean']">
+            <jxb:typesafeEnumClass name = "Boolean" />
+        </jxb:bindings>
+    </jxb:bindings>
 </jxb:bindings>
