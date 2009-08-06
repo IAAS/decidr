@@ -16,7 +16,7 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
-import de.decidr.model.workflowmodel.dwdl.TWorkflow;
+import de.decidr.model.workflowmodel.dwdl.Workflow;
 
 /**
  * This class traverses a given WSDL and returns the resulting SOAP template,
@@ -27,7 +27,7 @@ import de.decidr.model.workflowmodel.dwdl.TWorkflow;
  */
 public class DWDL2SOAP {
 
-    public javax.xml.soap.SOAPMessage getSOAP(TWorkflow dwdl) {
+    public javax.xml.soap.SOAPMessage getSOAP(Workflow dwdl) {
         return null;
     }
 

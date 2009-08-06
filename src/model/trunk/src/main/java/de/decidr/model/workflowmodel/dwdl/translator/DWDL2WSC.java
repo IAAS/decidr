@@ -16,7 +16,7 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
-import de.decidr.model.workflowmodel.dwdl.TWorkflow;
+import de.decidr.model.workflowmodel.dwdl.Workflow;
 
 /**
  * MA: add comment
@@ -26,7 +26,7 @@ import de.decidr.model.workflowmodel.dwdl.TWorkflow;
  */
 public class DWDL2WSC {
     
-    public byte[] getStartConfiguration (TWorkflow dwdl){
+    public byte[] getStartConfiguration (Workflow dwdl){
         return null;
     }
 

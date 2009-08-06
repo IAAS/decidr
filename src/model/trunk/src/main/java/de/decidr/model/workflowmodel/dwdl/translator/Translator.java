@@ -23,9 +23,9 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
-import de.decidr.model.workflowmodel.bpel.TProcess;
+import de.decidr.model.workflowmodel.bpel.Process;
 import de.decidr.model.workflowmodel.dd.TDeployment;
-import de.decidr.model.workflowmodel.dwdl.TWorkflow;
+import de.decidr.model.workflowmodel.dwdl.Workflow;
 
 /**
  * This class provides the functionality to translate a given DWDL into
@@ -36,25 +36,25 @@ import de.decidr.model.workflowmodel.dwdl.TWorkflow;
  */
 public class Translator {
 
-    private TWorkflow dwdlWorkflow = null;
-    private TProcess bpelProcess = null;
+    private Workflow dwdlWorkflow = null;
+    private Process bpelProcess = null;
     private TDeployment dd = null;
     private byte[] soap = null;
     private Definition wsdl = null;
     private String tenantName = null;
 
     public void load(byte[] dwdl, String tenantName) throws JAXBException {
-        JAXBContext dwdlCntxt = JAXBContext.newInstance(TWorkflow.class);
+        JAXBContext dwdlCntxt = JAXBContext.newInstance(Workflow.class);
         Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
-        JAXBElement<TWorkflow> element = dwdlUnmarshaller.unmarshal(
+        JAXBElement<Workflow> element = dwdlUnmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(dwdl)),
-                TWorkflow.class);
+                Workflow.class);
 
         dwdlWorkflow = element.getValue();
         this.tenantName = tenantName;
     }
 
-    public TProcess getBPEL() {
+    public Process getBPEL() {
         DWDL2BPEL bpelConverter = new DWDL2BPEL();
         bpelProcess = bpelConverter.getBPEL(dwdlWorkflow, tenantName);
         return bpelProcess;

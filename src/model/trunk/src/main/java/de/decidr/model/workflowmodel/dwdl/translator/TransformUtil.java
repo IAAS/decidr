@@ -23,7 +23,7 @@ import java.io.InputStream;
 
 import javax.wsdl.Definition;
 
-import de.decidr.model.workflowmodel.dwdl.TWorkflow;
+import de.decidr.model.workflowmodel.dwdl.Workflow;
 
 /**
  * A simple utility class for standard transformations
@@ -64,7 +64,7 @@ public class TransformUtil {
         return bytes;
     }
     
-    public static TWorkflow bytesToDWDLWorkflow(byte[] dwdl){
+    public static Workflow bytesToDWDLWorkflow(byte[] dwdl){
         return null;
     }
     

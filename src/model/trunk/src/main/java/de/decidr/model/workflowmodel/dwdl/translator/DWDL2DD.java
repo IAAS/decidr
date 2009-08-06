@@ -17,7 +17,7 @@
 package de.decidr.model.workflowmodel.dwdl.translator;
 
 import de.decidr.model.workflowmodel.dd.TDeployment;
-import de.decidr.model.workflowmodel.dwdl.TWorkflow;
+import de.decidr.model.workflowmodel.dwdl.Workflow;
 
 /**
  * This class converts a given DWDL object and returns the resulting deployment
@@ -28,7 +28,7 @@ import de.decidr.model.workflowmodel.dwdl.TWorkflow;
  */
 public class DWDL2DD {
 
-    public TDeployment getDD(TWorkflow dwdl) {
+    public TDeployment getDD(Workflow dwdl) {
         return null;
     }
 

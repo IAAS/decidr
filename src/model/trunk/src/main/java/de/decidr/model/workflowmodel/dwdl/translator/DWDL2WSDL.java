@@ -16,7 +16,7 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
-import de.decidr.model.workflowmodel.dwdl.TWorkflow;
+import de.decidr.model.workflowmodel.dwdl.Workflow;
 
 /**
  * This class converts a given DWDL object and returns the resulting WSDL.
@@ -26,7 +26,7 @@ import de.decidr.model.workflowmodel.dwdl.TWorkflow;
  */
 public class DWDL2WSDL {
 
-    public com.ibm.wsdl.DefinitionImpl getWSDL(TWorkflow dwdl, String location,
+    public com.ibm.wsdl.DefinitionImpl getWSDL(Workflow dwdl, String location,
             String tenantName) {
         return null;
     }

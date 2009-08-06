@@ -25,7 +25,6 @@ import java.io.InputStream;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
-import de.decidr.model.workflowmodel.bpel.TProcess;
 import de.decidr.model.workflowmodel.dwdl.translator.DWDL2BPEL;
 import de.decidr.model.workflowmodel.dwdl.translator.Translator;
 
@@ -48,8 +47,8 @@ public class DeploymentTest {
             Translator t = new Translator();
             t.load(getBytesFromFile(new File("sampleProcess.xml")), "IAAS");
             System.out.println("Done");
-            TProcess p = t.getBPEL();
-            JAXBContext cntxt = JAXBContext.newInstance(TProcess.class);
+            de.decidr.model.workflowmodel.bpel.Process p = t.getBPEL();
+            JAXBContext cntxt = JAXBContext.newInstance(Process.class);
             Marshaller marshaller = cntxt.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);

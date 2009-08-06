@@ -35,7 +35,7 @@ import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
-import de.decidr.model.workflowmodel.bpel.TProcess;
+import de.decidr.model.workflowmodel.bpel.Process;
 import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dwdl.translator.Translator;
 import de.decidr.model.workflowmodel.dwdl.validation.IProblem;
@@ -82,7 +82,7 @@ public class DeployerImpl implements Deployer {
         }
         translator = new Translator();
         translator.load(dwdl, tenantName);
-        TProcess bpel = translator.getBPEL();
+        Process bpel = translator.getBPEL();
         byte[] soap = translator.getSOAP(); 
         Definition wsdl = null;
         TDeployment dd = null;
@@ -114,10 +114,10 @@ public class DeployerImpl implements Deployer {
             throws Exception {
     }
     
-    private byte[] getDeploymentBundle(String name, TProcess bpel,
+    private byte[] getDeploymentBundle(String name, Process bpel,
             Definition wsdl, TDeployment dd) throws JAXBException,
             WSDLException, IOException {
-        JAXBContext bpelCntxt = JAXBContext.newInstance(TProcess.class);
+        JAXBContext bpelCntxt = JAXBContext.newInstance(Process.class);
         JAXBContext ddCntxt = JAXBContext.newInstance(TDeployment.class);
         Marshaller bpelMarshaller = bpelCntxt.createMarshaller();
         Marshaller ddMarshaller = ddCntxt.createMarshaller();
