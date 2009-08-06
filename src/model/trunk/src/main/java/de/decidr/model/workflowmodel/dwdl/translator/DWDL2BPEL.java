@@ -111,7 +111,6 @@ public class DWDL2BPEL {
         factory = new ObjectFactory();
         process = factory.createProcess();
         tenantName = tenant;
-
         log.trace("setting process attributes");
         setProcessAttributes();
 

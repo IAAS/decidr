@@ -17,12 +17,23 @@
 package de.decidr.model.workflowmodel.dwdl.translator;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.wsdl.Definition;
+import javax.wsdl.WSDLException;
+import javax.wsdl.xml.WSDLReader;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
+
+import org.xml.sax.InputSource;
+
+import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.workflowmodel.bpel.Process;
 import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
@@ -41,6 +52,7 @@ public class Translator {
     private TDeployment dd = null;
     private byte[] soap = null;
     private Definition wsdl = null;
+    private List<Definition> webservicesWSDLs = null;
     private String tenantName = null;
 
     public void load(byte[] dwdl, String tenantName) throws JAXBException {
@@ -51,6 +63,26 @@ public class Translator {
                 Workflow.class);
 
         dwdlWorkflow = element.getValue();
+        this.tenantName = tenantName;
+    }
+
+    public void load(byte[] dwdl, List<KnownWebService> webservices,
+            String tenantName) throws JAXBException, WSDLException, IOException {
+
+        webservicesWSDLs = new ArrayList<Definition>();
+        JAXBContext dwdlCntxt = JAXBContext.newInstance(Workflow.class);
+        Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
+        JAXBElement<Workflow> dwdlElement = dwdlUnmarshaller.unmarshal(
+                new StreamSource(new ByteArrayInputStream(dwdl)),
+                Workflow.class);
+        WSDLReader reader = new com.ibm.wsdl.xml.WSDLReaderImpl();
+        InputSource in = null;
+        for (KnownWebService webservice : webservices) {
+            in = new InputSource(new ByteArrayInputStream(webservice.getWsdl()));
+            Definition def = reader.readWSDL(null,in);
+            webservicesWSDLs.add(def);
+        }
+        dwdlWorkflow = dwdlElement.getValue();
         this.tenantName = tenantName;
     }
 

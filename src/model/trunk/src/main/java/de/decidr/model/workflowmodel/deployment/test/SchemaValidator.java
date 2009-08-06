@@ -16,11 +16,8 @@
 
 package de.decidr.model.workflowmodel.deployment.test;
 
-import java.util.Iterator;
 import java.util.List;
-
 import javax.xml.transform.stream.StreamSource;
-
 import de.decidr.model.workflowmodel.dwdl.validation.IProblem;
 import de.decidr.model.workflowmodel.dwdl.validation.Problem;
 
@@ -68,9 +65,7 @@ public class SchemaValidator {
             System.out.println("no errors.");
         } else {
             System.out.println(errList.size() + " errors.");
-            Problem prob = null;
-            for (Iterator iter = errList.iterator(); iter.hasNext();){
-                prob = (Problem)iter.next();
+            for (IProblem prob : errList){
                 System.out.println(prob.getErrorPosition() + ": " + prob.getErrorDescription());
             }
         }
