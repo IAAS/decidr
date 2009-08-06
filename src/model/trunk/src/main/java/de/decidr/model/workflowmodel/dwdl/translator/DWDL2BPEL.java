@@ -22,22 +22,11 @@ import javax.xml.namespace.QName;
 import org.apache.log4j.Logger;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.bpel.*;
-import de.decidr.model.workflowmodel.dwdl.TActor;
-import de.decidr.model.workflowmodel.dwdl.TArc;
-import de.decidr.model.workflowmodel.dwdl.TBasicNode;
-import de.decidr.model.workflowmodel.dwdl.TCondition;
-import de.decidr.model.workflowmodel.dwdl.TEndNode;
-import de.decidr.model.workflowmodel.dwdl.TFlowNode;
-import de.decidr.model.workflowmodel.dwdl.TForEachNode;
-import de.decidr.model.workflowmodel.dwdl.TIfNode;
-import de.decidr.model.workflowmodel.dwdl.TInvokeNode;
-import de.decidr.model.workflowmodel.dwdl.TRecipient;
-import de.decidr.model.workflowmodel.dwdl.TRole;
-import de.decidr.model.workflowmodel.dwdl.TSetProperty;
-import de.decidr.model.workflowmodel.dwdl.TSource;
-import de.decidr.model.workflowmodel.dwdl.TStartNode;
-import de.decidr.model.workflowmodel.dwdl.TTarget;
-import de.decidr.model.workflowmodel.dwdl.TWorkflow;
+import de.decidr.model.workflowmodel.bpel.Literal;
+import de.decidr.model.workflowmodel.bpel.ObjectFactory;
+import de.decidr.model.workflowmodel.bpel.Process;
+import de.decidr.model.workflowmodel.dwdl.*;
+import de.decidr.model.workflowmodel.dwdl.Workflow;
 
 /**
  * This class converts a given DWDL object and returns the resulting BPEL.
@@ -78,21 +67,21 @@ public class DWDL2BPEL {
     private final String PROCESS_PARTNERLINK = "ProcessPL";
     private final String PROCESS_PARTNERLINKTYPE = "ProcessPLT";
 
-    private TProcess process = null;
-    private TWorkflow dwdl = null;
+    private Process process = null;
+    private Workflow dwdl = null;
     private ObjectFactory factory = null;
     private String tenantName = null;
     private HumanTaskWebservice humanTask = new HumanTaskWebservice();
     private EmailWebservice email = new EmailWebservice();
 
-    private void addCopyStatement(TAssign assign, TSetProperty property,
+    private void addCopyStatement(Assign assign, SetProperty property,
             String toVariable) {
-        TCopy copy = factory.createTCopy();
-        TFrom from = factory.createTFrom();
-        TTo to = factory.createTTo();
+        Copy copy = factory.createCopy();
+        From from = factory.createFrom();
+        To to = factory.createTo();
         if (property.getVariable() == null
                 && property.getPropertyValue() != null) {
-            TLiteral literal = factory.createTLiteral();
+            Literal literal = factory.createLiteral();
             literal.getContent().addAll(
                     property.getPropertyValue().getContent());
             from.getContent().add(literal);
@@ -108,11 +97,11 @@ public class DWDL2BPEL {
         assign.getCopyOrExtensionAssignOperation().add(copy);
     }
 
-    public TProcess getBPEL(TWorkflow dwdl, String tenant) {
+    public Process getBPEL(Workflow dwdl, String tenant) {
 
         this.dwdl = dwdl;
         factory = new ObjectFactory();
-        process = factory.createTProcess();
+        process = factory.createProcess();
         tenantName = tenant;
 
         log.trace("setting process attributes");

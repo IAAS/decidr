@@ -34,10 +34,10 @@ import org.xml.sax.SAXException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.permissions.UserRole;
-import de.decidr.model.workflowmodel.dwdl.TActor;
-import de.decidr.model.workflowmodel.dwdl.TLiteral;
-import de.decidr.model.workflowmodel.dwdl.TVariable;
-import de.decidr.model.workflowmodel.dwdl.TWorkflow;
+import de.decidr.model.workflowmodel.dwdl.Actor;
+import de.decidr.model.workflowmodel.dwdl.Literal;
+import de.decidr.model.workflowmodel.dwdl.Variable;
+import de.decidr.model.workflowmodel.dwdl.Workflow;
 
 /**
  * This class provides the functionality to determine whether a given DWDL is
@@ -109,7 +109,7 @@ public class Validator {
      *            The DWDL workflow to validate
      * @return List of problems found during validation process.
      */
-    public List<IProblem> validate(TWorkflow dwdl) {
+    public List<IProblem> validate(Workflow dwdl) {
         DWDLErrorHandler errHandler = null;
 
         // GH requires confirmation
@@ -160,7 +160,7 @@ public class Validator {
      *            TWorkflow - the actual DWDL
      * @return A list of Problems with unregistered users
      */
-    private List<IProblem> checkUsers(TWorkflow dwdl) {
+    private List<IProblem> checkUsers(Workflow dwdl) {
         List<IProblem> userErr = new ArrayList<IProblem>();
         UserFacade userFacade = new UserFacade(new UserRole());
         // GH: where to find the users:
@@ -168,9 +168,9 @@ public class Validator {
         // - EMail Activity
         // - Human Task
 
-        for (Iterator<TActor> iter = dwdl.getRoles().getActor().listIterator(); iter
+        for (Iterator<Actor> iter = dwdl.getRoles().getActor().listIterator(); iter
                 .hasNext();) {
-            TActor actor = iter.next();
+            Actor actor = iter.next();
             try {
                 if (!userFacade.isRegistered(actor.getUserId())) {
                     userErr.add(new Problem("User " + actor.getName() + "("
@@ -196,18 +196,16 @@ public class Validator {
      * @return List with all variables (including an error description) where
      *         value and type mismatch
      */
-    private List<IProblem> checkVariables(TWorkflow dwdl) {
+    private List<IProblem> checkVariables(Workflow dwdl) {
         List<IProblem> varErr = new ArrayList<IProblem>();
         SimpleDateFormat sdfD = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
 
-        // MA bitte delegiere den nächsten Task Tag an den, der das
-        // implementiert hat, wenn du das nicht warst
-        // MA Gesame Klasse: schonmal was von 'nem "foreach" und "Generics"
+        // GH Gesame Klasse: schonmal was von 'nem "foreach" und "Generics"
         // gehört?
-        for (Iterator<TVariable> iter = dwdl.getVariables().getVariable()
+        for (Iterator<Variable> iter = dwdl.getVariables().getVariable()
                 .listIterator(); iter.hasNext();) {
-            TVariable tVar = iter.next();
+            Variable tVar = iter.next();
             String type = tVar.getType();
 
             if (tVar.getInitialValue() != null) {
@@ -220,7 +218,7 @@ public class Validator {
                                     tVar.getName()));
                         }
                     } else {
-                        for (Iterator<TLiteral> literals = tVar
+                        for (Iterator<Literal> literals = tVar
                                 .getInitialValues().getInitialValue()
                                 .iterator(); literals.hasNext();) {
                             try {
@@ -242,7 +240,7 @@ public class Validator {
                                     .getName()));
                         }
                     } else {
-                        for (Iterator<TLiteral> literals = tVar
+                        for (Iterator<Literal> literals = tVar
                                 .getInitialValues().getInitialValue()
                                 .iterator(); literals.hasNext();) {
                             try {
@@ -266,7 +264,7 @@ public class Validator {
                                     tVar.getName()));
                         }
                     } else {
-                        for (Iterator<TLiteral> literals = tVar
+                        for (Iterator<Literal> literals = tVar
                                 .getInitialValues().getInitialValue()
                                 .iterator(); literals.hasNext();) {
                             if (!(literals.next().toString() == "true" || literals
@@ -288,7 +286,7 @@ public class Validator {
                                             .getName()));
                         }
                     } else {
-                        for (Iterator<TLiteral> literals = tVar
+                        for (Iterator<Literal> literals = tVar
                                 .getInitialValues().getInitialValue()
                                 .iterator(); literals.hasNext();) {
                             try {
@@ -312,7 +310,7 @@ public class Validator {
                                             .getName()));
                         }
                     } else {
-                        for (Iterator<TLiteral> literals = tVar
+                        for (Iterator<Literal> literals = tVar
                                 .getInitialValues().getInitialValue()
                                 .iterator(); literals.hasNext();) {
                             try {
