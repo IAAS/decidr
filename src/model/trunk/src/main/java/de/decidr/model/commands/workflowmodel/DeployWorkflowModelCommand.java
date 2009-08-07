@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.hibernate.Query;
 
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.KnownWebService;
@@ -30,7 +31,6 @@ import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.entities.WorkflowModelIsDeployedOnServer;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.deployment.DeployerImpl;

@@ -8,6 +8,11 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 import de.decidr.model.VaadinTools;
+import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.annotations.AllowedRole;
 import de.decidr.model.commands.tenant.AddTenantMemberCommand;
 import de.decidr.model.commands.tenant.ApproveTenantsCommand;
@@ -39,13 +44,8 @@ import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
-import de.decidr.model.permissions.UserRole;
-import de.decidr.model.permissions.TenantAdminRole;
-import de.decidr.model.permissions.SuperAdminRole;
-import de.decidr.model.permissions.WorkflowAdminRole;
 
 /**
  * The tenant facade contains all functions which are available to modify tenant

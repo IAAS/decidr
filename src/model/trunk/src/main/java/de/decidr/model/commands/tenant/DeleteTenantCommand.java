@@ -7,13 +7,13 @@ import java.util.List;
 
 import org.hibernate.Query;
 
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.storage.StorageProviderFactory;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.deployment.DeployerImpl;

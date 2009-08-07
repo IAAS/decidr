@@ -18,8 +18,8 @@ package de.decidr.model.commands.system;
 
 import java.util.List;
 
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.ServerLoadView;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**

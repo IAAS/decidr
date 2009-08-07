@@ -23,6 +23,8 @@ import org.hibernate.Session;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.LifetimeValidator;
+import de.decidr.model.acl.permissions.Permission;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.ServerLoadView;
@@ -39,8 +41,6 @@ import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.RequestExpiredException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.DefaultLogger;
-import de.decidr.model.permissions.Permission;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;

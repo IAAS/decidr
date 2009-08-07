@@ -1,8 +1,8 @@
 package de.decidr.model.commands.workitem;
 
+import de.decidr.model.acl.permissions.WorkItemPermission;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
-import de.decidr.model.permissions.Role;
-import de.decidr.model.permissions.WorkItemPermission;
 
 /**
  * Abstract base class for commands that modify work items.

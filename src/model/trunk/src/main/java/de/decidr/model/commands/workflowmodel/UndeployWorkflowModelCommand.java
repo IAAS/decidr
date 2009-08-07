@@ -18,11 +18,11 @@ package de.decidr.model.commands.workflowmodel;
 
 import java.util.Set;
 
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**

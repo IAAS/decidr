@@ -1,6 +1,6 @@
 package de.decidr.model.facades;
 
-import de.decidr.model.permissions.Role;
+import de.decidr.model.acl.roles.Role;
 
 /**
  * This facade is used as parent of all facades. It guarantees that all facades

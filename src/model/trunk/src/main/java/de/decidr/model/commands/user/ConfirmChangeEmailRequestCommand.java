@@ -5,11 +5,11 @@ package de.decidr.model.commands.user;
  * If not an exception will be thrown.
  * 
  */
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.AuthKeyException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**

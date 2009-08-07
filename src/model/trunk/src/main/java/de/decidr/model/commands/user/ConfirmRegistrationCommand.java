@@ -1,12 +1,12 @@
 package de.decidr.model.commands.user;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.RegistrationRequest;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.AuthKeyException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**

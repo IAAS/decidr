@@ -2,11 +2,11 @@ package de.decidr.model.commands.tenant;
 
 import java.util.List;
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.permissions.Permission;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.permissions.Permission;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**

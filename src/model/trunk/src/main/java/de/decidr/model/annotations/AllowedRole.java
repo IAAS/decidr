@@ -21,7 +21,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import de.decidr.model.permissions.Role;
+import de.decidr.model.acl.roles.Role;
 
 
 /**

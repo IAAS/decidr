@@ -17,12 +17,12 @@ package de.decidr.model.commands.system;
 
 import org.hibernate.Query;
 
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerType;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**

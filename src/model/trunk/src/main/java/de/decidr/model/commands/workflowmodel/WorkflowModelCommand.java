@@ -4,12 +4,12 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
+import de.decidr.model.acl.permissions.WorkflowModelPermission;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
-import de.decidr.model.permissions.Role;
-import de.decidr.model.permissions.WorkflowModelPermission;
 
 /**
  * 

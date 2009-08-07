@@ -5,6 +5,8 @@ import java.security.NoSuchAlgorithmException;
 
 import org.junit.Test;
 
+import de.decidr.model.acl.Password;
+
 import static junit.framework.Assert.*;
 
 public class PasswordTest {

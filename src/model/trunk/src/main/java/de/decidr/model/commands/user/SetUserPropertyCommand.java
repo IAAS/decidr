@@ -22,9 +22,9 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**

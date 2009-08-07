@@ -31,9 +31,9 @@ import javax.xml.validation.SchemaFactory;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.model.permissions.UserRole;
 import de.decidr.model.workflowmodel.dwdl.Actor;
 import de.decidr.model.workflowmodel.dwdl.Literal;
 import de.decidr.model.workflowmodel.dwdl.Variable;

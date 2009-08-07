@@ -26,6 +26,8 @@ import org.hibernate.Session;
 import org.hibernate.type.AssociationType;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.user.CreateNewUnregisteredUserCommand;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Invitation;
@@ -45,8 +47,6 @@ import de.decidr.model.exceptions.UserUnavailableException;
 import de.decidr.model.exceptions.UsernameNotFoundException;
 import de.decidr.model.exceptions.WorkflowModelNotStartableException;
 import de.decidr.model.notifications.NotificationEvents;
-import de.decidr.model.permissions.Role;
-import de.decidr.model.permissions.UserRole;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;

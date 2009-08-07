@@ -3,9 +3,9 @@ package de.decidr.model.commands.user;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**

@@ -39,9 +39,9 @@ import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.permissions.Role;
-import de.decidr.model.permissions.ServerLoadUpdaterRole;
-import de.decidr.model.permissions.SuperAdminRole;
+import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.ServerLoadUpdaterRole;
+import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
 

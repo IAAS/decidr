@@ -19,13 +19,13 @@ package de.decidr.model.commands;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import de.decidr.model.acl.AccessControlList;
+import de.decidr.model.acl.DefaultAccessControlList;
+import de.decidr.model.acl.permissions.CommandPermission;
+import de.decidr.model.acl.permissions.Permission;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.AccessDeniedException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.permissions.AccessControlList;
-import de.decidr.model.permissions.CommandPermission;
-import de.decidr.model.permissions.DefaultAccessControlList;
-import de.decidr.model.permissions.Permission;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**

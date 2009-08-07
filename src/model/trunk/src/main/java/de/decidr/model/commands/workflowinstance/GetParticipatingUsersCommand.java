@@ -3,10 +3,10 @@ package de.decidr.model.commands.workflowinstance;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserParticipatesInWorkflow;
 import de.decidr.model.entities.WorkflowInstance;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**

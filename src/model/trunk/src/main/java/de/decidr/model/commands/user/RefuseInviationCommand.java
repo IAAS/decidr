@@ -1,9 +1,9 @@
 package de.decidr.model.commands.user;
 
 import de.decidr.model.notifications.NotificationEvents;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Invitation;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**

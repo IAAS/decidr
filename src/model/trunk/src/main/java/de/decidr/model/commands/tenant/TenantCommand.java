@@ -1,8 +1,8 @@
 package de.decidr.model.commands.tenant;
 
+import de.decidr.model.acl.permissions.TenantPermission;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
-import de.decidr.model.permissions.Role;
-import de.decidr.model.permissions.TenantPermission;
 
 /**
  * The Abstract Tenant Command.

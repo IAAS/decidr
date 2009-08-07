@@ -16,10 +16,10 @@
 
 package de.decidr.model.commands.workflowmodel;
 
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionEvent;
 

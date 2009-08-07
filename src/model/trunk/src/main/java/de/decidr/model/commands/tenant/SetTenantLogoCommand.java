@@ -4,12 +4,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.InvalidPropertiesFormatException;
 
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.File;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.storage.StorageProviderFactory;
 import de.decidr.model.transactions.TransactionEvent;
 

@@ -1,6 +1,6 @@
 package de.decidr.model.commands.system;
 
-import de.decidr.model.permissions.Role;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**

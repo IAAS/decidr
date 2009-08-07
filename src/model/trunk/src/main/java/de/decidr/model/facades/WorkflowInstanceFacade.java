@@ -7,6 +7,9 @@ import java.util.Set;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 
+import de.decidr.model.acl.roles.HumanTaskRole;
+import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.annotations.AllowedRole;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.workflowinstance.DeleteWorkFlowInstanceCommand;
@@ -17,9 +20,6 @@ import de.decidr.model.commands.workflowinstance.StopWorkflowInstanceCommand;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.permissions.HumanTaskRole;
-import de.decidr.model.permissions.Role;
-import de.decidr.model.permissions.WorkflowAdminRole;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionCoordinator;
 
