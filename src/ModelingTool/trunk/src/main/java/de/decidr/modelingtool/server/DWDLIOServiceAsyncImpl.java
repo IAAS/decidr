@@ -19,9 +19,9 @@ package de.decidr.modelingtool.server;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vaadin.data.Item;
 
+import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
-import de.decidr.model.permissions.UserRole;
 import de.decidr.modelingtool.client.exception.LoadDWDLException;
 import de.decidr.modelingtool.client.exception.SaveDWDLException;
 import de.decidr.modelingtool.client.io.DWDLIOServiceAsync;
