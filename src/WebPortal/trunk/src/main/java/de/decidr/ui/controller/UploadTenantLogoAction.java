@@ -28,8 +28,8 @@ import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.SucceededEvent;
 
+import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.facades.TenantFacade;
-import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
 
 /**

@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Random;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.Password;
 import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.PasswordResetRequest;
 import de.decidr.model.entities.RegistrationRequest;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
-import de.decidr.model.permissions.Password;
 
 /**
  * Creates randomized users for testing purposes.

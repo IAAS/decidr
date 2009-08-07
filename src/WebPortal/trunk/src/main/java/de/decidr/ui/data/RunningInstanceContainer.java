@@ -21,12 +21,15 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Observable;
+
 import javax.servlet.http.HttpSession;
+
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
+
+import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
 
 /**

@@ -19,9 +19,9 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.RegisterUserComponent;
 import de.decidr.ui.view.TransactionErrorDialogComponent;

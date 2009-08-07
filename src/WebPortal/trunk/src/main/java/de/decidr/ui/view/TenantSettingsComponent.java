@@ -16,7 +16,6 @@
 
 package de.decidr.ui.view;
 
-import javax.swing.JFileChooser;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;

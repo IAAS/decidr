@@ -16,7 +16,6 @@
 
 package de.decidr.ui.data;
 
-import com.vaadin.ui.TextField;
 
 /**
  * @deprecated needs to be removed, but is currently used for testing

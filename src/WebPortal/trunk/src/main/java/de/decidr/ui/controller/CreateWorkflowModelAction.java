@@ -19,13 +19,11 @@ package de.decidr.ui.controller;
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Item;
-import com.vaadin.service.ApplicationContext;
-import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.facades.TenantFacade;
-import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
 
 /**

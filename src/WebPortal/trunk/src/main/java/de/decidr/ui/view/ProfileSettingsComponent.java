@@ -32,6 +32,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+
 import de.decidr.ui.controller.ChangeStatusAction;
 import de.decidr.ui.controller.SaveProfileAction;
 import de.decidr.ui.controller.ShowCancelMembershipAction;

@@ -18,7 +18,6 @@ package de.decidr.ui.view;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
-
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.ShowChangeTenantAction;

@@ -16,8 +16,8 @@
 
 package de.decidr.ui.view;
 
-import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 
 import de.decidr.ui.controller.ShowHelpAction;

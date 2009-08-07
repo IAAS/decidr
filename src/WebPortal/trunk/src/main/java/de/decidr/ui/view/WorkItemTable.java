@@ -20,6 +20,7 @@ import java.util.Observer;
 
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
+
 import de.decidr.ui.data.WorkItemContainer;
 
 public class WorkItemTable extends Table implements Observer{

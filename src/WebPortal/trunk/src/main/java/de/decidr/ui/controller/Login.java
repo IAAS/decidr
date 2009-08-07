@@ -24,13 +24,13 @@ import com.vaadin.data.Item;
 import com.vaadin.service.ApplicationContext;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 
+import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.model.permissions.Role;
-import de.decidr.model.permissions.SuperAdminRole;
-import de.decidr.model.permissions.TenantAdminRole;
-import de.decidr.model.permissions.UserRole;
-import de.decidr.model.permissions.WorkflowAdminRole;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SuperAdminViewBuilder;
 import de.decidr.ui.view.TenantAdminViewBuilder;

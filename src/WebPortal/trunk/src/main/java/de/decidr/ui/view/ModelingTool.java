@@ -17,8 +17,6 @@
 package de.decidr.ui.view;
 
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * TODO: add comment

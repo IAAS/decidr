@@ -22,6 +22,7 @@ import com.vaadin.service.ApplicationContext;
 import com.vaadin.service.ApplicationContext.TransactionListener;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Window;
+
 import de.decidr.ui.controller.ConfirmationParameterHandler;
 import de.decidr.ui.controller.InvitationParameterHandler;
 import de.decidr.ui.controller.MyParamterHandler;

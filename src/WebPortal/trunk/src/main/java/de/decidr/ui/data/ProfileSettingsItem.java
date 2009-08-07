@@ -24,17 +24,14 @@ package de.decidr.ui.data;
 
 import java.util.Collection;
 
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.service.ApplicationContext;
-import com.vaadin.terminal.gwt.server.WebApplicationContext;
-
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.data.Item;
+import com.vaadin.data.Property;
+
+import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
 
 public class ProfileSettingsItem implements Item{

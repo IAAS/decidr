@@ -20,8 +20,8 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.ui.controller.ShowCreateTenantAction;
 import de.decidr.ui.controller.ShowChangeTenantAction;
+import de.decidr.ui.controller.ShowCreateTenantAction;
 import de.decidr.ui.controller.ShowCreateWorkflowInstanceAction;
 import de.decidr.ui.controller.ShowCreateWorkflowModelAction;
 import de.decidr.ui.controller.ShowEditTenantAction;

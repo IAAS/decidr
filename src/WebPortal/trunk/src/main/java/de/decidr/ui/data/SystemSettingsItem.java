@@ -30,8 +30,9 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
+
+import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.facades.SystemFacade;
-import de.decidr.model.permissions.UserRole;
 import de.decidr.ui.view.Main;
 
 public class SystemSettingsItem implements Item {
