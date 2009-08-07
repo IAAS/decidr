@@ -29,17 +29,22 @@ import static junit.framework.Assert.*;
 public class DefaultLoggerTest {
 
     @Test
-    public void tesGetLogger() {
+    public void testGetLogger() {
         Logger logger = DefaultLogger.getLogger(DefaultLoggerTest.class);
 
         assertNotNull(logger);
 
         // make sure no exceptions are thrown
-        logger.debug("Debug");
-        logger.info("Info");
-        logger.warn("Warn");
-        logger.error("Error");
-        logger.fatal("Fatal");
+        try {
+            logger.trace("Trace");
+            logger.debug("Debug");
+            logger.info("Info");
+            logger.warn("Warn");
+            logger.error("Error");
+            logger.fatal("Fatal");
+        } catch (Exception e) {
+            fail("logging failed");
+        }
     }
 
 }

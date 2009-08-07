@@ -17,23 +17,17 @@ public class HibernateTransactionCoordinatorTest {
 
         @Override
         public void transactionAborted(TransactionAbortedEvent evt) {
-
             aborted = true;
-
         }
 
         @Override
         public void transactionCommitted(TransactionEvent evt) {
-
             committed = true;
-
         }
 
         @Override
         public void transactionStarted(TransactionEvent evt) {
-
             started = true;
-
         }
 
         /**
@@ -67,25 +61,19 @@ public class HibernateTransactionCoordinatorTest {
 
         @Override
         public void transactionAborted(TransactionAbortedEvent evt) {
-
             aborted = true;
-
         }
 
         @Override
         public void transactionCommitted(TransactionEvent evt) {
-
             committed = true;
-
         }
 
         @Override
         public void transactionStarted(TransactionEvent evt) {
-
             started = true;
-
+            // throw exception to provoke rollback
             throw new RuntimeException("MOEP");
-
         }
 
         /**
@@ -105,10 +93,9 @@ public class HibernateTransactionCoordinatorTest {
         /**
          * @return the aborted
          */
-        public Boolean getAboarted() {
+        public Boolean getAborted() {
             return aborted;
         }
-
     }
 
     @Test
@@ -171,7 +158,6 @@ public class HibernateTransactionCoordinatorTest {
         assertTrue(c2.getStarted());
         assertTrue(c2.getCommitted());
         assertFalse(c2.getAboarted());
-
     }
 
     // TK @Tom: finish this test

@@ -3,6 +3,7 @@ package de.decidr.model.permissions;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.acl.Password;
@@ -12,16 +13,15 @@ import static junit.framework.Assert.*;
 public class PasswordTest {
 
     /**
-     * 
-     * not a real test case, just needed to create hash and salt for test data
-     * 
+     * not a real test case, just needed to create hash and salt for test data<br>
+     * XXX: if this is a real test case please change back to @Test
      */
-    @Test
+    @BeforeClass
     public void getPasswordForSuperadminInTestDatas() {
-        
-        String salt ="";
-        String hash ="";
-        
+
+        String salt = "";
+        String hash = "";
+
         try {
             salt = Password.getRandomSalt();
         } catch (NoSuchAlgorithmException e) {
@@ -36,10 +36,9 @@ public class PasswordTest {
         } catch (UnsupportedEncodingException e) {
             fail("Problem by getting Hash");
         }
-        
-        System.out.println("Salt: "+ salt);
-        System.out.println("Hash: "+ hash);
-        
+
+        System.out.println("Salt: " + salt);
+        System.out.println("Hash: " + hash);
     }
 
     @Test

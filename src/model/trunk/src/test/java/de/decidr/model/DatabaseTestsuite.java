@@ -17,11 +17,17 @@
 package de.decidr.model;
 
 import static org.junit.Assert.fail;
+import junit.framework.TestSuite;
 
-import org.junit.After;
+import org.hibernate.Session;
+import org.hibernate.cfg.Configuration;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
+import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
 
 /**
  * This is the abstract base class for all test classes testing database
@@ -31,7 +37,12 @@ import org.junit.BeforeClass;
  * 
  * @author Reinhold
  */
-public abstract class AbstractDatabaseTest {
+@RunWith(Suite.class)
+@SuiteClasses( { DecidrGlobalsTest.class, LifetimeValidatorTest.class,
+        HibernateTransactionCoordinatorTest.class })
+public class DatabaseTestsuite extends TestSuite {
+
+    static Session session;
 
     /**
      * Fails if hibernate is not working properly and no working condition can
@@ -39,8 +50,13 @@ public abstract class AbstractDatabaseTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
-        // RR do hibernate settings & make sure DB is available
-        fail("not yet implemented");
+        try {
+            session = new Configuration().configure("hibernate.cfg.xml")
+                    .buildSessionFactory().openSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Couldn't connect to database");
+        }
     }
 
     /**
@@ -48,26 +64,10 @@ public abstract class AbstractDatabaseTest {
      */
     @AfterClass
     public static void tearDownAfterClass() {
-        // RR Do DB cleanup
-        fail("not yet implemented");
-    }
-
-    /**
-     * Creates testing tables and entries without utilising model functionality
-     * other than entities.
-     */
-    @Before
-    public void setUp() {
-        // RR ensure a well-defined state of the DB
-        fail("not yet implemented");
-    }
-
-    /**
-     * Removes testing tables.
-     */
-    @After
-    public void tearDown() {
-        // RR clean up if necessary
-        fail("not yet implemented");
+        if (session != null) {
+            // Query q = session.createSQLQuery("drop database decidrdb");
+            // q.executeUpdate();
+            session.close();
+        }
     }
 }

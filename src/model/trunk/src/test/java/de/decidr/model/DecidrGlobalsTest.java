@@ -35,7 +35,7 @@ import de.decidr.model.enums.ServerTypeEnum;
  * 
  * @author Reinhold
  */
-public class DecidrGlobalsTest extends AbstractDatabaseTest {
+public class DecidrGlobalsTest {
 
     /**
      * Test method for {@link DecidrGlobals#getTime()}.

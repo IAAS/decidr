@@ -32,7 +32,7 @@ import de.decidr.model.entities.RegistrationRequest;
  * 
  * @author Reinhold
  */
-public class LifetimeValidatorTest extends AbstractDatabaseTest {
+public class LifetimeValidatorTest {
 
     /**
      * Test method for
