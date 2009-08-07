@@ -128,7 +128,7 @@
             <jxb:typesafeEnumClass name = "SimpleType" />
         </jxb:bindings>
         <jxb:bindings node="//xs:simpleType[@name='DWDLComplexVariableType']">
-            <jxb:typesafeEnumClass name = "ComplexVariableType" />
+            <jxb:typesafeEnumClass name = "ComplexType" />
         </jxb:bindings>
         <jxb:bindings node="//xs:simpleType[@name='tBoolean']">
             <jxb:typesafeEnumClass name = "Boolean" />
