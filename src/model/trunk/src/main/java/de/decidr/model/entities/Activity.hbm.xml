@@ -3,19 +3,19 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 07.08.2009 16:15:57 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
-    <class name="de.decidr.model.entities.Role" table="role" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
+    <class name="de.decidr.model.entities.Activity" table="activity" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="java.lang.Long">
             <column name="id" />
             <generator class="identity" />
         </id>
+        <many-to-one name="knownWebService" class="de.decidr.model.entities.KnownWebService" fetch="select">
+            <column name="known_web_service_id" not-null="true" />
+        </many-to-one>
+        <property name="mapping" type="binary">
+            <column name="mapping" not-null="true" />
+        </property>
         <property name="name" type="string">
             <column name="name" not-null="true" unique="true" />
         </property>
-        <set name="roleHasPermissions" inverse="true" lazy="true" table="role_has_permission" fetch="select">
-            <key>
-                <column name="roleId" not-null="true" />
-            </key>
-            <one-to-many class="de.decidr.model.entities.RoleHasPermission" />
-        </set>
     </class>
 </hibernate-mapping>

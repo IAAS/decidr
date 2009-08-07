@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 03.08.2009 16:06:28 by Hibernate Tools 3.2.4.GA
+// Generated 07.08.2009 16:15:56 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -19,9 +19,9 @@ public class Server implements java.io.Serializable {
     private ServerType serverType;
     private String location;
     private byte load;
-    private Date lastLoadUpdate;
     private boolean locked;
     private boolean dynamicallyAdded;
+    private Date lastLoadUpdate;
     private Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers = new HashSet<WorkflowModelIsDeployedOnServer>(
             0);
     private Set<WorkflowInstance> workflowInstances = new HashSet<WorkflowInstance>(
@@ -43,17 +43,17 @@ public class Server implements java.io.Serializable {
             ServerType serverType,
             String location,
             byte load,
-            Date lastLoadUpdate,
             boolean locked,
             boolean dynamicallyAdded,
+            Date lastLoadUpdate,
             Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers,
             Set<WorkflowInstance> workflowInstances) {
         this.serverType = serverType;
         this.location = location;
         this.load = load;
-        this.lastLoadUpdate = lastLoadUpdate;
         this.locked = locked;
         this.dynamicallyAdded = dynamicallyAdded;
+        this.lastLoadUpdate = lastLoadUpdate;
         this.workflowModelIsDeployedOnServers = workflowModelIsDeployedOnServers;
         this.workflowInstances = workflowInstances;
     }
@@ -90,14 +90,6 @@ public class Server implements java.io.Serializable {
         this.load = load;
     }
 
-    public Date getLastLoadUpdate() {
-        return this.lastLoadUpdate;
-    }
-
-    public void setLastLoadUpdate(Date lastLoadUpdate) {
-        this.lastLoadUpdate = lastLoadUpdate;
-    }
-
     public boolean isLocked() {
         return this.locked;
     }
@@ -112,6 +104,14 @@ public class Server implements java.io.Serializable {
 
     public void setDynamicallyAdded(boolean dynamicallyAdded) {
         this.dynamicallyAdded = dynamicallyAdded;
+    }
+
+    public Date getLastLoadUpdate() {
+        return this.lastLoadUpdate;
+    }
+
+    public void setLastLoadUpdate(Date lastLoadUpdate) {
+        this.lastLoadUpdate = lastLoadUpdate;
     }
 
     public Set<WorkflowModelIsDeployedOnServer> getWorkflowModelIsDeployedOnServers() {

@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 03.08.2009 16:06:28 by Hibernate Tools 3.2.4.GA
+// Generated 07.08.2009 16:15:56 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -16,10 +16,10 @@ public class ServerLoadView implements java.io.Serializable {
     private long id;
     private String location;
     private byte load;
-    private Date lastLoadUpdate;
     private boolean locked;
     private boolean dynamicallyAdded;
     private long serverTypeId;
+    private Date lastLoadUpdate;
     private String serverType;
     private long numInstances;
 
@@ -39,16 +39,16 @@ public class ServerLoadView implements java.io.Serializable {
         this.numInstances = numInstances;
     }
 
-    public ServerLoadView(long id, String location, byte load,
-            Date lastLoadUpdate, boolean locked, boolean dynamicallyAdded,
-            long serverTypeId, String serverType, long numInstances) {
+    public ServerLoadView(long id, String location, byte load, boolean locked,
+            boolean dynamicallyAdded, long serverTypeId, Date lastLoadUpdate,
+            String serverType, long numInstances) {
         this.id = id;
         this.location = location;
         this.load = load;
-        this.lastLoadUpdate = lastLoadUpdate;
         this.locked = locked;
         this.dynamicallyAdded = dynamicallyAdded;
         this.serverTypeId = serverTypeId;
+        this.lastLoadUpdate = lastLoadUpdate;
         this.serverType = serverType;
         this.numInstances = numInstances;
     }
@@ -77,14 +77,6 @@ public class ServerLoadView implements java.io.Serializable {
         this.load = load;
     }
 
-    public Date getLastLoadUpdate() {
-        return this.lastLoadUpdate;
-    }
-
-    public void setLastLoadUpdate(Date lastLoadUpdate) {
-        this.lastLoadUpdate = lastLoadUpdate;
-    }
-
     public boolean isLocked() {
         return this.locked;
     }
@@ -107,6 +99,14 @@ public class ServerLoadView implements java.io.Serializable {
 
     public void setServerTypeId(long serverTypeId) {
         this.serverTypeId = serverTypeId;
+    }
+
+    public Date getLastLoadUpdate() {
+        return this.lastLoadUpdate;
+    }
+
+    public void setLastLoadUpdate(Date lastLoadUpdate) {
+        this.lastLoadUpdate = lastLoadUpdate;
     }
 
     public String getServerType() {
