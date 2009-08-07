@@ -8,7 +8,7 @@
         <jxb:globalBindings
    	collectionType = "java.util.ArrayList"
   	fixedAttributeAsConstantProperty  = "false"
-  	generateIsSetMethod  = "false"
+  	generateIsSetMethod  = "true"
   	enableFailFastCheck = "false"
   	choiceContentProperty = "false"
   	underscoreBinding = "asWordSeparator"
