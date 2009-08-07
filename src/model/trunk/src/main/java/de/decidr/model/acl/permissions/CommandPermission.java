@@ -19,37 +19,48 @@ import de.decidr.model.commands.TransactionalCommand;
 
 /**
  * Represents the permission to execute a transactional command.
+ * <p>
+ * Internally the canonical name of the represented command class is used to
+ * identify the permission: <br>
+ * new CommandPermission(DeleteTenantCommand.class) is internally stored as the
+ * string "de.decidr.model.commands.tenant.DeleteTenantCommand".
+ * <p>
+ * Two CommandPermissions only imply each other if they point to the exact same
+ * command class. Class hierarchies are ignored:
+ * <p>
+ * <code>false == new CommandPermission(AbstractTenantCommand.class).implies(new
+ * CommandPermission(DeleteTenantCommand.class)</code>
  * 
  * @author Markus Fischer
  * @author Daniel Huss
- *
+ * 
  * @version 0.1
- *
+ * 
  */
 public class CommandPermission extends de.decidr.model.acl.permissions.Permission {
-	
-	private static final long serialVersionUID = 1L;
 
-	/**
-	 * The class of the command that is to be executed.
-	 */
-	protected Class<? extends TransactionalCommand> commandClass;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Constructor. Creates CommandPermission for the given command Class.
-	 * 
-	 * @param commandClass
-	 */
-	public CommandPermission(Class<? extends TransactionalCommand> commandClass) {
-		super(commandClass.getCanonicalName());
-		this.commandClass = commandClass;
-	}
+    /**
+     * The class of the command that is to be executed.
+     */
+    protected Class<? extends TransactionalCommand> commandClass;
 
-	/**
-	 *  
-	 * @return Class of the Command which will be executed
-	 */
-	public Class<? extends TransactionalCommand> getCommandClass() {
-		return this.commandClass;
-	}
+    /**
+     * Constructor. Creates CommandPermission for the given command Class.
+     * 
+     * @param commandClass
+     */
+    public CommandPermission(Class<? extends TransactionalCommand> commandClass) {
+        super(commandClass.getCanonicalName());
+        this.commandClass = commandClass;
+    }
+
+    /**
+     * 
+     * @return Class of the Command which will be executed
+     */
+    public Class<? extends TransactionalCommand> getCommandClass() {
+        return this.commandClass;
+    }
 }
