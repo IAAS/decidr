@@ -226,11 +226,11 @@ ENGINE = InnoDB;
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`server` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `location` VARCHAR(255) NOT NULL ,
-  `load` TINYINT UNSIGNED NOT NULL COMMENT 'Ranges from 0 to 100 percent' ,
-  `lastLoadUpdate` DATETIME NULL ,
+  `load` TINYINT NOT NULL COMMENT 'Ranges from 0 to 100 percent' ,
   `locked` BOOLEAN NOT NULL COMMENT 'Whether or not new workflow models may be deployed on this server.' ,
   `dynamicallyAdded` BOOLEAN NOT NULL ,
   `serverTypeId` BIGINT NOT NULL ,
+  `lastLoadUpdate` DATETIME NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `unique_location` (`location` ASC) ,
   INDEX `fk_server_server_type` (`serverTypeId` ASC) ,
@@ -696,6 +696,25 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`login` (
     REFERENCES `decidrdb`.`user` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `decidrdb`.`activity`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `decidrdb`.`activity` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT ,
+  `mapping` LONGBLOB NOT NULL ,
+  `name` VARCHAR(255) NOT NULL ,
+  `known_web_service_id` BIGINT NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `unique_name` (`name` ASC) ,
+  INDEX `fk_activity_known_web_service` (`known_web_service_id` ASC) ,
+  CONSTRAINT `fk_activity_known_web_service`
+    FOREIGN KEY (`known_web_service_id` )
+    REFERENCES `decidrdb`.`known_web_service` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
