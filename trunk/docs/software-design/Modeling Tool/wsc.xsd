@@ -3,76 +3,75 @@
 	xmlns="http://decidr.de/schema/wsc" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	elementFormDefault="qualified">
 
-	<xsd:annotation>
-		<xsd:documentation>
+    <xsd:annotation>
+        <xsd:documentation>
 			Schema for Decidr Workflow Start Configuration
-			Last
-			modified date: 22th June, 2009
+			Last modified date: 22th June, 2009
 
 			2009-06-22: MA: Creation date
-		</xsd:documentation>
-	</xsd:annotation>
+        </xsd:documentation>
+    </xsd:annotation>
 
-	<xsd:import namespace="http://www.w3.org/XML/1998/namespace"
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"
 		schemaLocation="http://www.w3.org/2001/xml.xsd" />
 
-	<xsd:element name="configurations" type="tConfiguration">
-		<xsd:annotation>
-			<xsd:documentation>
+    <xsd:element name="configurations" type="tConfiguration">
+        <xsd:annotation>
+            <xsd:documentation>
 				This is the root element of the start
 				configurations.
-			</xsd:documentation>
-		</xsd:annotation>
-	</xsd:element>
-	<xsd:complexType name="tConfiguration">
-		<xsd:sequence>
-			<xsd:element ref="roles" minOccurs="1" maxOccurs="1" />
-			<xsd:element ref="assignment" minOccurs="1" maxOccurs="unbounded" />
-		</xsd:sequence>
-	</xsd:complexType>
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:complexType name="tConfiguration">
+        <xsd:sequence>
+            <xsd:element ref="roles" minOccurs="1" maxOccurs="1" />
+            <xsd:element ref="assignment" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
 
-	<xsd:element name="assignment" type="tAssignment" />
+    <xsd:element name="assignment" type="tAssignment" />
 
-	<xsd:complexType name="tAssignment">
-		<xsd:sequence>
-			<xsd:element name="key" type="xsd:string" minOccurs="1"
+    <xsd:complexType name="tAssignment">
+        <xsd:sequence>
+            <xsd:element name="key" type="xsd:string" minOccurs="1"
 				maxOccurs="1" />
-			<xsd:element name="value" type="xsd:string" minOccurs="1"
+            <xsd:element name="value" type="xsd:string" minOccurs="1"
 				maxOccurs="unbounded" />
-		</xsd:sequence>
-	</xsd:complexType>
+        </xsd:sequence>
+    </xsd:complexType>
 
-	<xsd:element name="roles" type="tRoles" />
-	<xsd:complexType name="tRoles">
-		<xsd:sequence>
-			<xsd:element ref="role" minOccurs="0" maxOccurs="unbounded" />
-			<xsd:element ref="actor" minOccurs="0" maxOccurs="unbounded" />
-		</xsd:sequence>
-	</xsd:complexType>
-	<xsd:element name="actor" type="tActor" />
-	<xsd:complexType name="tActor">
-		<xsd:attribute name="userId" type="xsd:ID" use="optional" />
-		<xsd:attribute name="name" type="xsd:string" use="optional" />
-		<xsd:attribute name="email" type="tEmail" use="optional" />
-	</xsd:complexType>
-	<xsd:element name="role" type="tRole" />
-	<xsd:complexType name="tRole">
-		<xsd:sequence>
-			<xsd:element ref="actor" minOccurs="1" maxOccurs="unbounded" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:NCName" use="required" />
-	</xsd:complexType>
+    <xsd:element name="roles" type="tRoles" />
+    <xsd:complexType name="tRoles">
+        <xsd:sequence>
+            <xsd:element ref="role" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element ref="actor" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="actor" type="tActor" />
+    <xsd:complexType name="tActor">
+        <xsd:attribute name="userId" type="xsd:ID" use="optional" />
+        <xsd:attribute name="name" type="xsd:string" use="optional" />
+        <xsd:attribute name="email" type="tEmail" use="optional" />
+    </xsd:complexType>
+    <xsd:element name="role" type="tRole" />
+    <xsd:complexType name="tRole">
+        <xsd:sequence>
+            <xsd:element ref="actor" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:NCName" use="required" />
+    </xsd:complexType>
 
-	<xsd:simpleType name="tEmail">
-		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="([a-zA-Z0-9])+\@([a-zA-Z0-9])+\.([a-zA-Z0-9])+" />
-		</xsd:restriction>
-	</xsd:simpleType>
+    <xsd:simpleType name="tEmail">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="([a-zA-Z0-9])+\@([a-zA-Z0-9])+\.([a-zA-Z0-9])+" />
+        </xsd:restriction>
+    </xsd:simpleType>
 
-	<xsd:simpleType name="tBoolean">
-		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="yes" />
-			<xsd:enumeration value="no" />
-		</xsd:restriction>
-	</xsd:simpleType>
+    <xsd:simpleType name="tBoolean">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="yes" />
+            <xsd:enumeration value="no" />
+        </xsd:restriction>
+    </xsd:simpleType>
 </xsd:schema>
