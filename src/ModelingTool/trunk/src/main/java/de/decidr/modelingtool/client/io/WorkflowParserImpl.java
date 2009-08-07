@@ -383,6 +383,7 @@ public class WorkflowParserImpl implements WorkflowParser {
         /* Create condition elements */
         for (ConnectionModel connectionModel : node.getChildConnectionModels()) {
             if (connectionModel instanceof Condition) {
+                // JS default condition has no operators, check with if window
                 Condition conModel = (Condition) connectionModel;
                 Element conElement = doc.createElement(DWDLTagNames.condition);
                 conElement.setAttribute(DWDLTagNames.order, conModel.getOrder()
