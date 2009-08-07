@@ -112,7 +112,10 @@ public class NotificationText {
             String signature) {
         
         String message = bundle.getString("AppointedWorkflowModelAdmin_Message");
-        //GH message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<promoterName>", promoterName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<wfmName>", wfmName);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
                   message +
@@ -132,11 +135,12 @@ public class NotificationText {
      *            user name of the tenant admin, who appointed this user to wfm
      *            admin
      * @param tenantName
-     *            GH document
+     *            name of the tenant of which the user has been appointed to
+     *            a wfm admin
      * @param wfmName
      *            name of the workflow model
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message
      */
     public static String getAppointedWorkflowModelAdminText(String userName,
@@ -144,11 +148,12 @@ public class NotificationText {
             String signature) {
         
         String message = bundle.getString("AppointedWorkflowModelAdmin_Message");
-        //GH message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<promoterName>", promoterName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<wfmName>", wfmName);
         message = message.replaceAll("<signature>", signature);
-        message = "<html>" +
-                  message +
-                  "</html>";
+        message = message.replaceAll("<br>", crlf);
 
         return message;
     }
@@ -170,16 +175,17 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param tenantName
-     *            GH document
+     *            name of the tenant that has been approved
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message with HTML tags
      */
     public static String getApprovedTenantHTML(String userName,
             String tenantName, String signature) {
         
         String message = bundle.getString("ApprovedTenant_Message");
-        //GH message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<tenantName>", tenantName);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
                   message +
@@ -195,31 +201,20 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param tenantName
-     *            GH document
+     *            name of the tenant that has been approved
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message
      */
     public static String getApprovedTenantText(String userName,
             String tenantName, String signature) {
-        String message = null;
-        message = "Dear "
-                + userName
-                + ","
-                + crlf
-                + crlf
-                + "We are happy to inform you that your request to create the tenant "
-                + tenantName
-                + " has been approved."
-                + "You have been set as tenant admin automatically and are now able to"
-                + " customize your tenant and invite other users to join your tenant."
-                + crlf
-                + crlf
-                + crlf
-                + signature
-                + crlf
-                + "(Please do not respond to this automatically generated mail)";
 
+        String message = bundle.getString("ApprovedTenant_Message");
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
+        
         return message;
     }
 
@@ -240,18 +235,20 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param confirmationUrl
-     *            GH document
+     *            confirmation link, generated with URLGenerator
      * @param expireDate
-     *            GH document
+     *            date when the conrimationUrl expired
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message with HTML tags
      */
     public static String getChangeEmailRequestHTML(String userName,
             String confirmationUrl, String expireDate, String signature) {
         
         String message = bundle.getString("ChangeEmailRequest_Message");
-        //GH message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<confirmationUrl>", confirmationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
                   message +
@@ -267,42 +264,22 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param confirmationUrl
-     *            GH document
+     *            confirmation link, generated with URLGenerator
      * @param expireDate
-     *            GH document
+     *            date when the conrimationUrl expired
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message
      */
     public static String getChangeEmailRequestText(String userName,
             String confirmationUrl, String expireDate, String signature) {
-        String message = null;
-        message = "Dear "
-                + userName
-                + ","
-                + crlf
-                + crlf
-                + "You have requested to change the email address of your DecidR account. "
-                + "If that was not the case, please ignore this email."
-                + crlf
-                + "To verify this new email address and complete the change, visit the following link:"
-                + crlf
-                + confirmationUrl
-                + crlf
-                + crlf
-                + "If clicking the link in this message does not work, copy and"
-                + " paste it into the address bar of your browser."
-                + crlf
-                + crlf
-                + "Please note that the provided link is only valid for 3 days an will expire on "
-                + expireDate
-                + "."
-                + crlf
-                + crlf
-                + crlf
-                + signature
-                + crlf
-                + "(Please do not respond to this automatically generated mail)";
+
+        String message = bundle.getString("ChangeEmailRequest_Message");
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<confirmationUrl>", confirmationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
 
         return message;
     }
@@ -321,21 +298,23 @@ public class NotificationText {
      * Returns the email text which is sent to a newly registered user to
      * confirm and activate his account.
      * 
-     * @param userName
+     *@param userName
      *            user name of the recipient
      * @param confirmationUrl
-     *            GH document
+     *            confirmation link, generated with URLGenerator
      * @param expireDate
-     *            GH document
+     *            date when the conrimationUrl expired
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message with HTML tags
      */
     public static String getConfirmRegistrationHTML(String userName,
             String confirmationUrl, String expireDate, String signature) {
        
         String message = bundle.getString("ConfirmRegistration_Message");
-        //GH message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<confirmationUrl>", confirmationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
                   message +
@@ -351,42 +330,22 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param confirmationUrl
-     *            GH document
+     *            confirmation link, generated with URLGenerator
      * @param expireDate
-     *            GH document
+     *            date when the conrimationUrl expired
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message
      */
     public static String getConfirmRegistrationText(String userName,
             String confirmationUrl, String expireDate, String signature) {
-        String message = null;
-        message = "Dear "
-                + userName
-                + ","
-                + crlf
-                + crlf
-                + "Thank you for registering and welcome to DecidR!"
-                + crlf
-                + crlf
-                + "For being able to use your newly created account, please activate it by visiting the following link:"
-                + crlf
-                + confirmationUrl
-                + crlf
-                + crlf
-                + "If clicking the link in this message does not work, copy and paste"
-                + " it into the address bar of your browser."
-                + crlf
-                + crlf
-                + "Please note that the provieded link is only valid for 3 days and will expire on "
-                + expireDate
-                + "."
-                + crlf
-                + crlf
-                + crlf
-                + signature
-                + crlf
-                + "(Please do not respond to this automatically generated mail)";
+
+        String message = bundle.getString("ConfirmRegistration_Message");
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<confirmationUrl>", confirmationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
 
         return message;
     }
@@ -394,7 +353,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return GH document
+     * @return subject of the email
      */
     public static String getConfirmRegistrationSubject() {
         String message = bundle.getString("ConfirmRegistration_Subject");
@@ -408,7 +367,7 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message with HTML tags
      */
     public static String getDeactivatedUserAccountHTML(String userName,
@@ -431,7 +390,7 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message
      */
     public static String getDeactivatedUserAccountText(String userName,
@@ -448,7 +407,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return GH document
+     * @return subject of the email
      */
     public static String getDeactivatedUserAccountSubject() {
         String message = bundle.getString("DeactivatedUserAccount_Subject");
@@ -462,16 +421,17 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param tenantName
-     *            GH document
+     *            name of the tenant that has been rejected
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message with HTML tags
      */
     public static String getDisapprovedTenantHTML(String userName,
             String tenantName, String signature) {
         
         String message = bundle.getString("DisapprovedTenant_Message");
-        //GH message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<tenantName>", tenantName);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
                   message +
@@ -487,28 +447,19 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param tenantName
-     *            GH document
+     *            name of the tenant that has been rejected
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message
      */
     public static String getDisapprovedTenantText(String userName,
             String tenantName, String signature) {
-        String message = null;
-        message = "Dear "
-                + userName
-                + ","
-                + crlf
-                + crlf
-                + "Unfortunately your request to create the tenant "
-                + tenantName
-                + " has been rejected."
-                + crlf
-                + crlf
-                + crlf
-                + signature
-                + crlf
-                + "(Please do not respond to this automatically generated mail)";
+
+        String message = bundle.getString("DisapprovedTenant_Message");
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
 
         return message;
     }
@@ -530,16 +481,17 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param newPassword
-     *            GH document
+     *            new, created password
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message with HTML tags
      */
     public static String getGeneratedNewPasswordHTML(String userName,
             String newPassword, String signature) {
         
         String message = bundle.getString("GeneratedNewPassword_Message");
-        //GH message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<newPassword>", newPassword);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
                   message +
@@ -555,31 +507,19 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param newPassword
-     *            GH document
+     *            new, created password
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message
      */
     public static String getGeneratedNewPasswordText(String userName,
             String newPassword, String signature) {
-        String message = null;
-        message = "Dear "
-                + userName
-                + ","
-                + crlf
-                + crlf
-                + "You successfully requested a password reset."
-                + crlf
-                + "Your new generated password is: "
-                + newPassword
-                + crlf
-                + "Please change this password as soon as possible."
-                + crlf
-                + crlf
-                + crlf
-                + signature
-                + crlf
-                + "(Please do not respond to this automatically generated mail)";
+
+        String message = bundle.getString("GeneratedNewPassword_Message");
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<newPassword>", newPassword);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
 
         return message;
     }
@@ -587,7 +527,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return GH document
+     * @return subject of the email
      */
     public static String getGeneratedNewPasswordSubject() {
         String message = bundle.getString("GeneratedNewPassword_Subject");
@@ -601,17 +541,17 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param inviterName
-     *            GH: The real name of the inviter?
+     *            name of the inviter
      * @param tenantName
-     *            GH document
+     *            name of the tenant the user has been invited to join
      * @param tenantUrl
-     *            GH document
+     *            link to the tenant welcome page
      * @param invitationUrl
-     *            GH document
+     *            invitation link, generated with URLGenerator
      * @param expireDate
-     *            GH document
+     *            date when the invitationUrl expired
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message with HTML tags
      */
     public static String getInviteRegisteredUserAsTenantMemberHTML(
@@ -620,7 +560,12 @@ public class NotificationText {
             String signature) {
         
         String message = bundle.getString("InvviteRegisteredUserAsTenantMember_Message");
-        //GH message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<inviterName>", inviterName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<tenantUrl>", tenantUrl);
+        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
                   message +
@@ -636,54 +581,33 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param inviterName
-     *            GH: The real name of the inviter?
+     *            name of the inviter
      * @param tenantName
-     *            GH document
+     *            name of the tenant the user has been invited to join
      * @param tenantUrl
-     *            GH document
+     *            link to the tenant welcome page
      * @param invitationUrl
-     *            GH document
+     *            invitation link, generated with URLGenerator
      * @param expireDate
-     *            GH document
+     *            date when the invitationUrl expired
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message
      */
     public static String getInviteRegisteredUserAsTenantMemberText(
             String userName, String inviterName, String tenantName,
             String tenantUrl, String invitationUrl, String expireDate,
             String signature) {
-        String message = null;
-        message = "Dear "
-                + userName
-                + "!"
-                + crlf
-                + crlf
-                + inviterName
-                + " invited you to join the following DecidR tenant: "
-                + tenantName
-                + crlf
-                + "For further information about this tenant, please visit "
-                + tenantUrl
-                + crlf
-                + crlf
-                + "Please visit the following link and follow the instructions on the website to join the tenant:"
-                + invitationUrl
-                + crlf
-                + crlf
-                + "If clicking the link in this message does not work, copy and"
-                + " paste it into the address bar of your browser."
-                + crlf
-                + crlf
-                + "Please note that this invitation is only valid for 3 days and will expire on "
-                + expireDate
-                + "."
-                + crlf
-                + crlf
-                + crlf
-                + signature
-                + crlf
-                + "(Please do not respond to this automatically generated mail)";
+
+        String message = bundle.getString("InvviteRegisteredUserAsTenantMember_Message");
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<inviterName>", inviterName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<tenantUrl>", tenantUrl);
+        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
 
         return message;
     }
@@ -705,17 +629,17 @@ public class NotificationText {
      * join a tenant and is not yet registered.
      * 
      * @param inviterName
-     *            GH: The real name of the inviter?
+     *            name of the inviter
      * @param tenantName
-     *            GH document
+     *            name of the tenant the user has been invited to join
      * @param tenantUrl
-     *            GH document
+     *            link to the tenant welcome page
      * @param invitationUrl
-     *            GH document
+     *            invitation link, generated with URLGenerator
      * @param expireDate
-     *            GH document
+     *            date when the invitationUrl expired
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message with HTML tags
      */
     public static String getInviteUnregisteredUserAsTenantMemberHTML(
@@ -723,7 +647,11 @@ public class NotificationText {
             String invitationUrl, String expireDate, String signature) {
         
         String message = bundle.getString("InviteUnregisteredUserAsTenantMember_Message");
-        //GH message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<inviterName>", inviterName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<tenantUrl>", tenantUrl);
+        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
                   message +
@@ -737,52 +665,31 @@ public class NotificationText {
      * join a tenant and is not yet registered.
      * 
      * @param inviterName
-     *            GH: The real name of the inviter?
+     *            name of the inviter
      * @param tenantName
-     *            GH document
+     *            name of the tenant the user has been invited to join
      * @param tenantUrl
-     *            GH document
+     *            link to the tenant welcome page
      * @param invitationUrl
-     *            GH document
+     *            invitation link, generated with URLGenerator
      * @param expireDate
-     *            GH document
+     *            date when the invitationUrl expired
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message
      */
     public static String getInviteUnregisteredUserAsTenantMemberText(
             String inviterName, String tenantName, String tenantUrl,
             String invitationUrl, String expireDate, String signature) {
-        String message = null;
-        message = "Hello!"
-                + crlf
-                + crlf
-                + inviterName
-                + " invited you to join the following DecidR tenant: "
-                + tenantName
-                + crlf
-                + "For further information about this tenant, please visit "
-                + tenantUrl
-                + crlf
-                + crlf
-                + "Please visit the following link and follow the instructions on the"
-                + " website to create your own DecidR account and join the tenant:"
-                + invitationUrl
-                + crlf
-                + crlf
-                + "If clicking the link in this message does not work, copy and paste"
-                + " it into the address bar of your browser."
-                + crlf
-                + crlf
-                + "Please note that this invitation is only valid for 3 days and will expire on "
-                + expireDate
-                + "."
-                + crlf
-                + crlf
-                + crlf
-                + signature
-                + crlf
-                + "(Please do not respond to this automatically generated mail)";
+
+        String message = bundle.getString("InviteUnregisteredUserAsTenantMember_Message");
+        message = message.replaceAll("<inviterName>", inviterName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<tenantUrl>", tenantUrl);
+        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
 
         return message;
     }
@@ -804,18 +711,20 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param tenantName
-     *            GH document
+     *            name of the tenant the work item belongs to
      * @param workflowModelName
-     *            GH document
+     *            name of the workflow model, that created the work item
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message with HTML tags
      */
     public static String getNewWorkItemHTML(String userName, String tenantName,
             String workflowModelName, String signature) {
         
         String message = bundle.getString("NewWorkItem_Message");
-        //GH message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<workflowModelName>", userName);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
                   message +
@@ -831,30 +740,22 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param tenantName
-     *            GH document
+     *            name of the tenant the work item belongs to
      * @param workflowModelName
-     *            GH document
+     *            name of the workflow model, that created the work item
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message
      */
     public static String getNewWorkItemText(String userName, String tenantName,
             String workflowModelName, String signature) {
-        String message = null;
-        message = "Dear "
-                + userName
-                + ","
-                + crlf
-                + crlf
-                + "You have received a new work item from your tenant "
-                + tenantName
-                + "."
-                + crlf
-                + crlf
-                + crlf
-                + signature
-                + crlf
-                + "(Please do not respond to this automatically generated mail)";
+
+        String message = bundle.getString("NewWorkItem_Message");
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<workflowModelName>", userName);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
 
         return message;
     }
@@ -877,18 +778,20 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param confirmationUrl
-     *            GH document
+     *            confirmation link, generated with URLGenerator
      * @param expireDate
-     *            GH document
+     *            the date when the confirmationUrl expired
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message with HTML tags
      */
     public static String getPasswordResetRequestHTML(String userName,
             String confirmationUrl, String expireDate, String signature) {
         
         String message = bundle.getString("PasswordResetRequest_Message");
-        //GH message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<confirmationUrl>", confirmationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
                   message +
@@ -904,45 +807,23 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param confirmationUrl
-     *            GH document
+     *            confirmation link, generated with URLGenerator
      * @param expireDate
-     *            GH document
+     *            the date when the confirmationUrl expired
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message
      */
     public static String getPasswordResetRequestText(String userName,
             String confirmationUrl, String expireDate, String signature) {
-        String message = null;
-        message = "Dear "
-                + userName
-                + ","
-                + crlf
-                + crlf
-                + "You have requested a reset of your password. If that was not"
-                + " the case, please ignore this email."
-                + crlf
-                + "To reset your password, please visit the following link:"
-                + crlf
-                + confirmationUrl
-                + crlf
-                + crlf
-                + "A new password will be generated and sent to you."
-                + crlf
-                + "If clicking the link in this message does not work, copy and"
-                + " paste it into the address bar of your browser."
-                + crlf
-                + crlf
-                + "Please note that this invitation is only valid for 3 days"
-                + " and will expire on "
-                + expireDate
-                + "."
-                + crlf
-                + crlf
-                + crlf
-                + signature
-                + crlf
-                + "(Please do not respond to this automatically generated mail)";
+
+        String message = bundle.getString("PasswordResetRequest_Message");
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<confirmationUrl>", confirmationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
+
 
         return message;
     }
@@ -966,16 +847,18 @@ public class NotificationText {
      * @param refusedByName
      *            user name of the user who has been invited
      * @param tenantName
-     *            GH document
+     *            tenant the user has been invited to
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message with HTML tags
      */
     public static String getRefusedInvitationHTML(String userName,
             String refusedByName, String tenantName, String signature) {
         
         String message = bundle.getString("RefusedInvitation_Message");
-        //GH message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<refusedByName>", refusedByName);
+        message = message.replaceAll("<tenantName>", tenantName);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
                   message +
@@ -993,30 +876,20 @@ public class NotificationText {
      * @param refusedByName
      *            user name of the user who has been invited
      * @param tenantName
-     *            GH document
+     *            tenant the user has been invited to
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message
      */
     public static String getRefusedInvitationText(String userName,
             String refusedByName, String tenantName, String signature) {
-        String message = null;
-        message = "Dear "
-                + userName
-                + ","
-                + crlf
-                + crlf
-                + "The user "
-                + refusedByName
-                + " has refused your invitation to join the tenant "
-                + tenantName
-                + "."
-                + crlf
-                + crlf
-                + crlf
-                + signature
-                + crlf
-                + "(Please do not respond to this automatically generated mail)";
+
+        String message = bundle.getString("RefusedInvitation_Message");
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<refusedByName>", refusedByName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
 
         return message;
     }
@@ -1024,7 +897,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return GH document
+     * @return subject of the email
      */
     public static String getRefusedInvitationSubject() {
         String message = bundle.getString("RefusedInvitation_Subject");
@@ -1038,16 +911,17 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param tenantName
-     *            GH document
+     *            name of the tenant the user has been removed from
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message with HTML tags
      */
     public static String getRemovedFromTenantHTML(String userName,
             String tenantName, String signature) {
         
         String message = bundle.getString("RemovedFromTenant_Message");
-        //GH message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<tenantName>", tenantName);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
                   message +
@@ -1063,29 +937,19 @@ public class NotificationText {
      * @param userName
      *            user name of the recipient
      * @param tenantName
-     *            GH document
+     *            name of the tenant the user has been removed from
      * @param signature
-     *            GH document
+     *            signature of the email
      * @return complete email message
      */
     public static String getRemovedFromTenantText(String userName,
             String tenantName, String signature) {
-        String message = null;
-        message = "Dear "
-                + userName
-                + ","
-                + crlf
-                + crlf
-                + "You have been removed from the following tenant: "
-                + tenantName
-                + crlf
-                + "You will no longer be able to work on tasks for this tenant."
-                + crlf
-                + crlf
-                + crlf
-                + signature
-                + crlf
-                + "(Please do not respond to this automatically generated mail)";
+
+        String message = bundle.getString("RemovedFromTenant_Message");
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
 
         return message;
     }
@@ -1093,7 +957,7 @@ public class NotificationText {
     /**
      * Returns the email subject of the corresponding email text.
      * 
-     * @return GH document
+     * @return subject of the email
      */
     public static String getRemovedFromTenantSubject() {
         String message = bundle.getString("RemovedFromTenant_Subject");
@@ -1101,16 +965,20 @@ public class NotificationText {
     }
 
     /**
-     * GH: Add text
+     * Returns the email text which is sent to the super admin if a new 
+     * ODE instance is required
      * 
      * @param location
-     * @return
+     *          location where the instance should be started
+     * @return complete email text with html tags
      */
     public static String getRequestNewODEInstanceHTML(String location) {
         
         String message = bundle.getString("RequestNewODEInstance_Message");
-        //GH message = message.replaceAll("<userName>", userName);
-        //GH message = message.replaceAll("<signature>", signature);
+        if (location != null){
+            message = message + bundle.getString("RequestNewODEInstance_Location");
+        }
+        message.replaceAll("<location>", location);
         message = "<html>" +
                   message +
                   "</html>";
@@ -1119,39 +987,53 @@ public class NotificationText {
     }
 
     /**
-     * GH: Add text
+     * Returns the email text which is sent to the super admin if a new 
+     * ODE instance is required
      * 
      * @param location
-     * @return
+     *          location where the instance should be started
+     * @return complete email text
      */
     public static String getRequestNewODEInstanceText(String location) {
-        String message = "";
+
+        String message = bundle.getString("RequestNewODEInstance_Message");
+        if (location != null){
+            message = message + bundle.getString("RequestNewODEInstance_Location");
+        }
+        message.replaceAll("<location>", crlf);
+        message = message.replaceAll("<br>", crlf);
+        
         return message;
     }
 
     /**
-     * GH: Add text
+     * Returns the email subject of the corresponding email text.
      * 
-     * @param location
-     * @return
+     * @return subject of the email
      */
     public static String getRequestNewODEInstanceSubject() {
-        String message = "";
+        String message = bundle.getString("RequestNewODEInstance_Subject");
         return message;
     }
     
-    //#################################################################################
     
-
     /**
-     * GH: Add text
-     * 
-     * @param location
-     * @return
+     * Returns the email text which is sent to a unregistered user, who
+     * has been invited to the role of a workflow admin
+     *
+     * @param tenantName
+     *          name of the tenant that owns the workflow
+     * @param invitationUrl
+     *          invitation link
+     * @param signature
+     *          signature of the email
+     * @return complete email text with html tags
      */
-    public static String getInvitedUnregisteredUserAsWorkflowAdminHTML(String tenantName, String signature) {
+    public static String getInvitedUnregisteredUserAsWorkflowAdminHTML(String tenantName,
+            String invitationUrl, String signature) {
         String message = bundle.getString("InvitedUnregisteredUserAsWorkflowAdmin_Message");
-        //GH message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<invitationUrl>", invitationUrl);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
                   message +
@@ -1161,21 +1043,32 @@ public class NotificationText {
     }
 
     /**
-     * GH: Add text
-     * 
-     * @param location
-     * @return
+     * Returns the email text which is sent to a unregistered user, who
+     * has been invited to the role of a workflow admin
+     *
+     * @param tenantName
+     *          name of the tenant that owns the workflow
+     * @param invitationUrl
+     *          invitation link
+     * @param signature
+     *          signature of the email
+     * @return complete email text 
      */
-    public static String getInvitedUnregisteredUserAsWorkflowAdminText(String tenantName, String signature) {
-        String message = "";
+    public static String getInvitedUnregisteredUserAsWorkflowAdminText(String tenantName,
+            String invitationUrl, String signature) {
+        String message = bundle.getString("InvitedUnregisteredUserAsWorkflowAdmin_Message");
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
+
         return message;
     }
 
     /**
-     * GH: Add text
+     * Returns the email subject of the corresponding email text.
      * 
-     * @param location
-     * @return
+     * @return subject of the email
      */
     public static String getInvitedUnregisteredUserAsWorkflowAdminSubject() {
         String message = bundle.getString("InvitedUnregisteredUserAsWorkflowAdmin_Subject");
@@ -1183,16 +1076,23 @@ public class NotificationText {
     }
 
     /**
-     * GH: Add text
-     * 
-     * @param location
-     * @return
+     * Returns the email text which is sent to a registered user, who
+     * has been invited to the role of a workflow admin
+     *
+     * @param userName
+     *          username of the recipient
+     * @param tenantName
+     *          name of the tenant that owns the workflow
+     * @param signature
+     *          signature of the email
+     * @return complete email text with html tags
      */
     public static String getInvitedRegisteredUserAsWorkflowAdminHTML(String userName,
                          String tenantName, String signature) {
         
         String message = bundle.getString("InvitedRegisteredUserAsWorkflowAdmin_Message");
-        //GH message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<tenantName>", tenantName);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
                   message +
@@ -1202,22 +1102,33 @@ public class NotificationText {
     }
 
     /**
-     * GH: Add text
-     * 
-     * @param location
-     * @return
+     * Returns the email text which is sent to a registered user, who
+     * has been invited to the role of a workflow admin
+     *
+     * @param userName
+     *          username of the recipient
+     * @param tenantName
+     *          name of the tenant that owns the workflow
+     * @param signature
+     *          signature of the email
+     * @return complete email text
      */
     public static String getInvitedRegisteredUserAsWorkflowAdminText(String userName,
                          String tenantName, String signature) {
-        String message = "";
+
+        String message = bundle.getString("InvitedRegisteredUserAsWorkflowAdmin_Message");
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
+
         return message;
     }
 
     /**
-     * GH: Add text
+     * Returns the email subject of the corresponding email text.
      * 
-     * @param location
-     * @return
+     * @return subject of the email
      */
     public static String getInvitedRegisteredUserAsWorkflowAdminSubject() {
         String message = bundle.getString("InvitedRegisteredUserAsWorkflowAdmin_Subject");
@@ -1226,15 +1137,23 @@ public class NotificationText {
     
 
     /**
-     * GH: Add text
-     * 
-     * @param location
-     * @return
+     * Returns the email text which is sent to a user (registered or unregistered)
+     * who has been invited to participate in a workflow
+     *
+     * @param tenantName
+     *          name of the tenant which owns the workflow
+     * @param workflowName
+     *          name of the workflow
+     * @param signature
+     *          signature of the email
+     * @return complete email text with html tags
      */
-    public static String getInvitedUserAsWorkflowParticipantHTML(String tenantName, String signature) {
+    public static String getInvitedUserAsWorkflowParticipantHTML(String tenantName,
+            String workflowName, String signature) {
         
         String message = bundle.getString("InvitedUserAsWorkflowParticipant_Message");
-        //GH message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<workflowName>", workflowName);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
                   message +
@@ -1244,21 +1163,33 @@ public class NotificationText {
     }
 
     /**
-     * GH: Add text
-     * 
-     * @param location
-     * @return
+     * Returns the email text which is sent to a user (registered or unregistered)
+     * who has been invited to participate in a workflow
+     *
+     * @param tenantName
+     *          name of the tenant which owns the workflow
+     * @param workflowName
+     *          name of the workflow
+     * @param signature
+     *          signature of the email
+     * @return complete email text with html tags
      */
-    public static String getInvitedUserAsWorkflowParticipantText(String tenantName, String signature) {
-        String message = "";
+    public static String getInvitedUserAsWorkflowParticipantText(String tenantName,
+            String workflowName, String signature) {
+        
+        String message = bundle.getString("InvitedUserAsWorkflowParticipant_Message");
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<workflowName>", workflowName);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
+
         return message;
     }
 
     /**
-     * GH: Add text
+     * Returns the email subject of the corresponding email text.
      * 
-     * @param location
-     * @return
+     * @return subject of the email
      */
     public static String getInvitedUserAsWorkflowParticipantSubject() {
         String message = bundle.getString("InvitedUserAsWorkflowParticipant_Subject");

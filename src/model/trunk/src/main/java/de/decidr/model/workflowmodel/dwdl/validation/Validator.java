@@ -79,16 +79,10 @@ public class Validator {
         try {
             validator.validate(dwdl);
         } catch (SAXException e) {
-            // MA errList ist hier immer null
-            if (errList == null) {
-                errList = new ArrayList<IProblem>();
-            }
+            errList = new ArrayList<IProblem>();
             errList.add(new Problem(e.getMessage(), "global"));
         } catch (IOException e) {
-            // MA errList ist hier immer null
-            if (errList == null) {
-                errList = new ArrayList<IProblem>();
-            }
+            errList = new ArrayList<IProblem>();
             errList.add(new Problem(e.getMessage(), "global"));
         }
 
@@ -120,16 +114,10 @@ public class Validator {
         try {
             validator.validate(dom);
         } catch (SAXException e) {
-            // MA errList ist hier immer null
-            if (errList == null) {
-                errList = new ArrayList<IProblem>();
-            }
+            errList = new ArrayList<IProblem>();
             errList.add(new Problem(e.getMessage(), "global"));
         } catch (IOException e) {
-            // MA errList ist hier immer null
-            if (errList == null) {
-                errList = new ArrayList<IProblem>();
-            }
+            errList = new ArrayList<IProblem>();
             errList.add(new Problem(e.getMessage(), "global"));
         }
 
@@ -168,9 +156,7 @@ public class Validator {
         // - EMail Activity
         // - Human Task
 
-        for (Iterator<Actor> iter = dwdl.getRoles().getActor().listIterator(); iter
-                .hasNext();) {
-            Actor actor = iter.next();
+        for (Actor actor: dwdl.getRoles().getActor()) {
             try {
                 if (!userFacade.isRegistered(actor.getUserId())) {
                     userErr.add(new Problem("User " + actor.getName() + "("
@@ -203,9 +189,8 @@ public class Validator {
 
         // GH Gesame Klasse: schonmal was von 'nem "foreach" und "Generics"
         // gehört?
-        for (Iterator<Variable> iter = dwdl.getVariables().getVariable()
-                .listIterator(); iter.hasNext();) {
-            Variable tVar = iter.next();
+        // RR nö, in wie fern helfen mir die generics hierbei?
+        for (Variable tVar: dwdl.getVariables().getVariable()) {
             String type = tVar.getType();
 
             if (tVar.getInitialValue() != null) {
