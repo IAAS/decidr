@@ -1025,15 +1025,18 @@ public class NotificationText {
      *          name of the tenant that owns the workflow
      * @param invitationUrl
      *          invitation link
+     * @param expireDate
+     *          date when the inviationUrl expires
      * @param signature
      *          signature of the email
      * @return complete email text with html tags
      */
     public static String getInvitedUnregisteredUserAsWorkflowAdminHTML(String tenantName,
-            String invitationUrl, String signature) {
+            String invitationUrl, String expireDate, String signature) {
         String message = bundle.getString("InvitedUnregisteredUserAsWorkflowAdmin_Message");
         message = message.replaceAll("<tenantName>", tenantName);
         message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
                   message +
@@ -1050,15 +1053,18 @@ public class NotificationText {
      *          name of the tenant that owns the workflow
      * @param invitationUrl
      *          invitation link
+     * @param expireDate
+     *          date when the inviationUrl expires
      * @param signature
      *          signature of the email
      * @return complete email text 
      */
     public static String getInvitedUnregisteredUserAsWorkflowAdminText(String tenantName,
-            String invitationUrl, String signature) {
+            String invitationUrl, String expireDate, String signature) {
         String message = bundle.getString("InvitedUnregisteredUserAsWorkflowAdmin_Message");
         message = message.replaceAll("<tenantName>", tenantName);
         message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<signature>", signature);
         message = message.replaceAll("<br>", crlf);
 
@@ -1081,6 +1087,10 @@ public class NotificationText {
      *
      * @param userName
      *          username of the recipient
+     * @param invitationUrl
+     *          invitation link
+     * @param expireDate
+     *          date when the inviationUrl expires
      * @param tenantName
      *          name of the tenant that owns the workflow
      * @param signature
@@ -1088,10 +1098,12 @@ public class NotificationText {
      * @return complete email text with html tags
      */
     public static String getInvitedRegisteredUserAsWorkflowAdminHTML(String userName,
-                         String tenantName, String signature) {
+            String invitationUrl, String expireDate, String tenantName, String signature) {
         
         String message = bundle.getString("InvitedRegisteredUserAsWorkflowAdmin_Message");
         message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<tenantName>", tenantName);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
@@ -1107,6 +1119,10 @@ public class NotificationText {
      *
      * @param userName
      *          username of the recipient
+     * @param invitationUrl
+     *          invitation link
+     * @param expireDate
+     *          date when the inviationUrl expires
      * @param tenantName
      *          name of the tenant that owns the workflow
      * @param signature
@@ -1114,10 +1130,12 @@ public class NotificationText {
      * @return complete email text
      */
     public static String getInvitedRegisteredUserAsWorkflowAdminText(String userName,
-                         String tenantName, String signature) {
+            String invitationUrl, String expireDate, String tenantName, String signature) {
 
         String message = bundle.getString("InvitedRegisteredUserAsWorkflowAdmin_Message");
         message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<tenantName>", tenantName);
         message = message.replaceAll("<signature>", signature);
         message = message.replaceAll("<br>", crlf);
@@ -1142,6 +1160,10 @@ public class NotificationText {
      *
      * @param tenantName
      *          name of the tenant which owns the workflow
+     * @param invitationUrl
+     *          invitation link
+     * @param expireDate
+     *          date when the inviationUrl expires
      * @param workflowName
      *          name of the workflow
      * @param signature
@@ -1149,10 +1171,12 @@ public class NotificationText {
      * @return complete email text with html tags
      */
     public static String getInvitedUserAsWorkflowParticipantHTML(String tenantName,
-            String workflowName, String signature) {
+            String invitationUrl, String expireDate, String workflowName, String signature) {
         
         String message = bundle.getString("InvitedUserAsWorkflowParticipant_Message");
         message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<workflowName>", workflowName);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" +
@@ -1168,6 +1192,10 @@ public class NotificationText {
      *
      * @param tenantName
      *          name of the tenant which owns the workflow
+     * @param invitationUrl
+     *          invitation link
+     * @param expireDate
+     *          date when the inviationUrl expires
      * @param workflowName
      *          name of the workflow
      * @param signature
@@ -1175,10 +1203,12 @@ public class NotificationText {
      * @return complete email text with html tags
      */
     public static String getInvitedUserAsWorkflowParticipantText(String tenantName,
-            String workflowName, String signature) {
+            String invitationUrl, String expireDate, String workflowName, String signature) {
         
         String message = bundle.getString("InvitedUserAsWorkflowParticipant_Message");
         message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<workflowName>", workflowName);
         message = message.replaceAll("<signature>", signature);
         message = message.replaceAll("<br>", crlf);
