@@ -10,6 +10,7 @@
         <property name="hibernate.connection.url">jdbc:mysql://localhost/decidrtestdb</property>
         <property name="hibernate.connection.username">decidr</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+        <mapping resource="de/decidr/model/entities/Activity.hbm.xml" />
         <mapping resource="de/decidr/model/entities/StartConfiguration.hbm.xml" />
         <mapping resource="de/decidr/model/entities/UserAdministratesWorkflowInstance.hbm.xml" />
         <mapping resource="de/decidr/model/entities/StartableWorkflowModelView.hbm.xml" />

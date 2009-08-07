@@ -79,7 +79,7 @@ public class DecidrGlobalsTest {
         assertTrue(settings.getMinWorkflowInstancesForLock() >= 0);
         assertTrue(settings.getMonitorAveragingPeriodSeconds() >= 0);
         assertTrue(settings.getMonitorUpdateIntervalSeconds() >= 0);
-        assertTrue(settings.getMtaPort() >= 0);
+        assertTrue(settings.getMtaPort() >= -1);
         assertTrue(settings.getPasswordResetRequestLifetimeSeconds() >= 0);
         assertTrue(settings.getRegistrationRequestLifetimeSeconds() >= 0);
         assertTrue(settings.getServerPoolInstances() >= 0);
