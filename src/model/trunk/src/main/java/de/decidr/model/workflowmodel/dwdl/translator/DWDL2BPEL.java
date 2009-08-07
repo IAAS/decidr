@@ -321,7 +321,7 @@ public class DWDL2BPEL {
                         actorXML.append("<decidr:actor");
                         actorXML.append(actor.getName() != null ? " name="
                                 + actor.getName() : "");
-                        actorXML.append(actor.getUserId() != null ? " userId="
+                        actorXML.append((Long)actor.getUserId() != null ? " userId="
                                 + actor.getUserId() : "");
                         actorXML.append(actor.getEmail() != null ? " email="
                                 + actor.getEmail() : "");
@@ -352,7 +352,7 @@ public class DWDL2BPEL {
                     actorXML.append("<decidr:actor");
                     actorXML.append(actor.getName() != null ? " name="
                             + actor.getName() : "");
-                    actorXML.append(actor.getUserId() != null ? " userId="
+                    actorXML.append((Long)actor.getUserId() != null ? " userId="
                             + actor.getUserId() : "");
                     actorXML.append(actor.getEmail() != null ? " email="
                             + actor.getEmail() : "");
