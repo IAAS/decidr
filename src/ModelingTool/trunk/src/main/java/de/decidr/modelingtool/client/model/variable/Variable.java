@@ -189,7 +189,7 @@ public class Variable extends BaseModelData {
      * 
      * @return the configVariable
      */
-    public boolean isConfig() {
+    public Boolean isConfig() {
         return  get(CONFIGVAR);
     }
 
