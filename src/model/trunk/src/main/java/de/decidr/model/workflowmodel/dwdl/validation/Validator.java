@@ -52,6 +52,9 @@ public class Validator {
     private javax.xml.validation.Validator validator = null;
     private Schema schema = null;
 
+    private SimpleDateFormat sdfD = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
+
     public Validator() {
         try {
             SchemaFactory sf = SchemaFactory
@@ -156,7 +159,7 @@ public class Validator {
         // - EMail Activity
         // - Human Task
 
-        for (Actor actor: dwdl.getRoles().getActor()) {
+        for (Actor actor : dwdl.getRoles().getActor()) {
             try {
                 if (!userFacade.isRegistered(actor.getUserId())) {
                     userErr.add(new Problem("User " + actor.getName() + "("
@@ -184,31 +187,24 @@ public class Validator {
      */
     private List<IProblem> checkVariables(Workflow dwdl) {
         List<IProblem> varErr = new ArrayList<IProblem>();
-        SimpleDateFormat sdfD = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
 
         // GH Gesame Klasse: schonmal was von 'nem "foreach" und "Generics"
         // gehört?
         // RR nö, in wie fern helfen mir die generics hierbei?
-        for (Variable tVar: dwdl.getVariables().getVariable()) {
+        for (Variable tVar : dwdl.getVariables().getVariable()) {
             String type = tVar.getType();
 
             if (tVar.getInitialValue() != null) {
                 if (type.toLowerCase().equals("integer")) {
                     if (tVar.getInitialValues() == null) {
-                        try {
-                            Integer.parseInt(tVar.getInitialValue().toString());
-                        } catch (NumberFormatException e) {
+                        if (!isVariableInteger(tVar.getInitialValue())) {
                             varErr.add(new Problem("value is not integer!",
                                     tVar.getName()));
                         }
                     } else {
-                        for (Iterator<Literal> literals = tVar
-                                .getInitialValues().getInitialValue()
-                                .iterator(); literals.hasNext();) {
-                            try {
-                                Integer.parseInt(literals.next().toString());
-                            } catch (NumberFormatException e) {
+                        for (Literal literals : tVar.getInitialValues()
+                                .getInitialValue()) {
+                            if (!isVariableInteger(tVar.getInitialValue())) {
                                 varErr.add(new Problem("value(s) not integer!",
                                         tVar.getName()));
                                 break;
@@ -218,19 +214,14 @@ public class Validator {
 
                 } else if (type.toLowerCase().equals("float")) {
                     if (tVar.getInitialValues() == null) {
-                        try {
-                            Float.parseFloat(tVar.getInitialValue().toString());
-                        } catch (NumberFormatException e) {
+                        if (!isVariableFloat(tVar.getInitialValue())) {
                             varErr.add(new Problem("value is not float!", tVar
                                     .getName()));
                         }
                     } else {
-                        for (Iterator<Literal> literals = tVar
-                                .getInitialValues().getInitialValue()
-                                .iterator(); literals.hasNext();) {
-                            try {
-                                Float.parseFloat(literals.next().toString());
-                            } catch (NumberFormatException e) {
+                        for (Literal literals : tVar.getInitialValues()
+                                .getInitialValue()) {
+                            if (!isVariableFloat(tVar.getInitialValue())) {
                                 varErr.add(new Problem("value(s) not float!",
                                         tVar.getName()));
                                 break;
@@ -243,17 +234,14 @@ public class Validator {
 
                 } else if (type.toLowerCase().equals("boolean")) {
                     if (tVar.getInitialValues() == null) {
-                        if (!(tVar.getInitialValue().toString() == "true" || tVar
-                                .getInitialValue().toString() == "false")) {
+                        if (!isVariableBoolean(tVar.getInitialValue())) {
                             varErr.add(new Problem("value is not boolean!",
                                     tVar.getName()));
                         }
                     } else {
-                        for (Iterator<Literal> literals = tVar
-                                .getInitialValues().getInitialValue()
-                                .iterator(); literals.hasNext();) {
-                            if (!(literals.next().toString() == "true" || literals
-                                    .next().toString() == "false")) {
+                        for (Literal literals : tVar.getInitialValues()
+                                .getInitialValue()) {
+                            if (!isVariableBoolean(tVar.getInitialValue())) {
                                 varErr.add(new Problem("value(s) not boolean!",
                                         tVar.getName()));
                                 break;
@@ -263,20 +251,15 @@ public class Validator {
 
                 } else if (type.toLowerCase().equals("date")) {
                     if (tVar.getInitialValues() == null) {
-                        try {
-                            sdfD.parse(tVar.getInitialValue().toString());
-                        } catch (ParseException e) {
+                        if (!isVariableDate(tVar.getInitialValue())) {
                             varErr.add(new Problem(
                                     "value is not a valid date!", tVar
                                             .getName()));
                         }
                     } else {
-                        for (Iterator<Literal> literals = tVar
-                                .getInitialValues().getInitialValue()
-                                .iterator(); literals.hasNext();) {
-                            try {
-                                sdfD.parse(literals.next().toString());
-                            } catch (ParseException e) {
+                        for (Literal literals : tVar.getInitialValues()
+                                .getInitialValue()) {
+                            if (!isVariableDate(tVar.getInitialValue())) {
                                 varErr.add(new Problem(
                                         "value(s) are not a valid date!", tVar
                                                 .getName()));
@@ -287,20 +270,15 @@ public class Validator {
 
                 } else if (type.toLowerCase().equals("time")) {
                     if (tVar.getInitialValues() == null) {
-                        try {
-                            sdfT.parse(tVar.getInitialValue().toString());
-                        } catch (ParseException e) {
+                        if (!isVariableTime(tVar.getInitialValue())) {
                             varErr.add(new Problem(
                                     "value is not a valid time!", tVar
                                             .getName()));
                         }
                     } else {
-                        for (Iterator<Literal> literals = tVar
-                                .getInitialValues().getInitialValue()
-                                .iterator(); literals.hasNext();) {
-                            try {
-                                sdfT.parse(literals.next().toString());
-                            } catch (ParseException e) {
+                        for (Literal literals : tVar.getInitialValues()
+                                .getInitialValue()) {
+                            if (!isVariableTime(tVar.getInitialValue())) {
                                 varErr.add(new Problem(
                                         "value(s) are not a valid time!", tVar
                                                 .getName()));
@@ -313,5 +291,89 @@ public class Validator {
         }
 
         return varErr;
+    }
+
+    /**
+     * Checks whether the value of the given variable is from type boolean (in
+     * this case only true or false are valid)
+     * 
+     * @param var
+     *            the variable to check
+     * @return true, if the value of the variable if of type boolean, false if
+     *         not
+     */
+    private boolean isVariableBoolean(Literal var) {
+        if (!(var.toString() == "true" || var.toString() == "false")) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Checks whether the value of the given variable is from type integer
+     * 
+     * @param var
+     *            the variable to check
+     * @return true, if the value of the variable if of type integer, false if
+     *         not
+     */
+    private boolean isVariableInteger(Literal var) {
+        try {
+            Integer.parseInt(var.toString());
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks whether the value of the given variable is from type float
+     * 
+     * @param var
+     *            the variable to check
+     * @return true, if the value of the variable if of type float, false if not
+     */
+    private boolean isVariableFloat(Literal var) {
+        try {
+            Float.parseFloat(var.toString());
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks whether the value of the given variable is from type date (see
+     * declaration of sdfD)
+     * 
+     * @param var
+     *            the variable to check
+     * @return true, if the value of the variable if of type date, false if not
+     */
+    private boolean isVariableDate(Literal var) {
+        try {
+            sdfD.parse(var.toString());
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks whether the value of the given variable is from type time (see
+     * declaration of sdfT)
+     * 
+     * @param var
+     *            the variable to check
+     * @return true, if the value of the variable if of type time, false if not
+     */
+    private boolean isVariableTime(Literal var) {
+        try {
+            sdfT.parse(var.toString());
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
     }
 }
