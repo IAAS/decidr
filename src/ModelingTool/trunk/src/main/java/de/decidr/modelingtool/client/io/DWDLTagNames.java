@@ -39,7 +39,6 @@ public class DWDLTagNames {
     public static String defaultCondition = "defaultCondition";
     public static String description = "description";
     public static String endNode = "endNode";
-    public static String no = "no";
     public static String faultHandler = "faultHandler";
     public static String finalCounterValue = "finalCounterValue";
     public static String flowNode = "flowNode";
@@ -59,11 +58,13 @@ public class DWDLTagNames {
     public static String message = "message";
     public static String name = "name";
     public static String namespace = "targetNamespace";
+    public static String no = "no";
     public static String nodes = "nodes";
     public static String notificationOfSuccess = "notificationOfSuccess";
     public static String operator = "operator";
     public static String order = "order";
     public static String parallel = "parallel";
+    public static String parameters = "parameters";
     public static String propertyValue = "propertyValue";
     public static String recipient = "recipient";
     public static String rightOp = "right-operand";
@@ -82,7 +83,6 @@ public class DWDLTagNames {
     public static String taskItem = "taskItem";
     public static String taskResult = "taskResult";
     public static String to = "to";
-    public static String yes = "yes";
     public static String type = "type";
     public static String user = "user";
     public static String userId = "userId";
@@ -94,4 +94,5 @@ public class DWDLTagNames {
     public static String width = "width";
     public static String x = "x";
     public static String y = "y";
+    public static String yes = "yes";
 }

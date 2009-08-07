@@ -77,7 +77,7 @@ public class WorkflowParserImpl implements WorkflowParser {
         workflow.appendChild(createFaultHandlerElement(doc, model));
 
         /* Create container and invoke nodes */
-        workflow.appendChild(createChildNodeElements(doc, model));
+        workflow.appendChild(createChildNodeElements(doc, model, model));
 
         /* Create arcs */
         workflow.appendChild(createArcElements(doc, model));
@@ -87,6 +87,7 @@ public class WorkflowParserImpl implements WorkflowParser {
         return doc.toString();
     }
 
+    // JS use variable id as Dwdl name with prefix "L", variable label is id
     private void createVariablesAndRoles(Document doc, Element parent,
             WorkflowModel model) {
         /*
@@ -183,36 +184,36 @@ public class WorkflowParserImpl implements WorkflowParser {
         return faultHandler;
     }
 
-    private Element createChildNodeElements(Document doc, HasChildModels model) {
+    private Element createChildNodeElements(Document doc,
+            WorkflowModel workflow, HasChildModels parent) {
         /*
          * Create nodes element which contains all child nodes of a workflow or
          * a container
          */
         Element nodes = doc.createElement(DWDLTagNames.nodes);
-        for (NodeModel node : model.getChildNodeModels()) {
+        for (NodeModel node : parent.getChildNodeModels()) {
             /* Find out type and call the according node */
             if (node instanceof StartNodeModel) {
                 nodes
                         .appendChild(createStartElement(doc,
                                 (StartNodeModel) node));
             } else if (node instanceof EndNodeModel) {
-                nodes.appendChild(createEndElement(doc, (WorkflowModel) model,
+                nodes.appendChild(createEndElement(doc, (WorkflowModel) parent,
                         (EndNodeModel) node));
             } else if (node instanceof EmailInvokeNodeModel) {
                 nodes.appendChild(createEmailElement(doc,
                         (EmailInvokeNodeModel) node));
             } else if (node instanceof HumanTaskInvokeNodeModel) {
-                nodes.appendChild(createHumanTaskElement(doc,
+                nodes.appendChild(createHumanTaskElement(doc, workflow,
                         (HumanTaskInvokeNodeModel) node));
             } else if (node instanceof FlowContainerModel) {
-                nodes.appendChild(createFlowElement(doc,
+                nodes.appendChild(createFlowElement(doc, workflow,
                         (FlowContainerModel) node));
             } else if (node instanceof IfContainerModel) {
-                nodes
-                        .appendChild(createIfElement(doc,
-                                (IfContainerModel) node));
+                nodes.appendChild(createIfElement(doc, workflow,
+                        (IfContainerModel) node));
             } else if (node instanceof ForEachContainerModel) {
-                nodes.appendChild(createForEachElement(doc,
+                nodes.appendChild(createForEachElement(doc, workflow,
                         (ForEachContainerModel) node));
             }
         }
@@ -287,7 +288,7 @@ public class WorkflowParserImpl implements WorkflowParser {
     }
 
     private Element createHumanTaskElement(Document doc,
-            HumanTaskInvokeNodeModel node) {
+            WorkflowModel workflow, HumanTaskInvokeNodeModel node) {
         Element humanTaskElement = doc.createElement(DWDLTagNames.invokeNode);
         humanTaskElement.setAttribute(DWDLTagNames.name, node.getName());
         humanTaskElement.setAttribute(DWDLTagNames.id, node.getId().toString());
@@ -303,7 +304,7 @@ public class WorkflowParserImpl implements WorkflowParser {
 
         /* Create property elements for user */
         humanTaskElement.appendChild(createPropertyElement(doc,
-                DWDLTagNames.wfId, 0L));
+                DWDLTagNames.wfId, workflow.getId()));
         humanTaskElement.appendChild(createPropertyElement(doc,
                 DWDLTagNames.user, node.getUserVariableId()));
 
@@ -331,6 +332,7 @@ public class WorkflowParserImpl implements WorkflowParser {
         getProperty.setAttribute(DWDLTagNames.variable, node
                 .getFormVariableId().toString());
         Element humanTaskData = doc.createElement(DWDLTagNames.humanTaskData);
+
         /* Create task items */
         for (TaskItem ti : node.getTaskItems()) {
             Element taskItem = doc.createElement(DWDLTagNames.taskItem);
@@ -347,25 +349,31 @@ public class WorkflowParserImpl implements WorkflowParser {
                     variable.getValues().get(0)));
             humanTaskData.appendChild(taskItem);
         }
-        getProperty.appendChild(humanTaskData);
+
+        /* Append human task data to parameter element */
+        Element parameters = doc.createElement(DWDLTagNames.parameters);
+        parameters.appendChild(humanTaskData);
+        getProperty.appendChild(parameters);
 
         humanTaskElement.appendChild(getProperty);
         return humanTaskElement;
     }
 
-    private Element createFlowElement(Document doc, FlowContainerModel node) {
+    private Element createFlowElement(Document doc, WorkflowModel workflow,
+            FlowContainerModel node) {
         Element flowElement = doc.createElement(DWDLTagNames.flowNode);
         flowElement.appendChild(createTextElement(doc,
                 DWDLTagNames.description, node.getDescription()));
         flowElement.appendChild(createGraphicsElement(doc, node));
         flowElement.appendChild(createTargetElement(doc, node));
         flowElement.appendChild(createSourceElement(doc, node));
-        flowElement.appendChild(createChildNodeElements(doc, node));
+        flowElement.appendChild(createChildNodeElements(doc, workflow, node));
         flowElement.appendChild(createArcElements(doc, node));
         return flowElement;
     }
 
-    private Element createIfElement(Document doc, IfContainerModel node) {
+    private Element createIfElement(Document doc, WorkflowModel workflow,
+            IfContainerModel node) {
         Element ifElement = doc.createElement(DWDLTagNames.ifNode);
         ifElement.appendChild(createTextElement(doc, DWDLTagNames.description,
                 node.getDescription()));
@@ -395,7 +403,8 @@ public class WorkflowParserImpl implements WorkflowParser {
                 conElement.appendChild(createTextElement(doc,
                         DWDLTagNames.rightOp, conModel.getOperand2Id()
                                 .toString()));
-                conElement.appendChild(createChildNodeElements(doc, node));
+                conElement.appendChild(createChildNodeElements(doc, workflow,
+                        node));
                 conElement.appendChild(createArcElements(doc, node));
                 ifElement.appendChild(conElement);
             }
@@ -403,7 +412,7 @@ public class WorkflowParserImpl implements WorkflowParser {
         return ifElement;
     }
 
-    private Element createForEachElement(Document doc,
+    private Element createForEachElement(Document doc, WorkflowModel workflow,
             ForEachContainerModel node) {
         Element forEachElement = doc.createElement(DWDLTagNames.forEachNode);
         forEachElement.setAttribute(DWDLTagNames.countername, node
@@ -433,7 +442,8 @@ public class WorkflowParserImpl implements WorkflowParser {
                 .appendChild(createTextElement(doc, DWDLTagNames.completionCon,
                         node.getExitCondition().toString()));
 
-        forEachElement.appendChild(createChildNodeElements(doc, node));
+        forEachElement
+                .appendChild(createChildNodeElements(doc, workflow, node));
         forEachElement.appendChild(createArcElements(doc, node));
 
         return forEachElement;
