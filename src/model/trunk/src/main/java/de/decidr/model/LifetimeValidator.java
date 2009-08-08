@@ -19,8 +19,6 @@ package de.decidr.model;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.hibernate.Session;
-
 import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.PasswordResetRequest;
@@ -41,12 +39,10 @@ public class LifetimeValidator {
      * 
      * @param request
      *            the request which should be checked
-     * @param session
-     *            the current session
      * @return true iff the given password reset request is still valid
      */
     public static Boolean isPasswordResetRequestValid(
-            PasswordResetRequest request, Session session) {
+            PasswordResetRequest request) {
         return requestIsAlive(request.getCreationDate(), DecidrGlobals
                 .getSettings().getPasswordResetRequestLifetimeSeconds());
     }
@@ -56,8 +52,6 @@ public class LifetimeValidator {
      * 
      * @param invitation
      *            the invitation which should be checked
-     * @param session
-     *            the current session
      * @return true iff the given invitation is still valid
      */
     public static Boolean isInvitationValid(Invitation invitation) {
@@ -70,8 +64,6 @@ public class LifetimeValidator {
      * 
      * @param request
      *            the request which should be checked
-     * @param session
-     *            the current session
      * @return true iff the given registration request is still valid.
      */
     public static Boolean isRegistrationRequestValid(RegistrationRequest request) {

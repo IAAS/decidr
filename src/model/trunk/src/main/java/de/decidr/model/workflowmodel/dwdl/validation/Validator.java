@@ -188,9 +188,15 @@ public class Validator {
     private List<IProblem> checkVariables(Workflow dwdl) {
         List<IProblem> varErr = new ArrayList<IProblem>();
 
-        // GH Gesame Klasse: schonmal was von 'nem "foreach" und "Generics"
+        // GH rr: Gesamte Klasse: schonmal was von 'nem "foreach" und "Generics"
         // gehört?
-        // RR nö, in wie fern helfen mir die generics hierbei?
+        // gh: nö, in wie fern helfen mir die generics hierbei?
+        // rr: mit den foreach-Schleifen gar nicht - davor haben sie ziemlich
+        // viele casts gespart und waren viel leserlicher als was immer da drin
+        // stand.
+        // Wenn du magst können wir die Original-Version gemeinsam begutachten
+        // wenn du wieder da bist. (Bitte Antwort in 'ne E-Mail auslagern oder
+        // direkt auf mich zukommen) ~rr
         for (Variable tVar : dwdl.getVariables().getVariable()) {
             String type = tVar.getType();
 
@@ -299,8 +305,8 @@ public class Validator {
      * 
      * @param var
      *            the variable to check
-     * @return true, if the value of the variable if of type boolean, false if
-     *         not
+     * @return <code>true</code>, if the value of the variable if of type
+     *         boolean, <code>false</code> if not
      */
     private boolean isVariableBoolean(Literal var) {
         if (!(var.toString() == "true" || var.toString() == "false")) {
@@ -315,8 +321,8 @@ public class Validator {
      * 
      * @param var
      *            the variable to check
-     * @return true, if the value of the variable if of type integer, false if
-     *         not
+     * @return <code>true</code>, if the value of the variable if of type
+     *         integer, <code>false</code> if not
      */
     private boolean isVariableInteger(Literal var) {
         try {
@@ -332,7 +338,8 @@ public class Validator {
      * 
      * @param var
      *            the variable to check
-     * @return true, if the value of the variable if of type float, false if not
+     * @return <code>true</code>, if the value of the variable if of type float,
+     *         <code>false</code> if not
      */
     private boolean isVariableFloat(Literal var) {
         try {
@@ -349,7 +356,8 @@ public class Validator {
      * 
      * @param var
      *            the variable to check
-     * @return true, if the value of the variable if of type date, false if not
+     * @return <code>true</code>, if the value of the variable if of type date,
+     *         <code>false</code> if not
      */
     private boolean isVariableDate(Literal var) {
         try {
@@ -366,7 +374,8 @@ public class Validator {
      * 
      * @param var
      *            the variable to check
-     * @return true, if the value of the variable if of type time, false if not
+     * @return <code>true</code>, if the value of the variable if of type time,
+     *         <code>false</code> if not
      */
     private boolean isVariableTime(Literal var) {
         try {

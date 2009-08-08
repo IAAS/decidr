@@ -50,7 +50,8 @@ public class ConfirmPasswordResetCommand extends UserCommand {
      * @param role
      *            the user which executes the command
      * @param userId
-     *            the id of the user whose password reset request should be confirmed
+     *            the id of the user whose password reset request should be
+     *            confirmed
      */
     public ConfirmPasswordResetCommand(Role role, Long userId, String authKey) {
         super(role, userId);
@@ -78,8 +79,8 @@ public class ConfirmPasswordResetCommand extends UserCommand {
         }
 
         // is the request still valid?
-        Boolean isAlive = LifetimeValidator.isPasswordResetRequestValid(
-                request, evt.getSession());
+        Boolean isAlive = LifetimeValidator
+                .isPasswordResetRequestValid(request);
 
         if (isAlive) {
             try {

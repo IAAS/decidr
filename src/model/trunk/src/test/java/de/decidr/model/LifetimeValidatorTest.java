@@ -16,10 +16,12 @@
 
 package de.decidr.model;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.junit.Assert.*;
 
-import org.hibernate.Session;
+import java.util.Date;
+
 import org.junit.Test;
 
 import de.decidr.model.entities.ChangeEmailRequest;
@@ -28,7 +30,7 @@ import de.decidr.model.entities.PasswordResetRequest;
 import de.decidr.model.entities.RegistrationRequest;
 
 /**
- * RR: add comment
+ * Unit tests for <code>{@link LifetimeValidator}</code>.
  * 
  * @author Reinhold
  */
@@ -36,25 +38,27 @@ public class LifetimeValidatorTest {
 
     /**
      * Test method for
-     * {@link LifetimeValidator#isPasswordResetRequestValid(PasswordResetRequest, Session)}
+     * {@link LifetimeValidator#isPasswordResetRequestValid(PasswordResetRequest)}
      * .
      */
     @Test
     public void testIsPasswordResetRequestValid() {
-        Session session = null;
-        PasswordResetRequest validRequest = null;
-        PasswordResetRequest invalidRequest = null;
+        PasswordResetRequest validRequest = new PasswordResetRequest(null,
+                DecidrGlobals.getTime().getTime(), null);
+        PasswordResetRequest invalidRequest = new PasswordResetRequest(
+                null,
+                new Date(
+                        DecidrGlobals.getTime().getTimeInMillis()
+                                - (DecidrGlobals
+                                        .getSettings()
+                                        .getPasswordResetRequestLifetimeSeconds() * 1000)
+                                + 1), null);
+        PasswordResetRequest emptyRequest = new PasswordResetRequest();
 
-        // RR create hibernate session
-
-        // RR create valid password request
-        assertTrue(LifetimeValidator.isPasswordResetRequestValid(validRequest,
-                session));
-
-        // RR create invalid password request
-        assertFalse(LifetimeValidator.isPasswordResetRequestValid(invalidRequest,
-                session));
-        fail("Not yet implemented"); // RR
+        assertTrue(LifetimeValidator.isPasswordResetRequestValid(validRequest));
+        assertFalse(LifetimeValidator
+                .isPasswordResetRequestValid(invalidRequest));
+        assertFalse(LifetimeValidator.isPasswordResetRequestValid(emptyRequest));
     }
 
     /**
@@ -62,7 +66,17 @@ public class LifetimeValidatorTest {
      */
     @Test
     public void testIsInvitationValid() {
-        fail("Not yet implemented"); // RR
+        Invitation validRequest = new Invitation(null, null, DecidrGlobals
+                .getTime().getTime());
+        Invitation invalidRequest = new Invitation(null, null, new Date(
+                DecidrGlobals.getTime().getTimeInMillis()
+                        - (DecidrGlobals.getSettings()
+                                .getInvitationLifetimeSeconds() * 1000) + 1));
+        Invitation emptyRequest = new Invitation();
+
+        assertTrue(LifetimeValidator.isInvitationValid(validRequest));
+        assertFalse(LifetimeValidator.isInvitationValid(invalidRequest));
+        assertFalse(LifetimeValidator.isInvitationValid(emptyRequest));
     }
 
     /**
@@ -72,7 +86,19 @@ public class LifetimeValidatorTest {
      */
     @Test
     public void testIsRegistrationRequestValid() {
-        fail("Not yet implemented"); // RR
+        RegistrationRequest validRequest = new RegistrationRequest(null,
+                DecidrGlobals.getTime().getTime(), null);
+        RegistrationRequest invalidRequest = new RegistrationRequest(null,
+                new Date(DecidrGlobals.getTime().getTimeInMillis()
+                        - (DecidrGlobals.getSettings()
+                                .getInvitationLifetimeSeconds() * 1000) + 1),
+                null);
+        RegistrationRequest emptyRequest = new RegistrationRequest();
+
+        assertTrue(LifetimeValidator.isRegistrationRequestValid(validRequest));
+        assertFalse(LifetimeValidator
+                .isRegistrationRequestValid(invalidRequest));
+        assertFalse(LifetimeValidator.isRegistrationRequestValid(emptyRequest));
     }
 
     /**
@@ -81,6 +107,17 @@ public class LifetimeValidatorTest {
      */
     @Test
     public void testIsChangeEmailRequestValid() {
-        fail("Not yet implemented"); // RR
+        ChangeEmailRequest validRequest = new ChangeEmailRequest(null, null,
+                DecidrGlobals.getTime().getTime(), null);
+        ChangeEmailRequest invalidRequest = new ChangeEmailRequest(null, null,
+                new Date(DecidrGlobals.getTime().getTimeInMillis()
+                        - (DecidrGlobals.getSettings()
+                                .getInvitationLifetimeSeconds() * 1000) + 1),
+                null);
+        ChangeEmailRequest emptyRequest = new ChangeEmailRequest();
+
+        assertTrue(LifetimeValidator.isChangeEmailRequestValid(validRequest));
+        assertFalse(LifetimeValidator.isChangeEmailRequestValid(invalidRequest));
+        assertFalse(LifetimeValidator.isChangeEmailRequestValid(emptyRequest));
     }
 }

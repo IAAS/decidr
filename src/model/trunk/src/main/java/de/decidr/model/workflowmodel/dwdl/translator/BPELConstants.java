@@ -54,5 +54,4 @@ public final class BPELConstants {
     private BPELConstants() {
         // do nothing
     }
-
 }

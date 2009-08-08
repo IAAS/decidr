@@ -27,6 +27,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import de.decidr.model.commands.SystemCommandsTest;
 import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
 
 /**
@@ -39,7 +40,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
  */
 @RunWith(Suite.class)
 @SuiteClasses( { DecidrGlobalsTest.class, LifetimeValidatorTest.class,
-        HibernateTransactionCoordinatorTest.class })
+        HibernateTransactionCoordinatorTest.class, SystemCommandsTest.class })
 public class DatabaseTestsuite extends TestSuite {
 
     static Session session;
