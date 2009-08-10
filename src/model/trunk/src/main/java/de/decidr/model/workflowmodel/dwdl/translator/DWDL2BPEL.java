@@ -16,16 +16,17 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
-import javax.xml.transform.stream.StreamSource;
+import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.bpel.Activity;
@@ -67,6 +68,7 @@ import de.decidr.model.workflowmodel.dwdl.Actor;
 import de.decidr.model.workflowmodel.dwdl.Arc;
 import de.decidr.model.workflowmodel.dwdl.BasicNode;
 import de.decidr.model.workflowmodel.dwdl.Boolean;
+import de.decidr.model.workflowmodel.dwdl.ComplexType;
 import de.decidr.model.workflowmodel.dwdl.Condition;
 import de.decidr.model.workflowmodel.dwdl.EndNode;
 import de.decidr.model.workflowmodel.dwdl.FlowNode;
@@ -76,6 +78,7 @@ import de.decidr.model.workflowmodel.dwdl.InvokeNode;
 import de.decidr.model.workflowmodel.dwdl.Recipient;
 import de.decidr.model.workflowmodel.dwdl.Role;
 import de.decidr.model.workflowmodel.dwdl.SetProperty;
+import de.decidr.model.workflowmodel.dwdl.SimpleType;
 import de.decidr.model.workflowmodel.dwdl.Source;
 import de.decidr.model.workflowmodel.dwdl.StartNode;
 import de.decidr.model.workflowmodel.dwdl.Target;
@@ -150,8 +153,55 @@ public class DWDL2BPEL {
         assign.getCopyOrExtensionAssignOperation().add(copy);
     }
 
+    private Element createActorElement(Actor actor) {
+        org.w3c.dom.Element actorElement = TransformUtil.createDOMElement(
+                BPELConstants.DECIDRTYPES_NAMESPACE, DECIDRTYPES_PREFIX
+                        + ":actor");
+        if (actor.isSetName()) {
+            org.w3c.dom.Attr nameAttr = TransformUtil.createAttributeNode(
+                    BPELConstants.DECIDRTYPES_NAMESPACE, DECIDRTYPES_PREFIX
+                            + ":name");
+            nameAttr.setNodeValue(actor.getName());
+            actorElement.setAttributeNode(nameAttr);
+        } else if (actor.isSetUserId()) {
+            org.w3c.dom.Attr userIdAttr = TransformUtil.createAttributeNode(
+                    BPELConstants.DECIDRTYPES_NAMESPACE, DECIDRTYPES_PREFIX
+                            + ":userId");
+            userIdAttr.setNodeValue(String.valueOf(actor.getUserId()));
+            actorElement.setAttributeNode(userIdAttr);
+        } else if (actor.isSetEmail()) {
+            org.w3c.dom.Attr emailAttr = TransformUtil.createAttributeNode(
+                    BPELConstants.DECIDRTYPES_NAMESPACE, DECIDRTYPES_PREFIX
+                            + ":email");
+            emailAttr.setNodeValue(actor.getEmail());
+            actorElement.setAttributeNode(emailAttr);
+        }
+
+        return actorElement;
+    }
+
+    private Element createRoleElement(Role role) {
+        org.w3c.dom.Element roleElement = TransformUtil.createDOMElement(
+                BPELConstants.DECIDRTYPES_NAMESPACE, DECIDRTYPES_PREFIX
+                        + ":role");
+        if (role.isSetName()){
+            org.w3c.dom.Attr nameAttr = TransformUtil.createAttributeNode(
+                    BPELConstants.DECIDRTYPES_NAMESPACE, DECIDRTYPES_PREFIX
+                            + ":name");
+            nameAttr.setNodeValue(role.getName());
+            roleElement.setAttributeNode(nameAttr);
+        } else if (role.isSetActor()){
+            for (Actor actor : role.getActor()){
+                org.w3c.dom.Element actorElement = createActorElement(actor);
+                roleElement.appendChild(actorElement);
+            }
+        }
+        return roleElement;
+    }
+
     public Process getBPEL(Workflow dwdl, String tenant,
-            Map<String, DecidrWebserviceAdapter> adapters) {
+            Map<String, DecidrWebserviceAdapter> adapters)
+            throws TransformerException {
 
         this.dwdl = dwdl;
         factory = new ObjectFactory();
@@ -340,7 +390,7 @@ public class DWDL2BPEL {
         return receive;
     }
 
-    private Assign initRoles() {
+    private Assign initRoles() throws TransformerException {
         Assign assign = null;
         if (dwdl.isSetRoles()) {
             assign = factory.createAssign();
@@ -355,23 +405,9 @@ public class DWDL2BPEL {
                     From from = factory.createFrom();
                     To to = factory.createTo();
                     Literal literal = factory.createLiteral();
-                    org.w3c.dom.Node roleNode = createRoleNode(role);
-                    StringBuffer content = new StringBuffer();
-                    content.append("<decidr:role name=" + role.getName() + ">");
-                    for (Actor actor : role.getActor()) {
-                        StringBuffer actorXML = new StringBuffer();
-                        actorXML.append("<decidr:actor");
-                        actorXML.append(actor.isSetName() ? " name="
-                                + actor.getName() : "");
-                        actorXML.append(actor.isSetUserId() ? " userId="
-                                + actor.getUserId() : "");
-                        actorXML.append(actor.isSetEmail() ? " email="
-                                + actor.getEmail() : "");
-                        actorXML.append("/>");
-                        content.append(actorXML);
-                    }
-                    content.append("</decidr:role>");
-                    literal.getContent().add((content.toString()));
+                    org.w3c.dom.Element roleElement = createRoleElement(role);
+                    literal.getContent().add(
+                            (TransformUtil.element2XML(roleElement)));
                     from.getContent().add(literal);
                     to.setVariable(role.getName());
                     copyRole.setFrom(from);
@@ -390,19 +426,9 @@ public class DWDL2BPEL {
                         From from = factory.createFrom();
                         To to = factory.createTo();
                         Literal literal = factory.createLiteral();
-                        StringBuffer actorXML = new StringBuffer();
-                        org.w3c.dom.Node actorNode = createActorNode(actor);
-                        StreamSource s = null;
-                       
-                        actorXML.append("<decidr:actor");
-                        actorXML.append(actor.isSetName() ? " name="
-                                + actor.getName() : "");
-                        actorXML.append(actor.isSetUserId() ? " userId="
-                                + actor.getUserId() : "");
-                        actorXML.append(actor.isSetEmail() ? " email="
-                                + actor.getEmail() : "");
-                        actorXML.append("/>");
-                        literal.getContent().add(actorXML.toString());
+                        org.w3c.dom.Node actorElement = createActorElement(actor);
+                        literal.getContent().add(
+                                TransformUtil.element2XML(actorElement));
                         from.getContent().add(literal);
                         to.setVariable(actor.getName());
                         copyActor.setFrom(from);
@@ -414,17 +440,6 @@ public class DWDL2BPEL {
             }
         }
         return assign;
-    }
-
-    // MA please implement me
-    private Node createActorNode(Actor actor) {
-        org.w3c.dom.Node node = null;
-        return node;
-    }
-
-    private Node createRoleNode(Role role) {
-        org.w3c.dom.Node node = null;
-        return node;
     }
 
     private Assign initVariables() {
@@ -465,7 +480,7 @@ public class DWDL2BPEL {
         return assign;
     }
 
-    private void setActivity() {
+    private void setActivity() throws TransformerException {
         Sequence mainSequence = factory.createSequence();
         mainSequence.setName("mainSequence");
         Assign initVariables = initVariables();
@@ -794,22 +809,19 @@ public class DWDL2BPEL {
                         .createVariable();
                 bpelVariable.setName(dwdlVariable.getName());
                 // MA check variable types
-                if (false) {
-                    bpelVariable.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, dwdlVariable
-                            .getType(), "xsd"));
-                } else if (true) {
-                    if (dwdlVariable.getType().equals("form")) {
+                if (Arrays.asList(SimpleType.values()).contains(SimpleType.fromValue(dwdlVariable.getType()))) {
+                    bpelVariable.setType(new QName(
+                            XMLConstants.W3C_XML_SCHEMA_NS_URI, dwdlVariable
+                                    .getType(), "xsd"));
+                } else if (ComplexType.fromValue(dwdlVariable.getType()) == null) {
                         bpelVariable.setType(new QName(
                                 BPELConstants.DECIDRTYPES_NAMESPACE,
-                                "tItemList", DECIDRTYPES_PREFIX));
-                    } else {
-                        bpelVariable.setType(new QName(
-                                BPELConstants.DECIDRTYPES_NAMESPACE, dwdlVariable
-                                        .getType(), DECIDRTYPES_PREFIX));
-                    }
+                                dwdlVariable.getType(), DECIDRTYPES_PREFIX));
+                
                 } else {
-                    bpelVariable.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI,
-                            "anyType", "xsd"));
+                    bpelVariable.setType(new QName(
+                            XMLConstants.W3C_XML_SCHEMA_NS_URI, "anyType",
+                            "xsd"));
                 }
                 // MA please - for god sake - change decidr types
                 process.getVariables().getVariable().add(bpelVariable);

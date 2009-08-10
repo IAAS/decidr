@@ -105,8 +105,9 @@ public class DWDL2WSDL {
         catch (ParserConfigurationException e) {
             log.warn("creation of com.w3c.document failed for some really mysterious reasons");
         }
-        // MA how to create a schema element?
-        Element schemaElement = doc.createElement(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        // MA create a schema element
+        Element schemaElement = doc.createElementNS(XMLConstants.W3C_XML_SCHEMA_NS_URI, "xs:schema");
+        
         schema.setElement(schemaElement);
         types.addExtensibilityElement(schema);
     }

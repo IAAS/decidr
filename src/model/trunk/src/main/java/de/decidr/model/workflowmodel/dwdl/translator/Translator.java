@@ -30,6 +30,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import org.xml.sax.InputSource;
 import de.decidr.model.entities.Activity;
@@ -114,8 +115,13 @@ public class Translator {
 
     public Process getBPEL() {
         DWDL2BPEL bpelConverter = new DWDL2BPEL();
-        bpelProcess = bpelConverter.getBPEL(dwdlWorkflow, tenantName,
-                webserviceAdapters);
+        try {
+            bpelProcess = bpelConverter.getBPEL(dwdlWorkflow, tenantName,
+                    webserviceAdapters);
+        } catch (TransformerException e) {
+            // MA what to do with this exception?
+            e.printStackTrace();
+        }
         return bpelProcess;
     }
 
