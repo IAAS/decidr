@@ -16,18 +16,16 @@
 
 package de.decidr.model.acl.asserters;
 
-import org.hibernate.Query;
-
+import de.decidr.model.acl.access.UserAccess;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Asserts that the user specified by the {@link Role} is the same user that is
- * accessed by a given command.
+ * Asserts that the user specified by the {@link Role} is the same users that
+ * are accessed by a given command.
  * 
  * @author Daniel Huss
  * 
@@ -35,25 +33,32 @@ import de.decidr.model.transactions.TransactionEvent;
  */
 public class IsAccessedUser extends CommandAsserter {
 
-    private Long userid = null;
-    private Boolean isSameUser = false;
+    private Long userId = null;
+    private Long[] accessedUserIds = null;
 
     @Override
     public Boolean assertRule(Role role, Permission permission)
             throws TransactionException {
         Boolean result = false;
 
-        if (role instanceof SuperAdminRole) {
-            //DH  continue here
+        if (role instanceof UserRole) {
+            userId = role.getActorId();
+            TransactionalCommand command = getCommandInstance(permission);
+            if (command instanceof UserAccess) {
+                accessedUserIds = ((UserAccess) command).getUserIds();
+                if (accessedUserIds != null && userId != null) {
+                    // accessedUserIds must consist entirely of
+                    result = true;
+                    for (Long accessedUserId : accessedUserIds) {
+                        result = result && userId.equals(accessedUserId);
+                        if (!result) {
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         return result;
-    }
-
-    @Override
-    public void transactionStarted(TransactionEvent evt)
-            throws TransactionException {
-        isSameUser = false;
-
     }
 }
