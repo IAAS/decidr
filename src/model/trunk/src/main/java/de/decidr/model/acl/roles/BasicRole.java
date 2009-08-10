@@ -32,7 +32,7 @@ public class BasicRole implements Role {
     private Long actorId;
 
     /**
-     * Constructor. TODO bad comment ~rr
+     * Creates a new BasicRole with the given actor
      * 
      * @param actorId
      *            ID of the person/system/principal that is requesting access to

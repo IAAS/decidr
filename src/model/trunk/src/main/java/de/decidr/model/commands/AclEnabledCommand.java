@@ -64,10 +64,10 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
      *            {@link Permission Permissions} besides the command that are
      *            involved in the transaction.
      */
-    // XXX warum wird der Role-Parameter nicht verwendet? ~rr WEIL ~mf
     public AclEnabledCommand(Role role,
             Collection<Permission> additionalPermissions) {
         super();
+        this.role = role;
         if (additionalPermissions != null) {
             additionalPermissions.addAll(additionalPermissions);
         }
