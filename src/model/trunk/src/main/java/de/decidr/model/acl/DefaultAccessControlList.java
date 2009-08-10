@@ -33,13 +33,10 @@ import de.decidr.model.acl.asserters.UserHasAccessToFile;
 import de.decidr.model.acl.asserters.UserNotParticipatingInAnyWorkflow;
 import de.decidr.model.acl.asserters.UserOwnsProfile;
 import de.decidr.model.acl.permissions.CommandPermission;
-import de.decidr.model.acl.permissions.DeployedWorkflowModelPermission;
 import de.decidr.model.acl.permissions.FileDeletePermission;
 import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.acl.permissions.FileReplacePermission;
 import de.decidr.model.acl.permissions.Permission;
-import de.decidr.model.acl.permissions.TenantPermission;
-import de.decidr.model.acl.permissions.UserProfilePermission;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.HumanTaskRole;
 import de.decidr.model.acl.roles.Role;
@@ -587,12 +584,6 @@ public class DefaultAccessControlList implements AccessControlList {
                 DeleteWorkItemCommand.class), AssertMode.SatisfyAll,
                 new IsUserEnabled(),new LoggedIn());
         
-            
-        
-        /**
-         * ENTITY PERMISSIONS
-         */
-        
         
         /**
          * file permissions
@@ -609,36 +600,6 @@ public class DefaultAccessControlList implements AccessControlList {
         // File Replace Permissions
         setRule(new BasicRole(null), new FileReplacePermission(null), AssertMode.SatisfyAll,
                 new UserHasAccessToFile());
-               
-        /**
-         * other entities
-         */
-        
-        // User Profile Permissions
-        setRule(new UserRole(null), new UserProfilePermission(null), AssertMode.SatisfyAll,
-                new UserOwnsProfile());
-        
-        //FIXME HERE I AM
-        // Tenant Permissions
-        //setRule(new TenantAdminRole(null), new TenantPermission(null), AssertMode.SatisfyAll,
-        //        new UserOwnsTenant());
-
-        
-        // Deployed Workflow Model Permissions
-        //setRule(new TenantAdminRole(), new DeployedWorkflowModelPermission(null), AssertMode.SatisfyAll,
-        //        alwaysTrueAsserter);
-             
-        // Server Permissions
-        
-        
-                
-        // Workflow Instance Permissions
-        
-        // Workflow Model Permissions
-        
-        // Workitem Permissions
-        
-        
     }
 
     /**
