@@ -21,6 +21,6 @@ public interface WorkItemAccess extends Access {
      * 
      * @return accessed workitem ID
      */
-    public Long getWorkItemId();
+    public Long[] getWorkItemIds();
     
 }

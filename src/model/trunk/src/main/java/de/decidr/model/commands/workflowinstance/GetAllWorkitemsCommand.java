@@ -19,7 +19,6 @@ import de.decidr.model.transactions.TransactionEvent;
  */
 public class GetAllWorkitemsCommand extends WorkflowInstanceCommand {
 
-    private Long workflowInstanceId;
     @SuppressWarnings("unchecked")
     private Set<WorkItem> result =  new HashSet();
     
@@ -32,14 +31,13 @@ public class GetAllWorkitemsCommand extends WorkflowInstanceCommand {
      * @param WorkflowInstanceId the id of the corresponding WorkflowInstance
      */
     public GetAllWorkitemsCommand(Role role, Long WorkflowInstanceId) {
-        super(role, null);
-        this.workflowInstanceId = WorkflowInstanceId;
+        super(role, null, WorkflowInstanceId);
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt) {
         
-        WorkflowInstance instance = (WorkflowInstance)evt.getSession().load(WorkflowInstance.class, workflowInstanceId);
+        WorkflowInstance instance = (WorkflowInstance)evt.getSession().load(WorkflowInstance.class, this.getWorkflowInstanceIds()[0]);
         
         result = instance.getWorkItems();
     }

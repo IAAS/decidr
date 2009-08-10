@@ -27,5 +27,5 @@ public interface InvitationAccess extends Access {
      * 
      * @return id of the accessed invitation
      */
-    public Long getInvitationId();
+    public Long[] getInvitationIds();
 }

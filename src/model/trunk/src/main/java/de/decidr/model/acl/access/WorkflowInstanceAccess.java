@@ -27,5 +27,5 @@ public interface WorkflowInstanceAccess extends Access {
      * 
      * @return accessed workflow instance ID
      */
-    public Long getWorkflowInstanceId();
+    public Long[] getWorkflowInstanceIds();
 }

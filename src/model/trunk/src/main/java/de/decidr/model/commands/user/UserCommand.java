@@ -2,6 +2,7 @@ package de.decidr.model.commands.user;
 
 import org.hibernate.Session;
 
+import de.decidr.model.acl.access.UserAccess;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
@@ -15,7 +16,7 @@ import de.decidr.model.exceptions.EntityNotFoundException;
  * @author Daniel Huss
  * @version 0.1
  */
-public abstract class UserCommand extends AclEnabledCommand {
+public abstract class UserCommand extends AclEnabledCommand implements UserAccess{
 
     private Long userId;
 
@@ -56,5 +57,13 @@ public abstract class UserCommand extends AclEnabledCommand {
      */
     public Long getUserId() {
         return userId;
+    }
+    
+    /**
+     * @return the userIds
+     */
+    public Long[] getUserIds() {
+        Long[] result = {userId};
+        return result;
     }
 }

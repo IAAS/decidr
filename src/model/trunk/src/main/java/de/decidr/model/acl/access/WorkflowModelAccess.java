@@ -21,6 +21,6 @@ public interface WorkflowModelAccess extends Access {
      * 
      * @return accessed workflowmodel ID
      */
-    public Long getWorkflowModelId();
+    public Long[] getWorkflowModelIds();
     
 }

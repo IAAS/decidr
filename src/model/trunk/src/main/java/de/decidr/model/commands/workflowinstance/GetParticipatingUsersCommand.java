@@ -25,7 +25,7 @@ public class GetParticipatingUsersCommand extends WorkflowInstanceCommand {
     
     public GetParticipatingUsersCommand(Role role,
             Long WorkflowInstanceId) {
-        super(role, null);
+        super(role, null, WorkflowInstanceId);
         this.workflowInstanceId = WorkflowInstanceId;
     }
 

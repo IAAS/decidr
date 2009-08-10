@@ -29,6 +29,6 @@ public interface TenantAccess extends Access {
      * 
      * @return the id of the tenant which should be accessed
      */
-    public Long getTenantId();
+    public Long[] getTenantIds();
     
 }

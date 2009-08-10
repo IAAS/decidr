@@ -27,6 +27,6 @@ public interface UserAccess extends Access {
      * 
      * @return accessed user ID
      */
-    public Long getUserId();
+    public Long[] getUserIds();
 }
  

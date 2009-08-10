@@ -29,7 +29,7 @@ public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand {
      */
     public RemoveAllWorkItemsCommand(Role role, String odePid,
             Long deployedWorkflowModelId) {
-        super(role, null);
+        super(role, null,null);
 
         this.odePid = odePid;
         this.deployedWorkflowModelId = deployedWorkflowModelId;

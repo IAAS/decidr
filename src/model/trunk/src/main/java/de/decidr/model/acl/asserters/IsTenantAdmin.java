@@ -1,7 +1,6 @@
 package de.decidr.model.acl.asserters;
 
 import de.decidr.model.acl.permissions.Permission;
-import de.decidr.model.acl.permissions.TenantPermission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.TransactionalCommand;

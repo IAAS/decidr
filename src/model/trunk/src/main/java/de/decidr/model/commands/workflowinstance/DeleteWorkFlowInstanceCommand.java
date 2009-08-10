@@ -12,18 +12,16 @@ import de.decidr.model.transactions.TransactionEvent;
  * @version 0.1
  */
 public class DeleteWorkFlowInstanceCommand extends WorkflowInstanceCommand {
-
-    private Long id;
-    
+   
     public DeleteWorkFlowInstanceCommand(Role role,Long WorkflowInstanceId) {
-        super(role, null);
-        this.id=WorkflowInstanceId;
+        super(role,null, WorkflowInstanceId);
+
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt) {
         
-        WorkflowInstance instance = (WorkflowInstance)evt.getSession().load(WorkflowInstance.class, id);
+        WorkflowInstance instance = (WorkflowInstance)evt.getSession().load(WorkflowInstance.class, this.getWorkflowInstanceIds()[0]);
         
         evt.getSession().delete(instance);
 

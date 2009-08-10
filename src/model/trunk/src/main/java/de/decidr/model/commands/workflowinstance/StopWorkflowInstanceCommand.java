@@ -15,13 +15,9 @@ import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
  * @version 0.1
  */
 public class StopWorkflowInstanceCommand extends WorkflowInstanceCommand {
-
-    private Long workflowInstanceId;
-    
-    public StopWorkflowInstanceCommand(Role role, Long workflowinstanceId) {
-        super(role, null);
-        
-        this.workflowInstanceId=workflowinstanceId;
+   
+    public StopWorkflowInstanceCommand(Role role, Long workflowInstanceId) {
+        super(role, null, workflowInstanceId);
 
     }
 
@@ -30,7 +26,7 @@ public class StopWorkflowInstanceCommand extends WorkflowInstanceCommand {
         
         InstanceManagerImpl iManager = new InstanceManagerImpl();
         
-        iManager.stopInstance((WorkflowInstance)evt.getSession().load(WorkflowInstance.class, workflowInstanceId));
+        iManager.stopInstance((WorkflowInstance)evt.getSession().load(WorkflowInstance.class, this.getWorkflowInstanceIds()[0]));
 
     }
 

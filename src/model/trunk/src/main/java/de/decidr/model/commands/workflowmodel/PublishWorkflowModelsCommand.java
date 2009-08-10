@@ -19,7 +19,6 @@ package de.decidr.model.commands.workflowmodel;
 import java.util.List;
 
 import de.decidr.model.acl.permissions.Permission;
-import de.decidr.model.acl.permissions.WorkflowModelPermission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.commands.TransactionalCommand;
@@ -53,12 +52,6 @@ public class PublishWorkflowModelsCommand extends AclEnabledCommand implements
 
         this.workflowModelIds = workflowModelIds;
         this.publish = publish;
-
-        if (workflowModelIds != null) {
-            for (Long id : workflowModelIds) {
-                this.additionalPermissions.add(new WorkflowModelPermission(id));
-            }
-        }
     }
 
     @Override
