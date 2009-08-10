@@ -33,7 +33,7 @@ public class SetSystemSettingsCommand extends SystemCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
         SystemSettings currentSettings = (SystemSettings) evt.getSession()
-                .createQuery("from SystemSettings limit 1").uniqueResult();
+                .createQuery("from SystemSettings").setMaxResults(1).uniqueResult();
 
         if (currentSettings == null) {
             throw new EntityNotFoundException(SystemSettings.class);

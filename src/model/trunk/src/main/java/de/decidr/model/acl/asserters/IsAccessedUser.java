@@ -13,33 +13,47 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package de.decidr.model.acl.asserters;
+
+import org.hibernate.Query;
 
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.transactions.HibernateTransactionCoordinator;
+import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Checks whether a {@link UserRole} is logged in by looking at its actor id.
- * The role is considered to have logged in if its actor id is a valid user id.
- * <p>
- * The {@link Permission} passed to <code>assertRule</code> is ignored.
+ * Asserts that the user specified by the {@link Role} is the same user that is
+ * accessed by a given command.
  * 
- * @author Markus Fischer
  * @author Daniel Huss
  * 
  * @version 0.1
  */
-public class LoggedIn implements Asserter {
+public class IsAccessedUser extends CommandAsserter {
+
+    private Long userid = null;
+    private Boolean isSameUser = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission) {
+    public Boolean assertRule(Role role, Permission permission)
+            throws TransactionException {
         Boolean result = false;
-        if (role instanceof UserRole) {
-            UserRole userRole = (UserRole) role;
-            result = userRole.getActorId() >= UserRole.MIN_VALID_USER_ID;
+
+        if (role instanceof SuperAdminRole) {
+            //DH  continue here
         }
+
         return result;
     }
 
+    @Override
+    public void transactionStarted(TransactionEvent evt)
+            throws TransactionException {
+        isSameUser = false;
+
+    }
 }

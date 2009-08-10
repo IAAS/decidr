@@ -49,7 +49,8 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
      * @param role
      *            user which executes the command
      * @param emailOrUsername
-     *            the username or email address of the user whose password should be reset
+     *            the username or email address of the user whose password
+     *            should be reset
      */
     public RequestPasswordResetCommand(Role role, String emailOrUsername) {
         super(role, (Permission) null);
@@ -65,7 +66,7 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
         String hql = "select distinct u.id, u.email, p.username, p.firstName, p.LastName "
                 + "from User u left join fetch u.userProfile p "
                 + "where (u.email = :emailOrUsername) or "
-                + "(p.username = :emailOrUsername) limit 1";
+                + "(p.username = :emailOrUsername)";
 
         User user = (User) evt.getSession().createQuery(hql).setString(
                 "emailOrUsername", emailOrUsername).uniqueResult();

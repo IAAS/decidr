@@ -74,7 +74,7 @@ public class AddServerCommand extends SystemCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-        String hql = "from ServerType s where s.name = :serverType limit 1";
+        String hql = "from ServerType s where s.name = :serverType";
         Query q = evt.getSession().createQuery(hql).setString("serverType",
                 type.toString());
         ServerType serverType = (ServerType) q.uniqueResult();

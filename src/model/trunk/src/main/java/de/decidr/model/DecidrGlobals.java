@@ -124,8 +124,8 @@ public class DecidrGlobals {
         public void transactionStarted(TransactionEvent evt)
                 throws TransactionException {
             settings = (SystemSettings) evt.getSession().createQuery(
-                    "from SystemSettings s join fetch s.superAdmin limit 1")
-                    .uniqueResult();
+                    "from SystemSettings s join fetch s.superAdmin")
+                    .setMaxResults(1).uniqueResult();
         }
     }
 
@@ -138,11 +138,10 @@ public class DecidrGlobals {
         @Override
         public void transactionStarted(TransactionEvent evt)
                 throws TransactionException {
-            esb = (Server) evt
-                    .getSession()
-                    .createQuery(
-                            "from Server s join fetch s.serverType where s.serverType.name = :serverType limit 1")
-                    .setString("serverType", ServerTypeEnum.Esb.toString())
+            esb = (Server) evt.getSession().createQuery(
+                    "from Server s join fetch s.serverType where "
+                            + "s.serverType.name = :serverType").setMaxResults(
+                    1).setString("serverType", ServerTypeEnum.Esb.toString())
                     .uniqueResult();
             if (esb == null) {
                 throw new EntityNotFoundException(Server.class);
@@ -193,13 +192,15 @@ public class DecidrGlobals {
 
     /**
      * @param webServiceName
-     *            the name of the webservice of which the url should be requested
+     *            the name of the webservice of which the url should be
+     *            requested
      * @return An URL which can be used to connect to the web service identified
      *         by webServiceName
      */
     public static String getWebServiceUrl(String webServiceName) {
         if ((webServiceName == null) || (webServiceName == "")) {
-            throw new IllegalArgumentException("Web service name cannot be empty");
+            throw new IllegalArgumentException(
+                    "Web service name cannot be empty");
         }
         // This may change if we switch from Synapse to another ESB that's not
         // based on Axis2
