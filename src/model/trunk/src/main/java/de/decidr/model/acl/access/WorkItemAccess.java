@@ -15,6 +15,16 @@
  */
 package de.decidr.model.acl.access;
 
+/**
+ * 
+ * This interface is usually used to flag commands.
+ * Commands flagged with WorkItemAccess are expected to access work items. 
+ * The methods allows the ACL to determine which work items are accessed.
+ *  
+ * @author Markus Fischer
+ *
+ * @version 0.1
+ */
 public interface WorkItemAccess extends Access {
 
     /**

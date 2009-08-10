@@ -16,8 +16,12 @@
 package de.decidr.model.acl.access;
 
 /**
+ *  
+ * This interface is usually used to flag commands.
+ * Commands flagged with InvitationAccess are expected to access invitations. 
+ * The methods allows the ACL to determine which invitations are accessed.
+ * 
  * @author Markus Fischer
- * @author Daniel Huss
  *
  * @version 0.1
  */

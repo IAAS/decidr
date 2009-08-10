@@ -16,10 +16,13 @@
 package de.decidr.model.acl.access;
 
 /**
- * FIXME COMMENT ME =)
- *
+ * 
+ * 
+ * This interface is usually used to flag commands.
+ * Commands flagged with TenantAccess are expected to access tenants. 
+ * The methods allows the ACL to determine which tenants are accessed.
+ * 
  * @author Markus Fischer
- * @author Daniel Huss
  *
  * @version 0.1
  */

@@ -15,6 +15,16 @@
  */
 package de.decidr.model.acl.access;
 
+/**
+ *   
+ * This interface is usually used to flag commands.
+ * Commands flagged with WorkflowModelAccess are expected to access workflow models. 
+ * The methods allows the ACL to determine which workflow models are accessed.
+ * 
+ * @author Markus Fischer
+ *
+ * @version 0.1
+ */
 public interface WorkflowModelAccess extends Access {
 
     /**

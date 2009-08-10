@@ -16,9 +16,13 @@
 package de.decidr.model.acl.access;
 
 /**
+ * 
+ * This interface is usually used to flag commands. Commands flagged with
+ * UserAccess are expected to access users. The methods allows the ACL
+ * to determine which users are accessed.
+ * 
  * @author Markus Fischer
- * @author Daniel Huss
- *
+ * 
  * @version 0.1
  */
 public interface UserAccess extends Access {
@@ -29,4 +33,3 @@ public interface UserAccess extends Access {
      */
     public Long[] getUserIds();
 }
- 

@@ -16,8 +16,11 @@
 package de.decidr.model.acl.access;
 
 /**
+ * 
+ * Main interface of all access flags.
+ * All types of access flags extends this interface.
+ * 
  * @author Markus Fischer
- * @author Daniel Huss
  *
  * @version 0.1
  */
