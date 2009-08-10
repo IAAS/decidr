@@ -16,6 +16,7 @@
 
 package de.decidr.modelingtool.client.ui;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 
 import de.decidr.modelingtool.client.model.ConnectionModel;
@@ -52,14 +53,15 @@ public abstract class Connection implements Selectable, ModelChangeListener {
 
     /**
      * The constructor.
-     *
-     * @param parentPanel The parent panel of the connection
+     * 
+     * @param parentPanel
+     *            The parent panel of the connection
      */
     public Connection(HasChildren parentPanel) {
         this.parentPanel = parentPanel;
 
         // debug
-        //label.setText("ConnectionLabel");
+        // label.setText("ConnectionLabel");
     }
 
     /**
@@ -97,8 +99,9 @@ public abstract class Connection implements Selectable, ModelChangeListener {
     /**
      * Callback method for the parent panel. This is called after the connection
      * has been added.
-     *
-     * @param parentPanel The parent panel the connection has been added to.
+     * 
+     * @param parentPanel
+     *            The parent panel the connection has been added to.
      */
     public void onPanelAdd(HasChildren parentPanel) {
         this.parentPanel = parentPanel;
@@ -127,18 +130,27 @@ public abstract class Connection implements Selectable, ModelChangeListener {
         this.selected = selected;
 
         if (selected) {
-            // bring start drag box to front
+            // bring drag boxes to front
             startDragBox.getGluedPort().add(startDragBox);
-            startDragBox.setVisibleStyle(selected);
-
-            // bring end drag box to front
             endDragBox.getGluedPort().add(endDragBox);
-            endDragBox.setVisibleStyle(selected);
+        } else {
+            // bring single drag box to front
+            startDragBox.getGluedPort().bringSingleDragBoxToFront();
+            endDragBox.getGluedPort().bringSingleDragBoxToFront();
         }
+
+        // set visible style
+        startDragBox.setVisibleStyle(selected);
+        endDragBox.setVisibleStyle(selected);
     }
 
     public void setStartDragBox(ConnectionDragBox startDragBox) {
         this.startDragBox = startDragBox;
+    }
+
+    @Override
+    public void showPropertyWindow() {
+        Window.alert("This connection has no properties.");
     }
 
 }

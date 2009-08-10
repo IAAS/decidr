@@ -16,13 +16,11 @@
 
 package de.decidr.modelingtool.client.ui;
 
-import com.extjs.gxt.ui.client.event.ButtonEvent;
-import com.extjs.gxt.ui.client.event.SelectionListener;
-import com.extjs.gxt.ui.client.widget.button.Button;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.HTML;
 
-import de.decidr.modelingtool.client.ModelingToolWidget;
+import de.decidr.modelingtool.client.menu.MenuImageBundle;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.humantask.HumanTaskActivityWindow;
 import de.decidr.modelingtool.client.ui.dialogs.humantask.HumanTaskActivityWindowInvoker;
@@ -39,21 +37,30 @@ public class HumanTaskInvokeNode extends InvokeNode {
 
         FocusPanel graphic = new FocusPanel();
         graphic.addStyleName("node-graphic-std");
-        graphic.setWidget(new Label("HT"));
-        graphic.setWidget(new Button(ModelingToolWidget.messages
-                .changePropertyButton(), new SelectionListener<ButtonEvent>() {
-            @Override
-            public void componentSelected(ButtonEvent ce) {
-                HumanTaskActivityWindowInvoker.invoke(HumanTaskInvokeNode.this);
-                DialogRegistry.getInstance().showDialog(
-                        HumanTaskActivityWindow.class.getName());
-            }
-        }));
+//        graphic.setWidget(new Label("HT"));
+//        graphic.setWidget(new Button(ModelingToolWidget.messages
+//                .changePropertyButton(), new SelectionListener<ButtonEvent>() {
+//            @Override
+//            public void componentSelected(ButtonEvent ce) {
+//                showPropertyWindow();
+//            }
+//        }));
+        
+        MenuImageBundle imgBundle = GWT.create(MenuImageBundle.class);
+        String html = imgBundle.humantask().getHTML() + "<br/>Human Task"; 
+        graphic.setWidget(new HTML(html));
 
         this.setGraphic(graphic);
 
         setInputPort(new InputPort());
         setOutputPort(new OutputPort());
+    }
+
+    @Override
+    public void showPropertyWindow() {
+        HumanTaskActivityWindowInvoker.invoke(HumanTaskInvokeNode.this);
+        DialogRegistry.getInstance().showDialog(
+                HumanTaskActivityWindow.class.getName());
     }
 
 }

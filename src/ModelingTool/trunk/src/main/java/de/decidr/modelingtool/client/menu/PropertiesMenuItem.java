@@ -18,8 +18,10 @@ package de.decidr.modelingtool.client.menu;
 
 import com.google.gwt.user.client.Command;
 
+import de.decidr.modelingtool.client.ui.Selectable;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.WorkflowPropertyWindow;
+import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 /**
  * TODO: add comment
@@ -30,8 +32,16 @@ public class PropertiesMenuItem implements Command {
 
     @Override
     public void execute() {
-        DialogRegistry.getInstance().showDialog(
-                WorkflowPropertyWindow.class.getName());
+        // get selected item
+        Selectable selectedItem = SelectionHandler.getInstance()
+                .getSelectedItem();
+
+        if (selectedItem != null) {
+            selectedItem.showPropertyWindow();
+        } else {
+            DialogRegistry.getInstance().showDialog(
+                    WorkflowPropertyWindow.class.getName());
+        }
 
     }
 

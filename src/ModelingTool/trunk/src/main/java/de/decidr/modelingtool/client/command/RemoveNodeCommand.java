@@ -16,6 +16,7 @@
 
 package de.decidr.modelingtool.client.command;
 
+import de.decidr.modelingtool.client.exception.OperationNotAllowedException;
 import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
@@ -50,7 +51,12 @@ public class RemoveNodeCommand implements UndoableCommand {
      *
      * @param node The node to remove.
      */
-    public RemoveNodeCommand(Node node) {
+    public RemoveNodeCommand(Node node) throws OperationNotAllowedException {
+        // check if the node is deletable.
+        if (!node.isDeletable()) {
+            throw new OperationNotAllowedException("This Node can't be deleted.");
+        }
+        
         this.node = node;
         this.model = node.getModel();
 

@@ -44,11 +44,15 @@ public class IfContainer extends Container {
                 .changePropertyButton(), new SelectionListener<ButtonEvent>() {
             @Override
             public void componentSelected(ButtonEvent ce) {
-                IfWindowInvoker.invoke(IfContainer.this);
-                DialogRegistry.getInstance().showDialog(
-                        IfWindow.class.getName());
+                showPropertyWindow();
             }
         }));
+    }
+
+    @Override
+    public void showPropertyWindow() {
+        IfWindowInvoker.invoke(IfContainer.this);
+        DialogRegistry.getInstance().showDialog(IfWindow.class.getName());
     }
 
 }

@@ -159,6 +159,15 @@ public abstract class Port extends AbsolutePanel {
             singleDragBox.makeDraggable();
         }
     }
+    
+    /**
+     * Brings the single drag box to front, if existing.
+     */
+    public void bringSingleDragBoxToFront() {
+        if (singleDragBox != null) {
+            add(singleDragBox);
+        }
+    }
 
     public DropController getDropController() {
         return dropController;

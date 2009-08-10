@@ -14,30 +14,19 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui;
-
-import com.google.gwt.user.client.Window;
+package de.decidr.modelingtool.client.exception;
 
 /**
- * TODO: add comment
+ * This exception is thrown when an operation on an object is not supüported
+ * by the object, e.g. an delete operation is performed on a node which has the
+ * deletable flag set to false.
  *
  * @author Johannes Engelhardt
  */
-public class FlowContainer extends Container {
+public class OperationNotAllowedException extends ModelingToolException {
 
-    /**
-     * TODO: add comment
-     *
-     * @param parentPanel
-     */
-    public FlowContainer(HasChildren parentPanel) {
-        super(parentPanel);
-        // TODO Auto-generated constructor stub
+    public OperationNotAllowedException(String msg) {
+        super(msg);
     }
 
-    @Override
-    public void showPropertyWindow() {
-        Window.alert("This node has no properties.");
-    }
-    
 }

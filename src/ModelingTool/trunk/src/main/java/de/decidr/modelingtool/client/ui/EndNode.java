@@ -16,6 +16,9 @@
 
 package de.decidr.modelingtool.client.ui;
 
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FocusPanel;
+
 /**
  * End node of every workflow. This is neither deletable nor resizable.
  *
@@ -25,7 +28,11 @@ public class EndNode extends Node implements ModelChangeListener {
     
     public EndNode(HasChildren parentPanel) {
         super(parentPanel);
-        this.setGraphic(null);
+        
+        graphic = new FocusPanel();       
+        graphic.setStyleName("node-graphic-endnode");
+        setGraphic(graphic);
+        
         this.setInputPort(new InputPort());
     }
 
@@ -38,4 +45,10 @@ public class EndNode extends Node implements ModelChangeListener {
     public boolean isResizable() {
         return false;
     }
+
+    @Override
+    public void showPropertyWindow() {
+        Window.alert("This node has no properties.");
+    }
+    
 }

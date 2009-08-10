@@ -47,4 +47,6 @@ public interface Selectable {
      */
     public Model getModel();
     
+    public void showPropertyWindow();
+    
 }

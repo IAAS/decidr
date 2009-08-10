@@ -43,12 +43,18 @@ public class ForEachContainer extends Container {
                 .changePropertyButton(), new SelectionListener<ButtonEvent>() {
             @Override
             public void componentSelected(ButtonEvent ce) {
-                ForEachWindowInvoker.invoke(ForEachContainer.this);
-                DialogRegistry.getInstance().showDialog(
-                        ForEachWindow.class.getName());
+                showPropertyWindow();
             }
         }));
+        
         //this.setGraphic(graphic);
+    }
+    
+    @Override
+    public void showPropertyWindow() {
+        ForEachWindowInvoker.invoke(ForEachContainer.this);
+        DialogRegistry.getInstance().showDialog(
+                ForEachWindow.class.getName());
     }
 
 }

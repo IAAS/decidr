@@ -21,6 +21,7 @@ import java.util.Vector;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.decidr.modelingtool.client.ui.Connection;
@@ -89,31 +90,27 @@ public class SelectionHandler implements MouseDownHandler {
         event.stopPropagation();
 
         Object source = event.getSource();
-        // System.out.println (source);
+        //System.out.println(source.getClass());
 
         // select the clicked node or connection
-        if (source instanceof Widget) {
-            Widget w = (Widget) source;
-            if (w.getParent() instanceof Node) {
-                Node node = (Node) w.getParent();
-                select(node);
+        Widget w = (Widget) source;
+        if (source instanceof FocusPanel && w.getParent() instanceof Node) {
+            Node node = (Node) w.getParent();
+            select(node);
 
-            } else if (source instanceof ConnectionLine) {
-                Connection connection = ((ConnectionLine) source)
-                        .getConnection();
+        } else if (source instanceof ConnectionLine) {
+            Connection connection = ((ConnectionLine) source).getConnection();
+            select(connection);
+            
+        } else if (source instanceof ConnectionDragBox) {
+            Connection connection = ((ConnectionDragBox) source)
+                    .getConnection();
+            if (connection != null) {
                 select(connection);
-                // Window.alert(connection.toString());
-            } else if (source instanceof ConnectionDragBox) {
-                Connection connection = ((ConnectionDragBox) source)
-                        .getConnection();
-                if (connection != null) {
-                    select(connection);
-                }
-            } else {
-                // unselect selected item
-
-                unselect();
             }
+        } else {
+            // unselect selected item
+            unselect();
         }
     }
 
@@ -128,8 +125,9 @@ public class SelectionHandler implements MouseDownHandler {
 
     /**
      * Selects the given selectable item.
-     *
-     * @param selectedItem The item to select.
+     * 
+     * @param selectedItem
+     *            The item to select.
      */
     public void select(Selectable selectedItem) {
         // unselect the selected item

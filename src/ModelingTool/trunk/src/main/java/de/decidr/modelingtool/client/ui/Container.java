@@ -35,7 +35,7 @@ import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
  * 
  * @author Johannes Engelhardt
  */
-public class Container extends Node implements HasChildren {
+public abstract class Container extends Node implements HasChildren {
 
     /** The container start port. */
     private ContainerStartPort containerStartPort = null;

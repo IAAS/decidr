@@ -8,6 +8,22 @@
 	width: 100px;
 	height: 60px;
 	background-color: #EEEEEE;
+	border: solid 1px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.node-graphic-startnode {
+	width: 50px;
+	height: 30px;
+	background-color: #66FF66;
+	border: solid 1px;	
+}
+
+.node-graphic-endnode {
+	width: 50px;
+	height: 30px;
+	background-color: #FF6666;
 	border: solid 1px;	
 }
 

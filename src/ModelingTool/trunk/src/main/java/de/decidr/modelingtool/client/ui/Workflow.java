@@ -19,7 +19,10 @@ package de.decidr.modelingtool.client.ui;
 import java.util.Collection;
 import java.util.HashSet;
 
+import com.google.gwt.event.dom.client.HasKeyDownHandlers;
 import com.google.gwt.event.dom.client.HasMouseDownHandlers;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -33,6 +36,7 @@ import de.decidr.modelingtool.client.ui.dnd.ConnectionDragController;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 import de.decidr.modelingtool.client.ui.dnd.ResizeDragController;
 import de.decidr.modelingtool.client.ui.dnd.WorkflowDragController;
+import de.decidr.modelingtool.client.ui.selection.KeyboardHandler;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 /**
@@ -41,7 +45,7 @@ import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
  * @author Johannes Engelhardt
  */
 public class Workflow extends AbsolutePanel implements ModelChangeListener,
-        HasMouseDownHandlers, HasChildren {
+        HasMouseDownHandlers, HasKeyDownHandlers, HasChildren {
 
     /** The instance of the workflow. */
     private static Workflow instance;
@@ -70,12 +74,15 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
     private Workflow() {
         super();
 
-        // set workflow proerties
+        // set workflow properties
         this.addStyleName("workflow");
         this.setSize("600px", "400px");
 
         // register workflow to selection handler
         this.addMouseDownHandler(SelectionHandler.getInstance());
+        
+        // register workflow to keyboard handler
+        this.addKeyDownHandler(KeyboardHandler.getInstance());
 
         // register drag controllers
         DndRegistry dndr = DndRegistry.getInstance();
@@ -114,6 +121,11 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
         // super.add(connection);
         // callback to connection
         connection.onPanelAdd(this);
+    }
+
+    @Override
+    public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
+        return addDomHandler(handler, KeyDownEvent.getType());
     }
 
     @Override

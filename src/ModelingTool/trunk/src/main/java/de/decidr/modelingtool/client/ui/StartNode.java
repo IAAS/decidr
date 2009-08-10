@@ -16,6 +16,9 @@
 
 package de.decidr.modelingtool.client.ui;
 
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FocusPanel;
+
 /**
  * Start node of every workflow. This is neither deletable nor resizable.
  *
@@ -25,7 +28,11 @@ public class StartNode extends Node implements ModelChangeListener {
     
     public StartNode(HasChildren parentPanel) {
         super(parentPanel);
-        this.setGraphic(null); 
+        
+        graphic = new FocusPanel();       
+        graphic.addStyleName("node-graphic-startnode");
+        setGraphic(graphic);
+        
         this.setOutputPort(new OutputPort());
     }
 
@@ -37,6 +44,11 @@ public class StartNode extends Node implements ModelChangeListener {
     @Override
     public boolean isResizable() {
         return false;
+    }
+
+    @Override
+    public void showPropertyWindow() {
+        Window.alert("This node has no properties.");
     }
     
 }

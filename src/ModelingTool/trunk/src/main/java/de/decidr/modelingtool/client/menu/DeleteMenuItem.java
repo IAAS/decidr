@@ -17,11 +17,13 @@
 package de.decidr.modelingtool.client.menu;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.command.RemoveConnectionCommand;
 import de.decidr.modelingtool.client.command.RemoveNodeCommand;
 import de.decidr.modelingtool.client.command.UndoableCommand;
+import de.decidr.modelingtool.client.exception.OperationNotAllowedException;
 import de.decidr.modelingtool.client.ui.Connection;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Selectable;
@@ -34,32 +36,28 @@ import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
  */
 public class DeleteMenuItem implements Command {
 
-    private Selectable selectedItem;
-
-    private UndoableCommand removeCmd;
-
-    public DeleteMenuItem() {
-       
-    }
-
     @Override
     public void execute() {
         // get selected item
-        selectedItem = SelectionHandler.getInstance().getSelectedItem();
+        Selectable selectedItem = SelectionHandler.getInstance()
+                .getSelectedItem();
+        UndoableCommand removeCmd = null;
+
         if (selectedItem != null) {
-            // create command according to item type
-            if (selectedItem instanceof Node) {
-                removeCmd = new RemoveNodeCommand((Node) selectedItem);
-            } else if (selectedItem instanceof Connection) {
-                removeCmd = new RemoveConnectionCommand((Connection) selectedItem);
-            }
-            
-            //if (removeCmd != null) {
-                // execite command
+            try {
+                // create command according to item type
+                if (selectedItem instanceof Node) {
+                    removeCmd = new RemoveNodeCommand((Node) selectedItem);
+                } else if (selectedItem instanceof Connection) {
+                    removeCmd = new RemoveConnectionCommand(
+                            (Connection) selectedItem);
+                }
+
                 CommandStack.getInstance().executeCommand(removeCmd);
-            //}
-            // remove selection
-            //Workflow.getInstance().getSelectionHandler().unselect();
+
+            } catch (OperationNotAllowedException e) {
+                Window.alert(e.getMessage());
+            }
         }
     }
 
