@@ -84,9 +84,9 @@ public class IfFieldSet {
         leftOperandField = new ComboBox<Variable>();
         leftOperandField.setDisplayField(Variable.LABEL);
         leftOperandField.setStore(VariablesFilter.getAllVariables());
-        if (condition.getOperand1Id() != null) {
+        if (condition.getLeftOperandId() != null) {
             leftOperandField.setValue(VariablesFilter.getVariableById(condition
-                    .getOperand1Id()));
+                    .getLeftOperandId()));
         }
         leftOperandField.setEditable(false);
         leftOperandField.setEnabled(false);
@@ -106,9 +106,9 @@ public class IfFieldSet {
 
         operatorList = new SimpleComboBox<String>();
         // JS check this if condition
-        if (condition.getOperand1Id() != null) {
+        if (condition.getLeftOperandId() != null) {
             for (Operator op : Operator.getOperatorsForType(VariablesFilter
-                    .getVariableById(condition.getOperand1Id()).getType())) {
+                    .getVariableById(condition.getLeftOperandId()).getType())) {
                 operatorList.add(op.getDisplayString());
 
             }
@@ -119,9 +119,9 @@ public class IfFieldSet {
         rightOperandField = new ComboBox<Variable>();
         rightOperandField.setDisplayField(Variable.LABEL);
         rightOperandField.setStore(VariablesFilter.getAllVariables());
-        if (condition.getOperand2Id() != null) {
+        if (condition.getRightOperandId() != null) {
             rightOperandField.setValue(VariablesFilter.getVariableById(condition
-                    .getOperand2Id()));
+                    .getRightOperandId()));
         }
         rightOperandField.setEditable(false);
     }

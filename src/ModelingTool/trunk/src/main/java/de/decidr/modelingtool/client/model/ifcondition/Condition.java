@@ -26,9 +26,9 @@ import de.decidr.modelingtool.client.model.ContainerStartConnectionModel;
 public class Condition extends ContainerStartConnectionModel {
 
     private String label;
-    private Long operand1Id;
+    private Long leftOperandId;
     private Operator operator;
-    private Long operand2Id;
+    private Long rightOperandId;
     private Integer order;
 
     public Condition() {
@@ -36,12 +36,12 @@ public class Condition extends ContainerStartConnectionModel {
         // JS null fields
     }
 
-    public Condition(String label, Long operand1Id, Operator operator,
-            Long operand2Id, Integer order) {
+    public Condition(String label, Long leftOperandId, Operator operator,
+            Long rightOperandId, Integer order) {
         this.label = label;
-        this.operand1Id = operand1Id;
+        this.leftOperandId = leftOperandId;
         this.operator = operator;
-        this.operand2Id = operand2Id;
+        this.rightOperandId = rightOperandId;
         this.order = order;
     }
 
@@ -49,16 +49,16 @@ public class Condition extends ContainerStartConnectionModel {
         return label;
     }
 
-    public Long getOperand1Id() {
-        return operand1Id;
+    public Long getLeftOperandId() {
+        return leftOperandId;
     }
 
     public Operator getOperator() {
         return operator;
     }
 
-    public Long getOperand2Id() {
-        return operand2Id;
+    public Long getRightOperandId() {
+        return rightOperandId;
     }
 
     public Integer getOrder() {
@@ -69,16 +69,16 @@ public class Condition extends ContainerStartConnectionModel {
         this.label = label;
     }
 
-    public void setOperand1Id(Long operand1Id) {
-        this.operand1Id = operand1Id;
+    public void setLeftOperandId(Long leftOperandId) {
+        this.leftOperandId = leftOperandId;
     }
 
     public void setOperator(Operator operator) {
         this.operator = operator;
     }
 
-    public void setOperand2Id(Long operand2Id) {
-        this.operand2Id = operand2Id;
+    public void setRightOperandId(Long rightOperand2Id) {
+        this.rightOperandId = rightOperand2Id;
     }
 
     public void setOrder(Integer order) {

@@ -14,14 +14,16 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.io;
+package de.decidr.modelingtool.client.io.resources;
 
 /**
  * TODO: add comment
  * 
  * @author Jonas Schlaak
  */
-public class DWDLTagNames {
+public class DWDLNames {
+    public static VariableTypes variableTypes = new VariableTypes();
+    
     public static String activity = "activity";
     public static String actor = "actor";
     public static String arc = "arc";

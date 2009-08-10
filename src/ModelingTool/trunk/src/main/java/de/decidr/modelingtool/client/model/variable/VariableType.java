@@ -17,6 +17,7 @@
 package de.decidr.modelingtool.client.model.variable;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
+import de.decidr.modelingtool.client.io.resources.DWDLNames;
 
 /**
  * TODO: add comment
@@ -25,14 +26,17 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
  */
 public enum VariableType {
 
-    // JS externalize dwdl name
-    STRING("string", ModelingToolWidget.messages.typeString()), INTEGER(
-            "integer", ModelingToolWidget.messages.typeInteger()), FLOAT(
-            "float", ModelingToolWidget.messages.typeFloat()), BOOLEAN(
-            "boolean", ModelingToolWidget.messages.typeBoolean()), FILE(
-            "anyURI", ModelingToolWidget.messages.typeFile()), DATE("date",
-            ModelingToolWidget.messages.typeDate()), ROLE("null",
-            ModelingToolWidget.messages.typeRole()), FORM("form",
+    STRING(DWDLNames.variableTypes.STRING, ModelingToolWidget.messages
+            .typeString()), INTEGER(DWDLNames.variableTypes.INTEGER,
+            ModelingToolWidget.messages.typeInteger()), FLOAT(
+            DWDLNames.variableTypes.FLOAT, ModelingToolWidget.messages
+                    .typeFloat()), BOOLEAN(DWDLNames.variableTypes.BOOLEAN,
+            ModelingToolWidget.messages.typeBoolean()), FILE(
+            DWDLNames.variableTypes.FILE, ModelingToolWidget.messages
+                    .typeFile()), DATE(DWDLNames.variableTypes.DATE,
+            ModelingToolWidget.messages.typeDate()), ROLE(
+            DWDLNames.variableTypes.ROLE, ModelingToolWidget.messages
+                    .typeRole()), FORM(DWDLNames.variableTypes.FORM,
             ModelingToolWidget.messages.typeForm());
 
     private final String dwdlName;
