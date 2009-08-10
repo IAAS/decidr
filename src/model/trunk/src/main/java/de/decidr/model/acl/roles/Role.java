@@ -27,9 +27,8 @@ package de.decidr.model.acl.roles;
 public interface Role {
 
     /**
-     * @return the id of the person / system / principal that is requesting
-     *         access to a permission.
+     * @return the id of the person/system/principal that is requesting access
+     *         to a permission.
      */
     public Long getActorId();
-
 }

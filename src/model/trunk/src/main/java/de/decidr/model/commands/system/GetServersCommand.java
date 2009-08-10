@@ -66,7 +66,7 @@ public class GetServersCommand extends SystemCommand {
                 allowedTypes.add(allowedType.toString());
             }
         }
-        // if no server types are given, fetch all server
+        // if no server types are given, fetch all servers
         if (serverTypes == null) {
             hql = "from Server s join fetch s.serverType";
             result = evt.getSession().createQuery(hql).list();

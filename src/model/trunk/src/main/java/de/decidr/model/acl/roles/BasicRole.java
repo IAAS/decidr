@@ -16,7 +16,7 @@
 package de.decidr.model.acl.roles;
 
 /**
- * Base class for roles that are identified by an id.
+ * Base class for roles that are identified by an ID.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -26,17 +26,17 @@ package de.decidr.model.acl.roles;
 public class BasicRole implements Role {
 
     /**
-     * Id of the person / system / pricipal that is requesting access to a
+     * ID of the person/system/principal that is requesting access to a
      * permission.
      */
     private Long actorId;
 
     /**
-     * Constructor.
+     * Constructor. TODO bad comment ~rr
      * 
      * @param actorId
-     *            Id of the person / system / pricipal that is requesting access
-     *            to a permission.
+     *            ID of the person/system/principal that is requesting access to
+     *            a permission.
      */
     public BasicRole(Long actorId) {
         super();
@@ -62,5 +62,4 @@ public class BasicRole implements Role {
     public String toString() {
         return this.getClass().getName().toString();
     }
-
 }

@@ -35,8 +35,7 @@ public class SuperAdminRole extends TenantAdminRole {
     }
 
     /**
-     * Creates a new SuperAdminRole with its actor id set to unknown;
-     * 
+     * Creates a new SuperAdminRole with its actor ID set to unknown;
      */
     public SuperAdminRole() {
         this(UNKNOWN_USER_ID);

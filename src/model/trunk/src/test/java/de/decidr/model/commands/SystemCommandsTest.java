@@ -17,12 +17,32 @@
 package de.decidr.model.commands;
 
 import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
+import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.commands.system.AddServerCommand;
+import de.decidr.model.commands.system.GetFileCommand;
+import de.decidr.model.commands.system.GetLogCommand;
+import de.decidr.model.commands.system.GetServerStatisticsCommand;
+import de.decidr.model.commands.system.GetServersCommand;
+import de.decidr.model.commands.system.GetSystemSettingsCommand;
+import de.decidr.model.commands.system.LockServerCommand;
+import de.decidr.model.commands.system.RemoveServerCommand;
+import de.decidr.model.commands.system.SetSystemSettingsCommand;
+import de.decidr.model.commands.system.UpdateServerLoadCommand;
+import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.enums.ServerTypeEnum;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.filters.Paginator;
+import de.decidr.model.transactions.HibernateTransactionCoordinator;
 
 /**
  * This class tests the commands in <code>de.decidr.model.commands.system</code>
@@ -35,18 +55,180 @@ public class SystemCommandsTest {
     /**
      * Test method for
      * {@link AddServerCommand#AddServerCommand(Role, ServerTypeEnum, String, Byte, Boolean, Boolean)}
-     * .
+     * , {@link GetServersCommand#GetServersCommand(Role, ServerTypeEnum[])},
+     * {@link GetServerStatisticsCommand#GetServerStatisticsCommand(Role)},
+     * {@link LockServerCommand#LockServerCommand(Role, Long, Boolean)},
+     * {@link UpdateServerLoadCommand#UpdateServerLoadCommand(Role, Long, byte)}
+     * and {@link RemoveServerCommand#RemoveServerCommand(Role, Long)} .
      */
     @Test
-    public void testAddServerCommand() {
+    public void testServerCommands() throws TransactionException {
+        Set<AddServerCommand> goodCommands = new HashSet<AddServerCommand>();
+        Set<AddServerCommand> badCommands = new HashSet<AddServerCommand>();
+        for (ServerTypeEnum serverType : ServerTypeEnum.values()) {
+            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, null, (byte) 0, false, false));
+            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, "", (byte) 0, false, false));
+            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, null, (byte) 0, false, true));
+            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, "", (byte) 0, true, true));
+            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, null, (byte) 0, true, false));
+            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, "", (byte) 0, true, false));
+            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, null, (byte) 0, true, true));
+            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, "", (byte) 0, true, true));
+
+            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, null, (byte) -1, false, false));
+            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, "", (byte) -1, false, false));
+            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, null, (byte) -1, false, true));
+            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, "", (byte) -1, true, true));
+            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, null, (byte) -1, true, false));
+            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, "", (byte) -1, true, false));
+            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, null, (byte) -1, true, true));
+            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, "", (byte) -1, true, true));
+
+            badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
+                    null, (byte) 0, false, false));
+            badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
+                    "", (byte) 0, false, false));
+            badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
+                    null, (byte) 0, false, true));
+            badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
+                    "", (byte) 0, true, true));
+            badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
+                    null, (byte) 0, true, false));
+            badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
+                    "", (byte) 0, true, false));
+            badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
+                    null, (byte) 0, true, true));
+            badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
+                    "", (byte) 0, true, true));
+
+            badCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, null, (byte) -10, false, false));
+            badCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, "", (byte) -10, false, false));
+            badCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, null, (byte) -10, false, true));
+            badCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, "", (byte) -10, true, true));
+            badCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, null, (byte) -10, true, false));
+            badCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, "", (byte) -10, true, false));
+            badCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, null, (byte) -10, true, true));
+            badCommands.add(new AddServerCommand(new SuperAdminRole(),
+                    serverType, "", (byte) -10, true, true));
+        }
+
+        for (AddServerCommand addServerCommand : goodCommands) {
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    addServerCommand);
+        }
+
+        for (AddServerCommand addServerCommand : badCommands) {
+            try {
+                HibernateTransactionCoordinator.getInstance().runTransaction(
+                        addServerCommand);
+                fail("a bad command succeeded");
+            } catch (TransactionException e) {
+                // this is supposed to happen
+            }
+        }
+
+        GetServersCommand serversSuperNull = new GetServersCommand(
+                new SuperAdminRole(), (ServerTypeEnum) null);
+        GetServersCommand serversBasicNull = new GetServersCommand(
+                new BasicRole(0L), (ServerTypeEnum) null);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                serversSuperNull);
+
+        assertEquals(serversSuperNull.getResult().size(), goodCommands.size());
+
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    serversBasicNull);
+            fail("getting a list of all servers as basic user succeeded");
+        } catch (TransactionException e) {
+            // this is supposed to happen
+        }
+
+        for (ServerTypeEnum serverType : ServerTypeEnum.values()) {
+            GetServersCommand serversSuperType = new GetServersCommand(
+                    new SuperAdminRole(), serverType);
+            GetServersCommand serversBasicType = new GetServersCommand(
+                    new BasicRole(0L), serverType);
+
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    serversSuperType);
+
+            assertEquals(serversSuperType.getResult().size(), goodCommands
+                    .size()
+                    / ServerTypeEnum.values().length);
+
+            try {
+                HibernateTransactionCoordinator.getInstance().runTransaction(
+                        serversBasicType);
+                fail("getting a list of servers as basic user succeeded");
+            } catch (TransactionException e) {
+                // this is supposed to happen
+            }
+        }
+
+        // RR do ServerStatisticsCommand
+        // RR do LockServerCommand
+        // RR do UpdateServerLoadCommand
+        // RR do RemoveServerCommand
+    }
+
+    /**
+     * Test method for {@link GetFileCommand#GetFileCommand(Long)}.
+     */
+    @Test
+    public void testGetFileCommand() {
         fail("Not yet implemented"); // RR
     }
 
     /**
-     * Test method for {@link AddServerCommand#getNewServer()}.
+     * Test method for
+     * {@link GetLogCommand#GetLogCommand(Role, List, Paginator)}.
      */
     @Test
-    public void testGetNewServer() {
-        fail("Not yet implemented"); // R
+    public void testGetLogCommand() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for
+     * {@link GetSystemSettingsCommand#GetSystemSettingsCommand(Role)}.
+     */
+    @Test
+    public void testGetSystemSettingsCommand() {
+        fail("Not yet implemented"); // RR
+    }
+
+    /**
+     * Test method for
+     * {@link SetSystemSettingsCommand#SetSystemSettingsCommand(Role, SystemSettings)}
+     * .
+     */
+    @Test
+    public void testSetSystemSettingsCommand() {
+        fail("Not yet implemented"); // RR
     }
 }
