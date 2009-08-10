@@ -29,8 +29,7 @@ import de.decidr.model.entities.SystemSettings;
  */
 public class URLGenerator {
 
-    // GH remove //, only for testing
-    //private static SystemSettings settings = DecidrGlobals.getSettings();
+    private static SystemSettings settings = DecidrGlobals.getSettings();
     private static String encoding = "UTF-8";
 
     /**
@@ -46,7 +45,7 @@ public class URLGenerator {
      */
     public static String getInvitationURL(String userId, String invitationId)
             throws UnsupportedEncodingException {
-        String url = "http://google.de/";// GH + settings.getDomain() + "/";
+        String url = "http://" + settings.getDomain() + "/";
         url += "?" + DecidrGlobals.URL_PARAM_USER_ID + "="
                 + URLEncoder.encode(userId, encoding);
         url += "&" + DecidrGlobals.URL_PARAM_INVITATION_ID + "="
@@ -67,7 +66,7 @@ public class URLGenerator {
      */
     public static String getInvitationRegistrationRequiredURL(String userId, String invitationId)
             throws UnsupportedEncodingException {
-        String url = "http://google.de/";// GH + settings.getDomain() + "/";
+        String url = "http://" + settings.getDomain() + "/";
         url += "?" + DecidrGlobals.URL_PARAM_USER_ID + "="
                 + URLEncoder.encode(userId, encoding);
         url += "&" + DecidrGlobals.URL_PARAM_INVITATION_ID + "="
@@ -89,7 +88,7 @@ public class URLGenerator {
      */
     public static String getChangeEmailRequestURL(String userId, String authKey)
             throws UnsupportedEncodingException {
-        String url = "http://google.de/";// GH + settings.getDomain() + "/";
+        String url = "http://" + settings.getDomain() + "/";
         url += "?" + DecidrGlobals.URL_PARAM_USER_ID + "="
                 + URLEncoder.encode(userId, encoding);
         url += "&" + DecidrGlobals.URL_PARAM_CHANGE_EMAIL_REQUEST_ID + "="
@@ -109,7 +108,7 @@ public class URLGenerator {
      */
     public static String getConfirmRegistrationURL(String userId, String authKey)
             throws UnsupportedEncodingException {
-        String url = "http://google.de/";// GH + settings.getDomain() + "/";
+        String url = "http://" + settings.getDomain() + "/";
         url += "?" + DecidrGlobals.URL_PARAM_USER_ID + "="
                 + URLEncoder.encode(userId, encoding);
         url += "&" + DecidrGlobals.URL_PARAM_CONFIRM_REGISTRATION_ID + "="
@@ -130,7 +129,7 @@ public class URLGenerator {
      */
     public static String getPasswordResetURL(String userId, String authKey)
             throws UnsupportedEncodingException {
-        String url = "http://google.de/";// GH + settings.getDomain() + "/";
+        String url = "http://" + settings.getDomain() + "/";
         url += "?" + DecidrGlobals.URL_PARAM_USER_ID + "="
                 + URLEncoder.encode(userId, encoding);
         url += "&" + DecidrGlobals.URL_PARAM_PASSWORD_RESET_REQUEST_ID + "="
@@ -148,7 +147,7 @@ public class URLGenerator {
      */
     public static String getTenantURL(String tenantName)
            throws UnsupportedEncodingException {
-        String url = "http://google.de/";// GH + settings.getDomain() + "/";
+        String url = "http://" + settings.getDomain() + "/";
         url += URLEncoder.encode(tenantName, encoding) + "/";
         return url;
     }

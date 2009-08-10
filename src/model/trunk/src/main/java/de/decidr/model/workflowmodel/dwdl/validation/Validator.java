@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.transform.dom.DOMSource;
@@ -109,7 +108,6 @@ public class Validator {
     public List<IProblem> validate(Workflow dwdl) {
         DWDLErrorHandler errHandler = null;
 
-        // GH requires confirmation
         DOMSource dom = new DOMSource((Node) dwdl);
         List<IProblem> errList = null;
 
@@ -154,7 +152,7 @@ public class Validator {
     private List<IProblem> checkUsers(Workflow dwdl) {
         List<IProblem> userErr = new ArrayList<IProblem>();
         UserFacade userFacade = new UserFacade(new UserRole());
-        // GH: where to find the users:
+        // where to find the users:
         // - Actors
         // - EMail Activity
         // - Human Task
@@ -188,15 +186,6 @@ public class Validator {
     private List<IProblem> checkVariables(Workflow dwdl) {
         List<IProblem> varErr = new ArrayList<IProblem>();
 
-        // GH rr: Gesamte Klasse: schonmal was von 'nem "foreach" und "Generics"
-        // gehört?
-        // gh: nö, in wie fern helfen mir die generics hierbei?
-        // rr: mit den foreach-Schleifen gar nicht - davor haben sie ziemlich
-        // viele casts gespart und waren viel leserlicher als was immer da drin
-        // stand.
-        // Wenn du magst können wir die Original-Version gemeinsam begutachten
-        // wenn du wieder da bist. (Bitte Antwort in 'ne E-Mail auslagern oder
-        // direkt auf mich zukommen) ~rr
         for (Variable tVar : dwdl.getVariables().getVariable()) {
             String type = tVar.getType();
 
@@ -208,9 +197,9 @@ public class Validator {
                                     tVar.getName()));
                         }
                     } else {
-                        for (Literal literals : tVar.getInitialValues()
+                        for (Literal literal : tVar.getInitialValues()
                                 .getInitialValue()) {
-                            if (!isVariableInteger(tVar.getInitialValue())) {
+                            if (!isVariableInteger(literal)) {
                                 varErr.add(new Problem("value(s) not integer!",
                                         tVar.getName()));
                                 break;
@@ -225,9 +214,9 @@ public class Validator {
                                     .getName()));
                         }
                     } else {
-                        for (Literal literals : tVar.getInitialValues()
+                        for (Literal literal : tVar.getInitialValues()
                                 .getInitialValue()) {
-                            if (!isVariableFloat(tVar.getInitialValue())) {
+                            if (!isVariableFloat(literal)) {
                                 varErr.add(new Problem("value(s) not float!",
                                         tVar.getName()));
                                 break;
@@ -235,8 +224,8 @@ public class Validator {
                         }
                     }
 
-                } else if (type.toLowerCase().equals("string")) {
-                    // GH even required?
+                //} else if (type.toLowerCase().equals("string")) {
+                // not required
 
                 } else if (type.toLowerCase().equals("boolean")) {
                     if (tVar.getInitialValues() == null) {
@@ -245,9 +234,9 @@ public class Validator {
                                     tVar.getName()));
                         }
                     } else {
-                        for (Literal literals : tVar.getInitialValues()
+                        for (Literal literal : tVar.getInitialValues()
                                 .getInitialValue()) {
-                            if (!isVariableBoolean(tVar.getInitialValue())) {
+                            if (!isVariableBoolean(literal)) {
                                 varErr.add(new Problem("value(s) not boolean!",
                                         tVar.getName()));
                                 break;
@@ -263,9 +252,9 @@ public class Validator {
                                             .getName()));
                         }
                     } else {
-                        for (Literal literals : tVar.getInitialValues()
+                        for (Literal literal : tVar.getInitialValues()
                                 .getInitialValue()) {
-                            if (!isVariableDate(tVar.getInitialValue())) {
+                            if (!isVariableDate(literal)) {
                                 varErr.add(new Problem(
                                         "value(s) are not a valid date!", tVar
                                                 .getName()));
@@ -282,9 +271,9 @@ public class Validator {
                                             .getName()));
                         }
                     } else {
-                        for (Literal literals : tVar.getInitialValues()
+                        for (Literal literal : tVar.getInitialValues()
                                 .getInitialValue()) {
-                            if (!isVariableTime(tVar.getInitialValue())) {
+                            if (!isVariableTime(literal)) {
                                 varErr.add(new Problem(
                                         "value(s) are not a valid time!", tVar
                                                 .getName()));

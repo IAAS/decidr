@@ -25,17 +25,19 @@ package de.decidr.model.workflowmodel.dwdl.validation;
  * @version 0.1
  */
 public interface IProblem {
-    //GH comments
     
     /**
+     * Returns description of the error
      * 
-     * @return
+     * @return readable description
      */
     public String getErrorDescription();
     
     /**
+     * Returns the position of the error, e.g line 12 or
+     * variablename
      * 
-     * @return
+     * @return position of the error
      */
     public String getErrorPosition();
     
