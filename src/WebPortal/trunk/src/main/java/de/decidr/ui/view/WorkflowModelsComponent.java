@@ -104,11 +104,13 @@ public class WorkflowModelsComponent extends CustomComponent {
        workflowModelLabel = new Label("<h2> Workflow models </h2>");
        workflowModelLabel.setContentMode(Label.CONTENT_XHTML);
        showModelsFromLabel = new Label("Show models from: ");
-       
-       searchPanel = new SearchPanel();
+
        buttonPanel = new Panel();
        
        currentTenantTable = new CurrentTenantModelTable(currentTenantContainer, currentTenantContainer);
+       
+       
+       searchPanel = new SearchPanel(currentTenantTable);
        
        nativeSelect = new NativeSelect();
        for(int i = 0; i < models.length; i++){
@@ -174,12 +176,17 @@ public class WorkflowModelsComponent extends CustomComponent {
             init();
         }else{
             getVerticalLayout().removeComponent(getCreateNewModelButton());
+            getVerticalLayout().removeComponent(getEditWorkflowModelButton());
             getVerticalLayout().replaceComponent(getCurrentTenantTable(), publicModelTable);
             getButtonPanel().removeAllComponents();
             getButtonPanel().addComponent(importModelButton);
         } 
     }
     
+    public Button getEditWorkflowModelButton() {
+        return editWorkflowModelButton;
+    }
+
     /**
      * Gets the native select component.
      *

@@ -78,10 +78,11 @@ public class EditTenantComponent extends CustomComponent {
         editTenantLabel = new Label("<h2> Edit tenant </h2>");
         editTenantLabel.setContentMode(Label.CONTENT_XHTML);
         
-        searchPanel = new SearchPanel();
         buttonPanel = new Panel();
         
         tenantTable = new TenantTable(tenantContainer, tenantContainer);
+        
+        searchPanel = new SearchPanel(tenantTable);
         
         deleteButton = new Button("Delete", new DeleteTenantAction(tenantTable));
         approveButton = new Button("Approve", new ApproveTenantAction(tenantTable));

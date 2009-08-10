@@ -70,8 +70,6 @@ public class WorkflowInstanceComponent extends CustomComponent {
         completedInstanceContainer = new CompletedInstancesContainer();
         
         verticalLayout = new VerticalLayout();
-
-        searchPanel = new SearchPanel();
         
         workflowInstanceLabel = new Label("<h2> Workflow instances </h2>");
         workflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
@@ -80,7 +78,9 @@ public class WorkflowInstanceComponent extends CustomComponent {
         completedWorkflowInstanceLabel = new Label("<h3> Completed workflow instances </h3>");
         completedWorkflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
         
-        runningInstanceTable = new RunningInstanceTable(runningInstanceContainer, runningInstanceContainer);        
+        runningInstanceTable = new RunningInstanceTable(runningInstanceContainer, runningInstanceContainer);
+        
+        searchPanel = new SearchPanel(runningInstanceTable);
         
         completedInstanceTable = new CompletedInstanceTable(completedInstanceContainer, completedInstanceContainer);        
         

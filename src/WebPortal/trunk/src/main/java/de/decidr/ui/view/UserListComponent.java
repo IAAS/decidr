@@ -81,11 +81,13 @@ public class UserListComponent extends CustomComponent {
         
         userListLabel = new Label("<h2> User list </h2>");
         userListLabel.setContentMode(Label.CONTENT_XHTML);
-        
-        searchPanel = new SearchPanel();
+
         buttonPanel = new Panel();
         
         userListTable = new UserListTable(userListContainer, userListContainer);
+        
+        
+        searchPanel = new SearchPanel(userListTable);
         
         inviteUserButton = new Button("Invite user", new ShowInviteUserToTenantAction());
         inviteUserButton.setVisible(false);

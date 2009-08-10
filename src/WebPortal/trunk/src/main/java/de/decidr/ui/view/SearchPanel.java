@@ -20,8 +20,11 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Button.ClickEvent;
+
+import de.decidr.ui.controller.SearchAction;
 
 
 public class SearchPanel extends Panel {
@@ -42,35 +45,29 @@ public class SearchPanel extends Panel {
     
     private Button searchButton = null;
     
+    
     /**
-     * Default constructor
+     * Constructor requires a table to know in which table the keyword
+     * should be searched.
      *
+     * @param table
      */
-    public SearchPanel(){
-        init();
+    public SearchPanel(Table table){
+        init(table);
     }
     
     /**
      * This method initializes the components of the search panel component
      *
      */
-    private void init(){
+    private void init(Table table){
         searchHorizontalLayout = new HorizontalLayout();
         
         keywordLabel = new Label("Keyword: ");
         
         searchTextField = new TextField();
         
-        searchButton = new Button("Search");
-        searchButton.addListener(new Button.ClickListener(){
-//just testing
-            @Override
-            public void buttonClick(ClickEvent event) {
-                
-                
-            }
-            
-        });
+        searchButton = new Button("Search", new SearchAction(table ,searchTextField));
         
         addComponent(searchHorizontalLayout);
         

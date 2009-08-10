@@ -39,20 +39,22 @@ public class ShowModelingToolAction implements ClickListener {
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
     
-    private WorkflowModelsComponent component = (WorkflowModelsComponent)siteFrame.getContent();
-    private CurrentTenantModelTable table = component.getCurrentTenantTable();
+    private WorkflowModelsComponent component = null;
+    private CurrentTenantModelTable table = null;
     
     /* (non-Javadoc)
      * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
+        component = (WorkflowModelsComponent)siteFrame.getContent();
+        table = component.getCurrentTenantTable();
         Set<?> set = (Set<?>)table.getValue();
-        if(event.getButton().getCaption() == "Create new model" || event.getButton().getCaption() == "Edit model" && set.size() > 1){
-            Main.getCurrent().getMainWindow().showNotification("Bitte wählen sie nur ein Element aus");
-        }else{
+        
+            //sMain.getCurrent().getMainWindow().showNotification("Bitte wählen sie nur ein Element aus");
+       
             Main.getCurrent().getMainWindow().addWindow(modelingToolWindow);
-        }
+        
        
        
 

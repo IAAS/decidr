@@ -61,12 +61,12 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
         
         verticalLayout = new VerticalLayout();
         
-        searchPanel = new SearchPanel();
-        
         createWorkflowInstanceLabel = new Label("<h2> Create Workflow Instance </h2>");
         createWorkflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
     
         instanceTable = new WorkflowInstanceTable(workflowInstanceContainer, workflowInstanceContainer);
+        
+        searchPanel = new SearchPanel(instanceTable);
         
         setCompositionRoot(verticalLayout);
         

@@ -68,7 +68,6 @@ public class WorkItemComponent extends CustomComponent {
         
         verticalLayout = new VerticalLayout();
 
-        searchPanel = new SearchPanel();
         tablePanel = new Panel();
         
         headerLabel = new Label(
@@ -82,6 +81,8 @@ public class WorkItemComponent extends CustomComponent {
         }
         
         workItemTable = new WorkItemTable(workItemContainer, workItemContainer);
+        
+        searchPanel = new SearchPanel(workItemTable);
         
         setCompositionRoot(verticalLayout);
         
