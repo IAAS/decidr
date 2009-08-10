@@ -559,7 +559,7 @@ public class NotificationText {
             String tenantUrl, String invitationUrl, String expireDate,
             String signature) {
         
-        String message = bundle.getString("InvviteRegisteredUserAsTenantMember_Message");
+        String message = bundle.getString("InviteRegisteredUserAsTenantMember_Message");
         message = message.replaceAll("<userName>", userName);
         message = message.replaceAll("<inviterName>", inviterName);
         message = message.replaceAll("<tenantName>", tenantName);
@@ -599,7 +599,7 @@ public class NotificationText {
             String tenantUrl, String invitationUrl, String expireDate,
             String signature) {
 
-        String message = bundle.getString("InvviteRegisteredUserAsTenantMember_Message");
+        String message = bundle.getString("InviteRegisteredUserAsTenantMember_Message");
         message = message.replaceAll("<userName>", userName);
         message = message.replaceAll("<inviterName>", inviterName);
         message = message.replaceAll("<tenantName>", tenantName);
