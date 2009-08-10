@@ -28,46 +28,53 @@ import com.vaadin.data.Item;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.entities.SystemSettings;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.SystemFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SystemSettingComponent;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 public class SaveSystemSettingsAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+	private HttpSession session = Main.getCurrent().getSession();
 
-    private Long userId = (Long) session.getAttribute("userId");
-    private SystemFacade systemFacade = new SystemFacade(new UserRole(userId));
+	private Long userId = (Long) session.getAttribute("userId");
+	private SystemFacade systemFacade = new SystemFacade(new UserRole(userId));
 
-    private SystemSettingComponent content = null;
-    private Item item = null;
+	private SystemSettingComponent content = null;
+	private Item item = null;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        content = (SystemSettingComponent) UIDirector.getInstance()
-                .getTemplateView().getContent();
-        content.saveSettingsItem();
-        item = content.getSettingsItem();
-        // GH: SystemFacade.setSettings has changed
-//        try {
-//            systemFacade.setSettings((Boolean) item.getItemProperty(
-//                    "autoAcceptNewTenants").getValue(), (Level) item
-//                    .getItemProperty("logLevel").getValue());
-//        } catch (TransactionException e) {
-//            Main.getCurrent().getMainWindow().addWindow(
-//                    new TransactionErrorDialogComponent());
-//        }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		SystemSettings settings = DecidrGlobals.getSettings();
 
-        // TODO: remove
-        Main.getCurrent().getMainWindow().showNotification(
-                "System Settings Saved");
-    }
+		content = (SystemSettingComponent) UIDirector.getInstance()
+				.getTemplateView().getContent();
+		content.saveSettingsItem();
+		item = content.getSettingsItem();
+
+		settings.setAutoAcceptNewTenants(Boolean.parseBoolean(item
+						.getItemProperty("autoAcceptNewTenants").getValue()
+						.toString()));
+		settings.setLogLevel(item.getItemProperty("logLevel").getValue()
+				.toString());
+
+		try {
+			systemFacade.setSettings(settings);
+		} catch (TransactionException e) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent());
+		}
+
+	}
 
 }

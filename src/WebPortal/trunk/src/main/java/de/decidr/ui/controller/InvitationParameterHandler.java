@@ -68,7 +68,7 @@ public class InvitationParameterHandler implements ParameterHandler {
                 }else if(key.equals(DecidrGlobals.URL_PARAM_USER_ID)){
                 	userId = Long.parseLong(value);
                 }else if(key.equals("regreq")){
-                	//GH DecidrGlobals.URL_PARAM_REGISRATION_REQUIRED
+                	//GH DecidrGlobals.URL_PARAM_REGISTRATION_REQUIRED
                 	registrationRequired = true;
                 }
                 
