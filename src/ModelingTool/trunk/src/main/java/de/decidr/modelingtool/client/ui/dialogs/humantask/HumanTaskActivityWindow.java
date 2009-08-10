@@ -108,9 +108,10 @@ public class HumanTaskActivityWindow extends Dialog {
         }
         newModel.setTaskItems(taskItems);
         // JS check if changed
-        CommandStack.getInstance().executeCommand(
-                new ChangeNodePropertiesCommand<HumanTaskInvokeNode>(node,
-                        newModel.getProperties()));
+        CommandStack.getInstance()
+                .executeCommand(
+                        new ChangeNodePropertiesCommand(node, newModel
+                                .getProperties()));
     }
 
     @Override

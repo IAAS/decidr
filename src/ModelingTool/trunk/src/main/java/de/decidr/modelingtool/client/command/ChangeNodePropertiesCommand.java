@@ -24,10 +24,10 @@ import de.decidr.modelingtool.client.ui.Node;
  * 
  * @author Jonas Schlaak
  */
-public class ChangeNodePropertiesCommand<N extends Node> implements
+public class ChangeNodePropertiesCommand implements
         UndoableCommand {
 
-    private N node;
+    private Node node;
     private NodePropertyData oldProperties;
     private NodePropertyData newProperties;
 
@@ -35,7 +35,7 @@ public class ChangeNodePropertiesCommand<N extends Node> implements
      * TODO: add comment
      * 
      */
-    public ChangeNodePropertiesCommand(N node, NodePropertyData newModel) {
+    public ChangeNodePropertiesCommand(Node node, NodePropertyData newModel) {
         this.node = node;
         this.oldProperties = node.getModel().getProperties();
         this.newProperties = newModel;

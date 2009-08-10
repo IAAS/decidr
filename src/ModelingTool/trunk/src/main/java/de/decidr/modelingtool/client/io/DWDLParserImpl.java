@@ -398,7 +398,6 @@ public class DWDLParserImpl implements DWDLParser {
                         DWDLTagNames.parameters).get(0),
                 DWDLTagNames.getProperty)) {
             if (getProperty.getAttribute(DWDLTagNames.name) == DWDLTagNames.taskResult) {
-                // JS change so that parameter element is considered
                 Element humanTaskData = getChildNodesByTagName(getProperty,
                         DWDLTagNames.humanTaskData).get(0);
                 List<Element> taskItemElements = getChildNodesByTagName(

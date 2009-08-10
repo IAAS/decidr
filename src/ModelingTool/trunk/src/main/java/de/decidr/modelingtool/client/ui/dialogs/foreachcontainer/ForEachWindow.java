@@ -110,16 +110,17 @@ public class ForEachWindow extends Dialog {
         model = (ForEachContainerModel) node.getModel();
     }
 
-    protected void changeWorkflowModel() {
+    private void changeWorkflowModel() {
         // JS make this nicer
         ForEachContainerModel newModel = new ForEachContainerModel(node
                 .getModel().getParentModel());
         newModel.setIterationVariableId(iterableField.getValue().getId());
         newModel.setExitCondition(exitConditionGroup.getSelectedValue());
         newModel.setParallel(parallelField.getValue());
-        CommandStack.getInstance().executeCommand(
-                new ChangeNodePropertiesCommand<ForEachContainer>(node,
-                        newModel.getProperties()));
+        CommandStack.getInstance()
+                .executeCommand(
+                        new ChangeNodePropertiesCommand(node, newModel
+                                .getProperties()));
     }
 
     private void createFields() {

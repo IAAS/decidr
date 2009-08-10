@@ -132,10 +132,12 @@ public class EmailActivityWindow extends Dialog {
             newModel
                     .setAttachmentVariableId(attachmentField.getValue().getId());
         }
-        // JS check if changed
-        CommandStack.getInstance().executeCommand(
-                new ChangeNodePropertiesCommand<EmailInvokeNode>(node, newModel
-                        .getProperties()));
+        newModel.getProperties();
+        CommandStack.getInstance()
+                .executeCommand(
+                        new ChangeNodePropertiesCommand(node, newModel
+                                .getProperties()));
+
     }
 
     private void addComboField(ComboBox<Variable> field, String label,
