@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import com.extjs.gxt.ui.client.core.El;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
@@ -41,6 +40,7 @@ import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.model.StartNodeModel;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.model.WorkflowProperties;
+import de.decidr.modelingtool.client.model.foreach.ExitCondition;
 import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.model.humantask.TaskItem;
@@ -264,7 +264,8 @@ public class DWDLParserImpl implements DWDLParser {
             } else if (childElement.getNodeName() == DWDLTagNames.ifNode) {
                 nodeModel = createIfModel(childElement, workflow, parentModel);
             } else if (childElement.getNodeName() == DWDLTagNames.forEachNode) {
-
+                nodeModel = createForEachModel(childElement, workflow,
+                        parentModel);
             } else if (childElement.getNodeName() == DWDLTagNames.invokeNode) {
                 if (childElement.getAttribute(DWDLTagNames.activity) == DWDLTagNames.decidrEmail) {
                     nodeModel = createEmailInvokeNode(childElement, parentModel);
@@ -508,9 +509,38 @@ public class DWDLParserImpl implements DWDLParser {
         return ifModel;
     }
 
-    private ContainerModel createForEachModel(HasChildModels parentModel) {
+    private ContainerModel createForEachModel(Element forEachElement,
+            WorkflowModel workflow, HasChildModels parentModel) {
         ForEachContainerModel forEachModel = new ForEachContainerModel();
-        // TODO Auto-generated method stub
+
+        /* Set name id and graphics */
+        forEachModel.setName(forEachElement.getAttribute(DWDLTagNames.name));
+        forEachModel.setId(new Long(forEachElement
+                .getAttribute(DWDLTagNames.id)));
+        setGraphics(forEachElement, forEachModel);
+
+        createChildNodeModels(forEachElement, workflow, forEachModel);
+
+        /* Set for each properties */
+        Element finalCounterValueElement = getChildNodesByTagName(
+                forEachElement, DWDLTagNames.finalCounterValue).get(0);
+        forEachModel.setIterationVariableId(new Long(finalCounterValueElement
+                .getNodeValue()));
+        Element completionConditionElement = getChildNodesByTagName(
+                forEachElement, DWDLTagNames.completionCon).get(0);
+        forEachModel.setExitCondition(ExitCondition
+                .valueOf(completionConditionElement.getNodeValue()));
+
+        /* Set incoming and outgoing connections */
+        Element targetElement = getChildNodesByTagName(forEachElement,
+                DWDLTagNames.target).get(0);
+        forEachModel.setInput(getConnectionForTargetElement(targetElement,
+                forEachModel, parentModel));
+        Element sourceElement = getChildNodesByTagName(forEachElement,
+                DWDLTagNames.target).get(0);
+        forEachModel.setInput(getConnectionForSourceElement(sourceElement,
+                forEachModel, parentModel));
+
         return forEachModel;
     }
 
