@@ -18,6 +18,7 @@ package de.decidr.model.commands.workflowmodel;
 
 import java.util.List;
 
+import de.decidr.model.acl.access.WorkflowModelAccess;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
@@ -35,7 +36,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * @version 0.1
  */
 public class PublishWorkflowModelsCommand extends AclEnabledCommand implements
-        TransactionalCommand {
+        TransactionalCommand, WorkflowModelAccess{
 
     private List<Long> workflowModelIds = null;
     private Boolean publish;
@@ -69,5 +70,13 @@ public class PublishWorkflowModelsCommand extends AclEnabledCommand implements
             }
         }
     }
+
+    @Override
+    public Long[] getWorkflowModelIds() {
+        Long[] result = new Long[0];
+        return workflowModelIds.toArray(result);
+    }
+    
+    
 
 }

@@ -2,6 +2,7 @@ package de.decidr.model.commands.tenant;
 
 import java.util.List;
 
+import de.decidr.model.acl.access.WorkflowModelAccess;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.WorkflowModel;
@@ -17,7 +18,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-public class ImportPublishedWorkflowModelsCommand extends TenantCommand {
+public class ImportPublishedWorkflowModelsCommand extends TenantCommand implements WorkflowModelAccess{
 
     private List<Long> modelIdList;
     private List<WorkflowModel> modelList;
@@ -66,5 +67,11 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand {
                         "Given workflowModel is not published.");
             }
         }
+    }
+
+    @Override
+    public Long[] getWorkflowModelIds() {
+        Long[] res = new Long[0];
+        return modelList.toArray(res);
     }
 }

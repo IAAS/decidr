@@ -23,6 +23,7 @@ import org.hibernate.Session;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.LifetimeValidator;
+import de.decidr.model.acl.access.InvitationAccess;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
@@ -55,7 +56,7 @@ import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
  * @author Daniel Huss
  * @version 0.1
  */
-public class ConfirmInviationCommand extends AclEnabledCommand {
+public class ConfirmInviationCommand extends AclEnabledCommand implements InvitationAccess{
 
     private static Logger logger = DefaultLogger
             .getLogger(ConfirmInviationCommand.class);
@@ -263,5 +264,11 @@ public class ConfirmInviationCommand extends AclEnabledCommand {
         }
 
         session.delete(invitation);
+    }
+
+    @Override
+    public Long[] getInvitationIds() {
+        Long[] result = {invitationId};
+        return result;
     }
 }

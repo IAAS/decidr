@@ -2,6 +2,7 @@ package de.decidr.model.commands.workflowinstance;
 
 import org.hibernate.Query;
 
+import de.decidr.model.acl.access.DeployedworkflowModelAccess;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
@@ -13,7 +14,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand {
+public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand implements DeployedworkflowModelAccess{
 
     private String odePid;
     private Long deployedWorkflowModelId;
@@ -50,5 +51,18 @@ public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand {
         q.executeUpdate();
 
     }
+
+    @Override
+    public Long getDeployedWorkflowModelId() {
+        return deployedWorkflowModelId;
+    }
+
+    @Override
+    public Long[] getDeployedWorkflowModelIds() {
+        Long[] result = {deployedWorkflowModelId};
+        return result;
+    }
+    
+    
 
 }

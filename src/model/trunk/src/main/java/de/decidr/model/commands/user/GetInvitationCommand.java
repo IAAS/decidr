@@ -15,6 +15,7 @@
  */
 package de.decidr.model.commands.user;
 
+import de.decidr.model.acl.access.InvitationAccess;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.InvitationView;
 import de.decidr.model.exceptions.TransactionException;
@@ -28,7 +29,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-public class GetInvitationCommand extends UserCommand {
+public class GetInvitationCommand extends UserCommand implements InvitationAccess{
 
     private InvitationView result;
     private Long invitationId;
@@ -59,5 +60,11 @@ public class GetInvitationCommand extends UserCommand {
      */
     public InvitationView getResult() {
         return result;
+    }
+
+    @Override
+    public Long[] getInvitationIds() {
+        Long[] res = {invitationId};
+        return res;
     }
 }

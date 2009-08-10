@@ -93,5 +93,7 @@ public class GetWorkflowInstancesCommand extends WorkflowModelCommand {
     public List<WorkflowInstance> getResult() {
         return result;
     }
+    
+    
 
 }
