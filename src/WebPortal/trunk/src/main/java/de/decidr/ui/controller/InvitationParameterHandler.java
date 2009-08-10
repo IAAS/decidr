@@ -79,30 +79,31 @@ public class InvitationParameterHandler implements ParameterHandler {
         
         if (invitationId != null){
         	session = Main.getCurrent().getSession();
-        	userFacade = new UserFacade(new UserRole(userId));
+        	userFacade = new UserFacade(new UserRole());
         	
         	try{
-        	Item invitationItem = userFacade.getInvitation(invitationId);
-        	String invDescription = "Please confirm this invitation from " + 
-        							invitationItem.getItemProperty("senderFirstName").getValue().toString() +
-        							" " +
-        							invitationItem.getItemProperty("senderLastName").getValue().toString();
-        	if (registrationRequired){
-        		if(userFacade.isRegistered(userId)){
-            		//User is registered
-            		
-            		session.setAttribute("userId", userId);
-                	Main.getCurrent().getMainWindow().addWindow(new InvitationDialogComponent(invDescription,invitationId));	
-            		
-            		
-            	}else{
-            		//User not yet registered
-    				UIDirector.getInstance().getTemplateView().setContent(new RegisterUserComponent(invitationId));
-            	}
-        	}else{
-        		session.setAttribute("userId", userId);
-        		Main.getCurrent().getMainWindow().addWindow(new InvitationDialogComponent(invDescription,invitationId));
-        	}
+	        	String invDescription = "mooomoomoo";
+	//        	Item invitationItem = userFacade.getInvitation(invitationId);
+	//        	String invDescription = "Please confirm this invitation from " + 
+	//        							invitationItem.getItemProperty("senderFirstName").getValue().toString() +
+	//        							" " +
+	//        							invitationItem.getItemProperty("senderLastName").getValue().toString();
+	        	if (registrationRequired){
+	        		if(userFacade.isRegistered(userId)){
+	            		//User is registered
+	            		
+	            		session.setAttribute("userId", userId);
+	                	Main.getCurrent().getMainWindow().addWindow(new InvitationDialogComponent(invDescription,invitationId));	
+	            		
+	            		
+	            	}else{
+	            		//User not yet registered
+	    				UIDirector.getInstance().getTemplateView().setContent(new RegisterUserComponent(invitationId));
+	            	}
+	        	}else{
+	        		session.setAttribute("userId", userId);
+	        		Main.getCurrent().getMainWindow().addWindow(new InvitationDialogComponent(invDescription,invitationId));
+	        	}
         	
         	}catch(TransactionException exception){
         	    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
