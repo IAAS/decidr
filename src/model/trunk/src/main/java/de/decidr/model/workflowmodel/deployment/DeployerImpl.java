@@ -66,7 +66,7 @@ public class DeployerImpl implements Deployer {
      * de.decidr.model.workflowmodel.deployment.DeploymentStrategy)
      */
     @Override
-    public DeploymentResult deploy(byte[] dwdl, List<KnownWebService> webservices, String tenantName,
+    public DeploymentResult deploy(byte[] dwdl, List<KnownWebService> knownWebservices, String tenantName,
             List<ServerLoadView> serverStatistics, DeploymentStrategy strategy)
             throws DWDLValidationException, ODESelectorException, IOException,
             JAXBException, WSDLException {
@@ -81,7 +81,7 @@ public class DeployerImpl implements Deployer {
             throw new ODESelectorException(serverStatistics);
         }
         translator = new Translator();
-        translator.load(dwdl, tenantName);
+        translator.load(dwdl, tenantName, knownWebservices);
         Process bpel = translator.getBPEL();
         byte[] soap = translator.getSOAP(); 
         Definition wsdl = null;

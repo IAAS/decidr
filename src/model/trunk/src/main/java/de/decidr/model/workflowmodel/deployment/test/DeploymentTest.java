@@ -45,7 +45,8 @@ public class DeploymentTest {
     public static void main(String[] args) {
         try {
             Translator t = new Translator();
-            t.load(getBytesFromFile(new File("sampleProcess.xml")), "IAAS");
+            // MA doit pleeeaaaaassseee
+            
             System.out.println("Done");
             de.decidr.model.workflowmodel.bpel.Process p = t.getBPEL();
             JAXBContext cntxt = JAXBContext.newInstance(Process.class);

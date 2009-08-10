@@ -16,6 +16,7 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
+import org.apache.log4j.Logger;
 import javax.wsdl.Definition;
 import javax.wsdl.Import;
 import javax.wsdl.Types;
@@ -24,17 +25,10 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.apache.axis2.wsdl.WSDLConstants.WSDL11Constants;
-import org.apache.axis2.wsdl.WSDLConstants.WSDL20_2006Constants;
-import org.apache.log4j.Logger;
-import org.jaxen.jdom.JDOMXPath;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import com.ibm.wsdl.ImportImpl;
 import com.ibm.wsdl.TypesImpl;
-
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 
@@ -69,7 +63,15 @@ public class DWDL2WSDL {
         log.trace("setting types");
         setTypes();
         
+        log.trace("setting messages");
+        setMessages();
+        
         return wsdl;
+    }
+
+    private void setMessages() {
+       
+        
     }
 
     private void setNamespaces() {
@@ -103,7 +105,10 @@ public class DWDL2WSDL {
         catch (ParserConfigurationException e) {
             log.warn("creation of com.w3c.document failed for some really mysterious reasons");
         }
+        // MA how to create a schema element?
         Element schemaElement = doc.createElement(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        schema.setElement(schemaElement);
+        types.addExtensibilityElement(schema);
     }
 
 }

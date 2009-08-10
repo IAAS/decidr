@@ -42,13 +42,15 @@ public class FileDeployer {
 
     private static Logger logger = DefaultLogger.getLogger(FileDeployer.class);
 
+    // MA complete comment
     /**
+     *
      * This class actually deploys the zip file on the selected server
      * 
      * @param zipFile
-     *            MA document
+     *            document
      * @throws AxisFault
-     *             MA document
+     *            document
      */
     public void deploy(byte[] zipFile, String location) throws AxisFault {
 

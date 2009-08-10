@@ -19,7 +19,6 @@ package de.decidr.model.workflowmodel.deployment.test;
 import java.util.List;
 import javax.xml.transform.stream.StreamSource;
 import de.decidr.model.workflowmodel.dwdl.validation.IProblem;
-import de.decidr.model.workflowmodel.dwdl.validation.Problem;
 
 /**
  * A simple schema validator

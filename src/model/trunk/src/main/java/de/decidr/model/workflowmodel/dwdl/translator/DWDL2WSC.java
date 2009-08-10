@@ -19,7 +19,7 @@ package de.decidr.model.workflowmodel.dwdl.translator;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 
 /**
- * MA: add comment
+ * This class builds the start configuration for the workflow
  *
  * @author Modood Alvi
  * @version 0.1
@@ -27,6 +27,7 @@ import de.decidr.model.workflowmodel.dwdl.Workflow;
 public class DWDL2WSC {
     
     public byte[] getStartConfiguration (Workflow dwdl){
+        // MA please implement me
         return null;
     }
 

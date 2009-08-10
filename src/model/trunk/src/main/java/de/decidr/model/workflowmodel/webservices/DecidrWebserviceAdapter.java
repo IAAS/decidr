@@ -23,46 +23,61 @@ import javax.xml.namespace.QName;
 
 /**
  * This class supplies methods for the conversion components.
- *
+ * 
  * @author Modood Alvi
  * @version 0.1
  */
 public class DecidrWebserviceAdapter {
-    
+
     WebserviceMapping mapping = null;
     Definition definition = null;
-    
-    public DecidrWebserviceAdapter (WebserviceMapping mapping, Definition definition){
+
+    public DecidrWebserviceAdapter(WebserviceMapping mapping,
+            Definition definition) {
         this.mapping = mapping;
         this.definition = definition;
     }
-    
-public QName getName(){
+
+    public QName getName() {
         return definition.getQName();
     }
 
-    public String getPartnerLink(){
+    public String getPartnerLink() {
         return null;
     }
-    
-    public String getPartnerLinkType(){
+
+    public String getPartnerLinkType() {
         return null;
     }
-    
-    public String getTargetNamespace(){
+
+    public String getTargetNamespace() {
         return definition.getTargetNamespace();
     }
-    
-    public String getLocation(){
+
+    public String getLocation() {
         return null;
     }
-    
-    public PortType getPortType(){
+
+    public PortType getPortType() {
         return definition.getPortType(new QName(mapping.portType));
     }
+
+    public Operation getOpertation() {
+        return definition.getPortType(
+                new QName(definition.getTargetNamespace(), mapping.portType))
+                .getOperation(null, mapping.operation, null);
+    }
     
-    public Operation getOpertation(){
-        return definition.getPortType(new QName(mapping.portType)).getOperation(null, mapping.operation, null);
+    public Definition getDefinition(){
+        return definition;
+    }
+    
+    public String getInputMessageType() {
+        return getOpertation().getInput().getMessage().getQName().getLocalPart();
+    }
+    
+    public String getOutputMessageType() {
+        return getOpertation().getOutput().getMessage().getQName().getLocalPart();
     }
     
 }

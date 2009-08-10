@@ -33,5 +33,5 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tEnableSharing")
 public class TEnableSharing {
-    // MA document
+    // MA recompile dd.xsd?
 }

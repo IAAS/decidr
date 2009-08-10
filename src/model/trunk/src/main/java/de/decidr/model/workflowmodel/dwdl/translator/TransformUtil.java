@@ -16,12 +16,18 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import javax.wsdl.Definition;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.stream.StreamSource;
 
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 
@@ -64,8 +70,13 @@ public class TransformUtil {
         return bytes;
     }
     
-    public static Workflow bytesToDWDLWorkflow(byte[] dwdl){
-        return null;
+    public static Workflow bytesToDWDLWorkflow(byte[] dwdl) throws JAXBException{
+        JAXBContext dwdlCntxt = JAXBContext.newInstance(Workflow.class);
+        Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
+        JAXBElement<Workflow> dwdlElement = dwdlUnmarshaller.unmarshal(
+                new StreamSource(new ByteArrayInputStream(dwdl)),
+                Workflow.class);
+        return dwdlElement.getValue();
     }
     
     public static Definition bytesToWSDLDefinition(byte[] wsdl){

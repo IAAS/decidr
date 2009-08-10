@@ -14,46 +14,46 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for DWDLSimpleVariableType.
+ * <p>Java class for DWDLComplexVariableType.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="DWDLSimpleVariableType">
+ * &lt;simpleType name="DWDLComplexVariableType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="integer"/>
- *     &lt;enumeration value="float"/>
- *     &lt;enumeration value="string"/>
- *     &lt;enumeration value="boolean"/>
- *     &lt;enumeration value="date"/>
- *     &lt;enumeration value="anyURI"/>
- *     &lt;enumeration value="time"/>
+ *     &lt;enumeration value="list-integer"/>
+ *     &lt;enumeration value="list-float"/>
+ *     &lt;enumeration value="list-string"/>
+ *     &lt;enumeration value="list-boolean"/>
+ *     &lt;enumeration value="list-date"/>
+ *     &lt;enumeration value="list-file"/>
+ *     &lt;enumeration value="form"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
-@XmlType(name = "DWDLSimpleVariableType")
+@XmlType(name = "DWDLComplexVariableType")
 @XmlEnum
-public enum SimpleType {
+public enum ComplexType {
 
-    @XmlEnumValue("integer")
-    INTEGER("integer"),
-    @XmlEnumValue("float")
-    FLOAT("float"),
-    @XmlEnumValue("string")
-    STRING("string"),
-    @XmlEnumValue("boolean")
-    BOOLEAN("boolean"),
-    @XmlEnumValue("date")
-    DATE("date"),
-    @XmlEnumValue("anyURI")
-    ANY_URI("anyURI"),
-    @XmlEnumValue("time")
-    TIME("time");
+    @XmlEnumValue("list-integer")
+    LIST_INTEGER("list-integer"),
+    @XmlEnumValue("list-float")
+    LIST_FLOAT("list-float"),
+    @XmlEnumValue("list-string")
+    LIST_STRING("list-string"),
+    @XmlEnumValue("list-boolean")
+    LIST_BOOLEAN("list-boolean"),
+    @XmlEnumValue("list-date")
+    LIST_DATE("list-date"),
+    @XmlEnumValue("list-file")
+    LIST_FILE("list-file"),
+    @XmlEnumValue("form")
+    FORM("form");
     private final String value;
 
-    SimpleType(String v) {
+    ComplexType(String v) {
         value = v;
     }
 
@@ -61,8 +61,8 @@ public enum SimpleType {
         return value;
     }
 
-    public static SimpleType fromValue(String v) {
-        for (SimpleType c: SimpleType.values()) {
+    public static ComplexType fromValue(String v) {
+        for (ComplexType c: ComplexType.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

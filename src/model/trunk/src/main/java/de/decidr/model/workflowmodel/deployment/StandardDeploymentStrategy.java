@@ -16,12 +16,13 @@
 
 package de.decidr.model.workflowmodel.deployment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.decidr.model.entities.ServerLoadView;
 
 /**
- * MA add comment
+ * This is the standard deployment strategy. The server with min. load is selected.
  * 
  * @author Modood Alvi
  * @version 0.1
@@ -33,9 +34,18 @@ public class StandardDeploymentStrategy implements DeploymentStrategy {
      */
     @Override
     public List<ServerLoadView> selectServer(List<ServerLoadView> serverStatistics) {
-        // MA Auto-generated method stub
-        return null;
+        List<ServerLoadView> resultList = new ArrayList<ServerLoadView>();
+        ServerLoadView bestServer = null;
+        byte bestLoad = 100;
+        for (ServerLoadView serverView : serverStatistics){
+            if (!serverView.isLocked()){
+                if(serverView.getLoad() < bestLoad){
+                    bestLoad = serverView.getLoad();
+                    bestServer = serverView;
+                }
+            }
+        }
+        resultList.add(bestServer);
+        return resultList;
     }
-
-
 }

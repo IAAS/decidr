@@ -23,7 +23,8 @@ import de.decidr.model.entities.ServerLoadView;
 /**
  * MA add comment
  * 
- * @author mod2
+ * @author Modood Alvi
+ * @version 0.1
  */
 public class ODESelectorException extends Exception {
 
@@ -33,7 +34,7 @@ public class ODESelectorException extends Exception {
      * @param serverStatistics
      */
     public ODESelectorException(List<ServerLoadView> serverStatistics) {
-        // MA Auto-generated constructor stub
+        // MA please implement me
     }
 
     /**

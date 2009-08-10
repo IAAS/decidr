@@ -62,10 +62,7 @@ public class InstanceManagerImpl implements InstanceManager {
      */
     @Override
     public void stopInstance(WorkflowInstance instance) {
-        // MA Auto-generated method stub
+        // MA StopWorkflowInstance implementieren
 
     }
-
-    // MA StopWorkflowInstance implementieren
-
 }

@@ -46,7 +46,7 @@ import de.decidr.model.workflowmodel.dwdl.Workflow;
  * @author Modood Alvi
  * @version 0.1
  */
-// MA: bitte hier drin mal <ctrl><shift><f> drücken!
+
 public class Validator {
 
     private javax.xml.validation.Validator validator = null;
@@ -92,7 +92,7 @@ public class Validator {
         errHandler = (DWDLErrorHandler) (validator.getErrorHandler());
         errList = errHandler.getProblemList();
 
-        // GH how to transform from byte[] to TWorkflow?
+        // GH how to transform from byte[] to TWorkflow? ---> Use TransformUtil in workflowmodel.
         // errList.addAll(checkVariables(dwdl));
         // errList.addAll(checkUsers(dwdl));
 

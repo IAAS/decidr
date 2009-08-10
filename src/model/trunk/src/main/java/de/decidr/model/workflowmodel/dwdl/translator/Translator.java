@@ -17,11 +17,12 @@
 package de.decidr.model.workflowmodel.dwdl.translator;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
 import javax.wsdl.xml.WSDLReader;
@@ -30,13 +31,14 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
-
 import org.xml.sax.InputSource;
-
+import de.decidr.model.entities.Activity;
 import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.workflowmodel.bpel.Process;
 import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
+import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
+import de.decidr.model.workflowmodel.webservices.WebserviceMapping;
 
 /**
  * This class provides the functionality to translate a given DWDL into
@@ -52,43 +54,68 @@ public class Translator {
     private TDeployment dd = null;
     private byte[] soap = null;
     private Definition wsdl = null;
-    private List<Definition> webservicesWSDLs = null;
+    private List<Definition> definitions = null;
+    private Map<String, DecidrWebserviceAdapter> webserviceAdapters = null;
     private String tenantName = null;
 
-    public void load(byte[] dwdl, String tenantName) throws JAXBException {
-        JAXBContext dwdlCntxt = JAXBContext.newInstance(Workflow.class);
-        Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
-        JAXBElement<Workflow> element = dwdlUnmarshaller.unmarshal(
-                new StreamSource(new ByteArrayInputStream(dwdl)),
-                Workflow.class);
+    public void load(byte[] dwdl, String tenantName,
+            List<KnownWebService> knownWebservices) throws JAXBException,
+            WSDLException, IOException {
 
-        dwdlWorkflow = element.getValue();
+        this.dwdlWorkflow = parseDWDLWorkflow(dwdl);
         this.tenantName = tenantName;
+        this.webserviceAdapters = createAdapters(knownWebservices);
     }
 
-    public void load(byte[] dwdl, List<KnownWebService> webservices,
-            String tenantName) throws JAXBException, WSDLException, IOException {
+    private Map<String, DecidrWebserviceAdapter> createAdapters(
+            List<KnownWebService> knownWebservices) throws JAXBException,
+            WSDLException {
+        HashMap<String, DecidrWebserviceAdapter> adapters = new HashMap<String, DecidrWebserviceAdapter>();
+        definitions = new ArrayList<Definition>();
+        for (KnownWebService webservice : knownWebservices) {
+            for (Activity activity : webservice.getActivities()) {
+                WebserviceMapping mapping = parseMapping(activity.getMapping());
+                Definition definition = parseDefinition(webservice);
+                definitions.add(definition);
+                DecidrWebserviceAdapter adapter = new DecidrWebserviceAdapter(
+                        mapping, definition);
+                adapters.put(activity.getName(), adapter);
+            }
+        }
+        return adapters;
+    }
 
-        webservicesWSDLs = new ArrayList<Definition>();
+    private WebserviceMapping parseMapping(byte[] mapping) throws JAXBException {
+        JAXBContext dwdlCntxt = JAXBContext.newInstance(Workflow.class);
+        Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
+        JAXBElement<WebserviceMapping> dwdlElement = dwdlUnmarshaller
+                .unmarshal(new StreamSource(new ByteArrayInputStream(mapping)),
+                        WebserviceMapping.class);
+        return dwdlElement.getValue();
+    }
+
+    private Workflow parseDWDLWorkflow(byte[] dwdl) throws JAXBException {
         JAXBContext dwdlCntxt = JAXBContext.newInstance(Workflow.class);
         Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
         JAXBElement<Workflow> dwdlElement = dwdlUnmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(dwdl)),
                 Workflow.class);
+        return dwdlElement.getValue();
+    }
+
+    private Definition parseDefinition(KnownWebService knownWebservice)
+            throws WSDLException {
         WSDLReader reader = new com.ibm.wsdl.xml.WSDLReaderImpl();
-        InputSource in = null;
-        for (KnownWebService webservice : webservices) {
-            in = new InputSource(new ByteArrayInputStream(webservice.getWsdl()));
-            Definition def = reader.readWSDL(null,in);
-            webservicesWSDLs.add(def);
-        }
-        dwdlWorkflow = dwdlElement.getValue();
-        this.tenantName = tenantName;
+        InputSource in = new InputSource(new ByteArrayInputStream(
+                knownWebservice.getWsdl()));
+        Definition def = reader.readWSDL(null, in);
+        return def;
     }
 
     public Process getBPEL() {
         DWDL2BPEL bpelConverter = new DWDL2BPEL();
-        bpelProcess = bpelConverter.getBPEL(dwdlWorkflow, tenantName);
+        bpelProcess = bpelConverter.getBPEL(dwdlWorkflow, tenantName,
+                webserviceAdapters);
         return bpelProcess;
     }
 
