@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.data.Item;
 import com.vaadin.terminal.ParameterHandler;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
@@ -34,7 +35,7 @@ import de.decidr.ui.view.RegisterUserComponent;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * TODO: add comment
+ * This class handles URL parameters for invitation tasks,
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -45,6 +46,7 @@ public class InvitationParameterHandler implements ParameterHandler {
 	
 	private Long invitationId = null;
 	private Long userId = null;
+	private boolean registrationRequired = false;
 	
     String key = null;
     String value = null;
@@ -56,15 +58,20 @@ public class InvitationParameterHandler implements ParameterHandler {
     public void handleParameters(Map parameters) {
     	invitationId = null;
     	userId = null;
+    	registrationRequired = false;
         for (Iterator it = parameters.keySet().iterator(); it.hasNext();) {
             key   = (String) it.next();
             value = ((String[]) parameters.get(key))[0];
             try{
-                if(key.equals("i")){
+                if(key.equals(DecidrGlobals.URL_PARAM_INVITATION_ID)){
                 	invitationId = Long.parseLong(value);
-                }else if(key.equals("u")){
+                }else if(key.equals(DecidrGlobals.URL_PARAM_USER_ID)){
                 	userId = Long.parseLong(value);
-                }	
+                }else if(key.equals("regreq")){
+                	//GH DecidrGlobals.URL_PARAM_REGISRATION_REQUIRED
+                	registrationRequired = true;
+                }
+                
             }catch(NumberFormatException e){
     			Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent("An error occured while handling your invitation.<br/>Please try again and do not modify the provided link!","Invitation Error"));
     		}
@@ -73,22 +80,30 @@ public class InvitationParameterHandler implements ParameterHandler {
         if (invitationId != null){
         	session = Main.getCurrent().getSession();
         	userFacade = new UserFacade(new UserRole(userId));
-        	//GH: create useful text
+        	
         	try{
         	Item invitationItem = userFacade.getInvitation(invitationId);
-        	String invDescription = "Ha, you've been invited!<br/>Click here to join the World Of DecidRaft!";
-        	//GH: check if user is already registered
-        	if(userFacade.isRegistered(userId)){
-        		//User is registered
-        		
-        		session.setAttribute("userId", userId);
-            	Main.getCurrent().getMainWindow().addWindow(new InvitationDialogComponent(invDescription,invitationId));	
-        		
-        		
+        	String invDescription = "Please confirm this invitation from " + 
+        							invitationItem.getItemProperty("senderFirstName").getValue().toString() +
+        							" " +
+        							invitationItem.getItemProperty("senderLastName").getValue().toString();
+        	if (registrationRequired){
+        		if(userFacade.isRegistered(userId)){
+            		//User is registered
+            		
+            		session.setAttribute("userId", userId);
+                	Main.getCurrent().getMainWindow().addWindow(new InvitationDialogComponent(invDescription,invitationId));	
+            		
+            		
+            	}else{
+            		//User not yet registered
+    				UIDirector.getInstance().getTemplateView().setContent(new RegisterUserComponent(invitationId));
+            	}
         	}else{
-        		//User not yet registered
-				UIDirector.getInstance().getTemplateView().setContent(new RegisterUserComponent(invitationId));
+        		session.setAttribute("userId", userId);
+        		Main.getCurrent().getMainWindow().addWindow(new InvitationDialogComponent(invDescription,invitationId));
         	}
+        	
         	}catch(TransactionException exception){
         	    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
         	}

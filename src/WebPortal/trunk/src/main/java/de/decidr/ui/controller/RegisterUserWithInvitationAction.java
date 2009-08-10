@@ -27,11 +27,11 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * This action creates a new user with already set tenant membership.
+ * This action creates a new user and performs the given invitation.
  *
  * @author Geoffrey-Alexeij Heinze
  */
-public class RegisterUserAsTenantMemberAction implements ClickListener  {
+public class RegisterUserWithInvitationAction implements ClickListener  {
 
     private UserFacade userFacade = new UserFacade(new UserRole());
     
@@ -39,7 +39,7 @@ public class RegisterUserAsTenantMemberAction implements ClickListener  {
     private Long invitationId = null;
     private Long userId = null;
     
-    public RegisterUserAsTenantMemberAction(Form form, Long invitationId){
+    public RegisterUserWithInvitationAction(Form form, Long invitationId){
     	settingsForm = form;
     	this.invitationId = invitationId;
     }

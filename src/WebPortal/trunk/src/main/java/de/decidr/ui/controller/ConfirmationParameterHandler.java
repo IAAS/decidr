@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 
 import com.vaadin.terminal.ParameterHandler;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
@@ -58,25 +59,28 @@ public class ConfirmationParameterHandler implements ParameterHandler {
         for (Iterator it = parameters.keySet().iterator(); it.hasNext();) {
             key   = (String) it.next();
             value = ((String[]) parameters.get(key))[0];
-            if(key.equals("c")){
-            	confirmationId = value;
-            }else if(key.equals("u")){
+            if(key.equals(DecidrGlobals.URL_PARAM_USER_ID)){
             	userId = value;
-            }else if(key.equals("a")){
-            	action = value;
+            }else if(key.equals(DecidrGlobals.URL_PARAM_CHANGE_EMAIL_REQUEST_ID)){
+            	confirmationId = value;
+            	action = "email";
+            }else if(key.equals(DecidrGlobals.URL_PARAM_CONFIRM_REGISTRATION_ID)){
+            	confirmationId = value;
+            	action = "reg";
+            }else if(key.equals(DecidrGlobals.URL_PARAM_PASSWORD_RESET_REQUEST_ID)){
+            	confirmationId = value;
+            	action = "pass";
             }
         }
         
         if (confirmationId != null){
         	session = Main.getCurrent().getSession();
         	userFacade = new UserFacade(new UserRole(Long.parseLong(userId)));
-        	//GH: create useful text depending on confirmation context
-        	String confDescription = "Moo!";
-        	
+        	        	
         	if(action.equals("email")){
         		try {
 					userFacade.confirmChangeEmailRequest(Long.parseLong(userId), confirmationId);
-					Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent("Moo! email", "Email Changed!"));
+					Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent("Your email address has been successfully changed!", "Email Changed!"));
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -86,7 +90,7 @@ public class ConfirmationParameterHandler implements ParameterHandler {
         	}else if(action.equals("pass")){
         		try {
 					userFacade.confirmPasswordReset(Long.parseLong(userId), confirmationId);
-					Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent("Moo! password", "Password Reset Confirmed!"));
+					Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent("A new password has been created and sent to your email address.", "Password Reset Confirmed!"));
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -96,7 +100,7 @@ public class ConfirmationParameterHandler implements ParameterHandler {
         	}else if(action.equals("reg")){
         		try {
 					userFacade.confirmRegistration(Long.parseLong(userId), confirmationId);
-					Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent("Moo! registration", "Registration Complete!"));
+					Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent("You successfully completed your registration!<br>You can now login with your account.", "Registration Complete!"));
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

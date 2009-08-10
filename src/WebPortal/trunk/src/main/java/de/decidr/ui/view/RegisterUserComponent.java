@@ -25,7 +25,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.RegisterUserAction;
-import de.decidr.ui.controller.RegisterUserAsTenantMemberAction;
+import de.decidr.ui.controller.RegisterUserWithInvitationAction;
 
 /**
  * A new user can be registered by entering some information. This
@@ -152,7 +152,7 @@ public class RegisterUserComponent extends CustomComponent {
      * @param invId
      */
     private void setCompleteListener(Long invId){
-    	completeRegistration.addListener(new RegisterUserAsTenantMemberAction(registrationForm, invId));
+    	completeRegistration.addListener(new RegisterUserWithInvitationAction(registrationForm, invId));
     }
 
     /**
