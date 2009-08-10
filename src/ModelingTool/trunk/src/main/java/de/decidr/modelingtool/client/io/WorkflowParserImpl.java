@@ -162,6 +162,7 @@ public class WorkflowParserImpl implements WorkflowParser {
     }
 
     private Element createRoleElement(Document doc, Variable role) {
+
         /* Create parent element for one role */
         Element roleElement = doc.createElement(DWDLTagNames.role);
         if (role.isConfig()) {
@@ -169,6 +170,12 @@ public class WorkflowParserImpl implements WorkflowParser {
         } else {
             roleElement.setAttribute(DWDLTagNames.configVar, DWDLTagNames.no);
         }
+
+        /* Set name and label */
+        roleElement.setAttribute(DWDLTagNames.label, role.getLabel());
+        roleElement.setAttribute(DWDLTagNames.name,
+                DWDLTagNames.variableNCnamePrefix + role.getId());
+
         /* Append the values of the role variables as actors */
         for (String value : role.getValues()) {
             Element actor = doc.createElement(DWDLTagNames.actor);

@@ -140,10 +140,11 @@ public class DWDLParserImpl implements DWDLParser {
                 DWDLTagNames.variable)) {
             Variable variable = new Variable();
 
-            /* Set id and name */
-            variable.setId(new Long(variableElement
-                    .getAttribute(DWDLTagNames.id)));
-            variable.setLabel(variableElement.getAttribute(DWDLTagNames.name));
+            /* Set id and label, get rid of the ncname prefix */
+            variable.setId(new Long(variableElement.getAttribute(
+                    DWDLTagNames.name).substring(
+                    DWDLTagNames.variableNCnamePrefix.length())));
+            variable.setLabel(variableElement.getAttribute(DWDLTagNames.label));
 
             /* Set configuration */
             if (variableElement.getAttribute(DWDLTagNames.configVar) == DWDLTagNames.yes) {
@@ -203,8 +204,9 @@ public class DWDLParserImpl implements DWDLParser {
             Variable role = new Variable();
 
             /* Set id, name and type */
-            role.setId(new Long(roleElement.getAttribute(DWDLTagNames.id)));
-            role.setLabel(roleElement.getAttribute(DWDLTagNames.name));
+            role.setId(new Long(roleElement.getAttribute(DWDLTagNames.name)
+                    .substring(DWDLTagNames.variableNCnamePrefix.length())));
+            role.setLabel(roleElement.getAttribute(DWDLTagNames.label));
             role.setType(VariableType.ROLE);
 
             /* Set configuration */
