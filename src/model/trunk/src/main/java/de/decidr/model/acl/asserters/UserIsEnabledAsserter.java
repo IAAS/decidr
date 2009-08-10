@@ -18,7 +18,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-public class IsUserEnabled extends AbstractTransactionalCommand implements Asserter {
+public class UserIsEnabledAsserter extends AbstractTransactionalCommand implements Asserter {
 
     private Long userId = null;
     private Boolean userIsEnabled = false;

@@ -2,7 +2,7 @@ package de.decidr.model.acl.asserters;
 
 import org.hibernate.Query;
 
-import de.decidr.model.acl.access.WorkItemAccess;
+import de.decidr.model.acl.access.WorkflowModelAccess;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.UserRole;
@@ -12,17 +12,16 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Asserts that the given user owns the given work items(s).
+ * Asserts that the given user owns the given workflow model(s).
  * 
- * @author Markus Fischer
  * @author Daniel Huss
  * 
  * @version 0.1
  */
-public class UserOwnsWorkItem extends CommandAsserter {
+public class UserOwnsWorkflowModelAsserter extends CommandAsserter {
 
     private Long userId = null;
-    private Long[] workItemIds = null;
+    private Long[] workflowModelIds = null;
     private Boolean isOwner = false;
 
     @Override
@@ -35,8 +34,9 @@ public class UserOwnsWorkItem extends CommandAsserter {
             userId = role.getActorId();
             TransactionalCommand command = getCommandInstance(permission);
 
-            if (command instanceof WorkItemAccess) {
-                workItemIds = ((WorkItemAccess) command).getWorkItemIds();
+            if (command instanceof WorkflowModelAccess) {
+                workflowModelIds = ((WorkflowModelAccess) command)
+                        .getWorkflowModelIds();
                 HibernateTransactionCoordinator.getInstance().runTransaction(
                         this);
                 result = isOwner;
@@ -47,18 +47,19 @@ public class UserOwnsWorkItem extends CommandAsserter {
 
     @Override
     public void transactionStarted(TransactionEvent evt) {
-        if (workItemIds == null) {
+        if (workflowModelIds == null) {
             // no work items to check against
             isOwner = false;
         } else {
-            // we can assert the ownership for all work items with a single
-            // query
-            String hql = "select count(*) from WorkItem w where "
-                    + "w.user.id = :userId and " + "w.id in (:workItemIds)";
+            // we can assert the ownership for all workflow models with a single
+            // query: the user owns the workflow iff he is the tenant admin
+            String hql = "select count(*) from WorkflowModel w where "
+                    + "w.tenant.admin.id = :userId and "
+                    + "w.id in (:workflowModelIds)";
             Query q = evt.getSession().createQuery(hql).setLong("userId",
-                    userId).setParameterList("workItemIds", workItemIds);
+                    userId).setParameterList("workflowModelIds", workflowModelIds);
 
-            isOwner = ((Number) q.uniqueResult()).intValue() == workItemIds.length;
+            isOwner = ((Number) q.uniqueResult()).intValue() == workflowModelIds.length;
         }
     }
 }

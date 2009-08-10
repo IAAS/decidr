@@ -18,7 +18,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-public class IsTenantMember extends CommandAsserter {
+public class UserIsTenantMemberAsserter extends CommandAsserter {
 
     private Long userId = null;
     private Long[] tenantIds = null;

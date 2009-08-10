@@ -18,7 +18,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-public class UserAdministratesWorkflowModel extends CommandAsserter {
+public class UserAdministratesWorkflowModelAsserter extends CommandAsserter {
 
     private Long[] workflowModelIds = null;
     private Long userId = null;

@@ -3,7 +3,6 @@ package de.decidr.model.acl.asserters;
 import org.hibernate.Query;
 
 import de.decidr.model.acl.access.InvitationAccess;
-import de.decidr.model.acl.access.WorkItemAccess;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.UserRole;
@@ -12,7 +11,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionEvent;
 
-public class UserIsInvitationReceiver extends CommandAsserter {
+public class UserIsInvitationReceiverAsserter extends CommandAsserter {
 
     private Long userId;
     private Long[] invitationIds = new Long[0];

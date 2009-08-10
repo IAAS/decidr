@@ -59,7 +59,7 @@ public class DecidrReverseEngineeringStrategy extends
 
     /**
      * Turns MySQL underscored table_names into camelCased identifiers.<br>
-     * FIXME: document what happens to _leading and trailing_ underscores ~rr
+     * Leading and trailing underscores are ignored.
      * 
      * @param tableName
      *            underscored table name
@@ -69,6 +69,8 @@ public class DecidrReverseEngineeringStrategy extends
         if (tableName == null) {
             throw new IllegalArgumentException("tableName must not be null");
         }
+        // remove trailing and leading underscores and spaces
+        tableName = tableName.replaceAll("^[_ ]*(.*)[_ ]*$", "$1");
         String[] split = tableName.toLowerCase().split("_");
         String result = split[0];
         for (int i = 1; i < split.length; i++) {
@@ -85,6 +87,10 @@ public class DecidrReverseEngineeringStrategy extends
             TableIdentifier fromTable, List fromColumns,
             TableIdentifier referencedTable, List referencedColumns,
             boolean uniqueReference) {
+        if ((keyname == null) || (fromTable == null) || (fromColumns == null)
+                || (referencedTable == null) || (referencedColumns == null)) {
+            throw new IllegalArgumentException("No parameter can be null.");
+        }
         String result = null;
 
         /*
@@ -120,6 +126,12 @@ public class DecidrReverseEngineeringStrategy extends
             TableIdentifier fromTable, List fromColumnNames,
             TableIdentifier referencedTable, List referencedColumnNames,
             boolean uniqueReference) {
+        if ((keyname == null) || (fromTable == null)
+                || (fromColumnNames == null) || (referencedTable == null)
+                || (referencedColumnNames == null)) {
+            throw new IllegalArgumentException("No parameter can be null.");
+        }
+
         String fromColumn = ((Column) fromColumnNames.get(0)).getName();
         if (fromColumn.endsWith("Id")) {
             return fromColumn.substring(0, fromColumn.length() - 2);
@@ -134,6 +146,10 @@ public class DecidrReverseEngineeringStrategy extends
     public String foreignKeyToManyToManyName(ForeignKey fromKey,
             TableIdentifier middleTable, ForeignKey toKey,
             boolean uniqueReference) {
+        if ((fromKey == null) || (middleTable == null) || (toKey == null)) {
+            throw new IllegalArgumentException("No parameter can be null.");
+        }
+
         return convertTableNameToIdentifier(middleTable.getName());
     }
 
@@ -143,6 +159,11 @@ public class DecidrReverseEngineeringStrategy extends
         Map<String, MetaAttribute> metaAttributes = super
                 .tableToMetaAttributes(tableIdentifier);
 
+        if (tableIdentifier == null) {
+            throw new IllegalArgumentException(
+                    "table identifier must not be null.");
+        }
+
         if (metaAttributes == null) {
             metaAttributes = new HashMap<String, MetaAttribute>();
         }
@@ -151,7 +172,6 @@ public class DecidrReverseEngineeringStrategy extends
          * Unfortunately we cannot use this to enable dynamic-update and
          * dynamic-insert.
          */
-
         return metaAttributes;
     }
 
@@ -159,6 +179,12 @@ public class DecidrReverseEngineeringStrategy extends
     @Override
     public List getPrimaryKeyColumnNames(TableIdentifier identifier) {
         ArrayList<String> columns = new ArrayList<String>();
+
+        if (identifier == null) {
+            throw new IllegalArgumentException(
+                    "table identifier must not be null.");
+        }
+
         /*
          * For each MySQL view, we have to set the primary key manually since we
          * can't define one in the database schema.
@@ -178,6 +204,8 @@ public class DecidrReverseEngineeringStrategy extends
     public void setSettings(ReverseEngineeringSettings settings) {
         super.setSettings(settings);
         // We rely on the "many-to-many-entities" being present.
-        settings.setDetectManyToMany(false);
+        if (settings != null) {
+            settings.setDetectManyToMany(false);
+        }
     }
 }

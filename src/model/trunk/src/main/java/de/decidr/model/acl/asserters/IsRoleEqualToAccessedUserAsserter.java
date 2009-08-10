@@ -31,7 +31,7 @@ import de.decidr.model.exceptions.TransactionException;
  * 
  * @version 0.1
  */
-public class IsAccessedUser extends CommandAsserter {
+public class IsRoleEqualToAccessedUserAsserter extends CommandAsserter {
 
     private Long userId = null;
     private Long[] accessedUserIds = null;

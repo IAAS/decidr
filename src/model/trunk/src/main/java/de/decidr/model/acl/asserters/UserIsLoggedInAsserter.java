@@ -13,28 +13,33 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package de.decidr.model.acl.asserters;
 
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.UserRole;
 
 /**
+ * Checks whether a {@link UserRole} is logged in by looking at its actor id.
+ * The role is considered to have logged in if its actor id is a valid user id.
+ * <p>
+ * The {@link Permission} passed to <code>assertRule</code> is ignored.
  * 
- * An Asserter which always returns true.
- *
  * @author Markus Fischer
  * @author Daniel Huss
  * 
  * @version 0.1
  */
-public class AlwaysTrue implements Asserter {
+public class UserIsLoggedInAsserter implements Asserter {
 
-    /**
-     * @see Asserter.assertRule 
-     */
-	public Boolean assertRule(Role role, Permission permission) {
-		return true;
-	}
+    @Override
+    public Boolean assertRule(Role role, Permission permission) {
+        Boolean result = false;
+        if (role instanceof UserRole) {
+            UserRole userRole = (UserRole) role;
+            result = userRole.getActorId() >= UserRole.MIN_VALID_USER_ID;
+        }
+        return result;
+    }
 
 }

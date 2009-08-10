@@ -41,7 +41,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * @author Daniel Huss
  * @version 0.1
  */
-public class UserHasAccessToFile implements Asserter, TransactionalCommand {
+public class UserHasAccessToFileAsserter implements Asserter, TransactionalCommand {
 
     private Long userId = null;
     private Long fileId = null;
@@ -77,7 +77,7 @@ public class UserHasAccessToFile implements Asserter, TransactionalCommand {
             // The file exists, so far so good.
 
             UserHasFileAccess access = (UserHasFileAccess) session.get(
-                    UserHasAccessToFile.class, new UserHasFileAccessId(userId,
+                    UserHasAccessToFileAsserter.class, new UserHasFileAccessId(userId,
                             fileId));
 
             if (permission instanceof FileReadPermission) {

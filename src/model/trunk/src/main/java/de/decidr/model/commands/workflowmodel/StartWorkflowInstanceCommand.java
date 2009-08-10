@@ -23,7 +23,6 @@ import java.util.Map.Entry;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.type.AssociationType;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
@@ -32,14 +31,12 @@ import de.decidr.model.commands.user.CreateNewUnregisteredUserCommand;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.ServerLoadView;
-import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserParticipatesInWorkflow;
 import de.decidr.model.entities.UserParticipatesInWorkflowId;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.enums.ServerTypeEnum;
-import de.decidr.model.enums.UserWorkflowAdminState;
 import de.decidr.model.enums.UserWorkflowParticipationState;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.exceptions.UserDisabledException;
