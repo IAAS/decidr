@@ -45,6 +45,7 @@ public abstract class AbstractTransactionalCommand implements
      */
     public void transactionAborted(TransactionAbortedEvent evt)
             throws TransactionException {
+        // XXX sicher dass nicht wenigstens die gefangene Exception geworfen werden sollte? ~rr
         // intentionally left empty
     }
 

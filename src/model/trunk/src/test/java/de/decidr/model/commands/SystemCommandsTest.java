@@ -16,8 +16,9 @@
 
 package de.decidr.model.commands;
 
-import static org.junit.Assert.fail;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.HashSet;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
@@ -38,6 +40,7 @@ import de.decidr.model.commands.system.LockServerCommand;
 import de.decidr.model.commands.system.RemoveServerCommand;
 import de.decidr.model.commands.system.SetSystemSettingsCommand;
 import de.decidr.model.commands.system.UpdateServerLoadCommand;
+import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
@@ -190,7 +193,34 @@ public class SystemCommandsTest {
             }
         }
 
-        // RR do ServerStatisticsCommand
+        GetServerStatisticsCommand stats = new GetServerStatisticsCommand(
+                new SuperAdminRole());
+        HibernateTransactionCoordinator.getInstance().runTransaction(stats);
+        for (ServerLoadView serverLoadView : stats.getResult()) {
+            // DH was für Werte darf so eine ID haben? ~rr
+            assertTrue(serverLoadView.getId() >= 0);
+            assertTrue(serverLoadView.getLastLoadUpdate() == null
+                    || serverLoadView.getLastLoadUpdate().before(
+                            DecidrGlobals.getTime().getTime()));
+            assertTrue(serverLoadView.getLoad() >= -1);
+            assertTrue(serverLoadView.getNumInstances() >= 0);
+            // DH what's this meant to be?
+            assertTrue(serverLoadView.getServerTypeId() > -1);
+            try {
+                ServerTypeEnum.valueOf(serverLoadView.getServerType());
+            } catch (IllegalArgumentException e) {
+                fail("Invalid server type");
+            }
+        }
+
+        try {
+            stats = new GetServerStatisticsCommand(new BasicRole(0L));
+            HibernateTransactionCoordinator.getInstance().runTransaction(stats);
+            fail("Normal user shouldn't be able to get server stats");
+        } catch (TransactionException e) {
+            // is supposed to be thrown
+        }
+
         // RR do LockServerCommand
         // RR do UpdateServerLoadCommand
         // RR do RemoveServerCommand
@@ -215,20 +245,11 @@ public class SystemCommandsTest {
 
     /**
      * Test method for
-     * {@link GetSystemSettingsCommand#GetSystemSettingsCommand(Role)}.
-     */
-    @Test
-    public void testGetSystemSettingsCommand() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for
      * {@link SetSystemSettingsCommand#SetSystemSettingsCommand(Role, SystemSettings)}
-     * .
+     * and {@link GetSystemSettingsCommand#GetSystemSettingsCommand(Role)}.
      */
     @Test
-    public void testSetSystemSettingsCommand() {
+    public void testSystemSettingsCommands() {
         fail("Not yet implemented"); // RR
     }
 }

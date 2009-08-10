@@ -286,13 +286,12 @@ public class SystemFacade extends AbstractFacade {
      *             if an error occurs during the transaction
      * 
      */
-    @SuppressWarnings("unchecked")
     @AllowedRole(SuperAdminRole.class)
     public List<Item> getServerStatistics() throws TransactionException {
         GetServerStatisticsCommand command = new GetServerStatisticsCommand(
                 actor);
 
-        List<ServerLoadView> servers = new ArrayList();
+        List<ServerLoadView> servers = new ArrayList<ServerLoadView>();
         String[] properties = { "id", "location", "load", "numInstances",
                 "dynamicallyAdded", "serverType" };
 

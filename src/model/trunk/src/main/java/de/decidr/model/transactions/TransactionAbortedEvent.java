@@ -29,12 +29,15 @@ public class TransactionAbortedEvent extends TransactionEvent {
     protected Exception exception;
 
     /**
-     * Constructor
+     * Constructor TODO better comment
      * 
      * @param session
+     *            TODO document
      * @param exception
+     *            TODO document
      */
-    public TransactionAbortedEvent(Session session, Exception exception, Boolean innerTransaction) {
+    public TransactionAbortedEvent(Session session, Exception exception,
+            Boolean innerTransaction) {
         super(session, innerTransaction);
         this.exception = exception;
     }

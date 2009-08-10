@@ -28,7 +28,7 @@ import de.decidr.model.logging.DefaultLogger;
 
 /**
  * Invokes {@link TransactionalCommand}s within a hibernate transaction. Inner
- * transactions are supported by giving up the durablility property of all inner
+ * transactions are supported by giving up the durability property of all inner
  * transactions.
  * 
  * @author Daniel Huss
@@ -66,6 +66,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     private Integer transactionDepth;
 
+    // XXX: dadurch kann jeder command theoretisch mehrmals vorkommen - besser
+    // Set verwenden ~rr
     private ArrayList<TransactionalCommand> notifiedReceivers = null;
 
     /**
@@ -76,7 +78,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     }
 
     /**
-     * Constructor.
+     * Constructor. TODO better comment ~rr
      */
     private HibernateTransactionCoordinator() {
         super();
@@ -103,9 +105,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     }
 
     /**
-     * 
      * Commits the current transaction.
-     * 
      */
     protected void commitCurrentTransaction() throws TransactionException {
 
@@ -223,6 +223,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * Fires transaction started event.
      * 
      * @param receiver
+     *            TODO comment
      */
     private void fireTransactionStarted(TransactionalCommand receiver)
             throws TransactionException {
@@ -236,7 +237,9 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * Fires transaction aborted event.
      * 
      * @param receiver
+     *            TODO comment
      * @param caughtException
+     *            TODO comment
      */
     private void fireTransactionAborted(TransactionalCommand receiver,
             Exception caughtException) throws TransactionException {
@@ -244,5 +247,4 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 caughtException, transactionDepth > 1);
         receiver.transactionAborted(event);
     }
-
 }
