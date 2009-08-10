@@ -126,7 +126,7 @@ public class WorkflowPropertyWindow extends Dialog {
 
     private void addComboField(ComboBox<Variable> field, String label,
             VariableType type, Long variableId) {
-        field.setDisplayField(Variable.NAME);
+        field.setDisplayField(Variable.LABEL);
         field.setStore(VariablesFilter.getVariablesOfType(type));
         field.setValue(VariablesFilter.getVariableById(variableId));
         field.setTypeAhead(true);

@@ -29,6 +29,7 @@ import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
+import de.decidr.modelingtool.client.model.variable.VariableType;
 
 /**
  * This is a stub to simulate loading and saving a workflow model.
@@ -48,22 +49,23 @@ public class WorkflowIOStub implements WorkflowIO {
         Variable faultMessage = new Variable();
         faultMessage.setId(123L);
         faultMessage.setConfig(false);
-        faultMessage.setName("Fault Message");
+        faultMessage.setLabel("Fault Message");
         faultMessage.getValues().add(new String("Workflow failed"));
         Variable successMessage = new Variable();
         successMessage.setId(12L);
         successMessage.setConfig(false);
-        successMessage.setName("Success Message");
+        successMessage.setLabel("Success Message");
         successMessage.getValues().add(new String("Workflow succeded"));
         Variable recipient = new Variable();
         recipient.setId(345L);
         recipient.setConfig(false);
-        recipient.setName("Recipient");
+        recipient.setLabel("Recipient");
         recipient.getValues().add(new String("decidradmin"));
+        recipient.setType(VariableType.ROLE);
         
         Variable sampleText = new Variable();
         sampleText.setId(768768L);
-        sampleText.setName("Text");
+        sampleText.setLabel("Text");
         sampleText.setConfig(true);
         sampleText.getValues().add(new String("Loram Ipsum"));
 

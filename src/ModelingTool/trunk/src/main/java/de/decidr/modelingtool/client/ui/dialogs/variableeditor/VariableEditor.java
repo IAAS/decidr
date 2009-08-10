@@ -80,7 +80,7 @@ public class VariableEditor extends Dialog {
 
         /* Creating the columns and the Columns model */
         columns = new ArrayList<ColumnConfig>();
-        NameColumn nameColumn = new NameColumn(Variable.NAME,
+        NameColumn nameColumn = new NameColumn(Variable.LABEL,
                 ModelingToolWidget.messages.nameColumn());
         columns.add(nameColumn);
         TypeColumn typeColumn = new TypeColumn(Variable.TYPE,
@@ -195,7 +195,7 @@ public class VariableEditor extends Dialog {
         for (Variable v : variablesModel) {
             Variable targetVar = new Variable();
             targetVar.setId(v.getId());
-            targetVar.setName(v.getName());
+            targetVar.setLabel(v.getLabel());
             targetVar.setType(v.getType());
             targetVar.setValues(v.getValues());
             targetVar.setConfig(v.isConfig());

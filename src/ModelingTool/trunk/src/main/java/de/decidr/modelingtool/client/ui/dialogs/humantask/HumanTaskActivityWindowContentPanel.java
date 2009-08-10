@@ -83,7 +83,7 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         taskTable.insertRow(taskTable.getRowCount());
 
         userField = new ComboBox<Variable>();
-        userField.setDisplayField(Variable.NAME);
+        userField.setDisplayField(Variable.LABEL);
         userField.setStore(VariablesFilter
                 .getVariablesOfType(VariableType.ROLE));
         userField.setValue(VariablesFilter.getVariableById(model
@@ -95,7 +95,7 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, userField);
 
         formContainerField = new ComboBox<Variable>();
-        formContainerField.setDisplayField(Variable.NAME);
+        formContainerField.setDisplayField(Variable.LABEL);
         formContainerField.setStore(VariablesFilter
                 .getVariablesOfType(VariableType.FORM));
         formContainerField.setValue(VariablesFilter.getVariableById(model
@@ -167,7 +167,7 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, labelField);
 
         ComboBox<Variable> variableField = new ComboBox<Variable>();
-        variableField.setDisplayField(Variable.NAME);
+        variableField.setDisplayField(Variable.LABEL);
         variableField.setStore(VariablesFilter.getAllVariables());
         if (variableId != null) {
             variableField.setValue(VariablesFilter.getVariableById(variableId));

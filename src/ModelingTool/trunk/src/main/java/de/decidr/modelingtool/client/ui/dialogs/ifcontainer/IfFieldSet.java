@@ -37,9 +37,9 @@ public class IfFieldSet {
 
     private Label label;
     private SimpleComboBox<String> typeSelector;
-    private ComboBox<Variable> operand1Field;
+    private ComboBox<Variable> leftOperandField;
     private SimpleComboBox<String> operatorList;
-    private ComboBox<Variable> operand2Field;
+    private ComboBox<Variable> rightOperandField;
 
     public IfFieldSet(Condition condition) {
         label = new Label(condition.getLabel());
@@ -55,9 +55,9 @@ public class IfFieldSet {
                     public void selectionChanged(
                             SelectionChangedEvent<Variable> se) {
                         // JS: rewrite this
-                        operand1Field.setEnabled(true);
-                        operand1Field.getStore().removeAll();
-                        operand1Field
+                        leftOperandField.setEnabled(true);
+                        leftOperandField.getStore().removeAll();
+                        leftOperandField
                                 .getStore()
                                 .add(
                                         VariablesFilter
@@ -67,8 +67,8 @@ public class IfFieldSet {
                                                                         .getValue()
                                                                         .getValue()))
                                                 .getModels());
-                        operand2Field.getStore().removeAll();
-                        operand2Field
+                        rightOperandField.getStore().removeAll();
+                        rightOperandField
                                 .getStore()
                                 .add(
                                         VariablesFilter
@@ -81,23 +81,23 @@ public class IfFieldSet {
                     }
                 });
 
-        operand1Field = new ComboBox<Variable>();
-        operand1Field.setDisplayField(Variable.NAME);
-        operand1Field.setStore(VariablesFilter.getAllVariables());
+        leftOperandField = new ComboBox<Variable>();
+        leftOperandField.setDisplayField(Variable.LABEL);
+        leftOperandField.setStore(VariablesFilter.getAllVariables());
         if (condition.getOperand1Id() != null) {
-            operand1Field.setValue(VariablesFilter.getVariableById(condition
+            leftOperandField.setValue(VariablesFilter.getVariableById(condition
                     .getOperand1Id()));
         }
-        operand1Field.setEditable(false);
-        operand1Field.setEnabled(false);
-        operand1Field
+        leftOperandField.setEditable(false);
+        leftOperandField.setEnabled(false);
+        leftOperandField
                 .addSelectionChangedListener(new SelectionChangedListener<Variable>() {
                     @Override
                     public void selectionChanged(
                             SelectionChangedEvent<Variable> se) {
                         operatorList.getStore().removeAll();
                         for (Operator op : Operator
-                                .getOperatorsForType(operand1Field.getValue()
+                                .getOperatorsForType(leftOperandField.getValue()
                                         .getType())) {
                             operatorList.add(op.getDisplayString());
                         }
@@ -116,14 +116,14 @@ public class IfFieldSet {
                     .getDisplayString());
         }
 
-        operand2Field = new ComboBox<Variable>();
-        operand2Field.setDisplayField(Variable.NAME);
-        operand2Field.setStore(VariablesFilter.getAllVariables());
+        rightOperandField = new ComboBox<Variable>();
+        rightOperandField.setDisplayField(Variable.LABEL);
+        rightOperandField.setStore(VariablesFilter.getAllVariables());
         if (condition.getOperand2Id() != null) {
-            operand2Field.setValue(VariablesFilter.getVariableById(condition
+            rightOperandField.setValue(VariablesFilter.getVariableById(condition
                     .getOperand2Id()));
         }
-        operand2Field.setEditable(false);
+        rightOperandField.setEditable(false);
     }
 
     public Label getLabel() {
@@ -134,15 +134,15 @@ public class IfFieldSet {
         return typeSelector;
     }
 
-    public ComboBox<Variable> getOperand1Field() {
-        return operand1Field;
+    public ComboBox<Variable> getLeftOperandField() {
+        return leftOperandField;
     }
 
     public SimpleComboBox<String> getOperatorList() {
         return operatorList;
     }
 
-    public ComboBox<Variable> getOperand2Field() {
-        return operand2Field;
+    public ComboBox<Variable> getRightOperandField() {
+        return rightOperandField;
     }
 }

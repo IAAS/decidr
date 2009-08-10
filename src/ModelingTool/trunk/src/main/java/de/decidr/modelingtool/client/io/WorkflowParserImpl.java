@@ -113,8 +113,19 @@ public class WorkflowParserImpl implements WorkflowParser {
 
     private Element createVariableElement(Document doc, Variable variable) {
         Element variableElement = doc.createElement(DWDLTagNames.variable);
-        /* Name */
-        variableElement.setAttribute(DWDLTagNames.name, variable.getName());
+        /*
+         * According to the DWDL schema, the "name" attribute is used to
+         * uniquely identify the variables. In the Modeling tool, variables of
+         * type long are used. Because the attribute in the dwdl is a NCName
+         * (NCnames must not begin with a digit), we cannot simply use the long
+         * id for this attribute, we have to set a prefix.
+         */
+        variableElement.setAttribute(DWDLTagNames.name,
+                DWDLTagNames.variableNCnamePrefix + variable.getId());
+
+        /* Label */
+        variableElement.setAttribute(DWDLTagNames.label, variable.getLabel());
+
         /* Array */
         if (variable.isArray()) {
             variableElement.setAttribute(DWDLTagNames.type,
@@ -123,6 +134,7 @@ public class WorkflowParserImpl implements WorkflowParser {
             variableElement.setAttribute(DWDLTagNames.type, variable.getType()
                     .getDwdlName());
         }
+
         /* Configuration variable */
         if (variable.isConfig()) {
             variableElement.setAttribute(DWDLTagNames.configVar,
@@ -500,7 +512,6 @@ public class WorkflowParserImpl implements WorkflowParser {
     }
 
     private Element createSourceElement(Document doc, NodeModel node) {
-        // JS ASK what about multiple sources?
         Element sources = doc.createElement(DWDLTagNames.sources);
         Element source = doc.createElement(DWDLTagNames.source);
         /*
@@ -514,7 +525,6 @@ public class WorkflowParserImpl implements WorkflowParser {
     }
 
     private Element createTargetElement(Document doc, NodeModel node) {
-        // JS ASK what about multiple targets?
         Element targets = doc.createElement(DWDLTagNames.targets);
         Element target = doc.createElement(DWDLTagNames.target);
         /*

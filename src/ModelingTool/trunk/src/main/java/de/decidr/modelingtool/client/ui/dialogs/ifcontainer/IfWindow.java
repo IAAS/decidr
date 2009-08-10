@@ -114,10 +114,10 @@ public class IfWindow extends Dialog {
         IfContainerModel newModel = new IfContainerModel();
         for (IfFieldSet fs : fieldsets) {
             String label = fs.getLabel().getText();
-            Long operand1Id = fs.getOperand1Field().getValue().getId();
+            Long operand1Id = fs.getLeftOperandField().getValue().getId();
             Operator operator = Operator.getOperatorFromDisplayString(fs
                     .getOperatorList().getValue().getValue());
-            Long operand2Id = fs.getOperand2Field().getValue().getId();
+            Long operand2Id = fs.getRightOperandField().getValue().getId();
             //JS implement order properly
             newModel.addCondition(new Condition(label, operand1Id, operator,
                     operand2Id, fieldsets.indexOf(fs)));
@@ -137,11 +137,11 @@ public class IfWindow extends Dialog {
             table.setWidget(table.getRowCount() - 1, 1, fieldset
                     .getTypeSelector());
             table.setWidget(table.getRowCount() - 1, 2, fieldset
-                    .getOperand1Field());
+                    .getLeftOperandField());
             table.setWidget(table.getRowCount() - 1, 3, fieldset
                     .getOperatorList());
             table.setWidget(table.getRowCount() - 1, 4, fieldset
-                    .getOperand2Field());
+                    .getRightOperandField());
         }
     }
 

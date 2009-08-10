@@ -89,6 +89,7 @@ public class DWDLTagNames {
     public static String userNotification = "userNotification";
     public static String value = "value";
     public static String variable = "variable";
+    public static String variableNCnamePrefix = "L";
     public static String variables = "variables";
     public static String wfId = "wfmID";
     public static String width = "width";

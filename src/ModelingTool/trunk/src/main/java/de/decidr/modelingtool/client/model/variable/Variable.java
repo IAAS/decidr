@@ -34,7 +34,7 @@ public class Variable extends BaseModelData {
 
     /* Field names */
     public static final String ID = "id";
-    public static final String NAME = "name";
+    public static final String LABEL = "label";
     public static final String TYPE = "type";
     public static final String TYPELOCALNAME = "typelocalname";
     public static final String VALUE = "value";
@@ -49,7 +49,7 @@ public class Variable extends BaseModelData {
     public Variable() {
         super();
         set(ID, new Date().getTime());
-        set(NAME, ModelingToolWidget.messages.enterVariableName());
+        set(LABEL, ModelingToolWidget.messages.enterVariableName());
         set(TYPE, VariableType.STRING);
         set(TYPELOCALNAME, VariableType.STRING.getLocalName());
         ArrayList<String> values = new ArrayList<String>();
@@ -67,7 +67,7 @@ public class Variable extends BaseModelData {
     public Variable(String name, VariableType type, String value) {
         super();
         this.set(ID, new Date().getTime());
-        this.set(NAME, name);
+        this.set(LABEL, name);
         this.set(TYPE, type);
         this.set(TYPELOCALNAME, type.getLocalName());
         ArrayList<String> values = new ArrayList<String>();
@@ -80,7 +80,7 @@ public class Variable extends BaseModelData {
     public Variable copy() {
         Variable copy = new Variable();
         copy.setId(this.getId());
-        copy.setName(this.getName());
+        copy.setLabel(this.getLabel());
         copy.setType(this.getType());
         copy.setValues(this.getValues());
         copy.setArray();
@@ -98,6 +98,12 @@ public class Variable extends BaseModelData {
         return (Long) get(ID);
     }
 
+    /**
+     * 
+     * TODO: add comment
+     * 
+     * @param id
+     */
     public void setId(Long id) {
         set(ID, id);
     }
@@ -107,18 +113,18 @@ public class Variable extends BaseModelData {
      * 
      * @return the name
      */
-    public String getName() {
-        return get(NAME);
+    public String getLabel() {
+        return get(LABEL);
     }
 
     /**
      * TODO: add comment
      * 
-     * @param name
+     * @param label
      *            the name to set
      */
-    public void setName(String name) {
-        set(NAME, name);
+    public void setLabel(String label) {
+        set(LABEL, label);
     }
 
     /**

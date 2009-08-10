@@ -124,7 +124,7 @@ public class ForEachWindow extends Dialog {
 
     private void createFields() {
         iterableField = new ComboBox<Variable>();
-        iterableField.setDisplayField(Variable.NAME);
+        iterableField.setDisplayField(Variable.LABEL);
         iterableField.setStore(VariablesFilter.getAllVariables());
         iterableField.setValue(VariablesFilter.getVariableById(model
                 .getIterationVariableId()));

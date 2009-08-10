@@ -143,7 +143,7 @@ public class DWDLParserImpl implements DWDLParser {
             /* Set id and name */
             variable.setId(new Long(variableElement
                     .getAttribute(DWDLTagNames.id)));
-            variable.setName(variableElement.getAttribute(DWDLTagNames.name));
+            variable.setLabel(variableElement.getAttribute(DWDLTagNames.name));
 
             /* Set configuration */
             if (variableElement.getAttribute(DWDLTagNames.configVar) == DWDLTagNames.yes) {
@@ -204,7 +204,7 @@ public class DWDLParserImpl implements DWDLParser {
 
             /* Set id, name and type */
             role.setId(new Long(roleElement.getAttribute(DWDLTagNames.id)));
-            role.setName(roleElement.getAttribute(DWDLTagNames.name));
+            role.setLabel(roleElement.getAttribute(DWDLTagNames.name));
             role.setType(VariableType.ROLE);
 
             /* Set configuration */
