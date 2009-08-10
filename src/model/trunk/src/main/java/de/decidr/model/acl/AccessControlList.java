@@ -48,7 +48,7 @@ public interface AccessControlList {
      * permission already exists, it will be overwritten.
      * 
      * @param role
-     *            the role requesting accesss
+     *            the role requesting access
      * @param permission
      *            the resource to which access is granted or denied
      * @param mode
@@ -67,7 +67,7 @@ public interface AccessControlList {
      * permission already exists, it will be overwritten.
      * 
      * @param role
-     *            the role requesting accesss
+     *            the role requesting access
      * @param permission
      *            the resource to which access is granted or denied
      * @param mode
@@ -104,7 +104,7 @@ public interface AccessControlList {
 
     /**
      * Checks whether the given role has access to the given permission. If no
-     * rule has been set, accesss is denied.
+     * rule has been set, access is denied.
      * 
      * @param role
      *            the role requesting access

@@ -97,8 +97,7 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
             throws TransactionException {
         AccessControlList acl = DefaultAccessControlList.getInstance();
 
-        Boolean mayExecute = acl.isAllowed(role, new CommandPermission(this
-                .getClass()));
+        Boolean mayExecute = acl.isAllowed(role, new CommandPermission(this));
 
         for (Permission p : additionalPermissions) {
             if (mayExecute) {
