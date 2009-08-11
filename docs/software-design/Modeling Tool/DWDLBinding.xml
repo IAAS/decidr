@@ -100,23 +100,8 @@
         <jxb:bindings node="//xs:complexType[@name='tGetProperty']">
             <jxb:class name = "GetProperty" />
         </jxb:bindings>
-        <jxb:bindings node="//xs:complexType[@name='tHumanTaskData']">
-            <jxb:class name = "HumanTaskData" />
-        </jxb:bindings>
-        <jxb:bindings node="//xs:complexType[@name='tParameters']">
-            <jxb:class name = "Parameters" />
-        </jxb:bindings>
         <jxb:bindings node="//xs:complexType[@name='tParameter']">
             <jxb:class name = "Parameter" />
-        </jxb:bindings>
-        <jxb:bindings node="//xs:complexType[@name='tTaskItem']">
-            <jxb:class name = "TaskItem" />
-        </jxb:bindings>
-        <jxb:bindings node="//xs:complexType[@name='tInformation']">
-            <jxb:class name = "Information" />
-        </jxb:bindings>
-        <jxb:bindings node="//xs:complexType[@name='tContent']">
-            <jxb:class name = "Content" />
         </jxb:bindings>
         <jxb:bindings node="//xs:complexType[@name='tArcs']">
             <jxb:class name = "Arcs" />
