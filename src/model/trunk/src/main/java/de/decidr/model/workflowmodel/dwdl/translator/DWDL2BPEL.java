@@ -184,14 +184,14 @@ public class DWDL2BPEL {
         org.w3c.dom.Element roleElement = TransformUtil.createDOMElement(
                 BPELConstants.DECIDRTYPES_NAMESPACE, DECIDRTYPES_PREFIX
                         + ":role");
-        if (role.isSetName()){
+        if (role.isSetName()) {
             org.w3c.dom.Attr nameAttr = TransformUtil.createAttributeNode(
                     BPELConstants.DECIDRTYPES_NAMESPACE, DECIDRTYPES_PREFIX
                             + ":name");
             nameAttr.setNodeValue(role.getName());
             roleElement.setAttributeNode(nameAttr);
-        } else if (role.isSetActor()){
-            for (Actor actor : role.getActor()){
+        } else if (role.isSetActor()) {
+            for (Actor actor : role.getActor()) {
                 org.w3c.dom.Element actorElement = createActorElement(actor);
                 roleElement.appendChild(actorElement);
             }
@@ -347,7 +347,6 @@ public class DWDL2BPEL {
                     elseif.setFlow(flow);
                     ifActivity.getElseif().add(elseif);
                 }
-
             }
         }
         return ifActivity;
@@ -362,6 +361,15 @@ public class DWDL2BPEL {
             addCopyStatement(assign, property, webserviceInputVariables.get(
                     webservices.get(node.getActivity())).getName());
         }
+        if (node.getActivity().equals(HUMANTASK_ACTIVITY_NAME)) {
+            SetProperty prop = new SetProperty();
+            de.decidr.model.workflowmodel.dwdl.Literal lit = new de.decidr.model.workflowmodel.dwdl.Literal();
+            lit.getContent().add(node.getParameter().getAny());
+            prop.setName(node.getParameter().getSetProperty());
+            prop.setPropertyValue(lit);
+            addCopyStatement(assign, prop, webserviceInputVariables.get(
+                    webservices.get(node.getActivity())).getName());
+        }
         sequence.getActivity().add(assign);
         invoke.setPartnerLink(webservices.get(node.getActivity())
                 .getPartnerLink());
@@ -371,7 +379,6 @@ public class DWDL2BPEL {
                 webservices.get(node.getActivity())).getName());
         invoke.setOutputVariable(webserviceOutputVariables.get(
                 webservices.get(node.getActivity())).getName());
-        // MA what about human task data?
         setNameAndDocumentation(node, invoke);
         sequence.getActivity().add(invoke);
         return sequence;
@@ -808,16 +815,16 @@ public class DWDL2BPEL {
                 de.decidr.model.workflowmodel.bpel.Variable bpelVariable = factory
                         .createVariable();
                 bpelVariable.setName(dwdlVariable.getName());
-                // MA check variable types
-                if (Arrays.asList(SimpleType.values()).contains(SimpleType.fromValue(dwdlVariable.getType()))) {
+                if (Arrays.asList(SimpleType.values()).contains(
+                        SimpleType.fromValue(dwdlVariable.getType()))) {
                     bpelVariable.setType(new QName(
                             XMLConstants.W3C_XML_SCHEMA_NS_URI, dwdlVariable
                                     .getType(), "xsd"));
                 } else if (ComplexType.fromValue(dwdlVariable.getType()) == null) {
-                        bpelVariable.setType(new QName(
-                                BPELConstants.DECIDRTYPES_NAMESPACE,
-                                dwdlVariable.getType(), DECIDRTYPES_PREFIX));
-                
+                    bpelVariable.setType(new QName(
+                            BPELConstants.DECIDRTYPES_NAMESPACE, dwdlVariable
+                                    .getType(), DECIDRTYPES_PREFIX));
+
                 } else {
                     bpelVariable.setType(new QName(
                             XMLConstants.W3C_XML_SCHEMA_NS_URI, "anyType",
