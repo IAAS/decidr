@@ -56,7 +56,7 @@ import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
  * @author Daniel Huss
  * @version 0.1
  */
-public class ConfirmInviationCommand extends AclEnabledCommand implements InvitationAccess{
+public class ConfirmInviationCommand extends AclEnabledCommand implements InvitationAccess {
 
     private static Logger logger = DefaultLogger
             .getLogger(ConfirmInviationCommand.class);
@@ -87,8 +87,8 @@ public class ConfirmInviationCommand extends AclEnabledCommand implements Invita
      * Makes the given user a member of the given tenant. This method has no
      * effect if the user is already a tenant member or the tenant admin.
      * 
-     * @param user
-     * @param tenant
+     * @param user TODO document
+     * @param tenant TODO document
      */
     private void makeMemberOfTenant(User user, Tenant tenant) {
         if (tenant == null || user == null) {
@@ -162,7 +162,7 @@ public class ConfirmInviationCommand extends AclEnabledCommand implements Invita
      * workflow instance and starts the instance if the receiver was the last
      * user who had to confirm his invitation.
      * 
-     * @throws EntityNotFoundException
+     * @throws EntityNotFoundException TODO document
      */
     @SuppressWarnings("unchecked")
     private void processWorkflowInstanceInvitation()

@@ -40,6 +40,7 @@ import de.decidr.model.commands.system.LockServerCommand;
 import de.decidr.model.commands.system.RemoveServerCommand;
 import de.decidr.model.commands.system.SetSystemSettingsCommand;
 import de.decidr.model.commands.system.UpdateServerLoadCommand;
+import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.enums.ServerTypeEnum;
@@ -222,8 +223,25 @@ public class SystemCommandsTest {
         }
 
         // RR do LockServerCommand
+
         // RR do UpdateServerLoadCommand
-        // RR do RemoveServerCommand
+
+        GetServersCommand getAllServers = new GetServersCommand(
+                new SuperAdminRole(), (ServerTypeEnum) null);
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                getAllServers);
+
+        Set<RemoveServerCommand> delete = new HashSet<RemoveServerCommand>();
+        for (Server server : getAllServers.getResult()) {
+            delete.add(new RemoveServerCommand(new SuperAdminRole(), server
+                    .getId()));
+        }
+        HibernateTransactionCoordinator.getInstance().runTransaction(delete);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                getAllServers);
+        assertTrue(getAllServers.getResult() == null
+                || getAllServers.getResult().isEmpty());
     }
 
     /**
@@ -231,7 +249,7 @@ public class SystemCommandsTest {
      */
     @Test
     public void testGetFileCommand() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR GetFileCommand
     }
 
     /**
@@ -240,7 +258,7 @@ public class SystemCommandsTest {
      */
     @Test
     public void testGetLogCommand() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR GetLogCommand
     }
 
     /**
@@ -250,6 +268,7 @@ public class SystemCommandsTest {
      */
     @Test
     public void testSystemSettingsCommands() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR SetSystemSettingsCommand
+        fail("Not yet implemented"); // RR GetSystemSettingsCommand
     }
 }
