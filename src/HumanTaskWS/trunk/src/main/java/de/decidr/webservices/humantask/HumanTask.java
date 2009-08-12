@@ -28,14 +28,14 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Logger;
 
+import de.decidr.model.acl.roles.HumanTaskRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.workitem.GetWorkItemCommand;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.facades.WorkflowInstanceFacade;
 import de.decidr.model.logging.DefaultLogger;
-import de.decidr.model.permissions.HumanTaskRole;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.soap.exceptions.ReportingException;
 import de.decidr.model.soap.types.IDList;
 import de.decidr.model.soap.types.ItemList;

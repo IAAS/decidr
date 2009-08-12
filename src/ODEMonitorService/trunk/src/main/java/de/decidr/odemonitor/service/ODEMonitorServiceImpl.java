@@ -30,6 +30,8 @@ import javax.xml.ws.Holder;
 import org.apache.log4j.Logger;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.roles.ODERole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.system.AddServerCommand;
 import de.decidr.model.commands.system.GetServersCommand;
@@ -42,8 +44,6 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.SystemFacade;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.notifications.NotificationEvents;
-import de.decidr.model.permissions.ODERole;
-import de.decidr.model.permissions.Role;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 
 /**

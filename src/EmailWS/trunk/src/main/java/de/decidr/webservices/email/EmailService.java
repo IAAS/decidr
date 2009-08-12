@@ -33,6 +33,7 @@ import javax.xml.bind.TypeConstraintException;
 import org.apache.log4j.Logger;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.roles.EmailRole;
 import de.decidr.model.commands.user.GetUserPropertiesCommand;
 import de.decidr.model.email.MailBackend;
 import de.decidr.model.entities.SystemSettings;
@@ -41,7 +42,6 @@ import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.DefaultLogger;
-import de.decidr.model.permissions.EmailRole;
 import de.decidr.model.soap.exceptions.IoExceptionWrapper;
 import de.decidr.model.soap.exceptions.MalformedURLExceptionWrapper;
 import de.decidr.model.soap.exceptions.MessagingExceptionWrapper;
