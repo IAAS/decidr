@@ -15,6 +15,7 @@
  */
 package de.decidr.webservices.humantask;
 
+import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -50,6 +51,7 @@ public interface BasicProcessInterface {
      * @param dataList
      *            The data produced by the work item.
      */
+    @Oneway
     @WebMethod(action = TARGET_NAMESPACE + "/taskCompleted", operationName = "taskCompleted")
     public void taskCompleted(@WebParam(name = "taskID") TaskIdentifier taskID,
             @WebParam(name = "dataList") ItemList dataList);
