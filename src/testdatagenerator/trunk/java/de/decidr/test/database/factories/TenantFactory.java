@@ -20,7 +20,7 @@ import de.decidr.model.entities.User;
  * @author Daniel Huss
  * @version 0.1
  */
-public class TenantFactory {
+public class TenantFactory extends EntityFactory {
 
     private static char[] validTenantNameCharacters = { '0', '1', '2', '3',
             '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g',
@@ -31,21 +31,17 @@ public class TenantFactory {
 
     private static int MIN_TENANT_NAME_LENGTH = 2;
 
-    private static Random rnd = new Random();
-
-    private Session session;
-
     /**
      * Constructor
      * 
      * @param session
      */
     public TenantFactory(Session session) {
-        this.session = session;
+        super(session);
     }
 
     /**
-     * Creates numTenants random tenants.
+     * Creates numTenants random persisted tenants.
      * 
      * @param numTenants
      * @return
@@ -77,9 +73,8 @@ public class TenantFactory {
                     .setCurrentColorScheme(rnd.nextBoolean() ? advancedColorScheme
                             : simpleColorScheme);
 
-            // No logo yet, too complicated!
-            tenant.setLogo(null);
-
+            tenant.setLogo(createDefaultLogo());
+            session.save(tenant);
             result.add(tenant);
         }
 
@@ -87,7 +82,8 @@ public class TenantFactory {
     }
 
     /**
-     * Creates a file reference that can be used as a color scheme.
+     * Creates a new file reference (to a nonexistent file) that can be used as
+     * a tenant color scheme
      * 
      * @return
      */
@@ -100,19 +96,36 @@ public class TenantFactory {
     }
 
     /**
-     * Retrieves a random user who can be promoted to tenant admin.
+     * Creates a new file reference (to a nonexistent file) that can be used as
+     * a tenant logo
+     * 
+     * @return
+     */
+    public File createDefaultLogo() {
+        File result = new File();
+        result.setFileName("logo.jpeg");
+        result.setMayPublicRead(true);
+        result.setMimeType("image/jpeg");
+        return result;
+    }
+
+    /**
+     * Retrieves a random user from the database who can be promoted to tenant
+     * admin.
      * 
      * @return
      * @throws RuntimeException
      *             if no user can be found.
      */
     public User getRandomAdmin() {
+        // please note rand() is specific to MySQL!
         String hql = "select u.id from User u"
                 + "where (u.disabledSince is null) and "
                 + "(u.unavailableSince is null) and "
-                + "(u.userProfile is not null) order by rand() limit 1";
+                + "(u.userProfile is not null) order by rand()";
 
-        User user = (User) session.createQuery(hql).uniqueResult();
+        User user = (User) session.createQuery(hql).setMaxResults(1)
+                .uniqueResult();
 
         if (user == null) {
             throw new RuntimeException(

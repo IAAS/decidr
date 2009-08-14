@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import org.hibernate.Query;
@@ -31,11 +30,12 @@ import de.decidr.model.enums.ServerTypeEnum;
  * @author Daniel Huss
  * @version 0.1
  */
-public class WorkflowModelFactory {
+public class WorkflowModelFactory extends EntityFactory {
 
-    private static Random rnd = new Random();
-
-    private Session session;
+    /**
+     * Maximum number of deployed workflow models to create per workflow model
+     */
+    private static final int MAX_DEPLOYED_VERSIONS = 3;
 
     /**
      * Constructor
@@ -43,7 +43,7 @@ public class WorkflowModelFactory {
      * @param session
      */
     public WorkflowModelFactory(Session session) {
-        this.session = session;
+        super(session);
     }
 
     /**
@@ -77,12 +77,20 @@ public class WorkflowModelFactory {
             model.setDescription("test workflow model #" + Integer.toString(i));
             model.setName("workflow " + Integer.toString(i));
             model.setDwdl(getSampleDwdl());
-
+            model.setVersion(rnd.nextInt(1000000));
             model.setExecutable(rnd.nextBoolean());
 
             if (rnd.nextBoolean()) {
-                // create a deployed version of the model
-                addDeployedWorkflowModels(model);
+                // create some deployed versions of the model
+                int numDeployedVersions = rnd.nextInt(MAX_DEPLOYED_VERSIONS) + 1;
+                for (int j = 1; j <= numDeployedVersions; j++) {
+                    addDeployedWorkflowModels(model);
+                    // cannot create two deployed workflow models of the same
+                    // version
+                    if (j < numDeployedVersions) {
+                        model.setVersion(model.getVersion() + 1L);
+                    }
+                }
             }
 
             Tenant owningTenant = owners.get(i % owners.size());
@@ -92,8 +100,8 @@ public class WorkflowModelFactory {
             model.setModifiedDate(now);
             // every 10th model is available to the public for import
             model.setPublished(i % 10 == 0);
-            model.setVersion(rnd.nextInt(1000000));
 
+            session.save(model);
             result.add(model);
         }
 
@@ -103,8 +111,6 @@ public class WorkflowModelFactory {
     /**
      * Adds a deployed workflow model that corresponds with the given workflow
      * model.
-     * 
-     * TODO create more than one deployed workflow model (?)
      * 
      * @param model
      */
@@ -136,10 +142,11 @@ public class WorkflowModelFactory {
      * @return a random ODE server
      */
     private Server getRandomOdeServer() {
-        String hql = "from Server s where s.serverType.name = :serverName order by rand() limit 1";
+        String hql = "from Server s where s.serverType.name = :serverName order by rand()";
 
-        Server result = (Server) session.createQuery(hql).setString(
-                "serverName", ServerTypeEnum.Ode.toString()).uniqueResult();
+        Server result = (Server) session.createQuery(hql).setMaxResults(1)
+                .setString("serverName", ServerTypeEnum.Ode.toString())
+                .uniqueResult();
 
         if (result == null) {
             throw new RuntimeException(
@@ -163,9 +170,9 @@ public class WorkflowModelFactory {
     @SuppressWarnings("unchecked")
     private List<Tenant> getRandomApprovedTenants(int maxTenants) {
         String hql = "from Tenant t where t.approvedSince is not null "
-                + "order by rand() limit :maxTenants";
+                + "order by rand()";
 
-        Query q = session.createQuery(hql).setInteger("maxTenants", maxTenants);
+        Query q = session.createQuery(hql).setMaxResults(maxTenants);
 
         List<Tenant> result = q.list();
 
@@ -187,7 +194,7 @@ public class WorkflowModelFactory {
         try {
             stream = new FileInputStream("sampleProcess.xml");
             int bytesRead = stream.read(result);
-            if (sampleFile.length() != bytesRead) {
+            if (sampleFile.length() != bytesRead || sampleFile.length() == 0) {
                 throw new RuntimeException("could not read sample DWDL");
             }
         } catch (FileNotFoundException e) {

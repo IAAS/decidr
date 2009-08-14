@@ -1,7 +1,5 @@
 package de.decidr.test.database.factories;
 
-import java.util.Random;
-
 import org.hibernate.Session;
 
 /**
@@ -11,15 +9,10 @@ import org.hibernate.Session;
  * 
  * FIXME DH continue here
  * 
- * @author Thomas Karsten
  * @author Daniel Huss
  * @version 0.1
  */
-public class InvitationFactory {
-
-    private static Random rnd = new Random();
-
-    private Session session;
+public class InvitationFactory extends EntityFactory {
 
     /**
      * Constructor
@@ -27,7 +20,7 @@ public class InvitationFactory {
      * @param session
      */
     public InvitationFactory(Session session) {
-        this.session = session;
+        super(session);
     }
 
 }

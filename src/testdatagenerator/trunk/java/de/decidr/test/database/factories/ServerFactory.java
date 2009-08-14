@@ -3,6 +3,8 @@ package de.decidr.test.database.factories;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerType;
 import de.decidr.model.enums.ServerTypeEnum;
@@ -14,17 +16,17 @@ import de.decidr.model.enums.ServerTypeEnum;
  * @author Daniel Huss
  * @version 0.1
  */
-public class ServerFactory {
+public class ServerFactory extends EntityFactory {
 
     /**
      * Constructor
      */
-    public ServerFactory() {
-        super();
+    public ServerFactory(Session session) {
+        super(session);
     }
 
     /**
-     * Creates one server for each supported server type.
+     * Creates one persisted server for each supported server type.
      * 
      * @return the list of generated servers
      */
@@ -39,7 +41,7 @@ public class ServerFactory {
             server.setLocation("http://localhost/server/" + type.toString());
             server.setLocked(false);
             server.setServerType(new ServerType(type.toString()));
-
+            session.save(server);
             result.add(server);
         }
 

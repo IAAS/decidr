@@ -5,7 +5,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
+
+import org.hibernate.Session;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.Password;
@@ -22,34 +23,32 @@ import de.decidr.model.entities.UserProfile;
  * @author Daniel Huss
  * @version 0.1
  */
-public class UserFactory {
+public class UserFactory extends EntityFactory {
 
     private static String[] firstNames = { "Thomas", "Modood", "Jenny",
-            "Jackie", "Geoffrey", "Markus", "Aleks", "Reinhold", "Gordon",
-            "Daniel", "三郎" };
+            "Julia", "Geoffrey", "Markus", "Aleks", "Reinhold", "Gordon",
+            "Daniel", "三郎", "屎臉" };
 
-    private static String[] lastNames = { "Kraxelhuber", "大輔", "Smith",
-            "Freeman", "Estacado", "Иванов", "Хус" };
+    private static String[] lastNames = { "Kraxelhuber", "大輔", "陰莖", "Smith",
+            "Freeman", "Иванов", "Хус" };
 
     private static String[] streets = { "Marktstraße", "Silly Lane",
             "Red Light District", "Black Mesa", "Universitätsstraße" };
 
     private static String[] cities = { "Stuttgart", "Köln", "Berlin",
-            "Ростов-на-Дону", "Київ", "Харьков", "Ялта", "Владивосток",
-            "Новосибирск", "Сочи", "東京", "横浜市" };
-
-    private static Random rnd = new Random();
+            "Gehdochheim", "Ростов-на-Дону", "Київ", "Харьков", "Ялта",
+            "Владивосток", "Новосибирск", "Сочи", "東京", "横浜市", "City 17" };
 
     /**
      * Constructor
      */
-    public UserFactory() {
-        super();
+    public UserFactory(Session session) {
+        super(session);
     }
 
     /**
-     * Generates numUsers random users. (Hopefully) all user statuses are
-     * covered, including:
+     * Generates numUsers random persisted users. (Hopefully) all user statuses
+     * are covered, including:
      * 
      * <ul>
      * <li>Account disabled by the super admin</li>
@@ -133,6 +132,8 @@ public class UserFactory {
                     // the user is not registered
                     user.setAuthKey(Password.getRandomAuthKey());
                 }
+
+                session.save(user);
                 result.add(user);
 
             }
@@ -145,7 +146,6 @@ public class UserFactory {
             // this should never happen, abort!
             throw new RuntimeException(e);
         }
-
     }
 
     /**
@@ -164,7 +164,7 @@ public class UserFactory {
             // this should never happen, abort!
             throw new RuntimeException(e);
         }
-        // TODO the email web service must recognize this domain and redirect
+        // RR the email web service must recognize this domain and redirect
         // emails to a test inbox
         String domain = "test.decidr.de";
 
