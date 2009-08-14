@@ -11,7 +11,7 @@ import org.apache.log4j.PatternLayout;
  * Provides a common logging configuration for the DecidR components and
  * subsystems.
  * <p>
- * FIXME use JDBC appender instead of or in addition to console appender, add
+ * XXX use JDBC appender instead of or in addition to console appender, add
  * support for remotely triggered log level changes. See
  * http://www.dankomannhaupt.de/projects/index.html for an improved JDBC
  * appender.

@@ -66,8 +66,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     private Integer transactionDepth;
 
-    // XXX: dadurch kann jeder command theoretisch mehrmals vorkommen - besser
-    // Set verwenden ~rr
+    // using array list to ensure that a command could be executed several times in a transaction chain
     private ArrayList<TransactionalCommand> notifiedReceivers = null;
 
     /**
@@ -78,7 +77,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     }
 
     /**
-     * Constructor. TODO better comment ~rr
+     * Creates a new HiberbateTransactionCoordinator. The coordinator is needed
+     * to execute the commands.
      */
     private HibernateTransactionCoordinator() {
         super();
@@ -223,7 +223,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * Fires transaction started event.
      * 
      * @param receiver
-     *            TODO comment
+     *            tansactional command which should receive the event
+     * 
      */
     private void fireTransactionStarted(TransactionalCommand receiver)
             throws TransactionException {
@@ -237,9 +238,9 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * Fires transaction aborted event.
      * 
      * @param receiver
-     *            TODO comment
+     *            tansactional command which should receive the event
      * @param caughtException
-     *            TODO comment
+     *            the exception which caused the event
      */
     private void fireTransactionAborted(TransactionalCommand receiver,
             Exception caughtException) throws TransactionException {

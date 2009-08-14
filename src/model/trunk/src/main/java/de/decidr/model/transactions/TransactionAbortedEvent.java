@@ -29,12 +29,12 @@ public class TransactionAbortedEvent extends TransactionEvent {
     protected Exception exception;
 
     /**
-     * Constructor TODO better comment
+     * Creates a new TransactionAbortedEvent. This event is fired after a transaction has been rolled back.
      * 
      * @param session
-     *            TODO document
+     *            the current session
      * @param exception
-     *            TODO document
+     *            the exception which caused the rollback
      */
     public TransactionAbortedEvent(Session session, Exception exception,
             Boolean innerTransaction) {

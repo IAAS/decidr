@@ -41,7 +41,11 @@ import org.junit.Test;
  * 
  * @author Reinhold
  */
-// TODO somebody check for completeness
+//RR addFile(File) seems not to be tested
+//RR addFile(InputSteam) seems not to be tested
+//RR addFile(URI) seems not to be tested
+//RR addFile(URL) seems not to be tested
+//RR sendMessage() seems not to be tested
 public class MailBackendTest {
     MailBackend testMail;
 
@@ -55,6 +59,7 @@ public class MailBackendTest {
      */
     @Test
     public void testValidateAddressesString() {
+        // RR check also "hallo123@c.de" -mf
         assertTrue(MailBackend.validateAddresses("a.b@c.de"));
         assertTrue(MailBackend.validateAddresses("a_b@c.de"));
         assertTrue(MailBackend.validateAddresses("ab@cde"));
@@ -817,6 +822,7 @@ public class MailBackendTest {
      */
     @Test
     public void testSetHostname() {
+        //RR empty hostname should fail or standard host should be returned -mf
         testMail.setHostname("decidr.de");
         assertEquals("decidr.de", testMail.getSMTPServerHost());
         testMail.setHostname("heise.de");
@@ -847,6 +853,7 @@ public class MailBackendTest {
      */
     @Test
     public void testSetPortNum() {
+        //RR empty port should failed or standard port should be returned -mf
         testMail.setPortNum(0);
         assertEquals(0, testMail.getSMTPPortNum());
         testMail.setPortNum(2020);

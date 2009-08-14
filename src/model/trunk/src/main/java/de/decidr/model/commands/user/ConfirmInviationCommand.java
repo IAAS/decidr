@@ -87,8 +87,8 @@ public class ConfirmInviationCommand extends AclEnabledCommand implements Invita
      * Makes the given user a member of the given tenant. This method has no
      * effect if the user is already a tenant member or the tenant admin.
      * 
-     * @param user TODO document
-     * @param tenant TODO document
+     * @param user user who should become member of the given tenant
+     * @param tenant tenant to which the given user should be added
      */
     private void makeMemberOfTenant(User user, Tenant tenant) {
         if (tenant == null || user == null) {
@@ -162,7 +162,7 @@ public class ConfirmInviationCommand extends AclEnabledCommand implements Invita
      * workflow instance and starts the instance if the receiver was the last
      * user who had to confirm his invitation.
      * 
-     * @throws EntityNotFoundException TODO document
+     * @throws EntityNotFoundException if no invitation could be found 
      */
     @SuppressWarnings("unchecked")
     private void processWorkflowInstanceInvitation()
@@ -212,11 +212,12 @@ public class ConfirmInviationCommand extends AclEnabledCommand implements Invita
                     .createQuery("from ServerLoadView s where s.serverType.name = :serverType");
             List<ServerLoadView> serverStatistics = q.setString("serverType",
                     ServerTypeEnum.Ode.toString()).list();
+            
+            // instance only needed to get the OdePid and Server from the instance manager
             WorkflowInstance newInstance = manager.startInstance(instance
                     .getDeployedWorkflowModel(), instance
                     .getStartConfiguration(), serverStatistics);
-            // XXX this is kind of weird because the instance manager creates a
-            // new instance that is discarded almost immediately.
+            
             instance.setOdePid(newInstance.getOdePid());
             instance.setStartedDate(DecidrGlobals.getTime().getTime());
             instance.setServer(newInstance.getServer());

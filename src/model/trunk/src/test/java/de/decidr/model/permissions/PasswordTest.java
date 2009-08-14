@@ -14,7 +14,7 @@ public class PasswordTest {
 
     /**
      * not a real test case, just needed to create hash and salt for test data<br>
-     * XXX: if this is a real test case please change back to @Test
+     * 
      */
     @BeforeClass
     public void getPasswordForSuperadminInTestDatas() {
