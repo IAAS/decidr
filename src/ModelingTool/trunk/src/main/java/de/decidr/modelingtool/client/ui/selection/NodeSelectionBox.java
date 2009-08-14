@@ -32,7 +32,10 @@ import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
  * @author Johannes Engelhardt
  */
 public class NodeSelectionBox {
-
+    
+    /** This value indicates the space between the drag boxes and the node. */
+    private final int BORDER_OFFSET = 2;
+    
     /** The List of the drag boxes. */
     private List<DragBox> dragBoxes = new Vector<DragBox>();
 
@@ -61,10 +64,10 @@ public class NodeSelectionBox {
         // make sure that assignedNode is not null
         assert assignedNode != null;
 
-        int nodeLeft = assignedNode.getGraphicLeft();
-        int nodeTop = assignedNode.getGraphicTop();
-        int nodeWidth = assignedNode.getGraphicWidth();
-        int nodeHeight = assignedNode.getGraphicHeight();
+        int nodeLeft = assignedNode.getGraphicLeft() - BORDER_OFFSET;
+        int nodeTop = assignedNode.getGraphicTop() - BORDER_OFFSET;
+        int nodeWidth = assignedNode.getGraphicWidth() + BORDER_OFFSET * 2;
+        int nodeHeight = assignedNode.getGraphicHeight() + BORDER_OFFSET * 2;
         int width;
         int height;
         int left = 0;

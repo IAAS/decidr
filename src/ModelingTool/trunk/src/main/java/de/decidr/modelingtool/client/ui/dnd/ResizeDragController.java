@@ -17,7 +17,6 @@
 package de.decidr.modelingtool.client.ui.dnd;
 
 import com.allen_sauer.gwt.dnd.client.AbstractDragController;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.command.MoveResizeNodeCommand;

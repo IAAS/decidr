@@ -16,8 +16,6 @@
 
 package de.decidr.modelingtool.client.ui;
 
-import org.jaxen.Navigator;
-
 import com.allen_sauer.gwt.dnd.client.DragController;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.HasMouseDownHandlers;
@@ -36,7 +34,6 @@ import de.decidr.modelingtool.client.command.CommandList;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.command.MoveResizeNodeCommand;
 import de.decidr.modelingtool.client.command.UndoableCommand;
-import de.decidr.modelingtool.client.exception.ModelingToolException;
 import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
