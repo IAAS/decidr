@@ -41,11 +41,12 @@ import org.junit.Test;
  * 
  * @author Reinhold
  */
-//MF addFile(File) seems not to be tested
-//MF addFile(InputSteam) seems not to be tested
-//MF addFile(URI) seems not to be tested
-//MF addFile(URL) seems not to be tested
-//MF sendMessage() seems not to be tested
+// TODO check individual test cases for completeness
+// MF addFile(File) seems not to be tested
+// MF addFile(InputSteam) seems not to be tested
+// MF addFile(URI) seems not to be tested
+// MF addFile(URL) seems not to be tested
+// MF sendMessage() seems not to be tested
 public class MailBackendTest {
     MailBackend testMail;
 
@@ -822,7 +823,7 @@ public class MailBackendTest {
      */
     @Test
     public void testSetHostname() {
-        //MF empty hostname should fail or standard host should be returned -mf
+        // MF empty hostname should fail or standard host should be returned -mf
         // thats exactly what's happening
         testMail.setHostname("decidr.de");
         assertEquals("decidr.de", testMail.getSMTPServerHost());
@@ -854,7 +855,7 @@ public class MailBackendTest {
      */
     @Test
     public void testSetPortNum() {
-        //MF empty port should failed or standard port should be returned -mf
+        // MF empty port should failed or standard port should be returned -mf
         // how's an integer supposed to be empty?
         testMail.setPortNum(0);
         assertEquals(0, testMail.getSMTPPortNum());
