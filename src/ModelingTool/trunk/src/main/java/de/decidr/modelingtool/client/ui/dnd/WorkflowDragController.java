@@ -19,7 +19,7 @@ package de.decidr.modelingtool.client.ui.dnd;
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 
 import de.decidr.modelingtool.client.command.CommandStack;
-import de.decidr.modelingtool.client.command.MoveNodeCommand;
+import de.decidr.modelingtool.client.command.MoveResizeNodeCommand;
 import de.decidr.modelingtool.client.ui.HasChildren;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Workflow;
@@ -62,7 +62,7 @@ public class WorkflowDragController extends PickupDragController {
         // create move command
         if (node != null) {
             CommandStack.getInstance().executeCommand(
-                    new MoveNodeCommand(node, oldParentPanel, oldNodeLeft,
+                    new MoveResizeNodeCommand(node, oldParentPanel, oldNodeLeft,
                             oldNodeTop));
         }
 

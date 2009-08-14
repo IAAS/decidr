@@ -1,5 +1,10 @@
 /** Add css rules here for your application. */
 
+div {
+	padding: 0px;
+	margin: 0px;
+}
+
 .workflow {
 	background-color: #DDDDDD;
 }

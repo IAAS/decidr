@@ -34,7 +34,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.decidr.modelingtool.client.browserspecific.BrowserSpecificTools;
 import de.decidr.modelingtool.client.command.CommandList;
 import de.decidr.modelingtool.client.command.CommandStack;
-import de.decidr.modelingtool.client.command.MoveNodeCommand;
+import de.decidr.modelingtool.client.command.MoveResizeNodeCommand;
 import de.decidr.modelingtool.client.command.UndoableCommand;
 import de.decidr.modelingtool.client.exception.ModelingToolException;
 import de.decidr.modelingtool.client.model.NodeModel;
@@ -294,8 +294,10 @@ public abstract class Node extends AbsolutePanel implements
 
             // create move command
             CommandStack.getInstance().executeCommand(
-                    new MoveNodeCommand(this, parentPanel, left, top));
+                    new MoveResizeNodeCommand(this, parentPanel, left, top));
         }
+        
+        //JE: add resizing
 
     }
 
@@ -399,7 +401,7 @@ public abstract class Node extends AbsolutePanel implements
             this.setWidgetPosition(port, xOffset, yOffset);
             break;
         }
-        
+
         port.refreshConnections();
     }
 
@@ -454,9 +456,11 @@ public abstract class Node extends AbsolutePanel implements
      */
     public void setGraphicPixelSize(int width, int height) {
         if (graphic != null) {
-            BrowserSpecificTools bsTools = GWT.create(BrowserSpecificTools.class);
-            
-            graphic.setPixelSize(bsTools.correctBorderOffset(width), bsTools.correctBorderOffset(height));
+            BrowserSpecificTools bsTools = GWT
+                    .create(BrowserSpecificTools.class);
+
+            graphic.setPixelSize(bsTools.correctBorderOffset(width), bsTools
+                    .correctBorderOffset(height));
             refreshNodeSize();
         }
     }

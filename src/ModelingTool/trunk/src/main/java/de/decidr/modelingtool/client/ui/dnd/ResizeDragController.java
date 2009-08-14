@@ -19,6 +19,9 @@ package de.decidr.modelingtool.client.ui.dnd;
 import com.allen_sauer.gwt.dnd.client.AbstractDragController;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
+import de.decidr.modelingtool.client.command.CommandStack;
+import de.decidr.modelingtool.client.command.MoveResizeNodeCommand;
+import de.decidr.modelingtool.client.ui.HasChildren;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.selection.DragBox;
@@ -31,8 +34,43 @@ import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
  */
 public class ResizeDragController extends AbstractDragController {
 
+    private Node node = null;
+    private HasChildren oldParentPanel;
+    private int oldLeft;
+    private int oldTop;
+    private int oldWidth;
+    private int oldHeight;
+
     public ResizeDragController(Workflow workflow) {
         super(workflow);
+    }
+
+    @Override
+    public void dragEnd() {
+        // create command
+        CommandStack.getInstance().addCommand(
+                new MoveResizeNodeCommand(node, oldParentPanel, oldLeft,
+                        oldTop, oldWidth, oldHeight));
+
+        super.dragEnd();
+    }
+
+    @Override
+    public void dragStart() {
+        // make sure that selected item is a node
+        assert SelectionHandler.getInstance().getSelectedItem() instanceof Node;
+        node = (Node) SelectionHandler.getInstance().getSelectedItem();
+
+        // get parent panel of node
+        oldParentPanel = node.getParentPanel();
+        // get graphic size of the node
+        oldWidth = node.getGraphicWidth();
+        oldHeight = node.getGraphicHeight();
+        // get node position
+        oldLeft = node.getLeft();
+        oldTop = node.getTop();
+
+        super.dragStart();
     }
 
     @Override
@@ -41,19 +79,17 @@ public class ResizeDragController extends AbstractDragController {
             DragBox dragBox = (DragBox) context.draggable;
 
             // make sure that selected item is a node
-            assert SelectionHandler.getInstance().getSelectedItem() instanceof Node;
-            Node node = (Node) SelectionHandler.getInstance().getSelectedItem();
+            // assert SelectionHandler.getInstance().getSelectedItem()
+            // instanceof Node;
+            // Node node = (Node)
+            // SelectionHandler.getInstance().getSelectedItem();
 
             // get graphic size of the node
             int width = node.getGraphicWidth();
             int height = node.getGraphicHeight();
-
             // get node position
             int left = node.getLeft();
             int top = node.getTop();
-
-            // get parent panel of drag box
-            AbsolutePanel parentPanel = (AbsolutePanel) dragBox.getParent();
 
             // get drag box position
             int boxtop = dragBox.getAbsoluteTop();
@@ -99,7 +135,7 @@ public class ResizeDragController extends AbstractDragController {
 
             case SOUTHWEST:
                 if (deltaX != 0 || deltaY != 0) {
-                    //node.setPosition(left + deltaX, top);
+                    // node.setPosition(left + deltaX, top);
                     node.setPosition(left + deltaX, top);
                     node.setGraphicPixelSize(width - deltaX, height + deltaY);
                 }
