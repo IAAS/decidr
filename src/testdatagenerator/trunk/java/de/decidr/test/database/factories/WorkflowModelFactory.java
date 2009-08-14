@@ -17,6 +17,8 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.Tenant;
+import de.decidr.model.entities.User;
+import de.decidr.model.entities.UserAdministratesWorkflowModel;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.entities.WorkflowModelIsDeployedOnServer;
 import de.decidr.model.enums.ServerTypeEnum;
@@ -36,6 +38,11 @@ public class WorkflowModelFactory extends EntityFactory {
      * Maximum number of deployed workflow models to create per workflow model
      */
     private static final int MAX_DEPLOYED_VERSIONS = 3;
+
+    /**
+     * Maximum number of additional workflow administrators
+     */
+    private static final int MAX_ADDITIONAL_WORKFLOW_ADMINS = 3;
 
     /**
      * Constructor
@@ -101,11 +108,49 @@ public class WorkflowModelFactory extends EntityFactory {
             // every 10th model is available to the public for import
             model.setPublished(i % 10 == 0);
 
+            // find suitable workflow administrators
+            model
+                    .setUserAdministratesWorkflowModels(getSuitableWorkflowAdministrators(model));
+
             session.save(model);
             result.add(model);
         }
 
         return result;
+    }
+
+    /**
+     * Tries to find up to MAX_ADDITIONAL_WORKFLOW_ADMINS active tenant members
+     * that will become workflow administrators.
+     * 
+     * @param model
+     *            workflow model to administrate
+     * @return The new but not yet persisted "is-workflow-admin-of-models"
+     *         relations
+     */
+    @SuppressWarnings("unchecked")
+    private Set<UserAdministratesWorkflowModel> getSuitableWorkflowAdministrators(
+            WorkflowModel model) {
+
+        String hql = "select distinct * from User u where u.userProfile is not null and "
+                + "u.registeredSince is not null and "
+                + "u.disabledSince is null and "
+                + "exists(from UserIsMemberOfTenant rel where rel.user = u and rel.tenant = :tenant)";
+
+        List<User> admins = session.createQuery(hql).setMaxResults(
+                MAX_ADDITIONAL_WORKFLOW_ADMINS).setEntity("tenant",
+                model.getTenant()).list();
+
+        Set<UserAdministratesWorkflowModel> result = new HashSet<UserAdministratesWorkflowModel>();
+
+        for (User admin : admins) {
+            // hopefully Hibernate will generate the id from the given model and
+            // admin. The model id is not available at this point since the
+            // model hasn't been persisted yet.
+            result.add(new UserAdministratesWorkflowModel(null, model, admin));
+        }
+
+        return null;
     }
 
     /**
