@@ -16,7 +16,10 @@
 	<inherits name='com.allen_sauer.gwt.dnd.gwt-dnd' />
 	<!-- Inherit extjs support                                      -->
 	<inherits name='com.extjs.gxt.ui.GXT' />
-	
-	<stylesheet src='ModelingToolWidget.css'/>
-	<stylesheet src='css/ext-all.css'/>
+
+	<!-- Inherit browser specific tool replacement -->
+	<inherits name='de.decidr.modelingtool.client.browserspecific.BrowserSpecificTools' />
+
+	<stylesheet src='ModelingToolWidget.css' />
+	<stylesheet src='css/ext-all.css' />
 </module>

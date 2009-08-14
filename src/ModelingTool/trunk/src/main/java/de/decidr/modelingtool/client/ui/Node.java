@@ -16,7 +16,10 @@
 
 package de.decidr.modelingtool.client.ui;
 
+import org.jaxen.Navigator;
+
 import com.allen_sauer.gwt.dnd.client.DragController;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.HasMouseDownHandlers;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -28,10 +31,12 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.decidr.modelingtool.client.browserspecific.BrowserSpecificTools;
 import de.decidr.modelingtool.client.command.CommandList;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.command.MoveNodeCommand;
 import de.decidr.modelingtool.client.command.UndoableCommand;
+import de.decidr.modelingtool.client.exception.ModelingToolException;
 import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
@@ -394,6 +399,8 @@ public abstract class Node extends AbsolutePanel implements
             this.setWidgetPosition(port, xOffset, yOffset);
             break;
         }
+        
+        port.refreshConnections();
     }
 
     /**
@@ -447,7 +454,9 @@ public abstract class Node extends AbsolutePanel implements
      */
     public void setGraphicPixelSize(int width, int height) {
         if (graphic != null) {
-            graphic.setPixelSize(width, height);
+            BrowserSpecificTools bsTools = GWT.create(BrowserSpecificTools.class);
+            
+            graphic.setPixelSize(bsTools.correctBorderOffset(width), bsTools.correctBorderOffset(height));
             refreshNodeSize();
         }
     }

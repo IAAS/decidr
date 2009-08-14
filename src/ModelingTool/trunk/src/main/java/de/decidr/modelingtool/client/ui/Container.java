@@ -202,6 +202,15 @@ public abstract class Container extends Node implements HasChildren {
     }
 
     @Override
+    protected void refreshNodeSize() {
+        super.refreshNodeSize();
+        refreshPortPositions();
+    }
+
+    @Override
+    public abstract void showPropertyWindow();
+
+    @Override
     protected void refreshPortPositions() {
         // set position of container ports
         if (containerStartPort != null) {

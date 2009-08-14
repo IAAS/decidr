@@ -16,71 +16,112 @@
 
 package de.decidr.modelingtool.client.ui.dnd;
 
-
 import com.allen_sauer.gwt.dnd.client.AbstractDragController;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 
+import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.selection.DragBox;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
-
 /**
- * TODO: add comment
- * JE: To be implemented!
+ * The drag controller for resizing containers.
  * 
  * @author Johannes Engelhardt
  */
 public class ResizeDragController extends AbstractDragController {
 
-    /**
-     * TODO: add comment
-     *
-     * @param boundaryPanel
-     */
     public ResizeDragController(Workflow workflow) {
         super(workflow);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
-    public void dragMove() {  
+    public void dragMove() {
         if (context.draggable instanceof DragBox) {
-            DragBox dragBox = (DragBox)context.draggable;
-            
+            DragBox dragBox = (DragBox) context.draggable;
+
+            // make sure that selected item is a node
+            assert SelectionHandler.getInstance().getSelectedItem() instanceof Node;
+            Node node = (Node) SelectionHandler.getInstance().getSelectedItem();
+
+            // get graphic size of the node
+            int width = node.getGraphicWidth();
+            int height = node.getGraphicHeight();
+
+            // get node position
+            int left = node.getLeft();
+            int top = node.getTop();
+
+            // get parent panel of drag box
+            AbsolutePanel parentPanel = (AbsolutePanel) dragBox.getParent();
+
+            // get drag box position
+            int boxtop = dragBox.getAbsoluteTop();
+            int boxleft = dragBox.getAbsoluteLeft();
+
+            // get dragging delta
+            int deltaX = context.desiredDraggableX - boxleft;
+            int deltaY = context.desiredDraggableY - boxtop;
+
+            // move and resize node
             switch (dragBox.getDirection()) {
             case NORTH:
-                
-                break;
-            case NORTHEAST:
-                
-                break;
-            case EAST:
-                
-                break;
-            case SOUTHEAST:
-                
-                break;
-            case SOUTH:
-                int delta = dragBox.getAbsoluteTop() - context.desiredDraggableY;
-                if (delta != 0) {
-                    Widget w = (Widget)SelectionHandler.getInstance().getSelectedItem();
-                    // FIXME: selectedItem = null
-                    Window.alert(w.toString());
-                    w.setPixelSize(w.getOffsetWidth(), w.getOffsetHeight() + delta);
+                if (deltaY != 0) {
+                    node.setPosition(left, top + deltaY);
+                    node.setGraphicPixelSize(width, height - deltaY);
                 }
                 break;
+
+            case NORTHEAST:
+                if (deltaX != 0 || deltaY != 0) {
+                    node.setPosition(left, top + deltaY);
+                    node.setGraphicPixelSize(width + deltaX, height - deltaY);
+                }
+                break;
+
+            case EAST:
+                if (deltaX != 0) {
+                    node.setGraphicPixelSize(width + deltaX, height);
+                }
+                break;
+
+            case SOUTHEAST:
+                if (deltaX != 0 || deltaY != 0) {
+                    node.setGraphicPixelSize(width + deltaX, height + deltaY);
+                }
+                break;
+
+            case SOUTH:
+                if (deltaY != 0) {
+                    node.setGraphicPixelSize(width, height + deltaY);
+                }
+                break;
+
             case SOUTHWEST:
-                
+                if (deltaX != 0 || deltaY != 0) {
+                    //node.setPosition(left + deltaX, top);
+                    node.setPosition(left + deltaX, top);
+                    node.setGraphicPixelSize(width - deltaX, height + deltaY);
+                }
                 break;
+
             case WEST:
-                
+                if (deltaX != 0) {
+                    node.setPosition(left + deltaX, top);
+                    node.setGraphicPixelSize(width - deltaX, height);
+                }
                 break;
+
             case NORTHWEST:
-                
+                if (deltaX != 0 || deltaY != 0) {
+                    node.setPosition(left + deltaX, top + deltaY);
+                    node.setGraphicPixelSize(width - deltaX, height - deltaY);
+                }
                 break;
             }
+
+            // refresh selection
+            SelectionHandler.getInstance().refreshSelection();
         }
     }
 

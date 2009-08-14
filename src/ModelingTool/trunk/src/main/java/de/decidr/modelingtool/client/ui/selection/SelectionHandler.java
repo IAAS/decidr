@@ -21,6 +21,7 @@ import java.util.Vector;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -41,7 +42,7 @@ public class SelectionHandler implements MouseDownHandler {
     /** The currently selected item. Null, if none is selected. */
     private Selectable selectedItem = null;
 
-    /** The node selection bo to select nodes. */
+    /** The node selection box to select nodes. */
     private NodeSelectionBox nodeSelectionBox = null;
 
     /** The instance of the selection handler. */
@@ -52,6 +53,11 @@ public class SelectionHandler implements MouseDownHandler {
      */
     private SelectionHandler() {
         nodeSelectionBox = new NodeSelectionBox();
+        
+        // register boxes to selection handler
+        for (DragBox box : nodeSelectionBox.getDragBoxes()) {
+            box.addMouseDownHandler(this);
+        }
     }
 
     /**
@@ -108,6 +114,8 @@ public class SelectionHandler implements MouseDownHandler {
             if (connection != null) {
                 select(connection);
             }
+        } else if (source instanceof DragBox) {
+            // do not unselect item, it is being dragged
         } else {
             // unselect selected item
             unselect();
