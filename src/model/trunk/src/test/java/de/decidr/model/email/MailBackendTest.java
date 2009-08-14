@@ -59,7 +59,7 @@ public class MailBackendTest {
      */
     @Test
     public void testValidateAddressesString() {
-        // RR check also "hallo123@c.de" -mf
+        // MF check also "hallo123@c.de" -mf
         assertTrue(MailBackend.validateAddresses("a.b@c.de"));
         assertTrue(MailBackend.validateAddresses("a_b@c.de"));
         assertTrue(MailBackend.validateAddresses("ab@cde"));

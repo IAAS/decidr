@@ -166,6 +166,10 @@ public class UserFactory extends EntityFactory {
         }
         // RR the email web service must recognize this domain and redirect
         // emails to a test inbox
+        // DH in der Annahme dass das von dir kommt:
+        // No way! Wir dürfen auf gar keinen Fall für Tests solche
+        // Unterscheidungen machen. Außerdem haben wir eine Testadresse:
+        // decidr.iaas@googlemail.com ~rr
         String domain = "test.decidr.de";
 
         return localpart + "@" + domain;

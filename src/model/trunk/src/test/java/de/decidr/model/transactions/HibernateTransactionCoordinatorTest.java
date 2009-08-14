@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import de.decidr.model.commands.AbstractTransactionalCommand;
+import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
 
 public class HibernateTransactionCoordinatorTest {
@@ -106,7 +107,8 @@ public class HibernateTransactionCoordinatorTest {
     }
 
     @Test
-    public void testRunTransactionTransactionalCommand() {
+    public void testRunTransactionTransactionalCommand()
+            throws TransactionException {
 
         TransactionCoordinator htc = HibernateTransactionCoordinator
                 .getInstance();
@@ -114,11 +116,7 @@ public class HibernateTransactionCoordinatorTest {
         testCommandAbort c2 = new testCommandAbort();
         Boolean transactionThrown = false;
 
-        try {
-            htc.runTransaction(c);
-        } catch (TransactionException e) {
-            fail(e.getMessage());
-        }
+        htc.runTransaction(c);
 
         assertTrue(c.getStarted());
         assertTrue(c.getCommitted());
@@ -137,7 +135,8 @@ public class HibernateTransactionCoordinatorTest {
     }
 
     @Test
-    public void testRunTransactionTransactionalCommandArray() {
+    public void testRunTransactionTransactionalCommandArray()
+            throws TransactionException {
 
         TransactionCoordinator htc = HibernateTransactionCoordinator
                 .getInstance();
@@ -145,11 +144,7 @@ public class HibernateTransactionCoordinatorTest {
         testCommandCommit c2 = new testCommandCommit();
         testCommandCommit[] commands = { c, c2 };
 
-        try {
-            htc.runTransaction(commands);
-        } catch (Exception e) {
-            fail("someting bad happend");
-        }
+        htc.runTransaction(commands);
 
         assertTrue(c.getStarted());
         assertTrue(c.getCommitted());
@@ -158,6 +153,25 @@ public class HibernateTransactionCoordinatorTest {
         assertTrue(c2.getStarted());
         assertTrue(c2.getCommitted());
         assertFalse(c2.getAboarted());
+
+        try {
+            htc.runTransaction((TransactionalCommand) null);
+            fail("can't run empty transaction");
+        } catch (TransactionException e) {
+            // This Exception is supposed to be thrown
+        }
+        try {
+            htc.runTransaction();
+            fail("can't run empty transaction");
+        } catch (TransactionException e) {
+            // This Exception is supposed to be thrown
+        }
+        try {
+            htc.runTransaction(new TransactionalCommand[2]);
+            fail("can't run empty transaction");
+        } catch (TransactionException e) {
+            // This Exception is supposed to be thrown
+        }
     }
 
     // TK @Tom: finish this test

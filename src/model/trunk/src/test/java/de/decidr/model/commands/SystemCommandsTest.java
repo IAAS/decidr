@@ -205,7 +205,7 @@ public class SystemCommandsTest {
                             DecidrGlobals.getTime().getTime()));
             assertTrue(serverLoadView.getLoad() >= -1);
             assertTrue(serverLoadView.getNumInstances() >= 0);
-            // DH what's this meant to be?
+            // DH what are legal values for this?
             assertTrue(serverLoadView.getServerTypeId() > -1);
             try {
                 ServerTypeEnum.valueOf(serverLoadView.getServerType());
@@ -222,9 +222,78 @@ public class SystemCommandsTest {
             // is supposed to be thrown
         }
 
-        // RR do LockServerCommand
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                serversSuperNull);
+        Long serverID = serversSuperNull.getResult().get(0).getId();
+        LockServerCommand lockerSuper = new LockServerCommand(
+                new SuperAdminRole(), serverID, true);
+        LockServerCommand unlockerSuper = new LockServerCommand(
+                new SuperAdminRole(), serverID, false);
+        LockServerCommand lockerBasic = new LockServerCommand(
+                new BasicRole(0L), serverID, true);
+        LockServerCommand unlockerBasic = new LockServerCommand(new BasicRole(
+                0L), serverID, false);
 
-        // RR do UpdateServerLoadCommand
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    lockerBasic);
+            fail("BasicRole shouldn't be able to lock servers.");
+        } catch (TransactionException e) {
+            // Exception is supposed to be thrown
+        }
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                lockerSuper);
+        // RR check that the server was locked
+
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    unlockerBasic);
+            fail("BasicRole shouldn't be able to unlock servers.");
+        } catch (TransactionException e) {
+            // Exception is supposed to be thrown
+        }
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                unlockerSuper);
+        // DH & MF: igbt es eine Methode einen Server zu bekommen wenn man die
+        // ID kennt, außer alle zu holen und durchzuiterieren? (ohne hibernate
+        // direkt zu benutzen!)
+        // RR check that the server was unlocked
+
+        UpdateServerLoadCommand loader;
+        byte[] goodLoads = new byte[] { 0, -1, 100, 50 };
+        byte[] badLoads = new byte[] { -2, -100, 101, 127 };
+        for (byte b : goodLoads) {
+            loader = new UpdateServerLoadCommand(new SuperAdminRole(),
+                    serverID, b);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(loader);
+            // RR check that the server got the correct load
+        }
+
+        for (byte b : goodLoads) {
+            loader = new UpdateServerLoadCommand(new BasicRole(0L), serverID, b);
+            try {
+                HibernateTransactionCoordinator.getInstance().runTransaction(
+                        loader);
+                fail("BasicRole shouldn't be able to update server load.");
+            } catch (TransactionException e) {
+                // is supposed to be thrown
+            }
+        }
+
+        for (byte b : badLoads) {
+            loader = new UpdateServerLoadCommand(new SuperAdminRole(),
+                    serverID, b);
+            try {
+                HibernateTransactionCoordinator.getInstance().runTransaction(
+                        loader);
+                fail("shouldn't be able to set this value.");
+            } catch (TransactionException e) {
+                // is supposed to be thrown
+            }
+        }
 
         GetServersCommand getAllServers = new GetServersCommand(
                 new SuperAdminRole(), (ServerTypeEnum) null);
@@ -268,6 +337,9 @@ public class SystemCommandsTest {
      */
     @Test
     public void testSystemSettingsCommands() {
+        SystemSettings settings = new SystemSettings();
+        SetSystemSettingsCommand setter = new SetSystemSettingsCommand(
+                new SuperAdminRole(), settings);
         fail("Not yet implemented"); // RR SetSystemSettingsCommand
         fail("Not yet implemented"); // RR GetSystemSettingsCommand
     }

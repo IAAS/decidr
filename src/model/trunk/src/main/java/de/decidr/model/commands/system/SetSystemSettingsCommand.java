@@ -21,8 +21,10 @@ public class SetSystemSettingsCommand extends SystemCommand {
     /**
      * Sets the system settings loglevel and autoAcceptNewTenants.
      * 
-     * @param role
+     * @param actor
      *            the user which executes the command
+     * @param newSettings
+     *            TODO comment
      */
     public SetSystemSettingsCommand(Role actor, SystemSettings newSettings) {
         super(actor, null);
@@ -33,7 +35,8 @@ public class SetSystemSettingsCommand extends SystemCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
         SystemSettings currentSettings = (SystemSettings) evt.getSession()
-                .createQuery("from SystemSettings").setMaxResults(1).uniqueResult();
+                .createQuery("from SystemSettings").setMaxResults(1)
+                .uniqueResult();
 
         if (currentSettings == null) {
             throw new EntityNotFoundException(SystemSettings.class);
