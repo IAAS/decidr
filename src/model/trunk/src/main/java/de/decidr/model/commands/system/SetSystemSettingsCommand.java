@@ -19,12 +19,12 @@ public class SetSystemSettingsCommand extends SystemCommand {
     private SystemSettings newSettings;
 
     /**
-     * Sets the system settings loglevel and autoAcceptNewTenants.
+     * Sets the system settings.
      * 
      * @param actor
      *            the user which executes the command
      * @param newSettings
-     *            TODO comment
+     *            the new system settings
      */
     public SetSystemSettingsCommand(Role actor, SystemSettings newSettings) {
         super(actor, null);

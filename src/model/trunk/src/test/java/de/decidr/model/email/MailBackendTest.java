@@ -41,7 +41,6 @@ import org.junit.Test;
  * 
  * @author Reinhold
  */
-// TODO check individual test cases for completeness
 // MF addFile(File) seems not to be tested
 // MF addFile(InputSteam) seems not to be tested
 // MF addFile(URI) seems not to be tested
