@@ -29,12 +29,13 @@ public class TransactionAbortedEvent extends TransactionEvent {
     protected Exception exception;
 
     /**
-     * Creates a new TransactionAbortedEvent. This event is fired after a transaction has been rolled back.
+     * Creates a new TransactionAbortedEvent which signals the event receiver
+     * that the transaction has been aborted.
      * 
      * @param session
-     *            the current session
+     *            current Hibernate session
      * @param exception
-     *            the exception which caused the rollback
+     *            the exception that caused the rollback
      */
     public TransactionAbortedEvent(Session session, Exception exception,
             Boolean innerTransaction) {

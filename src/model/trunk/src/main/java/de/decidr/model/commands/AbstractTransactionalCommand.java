@@ -45,7 +45,9 @@ public abstract class AbstractTransactionalCommand implements
      */
     public void transactionAborted(TransactionAbortedEvent evt)
             throws TransactionException {
-        // Caught exceptions will the thrown by the hibernate transaction coordinator
+        // intentionally left empty, the exception object in evt is just fyi.
+        // The transaction coordinator will throw the exception after this
+        // method has been executed.
     }
 
     /**

@@ -704,17 +704,31 @@ public final class NotificationEvents {
     }
 
     /**
-     * Sends a notification email to invited user that informs the (registered or
-     * unregistered) user that he was invited to participate in a workflow of a
-     * tenant that he is not a member of.
+     * Sends a notification email to a registered user that he was invited to
+     * participate in a workflow of a tenant that he is not a member of.
      * 
      * @param invitedUser
      *            receiver of the notification
      * @param createdWorkflowInstance
      *            workflow instance in which the invited user should participate
      */
-    public static void invitedUserAsWorkflowParticipant(User invitedUser,
-            WorkflowInstance createdWorkflowInstance) {
+    public static void invitedRegisteredUserAsWorkflowParticipant(
+            User invitedUser, WorkflowInstance createdWorkflowInstance) {
+        // FIXME Auto-generated method stub
+
+    }
+
+    /**
+     * Sends a notification email to an unregistered user that he was invited to
+     * participate in a workflow of a tenant that he is not a member of.
+     * 
+     * @param invitedUser
+     *            receiver of the notification
+     * @param createdWorkflowInstance
+     *            workflow instance in which the invited user should participate
+     */
+    public static void invitedUnregisteredUserAsWorkflowParticipant(
+            User invitedUser, WorkflowInstance createdWorkflowInstance) {
         // FIXME Auto-generated method stub
 
     }

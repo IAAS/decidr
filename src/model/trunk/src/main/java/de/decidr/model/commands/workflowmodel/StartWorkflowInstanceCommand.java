@@ -140,8 +140,14 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
 
         // send notification emails
         for (User invitedUser : usersThatNeedInvitations) {
-            NotificationEvents.invitedUserAsWorkflowParticipant(invitedUser,
-                    createdWorkflowInstance);
+            if (invitedUser.getUserProfile() != null) {
+                NotificationEvents.invitedRegisteredUserAsWorkflowParticipant(
+                        invitedUser, createdWorkflowInstance);
+            } else {
+                NotificationEvents
+                        .invitedUnregisteredUserAsWorkflowParticipant(
+                                invitedUser, createdWorkflowInstance);
+            }
         }
     }
 

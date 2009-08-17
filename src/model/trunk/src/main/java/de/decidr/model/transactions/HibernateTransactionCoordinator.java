@@ -66,7 +66,15 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     private Integer transactionDepth;
 
-    // using array list to ensure that a command could be executed several times in a transaction chain
+    /**
+     * A list of commands whose transactionStarted() method has been called and
+     * should therefore be notified of the transactionAborted() and
+     * transactionCommitted() events.
+     * 
+     * It is intended that a single command instance can be present more than
+     * once in a command chain and the expected behavior in this case is to
+     * receive multiple events as well.
+     */
     private ArrayList<TransactionalCommand> notifiedReceivers = null;
 
     /**
@@ -77,8 +85,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     }
 
     /**
-     * Creates a new HiberbateTransactionCoordinator. The coordinator is needed
-     * to execute the commands.
+     * Creates the HibernateTransactionCoordinator singleton instance.
      */
     private HibernateTransactionCoordinator() {
         super();
@@ -223,8 +230,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * Fires transaction started event.
      * 
      * @param receiver
-     *            tansactional command which should receive the event
-     * 
+     *            the receiver of the "transaction started" event.
      */
     private void fireTransactionStarted(TransactionalCommand receiver)
             throws TransactionException {
@@ -238,9 +244,9 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * Fires transaction aborted event.
      * 
      * @param receiver
-     *            tansactional command which should receive the event
+     *            the receiver of the "transaction aborted" event
      * @param caughtException
-     *            the exception which caused the event
+     *            the exception that caused the rollback.
      */
     private void fireTransactionAborted(TransactionalCommand receiver,
             Exception caughtException) throws TransactionException {
