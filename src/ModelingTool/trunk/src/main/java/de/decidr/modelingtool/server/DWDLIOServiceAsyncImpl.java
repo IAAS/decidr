@@ -33,6 +33,8 @@ import de.decidr.modelingtool.client.io.DWDLIOServiceAsync;
  * @version 0.1
  */
 public class DWDLIOServiceAsyncImpl implements DWDLIOServiceAsync {
+    
+    private static Long userId;
 
     @Override
     public String load(long workflowModelId, AsyncCallback<String> callback) {
@@ -41,7 +43,7 @@ public class DWDLIOServiceAsyncImpl implements DWDLIOServiceAsync {
         // TODO: get user role from session data
 
         // create facade from model
-        WorkflowModelFacade facade = new WorkflowModelFacade(new UserRole());
+        WorkflowModelFacade facade = new WorkflowModelFacade(new UserRole(userId));
 
         try {
             Item workflowModel = facade.getWorkflowModel(workflowModelId);
@@ -84,6 +86,10 @@ public class DWDLIOServiceAsyncImpl implements DWDLIOServiceAsync {
         } catch (TransactionException e) {
             callback.onFailure(new SaveDWDLException("Couldn't save DWDL."));
         }
+    }
+    
+    public static void setUserId(Long userId) {
+        DWDLIOServiceAsyncImpl.userId = userId;
     }
 
 }
