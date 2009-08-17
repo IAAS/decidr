@@ -70,6 +70,11 @@ public class DecidrGlobals {
     public static final String URL_PARAM_AUTHENTICATION_KEY = "authkey";
 
     /**
+     * URL parameter name that indicates that the user has to be registered to follow this url.
+     */
+    public static final String URL_PARAM_REGISTRATION_REQUIRED = "regreq";
+
+    /**
      * The last time when the ESB url was updated
      */
     private static Calendar lastEsbUrlFetch = null;
