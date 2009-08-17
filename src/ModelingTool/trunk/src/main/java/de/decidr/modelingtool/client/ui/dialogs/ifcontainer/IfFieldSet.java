@@ -22,6 +22,7 @@ import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
 import com.google.gwt.user.client.ui.Label;
 
+import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.model.ifcondition.Condition;
 import de.decidr.modelingtool.client.model.ifcondition.Operator;
 import de.decidr.modelingtool.client.model.variable.Variable;
@@ -40,9 +41,14 @@ public class IfFieldSet {
     private ComboBox<Variable> leftOperandField;
     private SimpleComboBox<String> operatorList;
     private ComboBox<Variable> rightOperandField;
+    private OrderComboBox orderField;
 
-    public IfFieldSet(Condition condition) {
-        label = new Label(condition.getLabel());
+    private Condition condition;
+
+    public IfFieldSet(Condition condition, int count) {
+        this.condition = condition;
+
+        label = new Label(condition.getName());
 
         typeSelector = new SimpleComboBox<String>();
         for (VariableType t : VariableType.values()) {
@@ -54,9 +60,9 @@ public class IfFieldSet {
                     @Override
                     public void selectionChanged(
                             SelectionChangedEvent<Variable> se) {
-                        // JS: rewrite this
                         leftOperandField.setEnabled(true);
                         leftOperandField.getStore().removeAll();
+                        leftOperandField.clearSelections();
                         leftOperandField
                                 .getStore()
                                 .add(
@@ -67,7 +73,13 @@ public class IfFieldSet {
                                                                         .getValue()
                                                                         .getValue()))
                                                 .getModels());
+
+                        operatorList.setEnabled(true);
+                        updateOperatorListEntries();
+
+                        rightOperandField.setEnabled(true);
                         rightOperandField.getStore().removeAll();
+                        rightOperandField.clearSelections();
                         rightOperandField
                                 .getStore()
                                 .add(
@@ -90,40 +102,44 @@ public class IfFieldSet {
         }
         leftOperandField.setEditable(false);
         leftOperandField.setEnabled(false);
-        leftOperandField
-                .addSelectionChangedListener(new SelectionChangedListener<Variable>() {
-                    @Override
-                    public void selectionChanged(
-                            SelectionChangedEvent<Variable> se) {
-                        operatorList.getStore().removeAll();
-                        for (Operator op : Operator
-                                .getOperatorsForType(leftOperandField.getValue()
-                                        .getType())) {
-                            operatorList.add(op.getDisplayString());
-                        }
-                    }
-                });
 
         operatorList = new SimpleComboBox<String>();
         // JS check this if condition
-        if (condition.getLeftOperandId() != null) {
-            for (Operator op : Operator.getOperatorsForType(VariablesFilter
-                    .getVariableById(condition.getLeftOperandId()).getType())) {
-                operatorList.add(op.getDisplayString());
-
-            }
-            operatorList.setSimpleValue(condition.getOperator()
-                    .getDisplayString());
+        if (condition.getLeftOperandId() != null
+                && condition.getRightOperandId() != null) {
+            updateOperatorListEntries();
         }
+        operatorList.setEditable(false);
+        operatorList.setEnabled(false);
 
         rightOperandField = new ComboBox<Variable>();
         rightOperandField.setDisplayField(Variable.LABEL);
         rightOperandField.setStore(VariablesFilter.getAllVariables());
         if (condition.getRightOperandId() != null) {
-            rightOperandField.setValue(VariablesFilter.getVariableById(condition
-                    .getRightOperandId()));
+            rightOperandField.setValue(VariablesFilter
+                    .getVariableById(condition.getRightOperandId()));
         }
         rightOperandField.setEditable(false);
+        rightOperandField.setEnabled(false);
+
+        orderField = new OrderComboBox(count);
+    }
+
+    private void updateOperatorListEntries() {
+        operatorList.getStore().removeAll();
+        operatorList.clearSelections();
+        if (typeSelector != null && typeSelector.getValue() != null
+                && typeSelector.getValue().getValue() != null) {
+            for (Operator op : Operator.getOperatorsForType(VariableType
+                    .getTypeFromLocalName(typeSelector.getValue().getValue()))) {
+                operatorList.add(op.getDisplayString());
+
+            }
+        }
+        if (condition.getOperator() != null) {
+            operatorList.setSimpleValue(condition.getOperator()
+                    .getDisplayString());
+        }
     }
 
     public Label getLabel() {
@@ -144,5 +160,16 @@ public class IfFieldSet {
 
     public ComboBox<Variable> getRightOperandField() {
         return rightOperandField;
+    }
+
+    public Integer getOrder() {
+        Integer result;
+        if (orderField.getValue().getValue() == ModelingToolWidget.messages
+                .fallback()) {
+            result = 0;
+        } else {
+            result = new Integer(orderField.getValue().getValue());
+        }
+        return result;
     }
 }

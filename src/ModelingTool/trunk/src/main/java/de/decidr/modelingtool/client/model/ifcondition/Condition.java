@@ -16,6 +16,7 @@
 
 package de.decidr.modelingtool.client.model.ifcondition;
 
+import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.model.ContainerStartConnectionModel;
 
 /**
@@ -25,28 +26,37 @@ import de.decidr.modelingtool.client.model.ContainerStartConnectionModel;
  */
 public class Condition extends ContainerStartConnectionModel {
 
-    private String label;
     private Long leftOperandId;
     private Operator operator;
     private Long rightOperandId;
     private Integer order;
 
+    private static Integer counter;
+
     public Condition() {
         super();
-        // JS null fields
+        if (counter == null) {
+            counter = new Integer(1);
+        } else {
+            counter = counter + 1;
+        }
+        this.setName(ModelingToolWidget.messages.condition() + " "
+                + counter.toString());
     }
 
-    public Condition(String label, Long leftOperandId, Operator operator,
+    public Condition(String name, Long leftOperandId, Operator operator,
             Long rightOperandId, Integer order) {
-        this.label = label;
+        super();
+        if (counter == null) {
+            counter = new Integer(1);
+        } else {
+            counter = counter + 1;
+        }
+        this.setName(name);
         this.leftOperandId = leftOperandId;
         this.operator = operator;
         this.rightOperandId = rightOperandId;
         this.order = order;
-    }
-
-    public String getLabel() {
-        return label;
     }
 
     public Long getLeftOperandId() {
@@ -63,10 +73,6 @@ public class Condition extends ContainerStartConnectionModel {
 
     public Integer getOrder() {
         return order;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
     }
 
     public void setLeftOperandId(Long leftOperandId) {

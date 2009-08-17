@@ -90,6 +90,12 @@ public interface Messages extends Constants {
     /* If container */
     String ifContainer();
 
+    String condition();
+
+    String fallback();
+
+    String conditionOrderWarning();
+
     /* Variable editor */
     String enterVariableName();
 
@@ -118,6 +124,8 @@ public interface Messages extends Constants {
     String configVarColumn();
 
     /* windows common */
+    String warningTitle();
+
     String okButton();
 
     String cancelButton();

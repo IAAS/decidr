@@ -59,7 +59,7 @@ public class IfContainerModel extends ContainerModel {
     @Override
     public void setProperties(NodePropertyData properties) {
         /* remove old objects */
-        for (ConnectionModel con : getChildConnectionModels()) {
+        for (ConnectionModel con : this.getChildConnectionModels()) {
             if (con instanceof Condition) {
                 // JS coverthink complete method
                 getChildConnectionModels().remove(con);

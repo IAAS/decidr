@@ -23,6 +23,7 @@ import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -57,7 +58,7 @@ public class IfWindow extends Dialog {
     public IfWindow() {
         super();
         this.setLayout(new FitLayout());
-        this.setSize(400, 200);
+        this.setSize(600, 200);
         this.setResizable(true);
         createContentPanel();
         createButtons();
@@ -89,10 +90,18 @@ public class IfWindow extends Dialog {
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
-                        changeWorkflowModel();
-                        DialogRegistry.getInstance().hideDialog(
-                                IfWindow.class.getName());
+                        if (validateInputs()) {
+                            changeWorkflowModel();
+                            DialogRegistry.getInstance().hideDialog(
+                                    IfWindow.class.getName());
+                        } else {
+                            MessageBox.alert(ModelingToolWidget.messages
+                                    .warningTitle(),
+                                    ModelingToolWidget.messages
+                                            .conditionOrderWarning(), null);
+                        }
                     }
+
                 }));
         addButton(new Button(ModelingToolWidget.messages.cancelButton(),
                 new SelectionListener<ButtonEvent>() {
@@ -109,6 +118,25 @@ public class IfWindow extends Dialog {
         this.model = (IfContainerModel) node.getModel();
     }
 
+    private boolean validateInputs() {
+        Boolean result = false;
+        /*
+         * There has to be a default condition. Every index must not be used
+         * more than once
+         */
+        for (int order = 0; order < fieldsets.size(); order++) {
+            Boolean indexFound = false;
+            for (IfFieldSet fs : fieldsets) {
+                if (fs.getOrder() == order) {
+                    indexFound = true;
+                }
+            }
+            /* If the index was not found, that means the input is not valid. */
+            result = indexFound;
+        }
+        return result;
+    }
+
     private void changeWorkflowModel() {
         // JS make this nicer
         IfContainerModel newModel = new IfContainerModel();
@@ -118,9 +146,9 @@ public class IfWindow extends Dialog {
             Operator operator = Operator.getOperatorFromDisplayString(fs
                     .getOperatorList().getValue().getValue());
             Long operand2Id = fs.getRightOperandField().getValue().getId();
-            // JS implement order properly
+            Integer order = fs.getOrder();
             newModel.addCondition(new Condition(label, operand1Id, operator,
-                    operand2Id, fieldsets.indexOf(fs)));
+                    operand2Id, order));
         }
         CommandStack.getInstance()
                 .executeCommand(
@@ -132,7 +160,8 @@ public class IfWindow extends Dialog {
         for (Condition con : model.getConditions()) {
             table.insertRow(table.getRowCount());
 
-            IfFieldSet fieldset = new IfFieldSet(con);
+            IfFieldSet fieldset = new IfFieldSet(con, model.getConditions()
+                    .size());
             fieldsets.add(fieldset);
             table.setWidget(table.getRowCount() - 1, 0, fieldset.getLabel());
             table.setWidget(table.getRowCount() - 1, 1, fieldset
@@ -143,6 +172,8 @@ public class IfWindow extends Dialog {
                     .getOperatorList());
             table.setWidget(table.getRowCount() - 1, 4, fieldset
                     .getRightOperandField());
+            table.setWidget(table.getRowCount() - 1, 5, new OrderComboBox(model
+                    .getConditions().size()));
         }
     }
 
