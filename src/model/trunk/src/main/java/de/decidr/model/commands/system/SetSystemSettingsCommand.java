@@ -66,6 +66,9 @@ public class SetSystemSettingsCommand extends SystemCommand {
         currentSettings.setSystemEmailAddress(newSettings
                 .getSystemEmailAddress());
         currentSettings.setSystemName(newSettings.getSystemName());
+        // FIXME it's very difficult to maintain the above code, try to use
+        // reflection instead to copy all properties except for id,
+        // modififeddate...
 
         evt.getSession().update(currentSettings);
     }
