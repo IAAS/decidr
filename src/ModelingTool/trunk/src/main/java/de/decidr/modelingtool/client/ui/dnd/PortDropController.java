@@ -74,12 +74,21 @@ public class PortDropController extends AbstractDropController {
     public void onEnter(DragContext context) {
         // TODO Auto-generated method stub
         super.onEnter(context);
+        
+        try {
+            onPreviewDrop(context);
+            this.getDropTarget().setPixelSize(20, 20);
+        } catch (VetoDragException e) {
+            
+        }
     }
 
     @Override
     public void onLeave(DragContext context) {
         // TODO Auto-generated method stub
         super.onLeave(context);
+        
+        this.getDropTarget().setPixelSize(8, 8);
     }
 
     @Override
@@ -91,8 +100,6 @@ public class PortDropController extends AbstractDropController {
     @Override
     public void onPreviewDrop(DragContext context) throws VetoDragException {
         super.onPreviewDrop(context);
-        
-        System.out.println("VETO");
 
         if (context.dropController.getDropTarget() instanceof Port) {
             Port port = (Port) context.dropController.getDropTarget();

@@ -20,13 +20,17 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
-import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.decidr.modelingtool.client.command.CommandList;
+import de.decidr.modelingtool.client.command.RemoveNodeCommand;
+import de.decidr.modelingtool.client.command.UndoableCommand;
 import de.decidr.modelingtool.client.exception.InvalidTypeException;
+import de.decidr.modelingtool.client.exception.OperationNotAllowedException;
 import de.decidr.modelingtool.client.model.HasChildModels;
+import de.decidr.modelingtool.client.ui.dnd.ContainerDropController;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
@@ -50,8 +54,7 @@ public abstract class Container extends Node implements HasChildren {
     private Collection<Connection> childConnections = new HashSet<Connection>();
 
     /** The drop controller of the container. */
-    private DropController dropController = new AbsolutePositionDropController(
-            this);
+    private DropController dropController = new ContainerDropController(this);
 
     /**
      * Indicates if the drop controller of the container is registered to the
@@ -139,7 +142,7 @@ public abstract class Container extends Node implements HasChildren {
     }
 
     @Override
-    public HasChildModels getHasChildModelsModel() throws InvalidTypeException {   
+    public HasChildModels getHasChildModelsModel() throws InvalidTypeException {
         if (model instanceof HasChildModels) {
             return (HasChildModels) model;
         } else {
@@ -150,6 +153,22 @@ public abstract class Container extends Node implements HasChildren {
     @Override
     public Collection<Node> getNodes() {
         return childNodes;
+    }
+
+    @Override
+    public UndoableCommand getRemoveDependentItemsCommand() {
+        CommandList cmdList = new CommandList();
+
+        for (Node node : childNodes) {
+            try {
+                cmdList.addCommand(new RemoveNodeCommand(node));
+            } catch (OperationNotAllowedException e) {
+                // JE: node is not deletable: fix it!
+            }
+        }
+
+        cmdList.addCommand(super.getRemoveDependentItemsCommand());
+        return cmdList;
     }
 
     public boolean isDropControllerRegistered() {
@@ -206,9 +225,6 @@ public abstract class Container extends Node implements HasChildren {
         super.refreshNodeSize();
         refreshPortPositions();
     }
-
-    @Override
-    public abstract void showPropertyWindow();
 
     @Override
     protected void refreshPortPositions() {
@@ -277,6 +293,9 @@ public abstract class Container extends Node implements HasChildren {
         this.add(containerStartPort);
         containerStartPort.setParentNode(this);
     }
+
+    @Override
+    public abstract void showPropertyWindow();
 
     /**
      * Unregisteres the container drop controller from the workflow drag

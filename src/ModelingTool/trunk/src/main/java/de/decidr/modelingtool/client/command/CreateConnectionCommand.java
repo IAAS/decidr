@@ -67,7 +67,7 @@ public class CreateConnectionCommand implements UndoableCommand {
         // container
         if ((startPort instanceof ContainerStartPort && startPort
                 .getParentNode() instanceof IfContainer)
-                || (endPort instanceof ContainerStartPort && startPort
+                || (endPort instanceof ContainerStartPort && endPort
                         .getParentNode() instanceof IfContainer)) {
             // create condition
             model = new Condition();

@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.command.CreateConnectionCommand;
+import de.decidr.modelingtool.client.command.MoveConnectionCommand;
 import de.decidr.modelingtool.client.command.RemoveConnectionCommand;
 import de.decidr.modelingtool.client.ui.Connection;
 import de.decidr.modelingtool.client.ui.HasChildren;
@@ -47,12 +48,14 @@ public class ConnectionDragController extends PickupDragController {
      */
     private boolean existingConnection;
 
+    private Port oldStartPort = null;
+    private Port oldEndPort = null;
+
     /**
      * On drag start a connectionless dragbox is added to the port to be able to
      * drag new connections from that port at later time (if allowed).
      */
-    //private ConnectionDragBox newDragBox = null;
-
+    // private ConnectionDragBox newDragBox = null;
     /**
      * The constructor.
      * 
@@ -92,10 +95,21 @@ public class ConnectionDragController extends PickupDragController {
                 }
 
                 // if box is dropped on an assigned port
-                if (context.finalDropController != null) {                   
-                    // execute create connection command
-                    CommandStack.getInstance().executeCommand(
-                            new CreateConnectionCommand(connection));
+                if (context.finalDropController != null) {
+                    // check if connection has only been moved and was not
+                    // created
+                    if (existingConnection) {
+                        assert oldStartPort != null;
+                        assert oldEndPort != null;
+                        CommandStack.getInstance().executeCommand(
+                                new MoveConnectionCommand(connection,
+                                        oldStartPort, oldEndPort));
+                    } else {
+                        // execute create connection command
+                        CommandStack.getInstance().executeCommand(
+                                new CreateConnectionCommand(connection));
+                    }
+
                     // select connection
                     SelectionHandler.getInstance().select(connection);
 
@@ -107,12 +121,14 @@ public class ConnectionDragController extends PickupDragController {
                     } else {
                         // unglue and delete connection with drag boxes
                         // delete other drag box
-                        otherDragBox.getGluedPort().removeConnectionDragBox(otherDragBox);
+                        otherDragBox.getGluedPort().removeConnectionDragBox(
+                                otherDragBox);
                         otherDragBox.setGluedPort(null);
                         otherDragBox.setConnection(null);
 
                         // delete dragged drag box
-                        draggedDragBox.getGluedPort().removeConnectionDragBox(draggedDragBox);
+                        draggedDragBox.getGluedPort().removeConnectionDragBox(
+                                draggedDragBox);
                         draggedDragBox.setGluedPort(null);
                         draggedDragBox.setConnection(null);
 
@@ -162,7 +178,7 @@ public class ConnectionDragController extends PickupDragController {
                 startDragBox.getGluedPort().add(startDragBox);
 
                 // make dragbox draggable
-                startDragBox.makeDraggable();
+                startDragBox.makeDraggable(true);
 
                 // set drag boxes and add connection to workflow
                 connection.setStartDragBox(startDragBox);
@@ -174,6 +190,8 @@ public class ConnectionDragController extends PickupDragController {
             } else {
                 // connection is an existing connection
                 existingConnection = true;
+                oldStartPort = connection.getStartDragBox().getGluedPort();
+                oldEndPort = connection.getEndDragBox().getGluedPort();
             }
 
         }

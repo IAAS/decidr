@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -160,7 +159,7 @@ public abstract class Port extends AbsolutePanel {
             //setWidgetPosition(singleDragBox, 0, 0);
 
             singleDragBox.setVisibleStyle(false);
-            singleDragBox.makeDraggable();
+            singleDragBox.makeDraggable(false);
         }
     }
     
@@ -250,24 +249,24 @@ public abstract class Port extends AbsolutePanel {
 
     public void removeConnectionDragBox(ConnectionDragBox dragBox) {
         if (dragBox == singleDragBox) {
+            // remove single drag box
             singleDragBox = null;
         } else {
-        
             // remove from glued drag boxes, if present
             gluedDragBoxes.remove(dragBox);
+        }
             
-            if (multipleConnectionsAllowed) {
-                if (singleDragBox == null) {
-                    createSingleDragBox();
-                }
-            } else {
-                if (singleDragBox == null && gluedDragBoxes.isEmpty()) {
-                    createSingleDragBox();
-                }
+        if (multipleConnectionsAllowed) {
+            if (singleDragBox == null) {
+                createSingleDragBox();
+            }
+        } else {
+            if (singleDragBox == null && gluedDragBoxes.isEmpty()) {
+                createSingleDragBox();
             }
         }
         
-       remove(dragBox);
+        remove(dragBox);
     }
 
     /**

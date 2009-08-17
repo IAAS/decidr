@@ -218,7 +218,7 @@ public abstract class Node extends AbsolutePanel implements
      * 
      * @return The command containing the connection delete commands.
      */
-    public UndoableCommand getRemoveConnectionsCommand() {
+    public UndoableCommand getRemoveDependentItemsCommand() {
         CommandList cmdList = new CommandList();
 
         if (inputPort != null) {

@@ -30,7 +30,7 @@ import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 /**
  * This drag box is used to drag connections. Every connection has a connection
  * drag box at each end.
- *
+ * 
  * @author Johannes Engelhardt
  */
 public class ConnectionDragBox extends DragBox {
@@ -50,13 +50,14 @@ public class ConnectionDragBox extends DragBox {
 
     /**
      * Initializes the drag box an sets the glued port.
-     *
-     * @param gluedPort The glued port
+     * 
+     * @param gluedPort
+     *            The glued port
      */
     public ConnectionDragBox(Port gluedPort) {
         super(DragDirection.ALL);
         this.gluedPort = gluedPort;
-        
+
         SelectionHandler sh = SelectionHandler.getInstance();
         this.addMouseDownHandler(sh);
     }
@@ -104,8 +105,9 @@ public class ConnectionDragBox extends DragBox {
 
     /**
      * Sets the style of the drag box to normal or invisible.
-     *
-     * @param visible The visibility state of the drag box.
+     * 
+     * @param visible
+     *            The visibility state of the drag box.
      */
     public void setVisibleStyle(boolean visible) {
         if (visible) {
@@ -119,20 +121,30 @@ public class ConnectionDragBox extends DragBox {
      * Gets the right drag controller from the dnd registry and makes this
      * draggable, if gluedPort is not null.
      */
-    public void makeDraggable() {
+    public void makeDraggable(boolean isOnTargetPort) {
         Port port = getGluedPort();
-        DragController dc;
+        DragController dc = null;
 
         if (port instanceof InputPort || port instanceof ContainerExitPort) {
-            dc = DndRegistry.getInstance().getDragController(
-                    "InputPortDragController");
-            dc.makeDraggable(this);
+            if (isOnTargetPort) {
+                dc = DndRegistry.getInstance().getDragController(
+                        "OutputPortDragController");
+            } else {
+                dc = DndRegistry.getInstance().getDragController(
+                        "InputPortDragController");
+            }
         } else if (port instanceof OutputPort
                 || port instanceof ContainerStartPort) {
-            dc = DndRegistry.getInstance().getDragController(
-                    "OutputPortDragController");
-            dc.makeDraggable(this);
+            if (isOnTargetPort) {
+                dc = DndRegistry.getInstance().getDragController(
+                        "InputPortDragController");
+            } else {
+                dc = DndRegistry.getInstance().getDragController(
+                        "OutputPortDragController");
+            }
         }
+
+        dc.makeDraggable(this);
     }
-    
+
 }

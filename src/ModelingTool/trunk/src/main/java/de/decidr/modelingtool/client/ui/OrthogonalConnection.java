@@ -83,7 +83,7 @@ public class OrthogonalConnection extends Connection {
             absPanel.add(startLine);
             absPanel.add(midLine);
             absPanel.add(endLine);
-            // add label to panel /bring to front
+            // add label to panel / bring to front
             absPanel.add(label);
 
             if (startY <= endY) {

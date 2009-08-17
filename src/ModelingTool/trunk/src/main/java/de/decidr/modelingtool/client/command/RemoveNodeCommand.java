@@ -45,6 +45,8 @@ public class RemoveNodeCommand implements UndoableCommand {
 
     /** This Command removes any connections connected to the node. */
     private UndoableCommand removeConnectionsCmd;
+    
+    private UndoableCommand removeChildNodesCmd;
 
     /**
      * Constructor for removing the node.
@@ -65,7 +67,7 @@ public class RemoveNodeCommand implements UndoableCommand {
 
         this.selected = node.isSelected();
 
-        removeConnectionsCmd = node.getRemoveConnectionsCommand();
+        removeConnectionsCmd = node.getRemoveDependentItemsCommand();
     }
 
     @Override

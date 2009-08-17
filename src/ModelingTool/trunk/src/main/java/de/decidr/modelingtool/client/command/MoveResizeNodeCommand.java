@@ -92,7 +92,7 @@ public class MoveResizeNodeCommand implements UndoableCommand {
         this.newGraphicWidth = node.getGraphicWidth();
         this.newGraphicHeight = node.getGraphicHeight();
 
-        removeConnectionsCmd = node.getRemoveConnectionsCommand();
+        removeConnectionsCmd = node.getRemoveDependentItemsCommand();
     }
 
     /**
