@@ -17,8 +17,10 @@
 package de.decidr.model.commands.workflowmodel;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import org.hibernate.Session;
@@ -155,17 +157,18 @@ public class SetWorkflowAdministratorsCommand extends WorkflowModelCommand
         // we are separating creating the invitations from sending the
         // notification emails because we cannot roll back the latter.
         makeWorkflowAdmin(addImmediately, model, evt.getSession());
-        inviteAsWorkflowAdmin(registerInvitation, model, evt.getSession());
-        inviteAsWorkflowAdmin(joinTenantInvitation, model, evt.getSession());
+        
+        Set<Invitation> registeredInvitations = inviteAsWorkflowAdmin(registerInvitation, model, evt.getSession());
+        Set<Invitation> unregistered = inviteAsWorkflowAdmin(joinTenantInvitation, model, evt.getSession());
 
-        for (User invitedUser : registerInvitation) {
+        for (Invitation invi : registeredInvitations) {
             NotificationEvents.invitedUnregisteredUserAsWorkflowAdmin(
-                    invitedUser, model);
+                    invi, model);
         }
 
-        for (User invitedUser : joinTenantInvitation) {
+        for (Invitation invi : unregistered) {
             NotificationEvents.invitedRegisteredUserAsWorkflowAdmin(
-                    invitedUser, model);
+                    invi, model);
         }
     }
 
@@ -179,8 +182,11 @@ public class SetWorkflowAdministratorsCommand extends WorkflowModelCommand
      * @param session
      *            current Hibernate sesion
      */
-    private void inviteAsWorkflowAdmin(List<User> users, WorkflowModel model,
+    @SuppressWarnings("unchecked")
+    private Set<Invitation> inviteAsWorkflowAdmin(List<User> users, WorkflowModel model,
             Session session) {
+        
+        Set<Invitation> invis= new HashSet();
 
         for (User invitedUser : users) {
             Invitation invitation = new Invitation();
@@ -200,7 +206,11 @@ public class SetWorkflowAdministratorsCommand extends WorkflowModelCommand
             invitation.setSender(sender);
 
             session.save(invitation);
+            
+            invis.add(invitation);
         }
+        
+        return invis;
     }
 
     /**

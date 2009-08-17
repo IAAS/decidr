@@ -17,8 +17,10 @@
 package de.decidr.model.commands.workflowmodel;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import org.hibernate.Query;
@@ -127,7 +129,7 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         createWorkflowInstance(deployedWorkflowModel, evt.getSession());
 
         // create invitations
-        createInvitations(usersThatNeedInvitations, evt.getSession());
+        Set<Invitation> invitations = createInvitations(usersThatNeedInvitations, evt.getSession());
 
         // associate users with the new workflow instance
         associateWithNewWorkflowInstance(usersThatAreAlreadyTenantMembers, evt
@@ -139,14 +141,14 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         }
 
         // send notification emails
-        for (User invitedUser : usersThatNeedInvitations) {
-            if (invitedUser.getUserProfile() != null) {
+        for (Invitation invitation : invitations) {
+            if (invitation.getReceiver().getUserProfile() != null) {
                 NotificationEvents.invitedRegisteredUserAsWorkflowParticipant(
-                        invitedUser, createdWorkflowInstance);
+                        invitation, createdWorkflowInstance);
             } else {
                 NotificationEvents
                         .invitedUnregisteredUserAsWorkflowParticipant(
-                                invitedUser, createdWorkflowInstance);
+                                invitation, createdWorkflowInstance);
             }
         }
     }
@@ -178,8 +180,13 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
      *            list of users to invite
      * @param session
      *            current Hibernate sesion
+     * @return 
      */
-    private void createInvitations(List<User> invitedUsers, Session session) {
+    @SuppressWarnings("unchecked")
+    private Set<Invitation> createInvitations(List<User> invitedUsers, Session session) {
+        
+        Set<Invitation> invis = new HashSet();
+        
         for (User invitedUser : invitedUsers) {
             Invitation invitation = new Invitation();
             invitation.setAdministrateWorkflowModel(null);
@@ -199,7 +206,10 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
             invitation.setSender(sender);
 
             session.save(invitation);
+            invis.add(invitation);
         }
+        
+        return invis;
     }
 
     /**
