@@ -11,6 +11,7 @@ package de.decidr.model.workflowmodel.dwdl;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
@@ -53,6 +54,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "nodes",
     "arcs"
 })
+
+//MA: workflow2DOM
+@XmlRootElement
 public class Workflow {
 
     protected String description;

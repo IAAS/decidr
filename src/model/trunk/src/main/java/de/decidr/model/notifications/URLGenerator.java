@@ -25,6 +25,10 @@ import de.decidr.model.entities.SystemSettings;
 /**
  * Provides generators for URLs like confirmation links
  * 
+ * GH: static -> instance
+ * GH: registered vs. unregistered user: unreg. gets authkey, reg. has
+ *      to login, authkey is empty -> portal
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
 public class URLGenerator {
@@ -71,8 +75,7 @@ public class URLGenerator {
                 + URLEncoder.encode(userId, encoding);
         url += "&" + DecidrGlobals.URL_PARAM_INVITATION_ID + "="
                 + URLEncoder.encode(invitationId, encoding);
-        //GH DecidrGlobals.URL_PARAM_REGISTRATION_REQUIRED
-        url += "&" + "regreq";
+        url += "&" + DecidrGlobals.URL_PARAM_REGISTRATION_REQUIRED;
         return url;
     }
 

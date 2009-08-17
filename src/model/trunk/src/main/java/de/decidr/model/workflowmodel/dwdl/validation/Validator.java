@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -37,6 +39,7 @@ import de.decidr.model.workflowmodel.dwdl.Actor;
 import de.decidr.model.workflowmodel.dwdl.Literal;
 import de.decidr.model.workflowmodel.dwdl.Variable;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
+import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
 
 /**
  * This class provides the functionality to determine whether a given DWDL is
@@ -73,30 +76,30 @@ public class Validator {
      * @param dwdl
      * @return
      */
-    public List<IProblem> validate(StreamSource dwdl) {
-        DWDLErrorHandler errHandler = null;
-        List<IProblem> errList = null;
-
-        validator.setErrorHandler(new DWDLErrorHandler());
-        try {
-            validator.validate(dwdl);
-        } catch (SAXException e) {
-            errList = new ArrayList<IProblem>();
-            errList.add(new Problem(e.getMessage(), "global"));
-        } catch (IOException e) {
-            errList = new ArrayList<IProblem>();
-            errList.add(new Problem(e.getMessage(), "global"));
-        }
-
-        errHandler = (DWDLErrorHandler) (validator.getErrorHandler());
-        errList = errHandler.getProblemList();
-
-        // GH how to transform from byte[] to TWorkflow? ---> Use TransformUtil in workflowmodel.
-        // errList.addAll(checkVariables(dwdl));
-        // errList.addAll(checkUsers(dwdl));
-
-        return errList;
-    }
+//    public List<IProblem> validate(StreamSource dwdl) {
+//        DWDLErrorHandler errHandler = null;
+//        List<IProblem> errList = null;
+//
+//        validator.setErrorHandler(new DWDLErrorHandler());
+//        try {
+//            validator.validate(dwdl);
+//        } catch (SAXException e) {
+//            errList = new ArrayList<IProblem>();
+//            errList.add(new Problem(e.getMessage(), "global"));
+//        } catch (IOException e) {
+//            errList = new ArrayList<IProblem>();
+//            errList.add(new Problem(e.getMessage(), "global"));
+//        }
+//
+//        errHandler = (DWDLErrorHandler) (validator.getErrorHandler());
+//        errList = errHandler.getProblemList();
+//
+//        // GH how to transform from byte[] to TWorkflow? ---> Use TransformUtil in workflowmodel.
+//        // errList.addAll(checkVariables(dwdl));
+//        // errList.addAll(checkUsers(dwdl));
+//
+//        return errList;
+//    }
 
     /**
      * MA: add comment
@@ -107,26 +110,37 @@ public class Validator {
      */
     public List<IProblem> validate(Workflow dwdl) {
         DWDLErrorHandler errHandler = null;
-
-        DOMSource dom = new DOMSource((Node) dwdl);
         List<IProblem> errList = null;
 
+        DOMSource dom= null;
+
         validator.setErrorHandler(new DWDLErrorHandler());
+        
         try {
+            dom = new DOMSource(TransformUtil.workflow2DOM(dwdl));
             validator.validate(dom);
+
+            errHandler = (DWDLErrorHandler) (validator.getErrorHandler());
+            errList = errHandler.getProblemList();
+
+            errList.addAll(checkVariables(dwdl));
+            errList.addAll(checkUsers(dwdl));
         } catch (SAXException e) {
             errList = new ArrayList<IProblem>();
             errList.add(new Problem(e.getMessage(), "global"));
         } catch (IOException e) {
             errList = new ArrayList<IProblem>();
             errList.add(new Problem(e.getMessage(), "global"));
+        } catch (JAXBException e) {
+            errList = new ArrayList<IProblem>();
+            errList.add(new Problem(e.getMessage(), "global"));
+            e.printStackTrace();
+        } catch (ParserConfigurationException e){
+            errList = new ArrayList<IProblem>();
+            errList.add(new Problem(e.getMessage(), "global"));
+            e.printStackTrace();
         }
 
-        errHandler = (DWDLErrorHandler) (validator.getErrorHandler());
-        errList = errHandler.getProblemList();
-
-        errList.addAll(checkVariables(dwdl));
-        errList.addAll(checkUsers(dwdl));
 
         return errList;
     }
@@ -139,7 +153,14 @@ public class Validator {
      * @return List of problems found during validation process.
      */
     public List<IProblem> validate(byte[] dwdl) {
-        return null;
+        Workflow wf = null;
+        try {
+            wf = TransformUtil.bytes2Workflow(dwdl);
+        } catch (JAXBException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return validate(wf);
     }
 
     /**

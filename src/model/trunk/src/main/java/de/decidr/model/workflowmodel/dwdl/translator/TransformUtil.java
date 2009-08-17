@@ -29,6 +29,7 @@ import javax.wsdl.xml.WSDLReader;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -109,6 +110,21 @@ public class TransformUtil {
         return dwdlElement.getValue();
     }
 
+    //MA: workflow2DOM
+    public static Document workflow2DOM(Workflow dwdl)
+            throws JAXBException, ParserConfigurationException{
+        JAXBContext dwdlCntxt = JAXBContext.newInstance(Workflow.class);
+        Marshaller dwdlMarshaller = dwdlCntxt.createMarshaller(); 
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        dbf.setNamespaceAware(true);
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document doc = db.newDocument();
+
+        dwdlMarshaller.marshal( dwdl, doc );
+        return doc;
+
+    }
+    
     public static Definition bytes2Definition(byte[] wsdl)
             throws WSDLException {
         WSDLReader reader = new com.ibm.wsdl.xml.WSDLReaderImpl();
