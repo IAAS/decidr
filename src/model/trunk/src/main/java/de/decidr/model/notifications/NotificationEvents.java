@@ -130,6 +130,8 @@ public final class NotificationEvents {
     @SuppressWarnings("unchecked")
     public static void createdPasswordResetRequest(PasswordResetRequest request)
             throws TransactionException {
+        
+        URLGenerator URLGenerator = new URLGenerator();
 
         SystemSettings settings = DecidrGlobals.getSettings();
 
@@ -273,6 +275,7 @@ public final class NotificationEvents {
     public static void invitedRegisteredUserAsTenantMember(Invitation invitation)
             throws TransactionException {
 
+        URLGenerator URLGenerator = new URLGenerator();
         SystemSettings settings = DecidrGlobals.getSettings();
 
         try {
@@ -292,7 +295,7 @@ public final class NotificationEvents {
 
         String invitationUrl ="";
         try {
-            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString());
+            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString(),invitation.getReceiver().getAuthKey());
         } catch (UnsupportedEncodingException e1) {
             new TransactionException(e1);
         }
@@ -360,6 +363,7 @@ public final class NotificationEvents {
     public static void invitedUnregisteredUserAsTenantMember(
             Invitation invitation) throws TransactionException {
 
+        URLGenerator URLGenerator = new URLGenerator();
         SystemSettings settings = DecidrGlobals.getSettings();
 
         try {
@@ -377,7 +381,7 @@ public final class NotificationEvents {
 
         String invitationUrl;
         try {
-            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString());
+            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString(),invitation.getReceiver().getAuthKey());
         } catch (UnsupportedEncodingException e1) {
             throw new TransactionException(e1);
         }
@@ -698,6 +702,8 @@ public final class NotificationEvents {
     public static void invitedUnregisteredUserAsWorkflowAdmin(Invitation invitation,
             WorkflowModel model) throws TransactionException {
         
+        URLGenerator URLGenerator = new URLGenerator();
+        
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
@@ -721,7 +727,7 @@ public final class NotificationEvents {
         String tenantName = model.getTenant().getName();
         String invitationUrl;
         try {
-            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString());
+            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString(),invitation.getReceiver().getAuthKey());
         } catch (UnsupportedEncodingException e1) {
             throw new TransactionException(e1);
         }
@@ -775,6 +781,8 @@ public final class NotificationEvents {
     public static void invitedRegisteredUserAsWorkflowAdmin(Invitation invitation,
             WorkflowModel model) throws TransactionException {
         
+        URLGenerator URLGenerator = new URLGenerator();
+        
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
@@ -800,7 +808,7 @@ public final class NotificationEvents {
         
         String invitationUrl;
         try {
-            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString());
+            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString(),invitation.getReceiver().getAuthKey());
         } catch (UnsupportedEncodingException e1) {
             throw new TransactionException(e1);
         }
@@ -853,6 +861,8 @@ public final class NotificationEvents {
     public static void invitedRegisteredUserAsWorkflowParticipant(
             Invitation invitation, WorkflowInstance createdWorkflowInstance) throws TransactionException {
 
+        URLGenerator URLGenerator = new URLGenerator();
+        
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
@@ -878,7 +888,7 @@ public final class NotificationEvents {
         
         String invitationUrl;
         try {
-            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString());
+            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString(),invitation.getReceiver().getAuthKey());
         } catch (UnsupportedEncodingException e1) {
             throw new TransactionException(e1);
         }
@@ -933,6 +943,8 @@ public final class NotificationEvents {
     public static void invitedUnregisteredUserAsWorkflowParticipant(
             Invitation invitation, WorkflowInstance createdWorkflowInstance) throws TransactionException {
         
+        URLGenerator URLGenerator = new URLGenerator();
+        
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
@@ -958,7 +970,7 @@ public final class NotificationEvents {
         
         String invitationUrl;
         try {
-            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString());
+            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString(),invitation.getReceiver().getAuthKey());
         } catch (UnsupportedEncodingException e1) {
             throw new TransactionException(e1);
         }
