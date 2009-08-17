@@ -39,6 +39,9 @@ public class IfContainer extends Container {
      */
     public IfContainer(HasChildren parentPanel) {
         super(parentPanel);
+        
+        getContainerStartPort().setMultipleConnectionsAllowed(true);
+        getContainerExitPort().setMultipleConnectionsAllowed(true);
 
         graphic.setWidget(new Button(ModelingToolWidget.messages
                 .changePropertyButton(), new SelectionListener<ButtonEvent>() {

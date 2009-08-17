@@ -91,6 +91,8 @@ public class PortDropController extends AbstractDropController {
     @Override
     public void onPreviewDrop(DragContext context) throws VetoDragException {
         super.onPreviewDrop(context);
+        
+        System.out.println("VETO");
 
         if (context.dropController.getDropTarget() instanceof Port) {
             Port port = (Port) context.dropController.getDropTarget();

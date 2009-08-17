@@ -92,7 +92,7 @@ public class ConnectionDragController extends PickupDragController {
                 }
 
                 // if box is dropped on an assigned port
-                if (context.finalDropController != null) {
+                if (context.finalDropController != null) {                   
                     // execute create connection command
                     CommandStack.getInstance().executeCommand(
                             new CreateConnectionCommand(connection));
@@ -107,12 +107,12 @@ public class ConnectionDragController extends PickupDragController {
                     } else {
                         // unglue and delete connection with drag boxes
                         // delete other drag box
-                        otherDragBox.getGluedPort().remove(otherDragBox);
+                        otherDragBox.getGluedPort().removeConnectionDragBox(otherDragBox);
                         otherDragBox.setGluedPort(null);
                         otherDragBox.setConnection(null);
 
                         // delete dragged drag box
-                        draggedDragBox.getGluedPort().remove(draggedDragBox);
+                        draggedDragBox.getGluedPort().removeConnectionDragBox(draggedDragBox);
                         draggedDragBox.setGluedPort(null);
                         draggedDragBox.setConnection(null);
 

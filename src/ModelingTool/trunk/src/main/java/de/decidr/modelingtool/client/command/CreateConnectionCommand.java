@@ -191,11 +191,11 @@ public class CreateConnectionCommand implements UndoableCommand {
     public void undo() {
         // remove start drag box
         ConnectionDragBox startDragBox = connection.getStartDragBox();
-        startDragBox.getGluedPort().remove(startDragBox);
+        startDragBox.getGluedPort().removeConnectionDragBox(startDragBox);
 
         // remove end drag box
         ConnectionDragBox endDragBox = connection.getEndDragBox();
-        endDragBox.getGluedPort().remove(endDragBox);
+        endDragBox.getGluedPort().removeConnectionDragBox(endDragBox);
 
         // remove connection from parent panel
         connection.getParentPanel().removeConnection(connection);
@@ -210,10 +210,14 @@ public class CreateConnectionCommand implements UndoableCommand {
     public void execute() {
         // add start drag box
         ConnectionDragBox startDragBox = connection.getStartDragBox();
+        // remove the drag box before adding to be sure it is not present
+        startDragBox.getGluedPort().removeConnectionDragBox(startDragBox);
         startDragBox.getGluedPort().addConnectionDragBox(startDragBox);
 
         // add end drag box
         ConnectionDragBox endDragBox = connection.getEndDragBox();
+        // remove the drag box before adding to be sure it is not present
+        startDragBox.getGluedPort().removeConnectionDragBox(endDragBox);
         endDragBox.getGluedPort().addConnectionDragBox(endDragBox);
 
         // add connection to parent panel

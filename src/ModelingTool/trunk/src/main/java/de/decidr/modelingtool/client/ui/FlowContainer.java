@@ -32,7 +32,8 @@ public class FlowContainer extends Container {
      */
     public FlowContainer(HasChildren parentPanel) {
         super(parentPanel);
-        // TODO Auto-generated constructor stub
+        getContainerStartPort().setMultipleConnectionsAllowed(true);
+        getContainerExitPort().setMultipleConnectionsAllowed(true);
     }
 
     @Override

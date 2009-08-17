@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -120,10 +121,6 @@ public abstract class Port extends AbsolutePanel {
     public void add(Widget w) {
         super.add(w);
         setWidgetPosition(w, 0, 0);
-        
-        if (w instanceof ConnectionDragBox && w != singleDragBox) {
-            gluedDragBoxes.add((ConnectionDragBox) w);
-        }
     }
     
     /**
@@ -133,6 +130,8 @@ public abstract class Port extends AbsolutePanel {
      */
     public void addConnectionDragBox(ConnectionDragBox dragBox) {
         assert dragBox.getConnection() != null;
+        
+        gluedDragBoxes.add(dragBox);
 
         if (!multipleConnectionsAllowed) {
             //assert gluedDragBoxes.isEmpty();
@@ -140,6 +139,11 @@ public abstract class Port extends AbsolutePanel {
         }
 
         add(dragBox);
+        
+        // bring single drag box to front, if present
+        if (singleDragBox != null) {
+            add(singleDragBox);
+        }
     }
 
     /**
@@ -244,20 +248,14 @@ public abstract class Port extends AbsolutePanel {
      */
     public abstract void registerDropController();
 
-    @Override
-    public boolean remove(Widget w) {
-        boolean value = super.remove(w);
-
-        if (w instanceof ConnectionDragBox) {
-            ConnectionDragBox dragBox = (ConnectionDragBox) w;
+    public void removeConnectionDragBox(ConnectionDragBox dragBox) {
+        if (dragBox == singleDragBox) {
+            singleDragBox = null;
+        } else {
+        
+            // remove from glued drag boxes, if present
+            gluedDragBoxes.remove(dragBox);
             
-            if (dragBox == singleDragBox) {
-                singleDragBox = null;
-            } else {
-                // remove from glued dag boxes, if present
-                gluedDragBoxes.remove(dragBox);
-            }
-
             if (multipleConnectionsAllowed) {
                 if (singleDragBox == null) {
                     createSingleDragBox();
@@ -267,10 +265,9 @@ public abstract class Port extends AbsolutePanel {
                     createSingleDragBox();
                 }
             }
-
         }
-
-        return value;
+        
+       remove(dragBox);
     }
 
     /**
