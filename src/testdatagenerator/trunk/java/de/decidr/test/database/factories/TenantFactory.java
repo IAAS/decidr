@@ -3,7 +3,6 @@ package de.decidr.test.database.factories;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import org.hibernate.Session;
 

@@ -16,9 +16,15 @@
 
 package de.decidr.test.database.factories;
 
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 import org.hibernate.Session;
+
+import de.decidr.model.DecidrGlobals;
 
 /**
  * Abstract base class for all entity factories.
@@ -29,10 +35,20 @@ import org.hibernate.Session;
 public class EntityFactory {
 
     /**
+     * The approximate number of seconds in a year for use with getRandomDate.
+     */
+    public static final int SPAN_YEAR = 365 * 24 * 60 * 60;
+
+    /**
+     * The number of seconds in a week for use with getRandomDate.
+     */
+    public static final int SPAN_WEEK = 7 * 24 * 60 * 60;
+
+    /**
      * Random number generator
      */
     protected static Random rnd = new Random();
-    
+
     /**
      * Current Hibernate session
      */
@@ -55,4 +71,40 @@ public class EntityFactory {
         return session;
     }
 
+    /**
+     * @return a random date +-1 year from now
+     */
+    public Date getRandomDate(Boolean allowFuture, Boolean allowPast,
+            int spanSeconds) {
+        Calendar result = DecidrGlobals.getTime();
+        ArrayList<Integer> multiplicators = new ArrayList<Integer>();
+
+        spanSeconds = Math.abs(spanSeconds);
+
+        if (!allowFuture && !allowPast) {
+            multiplicators.add(0);
+        } else {
+            if (allowFuture) {
+                multiplicators.add(1);
+            }
+            if (allowPast) {
+                multiplicators.add(-1);
+            }
+        }
+
+        // multiplicators is now never empty
+        int multiplicator = multiplicators.get(rnd.nextInt(multiplicators
+                .size()));
+
+        result.add(Calendar.SECOND, multiplicator * rnd.nextInt(spanSeconds));
+        return result.getTime();
+    }
+
+    /**
+     * @return a (not so large) blob that contains the binary UTF-8
+     *         representation of the string "empty".
+     */
+    public byte[] getBlobStub() {
+        return "empty".getBytes(Charset.forName("UTF-8"));
+    }
 }

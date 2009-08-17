@@ -3,7 +3,6 @@ package de.decidr.test.database.factories;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -199,14 +198,6 @@ public class WorkflowModelFactory extends EntityFactory {
         }
 
         return result;
-    }
-
-    /**
-     * @return a (not so large) blob that contains the binary UTF-8
-     *         representation of the string "empty".
-     */
-    private byte[] getBlobStub() {
-        return "empty".getBytes(Charset.forName("UTF-8"));
     }
 
     /**
