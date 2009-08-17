@@ -23,6 +23,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.LoginAction;
+import de.decidr.ui.controller.LoginWithInvitationAction;
 
 /**
  * With the login component the user is able to authenticate himself
@@ -54,14 +55,22 @@ public class LoginComponent extends CustomComponent {
      *
      */
     public LoginComponent() {
-        init();
+        init(null);
     }
 
+
+    /**
+     * Default constructor.
+     *
+     */
+    public LoginComponent(InvitationDialogComponent invD) {
+        init(invD);
+    }
     /**
      * This method initializes the components for the login component.
      *
      */
-    private void init() {
+    private void init(InvitationDialogComponent invD) {
         verticalLayout = new VerticalLayout();
         
         loginLabel = new Label("<h3>Login:</h3>");
@@ -73,7 +82,12 @@ public class LoginComponent extends CustomComponent {
         passwordTextField.setCaption("Password");
         passwordTextField.setSecret(true);
         
-        loginButton = new Button("Login", new LoginAction());
+        if (invD == null)
+        {
+        	loginButton = new Button("Login", new LoginAction());
+        }else{
+        	loginButton = new Button("Login", new LoginWithInvitationAction(invD));
+        }
         forgotPasswordButton = new Button("Forgot your password?");
         forgotPasswordButton.setStyleName(Button.STYLE_LINK);
         registerButton = new Button("Register");

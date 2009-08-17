@@ -23,6 +23,7 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
+import de.decidr.ui.view.InvitationDialogComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
@@ -39,9 +40,9 @@ public class RegisterUserWithInvitationAction implements ClickListener  {
     private Long invitationId = null;
     private Long userId = null;
     
-    public RegisterUserWithInvitationAction(Form form, Long invitationId){
+    public RegisterUserWithInvitationAction(Form form, Long invId){
     	settingsForm = form;
-    	this.invitationId = invitationId;
+    	invitationId = invId;
     }
         
     @Override
@@ -58,11 +59,14 @@ public class RegisterUserWithInvitationAction implements ClickListener  {
         }
         
         if(userId != null){
-        	try {
-				userFacade.confirmInvitation(invitationId);
-			} catch (TransactionException e) {
-				Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
-			}
+        	String invDescription = "invitation";
+			// GH:       	Item invitationItem = userFacade.getInvitation(invitationId);
+			//        	 invDescription = "Please confirm this invitation from " + 
+			//        							invitationItem.getItemProperty("senderFirstName").getValue().toString() +
+			//        							" " +
+			//        							invitationItem.getItemProperty("senderLastName").getValue().toString();
+			Main.getCurrent().getMainWindow().addWindow(new InvitationDialogComponent(invDescription,invitationId, userId));
+			//userFacade.confirmInvitation(invitationId);
         }
     }
 }

@@ -35,6 +35,7 @@ import de.decidr.ui.controller.RefuseInvitationAction;
 public class InvitationDialogComponent extends Window {
     
     private Long invitationId = null;
+    private Long userId = null;
     
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
@@ -51,8 +52,9 @@ public class InvitationDialogComponent extends Window {
      * @param description
      * @param invId
      */
-    public InvitationDialogComponent(String description, Long invId){
+    public InvitationDialogComponent(String description, Long invId, Long uId){
         invitationId = invId;
+        userId = uId;
         init(description);
     }
     
@@ -78,8 +80,8 @@ public class InvitationDialogComponent extends Window {
         
 
         
-        submitButton = new Button("Accept Invitation", new ConfirmInvitationAction(invitationId));
-        cancelButton = new Button("Refuse Invitation", new RefuseInvitationAction(invitationId));
+        submitButton = new Button("Accept Invitation", new ConfirmInvitationAction(invitationId, userId));
+        cancelButton = new Button("Refuse Invitation", new RefuseInvitationAction(invitationId, userId));
 
 
         verticalLayout.addComponent(infoLabel);

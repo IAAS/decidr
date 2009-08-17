@@ -36,8 +36,8 @@ public class RefuseInvitationAction implements ClickListener{
     
     private HttpSession session = Main.getCurrent().getSession();
     
-    private Long userId = (Long)session.getAttribute("userId");
-    private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    private Long userId = null;
+    private UserFacade userFacade = null;
     
     private Long invitationId = null;
     
@@ -46,8 +46,10 @@ public class RefuseInvitationAction implements ClickListener{
      *
      * @param invId: Id of the invitation
      */
-    public RefuseInvitationAction(Long invId){
+    public RefuseInvitationAction(Long invId, Long uId){
         invitationId = invId;
+        userId = uId;
+        userFacade = new UserFacade(new UserRole(userId));
     }
 
     /* (non-Javadoc)
