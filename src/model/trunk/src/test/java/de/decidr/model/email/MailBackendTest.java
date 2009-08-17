@@ -41,11 +41,11 @@ import org.junit.Test;
  * 
  * @author Reinhold
  */
-// MF addFile(File) seems not to be tested
-// MF addFile(InputSteam) seems not to be tested
-// MF addFile(URI) seems not to be tested
-// MF addFile(URL) seems not to be tested
-// MF sendMessage() seems not to be tested
+// RR addFile(File) seems not to be tested
+// RR addFile(InputSteam) seems not to be tested
+// RR addFile(URI) seems not to be tested
+// RR addFile(URL) seems not to be tested
+// RR sendMessage() seems not to be tested
 public class MailBackendTest {
     MailBackend testMail;
 
@@ -59,7 +59,7 @@ public class MailBackendTest {
      */
     @Test
     public void testValidateAddressesString() {
-        // MF check also "hallo123@c.de" -mf
+        // RR check also "hallo123@c.de" -mf
         assertTrue(MailBackend.validateAddresses("a.b@c.de"));
         assertTrue(MailBackend.validateAddresses("a_b@c.de"));
         assertTrue(MailBackend.validateAddresses("ab@cde"));
@@ -822,7 +822,7 @@ public class MailBackendTest {
      */
     @Test
     public void testSetHostname() {
-        // MF empty hostname should fail or standard host should be returned -mf
+        // RR empty hostname should fail or standard host should be returned -mf
         // thats exactly what's happening
         testMail.setHostname("decidr.de");
         assertEquals("decidr.de", testMail.getSMTPServerHost());
@@ -854,7 +854,7 @@ public class MailBackendTest {
      */
     @Test
     public void testSetPortNum() {
-        // MF empty port should failed or standard port should be returned -mf
+        // RR empty port should failed or standard port should be returned -mf
         // how's an integer supposed to be empty?
         testMail.setPortNum(0);
         assertEquals(0, testMail.getSMTPPortNum());

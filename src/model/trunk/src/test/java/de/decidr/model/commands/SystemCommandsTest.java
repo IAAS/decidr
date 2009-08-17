@@ -256,7 +256,7 @@ public class SystemCommandsTest {
 
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 unlockerSuper);
-        // DH & MF: igbt es eine Methode einen Server zu bekommen wenn man die
+        // RR gibt es eine Methode einen Server zu bekommen wenn man die
         // ID kennt, außer alle zu holen und durchzuiterieren? (ohne hibernate
         // direkt zu benutzen!)
         // RR check that the server was unlocked
