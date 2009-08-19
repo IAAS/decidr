@@ -41,11 +41,11 @@ import org.junit.Test;
  * 
  * @author Reinhold
  */
-// RR addFile(File) seems not to be tested
-// RR addFile(InputSteam) seems not to be tested
-// RR addFile(URI) seems not to be tested
-// RR addFile(URL) seems not to be tested
-// RR sendMessage() seems not to be tested
+// TODO addFile(File) seems not to be tested
+// TODO addFile(InputSteam) seems not to be tested
+// TODO addFile(URI) seems not to be tested
+// TODO addFile(URL) seems not to be tested
+// TODO sendMessage() seems not to be tested
 public class MailBackendTest {
     MailBackend testMail;
 
@@ -59,7 +59,7 @@ public class MailBackendTest {
      */
     @Test
     public void testValidateAddressesString() {
-        // RR check also "hallo123@c.de" -mf
+        assertTrue(MailBackend.validateAddresses("hallo123@c.de"));
         assertTrue(MailBackend.validateAddresses("a.b@c.de"));
         assertTrue(MailBackend.validateAddresses("a_b@c.de"));
         assertTrue(MailBackend.validateAddresses("ab@cde"));
@@ -822,8 +822,8 @@ public class MailBackendTest {
      */
     @Test
     public void testSetHostname() {
-        // RR empty hostname should fail or standard host should be returned -mf
-        // thats exactly what's happening
+        // MF empty hostname should fail or standard host should be returned -mf
+        // MF thats exactly what's happening!!! std host is local host ~rr
         testMail.setHostname("decidr.de");
         assertEquals("decidr.de", testMail.getSMTPServerHost());
         testMail.setHostname("heise.de");
@@ -854,8 +854,10 @@ public class MailBackendTest {
      */
     @Test
     public void testSetPortNum() {
-        // RR empty port should failed or standard port should be returned -mf
+        // MF empty port should failed or standard port should be returned -mf
         // how's an integer supposed to be empty?
+        // MF bitte beantworte die Frage! es ist nicht meine Aufgabe JavaMails
+        // job zu übernehmen ~rr
         testMail.setPortNum(0);
         assertEquals(0, testMail.getSMTPPortNum());
         testMail.setPortNum(2020);

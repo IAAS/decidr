@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,6 +44,7 @@ import de.decidr.model.commands.system.UpdateServerLoadCommand;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.SystemSettings;
+import de.decidr.model.entities.User;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Paginator;
@@ -336,11 +338,344 @@ public class SystemCommandsTest {
      * and {@link GetSystemSettingsCommand#GetSystemSettingsCommand(Role)}.
      */
     @Test
-    public void testSystemSettingsCommands() {
+    public void testSystemSettingsCommands() throws TransactionException {
         SystemSettings settings = new SystemSettings();
         SetSystemSettingsCommand setter = new SetSystemSettingsCommand(
                 new SuperAdminRole(), settings);
-        fail("Not yet implemented"); // RR SetSystemSettingsCommand
-        fail("Not yet implemented"); // RR GetSystemSettingsCommand
+        GetSystemSettingsCommand getter = new GetSystemSettingsCommand(
+                new SuperAdminRole());
+        SetSystemSettingsCommand userSetter = new SetSystemSettingsCommand(
+                new SuperAdminRole(), settings);
+        GetSystemSettingsCommand userGetter = new GetSystemSettingsCommand(
+                new SuperAdminRole());
+
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    userSetter);
+            fail("User shouldn't be able to set settings");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        try {
+            // DH & MF: should this throw an error, set all values to defaults
+            // or change nothing? ~rr
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("Shouldn't be able to set empty settings");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        settings.setAutoAcceptNewTenants(true);
+        settings.setChangeEmailRequestLifetimeSeconds(20);
+        settings.setDomain("decidr.de");
+        settings.setId(-1L);
+        settings.setInvitationLifetimeSeconds(10);
+        settings.setLogLevel("DEBUG");
+        settings.setMaxAttachmentsPerEmail(10);
+        settings.setMaxServerLoadForShutdown((byte) 100);
+        settings.setMaxServerLoadForUnlock((byte) 100);
+        settings.setMaxUploadFileSizeBytes(1);
+        settings.setMaxWorkflowInstancesForShutdown(1);
+        settings.setMaxWorkflowInstancesForUnlock(1);
+        settings.setMinServerLoadForLock((byte) 100);
+        settings.setMinUnlockedServers(1);
+        settings.setMinWorkflowInstancesForLock(1);
+        settings.setModifiedDate(DecidrGlobals.getTime().getTime());
+        settings.setMonitorAveragingPeriodSeconds(60);
+        settings.setMonitorUpdateIntervalSeconds(10);
+        settings.setMtaHostname("localhost");
+        settings.setMtaPassword("asdfg");
+        settings.setMtaPort(-1);
+        settings.setMtaUsername("asd");
+        settings.setMtaUseTls(true);
+        settings.setPasswordResetRequestLifetimeSeconds(200);
+        settings.setRegistrationRequestLifetimeSeconds(2000);
+        settings.setServerPoolInstances(3);
+        settings.setSuperAdmin(new User());
+        settings.setSystemEmailAddress("decidr@decidr.biz");
+        settings.setSystemName("De Cidr");
+        HibernateTransactionCoordinator.getInstance().runTransaction(setter);
+
+        // RR check for equality (i.e. test getter)
+
+        settings.setAutoAcceptNewTenants(false);
+        settings.setChangeEmailRequestLifetimeSeconds(150);
+        settings.setDomain("decidr.eu");
+        settings.setId(100L);
+        settings.setInvitationLifetimeSeconds(1450);
+        settings.setLogLevel("ERROR");
+        settings.setMaxAttachmentsPerEmail(2);
+        settings.setMaxServerLoadForShutdown((byte) 10);
+        settings.setMaxServerLoadForUnlock((byte) 10);
+        settings.setMaxUploadFileSizeBytes(100);
+        settings.setMaxWorkflowInstancesForShutdown(100);
+        settings.setMaxWorkflowInstancesForUnlock(10);
+        settings.setMinServerLoadForLock((byte) 10);
+        settings.setMinUnlockedServers(10);
+        settings.setMinWorkflowInstancesForLock(10);
+        settings.setModifiedDate(new Date(DecidrGlobals.getTime()
+                .getTimeInMillis() - 1000000));
+        // RR change values
+        settings.setMonitorAveragingPeriodSeconds(600);
+        settings.setMonitorUpdateIntervalSeconds(1);
+        settings.setMtaHostname("example.com");
+        settings.setMtaPassword("wewewe");
+        settings.setMtaPort(22);
+        settings.setMtaUsername(null);
+        settings.setMtaUseTls(false);
+        settings.setPasswordResetRequestLifetimeSeconds(20);
+        settings.setRegistrationRequestLifetimeSeconds(2);
+        settings.setServerPoolInstances(1);
+        settings.setSuperAdmin(new User(DecidrGlobals.getTime().getTime()));
+        settings.setSystemEmailAddress("dumbo@decidr.eu");
+        settings.setSystemName("Darth Vader");
+        HibernateTransactionCoordinator.getInstance().runTransaction(setter);
+
+        // RR check for equality (i.e. test getter)
+
+        try {
+            settings.setChangeEmailRequestLifetimeSeconds(-1);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("invalid ChangeEmailRequestLifetimeSeconds succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setDomain(null);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("null domain succeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            // MF & DH: should this fail or return a default domain
+            // (?localhost?) ~rr
+            settings.setDomain("");
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("empty domain succeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        // RR test illegal values
+        try {
+            settings.setId(-1L);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setInvitationLifetimeSeconds(10);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setLogLevel("DEBUG");
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setMaxAttachmentsPerEmail(10);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setMaxServerLoadForShutdown((byte) 100);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setMaxServerLoadForUnlock((byte) 100);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setMaxUploadFileSizeBytes(1);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setMaxWorkflowInstancesForShutdown(1);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setMaxWorkflowInstancesForUnlock(1);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setMinServerLoadForLock((byte) 100);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setMinUnlockedServers(1);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setMinWorkflowInstancesForLock(1);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setModifiedDate(DecidrGlobals.getTime().getTime());
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setMonitorAveragingPeriodSeconds(60);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setMonitorUpdateIntervalSeconds(10);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setMtaHostname("localhost");
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setMtaPassword("asdfg");
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setMtaPort(-1);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setMtaUsername("asd");
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setPasswordResetRequestLifetimeSeconds(200);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setRegistrationRequestLifetimeSeconds(2000);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setServerPoolInstances(3);
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setSuperAdmin(new User());
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setSystemEmailAddress("decidr@decidr.biz");
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            settings.setSystemName("De Cidr");
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    userGetter);
+            fail("User shouldn't be able to get settings");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
     }
 }
