@@ -23,7 +23,7 @@ import de.decidr.model.workflowmodel.dwdl.validation.IProblem;
 /**
  * A simple schema validator
  * 
- * @author mod2
+ * @author Modood Alvi
  */
 public class SchemaValidator {
 
@@ -59,8 +59,9 @@ public class SchemaValidator {
         de.decidr.model.workflowmodel.dwdl.validation.Validator val = new de.decidr.model.workflowmodel.dwdl.validation.Validator();
         List<IProblem> errList = null;
         
-        errList = val.validate(new StreamSource("sampleProcess.xml"));
+        //errList = val.validate(new StreamSource("sampleProcess.xml"));
         if (errList == null) {
+            // FIXME: no System.out.println anywhere in the model!!! (use logging) ~rr
             System.out.println("no errors.");
         } else {
             System.out.println(errList.size() + " errors.");
