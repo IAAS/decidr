@@ -83,5 +83,4 @@ public class GetServersCommand extends SystemCommand {
     public List<Server> getResult() {
         return result;
     }
-
 }

@@ -28,11 +28,18 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import de.decidr.model.commands.SystemCommandsTest;
+import de.decidr.model.commands.WorkItemCommandsTest;
+import de.decidr.model.commands.WorkflowInstanceCommandsTest;
+import de.decidr.model.facades.SystemFacadeTest;
+import de.decidr.model.facades.TenantFacadeTest;
+import de.decidr.model.facades.UserFacadeTest;
+import de.decidr.model.facades.WorkItemFacadeTest;
+import de.decidr.model.facades.WorkflowInstanceFacadeTest;
+import de.decidr.model.facades.WorkflowModelFacadeTest;
 import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
 
 /**
- * This is the abstract base class for all test classes testing database
- * interaction.<br>
+ * This is the test suite for all test classes testing database interaction.<br>
  * It insures a working hibernate configuration and a consistent database for
  * each test.
  * 
@@ -40,7 +47,11 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
  */
 @RunWith(Suite.class)
 @SuiteClasses( { DecidrGlobalsTest.class, LifetimeValidatorTest.class,
-        HibernateTransactionCoordinatorTest.class, SystemCommandsTest.class })
+        HibernateTransactionCoordinatorTest.class, SystemCommandsTest.class,
+        WorkItemCommandsTest.class, WorkflowInstanceCommandsTest.class,
+        SystemFacadeTest.class, WorkItemFacadeTest.class,
+        WorkflowInstanceFacadeTest.class, UserFacadeTest.class,
+        WorkflowModelFacadeTest.class, TenantFacadeTest.class })
 public class DatabaseTestsuite extends TestSuite {
 
     static Session session;

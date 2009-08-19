@@ -24,7 +24,7 @@ public class GetLogCommand extends SystemCommand {
 
     /**
      * Creates a new <code>{@link GetLogCommand}</code>. The command saves the
-     * logs in the variable result.
+     * logs in the variable <code>{@link #result}</code>.
      * 
      * @param role
      *            the user who executes the command

@@ -35,7 +35,7 @@ import org.hibernate.transform.ResultTransformer;
 
 /**
  * Implementation of Criteria specifically for paginated searches. Internally
- * two almost equal criteria objects are used. <br>
+ * two almost equal criteria objects are used.<br>
  * The only difference in the clone is an additional rowCount projection that is
  * used to retrieve the row count.
  * 

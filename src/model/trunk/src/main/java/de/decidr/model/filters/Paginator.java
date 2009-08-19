@@ -26,13 +26,14 @@ public class Paginator {
      */
     protected Integer itemsPerPage = 1;
     /**
-     * The first item has the index 0. startIndex is always &lt;= endIndex
+     * The first item has the index 0. <code>startIndex</code> is always &lt;=
+     * <code>endIndex</code>
      */
     protected Integer startIndex = 0;
 
     /**
-     * The last item has the index totalNumberOfItems - 1. endIndex is always
-     * &gt;= startIndex
+     * The last item has the index <code>totalNumberOfItems</code> - 1.
+     * <code>endIndex</code> is always &gt;= <code>startIndex</code>
      */
     protected Integer endIndex = 0;
 

@@ -55,5 +55,4 @@ public class GetServerStatisticsCommand extends SystemCommand {
     public List<ServerLoadView> getResult() {
         return result;
     }
-
 }

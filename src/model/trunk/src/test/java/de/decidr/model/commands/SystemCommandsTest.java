@@ -17,6 +17,7 @@
 package de.decidr.model.commands;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -127,6 +128,23 @@ public class SystemCommandsTest {
             badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
                     "", (byte) 0, true, true));
 
+            badCommands.add(new AddServerCommand(null, serverType, null,
+                    (byte) 0, false, false));
+            badCommands.add(new AddServerCommand(null, serverType, "",
+                    (byte) 0, false, false));
+            badCommands.add(new AddServerCommand(null, serverType, null,
+                    (byte) 0, false, true));
+            badCommands.add(new AddServerCommand(null, serverType, "",
+                    (byte) 0, true, true));
+            badCommands.add(new AddServerCommand(null, serverType, null,
+                    (byte) 0, true, false));
+            badCommands.add(new AddServerCommand(null, serverType, "",
+                    (byte) 0, true, false));
+            badCommands.add(new AddServerCommand(null, serverType, null,
+                    (byte) 0, true, true));
+            badCommands.add(new AddServerCommand(null, serverType, "",
+                    (byte) 0, true, true));
+
             badCommands.add(new AddServerCommand(new SuperAdminRole(),
                     serverType, null, (byte) -10, false, false));
             badCommands.add(new AddServerCommand(new SuperAdminRole(),
@@ -164,6 +182,8 @@ public class SystemCommandsTest {
                 new SuperAdminRole(), (ServerTypeEnum) null);
         GetServersCommand serversBasicNull = new GetServersCommand(
                 new BasicRole(0L), (ServerTypeEnum) null);
+        GetServersCommand serversNullNull = new GetServersCommand(null,
+                (ServerTypeEnum) null);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 serversSuperNull);
@@ -177,12 +197,21 @@ public class SystemCommandsTest {
         } catch (TransactionException e) {
             // this is supposed to happen
         }
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    serversNullNull);
+            fail("getting a list of all servers as null user succeeded");
+        } catch (TransactionException e) {
+            // this is supposed to happen
+        }
 
         for (ServerTypeEnum serverType : ServerTypeEnum.values()) {
             GetServersCommand serversSuperType = new GetServersCommand(
                     new SuperAdminRole(), serverType);
             GetServersCommand serversBasicType = new GetServersCommand(
                     new BasicRole(0L), serverType);
+            GetServersCommand serversNullType = new GetServersCommand(null,
+                    serverType);
 
             HibernateTransactionCoordinator.getInstance().runTransaction(
                     serversSuperType);
@@ -195,6 +224,13 @@ public class SystemCommandsTest {
                 HibernateTransactionCoordinator.getInstance().runTransaction(
                         serversBasicType);
                 fail("getting a list of servers as basic user succeeded");
+            } catch (TransactionException e) {
+                // this is supposed to happen
+            }
+            try {
+                HibernateTransactionCoordinator.getInstance().runTransaction(
+                        serversNullType);
+                fail("getting a list of servers as null user succeeded");
             } catch (TransactionException e) {
                 // this is supposed to happen
             }
@@ -227,6 +263,13 @@ public class SystemCommandsTest {
         } catch (TransactionException e) {
             // is supposed to be thrown
         }
+        try {
+            stats = new GetServerStatisticsCommand(null);
+            HibernateTransactionCoordinator.getInstance().runTransaction(stats);
+            fail("Null user shouldn't be able to get server stats");
+        } catch (TransactionException e) {
+            // is supposed to be thrown
+        }
 
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 serversSuperNull);
@@ -237,13 +280,24 @@ public class SystemCommandsTest {
                 new SuperAdminRole(), serverID, false);
         LockServerCommand lockerBasic = new LockServerCommand(
                 new BasicRole(0L), serverID, true);
-        LockServerCommand unlockerBasic = new LockServerCommand(new BasicRole(
-                0L), serverID, false);
+        LockServerCommand unlockerBasic = new LockServerCommand(null, serverID,
+                false);
+        LockServerCommand lockerNull = new LockServerCommand(new BasicRole(0L),
+                serverID, true);
+        LockServerCommand unlockerNull = new LockServerCommand(null, serverID,
+                false);
 
         try {
             HibernateTransactionCoordinator.getInstance().runTransaction(
                     lockerBasic);
             fail("BasicRole shouldn't be able to lock servers.");
+        } catch (TransactionException e) {
+            // Exception is supposed to be thrown
+        }
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    lockerNull);
+            fail("Null role shouldn't be able to lock servers.");
         } catch (TransactionException e) {
             // Exception is supposed to be thrown
         }
@@ -259,12 +313,19 @@ public class SystemCommandsTest {
         } catch (TransactionException e) {
             // Exception is supposed to be thrown
         }
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    unlockerNull);
+            fail("Null role shouldn't be able to unlock servers.");
+        } catch (TransactionException e) {
+            // Exception is supposed to be thrown
+        }
 
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 unlockerSuper);
         // DH & MF: gibt es eine Methode einen Server zu bekommen wenn man die
         // ID kennt, außer alle zu holen und durchzuiterieren? (ohne hibernate
-        // direkt zu benutzen!)
+        // direkt zu benutzen!) ~rr
         // RR check that the server was unlocked
 
         UpdateServerLoadCommand loader;
@@ -284,6 +345,14 @@ public class SystemCommandsTest {
                 HibernateTransactionCoordinator.getInstance().runTransaction(
                         loader);
                 fail("BasicRole shouldn't be able to update server load.");
+            } catch (TransactionException e) {
+                // is supposed to be thrown
+            }
+            loader = new UpdateServerLoadCommand(null, serverID, b);
+            try {
+                HibernateTransactionCoordinator.getInstance().runTransaction(
+                        loader);
+                fail("Null role shouldn't be able to update server load.");
             } catch (TransactionException e) {
                 // is supposed to be thrown
             }
@@ -339,7 +408,19 @@ public class SystemCommandsTest {
         HibernateTransactionCoordinator.getInstance().runTransaction(getterA);
         HibernateTransactionCoordinator.getInstance().runTransaction(getterB);
 
-        // RR check for equality
+        assertEquals(decidrFileA.getFileName(), getterA.getFile().getFileName());
+        assertEquals(decidrFileA.getMimeType(), getterA.getFile().getMimeType());
+        assertEquals(decidrFileA.isMayPublicRead(), getterA.getFile()
+                .isMayPublicRead());
+        assertEquals(decidrFileA.getFileSizeBytes(), getterA.getFile()
+                .getFileSizeBytes());
+
+        assertEquals(decidrFileB.getFileName(), getterB.getFile().getFileName());
+        assertEquals(decidrFileB.getMimeType(), getterB.getFile().getMimeType());
+        assertEquals(decidrFileB.isMayPublicRead(), getterB.getFile()
+                .isMayPublicRead());
+        assertEquals(decidrFileB.getFileSizeBytes(), getterB.getFile()
+                .getFileSizeBytes());
 
         try {
             HibernateTransactionCoordinator.getInstance().runTransaction(
@@ -359,15 +440,40 @@ public class SystemCommandsTest {
         GetLogCommand getter = new GetLogCommand(new SuperAdminRole(),
                 new ArrayList<Filter>(), new Paginator());
         HibernateTransactionCoordinator.getInstance().runTransaction(getter);
+        assertNotNull(getter.getResult());
 
+        // DH & MF: should any of the following three tests throw errors? ~rr
         getter = new GetLogCommand(new SuperAdminRole(),
                 new ArrayList<Filter>(), null);
         HibernateTransactionCoordinator.getInstance().runTransaction(getter);
+        assertNotNull(getter.getResult());
+
         getter = new GetLogCommand(new SuperAdminRole(), null, new Paginator());
         HibernateTransactionCoordinator.getInstance().runTransaction(getter);
+        assertNotNull(getter.getResult());
+
         getter = new GetLogCommand(new SuperAdminRole(), null, null);
         HibernateTransactionCoordinator.getInstance().runTransaction(getter);
-        fail("Not yet implemented"); // RR GetLogCommand
+        assertNotNull(getter.getResult());
+
+        try {
+            getter = new GetLogCommand(null, new ArrayList<Filter>(),
+                    new Paginator());
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(getter);
+            fail("managed to get file with null user");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            getter = new GetLogCommand(new BasicRole(0L),
+                    new ArrayList<Filter>(), new Paginator());
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(getter);
+            fail("managed to get file with basic role");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
     }
 
     /**
@@ -385,14 +491,24 @@ public class SystemCommandsTest {
         GetSystemSettingsCommand getter = new GetSystemSettingsCommand(
                 new SuperAdminRole());
         SetSystemSettingsCommand userSetter = new SetSystemSettingsCommand(
-                new SuperAdminRole(), setterSettings);
+                new BasicRole(0L), setterSettings);
         GetSystemSettingsCommand userGetter = new GetSystemSettingsCommand(
-                new SuperAdminRole());
+                new BasicRole(0L));
+        SetSystemSettingsCommand nullSetter = new SetSystemSettingsCommand(
+                null, setterSettings);
+        GetSystemSettingsCommand nullGetter = new GetSystemSettingsCommand(null);
 
         try {
             HibernateTransactionCoordinator.getInstance().runTransaction(
                     userSetter);
             fail("User shouldn't be able to set settings");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    nullSetter);
+            fail("Null user shouldn't be able to set settings");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
@@ -766,6 +882,13 @@ public class SystemCommandsTest {
             HibernateTransactionCoordinator.getInstance().runTransaction(
                     userGetter);
             fail("User shouldn't be able to get settings");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    nullGetter);
+            fail("Null user shouldn't be able to get settings");
         } catch (TransactionException e) {
             // supposed to be thrown
         }

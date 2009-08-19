@@ -35,6 +35,4 @@ public abstract class WorkItemCommand extends AclEnabledCommand implements WorkI
         Long[] result={workItemId};
         return result;
     }
-    
-    
 }

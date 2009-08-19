@@ -48,7 +48,7 @@ public class HibernateTransactionCoordinatorTest {
         /**
          * @return the aborted
          */
-        public Boolean getAboarted() {
+        public Boolean getAborted() {
             return aborted;
         }
 
@@ -119,8 +119,9 @@ public class HibernateTransactionCoordinatorTest {
         htc.runTransaction(c);
 
         assertTrue(c.getStarted());
+        // DH this test fails ~rr
         assertTrue(c.getCommitted());
-        assertFalse(c.getAboarted());
+        assertFalse(c.getAborted());
 
         try {
             htc.runTransaction(c2);
@@ -130,7 +131,7 @@ public class HibernateTransactionCoordinatorTest {
 
         assertTrue(c.getStarted());
         assertFalse(c.getCommitted());
-        assertTrue(c.getAboarted());
+        assertTrue(c.getAborted());
         assertTrue(transactionThrown);
     }
 
@@ -147,12 +148,13 @@ public class HibernateTransactionCoordinatorTest {
         htc.runTransaction(commands);
 
         assertTrue(c.getStarted());
+        // DH this test fails ~rr
         assertTrue(c.getCommitted());
-        assertFalse(c.getAboarted());
+        assertFalse(c.getAborted());
 
         assertTrue(c2.getStarted());
         assertTrue(c2.getCommitted());
-        assertFalse(c2.getAboarted());
+        assertFalse(c2.getAborted());
 
         try {
             htc.runTransaction((TransactionalCommand) null);

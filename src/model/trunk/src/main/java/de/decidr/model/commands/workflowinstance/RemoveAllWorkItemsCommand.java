@@ -62,7 +62,4 @@ public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand implement
         Long[] result = {deployedWorkflowModelId};
         return result;
     }
-    
-    
-
 }
