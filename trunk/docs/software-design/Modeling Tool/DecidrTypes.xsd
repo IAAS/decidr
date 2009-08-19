@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://decidr.de/schema/DecidrTypes" 
-	xmlns:tns="http://decidr.de/schema/DecidrTypes"
+	targetNamespace="http://decidr.de/schema/DecidrTypes" xmlns:tns="http://decidr.de/schema/DecidrTypes"
 	elementFormDefault="qualified">
 
 	<xsd:element name="actor" type="tns:tActor" />
@@ -15,7 +14,7 @@
 	<xsd:element name="role" type="tns:tRole" />
 	<xsd:complexType name="tRole">
 		<xsd:sequence>
-			<xsd:element ref="tns:actor" />
+			<xsd:element ref="tns:actor" minOccurs="1" maxOccurs="unbounded" />
 		</xsd:sequence>
 		<xsd:attribute name="name" type="xsd:NCName" use="required" />
 	</xsd:complexType>
@@ -49,14 +48,8 @@
 		<xsd:restriction base="xsd:long" />
 	</xsd:simpleType>
 
-	<xsd:complexType name="tItem">
-		<xsd:sequence>
-			<xsd:element name="hint" type="xsd:string" />
-			<xsd:element name="label" type="xsd:string" />
-		</xsd:sequence>
+	<xsd:complexType name="tItem" abstract="true">
 		<xsd:attribute name="name" type="xsd:string" use="required" />
-		<xsd:attribute name="readOnly" type="xsd:boolean"
-			default="false" />
 	</xsd:complexType>
 
 	<xsd:complexType name="tStringItem">
@@ -104,20 +97,32 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="tIntegerItem">
+	<xsd:complexType name="tIntItem">
 		<xsd:complexContent>
 			<xsd:extension base="tns:tItem">
 				<xsd:sequence>
-					<xsd:element name="value" type="xsd:integer" />
+					<xsd:element name="value" type="xsd:int" />
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 
+	<xsd:element name="item" type="tns:tItem" />
+	<xsd:element name="stringItem" substitutionGroup="tns:item"
+		type="tns:tStringItem" />
+	<xsd:element name="booleanItem" substitutionGroup="tns:item"
+		type="tns:tBooleanItem" />
+	<xsd:element name="intItem" substitutionGroup="tns:item"
+		type="tns:tIntItem" />
+	<xsd:element name="dateItem" substitutionGroup="tns:item"
+		type="tns:tDateItem" />
+	<xsd:element name="uriItem" substitutionGroup="tns:item"
+		type="tns:tURIItem" />
+	<xsd:element name="floatItem" substitutionGroup="tns:item"
+		type="tns:tFloatItem" />
 	<xsd:complexType name="tItemList">
 		<xsd:sequence>
-			<xsd:element name="item" type="tns:tItem" minOccurs="1"
-				maxOccurs="unbounded" />
+			<xsd:element ref="tns:item" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -128,61 +133,132 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
-        <xsd:element name="humanTaskData" type="tHumanTaskData" />
-    <xsd:complexType name="tHumanTaskData">
-        <xsd:sequence>
-            <xsd:element name="parameters" type="tParameters"
-				minOccurs="1" maxOccurs="1" />
-            <xsd:choice minOccurs="1" maxOccurs="unbounded">
-                <xsd:element name="taskItem" type="tTaskItem" />
-                <xsd:element name="information" type="tInformation" />
-            </xsd:choice>
-        </xsd:sequence>
-    </xsd:complexType>
+	<xsd:complexType name="tAbstractUser" abstract="true">
+		<xsd:sequence />
+	</xsd:complexType>
 
-    <xsd:complexType name="tParameters">
-        <xsd:sequence>
-            <xsd:element name="parameter" type="tParameter"
+	<xsd:complexType name="tRoleUser">
+		<xsd:complexContent>
+			<xsd:extension base="tns:tAbstractUser">
+				<xsd:sequence>
+					<xsd:element name="user" type="tns:tRole" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="tActorUser">
+		<xsd:complexContent>
+			<xsd:extension base="tns:tAbstractUser">
+				<xsd:sequence>
+					<xsd:element name="user" type="tns:tActor" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="tEmailUser">
+		<xsd:complexContent>
+			<xsd:extension base="tns:tAbstractUser">
+				<xsd:sequence>
+					<xsd:element name="user" type="xsd:string" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="user" type="tns:tAbstractUser" />
+	<xsd:element name="emailUser" substitutionGroup="tns:user"
+		type="tns:tEmailUser" />
+	<xsd:element name="actorUser" substitutionGroup="tns:user"
+		type="tns:tActorUser" />
+	<xsd:element name="roleUser" substitutionGroup="tns:user"
+		type="tns:tRoleUser" />
+	<xsd:complexType name="tAbstractUserList">
+		<xsd:sequence>
+			<xsd:element ref="tns:user" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="tStringMapping">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="value" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="tStringMap">
+		<xsd:sequence>
+			<xsd:element name="item" type="tns:tStringMapping"
 				minOccurs="1" maxOccurs="unbounded" />
-        </xsd:sequence>
-    </xsd:complexType>
+		</xsd:sequence>
+	</xsd:complexType>
 
-    <xsd:complexType name="tParameter">
-        <xsd:attribute name="name" type="xsd:NCName" use="required" />
-        <xsd:attribute name="type" type="DWDLVariableType" use="optional" />
-        <xsd:attribute name="variable" type="DWDLVariableName"
+	<xsd:complexType name="tTaskIdentifier">
+		<xsd:sequence>
+			<xsd:element name="taskID" type="tns:tID" minOccurs="1"
+				maxOccurs="1" nillable="false" />
+			<xsd:element name="processID" type="xsd:string"
+				minOccurs="1" maxOccurs="1" nillable="false" />
+			<xsd:element name="userID" type="tns:tID" minOccurs="1"
+				maxOccurs="1" nillable="false" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="humanTaskData" type="tns:tHumanTaskData" />
+	<xsd:complexType name="tHumanTaskData">
+		<xsd:sequence>
+			<xsd:element name="parameters" type="tns:tParameters"
+				minOccurs="1" maxOccurs="1" />
+			<xsd:choice minOccurs="1" maxOccurs="unbounded">
+				<xsd:element name="taskItem" type="tns:tTaskItem" />
+				<xsd:element name="information" type="tns:tInformation" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="tParameters">
+		<xsd:sequence>
+			<xsd:element name="parameter" type="tns:tParameter"
+				minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="tParameter">
+		<xsd:attribute name="name" type="xsd:NCName" use="required" />
+		<xsd:attribute name="type" type="DWDLVariableType" use="optional" />
+		<xsd:attribute name="variable" type="DWDLVariableName"
 			use="required" />
-    </xsd:complexType>
+	</xsd:complexType>
 
-    <xsd:complexType name="tTaskItem">
-        <xsd:sequence>
-            <xsd:element name="label" type="xsd:string" minOccurs="1"
+	<xsd:complexType name="tTaskItem">
+		<xsd:sequence>
+			<xsd:element name="label" type="xsd:string" minOccurs="1"
 				maxOccurs="1" />
-            <xsd:element name="hint" type="xsd:string" minOccurs="0"
+			<xsd:element name="hint" type="xsd:string" minOccurs="0"
 				maxOccurs="1" />
-            <xsd:element name="value" type="xsd:anySimpleType"
+			<xsd:element name="value" type="xsd:anySimpleType"
 				minOccurs="0" maxOccurs="1" />
-        </xsd:sequence>
-        <xsd:attribute name="name" type="xsd:NCName" use="required" />
-        <xsd:attribute name="variable" type="DWDLVariableName"
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:NCName" use="required" />
+		<xsd:attribute name="variable" type="DWDLVariableName"
 			use="optional" />
-        <xsd:attribute name="type" type="DWDLSimpleVariableType"
+		<xsd:attribute name="type" type="DWDLSimpleVariableType"
 			use="required" />
-    </xsd:complexType>
+	</xsd:complexType>
 
-    <xsd:complexType name="tInformation">
-        <xsd:sequence>
-            <xsd:element ref="content" minOccurs="1" maxOccurs="1" />
-        </xsd:sequence>
-        <xsd:attribute name="name" type="xsd:NCName" use="required" />
-    </xsd:complexType>
+	<xsd:complexType name="tInformation">
+		<xsd:sequence>
+			<xsd:element ref="content" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:NCName" use="required" />
+	</xsd:complexType>
 
-    <xsd:element name="content" type="tContent" />
-    <xsd:complexType name="tContent">
-        <xsd:sequence>
-            <xsd:any minOccurs="1" maxOccurs="1" />
-        </xsd:sequence>
-        <xsd:attribute name="contentType" type="xsd:string" />
-    </xsd:complexType>
-
+	<xsd:element name="content" type="tns:tContent" />
+	<xsd:complexType name="tContent">
+		<xsd:sequence>
+			<xsd:any minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="contentType" type="xsd:string" />
+	</xsd:complexType>
 </xsd:schema>
