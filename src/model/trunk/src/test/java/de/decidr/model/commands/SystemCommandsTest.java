@@ -563,7 +563,7 @@ public class SystemCommandsTest {
         assertEquals(true, getterSettings.isMtaUseTls());
         assertEquals(20, getterSettings.getChangeEmailRequestLifetimeSeconds());
         assertEquals("decidr.de", getterSettings.getDomain());
-        assertEquals(-1L, getterSettings.getId());
+        assertEquals(-1L, (long) getterSettings.getId());
         assertEquals(10, getterSettings.getInvitationLifetimeSeconds());
         assertEquals("DEBUG", getterSettings.getLogLevel());
         assertEquals(10, getterSettings.getMaxAttachmentsPerEmail());
@@ -631,7 +631,7 @@ public class SystemCommandsTest {
         assertEquals(false, getterSettings.isMtaUseTls());
         assertEquals(150, getterSettings.getChangeEmailRequestLifetimeSeconds());
         assertEquals("decidr.eu", getterSettings.getDomain());
-        assertEquals(100L, getterSettings.getId());
+        assertEquals(100L, (long) getterSettings.getId());
         assertEquals(1450, getterSettings.getInvitationLifetimeSeconds());
         assertEquals("ERROR", getterSettings.getLogLevel());
         assertEquals(0, getterSettings.getMaxAttachmentsPerEmail());
