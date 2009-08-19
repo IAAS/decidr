@@ -23,12 +23,13 @@ import de.decidr.model.storage.StorageProvider;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Retrieves file meta-information from the database. To retrieve the acutal
+ * Retrieves file meta-information from the database. To retrieve the actual
  * file contents, see {@link StorageProvider}.
  * 
  * @author Daniel Huss
  * @version 0.1
  */
+// DH: how does a file's meta-info get added to the DB? ~rr
 public class GetFileCommand extends AbstractTransactionalCommand {
 
     private Long fileId;

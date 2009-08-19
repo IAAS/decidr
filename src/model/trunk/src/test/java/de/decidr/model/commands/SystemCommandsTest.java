@@ -17,9 +17,11 @@
 package de.decidr.model.commands;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -41,12 +43,14 @@ import de.decidr.model.commands.system.LockServerCommand;
 import de.decidr.model.commands.system.RemoveServerCommand;
 import de.decidr.model.commands.system.SetSystemSettingsCommand;
 import de.decidr.model.commands.system.UpdateServerLoadCommand;
+import de.decidr.model.entities.File;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.entities.User;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 
@@ -258,7 +262,7 @@ public class SystemCommandsTest {
 
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 unlockerSuper);
-        // RR gibt es eine Methode einen Server zu bekommen wenn man die
+        // DH & MF: gibt es eine Methode einen Server zu bekommen wenn man die
         // ID kennt, außer alle zu holen und durchzuiterieren? (ohne hibernate
         // direkt zu benutzen!)
         // RR check that the server was unlocked
@@ -319,8 +323,31 @@ public class SystemCommandsTest {
      * Test method for {@link GetFileCommand#GetFileCommand(Long)}.
      */
     @Test
-    public void testGetFileCommand() {
-        fail("Not yet implemented"); // RR GetFileCommand
+    public void testGetFileCommand() throws TransactionException {
+        File decidrFileA = new File("testfile", "text/plain", true, 0);
+        File decidrFileB = new File("testfile", "text/plain", true, 100);
+        File invalidDecidrFile = new File("testfile", "text/plain", true, -1);
+
+        // RR set files
+
+        GetFileCommand getterA = new GetFileCommand(decidrFileA.getId());
+        GetFileCommand getterB = new GetFileCommand(decidrFileB.getId());
+
+        GetFileCommand getterInvalid = new GetFileCommand(invalidDecidrFile
+                .getId());
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(getterA);
+        HibernateTransactionCoordinator.getInstance().runTransaction(getterB);
+
+        // RR check for equality
+
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    getterInvalid);
+            fail("managed to get file with negative size");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
     }
 
     /**
@@ -328,7 +355,18 @@ public class SystemCommandsTest {
      * {@link GetLogCommand#GetLogCommand(Role, List, Paginator)}.
      */
     @Test
-    public void testGetLogCommand() {
+    public void testGetLogCommand() throws TransactionException {
+        GetLogCommand getter = new GetLogCommand(new SuperAdminRole(),
+                new ArrayList<Filter>(), new Paginator());
+        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
+
+        getter = new GetLogCommand(new SuperAdminRole(),
+                new ArrayList<Filter>(), null);
+        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
+        getter = new GetLogCommand(new SuperAdminRole(), null, new Paginator());
+        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
+        getter = new GetLogCommand(new SuperAdminRole(), null, null);
+        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
         fail("Not yet implemented"); // RR GetLogCommand
     }
 
@@ -339,13 +377,15 @@ public class SystemCommandsTest {
      */
     @Test
     public void testSystemSettingsCommands() throws TransactionException {
-        SystemSettings settings = new SystemSettings();
+        SystemSettings setterSettings = new SystemSettings();
+        SystemSettings getterSettings;
+        Date modDate;
         SetSystemSettingsCommand setter = new SetSystemSettingsCommand(
-                new SuperAdminRole(), settings);
+                new SuperAdminRole(), setterSettings);
         GetSystemSettingsCommand getter = new GetSystemSettingsCommand(
                 new SuperAdminRole());
         SetSystemSettingsCommand userSetter = new SetSystemSettingsCommand(
-                new SuperAdminRole(), settings);
+                new SuperAdminRole(), setterSettings);
         GetSystemSettingsCommand userGetter = new GetSystemSettingsCommand(
                 new SuperAdminRole());
 
@@ -367,76 +407,157 @@ public class SystemCommandsTest {
             // supposed to be thrown
         }
 
-        settings.setAutoAcceptNewTenants(true);
-        settings.setChangeEmailRequestLifetimeSeconds(20);
-        settings.setDomain("decidr.de");
-        settings.setId(-1L);
-        settings.setInvitationLifetimeSeconds(10);
-        settings.setLogLevel("DEBUG");
-        settings.setMaxAttachmentsPerEmail(10);
-        settings.setMaxServerLoadForShutdown((byte) 100);
-        settings.setMaxServerLoadForUnlock((byte) 100);
-        settings.setMaxUploadFileSizeBytes(1);
-        settings.setMaxWorkflowInstancesForShutdown(1);
-        settings.setMaxWorkflowInstancesForUnlock(1);
-        settings.setMinServerLoadForLock((byte) 100);
-        settings.setMinUnlockedServers(1);
-        settings.setMinWorkflowInstancesForLock(1);
-        settings.setModifiedDate(DecidrGlobals.getTime().getTime());
-        settings.setMonitorAveragingPeriodSeconds(60);
-        settings.setMonitorUpdateIntervalSeconds(10);
-        settings.setMtaHostname("localhost");
-        settings.setMtaPassword("asdfg");
-        settings.setMtaPort(-1);
-        settings.setMtaUsername("asd");
-        settings.setMtaUseTls(true);
-        settings.setPasswordResetRequestLifetimeSeconds(200);
-        settings.setRegistrationRequestLifetimeSeconds(2000);
-        settings.setServerPoolInstances(3);
-        settings.setSuperAdmin(new User());
-        settings.setSystemEmailAddress("decidr@decidr.biz");
-        settings.setSystemName("De Cidr");
+        setterSettings.setAutoAcceptNewTenants(true);
+        setterSettings.setChangeEmailRequestLifetimeSeconds(20);
+        setterSettings.setDomain("decidr.de");
+        // DH & MF: what are legal ID values
+        setterSettings.setId(-1L);
+        setterSettings.setInvitationLifetimeSeconds(10);
+        setterSettings.setLogLevel("DEBUG");
+        setterSettings.setMaxAttachmentsPerEmail(10);
+        setterSettings.setMaxServerLoadForShutdown((byte) 100);
+        setterSettings.setMaxServerLoadForUnlock((byte) 100);
+        setterSettings.setMaxUploadFileSizeBytes(1);
+        setterSettings.setMaxWorkflowInstancesForShutdown(1);
+        setterSettings.setMaxWorkflowInstancesForUnlock(1);
+        setterSettings.setMinServerLoadForLock((byte) 100);
+        setterSettings.setMinUnlockedServers(1);
+        setterSettings.setMinWorkflowInstancesForLock(1);
+        modDate = DecidrGlobals.getTime().getTime();
+        setterSettings.setModifiedDate(modDate);
+        setterSettings.setMonitorAveragingPeriodSeconds(60);
+        setterSettings.setMonitorUpdateIntervalSeconds(10);
+        setterSettings.setMtaHostname("localhost");
+        setterSettings.setMtaPassword("asdfg");
+        setterSettings.setMtaPort(-1);
+        setterSettings.setMtaUsername("asd");
+        setterSettings.setMtaUseTls(true);
+        setterSettings.setPasswordResetRequestLifetimeSeconds(200);
+        setterSettings.setRegistrationRequestLifetimeSeconds(2000);
+        setterSettings.setServerPoolInstances(3);
+        // DH & MF: how to properly initialise user? ~rr
+        setterSettings.setSuperAdmin(new User());
+        setterSettings.setSystemEmailAddress("decidr@decidr.biz");
+        setterSettings.setSystemName("De Cidr");
         HibernateTransactionCoordinator.getInstance().runTransaction(setter);
 
-        // RR check for equality (i.e. test getter)
+        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
+        getterSettings = getter.getResult();
+        assertEquals(true, getterSettings.isAutoAcceptNewTenants());
+        assertEquals(true, getterSettings.isMtaUseTls());
+        assertEquals(20, getterSettings.getChangeEmailRequestLifetimeSeconds());
+        assertEquals("decidr.de", getterSettings.getDomain());
+        assertEquals(-1L, getterSettings.getId());
+        assertEquals(10, getterSettings.getInvitationLifetimeSeconds());
+        assertEquals("DEBUG", getterSettings.getLogLevel());
+        assertEquals(10, getterSettings.getMaxAttachmentsPerEmail());
+        assertEquals((byte) 100, getterSettings.getMaxServerLoadForShutdown());
+        assertEquals((byte) 100, getterSettings.getMaxServerLoadForUnlock());
+        assertEquals(1, getterSettings.getMaxUploadFileSizeBytes());
+        assertEquals(1, getterSettings.getMaxWorkflowInstancesForShutdown());
+        assertEquals(1, getterSettings.getMaxWorkflowInstancesForUnlock());
+        assertEquals((byte) 100, getterSettings.getMinServerLoadForLock());
+        assertEquals(1, getterSettings.getMinUnlockedServers());
+        assertEquals(1, getterSettings.getMinWorkflowInstancesForLock());
+        assertEquals(modDate, getterSettings.getModifiedDate());
+        assertEquals(60, getterSettings.getMonitorAveragingPeriodSeconds());
+        assertEquals(10, getterSettings.getMonitorUpdateIntervalSeconds());
+        assertEquals("localhost", getterSettings.getMtaHostname());
+        assertEquals("asdfg", getterSettings.getMtaPassword());
+        assertEquals(-1, getterSettings.getMtaPort());
+        assertEquals("asd", getterSettings.getMtaUsername());
+        assertEquals(200, getterSettings
+                .getPasswordResetRequestLifetimeSeconds());
+        assertEquals(2000, getterSettings
+                .getRegistrationRequestLifetimeSeconds());
+        assertEquals(3, getterSettings.getServerPoolInstances());
+        assertEquals(new User(), getterSettings.getSuperAdmin());
+        assertEquals("decidr@decidr.biz", getterSettings
+                .getSystemEmailAddress());
+        assertEquals("De Cidr", getterSettings.getSystemName());
 
-        settings.setAutoAcceptNewTenants(false);
-        settings.setChangeEmailRequestLifetimeSeconds(150);
-        settings.setDomain("decidr.eu");
-        settings.setId(100L);
-        settings.setInvitationLifetimeSeconds(1450);
-        settings.setLogLevel("ERROR");
-        settings.setMaxAttachmentsPerEmail(2);
-        settings.setMaxServerLoadForShutdown((byte) 10);
-        settings.setMaxServerLoadForUnlock((byte) 10);
-        settings.setMaxUploadFileSizeBytes(100);
-        settings.setMaxWorkflowInstancesForShutdown(100);
-        settings.setMaxWorkflowInstancesForUnlock(10);
-        settings.setMinServerLoadForLock((byte) 10);
-        settings.setMinUnlockedServers(10);
-        settings.setMinWorkflowInstancesForLock(10);
-        settings.setModifiedDate(new Date(DecidrGlobals.getTime()
-                .getTimeInMillis() - 1000000));
-        // RR change values
-        settings.setMonitorAveragingPeriodSeconds(600);
-        settings.setMonitorUpdateIntervalSeconds(1);
-        settings.setMtaHostname("example.com");
-        settings.setMtaPassword("wewewe");
-        settings.setMtaPort(22);
-        settings.setMtaUsername(null);
-        settings.setMtaUseTls(false);
-        settings.setPasswordResetRequestLifetimeSeconds(20);
-        settings.setRegistrationRequestLifetimeSeconds(2);
-        settings.setServerPoolInstances(1);
-        settings.setSuperAdmin(new User(DecidrGlobals.getTime().getTime()));
-        settings.setSystemEmailAddress("dumbo@decidr.eu");
-        settings.setSystemName("Darth Vader");
+        setterSettings.setAutoAcceptNewTenants(false);
+        setterSettings.setChangeEmailRequestLifetimeSeconds(150);
+        setterSettings.setDomain("decidr.eu");
+        setterSettings.setId(100L);
+        setterSettings.setInvitationLifetimeSeconds(1450);
+        setterSettings.setLogLevel("ERROR");
+        setterSettings.setMaxAttachmentsPerEmail(0);
+        setterSettings.setMaxServerLoadForShutdown((byte) 10);
+        setterSettings.setMaxServerLoadForUnlock((byte) 10);
+        setterSettings.setMaxUploadFileSizeBytes(100);
+        setterSettings.setMaxWorkflowInstancesForShutdown(100);
+        setterSettings.setMaxWorkflowInstancesForUnlock(10);
+        setterSettings.setMinServerLoadForLock((byte) 10);
+        setterSettings.setMinUnlockedServers(10);
+        setterSettings.setMinWorkflowInstancesForLock(10);
+        modDate = new Date(DecidrGlobals.getTime().getTimeInMillis() - 1000000);
+        setterSettings.setModifiedDate(modDate);
+        setterSettings.setMonitorAveragingPeriodSeconds(600);
+        setterSettings.setMonitorUpdateIntervalSeconds(1);
+        setterSettings.setMtaHostname(null);
+        setterSettings.setMtaPassword(null);
+        setterSettings.setMtaPort(22);
+        setterSettings.setMtaUsername(null);
+        setterSettings.setMtaUseTls(false);
+        setterSettings.setPasswordResetRequestLifetimeSeconds(20);
+        setterSettings.setRegistrationRequestLifetimeSeconds(2);
+        setterSettings.setServerPoolInstances(1);
+        setterSettings
+                .setSuperAdmin(new User(DecidrGlobals.getTime().getTime()));
+        setterSettings.setSystemEmailAddress("dumbo@decidr.eu");
+        setterSettings.setSystemName("Darth Vader");
         HibernateTransactionCoordinator.getInstance().runTransaction(setter);
 
-        // RR check for equality (i.e. test getter)
+        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
+        getterSettings = getter.getResult();
+        assertEquals(false, getterSettings.isAutoAcceptNewTenants());
+        assertEquals(false, getterSettings.isMtaUseTls());
+        assertEquals(150, getterSettings.getChangeEmailRequestLifetimeSeconds());
+        assertEquals("decidr.eu", getterSettings.getDomain());
+        assertEquals(100L, getterSettings.getId());
+        assertEquals(1450, getterSettings.getInvitationLifetimeSeconds());
+        assertEquals("ERROR", getterSettings.getLogLevel());
+        assertEquals(0, getterSettings.getMaxAttachmentsPerEmail());
+        assertEquals((byte) 10, getterSettings.getMaxServerLoadForShutdown());
+        assertEquals((byte) 10, getterSettings.getMaxServerLoadForUnlock());
+        assertEquals(100, getterSettings.getMaxUploadFileSizeBytes());
+        assertEquals(100, getterSettings.getMaxWorkflowInstancesForShutdown());
+        assertEquals(10, getterSettings.getMaxWorkflowInstancesForUnlock());
+        assertEquals((byte) 10, getterSettings.getMinServerLoadForLock());
+        assertEquals(10, getterSettings.getMinUnlockedServers());
+        assertEquals(10, getterSettings.getMinWorkflowInstancesForLock());
+        assertEquals(modDate, getterSettings.getModifiedDate());
+        assertEquals(600, getterSettings.getMonitorAveragingPeriodSeconds());
+        assertEquals(1, getterSettings.getMonitorUpdateIntervalSeconds());
+        assertNull(getterSettings.getMtaHostname());
+        assertNull(getterSettings.getMtaPassword());
+        assertEquals(22, getterSettings.getMtaPort());
+        assertNull(getterSettings.getMtaUsername());
+        assertEquals(20, getterSettings
+                .getPasswordResetRequestLifetimeSeconds());
+        assertEquals(2, getterSettings.getRegistrationRequestLifetimeSeconds());
+        assertEquals(1, getterSettings.getServerPoolInstances());
+        assertEquals(new User(DecidrGlobals.getTime().getTime()),
+                getterSettings.getSuperAdmin());
+        assertEquals("dumbo@decidr.eu", getterSettings.getSystemEmailAddress());
+        assertEquals("Darth Vader", getterSettings.getSystemName());
+
+        setterSettings.setMtaHostname("");
+        setterSettings.setMtaPort(-102);
+        setterSettings.setMtaUsername("");
+        setterSettings.setMtaPassword("");
+        HibernateTransactionCoordinator.getInstance().runTransaction(setter);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
+        getterSettings = getter.getResult();
+        assertEquals("", getterSettings.getMtaHostname());
+        assertEquals("", getterSettings.getMtaPassword());
+        assertEquals(-102, getterSettings.getMtaPort());
+        assertEquals("", getterSettings.getMtaUsername());
 
         try {
-            settings.setChangeEmailRequestLifetimeSeconds(-1);
+            setterSettings.setChangeEmailRequestLifetimeSeconds(-1);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
             fail("invalid ChangeEmailRequestLifetimeSeconds succeeded");
@@ -444,7 +565,7 @@ public class SystemCommandsTest {
             // supposed to be thrown
         }
         try {
-            settings.setDomain(null);
+            setterSettings.setDomain(null);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
             fail("null domain succeded");
@@ -454,218 +575,189 @@ public class SystemCommandsTest {
         try {
             // MF & DH: should this fail or return a default domain
             // (?localhost?) ~rr
-            settings.setDomain("");
+            setterSettings.setDomain("");
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
             fail("empty domain succeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
-        // RR test illegal values
         try {
-            settings.setId(-1L);
+            // RR test as soon as legal values are known
+            setterSettings.setId(-1L);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("illgal ID value succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setInvitationLifetimeSeconds(10);
+            setterSettings.setInvitationLifetimeSeconds(-1);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid InvitationLifetimeSeconds succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setLogLevel("DEBUG");
+            setterSettings.setLogLevel("INVALID");
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid loglevel succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setMaxAttachmentsPerEmail(10);
+            setterSettings.setMaxAttachmentsPerEmail(-1);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid amount of attachments succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setMaxServerLoadForShutdown((byte) 100);
+            setterSettings.setMaxServerLoadForShutdown((byte) -1);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid MaxServerLoadForShutdown succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setMaxServerLoadForUnlock((byte) 100);
+            setterSettings.setMaxServerLoadForUnlock((byte) -1);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid MaxServerLoadForUnlock succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setMaxUploadFileSizeBytes(1);
+            setterSettings.setMaxUploadFileSizeBytes(-1);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid MaxUploadFileSizeBytes succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setMaxWorkflowInstancesForShutdown(1);
+            setterSettings.setMaxWorkflowInstancesForShutdown(-1);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid MaxWorkflowInstancesForShutdown succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setMaxWorkflowInstancesForUnlock(1);
+            setterSettings.setMaxWorkflowInstancesForUnlock(-1);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid MaxWorkflowInstancesForUnlock succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setMinServerLoadForLock((byte) 100);
+            setterSettings.setMinServerLoadForLock((byte) -1);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid MinServerLoadForLock succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setMinUnlockedServers(1);
+            setterSettings.setMinUnlockedServers(-1);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid MinUnlockedServers succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setMinWorkflowInstancesForLock(1);
+            setterSettings.setMinWorkflowInstancesForLock(-1);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid MinWorkflowInstancesForLock succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setModifiedDate(DecidrGlobals.getTime().getTime());
+            setterSettings.setModifiedDate(new Date(DecidrGlobals.getTime()
+                    .getTimeInMillis() + 10000000));
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid (future) ModifiedDate succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setMonitorAveragingPeriodSeconds(60);
+            setterSettings.setMonitorAveragingPeriodSeconds(-1);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid MonitorAveragingPeriodSeconds succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setMonitorUpdateIntervalSeconds(10);
+            setterSettings.setMonitorUpdateIntervalSeconds(-1);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid MonitorUpdateIntervalSeconds succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setMtaHostname("localhost");
+            setterSettings.setPasswordResetRequestLifetimeSeconds(-1);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid PasswordResetRequestLifetimeSeconds succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setMtaPassword("asdfg");
+            setterSettings.setRegistrationRequestLifetimeSeconds(-1);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid RegistrationRequestLifetimeSeconds succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setMtaPort(-1);
+            setterSettings.setServerPoolInstances(-1);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid ServerPoolInstances succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setMtaUsername("asd");
+            setterSettings.setSuperAdmin(null);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("null super admin succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setPasswordResetRequestLifetimeSeconds(200);
+            setterSettings.setSystemEmailAddress("in@valid@email");
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
+            fail("invalid email address ucceeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        // DH & MF: are the following two tests correct? ~rr
+        try {
+            setterSettings.setSystemName("");
+            HibernateTransactionCoordinator.getInstance()
+                    .runTransaction(setter);
+            fail("empty system name succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            settings.setRegistrationRequestLifetimeSeconds(2000);
+            setterSettings.setSystemName(null);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(setter);
-            fail("");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            settings.setServerPoolInstances(3);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            settings.setSuperAdmin(new User());
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            settings.setSystemEmailAddress("decidr@decidr.biz");
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            settings.setSystemName("De Cidr");
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("");
+            fail("null system name succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }

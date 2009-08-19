@@ -1,0 +1,511 @@
+log4j:WARN No appenders could be found for logger (org.hibernate.cfg.Environment).
+log4j:WARN Please initialize the log4j system properly.
+[DEBUG] opened session at timestamp: 12506933745
+[DEBUG] begin
+[DEBUG] opening JDBC connection
+[DEBUG] total checked-out connections: 0
+[DEBUG] using pooled JDBC connection, pool size: 0
+[DEBUG] current autocommit status: false
+[DEBUG] after transaction begin
+[DEBUG] unable to locate HQL query plan in cache; generating (from SystemSettings s join fetch s.superAdmin)
+[DEBUG] parse() - HQL: from de.decidr.model.entities.SystemSettings s join fetch s.superAdmin
+[DEBUG] --- HQL AST ---
+ \-[QUERY] 'query'
+    \-[SELECT_FROM] 'SELECT_FROM'
+       \-[FROM] 'from'
+          +-[RANGE] 'RANGE'
+          |  +-[DOT] '.'
+          |  |  +-[DOT] '.'
+          |  |  |  +-[DOT] '.'
+          |  |  |  |  +-[DOT] '.'
+          |  |  |  |  |  +-[IDENT] 'de'
+          |  |  |  |  |  \-[IDENT] 'decidr'
+          |  |  |  |  \-[IDENT] 'model'
+          |  |  |  \-[IDENT] 'entities'
+          |  |  \-[IDENT] 'SystemSettings'
+          |  \-[ALIAS] 's'
+          \-[JOIN] 'join'
+             +-[FETCH] 'fetch'
+             \-[DOT] '.'
+                +-[IDENT] 's'
+                \-[IDENT] 'superAdmin'
+
+[DEBUG] throwQueryException() : no errors
+[DEBUG] select << begin [level=1, statement=select]
+[DEBUG] FromClause{level=1} :  de.decidr.model.entities.SystemSettings (s) -> systemsett0_
+[DEBUG] Resolved :  s -> systemsett0_.id
+[DEBUG] handling property dereference [de.decidr.model.entities.SystemSettings (s) -> superAdmin (class)]
+[DEBUG] getDataType() : superAdmin -> org.hibernate.type.ManyToOneType(de.decidr.model.entities.User)
+[DEBUG] dereferenceEntityJoin() : generating join for superAdmin in de.decidr.model.entities.SystemSettings {no alias} parent = [ {null} ]
+[DEBUG] FromClause{level=1} :  de.decidr.model.entities.User (no alias) -> user1_
+[DEBUG] addJoinByPathMap() : s.superAdmin -> decidrdb.user user1_
+[DEBUG] Resolved :  s.superAdmin -> systemsett0_.superAdminId
+[DEBUG] createFromJoinElement() : -- join tree --
+ \-[JOIN_FRAGMENT] FromElement: 'decidrdb.user user1_' FromElement{explicit,not a collection join,fetch join,fetch non-lazy properties,classAlias=null,role=null,tableName=decidrdb.user,tableAlias=user1_,origin=decidrdb.system_settings systemsett0_,colums={systemsett0_.superAdminId ,className=de.decidr.model.entities.User}}
+
+[DEBUG] select : finishing up [level=1, statement=select]
+[DEBUG] processQuery() :  ( SELECT ( FromClause{level=1} ( decidrdb.system_settings systemsett0_ decidrdb.user user1_ ) ) )
+[DEBUG] Derived SELECT clause created.
+[DEBUG] Using FROM fragment [decidrdb.system_settings systemsett0_]
+[DEBUG] Using FROM fragment [inner join decidrdb.user user1_ on systemsett0_.superAdminId=user1_.id]
+[DEBUG] select >> end [level=1, statement=select]
+[DEBUG] --- SQL AST ---
+ \-[SELECT] QueryNode: 'SELECT'  querySpaces (decidrdb.user,decidrdb.system_settings)
+    +-[SELECT_CLAUSE] SelectClause: '{derived select clause}'
+    |  +-[SELECT_EXPR] SelectExpressionImpl: 'systemsett0_.id as id80_0_' {FromElement{explicit,not a collection join,not a fetch join,fetch non-lazy properties,classAlias=s,role=null,tableName=decidrdb.system_settings,tableAlias=systemsett0_,origin=null,colums={,className=de.decidr.model.entities.SystemSettings}}}
+    |  +-[SELECT_EXPR] SelectExpressionImpl: 'user1_.id as id78_1_' {FromElement{explicit,not a collection join,fetch join,fetch non-lazy properties,classAlias=null,role=null,tableName=decidrdb.user,tableAlias=user1_,origin=decidrdb.system_settings systemsett0_,colums={systemsett0_.superAdminId ,className=de.decidr.model.entities.User}}}
+    |  +-[SQL_TOKEN] SqlFragment: 'systemsett0_.superAdminId as superAdm2_80_0_, systemsett0_.modifiedDate as modified3_80_0_, systemsett0_.autoAcceptNewTenants as autoAcce4_80_0_, systemsett0_.systemName as systemName80_0_, systemsett0_.domain as domain80_0_, systemsett0_.systemEmailAddress as systemEm7_80_0_, systemsett0_.logLevel as logLevel80_0_, systemsett0_.passwordResetRequestLifetimeSeconds as password9_80_0_, systemsett0_.registrationRequestLifetimeSeconds as registr10_80_0_, systemsett0_.changeEmailRequestLifetimeSeconds as changeE11_80_0_, systemsett0_.invitationLifetimeSeconds as invitat12_80_0_, systemsett0_.mtaHostname as mtaHost13_80_0_, systemsett0_.mtaPort as mtaPort80_0_, systemsett0_.mtaUseTls as mtaUseTls80_0_, systemsett0_.mtaUsername as mtaUser16_80_0_, systemsett0_.mtaPassword as mtaPass17_80_0_, systemsett0_.maxUploadFileSizeBytes as maxUplo18_80_0_, systemsett0_.maxAttachmentsPerEmail as maxAtta19_80_0_, systemsett0_.monitorUpdateIntervalSeconds as monitor20_80_0_, systemsett0_.monitorAveragingPeriodSeconds as monitor21_80_0_, systemsett0_.serverPoolInstances as serverP22_80_0_, systemsett0_.minServerLoadForLock as minServ23_80_0_, systemsett0_.maxServerLoadForUnlock as maxServ24_80_0_, systemsett0_.maxServerLoadForShutdown as maxServ25_80_0_, systemsett0_.minUnlockedServers as minUnlo26_80_0_, systemsett0_.minWorkflowInstancesForLock as minWork27_80_0_, systemsett0_.maxWorkflowInstancesForUnlock as maxWork28_80_0_, systemsett0_.maxWorkflowInstancesForShutdown as maxWork29_80_0_'
+    |  \-[SQL_TOKEN] SqlFragment: 'user1_.authKey as authKey78_1_, user1_.email as email78_1_, user1_.disabledSince as disabled4_78_1_, user1_.unavailableSince as unavaila5_78_1_, user1_.registeredSince as register6_78_1_, user1_.creationDate as creation7_78_1_'
+    \-[FROM] FromClause: 'from' FromClause{level=1, fromElementCounter=2, fromElements=2, fromElementByClassAlias=[s], fromElementByTableAlias=[user1_, systemsett0_], fromElementsByPath=[s.superAdmin], collectionJoinFromElementsByPath=[], impliedElements=[]}
+       \-[FROM_FRAGMENT] FromElement: 'decidrdb.system_settings systemsett0_' FromElement{explicit,not a collection join,not a fetch join,fetch non-lazy properties,classAlias=s,role=null,tableName=decidrdb.system_settings,tableAlias=systemsett0_,origin=null,colums={,className=de.decidr.model.entities.SystemSettings}}
+          \-[JOIN_FRAGMENT] FromElement: 'inner join decidrdb.user user1_ on systemsett0_.superAdminId=user1_.id' FromElement{explicit,not a collection join,fetch join,fetch non-lazy properties,classAlias=null,role=null,tableName=decidrdb.user,tableAlias=user1_,origin=decidrdb.system_settings systemsett0_,colums={systemsett0_.superAdminId ,className=de.decidr.model.entities.User}}
+
+[DEBUG] throwQueryException() : no errors
+[DEBUG] HQL: from de.decidr.model.entities.SystemSettings s join fetch s.superAdmin
+[DEBUG] SQL: select systemsett0_.id as id80_0_, user1_.id as id78_1_, systemsett0_.superAdminId as superAdm2_80_0_, systemsett0_.modifiedDate as modified3_80_0_, systemsett0_.autoAcceptNewTenants as autoAcce4_80_0_, systemsett0_.systemName as systemName80_0_, systemsett0_.domain as domain80_0_, systemsett0_.systemEmailAddress as systemEm7_80_0_, systemsett0_.logLevel as logLevel80_0_, systemsett0_.passwordResetRequestLifetimeSeconds as password9_80_0_, systemsett0_.registrationRequestLifetimeSeconds as registr10_80_0_, systemsett0_.changeEmailRequestLifetimeSeconds as changeE11_80_0_, systemsett0_.invitationLifetimeSeconds as invitat12_80_0_, systemsett0_.mtaHostname as mtaHost13_80_0_, systemsett0_.mtaPort as mtaPort80_0_, systemsett0_.mtaUseTls as mtaUseTls80_0_, systemsett0_.mtaUsername as mtaUser16_80_0_, systemsett0_.mtaPassword as mtaPass17_80_0_, systemsett0_.maxUploadFileSizeBytes as maxUplo18_80_0_, systemsett0_.maxAttachmentsPerEmail as maxAtta19_80_0_, systemsett0_.monitorUpdateIntervalSeconds as monitor20_80_0_, systemsett0_.monitorAveragingPeriodSeconds as monitor21_80_0_, systemsett0_.serverPoolInstances as serverP22_80_0_, systemsett0_.minServerLoadForLock as minServ23_80_0_, systemsett0_.maxServerLoadForUnlock as maxServ24_80_0_, systemsett0_.maxServerLoadForShutdown as maxServ25_80_0_, systemsett0_.minUnlockedServers as minUnlo26_80_0_, systemsett0_.minWorkflowInstancesForLock as minWork27_80_0_, systemsett0_.maxWorkflowInstancesForUnlock as maxWork28_80_0_, systemsett0_.maxWorkflowInstancesForShutdown as maxWork29_80_0_, user1_.authKey as authKey78_1_, user1_.email as email78_1_, user1_.disabledSince as disabled4_78_1_, user1_.unavailableSince as unavaila5_78_1_, user1_.registeredSince as register6_78_1_, user1_.creationDate as creation7_78_1_ from decidrdb.system_settings systemsett0_ inner join decidrdb.user user1_ on systemsett0_.superAdminId=user1_.id
+[DEBUG] throwQueryException() : no errors
+[DEBUG] HQL param location recognition took 8 mills (from SystemSettings s join fetch s.superAdmin)
+[DEBUG] located HQL query plan in cache (from SystemSettings s join fetch s.superAdmin)
+[DEBUG] find: from SystemSettings s join fetch s.superAdmin
+[DEBUG] named parameters: {}
+[DEBUG] about to open PreparedStatement (open PreparedStatements: 0, globally: 0)
+[DEBUG] select systemsett0_.id as id80_0_, user1_.id as id78_1_, systemsett0_.superAdminId as superAdm2_80_0_, systemsett0_.modifiedDate as modified3_80_0_, systemsett0_.autoAcceptNewTenants as autoAcce4_80_0_, systemsett0_.systemName as systemName80_0_, systemsett0_.domain as domain80_0_, systemsett0_.systemEmailAddress as systemEm7_80_0_, systemsett0_.logLevel as logLevel80_0_, systemsett0_.passwordResetRequestLifetimeSeconds as password9_80_0_, systemsett0_.registrationRequestLifetimeSeconds as registr10_80_0_, systemsett0_.changeEmailRequestLifetimeSeconds as changeE11_80_0_, systemsett0_.invitationLifetimeSeconds as invitat12_80_0_, systemsett0_.mtaHostname as mtaHost13_80_0_, systemsett0_.mtaPort as mtaPort80_0_, systemsett0_.mtaUseTls as mtaUseTls80_0_, systemsett0_.mtaUsername as mtaUser16_80_0_, systemsett0_.mtaPassword as mtaPass17_80_0_, systemsett0_.maxUploadFileSizeBytes as maxUplo18_80_0_, systemsett0_.maxAttachmentsPerEmail as maxAtta19_80_0_, systemsett0_.monitorUpdateIntervalSeconds as monitor20_80_0_, systemsett0_.monitorAveragingPeriodSeconds as monitor21_80_0_, systemsett0_.serverPoolInstances as serverP22_80_0_, systemsett0_.minServerLoadForLock as minServ23_80_0_, systemsett0_.maxServerLoadForUnlock as maxServ24_80_0_, systemsett0_.maxServerLoadForShutdown as maxServ25_80_0_, systemsett0_.minUnlockedServers as minUnlo26_80_0_, systemsett0_.minWorkflowInstancesForLock as minWork27_80_0_, systemsett0_.maxWorkflowInstancesForUnlock as maxWork28_80_0_, systemsett0_.maxWorkflowInstancesForShutdown as maxWork29_80_0_, user1_.authKey as authKey78_1_, user1_.email as email78_1_, user1_.disabledSince as disabled4_78_1_, user1_.unavailableSince as unavaila5_78_1_, user1_.registeredSince as register6_78_1_, user1_.creationDate as creation7_78_1_ from decidrdb.system_settings systemsett0_ inner join decidrdb.user user1_ on systemsett0_.superAdminId=user1_.id limit ?
+[DEBUG] preparing statement
+[DEBUG] about to open ResultSet (open ResultSets: 0, globally: 0)
+[DEBUG] processing result set
+[DEBUG] done processing result set (0 rows)
+[DEBUG] about to close ResultSet (open ResultSets: 1, globally: 1)
+[DEBUG] about to close PreparedStatement (open PreparedStatements: 1, globally: 1)
+[DEBUG] closing statement
+[DEBUG] total objects hydrated: 0
+[DEBUG] initializing non-lazy collections
+[DEBUG] commit
+[DEBUG] automatically flushing session
+[DEBUG] before transaction completion
+[DEBUG] before transaction completion
+[DEBUG] committed JDBC Connection
+[DEBUG] after transaction completion
+[DEBUG] aggressively releasing JDBC connection
+[DEBUG] releasing JDBC connection [ (open PreparedStatements: 0, globally: 0) (open ResultSets: 0, globally: 0)]
+[DEBUG] returning connection to pool, pool size: 1
+[DEBUG] after transaction completion
+[DEBUG] closing session
+[DEBUG] connection already null in cleanup : no action
+[DEBUG] opened session at timestamp: 12506933751
+[DEBUG] begin
+[DEBUG] opening JDBC connection
+[DEBUG] total checked-out connections: 0
+[DEBUG] using pooled JDBC connection, pool size: 0
+[DEBUG] current autocommit status: false
+[DEBUG] after transaction begin
+[DEBUG] unable to locate HQL query plan in cache; generating (from Server s join fetch s.serverType where s.serverType.name = :serverType)
+[DEBUG] parse() - HQL: from de.decidr.model.entities.Server s join fetch s.serverType where s.serverType.name = :serverType
+[DEBUG] --- HQL AST ---
+ \-[QUERY] 'query'
+    +-[SELECT_FROM] 'SELECT_FROM'
+    |  \-[FROM] 'from'
+    |     +-[RANGE] 'RANGE'
+    |     |  +-[DOT] '.'
+    |     |  |  +-[DOT] '.'
+    |     |  |  |  +-[DOT] '.'
+    |     |  |  |  |  +-[DOT] '.'
+    |     |  |  |  |  |  +-[IDENT] 'de'
+    |     |  |  |  |  |  \-[IDENT] 'decidr'
+    |     |  |  |  |  \-[IDENT] 'model'
+    |     |  |  |  \-[IDENT] 'entities'
+    |     |  |  \-[IDENT] 'Server'
+    |     |  \-[ALIAS] 's'
+    |     \-[JOIN] 'join'
+    |        +-[FETCH] 'fetch'
+    |        \-[DOT] '.'
+    |           +-[IDENT] 's'
+    |           \-[IDENT] 'serverType'
+    \-[WHERE] 'where'
+       \-[EQ] '='
+          +-[DOT] '.'
+          |  +-[DOT] '.'
+          |  |  +-[IDENT] 's'
+          |  |  \-[IDENT] 'serverType'
+          |  \-[IDENT] 'name'
+          \-[COLON] ':'
+             \-[IDENT] 'serverType'
+
+[DEBUG] throwQueryException() : no errors
+[DEBUG] select << begin [level=1, statement=select]
+[DEBUG] FromClause{level=1} :  de.decidr.model.entities.Server (s) -> server0_
+[DEBUG] Resolved :  s -> server0_.id
+[DEBUG] handling property dereference [de.decidr.model.entities.Server (s) -> serverType (class)]
+[DEBUG] getDataType() : serverType -> org.hibernate.type.ManyToOneType(de.decidr.model.entities.ServerType)
+[DEBUG] dereferenceEntityJoin() : generating join for serverType in de.decidr.model.entities.Server {no alias} parent = [ {null} ]
+[DEBUG] FromClause{level=1} :  de.decidr.model.entities.ServerType (no alias) -> servertype1_
+[DEBUG] addJoinByPathMap() : s.serverType -> decidrdb.server_type servertype1_
+[DEBUG] Resolved :  s.serverType -> server0_.serverTypeId
+[DEBUG] createFromJoinElement() : -- join tree --
+ \-[JOIN_FRAGMENT] FromElement: 'decidrdb.server_type servertype1_' FromElement{explicit,not a collection join,fetch join,fetch non-lazy properties,classAlias=null,role=null,tableName=decidrdb.server_type,tableAlias=servertype1_,origin=decidrdb.server server0_,colums={server0_.serverTypeId ,className=de.decidr.model.entities.ServerType}}
+
+[DEBUG] Resolved :  s -> server0_.id
+[DEBUG] handling property dereference [de.decidr.model.entities.Server (s) -> serverType (class)]
+[DEBUG] getDataType() : serverType -> org.hibernate.type.ManyToOneType(de.decidr.model.entities.ServerType)
+[DEBUG] dereferenceEntityJoin() : generating join for serverType in de.decidr.model.entities.Server {no alias} parent = [  ( . ( . server0_.id serverType ) name ) ]
+[DEBUG] Resolved :  s.serverType -> server0_.serverTypeId
+[DEBUG] handling property dereference [de.decidr.model.entities.ServerType (null) -> name (class)]
+[DEBUG] getDataType() : name -> org.hibernate.type.StringType@98f192
+[DEBUG] Resolved :  s.serverType.name -> servertype1_.name
+[DEBUG] select : finishing up [level=1, statement=select]
+[DEBUG] processQuery() :  ( SELECT ( FromClause{level=1} ( decidrdb.server server0_ decidrdb.server_type servertype1_ ) ) ( where ( = ( servertype1_.name ( server0_.serverTypeId server0_.id serverType ) name ) ? ) ) )
+[DEBUG] Derived SELECT clause created.
+[DEBUG] Using FROM fragment [decidrdb.server server0_]
+[DEBUG] Using FROM fragment [inner join decidrdb.server_type servertype1_ on server0_.serverTypeId=servertype1_.id]
+[DEBUG] select >> end [level=1, statement=select]
+[DEBUG] --- SQL AST ---
+ \-[SELECT] QueryNode: 'SELECT'  querySpaces (decidrdb.server,decidrdb.server_type)
+    +-[SELECT_CLAUSE] SelectClause: '{derived select clause}'
+    |  +-[SELECT_EXPR] SelectExpressionImpl: 'server0_.id as id93_0_' {FromElement{explicit,not a collection join,not a fetch join,fetch non-lazy properties,classAlias=s,role=null,tableName=decidrdb.server,tableAlias=server0_,origin=null,colums={,className=de.decidr.model.entities.Server}}}
+    |  +-[SELECT_EXPR] SelectExpressionImpl: 'servertype1_.id as id88_1_' {FromElement{explicit,not a collection join,fetch join,fetch non-lazy properties,classAlias=null,role=null,tableName=decidrdb.server_type,tableAlias=servertype1_,origin=decidrdb.server server0_,colums={server0_.serverTypeId ,className=de.decidr.model.entities.ServerType}}}
+    |  +-[SQL_TOKEN] SqlFragment: 'server0_.serverTypeId as serverTy2_93_0_, server0_.location as location93_0_, server0_.load as load93_0_, server0_.locked as locked93_0_, server0_.dynamicallyAdded as dynamica6_93_0_, server0_.lastLoadUpdate as lastLoad7_93_0_'
+    |  \-[SQL_TOKEN] SqlFragment: 'servertype1_.name as name88_1_'
+    +-[FROM] FromClause: 'from' FromClause{level=1, fromElementCounter=2, fromElements=2, fromElementByClassAlias=[s], fromElementByTableAlias=[server0_, servertype1_], fromElementsByPath=[s.serverType], collectionJoinFromElementsByPath=[], impliedElements=[]}
+    |  \-[FROM_FRAGMENT] FromElement: 'decidrdb.server server0_' FromElement{explicit,not a collection join,not a fetch join,fetch non-lazy properties,classAlias=s,role=null,tableName=decidrdb.server,tableAlias=server0_,origin=null,colums={,className=de.decidr.model.entities.Server}}
+    |     \-[JOIN_FRAGMENT] FromElement: 'inner join decidrdb.server_type servertype1_ on server0_.serverTypeId=servertype1_.id' FromElement{explicit,not a collection join,fetch join,fetch non-lazy properties,classAlias=null,role=null,tableName=decidrdb.server_type,tableAlias=servertype1_,origin=decidrdb.server server0_,colums={server0_.serverTypeId ,className=de.decidr.model.entities.ServerType}}
+    \-[WHERE] SqlNode: 'where'
+       \-[EQ] BinaryLogicOperatorNode: '='
+          +-[DOT] DotNode: 'servertype1_.name' {propertyName=name,dereferenceType=4,propertyPath=name,path=s.serverType.name,tableAlias=servertype1_,className=de.decidr.model.entities.ServerType,classAlias=null}
+          |  +-[DOT] DotNode: 'server0_.serverTypeId' {propertyName=serverType,dereferenceType=1,propertyPath=serverType,path=s.serverType,tableAlias=servertype1_,className=de.decidr.model.entities.ServerType,classAlias=null}
+          |  |  +-[ALIAS_REF] IdentNode: 'server0_.id' {alias=s, className=de.decidr.model.entities.Server, tableAlias=server0_}
+          |  |  \-[IDENT] IdentNode: 'serverType' {originalText=serverType}
+          |  \-[IDENT] IdentNode: 'name' {originalText=name}
+          \-[NAMED_PARAM] ParameterNode: '?' {name=serverType, expectedType=org.hibernate.type.StringType@98f192}
+
+[DEBUG] throwQueryException() : no errors
+[DEBUG] HQL: from de.decidr.model.entities.Server s join fetch s.serverType where s.serverType.name = :serverType
+[DEBUG] SQL: select server0_.id as id93_0_, servertype1_.id as id88_1_, server0_.serverTypeId as serverTy2_93_0_, server0_.location as location93_0_, server0_.load as load93_0_, server0_.locked as locked93_0_, server0_.dynamicallyAdded as dynamica6_93_0_, server0_.lastLoadUpdate as lastLoad7_93_0_, servertype1_.name as name88_1_ from decidrdb.server server0_ inner join decidrdb.server_type servertype1_ on server0_.serverTypeId=servertype1_.id where servertype1_.name=?
+[DEBUG] throwQueryException() : no errors
+[DEBUG] HQL param location recognition took 1 mills (from Server s join fetch s.serverType where s.serverType.name = :serverType)
+[DEBUG] located HQL query plan in cache (from Server s join fetch s.serverType where s.serverType.name = :serverType)
+[DEBUG] find: from Server s join fetch s.serverType where s.serverType.name = :serverType
+[DEBUG] named parameters: {serverType=Esb}
+[DEBUG] about to open PreparedStatement (open PreparedStatements: 0, globally: 0)
+[DEBUG] select server0_.id as id93_0_, servertype1_.id as id88_1_, server0_.serverTypeId as serverTy2_93_0_, server0_.location as location93_0_, server0_.load as load93_0_, server0_.locked as locked93_0_, server0_.dynamicallyAdded as dynamica6_93_0_, server0_.lastLoadUpdate as lastLoad7_93_0_, servertype1_.name as name88_1_ from decidrdb.server server0_ inner join decidrdb.server_type servertype1_ on server0_.serverTypeId=servertype1_.id where servertype1_.name=? limit ?
+[DEBUG] preparing statement
+[DEBUG] binding 'Esb' to parameter: 1
+[DEBUG] about to open ResultSet (open ResultSets: 0, globally: 0)
+[DEBUG] processing result set
+[DEBUG] done processing result set (0 rows)
+[DEBUG] about to close ResultSet (open ResultSets: 1, globally: 1)
+[DEBUG] about to close PreparedStatement (open PreparedStatements: 1, globally: 1)
+[DEBUG] closing statement
+[DEBUG] total objects hydrated: 0
+[DEBUG] initializing non-lazy collections
+[DEBUG] rollback
+[DEBUG] rolled back JDBC Connection
+[DEBUG] after transaction completion
+[DEBUG] aggressively releasing JDBC connection
+[DEBUG] releasing JDBC connection [ (open PreparedStatements: 0, globally: 0) (open ResultSets: 0, globally: 0)]
+[DEBUG] returning connection to pool, pool size: 1
+[DEBUG] after transaction completion
+[DEBUG] closing session
+[DEBUG] connection already null in cleanup : no action
+[DEBUG] opened session at timestamp: 12506933751
+[DEBUG] begin
+[DEBUG] opening JDBC connection
+[DEBUG] total checked-out connections: 0
+[DEBUG] using pooled JDBC connection, pool size: 0
+[DEBUG] current autocommit status: false
+[DEBUG] after transaction begin
+[DEBUG] located HQL query plan in cache (from Server s join fetch s.serverType where s.serverType.name = :serverType)
+[DEBUG] located HQL query plan in cache (from Server s join fetch s.serverType where s.serverType.name = :serverType)
+[DEBUG] find: from Server s join fetch s.serverType where s.serverType.name = :serverType
+[DEBUG] named parameters: {serverType=Esb}
+[DEBUG] about to open PreparedStatement (open PreparedStatements: 0, globally: 0)
+[DEBUG] select server0_.id as id93_0_, servertype1_.id as id88_1_, server0_.serverTypeId as serverTy2_93_0_, server0_.location as location93_0_, server0_.load as load93_0_, server0_.locked as locked93_0_, server0_.dynamicallyAdded as dynamica6_93_0_, server0_.lastLoadUpdate as lastLoad7_93_0_, servertype1_.name as name88_1_ from decidrdb.server server0_ inner join decidrdb.server_type servertype1_ on server0_.serverTypeId=servertype1_.id where servertype1_.name=? limit ?
+[DEBUG] preparing statement
+[DEBUG] binding 'Esb' to parameter: 1
+[DEBUG] about to open ResultSet (open ResultSets: 0, globally: 0)
+[DEBUG] processing result set
+[DEBUG] done processing result set (0 rows)
+[DEBUG] about to close ResultSet (open ResultSets: 1, globally: 1)
+[DEBUG] about to close PreparedStatement (open PreparedStatements: 1, globally: 1)
+[DEBUG] closing statement
+[DEBUG] total objects hydrated: 0
+[DEBUG] initializing non-lazy collections
+[DEBUG] rollback
+[DEBUG] rolled back JDBC Connection
+[DEBUG] after transaction completion
+[DEBUG] aggressively releasing JDBC connection
+[DEBUG] releasing JDBC connection [ (open PreparedStatements: 0, globally: 0) (open ResultSets: 0, globally: 0)]
+[DEBUG] returning connection to pool, pool size: 1
+[DEBUG] after transaction completion
+[DEBUG] closing session
+[DEBUG] connection already null in cleanup : no action
+[DEBUG] opened session at timestamp: 12506933751
+[DEBUG] begin
+[DEBUG] opening JDBC connection
+[DEBUG] total checked-out connections: 0
+[DEBUG] using pooled JDBC connection, pool size: 0
+[DEBUG] current autocommit status: false
+[DEBUG] after transaction begin
+[DEBUG] located HQL query plan in cache (from Server s join fetch s.serverType where s.serverType.name = :serverType)
+[DEBUG] located HQL query plan in cache (from Server s join fetch s.serverType where s.serverType.name = :serverType)
+[DEBUG] find: from Server s join fetch s.serverType where s.serverType.name = :serverType
+[DEBUG] named parameters: {serverType=Esb}
+[DEBUG] about to open PreparedStatement (open PreparedStatements: 0, globally: 0)
+[DEBUG] select server0_.id as id93_0_, servertype1_.id as id88_1_, server0_.serverTypeId as serverTy2_93_0_, server0_.location as location93_0_, server0_.load as load93_0_, server0_.locked as locked93_0_, server0_.dynamicallyAdded as dynamica6_93_0_, server0_.lastLoadUpdate as lastLoad7_93_0_, servertype1_.name as name88_1_ from decidrdb.server server0_ inner join decidrdb.server_type servertype1_ on server0_.serverTypeId=servertype1_.id where servertype1_.name=? limit ?
+[DEBUG] preparing statement
+[DEBUG] binding 'Esb' to parameter: 1
+[DEBUG] about to open ResultSet (open ResultSets: 0, globally: 0)
+[DEBUG] processing result set
+[DEBUG] done processing result set (0 rows)
+[DEBUG] about to close ResultSet (open ResultSets: 1, globally: 1)
+[DEBUG] about to close PreparedStatement (open PreparedStatements: 1, globally: 1)
+[DEBUG] closing statement
+[DEBUG] total objects hydrated: 0
+[DEBUG] initializing non-lazy collections
+[DEBUG] rollback
+[DEBUG] rolled back JDBC Connection
+[DEBUG] after transaction completion
+[DEBUG] aggressively releasing JDBC connection
+[DEBUG] releasing JDBC connection [ (open PreparedStatements: 0, globally: 0) (open ResultSets: 0, globally: 0)]
+[DEBUG] returning connection to pool, pool size: 1
+[DEBUG] after transaction completion
+[DEBUG] closing session
+[DEBUG] connection already null in cleanup : no action
+[DEBUG] opened session at timestamp: 12506933751
+[DEBUG] begin
+[DEBUG] opening JDBC connection
+[DEBUG] total checked-out connections: 0
+[DEBUG] using pooled JDBC connection, pool size: 0
+[DEBUG] current autocommit status: false
+[DEBUG] after transaction begin
+[DEBUG] located HQL query plan in cache (from SystemSettings s join fetch s.superAdmin)
+[DEBUG] located HQL query plan in cache (from SystemSettings s join fetch s.superAdmin)
+[DEBUG] find: from SystemSettings s join fetch s.superAdmin
+[DEBUG] named parameters: {}
+[DEBUG] about to open PreparedStatement (open PreparedStatements: 0, globally: 0)
+[DEBUG] select systemsett0_.id as id80_0_, user1_.id as id78_1_, systemsett0_.superAdminId as superAdm2_80_0_, systemsett0_.modifiedDate as modified3_80_0_, systemsett0_.autoAcceptNewTenants as autoAcce4_80_0_, systemsett0_.systemName as systemName80_0_, systemsett0_.domain as domain80_0_, systemsett0_.systemEmailAddress as systemEm7_80_0_, systemsett0_.logLevel as logLevel80_0_, systemsett0_.passwordResetRequestLifetimeSeconds as password9_80_0_, systemsett0_.registrationRequestLifetimeSeconds as registr10_80_0_, systemsett0_.changeEmailRequestLifetimeSeconds as changeE11_80_0_, systemsett0_.invitationLifetimeSeconds as invitat12_80_0_, systemsett0_.mtaHostname as mtaHost13_80_0_, systemsett0_.mtaPort as mtaPort80_0_, systemsett0_.mtaUseTls as mtaUseTls80_0_, systemsett0_.mtaUsername as mtaUser16_80_0_, systemsett0_.mtaPassword as mtaPass17_80_0_, systemsett0_.maxUploadFileSizeBytes as maxUplo18_80_0_, systemsett0_.maxAttachmentsPerEmail as maxAtta19_80_0_, systemsett0_.monitorUpdateIntervalSeconds as monitor20_80_0_, systemsett0_.monitorAveragingPeriodSeconds as monitor21_80_0_, systemsett0_.serverPoolInstances as serverP22_80_0_, systemsett0_.minServerLoadForLock as minServ23_80_0_, systemsett0_.maxServerLoadForUnlock as maxServ24_80_0_, systemsett0_.maxServerLoadForShutdown as maxServ25_80_0_, systemsett0_.minUnlockedServers as minUnlo26_80_0_, systemsett0_.minWorkflowInstancesForLock as minWork27_80_0_, systemsett0_.maxWorkflowInstancesForUnlock as maxWork28_80_0_, systemsett0_.maxWorkflowInstancesForShutdown as maxWork29_80_0_, user1_.authKey as authKey78_1_, user1_.email as email78_1_, user1_.disabledSince as disabled4_78_1_, user1_.unavailableSince as unavaila5_78_1_, user1_.registeredSince as register6_78_1_, user1_.creationDate as creation7_78_1_ from decidrdb.system_settings systemsett0_ inner join decidrdb.user user1_ on systemsett0_.superAdminId=user1_.id limit ?
+[DEBUG] preparing statement
+[DEBUG] about to open ResultSet (open ResultSets: 0, globally: 0)
+[DEBUG] processing result set
+[DEBUG] done processing result set (0 rows)
+[DEBUG] about to close ResultSet (open ResultSets: 1, globally: 1)
+[DEBUG] about to close PreparedStatement (open PreparedStatements: 1, globally: 1)
+[DEBUG] closing statement
+[DEBUG] total objects hydrated: 0
+[DEBUG] initializing non-lazy collections
+[DEBUG] commit
+[DEBUG] automatically flushing session
+[DEBUG] before transaction completion
+[DEBUG] before transaction completion
+[DEBUG] committed JDBC Connection
+[DEBUG] after transaction completion
+[DEBUG] aggressively releasing JDBC connection
+[DEBUG] releasing JDBC connection [ (open PreparedStatements: 0, globally: 0) (open ResultSets: 0, globally: 0)]
+[DEBUG] returning connection to pool, pool size: 1
+[DEBUG] after transaction completion
+[DEBUG] closing session
+[DEBUG] connection already null in cleanup : no action
+[DEBUG] opened session at timestamp: 12506933751
+[DEBUG] begin
+[DEBUG] opening JDBC connection
+[DEBUG] total checked-out connections: 0
+[DEBUG] using pooled JDBC connection, pool size: 0
+[DEBUG] current autocommit status: false
+[DEBUG] after transaction begin
+[DEBUG] located HQL query plan in cache (from SystemSettings s join fetch s.superAdmin)
+[DEBUG] located HQL query plan in cache (from SystemSettings s join fetch s.superAdmin)
+[DEBUG] find: from SystemSettings s join fetch s.superAdmin
+[DEBUG] named parameters: {}
+[DEBUG] about to open PreparedStatement (open PreparedStatements: 0, globally: 0)
+[DEBUG] select systemsett0_.id as id80_0_, user1_.id as id78_1_, systemsett0_.superAdminId as superAdm2_80_0_, systemsett0_.modifiedDate as modified3_80_0_, systemsett0_.autoAcceptNewTenants as autoAcce4_80_0_, systemsett0_.systemName as systemName80_0_, systemsett0_.domain as domain80_0_, systemsett0_.systemEmailAddress as systemEm7_80_0_, systemsett0_.logLevel as logLevel80_0_, systemsett0_.passwordResetRequestLifetimeSeconds as password9_80_0_, systemsett0_.registrationRequestLifetimeSeconds as registr10_80_0_, systemsett0_.changeEmailRequestLifetimeSeconds as changeE11_80_0_, systemsett0_.invitationLifetimeSeconds as invitat12_80_0_, systemsett0_.mtaHostname as mtaHost13_80_0_, systemsett0_.mtaPort as mtaPort80_0_, systemsett0_.mtaUseTls as mtaUseTls80_0_, systemsett0_.mtaUsername as mtaUser16_80_0_, systemsett0_.mtaPassword as mtaPass17_80_0_, systemsett0_.maxUploadFileSizeBytes as maxUplo18_80_0_, systemsett0_.maxAttachmentsPerEmail as maxAtta19_80_0_, systemsett0_.monitorUpdateIntervalSeconds as monitor20_80_0_, systemsett0_.monitorAveragingPeriodSeconds as monitor21_80_0_, systemsett0_.serverPoolInstances as serverP22_80_0_, systemsett0_.minServerLoadForLock as minServ23_80_0_, systemsett0_.maxServerLoadForUnlock as maxServ24_80_0_, systemsett0_.maxServerLoadForShutdown as maxServ25_80_0_, systemsett0_.minUnlockedServers as minUnlo26_80_0_, systemsett0_.minWorkflowInstancesForLock as minWork27_80_0_, systemsett0_.maxWorkflowInstancesForUnlock as maxWork28_80_0_, systemsett0_.maxWorkflowInstancesForShutdown as maxWork29_80_0_, user1_.authKey as authKey78_1_, user1_.email as email78_1_, user1_.disabledSince as disabled4_78_1_, user1_.unavailableSince as unavaila5_78_1_, user1_.registeredSince as register6_78_1_, user1_.creationDate as creation7_78_1_ from decidrdb.system_settings systemsett0_ inner join decidrdb.user user1_ on systemsett0_.superAdminId=user1_.id limit ?
+[DEBUG] preparing statement
+[DEBUG] about to open ResultSet (open ResultSets: 0, globally: 0)
+[DEBUG] processing result set
+[DEBUG] done processing result set (0 rows)
+[DEBUG] about to close ResultSet (open ResultSets: 1, globally: 1)
+[DEBUG] about to close PreparedStatement (open PreparedStatements: 1, globally: 1)
+[DEBUG] closing statement
+[DEBUG] total objects hydrated: 0
+[DEBUG] initializing non-lazy collections
+[DEBUG] commit
+[DEBUG] automatically flushing session
+[DEBUG] before transaction completion
+[DEBUG] before transaction completion
+[DEBUG] committed JDBC Connection
+[DEBUG] after transaction completion
+[DEBUG] aggressively releasing JDBC connection
+[DEBUG] releasing JDBC connection [ (open PreparedStatements: 0, globally: 0) (open ResultSets: 0, globally: 0)]
+[DEBUG] returning connection to pool, pool size: 1
+[DEBUG] after transaction completion
+[DEBUG] closing session
+[DEBUG] connection already null in cleanup : no action
+[DEBUG] opened session at timestamp: 12506933752
+[DEBUG] begin
+[DEBUG] opening JDBC connection
+[DEBUG] total checked-out connections: 0
+[DEBUG] using pooled JDBC connection, pool size: 0
+[DEBUG] current autocommit status: false
+[DEBUG] after transaction begin
+[DEBUG] located HQL query plan in cache (from SystemSettings s join fetch s.superAdmin)
+[DEBUG] located HQL query plan in cache (from SystemSettings s join fetch s.superAdmin)
+[DEBUG] find: from SystemSettings s join fetch s.superAdmin
+[DEBUG] named parameters: {}
+[DEBUG] about to open PreparedStatement (open PreparedStatements: 0, globally: 0)
+[DEBUG] select systemsett0_.id as id80_0_, user1_.id as id78_1_, systemsett0_.superAdminId as superAdm2_80_0_, systemsett0_.modifiedDate as modified3_80_0_, systemsett0_.autoAcceptNewTenants as autoAcce4_80_0_, systemsett0_.systemName as systemName80_0_, systemsett0_.domain as domain80_0_, systemsett0_.systemEmailAddress as systemEm7_80_0_, systemsett0_.logLevel as logLevel80_0_, systemsett0_.passwordResetRequestLifetimeSeconds as password9_80_0_, systemsett0_.registrationRequestLifetimeSeconds as registr10_80_0_, systemsett0_.changeEmailRequestLifetimeSeconds as changeE11_80_0_, systemsett0_.invitationLifetimeSeconds as invitat12_80_0_, systemsett0_.mtaHostname as mtaHost13_80_0_, systemsett0_.mtaPort as mtaPort80_0_, systemsett0_.mtaUseTls as mtaUseTls80_0_, systemsett0_.mtaUsername as mtaUser16_80_0_, systemsett0_.mtaPassword as mtaPass17_80_0_, systemsett0_.maxUploadFileSizeBytes as maxUplo18_80_0_, systemsett0_.maxAttachmentsPerEmail as maxAtta19_80_0_, systemsett0_.monitorUpdateIntervalSeconds as monitor20_80_0_, systemsett0_.monitorAveragingPeriodSeconds as monitor21_80_0_, systemsett0_.serverPoolInstances as serverP22_80_0_, systemsett0_.minServerLoadForLock as minServ23_80_0_, systemsett0_.maxServerLoadForUnlock as maxServ24_80_0_, systemsett0_.maxServerLoadForShutdown as maxServ25_80_0_, systemsett0_.minUnlockedServers as minUnlo26_80_0_, systemsett0_.minWorkflowInstancesForLock as minWork27_80_0_, systemsett0_.maxWorkflowInstancesForUnlock as maxWork28_80_0_, systemsett0_.maxWorkflowInstancesForShutdown as maxWork29_80_0_, user1_.authKey as authKey78_1_, user1_.email as email78_1_, user1_.disabledSince as disabled4_78_1_, user1_.unavailableSince as unavaila5_78_1_, user1_.registeredSince as register6_78_1_, user1_.creationDate as creation7_78_1_ from decidrdb.system_settings systemsett0_ inner join decidrdb.user user1_ on systemsett0_.superAdminId=user1_.id limit ?
+[DEBUG] preparing statement
+[DEBUG] about to open ResultSet (open ResultSets: 0, globally: 0)
+[DEBUG] processing result set
+[DEBUG] done processing result set (0 rows)
+[DEBUG] about to close ResultSet (open ResultSets: 1, globally: 1)
+[DEBUG] about to close PreparedStatement (open PreparedStatements: 1, globally: 1)
+[DEBUG] closing statement
+[DEBUG] total objects hydrated: 0
+[DEBUG] initializing non-lazy collections
+[DEBUG] commit
+[DEBUG] automatically flushing session
+[DEBUG] before transaction completion
+[DEBUG] before transaction completion
+[DEBUG] committed JDBC Connection
+[DEBUG] after transaction completion
+[DEBUG] aggressively releasing JDBC connection
+[DEBUG] releasing JDBC connection [ (open PreparedStatements: 0, globally: 0) (open ResultSets: 0, globally: 0)]
+[DEBUG] returning connection to pool, pool size: 1
+[DEBUG] after transaction completion
+[DEBUG] closing session
+[DEBUG] connection already null in cleanup : no action
+[DEBUG] opened session at timestamp: 12506933752
+[DEBUG] begin
+[DEBUG] opening JDBC connection
+[DEBUG] total checked-out connections: 0
+[DEBUG] using pooled JDBC connection, pool size: 0
+[DEBUG] current autocommit status: false
+[DEBUG] after transaction begin
+[DEBUG] located HQL query plan in cache (from SystemSettings s join fetch s.superAdmin)
+[DEBUG] located HQL query plan in cache (from SystemSettings s join fetch s.superAdmin)
+[DEBUG] find: from SystemSettings s join fetch s.superAdmin
+[DEBUG] named parameters: {}
+[DEBUG] about to open PreparedStatement (open PreparedStatements: 0, globally: 0)
+[DEBUG] select systemsett0_.id as id80_0_, user1_.id as id78_1_, systemsett0_.superAdminId as superAdm2_80_0_, systemsett0_.modifiedDate as modified3_80_0_, systemsett0_.autoAcceptNewTenants as autoAcce4_80_0_, systemsett0_.systemName as systemName80_0_, systemsett0_.domain as domain80_0_, systemsett0_.systemEmailAddress as systemEm7_80_0_, systemsett0_.logLevel as logLevel80_0_, systemsett0_.passwordResetRequestLifetimeSeconds as password9_80_0_, systemsett0_.registrationRequestLifetimeSeconds as registr10_80_0_, systemsett0_.changeEmailRequestLifetimeSeconds as changeE11_80_0_, systemsett0_.invitationLifetimeSeconds as invitat12_80_0_, systemsett0_.mtaHostname as mtaHost13_80_0_, systemsett0_.mtaPort as mtaPort80_0_, systemsett0_.mtaUseTls as mtaUseTls80_0_, systemsett0_.mtaUsername as mtaUser16_80_0_, systemsett0_.mtaPassword as mtaPass17_80_0_, systemsett0_.maxUploadFileSizeBytes as maxUplo18_80_0_, systemsett0_.maxAttachmentsPerEmail as maxAtta19_80_0_, systemsett0_.monitorUpdateIntervalSeconds as monitor20_80_0_, systemsett0_.monitorAveragingPeriodSeconds as monitor21_80_0_, systemsett0_.serverPoolInstances as serverP22_80_0_, systemsett0_.minServerLoadForLock as minServ23_80_0_, systemsett0_.maxServerLoadForUnlock as maxServ24_80_0_, systemsett0_.maxServerLoadForShutdown as maxServ25_80_0_, systemsett0_.minUnlockedServers as minUnlo26_80_0_, systemsett0_.minWorkflowInstancesForLock as minWork27_80_0_, systemsett0_.maxWorkflowInstancesForUnlock as maxWork28_80_0_, systemsett0_.maxWorkflowInstancesForShutdown as maxWork29_80_0_, user1_.authKey as authKey78_1_, user1_.email as email78_1_, user1_.disabledSince as disabled4_78_1_, user1_.unavailableSince as unavaila5_78_1_, user1_.registeredSince as register6_78_1_, user1_.creationDate as creation7_78_1_ from decidrdb.system_settings systemsett0_ inner join decidrdb.user user1_ on systemsett0_.superAdminId=user1_.id limit ?
+[DEBUG] preparing statement
+[DEBUG] about to open ResultSet (open ResultSets: 0, globally: 0)
+[DEBUG] processing result set
+[DEBUG] done processing result set (0 rows)
+[DEBUG] about to close ResultSet (open ResultSets: 1, globally: 1)
+[DEBUG] about to close PreparedStatement (open PreparedStatements: 1, globally: 1)
+[DEBUG] closing statement
+[DEBUG] total objects hydrated: 0
+[DEBUG] initializing non-lazy collections
+[DEBUG] commit
+[DEBUG] automatically flushing session
+[DEBUG] before transaction completion
+[DEBUG] before transaction completion
+[DEBUG] committed JDBC Connection
+[DEBUG] after transaction completion
+[DEBUG] aggressively releasing JDBC connection
+[DEBUG] releasing JDBC connection [ (open PreparedStatements: 0, globally: 0) (open ResultSets: 0, globally: 0)]
+[DEBUG] returning connection to pool, pool size: 1
+[DEBUG] after transaction completion
+[DEBUG] closing session
+[DEBUG] connection already null in cleanup : no action
+[DEBUG] opened session at timestamp: 12506933752
+[DEBUG] begin
+[DEBUG] opening JDBC connection
+[DEBUG] total checked-out connections: 0
+[DEBUG] using pooled JDBC connection, pool size: 0
+[DEBUG] current autocommit status: false
+[DEBUG] after transaction begin
+[DEBUG] commit
+[DEBUG] automatically flushing session
+[DEBUG] before transaction completion
+[DEBUG] before transaction completion
+[DEBUG] committed JDBC Connection
+[DEBUG] after transaction completion
+[DEBUG] aggressively releasing JDBC connection
+[DEBUG] releasing JDBC connection [ (open PreparedStatements: 0, globally: 0) (open ResultSets: 0, globally: 0)]
+[DEBUG] returning connection to pool, pool size: 1
+[DEBUG] after transaction completion
+[DEBUG] closing session
+[DEBUG] connection already null in cleanup : no action
+[DEBUG] opened session at timestamp: 12506933752
+[DEBUG] begin
+[DEBUG] opening JDBC connection
+[DEBUG] total checked-out connections: 0
+[DEBUG] using pooled JDBC connection, pool size: 0
+[DEBUG] current autocommit status: false
+[DEBUG] after transaction begin
+[DEBUG] commit
+[DEBUG] automatically flushing session
+[DEBUG] before transaction completion
+[DEBUG] before transaction completion
+[DEBUG] committed JDBC Connection
+[DEBUG] after transaction completion
+[DEBUG] aggressively releasing JDBC connection
+[DEBUG] releasing JDBC connection [ (open PreparedStatements: 0, globally: 0) (open ResultSets: 0, globally: 0)]
+[DEBUG] returning connection to pool, pool size: 1
+[DEBUG] after transaction completion
+[DEBUG] closing session
+[DEBUG] connection already null in cleanup : no action
+[DEBUG] opened session at timestamp: 12506933752
+[DEBUG] begin
+[DEBUG] opening JDBC connection
+[DEBUG] total checked-out connections: 0
+[DEBUG] using pooled JDBC connection, pool size: 0
+[DEBUG] current autocommit status: false
+[DEBUG] after transaction begin
+[DEBUG] rollback
+[DEBUG] rolled back JDBC Connection
+[DEBUG] after transaction completion
+[DEBUG] aggressively releasing JDBC connection
+[DEBUG] releasing JDBC connection [ (open PreparedStatements: 0, globally: 0) (open ResultSets: 0, globally: 0)]
+[DEBUG] returning connection to pool, pool size: 1
+[DEBUG] after transaction completion
+[DEBUG] closing session
+[DEBUG] connection already null in cleanup : no action
+[DEBUG] opened session at timestamp: 12506933755
+[DEBUG] begin
+[DEBUG] opening JDBC connection
+[DEBUG] total checked-out connections: 0
+[DEBUG] using pooled JDBC connection, pool size: 0
+[DEBUG] current autocommit status: false
+[DEBUG] after transaction begin
+[DEBUG] rollback
+[DEBUG] rolled back JDBC Connection
+[DEBUG] after transaction completion
+[DEBUG] aggressively releasing JDBC connection
+[DEBUG] releasing JDBC connection [ (open PreparedStatements: 0, globally: 0) (open ResultSets: 0, globally: 0)]
+[DEBUG] returning connection to pool, pool size: 1
+[DEBUG] after transaction completion
+[DEBUG] closing session
+[DEBUG] connection already null in cleanup : no action
+[DEBUG] opened session at timestamp: 12506933755
+[DEBUG] begin
+[DEBUG] opening JDBC connection
+[DEBUG] total checked-out connections: 0
+[DEBUG] using pooled JDBC connection, pool size: 0
+[DEBUG] current autocommit status: false
+[DEBUG] after transaction begin
+[DEBUG] rollback
+[DEBUG] rolled back JDBC Connection
+[DEBUG] after transaction completion
+[DEBUG] aggressively releasing JDBC connection
+[DEBUG] releasing JDBC connection [ (open PreparedStatements: 0, globally: 0) (open ResultSets: 0, globally: 0)]
+[DEBUG] returning connection to pool, pool size: 1
+[DEBUG] after transaction completion
+[DEBUG] closing session
+[DEBUG] connection already null in cleanup : no action
+[DEBUG] opened session at timestamp: 12506933755
+[DEBUG] begin
+[DEBUG] opening JDBC connection
+[DEBUG] total checked-out connections: 0
+[DEBUG] using pooled JDBC connection, pool size: 0
+[DEBUG] current autocommit status: false
+[DEBUG] after transaction begin
+[DEBUG] rollback
+[DEBUG] rolled back JDBC Connection
+[DEBUG] after transaction completion
+[DEBUG] aggressively releasing JDBC connection
+[DEBUG] releasing JDBC connection [ (open PreparedStatements: 0, globally: 0) (open ResultSets: 0, globally: 0)]
+[DEBUG] returning connection to pool, pool size: 1
+[DEBUG] after transaction completion
+[DEBUG] closing session
+[DEBUG] connection already null in cleanup : no action
+[DEBUG] closing session
+[DEBUG] connection already null in cleanup : no action
