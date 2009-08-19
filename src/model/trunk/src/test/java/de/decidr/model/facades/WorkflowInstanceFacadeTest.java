@@ -21,20 +21,28 @@ import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.acl.roles.BasicRole;
+import de.decidr.model.acl.roles.SuperAdminRole;
+
 /**
- * RR: add comment
+ * Test case for <code>{@link WorkflowInstanceFacade}</code>.
  * 
  * @author Reinhold
  */
 public class WorkflowInstanceFacadeTest {
 
+    static WorkflowInstanceFacade adminFacade;
+    static WorkflowInstanceFacade userFacade;
+    static WorkflowInstanceFacade nullFacade;
+
     /**
-     * RR: add comment
-     * 
-     * @throws Exception
+     * Initialises the facade instances.
      */
     @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    public static void setUpBeforeClass() {
+        adminFacade = new WorkflowInstanceFacade(new SuperAdminRole());
+        userFacade = new WorkflowInstanceFacade(new BasicRole(0L));
+        nullFacade = new WorkflowInstanceFacade(null);
     }
 
     /**

@@ -26,22 +26,29 @@ import org.junit.Test;
 
 import com.vaadin.data.Item;
 
+import de.decidr.model.acl.roles.BasicRole;
+import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.filters.Paginator;
 
 /**
- * RR: add comment
+ * Test case for <code>{@link UserFacade}</code>.
  * 
  * @author Reinhold
  */
 public class UserFacadeTest {
 
+    static UserFacade adminFacade;
+    static UserFacade userFacade;
+    static UserFacade nullFacade;
+
     /**
-     * RR: add comment
-     * 
-     * @throws Exception
+     * Initialises the facade instances.
      */
     @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    public static void setUpBeforeClass() {
+        adminFacade = new UserFacade(new SuperAdminRole());
+        userFacade = new UserFacade(new BasicRole(0L));
+        nullFacade = new UserFacade(null);
     }
 
     /**

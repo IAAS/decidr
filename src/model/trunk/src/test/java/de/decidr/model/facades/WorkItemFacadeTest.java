@@ -21,20 +21,28 @@ import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.acl.roles.BasicRole;
+import de.decidr.model.acl.roles.SuperAdminRole;
+
 /**
- * RR: add comment
+ * Test case for <code>{@link WorkItemFacade}</code>.
  * 
  * @author Reinhold
  */
 public class WorkItemFacadeTest {
 
+    static WorkItemFacade adminFacade;
+    static WorkItemFacade userFacade;
+    static WorkItemFacade nullFacade;
+
     /**
-     * RR: add comment
-     * 
-     * @throws Exception
+     * Initialises the facade instances.
      */
     @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    public static void setUpBeforeClass() {
+        adminFacade = new WorkItemFacade(new SuperAdminRole());
+        userFacade = new WorkItemFacade(new BasicRole(0L));
+        nullFacade = new WorkItemFacade(null);
     }
 
     /**

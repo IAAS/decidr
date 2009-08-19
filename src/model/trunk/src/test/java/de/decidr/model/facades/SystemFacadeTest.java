@@ -23,23 +23,31 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.acl.roles.BasicRole;
+import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.filters.Paginator;
 
 /**
- * RR: add comment
+ * Test case for <code>{@link SystemFacade}</code>.
  * 
  * @author Reinhold
  */
 public class SystemFacadeTest {
 
+    static SystemFacade adminFacade;
+    static SystemFacade userFacade;
+    static SystemFacade nullFacade;
+
     /**
-     * RR: add comment
-     * 
-     * @throws Exception
+     * Initialises the facade instances.
      */
     @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    public static void setUpBeforeClass() {
+        adminFacade = new SystemFacade(new SuperAdminRole());
+        userFacade = new SystemFacade(new BasicRole(0L));
+        nullFacade = new SystemFacade(null);
     }
 
     /**

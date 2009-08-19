@@ -24,22 +24,29 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.acl.roles.BasicRole;
+import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.filters.Paginator;
 
 /**
- * RR: add comment
+ * Test case for <code>{@link TenantFacade}</code>.
  * 
  * @author Reinhold
  */
 public class TenantFacadeTest {
 
+    static TenantFacade adminFacade;
+    static TenantFacade userFacade;
+    static TenantFacade nullFacade;
+
     /**
-     * RR: add comment
-     * 
-     * @throws Exception
+     * Initialises the facade instances.
      */
     @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    public static void setUpBeforeClass() {
+        adminFacade = new TenantFacade(new SuperAdminRole());
+        userFacade = new TenantFacade(new BasicRole(0L));
+        nullFacade = new TenantFacade(null);
     }
 
     /**
