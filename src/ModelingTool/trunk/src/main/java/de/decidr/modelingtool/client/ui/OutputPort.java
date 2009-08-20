@@ -33,6 +33,21 @@ public class OutputPort extends Port {
         // set properties
         this.addStyleName("port-outputport");
     }
+    
+    @Override
+    public boolean isContainerPort() {
+        return false;
+    }
+
+    @Override
+    public boolean isInputPort() {
+        return false;
+    }
+
+    @Override
+    public boolean isOutputPort() {
+        return true;
+    }
 
     @Override
     public void registerDropController() {
@@ -41,18 +56,13 @@ public class OutputPort extends Port {
         ipdc.registerDropController(getDropController());
         dropControllerRegistered = true;
     }
-
+    
     @Override
     public void unregisterDropController() {
         PickupDragController ipdc = DndRegistry.getInstance()
                 .getPickupDragController("InputPortDragController");
         ipdc.unregisterDropController(getDropController());
         dropControllerRegistered = false;
-    }
-    
-    @Override
-    public boolean isContainerPort() {
-        return false;
     }
 
 }

@@ -30,12 +30,27 @@ public class ContainerExitPort extends Port {
 
     /** The y coordinate offset of this port */
     private static final int Y_OFFSET = -15;
-    
+
     public ContainerExitPort() {
         super(Port.Position.BOTTOM, 0, Y_OFFSET);
         
         // set properties
         this.addStyleName("port-container-exitport");
+    }
+
+    @Override
+    public boolean isContainerPort() {
+        return true;
+    }
+    
+    @Override
+    public boolean isInputPort() {
+        return true;
+    }
+
+    @Override
+    public boolean isOutputPort() {
+        return false;
     }
 
     @Override
@@ -45,18 +60,13 @@ public class ContainerExitPort extends Port {
         opdc.registerDropController(getDropController());
         dropControllerRegistered = true;
     }
-
+    
     @Override
     public void unregisterDropController() {
         PickupDragController opdc = DndRegistry.getInstance()
                 .getPickupDragController("OutputPortDragController");
         opdc.unregisterDropController(getDropController());
         dropControllerRegistered = false;
-    }
-    
-    @Override
-    public boolean isContainerPort() {
-        return true;
     }
 
 }

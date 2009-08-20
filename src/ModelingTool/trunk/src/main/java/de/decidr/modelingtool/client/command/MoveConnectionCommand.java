@@ -59,9 +59,7 @@ public class MoveConnectionCommand implements UndoableCommand {
     }
 
     @Override
-    public void undo() {
-        //JE: geht nicht richtig
-        
+    public void undo() {       
         if (oldStartPort != newStartPort) {
             // move start drag box
             ConnectionDragBox startDragBox = connection.getStartDragBox();

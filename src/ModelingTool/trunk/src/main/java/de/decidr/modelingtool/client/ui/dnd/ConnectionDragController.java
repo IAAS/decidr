@@ -39,7 +39,7 @@ import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
  */
 public class ConnectionDragController extends PickupDragController {
 
-    /** The connection currently eeing dragged */
+    /** The connection currently being dragged */
     private Connection connection = null;
 
     /**
@@ -169,22 +169,30 @@ public class ConnectionDragController extends PickupDragController {
                             .getParentNode().getParentPanel());
                 }
 
-                // create start drag box
-                ConnectionDragBox startDragBox = new ConnectionDragBox();
+                // create other drag box
+                ConnectionDragBox otherDragBox = new ConnectionDragBox();
                 // glue to port
-                startDragBox.setGluedPort(draggedPort);
-                startDragBox.setVisibleStyle(true);
+                otherDragBox.setGluedPort(draggedPort);
+                otherDragBox.setVisibleStyle(true);
                 // add to glued Port
-                startDragBox.getGluedPort().add(startDragBox);
+                otherDragBox.getGluedPort().add(otherDragBox);
 
                 // make dragbox draggable
-                startDragBox.makeDraggable(true);
+                otherDragBox.makeDraggable(true);
 
                 // set drag boxes and add connection to workflow
-                connection.setStartDragBox(startDragBox);
-                startDragBox.setConnection(connection);
-                connection.setEndDragBox(draggedDragBox);
+                otherDragBox.setConnection(connection);
                 draggedDragBox.setConnection(connection);
+
+                if (otherDragBox.getGluedPort().isOutputPort()) {
+                    connection.setStartDragBox(otherDragBox);
+                    connection.setEndDragBox(draggedDragBox);
+                } else {
+                    connection.setStartDragBox(draggedDragBox);
+                    connection.setEndDragBox(otherDragBox);
+                }
+
+                // add connection to workflow
                 connection.getParentPanel().addConnection(connection);
 
             } else {
@@ -193,11 +201,10 @@ public class ConnectionDragController extends PickupDragController {
                 oldStartPort = connection.getStartDragBox().getGluedPort();
                 oldEndPort = connection.getEndDragBox().getGluedPort();
             }
-            
-            // remove dragged drag box from port
-            draggedDragBox.getGluedPort().removeConnectionDragBox(draggedDragBox, false);
-            //draggedDragBox.setGluedPort(null);
 
+            // remove dragged drag box from port
+            draggedDragBox.getGluedPort().removeConnectionDragBox(
+                    draggedDragBox, false);
         }
 
         super.dragStart();

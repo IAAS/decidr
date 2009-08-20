@@ -225,10 +225,14 @@ public abstract class Port extends AbsolutePanel {
     public boolean isDropControllerRegistered() {
         return dropControllerRegistered;
     }
+    
+    public abstract boolean isInputPort();
 
     public boolean isMultipleConnectionsAllowed() {
         return multipleConnectionsAllowed;
     }
+    
+    public abstract boolean isOutputPort();
 
     /**
      * Redraws all connections connected to this port.
