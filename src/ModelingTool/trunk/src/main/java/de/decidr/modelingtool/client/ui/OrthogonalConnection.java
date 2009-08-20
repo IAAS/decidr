@@ -30,6 +30,9 @@ public class OrthogonalConnection extends Connection {
     /** The width of the connection lines. */
     private final int LINE_WIDTH = 2;
 
+    /** TODO: add comment */
+    private final int LINE_CONTRACTION = 4;
+
     /** X coordinate offset of the label position relative to the middle line. */
     private final int LABEL_XOFFSET = 5;
     /** Y coordinate offset of the label position relative to the middle line. */
@@ -50,7 +53,7 @@ public class OrthogonalConnection extends Connection {
         startLine.addMouseDownHandler(sh);
         midLine.addMouseDownHandler(sh);
         endLine.addMouseDownHandler(sh);
-        //label.addMouseDownHandler(sh);
+        // label.addMouseDownHandler(sh);
     }
 
     @Override
@@ -74,8 +77,8 @@ public class OrthogonalConnection extends Connection {
             int endX = endDragBox.getMiddleLeft() - parentPanel.getLeft()
                     - LINE_WIDTH / 2;
             int endY = endDragBox.getMiddleTop() - parentPanel.getTop();
-
-            // calculate height and width
+            
+            // calculate width and height
             int width = Math.abs(startX - endX) + LINE_WIDTH;
             int height = Math.abs(startY - endY);
 
@@ -86,17 +89,18 @@ public class OrthogonalConnection extends Connection {
             // add label to panel / bring to front
             absPanel.add(label);
 
-            if (startY <= endY) {
-                absPanel.setWidgetPosition(startLine, startX, startY);
+            if (startY <= endY) {                
+                absPanel.setWidgetPosition(startLine, startX, startY + LINE_CONTRACTION);
                 absPanel.setWidgetPosition(endLine, endX, endY - height / 2);
-            } else {
+            } else {             
                 absPanel.setWidgetPosition(startLine, startX, startY - height
                         / 2);
-                absPanel.setWidgetPosition(endLine, endX, endY);
+                absPanel.setWidgetPosition(endLine, endX, endY + LINE_CONTRACTION);
             }
 
             if (startX <= endX) {
-                absPanel.setWidgetPosition(midLine, startX, (startY + endY) / 2);
+                absPanel
+                        .setWidgetPosition(midLine, startX, (startY + endY) / 2);
                 absPanel.setWidgetPosition(label, startX + LABEL_XOFFSET,
                         (startY + endY) / 2 + LABEL_YOFFSET);
             } else {
@@ -106,8 +110,8 @@ public class OrthogonalConnection extends Connection {
             }
 
             // set orientation and length of lines
-            startLine.setVerticalOrientation(height / 2);
-            endLine.setVerticalOrientation(height / 2);
+            startLine.setVerticalOrientation(height / 2 - LINE_CONTRACTION);
+            endLine.setVerticalOrientation(height / 2 - LINE_CONTRACTION);
             midLine.setHorizontalOrientation(width);
 
         } else {
