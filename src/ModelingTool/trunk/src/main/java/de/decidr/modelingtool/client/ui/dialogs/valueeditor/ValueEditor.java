@@ -21,9 +21,12 @@ import java.util.List;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.ComponentEvent;
+import com.extjs.gxt.ui.client.event.KeyListener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.event.ToolBarEvent;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
@@ -96,23 +99,25 @@ public class ValueEditor extends Dialog {
     private void createToolBar() {
         ToolBar toolBar = new ToolBar();
 
-        TextToolItem addVar = new TextToolItem(ModelingToolWidget.messages.addValue()); //$NON-NLS-1$
-        addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
+        TextToolItem addValue = new TextToolItem(ModelingToolWidget.messages
+                .addValue()); //$NON-NLS-1$
+        addValue.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
                 addEntry(ModelingToolWidget.messages.newStringValue());
             }
         });
-        toolBar.add(addVar);
+        toolBar.add(addValue);
 
-        TextToolItem delVar = new TextToolItem(ModelingToolWidget.messages.delValue()); //$NON-NLS-1$
-        delVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
+        TextToolItem delValue = new TextToolItem(ModelingToolWidget.messages
+                .delValue()); //$NON-NLS-1$
+        delValue.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
                 removeEntry();
             }
         });
-        toolBar.add(delVar);
+        toolBar.add(delValue);
 
         contentPanel.setBottomComponent(toolBar);
     }
@@ -127,15 +132,27 @@ public class ValueEditor extends Dialog {
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
-                        changeWorkflowModel();
-                        /*
-                         * Refresh of the variable editor needed so that the
-                         * displayed values are updated
-                         */
-                        DialogRegistry.getInstance().getDialog(
-                                VariableEditor.class.getName()).refresh();
-                        DialogRegistry.getInstance().hideDialog(
-                                ValueEditor.class.getName());
+                        List<String> newValues = new ArrayList<String>();
+                        for (TextField<String> field : fields) {
+                            newValues.add(field.getValue());
+                        }
+                        ValidatorCallback call = new ValidatorCallback();
+                        Validator validator = new Validator(
+                                newValues, variable.getType());
+                        if (validator.validate(call)) {
+                            changeWorkflowModel(newValues);
+                            /*
+                             * Refresh of the variable editor needed so that the
+                             * displayed values are updated
+                             */
+                            DialogRegistry.getInstance().getDialog(
+                                    VariableEditor.class.getName()).refresh();
+                            DialogRegistry.getInstance().hideDialog(
+                                    ValueEditor.class.getName());
+                        } else {
+                            MessageBox.alert(ModelingToolWidget.messages
+                                    .warningTitle(), call.getMessage(), null);
+                        }
                     }
 
                 }));
@@ -149,11 +166,7 @@ public class ValueEditor extends Dialog {
                 }));
     }
 
-    private void changeWorkflowModel() {
-        List<String> newValues = new ArrayList<String>();
-        for (TextField<String> field : fields) {
-            newValues.add(field.getValue());
-        }
+    private void changeWorkflowModel(List<String> newValues) {
         /*
          * Check if the variable is already in the workflow model. If that is
          * the case, it means the value editor was called outside of the
@@ -177,6 +190,19 @@ public class ValueEditor extends Dialog {
         TextField<String> text = new TextField<String>();
         text.setValue(fieldContent);
         text.setAutoWidth(true);
+        text.addKeyListener(new KeyListener() {
+            /*
+             * (non-Javadoc)
+             * 
+             * @see
+             * com.extjs.gxt.ui.client.event.KeyListener#componentKeyUp(com.
+             * extjs.gxt.ui.client.event.ComponentEvent)
+             */
+            @Override
+            public void componentKeyUp(ComponentEvent event) {
+                // JS implement checker
+            }
+        });
         fields.add(text);
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, text);

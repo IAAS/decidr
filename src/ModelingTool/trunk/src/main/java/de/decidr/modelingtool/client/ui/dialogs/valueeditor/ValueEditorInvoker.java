@@ -29,9 +29,12 @@ public class ValueEditorInvoker {
 
     /**
      * 
-     * TODO: add comment (with a variable directly that is not in the model yet)
+     * Invokes the value editor with with a variable directly that is not in the
+     * model. The variable editor uses this method because the variable editor
+     * uses its own model, not the variable in the workflow model.
      * 
      * @param variable
+     *            the variable whose values are to be edited
      */
     public static void invoke(Variable variable) {
         ((ValueEditor) DialogRegistry.getInstance().getDialog(
@@ -40,10 +43,12 @@ public class ValueEditorInvoker {
 
     /**
      * 
-     * TODO: add comment (with a variable that is already in the model and can
-     * be identified by its id
+     * Invokes with a variable that is already in the model and can be
+     * identified by its id.
      * 
      * @param id
+     *            the id of the variable the variable whose values are to be
+     *            edited
      */
     public static void invoke(Long id) {
         ((ValueEditor) DialogRegistry.getInstance().getDialog(

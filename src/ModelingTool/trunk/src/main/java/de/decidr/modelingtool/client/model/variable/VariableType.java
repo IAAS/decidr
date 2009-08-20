@@ -27,17 +27,17 @@ import de.decidr.modelingtool.client.io.resources.DWDLNames;
 public enum VariableType {
 
     STRING(DWDLNames.variableTypes.STRING, ModelingToolWidget.messages
-            .typeString()), INTEGER(DWDLNames.variableTypes.INTEGER,
-            ModelingToolWidget.messages.typeInteger()), FLOAT(
-            DWDLNames.variableTypes.FLOAT, ModelingToolWidget.messages
-                    .typeFloat()), BOOLEAN(DWDLNames.variableTypes.BOOLEAN,
-            ModelingToolWidget.messages.typeBoolean()), FILE(
-            DWDLNames.variableTypes.FILE, ModelingToolWidget.messages
-                    .typeFile()), DATE(DWDLNames.variableTypes.DATE,
-            ModelingToolWidget.messages.typeDate()), ROLE(
-            DWDLNames.variableTypes.ROLE, ModelingToolWidget.messages
-                    .typeRole()), FORM(DWDLNames.variableTypes.FORM,
-            ModelingToolWidget.messages.typeForm());
+            .typeString()),
+    INTEGER(DWDLNames.variableTypes.INTEGER, ModelingToolWidget.messages
+            .typeInteger()),
+    FLOAT(DWDLNames.variableTypes.FLOAT, ModelingToolWidget.messages
+            .typeFloat()),
+    BOOLEAN(DWDLNames.variableTypes.BOOLEAN, ModelingToolWidget.messages
+            .typeBoolean()),
+    FILE(DWDLNames.variableTypes.FILE, ModelingToolWidget.messages.typeFile()),
+    DATE(DWDLNames.variableTypes.DATE, ModelingToolWidget.messages.typeDate()),
+    ROLE(DWDLNames.variableTypes.ROLE, ModelingToolWidget.messages.typeRole()),
+    FORM(DWDLNames.variableTypes.FORM, ModelingToolWidget.messages.typeForm());
 
     private final String dwdlName;
 
