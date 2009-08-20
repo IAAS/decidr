@@ -118,15 +118,8 @@ public abstract class Node extends AbsolutePanel implements
      * @return the height of the graphic in pixels.
      */
     public int getGraphicHeight() {
-        // JE: check
         assert (graphic != null);
-
-        if (graphic != null) {
-            return graphic.getOffsetHeight();
-        } else {
-            // return 0 if no graphic set
-            return 0;
-        }
+        return graphic.getOffsetHeight();
     }
 
     /**
@@ -136,14 +129,8 @@ public abstract class Node extends AbsolutePanel implements
      * @return the x coordinate of the graphic in pixels.
      */
     public int getGraphicLeft() {
-        // JE: check
         assert (graphic != null);
-
-        if (graphic != null) {
-            return getLeft() + getWidgetLeft(graphic);
-        } else {
-            return 0;
-        }
+        return getLeft() + getWidgetLeft(graphic);
     }
 
     /**
@@ -153,14 +140,8 @@ public abstract class Node extends AbsolutePanel implements
      * @return the y coordinate of the graphic in pixels.
      */
     public int getGraphicTop() {
-        // JE: check
         assert (graphic != null);
-
-        if (graphic != null) {
-            return getTop() + getWidgetTop(graphic);
-        } else {
-            return 0;
-        }
+        return getTop() + getWidgetTop(graphic);
     }
 
     /**
@@ -169,15 +150,8 @@ public abstract class Node extends AbsolutePanel implements
      * @return the height of the graphic in pixels.
      */
     public int getGraphicWidth() {
-        // JE: check
         assert (graphic != null);
-
-        if (graphic != null) {
-            return graphic.getOffsetWidth();
-        } else {
-            // return 0 if no graphic set
-            return 0;
-        }
+        return graphic.getOffsetWidth();
     }
 
     public InputPort getInputPort() {
@@ -190,14 +164,8 @@ public abstract class Node extends AbsolutePanel implements
      * @return The x coordinate in pixels.
      */
     public int getLeft() {
-        // JE: check
         assert (getParent() instanceof AbsolutePanel);
-
-        if (getParent() instanceof AbsolutePanel) {
-            return ((AbsolutePanel) this.getParent()).getWidgetLeft(this);
-        } else {
-            return 0;
-        }
+        return ((AbsolutePanel) this.getParent()).getWidgetLeft(this);
     }
 
     public NodeModel getModel() {
@@ -237,14 +205,8 @@ public abstract class Node extends AbsolutePanel implements
      * @return The x coordinate in pixels.
      */
     public int getTop() {
-        // JE: check
         assert (getParent() instanceof AbsolutePanel);
-
-        if (getParent() instanceof AbsolutePanel) {
-            return ((AbsolutePanel) this.getParent()).getWidgetTop(this);
-        } else {
-            return 0;
-        }
+        return ((AbsolutePanel) this.getParent()).getWidgetTop(this);
     }
 
     public boolean isDeletable() {
@@ -293,8 +255,8 @@ public abstract class Node extends AbsolutePanel implements
             CommandStack.getInstance().executeCommand(
                     new MoveResizeNodeCommand(this, parentPanel, left, top));
         }
-        
-        //JE: add resizing
+
+        // JE: add resizing
 
     }
 
@@ -350,13 +312,10 @@ public abstract class Node extends AbsolutePanel implements
     protected void refreshNodeSize() {
         // set pixel size, this can only be set after setting a graphic and
         // adding the node to a panel
-        // JE: check
         assert (graphic != null);
-
-        if (graphic != null) {
-            this.setPixelSize(graphic.getOffsetWidth() + BORDER_OFFSET * 2,
-                    graphic.getOffsetHeight() + BORDER_OFFSET * 2);
-        }
+        setPixelSize(graphic.getOffsetWidth() + BORDER_OFFSET * 2, graphic
+                .getOffsetHeight()
+                + BORDER_OFFSET * 2);
 
         refreshPortPositions();
     }
@@ -498,15 +457,12 @@ public abstract class Node extends AbsolutePanel implements
      *            The desired y coordinate of the node
      */
     public void setPosition(int left, int top) {
-        // JE: check
         assert (getParent() instanceof AbsolutePanel);
-
-        if (getParent() instanceof AbsolutePanel) {
-            ((AbsolutePanel) getParent()).setWidgetPosition(this, left, top);
-            refreshConnections();
-            if (isSelected()) {
-                SelectionHandler.getInstance().refreshSelection();
-            }
+        ((AbsolutePanel) getParent()).setWidgetPosition(this, left, top);
+        refreshConnections();
+        
+        if (isSelected()) {
+            SelectionHandler.getInstance().refreshSelection();
         }
     }
 

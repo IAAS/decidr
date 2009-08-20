@@ -62,28 +62,29 @@ public class MoveConnectionCommand implements UndoableCommand {
     public void undo() {
         //JE: geht nicht richtig
         
-        // move start drag box
-        ConnectionDragBox startDragBox = connection.getStartDragBox();
-        startDragBox.getGluedPort().removeConnectionDragBox(startDragBox);
-        
-        oldStartPort.addConnectionDragBox(startDragBox);
-        startDragBox.setGluedPort(oldStartPort);
+        if (oldStartPort != newStartPort) {
+            // move start drag box
+            ConnectionDragBox startDragBox = connection.getStartDragBox();
+            startDragBox.getGluedPort().removeConnectionDragBox(startDragBox, true);
+            
+            oldStartPort.addConnectionDragBox(startDragBox);
+            startDragBox.setGluedPort(oldStartPort);
+        }
 
-        // move end drag box
-        ConnectionDragBox endDragBox = connection.getEndDragBox();
-        endDragBox.getGluedPort().removeConnectionDragBox(endDragBox);
-        
-        oldEndPort.addConnectionDragBox(endDragBox);
-        endDragBox.setGluedPort(oldEndPort);
+        if (oldEndPort != newEndPort)  {
+            // move end drag box
+            ConnectionDragBox endDragBox = connection.getEndDragBox();
+            endDragBox.getGluedPort().removeConnectionDragBox(endDragBox, true);
+            
+            oldEndPort.addConnectionDragBox(endDragBox);
+            endDragBox.setGluedPort(oldEndPort);
+        }
 
         // draw connection
         connection.getParentPanel().addConnection(connection);
         connection.draw();
 
-        // link model
-        model.getSource().setOutput(null);
-        model.getTarget().setInput(null);
-        
+        // link model       
         model.setSource(oldStartPort.getParentNode().getModel());
         model.setTarget(oldEndPort.getParentNode().getModel());
         
@@ -93,34 +94,35 @@ public class MoveConnectionCommand implements UndoableCommand {
 
     @Override
     public void execute() {
-        // move start drag box
-        ConnectionDragBox startDragBox = connection.getStartDragBox();
-        startDragBox.getGluedPort().removeConnectionDragBox(startDragBox);
+        if (oldStartPort != newStartPort) {
+            // move start drag box
+            ConnectionDragBox startDragBox = connection.getStartDragBox();
+            startDragBox.getGluedPort().removeConnectionDragBox(startDragBox, true);
+            
+            startDragBox.setGluedPort(newStartPort);
+            newStartPort.addConnectionDragBox(startDragBox);
+            
+            // link model
+            model.setSource(newStartPort.getParentNode().getModel());
+            model.getSource().setOutput(model);
+        }
         
-        startDragBox.setGluedPort(newStartPort);
-        newStartPort.addConnectionDragBox(startDragBox);
-        
-        // move end drag box
-        ConnectionDragBox endDragBox = connection.getEndDragBox();
-        endDragBox.getGluedPort().removeConnectionDragBox(endDragBox);
-        
-        endDragBox.setGluedPort(newEndPort);
-        newEndPort.addConnectionDragBox(endDragBox);
-        
+        if (oldEndPort != newEndPort)  {
+            // move end drag box
+            ConnectionDragBox endDragBox = connection.getEndDragBox();
+            endDragBox.getGluedPort().removeConnectionDragBox(endDragBox, true);
+            
+            endDragBox.setGluedPort(newEndPort);
+            newEndPort.addConnectionDragBox(endDragBox);
+            
+            // link model
+            model.setTarget(newEndPort.getParentNode().getModel());
+            model.getTarget().setInput(model);
+        }    
 
         // draw connection
         connection.getParentPanel().addConnection(connection);
         connection.draw();
-
-        // link model
-        model.getSource().setOutput(null);
-        model.getTarget().setInput(null);
-        
-        model.setSource(newStartPort.getParentNode().getModel());
-        model.setTarget(newEndPort.getParentNode().getModel());
-        
-        model.getSource().setOutput(model);
-        model.getTarget().setInput(model);
     }
 
 }

@@ -62,6 +62,17 @@ public class CreateConnectionCommand implements UndoableCommand {
         // get ports
         Port startPort = connection.getStartDragBox().getGluedPort();
         Port endPort = connection.getEndDragBox().getGluedPort();
+        
+        if (!(startPort instanceof OutputPort || startPort instanceof ContainerStartPort)) {
+            // swap drag box pointers, so startDragBox is on the output port
+            ConnectionDragBox endDragBox = connection.getEndDragBox();
+            connection.setEndDragBox(connection.getStartDragBox());
+            connection.setStartDragBox(endDragBox);
+            
+            // refresh ports
+            startPort = connection.getStartDragBox().getGluedPort();
+            endPort = connection.getEndDragBox().getGluedPort();
+        }
 
         // check if connection is a container start connection in an if
         // container
@@ -191,11 +202,11 @@ public class CreateConnectionCommand implements UndoableCommand {
     public void undo() {
         // remove start drag box
         ConnectionDragBox startDragBox = connection.getStartDragBox();
-        startDragBox.getGluedPort().removeConnectionDragBox(startDragBox);
+        startDragBox.getGluedPort().removeConnectionDragBox(startDragBox, true);
 
         // remove end drag box
         ConnectionDragBox endDragBox = connection.getEndDragBox();
-        endDragBox.getGluedPort().removeConnectionDragBox(endDragBox);
+        endDragBox.getGluedPort().removeConnectionDragBox(endDragBox, true);
 
         // remove connection from parent panel
         connection.getParentPanel().removeConnection(connection);
@@ -211,13 +222,13 @@ public class CreateConnectionCommand implements UndoableCommand {
         // add start drag box
         ConnectionDragBox startDragBox = connection.getStartDragBox();
         // remove the drag box before adding to be sure it is not present
-        startDragBox.getGluedPort().removeConnectionDragBox(startDragBox);
+        startDragBox.getGluedPort().removeConnectionDragBox(startDragBox, true);
         startDragBox.getGluedPort().addConnectionDragBox(startDragBox);
 
         // add end drag box
         ConnectionDragBox endDragBox = connection.getEndDragBox();
         // remove the drag box before adding to be sure it is not present
-        startDragBox.getGluedPort().removeConnectionDragBox(endDragBox);
+        startDragBox.getGluedPort().removeConnectionDragBox(endDragBox, true);
         endDragBox.getGluedPort().addConnectionDragBox(endDragBox);
 
         // add connection to parent panel

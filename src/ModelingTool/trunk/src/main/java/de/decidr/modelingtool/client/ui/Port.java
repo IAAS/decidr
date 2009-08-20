@@ -247,7 +247,7 @@ public abstract class Port extends AbsolutePanel {
      */
     public abstract void registerDropController();
 
-    public void removeConnectionDragBox(ConnectionDragBox dragBox) {
+    public void removeConnectionDragBox(ConnectionDragBox dragBox, boolean performRemove) {
         if (dragBox == singleDragBox) {
             // remove single drag box
             singleDragBox = null;
@@ -266,7 +266,9 @@ public abstract class Port extends AbsolutePanel {
             }
         }
         
-        remove(dragBox);
+        if (performRemove) {
+            remove(dragBox);
+        }
     }
 
     /**

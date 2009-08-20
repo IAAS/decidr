@@ -67,11 +67,11 @@ public class RemoveConnectionCommand implements UndoableCommand {
     public void execute() {
         // remove start drag box
         ConnectionDragBox startDragBox = connection.getStartDragBox();
-        startDragBox.getGluedPort().removeConnectionDragBox(startDragBox);
+        startDragBox.getGluedPort().removeConnectionDragBox(startDragBox, true);
 
         // remove end drag box
         ConnectionDragBox endDragBox = connection.getEndDragBox();
-        endDragBox.getGluedPort().removeConnectionDragBox(endDragBox);
+        endDragBox.getGluedPort().removeConnectionDragBox(endDragBox, true);
 
         // remove connection from parent panel
         connection.getParentPanel().removeConnection(connection);

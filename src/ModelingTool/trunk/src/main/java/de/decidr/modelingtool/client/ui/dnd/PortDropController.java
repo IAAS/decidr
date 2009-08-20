@@ -25,9 +25,9 @@ import de.decidr.modelingtool.client.ui.Port;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 
 /**
- * This drop controller handles the drop operations of the connection drag
- * boxes on the ports. Every port has a port drop controller. A connection drag
- * box is only droppable on the port if the controller is registered to the drag
+ * This drop controller handles the drop operations of the connection drag boxes
+ * on the ports. Every port has a port drop controller. A connection drag box is
+ * only droppable on the port if the controller is registered to the drag
  * controller the connection drag box is dragged with.
  * 
  * @author Johannes Engelhardt
@@ -37,7 +37,8 @@ public class PortDropController extends AbstractDropController {
     /**
      * The constructor.
      * 
-     * @param dropTarget The port which is made to handle drop operations.
+     * @param dropTarget
+     *            The port which is made to handle drop operations.
      */
     public PortDropController(Widget dropTarget) {
         super(dropTarget);
@@ -74,12 +75,12 @@ public class PortDropController extends AbstractDropController {
     public void onEnter(DragContext context) {
         // TODO Auto-generated method stub
         super.onEnter(context);
-        
+
         try {
             onPreviewDrop(context);
             this.getDropTarget().setPixelSize(20, 20);
         } catch (VetoDragException e) {
-            
+
         }
     }
 
@@ -87,7 +88,7 @@ public class PortDropController extends AbstractDropController {
     public void onLeave(DragContext context) {
         // TODO Auto-generated method stub
         super.onLeave(context);
-        
+
         this.getDropTarget().setPixelSize(8, 8);
     }
 
@@ -110,7 +111,47 @@ public class PortDropController extends AbstractDropController {
                     && !port.getGluedDragBoxes().isEmpty()) {
                 throw new VetoDragException();
             }
+
+            // cancel drop operation if both ports belong to the same node
+            if (context.draggable instanceof ConnectionDragBox) {
+                ConnectionDragBox draggedDragBox = (ConnectionDragBox) context.draggable;
+
+                // get the other drag box / other port
+                ConnectionDragBox otherDragBox = draggedDragBox.getConnection()
+                        .getOtherDragBox(draggedDragBox);
+                Port otherPort = otherDragBox.getGluedPort();
+
+                // check if both ports are on the same node
+                if (port.getParentNode() == otherPort.getParentNode()) {
+                    throw new VetoDragException();
+                }
+            }
+
+            // cancel drop operation if the nodes of the ports are on different
+            // panels
+            if (context.draggable instanceof ConnectionDragBox) {
+                ConnectionDragBox draggedDragBox = (ConnectionDragBox) context.draggable;
+
+                // get the other drag box / other port
+                ConnectionDragBox otherDragBox = draggedDragBox.getConnection()
+                        .getOtherDragBox(draggedDragBox);
+                Port otherPort = otherDragBox.getGluedPort();
+
+                // get parentPanel of the port of the other drag box
+                Widget otherParentPanel = (otherPort.isContainerPort()) ? otherPort
+                        .getParent()
+                        : otherPort.getParent().getParent();
+
+                // get parentPanel of the drop port
+                Widget parentPanel = (port.isContainerPort()) ? port
+                        .getParent() : port.getParent().getParent();
+
+                // check if parent panels are different
+                if (parentPanel != otherParentPanel) {
+                    throw new VetoDragException();
+                }
+            }
+
         }
     }
-
 }

@@ -29,7 +29,7 @@ import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 public class ContainerStartPort extends Port {
 
     /** The y coordinate offset of this port */
-    private static final int Y_OFFSET = 20;
+    private static final int Y_OFFSET = 15;
 
     public ContainerStartPort() {
         super(Port.Position.TOP, 0, Y_OFFSET);

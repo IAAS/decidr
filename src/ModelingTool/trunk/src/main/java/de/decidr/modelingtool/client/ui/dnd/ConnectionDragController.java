@@ -122,13 +122,13 @@ public class ConnectionDragController extends PickupDragController {
                         // unglue and delete connection with drag boxes
                         // delete other drag box
                         otherDragBox.getGluedPort().removeConnectionDragBox(
-                                otherDragBox);
+                                otherDragBox, true);
                         otherDragBox.setGluedPort(null);
                         otherDragBox.setConnection(null);
 
                         // delete dragged drag box
                         draggedDragBox.getGluedPort().removeConnectionDragBox(
-                                draggedDragBox);
+                                draggedDragBox, true);
                         draggedDragBox.setGluedPort(null);
                         draggedDragBox.setConnection(null);
 
@@ -193,6 +193,10 @@ public class ConnectionDragController extends PickupDragController {
                 oldStartPort = connection.getStartDragBox().getGluedPort();
                 oldEndPort = connection.getEndDragBox().getGluedPort();
             }
+            
+            // remove dragged drag box from port
+            draggedDragBox.getGluedPort().removeConnectionDragBox(draggedDragBox, false);
+            //draggedDragBox.setGluedPort(null);
 
         }
 
