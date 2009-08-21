@@ -30,6 +30,11 @@ import de.decidr.model.logging.DefaultLogger;
  * Invokes {@link TransactionalCommand}s within a hibernate transaction. Inner
  * transactions are supported by giving up the durability property of all inner
  * transactions.
+ * <p>
+ * The HibernateTransactionCoordinator is implemented as a singleton. The
+ * freshly initialized instance uses a default configuration which it reads from
+ * the first "hibernate.cfg.xml" that it finds in the classpath. You can change
+ * the configuration at any time using the <code>setConfiguration</code> method.
  * 
  * @author Daniel Huss
  * @author Markus Fischer
@@ -78,6 +83,11 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     private ArrayList<TransactionalCommand> notifiedReceivers = null;
 
     /**
+     * The current Hibernate configuration.
+     */
+    private Configuration configuration;
+
+    /**
      * @return the singleton instance.
      */
     public static HibernateTransactionCoordinator getInstance() {
@@ -85,12 +95,12 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     }
 
     /**
-     * Creates the HibernateTransactionCoordinator singleton instance.
+     * Creates the HibernateTransactionCoordinator singleton instance using the
+     * default configuration.
      */
     private HibernateTransactionCoordinator() {
         super();
-        this.sessionFactory = new Configuration().configure()
-                .buildSessionFactory();
+        this.setConfiguration(new Configuration());
         this.currentTransaction = null;
         this.transactionDepth = 0;
         this.session = null;
@@ -101,7 +111,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * Starts a new transaction. If the new transaction is an inner transaction,
      * the existing outer transaction is reused.
      */
-    protected void beginTransaction() {
+    protected synchronized void beginTransaction() {
 
         if (transactionDepth == 0) {
             session = sessionFactory.openSession();
@@ -155,6 +165,35 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     public Session getCurrentSession() {
         return session;
+    }
+
+    /**
+     * Updates the session factory using the given configuration. Currently
+     * runnning transactions are not affected by the new configuration. The new
+     * configuration will be applied the next time a session is opened. FIXME RR
+     * new method, please add JUnit test case
+     * 
+     * @param config
+     */
+    public void setConfiguration(Configuration config) {
+        if (config == null) {
+            throw new IllegalArgumentException(
+                    "Hibernate config cannot be null");
+        }
+        this.sessionFactory = config.configure().buildSessionFactory();
+        configuration = config;
+    }
+
+    /**
+     * Returns the currently used Hibernate configuration. Please note that
+     * changes to the {@link Configuration} object do not affect this
+     * transaction coordinator. To apply new settings, you'll have to use the
+     * setConfiguration method. FIXME RR new method, please add JUnit test case
+     * 
+     * @return the currently used Hibernate configuration.
+     */
+    public Configuration getConfiguration() {
+        return configuration;
     }
 
     /**

@@ -124,6 +124,8 @@ public class SystemFacade extends AbstractFacade {
 
     /**
      * Sets the given system settings.
+     * <p>
+     * The loglevel must be a string 
      * 
      * @throws TransactionException
      *             if an error occurs during the transaction s

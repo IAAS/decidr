@@ -11,7 +11,7 @@ import de.decidr.model.exceptions.TransactionException;
 
 public class HibernateTransactionCoordinatorTest extends TransactionTest {
 
-    class testCommandCommit extends AbstractTransactionalCommand {
+    class TestCommandCommit extends AbstractTransactionalCommand {
 
         private Boolean started = false;
         private Boolean committed = false;
@@ -55,7 +55,7 @@ public class HibernateTransactionCoordinatorTest extends TransactionTest {
 
     }
 
-    class testCommandAbort extends AbstractTransactionalCommand {
+    class TestCommandAbort extends AbstractTransactionalCommand {
 
         private Boolean started = false;
         private Boolean committed = false;
@@ -113,8 +113,8 @@ public class HibernateTransactionCoordinatorTest extends TransactionTest {
 
         TransactionCoordinator htc = HibernateTransactionCoordinator
                 .getInstance();
-        testCommandCommit c = new testCommandCommit();
-        testCommandAbort c2 = new testCommandAbort();
+        TestCommandCommit c = new TestCommandCommit();
+        TestCommandAbort c2 = new TestCommandAbort();
         Boolean transactionThrown = false;
 
         htc.runTransaction(c);
@@ -142,9 +142,9 @@ public class HibernateTransactionCoordinatorTest extends TransactionTest {
 
         TransactionCoordinator htc = HibernateTransactionCoordinator
                 .getInstance();
-        testCommandCommit c = new testCommandCommit();
-        testCommandCommit c2 = new testCommandCommit();
-        testCommandCommit[] commands = { c, c2 };
+        TestCommandCommit c = new TestCommandCommit();
+        TestCommandCommit c2 = new TestCommandCommit();
+        TestCommandCommit[] commands = { c, c2 };
 
         htc.runTransaction(commands);
 

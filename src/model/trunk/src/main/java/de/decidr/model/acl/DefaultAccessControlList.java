@@ -78,7 +78,7 @@ import de.decidr.model.commands.user.GetHighestUserRoleCommand;
 import de.decidr.model.commands.user.GetInvitationCommand;
 import de.decidr.model.commands.user.GetJoinedTenantsCommand;
 import de.decidr.model.commands.user.GetUserByLoginCommand;
-import de.decidr.model.commands.user.GetUserProfileCommand;
+import de.decidr.model.commands.user.GetUserWithProfileCommand;
 import de.decidr.model.commands.user.GetUserRoleForTenantCommand;
 import de.decidr.model.commands.user.GetWorkitemsCommand;
 import de.decidr.model.commands.user.IsRegisteredCommand;
@@ -450,7 +450,7 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsInvitationReceiverAsserter(), new IsRoleEqualToAccessedUserAsserter());
         
         setRule(new UserRole(), new CommandPermission(
-                GetUserProfileCommand.class), AssertMode.SatisfyAll,
+                GetUserWithProfileCommand.class), AssertMode.SatisfyAll,
                 new UserIsEnabledAsserter(),new UserIsLoggedInAsserter());
         
         setRule(new BasicRole(null), new CommandPermission(

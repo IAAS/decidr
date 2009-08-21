@@ -25,6 +25,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 
+import de.decidr.model.VaadinTools;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
@@ -44,8 +45,9 @@ import de.decidr.model.commands.user.GetHighestUserRoleCommand;
 import de.decidr.model.commands.user.GetInvitationCommand;
 import de.decidr.model.commands.user.GetJoinedTenantsCommand;
 import de.decidr.model.commands.user.GetUserByLoginCommand;
-import de.decidr.model.commands.user.GetUserProfileCommand;
+import de.decidr.model.commands.user.GetUserPropertiesCommand;
 import de.decidr.model.commands.user.GetUserRoleForTenantCommand;
+import de.decidr.model.commands.user.GetUserWithProfileCommand;
 import de.decidr.model.commands.user.GetWorkitemsCommand;
 import de.decidr.model.commands.user.IsRegisteredCommand;
 import de.decidr.model.commands.user.LeaveTenantCommand;
@@ -64,6 +66,7 @@ import de.decidr.model.entities.WorkItemSummaryView;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
+import de.decidr.model.exceptions.RequestExpiredException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
@@ -533,29 +536,95 @@ public class UserFacade extends AbstractFacade {
      * Returns the user profile of the given user that contains the following
      * properties:
      * <ul>
+     * <li><b>Begin user profile properties - only present if the user is
+     * registered</b></li>
      * <li>city: String - city part of user address</li>
      * <li>firstName: String</li>
      * <li>lastName: String</li>
      * <li>postalCode: String - postal code part of user address</li>
      * <li>street: String - street part of user address</li>
      * <li>username: String</li>
-     * </ul>
+     * <li><b>End of user profile properties</b></li>
+     * <li>id: Long - user id</li>
+     * <li>authKey: String - authentication key (temporary password if the user
+     * has not registered)</li>
+     * <li>email: String - full email address</li>
+     * <li>disabledSince: Date - null if the user is enabled</li>
+     * <li>unavailableSince: Date - null if the user is available</li>
+     * <li>registeredSince: Date - null if the user has never registered</li>
+     * <li>creationDate: Date - date when the user was created in the database</li>
      * 
      * @param userId
      *            the id of the user whose profile should be returned
      * @return Vaadin item which is described above
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             iff the user does not exist or if he does not have a profile
+     *             and requireProfile is set to true.
      */
     @AllowedRole(UserRole.class)
-    public Item getUserProfile(Long userId) throws TransactionException {
+    public Item getUserProfile(Long userId, Boolean requireProfile)
+            throws TransactionException {
 
-        String[] properties = { "city", "firstName", "lastName", "postalCode",
-                "street", "username" };
+        String[] userProperties = { "id", "authKey", "email", "disabledSince",
+                "unavailableSince", "registeredSince", "creationDate" };
+        String[] profileProperties = { "city", "firstName", "lastName",
+                "postalCode", "street", "username" };
 
-        GetUserProfileCommand command = new GetUserProfileCommand(actor, userId);
+        GetUserWithProfileCommand command = new GetUserWithProfileCommand(
+                actor, userId);
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-        return new BeanItem(command.getResult(), properties);
+
+        User result = command.getResult();
+
+        if (result == null) {
+            throw new EntityNotFoundException(User.class, userId);
+        }
+
+        // build the vaadin item
+        BeanItem item = new BeanItem(result, userProperties);
+        UserProfile profile = result.getUserProfile();
+
+        if (profile == null && requireProfile) {
+            throw new EntityNotFoundException(UserProfile.class, userId);
+        } else if (profile != null) {
+            VaadinTools.addBeanPropertiesToItem(profile, item,
+                    profileProperties);
+        }
+
+        return item;
+    }
+
+    /**
+     * Returns the user profile of the given user that contains the following
+     * properties:
+     * <ul>
+     * <li>city: String - city part of user address</li>
+     * <li>firstName: String</li>
+     * <li>lastName: String</li>
+     * <li>postalCode: String - postal code part of user address</li>
+     * <li>street: String - street part of user address</li>
+     * <li>username: String</li>
+     * <li>id: Long - user id</li>
+     * <li>authKey: String - authentication key (temporary password if the user
+     * has not registered)</li>
+     * <li>email: String - full email address</li>
+     * <li>disabledSince: Date - null if the user is enabled</li>
+     * <li>unavailableSince: Date - null if the user is available</li>
+     * <li>registeredSince: Date - null if the user has never registered</li>
+     * <li>creationDate: Date - date when the user was created in the database</li>
+     * 
+     * @param userId
+     *            the id of the user whose profile should be returned
+     * @return Vaadin item which is described above
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             iff the user does not exist or if he does not have a profile
+     */
+    public Item getUserProfile(Long userId) throws TransactionException {
+        return getUserProfile(userId, true);
     }
 
     /**
@@ -880,5 +949,57 @@ public class UserFacade extends AbstractFacade {
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
         return command.getResult();
+    }
+
+    /**
+     * FIXME RR new method, please add JUnit test case
+     * 
+     * Returns the ID of the last tenant that the user has switched to (can be
+     * null!)
+     * 
+     * @param userId
+     *            the ID of the user whose current tenant should be retrieved
+     * @return the id of the current tenant or null if the user has never
+     *         switched to a tenant or the tenant has been deleted.
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason
+     */
+    @AllowedRole(UserRole.class)
+    public Long getCurrentTenantId(Long userId) throws TransactionException {
+        GetUserPropertiesCommand cmd = new GetUserPropertiesCommand(actor,
+                userId, "currentTenant");
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+
+        Long result = null;
+        User user = cmd.getFirstUser();
+        if (user != null && user.getCurrentTenant() != null) {
+            result = user.getCurrentTenant().getId();
+        }
+
+        return result;
+    }
+
+    /**
+     * FIXME RR new method, please add JUnit test case
+     * 
+     * @param userId
+     * @param currentTenantId
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason
+     */
+    @AllowedRole(UserRole.class)
+    public void setCurrentTenantId(Long userId, Long currentTenantId)
+            throws TransactionException {
+        // since the tenant property is an entity we create one with the given
+        // ID
+        Tenant currentTenant = new Tenant();
+        currentTenant.setId(currentTenantId);
+        Map<String, Tenant> newProperties = new HashMap<String, Tenant>();
+        newProperties.put("tenant", currentTenant);
+
+        SetUserPropertyCommand cmd = new SetUserPropertyCommand(actor, userId,
+                newProperties);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
     }
 }

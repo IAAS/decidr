@@ -16,7 +16,12 @@
 
 package de.decidr.model;
 
+import java.io.Serializable;
+
+import com.sun.mail.imap.protocol.Item;
 import com.vaadin.data.Property;
+import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.util.MethodProperty;
 import com.vaadin.data.util.ObjectProperty;
 
 /**
@@ -35,4 +40,30 @@ public class VaadinTools {
     public static Property getEmptyProperty() {
         return new ObjectProperty(null, Object.class);
     }
+
+    /**
+     * FIXME RR new method, needs JUnit tests. I really hope this works with
+     * isXXX getters as well as getXXX getters.
+     * 
+     * Adds multiple properties from a source object to a bean item.
+     * 
+     * @param bean
+     *            source object that holds the properties to add
+     * @param item
+     *            Vaadin item that receives the new properties
+     * @param properties
+     *            names of the properties to add
+     */
+    public static void addBeanPropertiesToItem(Serializable bean,
+            BeanItem item, String... properties) {
+        if (bean == null || item == null || properties == null) {
+            throw new IllegalArgumentException(
+                    "bean, item and properties cannot be null");
+        }
+
+        for (String property : properties) {
+            item.addItemProperty(property, new MethodProperty(bean, property));
+        }
+    }
+
 }
