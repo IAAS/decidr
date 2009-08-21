@@ -16,6 +16,7 @@
 
 package de.decidr.model.workflowmodel.dwdl.validation;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,7 +30,6 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import de.decidr.model.acl.roles.UserRole;
@@ -147,6 +147,10 @@ public class Validator {
 
     /**
      * MA: add comment
+     * MA: uses a Streamsource as validation object
+     *   -> correct line numbers, compared to DOMSource
+     *   transformUtil.WorfklowToStreamSource or similar
+     *   required.
      * 
      * @param dwdl
      *            The DWDL workflow to validate
@@ -154,13 +158,32 @@ public class Validator {
      */
     public List<IProblem> validate(byte[] dwdl) {
         Workflow wf = null;
+        StreamSource src = null;
+        DWDLErrorHandler errHandler = null;
+        List<IProblem> errList = null;
+        
         try {
             wf = TransformUtil.bytes2Workflow(dwdl);
+            src = new StreamSource(new ByteArrayInputStream(dwdl));
+            validator.setErrorHandler(new DWDLErrorHandler());
+            validator.validate(src);
+
+            errHandler = (DWDLErrorHandler) (validator.getErrorHandler());
+            errList = errHandler.getProblemList();
+
+            errList.addAll(checkVariables(wf));
+            errList.addAll(checkUsers(wf));
         } catch (JAXBException e) {
-            // MA Auto-generated catch block
-            e.printStackTrace();
+            errList = new ArrayList<IProblem>();
+            errList.add(new Problem(e.getMessage(), "global"));
+        } catch (SAXException e) {
+            errList = new ArrayList<IProblem>();
+            errList.add(new Problem(e.getMessage(), "global"));
+        } catch (IOException e) {
+            errList = new ArrayList<IProblem>();
+            errList.add(new Problem(e.getMessage(), "global"));
         }
-        return validate(wf);
+        return errList;
     }
 
     /**
