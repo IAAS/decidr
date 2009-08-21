@@ -137,8 +137,8 @@ public class ValueEditor extends Dialog {
                             newValues.add(field.getValue());
                         }
                         ValidatorCallback call = new ValidatorCallback();
-                        Validator validator = new Validator(
-                                newValues, variable.getType());
+                        Validator validator = new Validator(newValues, variable
+                                .getType());
                         if (validator.validate(call)) {
                             changeWorkflowModel(newValues);
                             /*

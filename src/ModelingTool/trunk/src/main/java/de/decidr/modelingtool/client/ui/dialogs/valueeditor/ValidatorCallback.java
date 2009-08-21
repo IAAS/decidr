@@ -16,6 +16,10 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.valueeditor;
 
+import java.util.Iterator;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 /**
  * 
  * 
@@ -23,25 +27,39 @@ package de.decidr.modelingtool.client.ui.dialogs.valueeditor;
  */
 public class ValidatorCallback {
 
-    private String callback;
+    private SortedSet<Integer> values = new TreeSet<Integer>();
 
     /**
      * TODO: add comment
      * 
-     * @return the callback
+     * @return the callback message
      */
     public String getMessage() {
-        return callback;
+        String message = new String();
+        if (values.size() == 1) {
+            message = "The value " + values.first() + " has a wrong format.";
+        } else {
+            message = "The values ";
+            for (Iterator<Integer> i = values.iterator(); i.hasNext();) {
+                message = message + i.next();
+                if (i.hasNext()) {
+                    message = message + ", ";
+                }
+            }
+            message = message + " have a wrong format.";
+        }
+        return message;
     }
 
     /**
+     * 
      * TODO: add comment
      * 
-     * @param callback
-     *            the callback to set
+     * @param valueNumber
+     *            the number of the value that has an incorrect format
      */
-    public void addToMessage(String text) {
-        callback = callback + "\n" + text;
+    public void addValueToMessage(int valueNumber) {
+        values.add(valueNumber);
     }
 
 }

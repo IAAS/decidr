@@ -69,10 +69,12 @@ public class Validator {
             result = checkFloat(callback);
             break;
         case BOOLEAN:
+            result = checkBoolean(callback);
             break;
         case FILE:
             break;
         case DATE:
+            result = checkDate(callback);
             break;
         case ROLE:
             break;
@@ -86,60 +88,87 @@ public class Validator {
 
     private Boolean checkInteger(ValidatorCallback callback) {
         Boolean result = true;
-        for (String value : values) {
+        for (int i = 0; i < values.size(); i++) {
+            if (isInteger(values.get(i), true) == false) {
+                result = false;
+                /*
+                 * "+1" is added in the following line because in the ui the
+                 * indexes do not start with 0.
+                 */
+                callback.addValueToMessage(i + 1);
+            }
+        }
+        return result;
+    }
+
+    private Boolean isInteger(String integer, Boolean signed) {
+        /*
+         * check every character of the string. If it is not a digit, the string
+         * is not a valid integer.
+         */
+        Boolean result = true;
+        int index = 0;
+        while (result == true && index < integer.length()) {
             /*
-             * check every character of the string. If it is not a digit, the
-             * value is not valid.
+             * if the integer is supposed to be a signed integer, the first
+             * index can be a '+', '-' or a digit.
              */
-            for (int i = 0; i < value.length(); i++) {
-                if (!Character.isDigit(value.charAt(i))) {
-                    // JS: externalize
-                    callback.addToMessage("Value "
-                            + (values.indexOf(value) + 1)
-                            + " has a wrong format.");
+            if (index == 0 && signed) {
+                if (!Character.isDigit(integer.charAt(index))
+                        && !(integer.charAt(index) == '-')
+                        && !(integer.charAt(index) == '+')) {
                     result = false;
                 }
+            } else if (Character.isDigit(integer.charAt(index)) == false) {
+                result = false;
             }
+            index = index + 1;
         }
         return result;
     }
 
     private Boolean checkFloat(ValidatorCallback callback) {
         Boolean result = true;
-        for (String value : values) {
-            String[] parts = value.split(ModelingToolWidget.messages.decimalSeparator());
-//            String test ="asd, ber, ceret";
-//           parts=test.split(",");
-            System.out.println(value);
-            System.out.println(ModelingToolWidget.messages.decimalSeparator());
-            System.out.println(parts.length);
-            System.out.println(parts[0]);
-            System.out.println(parts[1]);
-
+        for (int i = 0; i < values.size(); i++) {
+            /*
+             * Split every "float string" into two parts (devided by the decimal
+             * separator), and check if both parts are an integer.
+             */
+            String[] parts = values.get(i).split(
+                    ModelingToolWidget.messages.decimalSeparator());
             if (parts.length != 2) {
+                callback.addValueToMessage(i + 1);
                 result = false;
             }
-            for (int i = 0; i < parts[0].length(); i++) {
-                if (!Character.isDigit(parts[0].charAt(i))) {
-                    // JS: externalize
-                    callback.addToMessage("Value "
-                            + (values.indexOf(value) + 1)
-                            + " has a wrong format.");
-                    result = false;
-                }
+
+            if (parts.length == 2 && isInteger(parts[0], true) == false) {
+                callback.addValueToMessage(i + 1);
+                result = false;
             }
-            for (int i = 0; i < parts[1].length(); i++) {
-                if (!Character.isDigit(parts[1].charAt(i))) {
-                    // JS: externalize
-                    callback.addToMessage("Value "
-                            + (values.indexOf(value) + 1)
-                            + " has a wrong format.");
-                    result = false;
-                }
+            if (parts.length == 2 && isInteger(parts[1], false) == false) {
+                callback.addValueToMessage(i + 1);
+                result = false;
             }
 
         }
         return result;
+    }
+
+    private Boolean checkBoolean(ValidatorCallback callback) {
+        Boolean result = true;
+        for (int i = 0; i < values.size(); i++) {
+            if (!(values.get(i).equalsIgnoreCase("false"))
+                    && !(values.get(i).equalsIgnoreCase("true"))) {
+                callback.addValueToMessage(i + 1);
+                result = false;
+            }
+        }
+        return result;
+    }
+
+    private Boolean checkDate(ValidatorCallback callback) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
