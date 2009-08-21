@@ -8,63 +8,13 @@ CREATE SCHEMA IF NOT EXISTS `decidrdb` DEFAULT CHARACTER SET utf8 COLLATE utf8_u
 USE `decidrdb`;
 
 -- -----------------------------------------------------
--- Table `decidrdb`.`user`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `decidrdb`.`user` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT ,
-  `authKey` CHAR(64) NULL COMMENT 'Used to authenticate unregistered users within the system.Should be set to null if the user is registered.' ,
-  `email` VARCHAR(255) NULL COMMENT 'Can be used to log into the system. Each email address can be assigned to at most one user. The official max email address length is 320 characters, but MySQL unique indices require VARCHAR.' ,
-  `disabledSince` DATETIME NULL COMMENT 'By setting disabledSince to something other than null, the super admin can ban a user from using the system.' ,
-  `unavailableSince` DATETIME NULL COMMENT 'Whether or not the user is available for workflow participation. Null indicates that the user is available.' ,
-  `registeredSince` DATETIME NULL COMMENT 'If this field is null the user has never successfully registered.' ,
-  `creationDate` DATETIME NOT NULL COMMENT 'Date when the user was created' ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `unique_email` (`email` ASC) ,
-  INDEX `index_authKey` (`authKey` ASC) ,
-  INDEX `index_enabled` (`disabledSince` ASC) ,
-  INDEX `index_available` (`unavailableSince` ASC) )
-ENGINE = InnoDB
-COMMENT = 'Stores user related data.';
-
-
--- -----------------------------------------------------
--- Table `decidrdb`.`user_profile`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_profile` (
-  `userId` BIGINT NOT NULL ,
-  `username` VARCHAR(20) NOT NULL ,
-  `passwordHash` CHAR(128) NOT NULL COMMENT 'The system does not store the password in plain text, but uses a double hash and a salt to make attacks on the hashed password much harder. This field stores:\n\nSHA512( SHA512(password) XOR passwordSalt )' ,
-  `passwordSalt` CHAR(128) NOT NULL COMMENT 'The salt in hexit representation which is XORed with the first password hash.' ,
-  `firstName` VARCHAR(50) NULL ,
-  `lastName` VARCHAR(50) NULL ,
-  `street` VARCHAR(100) NULL ,
-  `postalCode` VARCHAR(15) NULL ,
-  `city` VARCHAR(50) NULL ,
-  PRIMARY KEY (`userId`) ,
-  INDEX `fk_profile_user` (`userId` ASC) ,
-  UNIQUE INDEX `unique_username` (`username` ASC) ,
-  INDEX `index_firstName` (`firstName` ASC) ,
-  INDEX `index_lastName` (`lastName` ASC) ,
-  INDEX `index_street` (`street` ASC) ,
-  INDEX `index_postalCode` (`postalCode` ASC) ,
-  INDEX `index_city` (`city` ASC) ,
-  CONSTRAINT `fk_profile_user`
-    FOREIGN KEY (`userId` )
-    REFERENCES `decidrdb`.`user` (`id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-COMMENT = 'Represents a user profile (weak entity)';
-
-
--- -----------------------------------------------------
 -- Table `decidrdb`.`file`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`file` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `fileName` VARCHAR(255) NOT NULL ,
   `mimeType` VARCHAR(150) NOT NULL COMMENT 'The content typ of the file as reported by the original uploader.' ,
-  `mayPublicRead` BOOLEAN NOT NULL COMMENT 'Whether or not this file is accessible by anyone' ,
+  `mayPublicRead` TINYINT(1) NOT NULL COMMENT 'Whether or not this file is accessible by anyone' ,
   `fileSizeBytes` BIGINT NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
@@ -120,6 +70,63 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `decidrdb`.`user`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `decidrdb`.`user` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT ,
+  `authKey` CHAR(64) NULL COMMENT 'Used to authenticate unregistered users within the system.Should be set to null if the user is registered.' ,
+  `email` VARCHAR(255) NULL COMMENT 'Can be used to log into the system. Each email address can be assigned to at most one user. The official max email address length is 320 characters, but MySQL unique indices require VARCHAR.' ,
+  `disabledSince` DATETIME NULL COMMENT 'By setting disabledSince to something other than null, the super admin can ban a user from using the system.' ,
+  `unavailableSince` DATETIME NULL COMMENT 'Whether or not the user is available for workflow participation. Null indicates that the user is available.' ,
+  `registeredSince` DATETIME NULL COMMENT 'If this field is null the user has never successfully registered.' ,
+  `creationDate` DATETIME NOT NULL COMMENT 'Date when the user was created' ,
+  `currentTenantId` BIGINT NULL COMMENT 'null means that the user is currently in the default tenant' ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `unique_email` (`email` ASC) ,
+  INDEX `index_authKey` (`authKey` ASC) ,
+  INDEX `index_enabled` (`disabledSince` ASC) ,
+  INDEX `index_available` (`unavailableSince` ASC) ,
+  INDEX `fk_user_tenant1` (`currentTenantId` ASC) ,
+  CONSTRAINT `fk_user_tenant1`
+    FOREIGN KEY (`currentTenantId` )
+    REFERENCES `decidrdb`.`tenant` (`id` )
+    ON DELETE SET NULL
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+COMMENT = 'Stores user related data.';
+
+
+-- -----------------------------------------------------
+-- Table `decidrdb`.`user_profile`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_profile` (
+  `userId` BIGINT NOT NULL ,
+  `username` VARCHAR(20) NOT NULL ,
+  `passwordHash` CHAR(128) NOT NULL COMMENT 'The system does not store the password in plain text, but uses a double hash and a salt to make attacks on the hashed password much harder. This field stores:\n\nSHA512( SHA512(password) XOR passwordSalt )' ,
+  `passwordSalt` CHAR(128) NOT NULL COMMENT 'The salt in hexit representation which is XORed with the first password hash.' ,
+  `firstName` VARCHAR(50) NULL ,
+  `lastName` VARCHAR(50) NULL ,
+  `street` VARCHAR(100) NULL ,
+  `postalCode` VARCHAR(15) NULL ,
+  `city` VARCHAR(50) NULL ,
+  PRIMARY KEY (`userId`) ,
+  INDEX `fk_profile_user` (`userId` ASC) ,
+  UNIQUE INDEX `unique_username` (`username` ASC) ,
+  INDEX `index_firstName` (`firstName` ASC) ,
+  INDEX `index_lastName` (`lastName` ASC) ,
+  INDEX `index_street` (`street` ASC) ,
+  INDEX `index_postalCode` (`postalCode` ASC) ,
+  INDEX `index_city` (`city` ASC) ,
+  CONSTRAINT `fk_profile_user`
+    FOREIGN KEY (`userId` )
+    REFERENCES `decidrdb`.`user` (`id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+COMMENT = 'Represents a user profile (weak entity)';
+
+
+-- -----------------------------------------------------
 -- Table `decidrdb`.`user_is_member_of_tenant`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_is_member_of_tenant` (
@@ -149,8 +156,8 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`workflow_model` (
   `tenantId` BIGINT NOT NULL ,
   `name` VARCHAR(255) NOT NULL ,
   `description` LONGTEXT NOT NULL ,
-  `published` BOOLEAN NOT NULL DEFAULT false ,
-  `executable` BOOLEAN NOT NULL ,
+  `published` TINYINT(1) NOT NULL DEFAULT false ,
+  `executable` TINYINT(1) NOT NULL ,
   `creationDate` DATETIME NOT NULL ,
   `modifiedDate` DATETIME NOT NULL ,
   `dwdl` LONGBLOB NOT NULL ,
@@ -227,8 +234,8 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`server` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `location` VARCHAR(255) NOT NULL ,
   `load` TINYINT NOT NULL COMMENT 'Ranges from 0 to 100 percent' ,
-  `locked` BOOLEAN NOT NULL COMMENT 'Whether or not new workflow models may be deployed on this server.' ,
-  `dynamicallyAdded` BOOLEAN NOT NULL ,
+  `locked` TINYINT(1) NOT NULL COMMENT 'Whether or not new workflow models may be deployed on this server.' ,
+  `dynamicallyAdded` TINYINT(1) NOT NULL ,
   `serverTypeId` BIGINT NOT NULL ,
   `lastLoadUpdate` DATETIME NULL ,
   PRIMARY KEY (`id`) ,
@@ -437,7 +444,7 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`session` (
   `data` LONGBLOB NULL ,
   `lastAccessed` BIGINT NOT NULL ,
   `maxInactive` INT NOT NULL ,
-  `valid` BOOLEAN NOT NULL ,
+  `valid` TINYINT(1) NOT NULL ,
   PRIMARY KEY (`sessionId`) ,
   INDEX `index_app` (`app` ASC) ,
   INDEX `index_lastAccessed` (`lastAccessed` ASC) ,
@@ -453,9 +460,9 @@ COMMENT = 'Used to store the Tomcat HTTP session.';
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_has_file_access` (
   `fileId` BIGINT NOT NULL ,
   `userId` BIGINT NOT NULL ,
-  `mayRead` BOOLEAN NOT NULL ,
-  `mayDelete` BOOLEAN NOT NULL ,
-  `mayReplace` BOOLEAN NOT NULL ,
+  `mayRead` TINYINT(1) NOT NULL ,
+  `mayDelete` TINYINT(1) NOT NULL ,
+  `mayReplace` TINYINT(1) NOT NULL ,
   PRIMARY KEY (`userId`, `fileId`) ,
   INDEX `fk_user_access_file_user` (`userId` ASC) ,
   INDEX `fk_user_access_file_file` (`fileId` ASC) ,
@@ -573,7 +580,7 @@ ENGINE = InnoDB;
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`system_settings` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `modifiedDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-  `autoAcceptNewTenants` BOOLEAN NOT NULL DEFAULT FALSE ,
+  `autoAcceptNewTenants` TINYINT(1) NOT NULL DEFAULT FALSE ,
   `systemName` VARCHAR(255) NOT NULL DEFAULT 'DecidR' ,
   `domain` VARCHAR(255) NOT NULL DEFAULT 'decidr.de' ,
   `systemEmailAddress` VARCHAR(255) NOT NULL DEFAULT 'system@decidr.de' ,
@@ -585,7 +592,7 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`system_settings` (
   `invitationLifetimeSeconds` INT UNSIGNED NOT NULL DEFAULT 259200 COMMENT 'Default is 72 hours' ,
   `mtaHostname` VARCHAR(255) NOT NULL DEFAULT 'localhost' COMMENT 'Mail Transfer Agent hostname' ,
   `mtaPort` INT UNSIGNED NOT NULL DEFAULT 25 COMMENT 'Server port of the Mail Transfer Agent' ,
-  `mtaUseTls` BOOLEAN NOT NULL DEFAULT true COMMENT 'Whether or not TLS should be used when connecting to the MTA.' ,
+  `mtaUseTls` TINYINT(1) NOT NULL DEFAULT true COMMENT 'Whether or not TLS should be used when connecting to the MTA.' ,
   `mtaUsername` VARCHAR(255) NOT NULL DEFAULT 'decidr' ,
   `mtaPassword` VARCHAR(255) NOT NULL DEFAULT 'gn!le42' ,
   `maxUploadFileSizeBytes` BIGINT UNSIGNED NOT NULL DEFAULT 10485760 COMMENT 'Default is 10 MB.' ,
@@ -687,7 +694,7 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`login` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `userId` BIGINT NOT NULL ,
   `loginDate` DATETIME NOT NULL ,
-  `success` BOOLEAN NOT NULL ,
+  `success` TINYINT(1) NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_login_user` (`userId` ASC) ,
   INDEX `index_loginDate` (`loginDate` ASC) ,
@@ -753,7 +760,7 @@ CREATE TABLE IF NOT EXISTS `decidrdb`.`invitation_view` (`id` INT);
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `decidrdb`.`server_load_view`;
 #Retrieves a server load summary including the number of deployed workflow instances
-CREATE VIEW `decidrdb`.`server_load_view` AS
+CREATE  OR REPLACE VIEW `decidrdb`.`server_load_view` AS
 SELECT s.*, t.name AS serverType ,COUNT(wi.id) AS `numInstances`
 FROM `server` AS s 
 JOIN `server_type` AS t ON t.id = s.serverTypeId
@@ -765,7 +772,7 @@ GROUP BY s.id;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `decidrdb`.`work_item_summary_view`;
 #Retrieves a work item summary 
-CREATE VIEW `decidrdb`.`work_item_summary_view` AS
+CREATE  OR REPLACE VIEW `decidrdb`.`work_item_summary_view` AS
 SELECT DISTINCT w.id AS id, 
                 w.`name` AS workItemName, 
                 t.`name` AS tenantName, 
@@ -789,7 +796,7 @@ WHERE (w.userId = u.id) AND
 DROP TABLE IF EXISTS `decidrdb`.`tenant_summary_view`;
 #Retrieves a tenant summary including the number of (deployed) workflow models, worfklow instances and users.
 
-CREATE VIEW `decidrdb`.`tenant_summary_view` AS
+CREATE  OR REPLACE VIEW `decidrdb`.`tenant_summary_view` AS
 SELECT DISTINCT t.id AS id, t.`name` AS tenantName,
                 a.`firstName` AS adminFirstName, 
                 a.`lastName` AS adminLastName,
@@ -831,7 +838,7 @@ DROP TABLE IF EXISTS `decidrdb`.`startable_workflow_model_view`;
 # Only workflow models where creating a new workflow instance is allowed, 
 # i.e. a deployed workflow model exists that has the same version. 
 
-CREATE VIEW `decidrdb`.`startable_workflow_model_view` AS
+CREATE  OR REPLACE VIEW `decidrdb`.`startable_workflow_model_view` AS
 SELECT w.* FROM workflow_model AS w 
 JOIN deployed_workflow_model AS d ON 
   ( (d.originalWorkflowModelId = w.id) AND (d.version = w.version) )
@@ -842,7 +849,7 @@ WHERE (w.executable = true);
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `decidrdb`.`invitation_view`;
 # A view on invitations that includes the sender's full name
-CREATE VIEW `decidrdb`.`invitation_view` AS
+CREATE  OR REPLACE VIEW `decidrdb`.`invitation_view` AS
 SELECT i.*, snd.firstName AS senderFirstName, snd.lastName AS senderLastName,
        rcv.firstName AS receiverFirstName, rcv. lastName AS receiverLastName,
        wfm.name AS administratedWorkflowModelName,
@@ -1047,17 +1054,6 @@ END;//
 
 
 DELIMITER ;
-
--- -----------------------------------------------------
--- Data for table `decidrdb`.`server_type`
--- -----------------------------------------------------
-SET AUTOCOMMIT=0;
-INSERT INTO `server_type` (`id`, `name`) VALUES (1, 'Ode');
-INSERT INTO `server_type` (`id`, `name`) VALUES (2, 'WebPortal');
-INSERT INTO `server_type` (`id`, `name`) VALUES (3, 'Esb');
-INSERT INTO `server_type` (`id`, `name`) VALUES (4, 'Storage');
-
-COMMIT;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
