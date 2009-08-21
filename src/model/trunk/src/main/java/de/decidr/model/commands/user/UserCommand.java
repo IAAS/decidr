@@ -16,7 +16,8 @@ import de.decidr.model.exceptions.EntityNotFoundException;
  * @author Daniel Huss
  * @version 0.1
  */
-public abstract class UserCommand extends AclEnabledCommand implements UserAccess{
+public abstract class UserCommand extends AclEnabledCommand implements
+        UserAccess {
 
     private Long userId;
 
@@ -34,7 +35,7 @@ public abstract class UserCommand extends AclEnabledCommand implements UserAcces
     }
 
     /**
-     * Fetches the user from the database
+     * Fetches the user from the database.
      * 
      * @param session
      *            the Hibernate session to use for lookup.
@@ -58,12 +59,12 @@ public abstract class UserCommand extends AclEnabledCommand implements UserAcces
     public Long getUserId() {
         return userId;
     }
-    
+
     /**
      * @return the userIds
      */
     public Long[] getUserIds() {
-        Long[] result = {userId};
+        Long[] result = { userId };
         return result;
     }
 }

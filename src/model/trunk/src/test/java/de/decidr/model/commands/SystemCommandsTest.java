@@ -17,6 +17,7 @@
 package de.decidr.model.commands;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -45,6 +46,8 @@ import de.decidr.model.commands.system.LockServerCommand;
 import de.decidr.model.commands.system.RemoveServerCommand;
 import de.decidr.model.commands.system.SetSystemSettingsCommand;
 import de.decidr.model.commands.system.UpdateServerLoadCommand;
+import de.decidr.model.commands.user.CreateNewUnregisteredUserCommand;
+import de.decidr.model.commands.user.GetAllUsersCommand;
 import de.decidr.model.entities.File;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
@@ -63,6 +66,21 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
  * @author Reinhold
  */
 public class SystemCommandsTest extends TransactionTest {
+
+    private Server getServer(long ID) throws TransactionException {
+        GetServersCommand getAllServers = new GetServersCommand(
+                new SuperAdminRole(), (ServerTypeEnum) null);
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                getAllServers);
+
+        for (Server s : getAllServers.getResult()) {
+            if (s.getId() == ID) {
+                return s;
+            }
+        }
+
+        return null;
+    }
 
     /**
      * Test method for
@@ -220,15 +238,12 @@ public class SystemCommandsTest extends TransactionTest {
                 new SuperAdminRole());
         HibernateTransactionCoordinator.getInstance().runTransaction(stats);
         for (ServerLoadView serverLoadView : stats.getResult()) {
-            // DH was für Werte darf so eine ID haben? ~rr
-            assertTrue(serverLoadView.getId() >= 0);
             assertTrue(serverLoadView.getLastLoadUpdate() == null
                     || serverLoadView.getLastLoadUpdate().before(
                             DecidrGlobals.getTime().getTime()));
             assertTrue(serverLoadView.getLoad() >= -1);
+            assertTrue(serverLoadView.getLoad() <= 100);
             assertTrue(serverLoadView.getNumInstances() >= 0);
-            // DH what are legal values for this?
-            assertTrue(serverLoadView.getServerTypeId() > -1);
             try {
                 ServerTypeEnum.valueOf(serverLoadView.getServerType());
             } catch (IllegalArgumentException e) {
@@ -266,7 +281,7 @@ public class SystemCommandsTest extends TransactionTest {
 
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 lockerSuper);
-        // RR check that the server was locked
+        assertTrue(getServer(serverID).isLocked());
 
         assertTransactionException(
                 "BasicRole shouldn't be able to unlock servers.", unlockerBasic);
@@ -275,10 +290,7 @@ public class SystemCommandsTest extends TransactionTest {
 
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 unlockerSuper);
-        // DH & MF: gibt es eine Methode einen Server zu bekommen wenn man die
-        // ID kennt, außer alle zu holen und durchzuiterieren? (ohne hibernate
-        // direkt zu benutzen!) ~rr
-        // RR check that the server was unlocked
+        assertFalse(getServer(serverID).isLocked());
 
         UpdateServerLoadCommand loader;
         byte[] goodLoads = new byte[] { 0, -1, 100, 50 };
@@ -288,7 +300,7 @@ public class SystemCommandsTest extends TransactionTest {
                     serverID, b);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(loader);
-            // RR check that the server got the correct load
+            assertEquals(b, getServer(serverID).getLoad());
         }
 
         for (byte b : goodLoads) {
@@ -376,7 +388,6 @@ public class SystemCommandsTest extends TransactionTest {
         HibernateTransactionCoordinator.getInstance().runTransaction(getter);
         assertNotNull(getter.getResult());
 
-        // DH & MF: should any of the following three tests throw errors? ~rr
         getter = new GetLogCommand(new SuperAdminRole(),
                 new ArrayList<Filter>(), null);
         HibernateTransactionCoordinator.getInstance().runTransaction(getter);
@@ -407,10 +418,11 @@ public class SystemCommandsTest extends TransactionTest {
         SystemSettings setterSettings = new SystemSettings();
         SystemSettings getterSettings;
         Date modDate;
+        SuperAdminRole superRole = new SuperAdminRole();
         SetSystemSettingsCommand setter = new SetSystemSettingsCommand(
-                new SuperAdminRole(), setterSettings);
+                superRole, setterSettings);
         GetSystemSettingsCommand getter = new GetSystemSettingsCommand(
-                new SuperAdminRole());
+                superRole);
         SetSystemSettingsCommand userSetter = new SetSystemSettingsCommand(
                 new BasicRole(0L), setterSettings);
         GetSystemSettingsCommand userGetter = new GetSystemSettingsCommand(
@@ -423,16 +435,21 @@ public class SystemCommandsTest extends TransactionTest {
                 userSetter);
         assertTransactionException(
                 "Null user shouldn't be able to set settings", nullSetter);
-        // DH & MF: should this throw an error, set all values to defaults
-        // or change nothing? ~rr
         assertTransactionException("Shouldn't be able to set empty settings",
                 setter);
+
+        User admin = new User("ab@c.de", DecidrGlobals.getTime().getTime());
+        CreateNewUnregisteredUserCommand userCreator = new CreateNewUnregisteredUserCommand(
+                superRole, admin);
+        GetAllUsersCommand userFetcher = new GetAllUsersCommand(superRole,
+                null, null);
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                userCreator, userFetcher);
+        admin = userFetcher.getResult().get(0);
 
         setterSettings.setAutoAcceptNewTenants(true);
         setterSettings.setChangeEmailRequestLifetimeSeconds(20);
         setterSettings.setDomain("decidr.de");
-        // DH & MF: what are legal ID values
-        setterSettings.setId(-1L);
         setterSettings.setInvitationLifetimeSeconds(10);
         setterSettings.setLogLevel("DEBUG");
         setterSettings.setMaxAttachmentsPerEmail(10);
@@ -456,8 +473,7 @@ public class SystemCommandsTest extends TransactionTest {
         setterSettings.setPasswordResetRequestLifetimeSeconds(200);
         setterSettings.setRegistrationRequestLifetimeSeconds(2000);
         setterSettings.setServerPoolInstances(3);
-        // DH & MF: how to properly initialise user? ~rr
-        setterSettings.setSuperAdmin(new User());
+        setterSettings.setSuperAdmin(admin);
         setterSettings.setSystemEmailAddress("decidr@decidr.biz");
         setterSettings.setSystemName("De Cidr");
         HibernateTransactionCoordinator.getInstance().runTransaction(setter);
@@ -468,7 +484,6 @@ public class SystemCommandsTest extends TransactionTest {
         assertEquals(true, getterSettings.isMtaUseTls());
         assertEquals(20, getterSettings.getChangeEmailRequestLifetimeSeconds());
         assertEquals("decidr.de", getterSettings.getDomain());
-        assertEquals(-1L, (long) getterSettings.getId());
         assertEquals(10, getterSettings.getInvitationLifetimeSeconds());
         assertEquals("DEBUG", getterSettings.getLogLevel());
         assertEquals(10, getterSettings.getMaxAttachmentsPerEmail());
@@ -492,7 +507,7 @@ public class SystemCommandsTest extends TransactionTest {
         assertEquals(2000, getterSettings
                 .getRegistrationRequestLifetimeSeconds());
         assertEquals(3, getterSettings.getServerPoolInstances());
-        assertEquals(new User(), getterSettings.getSuperAdmin());
+        assertEquals(admin, getterSettings.getSuperAdmin());
         assertEquals("decidr@decidr.biz", getterSettings
                 .getSystemEmailAddress());
         assertEquals("De Cidr", getterSettings.getSystemName());
@@ -500,7 +515,6 @@ public class SystemCommandsTest extends TransactionTest {
         setterSettings.setAutoAcceptNewTenants(false);
         setterSettings.setChangeEmailRequestLifetimeSeconds(150);
         setterSettings.setDomain("decidr.eu");
-        setterSettings.setId(100L);
         setterSettings.setInvitationLifetimeSeconds(1450);
         setterSettings.setLogLevel("ERROR");
         setterSettings.setMaxAttachmentsPerEmail(0);
@@ -524,8 +538,6 @@ public class SystemCommandsTest extends TransactionTest {
         setterSettings.setPasswordResetRequestLifetimeSeconds(20);
         setterSettings.setRegistrationRequestLifetimeSeconds(2);
         setterSettings.setServerPoolInstances(1);
-        setterSettings
-                .setSuperAdmin(new User(DecidrGlobals.getTime().getTime()));
         setterSettings.setSystemEmailAddress("dumbo@decidr.eu");
         setterSettings.setSystemName("Darth Vader");
         HibernateTransactionCoordinator.getInstance().runTransaction(setter);
@@ -536,7 +548,6 @@ public class SystemCommandsTest extends TransactionTest {
         assertEquals(false, getterSettings.isMtaUseTls());
         assertEquals(150, getterSettings.getChangeEmailRequestLifetimeSeconds());
         assertEquals("decidr.eu", getterSettings.getDomain());
-        assertEquals(100L, (long) getterSettings.getId());
         assertEquals(1450, getterSettings.getInvitationLifetimeSeconds());
         assertEquals("ERROR", getterSettings.getLogLevel());
         assertEquals(0, getterSettings.getMaxAttachmentsPerEmail());
@@ -559,8 +570,6 @@ public class SystemCommandsTest extends TransactionTest {
                 .getPasswordResetRequestLifetimeSeconds());
         assertEquals(2, getterSettings.getRegistrationRequestLifetimeSeconds());
         assertEquals(1, getterSettings.getServerPoolInstances());
-        assertEquals(new User(DecidrGlobals.getTime().getTime()),
-                getterSettings.getSuperAdmin());
         assertEquals("dumbo@decidr.eu", getterSettings.getSystemEmailAddress());
         assertEquals("Darth Vader", getterSettings.getSystemName());
 
@@ -586,16 +595,9 @@ public class SystemCommandsTest extends TransactionTest {
 
         setterSettings.setDomain(null);
         assertTransactionException("null domain succeded", setter);
-        // MF & DH: should this fail or return a default domain
-        // (?localhost?) ~rr
         setterSettings.setDomain("");
         assertTransactionException("empty domain succeded", setter);
         setterSettings.setDomain("decidr.de");
-
-        // RR test as soon as legal values are known
-        setterSettings.setId(-1L);
-        assertTransactionException("illegal ID value succeeded", setter);
-        setterSettings.setId(1L);
 
         setterSettings.setInvitationLifetimeSeconds(-1);
         assertTransactionException(
@@ -685,6 +687,8 @@ public class SystemCommandsTest extends TransactionTest {
         setterSettings.setSuperAdmin(null);
         assertTransactionException("null super admin succeeded", setter);
         setterSettings.setSuperAdmin(new User());
+        assertTransactionException("empty super admin succeeded", setter);
+        setterSettings.setSuperAdmin(admin);
 
         setterSettings.setSystemEmailAddress("in@valid@email");
         assertTransactionException("invalid email address ucceeded", setter);
@@ -694,7 +698,6 @@ public class SystemCommandsTest extends TransactionTest {
         assertTransactionException("null email address ucceeded", setter);
         setterSettings.setSystemEmailAddress("invalid@email.de");
 
-        // DH & MF: are the following two tests correct? ~rr
         setterSettings.setSystemName(null);
         assertTransactionException("null system name succeeded", setter);
         setterSettings.setSystemName("DecidR");

@@ -77,5 +77,4 @@ public class CreateNewUnregisteredUserCommand extends AclEnabledCommand {
 
         evt.getSession().save(newUser);
     }
-
 }
