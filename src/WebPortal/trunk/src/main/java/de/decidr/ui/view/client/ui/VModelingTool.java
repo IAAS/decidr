@@ -2,6 +2,7 @@ package de.decidr.ui.view.client.ui;
 
 
 
+import com.vaadin.data.Item;
 import com.vaadin.terminal.gwt.client.ApplicationConnection;
 import com.vaadin.terminal.gwt.client.Paintable;
 import com.vaadin.terminal.gwt.client.UIDL;
@@ -21,9 +22,7 @@ public class VModelingTool extends de.decidr.modelingtool.client.ModelingToolWid
     /** Reference to the server connection object. */
     ApplicationConnection client;
     
-    //private UIDirector uiDirector = UIDirector.getInstance();
-    //private SiteFrame siteFrame = uiDirector.getTemplateView();
-
+    
     /**
      * The constructor should first call super() to initialize the component and
      * then handle any initialization relevant to Vaadin.
@@ -33,6 +32,7 @@ public class VModelingTool extends de.decidr.modelingtool.client.ModelingToolWid
         // This method call of the Paintable interface sets the component
         // style name in DOM tree
         setStyleName(CLASSNAME);
+
     }
 
     public void updateFromUIDL(UIDL uidl, ApplicationConnection client) {
@@ -48,18 +48,9 @@ public class VModelingTool extends de.decidr.modelingtool.client.ModelingToolWid
 
         // Save the UIDL identifier for the component
         uidlId = uidl.getId();
-
-        //Gets the table from the workflow models component and gets the selected
-        //item from the table. From this item the workflow model id is extracted
-        //and passed through to the init method. So the modeling tool can be loaded
-        //with the adequate worklfow model.
-        //WorkflowModelsComponent component = (WorkflowModelsComponent)siteFrame.getContent();
-        //CurrentTenantModelTable table = component.getCurrentTenantTable();
-        
-        //Item item = table.getItem(table.getValue());
-        //Long workflowModelId = (Long)item.getItemProperty("id").getValue();
-        
-        init(10L);
+        //Long id = uidl.getLongAttribute("userId");
+        Long workflowModelId = uidl.getLongAttribute("workflowModelId");
+        init(workflowModelId);
         
     }
 

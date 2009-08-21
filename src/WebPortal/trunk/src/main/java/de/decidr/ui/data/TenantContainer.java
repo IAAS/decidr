@@ -31,6 +31,7 @@ import com.vaadin.data.Property;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.filters.KeywordFilter;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
@@ -40,7 +41,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  *
  * @author AT
  */
-public class TenantContainer extends Observable implements Container {
+public class TenantContainer extends Observable implements Container, Container.Filterable {
     
     private HttpSession session = Main.getCurrent().getSession();
     
@@ -52,6 +53,8 @@ public class TenantContainer extends Observable implements Container {
     
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
+    
+    private KeywordFilter filter = new KeywordFilter();
     
     /**
      * Default constructor. The tenant items are added to the container.
@@ -190,6 +193,37 @@ public class TenantContainer extends Observable implements Container {
     public int size() {
         return items.size();
     }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Filterable#addContainerFilter(java.lang.Object, java.lang.String, boolean, boolean)
+     */
+    @Override
+    public void addContainerFilter(Object propertyId, String filterString,
+            boolean ignoreCase, boolean onlyMatchPrefix) {
+        filter.setKeyword(filterString);
+        filter.setProperties((Collection<String>)propertyId);
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Filterable#removeAllContainerFilters()
+     */
+    @Override
+    public void removeAllContainerFilters() {
+        filter.setKeyword("");
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Filterable#removeContainerFilters(java.lang.Object)
+     */
+    @Override
+    public void removeContainerFilters(Object propertyId) {
+        // TODO Auto-generated method stub
+        
+    }
+
+   
 
 
 }

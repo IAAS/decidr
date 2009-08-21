@@ -16,10 +16,10 @@
 
 package de.decidr.ui.view.client;
 
+import com.vaadin.data.Item;
 import com.vaadin.terminal.gwt.client.DefaultWidgetSet;
 import com.vaadin.terminal.gwt.client.Paintable;
 import com.vaadin.terminal.gwt.client.UIDL;
-
 import de.decidr.ui.view.client.ui.VModelingTool;
 
 /**

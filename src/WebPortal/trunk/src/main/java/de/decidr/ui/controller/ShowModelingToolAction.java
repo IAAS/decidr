@@ -16,16 +16,11 @@
 
 package de.decidr.ui.controller;
 
-import java.util.Set;
 
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-
-import de.decidr.ui.view.CurrentTenantModelTable;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ModelingToolWindow;
-import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.WorkflowModelsComponent;
 
 /**
  * TODO: add comment
@@ -35,25 +30,13 @@ import de.decidr.ui.view.WorkflowModelsComponent;
 public class ShowModelingToolAction implements ClickListener {
     
     private ModelingToolWindow modelingToolWindow = new ModelingToolWindow();
-    
-    private UIDirector uiDirector = UIDirector.getInstance();
-    private SiteFrame siteFrame = uiDirector.getTemplateView();
-    
-    private WorkflowModelsComponent component = null;
-    private CurrentTenantModelTable table = null;
-    
+
     /* (non-Javadoc)
      * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
      */
     @Override
-    public void buttonClick(ClickEvent event) {
-        component = (WorkflowModelsComponent)siteFrame.getContent();
-        table = component.getCurrentTenantTable();
-        Set<?> set = (Set<?>)table.getValue();
-        
-            //sMain.getCurrent().getMainWindow().showNotification("Bitte wählen sie nur ein Element aus");
-       
-            Main.getCurrent().getMainWindow().addWindow(modelingToolWindow);
+    public void buttonClick(ClickEvent event) {    
+        Main.getCurrent().getMainWindow().addWindow(modelingToolWindow);
         
        
        
