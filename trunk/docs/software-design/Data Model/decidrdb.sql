@@ -75,7 +75,7 @@ ENGINE = InnoDB;
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`user` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `authKey` CHAR(64) NULL COMMENT 'Used to authenticate unregistered users within the system.Should be set to null if the user is registered.' ,
-  `email` VARCHAR(255) NULL COMMENT 'Can be used to log into the system. Each email address can be assigned to at most one user. The official max email address length is 320 characters, but MySQL unique indices require VARCHAR.' ,
+  `email` VARCHAR(255) NOT NULL COMMENT 'Can be used to log into the system. Each email address can be assigned to at most one user. The official max email address length is 320 characters, but MySQL unique indices require VARCHAR.' ,
   `disabledSince` DATETIME NULL COMMENT 'By setting disabledSince to something other than null, the super admin can ban a user from using the system.' ,
   `unavailableSince` DATETIME NULL COMMENT 'Whether or not the user is available for workflow participation. Null indicates that the user is available.' ,
   `registeredSince` DATETIME NULL COMMENT 'If this field is null the user has never successfully registered.' ,
