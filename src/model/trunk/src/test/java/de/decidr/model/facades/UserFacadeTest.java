@@ -52,19 +52,12 @@ public class UserFacadeTest {
     }
 
     /**
-     * Test method for {@link UserFacade#registerUser(String, String, Item)}.
+     * Test method for {@link UserFacade#registerUser(String, String, Item)} and {@link UserFacade#getUserIdByLogin(String, String)}.
      */
     @Test
     public void testRegisterUser() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link UserFacade#getUserIdByLogin(String, String)}.
-     */
-    @Test
-    public void testGetUserIdByLogin() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR registerUser
+        fail("Not yet implemented"); // RR getUserIdByLogin
     }
 
     /**
