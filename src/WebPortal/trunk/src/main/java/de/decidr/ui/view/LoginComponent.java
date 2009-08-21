@@ -24,6 +24,8 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.LoginAction;
 import de.decidr.ui.controller.LoginWithInvitationAction;
+import de.decidr.ui.controller.ShowRegistrationAction;
+import de.decidr.ui.controller.ShowResetPasswordAction;
 
 /**
  * With the login component the user is able to authenticate himself
@@ -88,9 +90,9 @@ public class LoginComponent extends CustomComponent {
         }else{
         	loginButton = new Button("Login", new LoginWithInvitationAction(invD));
         }
-        forgotPasswordButton = new Button("Forgot your password?");
+        forgotPasswordButton = new Button("Forgot your password?", new ShowResetPasswordAction());
         forgotPasswordButton.setStyleName(Button.STYLE_LINK);
-        registerButton = new Button("Register");
+        registerButton = new Button("Register", new ShowRegistrationAction());
         registerButton.setStyleName(Button.STYLE_LINK);
         
        setCompositionRoot(verticalLayout);

@@ -20,6 +20,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.ui.view.HorizontalNavigationMenu;
 import de.decidr.ui.view.InvitationDialogComponent;
 import de.decidr.ui.view.LoginComponent;
 import de.decidr.ui.view.Main;
@@ -54,6 +55,7 @@ public class LoginWithInvitationAction implements ClickListener {
     public void buttonClick(ClickEvent event) {
         try{
             login.authenticate(((LoginComponent)uiDirector.getTemplateView().getContent()).getUsernameTextField().getValue().toString(), ((LoginComponent)uiDirector.getTemplateView().getContent()).getPasswordTextField().getValue().toString());
+            ((HorizontalNavigationMenu)uiDirector.getTemplateView().getHNavigation()).getLogoutButton().setVisible(true);
             Main.getCurrent().getMainWindow().addWindow(invitationDialog);
         }catch(TransactionException exception){
             Main.getCurrent().getMainWindow().showNotification("Login unsuccessful");

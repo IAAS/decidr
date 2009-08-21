@@ -49,15 +49,16 @@ public class WorkflowInstanceTable extends Table implements Observer{
         this.observable = observable;
         workflowInstanceContainer = container;
         observable.addObserver(this);
-        init(observable, container);
+        init(container);
     }
 
     /**
      * This method initializes the components for the workflow instance table.
      *
      */
-    private void init(Observable observable, Container container) {
+    private void init(Container container) {
         setSizeFull();
+        setContainerDataSource(container);
         addContainerProperty("Name", String.class, null);
         addContainerProperty("Create", Button.class, null);
     }
@@ -68,6 +69,7 @@ public class WorkflowInstanceTable extends Table implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         if(o instanceof WorkflowInstanceContainer){
+            this.requestRepaint();
             refreshCurrentPage();
         }
         

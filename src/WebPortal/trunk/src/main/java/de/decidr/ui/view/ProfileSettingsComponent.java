@@ -17,6 +17,8 @@ package de.decidr.ui.view;
 
 import java.util.Arrays;
 
+import javax.servlet.http.HttpSession;
+
 import com.vaadin.data.Item;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.BaseFieldFactory;
@@ -33,13 +35,15 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.ChangeStatusAction;
 import de.decidr.ui.controller.SaveProfileAction;
 import de.decidr.ui.controller.ShowCancelMembershipAction;
 import de.decidr.ui.controller.ShowChangeEmailAction;
 import de.decidr.ui.controller.ShowChangePasswordAction;
 import de.decidr.ui.controller.ShowLeaveTenantDialogAction;
-import de.decidr.ui.data.ProfileSettingsItem;
 
 /**
  * The user can change his profile by inserting his personnel 
@@ -49,7 +53,13 @@ import de.decidr.ui.data.ProfileSettingsItem;
  */
 public class ProfileSettingsComponent extends CustomComponent {
 	
-        private ProfileSettingsItem settingsItem = new ProfileSettingsItem(); 
+        private Item settingsItem = null;
+        
+        private HttpSession session = null;
+        
+        private Long userId = null;
+        
+        private UserFacade userFacade = null;
         
         private Form settingsForm = new Form();
     
@@ -132,6 +142,14 @@ public class ProfileSettingsComponent extends CustomComponent {
 	 *
 	 */
 	private void init(){
+	    session = Main.getCurrent().getSession();
+	    userId = (Long)session.getAttribute("userId");
+	    userFacade = new UserFacade(new UserRole(userId));
+	    try{
+	        settingsItem = userFacade.getUserProfile(userId);
+	    }catch(TransactionException exception){
+	        Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+	    }
 	        settingsForm.setWriteThrough(false);
 	        settingsForm.setFieldFactory(new SettingsFieldFactory());
 	        settingsForm.setItemDataSource(settingsItem);
@@ -158,6 +176,7 @@ public class ProfileSettingsComponent extends CustomComponent {
 		myProfileLabel.setContentMode(Label.CONTENT_XHTML);
 		usernameLabel = new Label("Username: ");
 		emailLabel = new Label("Email address: ");
+		//TODO: items auslesen für username und email adresse und als label setzen
 		usernameNameLabel = new Label("test1");
 		emailNameLabel = new Label("test");
 		addressDataLabel = new Label("Address Data (optional)");

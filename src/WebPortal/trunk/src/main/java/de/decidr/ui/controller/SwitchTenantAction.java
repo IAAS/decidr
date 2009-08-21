@@ -40,14 +40,22 @@ public class SwitchTenantAction implements ClickListener {
     
     private String tenant = null;
     
-    private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = null;
     private Class<? extends Role> role = null;
     
-    private Long userId = (Long)session.getAttribute("userId");
-    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
-    private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    private Long userId = null;
+    private TenantFacade tenantFacade = null;
+    private UserFacade userFacade = null;
     
     private Long tenantId = null;
+    
+    /**
+     * TODO: add comment
+     *
+     */
+    public SwitchTenantAction(String tenantName) {
+        tenant = tenantName;
+    }
 
     /* (non-Javadoc)
      * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
@@ -55,7 +63,10 @@ public class SwitchTenantAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         try{
-            tenant = Main.getCurrent().getParameterHandler().getKey();
+            session = Main.getCurrent().getSession();
+            userId = (Long)session.getAttribute("userId");
+            tenantFacade = new TenantFacade(new UserRole(userId));
+            userFacade = new UserFacade(new UserRole(userId));
             tenantId = tenantFacade.getTenantId(tenant);
             role = userFacade.getUserRoleForTenant(userId, tenantId);
             Main.getCurrent().setTheme(tenant);

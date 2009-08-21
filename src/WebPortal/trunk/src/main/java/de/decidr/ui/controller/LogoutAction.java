@@ -16,39 +16,33 @@
 
 package de.decidr.ui.controller;
 
+import java.net.URL;
+
+import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.DecidrGlobals;
 import de.decidr.ui.view.HorizontalNavigationMenu;
-import de.decidr.ui.view.LoginComponent;
 import de.decidr.ui.view.Main;
 
 /**
- * This action implements the login. It calls the authenticate method and 
- * logs the user into the application.
+ * TODO: add comment
  *
  * @author AT
  */
-public class LoginAction implements ClickListener {
+public class LogoutAction implements ClickListener {
     
-    private Login login = new Login();
-    UIDirector uiDirector = UIDirector.getInstance();
+    private UIDirector uiDirector = UIDirector.getInstance();
 
     /* (non-Javadoc)
      * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        try{
-            login.authenticate(((LoginComponent)uiDirector.getTemplateView().getContent()).getUsernameTextField().getValue().toString(), ((LoginComponent)uiDirector.getTemplateView().getContent()).getPasswordTextField().getValue().toString());
-            ((HorizontalNavigationMenu)uiDirector.getTemplateView().getHNavigation()).getLogoutButton().setVisible(true);
-        }catch(TransactionException exception){
-            Main.getCurrent().getMainWindow().showNotification("Login unsuccessful");
-        }
-        System.out.println(Main.getCurrent().getUser());
-        
-
+        Main.getCurrent().getSession().invalidate();
+        ((HorizontalNavigationMenu)uiDirector.getTemplateView().getHNavigation()).getLogoutButton().setVisible(false);
+        Main.getCurrent().getMainWindow().open(new ExternalResource("http://" + DecidrGlobals.getSettings().getDomain()));
     }
 
 }

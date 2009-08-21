@@ -19,6 +19,7 @@ package de.decidr.ui.data;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+
 import java.util.List;
 import java.util.Observable;
 
@@ -28,9 +29,11 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
+
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
+
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
@@ -41,7 +44,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  * @author AT
  */
 public class CompletedInstancesContainer extends Observable implements
-        Container {
+        Container, Container.Ordered{
     
     private HttpSession session = Main.getCurrent().getSession();
     
@@ -62,7 +65,7 @@ public class CompletedInstancesContainer extends Observable implements
         setChanged();
         notifyObservers();
         try{
-            workflowInstanceList = userFacade.getJoinedTenants(userId);
+            workflowInstanceList = userFacade. getAdminstratedWorkflowInstances(userId);
             for(Item item : workflowInstanceList){
                 if(item.getItemProperty("completedDate") != null){
                     addItem(item);
@@ -193,5 +196,79 @@ public class CompletedInstancesContainer extends Observable implements
         return items.size();
     }
 
-   
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object)
+     */
+    @Override
+    public Object addItemAfter(Object previousItemId)
+            throws UnsupportedOperationException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    public Item addItemAfter(Object previousItemId, Object newItemId)
+            throws UnsupportedOperationException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#firstItemId()
+     */
+    @Override
+    public Object firstItemId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#isFirstId(java.lang.Object)
+     */
+    @Override
+    public boolean isFirstId(Object itemId) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#isLastId(java.lang.Object)
+     */
+    @Override
+    public boolean isLastId(Object itemId) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#lastItemId()
+     */
+    @Override
+    public Object lastItemId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#nextItemId(java.lang.Object)
+     */
+    @Override
+    public Object nextItemId(Object itemId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#prevItemId(java.lang.Object)
+     */
+    @Override
+    public Object prevItemId(Object itemId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    
 }

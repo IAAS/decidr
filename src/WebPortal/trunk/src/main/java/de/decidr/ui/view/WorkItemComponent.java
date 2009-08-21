@@ -16,12 +16,21 @@
 package de.decidr.ui.view;
 
 
+import javax.servlet.http.HttpSession;
+
+import com.vaadin.data.Container;
+import com.vaadin.data.Property;
+import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.filters.EqualsFilter;
 import de.decidr.ui.data.WorkItemContainer;
 
 public class WorkItemComponent extends CustomComponent {
@@ -47,9 +56,19 @@ public class WorkItemComponent extends CustomComponent {
     
     private NativeSelect tenantNativeSelect = null;
     
-    private static final String[] tenants = new String[]{"All tenants", "Current tenants"};
+    private static final String[] tenants = new String[]{"All tenants", "Current tenant"};
     
     private WorkItemTable workItemTable = null;
+    
+    private HttpSession session = null;
+    
+    private Long userId = null;
+    
+    private String tenant = null;
+    
+    private TenantFacade tenantFacade = null;
+    
+    private Long tenantId = null;
     
     /**
      * Default constructor
@@ -64,6 +83,11 @@ public class WorkItemComponent extends CustomComponent {
      *
      */
     private void init(){
+        session = Main.getCurrent().getSession();
+        userId = (Long)session.getAttribute("userId");
+        tenant = (String)session.getAttribute("tenant");
+        tenantFacade = new TenantFacade(new UserRole(userId));
+        
         workItemContainer = new WorkItemContainer();
         
         verticalLayout = new VerticalLayout();
@@ -79,6 +103,28 @@ public class WorkItemComponent extends CustomComponent {
         for(int i = 0; i < tenants.length; i++){
             tenantNativeSelect.addItem(tenants[i]);
         }
+        tenantNativeSelect.addListener(new Property.ValueChangeListener(){
+
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                if(tenantNativeSelect.isSelected("Current tenant")){
+                    try{
+                        tenantId = tenantFacade.getTenantId(tenant);
+                        EqualsFilter filter = new EqualsFilter(true, "workflowInstance.deployedWorkflowModel.tenant.id", tenantId);
+                        ((WorkItemContainer)workItemTable.getContainerDataSource()).applyFilter(filter);
+                    }catch(TransactionException exception){
+                        Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+                        
+                    }
+                    
+                }else{
+                    EqualsFilter filter = new EqualsFilter(true, "", "");
+                    ((WorkItemContainer)workItemTable.getContainerDataSource()).applyFilter(filter);
+                }
+                
+            }
+            
+        });
         
         workItemTable = new WorkItemTable(workItemContainer, workItemContainer);
         

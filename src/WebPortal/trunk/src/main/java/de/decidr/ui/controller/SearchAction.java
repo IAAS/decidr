@@ -16,11 +16,15 @@
 
 package de.decidr.ui.controller;
 
+import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filterable;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+
+import de.decidr.ui.data.WorkItemContainer;
 
 
 /**
@@ -52,6 +56,7 @@ public class SearchAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         Filterable container = (Filterable)searchTable.getContainerDataSource();
+        
         container.removeAllContainerFilters();
         container.addContainerFilter(container.getContainerPropertyIds(), searchField.getValue().toString(), true, false);
         //TODO: check refresh method

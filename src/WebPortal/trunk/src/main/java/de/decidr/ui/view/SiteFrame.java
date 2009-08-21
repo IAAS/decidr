@@ -42,6 +42,7 @@ public class SiteFrame extends CustomComponent{
         private Component content = null;
         private Component header = null;
         private Component navigation = null;
+        private Component hNavigation = null;
         
         /**
          * Default constructor.
@@ -98,8 +99,10 @@ public class SiteFrame extends CustomComponent{
          */
         public void setHorizontalNavigation(Component navigation){
                 gridFrame.addComponent(navigation, 1, 2);
+                this.hNavigation = navigation;
         }
         
+
         /**
          * Sets the vertical navigation menu into the site frame 
          * and stores the current vertical navigation menu in a variable.
@@ -147,6 +150,15 @@ public class SiteFrame extends CustomComponent{
          */
         public Component getNavigation() {
             return navigation;
+        }
+        
+        /**
+         * TODO: add comment
+         *
+         * @return
+         */
+        public Component getHNavigation() {
+            return hNavigation;
         }
 
 }

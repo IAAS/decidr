@@ -19,6 +19,7 @@ package de.decidr.ui.data;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
@@ -27,10 +28,14 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
+import com.vaadin.data.Container.Filterable;
 
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
+import de.decidr.model.filters.Filter;
+import de.decidr.model.filters.KeywordFilter;
+import de.decidr.model.filters.Paginator;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
@@ -40,7 +45,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  *
  * @author AT
  */
-public class PublicModelContainer extends Observable implements Container {
+public class PublicModelContainer extends Observable implements Container, Filterable, Container.Ordered{
     
     private HttpSession session = Main.getCurrent().getSession();
     
@@ -53,6 +58,12 @@ public class PublicModelContainer extends Observable implements Container {
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
     
+    private KeywordFilter filter = new KeywordFilter();
+    
+    private List<Filter> filterList = new LinkedList<Filter>();
+    
+    private Paginator paginator = new Paginator();
+    
     /**
      * Default constructor. The public model items are added to the container.
      *
@@ -60,8 +71,9 @@ public class PublicModelContainer extends Observable implements Container {
     public PublicModelContainer() {
         setChanged();
         notifyObservers();
+        filterList.add(filter);
         try{
-            publishedModelList = workflowModelFacade.getAllPublishedWorkflowModels(null, null);
+            publishedModelList = workflowModelFacade.getAllPublishedWorkflowModels(filterList, paginator);
             for(Item item : publishedModelList){
                 addItem(item);
             }
@@ -188,6 +200,111 @@ public class PublicModelContainer extends Observable implements Container {
     @Override
     public int size() {
         return items.size();
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Filterable#addContainerFilter(java.lang.Object, java.lang.String, boolean, boolean)
+     */
+    @Override
+    public void addContainerFilter(Object propertyId, String filterString,
+            boolean ignoreCase, boolean onlyMatchPrefix) {
+        filter.setKeyword(filterString);
+        filter.getProperties().add((String)propertyId);
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Filterable#removeAllContainerFilters()
+     */
+    @Override
+    public void removeAllContainerFilters() {
+        filter.setKeyword("");
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Filterable#removeContainerFilters(java.lang.Object)
+     */
+    @Override
+    public void removeContainerFilters(Object propertyId) {
+        if(filter.getProperties().contains(propertyIds)){
+            filter.setKeyword("");
+        }
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object)
+     */
+    @Override
+    public Object addItemAfter(Object previousItemId)
+            throws UnsupportedOperationException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    public Item addItemAfter(Object previousItemId, Object newItemId)
+            throws UnsupportedOperationException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#firstItemId()
+     */
+    @Override
+    public Object firstItemId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#isFirstId(java.lang.Object)
+     */
+    @Override
+    public boolean isFirstId(Object itemId) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#isLastId(java.lang.Object)
+     */
+    @Override
+    public boolean isLastId(Object itemId) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#lastItemId()
+     */
+    @Override
+    public Object lastItemId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#nextItemId(java.lang.Object)
+     */
+    @Override
+    public Object nextItemId(Object itemId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#prevItemId(java.lang.Object)
+     */
+    @Override
+    public Object prevItemId(Object itemId) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

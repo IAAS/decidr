@@ -43,7 +43,8 @@ public class ShowUserListAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         siteFrame.setContent(new UserListComponent()); 
-        //TODO: siteFrame.getContent().changeToSuperAdmin;
+        //TODO: abfrage welche rolle der user hat
+        ((UserListComponent)siteFrame.getContent()).changeToSuperAdmin();
     }
 
 }

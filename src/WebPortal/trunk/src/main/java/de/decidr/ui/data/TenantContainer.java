@@ -19,6 +19,7 @@ package de.decidr.ui.data;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
@@ -27,11 +28,14 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
+import com.vaadin.ui.AbstractSelect.NewItemHandler;
 
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.KeywordFilter;
+import de.decidr.model.filters.Paginator;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
@@ -41,7 +45,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  *
  * @author AT
  */
-public class TenantContainer extends Observable implements Container, Container.Filterable {
+public class TenantContainer extends Observable implements Container, Container.Filterable, Container.Ordered {
     
     private HttpSession session = Main.getCurrent().getSession();
     
@@ -56,6 +60,10 @@ public class TenantContainer extends Observable implements Container, Container.
     
     private KeywordFilter filter = new KeywordFilter();
     
+    private List<Filter> filterList = new LinkedList<Filter>();
+    
+    private Paginator paginator = new Paginator();
+    
     /**
      * Default constructor. The tenant items are added to the container.
      *
@@ -63,8 +71,9 @@ public class TenantContainer extends Observable implements Container, Container.
     public TenantContainer() {
         setChanged();
         notifyObservers();
+        filterList.add(filter);
         try{
-            tenantList = tenantFacade.getAllTenants(null, null);
+            tenantList = tenantFacade.getAllTenants(filterList, paginator);
             for(Item item : tenantList){
                 addItem(item);
             }
@@ -201,8 +210,7 @@ public class TenantContainer extends Observable implements Container, Container.
     public void addContainerFilter(Object propertyId, String filterString,
             boolean ignoreCase, boolean onlyMatchPrefix) {
         filter.setKeyword(filterString);
-        filter.setProperties((Collection<String>)propertyId);
-        
+        filter.getProperties().add((String)propertyId);        
     }
 
     /* (non-Javadoc)
@@ -219,8 +227,84 @@ public class TenantContainer extends Observable implements Container, Container.
      */
     @Override
     public void removeContainerFilters(Object propertyId) {
-        // TODO Auto-generated method stub
+        if (filter.getProperties().contains(propertyId)){
+            filter.setKeyword("");
+        }
         
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object)
+     */
+    @Override
+    public Object addItemAfter(Object previousItemId)
+            throws UnsupportedOperationException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    public Item addItemAfter(Object previousItemId, Object newItemId)
+            throws UnsupportedOperationException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#firstItemId()
+     */
+    @Override
+    public Object firstItemId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#isFirstId(java.lang.Object)
+     */
+    @Override
+    public boolean isFirstId(Object itemId) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#isLastId(java.lang.Object)
+     */
+    @Override
+    public boolean isLastId(Object itemId) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#lastItemId()
+     */
+    @Override
+    public Object lastItemId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#nextItemId(java.lang.Object)
+     */
+    @Override
+    public Object nextItemId(Object itemId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#prevItemId(java.lang.Object)
+     */
+    @Override
+    public Object prevItemId(Object itemId) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
    

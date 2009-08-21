@@ -40,7 +40,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  *
  * @author AT
  */
-public class WorkflowInstanceContainer extends Observable implements Container {
+public class WorkflowInstanceContainer extends Observable implements Container, Container.Ordered {
     
     private HttpSession session = Main.getCurrent().getSession();
     
@@ -61,7 +61,7 @@ public class WorkflowInstanceContainer extends Observable implements Container {
         setChanged();
         notifyObservers();
         try{
-            workflowInstanceList = userFacade.getJoinedTenants(userId);
+            workflowInstanceList = userFacade.getAdminstratedWorkflowInstances(userId);
             for(Item item : workflowInstanceList){
                 addItem(item);
             }
@@ -190,6 +190,80 @@ public class WorkflowInstanceContainer extends Observable implements Container {
     @Override
     public int size() {
         return items.size();
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object)
+     */
+    @Override
+    public Object addItemAfter(Object previousItemId)
+            throws UnsupportedOperationException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    public Item addItemAfter(Object previousItemId, Object newItemId)
+            throws UnsupportedOperationException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#firstItemId()
+     */
+    @Override
+    public Object firstItemId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#isFirstId(java.lang.Object)
+     */
+    @Override
+    public boolean isFirstId(Object itemId) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#isLastId(java.lang.Object)
+     */
+    @Override
+    public boolean isLastId(Object itemId) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#lastItemId()
+     */
+    @Override
+    public Object lastItemId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#nextItemId(java.lang.Object)
+     */
+    @Override
+    public Object nextItemId(Object itemId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#prevItemId(java.lang.Object)
+     */
+    @Override
+    public Object prevItemId(Object itemId) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

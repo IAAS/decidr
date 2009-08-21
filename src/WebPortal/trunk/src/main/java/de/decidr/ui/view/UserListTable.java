@@ -49,14 +49,14 @@ public class UserListTable extends Table implements Observer{
         this.observable = observable;
         userListContainer = container;
         observable.addObserver(this);
-        init(observable, container);
+        init(container);
     }
 
     /**
      * This method initializes the components for the user list table
      *
      */
-    private void init(Observable observable, Container container) {
+    private void init(Container container) {
         //TODO: unterschiedliche  Anzeige der Tabelle je nach Rolle
         setSizeFull();
         setContainerDataSource(container);
@@ -73,6 +73,7 @@ public class UserListTable extends Table implements Observer{
     @Override
     public void update(Observable arg0, Object arg1) {
         if(arg0 instanceof UserListContainer){
+            this.requestRepaint();
             refreshCurrentPage();
         }
         

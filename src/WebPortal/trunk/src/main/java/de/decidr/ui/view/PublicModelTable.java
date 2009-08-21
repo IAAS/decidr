@@ -48,7 +48,7 @@ public class PublicModelTable extends Table implements Observer{
         this.observable = observable;
         publicModelContainer = container;
         observable.addObserver(this);
-        init(observable, container);
+        init(container);
     }
     
     /**
@@ -57,7 +57,7 @@ public class PublicModelTable extends Table implements Observer{
      * @param observable
      * @param container
      */
-    private void init(Observable observable, Container container){
+    private void init(Container container){
         setSizeFull();
         setContainerDataSource(container);
         addContainerProperty("Name", String.class, null);
@@ -71,6 +71,7 @@ public class PublicModelTable extends Table implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         if(o instanceof PublicModelContainer){
+            this.requestRepaint();
             refreshCurrentPage();
         }
         

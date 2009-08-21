@@ -20,6 +20,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 
+import de.decidr.ui.controller.LogoutAction;
 import de.decidr.ui.controller.ShowHelpAction;
 import de.decidr.ui.controller.ShowImpressumAction;
 import de.decidr.ui.controller.ShowTermsOfServiceAction;
@@ -61,9 +62,6 @@ public class HorizontalNavigationMenu extends CustomComponent {
                 horizontalLayout = new HorizontalLayout();
                 this.setCompositionRoot(horizontalLayout);
 
-                btnLogoutLink = new Button("logout");
-                btnLogoutLink.setStyleName(Button.STYLE_LINK);
-                btnLogoutLink.setVisible(false);
                 btnHomeLink = new Button("Home", new ShowWelcomePageAction());
                 btnHomeLink.setStyleName(Button.STYLE_LINK);
                 btnHelpLink = new Button("Help", new ShowHelpAction());
@@ -72,6 +70,9 @@ public class HorizontalNavigationMenu extends CustomComponent {
                 btnImpressumLink.setStyleName(Button.STYLE_LINK);
                 btnTermsOfServiceLink = new Button("Terms of Service", new ShowTermsOfServiceAction());
                 btnTermsOfServiceLink.setStyleName(Button.STYLE_LINK);
+                btnLogoutLink = new Button("logout", new LogoutAction());
+                btnLogoutLink.setStyleName(Button.STYLE_LINK);
+                btnLogoutLink.setVisible(false);
                 
                 horizontalLayout.setWidth(800,HorizontalLayout.UNITS_PIXELS);
                 horizontalLayout.setSpacing(true);
@@ -80,6 +81,7 @@ public class HorizontalNavigationMenu extends CustomComponent {
                 horizontalLayout.addComponent(btnHelpLink);
                 horizontalLayout.addComponent(btnTermsOfServiceLink);
                 horizontalLayout.addComponent(btnImpressumLink);
+                horizontalLayout.addComponent(btnLogoutLink);
                 
         }
         

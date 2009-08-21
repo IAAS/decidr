@@ -26,9 +26,11 @@ import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.controller.AppointWorkflowAdminAction;
 import de.decidr.ui.controller.LockWorkflowModelAction;
 import de.decidr.ui.controller.PublishWorkflowModelAction;
 import de.decidr.ui.controller.RemoveWorkflowModelAction;
+import de.decidr.ui.controller.ShowAppointWorkflowAdminAction;
 import de.decidr.ui.controller.ShowModelingToolAction;
 import de.decidr.ui.controller.UnlockWorkflowModelAction;
 import de.decidr.ui.controller.UnpublishWorkflowModelAction;
@@ -137,7 +139,7 @@ public class WorkflowModelsComponent extends CustomComponent {
        unlockModelButton = new Button("Unlock", new UnlockWorkflowModelAction(currentTenantTable));
        publishModelButton = new Button("Publish", new PublishWorkflowModelAction(currentTenantTable));
        unpublishModelButton = new Button("Un-publish", new UnpublishWorkflowModelAction(currentTenantTable));
-       appointWorkflowAdminButton = new Button("Appoint workflow admin");
+       appointWorkflowAdminButton = new Button("Appoint workflow admin", new ShowAppointWorkflowAdminAction(currentTenantTable));
        
        setCompositionRoot(verticalLayout);
        

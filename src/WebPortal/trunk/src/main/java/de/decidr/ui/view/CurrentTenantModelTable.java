@@ -48,7 +48,7 @@ public class CurrentTenantModelTable extends Table implements Observer{
         this.observable = observable;
         currentTenantContainer = container;
         observable.addObserver(this);
-        init(observable, container);
+        init(container);
     }
 
     
@@ -56,7 +56,7 @@ public class CurrentTenantModelTable extends Table implements Observer{
      * Initializes the table and sets the container.
      *
      */
-    private void init(Observable observable, Container container) {
+    private void init(Container container) {
         setSizeFull();
         setContainerDataSource(container);
         addContainerProperty("Name", String.class, null);
@@ -72,6 +72,7 @@ public class CurrentTenantModelTable extends Table implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         if(o instanceof CurrentTenantContainer){
+            this.requestRepaint();
             refreshCurrentPage();
         }
         

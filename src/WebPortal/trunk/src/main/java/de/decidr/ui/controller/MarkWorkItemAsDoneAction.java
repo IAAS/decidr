@@ -16,40 +16,51 @@
 
 package de.decidr.ui.controller;
 
-/**
- * This action cancels the membership of a user.
- *
- * @author Geoffrey-Alexeij Heinze
- */
-
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.UserRole;
-import de.decidr.model.facades.UserFacade;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
-public class CancelMembershipAction implements ClickListener {
+/**
+ * TODO: add comment
+ *
+ * @author AT
+ */
+public class MarkWorkItemAsDoneAction implements ClickListener {
     
     private HttpSession session = Main.getCurrent().getSession();
     
     private Long userId = (Long)session.getAttribute("userId");
-    private UserFacade userFacade = new UserFacade(new UserRole(userId));
-        
+    private WorkItemFacade workItemFacade = new WorkItemFacade(new UserRole(userId));
+    
+    private Long workItemId = null;
+    
     /**
-     * Overrides default buttonClick(ClickEvent event) of ClickListener to
-     * implement desired functionality
+     * TODO: add comment
+     *
+     */
+    public MarkWorkItemAsDoneAction(Long workItemId) {
+        this.workItemId = workItemId;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        
-        //TODO: how to cancel membership?
-        
-        //setDisableSince(Long userId, Date date);
-        Main.getCurrent().getMainWindow().showNotification("you are no longer a member of decidr");
-        Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
-        
+        try{
+            workItemFacade.markWorkItemAsDone(workItemId);
+        }catch(TransactionException exception){
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+        }
+
     }
+
 }

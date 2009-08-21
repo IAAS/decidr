@@ -29,8 +29,10 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This container holds the running worfklow instances. The runnin instances 
@@ -38,7 +40,7 @@ import de.decidr.ui.view.Main;
  *
  * @author AT
  */
-public class RunningInstanceContainer extends Observable implements Container {
+public class RunningInstanceContainer extends Observable implements Container, Container.Ordered {
     
     private HttpSession session = Main.getCurrent().getSession();
     
@@ -46,7 +48,7 @@ public class RunningInstanceContainer extends Observable implements Container {
     
     UserFacade userFacade = new UserFacade(new UserRole(userId));
     
-    List<Item> currentTenantList = null;
+    List<Item> runningInstanceList = null;
     
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
@@ -58,7 +60,16 @@ public class RunningInstanceContainer extends Observable implements Container {
     public RunningInstanceContainer() {
         setChanged();
         notifyObservers();
-        //TODO: instanzen müssen der liste hinzugefügt werden.
+       try{
+           runningInstanceList = userFacade.getAdminstratedWorkflowInstances(userId);
+           for(Item item : runningInstanceList){
+               if(item.getItemProperty("completed") == null ){
+                   addItem(item);
+               }
+           }
+       }catch(TransactionException exception){
+           Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+       }
     }
 
 
@@ -180,6 +191,88 @@ public class RunningInstanceContainer extends Observable implements Container {
     @Override
     public int size() {
         return items.size();
+    }
+
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object)
+     */
+    @Override
+    public Object addItemAfter(Object previousItemId)
+            throws UnsupportedOperationException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    public Item addItemAfter(Object previousItemId, Object newItemId)
+            throws UnsupportedOperationException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#firstItemId()
+     */
+    @Override
+    public Object firstItemId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#isFirstId(java.lang.Object)
+     */
+    @Override
+    public boolean isFirstId(Object itemId) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#isLastId(java.lang.Object)
+     */
+    @Override
+    public boolean isLastId(Object itemId) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#lastItemId()
+     */
+    @Override
+    public Object lastItemId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#nextItemId(java.lang.Object)
+     */
+    @Override
+    public Object nextItemId(Object itemId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    /* (non-Javadoc)
+     * @see com.vaadin.data.Container.Ordered#prevItemId(java.lang.Object)
+     */
+    @Override
+    public Object prevItemId(Object itemId) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

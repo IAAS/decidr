@@ -55,7 +55,7 @@ public class TerminateWorkflowInstanceAction  implements ClickListener  {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //TODO: stopWorkflowInstance vs. deleteWorkflowInstance
+        
         try {
             wfiFacade.stopWorkflowInstance(instanceId);
         } catch (TransactionException e) {

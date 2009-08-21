@@ -29,6 +29,7 @@ import com.vaadin.ui.Upload;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 
+import de.decidr.ui.controller.RestoreDefaultTenantSettingsAction;
 import de.decidr.ui.controller.SaveTenantSettingsAction;
 import de.decidr.ui.controller.UploadTenantLogoAction;
 
@@ -119,7 +120,7 @@ public class TenantSettingsComponent extends CustomComponent {
         
         saveButton = new Button("Save", new SaveTenantSettingsAction());
         cancelButton = new Button("Cancel");
-        restoreDefaultSettingsButton = new Button("Restore default settings");
+        restoreDefaultSettingsButton = new Button("Restore default settings", new RestoreDefaultTenantSettingsAction());
         
         
         logoEmbedded = new Embedded("", new ThemeResource(browseTextField.getValue().toString()));

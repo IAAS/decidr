@@ -46,7 +46,7 @@ public class WorkItemTable extends Table implements Observer{
         this.workItemContainer = container;
         this.observable = observable;
         observable.addObserver(this);
-        init(observable, container);
+        init(container);
     }
     
     /**
@@ -55,16 +55,16 @@ public class WorkItemTable extends Table implements Observer{
      * @param observable
      * @param container
      */
-    private void init(Observable observable, Container container){
+    private void init(Container container){
        
         //workItemContainer = new WorkItemContainer();
         setSizeFull();
         setContainerDataSource(container);
        
-        workItemContainer.addContainerProperty("Name", String.class, null);
-        workItemContainer.addContainerProperty("Tenant", String.class, null);
-        workItemContainer.addContainerProperty("Data received", String.class, null);
-        workItemContainer.addContainerProperty("Status", String.class, null);
+        addContainerProperty("Name", String.class, null);
+        addContainerProperty("Tenant", String.class, null);
+        addContainerProperty("Data received", String.class, null);
+        addContainerProperty("Status", String.class, null);
         //setVisibleColumns(workItemContainer.getContainerPropertyIds().toArray());
         
         
@@ -75,8 +75,12 @@ public class WorkItemTable extends Table implements Observer{
      */
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof WorkItemContainer)
-        refreshCurrentPage();
+        if (o instanceof WorkItemContainer){
+            //TODO: daten aus der fassade holen
+            this.requestRepaint();
+            refreshCurrentPage();
+        }
+        
     }
 
 }
