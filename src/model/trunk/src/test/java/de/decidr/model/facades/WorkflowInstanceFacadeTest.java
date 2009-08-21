@@ -73,19 +73,11 @@ public class WorkflowInstanceFacadeTest {
     }
 
     /**
-     * Test method for
-     * {@link WorkflowInstanceFacade#removeAllWorkItems(String, Long)}.
-     */
-    @Test
-    public void testRemoveAllWorkItems() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link WorkflowInstanceFacade#getAllWorkItems(Long)}.
+     * Test method for {@link WorkflowInstanceFacade#getAllWorkItems(Long)} and {@link WorkflowInstanceFacade#removeAllWorkItems(String, Long)}.
      */
     @Test
     public void testGetAllWorkItems() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR getAllWorkItems
+        fail("Not yet implemented"); // RR removeAllWorkItems
     }
 }
