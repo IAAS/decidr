@@ -52,11 +52,12 @@ public class UserFacadeTest {
     }
 
     /**
-     * Test method for {@link UserFacade#registerUser(String, String, Item)} and {@link UserFacade#getUserIdByLogin(String, String)}.
+     * Test method for {@link UserFacade#registerUser(String, String, Item)}, {@link UserFacade#getAllUsers(List, Paginator)} and {@link UserFacade#getUserIdByLogin(String, String)}.
      */
     @Test
     public void testRegisterUser() {
         fail("Not yet implemented"); // RR registerUser
+        fail("Not yet implemented"); // RR getAllUsers
         fail("Not yet implemented"); // RR getUserIdByLogin
     }
 
@@ -179,14 +180,6 @@ public class UserFacadeTest {
     @Test
     public void testGetUserProfile() {
         fail("Not yet implemented"); // R
-    }
-
-    /**
-     * Test method for {@link UserFacade#getAllUsers(List, Paginator)}.
-     */
-    @Test
-    public void testGetAllUsers() {
-        fail("Not yet implemented"); // RR
     }
 
     /**
