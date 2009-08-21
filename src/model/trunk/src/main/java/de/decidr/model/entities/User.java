@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 07.08.2009 16:15:56 by Hibernate Tools 3.2.4.GA
+// Generated 21.08.2009 18:16:16 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -16,6 +16,7 @@ public class User implements java.io.Serializable {
      */
     private static final long serialVersionUID = 1L;
     private Long id;
+    private Tenant currentTenant;
     private String authKey;
     private String email;
     private Date disabledSince;
@@ -48,11 +49,13 @@ public class User implements java.io.Serializable {
     public User() {
     }
 
-    public User(Date creationDate) {
+    public User(String email, Date creationDate) {
+        this.email = email;
         this.creationDate = creationDate;
     }
 
     public User(
+            Tenant currentTenant,
             String authKey,
             String email,
             Date disabledSince,
@@ -74,6 +77,7 @@ public class User implements java.io.Serializable {
             Set<Tenant> administratedTenants, Set<Login> logins,
             ChangeEmailRequest changeEmailRequest,
             Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels) {
+        this.currentTenant = currentTenant;
         this.authKey = authKey;
         this.email = email;
         this.disabledSince = disabledSince;
@@ -104,6 +108,14 @@ public class User implements java.io.Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Tenant getCurrentTenant() {
+        return this.currentTenant;
+    }
+
+    public void setCurrentTenant(Tenant currentTenant) {
+        this.currentTenant = currentTenant;
     }
 
     public String getAuthKey() {

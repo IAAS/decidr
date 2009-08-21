@@ -1,20 +1,25 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 07.08.2009 16:15:57 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 21.08.2009 18:16:16 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.User" table="user" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="java.lang.Long">
             <column name="id" />
             <generator class="identity" />
         </id>
+        <many-to-one name="currentTenant" class="de.decidr.model.entities.Tenant" fetch="select">
+            <column name="currentTenantId">
+                <comment>null means that the user is currently in the default tenant</comment>
+            </column>
+        </many-to-one>
         <property name="authKey" type="string">
             <column name="authKey" length="64">
                 <comment>Used to authenticate unregistered users within the system.Should be set to null if the user is registered.</comment>
             </column>
         </property>
         <property name="email" type="string">
-            <column name="email" unique="true">
+            <column name="email" not-null="true" unique="true">
                 <comment>Can be used to log into the system. Each email address can be assigned to at most one user. The official max email address length is 320 characters, but
                 MySQL unique indices require VARCHAR.</comment>
             </column>

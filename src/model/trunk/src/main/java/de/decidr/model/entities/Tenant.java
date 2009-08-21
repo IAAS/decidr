@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 07.08.2009 16:15:56 by Hibernate Tools 3.2.4.GA
+// Generated 21.08.2009 18:16:16 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -28,6 +28,7 @@ public class Tenant implements java.io.Serializable {
             0);
     private Set<WorkflowModel> workflowModels = new HashSet<WorkflowModel>(0);
     private Set<Invitation> invitations = new HashSet<Invitation>(0);
+    private Set<User> users = new HashSet<User>(0);
     private Set<DeployedWorkflowModel> deployedWorkflowModels = new HashSet<DeployedWorkflowModel>(
             0);
 
@@ -45,7 +46,7 @@ public class Tenant implements java.io.Serializable {
             String description, Date approvedSince,
             Set<UserIsMemberOfTenant> userIsMemberOfTenants,
             Set<WorkflowModel> workflowModels, Set<Invitation> invitations,
-            Set<DeployedWorkflowModel> deployedWorkflowModels) {
+            Set<User> users, Set<DeployedWorkflowModel> deployedWorkflowModels) {
         this.logo = logo;
         this.simpleColorScheme = simpleColorScheme;
         this.advancedColorScheme = advancedColorScheme;
@@ -57,6 +58,7 @@ public class Tenant implements java.io.Serializable {
         this.userIsMemberOfTenants = userIsMemberOfTenants;
         this.workflowModels = workflowModels;
         this.invitations = invitations;
+        this.users = users;
         this.deployedWorkflowModels = deployedWorkflowModels;
     }
 
@@ -155,6 +157,14 @@ public class Tenant implements java.io.Serializable {
 
     public void setInvitations(Set<Invitation> invitations) {
         this.invitations = invitations;
+    }
+
+    public Set<User> getUsers() {
+        return this.users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     public Set<DeployedWorkflowModel> getDeployedWorkflowModels() {
