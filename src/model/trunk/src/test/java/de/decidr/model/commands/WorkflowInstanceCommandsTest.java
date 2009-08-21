@@ -16,9 +16,21 @@
 
 package de.decidr.model.commands;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
+
+import java.util.Collection;
 
 import org.junit.Test;
+
+import de.decidr.model.TransactionTest;
+import de.decidr.model.acl.roles.Role;
+import de.decidr.model.commands.workflowinstance.DeleteWorkFlowInstanceCommand;
+import de.decidr.model.commands.workflowinstance.GetAllWorkitemsCommand;
+import de.decidr.model.commands.workflowinstance.GetOdeUrlCommand;
+import de.decidr.model.commands.workflowinstance.GetParticipatingUsersCommand;
+import de.decidr.model.commands.workflowinstance.RemoveAllWorkItemsCommand;
+import de.decidr.model.commands.workflowinstance.StopWorkflowInstanceCommand;
+import de.decidr.model.commands.workflowinstance.WorkflowInstanceCommand;
 
 /**
  * This class tests the commands in
@@ -26,7 +38,7 @@ import org.junit.Test;
  * 
  * @author Reinhold
  */
-public class WorkflowInstanceCommandsTest {
+public class WorkflowInstanceCommandsTest extends TransactionTest {
 
     /**
      * Test method for

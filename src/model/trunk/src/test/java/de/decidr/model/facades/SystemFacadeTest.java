@@ -18,15 +18,19 @@ package de.decidr.model.facades;
 
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.TransactionTest;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.enums.ServerTypeEnum;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 
 /**
@@ -34,7 +38,7 @@ import de.decidr.model.filters.Paginator;
  * 
  * @author Reinhold
  */
-public class SystemFacadeTest {
+public class SystemFacadeTest extends TransactionTest {
 
     static SystemFacade adminFacade;
     static SystemFacade userFacade;
@@ -51,76 +55,43 @@ public class SystemFacadeTest {
     }
 
     /**
-     * Test method for {@link SystemFacade#getSettings()}.
+     * Test method for {@link SystemFacade#getSettings()} and
+     * {@link SystemFacade#setSettings(SystemSettings)}.
      */
     @Test
-    public void testGetSettings() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link SystemFacade#setSettings(SystemSettings)}.
-     */
-    @Test
-    public void testSetSettings() {
-        fail("Not yet implemented"); // RR
+    public void testGetSettings() throws TransactionException {
+        fail("Not yet implemented"); // RR setSettings
+        fail("Not yet implemented"); // RR getSettings
     }
 
     /**
      * Test method for
      * {@link SystemFacade#addServer(ServerTypeEnum, String, Byte, Boolean, Boolean)}
-     * .
+     * , {@link SystemFacade#getServers(ServerTypeEnum[])},
+     * {@link SystemFacade#getServerStatistics()},
+     * {@link SystemFacade#updateServerLoad(Long, byte)},
+     * {@link SystemFacade#setServerLock(Long, Boolean)} and
+     * {@link SystemFacade#removeServer(Long)}.
      */
     @Test
-    public void testAddServer() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link SystemFacade#removeServer(Long)}.
-     */
-    @Test
-    public void testRemoveServer() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link SystemFacade#updateServerLoad(Long, byte)}.
-     */
-    @Test
-    public void testUpdateServerLoad() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link SystemFacade#setServerLock(Long, Boolean)}.
-     */
-    @Test
-    public void testSetServerLock() {
-        fail("Not yet implemented"); // RR
+    public void testAddServer() throws TransactionException {
+        fail("Not yet implemented"); // RR addServer
+        fail("Not yet implemented"); // RR getServers
+        fail("Not yet implemented"); // RR getServerStatistics
+        fail("Not yet implemented"); // RR updateServerLoad
+        fail("Not yet implemented"); // RR setServerLock
+        fail("Not yet implemented"); // RR removeServer
     }
 
     /**
      * Test method for {@link SystemFacade#getLog(List, Paginator)}.
      */
     @Test
-    public void testGetLog() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link SystemFacade#getServerStatistics()}.
-     */
-    @Test
-    public void testGetServerStatistics() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link SystemFacade#getServers(ServerTypeEnum[])}.
-     */
-    @Test
-    public void testGetServers() {
+    public void testGetLog() throws TransactionException {
+        adminFacade.getLog(null, null);
+        adminFacade.getLog(new ArrayList<Filter>(), null);
+        adminFacade.getLog(null, new Paginator());
+        adminFacade.getLog(new ArrayList<Filter>(), new Paginator());
         fail("Not yet implemented"); // RR
     }
 }

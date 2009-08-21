@@ -26,6 +26,7 @@ import org.junit.Test;
 
 import com.vaadin.data.Item;
 
+import de.decidr.model.TransactionTest;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.filters.Paginator;
@@ -35,7 +36,7 @@ import de.decidr.model.filters.Paginator;
  * 
  * @author Reinhold
  */
-public class UserFacadeTest {
+public class UserFacadeTest extends TransactionTest {
 
     static UserFacade adminFacade;
     static UserFacade userFacade;
@@ -52,7 +53,9 @@ public class UserFacadeTest {
     }
 
     /**
-     * Test method for {@link UserFacade#registerUser(String, String, Item)}, {@link UserFacade#getAllUsers(List, Paginator)} and {@link UserFacade#getUserIdByLogin(String, String)}.
+     * Test method for {@link UserFacade#registerUser(String, String, Item)},
+     * {@link UserFacade#getAllUsers(List, Paginator)} and
+     * {@link UserFacade#getUserIdByLogin(String, String)}.
      */
     @Test
     public void testRegisterUser() {

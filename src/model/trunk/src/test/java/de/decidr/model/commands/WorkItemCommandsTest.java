@@ -16,9 +16,19 @@
 
 package de.decidr.model.commands;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
+
+import de.decidr.model.TransactionTest;
+import de.decidr.model.acl.roles.Role;
+import de.decidr.model.commands.workitem.CreateWorkItemCommand;
+import de.decidr.model.commands.workitem.DeleteWorkItemCommand;
+import de.decidr.model.commands.workitem.GetWorkItemCommand;
+import de.decidr.model.commands.workitem.SetDataCommand;
+import de.decidr.model.commands.workitem.SetStatusCommand;
+import de.decidr.model.commands.workitem.WorkItemCommand;
+import de.decidr.model.enums.WorkItemStatus;
 
 /**
  * This class tests the commands in
@@ -26,7 +36,7 @@ import org.junit.Test;
  * 
  * @author Reinhold
  */
-public class WorkItemCommandsTest {
+public class WorkItemCommandsTest extends TransactionTest {
 
     /**
      * Test method for

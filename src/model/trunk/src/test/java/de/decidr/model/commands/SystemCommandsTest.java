@@ -31,6 +31,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.TransactionTest;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
@@ -61,7 +62,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
  * 
  * @author Reinhold
  */
-public class SystemCommandsTest {
+public class SystemCommandsTest extends TransactionTest {
 
     /**
      * Test method for
@@ -169,13 +170,8 @@ public class SystemCommandsTest {
         }
 
         for (AddServerCommand addServerCommand : badCommands) {
-            try {
-                HibernateTransactionCoordinator.getInstance().runTransaction(
-                        addServerCommand);
-                fail("a bad command succeeded");
-            } catch (TransactionException e) {
-                // this is supposed to happen
-            }
+            assertTransactionException("a bad command succeeded",
+                    addServerCommand);
         }
 
         GetServersCommand serversSuperNull = new GetServersCommand(
@@ -190,20 +186,12 @@ public class SystemCommandsTest {
 
         assertEquals(serversSuperNull.getResult().size(), goodCommands.size());
 
-        try {
-            HibernateTransactionCoordinator.getInstance().runTransaction(
-                    serversBasicNull);
-            fail("getting a list of all servers as basic user succeeded");
-        } catch (TransactionException e) {
-            // this is supposed to happen
-        }
-        try {
-            HibernateTransactionCoordinator.getInstance().runTransaction(
-                    serversNullNull);
-            fail("getting a list of all servers as null user succeeded");
-        } catch (TransactionException e) {
-            // this is supposed to happen
-        }
+        assertTransactionException(
+                "getting a list of all servers as basic user succeeded",
+                serversBasicNull);
+        assertTransactionException(
+                "getting a list of all servers as null user succeeded",
+                serversNullNull);
 
         for (ServerTypeEnum serverType : ServerTypeEnum.values()) {
             GetServersCommand serversSuperType = new GetServersCommand(
@@ -220,20 +208,12 @@ public class SystemCommandsTest {
                     .size()
                     / ServerTypeEnum.values().length);
 
-            try {
-                HibernateTransactionCoordinator.getInstance().runTransaction(
-                        serversBasicType);
-                fail("getting a list of servers as basic user succeeded");
-            } catch (TransactionException e) {
-                // this is supposed to happen
-            }
-            try {
-                HibernateTransactionCoordinator.getInstance().runTransaction(
-                        serversNullType);
-                fail("getting a list of servers as null user succeeded");
-            } catch (TransactionException e) {
-                // this is supposed to happen
-            }
+            assertTransactionException(
+                    "getting a list of servers as basic user succeeded",
+                    serversBasicType);
+            assertTransactionException(
+                    "getting a list of servers as null user succeeded",
+                    serversNullType);
         }
 
         GetServerStatisticsCommand stats = new GetServerStatisticsCommand(
@@ -256,20 +236,12 @@ public class SystemCommandsTest {
             }
         }
 
-        try {
-            stats = new GetServerStatisticsCommand(new BasicRole(0L));
-            HibernateTransactionCoordinator.getInstance().runTransaction(stats);
-            fail("Normal user shouldn't be able to get server stats");
-        } catch (TransactionException e) {
-            // is supposed to be thrown
-        }
-        try {
-            stats = new GetServerStatisticsCommand(null);
-            HibernateTransactionCoordinator.getInstance().runTransaction(stats);
-            fail("Null user shouldn't be able to get server stats");
-        } catch (TransactionException e) {
-            // is supposed to be thrown
-        }
+        stats = new GetServerStatisticsCommand(new BasicRole(0L));
+        assertTransactionException(
+                "Normal user shouldn't be able to get server stats", stats);
+        stats = new GetServerStatisticsCommand(null);
+        assertTransactionException(
+                "Null user shouldn't be able to get server stats", stats);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 serversSuperNull);
@@ -287,39 +259,19 @@ public class SystemCommandsTest {
         LockServerCommand unlockerNull = new LockServerCommand(null, serverID,
                 false);
 
-        try {
-            HibernateTransactionCoordinator.getInstance().runTransaction(
-                    lockerBasic);
-            fail("BasicRole shouldn't be able to lock servers.");
-        } catch (TransactionException e) {
-            // Exception is supposed to be thrown
-        }
-        try {
-            HibernateTransactionCoordinator.getInstance().runTransaction(
-                    lockerNull);
-            fail("Null role shouldn't be able to lock servers.");
-        } catch (TransactionException e) {
-            // Exception is supposed to be thrown
-        }
+        assertTransactionException(
+                "BasicRole shouldn't be able to lock servers.", lockerBasic);
+        assertTransactionException(
+                "Null role shouldn't be able to lock servers.", lockerNull);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 lockerSuper);
         // RR check that the server was locked
 
-        try {
-            HibernateTransactionCoordinator.getInstance().runTransaction(
-                    unlockerBasic);
-            fail("BasicRole shouldn't be able to unlock servers.");
-        } catch (TransactionException e) {
-            // Exception is supposed to be thrown
-        }
-        try {
-            HibernateTransactionCoordinator.getInstance().runTransaction(
-                    unlockerNull);
-            fail("Null role shouldn't be able to unlock servers.");
-        } catch (TransactionException e) {
-            // Exception is supposed to be thrown
-        }
+        assertTransactionException(
+                "BasicRole shouldn't be able to unlock servers.", unlockerBasic);
+        assertTransactionException(
+                "Null role shouldn't be able to unlock servers.", unlockerNull);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 unlockerSuper);
@@ -341,33 +293,20 @@ public class SystemCommandsTest {
 
         for (byte b : goodLoads) {
             loader = new UpdateServerLoadCommand(new BasicRole(0L), serverID, b);
-            try {
-                HibernateTransactionCoordinator.getInstance().runTransaction(
-                        loader);
-                fail("BasicRole shouldn't be able to update server load.");
-            } catch (TransactionException e) {
-                // is supposed to be thrown
-            }
+            assertTransactionException(
+                    "BasicRole shouldn't be able to update server load.",
+                    loader);
             loader = new UpdateServerLoadCommand(null, serverID, b);
-            try {
-                HibernateTransactionCoordinator.getInstance().runTransaction(
-                        loader);
-                fail("Null role shouldn't be able to update server load.");
-            } catch (TransactionException e) {
-                // is supposed to be thrown
-            }
+            assertTransactionException(
+                    "Null role shouldn't be able to update server load.",
+                    loader);
         }
 
         for (byte b : badLoads) {
             loader = new UpdateServerLoadCommand(new SuperAdminRole(),
                     serverID, b);
-            try {
-                HibernateTransactionCoordinator.getInstance().runTransaction(
-                        loader);
-                fail("shouldn't be able to set this value.");
-            } catch (TransactionException e) {
-                // is supposed to be thrown
-            }
+            assertTransactionException("shouldn't be able to set this value.",
+                    loader);
         }
 
         GetServersCommand getAllServers = new GetServersCommand(
@@ -422,13 +361,8 @@ public class SystemCommandsTest {
         assertEquals(decidrFileB.getFileSizeBytes(), getterB.getFile()
                 .getFileSizeBytes());
 
-        try {
-            HibernateTransactionCoordinator.getInstance().runTransaction(
-                    getterInvalid);
-            fail("managed to get file with negative size");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
+        assertTransactionException("managed to get file with negative size",
+                getterInvalid);
     }
 
     /**
@@ -456,24 +390,11 @@ public class SystemCommandsTest {
         HibernateTransactionCoordinator.getInstance().runTransaction(getter);
         assertNotNull(getter.getResult());
 
-        try {
-            getter = new GetLogCommand(null, new ArrayList<Filter>(),
-                    new Paginator());
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(getter);
-            fail("managed to get file with null user");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            getter = new GetLogCommand(new BasicRole(0L),
-                    new ArrayList<Filter>(), new Paginator());
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(getter);
-            fail("managed to get file with basic role");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
+        assertTransactionException("managed to get file with null user", getter);
+        getter = new GetLogCommand(new BasicRole(0L), new ArrayList<Filter>(),
+                new Paginator());
+        assertTransactionException("managed to get file with basic role",
+                getter);
     }
 
     /**
@@ -498,30 +419,14 @@ public class SystemCommandsTest {
                 null, setterSettings);
         GetSystemSettingsCommand nullGetter = new GetSystemSettingsCommand(null);
 
-        try {
-            HibernateTransactionCoordinator.getInstance().runTransaction(
-                    userSetter);
-            fail("User shouldn't be able to set settings");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            HibernateTransactionCoordinator.getInstance().runTransaction(
-                    nullSetter);
-            fail("Null user shouldn't be able to set settings");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-
-        try {
-            // DH & MF: should this throw an error, set all values to defaults
-            // or change nothing? ~rr
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("Shouldn't be able to set empty settings");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
+        assertTransactionException("User shouldn't be able to set settings",
+                userSetter);
+        assertTransactionException(
+                "Null user shouldn't be able to set settings", nullSetter);
+        // DH & MF: should this throw an error, set all values to defaults
+        // or change nothing? ~rr
+        assertTransactionException("Shouldn't be able to set empty settings",
+                setter);
 
         setterSettings.setAutoAcceptNewTenants(true);
         setterSettings.setChangeEmailRequestLifetimeSeconds(20);
@@ -663,6 +568,7 @@ public class SystemCommandsTest {
         setterSettings.setMtaPort(-102);
         setterSettings.setMtaUsername("");
         setterSettings.setMtaPassword("");
+        setterSettings.setSystemName("");
         HibernateTransactionCoordinator.getInstance().runTransaction(setter);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(getter);
@@ -671,226 +577,131 @@ public class SystemCommandsTest {
         assertEquals("", getterSettings.getMtaPassword());
         assertEquals(-102, getterSettings.getMtaPort());
         assertEquals("", getterSettings.getMtaUsername());
+        assertEquals("", getterSettings.getSystemName());
 
-        try {
-            setterSettings.setChangeEmailRequestLifetimeSeconds(-1);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid ChangeEmailRequestLifetimeSeconds succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setDomain(null);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("null domain succeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            // MF & DH: should this fail or return a default domain
-            // (?localhost?) ~rr
-            setterSettings.setDomain("");
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("empty domain succeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            // RR test as soon as legal values are known
-            setterSettings.setId(-1L);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("illgal ID value succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setInvitationLifetimeSeconds(-1);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid InvitationLifetimeSeconds succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setLogLevel("INVALID");
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid loglevel succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setMaxAttachmentsPerEmail(-1);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid amount of attachments succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setMaxServerLoadForShutdown((byte) -1);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid MaxServerLoadForShutdown succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setMaxServerLoadForUnlock((byte) -1);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid MaxServerLoadForUnlock succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setMaxUploadFileSizeBytes(-1);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid MaxUploadFileSizeBytes succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setMaxWorkflowInstancesForShutdown(-1);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid MaxWorkflowInstancesForShutdown succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setMaxWorkflowInstancesForUnlock(-1);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid MaxWorkflowInstancesForUnlock succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setMinServerLoadForLock((byte) -1);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid MinServerLoadForLock succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setMinUnlockedServers(-1);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid MinUnlockedServers succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setMinWorkflowInstancesForLock(-1);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid MinWorkflowInstancesForLock succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setModifiedDate(new Date(DecidrGlobals.getTime()
-                    .getTimeInMillis() + 10000000));
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid (future) ModifiedDate succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setMonitorAveragingPeriodSeconds(-1);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid MonitorAveragingPeriodSeconds succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setMonitorUpdateIntervalSeconds(-1);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid MonitorUpdateIntervalSeconds succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setPasswordResetRequestLifetimeSeconds(-1);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid PasswordResetRequestLifetimeSeconds succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setRegistrationRequestLifetimeSeconds(-1);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid RegistrationRequestLifetimeSeconds succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setServerPoolInstances(-1);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid ServerPoolInstances succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setSuperAdmin(null);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("null super admin succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setSystemEmailAddress("in@valid@email");
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("invalid email address ucceeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
+        setterSettings.setChangeEmailRequestLifetimeSeconds(-1);
+        assertTransactionException(
+                "invalid ChangeEmailRequestLifetimeSeconds succeeded", setter);
+        setterSettings.setChangeEmailRequestLifetimeSeconds(1);
+
+        setterSettings.setDomain(null);
+        assertTransactionException("null domain succeded", setter);
+        // MF & DH: should this fail or return a default domain
+        // (?localhost?) ~rr
+        setterSettings.setDomain("");
+        assertTransactionException("empty domain succeded", setter);
+        setterSettings.setDomain("decidr.de");
+
+        // RR test as soon as legal values are known
+        setterSettings.setId(-1L);
+        assertTransactionException("illegal ID value succeeded", setter);
+        setterSettings.setId(1L);
+
+        setterSettings.setInvitationLifetimeSeconds(-1);
+        assertTransactionException(
+                "invalid InvitationLifetimeSeconds succeeded", setter);
+        setterSettings.setInvitationLifetimeSeconds(1);
+
+        setterSettings.setLogLevel("INVALID");
+        assertTransactionException("invalid loglevel succeeded", setter);
+        setterSettings.setLogLevel("ERROR");
+
+        setterSettings.setMaxAttachmentsPerEmail(-1);
+        assertTransactionException("invalid amount of attachments succeeded",
+                setter);
+        setterSettings.setMaxAttachmentsPerEmail(1);
+
+        setterSettings.setMaxServerLoadForShutdown((byte) -1);
+        assertTransactionException(
+                "invalid MaxServerLoadForShutdown succeeded", setter);
+        setterSettings.setMaxServerLoadForShutdown((byte) 1);
+
+        setterSettings.setMaxServerLoadForUnlock((byte) -1);
+        assertTransactionException("invalid MaxServerLoadForUnlock succeeded",
+                setter);
+        setterSettings.setMaxServerLoadForUnlock((byte) 1);
+
+        setterSettings.setMaxUploadFileSizeBytes(-1);
+        assertTransactionException("invalid MaxUploadFileSizeBytes succeeded",
+                setter);
+        setterSettings.setMaxUploadFileSizeBytes(1);
+
+        setterSettings.setMaxWorkflowInstancesForShutdown(-1);
+        assertTransactionException(
+                "invalid MaxWorkflowInstancesForShutdown succeeded", setter);
+        setterSettings.setMaxWorkflowInstancesForShutdown(1);
+
+        setterSettings.setMaxWorkflowInstancesForUnlock(-1);
+        assertTransactionException(
+                "invalid MaxWorkflowInstancesForUnlock succeeded", setter);
+        setterSettings.setMaxWorkflowInstancesForUnlock(1);
+
+        setterSettings.setMinServerLoadForLock((byte) -1);
+        assertTransactionException("invalid MinServerLoadForLock succeeded",
+                setter);
+        setterSettings.setMinServerLoadForLock((byte) 1);
+
+        setterSettings.setMinUnlockedServers(-1);
+        assertTransactionException("invalid MinUnlockedServers succeeded",
+                setter);
+        setterSettings.setMinUnlockedServers(1);
+
+        setterSettings.setMinWorkflowInstancesForLock(-1);
+        assertTransactionException(
+                "invalid MinWorkflowInstancesForLock succeeded", setter);
+        setterSettings.setMinWorkflowInstancesForLock(1);
+
+        setterSettings.setModifiedDate(new Date(DecidrGlobals.getTime()
+                .getTimeInMillis() + 10000000));
+        assertTransactionException("invalid (future) ModifiedDate succeeded",
+                setter);
+        setterSettings.setModifiedDate(DecidrGlobals.getTime().getTime());
+
+        setterSettings.setMonitorAveragingPeriodSeconds(-1);
+        assertTransactionException(
+                "invalid MonitorAveragingPeriodSeconds succeeded", setter);
+        setterSettings.setMonitorAveragingPeriodSeconds(1);
+
+        setterSettings.setMonitorUpdateIntervalSeconds(-1);
+        assertTransactionException(
+                "invalid MonitorUpdateIntervalSeconds succeeded", setter);
+        setterSettings.setMonitorUpdateIntervalSeconds(1);
+
+        setterSettings.setPasswordResetRequestLifetimeSeconds(-1);
+        assertTransactionException(
+                "invalid PasswordResetRequestLifetimeSeconds succeeded", setter);
+        setterSettings.setPasswordResetRequestLifetimeSeconds(1);
+
+        setterSettings.setRegistrationRequestLifetimeSeconds(-1);
+        assertTransactionException(
+                "invalid RegistrationRequestLifetimeSeconds succeeded", setter);
+        setterSettings.setRegistrationRequestLifetimeSeconds(1);
+
+        setterSettings.setServerPoolInstances(-1);
+        assertTransactionException("invalid ServerPoolInstances succeeded",
+                setter);
+        setterSettings.setServerPoolInstances(1);
+
+        setterSettings.setSuperAdmin(null);
+        assertTransactionException("null super admin succeeded", setter);
+        setterSettings.setSuperAdmin(new User());
+
+        setterSettings.setSystemEmailAddress("in@valid@email");
+        assertTransactionException("invalid email address ucceeded", setter);
+        setterSettings.setSystemEmailAddress("");
+        assertTransactionException("empty email address ucceeded", setter);
+        setterSettings.setSystemEmailAddress(null);
+        assertTransactionException("null email address ucceeded", setter);
+        setterSettings.setSystemEmailAddress("invalid@email.de");
+
         // DH & MF: are the following two tests correct? ~rr
-        try {
-            setterSettings.setSystemName("");
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("empty system name succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            setterSettings.setSystemName(null);
-            HibernateTransactionCoordinator.getInstance()
-                    .runTransaction(setter);
-            fail("null system name succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
+        setterSettings.setSystemName(null);
+        assertTransactionException("null system name succeeded", setter);
+        setterSettings.setSystemName("DecidR");
 
-        try {
-            HibernateTransactionCoordinator.getInstance().runTransaction(
-                    userGetter);
-            fail("User shouldn't be able to get settings");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            HibernateTransactionCoordinator.getInstance().runTransaction(
-                    nullGetter);
-            fail("Null user shouldn't be able to get settings");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
+        assertTransactionException("User shouldn't be able to get settings",
+                userGetter);
+        assertTransactionException(
+                "Null user shouldn't be able to get settings", nullGetter);
     }
 }

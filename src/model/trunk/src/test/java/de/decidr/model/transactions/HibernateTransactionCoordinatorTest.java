@@ -4,11 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import de.decidr.model.TransactionTest;
 import de.decidr.model.commands.AbstractTransactionalCommand;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
 
-public class HibernateTransactionCoordinatorTest {
+public class HibernateTransactionCoordinatorTest extends TransactionTest {
 
     class testCommandCommit extends AbstractTransactionalCommand {
 
@@ -156,24 +157,16 @@ public class HibernateTransactionCoordinatorTest {
         assertTrue(c2.getCommitted());
         assertFalse(c2.getAborted());
 
-        try {
-            htc.runTransaction((TransactionalCommand) null);
-            fail("can't run empty transaction");
-        } catch (TransactionException e) {
-            // This Exception is supposed to be thrown
-        }
+        assertTransactionException("can't run null transaction",
+                (TransactionalCommand) null);
         try {
             htc.runTransaction();
             fail("can't run empty transaction");
         } catch (TransactionException e) {
             // This Exception is supposed to be thrown
         }
-        try {
-            htc.runTransaction(new TransactionalCommand[2]);
-            fail("can't run empty transaction");
-        } catch (TransactionException e) {
-            // This Exception is supposed to be thrown
-        }
+        assertTransactionException("can't run empty transaction",
+                new TransactionalCommand[2]);
     }
 
     // TK @Tom: finish this test
