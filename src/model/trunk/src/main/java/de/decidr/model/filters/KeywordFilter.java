@@ -21,7 +21,7 @@ import org.hibernate.criterion.Restrictions;
  * @author Daniel Huss
  * @version 0.1
  */
-public abstract class KeywordFilter implements de.decidr.model.filters.Filter {
+public class KeywordFilter implements de.decidr.model.filters.Filter {
 
     private String keyword = "";
 
