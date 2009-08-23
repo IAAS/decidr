@@ -26,7 +26,6 @@ import org.junit.Test;
 
 import com.vaadin.data.Item;
 
-import de.decidr.model.TransactionTest;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.filters.Paginator;
@@ -36,7 +35,7 @@ import de.decidr.model.filters.Paginator;
  * 
  * @author Reinhold
  */
-public class UserFacadeTest extends TransactionTest {
+public class UserFacadeTest {
 
     static UserFacade adminFacade;
     static UserFacade userFacade;

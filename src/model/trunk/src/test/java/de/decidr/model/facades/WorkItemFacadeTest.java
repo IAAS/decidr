@@ -21,7 +21,6 @@ import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.decidr.model.TransactionTest;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 
@@ -30,7 +29,7 @@ import de.decidr.model.acl.roles.SuperAdminRole;
  * 
  * @author Reinhold
  */
-public class WorkItemFacadeTest extends TransactionTest {
+public class WorkItemFacadeTest {
 
     static WorkItemFacade adminFacade;
     static WorkItemFacade userFacade;

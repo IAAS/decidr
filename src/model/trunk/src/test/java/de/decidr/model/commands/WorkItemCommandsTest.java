@@ -20,7 +20,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import de.decidr.model.TransactionTest;
+import de.decidr.model.CommandsTest;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.workitem.CreateWorkItemCommand;
 import de.decidr.model.commands.workitem.DeleteWorkItemCommand;
@@ -36,7 +36,7 @@ import de.decidr.model.enums.WorkItemStatus;
  * 
  * @author Reinhold
  */
-public class WorkItemCommandsTest extends TransactionTest {
+public class WorkItemCommandsTest extends CommandsTest {
 
     /**
      * Test method for

@@ -170,11 +170,11 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * Updates the session factory using the given configuration. Currently
      * runnning transactions are not affected by the new configuration. The new
-     * configuration will be applied the next time a session is opened. FIXME RR
-     * new method, please add JUnit test case
+     * configuration will be applied the next time a session is opened.
      * 
      * @param config
      */
+    // FIXME TK new method, please add JUnit test case
     public void setConfiguration(Configuration config) {
         if (config == null) {
             throw new IllegalArgumentException(
@@ -188,10 +188,11 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * Returns the currently used Hibernate configuration. Please note that
      * changes to the {@link Configuration} object do not affect this
      * transaction coordinator. To apply new settings, you'll have to use the
-     * setConfiguration method. FIXME RR new method, please add JUnit test case
+     * setConfiguration method.
      * 
      * @return the currently used Hibernate configuration.
      */
+    // FIXME TK new method, please add JUnit test case
     public Configuration getConfiguration() {
         return configuration;
     }

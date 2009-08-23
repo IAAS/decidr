@@ -29,7 +29,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
  * 
  * @author Reinhold
  */
-public abstract class TransactionTest {
+public abstract class CommandsTest {
 
     /**
      * Makes sure that a <code>{@link TransactionException}</code> is thrown.

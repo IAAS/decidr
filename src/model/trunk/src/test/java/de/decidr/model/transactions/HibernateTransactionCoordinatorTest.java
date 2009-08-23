@@ -4,12 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import de.decidr.model.TransactionTest;
+import de.decidr.model.CommandsTest;
 import de.decidr.model.commands.AbstractTransactionalCommand;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
 
-public class HibernateTransactionCoordinatorTest extends TransactionTest {
+public class HibernateTransactionCoordinatorTest extends CommandsTest {
 
     class TestCommandCommit extends AbstractTransactionalCommand {
 
@@ -52,7 +52,6 @@ public class HibernateTransactionCoordinatorTest extends TransactionTest {
         public Boolean getAborted() {
             return aborted;
         }
-
     }
 
     class TestCommandAbort extends AbstractTransactionalCommand {

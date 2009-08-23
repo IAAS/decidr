@@ -24,7 +24,6 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.decidr.model.TransactionTest;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.filters.Paginator;
@@ -34,7 +33,7 @@ import de.decidr.model.filters.Paginator;
  * 
  * @author Reinhold
  */
-public class TenantFacadeTest extends TransactionTest {
+public class TenantFacadeTest {
 
     static TenantFacade adminFacade;
     static TenantFacade userFacade;

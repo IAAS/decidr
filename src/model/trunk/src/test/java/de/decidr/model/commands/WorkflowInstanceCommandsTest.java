@@ -22,7 +22,7 @@ import java.util.Collection;
 
 import org.junit.Test;
 
-import de.decidr.model.TransactionTest;
+import de.decidr.model.CommandsTest;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.workflowinstance.DeleteWorkFlowInstanceCommand;
 import de.decidr.model.commands.workflowinstance.GetAllWorkitemsCommand;
@@ -38,7 +38,7 @@ import de.decidr.model.commands.workflowinstance.WorkflowInstanceCommand;
  * 
  * @author Reinhold
  */
-public class WorkflowInstanceCommandsTest extends TransactionTest {
+public class WorkflowInstanceCommandsTest extends CommandsTest {
 
     /**
      * Test method for

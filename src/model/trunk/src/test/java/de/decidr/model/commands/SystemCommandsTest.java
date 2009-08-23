@@ -32,7 +32,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import de.decidr.model.DecidrGlobals;
-import de.decidr.model.TransactionTest;
+import de.decidr.model.CommandsTest;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
@@ -65,7 +65,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
  * 
  * @author Reinhold
  */
-public class SystemCommandsTest extends TransactionTest {
+public class SystemCommandsTest extends CommandsTest {
 
     private Server getServer(long ID) throws TransactionException {
         GetServersCommand getAllServers = new GetServersCommand(
