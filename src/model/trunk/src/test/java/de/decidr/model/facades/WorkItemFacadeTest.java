@@ -47,62 +47,23 @@ public class WorkItemFacadeTest extends TransactionTest {
     }
 
     /**
-     * Test method for {@link WorkItemFacade#getWorkItem(Long)}.
-     */
-    @Test
-    public void testGetWorkItem() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
      * Test method for
      * {@link WorkItemFacade#createWorkItem(Long, Long, String, String, String, byte[], Boolean)}
-     * .
+     * , {@link WorkItemFacade#getWorkItem(Long)},
+     * {@link WorkItemFacade#setData(Long, byte[])},
+     * {@link WorkItemFacade#setDataAndMarkAsDone(Long, byte[])},
+     * {@link WorkItemFacade#getWorkItemAndMarkAsInProgress(Long)},
+     * {@link WorkItemFacade#markWorkItemAsDone(Long)} and
+     * {@link WorkItemFacade#deleteWorkItem(Long)}.
      */
     @Test
-    public void testCreateWorkItem() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link WorkItemFacade#setData(Long, byte[])}.
-     */
-    @Test
-    public void testSetData() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link WorkItemFacade#setDataAndMarkAsDone(Long, byte[])}
-     * .
-     */
-    @Test
-    public void testSetDataAndMarkAsDone() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link WorkItemFacade#markWorkItemAsDone(Long)}.
-     */
-    @Test
-    public void testMarkWorkItemAsDone() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link WorkItemFacade#deleteWorkItem(Long)}.
-     */
-    @Test
-    public void testDeleteWorkItem() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for
-     * {@link WorkItemFacade#getWorkItemAndMarkAsInProgress(Long)}.
-     */
-    @Test
-    public void testGetWorkItemAndMarkAsInProgress() {
-        fail("Not yet implemented"); // RR
+    public void testWorkItem() {
+        fail("Not yet implemented"); // RR createWorkItem
+        fail("Not yet implemented"); // RR getWorkItem
+        fail("Not yet implemented"); // RR setData
+        fail("Not yet implemented"); // RR setDataAndMarkAsDone
+        fail("Not yet implemented"); // RR getWorkItemAndMarkAsInProgress
+        fail("Not yet implemented"); // RR markWorkItemAsDone
+        fail("Not yet implemented"); // RR deleteWorkItem
     }
 }

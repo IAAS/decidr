@@ -24,7 +24,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-public class InviteUsersAsTenantMemberCommand extends TenantCommand {
+public class InviteUsersAsTenantMembersCommand extends TenantCommand {
 
     private List<String> emails;
     private List<String> usernames;
@@ -46,7 +46,7 @@ public class InviteUsersAsTenantMemberCommand extends TenantCommand {
      * @param usernames
      *            list of usernames of registered user which should be invited
      */
-    public InviteUsersAsTenantMemberCommand(Role role, Long tenantId,
+    public InviteUsersAsTenantMembersCommand(Role role, Long tenantId,
             List<String> emails, List<String> usernames) {
         super(role, tenantId);
 

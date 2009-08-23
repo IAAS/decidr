@@ -67,20 +67,14 @@ public class TenantFacadeTest extends TransactionTest {
     }
 
     /**
-     * Test method for {@link TenantFacade#getLogo(Long)}.
-     */
-    @Test
-    public void testGetLogo() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
      * Test method for
-     * {@link TenantFacade#setLogo(Long, FileInputStream, String, String)}.
+     * {@link TenantFacade#setLogo(Long, FileInputStream, String, String)} and
+     * {@link TenantFacade#getLogo(Long)}.
      */
     @Test
-    public void testSetLogo() {
-        fail("Not yet implemented"); // RR
+    public void testLogo() {
+        fail("Not yet implemented"); // RR setLogo
+        fail("Not yet implemented"); // RR getLogo
     }
 
     /**
@@ -106,19 +100,12 @@ public class TenantFacadeTest extends TransactionTest {
     /**
      * Test method for
      * {@link TenantFacade#setCurrentColorScheme(FileInputStream, Long, String, String)}
-     * .
+     * and {@link TenantFacade#getCurrentColorScheme(Long)}.
      */
     @Test
-    public void testSetCurrentColorScheme() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link TenantFacade#getCurrentColorScheme(Long)}.
-     */
-    @Test
-    public void testGetCurrentColorScheme() {
-        fail("Not yet implemented"); // RR
+    public void testCurrentColorScheme() {
+        fail("Not yet implemented"); // RR setCurrentColorScheme
+        fail("Not yet implemented"); // RR getCurrentColorScheme
     }
 
     /**

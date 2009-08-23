@@ -30,6 +30,8 @@ import de.decidr.model.acl.roles.SuperAdminRole;
  * 
  * @author Reinhold
  */
+// RR create start WF instance?
+// RR ensure order Model -> Instance -> Item?
 public class WorkflowInstanceFacadeTest extends TransactionTest {
 
     static WorkflowInstanceFacade adminFacade;
@@ -47,37 +49,24 @@ public class WorkflowInstanceFacadeTest extends TransactionTest {
     }
 
     /**
-     * Test method for {@link WorkflowInstanceFacade#stopWorkflowInstance(Long)}
-     * .
-     */
-    @Test
-    public void testStopWorkflowInstance() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
      * Test method for
-     * {@link WorkflowInstanceFacade#getParticipatingUsers(Long)}.
-     */
-    @Test
-    public void testGetParticipatingUsers() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for
+     * {@link WorkflowInstanceFacade#getParticipatingUsers(Long)},
+     * {@link WorkflowInstanceFacade#stopWorkflowInstance(Long)} and
      * {@link WorkflowInstanceFacade#deleteWorkflowInstance(Long)}.
      */
     @Test
-    public void testDeleteWorkflowInstance() {
-        fail("Not yet implemented"); // RR
+    public void testStopWorkflowInstance() {
+        fail("Not yet implemented"); // RR getParticipatingUsers
+        fail("Not yet implemented"); // RR stopWorkflowInstance
+        fail("Not yet implemented"); // RR deleteWorkflowInstance
     }
 
     /**
-     * Test method for {@link WorkflowInstanceFacade#getAllWorkItems(Long)} and {@link WorkflowInstanceFacade#removeAllWorkItems(String, Long)}.
+     * Test method for {@link WorkflowInstanceFacade#getAllWorkItems(Long)} and
+     * {@link WorkflowInstanceFacade#removeAllWorkItems(String, Long)}.
      */
     @Test
-    public void testGetAllWorkItems() {
+    public void testWorkItems() {
         fail("Not yet implemented"); // RR getAllWorkItems
         fail("Not yet implemented"); // RR removeAllWorkItems
     }

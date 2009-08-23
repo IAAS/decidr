@@ -60,7 +60,7 @@ import de.decidr.model.commands.tenant.GetUsersOfTenantCommand;
 import de.decidr.model.commands.tenant.GetWorkflowInstancesCommand;
 import de.decidr.model.commands.tenant.GetWorkflowModelsCommand;
 import de.decidr.model.commands.tenant.ImportPublishedWorkflowModelsCommand;
-import de.decidr.model.commands.tenant.InviteUsersAsTenantMemberCommand;
+import de.decidr.model.commands.tenant.InviteUsersAsTenantMembersCommand;
 import de.decidr.model.commands.tenant.RemoveWorkflowModelCommand;
 import de.decidr.model.commands.tenant.SetAdvancedColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetCurrentColorSchemeCommand;
@@ -367,7 +367,7 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsTenantAdminAsserter(),new UserIsEnabledAsserter(),new UserIsLoggedInAsserter());
         
         setRule(new WorkflowAdminRole(), new CommandPermission(
-                InviteUsersAsTenantMemberCommand.class), AssertMode.SatisfyAll,
+                InviteUsersAsTenantMembersCommand.class), AssertMode.SatisfyAll,
                 new UserAdministratesWorkflowInstanceAsserter(),new UserIsEnabledAsserter(),new UserIsLoggedInAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(

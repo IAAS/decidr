@@ -59,7 +59,7 @@ public class SystemFacadeTest extends TransactionTest {
      * {@link SystemFacade#setSettings(SystemSettings)}.
      */
     @Test
-    public void testGetSettings() throws TransactionException {
+    public void testSettings() throws TransactionException {
         fail("Not yet implemented"); // RR setSettings
         fail("Not yet implemented"); // RR getSettings
     }
@@ -74,7 +74,7 @@ public class SystemFacadeTest extends TransactionTest {
      * {@link SystemFacade#removeServer(Long)}.
      */
     @Test
-    public void testAddServer() throws TransactionException {
+    public void testServer() throws TransactionException {
         fail("Not yet implemented"); // RR addServer
         fail("Not yet implemented"); // RR getServers
         fail("Not yet implemented"); // RR getServerStatistics
@@ -88,10 +88,47 @@ public class SystemFacadeTest extends TransactionTest {
      */
     @Test
     public void testGetLog() throws TransactionException {
+        Paginator emptyPaginator = new Paginator();
+        ArrayList<Filter> emptyList = new ArrayList<Filter>();
+
         adminFacade.getLog(null, null);
-        adminFacade.getLog(new ArrayList<Filter>(), null);
-        adminFacade.getLog(null, new Paginator());
-        adminFacade.getLog(new ArrayList<Filter>(), new Paginator());
-        fail("Not yet implemented"); // RR
+        adminFacade.getLog(emptyList, null);
+        adminFacade.getLog(null, emptyPaginator);
+        adminFacade.getLog(emptyList, emptyPaginator);
+
+        logExceptionHelper(
+                "getting log (null, null) with null facade succeeded",
+                nullFacade, null, null);
+        logExceptionHelper(
+                "getting log (obj, null) with null facade succeeded",
+                nullFacade, emptyList, null);
+        logExceptionHelper(
+                "getting log (null, obj) with null facade succeeded",
+                nullFacade, null, emptyPaginator);
+        logExceptionHelper("getting log (obj, obj) with null facade succeeded",
+                nullFacade, emptyList, emptyPaginator);
+
+        logExceptionHelper(
+                "getting log (null, null) with normal user facade succeeded",
+                userFacade, null, null);
+        logExceptionHelper(
+                "getting log (obj, null) with normal user facade succeeded",
+                userFacade, emptyList, null);
+        logExceptionHelper(
+                "getting log (null, obj) with normal user facade succeeded",
+                userFacade, null, emptyPaginator);
+        logExceptionHelper(
+                "getting log (obj, obj) with normal user facade succeeded",
+                userFacade, emptyList, emptyPaginator);
+    }
+
+    private void logExceptionHelper(String failmsg, SystemFacade facade,
+            List<Filter> filters, Paginator paginator) {
+        try {
+            facade.getLog(filters, paginator);
+            fail(failmsg);
+        } catch (TransactionException e) {
+            // should be thrown
+        }
     }
 }

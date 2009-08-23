@@ -43,24 +43,30 @@ public class UserFacadeTest extends TransactionTest {
     static UserFacade nullFacade;
 
     /**
-     * Initialises the facade instances.
+     * Initialises the facade instances and registers a User, testing
+     * {@link UserFacade#registerUser(String, String, Item)}.
      */
     @BeforeClass
     public static void setUpBeforeClass() {
         adminFacade = new UserFacade(new SuperAdminRole());
         userFacade = new UserFacade(new BasicRole(0L));
         nullFacade = new UserFacade(null);
+        fail("Not yet implemented"); // RR registerUser
     }
 
     /**
-     * Test method for {@link UserFacade#registerUser(String, String, Item)},
-     * {@link UserFacade#getAllUsers(List, Paginator)} and
-     * {@link UserFacade#getUserIdByLogin(String, String)}.
+     * Test method for {@link UserFacade#getAllUsers(List, Paginator)}.
      */
     @Test
-    public void testRegisterUser() {
-        fail("Not yet implemented"); // RR registerUser
+    public void testGetAllUsers() {
         fail("Not yet implemented"); // RR getAllUsers
+    }
+
+    /**
+     * Test method for {@link UserFacade#getUserIdByLogin(String, String)}.
+     */
+    @Test
+    public void testGetUserIdByLogin() {
         fail("Not yet implemented"); // RR getUserIdByLogin
     }
 
@@ -69,7 +75,7 @@ public class UserFacadeTest extends TransactionTest {
      */
     @Test
     public void testAuthKeyMatches() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR authKeyMatches
     }
 
     /**
@@ -77,7 +83,7 @@ public class UserFacadeTest extends TransactionTest {
      */
     @Test
     public void testSetEmailAddress() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR setEmailAddress
     }
 
     /**
@@ -85,7 +91,7 @@ public class UserFacadeTest extends TransactionTest {
      */
     @Test
     public void testSetDisableSince() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR setDisableSince
     }
 
     /**
@@ -93,7 +99,7 @@ public class UserFacadeTest extends TransactionTest {
      */
     @Test
     public void testSetUnavailableSince() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR setUnavailableSince
     }
 
     /**
@@ -101,23 +107,17 @@ public class UserFacadeTest extends TransactionTest {
      */
     @Test
     public void testSetPassword() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR setPassword
     }
 
     /**
-     * Test method for {@link UserFacade#requestPasswordReset(String)}.
+     * Test method for {@link UserFacade#setProfile(Long, Item)} and
+     * {@link UserFacade#getUserProfile(Long)}.
      */
     @Test
-    public void testRequestPasswordReset() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link UserFacade#setProfile(Long, Item)}.
-     */
-    @Test
-    public void testSetProfile() {
-        fail("Not yet implemented"); // RR
+    public void testProfile() {
+        fail("Not yet implemented"); // RR setProfile
+        fail("Not yet implemented"); // RR getUserProfile
     }
 
     /**
@@ -125,7 +125,7 @@ public class UserFacadeTest extends TransactionTest {
      */
     @Test
     public void testLeaveTenant() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR leaveTenant
     }
 
     /**
@@ -133,23 +133,27 @@ public class UserFacadeTest extends TransactionTest {
      */
     @Test
     public void testRemoveFromTenant() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR removeFromTenant
     }
 
     /**
-     * Test method for {@link UserFacade#confirmPasswordReset(Long, String)}.
+     * Test method for {@link UserFacade#requestPasswordReset(String)} and
+     * {@link UserFacade#confirmPasswordReset(Long, String)}.
      */
     @Test
-    public void testConfirmPasswordReset() {
-        fail("Not yet implemented"); // RR
+    public void testPasswordReset() {
+        fail("Not yet implemented"); // RR requestPasswordReset
+        fail("Not yet implemented"); // RR confirmPasswordReset
     }
 
     /**
-     * Test method for {@link UserFacade#confirmRegistration(Long, String)}.
+     * Test method for {@link UserFacade#confirmRegistration(Long, String)} and
+     * {@link UserFacade#isRegistered(Long)}.
      */
     @Test
-    public void testConfirmRegistration() {
-        fail("Not yet implemented"); // RR
+    public void testRegistration() {
+        fail("Not yet implemented"); // RR confirmRegistration
+        fail("Not yet implemented"); // RR isRegistered
     }
 
     /**
@@ -158,31 +162,19 @@ public class UserFacadeTest extends TransactionTest {
      */
     @Test
     public void testConfirmChangeEmailRequest() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR confirmChangeEmailRequest
     }
 
     /**
-     * Test method for {@link UserFacade#confirmInvitation(Long)}.
+     * Test method for {@link UserFacade#getInvitation(Long)},
+     * {@link UserFacade#confirmInvitation(Long)} and
+     * {@link UserFacade#refuseInviation(Long)}.
      */
     @Test
-    public void testConfirmInvitation() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link UserFacade#refuseInviation(Long)}.
-     */
-    @Test
-    public void testRefuseInviation() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link UserFacade#getUserProfile(Long)}.
-     */
-    @Test
-    public void testGetUserProfile() {
-        fail("Not yet implemented"); // R
+    public void testInvitation() {
+        fail("Not yet implemented"); // RR getInvitation
+        fail("Not yet implemented"); // RR confirmInvitation
+        fail("Not yet implemented"); // RR refuseInviation
     }
 
     /**
@@ -190,7 +182,7 @@ public class UserFacadeTest extends TransactionTest {
      */
     @Test
     public void testGetHighestUserRole() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR getHighestUserRole
     }
 
     /**
@@ -198,7 +190,7 @@ public class UserFacadeTest extends TransactionTest {
      */
     @Test
     public void testGetUserRoleForTenant() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR getUserRoleForTenant
     }
 
     /**
@@ -207,7 +199,7 @@ public class UserFacadeTest extends TransactionTest {
      */
     @Test
     public void testGetAdminstratedWorkflowInstances() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR getAdminstratedWorkflowInstances
     }
 
     /**
@@ -215,7 +207,7 @@ public class UserFacadeTest extends TransactionTest {
      */
     @Test
     public void testGetJoinedTenants() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR getJoinedTenants
     }
 
     /**
@@ -223,7 +215,7 @@ public class UserFacadeTest extends TransactionTest {
      */
     @Test
     public void testGetAdministratedWorkflowModels() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR getAdministratedWorkflowModels
     }
 
     /**
@@ -231,22 +223,6 @@ public class UserFacadeTest extends TransactionTest {
      */
     @Test
     public void testGetWorkItems() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link UserFacade#getInvitation(Long)}.
-     */
-    @Test
-    public void testGetInvitation() {
-        fail("Not yet implemented"); // RR
-    }
-
-    /**
-     * Test method for {@link UserFacade#isRegistered(Long)}.
-     */
-    @Test
-    public void testIsRegistered() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR getWorkItems
     }
 }

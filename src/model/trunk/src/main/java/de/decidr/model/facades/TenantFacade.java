@@ -29,7 +29,7 @@ import de.decidr.model.commands.tenant.GetUsersOfTenantCommand;
 import de.decidr.model.commands.tenant.GetWorkflowInstancesCommand;
 import de.decidr.model.commands.tenant.GetWorkflowModelsCommand;
 import de.decidr.model.commands.tenant.ImportPublishedWorkflowModelsCommand;
-import de.decidr.model.commands.tenant.InviteUsersAsTenantMemberCommand;
+import de.decidr.model.commands.tenant.InviteUsersAsTenantMembersCommand;
 import de.decidr.model.commands.tenant.RemoveWorkflowModelCommand;
 import de.decidr.model.commands.tenant.SetAdvancedColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetCurrentColorSchemeCommand;
@@ -113,7 +113,6 @@ public class TenantFacade extends AbstractFacade {
                 actor, tenantId, description);
 
         tac.runTransaction(command);
-
     }
 
     /**
@@ -133,7 +132,6 @@ public class TenantFacade extends AbstractFacade {
         tac.runTransaction(command);
 
         return command.getLogoStream();
-
     }
 
     /**
@@ -159,7 +157,6 @@ public class TenantFacade extends AbstractFacade {
                 tenantId, logo, mimeType, fileName);
 
         tac.runTransaction(command);
-
     }
 
     /**
@@ -185,7 +182,6 @@ public class TenantFacade extends AbstractFacade {
                 actor, tenantId, simpleColorScheme, mimeType, fileName);
 
         tac.runTransaction(command);
-
     }
 
     /**
@@ -211,7 +207,6 @@ public class TenantFacade extends AbstractFacade {
                 actor, tenantId, advancedColorScheme, mimeType, fileName);
 
         tac.runTransaction(command);
-
     }
 
     /**
@@ -677,7 +672,7 @@ public class TenantFacade extends AbstractFacade {
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
-        InviteUsersAsTenantMemberCommand command = new InviteUsersAsTenantMemberCommand(
+        InviteUsersAsTenantMembersCommand command = new InviteUsersAsTenantMembersCommand(
                 actor, tenantId, emails, userNames);
 
         tac.runTransaction(command);
