@@ -107,9 +107,15 @@ public class SystemFacade extends AbstractFacade {
      * @throws TransactionException
      *             if an error occurs during the transaction
      */
+    // DH Hier könnte es ein kleines Problem geben: da hier der sysadmin nicht
+    // zurückgegeben wird kann sich niemand der nur die facade benutzt eine
+    // korrekte SystemSettings basteln um setSettings damit zu füttern. Man
+    // braucht also auch noch eine Methode die eine korrekt befüllte
+    // SystemSettings zurückliefert.
     @AllowedRole(SuperAdminRole.class)
     public Item getSettings() throws TransactionException {
         GetSystemSettingsCommand command = new GetSystemSettingsCommand(actor);
+        // DH fixme: missing the properties for the ODE monitor
         String[] properties = { "autoAcceptNewTenants", "systemName", "domain",
                 "systemEmailAddress", "logLevel",
                 "passwordResetRequestLifeTimeSeconds",
@@ -125,7 +131,7 @@ public class SystemFacade extends AbstractFacade {
     /**
      * Sets the given system settings.
      * <p>
-     * The loglevel must be a string 
+     * The loglevel must be a string
      * 
      * @throws TransactionException
      *             if an error occurs during the transaction s
