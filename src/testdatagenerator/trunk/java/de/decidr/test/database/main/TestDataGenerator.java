@@ -22,7 +22,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -91,8 +90,8 @@ public class TestDataGenerator {
     /**
      * last recorded progress in percent
      */
-    private int lastProgressPercent = 0;
-    private GregorianCalendar lastProgressReportTime = null;
+    private long lastProgressPercent = 0;
+    private Calendar lastProgressReportTime = null;
 
     /**
      * @param args
@@ -167,22 +166,21 @@ public class TestDataGenerator {
         }
 
         final ProgressListener progressListener = new ProgressListener() {
-
             @Override
             public void reportProgress(int totalItems, int doneItems) {
-                int progressPercent;
+                long progressPercent;
 
                 if (totalItems == 0) {
                     progressPercent = 0;
                 } else {
                     progressPercent = Math
-                            .round((doneItems / totalItems) * 100);
+                            .round(((double) doneItems / (double) totalItems) * 100.0);
                 }
                 // report progress only once per second
                 Calendar nextReportDate;
                 if (lastProgressReportTime == null) {
                     nextReportDate = DecidrGlobals.getTime();
-                    nextReportDate.add(Calendar.SECOND, 1);
+                    nextReportDate.add(Calendar.SECOND, -1);
                 } else {
                     nextReportDate = (Calendar) lastProgressReportTime.clone();
                     nextReportDate.add(Calendar.SECOND, 1);
@@ -193,9 +191,9 @@ public class TestDataGenerator {
                         && (DecidrGlobals.getTime().after(nextReportDate))) {
                     stdOut(progressPercent + "% done");
                     lastProgressPercent = progressPercent;
+                    lastProgressReportTime = DecidrGlobals.getTime();
                 }
             }
-
         };
 
         // fill the database!
@@ -224,20 +222,25 @@ public class TestDataGenerator {
                          */
                         Session s = evt.getSession();
                         stdOut("Creating users...");
+                        resetProgress();
                         new UserFactory(s, progressListener)
                                 .createRandomUsers(Integer.parseInt(settings
                                         .getProperty(PROPERTY_USERS)));
                         stdOut("Creating system settings...");
+                        resetProgress();
                         new SystemSettingsFactory(s, progressListener)
                                 .createSystemSettings();
                         stdOut("Creating tenants...");
+                        resetProgress();
                         new TenantFactory(s, progressListener)
                                 .createRandomTenants(Integer.parseInt(settings
                                         .getProperty(PROPERTY_TENANTS)));
                         stdOut("Creating servers...");
+                        resetProgress();
                         new ServerFactory(s, progressListener)
                                 .createRandomServers();
                         stdOut("Creating workflow models...");
+                        resetProgress();
                         new WorkflowModelFactory(s, progressListener)
                                 .createRandomWorkflowModels(
                                         Integer.parseInt(settings
@@ -246,22 +249,34 @@ public class TestDataGenerator {
                                                 .parseInt(settings
                                                         .getProperty(PROPERTY_MODELS_PER_TENANT)));
                         stdOut("Creating workflow instances...");
+                        resetProgress();
                         new WorkflowInstanceFactory(s, progressListener)
                                 .createRandomWorkflowInstances(Integer
                                         .parseInt(settings
                                                 .getProperty(PROPERTY_INSTANCES)));
                         stdOut("Creating work items...");
+                        resetProgress();
                         new WorkItemFactory(s, progressListener)
                                 .createRandomWorkItems(Integer
                                         .parseInt(settings
                                                 .getProperty(PROPERTY_WORKITEMS)));
                         stdOut("Creating invitations...");
+                        resetProgress();
                         new InvitationFactory(s, progressListener)
                                 .createRandomInvitations(Integer
                                         .parseInt(settings
                                                 .getProperty(PROPERTY_INVITATIONS)));
                     }
                 });
+    }
+
+    /**
+     * Resets progress information so the next progress event will generate
+     * output
+     */
+    private void resetProgress() {
+        lastProgressPercent = 0;
+        lastProgressReportTime = null;
     }
 
     /**
