@@ -139,9 +139,9 @@ public class ValueEditor extends Dialog {
                         for (TextField<String> field : fields) {
                             newValues.add(field.getValue());
                         }
-                        ValidatorCallback call = new ValidatorCallback();
-                        Validator validator = new Validator(newValues, variable
-                                .getType());
+                        ValueValidatorCallback call = new ValueValidatorCallback();
+                        ValueValidator validator = new ValueValidator(
+                                newValues, variable.getType());
                         if (validator.validate(call)) {
                             changeWorkflowModel(newValues);
                             /*
@@ -193,6 +193,8 @@ public class ValueEditor extends Dialog {
         final TextField<String> text = new TextField<String>();
         text.setValue(fieldContent);
         text.setAutoWidth(true);
+        text.setValidator(new FieldValidator(variable.getType()));
+
         text.addKeyListener(new KeyListener() {
             /*
              * (non-Javadoc)
@@ -203,7 +205,8 @@ public class ValueEditor extends Dialog {
              */
             @Override
             public void componentKeyUp(ComponentEvent event) {
-                // JS implement validation checker
+                text.clearInvalid();
+                text.validate();
             }
         });
 

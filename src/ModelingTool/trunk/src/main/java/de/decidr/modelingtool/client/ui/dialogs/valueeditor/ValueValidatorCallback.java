@@ -20,12 +20,14 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import de.decidr.modelingtool.client.ModelingToolWidget;
+
 /**
  * 
  * 
  * @author Jonas Schlaak
  */
-public class ValidatorCallback {
+public class ValueValidatorCallback {
 
     private SortedSet<Integer> values = new TreeSet<Integer>();
 
@@ -37,16 +39,18 @@ public class ValidatorCallback {
     public String getMessage() {
         String message = new String();
         if (values.size() == 1) {
-            message = "The value " + values.first() + " has a wrong format.";
+            message = ModelingToolWidget.messages.valueSingular()
+                    + values.first()
+                    + ModelingToolWidget.messages.wrongSingular();
         } else {
-            message = "The values ";
+            message = ModelingToolWidget.messages.valuePlural();
             for (Iterator<Integer> i = values.iterator(); i.hasNext();) {
                 message = message + i.next();
                 if (i.hasNext()) {
                     message = message + ", ";
                 }
             }
-            message = message + " have a wrong format.";
+            message = message + ModelingToolWidget.messages.wrongPlural();
         }
         return message;
     }

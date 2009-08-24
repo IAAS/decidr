@@ -28,7 +28,7 @@ import de.decidr.modelingtool.client.ui.resources.DateFormatter;
  * 
  * @author Jonas Schlaak
  */
-public class Validator {
+public class ValueValidator {
 
     private List<String> values;
     private VariableType type;
@@ -43,7 +43,7 @@ public class Validator {
      * @param type
      *            the type
      */
-    public Validator(List<String> values, VariableType type) {
+    public ValueValidator(List<String> values, VariableType type) {
         this.values = values;
         this.type = type;
     }
@@ -56,7 +56,7 @@ public class Validator {
      *            the callback
      * @return whether the values are valid or not
      */
-    public Boolean validate(ValidatorCallback callback) {
+    public Boolean validate(ValueValidatorCallback callback) {
         Boolean result = false;
         switch (type) {
             case STRING:
@@ -87,7 +87,7 @@ public class Validator {
         return result;
     }
 
-    private Boolean checkInteger(ValidatorCallback callback) {
+    private Boolean checkInteger(ValueValidatorCallback callback) {
         Boolean result = true;
         for (int i = 0; i < values.size(); i++) {
             if (isInteger(values.get(i), true) == false) {
@@ -109,6 +109,11 @@ public class Validator {
          */
         Boolean result = true;
         int index = 0;
+        /* a single '+' or '-' i not allowed */
+        if (integer.length() == 1
+                && (integer.charAt(0) == '-' || integer.charAt(0) == '+')) {
+            result = false;
+        }
         while (result == true && index < integer.length()) {
             /*
              * if the integer is supposed to be a signed integer, the first
@@ -128,7 +133,7 @@ public class Validator {
         return result;
     }
 
-    private Boolean checkFloat(ValidatorCallback callback) {
+    private Boolean checkFloat(ValueValidatorCallback callback) {
         Boolean result = true;
         for (int i = 0; i < values.size(); i++) {
             /*
@@ -142,6 +147,7 @@ public class Validator {
                 result = false;
             }
 
+            /* Validate the two parts using the methods to validate an integer */
             if (parts.length == 2 && isInteger(parts[0], true) == false) {
                 callback.addValueToMessage(i + 1);
                 result = false;
@@ -155,7 +161,7 @@ public class Validator {
         return result;
     }
 
-    private Boolean checkBoolean(ValidatorCallback callback) {
+    private Boolean checkBoolean(ValueValidatorCallback callback) {
         Boolean result = true;
         for (int i = 0; i < values.size(); i++) {
             if (!(values.get(i).equalsIgnoreCase("false"))
@@ -167,7 +173,7 @@ public class Validator {
         return result;
     }
 
-    private Boolean checkDate(ValidatorCallback callback) {
+    private Boolean checkDate(ValueValidatorCallback callback) {
         Boolean result = true;
         for (int i = 0; i < values.size(); i++) {
             if (DateFormatter.validate(values.get(i)) == false) {
