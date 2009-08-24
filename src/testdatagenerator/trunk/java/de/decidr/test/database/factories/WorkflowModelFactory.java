@@ -86,19 +86,6 @@ public class WorkflowModelFactory extends EntityFactory {
             model.setVersion(rnd.nextInt(1000000));
             model.setExecutable(rnd.nextBoolean());
 
-            if (rnd.nextBoolean()) {
-                // create some deployed versions of the model
-                int numDeployedVersions = rnd.nextInt(MAX_DEPLOYED_VERSIONS) + 1;
-                for (int j = 1; j <= numDeployedVersions; j++) {
-                    addDeployedWorkflowModels(model);
-                    // cannot create two deployed workflow models of the same
-                    // version
-                    if (j < numDeployedVersions) {
-                        model.setVersion(model.getVersion() + 1L);
-                    }
-                }
-            }
-
             Tenant owningTenant = owners.get(i % owners.size());
             model.setTenant(owningTenant);
             model.setModifiedByUser(owningTenant.getAdmin());
@@ -113,6 +100,19 @@ public class WorkflowModelFactory extends EntityFactory {
 
             session.save(model);
             result.add(model);
+
+            if (rnd.nextBoolean()) {
+                // create some deployed versions of the model
+                int numDeployedVersions = rnd.nextInt(MAX_DEPLOYED_VERSIONS) + 1;
+                for (int j = 1; j <= numDeployedVersions; j++) {
+                    addDeployedWorkflowModels(model);
+                    // cannot create two deployed workflow models of the same
+                    // version
+                    if (j < numDeployedVersions) {
+                        model.setVersion(model.getVersion() + 1L);
+                    }
+                }
+            }
         }
 
         return result;
@@ -131,7 +131,7 @@ public class WorkflowModelFactory extends EntityFactory {
     private Set<UserAdministratesWorkflowModel> getSuitableWorkflowAdministrators(
             WorkflowModel model) {
 
-        String hql = "select distinct * from User u where u.userProfile is not null and "
+        String hql = "from User u where u.userProfile is not null and "
                 + "u.registeredSince is not null and "
                 + "u.disabledSince is null and "
                 + "exists(from UserIsMemberOfTenant rel where rel.user = u and rel.tenant = :tenant)";
@@ -153,8 +153,8 @@ public class WorkflowModelFactory extends EntityFactory {
     }
 
     /**
-     * Adds a deployed workflow model that corresponds with the given workflow
-     * model.
+     * Adds a persisted deployed workflow model that corresponds with the given
+     * workflow model.
      * 
      * @param model
      */
@@ -175,6 +175,9 @@ public class WorkflowModelFactory extends EntityFactory {
         Server server = getRandomOdeServer();
         deployedOn.setDeployedWorkflowModel(deployed);
         deployedOn.setServer(server);
+
+        session.save(deployed);
+        session.save(deployedOn);
 
         Set<WorkflowModelIsDeployedOnServer> deployedOnSet = new HashSet<WorkflowModelIsDeployedOnServer>();
         deployedOnSet.add(deployedOn);

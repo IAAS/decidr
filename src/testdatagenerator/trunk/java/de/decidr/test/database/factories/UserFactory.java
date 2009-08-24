@@ -71,6 +71,7 @@ public class UserFactory extends EntityFactory {
                 Date now = DecidrGlobals.getTime().getTime();
 
                 user.setEmail(getUniqueEmailAddress(i));
+                user.setCreationDate(now);
 
                 // every 23th user is banned
                 user.setDisabledSince((i % 23 == 0) ? now : null);
@@ -164,12 +165,7 @@ public class UserFactory extends EntityFactory {
             // this should never happen, abort!
             throw new RuntimeException(e);
         }
-        // RR the email web service must recognize this domain and redirect
-        // emails to a test inbox
-        // DH in der Annahme dass das von dir kommt:
-        // No way! Wir dürfen auf gar keinen Fall für Tests solche
-        // Unterscheidungen machen. Außerdem haben wir eine Testadresse:
-        // decidr.iaas@googlemail.com ~rr
+
         String domain = "test.decidr.de";
 
         return localpart + "@" + domain;

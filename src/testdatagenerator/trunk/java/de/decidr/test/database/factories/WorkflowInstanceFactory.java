@@ -74,7 +74,8 @@ public class WorkflowInstanceFactory extends EntityFactory {
             } else {
                 // We allow startedDate to be in the future. The system
                 // should be able to cope with it!
-                newInstance.setStartedDate(getRandomDate(true, true, SPAN_YEAR));
+                newInstance
+                        .setStartedDate(getRandomDate(true, true, SPAN_YEAR));
                 if (i % 2 == 0) {
                     // every other workflow instance that has been started has
                     // been completed or terminated, but the start date should

@@ -44,7 +44,7 @@ public class ServerFactory extends EntityFactory {
             if (type.equals(ServerTypeEnum.Esb)) {
                 numServers = 1;
             } else {
-                numServers = rnd.nextInt(16);
+                numServers = rnd.nextInt(16) + 1;
             }
 
             ServerType serverType = (ServerType) session.createQuery(
@@ -55,6 +55,7 @@ public class ServerFactory extends EntityFactory {
             // create the server type if necessary
             if (serverType == null) {
                 serverType = new ServerType(type.toString());
+                session.save(serverType);
             }
 
             for (int i = 0; i < numServers; i++) {

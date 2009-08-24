@@ -27,11 +27,14 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.hibernate.JDBCException;
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.exception.SQLGrammarException;
+
+import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 
 import de.decidr.model.commands.TransactionalCommand;
-import de.decidr.model.entities.Invitation;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionAbortedEvent;
@@ -118,9 +121,19 @@ public class TestDataGenerator {
     private void run() {
         try {
             doRun();
-        } catch (Exception e) {
-            stdErr("Error [" + e.getClass().getName() + "]:");
-            stdErr(e.getLocalizedMessage());
+        } catch (Throwable e) {
+            ;
+            stdErr("An error occurred! Stack trace:");
+            e.printStackTrace(System.err);
+
+            while (e.getCause() != null) {
+                e = e.getCause();
+                if (e instanceof JDBCException) {
+                    JDBCException jdbcException = (JDBCException) e;
+                    stdErr("Statement that caused the exception:");
+                    stdErr(jdbcException.getSQL());
+                }
+            }
         }
     }
 

@@ -81,8 +81,8 @@ public class TenantFactory extends EntityFactory {
     }
 
     /**
-     * Creates a new file reference (to a nonexistent file) that can be used as
-     * a tenant color scheme
+     * Creates a new persisted file reference (to a nonexistent file) that can
+     * be used as a tenant color scheme
      * 
      * @return
      */
@@ -91,12 +91,13 @@ public class TenantFactory extends EntityFactory {
         result.setFileName("uploaded.css");
         result.setMayPublicRead(true);
         result.setMimeType("text/css");
+        session.save(result);
         return result;
     }
 
     /**
-     * Creates a new file reference (to a nonexistent file) that can be used as
-     * a tenant logo
+     * Creates a new persisted file reference (to a nonexistent file) that can
+     * be used as a tenant logo
      * 
      * @return
      */
@@ -105,6 +106,7 @@ public class TenantFactory extends EntityFactory {
         result.setFileName("logo.jpeg");
         result.setMayPublicRead(true);
         result.setMimeType("image/jpeg");
+        session.save(result);
         return result;
     }
 
@@ -118,8 +120,7 @@ public class TenantFactory extends EntityFactory {
      */
     public User getRandomAdmin() {
         // please note rand() is specific to MySQL!
-        String hql = "select u.id from User u"
-                + "where (u.disabledSince is null) and "
+        String hql = "from User u " + "where (u.disabledSince is null) and "
                 + "(u.unavailableSince is null) and "
                 + "(u.userProfile is not null) order by rand()";
 
