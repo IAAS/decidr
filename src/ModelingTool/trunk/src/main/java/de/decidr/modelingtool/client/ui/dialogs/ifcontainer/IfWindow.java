@@ -127,7 +127,7 @@ public class IfWindow extends Dialog {
         for (int order = 0; order < fieldsets.size(); order++) {
             Boolean indexFound = false;
             for (IfFieldSet fs : fieldsets) {
-                if (fs.getOrder() == order) {
+                if (fs.getOrderField().getOrder() == order) {
                     indexFound = true;
                 }
             }
@@ -144,9 +144,9 @@ public class IfWindow extends Dialog {
             String label = fs.getLabel().getText();
             Long operand1Id = fs.getLeftOperandField().getValue().getId();
             Operator operator = Operator.getOperatorFromDisplayString(fs
-                    .getOperatorList().getValue().getValue());
+                    .getOperatorList().getSimpleValue());
             Long operand2Id = fs.getRightOperandField().getValue().getId();
-            Integer order = fs.getOrder();
+            Integer order = fs.getOrderField().getOrder();
             newModel.addCondition(new Condition(label, operand1Id, operator,
                     operand2Id, order));
         }
@@ -172,8 +172,8 @@ public class IfWindow extends Dialog {
                     .getOperatorList());
             table.setWidget(table.getRowCount() - 1, 4, fieldset
                     .getRightOperandField());
-            table.setWidget(table.getRowCount() - 1, 5, new OrderComboBox(model
-                    .getConditions().size()));
+            table.setWidget(table.getRowCount() - 1, 5, fieldset
+                    .getOrderField());
         }
     }
 

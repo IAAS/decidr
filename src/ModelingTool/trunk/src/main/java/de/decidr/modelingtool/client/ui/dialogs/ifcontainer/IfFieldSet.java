@@ -22,7 +22,6 @@ import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
 import com.google.gwt.user.client.ui.Label;
 
-import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.model.ifcondition.Condition;
 import de.decidr.modelingtool.client.model.ifcondition.Operator;
 import de.decidr.modelingtool.client.model.variable.Variable;
@@ -104,10 +103,17 @@ public class IfFieldSet {
         leftOperandField.setEnabled(false);
 
         operatorList = new SimpleComboBox<String>();
-        // JS check this if condition
+        /*
+         * if the conditions already references the operands, update the
+         * operator list entires according to the type of the operands.
+         */
         if (condition.getLeftOperandId() != null
                 && condition.getRightOperandId() != null) {
             updateOperatorListEntries();
+        }
+        if (condition.getOperator() != null) {
+            operatorList.setSimpleValue(condition.getOperator()
+                    .getDisplayString());
         }
         operatorList.setEditable(false);
         operatorList.setEnabled(false);
@@ -122,7 +128,7 @@ public class IfFieldSet {
         rightOperandField.setEditable(false);
         rightOperandField.setEnabled(false);
 
-        orderField = new OrderComboBox(count);
+        orderField = new OrderComboBox(count, condition);
     }
 
     private void updateOperatorListEntries() {
@@ -133,7 +139,6 @@ public class IfFieldSet {
             for (Operator op : Operator.getOperatorsForType(VariableType
                     .getTypeFromLocalName(typeSelector.getValue().getValue()))) {
                 operatorList.add(op.getDisplayString());
-
             }
         }
         if (condition.getOperator() != null) {
@@ -162,14 +167,8 @@ public class IfFieldSet {
         return rightOperandField;
     }
 
-    public Integer getOrder() {
-        Integer result;
-        if (orderField.getValue().getValue() == ModelingToolWidget.messages
-                .fallback()) {
-            result = 0;
-        } else {
-            result = new Integer(orderField.getValue().getValue());
-        }
-        return result;
+    public OrderComboBox getOrderField() {
+        return orderField;
     }
+
 }

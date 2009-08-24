@@ -19,6 +19,7 @@ package de.decidr.modelingtool.client.ui.dialogs.ifcontainer;
 import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
+import de.decidr.modelingtool.client.model.ifcondition.Condition;
 
 /**
  * TODO: add comment
@@ -30,8 +31,12 @@ public class OrderComboBox extends SimpleComboBox<String> {
     /**
      * TODO: add comment
      * 
+     * @param condition
+     * 
      */
-    public OrderComboBox(int count) {
+    public OrderComboBox(int count, Condition condition) {
+        super();
+
         /*
          * Add all possible order "ranks" a condition can have to the selection
          * list. There always has to be one default condition (which is executed
@@ -42,7 +47,29 @@ public class OrderComboBox extends SimpleComboBox<String> {
         for (Integer i = 1; i < count; i++) {
             this.add(i.toString());
         }
+
+        /* Set value */
+        if (condition.getOperator() != null) {
+            String order;
+            if (condition.getOrder() == 0) {
+                order = ModelingToolWidget.messages.fallback();
+            } else {
+                order = condition.getOrder().toString();
+            }
+            this.setSimpleValue(order);
+        }
+
         this.setEditable(false);
+    }
+
+    public Integer getOrder() {
+        Integer result;
+        if (this.getSimpleValue() == ModelingToolWidget.messages.fallback()) {
+            result = 0;
+        } else {
+            result = new Integer(this.getValue().getValue());
+        }
+        return result;
     }
 
 }

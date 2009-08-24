@@ -47,10 +47,10 @@ public class IfContainerModel extends ContainerModel {
     @Override
     public NodePropertyData getProperties() {
         NodePropertyData result = new NodePropertyData();
-        for (ConnectionModel con : getChildConnectionModels()) {
-            if (con instanceof Condition) {
-                // JS this is not finished
-                result.set(((Condition) con).getName(), con);
+        for (ConnectionModel connectionModel : getChildConnectionModels()) {
+            if (connectionModel instanceof Condition) {
+                Condition con = (Condition) connectionModel;
+                result.set(con.getName(), con);
             }
         }
         return result;
@@ -61,7 +61,6 @@ public class IfContainerModel extends ContainerModel {
         /* remove old objects */
         for (ConnectionModel con : this.getChildConnectionModels()) {
             if (con instanceof Condition) {
-                // JS coverthink complete method
                 getChildConnectionModels().remove(con);
             }
         }

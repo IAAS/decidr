@@ -195,6 +195,7 @@ public class ValueEditor extends Dialog {
         text.setAutoWidth(true);
         text.setValidator(new FieldValidator(variable.getType()));
 
+        /* Add key listener to start the validator whenever a key is pressed */
         text.addKeyListener(new KeyListener() {
             /*
              * (non-Javadoc)
