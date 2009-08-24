@@ -123,6 +123,17 @@ public interface Messages extends Constants {
 
     String configVarColumn();
 
+    /* ValueEditor */
+    String valueSingular();
+
+    String valuePlural();
+
+    String wrongSingular();
+
+    String wrongPlural();
+
+    String invalidFormat();
+
     /* windows common */
     String warningTitle();
 
