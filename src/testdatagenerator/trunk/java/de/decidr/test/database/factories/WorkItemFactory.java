@@ -83,8 +83,9 @@ public class WorkItemFactory extends EntityFactory {
                 session.save(item);
                 result.add(item);
 
-                fireProgressEvent(numWorkItems, i + 1);
             }
+            
+            fireProgressEvent(numWorkItems, i + 1);
         }
 
         return result;

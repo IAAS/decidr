@@ -9,6 +9,7 @@ import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserParticipatesInWorkflow;
+import de.decidr.model.entities.UserParticipatesInWorkflowId;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.test.database.main.ProgressListener;
@@ -179,7 +180,7 @@ public class InvitationFactory extends EntityFactory {
         }
 
         WorkflowInstance instance = (WorkflowInstance) session.createQuery(hql)
-                .setMaxResults(1);
+                .setMaxResults(1).uniqueResult();
 
         if (instance != null) {
             User sender = instance.getDeployedWorkflowModel().getTenant()
@@ -195,10 +196,19 @@ public class InvitationFactory extends EntityFactory {
 
             if (!waiting) {
                 // gotta associate the user with the workflow instance now!
-                UserParticipatesInWorkflow rel = new UserParticipatesInWorkflow();
-                rel.setUser(receiver);
-                rel.setWorkflowInstance(instance);
-                session.saveOrUpdate(rel);
+                UserParticipatesInWorkflowId relId = new UserParticipatesInWorkflowId(
+                        receiver.getId(), instance.getId());
+
+                UserParticipatesInWorkflow existingRelation = (UserParticipatesInWorkflow) session
+                        .get(UserParticipatesInWorkflow.class, relId);
+
+                if (existingRelation == null) {
+                    existingRelation = new UserParticipatesInWorkflow();
+                    existingRelation.setUser(receiver);
+                    existingRelation.setWorkflowInstance(instance);
+                    existingRelation.setId(relId);
+                    session.save(existingRelation);
+                }
             }
         }
 

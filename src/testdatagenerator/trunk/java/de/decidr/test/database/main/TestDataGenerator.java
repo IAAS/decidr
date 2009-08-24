@@ -68,6 +68,7 @@ public class TestDataGenerator {
     public static final String PROPERTY_INSTANCES = "instances";
     public static final String PROPERTY_WORKITEMS = "workitems";
     public static final String PROPERTY_INVITATIONS = "invitations";
+    public static final String PROPERTY_MAX_USERS_PER_TENANT = "max-users-per-tenant";
 
     /**
      * Constants that identify application switches.
@@ -149,6 +150,10 @@ public class TestDataGenerator {
      * @throws IOException
      */
     private void doRun() throws TransactionException, IOException {
+        if (!isPropertiesValid()) {
+            return;
+        }
+
         if (activeSwitches.contains(SWITCH_HELP)) {
             displayHelp();
             return;
@@ -186,8 +191,9 @@ public class TestDataGenerator {
                     nextReportDate.add(Calendar.SECOND, 1);
                 }
 
-                // report progress only if it has changed
-                if (lastProgressPercent != progressPercent
+                // report progress only if it has changed or we're done!
+                if (totalItems == doneItems
+                        || lastProgressPercent != progressPercent
                         && (DecidrGlobals.getTime().after(nextReportDate))) {
                     stdOut(progressPercent + "% done");
                     lastProgressPercent = progressPercent;
@@ -233,8 +239,12 @@ public class TestDataGenerator {
                         stdOut("Creating tenants...");
                         resetProgress();
                         new TenantFactory(s, progressListener)
-                                .createRandomTenants(Integer.parseInt(settings
-                                        .getProperty(PROPERTY_TENANTS)));
+                                .createRandomTenants(
+                                        Integer.parseInt(settings
+                                                .getProperty(PROPERTY_TENANTS)),
+                                        Integer
+                                                .parseInt(settings
+                                                        .getProperty(PROPERTY_MAX_USERS_PER_TENANT)));
                         stdOut("Creating servers...");
                         resetProgress();
                         new ServerFactory(s, progressListener)
@@ -268,6 +278,32 @@ public class TestDataGenerator {
                                                 .getProperty(PROPERTY_INVITATIONS)));
                     }
                 });
+    }
+
+    /**
+     * Makes sure the given properties are valid.
+     */
+    private boolean isPropertiesValid() {
+        boolean result = true;
+        // XXX add more checks?
+
+        try {
+            int numUsers = Integer.parseInt(settings
+                    .getProperty(PROPERTY_USERS));
+            int numTenants = Integer.parseInt(settings
+                    .getProperty(PROPERTY_TENANTS));
+
+            if (numTenants > numUsers) {
+                stdErr("Number of tenants must be smaller or equal to number of users!");
+                result = false;
+            }
+
+        } catch (NumberFormatException e) {
+            stdErr("Number of users and number of tenants must be integers!");
+            result = false;
+        }
+
+        return result;
     }
 
     /**
@@ -332,6 +368,7 @@ public class TestDataGenerator {
         result.setProperty(PROPERTY_INSTANCES, "1000");
         result.setProperty(PROPERTY_WORKITEMS, "3000");
         result.setProperty(PROPERTY_INVITATIONS, "300");
+        result.setProperty(PROPERTY_MAX_USERS_PER_TENANT, "50");
 
         return result;
     }

@@ -47,8 +47,13 @@ public class ServerFactory extends EntityFactory {
 
         SystemSettings settings = DecidrGlobals.getSettings();
 
+        int numServerTypes = ServerTypeEnum.values().length;
+        int doneServerTypes = 0;
+        
         // create at least one server for each server type
         for (ServerTypeEnum type : ServerTypeEnum.values()) {
+            doneServerTypes++;
+            
             int numServers;
             if (type.equals(ServerTypeEnum.Esb)) {
                 numServers = 1;
@@ -80,9 +85,9 @@ public class ServerFactory extends EntityFactory {
                 server.setServerType(serverType);
                 session.save(server);
                 result.add(server);
-
-                fireProgressEvent(numServers, i + 1);
             }
+            
+            fireProgressEvent(numServerTypes, doneServerTypes);
         }
 
         return result;

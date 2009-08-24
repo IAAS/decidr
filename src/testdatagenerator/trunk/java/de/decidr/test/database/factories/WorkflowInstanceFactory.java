@@ -11,6 +11,9 @@ import org.hibernate.Session;
 import de.decidr.model.acl.Password;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Server;
+import de.decidr.model.entities.User;
+import de.decidr.model.entities.UserParticipatesInWorkflow;
+import de.decidr.model.entities.UserParticipatesInWorkflowId;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.test.database.main.ProgressListener;
@@ -116,10 +119,43 @@ public class WorkflowInstanceFactory extends EntityFactory {
 
             session.save(newInstance);
             result.add(newInstance);
-            
-            fireProgressEvent(numInstances, i+1);
+
+            associateUsersWithInstance(newInstance, rnd.nextInt(50) + 1);
+
+            fireProgressEvent(numInstances, i + 1);
         }
         return result;
     }
 
+    /**
+     * Makes up to numUsers users participants of the given workflow instance.
+     * 
+     * @param instance
+     * @param numUsers
+     */
+    @SuppressWarnings("unchecked")
+    private void associateUsersWithInstance(WorkflowInstance instance,
+            int numUsers) {
+        String hql = "from User u where "
+                + "exists(from UserIsMemberOfTenant rel where rel.user = u and "
+                + "rel.tenant = :tenant) or "
+                + "exists(from Tenant t where t.admin = u) " + "order by rand()";
+        List<User> participants = session.createQuery(hql).setEntity("tenant",
+                instance.getDeployedWorkflowModel().getTenant()).setMaxResults(
+                numUsers).list();
+
+        if (participants.isEmpty()) {
+            throw new RuntimeException(
+                    "Could not find a user to become workflow participant.");
+        }
+
+        for (User participant : participants) {
+            UserParticipatesInWorkflow rel = new UserParticipatesInWorkflow();
+            rel.setUser(participant);
+            rel.setWorkflowInstance(instance);
+            rel.setId(new UserParticipatesInWorkflowId(participant.getId(),
+                    instance.getId()));
+            session.save(rel);
+        }
+    }
 }

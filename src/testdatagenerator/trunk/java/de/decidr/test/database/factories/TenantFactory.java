@@ -10,6 +10,8 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.File;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
+import de.decidr.model.entities.UserIsMemberOfTenant;
+import de.decidr.model.entities.UserIsMemberOfTenantId;
 import de.decidr.test.database.main.ProgressListener;
 
 /**
@@ -54,7 +56,9 @@ public class TenantFactory extends EntityFactory {
      * @param numTenants
      * @return
      */
-    public List<Tenant> createRandomTenants(int numTenants) {
+    public List<Tenant> createRandomTenants(int numTenants,
+            int maxMembersPerTenant) {
+        maxMembersPerTenant = Math.abs(maxMembersPerTenant);
 
         ArrayList<Tenant> result = new ArrayList<Tenant>(numTenants);
 
@@ -84,11 +88,39 @@ public class TenantFactory extends EntityFactory {
             tenant.setLogo(createDefaultLogo());
             session.save(tenant);
             result.add(tenant);
-            
-            fireProgressEvent(numTenants, i+1);
+
+            int numTenantMembers = rnd.nextInt(maxMembersPerTenant) + 1;
+            associateUsersWithTenant(tenant, numTenantMembers);
+
+            fireProgressEvent(numTenants, i + 1);
         }
 
         return result;
+    }
+
+    /**
+     * Makes up to numMembers users that are not already an admin of the given
+     * tenant and makes them members of the given tenant.
+     * 
+     * @param tenant
+     * @param numMembers
+     */
+    @SuppressWarnings("unchecked")
+    private void associateUsersWithTenant(Tenant tenant, int numMembers) {
+        String hql = "from User u where not exists(from Tenant t where t.admin = u and "
+                + "t.id = :tenantId) order by rand()";
+        List<User> members = session.createQuery(hql).setMaxResults(numMembers)
+                .setLong("tenantId", tenant.getId()).list();
+
+        for (User member : members) {
+            UserIsMemberOfTenant rel = new UserIsMemberOfTenant();
+            rel.setTenant(tenant);
+            rel.setUser(member);
+            rel
+                    .setId(new UserIsMemberOfTenantId(member.getId(), tenant
+                            .getId()));
+            session.save(rel);
+        }
     }
 
     /**
