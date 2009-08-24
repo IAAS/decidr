@@ -18,6 +18,7 @@ package de.decidr.modelingtool.client.model.variable;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.io.resources.DWDLNames;
+import de.decidr.modelingtool.client.ui.resources.DateFormatter;
 
 /**
  * TODO: add comment
@@ -27,25 +28,32 @@ import de.decidr.modelingtool.client.io.resources.DWDLNames;
 public enum VariableType {
 
     STRING(DWDLNames.variableTypes.STRING, ModelingToolWidget.messages
-            .typeString()),
+            .typeString(), ModelingToolWidget.messages.newStringValue()),
     INTEGER(DWDLNames.variableTypes.INTEGER, ModelingToolWidget.messages
-            .typeInteger()),
+            .typeInteger(), "1"),
     FLOAT(DWDLNames.variableTypes.FLOAT, ModelingToolWidget.messages
-            .typeFloat()),
+            .typeFloat(), "1.0"),
     BOOLEAN(DWDLNames.variableTypes.BOOLEAN, ModelingToolWidget.messages
-            .typeBoolean()),
-    FILE(DWDLNames.variableTypes.FILE, ModelingToolWidget.messages.typeFile()),
-    DATE(DWDLNames.variableTypes.DATE, ModelingToolWidget.messages.typeDate()),
-    ROLE(DWDLNames.variableTypes.ROLE, ModelingToolWidget.messages.typeRole()),
-    FORM(DWDLNames.variableTypes.FORM, ModelingToolWidget.messages.typeForm());
+            .typeBoolean(), "false"),
+    FILE(DWDLNames.variableTypes.FILE, ModelingToolWidget.messages.typeFile(),
+            ModelingToolWidget.messages.newStringValue()),
+    DATE(DWDLNames.variableTypes.DATE, ModelingToolWidget.messages.typeDate(),
+            DateFormatter.getToday()),
+    ROLE(DWDLNames.variableTypes.ROLE, ModelingToolWidget.messages.typeRole(),
+            ModelingToolWidget.messages.newStringValue()),
+    FORM(DWDLNames.variableTypes.FORM, ModelingToolWidget.messages.typeForm(),
+            null);
 
     private final String dwdlName;
 
     private final String localName;
 
-    private VariableType(String dwdlName, String localName) {
+    private final String defaultValue;
+
+    private VariableType(String dwdlName, String localName, String defaultValue) {
         this.dwdlName = dwdlName;
         this.localName = localName;
+        this.defaultValue = defaultValue;
     }
 
     /**
@@ -68,6 +76,17 @@ public enum VariableType {
      */
     public String getLocalName() {
         return localName;
+    }
+
+    /**
+     * 
+     * This method return a reasonable (i.e. valid format) value for that type
+     * of variable.
+     * 
+     * @return default value
+     */
+    public String getDefaultValue() {
+        return defaultValue;
     }
 
     public static VariableType getTypeFromLocalName(String localName) {

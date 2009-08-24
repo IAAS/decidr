@@ -71,7 +71,7 @@ public class Variable extends BaseModelData {
         this.set(TYPE, type);
         this.set(TYPELOCALNAME, type.getLocalName());
         ArrayList<String> values = new ArrayList<String>();
-        values.add(value);
+        values.add(type.getDefaultValue());
         this.set(VALUE, values);
         this.setArray();
         this.set(CONFIGVAR, true);

@@ -20,6 +20,7 @@ import java.util.List;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.model.variable.VariableType;
+import de.decidr.modelingtool.client.ui.resources.DateFormatter;
 
 /**
  * Provides methods that can determine whether the values (provided as a list of
@@ -58,30 +59,30 @@ public class Validator {
     public Boolean validate(ValidatorCallback callback) {
         Boolean result = false;
         switch (type) {
-        case STRING:
-            /* In a string, everything is allowed */
-            result = true;
-            break;
-        case INTEGER:
-            result = checkInteger(callback);
-            break;
-        case FLOAT:
-            result = checkFloat(callback);
-            break;
-        case BOOLEAN:
-            result = checkBoolean(callback);
-            break;
-        case FILE:
-            break;
-        case DATE:
-            result = checkDate(callback);
-            break;
-        case ROLE:
-            break;
-        case FORM:
-            break;
-        default:
-            break;
+            case STRING:
+                /* In a string, everything is allowed */
+                result = true;
+                break;
+            case INTEGER:
+                result = checkInteger(callback);
+                break;
+            case FLOAT:
+                result = checkFloat(callback);
+                break;
+            case BOOLEAN:
+                result = checkBoolean(callback);
+                break;
+            case FILE:
+                break;
+            case DATE:
+                result = checkDate(callback);
+                break;
+            case ROLE:
+                break;
+            case FORM:
+                break;
+            default:
+                break;
         }
         return result;
     }
@@ -167,8 +168,14 @@ public class Validator {
     }
 
     private Boolean checkDate(ValidatorCallback callback) {
-        // TODO Auto-generated method stub
-        return null;
+        Boolean result = true;
+        for (int i = 0; i < values.size(); i++) {
+            if (DateFormatter.validate(values.get(i)) == false) {
+                callback.addValueToMessage(i + 1);
+                result = false;
+            }
+        }
+        return result;
     }
 
 }

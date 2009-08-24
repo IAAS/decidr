@@ -149,4 +149,6 @@ public interface Messages extends Constants {
 
     String decimalSeparator();
 
+    String dateFormat();
+
 }

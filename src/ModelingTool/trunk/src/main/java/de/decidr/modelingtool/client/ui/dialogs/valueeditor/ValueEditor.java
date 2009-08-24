@@ -19,10 +19,12 @@ package de.decidr.modelingtool.client.ui.dialogs.valueeditor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.extjs.gxt.ui.client.Events;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.ComponentEvent;
 import com.extjs.gxt.ui.client.event.KeyListener;
+import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.event.ToolBarEvent;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
@@ -39,6 +41,7 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ChangeVariablesCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.variable.Variable;
+import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
@@ -104,7 +107,7 @@ public class ValueEditor extends Dialog {
         addValue.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
-                addEntry(ModelingToolWidget.messages.newStringValue());
+                addEntry(variable.getType().getDefaultValue());
             }
         });
         toolBar.add(addValue);
@@ -187,7 +190,7 @@ public class ValueEditor extends Dialog {
     }
 
     private void addEntry(String fieldContent) {
-        TextField<String> text = new TextField<String>();
+        final TextField<String> text = new TextField<String>();
         text.setValue(fieldContent);
         text.setAutoWidth(true);
         text.addKeyListener(new KeyListener() {
@@ -200,12 +203,36 @@ public class ValueEditor extends Dialog {
              */
             @Override
             public void componentKeyUp(ComponentEvent event) {
-                // JS implement checker
+                // JS implement validation checker
             }
         });
+
+        addInputHelpers(text, variable.getType());
+
         fields.add(text);
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, text);
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param text
+     * @param type
+     */
+    private void addInputHelpers(final TextField<String> text, VariableType type) {
+        if (type == VariableType.DATE) {
+            text.addListener(Events.Focus, new Listener<ComponentEvent>() {
+
+                @Override
+                public void handleEvent(ComponentEvent be) {
+                    DatePickerWindow dpw = new DatePickerWindow(text);
+                    dpw.showAt(text.getAbsoluteLeft(), text.getAbsoluteTop());
+                }
+
+            });
+        }
+
     }
 
     private void removeEntry() {
@@ -236,8 +263,8 @@ public class ValueEditor extends Dialog {
      */
     @Override
     public void initialize() {
-        for (String s : variable.getValues()) {
-            addEntry(new String(s));
+        for (String value : variable.getValues()) {
+            addEntry(new String(value));
         }
     }
 
