@@ -61,7 +61,7 @@ public class SchemaValidator {
         
         //errList = val.validate(new StreamSource("sampleProcess.xml"));
         if (errList == null) {
-            // FIXME: no System.out.println anywhere in the model!!! (use logging) ~rr
+            // GH: no System.out.println anywhere in the model!!! (use logging) ~rr
             System.out.println("no errors.");
         } else {
             System.out.println(errList.size() + " errors.");

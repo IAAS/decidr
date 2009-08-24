@@ -822,8 +822,6 @@ public class MailBackendTest {
      */
     @Test
     public void testSetHostname() {
-        // MF empty hostname should fail or standard host should be returned -mf
-        // MF thats exactly what's happening!!! std host is local host ~rr
         testMail.setHostname("decidr.de");
         assertEquals("decidr.de", testMail.getSMTPServerHost());
         testMail.setHostname("heise.de");
@@ -854,10 +852,6 @@ public class MailBackendTest {
      */
     @Test
     public void testSetPortNum() {
-        // MF empty port should failed or standard port should be returned -mf
-        // how's an integer supposed to be empty?
-        // MF bitte beantworte die Frage! es ist nicht meine Aufgabe JavaMails
-        // job zu übernehmen ~rr
         testMail.setPortNum(0);
         assertEquals(0, testMail.getSMTPPortNum());
         testMail.setPortNum(2020);

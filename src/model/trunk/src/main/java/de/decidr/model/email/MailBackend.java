@@ -1123,6 +1123,8 @@ public class MailBackend {
     /**
      * Specify the host the MTA is running on. Defaults to
      * <code>localhost</code>.
+     * If the given value is empty or null, then the host
+     * will be set to default.
      * 
      * @param hostname
      *            The hostname of the MTA. May also be an IP address.

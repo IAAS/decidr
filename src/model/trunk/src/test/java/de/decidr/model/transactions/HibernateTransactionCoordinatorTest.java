@@ -168,5 +168,5 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
                 new TransactionalCommand[2]);
     }
 
-    // TK @Tom: finish this test
+    // RR finish this test
 }

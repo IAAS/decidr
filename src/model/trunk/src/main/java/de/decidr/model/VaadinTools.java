@@ -42,7 +42,7 @@ public class VaadinTools {
     }
 
     /**
-     * FIXME RR new method, needs JUnit tests. I really hope this works with
+     * RR new method, needs JUnit tests. I really hope this works with
      * isXXX getters as well as getXXX getters.
      * 
      * Adds multiple properties from a source object to a bean item.

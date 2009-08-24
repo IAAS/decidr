@@ -952,7 +952,7 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * FIXME RR new method, please add JUnit test case
+     * RR new method, please add JUnit test case
      * 
      * Returns the ID of the last tenant that the user has switched to (can be
      * null!)
@@ -980,7 +980,7 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * FIXME RR new method, please add JUnit test case
+     * RR new method, please add JUnit test case
      * 
      * @param userId
      * @param currentTenantId

@@ -174,7 +174,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * 
      * @param config
      */
-    // FIXME TK new method, please add JUnit test case
+    // RR new method, please add JUnit test case
     public void setConfiguration(Configuration config) {
         if (config == null) {
             throw new IllegalArgumentException(
@@ -192,7 +192,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * 
      * @return the currently used Hibernate configuration.
      */
-    // FIXME TK new method, please add JUnit test case
+    // RR new method, please add JUnit test case
     public Configuration getConfiguration() {
         return configuration;
     }
