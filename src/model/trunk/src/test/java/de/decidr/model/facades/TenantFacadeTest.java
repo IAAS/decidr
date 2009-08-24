@@ -54,7 +54,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testCreateTenant() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR createTenant
     }
 
     /**
@@ -62,7 +62,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testSetDescription() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR setDescription
     }
 
     /**
@@ -83,7 +83,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testSetSimpleColorScheme() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR setSimpleColorScheme
     }
 
     /**
@@ -93,7 +93,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testSetAdvancedColorScheme() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR setAdvancedColorScheme
     }
 
     /**
@@ -112,7 +112,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testAddTenantMember() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR addTenantMember
     }
 
     /**
@@ -120,7 +120,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testCreateWorkflowModel() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR createWorkflowModel
     }
 
     /**
@@ -128,7 +128,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testRemoveWorkflowModel() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR removeWorkflowModel
     }
 
     /**
@@ -136,7 +136,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testApproveTenants() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR approveTenants
     }
 
     /**
@@ -144,7 +144,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testDisapproveTenants() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR disapproveTenants
     }
 
     /**
@@ -152,7 +152,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testDeleteTenant() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR deleteTenant
     }
 
     /**
@@ -160,7 +160,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testGetTenantId() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR getTenantId
     }
 
     /**
@@ -168,7 +168,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testGetUsersOfTenant() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR getUsersOfTenant
     }
 
     /**
@@ -177,7 +177,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testGetWorkflowInstances() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR getWorkflowInstances
     }
 
     /**
@@ -186,7 +186,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testGetTenantsToApprove() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR getTenantsToApprove
     }
 
     /**
@@ -194,7 +194,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testGetAllTenants() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR getAllTenants
     }
 
     /**
@@ -203,7 +203,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testGetWorkflowModels() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR getWorkflowModels
     }
 
     /**
@@ -212,7 +212,7 @@ public class TenantFacadeTest {
      */
     @Test
     public void testInviteUsersAsMembers() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR inviteUsersAsMembers
     }
 
     /**
@@ -221,6 +221,6 @@ public class TenantFacadeTest {
      */
     @Test
     public void testImportPublishedWorkflowModels() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR importPublishedWorkflowModels
     }
 }

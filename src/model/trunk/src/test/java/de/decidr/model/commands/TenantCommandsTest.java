@@ -50,7 +50,8 @@ import de.decidr.model.commands.tenant.TenantCommand;
 import de.decidr.model.filters.Paginator;
 
 /**
- * RR: add comment
+ * This class tests the commands in <code>de.decidr.model.commands.tenant</code>
+ * .
  * 
  * @author Reinhold
  */
@@ -146,7 +147,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testGetTenantLogoCommand() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR GetTenantLogoCommand
     }
 
     /**
@@ -256,7 +257,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testSetTenantDescriptionCommand() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR SetTenantDescriptionCommand
     }
 
     /**

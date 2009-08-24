@@ -25,9 +25,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
 
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.entities.UserProfile;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Paginator;
 
 /**
@@ -41,16 +44,54 @@ public class UserFacadeTest {
     static UserFacade userFacade;
     static UserFacade nullFacade;
 
+    static UserProfile classProfile = new UserProfile();
+    static final String classEmail = "decidr.iaas@googlemail.com";
+    static final String classPassword = "asd";
+
     /**
      * Initialises the facade instances and registers a User, testing
      * {@link UserFacade#registerUser(String, String, Item)}.
      */
     @BeforeClass
-    public static void setUpBeforeClass() {
+    public static void setUpBeforeClass() throws NullPointerException,
+            TransactionException {
         adminFacade = new UserFacade(new SuperAdminRole());
         userFacade = new UserFacade(new BasicRole(0L));
         nullFacade = new UserFacade(null);
+
         fail("Not yet implemented"); // RR registerUser
+        UserProfile testProfile = new UserProfile();
+        testProfile.setFirstName("test");
+        testProfile.setLastName("user");
+        testProfile.setCity("testuser");
+        testProfile.setStreet("ancient st.");
+        testProfile.setPostalCode("112");
+        testProfile.setUsername("boringtown");
+
+        Item testItem = new BeanItem(classProfile, new String[] { "firstName",
+                "lastName", "city", "street", "postalCode", "username" });
+
+        // RR do error handling
+        adminFacade.registerUser("asd@desk.de", "asd", testItem);
+        adminFacade.registerUser("asd@desk.de", "", testItem);
+        adminFacade.registerUser("asd@desk.de", null, testItem);
+        adminFacade.registerUser("", "asd", testItem);
+        adminFacade.registerUser(null, "asd", testItem);
+        adminFacade.registerUser("asd@desk.de", "asd", null);
+        adminFacade.registerUser("asd@desk.de", "asd", new BeanItem(
+                new UserProfile()));
+
+        classProfile.setFirstName("test");
+        classProfile.setLastName("user");
+        classProfile.setCity("testuser");
+        classProfile.setStreet("ancient st.");
+        classProfile.setPostalCode("112");
+        classProfile.setUsername("boringtown");
+
+        Item profileItem = new BeanItem(classProfile, new String[] {
+                "firstName", "lastName", "city", "street", "postalCode",
+                "username" });
+        adminFacade.registerUser(classEmail, classPassword, profileItem);
     }
 
     /**

@@ -47,7 +47,7 @@ public class WorkflowInstanceCommandsTest extends CommandsTest {
      */
     @Test
     public void testDeleteWorkFlowInstanceCommand() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR DeleteWorkFlowInstanceCommand
     }
 
     /**
@@ -56,7 +56,7 @@ public class WorkflowInstanceCommandsTest extends CommandsTest {
      */
     @Test
     public void testGetAllWorkitemsCommand() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR GetAllWorkitemsCommand
     }
 
     /**
@@ -64,7 +64,7 @@ public class WorkflowInstanceCommandsTest extends CommandsTest {
      */
     @Test
     public void testGetOdeUrlCommand() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR GetOdeUrlCommand
     }
 
     /**
@@ -74,7 +74,7 @@ public class WorkflowInstanceCommandsTest extends CommandsTest {
      */
     @Test
     public void testGetParticipatingUsersCommand() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR GetParticipatingUsersCommand
     }
 
     /**
@@ -84,7 +84,7 @@ public class WorkflowInstanceCommandsTest extends CommandsTest {
      */
     @Test
     public void testRemoveAllWorkItemsCommand() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR RemoveAllWorkItemsCommand
     }
 
     /**
@@ -94,7 +94,7 @@ public class WorkflowInstanceCommandsTest extends CommandsTest {
      */
     @Test
     public void testStopWorkflowInstanceCommand() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR StopWorkflowInstanceCommand
     }
 
     /**
@@ -104,6 +104,6 @@ public class WorkflowInstanceCommandsTest extends CommandsTest {
      */
     @Test
     public void testWorkflowInstanceCommand() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR WorkflowInstanceCommand
     }
 }

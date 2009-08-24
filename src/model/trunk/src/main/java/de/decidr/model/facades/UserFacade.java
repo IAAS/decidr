@@ -125,7 +125,7 @@ public class UserFacade extends AbstractFacade {
         // retrieve needed properties from Vaadin item.
         String firstName = userProfile.getItemProperty("firstName").getValue()
                 .toString();
-        String lastName = userProfile.getItemProperty("lastname").getValue()
+        String lastName = userProfile.getItemProperty("lastName").getValue()
                 .toString();
         String city = userProfile.getItemProperty("city").getValue().toString();
         String street = userProfile.getItemProperty("street").getValue()
