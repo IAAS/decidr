@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 24.08.2009 13:59:02 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.TenantSummaryView" table="tenant_summary_view" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="tenantName" type="string">
+            <column name="tenantName" length="50" not-null="true" />
+        </property>
+        <property name="adminFirstName" type="string">
+            <column name="adminFirstName" length="50" />
+        </property>
+        <property name="adminLastName" type="string">
+            <column name="adminLastName" length="50" />
+        </property>
+        <property name="numWorkflowModels" type="long">
+            <column name="numWorkflowModels" not-null="true" />
+        </property>
+        <property name="numDeployedWorkflowModels" type="long">
+            <column name="numDeployedWorkflowModels" not-null="true" />
+        </property>
+        <property name="numWorkflowInstances" type="long">
+            <column name="numWorkflowInstances" not-null="true" />
+        </property>
+        <property name="numMembers" type="long">
+            <column name="numMembers" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

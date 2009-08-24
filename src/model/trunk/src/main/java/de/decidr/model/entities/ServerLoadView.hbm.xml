@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 24.08.2009 13:59:02 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.ServerLoadView" table="server_load_view" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="location" type="string">
+            <column name="location" not-null="true" />
+        </property>
+        <property name="load" type="byte">
+            <column name="load" not-null="true">
+                <comment>Ranges from 0 to 100 percent</comment>
+            </column>
+        </property>
+        <property name="locked" type="boolean">
+            <column name="locked" not-null="true">
+                <comment>Whether or not new workflow models may be deployed on this server.</comment>
+            </column>
+        </property>
+        <property name="dynamicallyAdded" type="boolean">
+            <column name="dynamicallyAdded" not-null="true" />
+        </property>
+        <property name="serverTypeId" type="long">
+            <column name="serverTypeId" not-null="true" />
+        </property>
+        <property name="lastLoadUpdate" type="timestamp">
+            <column name="lastLoadUpdate" length="19" />
+        </property>
+        <property name="serverType" type="string">
+            <column name="serverType" length="100" not-null="true" />
+        </property>
+        <property name="numInstances" type="long">
+            <column name="numInstances" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

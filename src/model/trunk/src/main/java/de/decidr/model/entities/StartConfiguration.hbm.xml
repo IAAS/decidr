@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 24.08.2009 13:59:02 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.StartConfiguration" table="start_configuration" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="deployedWorkflowModel" class="de.decidr.model.entities.DeployedWorkflowModel" fetch="select">
+            <column name="deployedWorkflowModelId" not-null="true" />
+        </many-to-one>
+        <property name="startConfiguration" type="binary">
+            <column name="startConfiguration" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

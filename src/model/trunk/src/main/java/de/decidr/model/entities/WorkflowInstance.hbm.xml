@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 24.08.2009 13:59:02 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.WorkflowInstance" table="workflow_instance" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="deployedWorkflowModel" class="de.decidr.model.entities.DeployedWorkflowModel" fetch="select">
+            <column name="deployedWorkflowModelId" not-null="true" />
+        </many-to-one>
+        <many-to-one name="server" class="de.decidr.model.entities.Server" fetch="select">
+            <column name="serverId" not-null="true" />
+        </many-to-one>
+        <property name="odePid" type="string">
+            <column name="odePid" not-null="true">
+                <comment>The ID given to the workflow instance by the Apache ODE (is this required?)</comment>
+            </column>
+        </property>
+        <property name="startConfiguration" type="binary">
+            <column name="startConfiguration" not-null="true" />
+        </property>
+        <property name="startedDate" type="timestamp">
+            <column name="startedDate" length="19">
+                <comment>if null, the workflow instance is waiting to be started</comment>
+            </column>
+        </property>
+        <property name="completedDate" type="timestamp">
+            <column name="completedDate" length="19">
+                <comment>if not null, the workflow instance is no longer running</comment>
+            </column>
+        </property>
+        <set name="workItems" inverse="true" lazy="true" table="work_item" fetch="select">
+            <key>
+                <column name="workflowInstanceId" not-null="true" />
+            </key>
+            <one-to-many class="de.decidr.model.entities.WorkItem" />
+        </set>
+        <set name="userAdministratesWorkflowInstances" inverse="true" lazy="true" table="user_administrates_workflow_instance" fetch="select">
+            <key>
+                <column name="workflowInstanceId" not-null="true" />
+            </key>
+            <one-to-many class="de.decidr.model.entities.UserAdministratesWorkflowInstance" />
+        </set>
+        <set name="invitations" inverse="true" lazy="true" table="invitation" fetch="select">
+            <key>
+                <column name="participateInWorkflowInstanceId">
+                    <comment>If not set to null the receiver is invited to participate in the given workflow instance. Furthermore the user will join the tenant that owns the
+                    workflow instance.</comment>
+                </column>
+            </key>
+            <one-to-many class="de.decidr.model.entities.Invitation" />
+        </set>
+        <set name="userParticipatesInWorkflows" inverse="true" lazy="true" table="user_participates_in_workflow" fetch="select">
+            <key>
+                <column name="workflowInstanceId" not-null="true" />
+            </key>
+            <one-to-many class="de.decidr.model.entities.UserParticipatesInWorkflow" />
+        </set>
+    </class>
+</hibernate-mapping>
