@@ -151,6 +151,7 @@ public class Validator {
      *   -> correct line numbers, compared to DOMSource
      *   transformUtil.WorfklowToStreamSource or similar
      *   required.
+     * GH: use worklfow2StreamSource or workflow2Bytes
      * 
      * @param dwdl
      *            The DWDL workflow to validate

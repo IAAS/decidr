@@ -32,9 +32,14 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
+
+import org.apache.log4j.Logger;
 import org.xml.sax.InputSource;
+
+
 import de.decidr.model.entities.Activity;
 import de.decidr.model.entities.KnownWebService;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.bpel.Process;
 import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
@@ -49,6 +54,8 @@ import de.decidr.model.workflowmodel.webservices.WebserviceMapping;
  * @version 0.1
  */
 public class Translator {
+    
+    private static Logger log = DefaultLogger.getLogger(Translator.class);
 
     private Workflow dwdlWorkflow = null;
     private Process bpelProcess = null;
@@ -119,8 +126,7 @@ public class Translator {
             bpelProcess = bpelConverter.getBPEL(dwdlWorkflow, tenantName,
                     webserviceAdapters);
         } catch (TransformerException e) {
-            // MA what to do with this exception?
-            e.printStackTrace();
+            log.error("Can't transform dwdl to bpel", e);
         }
         return bpelProcess;
     }
@@ -129,7 +135,7 @@ public class Translator {
         return wsdl;
     }
 
-    public TDeployment getDD() {
+    public TDeployment getDD(Process process) {
         return dd;
     }
 

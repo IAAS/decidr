@@ -50,7 +50,7 @@ import de.decidr.model.workflowmodel.dwdl.validation.Validator;
  */
 public class DeployerImpl implements Deployer {
 
-    private List<ServerLoadView> serverLoadViewList = null;
+    private List<ServerLoadView> prefferedServers = null;
     private List<Long> serverList = new ArrayList<Long>();
     private Validator validator = null;
     private List<IProblem> problems = null;
@@ -76,8 +76,8 @@ public class DeployerImpl implements Deployer {
         if (!problems.isEmpty()) {
             throw new DWDLValidationException(problems);
         }
-        serverLoadViewList = strategy.selectServer(serverStatistics);
-        if (serverLoadViewList.isEmpty()) {
+        prefferedServers = strategy.selectServer(serverStatistics);
+        if (prefferedServers.isEmpty()) {
             throw new ODESelectorException(serverStatistics);
         }
         translator = new Translator();
@@ -87,9 +87,9 @@ public class DeployerImpl implements Deployer {
         Definition wsdl = null;
         TDeployment dd = null;
         fileDeployer = new FileDeployer();
-        for (ServerLoadView server : serverLoadViewList){
+        for (ServerLoadView server : prefferedServers){
             wsdl = translator.getWSDL(server.getLocation(), tenantName);
-            dd = translator.getDD();
+            dd = translator.getDD(bpel);
             byte[] zipFile = getDeploymentBundle(tenantName, bpel, wsdl, dd);
             fileDeployer.deploy(zipFile, server.getLocation());
             serverList.add(server.getId());

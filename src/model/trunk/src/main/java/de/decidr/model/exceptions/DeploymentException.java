@@ -17,12 +17,15 @@
 package de.decidr.model.exceptions;
 
 /**
- * MA: add comment
+ * This exception is thrown by the {@link de.decidr.model.workflowmodel.deployment.Deployer}
  * 
  * @author Modood Alvi
  * @version 0.1
  */
 public class DeploymentException {
-    // MA please implement me
+    
+    public DeploymentException(){
+        // for further development of Decidr
+    }
     
 }

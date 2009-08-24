@@ -16,12 +16,17 @@
 
 package de.decidr.model.exceptions;
 
+
 /**
- * MA: add comment
+ * This class specifies the exceptions thrown by the DWDL {@link de.decidr.model.workflowmodel.dwdl.validation.Validator}
  * 
  * @author Modood Alvi
  * @version 0.1
  */
 public class ValidateException extends DeploymentException {
-    // MA please implement me
+    
+    public ValidateException(){
+        super();
+    }
+    
 }

@@ -17,6 +17,7 @@
 package de.decidr.model.workflowmodel.dwdl.translator;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -42,9 +43,11 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 
 /**
@@ -54,17 +57,22 @@ import de.decidr.model.workflowmodel.dwdl.Workflow;
  * @version 0.1
  */
 public class TransformUtil {
-    
+
     private static Document doc = null;
-    
+    private static JAXBContext dwdlCntxt = null;
+    private static Logger log = DefaultLogger.getLogger(TransformUtil.class);
+
     static {
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            dwdlCntxt = JAXBContext.newInstance(Workflow.class);
+            DocumentBuilderFactory factory = DocumentBuilderFactory
+                    .newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             doc = builder.newDocument();
-        }
-        catch (ParserConfigurationException ex) {
-            
+        } catch (ParserConfigurationException ex) {
+            log.error("Couldn't create org.w3c.dom.Document", ex);
+        } catch (JAXBException e) {
+            log.error("Couldn't create JAXBContext for DWDL", e);
         }
     }
 
@@ -100,9 +108,7 @@ public class TransformUtil {
         return bytes;
     }
 
-    public static Workflow bytes2Workflow(byte[] dwdl)
-            throws JAXBException {
-        JAXBContext dwdlCntxt = JAXBContext.newInstance(Workflow.class);
+    public static Workflow bytes2Workflow(byte[] dwdl) throws JAXBException {
         Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
         JAXBElement<Workflow> dwdlElement = dwdlUnmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(dwdl)),
@@ -110,64 +116,81 @@ public class TransformUtil {
         return dwdlElement.getValue();
     }
 
-    //MA: workflow2DOM
-    public static Document workflow2DOM(Workflow dwdl)
-            throws JAXBException, ParserConfigurationException{
-        JAXBContext dwdlCntxt = JAXBContext.newInstance(Workflow.class);
-        Marshaller dwdlMarshaller = dwdlCntxt.createMarshaller(); 
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(true);
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        Document doc = db.newDocument();
+    public static Document workflow2DOM(Workflow dwdl) throws JAXBException,
+            ParserConfigurationException {
 
-        dwdlMarshaller.marshal( dwdl, doc );
+        Marshaller dwdlMarshaller = dwdlCntxt.createMarshaller();
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.newDocument();
+        dwdlMarshaller.marshal(dwdl, doc);
         return doc;
+    }
+
+    public static byte[] workflow2Bytes(Workflow dwdl) throws JAXBException {
+
+        Marshaller dwdlMarshaller = dwdlCntxt.createMarshaller();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        dwdlMarshaller.marshal(dwdl, os);
+
+        return os.toByteArray();
 
     }
-    
-    public static Definition bytes2Definition(byte[] wsdl)
-            throws WSDLException {
+
+    public static StreamSource workflow2StreamSource(Workflow dwdl)
+            throws JAXBException {
+        byte[] dwdlByte = workflow2Bytes(dwdl);
+        ByteArrayInputStream in = new ByteArrayInputStream(dwdlByte);
+        StreamSource source = new StreamSource(in);
+        return source;
+    }
+
+    public static Definition bytes2Definition(byte[] wsdl) throws WSDLException {
         WSDLReader reader = new com.ibm.wsdl.xml.WSDLReaderImpl();
         InputSource in = new InputSource(new ByteArrayInputStream(wsdl));
         Definition def = reader.readWSDL(null, in);
         return def;
     }
 
-    public static String element2XML(org.w3c.dom.Node node) throws TransformerException {
+    public static String element2XML(org.w3c.dom.Node node)
+            throws TransformerException {
         TransformerFactory tFactory = TransformerFactory.newInstance();
         Transformer transformer = tFactory.newTransformer();
-        
+
         DOMSource source = new DOMSource(node);
         StringWriter sw = new StringWriter();
         StreamResult result = new StreamResult(sw);
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.transform(source, result);
-        
+
         return sw.toString();
     }
-    
-    public static String DOM2XML(org.w3c.dom.Document doc) throws TransformerException{
+
+    public static String DOM2XML(org.w3c.dom.Document doc)
+            throws TransformerException {
         TransformerFactory tFactory = TransformerFactory.newInstance();
         Transformer transformer = tFactory.newTransformer();
-        
+
         DOMSource source = new DOMSource(doc);
         StringWriter sw = new StringWriter();
         StreamResult result = new StreamResult(sw);
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.transform(source, result);
-        
+
         return sw.toString();
     }
-    
-    public static org.w3c.dom.Element createDOMElement(String namespace, String qName){
+
+    public static org.w3c.dom.Element createDOMElement(String namespace,
+            String qName) {
         return doc.createElementNS(namespace, qName);
     }
-    
-    public static org.w3c.dom.Attr createAttributeNode(String namespace, String qName){
+
+    public static org.w3c.dom.Attr createAttributeNode(String namespace,
+            String qName) {
         return doc.createAttributeNS(namespace, qName);
     }
-    
 
 }
