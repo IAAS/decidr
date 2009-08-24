@@ -10,6 +10,7 @@ import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerType;
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.enums.ServerTypeEnum;
+import de.decidr.test.database.main.ProgressListener;
 
 /**
  * Creates randomized servers for testing purposes. Requires system settings to
@@ -26,6 +27,14 @@ public class ServerFactory extends EntityFactory {
      */
     public ServerFactory(Session session) {
         super(session);
+    }
+
+    /**
+     * @param session
+     * @param progressListener
+     */
+    public ServerFactory(Session session, ProgressListener progressListener) {
+        super(session, progressListener);
     }
 
     /**
@@ -71,6 +80,8 @@ public class ServerFactory extends EntityFactory {
                 server.setServerType(serverType);
                 session.save(server);
                 result.add(server);
+
+                fireProgressEvent(numServers, i + 1);
             }
         }
 

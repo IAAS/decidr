@@ -11,6 +11,7 @@ import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserParticipatesInWorkflow;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
+import de.decidr.test.database.main.ProgressListener;
 
 /**
  * Creates random persisted invitations. To create an invitation you need at
@@ -29,6 +30,14 @@ public class InvitationFactory extends EntityFactory {
      */
     public InvitationFactory(Session session) {
         super(session);
+    }
+
+    /**
+     * @param session
+     * @param progressListener
+     */
+    public InvitationFactory(Session session, ProgressListener progressListener) {
+        super(session, progressListener);
     }
 
     /**
@@ -71,6 +80,8 @@ public class InvitationFactory extends EntityFactory {
                 session.save(newInvitation);
                 result.add(newInvitation);
             }
+
+            fireProgressEvent(numInvitations, i + 1);
         }
 
         return result;
@@ -100,6 +111,8 @@ public class InvitationFactory extends EntityFactory {
             result = new Invitation();
             result.setCreationDate(getRandomDate(true, true, SPAN_WEEK));
             result.setJoinTenant(joinedTenant);
+            result.setAdministrateWorkflowModel(null);
+            result.setParticipateInWorkflowInstance(null);
             result.setReceiver(receiver);
             result.setSender(sender);
         }
@@ -133,6 +146,8 @@ public class InvitationFactory extends EntityFactory {
             result = new Invitation();
             result.setCreationDate(getRandomDate(true, true, SPAN_WEEK));
             result.setAdministrateWorkflowModel(model);
+            result.setJoinTenant(null);
+            result.setParticipateInWorkflowInstance(null);
             result.setReceiver(receiver);
             result.setSender(sender);
         }
@@ -173,6 +188,8 @@ public class InvitationFactory extends EntityFactory {
             result = new Invitation();
             result.setCreationDate(getRandomDate(true, true, SPAN_WEEK));
             result.setParticipateInWorkflowInstance(instance);
+            result.setAdministrateWorkflowModel(null);
+            result.setJoinTenant(null);
             result.setReceiver(receiver);
             result.setSender(sender);
 

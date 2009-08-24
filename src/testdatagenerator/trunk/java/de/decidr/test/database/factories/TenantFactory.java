@@ -10,6 +10,7 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.File;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
+import de.decidr.test.database.main.ProgressListener;
 
 /**
  * Creates tenants for testing purposes. It is assumed that some users are
@@ -37,6 +38,14 @@ public class TenantFactory extends EntityFactory {
      */
     public TenantFactory(Session session) {
         super(session);
+    }
+
+    /**
+     * @param session
+     * @param progressListener
+     */
+    public TenantFactory(Session session, ProgressListener progressListener) {
+        super(session, progressListener);
     }
 
     /**
@@ -75,6 +84,8 @@ public class TenantFactory extends EntityFactory {
             tenant.setLogo(createDefaultLogo());
             session.save(tenant);
             result.add(tenant);
+            
+            fireProgressEvent(numTenants, i+1);
         }
 
         return result;

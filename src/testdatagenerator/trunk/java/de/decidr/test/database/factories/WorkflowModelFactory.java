@@ -20,7 +20,9 @@ import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserAdministratesWorkflowModel;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.entities.WorkflowModelIsDeployedOnServer;
+import de.decidr.model.entities.WorkflowModelIsDeployedOnServerId;
 import de.decidr.model.enums.ServerTypeEnum;
+import de.decidr.test.database.main.ProgressListener;
 
 /**
  * Creates random workflow models. To create a workflow model at least one
@@ -50,6 +52,15 @@ public class WorkflowModelFactory extends EntityFactory {
      */
     public WorkflowModelFactory(Session session) {
         super(session);
+    }
+
+    /**
+     * @param session
+     * @param progressListener
+     */
+    public WorkflowModelFactory(Session session,
+            ProgressListener progressListener) {
+        super(session, progressListener);
     }
 
     /**
@@ -113,6 +124,8 @@ public class WorkflowModelFactory extends EntityFactory {
                     }
                 }
             }
+            
+            fireProgressEvent(numModels, i+1);
         }
 
         return result;
@@ -177,12 +190,9 @@ public class WorkflowModelFactory extends EntityFactory {
         deployedOn.setServer(server);
 
         session.save(deployed);
+        deployedOn.setId(new WorkflowModelIsDeployedOnServerId(
+                deployed.getId(), server.getId()));
         session.save(deployedOn);
-
-        Set<WorkflowModelIsDeployedOnServer> deployedOnSet = new HashSet<WorkflowModelIsDeployedOnServer>();
-        deployedOnSet.add(deployedOn);
-
-        deployed.setWorkflowModelIsDeployedOnServers(deployedOnSet);
     }
 
     /**

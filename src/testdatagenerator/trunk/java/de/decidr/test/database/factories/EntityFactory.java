@@ -25,6 +25,7 @@ import java.util.Random;
 import org.hibernate.Session;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.test.database.main.ProgressListener;
 
 /**
  * Abstract base class for all entity factories.
@@ -55,13 +56,31 @@ public class EntityFactory {
     protected Session session = null;
 
     /**
+     * Progress event receiver
+     */
+    private ProgressListener progressListener;
+
+    /**
      * Constructor
      * 
      * @param session
      *            current Hibernate Session
      */
     public EntityFactory(Session session) {
+        this(session, null);
+    }
+
+    /**
+     * Constructor
+     * 
+     * @param session
+     *            current Hibernate session
+     * @param progressListener
+     *            event receiver for progress events
+     */
+    public EntityFactory(Session session, ProgressListener progressListener) {
         this.session = session;
+        this.progressListener = progressListener;
     }
 
     /**
@@ -106,5 +125,17 @@ public class EntityFactory {
      */
     public byte[] getBlobStub() {
         return "empty".getBytes(Charset.forName("UTF-8"));
+    }
+
+    /**
+     * Fires a progress event.
+     * 
+     * @param totalItems
+     * @param doneItems
+     */
+    protected void fireProgressEvent(int totalItems, int doneItems) {
+        if (progressListener != null) {
+            progressListener.reportProgress(totalItems, doneItems);
+        }
     }
 }

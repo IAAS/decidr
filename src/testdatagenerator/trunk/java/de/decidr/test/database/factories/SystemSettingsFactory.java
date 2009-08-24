@@ -8,6 +8,7 @@ import org.hibernate.Session;
 
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.entities.User;
+import de.decidr.test.database.main.ProgressListener;
 
 /**
  * Creates system settings for testing purposes. It is assumed that some users
@@ -25,6 +26,15 @@ public class SystemSettingsFactory extends EntityFactory {
      */
     public SystemSettingsFactory(Session session) {
         super(session);
+    }
+
+    /**
+     * @param session
+     * @param progressListener
+     */
+    public SystemSettingsFactory(Session session,
+            ProgressListener progressListener) {
+        super(session, progressListener);
     }
 
     /**
@@ -79,9 +89,10 @@ public class SystemSettingsFactory extends EntityFactory {
         settings.setSystemEmailAddress("test@decidr.de");
         settings.setSystemName("DecidR Test System");
         settings.setLogLevel(logLevel);
-        
-        session.save(settings);
 
+        session.save(settings);
+        fireProgressEvent(1, 1);
+        
         return settings;
     }
 

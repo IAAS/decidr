@@ -15,6 +15,7 @@ import de.decidr.model.entities.PasswordResetRequest;
 import de.decidr.model.entities.RegistrationRequest;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
+import de.decidr.test.database.main.ProgressListener;
 
 /**
  * Creates randomized users for testing purposes.
@@ -44,6 +45,14 @@ public class UserFactory extends EntityFactory {
      */
     public UserFactory(Session session) {
         super(session);
+    }
+
+    /**
+     * @param session
+     * @param progressListener
+     */
+    public UserFactory(Session session, ProgressListener progressListener) {
+        super(session, progressListener);
     }
 
     /**
@@ -136,7 +145,8 @@ public class UserFactory extends EntityFactory {
 
                 session.save(user);
                 result.add(user);
-
+                
+                fireProgressEvent(numUsers, i+1);
             }
             return result;
 

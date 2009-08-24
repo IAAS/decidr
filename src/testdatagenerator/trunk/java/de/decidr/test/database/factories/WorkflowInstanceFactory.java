@@ -13,6 +13,7 @@ import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.enums.ServerTypeEnum;
+import de.decidr.test.database.main.ProgressListener;
 
 /**
  * Creates random workflow instances. To create a workflow instance at least one
@@ -31,6 +32,15 @@ public class WorkflowInstanceFactory extends EntityFactory {
      */
     public WorkflowInstanceFactory(Session session) {
         super(session);
+    }
+
+    /**
+     * @param session
+     * @param progressListener
+     */
+    public WorkflowInstanceFactory(Session session,
+            ProgressListener progressListener) {
+        super(session, progressListener);
     }
 
     /**
@@ -101,9 +111,13 @@ public class WorkflowInstanceFactory extends EntityFactory {
             }
             newInstance.setServer(servers.get(rnd.nextInt(servers.size())));
             newInstance.setStartConfiguration(getBlobStub());
+            newInstance.setDeployedWorkflowModel(deployedModels.get(rnd
+                    .nextInt(deployedModels.size())));
 
             session.save(newInstance);
             result.add(newInstance);
+            
+            fireProgressEvent(numInstances, i+1);
         }
         return result;
     }

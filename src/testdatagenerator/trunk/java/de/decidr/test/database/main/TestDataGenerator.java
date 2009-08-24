@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -30,10 +32,8 @@ import java.util.regex.Pattern;
 import org.hibernate.JDBCException;
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.exception.SQLGrammarException;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
-
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
@@ -87,6 +87,12 @@ public class TestDataGenerator {
      * Set of active switches such as "--help"
      */
     private Set<String> activeSwitches;
+
+    /**
+     * last recorded progress in percent
+     */
+    private int lastProgressPercent = 0;
+    private GregorianCalendar lastProgressReportTime = null;
 
     /**
      * @param args
@@ -160,6 +166,38 @@ public class TestDataGenerator {
             reader.readLine();
         }
 
+        final ProgressListener progressListener = new ProgressListener() {
+
+            @Override
+            public void reportProgress(int totalItems, int doneItems) {
+                int progressPercent;
+
+                if (totalItems == 0) {
+                    progressPercent = 0;
+                } else {
+                    progressPercent = Math
+                            .round((doneItems / totalItems) * 100);
+                }
+                // report progress only once per second
+                Calendar nextReportDate;
+                if (lastProgressReportTime == null) {
+                    nextReportDate = DecidrGlobals.getTime();
+                    nextReportDate.add(Calendar.SECOND, 1);
+                } else {
+                    nextReportDate = (Calendar) lastProgressReportTime.clone();
+                    nextReportDate.add(Calendar.SECOND, 1);
+                }
+
+                // report progress only if it has changed
+                if (lastProgressPercent != progressPercent
+                        && (DecidrGlobals.getTime().after(nextReportDate))) {
+                    stdOut(progressPercent + "% done");
+                    lastProgressPercent = progressPercent;
+                }
+            }
+
+        };
+
         // fill the database!
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 new TransactionalCommand() {
@@ -186,19 +224,21 @@ public class TestDataGenerator {
                          */
                         Session s = evt.getSession();
                         stdOut("Creating users...");
-                        new UserFactory(s)
+                        new UserFactory(s, progressListener)
                                 .createRandomUsers(Integer.parseInt(settings
                                         .getProperty(PROPERTY_USERS)));
                         stdOut("Creating system settings...");
-                        new SystemSettingsFactory(s).createSystemSettings();
+                        new SystemSettingsFactory(s, progressListener)
+                                .createSystemSettings();
                         stdOut("Creating tenants...");
-                        new TenantFactory(s).createRandomTenants(Integer
-                                .parseInt(settings
+                        new TenantFactory(s, progressListener)
+                                .createRandomTenants(Integer.parseInt(settings
                                         .getProperty(PROPERTY_TENANTS)));
                         stdOut("Creating servers...");
-                        new ServerFactory(s).createRandomServers();
+                        new ServerFactory(s, progressListener)
+                                .createRandomServers();
                         stdOut("Creating workflow models...");
-                        new WorkflowModelFactory(s)
+                        new WorkflowModelFactory(s, progressListener)
                                 .createRandomWorkflowModels(
                                         Integer.parseInt(settings
                                                 .getProperty(PROPERTY_MODELS)),
@@ -206,16 +246,17 @@ public class TestDataGenerator {
                                                 .parseInt(settings
                                                         .getProperty(PROPERTY_MODELS_PER_TENANT)));
                         stdOut("Creating workflow instances...");
-                        new WorkflowInstanceFactory(s)
+                        new WorkflowInstanceFactory(s, progressListener)
                                 .createRandomWorkflowInstances(Integer
                                         .parseInt(settings
                                                 .getProperty(PROPERTY_INSTANCES)));
                         stdOut("Creating work items...");
-                        new WorkItemFactory(s).createRandomWorkItems(Integer
-                                .parseInt(settings
-                                        .getProperty(PROPERTY_WORKITEMS)));
+                        new WorkItemFactory(s, progressListener)
+                                .createRandomWorkItems(Integer
+                                        .parseInt(settings
+                                                .getProperty(PROPERTY_WORKITEMS)));
                         stdOut("Creating invitations...");
-                        new InvitationFactory(s)
+                        new InvitationFactory(s, progressListener)
                                 .createRandomInvitations(Integer
                                         .parseInt(settings
                                                 .getProperty(PROPERTY_INVITATIONS)));

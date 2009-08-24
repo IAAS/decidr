@@ -9,6 +9,7 @@ import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.enums.WorkItemStatus;
+import de.decidr.test.database.main.ProgressListener;
 
 /**
  * Creates randomized work item for testing purposes. Requires users and started
@@ -24,6 +25,14 @@ public class WorkItemFactory extends EntityFactory {
      */
     public WorkItemFactory(Session session) {
         super(session);
+    }
+
+    /**
+     * @param session
+     * @param progressListener
+     */
+    public WorkItemFactory(Session session, ProgressListener progressListener) {
+        super(session, progressListener);
     }
 
     /**
@@ -73,6 +82,8 @@ public class WorkItemFactory extends EntityFactory {
 
                 session.save(item);
                 result.add(item);
+
+                fireProgressEvent(numWorkItems, i + 1);
             }
         }
 
