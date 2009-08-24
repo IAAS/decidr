@@ -16,11 +16,14 @@
 
 package de.decidr.modelingtool.client.menu;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 
+import de.decidr.modelingtool.client.exception.NoPropertyWindowException;
 import de.decidr.modelingtool.client.ui.Selectable;
-import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
-import de.decidr.modelingtool.client.ui.dialogs.WorkflowPropertyWindow;
+import de.decidr.modelingtool.client.ui.Workflow;
+import de.decidr.modelingtool.client.ui.resources.Messages;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 /**
@@ -36,11 +39,18 @@ public class PropertiesMenuItem implements Command {
         Selectable selectedItem = SelectionHandler.getInstance()
                 .getSelectedItem();
 
+        // create message resource
+        Messages msgs = GWT.create(Messages.class);
+
         if (selectedItem != null) {
-            selectedItem.showPropertyWindow();
+            try {
+                selectedItem.showPropertyWindow();
+            } catch (NoPropertyWindowException e) {
+                // display error message
+                Window.alert(msgs.noPropertyWindowMessage());
+            }
         } else {
-            DialogRegistry.getInstance().showDialog(
-                    WorkflowPropertyWindow.class.getName());
+            Workflow.getInstance().showPropertyWindow();
         }
 
     }

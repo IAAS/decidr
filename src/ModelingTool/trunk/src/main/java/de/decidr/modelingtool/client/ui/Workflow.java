@@ -32,6 +32,8 @@ import com.google.gwt.user.client.ui.Widget;
 import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.model.HasChildModels;
 import de.decidr.modelingtool.client.model.WorkflowModel;
+import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
+import de.decidr.modelingtool.client.ui.dialogs.WorkflowPropertyWindow;
 import de.decidr.modelingtool.client.ui.dnd.ConnectionDragController;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 import de.decidr.modelingtool.client.ui.dnd.ResizeDragController;
@@ -58,8 +60,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
     }
 
     /** The drag controller which makes the nodes in the workflow draggable. */
-    //private WorkflowDragController dragController;
-
+    // private WorkflowDragController dragController;
     private WorkflowModel model = null;
 
     /** All nodes in the workflow except for the nodes in a container. */
@@ -80,19 +81,20 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
 
         // register workflow to selection handler
         this.addMouseDownHandler(SelectionHandler.getInstance());
-        
+
         // register workflow to keyboard handler
         this.addKeyDownHandler(KeyboardHandler.getInstance());
 
         // register drag controllers
         DndRegistry dndr = DndRegistry.getInstance();
-        dndr.register("WorkflowDragController", new WorkflowDragController(this));
+        dndr.register("WorkflowDragController",
+                new WorkflowDragController(this));
         dndr.register("InputPortDragController", new ConnectionDragController(
                 this));
         dndr.register("OutputPortDragController", new ConnectionDragController(
                 this));
         dndr.register("ResizeDragController", new ResizeDragController(this));
-        
+
         // add empty workflow model
         WorkflowModel model = new WorkflowModel();
         model.setChangeListener(this);
@@ -102,12 +104,12 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
     @Override
     public void add(Widget w) {
         super.add(w);
-        
+
         if (w instanceof Node) {
-            Node node = (Node)w;
+            Node node = (Node) w;
             // add node to the nodes vector
             childNodes.add(node);
-    
+
             // callback to node after add
             node.onPanelAdd(this);
         }
@@ -206,7 +208,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
             // callback to node before remove
             node.onPanelRemove();
         }
-        
+
         return super.remove(w);
     }
 
@@ -225,9 +227,14 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
 
         super.remove(node);
     }
-    
+
     public void setModel(WorkflowModel model) {
         this.model = model;
     }
-    
+
+    public void showPropertyWindow() {
+        DialogRegistry.getInstance().showDialog(
+                WorkflowPropertyWindow.class.getName());
+    }
+
 }

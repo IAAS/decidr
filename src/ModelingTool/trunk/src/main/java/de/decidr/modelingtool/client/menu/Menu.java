@@ -19,6 +19,8 @@ package de.decidr.modelingtool.client.menu;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.MenuBar;
 
+import de.decidr.modelingtool.client.command.ClearWorkflowCommand;
+
 /**
  * TODO: add comment
  * 
@@ -34,9 +36,10 @@ public class Menu extends MenuBar {
 
         MenuImageBundle imgBundle = GWT.create(MenuImageBundle.class);
 
+        addItem(imgBundle.clear().getHTML(), true, new ClearWorkflowCommand());
+        addItem(imgBundle.save().getHTML(), true, new SaveMenuItem());
         addItem(imgBundle.undo().getHTML(), true, new UndoMenuItem());
         addItem(imgBundle.redo().getHTML(), true, new RedoMenuItem());
-        addItem(imgBundle.save().getHTML(), true, new SaveMenuItem());
         addItem(imgBundle.delete().getHTML(), true, new DeleteMenuItem());
 
         addSeparator();
@@ -46,10 +49,20 @@ public class Menu extends MenuBar {
         addItem(imgBundle.humantask().getHTML(), true,
                 new CreateHumanTaskInvokeNodeMenuItem());
 
+        addSeparator();
+
+        addItem(imgBundle.flowcontainer().getHTML(), true,
+                new CreateFlowContainerMenuItem());
+        addItem(imgBundle.ifcontainer().getHTML(), true,
+                new CreateIfContainerMenuItem());
+        addItem(imgBundle.foreachcontainer().getHTML(), true,
+                new CreateForEachContainerMenuItem());
+        
+        addSeparator();
+
         // JS externalize or replace with Icons
         addItem("Variables", new VariablesMenuItem());
         addItem("Properties", new PropertiesMenuItem());
-
     }
 
 }

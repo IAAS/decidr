@@ -34,6 +34,7 @@ import de.decidr.modelingtool.client.command.CommandList;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.command.MoveResizeNodeCommand;
 import de.decidr.modelingtool.client.command.UndoableCommand;
+import de.decidr.modelingtool.client.exception.NoPropertyWindowException;
 import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
@@ -470,5 +471,8 @@ public abstract class Node extends AbsolutePanel implements
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+    
+    @Override
+    public abstract void showPropertyWindow() throws NoPropertyWindowException;
 
 }

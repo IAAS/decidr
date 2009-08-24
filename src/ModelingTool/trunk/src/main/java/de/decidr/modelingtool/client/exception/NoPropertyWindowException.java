@@ -14,31 +14,22 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui;
-
-import de.decidr.modelingtool.client.exception.NoPropertyWindowException;
+package de.decidr.modelingtool.client.exception;
 
 /**
  * TODO: add comment
  *
- * @author Johannes Engelhardt
+ * @author JE
  */
-public class FlowContainer extends Container {
+public class NoPropertyWindowException extends OperationNotAllowedException {
 
     /**
      * TODO: add comment
      *
-     * @param parentPanel
+     * @param msg
      */
-    public FlowContainer(HasChildren parentPanel) {
-        super(parentPanel);
-        getContainerStartPort().setMultipleConnectionsAllowed(true);
-        getContainerExitPort().setMultipleConnectionsAllowed(true);
+    public NoPropertyWindowException(String msg) {
+        super(msg);
     }
 
-    @Override
-    public void showPropertyWindow() throws NoPropertyWindowException {
-        throw new NoPropertyWindowException("This node has no properties.");
-    }
-    
 }

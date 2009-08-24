@@ -16,8 +16,9 @@
 
 package de.decidr.modelingtool.client.ui;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusPanel;
+
+import de.decidr.modelingtool.client.exception.NoPropertyWindowException;
 
 /**
  * End node of every workflow. This is neither deletable nor resizable.
@@ -47,8 +48,8 @@ public class EndNode extends Node implements ModelChangeListener {
     }
 
     @Override
-    public void showPropertyWindow() {
-        Window.alert("This node has no properties.");
+    public void showPropertyWindow() throws NoPropertyWindowException {
+        throw new NoPropertyWindowException("This node has no properties.");
     }
     
 }

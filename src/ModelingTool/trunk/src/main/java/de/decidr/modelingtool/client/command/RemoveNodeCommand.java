@@ -16,7 +16,7 @@
 
 package de.decidr.modelingtool.client.command;
 
-import de.decidr.modelingtool.client.exception.OperationNotAllowedException;
+import de.decidr.modelingtool.client.exception.NodeNotDeletableException;
 import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
@@ -45,18 +45,16 @@ public class RemoveNodeCommand implements UndoableCommand {
 
     /** This Command removes any connections connected to the node. */
     private UndoableCommand removeConnectionsCmd;
-    
-    private UndoableCommand removeChildNodesCmd;
 
     /**
      * Constructor for removing the node.
      *
      * @param node The node to remove.
      */
-    public RemoveNodeCommand(Node node) throws OperationNotAllowedException {
+    public RemoveNodeCommand(Node node) throws NodeNotDeletableException {
         // check if the node is deletable.
         if (!node.isDeletable()) {
-            throw new OperationNotAllowedException("This Node can't be deleted.");
+            throw new NodeNotDeletableException("Node is not deletable.");
         }
         
         this.node = node;

@@ -16,6 +16,7 @@
 
 package de.decidr.modelingtool.client.menu;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 
@@ -23,10 +24,11 @@ import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.command.RemoveConnectionCommand;
 import de.decidr.modelingtool.client.command.RemoveNodeCommand;
 import de.decidr.modelingtool.client.command.UndoableCommand;
-import de.decidr.modelingtool.client.exception.OperationNotAllowedException;
+import de.decidr.modelingtool.client.exception.NodeNotDeletableException;
 import de.decidr.modelingtool.client.ui.Connection;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Selectable;
+import de.decidr.modelingtool.client.ui.resources.Messages;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 /**
@@ -42,6 +44,8 @@ public class DeleteMenuItem implements Command {
         Selectable selectedItem = SelectionHandler.getInstance()
                 .getSelectedItem();
         UndoableCommand removeCmd = null;
+        
+        Messages msgs = GWT.create(Messages.class);
 
         if (selectedItem != null) {
             try {
@@ -55,8 +59,8 @@ public class DeleteMenuItem implements Command {
 
                 CommandStack.getInstance().executeCommand(removeCmd);
 
-            } catch (OperationNotAllowedException e) {
-                Window.alert(e.getMessage());
+            } catch (NodeNotDeletableException e) {
+                Window.alert(msgs.notDeletableMessage());
             }
         }
     }

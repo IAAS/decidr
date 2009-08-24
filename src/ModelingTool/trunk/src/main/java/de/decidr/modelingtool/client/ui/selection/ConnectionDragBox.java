@@ -41,6 +41,9 @@ public class ConnectionDragBox extends DragBox {
     /** The connection, the drag box is assigned to. */
     private Connection connection = null;
 
+    /** This flag indicates if this drag box has the visible style or not. */
+    private boolean visibleStyle = false;
+
     /**
      * The default constructor.
      */
@@ -60,6 +63,10 @@ public class ConnectionDragBox extends DragBox {
 
         SelectionHandler sh = SelectionHandler.getInstance();
         this.addMouseDownHandler(sh);
+
+        // make once visible to get correct offsetWidth and offsetHeight values
+        setVisibleStyle(true);
+        setVisibleStyle(false);
     }
 
     public Port getGluedPort() {
@@ -85,7 +92,7 @@ public class ConnectionDragBox extends DragBox {
      * @return The x coordinate
      */
     public int getMiddleLeft() {
-        return this.getAbsoluteLeft() + this.getOffsetWidth() / 2
+        return getAbsoluteLeft() + getOffsetWidth() / 2
                 - Workflow.getInstance().getAbsoluteLeft();
     }
 
@@ -99,6 +106,10 @@ public class ConnectionDragBox extends DragBox {
                 - Workflow.getInstance().getAbsoluteTop();
     }
 
+    public boolean isVisibleStyle() {
+        return visibleStyle;
+    }
+
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
@@ -110,10 +121,12 @@ public class ConnectionDragBox extends DragBox {
      *            The visibility state of the drag box.
      */
     public void setVisibleStyle(boolean visible) {
+        this.visibleStyle = visible;
+
         if (visible) {
-            this.setStyleName("dragbox-port");
+            setStyleName("dragbox-port");
         } else {
-            this.setStyleName("dragbox-invisible");
+            setStyleName("dragbox-invisible");
         }
     }
 

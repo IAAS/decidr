@@ -16,6 +16,7 @@
 
 package de.decidr.modelingtool.client.ui.selection;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -25,10 +26,13 @@ import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.command.RemoveConnectionCommand;
 import de.decidr.modelingtool.client.command.RemoveNodeCommand;
 import de.decidr.modelingtool.client.command.UndoableCommand;
-import de.decidr.modelingtool.client.exception.OperationNotAllowedException;
+import de.decidr.modelingtool.client.exception.NoPropertyWindowException;
+import de.decidr.modelingtool.client.exception.NodeNotDeletableException;
 import de.decidr.modelingtool.client.ui.Connection;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Selectable;
+import de.decidr.modelingtool.client.ui.Workflow;
+import de.decidr.modelingtool.client.ui.resources.Messages;
 
 /**
  * TODO: add comment
@@ -57,6 +61,9 @@ public class KeyboardHandler implements KeyDownHandler {
         // get selected item
         Selectable selectedItem = SelectionHandler.getInstance()
                 .getSelectedItem();
+        
+        // create message resource
+        Messages msgs = GWT.create(Messages.class);
 
         // switch key codes
         switch (event.getNativeKeyCode()) {
@@ -77,15 +84,24 @@ public class KeyboardHandler implements KeyDownHandler {
 
                     CommandStack.getInstance().executeCommand(removeCmd);
 
-                } catch (OperationNotAllowedException e) {
-                    Window.alert(e.getMessage());
+                } catch (NodeNotDeletableException e) {
+                    Window.alert(msgs.notDeletableMessage());
                 }
             }
             break;
             
         // ENTER key: show property window
         case (KeyCodes.KEY_ENTER):
-            selectedItem.showPropertyWindow();
+            if (selectedItem != null) {
+                try {
+                    selectedItem.showPropertyWindow();
+                } catch (NoPropertyWindowException e) {
+                    // display error message
+                    Window.alert(msgs.noPropertyWindowMessage());
+                }
+            } else {
+                Workflow.getInstance().showPropertyWindow();
+            }
             break;
         
         }

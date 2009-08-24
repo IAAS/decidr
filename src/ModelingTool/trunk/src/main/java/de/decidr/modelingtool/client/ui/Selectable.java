@@ -16,6 +16,7 @@
 
 package de.decidr.modelingtool.client.ui;
 
+import de.decidr.modelingtool.client.exception.NoPropertyWindowException;
 import de.decidr.modelingtool.client.model.Model;
 
 /**
@@ -47,6 +48,6 @@ public interface Selectable {
      */
     public Model getModel();
     
-    public void showPropertyWindow();
+    public void showPropertyWindow() throws NoPropertyWindowException;
     
 }

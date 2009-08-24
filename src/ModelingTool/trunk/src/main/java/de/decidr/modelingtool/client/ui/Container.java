@@ -294,9 +294,6 @@ public abstract class Container extends Node implements HasChildren {
         containerStartPort.setParentNode(this);
     }
 
-    @Override
-    public abstract void showPropertyWindow();
-
     /**
      * Unregisteres the container drop controller from the workflow drag
      * controller.

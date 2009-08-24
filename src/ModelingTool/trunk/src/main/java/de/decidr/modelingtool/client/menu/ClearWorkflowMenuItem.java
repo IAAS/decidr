@@ -14,31 +14,23 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui;
+package de.decidr.modelingtool.client.menu;
 
-import de.decidr.modelingtool.client.exception.NoPropertyWindowException;
+import com.google.gwt.user.client.Command;
+
+import de.decidr.modelingtool.client.command.ClearWorkflowCommand;
 
 /**
  * TODO: add comment
  *
- * @author Johannes Engelhardt
+ * @author JE
  */
-public class FlowContainer extends Container {
-
-    /**
-     * TODO: add comment
-     *
-     * @param parentPanel
-     */
-    public FlowContainer(HasChildren parentPanel) {
-        super(parentPanel);
-        getContainerStartPort().setMultipleConnectionsAllowed(true);
-        getContainerExitPort().setMultipleConnectionsAllowed(true);
-    }
+public class ClearWorkflowMenuItem implements Command {
 
     @Override
-    public void showPropertyWindow() throws NoPropertyWindowException {
-        throw new NoPropertyWindowException("This node has no properties.");
+    public void execute() {
+        Command cmd = new ClearWorkflowCommand();
+        cmd.execute();
     }
     
 }
