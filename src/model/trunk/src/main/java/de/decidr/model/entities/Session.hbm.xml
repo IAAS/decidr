@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 24.08.2009 13:59:02 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 24.08.2009 15:40:36 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.Session" table="session" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="sessionId" type="string">
@@ -9,19 +9,19 @@
             <generator class="assigned" />
         </id>
         <property name="app" type="string">
-            <column name="app" />
+            <column name="`app`" />
         </property>
         <property name="data" type="binary">
-            <column name="data" />
+            <column name="`data`" />
         </property>
         <property name="lastAccessed" type="long">
-            <column name="lastAccessed" not-null="true" />
+            <column name="`lastAccessed`" not-null="true" />
         </property>
         <property name="maxInactive" type="int">
-            <column name="maxInactive" not-null="true" />
+            <column name="`maxInactive`" not-null="true" />
         </property>
         <property name="valid" type="boolean">
-            <column name="valid" not-null="true" />
+            <column name="`valid`" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

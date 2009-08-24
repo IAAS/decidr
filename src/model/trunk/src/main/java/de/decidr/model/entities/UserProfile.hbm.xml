@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 24.08.2009 13:59:02 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 24.08.2009 15:40:36 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.UserProfile" table="user_profile" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="userId" type="long">
@@ -12,33 +12,33 @@
         </id>
         <one-to-one name="user" class="de.decidr.model.entities.User" constrained="true"></one-to-one>
         <property name="username" type="string">
-            <column name="username" length="20" not-null="true" unique="true" />
+            <column name="`username`" length="20" not-null="true" unique="true" />
         </property>
         <property name="passwordHash" type="string">
-            <column name="passwordHash" length="128" not-null="true">
+            <column name="`passwordHash`" length="128" not-null="true">
                 <comment>The system does not store the password in plain text, but uses a double hash and a salt to make attacks on the hashed password much harder. This field
                 stores: SHA512( SHA512(password) XOR passwordSalt )</comment>
             </column>
         </property>
         <property name="passwordSalt" type="string">
-            <column name="passwordSalt" length="128" not-null="true">
+            <column name="`passwordSalt`" length="128" not-null="true">
                 <comment>The salt in hexit representation which is XORed with the first password hash.</comment>
             </column>
         </property>
         <property name="firstName" type="string">
-            <column name="firstName" length="50" />
+            <column name="`firstName`" length="50" />
         </property>
         <property name="lastName" type="string">
-            <column name="lastName" length="50" />
+            <column name="`lastName`" length="50" />
         </property>
         <property name="street" type="string">
-            <column name="street" length="100" />
+            <column name="`street`" length="100" />
         </property>
         <property name="postalCode" type="string">
-            <column name="postalCode" length="15" />
+            <column name="`postalCode`" length="15" />
         </property>
         <property name="city" type="string">
-            <column name="city" length="50" />
+            <column name="`city`" length="50" />
         </property>
     </class>
 </hibernate-mapping>

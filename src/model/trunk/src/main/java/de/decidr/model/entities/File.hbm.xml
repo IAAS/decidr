@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 24.08.2009 13:59:02 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 24.08.2009 15:40:36 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.File" table="file" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="java.lang.Long">
@@ -9,36 +9,36 @@
             <generator class="identity" />
         </id>
         <property name="fileName" type="string">
-            <column name="fileName" not-null="true" />
+            <column name="`fileName`" not-null="true" />
         </property>
         <property name="mimeType" type="string">
-            <column name="mimeType" length="150" not-null="true">
+            <column name="`mimeType`" length="150" not-null="true">
                 <comment>The content typ of the file as reported by the original uploader.</comment>
             </column>
         </property>
         <property name="mayPublicRead" type="boolean">
-            <column name="mayPublicRead" not-null="true">
+            <column name="`mayPublicRead`" not-null="true">
                 <comment>Whether or not this file is accessible by anyone</comment>
             </column>
         </property>
         <property name="fileSizeBytes" type="long">
-            <column name="fileSizeBytes" not-null="true" />
+            <column name="`fileSizeBytes`" not-null="true" />
         </property>
         <set name="tenantsForAdvancedColorSchemeId" inverse="true" lazy="true" table="tenant" fetch="select">
             <key>
-                <column name="advancedColorSchemeId" />
+                <column name="`advancedColorSchemeId`" />
             </key>
             <one-to-many class="de.decidr.model.entities.Tenant" />
         </set>
         <set name="tenantsForSimpleColorSchemeId" inverse="true" lazy="true" table="tenant" fetch="select">
             <key>
-                <column name="simpleColorSchemeId" />
+                <column name="`simpleColorSchemeId`" />
             </key>
             <one-to-many class="de.decidr.model.entities.Tenant" />
         </set>
         <set name="tenantsForLogoId" inverse="true" lazy="true" table="tenant" fetch="select">
             <key>
-                <column name="logoId">
+                <column name="`logoId`">
                     <comment>Points to the tenant logo file</comment>
                 </column>
             </key>
@@ -46,13 +46,13 @@
         </set>
         <set name="tenantsForCurrentColorSchemeId" inverse="true" lazy="true" table="tenant" fetch="select">
             <key>
-                <column name="currentColorSchemeId" />
+                <column name="`currentColorSchemeId`" />
             </key>
             <one-to-many class="de.decidr.model.entities.Tenant" />
         </set>
         <set name="userHasFileAccess" inverse="true" lazy="true" table="user_has_file_access" fetch="select">
             <key>
-                <column name="fileId" not-null="true" />
+                <column name="`fileId`" not-null="true" />
             </key>
             <one-to-many class="de.decidr.model.entities.UserHasFileAccess" />
         </set>

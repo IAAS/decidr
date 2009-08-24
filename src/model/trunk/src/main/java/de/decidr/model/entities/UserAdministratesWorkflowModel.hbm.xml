@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 24.08.2009 13:59:02 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 24.08.2009 15:40:36 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.UserAdministratesWorkflowModel" table="user_administrates_workflow_model" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <composite-id name="id" class="de.decidr.model.entities.UserAdministratesWorkflowModelId">
@@ -13,10 +13,10 @@
             </key-property>
         </composite-id>
         <many-to-one name="workflowModel" class="de.decidr.model.entities.WorkflowModel" update="false" insert="false" fetch="select">
-            <column name="workflowModelId" not-null="true" />
+            <column name="`workflowModelId`" not-null="true" />
         </many-to-one>
         <many-to-one name="user" class="de.decidr.model.entities.User" update="false" insert="false" fetch="select">
-            <column name="userId" not-null="true">
+            <column name="`userId`" not-null="true">
                 <comment>The tenant admin always implicitly administrates all workflow models.</comment>
             </column>
         </many-to-one>

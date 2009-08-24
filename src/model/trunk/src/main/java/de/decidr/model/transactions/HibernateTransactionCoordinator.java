@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -100,7 +101,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     private HibernateTransactionCoordinator() {
         super();
-        this.setConfiguration(new Configuration());
+        this.setConfiguration(new Configuration().configure());
         this.currentTransaction = null;
         this.transactionDepth = 0;
         this.session = null;
@@ -152,7 +153,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         } else {
             if (transactionDepth > 0) {
                 currentTransaction.rollback();
-                session.flush();
                 session.close();
                 transactionDepth = 0;
             }
@@ -172,7 +172,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * runnning transactions are not affected by the new configuration. The new
      * configuration will be applied the next time a session is opened.
      * 
-     * @param config
+     * @param config the initialized configuration
      */
     // RR new method, please add JUnit test case
     public void setConfiguration(Configuration config) {
@@ -180,7 +180,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             throw new IllegalArgumentException(
                     "Hibernate config cannot be null");
         }
-        this.sessionFactory = config.configure().buildSessionFactory();
+        this.sessionFactory = config.buildSessionFactory();
         configuration = config;
     }
 

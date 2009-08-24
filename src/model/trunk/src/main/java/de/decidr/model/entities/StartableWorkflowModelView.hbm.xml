@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 24.08.2009 13:59:02 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 24.08.2009 15:40:36 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.StartableWorkflowModelView" table="startable_workflow_model_view" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="long">
@@ -9,34 +9,34 @@
             <generator class="assigned" />
         </id>
         <version name="version" type="long">
-            <column name="version" not-null="true" />
+            <column name="`version`" not-null="true" />
         </version>
         <property name="tenantId" type="long">
-            <column name="tenantId" not-null="true" />
+            <column name="`tenantId`" not-null="true" />
         </property>
         <property name="name" type="string">
-            <column name="name" not-null="true" />
+            <column name="`name`" not-null="true" />
         </property>
         <property name="description" type="string">
-            <column name="description" not-null="true" />
+            <column name="`description`" not-null="true" />
         </property>
         <property name="published" type="boolean">
-            <column name="published" not-null="true" />
+            <column name="`published`" not-null="true" />
         </property>
         <property name="executable" type="boolean">
-            <column name="executable" not-null="true" />
+            <column name="`executable`" not-null="true" />
         </property>
         <property name="creationDate" type="timestamp">
-            <column name="creationDate" length="19" not-null="true" />
+            <column name="`creationDate`" length="19" not-null="true" />
         </property>
         <property name="modifiedDate" type="timestamp">
-            <column name="modifiedDate" length="19" not-null="true" />
+            <column name="`modifiedDate`" length="19" not-null="true" />
         </property>
         <property name="dwdl" type="binary">
-            <column name="dwdl" not-null="true" />
+            <column name="`dwdl`" not-null="true" />
         </property>
         <property name="modifiedByUserId" type="java.lang.Long">
-            <column name="modifiedByUserId" />
+            <column name="`modifiedByUserId`" />
         </property>
     </class>
 </hibernate-mapping>

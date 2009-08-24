@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 24.08.2009 13:59:02 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 24.08.2009 15:40:36 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.User" table="user" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="java.lang.Long">
@@ -9,62 +9,62 @@
             <generator class="identity" />
         </id>
         <many-to-one name="currentTenant" class="de.decidr.model.entities.Tenant" fetch="select">
-            <column name="currentTenantId">
+            <column name="`currentTenantId`">
                 <comment>null means that the user is currently in the default tenant</comment>
             </column>
         </many-to-one>
         <property name="authKey" type="string">
-            <column name="authKey" length="64">
+            <column name="`authKey`" length="64">
                 <comment>Used to authenticate unregistered users within the system.Should be set to null if the user is registered.</comment>
             </column>
         </property>
         <property name="email" type="string">
-            <column name="email" not-null="true" unique="true">
+            <column name="`email`" not-null="true" unique="true">
                 <comment>Can be used to log into the system. Each email address can be assigned to at most one user. The official max email address length is 320 characters, but
                 MySQL unique indices require VARCHAR.</comment>
             </column>
         </property>
         <property name="disabledSince" type="timestamp">
-            <column name="disabledSince" length="19">
+            <column name="`disabledSince`" length="19">
                 <comment>By setting disabledSince to something other than null, the super admin can ban a user from using the system.</comment>
             </column>
         </property>
         <property name="unavailableSince" type="timestamp">
-            <column name="unavailableSince" length="19">
+            <column name="`unavailableSince`" length="19">
                 <comment>Whether or not the user is available for workflow participation. Null indicates that the user is available.</comment>
             </column>
         </property>
         <property name="registeredSince" type="timestamp">
-            <column name="registeredSince" length="19">
+            <column name="`registeredSince`" length="19">
                 <comment>If this field is null the user has never successfully registered.</comment>
             </column>
         </property>
         <property name="creationDate" type="timestamp">
-            <column name="creationDate" length="19" not-null="true">
+            <column name="`creationDate`" length="19" not-null="true">
                 <comment>Date when the user was created</comment>
             </column>
         </property>
         <set name="workItems" inverse="true" lazy="true" table="work_item" fetch="select">
             <key>
-                <column name="userId" not-null="true" />
+                <column name="`userId`" not-null="true" />
             </key>
             <one-to-many class="de.decidr.model.entities.WorkItem" />
         </set>
         <set name="invitationsForSenderId" inverse="true" lazy="true" table="invitation" fetch="select">
             <key>
-                <column name="senderId" not-null="true" />
+                <column name="`senderId`" not-null="true" />
             </key>
             <one-to-many class="de.decidr.model.entities.Invitation" />
         </set>
         <set name="workflowModels" inverse="true" lazy="true" table="workflow_model" fetch="select">
             <key>
-                <column name="modifiedByUserId" />
+                <column name="`modifiedByUserId`" />
             </key>
             <one-to-many class="de.decidr.model.entities.WorkflowModel" />
         </set>
         <set name="userIsMemberOfTenants" inverse="true" lazy="true" table="user_is_member_of_tenant" fetch="select">
             <key>
-                <column name="userId" not-null="true" />
+                <column name="`userId`" not-null="true" />
             </key>
             <one-to-many class="de.decidr.model.entities.UserIsMemberOfTenant" />
         </set>
@@ -73,50 +73,50 @@
         <one-to-one name="registrationRequest" class="de.decidr.model.entities.RegistrationRequest"></one-to-one>
         <set name="invitationsForReceiverId" inverse="true" lazy="true" table="invitation" fetch="select">
             <key>
-                <column name="receiverId" not-null="true" />
+                <column name="`receiverId`" not-null="true" />
             </key>
             <one-to-many class="de.decidr.model.entities.Invitation" />
         </set>
         <set name="userAdministratesWorkflowInstances" inverse="true" lazy="true" table="user_administrates_workflow_instance" fetch="select">
             <key>
-                <column name="userId" not-null="true" />
+                <column name="`userId`" not-null="true" />
             </key>
             <one-to-many class="de.decidr.model.entities.UserAdministratesWorkflowInstance" />
         </set>
         <set name="systemSettings" inverse="true" lazy="true" table="system_settings" fetch="select">
             <key>
-                <column name="superAdminId" />
+                <column name="`superAdminId`" />
             </key>
             <one-to-many class="de.decidr.model.entities.SystemSettings" />
         </set>
         <set name="userHasFileAccess" inverse="true" lazy="true" table="user_has_file_access" fetch="select">
             <key>
-                <column name="userId" not-null="true" />
+                <column name="`userId`" not-null="true" />
             </key>
             <one-to-many class="de.decidr.model.entities.UserHasFileAccess" />
         </set>
         <set name="userParticipatesInWorkflows" inverse="true" lazy="true" table="user_participates_in_workflow" fetch="select">
             <key>
-                <column name="userId" not-null="true" />
+                <column name="`userId`" not-null="true" />
             </key>
             <one-to-many class="de.decidr.model.entities.UserParticipatesInWorkflow" />
         </set>
         <set name="administratedTenants" inverse="true" lazy="true" table="tenant" fetch="select">
             <key>
-                <column name="adminId" not-null="true" />
+                <column name="`adminId`" not-null="true" />
             </key>
             <one-to-many class="de.decidr.model.entities.Tenant" />
         </set>
         <set name="logins" inverse="true" lazy="true" table="login" fetch="select">
             <key>
-                <column name="userId" not-null="true" />
+                <column name="`userId`" not-null="true" />
             </key>
             <one-to-many class="de.decidr.model.entities.Login" />
         </set>
         <one-to-one name="changeEmailRequest" class="de.decidr.model.entities.ChangeEmailRequest"></one-to-one>
         <set name="userAdministratesWorkflowModels" inverse="true" lazy="true" table="user_administrates_workflow_model" fetch="select">
             <key>
-                <column name="userId" not-null="true">
+                <column name="`userId`" not-null="true">
                     <comment>The tenant admin always implicitly administrates all workflow models.</comment>
                 </column>
             </key>

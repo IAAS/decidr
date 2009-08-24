@@ -16,7 +16,12 @@
 
 /**
  * Contains custom templates that must be used when 
- * reverse engineering the DecidR database schema.
+ * reverse engineering the DecidR database schema. 
+ * The following changes have been made to the standard template:
+ * <ul>
+ * <li>Set dynamic-insert and dynamic-update to true for all generated entities.</li>
+ * <li>Put all column names in backticks so they will be put into dialect-specific quotes.</li>
+ * </ul>
  */
 package de.decidr.model.reveng.templates;
 

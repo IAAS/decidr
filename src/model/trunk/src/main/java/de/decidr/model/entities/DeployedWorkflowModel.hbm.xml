@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 24.08.2009 13:59:02 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 24.08.2009 15:40:36 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.DeployedWorkflowModel" table="deployed_workflow_model" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="java.lang.Long">
@@ -9,49 +9,49 @@
             <generator class="identity" />
         </id>
         <version name="version" type="long">
-            <column name="version" not-null="true" />
+            <column name="`version`" not-null="true" />
         </version>
         <many-to-one name="originalWorkflowModel" class="de.decidr.model.entities.WorkflowModel" fetch="select">
-            <column name="originalWorkflowModelId">
+            <column name="`originalWorkflowModelId`">
                 <comment>If this field is null, the original workflow model has been deleted or is no longer available.</comment>
             </column>
         </many-to-one>
         <many-to-one name="tenant" class="de.decidr.model.entities.Tenant" fetch="select">
-            <column name="tenantId" not-null="true" />
+            <column name="`tenantId`" not-null="true" />
         </many-to-one>
         <property name="name" type="string">
-            <column name="name" not-null="true" />
+            <column name="`name`" not-null="true" />
         </property>
         <property name="description" type="string">
-            <column name="description" not-null="true" />
+            <column name="`description`" not-null="true" />
         </property>
         <property name="dwdl" type="binary">
-            <column name="dwdl" not-null="true" />
+            <column name="`dwdl`" not-null="true" />
         </property>
         <property name="wsdl" type="binary">
-            <column name="wsdl" not-null="true" />
+            <column name="`wsdl`" not-null="true" />
         </property>
         <property name="soapTemplate" type="binary">
-            <column name="soapTemplate" not-null="true" />
+            <column name="`soapTemplate`" not-null="true" />
         </property>
         <property name="deployDate" type="timestamp">
-            <column name="deployDate" length="19" not-null="true" />
+            <column name="`deployDate`" length="19" not-null="true" />
         </property>
         <set name="workflowModelIsDeployedOnServers" inverse="true" lazy="true" table="workflow_model_is_deployed_on_server" fetch="select">
             <key>
-                <column name="deployedWorkflowModelId" not-null="true" />
+                <column name="`deployedWorkflowModelId`" not-null="true" />
             </key>
             <one-to-many class="de.decidr.model.entities.WorkflowModelIsDeployedOnServer" />
         </set>
         <set name="startConfigurations" inverse="true" lazy="true" table="start_configuration" fetch="select">
             <key>
-                <column name="deployedWorkflowModelId" not-null="true" />
+                <column name="`deployedWorkflowModelId`" not-null="true" />
             </key>
             <one-to-many class="de.decidr.model.entities.StartConfiguration" />
         </set>
         <set name="workflowInstances" inverse="true" lazy="true" table="workflow_instance" fetch="select">
             <key>
-                <column name="deployedWorkflowModelId" not-null="true" />
+                <column name="`deployedWorkflowModelId`" not-null="true" />
             </key>
             <one-to-many class="de.decidr.model.entities.WorkflowInstance" />
         </set>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 24.08.2009 13:59:02 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 24.08.2009 15:40:36 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.UserHasFileAccess" table="user_has_file_access" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <composite-id name="id" class="de.decidr.model.entities.UserHasFileAccessId">
@@ -13,19 +13,19 @@
             </key-property>
         </composite-id>
         <many-to-one name="user" class="de.decidr.model.entities.User" update="false" insert="false" fetch="select">
-            <column name="userId" not-null="true" />
+            <column name="`userId`" not-null="true" />
         </many-to-one>
         <many-to-one name="file" class="de.decidr.model.entities.File" update="false" insert="false" fetch="select">
-            <column name="fileId" not-null="true" />
+            <column name="`fileId`" not-null="true" />
         </many-to-one>
         <property name="mayRead" type="boolean">
-            <column name="mayRead" not-null="true" />
+            <column name="`mayRead`" not-null="true" />
         </property>
         <property name="mayDelete" type="boolean">
-            <column name="mayDelete" not-null="true" />
+            <column name="`mayDelete`" not-null="true" />
         </property>
         <property name="mayReplace" type="boolean">
-            <column name="mayReplace" not-null="true" />
+            <column name="`mayReplace`" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

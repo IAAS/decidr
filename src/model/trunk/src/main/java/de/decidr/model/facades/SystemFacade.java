@@ -21,6 +21,7 @@ import java.util.List;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.annotations.AllowedRole;
 import de.decidr.model.commands.system.AddServerCommand;
 import de.decidr.model.commands.system.GetLogCommand;
@@ -68,6 +69,9 @@ public class SystemFacade extends AbstractFacade {
     }
 
     /**
+     * If you need a SystemSettings object instead, please use
+     * <code>DecidrGlobals.getSettings()</code> instead!
+     * 
      * Returns the current system settings as a Vaadin item with the following
      * properties:
      * <ul>
@@ -107,25 +111,11 @@ public class SystemFacade extends AbstractFacade {
      * @throws TransactionException
      *             if an error occurs during the transaction
      */
-    // DH Hier könnte es ein kleines Problem geben: da hier der sysadmin nicht
-    // zurückgegeben wird kann sich niemand der nur die facade benutzt eine
-    // korrekte SystemSettings basteln um setSettings damit zu füttern. Man
-    // braucht also auch noch eine Methode die eine korrekt befüllte
-    // SystemSettings zurückliefert.
     @AllowedRole(SuperAdminRole.class)
     public Item getSettings() throws TransactionException {
         GetSystemSettingsCommand command = new GetSystemSettingsCommand(actor);
-        // DH fixme: missing the properties for the ODE monitor
-        String[] properties = { "autoAcceptNewTenants", "systemName", "domain",
-                "systemEmailAddress", "logLevel",
-                "passwordResetRequestLifeTimeSeconds",
-                "registrationRequestLifetimeSeconds",
-                "changeEmailRequestLifetimeSeconds",
-                "invitationLifetimeSeconds", "mtaHostname", "mtaPort",
-                "mtaUseTls", "mtaUsername", "mtaPassword",
-                "maxUploadFileSizeByte", "maxAttachmentsPerEmail" };
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-        return new BeanItem(command.getResult(), properties);
+        return new BeanItem(command.getResult());
     }
 
     /**
