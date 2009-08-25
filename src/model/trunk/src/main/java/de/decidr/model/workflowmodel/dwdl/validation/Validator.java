@@ -30,15 +30,18 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.dwdl.Actor;
 import de.decidr.model.workflowmodel.dwdl.Literal;
 import de.decidr.model.workflowmodel.dwdl.Variable;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
+import de.decidr.model.workflowmodel.dwdl.translator.DWDL2BPEL;
 import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
 
 /**
@@ -50,6 +53,8 @@ import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
  */
 
 public class Validator {
+
+    private static Logger log = DefaultLogger.getLogger(DWDL2BPEL.class);
 
     private javax.xml.validation.Validator validator = null;
     private Schema schema = null;
@@ -65,8 +70,8 @@ public class Validator {
 
             validator = schema.newValidator();
         } catch (SAXException e) {
-            // MA Auto-generated catch block
-            e.printStackTrace();
+            log.error("Couldn't parse dwdl schema file for validation purpose",
+                    e);
         }
     }
 
@@ -76,33 +81,36 @@ public class Validator {
      * @param dwdl
      * @return
      */
-//    public List<IProblem> validate(StreamSource dwdl) {
-//        DWDLErrorHandler errHandler = null;
-//        List<IProblem> errList = null;
-//
-//        validator.setErrorHandler(new DWDLErrorHandler());
-//        try {
-//            validator.validate(dwdl);
-//        } catch (SAXException e) {
-//            errList = new ArrayList<IProblem>();
-//            errList.add(new Problem(e.getMessage(), "global"));
-//        } catch (IOException e) {
-//            errList = new ArrayList<IProblem>();
-//            errList.add(new Problem(e.getMessage(), "global"));
-//        }
-//
-//        errHandler = (DWDLErrorHandler) (validator.getErrorHandler());
-//        errList = errHandler.getProblemList();
-//
-//        // GH how to transform from byte[] to TWorkflow? ---> Use TransformUtil in workflowmodel.
-//        // errList.addAll(checkVariables(dwdl));
-//        // errList.addAll(checkUsers(dwdl));
-//
-//        return errList;
-//    }
+    // public List<IProblem> validate(StreamSource dwdl) {
+    // DWDLErrorHandler errHandler = null;
+    // List<IProblem> errList = null;
+    //
+    // validator.setErrorHandler(new DWDLErrorHandler());
+    // try {
+    // validator.validate(dwdl);
+    // } catch (SAXException e) {
+    // errList = new ArrayList<IProblem>();
+    // errList.add(new Problem(e.getMessage(), "global"));
+    // } catch (IOException e) {
+    // errList = new ArrayList<IProblem>();
+    // errList.add(new Problem(e.getMessage(), "global"));
+    // }
+    //
+    // errHandler = (DWDLErrorHandler) (validator.getErrorHandler());
+    // errList = errHandler.getProblemList();
+    //
+    // // GH how to transform from byte[] to TWorkflow? ---> Use TransformUtil
+    // in workflowmodel.
+    // // errList.addAll(checkVariables(dwdl));
+    // // errList.addAll(checkUsers(dwdl));
+    //
+    // return errList;
+    // }
 
     /**
-     * MA: add comment
+     * This methods validates a given DWDL Workflow and returns a list of
+     * {@link IProblem}s. The workflow will be parsed and checked till to the
+     * end.
      * 
      * @param dwdl
      *            The DWDL workflow to validate
@@ -112,10 +120,10 @@ public class Validator {
         DWDLErrorHandler errHandler = null;
         List<IProblem> errList = null;
 
-        DOMSource dom= null;
+        DOMSource dom = null;
 
         validator.setErrorHandler(new DWDLErrorHandler());
-        
+
         try {
             dom = new DOMSource(TransformUtil.workflow2DOM(dwdl));
             validator.validate(dom);
@@ -135,23 +143,19 @@ public class Validator {
             errList = new ArrayList<IProblem>();
             errList.add(new Problem(e.getMessage(), "global"));
             e.printStackTrace();
-        } catch (ParserConfigurationException e){
+        } catch (ParserConfigurationException e) {
             errList = new ArrayList<IProblem>();
             errList.add(new Problem(e.getMessage(), "global"));
             e.printStackTrace();
         }
 
-
         return errList;
     }
 
     /**
-     * MA: add comment
-     * MA: uses a Streamsource as validation object
-     *   -> correct line numbers, compared to DOMSource
-     *   transformUtil.WorfklowToStreamSource or similar
-     *   required.
-     * GH: use worklfow2StreamSource or workflow2Bytes
+     * This methods validates a given DWDL Workflow and returns a list of
+     * {@link IProblem}s. The workflow will be parsed and checked till to the
+     * end.
      * 
      * @param dwdl
      *            The DWDL workflow to validate
@@ -162,7 +166,7 @@ public class Validator {
         StreamSource src = null;
         DWDLErrorHandler errHandler = null;
         List<IProblem> errList = null;
-        
+
         try {
             wf = TransformUtil.bytes2Workflow(dwdl);
             src = new StreamSource(new ByteArrayInputStream(dwdl));
@@ -269,8 +273,8 @@ public class Validator {
                         }
                     }
 
-                //} else if (type.toLowerCase().equals("string")) {
-                // not required
+                    // } else if (type.toLowerCase().equals("string")) {
+                    // not required
 
                 } else if (type.toLowerCase().equals("boolean")) {
                     if (tVar.getInitialValues() == null) {

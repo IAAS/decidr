@@ -101,13 +101,13 @@ public class DWDL2BPEL {
     private final String FAULT_MESSAGE_REQUEST = "faultMessageRequest";
     private final String FAULT_MESSAGE_RESPONSE = "faultMessageResponse";
     private final String PROCESS_HUMANTASK_INPUT_VARIABLE = "taskDataMessageRequest";
+    private final String PROCESS_INPUT_VARIABLE = "startConfigurations";
 
     // namespace prefixes
     private static final String DECIDRTYPES_PREFIX = "decidr";
     private final String PROCESS_PREFIX = "tns";
 
-    // process message types
-    private final String PROCESS_INPUT_VARIABLE = "startConfigurations";
+    // process message types and operations
     private final String PROCESS_OPERATION = "startProcess";
     private final String PROCESS_REQUEST_MESSAGE = "startMessage";
     private final String PROCESS_HUMANTASK_REQUEST_MESSAGE = "taskCompletedRequest";
