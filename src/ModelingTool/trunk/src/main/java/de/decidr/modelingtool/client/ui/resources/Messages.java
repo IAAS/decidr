@@ -39,9 +39,9 @@ public interface Messages extends Constants {
 
     /* Nodes */
     String changePropertyButton();
-    
+
     String notDeletableMessage();
-    
+
     String noPropertyWindowMessage();
 
     /* Email */
@@ -67,6 +67,10 @@ public interface Messages extends Constants {
     String taskData();
 
     String userLabel();
+
+    String nameLabel();
+
+    String descriptionLabel();
 
     String formLabel();
 

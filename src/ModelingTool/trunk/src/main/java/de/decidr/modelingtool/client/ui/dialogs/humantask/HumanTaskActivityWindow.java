@@ -97,6 +97,10 @@ public class HumanTaskActivityWindow extends Dialog {
         HumanTaskInvokeNodeModel newModel = new HumanTaskInvokeNodeModel(node
                 .getModel().getParentModel());
         newModel.setUserVariableId(taskPanel.getUserField().getValue().getId());
+        newModel.setWorkItemNameVariableId(taskPanel.getNameField().getValue()
+                .getId());
+        newModel.setWorkItemDescriptionVariableId(taskPanel
+                .getDescriptionField().getValue().getId());
         newModel.setFormVariableId(taskPanel.getFormContainerField().getValue()
                 .getId());
         newModel.setNotifyVariableId(taskPanel.getNotifyCheckBox().getValue());

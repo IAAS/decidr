@@ -33,8 +33,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
-import de.decidr.modelingtool.client.model.humantask.TaskItem;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
+import de.decidr.modelingtool.client.model.humantask.TaskItem;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
@@ -45,14 +45,15 @@ import de.decidr.modelingtool.client.model.variable.VariablesFilter;
  * @author Jonas Schlaak
  */
 public class HumanTaskActivityWindowContentPanel extends ContentPanel {
-    // JS work item name and description
     /*
      * This constant holds die number of fields which are not to be removed by
      * the removeEntry method.
      */
-    private static final int STATICFIELDS = 3;
+    private static final int STATICFIELDS = 5;
 
     private ComboBox<Variable> userField;
+    private ComboBox<Variable> nameField;
+    private ComboBox<Variable> descriptionField;
     private ComboBox<Variable> formContainerField;
     private CheckBox notifyCheckBox;
 
@@ -80,7 +81,6 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
     }
 
     public void createFields(HumanTaskInvokeNodeModel model) {
-        taskTable.insertRow(taskTable.getRowCount());
 
         userField = new ComboBox<Variable>();
         userField.setDisplayField(Variable.LABEL);
@@ -90,9 +90,37 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
                 .getUserVariableId()));
         userField.setTypeAhead(true);
         userField.setWidth("200px");
+        taskTable.insertRow(taskTable.getRowCount());
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
                 ModelingToolWidget.messages.userLabel()));
         taskTable.setWidget(taskTable.getRowCount() - 1, 1, userField);
+
+        nameField = new ComboBox<Variable>();
+        nameField.setDisplayField(Variable.LABEL);
+        nameField.setStore(VariablesFilter
+                .getVariablesOfType(VariableType.STRING));
+        nameField.setValue(VariablesFilter.getVariableById(model
+                .getWorkItemNameVariableId()));
+        nameField.setTypeAhead(true);
+        nameField.setWidth("200px");
+        taskTable.insertRow(taskTable.getRowCount());
+        taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
+                ModelingToolWidget.messages.nameLabel()));
+        taskTable.setWidget(taskTable.getRowCount() - 1, 1, nameField);
+
+        descriptionField = new ComboBox<Variable>();
+        descriptionField.setDisplayField(Variable.LABEL);
+        descriptionField.setStore(VariablesFilter
+                .getVariablesOfType(VariableType.STRING));
+        descriptionField.setValue(VariablesFilter.getVariableById(model
+                .getWorkItemNameVariableId()));
+        descriptionField.setTypeAhead(true);
+        descriptionField.setWidth("200px");
+        descriptionField.setWidth("400px");
+        taskTable.insertRow(taskTable.getRowCount());
+        taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
+                ModelingToolWidget.messages.descriptionLabel()));
+        taskTable.setWidget(taskTable.getRowCount() - 1, 1, descriptionField);
 
         formContainerField = new ComboBox<Variable>();
         formContainerField.setDisplayField(Variable.LABEL);
@@ -201,6 +229,14 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
 
     public ComboBox<Variable> getUserField() {
         return userField;
+    }
+
+    public ComboBox<Variable> getNameField() {
+        return nameField;
+    }
+
+    public ComboBox<Variable> getDescriptionField() {
+        return descriptionField;
     }
 
     public ComboBox<Variable> getFormContainerField() {

@@ -29,7 +29,7 @@ import de.decidr.modelingtool.client.model.InvokeNodeModel;
 public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
 
     private final String userFieldName = "user";
-    private final String workItemNameFieldName = "workitem";
+    private final String workItemNameFieldName = "workitemName";
     private final String workItemDescriptionFieldName = "workitemDesc";
     private final String formFieldName = "form";
     private final String notifyFieldName = "notify";
