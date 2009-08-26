@@ -80,6 +80,7 @@ import de.decidr.model.transactions.TransactionCoordinator;
  * @author Daniel Huss
  * @version 0.1
  */
+// DH & MF: weren't admins supposed to be able to delete users? There's currently no way to! ~rr
 public class UserFacade extends AbstractFacade {
 
     /**
@@ -115,12 +116,10 @@ public class UserFacade extends AbstractFacade {
      * @return The ID of the user that has been registered
      * @throws TransactionException
      *             if the transaction is aborted for any reason
-     * @throws NullPointerException
-     *             if at least one of the required properties is missing.
      */
     @AllowedRole(UserRole.class)
     public Long registerUser(String email, String passwordPlaintext,
-            Item userProfile) throws TransactionException, NullPointerException {
+            Item userProfile) throws TransactionException {
 
         // retrieve needed properties from Vaadin item.
         String firstName = userProfile.getItemProperty("firstName").getValue()
@@ -635,7 +634,7 @@ public class UserFacade extends AbstractFacade {
      * <li>email: String</li>
      * <li>firstName: String</li>
      * <li>lastName: String</li>
-     * <li>username</li>
+     * <li>username: String</li>
      * </ul>
      * 
      * @param filters
