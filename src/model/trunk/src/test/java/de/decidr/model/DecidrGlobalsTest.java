@@ -24,6 +24,7 @@ import static org.junit.Assert.fail;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.entities.SystemSettings;
@@ -36,6 +37,13 @@ import de.decidr.model.enums.ServerTypeEnum;
  * @author Reinhold
  */
 public class DecidrGlobalsTest {
+
+    @BeforeClass
+    public final void setUp() {
+        if (!DatabaseTestsuite.running()) {
+            fail("Needs to run inside " + DatabaseTestsuite.class.getName());
+        }
+    }
 
     /**
      * Test method for {@link DecidrGlobals#getTime()}.

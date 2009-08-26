@@ -18,9 +18,11 @@ package de.decidr.model;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Date;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.entities.ChangeEmailRequest;
@@ -34,6 +36,13 @@ import de.decidr.model.entities.RegistrationRequest;
  * @author Reinhold
  */
 public class LifetimeValidatorTest {
+
+    @BeforeClass
+    public final void setUp() {
+        if (!DatabaseTestsuite.running()) {
+            fail("Needs to run inside " + DatabaseTestsuite.class.getName());
+        }
+    }
 
     /**
      * Test method for

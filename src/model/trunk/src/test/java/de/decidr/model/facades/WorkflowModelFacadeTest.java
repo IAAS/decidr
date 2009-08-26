@@ -23,6 +23,7 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.DatabaseTestsuite;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.filters.Paginator;
@@ -43,6 +44,10 @@ public class WorkflowModelFacadeTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
+        if (!DatabaseTestsuite.running()) {
+            fail("Needs to run inside " + DatabaseTestsuite.class.getName());
+        }
+
         adminFacade = new WorkflowModelFacade(new SuperAdminRole());
         userFacade = new WorkflowModelFacade(new BasicRole(0L));
         nullFacade = new WorkflowModelFacade(null);

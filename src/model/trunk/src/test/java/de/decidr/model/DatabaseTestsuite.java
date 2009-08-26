@@ -55,6 +55,8 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
 public class DatabaseTestsuite extends TestSuite {
 
     static Session session;
+    private static String testString;
+    private static final String RUNNING_CONSTANT = "is running";
 
     /**
      * Fails if hibernate is not working properly and no working condition can
@@ -69,6 +71,8 @@ public class DatabaseTestsuite extends TestSuite {
             e.printStackTrace();
             fail("Couldn't connect to database");
         }
+
+        testString = RUNNING_CONSTANT;
     }
 
     /**
@@ -76,10 +80,23 @@ public class DatabaseTestsuite extends TestSuite {
      */
     @AfterClass
     public static void tearDownAfterClass() {
+        testString = null;
+
         if (session != null) {
             // Query q = session.createSQLQuery("drop database decidrdb");
             // q.executeUpdate();
             session.close();
         }
+    }
+
+    /**
+     * Checks whether the test suite is currently running. Can be used to fail
+     * classes that need to run inside the suite when it isn't running.
+     * 
+     * @return - <code>true</code>, when this test suite is running,<br>
+     *         - <code>false</code> when it isn't.
+     */
+    public static boolean running() {
+        return RUNNING_CONSTANT.equals(testString);
     }
 }

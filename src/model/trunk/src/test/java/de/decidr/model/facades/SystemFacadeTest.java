@@ -32,6 +32,7 @@ import org.junit.Test;
 
 import com.vaadin.data.Item;
 
+import de.decidr.model.DatabaseTestsuite;
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
@@ -58,6 +59,10 @@ public class SystemFacadeTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
+        if (!DatabaseTestsuite.running()) {
+            fail("Needs to run inside " + DatabaseTestsuite.class.getName());
+        }
+
         adminFacade = new SystemFacade(new SuperAdminRole());
         userFacade = new SystemFacade(new BasicRole(0L));
         nullFacade = new SystemFacade(null);

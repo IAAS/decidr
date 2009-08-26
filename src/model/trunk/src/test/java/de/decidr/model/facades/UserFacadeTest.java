@@ -33,6 +33,7 @@ import org.junit.Test;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 
+import de.decidr.model.DatabaseTestsuite;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.entities.UserProfile;
@@ -66,6 +67,10 @@ public class UserFacadeTest {
     @BeforeClass
     public static void setUpBeforeClass() throws NullPointerException,
             TransactionException {
+        if (!DatabaseTestsuite.running()) {
+            fail("Needs to run inside " + DatabaseTestsuite.class.getName());
+        }
+
         adminFacade = new UserFacade(new SuperAdminRole());
         userFacade = new UserFacade(new BasicRole(0L));
         nullFacade = new UserFacade(null);
@@ -264,14 +269,6 @@ public class UserFacadeTest {
     }
 
     /**
-     * Test method for {@link UserFacade#authKeyMatches(Long, String)}.
-     */
-    @Test
-    public void testAuthKeyMatches() {
-        fail("Not yet implemented"); // RR authKeyMatches
-    }
-
-    /**
      * Test method for {@link UserFacade#setEmailAddress(Long, String)}.
      */
     @Test
@@ -360,12 +357,14 @@ public class UserFacadeTest {
 
     /**
      * Test method for {@link UserFacade#getInvitation(Long)},
+     * {@link UserFacade#authKeyMatches(Long, String)},
      * {@link UserFacade#confirmInvitation(Long)} and
      * {@link UserFacade#refuseInviation(Long)}.
      */
     @Test
     public void testInvitation() {
         fail("Not yet implemented"); // RR getInvitation
+        fail("Not yet implemented"); // RR authKeyMatches
         fail("Not yet implemented"); // RR confirmInvitation
         fail("Not yet implemented"); // RR refuseInviation
     }
