@@ -22,10 +22,12 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.ui.controller.LoginAction;
 import de.decidr.ui.controller.LoginWithInvitationAction;
 import de.decidr.ui.controller.ShowRegistrationAction;
 import de.decidr.ui.controller.ShowResetPasswordAction;
+import de.decidr.ui.controller.ShowStartConfigurationWindowAction;
 
 /**
  * With the login component the user is able to authenticate himself

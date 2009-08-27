@@ -16,12 +16,19 @@
 package de.decidr.ui.view;
 
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.controller.ShowStartConfigurationWindowAction;
 import de.decidr.ui.data.WorkflowInstanceContainer;
 
+/**
+ * TODO: add comment
+ *
+ * @author AT
+ */
 public class CreateWorkflowInstanceComponent extends CustomComponent {
     
     /**
@@ -42,7 +49,7 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
     private Label createWorkflowInstanceLabel = null;
     
     private WorkflowInstanceTable instanceTable = null;
-    
+
     
     /**
      * Default constructor
@@ -67,7 +74,7 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
         instanceTable = new WorkflowInstanceTable(workflowInstanceContainer, workflowInstanceContainer);
         
         searchPanel = new SearchPanel(instanceTable);
-        
+
         setCompositionRoot(verticalLayout);
         
         verticalLayout.setSpacing(true);
@@ -76,8 +83,16 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
         
         verticalLayout.addComponent(instanceTable);
         verticalLayout.setComponentAlignment(instanceTable, Alignment.MIDDLE_CENTER);
-        
-        
+
+    }
+
+    /**
+     * Returns the workflow instance table
+     *
+     * @return instanceTable
+     */
+    public WorkflowInstanceTable getInstanceTable() {
+        return instanceTable;
     }
     
 
