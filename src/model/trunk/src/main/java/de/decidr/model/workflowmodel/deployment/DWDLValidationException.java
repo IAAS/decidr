@@ -30,15 +30,15 @@ import de.decidr.model.workflowmodel.dwdl.validation.Validator;
  */
 public class DWDLValidationException extends Exception {
 
+    private static final long serialVersionUID = 1L;
+
     /**
-     * MA add comment
+     * This exception is thrown by {@link Deployer}
      * 
-     * @param problems
+     * @param problems List of problems found by the {@link Validator}
      */
     public DWDLValidationException(List<IProblem> problems) {
-        // MA please implement me
+        // for further development 
     }
-
-    private static final long serialVersionUID = 1L;
 
 }

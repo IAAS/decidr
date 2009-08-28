@@ -73,14 +73,15 @@ public interface Deployer {
             JAXBException, WSDLException;
 
     /**
-     * MA add comment
+     * This method undeploys a given workflow model. The files in the ODE
+     * directory will be deleted.
      * 
-     * @param dwfm
-     * @param server
-     * @throws Exception
+     * @param dwfm The workflow model to undeploy
+     * @param server The server on which the undeployment should be done
+     * @throws Exception Exception thrown after failed undeployment
      */
     public void undeploy(DeployedWorkflowModel dwfm, Server server)
             throws Exception;
-     // MA please implement me
+    // MA please implement me
 
 }

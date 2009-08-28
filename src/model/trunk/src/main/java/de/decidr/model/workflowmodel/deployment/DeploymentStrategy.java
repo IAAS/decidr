@@ -21,7 +21,7 @@ import java.util.List;
 import de.decidr.model.entities.ServerLoadView;
 
 /**
- * MA add comment
+ * This class describes the basic deployment strategy
  * 
  * @author Modood Alvi
  * @version 0.1
@@ -30,7 +30,7 @@ public interface DeploymentStrategy {
     
     
     /**
-     * MA add comment
+     * Selection of servers for deployment
      *
      * @param serverStatistics
      * @return

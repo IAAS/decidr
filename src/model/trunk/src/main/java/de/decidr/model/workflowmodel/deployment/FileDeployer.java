@@ -42,7 +42,6 @@ public class FileDeployer {
 
     private static Logger logger = DefaultLogger.getLogger(FileDeployer.class);
 
-    // MA complete comment
     /**
      *
      * This class actually deploys the zip file on the selected server

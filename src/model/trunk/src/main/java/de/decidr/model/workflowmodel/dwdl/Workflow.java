@@ -55,7 +55,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "arcs"
 })
 
-//MA: workflow2DOM
 @XmlRootElement
 public class Workflow {
 

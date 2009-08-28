@@ -21,25 +21,17 @@ import java.util.List;
 import de.decidr.model.entities.ServerLoadView;
 
 /**
- * MA add comment
+ * This exception is thrown by {@link Deployer}
  * 
  * @author Modood Alvi
  * @version 0.1
  */
 public class ODESelectorException extends Exception {
 
-    /**
-     * MA add comment
-     * 
-     * @param serverStatistics
-     */
     public ODESelectorException(List<ServerLoadView> serverStatistics) {
-        // MA please implement me
+        // for further development
     }
 
-    /**
-     * MA add comment
-     */
     private static final long serialVersionUID = 1L;
 
 }
