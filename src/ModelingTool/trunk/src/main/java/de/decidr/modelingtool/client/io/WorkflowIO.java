@@ -30,7 +30,6 @@ public interface WorkflowIO {
 
     public void saveWorkflow(WorkflowModel model) throws SaveDWDLException;
 
-    public WorkflowModel loadWorkflow(long workflowModelId)
-            throws LoadDWDLException;
+    public WorkflowModel loadWorkflow() throws LoadDWDLException;
 
 }

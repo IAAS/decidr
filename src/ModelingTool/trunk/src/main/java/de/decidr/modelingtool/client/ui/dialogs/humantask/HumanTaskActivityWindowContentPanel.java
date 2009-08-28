@@ -116,7 +116,6 @@ public class HumanTaskActivityWindowContentPanel extends ContentPanel {
                 .getWorkItemNameVariableId()));
         descriptionField.setTypeAhead(true);
         descriptionField.setWidth("200px");
-        descriptionField.setWidth("400px");
         taskTable.insertRow(taskTable.getRowCount());
         taskTable.setWidget(taskTable.getRowCount() - 1, 0, new Label(
                 ModelingToolWidget.messages.descriptionLabel()));

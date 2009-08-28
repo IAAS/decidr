@@ -158,7 +158,7 @@ public class ModelingToolWidget extends Composite implements HasAllMouseHandlers
         WorkflowIO io = new WorkflowIOStub();
 
         try {
-            WorkflowModel workflowModel = io.loadWorkflow(workflowModelId);
+            WorkflowModel workflowModel = io.loadWorkflow();
             Command createWorkflowCmd = new CreateWorkflowCommand(workflowModel);
             createWorkflowCmd.execute();
 

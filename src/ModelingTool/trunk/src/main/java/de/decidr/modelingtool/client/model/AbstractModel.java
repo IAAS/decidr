@@ -92,6 +92,9 @@ public abstract class AbstractModel implements Model {
     }
 
     public String getName() {
+        if (name == null) {
+            name = Class.class.getName() + getId().toString();
+        }
         return name;
     }
 

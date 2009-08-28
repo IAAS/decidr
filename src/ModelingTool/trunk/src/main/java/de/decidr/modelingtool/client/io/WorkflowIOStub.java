@@ -39,8 +39,7 @@ import de.decidr.modelingtool.client.model.variable.VariableType;
 public class WorkflowIOStub implements WorkflowIO {
 
     @Override
-    public WorkflowModel loadWorkflow(long workflowModelId)
-            throws LoadDWDLException {
+    public WorkflowModel loadWorkflow() throws LoadDWDLException {
         // create workflow model
         WorkflowModel workflowModel = new WorkflowModel();
         workflowModel.setName("Simple Workflow");
@@ -62,7 +61,7 @@ public class WorkflowIOStub implements WorkflowIO {
         recipient.setLabel("Recipient");
         recipient.getValues().add(new String("decidradmin"));
         recipient.setType(VariableType.ROLE);
-        
+
         Variable sampleText = new Variable();
         sampleText.setId(768768L);
         sampleText.setLabel("Text");

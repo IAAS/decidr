@@ -16,9 +16,8 @@
 
 package de.decidr.modelingtool.client.io;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
-
+import de.decidr.modelingtool.client.exception.LoadDWDLException;
+import de.decidr.modelingtool.client.exception.SaveDWDLException;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 
 /**
@@ -29,19 +28,10 @@ import de.decidr.modelingtool.client.model.WorkflowModel;
  */
 public class WorkflowIOImpl implements WorkflowIO {
 
-    private DWDLIOServiceAsync service = null;
-    private SaveCallback saveCallback = null;
-    private LoadCallback loadCallback = null;
+    private DataExchanger dataExchanger = null;
 
-    public WorkflowIOImpl() {
-        saveCallback = new SaveCallback();
-        loadCallback = new LoadCallback();
-        service = (DWDLIOServiceAsync) GWT.create(DWDLIOServiceAsync.class);
-        
-        // TODO: set correct url
-        ((ServiceDefTarget) service).setServiceEntryPoint(GWT
-                .getModuleBaseURL()
-                + "/bla/bla");
+    public WorkflowIOImpl(DataExchanger dataExchanger) {
+        this.dataExchanger = dataExchanger;
     }
 
     /*
@@ -52,10 +42,9 @@ public class WorkflowIOImpl implements WorkflowIO {
      * )
      */
     @Override
-    public WorkflowModel loadWorkflow(long workflowModelId) {
+    public WorkflowModel loadWorkflow() throws LoadDWDLException {
         DWDLParser dwdlParser = new DWDLParserImpl();
-        String xmldwdl = service.load(workflowModelId, loadCallback);
-
+        String xmldwdl = dataExchanger.loadDWDL();
         return dwdlParser.parse(xmldwdl);
     }
 
@@ -66,10 +55,9 @@ public class WorkflowIOImpl implements WorkflowIO {
      * modelingtool.client.model.WorkflowModel)
      */
     @Override
-    public void saveWorkflow(WorkflowModel model) {
+    public void saveWorkflow(WorkflowModel model) throws SaveDWDLException {
         WorkflowParser workflowParser = new WorkflowParserImpl();
         String xmldwdl = workflowParser.parse(model);
-        service.save(model.getId(), model.getName(), model.getDescription(),
-                xmldwdl, saveCallback);
+        dataExchanger.saveDWDL(xmldwdl);
     }
 }

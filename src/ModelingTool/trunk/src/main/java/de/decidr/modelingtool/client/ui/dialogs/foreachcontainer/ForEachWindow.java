@@ -111,7 +111,6 @@ public class ForEachWindow extends Dialog {
     }
 
     private void changeWorkflowModel() {
-        // JS make this nicer
         ForEachContainerModel newModel = new ForEachContainerModel(node
                 .getModel().getParentModel());
         newModel.setIterationVariableId(iterableField.getValue().getId());

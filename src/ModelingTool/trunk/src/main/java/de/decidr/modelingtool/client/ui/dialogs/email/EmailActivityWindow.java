@@ -64,11 +64,11 @@ public class EmailActivityWindow extends Dialog {
         this.setLayout(new FitLayout());
         this.setSize(400, 200);
         this.setResizable(true);
-        createcontentPanel();
+        createContentPanel();
         createButtons();
     }
 
-    private void createcontentPanel() {
+    private void createContentPanel() {
         contentPanel = new ContentPanel();
 
         contentPanel.setHeading(ModelingToolWidget.messages.emailActivity());
@@ -114,7 +114,6 @@ public class EmailActivityWindow extends Dialog {
     }
 
     private void changeWorkflowModel() {
-        // JS make this nicer
         EmailInvokeNodeModel newModel = new EmailInvokeNodeModel(node
                 .getModel().getParentModel());
         newModel.setToVariableId(toField.getValue().getId());
@@ -158,13 +157,13 @@ public class EmailActivityWindow extends Dialog {
     private void createFields() {
         toField = new ComboBox<Variable>();
         addComboField(toField, ModelingToolWidget.messages.toFieldLabel(),
-                VariableType.STRING, model.getToVariableId());
+                VariableType.ROLE, model.getToVariableId());
         ccField = new ComboBox<Variable>();
         addComboField(ccField, ModelingToolWidget.messages.ccFieldLabel(),
-                VariableType.STRING, model.getCcVariableId());
+                VariableType.ROLE, model.getCcVariableId());
         bccField = new ComboBox<Variable>();
         addComboField(bccField, ModelingToolWidget.messages.bccFieldLabel(),
-                VariableType.STRING, model.getBccVariableId());
+                VariableType.ROLE, model.getBccVariableId());
         subjectField = new ComboBox<Variable>();
         addComboField(subjectField, ModelingToolWidget.messages
                 .subjectFieldLabel(), VariableType.STRING, model

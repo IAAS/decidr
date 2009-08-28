@@ -138,7 +138,6 @@ public class IfWindow extends Dialog {
     }
 
     private void changeWorkflowModel() {
-        // JS make this nicer
         IfContainerModel newModel = new IfContainerModel();
         for (IfFieldSet fs : fieldsets) {
             String label = fs.getLabel().getText();
