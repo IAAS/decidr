@@ -39,6 +39,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.decidr.modelingtool.client.command.CreateWorkflowCommand;
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
 import de.decidr.modelingtool.client.exception.LoadDWDLException;
+import de.decidr.modelingtool.client.io.DataExchanger;
 import de.decidr.modelingtool.client.io.WorkflowIO;
 import de.decidr.modelingtool.client.io.WorkflowIOStub;
 import de.decidr.modelingtool.client.menu.Menu;
@@ -51,19 +52,20 @@ import de.decidr.modelingtool.client.ui.resources.Messages;
  * 
  * @author Johannes Engelhardt
  */
-public class ModelingToolWidget extends Composite implements HasAllMouseHandlers {
+public class ModelingToolWidget extends Composite implements
+        HasAllMouseHandlers {
 
     public static Messages messages;
 
-//    private static final String html = "<table align=\"center\">"
-//            + "<tr><td id=\"menu\"></td></tr>"
-//            + "<tr><td id=\"workflow\"></td></tr>" + "</table>";
+    // private static final String html = "<table align=\"center\">"
+    // + "<tr><td id=\"menu\"></td></tr>"
+    // + "<tr><td id=\"workflow\"></td></tr>" + "</table>";
 
     public ModelingToolWidget() {
         super();
-        
+
         VerticalPanel panel = new VerticalPanel();
-        
+
         // create menu
         Menu menu = new Menu();
         panel.add(menu);
@@ -71,54 +73,41 @@ public class ModelingToolWidget extends Composite implements HasAllMouseHandlers
         // create workflow and add to the root panel.
         Workflow workflow = Workflow.getInstance();
         panel.add(workflow);
-        
+
         initWidget(panel);
 
         /* Internationalization: "Instantiate" the Message interface class. */
         messages = GWT.create(Messages.class);
-        
+
         /*
-        ButtonBar buttonBar = new ButtonBar();
-        buttonBar.add(new Button("Variables",
-                new SelectionListener<ButtonEvent>() {
-                    @Override
-                    public void componentSelected(ButtonEvent ce) {
-                        DialogRegistry.getInstance().showDialog(
-                                VariableEditor.class.getName());
-                    }
-                }));
-        buttonBar.add(new Button("Email", new SelectionListener<ButtonEvent>() {
-            @Override
-            public void componentSelected(ButtonEvent ce) {
-                DialogRegistry.getInstance().showDialog(
-                        EmailActivityWindow.class.getName());
-            }
-        }));
-        buttonBar.add(new Button("HT", new SelectionListener<ButtonEvent>() {
-            @Override
-            public void componentSelected(ButtonEvent ce) {
-                DialogRegistry.getInstance().showDialog(
-                        HumanTaskActivityWindow.class.getName());
-            }
-        }));
-        buttonBar.add(new Button("ForEach",
-                new SelectionListener<ButtonEvent>() {
-                    @Override
-                    public void componentSelected(ButtonEvent ce) {
-                        DialogRegistry.getInstance().showDialog(
-                                ForEachWindow.class.getName());
-                    }
-                }));
-        buttonBar.add(new Button("Workflow",
-                new SelectionListener<ButtonEvent>() {
-                    @Override
-                    public void componentSelected(ButtonEvent ce) {
-                        DialogRegistry.getInstance().showDialog(
-                                WorkflowPropertyWindow.class.getName());
-                    }
-                }));
-        RootPanel.get().add(buttonBar);
-        */
+         * ButtonBar buttonBar = new ButtonBar(); buttonBar.add(new
+         * Button("Variables", new SelectionListener<ButtonEvent>() {
+         * 
+         * @Override public void componentSelected(ButtonEvent ce) {
+         * DialogRegistry.getInstance().showDialog(
+         * VariableEditor.class.getName()); } })); buttonBar.add(new
+         * Button("Email", new SelectionListener<ButtonEvent>() {
+         * 
+         * @Override public void componentSelected(ButtonEvent ce) {
+         * DialogRegistry.getInstance().showDialog(
+         * EmailActivityWindow.class.getName()); } })); buttonBar.add(new
+         * Button("HT", new SelectionListener<ButtonEvent>() {
+         * 
+         * @Override public void componentSelected(ButtonEvent ce) {
+         * DialogRegistry.getInstance().showDialog(
+         * HumanTaskActivityWindow.class.getName()); } })); buttonBar.add(new
+         * Button("ForEach", new SelectionListener<ButtonEvent>() {
+         * 
+         * @Override public void componentSelected(ButtonEvent ce) {
+         * DialogRegistry.getInstance().showDialog(
+         * ForEachWindow.class.getName()); } })); buttonBar.add(new
+         * Button("Workflow", new SelectionListener<ButtonEvent>() {
+         * 
+         * @Override public void componentSelected(ButtonEvent ce) {
+         * DialogRegistry.getInstance().showDialog(
+         * WorkflowPropertyWindow.class.getName()); } }));
+         * RootPanel.get().add(buttonBar);
+         */
     }
 
     @Override
@@ -151,11 +140,12 @@ public class ModelingToolWidget extends Composite implements HasAllMouseHandlers
         return addDomHandler(handler, MouseUpEvent.getType());
     }
 
-    public void init(long workflowModelId) {
+    public void init(DataExchanger dataExchanger) {
         // Load Workflow Model
-        
-        // TODO: substitude stub by real implementation
+
+        // TODO: substitute stub by real implementation
         WorkflowIO io = new WorkflowIOStub();
+        // WorkflowIO io = new WorkflowIOImpl(dataExchanger);
 
         try {
             WorkflowModel workflowModel = io.loadWorkflow();
