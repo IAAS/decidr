@@ -18,8 +18,6 @@ package de.decidr.modelingtool.client.io;
 
 import java.util.List;
 
-import de.decidr.model.entities.User;
-
 /**
  * An interface for exchanging data between the Modeling Tool and the WebPortal.
  * 
@@ -46,10 +44,10 @@ public interface DataExchanger {
 
     /**
      * 
-     * Returns a list of the tenant users.
+     * Returns a list of the tenant user names.
      * 
-     * @return the user list
+     * @return the list of user names
      */
-    public List<User> getUsers();
+    public List<String> getUsers();
 
 }
