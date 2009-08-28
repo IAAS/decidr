@@ -16,7 +16,7 @@
 
 package de.decidr.modelingtool.client.io;
 
-import java.util.List;
+import java.util.HashMap;
 
 /**
  * An interface for exchanging data between the Modeling Tool and the WebPortal.
@@ -48,6 +48,6 @@ public interface DataExchanger {
      * 
      * @return the list of user names
      */
-    public List<String> getUsers();
+    public HashMap<Long, String> getUsers();
 
 }
