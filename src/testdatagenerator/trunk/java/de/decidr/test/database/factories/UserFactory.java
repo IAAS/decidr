@@ -77,10 +77,12 @@ public class UserFactory extends EntityFactory {
 
             for (int i = 0; i < numUsers; i++) {
                 User user = new User();
+                
                 Date now = DecidrGlobals.getTime().getTime();
 
                 user.setEmail(getUniqueEmailAddress(i));
                 user.setCreationDate(now);
+                session.save(user);
 
                 // every 23th user is banned
                 user.setDisabledSince((i % 23 == 0) ? now : null);
@@ -94,6 +96,8 @@ public class UserFactory extends EntityFactory {
                     request.setAuthKey(Password.getRandomAuthKey());
                     request.setCreationDate(now);
                     request.setNewEmail("new_" + getUniqueEmailAddress(i));
+                    request.setUser(user);
+                    session.save(request);
                     user.setChangeEmailRequest(request);
                 }
 
@@ -117,9 +121,13 @@ public class UserFactory extends EntityFactory {
                     profile.setPasswordSalt(Password.getRandomSalt());
                     profile.setPasswordHash(Password.getHash(username, profile
                             .getPasswordSalt()));
+                    profile.setUser(user);
+                    user.setRegisteredSince(now);
 
-                    user.setUserProfile(profile);
                     user.setAuthKey(null);
+                    
+                    session.save(profile);
+                    user.setUserProfile(profile);
 
                     // every 17th registered user has not yet confirmed his
                     // registration request
@@ -127,6 +135,8 @@ public class UserFactory extends EntityFactory {
                         RegistrationRequest request = new RegistrationRequest();
                         request.setAuthKey(Password.getRandomAuthKey());
                         request.setCreationDate(now);
+                        request.setUser(user);
+                        session.save(request);
                         user.setRegistrationRequest(request);
                     }
 
@@ -135,6 +145,8 @@ public class UserFactory extends EntityFactory {
                         PasswordResetRequest request = new PasswordResetRequest();
                         request.setAuthKey(Password.getRandomAuthKey());
                         request.setCreationDate(now);
+                        request.setUser(user);
+                        session.save(request);
                         user.setPasswordResetRequest(request);
                     }
 
@@ -143,7 +155,7 @@ public class UserFactory extends EntityFactory {
                     user.setAuthKey(Password.getRandomAuthKey());
                 }
 
-                session.save(user);
+                session.update(user);
                 result.add(user);
                 
                 fireProgressEvent(numUsers, i+1);

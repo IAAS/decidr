@@ -38,6 +38,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.test.database.factories.ActivityFactory;
 import de.decidr.test.database.factories.InvitationFactory;
 import de.decidr.test.database.factories.ServerFactory;
 import de.decidr.test.database.factories.SystemSettingsFactory;
@@ -227,15 +228,23 @@ public class TestDataGenerator {
                          * requires some users to be present in the database.
                          */
                         Session s = evt.getSession();
+
                         stdOut("Creating users...");
                         resetProgress();
                         new UserFactory(s, progressListener)
                                 .createRandomUsers(Integer.parseInt(settings
                                         .getProperty(PROPERTY_USERS)));
+                        resetProgress();
+
+                        stdOut("Creating activies / known web services");
+                        new ActivityFactory(s, progressListener)
+                                .createActivites();
+
                         stdOut("Creating system settings...");
                         resetProgress();
                         new SystemSettingsFactory(s, progressListener)
                                 .createSystemSettings();
+
                         stdOut("Creating tenants...");
                         resetProgress();
                         new TenantFactory(s, progressListener)
@@ -245,10 +254,12 @@ public class TestDataGenerator {
                                         Integer
                                                 .parseInt(settings
                                                         .getProperty(PROPERTY_MAX_USERS_PER_TENANT)));
+
                         stdOut("Creating servers...");
                         resetProgress();
                         new ServerFactory(s, progressListener)
                                 .createRandomServers();
+
                         stdOut("Creating workflow models...");
                         resetProgress();
                         new WorkflowModelFactory(s, progressListener)
@@ -258,24 +269,29 @@ public class TestDataGenerator {
                                         Integer
                                                 .parseInt(settings
                                                         .getProperty(PROPERTY_MODELS_PER_TENANT)));
+
                         stdOut("Creating workflow instances...");
                         resetProgress();
                         new WorkflowInstanceFactory(s, progressListener)
                                 .createRandomWorkflowInstances(Integer
                                         .parseInt(settings
                                                 .getProperty(PROPERTY_INSTANCES)));
+
                         stdOut("Creating work items...");
                         resetProgress();
                         new WorkItemFactory(s, progressListener)
                                 .createRandomWorkItems(Integer
                                         .parseInt(settings
                                                 .getProperty(PROPERTY_WORKITEMS)));
+
                         stdOut("Creating invitations...");
                         resetProgress();
                         new InvitationFactory(s, progressListener)
                                 .createRandomInvitations(Integer
                                         .parseInt(settings
                                                 .getProperty(PROPERTY_INVITATIONS)));
+
+                        stdOut("All done.");
                     }
                 });
     }

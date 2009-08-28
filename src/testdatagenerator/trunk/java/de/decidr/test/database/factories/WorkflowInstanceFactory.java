@@ -12,6 +12,8 @@ import de.decidr.model.acl.Password;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.User;
+import de.decidr.model.entities.UserAdministratesWorkflowInstance;
+import de.decidr.model.entities.UserAdministratesWorkflowInstanceId;
 import de.decidr.model.entities.UserParticipatesInWorkflow;
 import de.decidr.model.entities.UserParticipatesInWorkflowId;
 import de.decidr.model.entities.WorkflowInstance;
@@ -120,11 +122,45 @@ public class WorkflowInstanceFactory extends EntityFactory {
             session.save(newInstance);
             result.add(newInstance);
 
-            associateUsersWithInstance(newInstance, rnd.nextInt(50) + 1);
+            associateParticipantsWithInstance(newInstance, rnd.nextInt(50) + 1);
+            associateAdministratorsWithInstance(newInstance, rnd.nextInt(5) + 1);
 
             fireProgressEvent(numInstances, i + 1);
         }
         return result;
+    }
+
+    /**
+     * Makes up to numAdmin tenant members administrators of the given workflow
+     * instance
+     * 
+     * @param instance
+     * @param numAdmins
+     */
+    @SuppressWarnings("unchecked")
+    private void associateAdministratorsWithInstance(WorkflowInstance instance,
+            int numAdmins) {
+        String hql = "from User u where "
+                + "exists(from UserIsMemberOfTenant rel where rel.user = u and "
+                + "rel.tenant = :tenant) and u.userProfile is not null "
+                + "order by rand()";
+        List<User> workflowAdmins = session.createQuery(hql).setEntity(
+                "tenant", instance.getDeployedWorkflowModel().getTenant())
+                .setMaxResults(numAdmins).list();
+
+        if (workflowAdmins.isEmpty()) {
+            throw new RuntimeException(
+                    "Could not find a user to become workflow instance admin.");
+        }
+
+        for (User admin : workflowAdmins) {
+            UserAdministratesWorkflowInstance rel = new UserAdministratesWorkflowInstance();
+            rel.setUser(admin);
+            rel.setWorkflowInstance(instance);
+            rel.setId(new UserAdministratesWorkflowInstanceId(admin.getId(),
+                    instance.getId()));
+            session.save(rel);
+        }
     }
 
     /**
@@ -134,12 +170,13 @@ public class WorkflowInstanceFactory extends EntityFactory {
      * @param numUsers
      */
     @SuppressWarnings("unchecked")
-    private void associateUsersWithInstance(WorkflowInstance instance,
+    private void associateParticipantsWithInstance(WorkflowInstance instance,
             int numUsers) {
         String hql = "from User u where "
                 + "exists(from UserIsMemberOfTenant rel where rel.user = u and "
                 + "rel.tenant = :tenant) or "
-                + "exists(from Tenant t where t.admin = u) " + "order by rand()";
+                + "exists(from Tenant t where t.admin = u) "
+                + "order by rand()";
         List<User> participants = session.createQuery(hql).setEntity("tenant",
                 instance.getDeployedWorkflowModel().getTenant()).setMaxResults(
                 numUsers).list();

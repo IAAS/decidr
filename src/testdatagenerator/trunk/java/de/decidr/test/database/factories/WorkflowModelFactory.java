@@ -18,6 +18,7 @@ import de.decidr.model.entities.Server;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserAdministratesWorkflowModel;
+import de.decidr.model.entities.UserAdministratesWorkflowModelId;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.entities.WorkflowModelIsDeployedOnServer;
 import de.decidr.model.entities.WorkflowModelIsDeployedOnServerId;
@@ -104,12 +105,13 @@ public class WorkflowModelFactory extends EntityFactory {
             model.setModifiedDate(now);
             // every 10th model is available to the public for import
             model.setPublished(i % 10 == 0);
+            session.save(model);
 
-            // find suitable workflow administrators
+            // find suitable workflow administrators -requires persisted
+            // workflow model!
             model
                     .setUserAdministratesWorkflowModels(getSuitableWorkflowAdministrators(model));
 
-            session.save(model);
             result.add(model);
 
             if (rnd.nextBoolean()) {
@@ -124,8 +126,10 @@ public class WorkflowModelFactory extends EntityFactory {
                     }
                 }
             }
-            
-            fireProgressEvent(numModels, i+1);
+
+            session.update(model);
+
+            fireProgressEvent(numModels, i + 1);
         }
 
         return result;
@@ -156,13 +160,17 @@ public class WorkflowModelFactory extends EntityFactory {
         Set<UserAdministratesWorkflowModel> result = new HashSet<UserAdministratesWorkflowModel>();
 
         for (User admin : admins) {
-            // hopefully Hibernate will generate the id from the given model and
-            // admin. The model id is not available at this point since the
-            // model hasn't been persisted yet.
-            result.add(new UserAdministratesWorkflowModel(null, model, admin));
+            UserAdministratesWorkflowModelId relationId = new UserAdministratesWorkflowModelId(
+                    admin.getId(), model.getId());
+            UserAdministratesWorkflowModel relation = new UserAdministratesWorkflowModel(
+                    relationId, model, admin);
+
+            session.save(relation);
+
+            result.add(relation);
         }
 
-        return null;
+        return result;
     }
 
     /**
