@@ -256,6 +256,11 @@ public class ValueEditor extends Dialog {
         }
     }
 
+    /**
+     * TODO: add comment
+     *
+     * @param variable
+     */
     public void setVariable(Variable variable) {
         this.variable = variable;
     }

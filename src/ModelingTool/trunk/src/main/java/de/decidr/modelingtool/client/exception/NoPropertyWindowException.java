@@ -21,6 +21,7 @@ package de.decidr.modelingtool.client.exception;
  *
  * @author JE
  */
+@SuppressWarnings("serial")
 public class NoPropertyWindowException extends OperationNotAllowedException {
 
     /**

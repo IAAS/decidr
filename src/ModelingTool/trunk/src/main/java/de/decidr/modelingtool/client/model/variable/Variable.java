@@ -53,7 +53,7 @@ public class Variable extends BaseModelData {
         set(TYPE, VariableType.STRING);
         set(TYPELOCALNAME, VariableType.STRING.getLocalName());
         ArrayList<String> values = new ArrayList<String>();
-        values.add(ModelingToolWidget.messages.newStringValue());
+        values.add("");
         set(VALUE, values);
         setArray();
         set(CONFIGVAR, false);

@@ -179,7 +179,6 @@ public class WorkflowParserImpl implements WorkflowParser {
         /* Append the values of the role variables as actors */
         for (String value : role.getValues()) {
             Element actor = doc.createElement(DWDLNames.actor);
-            // JS fetch user ids properly
             actor.setAttribute(DWDLNames.userId, value);
             roleElement.appendChild(actor);
         }

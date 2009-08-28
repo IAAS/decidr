@@ -44,7 +44,8 @@ public interface DataExchanger {
 
     /**
      * 
-     * Returns a list of the tenant user names.
+     * Returns a list of the tenant user names with their id and an appropriate
+     * display name.
      * 
      * @return the list of user names
      */

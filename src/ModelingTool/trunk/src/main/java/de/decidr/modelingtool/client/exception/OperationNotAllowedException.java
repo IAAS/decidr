@@ -23,6 +23,7 @@ package de.decidr.modelingtool.client.exception;
  *
  * @author Johannes Engelhardt
  */
+@SuppressWarnings("serial")
 public class OperationNotAllowedException extends ModelingToolException {
 
     public OperationNotAllowedException(String msg) {

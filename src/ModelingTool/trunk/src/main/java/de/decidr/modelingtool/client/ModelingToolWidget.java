@@ -57,6 +57,8 @@ public class ModelingToolWidget extends Composite implements
 
     public static Messages messages;
 
+    private static DataExchanger dataExchgr;
+
     // private static final String html = "<table align=\"center\">"
     // + "<tr><td id=\"menu\"></td></tr>"
     // + "<tr><td id=\"workflow\"></td></tr>" + "</table>";
@@ -141,22 +143,30 @@ public class ModelingToolWidget extends Composite implements
     }
 
     public void init(DataExchanger dataExchanger) {
-        // Load Workflow Model
+        dataExchgr = dataExchanger;
 
+        // Load Workflow Model
         // TODO: substitute stub by real implementation
         WorkflowIO io = new WorkflowIOStub();
         // WorkflowIO io = new WorkflowIOImpl(dataExchanger);
-
         try {
             WorkflowModel workflowModel = io.loadWorkflow();
             Command createWorkflowCmd = new CreateWorkflowCommand(workflowModel);
             createWorkflowCmd.execute();
-
         } catch (LoadDWDLException e) {
             Window.alert(e.getMessage());
         } catch (IncompleteModelDataException e) {
             Window.alert(e.getMessage());
         }
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @return the dataExchanger
+     */
+    public static DataExchanger getDataExchanger() {
+        return dataExchgr;
     }
 
 }

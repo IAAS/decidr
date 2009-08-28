@@ -23,6 +23,7 @@ import de.decidr.modelingtool.client.ui.dialogs.email.EmailActivityWindow;
 import de.decidr.modelingtool.client.ui.dialogs.foreachcontainer.ForEachWindow;
 import de.decidr.modelingtool.client.ui.dialogs.humantask.HumanTaskActivityWindow;
 import de.decidr.modelingtool.client.ui.dialogs.ifcontainer.IfWindow;
+import de.decidr.modelingtool.client.ui.dialogs.valueeditor.RoleEditor;
 import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditor;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
 
@@ -48,6 +49,7 @@ public class DialogRegistry {
         register(new WorkflowPropertyWindow());
         register(new VariableEditor());
         register(new ValueEditor());
+        register(new RoleEditor());
         register(new EmailActivityWindow());
         register(new HumanTaskActivityWindow());
         register(new ForEachWindow());
