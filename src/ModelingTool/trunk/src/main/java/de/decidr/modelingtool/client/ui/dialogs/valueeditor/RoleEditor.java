@@ -57,7 +57,7 @@ public class RoleEditor extends Dialog {
     private ListView<RoleEditorUser> roleUsersView;
 
     private HashMap<Long, String> tenantUsers;
-    private List<Long> roleUserIds = new ArrayList<Long>();
+    private List<Long> roleUserIds;
 
     private Variable variable;
 
@@ -87,7 +87,6 @@ public class RoleEditor extends Dialog {
 
         tenantUsersView = new ListView<RoleEditorUser>();
         tenantUsersView.setDisplayProperty(RoleEditorUser.DISPLAYNAME);
-        tenantUsersView.setTitle("sdfrwe");
         tenantUsersView.setStyleAttribute("backgroundColor", "white");
 
         roleUsersView = new ListView<RoleEditorUser>();
@@ -180,7 +179,8 @@ public class RoleEditor extends Dialog {
 
         /* Create store for tenantUsersList */
         ListStore<RoleEditorUser> tenantUsersStore = new ListStore<RoleEditorUser>();
-        tenantUsersStore.setStoreSorter(new StoreSorter<RoleEditorUser>());
+        tenantUsersStore.setStoreSorter(new StoreSorter<RoleEditorUser>(
+                new RoleEditorUserComparator()));
         for (Long userId : tenantUsers.keySet()) {
             tenantUsersStore.add(new RoleEditorUser(userId, tenantUsers
                     .get(userId)));
@@ -189,7 +189,8 @@ public class RoleEditor extends Dialog {
 
         /* Create store for roleUsersList */
         ListStore<RoleEditorUser> roleUsersStore = new ListStore<RoleEditorUser>();
-        roleUsersStore.setStoreSorter(new StoreSorter<RoleEditorUser>());
+        roleUsersStore.setStoreSorter(new StoreSorter<RoleEditorUser>(
+                new RoleEditorUserComparator()));
         for (Long userId : roleUserIds) {
             roleUsersStore.add(new RoleEditorUser(userId, ModelingToolWidget
                     .getDataExchanger().getUsers().get(userId)));
@@ -218,7 +219,10 @@ public class RoleEditor extends Dialog {
     }
 
     private void clearAllEntries() {
-
+        tenantUsers.clear();
+        tenantUsersView.getStore().removeAll();
+        roleUserIds.clear();
+        roleUsersView.getStore().removeAll();
     }
 
     /**
@@ -237,7 +241,13 @@ public class RoleEditor extends Dialog {
      */
     @Override
     public void initialize() {
-        tenantUsers = ModelingToolWidget.getDataExchanger().getUsers();
+        tenantUsers = new HashMap<Long, String>();
+        for (Long userId : ModelingToolWidget.getDataExchanger().getUsers()
+                .keySet()) {
+            tenantUsers.put(new Long(userId), new String(ModelingToolWidget
+                    .getDataExchanger().getUsers().get(userId)));
+        }
+        roleUserIds = new ArrayList<Long>();
         for (String userId : variable.getValues()) {
             try {
                 roleUserIds.add(new Long(userId));
