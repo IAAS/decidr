@@ -203,5 +203,13 @@ public class TransformUtil {
 
         return os.toByteArray();      
     }
+    
+    public static TConfiguration bytes2Configuration(byte[] wsc) throws JAXBException{
+        Unmarshaller wscUnmarshaller = wscCntxt.createUnmarshaller();
+        JAXBElement<TConfiguration> dwdlElement = wscUnmarshaller.unmarshal(
+                new StreamSource(new ByteArrayInputStream(wsc)),
+                TConfiguration.class);
+        return dwdlElement.getValue();
+    }
 
 }
