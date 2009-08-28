@@ -12,7 +12,7 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.annotations.AllowedRole;
 import de.decidr.model.commands.TransactionalCommand;
-import de.decidr.model.commands.workflowinstance.DeleteWorkFlowInstanceCommand;
+import de.decidr.model.commands.workflowinstance.DeleteWorkflowInstanceCommand;
 import de.decidr.model.commands.workflowinstance.GetAllWorkitemsCommand;
 import de.decidr.model.commands.workflowinstance.GetParticipatingUsersCommand;
 import de.decidr.model.commands.workflowinstance.RemoveAllWorkItemsCommand;
@@ -21,7 +21,6 @@ import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionCoordinator;
 
 /**
  * The WorkflowInstanceFacade contains all functions which are available to
@@ -36,7 +35,8 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * Creates a new WorkflowInstaceFacade. All Commands will be executed by the
      * given actor.
      * 
-     * @param actor user which executes all commands of the created facade
+     * @param actor
+     *            user which executes all commands of the created facade
      * 
      */
     public WorkflowInstanceFacade(Role actor) {
@@ -53,19 +53,18 @@ public class WorkflowInstanceFacade extends AbstractFacade {
     public void stopWorkflowInstance(Long workflowInstanceId)
             throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         StopWorkflowInstanceCommand command = new StopWorkflowInstanceCommand(
                 actor, workflowInstanceId);
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
      * Returns all participants of the given WorkflowInstance
      * 
      * @param workflowInstanceId
-     *            the ID of the workflow instance whose participating users should be requested
+     *            the ID of the workflow instance whose participating users
+     *            should be requested
      * @return List of participatin Users
      */
     @SuppressWarnings("unchecked")
@@ -73,13 +72,10 @@ public class WorkflowInstanceFacade extends AbstractFacade {
     public List<Item> getParticipatingUsers(Long workflowInstanceId)
             throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
-
         GetParticipatingUsersCommand command = new GetParticipatingUsersCommand(
                 actor, workflowInstanceId);
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
         Set<User> inSet = command.getResult();
         List<Item> outList = new ArrayList();
@@ -104,17 +100,14 @@ public class WorkflowInstanceFacade extends AbstractFacade {
     public void deleteWorkflowInstance(Long workflowInstanceId)
             throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
-
         StopWorkflowInstanceCommand command = new StopWorkflowInstanceCommand(
                 actor, workflowInstanceId);
-        DeleteWorkFlowInstanceCommand command2 = new DeleteWorkFlowInstanceCommand(
+        DeleteWorkflowInstanceCommand command2 = new DeleteWorkflowInstanceCommand(
                 actor, workflowInstanceId);
 
         TransactionalCommand[] commands = { command, command2 };
 
-        tac.runTransaction(commands);
+        HibernateTransactionCoordinator.getInstance().runTransaction(commands);
 
     }
 
@@ -126,7 +119,8 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * @param odePid
      *            the process ID of the workflow at the ODE
      * @param deployedWorkflowModelId
-     *            ID of the deployed workflow model whose workitems should be removed
+     *            ID of the deployed workflow model whose workitems should be
+     *            removed
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -134,13 +128,10 @@ public class WorkflowInstanceFacade extends AbstractFacade {
     public void removeAllWorkItems(String odePid, Long deployedWorkflowModelId)
             throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         RemoveAllWorkItemsCommand command = new RemoveAllWorkItemsCommand(
                 actor, odePid, deployedWorkflowModelId);
 
-        tac.runTransaction(command);
-
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
@@ -160,8 +151,6 @@ public class WorkflowInstanceFacade extends AbstractFacade {
     public List<Item> getAllWorkItems(Long workflowInstanceId)
             throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         GetAllWorkitemsCommand command = new GetAllWorkitemsCommand(actor,
                 workflowInstanceId);
 
@@ -169,7 +158,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
         List<Item> outList = new ArrayList();
         Set<WorkItem> inSet;
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
         inSet = command.getResult();
 

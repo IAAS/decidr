@@ -20,33 +20,26 @@ import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * 
- * Returns the Url of the server on which the given WorkflowInstance is executed
+ * Deletes the representative object of the given WowrkFlowInstance in the
+ * database
  * 
  * @author Markus Fischer
  * 
  * @version 0.1
- * @deprecated Use DecidrGlobals instead? ~dh
  */
-public class GetOdeUrlCommand extends WorkflowInstanceCommand {
+public class DeleteWorkflowInstanceCommand extends WorkflowInstanceCommand {
 
-    private String result;
-    
-    public GetOdeUrlCommand(Role role, Long workflowInstanceId) {
-        super(role, null, workflowInstanceId);
+    public DeleteWorkflowInstanceCommand(Role role, Long WorkflowInstanceId) {
+        super(role, null, WorkflowInstanceId);
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt) {
-        
-        WorkflowInstance instance = (WorkflowInstance)evt.getSession().load(WorkflowInstance.class, this.getWorkflowInstanceIds()[0]);
-        
-        result = instance.getServer().getLocation();
-        
-    }
 
-    public String getResult() {
-        return result;
+        WorkflowInstance instance = (WorkflowInstance) evt.getSession().load(
+                WorkflowInstance.class, this.getWorkflowInstanceIds()[0]);
+
+        evt.getSession().delete(instance);
     }
 
 }

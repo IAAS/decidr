@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import javax.xml.bind.JAXBException;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -49,10 +51,14 @@ import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
+import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
 /**
+ * FIXME DH gotta update the start configuration with the found user ids.
+ * 
  * Creates a new workflow instance in the database. Sends invitations to users
  * that are unknown to the system or aren't members of the tenant that owns the
  * workflow instance.
@@ -69,7 +75,7 @@ import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
  */
 public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
 
-    private byte[] startConfiguration;
+    private TConfiguration startConfiguration;
     private WorkflowInstance createdWorkflowInstance = null;
     private Boolean startImmediately;
     private List<String> participantUsernames;
@@ -96,7 +102,7 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
      * @param participantEmails
      */
     public StartWorkflowInstanceCommand(Role role, Long workflowModelId,
-            byte[] startConfiguration, Boolean startImmediately,
+            TConfiguration startConfiguration, Boolean startImmediately,
             List<String> participantUsernames, List<String> participantEmails) {
         super(role, workflowModelId);
         this.startConfiguration = startConfiguration;
@@ -126,10 +132,15 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         // filled.
 
         // create the new workflow instance in the database
-        createWorkflowInstance(deployedWorkflowModel, evt.getSession());
+        try {
+            createWorkflowInstance(deployedWorkflowModel, evt.getSession());
+        } catch (JAXBException e) {
+            throw new TransactionException(e);
+        }
 
         // create invitations
-        Set<Invitation> invitations = createInvitations(usersThatNeedInvitations, evt.getSession());
+        Set<Invitation> invitations = createInvitations(
+                usersThatNeedInvitations, evt.getSession());
 
         // associate users with the new workflow instance
         associateWithNewWorkflowInstance(usersThatAreAlreadyTenantMembers, evt
@@ -180,13 +191,14 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
      *            list of users to invite
      * @param session
      *            current Hibernate sesion
-     * @return 
+     * @return
      */
     @SuppressWarnings("unchecked")
-    private Set<Invitation> createInvitations(List<User> invitedUsers, Session session) {
-        
+    private Set<Invitation> createInvitations(List<User> invitedUsers,
+            Session session) {
+
         Set<Invitation> invis = new HashSet();
-        
+
         for (User invitedUser : invitedUsers) {
             Invitation invitation = new Invitation();
             invitation.setAdministrateWorkflowModel(null);
@@ -208,7 +220,7 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
             session.save(invitation);
             invis.add(invitation);
         }
-        
+
         return invis;
     }
 
@@ -221,10 +233,15 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
      *            workflow model to start;
      * @param session
      *            current Hibernate Session
+     * @throws JAXBException
      */
     @SuppressWarnings("unchecked")
     private void createWorkflowInstance(DeployedWorkflowModel deployedModel,
-            Session session) {
+            Session session) throws JAXBException {
+
+        byte[] binaryStartConfig = TransformUtil
+                .configuration2Bytes(startConfiguration);
+
         if ((usersThatNeedInvitations.size() == 0) || (startImmediately)) {
             InstanceManager manager = new InstanceManagerImpl();
 
@@ -236,7 +253,7 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
             List<ServerLoadView> serverStatistics = q.list();
 
             createdWorkflowInstance = manager.startInstance(deployedModel,
-                    startConfiguration, serverStatistics);
+                    binaryStartConfig, serverStatistics);
             createdWorkflowInstance.setStartedDate(DecidrGlobals.getTime()
                     .getTime());
 
@@ -248,7 +265,7 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         createdWorkflowInstance.setCompletedDate(null);
         createdWorkflowInstance.setDeployedWorkflowModel(deployedModel);
         createdWorkflowInstance.setId(null);
-        createdWorkflowInstance.setStartConfiguration(startConfiguration);
+        createdWorkflowInstance.setStartConfiguration(binaryStartConfig);
     }
 
     /**
@@ -282,22 +299,22 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         usersThatNeedInvitations = new ArrayList<User>();
 
         for (Entry<User, UserWorkflowParticipationState> entry : map.entrySet()) {
-
+            User user = entry.getKey();
+            
             switch (entry.getValue()) {
             case IsAlreadyTenantMember:
-                usersThatAreAlreadyTenantMembers.add(entry.getKey());
+                usersThatAreAlreadyTenantMembers.add(user);
                 break;
 
             case IsUnknownUser:
                 // create users that are unknown to the system
                 HibernateTransactionCoordinator.getInstance().runTransaction(
-                        new CreateNewUnregisteredUserCommand(role, entry
-                                .getKey()));
-                usersThatNeedInvitations.add(entry.getKey());
+                        new CreateNewUnregisteredUserCommand(role, user));
+                usersThatNeedInvitations.add(user);
                 break;
 
             case NeedsTenantMembership:
-                usersThatNeedInvitations.add(entry.getKey());
+                usersThatNeedInvitations.add(user);
                 break;
 
             default:

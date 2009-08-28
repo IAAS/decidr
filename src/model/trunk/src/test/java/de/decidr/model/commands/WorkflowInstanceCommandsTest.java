@@ -24,7 +24,6 @@ import org.junit.Test;
 
 import de.decidr.model.CommandsTest;
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.commands.workflowinstance.DeleteWorkFlowInstanceCommand;
 import de.decidr.model.commands.workflowinstance.GetAllWorkitemsCommand;
 import de.decidr.model.commands.workflowinstance.GetOdeUrlCommand;
 import de.decidr.model.commands.workflowinstance.GetParticipatingUsersCommand;
@@ -42,7 +41,7 @@ public class WorkflowInstanceCommandsTest extends CommandsTest {
 
     /**
      * Test method for
-     * {@link DeleteWorkFlowInstanceCommand#DeleteWorkFlowInstanceCommand(Role, Long)}
+     * {@link DeleteWorkflowInstanceCommand#DeleteWorkFlowInstanceCommand(Role, Long)}
      * .
      */
     @Test

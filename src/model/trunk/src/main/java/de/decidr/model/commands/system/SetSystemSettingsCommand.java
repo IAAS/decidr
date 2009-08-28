@@ -1,13 +1,27 @@
 package de.decidr.model.commands.system;
 
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Map.Entry;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.hibernate.util.ReflectHelper;
+
+import de.decidr.model.DecidrGlobals;
+import de.decidr.model.HibernateTools;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.SystemSettings;
+import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Sets the System Settings.
+ * Sets the System settings.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -42,33 +56,19 @@ public class SetSystemSettingsCommand extends SystemCommand {
             throw new EntityNotFoundException(SystemSettings.class);
         }
 
-        currentSettings.setAutoAcceptNewTenants(newSettings
-                .isAutoAcceptNewTenants());
-        currentSettings.setChangeEmailRequestLifetimeSeconds(newSettings
-                .getChangeEmailRequestLifetimeSeconds());
-        currentSettings.setDomain(newSettings.getDomain());
-        currentSettings.setInvitationLifetimeSeconds(newSettings
-                .getInvitationLifetimeSeconds());
-        currentSettings.setLogLevel(newSettings.getLogLevel());
-        currentSettings.setMaxAttachmentsPerEmail(newSettings
-                .getMaxAttachmentsPerEmail());
-        currentSettings.setMaxUploadFileSizeBytes(newSettings
-                .getMaxUploadFileSizeBytes());
-        currentSettings.setMtaHostname(newSettings.getMtaHostname());
-        currentSettings.setMtaPassword(newSettings.getMtaPassword());
-        currentSettings.setMtaPort(newSettings.getMtaPort());
-        currentSettings.setMtaUsername(newSettings.getMtaUsername());
-        currentSettings.setMtaUseTls(newSettings.isMtaUseTls());
-        currentSettings.setPasswordResetRequestLifetimeSeconds(newSettings
-                .getPasswordResetRequestLifetimeSeconds());
-        currentSettings.setRegistrationRequestLifetimeSeconds(newSettings
-                .getRegistrationRequestLifetimeSeconds());
-        currentSettings.setSystemEmailAddress(newSettings
-                .getSystemEmailAddress());
-        currentSettings.setSystemName(newSettings.getSystemName());
-        // FIXME it's very difficult to maintain the above code, try to use
-        // reflection instead to copy all properties except for id,
-        // modififeddate...
+        Long settingsId = currentSettings.getId();
+        // copy each property of the new settings except for id and modified
+        // date
+        try {
+            BeanUtils.copyProperties(currentSettings, newSettings);
+        } catch (IllegalAccessException e) {
+            throw new TransactionException(e);
+        } catch (InvocationTargetException e) {
+            throw new TransactionException(e);
+        }
+
+        currentSettings.setId(settingsId);
+        currentSettings.setModifiedDate(DecidrGlobals.getTime().getTime());
 
         evt.getSession().update(currentSettings);
     }

@@ -29,7 +29,7 @@ import de.decidr.model.commands.tenant.ApproveTenantsCommand;
 import de.decidr.model.commands.tenant.CreateTenantCommand;
 import de.decidr.model.commands.tenant.CreateWorkflowModelCommand;
 import de.decidr.model.commands.tenant.DeleteTenantCommand;
-import de.decidr.model.commands.tenant.DisapproveTenantsCommand;
+import de.decidr.model.commands.tenant.RejectTenantsCommand;
 import de.decidr.model.commands.tenant.GetAllTenantsCommand;
 import de.decidr.model.commands.tenant.GetCurrentColorSchemeCommand;
 import de.decidr.model.commands.tenant.GetTenantIdCommand;
@@ -40,7 +40,6 @@ import de.decidr.model.commands.tenant.GetWorkflowInstancesCommand;
 import de.decidr.model.commands.tenant.GetWorkflowModelsCommand;
 import de.decidr.model.commands.tenant.ImportPublishedWorkflowModelsCommand;
 import de.decidr.model.commands.tenant.InviteUsersAsTenantMembersCommand;
-import de.decidr.model.commands.tenant.RemoveWorkflowModelCommand;
 import de.decidr.model.commands.tenant.SetAdvancedColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetCurrentColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetSimpleColorSchemeCommand;
@@ -106,11 +105,11 @@ public class TenantCommandsTest {
 
     /**
      * Test method for
-     * {@link DisapproveTenantsCommand#DisapproveTenantsCommand(Role, List)}.
+     * {@link RejectTenantsCommand#RejectTenantsCommand(Role, List)}.
      */
     @Test
-    public void testDisapproveTenantsCommand() {
-        fail("Not yet implemented"); // RR DisapproveTenantsCommand
+    public void testRejectTenantsCommand() {
+        fail("Not yet implemented"); // RR RejectTenantsCommand
     }
 
     /**
@@ -208,16 +207,6 @@ public class TenantCommandsTest {
     @Test
     public void testInviteUsersAsTenantMembersCommand() {
         fail("Not yet implemented"); // RR InviteUsersAsTenantMembersCommand
-    }
-
-    /**
-     * Test method for
-     * {@link RemoveWorkflowModelCommand#RemoveWorkflowModelCommand(Role, Long)}
-     * .
-     */
-    @Test
-    public void testRemoveWorkflowModelCommand() {
-        fail("Not yet implemented"); // RR RemoveWorkflowModelCommand
     }
 
     /**

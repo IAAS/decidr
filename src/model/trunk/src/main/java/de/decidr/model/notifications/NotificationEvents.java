@@ -130,7 +130,7 @@ public final class NotificationEvents {
     @SuppressWarnings("unchecked")
     public static void createdPasswordResetRequest(PasswordResetRequest request)
             throws TransactionException {
-        
+
         URLGenerator URLGenerator = new URLGenerator();
 
         SystemSettings settings = DecidrGlobals.getSettings();
@@ -151,11 +151,11 @@ public final class NotificationEvents {
             userName = request.getUser().getUserProfile().getUsername();
         }
 
-        
         String confirmationUrl;
-        
+
         try {
-            confirmationUrl = URLGenerator.getConfirmRegistrationURL(request.getUser().getId().toString(), request.getAuthKey());
+            confirmationUrl = URLGenerator.getConfirmRegistrationURL(request
+                    .getUser().getId().toString(), request.getAuthKey());
         } catch (UnsupportedEncodingException e1) {
             throw new TransactionException(e1);
         }
@@ -208,15 +208,15 @@ public final class NotificationEvents {
     }
 
     /**
-     * Informs the user, that is tenant has been disapproved.
+     * Informs the user, that is tenant has been rejected.
      * 
      * @param user
      *            user who created the tenant
      * @param tenantName
-     *            name of the tenant which has been disapproved
+     *            name of the tenant which has been rejected
      */
     @SuppressWarnings("unchecked")
-    public static void disapprovedTenant(User user, String tenantName)
+    public static void rejectedTenant(User user, String tenantName)
             throws TransactionException {
 
         try {
@@ -229,11 +229,11 @@ public final class NotificationEvents {
         // create body text
         String signature = "";
 
-        String bodyTXT = NotificationText.getDisapprovedTenantText(user
+        String bodyTXT = NotificationText.getRejectedTenantText(user
                 .getUserProfile().getUsername(), tenantName, signature);
-        String bodyHTML = NotificationText.getDisapprovedTenantHTML(user
+        String bodyHTML = NotificationText.getRejectedTenantHTML(user
                 .getUserProfile().getUsername(), tenantName, signature);
-        String subject = NotificationText.getDisapprovedTenantSubject();
+        String subject = NotificationText.getRejectedTenantSubject();
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
@@ -293,9 +293,11 @@ public final class NotificationEvents {
 
         String tenantUrl = "http://" + settings.getDomain() + "/" + tenantName;
 
-        String invitationUrl ="";
+        String invitationUrl = "";
         try {
-            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString(),invitation.getReceiver().getAuthKey());
+            invitationUrl = URLGenerator.getInvitationURL(invitation
+                    .getReceiver().getId().toString(), invitation.getId()
+                    .toString(), invitation.getReceiver().getAuthKey());
         } catch (UnsupportedEncodingException e1) {
             new TransactionException(e1);
         }
@@ -381,7 +383,9 @@ public final class NotificationEvents {
 
         String invitationUrl;
         try {
-            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString(),invitation.getReceiver().getAuthKey());
+            invitationUrl = URLGenerator.getInvitationURL(invitation
+                    .getReceiver().getId().toString(), invitation.getId()
+                    .toString(), invitation.getReceiver().getAuthKey());
         } catch (UnsupportedEncodingException e1) {
             throw new TransactionException(e1);
         }
@@ -699,11 +703,12 @@ public final class NotificationEvents {
      *            workflow model [and tenant via getTenant()] to administrate
      */
     @SuppressWarnings("unchecked")
-    public static void invitedUnregisteredUserAsWorkflowAdmin(Invitation invitation,
-            WorkflowModel model) throws TransactionException {
-        
+    public static void invitedUnregisteredUserAsWorkflowAdmin(
+            Invitation invitation, WorkflowModel model)
+            throws TransactionException {
+
         URLGenerator URLGenerator = new URLGenerator();
-        
+
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
@@ -712,29 +717,35 @@ public final class NotificationEvents {
         }
 
         // create body text
-        String signature="";
-        
-        
-        //get expire Date
+        String signature = "";
+
+        // get expire Date
         Calendar creationDate = Calendar.getInstance();
         creationDate.setTime(invitation.getCreationDate());
-        creationDate.add(Calendar.SECOND, DecidrGlobals.getSettings().getInvitationLifetimeSeconds());
+        creationDate.add(Calendar.SECOND, DecidrGlobals.getSettings()
+                .getInvitationLifetimeSeconds());
 
         SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
         String expireDate = sd.format(new Date());
-            
-        
+
         String tenantName = model.getTenant().getName();
         String invitationUrl;
         try {
-            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString(),invitation.getReceiver().getAuthKey());
+            invitationUrl = URLGenerator.getInvitationURL(invitation
+                    .getReceiver().getId().toString(), invitation.getId()
+                    .toString(), invitation.getReceiver().getAuthKey());
         } catch (UnsupportedEncodingException e1) {
             throw new TransactionException(e1);
         }
 
-        String bodyTXT = NotificationText.getInvitedUnregisteredUserAsWorkflowAdminText(tenantName, invitationUrl, expireDate, signature);
-        String bodyHTML = NotificationText.getInvitedUnregisteredUserAsWorkflowAdminHTML(tenantName, invitationUrl, expireDate, signature);
-        String subject = NotificationText.getInvitedUnregisteredUserAsWorkflowAdminSubject();
+        String bodyTXT = NotificationText
+                .getInvitedUnregisteredUserAsWorkflowAdminText(tenantName,
+                        invitationUrl, expireDate, signature);
+        String bodyHTML = NotificationText
+                .getInvitedUnregisteredUserAsWorkflowAdminHTML(tenantName,
+                        invitationUrl, expireDate, signature);
+        String subject = NotificationText
+                .getInvitedUnregisteredUserAsWorkflowAdminSubject();
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
@@ -764,7 +775,7 @@ public final class NotificationEvents {
         } catch (Exception e) {
             throw new TransactionException(e);
         }
-        
+
     }
 
     /**
@@ -778,11 +789,12 @@ public final class NotificationEvents {
      *            workflow model [and tenant via getTenant()] to administrate
      */
     @SuppressWarnings("unchecked")
-    public static void invitedRegisteredUserAsWorkflowAdmin(Invitation invitation,
-            WorkflowModel model) throws TransactionException {
-        
+    public static void invitedRegisteredUserAsWorkflowAdmin(
+            Invitation invitation, WorkflowModel model)
+            throws TransactionException {
+
         URLGenerator URLGenerator = new URLGenerator();
-        
+
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
@@ -791,31 +803,38 @@ public final class NotificationEvents {
         }
 
         // create body text
-        String signature="";
-        
-        
-        //get expire Date
+        String signature = "";
+
+        // get expire Date
         Calendar creationDate = Calendar.getInstance();
         creationDate.setTime(invitation.getCreationDate());
-        creationDate.add(Calendar.SECOND, DecidrGlobals.getSettings().getInvitationLifetimeSeconds());
+        creationDate.add(Calendar.SECOND, DecidrGlobals.getSettings()
+                .getInvitationLifetimeSeconds());
 
         SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
         String expireDate = sd.format(new Date());
-            
-        
+
         String tenantName = model.getTenant().getName();
-        String userName = invitation.getReceiver().getUserProfile().getUsername();
-        
+        String userName = invitation.getReceiver().getUserProfile()
+                .getUsername();
+
         String invitationUrl;
         try {
-            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString(),invitation.getReceiver().getAuthKey());
+            invitationUrl = URLGenerator.getInvitationURL(invitation
+                    .getReceiver().getId().toString(), invitation.getId()
+                    .toString(), invitation.getReceiver().getAuthKey());
         } catch (UnsupportedEncodingException e1) {
             throw new TransactionException(e1);
         }
 
-        String bodyTXT = NotificationText.getInvitedRegisteredUserAsWorkflowAdminText(userName, invitationUrl, expireDate, tenantName, signature);
-        String bodyHTML = NotificationText.getInvitedRegisteredUserAsWorkflowAdminHTML(userName, invitationUrl, expireDate, tenantName, signature);
-        String subject = NotificationText.getInvitedRegisteredUserAsWorkflowAdminSubject();
+        String bodyTXT = NotificationText
+                .getInvitedRegisteredUserAsWorkflowAdminText(userName,
+                        invitationUrl, expireDate, tenantName, signature);
+        String bodyHTML = NotificationText
+                .getInvitedRegisteredUserAsWorkflowAdminHTML(userName,
+                        invitationUrl, expireDate, tenantName, signature);
+        String subject = NotificationText
+                .getInvitedRegisteredUserAsWorkflowAdminSubject();
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
@@ -859,10 +878,11 @@ public final class NotificationEvents {
      */
     @SuppressWarnings("unchecked")
     public static void invitedRegisteredUserAsWorkflowParticipant(
-            Invitation invitation, WorkflowInstance createdWorkflowInstance) throws TransactionException {
+            Invitation invitation, WorkflowInstance createdWorkflowInstance)
+            throws TransactionException {
 
         URLGenerator URLGenerator = new URLGenerator();
-        
+
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
@@ -871,31 +891,39 @@ public final class NotificationEvents {
         }
 
         // create body text
-        String signature="";
-        
-        
-        //get expire Date
+        String signature = "";
+
+        // get expire Date
         Calendar creationDate = Calendar.getInstance();
         creationDate.setTime(invitation.getCreationDate());
-        creationDate.add(Calendar.SECOND, DecidrGlobals.getSettings().getInvitationLifetimeSeconds());
+        creationDate.add(Calendar.SECOND, DecidrGlobals.getSettings()
+                .getInvitationLifetimeSeconds());
 
         SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
         String expireDate = sd.format(new Date());
-            
-        
-        String tenantName = createdWorkflowInstance.getDeployedWorkflowModel().getTenant().getName();
-        String workflowName = createdWorkflowInstance.getDeployedWorkflowModel().getName();
-        
+
+        String tenantName = createdWorkflowInstance.getDeployedWorkflowModel()
+                .getTenant().getName();
+        String workflowName = createdWorkflowInstance
+                .getDeployedWorkflowModel().getName();
+
         String invitationUrl;
         try {
-            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString(),invitation.getReceiver().getAuthKey());
+            invitationUrl = URLGenerator.getInvitationURL(invitation
+                    .getReceiver().getId().toString(), invitation.getId()
+                    .toString(), invitation.getReceiver().getAuthKey());
         } catch (UnsupportedEncodingException e1) {
             throw new TransactionException(e1);
         }
 
-        String bodyTXT = NotificationText.getInvitedUserAsWorkflowParticipantText(tenantName, invitationUrl, expireDate, workflowName, signature);
-        String bodyHTML = NotificationText.getInvitedUserAsWorkflowParticipantHTML(tenantName, invitationUrl, expireDate, workflowName, signature);
-        String subject = NotificationText.getInvitedUserAsWorkflowParticipantSubject();
+        String bodyTXT = NotificationText
+                .getInvitedUserAsWorkflowParticipantText(tenantName,
+                        invitationUrl, expireDate, workflowName, signature);
+        String bodyHTML = NotificationText
+                .getInvitedUserAsWorkflowParticipantHTML(tenantName,
+                        invitationUrl, expireDate, workflowName, signature);
+        String subject = NotificationText
+                .getInvitedUserAsWorkflowParticipantSubject();
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
@@ -925,8 +953,6 @@ public final class NotificationEvents {
         } catch (Exception e) {
             throw new TransactionException(e);
         }
-
-        
 
     }
 
@@ -941,10 +967,11 @@ public final class NotificationEvents {
      */
     @SuppressWarnings("unchecked")
     public static void invitedUnregisteredUserAsWorkflowParticipant(
-            Invitation invitation, WorkflowInstance createdWorkflowInstance) throws TransactionException {
-        
+            Invitation invitation, WorkflowInstance createdWorkflowInstance)
+            throws TransactionException {
+
         URLGenerator URLGenerator = new URLGenerator();
-        
+
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
@@ -953,31 +980,39 @@ public final class NotificationEvents {
         }
 
         // create body text
-        String signature="";
-        
-        
-        //get expire Date
+        String signature = "";
+
+        // get expire Date
         Calendar creationDate = Calendar.getInstance();
         creationDate.setTime(invitation.getCreationDate());
-        creationDate.add(Calendar.SECOND, DecidrGlobals.getSettings().getInvitationLifetimeSeconds());
+        creationDate.add(Calendar.SECOND, DecidrGlobals.getSettings()
+                .getInvitationLifetimeSeconds());
 
         SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
         String expireDate = sd.format(new Date());
-            
-        
-        String tenantName = createdWorkflowInstance.getDeployedWorkflowModel().getTenant().getName();
-        String workflowName = createdWorkflowInstance.getDeployedWorkflowModel().getName();
-        
+
+        String tenantName = createdWorkflowInstance.getDeployedWorkflowModel()
+                .getTenant().getName();
+        String workflowName = createdWorkflowInstance
+                .getDeployedWorkflowModel().getName();
+
         String invitationUrl;
         try {
-            invitationUrl = URLGenerator.getInvitationURL(invitation.getReceiver().getId().toString(), invitation.getId().toString(),invitation.getReceiver().getAuthKey());
+            invitationUrl = URLGenerator.getInvitationURL(invitation
+                    .getReceiver().getId().toString(), invitation.getId()
+                    .toString(), invitation.getReceiver().getAuthKey());
         } catch (UnsupportedEncodingException e1) {
             throw new TransactionException(e1);
         }
 
-        String bodyTXT = NotificationText.getInvitedUserAsWorkflowParticipantText(tenantName, invitationUrl, expireDate, workflowName, signature);
-        String bodyHTML = NotificationText.getInvitedUserAsWorkflowParticipantHTML(tenantName, invitationUrl, expireDate, workflowName, signature);
-        String subject = NotificationText.getInvitedUserAsWorkflowParticipantSubject();
+        String bodyTXT = NotificationText
+                .getInvitedUserAsWorkflowParticipantText(tenantName,
+                        invitationUrl, expireDate, workflowName, signature);
+        String bodyHTML = NotificationText
+                .getInvitedUserAsWorkflowParticipantHTML(tenantName,
+                        invitationUrl, expireDate, workflowName, signature);
+        String subject = NotificationText
+                .getInvitedUserAsWorkflowParticipantSubject();
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
@@ -1007,7 +1042,6 @@ public final class NotificationEvents {
         } catch (Exception e) {
             throw new TransactionException(e);
         }
-
 
     }
 }

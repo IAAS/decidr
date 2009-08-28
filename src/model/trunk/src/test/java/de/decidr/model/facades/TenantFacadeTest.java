@@ -145,11 +145,11 @@ public class TenantFacadeTest {
     }
 
     /**
-     * Test method for {@link TenantFacade#disapproveTenants(List)}.
+     * Test method for {@link TenantFacade#rejectTenants(List)}.
      */
     @Test
-    public void testDisapproveTenants() {
-        fail("Not yet implemented"); // RR disapproveTenants
+    public void testRejectTenants() {
+        fail("Not yet implemented"); // RR rejectTenants
     }
 
     /**

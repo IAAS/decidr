@@ -16,6 +16,8 @@
 
 package de.decidr.model.commands.workflowmodel;
 
+import javax.xml.bind.JAXBException;
+
 import org.hibernate.Query;
 
 import de.decidr.model.acl.roles.Role;
@@ -24,6 +26,9 @@ import de.decidr.model.entities.StartConfiguration;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
+import de.decidr.model.workflowmodel.dwdl.translator.Translator;
+import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
 /**
  * Saves the given start configuration as the last used start configuration of
@@ -34,10 +39,10 @@ import de.decidr.model.transactions.TransactionEvent;
  */
 public class SaveStartConfigurationCommand extends WorkflowModelCommand {
 
-    private byte[] startConfiguration;
+    private TConfiguration startConfiguration;
 
     public SaveStartConfigurationCommand(Role role, Long workflowModelId,
-            byte[] startConfiguration) {
+            TConfiguration startConfiguration) {
         super(role, workflowModelId);
         this.startConfiguration = startConfiguration;
     }
@@ -64,7 +69,12 @@ public class SaveStartConfigurationCommand extends WorkflowModelCommand {
         // save new start configuration
         StartConfiguration lastStartConfiguration = new StartConfiguration();
         lastStartConfiguration.setDeployedWorkflowModel(deployedModel);
-        lastStartConfiguration.setStartConfiguration(startConfiguration);
+        try {
+            lastStartConfiguration.setStartConfiguration(TransformUtil
+                    .configuration2Bytes(startConfiguration));
+        } catch (JAXBException e) {
+            throw new TransactionException(e);
+        }
         evt.getSession().save(lastStartConfiguration);
     }
 }

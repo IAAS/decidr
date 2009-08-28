@@ -4,9 +4,11 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
+
 import de.decidr.model.VaadinTools;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
@@ -19,7 +21,6 @@ import de.decidr.model.commands.tenant.ApproveTenantsCommand;
 import de.decidr.model.commands.tenant.CreateTenantCommand;
 import de.decidr.model.commands.tenant.CreateWorkflowModelCommand;
 import de.decidr.model.commands.tenant.DeleteTenantCommand;
-import de.decidr.model.commands.tenant.DisapproveTenantsCommand;
 import de.decidr.model.commands.tenant.GetAllTenantsCommand;
 import de.decidr.model.commands.tenant.GetCurrentColorSchemeCommand;
 import de.decidr.model.commands.tenant.GetTenantIdCommand;
@@ -30,12 +31,13 @@ import de.decidr.model.commands.tenant.GetWorkflowInstancesCommand;
 import de.decidr.model.commands.tenant.GetWorkflowModelsCommand;
 import de.decidr.model.commands.tenant.ImportPublishedWorkflowModelsCommand;
 import de.decidr.model.commands.tenant.InviteUsersAsTenantMembersCommand;
-import de.decidr.model.commands.tenant.RemoveWorkflowModelCommand;
+import de.decidr.model.commands.tenant.RejectTenantsCommand;
 import de.decidr.model.commands.tenant.SetAdvancedColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetCurrentColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetSimpleColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetTenantDescriptionCommand;
 import de.decidr.model.commands.tenant.SetTenantLogoCommand;
+import de.decidr.model.commands.workflowmodel.DeleteWorkflowModelCommand;
 import de.decidr.model.entities.TenantSummaryView;
 import de.decidr.model.entities.TenantWithAdminView;
 import de.decidr.model.entities.User;
@@ -45,7 +47,6 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionCoordinator;
 
 /**
  * The tenant facade contains all functions which are available to modify tenant
@@ -83,13 +84,10 @@ public class TenantFacade extends AbstractFacade {
     public Long createTenant(String name, String description, Long adminId)
             throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
-
         CreateTenantCommand command = new CreateTenantCommand(actor, name,
                 description, adminId);
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
         return command.getTenantId();
     }
@@ -107,12 +105,10 @@ public class TenantFacade extends AbstractFacade {
     public void setDescription(Long tenantId, String description)
             throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         SetTenantDescriptionCommand command = new SetTenantDescriptionCommand(
                 actor, tenantId, description);
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
@@ -124,12 +120,9 @@ public class TenantFacade extends AbstractFacade {
      */
     @AllowedRole(Role.class)
     public InputStream getLogo(Long tenantId) throws TransactionException {
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         GetTenantLogoCommand command = new GetTenantLogoCommand(actor, tenantId);
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
         return command.getLogoStream();
     }
@@ -150,13 +143,10 @@ public class TenantFacade extends AbstractFacade {
     @AllowedRole(TenantAdminRole.class)
     public void setLogo(Long tenantId, FileInputStream logo, String mimeType,
             String fileName) throws TransactionException {
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         SetTenantLogoCommand command = new SetTenantLogoCommand(actor,
                 tenantId, logo, mimeType, fileName);
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
@@ -176,12 +166,10 @@ public class TenantFacade extends AbstractFacade {
             FileInputStream simpleColorScheme, String mimeType, String fileName)
             throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         SetSimpleColorSchemeCommand command = new SetSimpleColorSchemeCommand(
                 actor, tenantId, simpleColorScheme, mimeType, fileName);
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
@@ -201,12 +189,10 @@ public class TenantFacade extends AbstractFacade {
             Long tenantId, String mimeType, String fileName)
             throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         SetAdvancedColorSchemeCommand command = new SetAdvancedColorSchemeCommand(
                 actor, tenantId, advancedColorScheme, mimeType, fileName);
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
@@ -226,31 +212,27 @@ public class TenantFacade extends AbstractFacade {
             Long tenantId, String mimeType, String fileName)
             throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         SetCurrentColorSchemeCommand command = new SetCurrentColorSchemeCommand(
                 actor, tenantId, currentColorScheme, mimeType, fileName);
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
      * Returns the current color scheme as <code>{@link InputStream}</code>.
      * 
      * @param tenantId
-     *           the ID of the tenant for which the color scheme is requested
+     *            the ID of the tenant for which the color scheme is requested
      * @return tenant logo
      */
     @AllowedRole(Role.class)
     public InputStream getCurrentColorScheme(Long tenantId)
             throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         GetCurrentColorSchemeCommand command = new GetCurrentColorSchemeCommand(
                 actor, tenantId);
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
         return command.getSchemeStream();
 
@@ -268,18 +250,10 @@ public class TenantFacade extends AbstractFacade {
     public void addTenantMember(Long tenantId, Long memberId)
             throws TransactionException {
 
-        if (tenantId == null) {
-            throw new NullPointerException("tenantId mustn't be null");
-        } else if (memberId == null) {
-            throw new NullPointerException("memberID mustn't be null");
-        } else {
-            TransactionCoordinator tac = HibernateTransactionCoordinator
-                    .getInstance();
-            AddTenantMemberCommand command = new AddTenantMemberCommand(actor,
-                    tenantId, memberId);
+        AddTenantMemberCommand command = new AddTenantMemberCommand(actor,
+                tenantId, memberId);
 
-            tac.runTransaction(command);
-        }
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
@@ -288,7 +262,8 @@ public class TenantFacade extends AbstractFacade {
      * <code>null</code>.
      * 
      * @param tenantId
-     *            the id of the tenant to which the workflow model should be added
+     *            the id of the tenant to which the workflow model should be
+     *            added
      * @param name
      *            the name of the workflow model which should be created
      * @return id of the new workflow model
@@ -297,19 +272,12 @@ public class TenantFacade extends AbstractFacade {
     public Long createWorkflowModel(Long tenantId, String name)
             throws TransactionException {
 
-        if (tenantId == null) {
-            throw new NullPointerException("tenantId mustn't be null");
-        } else if ((name == null) || ("".equals(name))) {
-            throw new IllegalArgumentException("name must have a content");
-        } else {
-            TransactionCoordinator tac = HibernateTransactionCoordinator
-                    .getInstance();
-            CreateWorkflowModelCommand command = new CreateWorkflowModelCommand(
-                    actor, tenantId, name);
+        CreateWorkflowModelCommand command = new CreateWorkflowModelCommand(
+                actor, tenantId, name);
 
-            tac.runTransaction(command);
-            return command.getWorkflowModelId();
-        }
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+
+        return command.getWorkflowModelId();
     }
 
     /**
@@ -325,16 +293,14 @@ public class TenantFacade extends AbstractFacade {
     public void removeWorkflowModel(Long workflowModelId)
             throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
-        RemoveWorkflowModelCommand command = new RemoveWorkflowModelCommand(
+        DeleteWorkflowModelCommand command = new DeleteWorkflowModelCommand(
                 actor, workflowModelId);
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
-     * Approves the given tenants. Not existing and already approved/disapproved
+     * Approves the given tenants. Not existing and already approved/rejected
      * tenants will we ignored.
      * 
      * @param tenantIds
@@ -343,34 +309,25 @@ public class TenantFacade extends AbstractFacade {
     @AllowedRole(SuperAdminRole.class)
     public void approveTenants(List<Long> tenantIds)
             throws TransactionException {
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         ApproveTenantsCommand command = new ApproveTenantsCommand(actor,
                 tenantIds);
 
-        tac.runTransaction(command);
-
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
-     * Disapproves all given tenants and sends a notification mail to the tenant
-     * owners. Already approved/disapproved tenants will be ignored.
+     * Rejects all given tenants and sends a notification mail to the tenant
+     * owners. Already approved tenants will be ignored.
      * 
      * @param tenantIds
-     *            a list of IDs of tenants which should be disapproved
+     *            a list of IDs of tenants which should be rejected
      */
     @AllowedRole(SuperAdminRole.class)
-    public void disapproveTenants(List<Long> tenantIds)
-            throws TransactionException {
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
-        DisapproveTenantsCommand command = new DisapproveTenantsCommand(actor,
+    public void rejectTenants(List<Long> tenantIds) throws TransactionException {
+        RejectTenantsCommand command = new RejectTenantsCommand(actor,
                 tenantIds);
 
-        tac.runTransaction(command);
-
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
@@ -381,13 +338,9 @@ public class TenantFacade extends AbstractFacade {
      */
     @AllowedRole(SuperAdminRole.class)
     public void deleteTenant(Long tenantId) throws TransactionException {
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         DeleteTenantCommand command = new DeleteTenantCommand(actor, tenantId);
 
-        tac.runTransaction(command);
-
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
@@ -402,24 +355,27 @@ public class TenantFacade extends AbstractFacade {
      */
     @AllowedRole(UserRole.class)
     public Long getTenantId(String tenantName) throws TransactionException {
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         GetTenantIdCommand command = new GetTenantIdCommand(actor, tenantName);
-        tac.runTransaction(command);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
         return command.getTenantId();
     }
 
     /**
+     * 
+     * FIXME DH add more properties (user id), include tenant admin (by param?)
+     * 
      * Returns the Users of the given tenant.<br>
      * The tenant admin will not be part of the result. <br>
      * <br>
      * The returned Items contain the following properties:<br>
      * <ul>
-     * <il>username</il>
-     * <il>first_name</il>
-     * <il>last_name</il>
-     * <il>email</il>
+     * <li>id</li>
+     * <li>username</li>
+     * <li>firstName</li>
+     * <li>lastName</li>
+     * <li>email</li>
      * </ul>
      * 
      * @param tenantId
@@ -433,37 +389,24 @@ public class TenantFacade extends AbstractFacade {
     public List<Item> getUsersOfTenant(Long tenantId, Paginator paginator)
             throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         GetUsersOfTenantCommand command = new GetUsersOfTenantCommand(actor,
                 tenantId, paginator);
 
         List<Item> outList = new ArrayList<Item>();
         List<User> inList = new ArrayList();
-        String[] properties = { "email" };
-        Item currentItem = null;
+        String[] userProperties = { "id", "email" };
+        String[] profileProperties = { "username", "firstName", "lastName" };
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
         inList = command.getResult();
 
         for (User user : inList) {
 
-            currentItem = new BeanItem(user, properties);
+            BeanItem currentItem = new BeanItem(user, userProperties);
 
             if (user.getUserProfile() != null) {
-                currentItem.addItemProperty("username", new ObjectProperty(user
-                        .getUserProfile().getUsername(), String.class));
-                currentItem.addItemProperty("first_name", new ObjectProperty(
-                        user.getUserProfile().getFirstName(), String.class));
-                currentItem.addItemProperty("last_name", new ObjectProperty(
-                        user.getUserProfile().getLastName(), String.class));
-            } else {
-                currentItem.addItemProperty("username", VaadinTools
-                        .getEmptyProperty());
-                currentItem.addItemProperty("first_name", VaadinTools
-                        .getEmptyProperty());
-                currentItem.addItemProperty("last_name", VaadinTools
-                        .getEmptyProperty());
+                VaadinTools.addBeanPropertiesToItem(user.getUserProfile(),
+                        currentItem, profileProperties);
             }
 
             outList.add(currentItem);
@@ -494,8 +437,6 @@ public class TenantFacade extends AbstractFacade {
     public List<Item> getWorkflowInstances(Long tenantId, Paginator paginator)
             throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         GetWorkflowInstancesCommand command = new GetWorkflowInstancesCommand(
                 actor, tenantId, paginator);
 
@@ -504,7 +445,7 @@ public class TenantFacade extends AbstractFacade {
         String[] properties = { "id,startDate" };
         Item currentItem = null;
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
         inList = command.getResult();
 
         for (WorkflowInstance instance : inList) {
@@ -546,8 +487,6 @@ public class TenantFacade extends AbstractFacade {
     public List<Item> getTenantsToApprove(List<Filter> filters,
             Paginator paginator) throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         GetTenantsToApproveCommand command = new GetTenantsToApproveCommand(
                 actor, filters, paginator);
 
@@ -556,7 +495,7 @@ public class TenantFacade extends AbstractFacade {
 
         String[] properties = { "id", "adminFirstName", "adminLastName" };
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
         inList = command.getResult();
 
         for (TenantWithAdminView item : inList) {
@@ -594,15 +533,13 @@ public class TenantFacade extends AbstractFacade {
     public List<Item> getAllTenants(List<Filter> filters, Paginator paginator)
             throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         GetAllTenantsCommand command = new GetAllTenantsCommand(actor, filters,
                 paginator);
 
         List<Item> outList = new ArrayList<Item>();
         List<TenantSummaryView> inList = new ArrayList();
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
         inList = command.getResult();
 
         for (TenantSummaryView tenant : inList) {
@@ -636,8 +573,6 @@ public class TenantFacade extends AbstractFacade {
     public List<Item> getWorkflowModels(Long tenantId, List<Filter> filters,
             Paginator paginator) throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         GetWorkflowModelsCommand command = new GetWorkflowModelsCommand(actor,
                 tenantId, filters, paginator);
 
@@ -645,7 +580,7 @@ public class TenantFacade extends AbstractFacade {
         List<WorkflowModel> inList = new ArrayList();
         String[] properties = { "name", "creationDate", "published" };
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
         inList = command.getResult();
 
         for (WorkflowModel model : inList) {
@@ -664,18 +599,17 @@ public class TenantFacade extends AbstractFacade {
      * @param tenantId
      *            the id of the tenant where the users should be invited to
      * @param emailOrUsernames
-     *            a list of strings which includes email addresses and usernames which should be invited
+     *            a list of strings which includes email addresses and usernames
+     *            which should be invited
      */
     @AllowedRole(WorkflowAdminRole.class)
     public void inviteUsersAsMembers(Long tenantId, List<String> emails,
             List<String> userNames) throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         InviteUsersAsTenantMembersCommand command = new InviteUsersAsTenantMembersCommand(
                 actor, tenantId, emails, userNames);
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
@@ -691,11 +625,9 @@ public class TenantFacade extends AbstractFacade {
     public void importPublishedWorkflowModels(Long tenantId,
             List<Long> workflowModelIds) throws TransactionException {
 
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         ImportPublishedWorkflowModelsCommand command = new ImportPublishedWorkflowModelsCommand(
                 actor, tenantId, workflowModelIds);
 
-        tac.runTransaction(command);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 }

@@ -1,3 +1,18 @@
+/*
+ * The DecidR Development Team licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package de.decidr.model.commands.tenant;
 
 import de.decidr.model.DecidrGlobals;
@@ -33,13 +48,23 @@ public class CreateWorkflowModelCommand extends TenantCommand {
      *            the user which executes the command
      * @param tenantId
      *            the id of the tenant to which the model should be added
-     * @param WorkflowModelName
+     * @param workflowModelName
      *            the name of the model which should be created
      */
     public CreateWorkflowModelCommand(Role role, Long tenantId,
-            String WorkflowModelName) {
+            String workflowModelName) {
         super(role, tenantId);
-        this.WorkflowModelName = WorkflowModelName;
+
+        if (tenantId == null) {
+            throw new IllegalArgumentException("tenantId cannot be null");
+        }
+
+        if (workflowModelName == null || workflowModelName.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "workflow model name cannot be empty");
+        }
+
+        this.WorkflowModelName = workflowModelName;
     }
 
     @Override

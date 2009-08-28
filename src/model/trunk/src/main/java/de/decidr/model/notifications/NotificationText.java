@@ -426,10 +426,10 @@ public class NotificationText {
      *            signature of the email
      * @return complete email message with HTML tags
      */
-    public static String getDisapprovedTenantHTML(String userName,
+    public static String getRejectedTenantHTML(String userName,
             String tenantName, String signature) {
         
-        String message = bundle.getString("DisapprovedTenant_Message");
+        String message = bundle.getString("RejectedTenant_Message");
         message = message.replaceAll("<userName>", userName);
         message = message.replaceAll("<tenantName>", tenantName);
         message = message.replaceAll("<signature>", signature);
@@ -452,10 +452,10 @@ public class NotificationText {
      *            signature of the email
      * @return complete email message
      */
-    public static String getDisapprovedTenantText(String userName,
+    public static String getRejectedTenantText(String userName,
             String tenantName, String signature) {
 
-        String message = bundle.getString("DisapprovedTenant_Message");
+        String message = bundle.getString("RejectedTenant_Message");
         message = message.replaceAll("<userName>", userName);
         message = message.replaceAll("<tenantName>", tenantName);
         message = message.replaceAll("<signature>", signature);
@@ -469,8 +469,8 @@ public class NotificationText {
      * 
      * @return subject of the email
      */
-    public static String getDisapprovedTenantSubject() {
-        String message = bundle.getString("DisapprovedTenant_Subject");
+    public static String getRejectedTenantSubject() {
+        String message = bundle.getString("RejectedTenant_Subject");
         return message;
     }
 

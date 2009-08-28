@@ -53,6 +53,8 @@ import de.decidr.model.exceptions.WorkflowModelNotStartableException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
+import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
+import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
 /**
  * Provides an interface for retrieving and modifying (deployed) workflow
@@ -460,7 +462,8 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @param workflowModelId
      *            id of workflow model of which an instance should be started
      * @param startConfiguration
-     *            raw xml data of start configuration to use
+     *            xml object of start configuration to use it will be updated
+     *            accordingly if new users are created
      * @param participantUsernames
      *            a list of usernames of the users that have been assigned to
      *            the new workflow instance.
@@ -482,11 +485,14 @@ public class WorkflowModelFacade extends AbstractFacade {
      */
     @AllowedRole(WorkflowAdminRole.class)
     public Long startWorkflowInstance(Long workflowModelId,
-            byte[] startConfiguration, Boolean startImmediately,
+            TConfiguration startConfiguration, Boolean startImmediately,
             List<String> participantUsernames, List<String> participantEmails)
             throws TransactionException, WorkflowModelNotStartableException,
             UserUnavailableException, UserDisabledException,
             UsernameNotFoundException {
+
+        // FIXME modify the command(s) so users that are created on the fly are
+        // added to the start configuration.
 
         StartWorkflowInstanceCommand startCmd = new StartWorkflowInstanceCommand(
                 actor, workflowModelId, startConfiguration, startImmediately,
