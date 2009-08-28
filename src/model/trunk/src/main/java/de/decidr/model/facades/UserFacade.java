@@ -80,7 +80,6 @@ import de.decidr.model.transactions.TransactionCoordinator;
  * @author Daniel Huss
  * @version 0.1
  */
-// DH & MF: weren't admins supposed to be able to delete users? There's currently no way to! ~rr
 public class UserFacade extends AbstractFacade {
 
     /**
