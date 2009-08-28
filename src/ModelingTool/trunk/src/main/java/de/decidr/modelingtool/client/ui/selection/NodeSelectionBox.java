@@ -58,6 +58,44 @@ public class NodeSelectionBox {
     }
 
     /**
+     * 
+     * Assigns the dragBoxes to the specified node on the workflow.
+     * 
+     * @param node
+     *            The node which the drag boxes are assigned to.
+     */
+    public void assignTo(Node node) {
+        unassign();
+        this.assignedNode = node;
+
+        for (DragBox dragBox : dragBoxes) {
+            dragBox.setVisible(true);
+            AbsolutePanel parentPanel = (AbsolutePanel) assignedNode
+                    .getParent();
+            parentPanel.add(dragBox);
+
+            DragController rdc = DndRegistry.getInstance().getDragController(
+                    "ResizeDragController");
+
+            // dragBox.addStyleName("dragbox-node");
+
+            if (node.isResizable()) {
+                rdc.makeDraggable(dragBox);
+            }
+
+            dragBox.addStyleName("dragbox-node");
+        }
+
+        refreshPosition();
+
+        // Window.alert(dragBoxes.get(0).getStyleName());
+    }
+
+    public List<DragBox> getDragBoxes() {
+        return dragBoxes;
+    }
+
+    /**
      * Refreshes the position of the drag boxes. assignedNode must not be null.
      */
     public void refreshPosition() {
@@ -137,44 +175,6 @@ public class NodeSelectionBox {
         }
 
         assignedNode = null;
-    }
-
-    /**
-     * 
-     * Assigns the dragBoxes to the specified node on the workflow.
-     * 
-     * @param node
-     *            The node which the drag boxes are assigned to.
-     */
-    public void assignTo(Node node) {
-        unassign();
-        this.assignedNode = node;
-
-        for (DragBox dragBox : dragBoxes) {
-            dragBox.setVisible(true);
-            AbsolutePanel parentPanel = (AbsolutePanel) assignedNode
-                    .getParent();
-            parentPanel.add(dragBox);
-
-            DragController rdc = DndRegistry.getInstance().getDragController(
-                    "ResizeDragController");
-
-            // dragBox.addStyleName("dragbox-node");
-
-            if (node.isResizable()) {
-                rdc.makeDraggable(dragBox);
-            }
-
-            dragBox.addStyleName("dragbox-node");
-        }
-
-        refreshPosition();
-
-        // Window.alert(dragBoxes.get(0).getStyleName());
-    }
-
-    public List<DragBox> getDragBoxes() {
-        return dragBoxes;
     }
 
 }
