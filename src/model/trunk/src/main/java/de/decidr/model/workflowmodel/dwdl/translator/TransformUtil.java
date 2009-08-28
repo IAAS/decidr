@@ -49,6 +49,7 @@ import org.xml.sax.InputSource;
 
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
+import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
 /**
  * A simple utility class for standard transformations
@@ -60,11 +61,13 @@ public class TransformUtil {
 
     private static Document doc = null;
     private static JAXBContext dwdlCntxt = null;
+    private static JAXBContext wscCntxt = null; 
     private static Logger log = DefaultLogger.getLogger(TransformUtil.class);
 
     static {
         try {
             dwdlCntxt = JAXBContext.newInstance(Workflow.class);
+            wscCntxt = JAXBContext.newInstance(TConfiguration.class);
             DocumentBuilderFactory factory = DocumentBuilderFactory
                     .newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -191,6 +194,14 @@ public class TransformUtil {
     public static org.w3c.dom.Attr createAttributeNode(String namespace,
             String qName) {
         return doc.createAttributeNS(namespace, qName);
+    }
+    
+    public static byte[] configuration2Bytes(TConfiguration con) throws JAXBException{
+        Marshaller dwdlMarshaller = wscCntxt.createMarshaller();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        dwdlMarshaller.marshal(con, os);
+
+        return os.toByteArray();      
     }
 
 }
