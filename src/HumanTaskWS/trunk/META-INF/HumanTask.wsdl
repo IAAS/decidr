@@ -37,11 +37,6 @@
 							minOccurs="0" maxOccurs="1" nillable="false" default="false" />
 						<xsd:element name="description" type="xsd:string"
 							minOccurs="1" maxOccurs="1" nillable="false" />
-						<!--
-							xsd:element name="descriptionVars"
-							type="decidr:tDescriptionItemList" minOccurs="0" maxOccurs="1"
-							nillable="false" /
-						-->
 						<xsd:element name="taskData" type="xsd:string"
 							minOccurs="0" maxOccurs="1" nillable="false" />
 					</xsd:sequence>

@@ -19,6 +19,7 @@ package de.decidr.ui.controller;
 
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ModelingToolWindow;
 

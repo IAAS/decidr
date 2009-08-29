@@ -20,12 +20,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
 import com.vaadin.terminal.PaintException;
 import com.vaadin.terminal.PaintTarget;
 import com.vaadin.ui.AbstractComponent;
 
-import de.decidr.modelingtool.server.DWDLIOServiceAsyncImpl;
 import de.decidr.ui.controller.UIDirector;
 
 /**
