@@ -38,7 +38,7 @@ import de.decidr.model.entities.RegistrationRequest;
 public class LifetimeValidatorTest {
 
     @BeforeClass
-    public final void setUp() {
+    public static final void setUp() {
         if (!DatabaseTestsuite.running()) {
             fail("Needs to run inside " + DatabaseTestsuite.class.getName());
         }

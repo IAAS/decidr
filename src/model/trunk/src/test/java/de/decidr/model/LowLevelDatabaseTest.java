@@ -31,10 +31,10 @@ import org.junit.BeforeClass;
  * @author Reinhold
  */
 public abstract class LowLevelDatabaseTest {
-    protected Session session = null;
+    protected static Session session = null;
 
     @BeforeClass
-    public final void setUp() {
+    public static final void setUp() {
         if (!DatabaseTestsuite.running()) {
             fail("Needs to run inside " + DatabaseTestsuite.class.getName());
         }
@@ -45,7 +45,9 @@ public abstract class LowLevelDatabaseTest {
     }
 
     @AfterClass
-    public final void tearDown() {
-        session.close();
+    public static final void tearDown() {
+        if (session != null) {
+            session.close();
+        }
     }
 }

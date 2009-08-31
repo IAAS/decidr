@@ -33,7 +33,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
 public abstract class CommandsTest {
 
     @BeforeClass
-    public final void setUp() {
+    public static final void setUp() {
         if (!DatabaseTestsuite.running()) {
             fail("Needs to run inside " + DatabaseTestsuite.class.getName());
         }
