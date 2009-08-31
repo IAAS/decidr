@@ -24,16 +24,17 @@ import org.junit.Test;
 
 import de.decidr.model.CommandsTest;
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.commands.workflowinstance.DeleteWorkflowInstanceCommand;
 import de.decidr.model.commands.workflowinstance.GetAllWorkitemsCommand;
-import de.decidr.model.commands.workflowinstance.GetOdeUrlCommand;
 import de.decidr.model.commands.workflowinstance.GetParticipatingUsersCommand;
 import de.decidr.model.commands.workflowinstance.RemoveAllWorkItemsCommand;
-import de.decidr.model.commands.workflowinstance.StopWorkflowInstanceCommand;
 import de.decidr.model.commands.workflowinstance.WorkflowInstanceCommand;
 
 /**
  * This class tests the commands in
- * <code>de.decidr.model.commands.workflowinstance</code>.
+ * <code>de.decidr.model.commands.workflowinstance</code>. Some of the methods
+ * can't be tested properly within the confines of a unit test, as they interact
+ * with web services.
  * 
  * @author Reinhold
  */
@@ -59,14 +60,6 @@ public class WorkflowInstanceCommandsTest extends CommandsTest {
     }
 
     /**
-     * Test method for {@link GetOdeUrlCommand#GetOdeUrlCommand(Role, Long)}.
-     */
-    @Test
-    public void testGetOdeUrlCommand() {
-        fail("Not yet implemented"); // RR GetOdeUrlCommand
-    }
-
-    /**
      * Test method for
      * {@link GetParticipatingUsersCommand#GetParticipatingUsersCommand(Role, Long)}
      * .
@@ -84,16 +77,6 @@ public class WorkflowInstanceCommandsTest extends CommandsTest {
     @Test
     public void testRemoveAllWorkItemsCommand() {
         fail("Not yet implemented"); // RR RemoveAllWorkItemsCommand
-    }
-
-    /**
-     * Test method for
-     * {@link StopWorkflowInstanceCommand#StopWorkflowInstanceCommand(Role, Long)}
-     * .
-     */
-    @Test
-    public void testStopWorkflowInstanceCommand() {
-        fail("Not yet implemented"); // RR StopWorkflowInstanceCommand
     }
 
     /**

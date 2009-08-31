@@ -29,7 +29,9 @@ import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.filters.Paginator;
 
 /**
- * Test case for <code>{@link WorkflowModelFacade}</code>.
+ * Test case for <code>{@link WorkflowModelFacade}</code>. Some of the methods
+ * can't be tested properly within the confines of a unit test, as they interact
+ * with web services.
  * 
  * @author Reinhold
  */
@@ -106,15 +108,6 @@ public class WorkflowModelFacadeTest {
     }
 
     /**
-     * Test method for
-     * {@link WorkflowModelFacade#setWorkflowAdministrators(Long, List, List)}.
-     */
-    @Test
-    public void testSetWorkflowAdministrators() {
-        fail("Not yet implemented"); // RR setWorkflowAdministrators
-    }
-
-    /**
      * Test method for {@link WorkflowModelFacade#deleteWorkflowModels(List)}.
      */
     @Test
@@ -139,16 +132,6 @@ public class WorkflowModelFacadeTest {
     @Test
     public void testGetAllPublishedWorkflowModels() {
         fail("Not yet implemented"); // RR getAllPublishedWorkflowModels
-    }
-
-    /**
-     * Test method for
-     * {@link WorkflowModelFacade#startWorkflowInstance(Long, byte[], Boolean, List, List)}
-     * .
-     */
-    @Test
-    public void testStartWorkflowInstance() {
-        fail("Not yet implemented"); // RR startWorkflowInstance
     }
 
     /**

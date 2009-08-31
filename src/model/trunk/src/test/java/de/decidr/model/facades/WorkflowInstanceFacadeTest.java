@@ -26,7 +26,9 @@ import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 
 /**
- * Test case for <code>{@link WorkflowInstanceFacade}</code>.
+ * Test case for <code>{@link WorkflowInstanceFacade}</code>. Some of the
+ * methods can't be tested properly within the confines of a unit test, as they
+ * interact with web services.
  * 
  * @author Reinhold
  */
@@ -54,14 +56,12 @@ public class WorkflowInstanceFacadeTest {
 
     /**
      * Test method for
-     * {@link WorkflowInstanceFacade#getParticipatingUsers(Long)},
-     * {@link WorkflowInstanceFacade#stopWorkflowInstance(Long)} and
+     * {@link WorkflowInstanceFacade#getParticipatingUsers(Long)} and
      * {@link WorkflowInstanceFacade#deleteWorkflowInstance(Long)}.
      */
     @Test
-    public void testStopWorkflowInstance() {
+    public void testWorkflowInstance() {
         fail("Not yet implemented"); // RR getParticipatingUsers
-        fail("Not yet implemented"); // RR stopWorkflowInstance
         fail("Not yet implemented"); // RR deleteWorkflowInstance
     }
 

@@ -30,7 +30,9 @@ import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.filters.Paginator;
 
 /**
- * Test case for <code>{@link TenantFacade}</code>.
+ * Test case for <code>{@link TenantFacade}</code>. Some of the methods can't be
+ * tested properly within the confines of a unit test, as they interact with web
+ * services.
  * 
  * @author Reinhold
  */
@@ -145,14 +147,6 @@ public class TenantFacadeTest {
     }
 
     /**
-     * Test method for {@link TenantFacade#rejectTenants(List)}.
-     */
-    @Test
-    public void testRejectTenants() {
-        fail("Not yet implemented"); // RR rejectTenants
-    }
-
-    /**
      * Test method for {@link TenantFacade#deleteTenant(Long)}.
      */
     @Test
@@ -209,15 +203,6 @@ public class TenantFacadeTest {
     @Test
     public void testGetWorkflowModels() {
         fail("Not yet implemented"); // RR getWorkflowModels
-    }
-
-    /**
-     * Test method for
-     * {@link TenantFacade#inviteUsersAsMembers(Long, List, List)}.
-     */
-    @Test
-    public void testInviteUsersAsMembers() {
-        fail("Not yet implemented"); // RR inviteUsersAsMembers
     }
 
     /**

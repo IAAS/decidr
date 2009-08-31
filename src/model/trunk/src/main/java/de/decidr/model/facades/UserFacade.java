@@ -151,7 +151,7 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the user id that belongs to a given username or email / password
+     * Returns the user id that belongs to a given username or email/password
      * combination iff the account exists and the password matches.
      * 
      * @param emailOrUsername

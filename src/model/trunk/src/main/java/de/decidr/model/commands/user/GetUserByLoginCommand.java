@@ -76,6 +76,7 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
         // find the existing user
         Criteria crit = evt.getSession().createCriteria(User.class, "u");
         crit.createAlias("userProfile", "p", CriteriaSpecification.LEFT_JOIN);
+        // FIXME: may return two results when user1.username == user2.email ~rr
         crit.add(Restrictions.or(Restrictions.eq("u.email", emailOrUsername),
                 Restrictions.eq("p.username", emailOrUsername)));
 

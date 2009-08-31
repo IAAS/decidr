@@ -43,7 +43,9 @@ import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 
 /**
- * Test case for <code>{@link UserFacade}</code>.
+ * Test case for <code>{@link UserFacade}</code>. Some of the methods can't be
+ * tested properly within the confines of a unit test, as they interact with web
+ * services.
  * 
  * @author Reinhold
  */
@@ -59,6 +61,7 @@ public class UserFacadeTest {
     static long testUserID;
     static final String TEST_EMAIL = "decidr.iaas@googlemail.com";
     static final String TEST_PASSWORD = "asd";
+    static final String TEST_USERNAME = "tEsstUsser";
 
     /**
      * Initialises the facade instances and registers a User, testing
@@ -87,10 +90,9 @@ public class UserFacadeTest {
         testProfile.setPostalCode("112");
         testProfile.setUsername("testuser");
 
-        Item testItem = new BeanItem(classProfile, new String[] { "firstName",
+        Item testItem = new BeanItem(testProfile, new String[] { "firstName",
                 "lastName", "city", "street", "postalCode", "username" });
 
-        // RR make sure no errors occur due to primary keys
         registerUserExceptionHelper(
                 "registering user with null facade succeeded", nullFacade,
                 "asd@desk.de", "asd", testItem);
@@ -98,21 +100,42 @@ public class UserFacadeTest {
                 "registering user with normal user facade succeeded",
                 userFacade, "asd@desk.de", "asd", testItem);
 
+        testProfile.setUsername("testuser1");
+        testItem = new BeanItem(testProfile, new String[] { "firstName",
+                "lastName", "city", "street", "postalCode", "username" });
         adminFacade.registerUser("asd1@desk.de", "asd", testItem);
+
+        testProfile.setUsername("testuser2");
+        testItem = new BeanItem(testProfile, new String[] { "firstName",
+                "lastName", "city", "street", "postalCode", "username" });
         registerUserExceptionHelper("registering user twice succeeded",
                 adminFacade, "asd1@desk.de", "asd", testItem);
+
+        testProfile.setUsername("testuser3");
+        testItem = new BeanItem(testProfile, new String[] { "firstName",
+                "lastName", "city", "street", "postalCode", "username" });
         adminFacade.registerUser("asd2@desk.de", "", testItem);
-        // RR throw error?
+
+        // RR throw error? (null password)
+        testProfile.setUsername("testuser4");
+        testItem = new BeanItem(testProfile, new String[] { "firstName",
+                "lastName", "city", "street", "postalCode", "username" });
         adminFacade.registerUser("asd3@desk.de", null, testItem);
+
+        testProfile.setUsername("testuser5");
+        testItem = new BeanItem(testProfile, new String[] { "firstName",
+                "lastName", "city", "street", "postalCode", "username" });
         registerUserExceptionHelper(
                 "registering user with empty email succeeded", adminFacade, "",
                 "asd", testItem);
         registerUserExceptionHelper(
                 "registering user with null email succeeded", adminFacade,
                 null, "asd", testItem);
-        // RR throw error?
+
+        // RR throw error? (null profile)
         adminFacade.registerUser("asd4@desk.de", "asd", null);
-        // RR throw error?
+
+        // RR throw error? (empty profile)
         adminFacade.registerUser("asd5@desk.de", "asd", new BeanItem(
                 new UserProfile()));
 
@@ -121,10 +144,13 @@ public class UserFacadeTest {
         testProfile.setCity(null);
         testProfile.setStreet(null);
         testProfile.setPostalCode(null);
+        testProfile.setUsername("testuser6");
+        testItem = new BeanItem(testProfile, new String[] { "firstName",
+                "lastName", "city", "street", "postalCode", "username" });
         adminFacade.registerUser("asd6@desk.de", "asd", testItem);
 
         testProfile.setUsername(null);
-        testItem = new BeanItem(classProfile, new String[] { "firstName",
+        testItem = new BeanItem(testProfile, new String[] { "firstName",
                 "lastName", "city", "street", "postalCode", "username" });
         registerUserExceptionHelper(
                 "invalid profile (empty username) succeeded", adminFacade,
@@ -146,7 +172,7 @@ public class UserFacadeTest {
     public void setUp() throws TransactionException {
         classProfile.setFirstName("test");
         classProfile.setLastName("user");
-        classProfile.setUsername("testuser");
+        classProfile.setUsername(TEST_USERNAME);
         classProfile.setStreet("ancient st.");
         classProfile.setPostalCode("112");
         classProfile.setCity("boringtown");
@@ -194,8 +220,8 @@ public class UserFacadeTest {
                 "firstName").getValue());
         assertEquals(classProfile.getLastName(), testUserItem.getItemProperty(
                 "lastName").getValue());
-        assertEquals(classProfile.getUsername(), testUserItem.getItemProperty(
-                "username").getValue());
+        assertEquals(TEST_USERNAME, testUserItem.getItemProperty("username")
+                .getValue());
 
         getAllUsersExceptionHelper(
                 "getting all users with normal user facade succeeded",
@@ -239,15 +265,27 @@ public class UserFacadeTest {
      */
     @Test
     public void testGetUserIdByLogin() throws TransactionException {
+        UserProfile testProfile = new UserProfile();
+        testProfile.setFirstName("test");
+        testProfile.setLastName("user");
+        testProfile.setCity("boringtown");
+        testProfile.setStreet("ancient st.");
+        testProfile.setPostalCode("112");
+        testProfile.setUsername(TEST_EMAIL);
+
+        Item testItem = new BeanItem(testProfile, new String[] { "firstName",
+                "lastName", "city", "street", "postalCode", "username" });
+        Long emailUserID = adminFacade.registerUser(TEST_EMAIL + ".vu",
+                TEST_PASSWORD, testItem);
+
         for (UserFacade facade : allFacades) {
-            assertEquals(testUserID, facade.getUserIdByLogin(classProfile
-                    .getUsername(), null));
-            assertEquals(testUserID, facade.getUserIdByLogin(classProfile
-                    .getUsername(), ""));
-            assertEquals(testUserID, facade.getUserIdByLogin(classProfile
-                    .getUsername(), "sdfsdfsdf"));
-            assertEquals(testUserID, facade.getUserIdByLogin(classProfile
-                    .getUsername(), TEST_PASSWORD));
+            assertEquals(testUserID, facade.getUserIdByLogin(TEST_USERNAME,
+                    null));
+            assertEquals(testUserID, facade.getUserIdByLogin(TEST_USERNAME, ""));
+            assertEquals(testUserID, facade.getUserIdByLogin(TEST_USERNAME,
+                    "sdfsdfsdf"));
+            assertEquals(testUserID, facade.getUserIdByLogin(TEST_USERNAME,
+                    TEST_PASSWORD));
             assertEquals(testUserID, facade.getUserIdByLogin(TEST_EMAIL,
                     TEST_PASSWORD));
             try {
@@ -262,6 +300,30 @@ public class UserFacadeTest {
             }
             try {
                 facade.getUserIdByLogin(TEST_EMAIL, "asdfgthsf");
+            } catch (EntityNotFoundException e) {
+                // supposed to be thrown
+            }
+
+            assertEquals(emailUserID, facade.getUserIdByLogin(TEST_EMAIL, null));
+            assertEquals(emailUserID, facade.getUserIdByLogin(TEST_EMAIL, ""));
+            assertEquals(emailUserID, facade.getUserIdByLogin(TEST_EMAIL,
+                    "sdfsdfsdf"));
+            assertEquals(emailUserID, facade.getUserIdByLogin(TEST_EMAIL,
+                    TEST_PASSWORD));
+            assertEquals(emailUserID, facade.getUserIdByLogin(TEST_EMAIL
+                    + ".vu", TEST_PASSWORD));
+            try {
+                facade.getUserIdByLogin(TEST_EMAIL + ".vu", null);
+            } catch (EntityNotFoundException e) {
+                // supposed to be thrown
+            }
+            try {
+                facade.getUserIdByLogin(TEST_EMAIL + ".vu", "");
+            } catch (EntityNotFoundException e) {
+                // supposed to be thrown
+            }
+            try {
+                facade.getUserIdByLogin(TEST_EMAIL + ".vu", "asdfgthsf");
             } catch (EntityNotFoundException e) {
                 // supposed to be thrown
             }
@@ -311,29 +373,11 @@ public class UserFacadeTest {
     }
 
     /**
-     * Test method for {@link UserFacade#leaveTenant(Long, Long)}.
-     */
-    @Test
-    public void testLeaveTenant() {
-        fail("Not yet implemented"); // RR leaveTenant
-    }
-
-    /**
      * Test method for {@link UserFacade#removeFromTenant(Long, Long)}.
      */
     @Test
     public void testRemoveFromTenant() {
         fail("Not yet implemented"); // RR removeFromTenant
-    }
-
-    /**
-     * Test method for {@link UserFacade#requestPasswordReset(String)} and
-     * {@link UserFacade#confirmPasswordReset(Long, String)}.
-     */
-    @Test
-    public void testPasswordReset() {
-        fail("Not yet implemented"); // RR requestPasswordReset
-        fail("Not yet implemented"); // RR confirmPasswordReset
     }
 
     /**
@@ -356,17 +400,13 @@ public class UserFacadeTest {
     }
 
     /**
-     * Test method for {@link UserFacade#getInvitation(Long)},
-     * {@link UserFacade#authKeyMatches(Long, String)},
-     * {@link UserFacade#confirmInvitation(Long)} and
-     * {@link UserFacade#refuseInviation(Long)}.
+     * Test method for {@link UserFacade#getInvitation(Long)} and
+     * {@link UserFacade#authKeyMatches(Long, String)}.
      */
     @Test
     public void testInvitation() {
         fail("Not yet implemented"); // RR getInvitation
         fail("Not yet implemented"); // RR authKeyMatches
-        fail("Not yet implemented"); // RR confirmInvitation
-        fail("Not yet implemented"); // RR refuseInviation
     }
 
     /**

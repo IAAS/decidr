@@ -29,7 +29,6 @@ import de.decidr.model.commands.tenant.ApproveTenantsCommand;
 import de.decidr.model.commands.tenant.CreateTenantCommand;
 import de.decidr.model.commands.tenant.CreateWorkflowModelCommand;
 import de.decidr.model.commands.tenant.DeleteTenantCommand;
-import de.decidr.model.commands.tenant.RejectTenantsCommand;
 import de.decidr.model.commands.tenant.GetAllTenantsCommand;
 import de.decidr.model.commands.tenant.GetCurrentColorSchemeCommand;
 import de.decidr.model.commands.tenant.GetTenantIdCommand;
@@ -39,7 +38,6 @@ import de.decidr.model.commands.tenant.GetUsersOfTenantCommand;
 import de.decidr.model.commands.tenant.GetWorkflowInstancesCommand;
 import de.decidr.model.commands.tenant.GetWorkflowModelsCommand;
 import de.decidr.model.commands.tenant.ImportPublishedWorkflowModelsCommand;
-import de.decidr.model.commands.tenant.InviteUsersAsTenantMembersCommand;
 import de.decidr.model.commands.tenant.SetAdvancedColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetCurrentColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetSimpleColorSchemeCommand;
@@ -50,7 +48,8 @@ import de.decidr.model.filters.Paginator;
 
 /**
  * This class tests the commands in <code>de.decidr.model.commands.tenant</code>
- * .
+ * . Some of the methods can't be tested properly within the confines of a unit
+ * test, as they interact with web services.
  * 
  * @author Reinhold
  */
@@ -101,15 +100,6 @@ public class TenantCommandsTest {
     @Test
     public void testDeleteTenantCommand() {
         fail("Not yet implemented"); // RR DeleteTenantCommand
-    }
-
-    /**
-     * Test method for
-     * {@link RejectTenantsCommand#RejectTenantsCommand(Role, List)}.
-     */
-    @Test
-    public void testRejectTenantsCommand() {
-        fail("Not yet implemented"); // RR RejectTenantsCommand
     }
 
     /**
@@ -197,16 +187,6 @@ public class TenantCommandsTest {
     @Test
     public void testImportPublishedWorkflowModelsCommand() {
         fail("Not yet implemented"); // RR ImportPublishedWorkflowModelsCommand
-    }
-
-    /**
-     * Test method for
-     * {@link InviteUsersAsTenantMembersCommand#InviteUsersAsTenantMembersCommand(Role, Long, List, List)}
-     * .
-     */
-    @Test
-    public void testInviteUsersAsTenantMembersCommand() {
-        fail("Not yet implemented"); // RR InviteUsersAsTenantMembersCommand
     }
 
     /**

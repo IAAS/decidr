@@ -126,28 +126,28 @@ public class SystemFacadeTest {
                 .getValue());
         assertEquals(10, getterSettings.getItemProperty(
                 "maxAttachmentsPerEmail").getValue());
-        // RR assertEquals((byte) 100,
-        // getterSettings.getItemProperty("").getValue()getMaxServerLoadForShutdown());
-        // RR assertEquals((byte) 100,
-        // getterSettings.getItemProperty("").getValue()getMaxServerLoadForUnlock());
+        assertEquals((byte) 100, getterSettings.getItemProperty(
+                "maxServerLoadForShutdown").getValue());
+        assertEquals((byte) 100, getterSettings.getItemProperty(
+                "maxServerLoadForUnlock").getValue());
         assertEquals(1, getterSettings.getItemProperty("maxUploadFileSizeByte")
                 .getValue());
-        // RR assertEquals(1,
-        // getterSettings.getItemProperty("").getValue()getMaxWorkflowInstancesForShutdown());
-        // RR assertEquals(1,
-        // getterSettings.getItemProperty("").getValue()getMaxWorkflowInstancesForUnlock());
-        // RR assertEquals((byte) 100,
-        // getterSettings.getItemProperty("").getValue()getMinServerLoadForLock());
-        // RR assertEquals(1,
-        // getterSettings.getItemProperty("").getValue()getMinUnlockedServers());
-        // RR assertEquals(1,
-        // getterSettings.getItemProperty("").getValue()getMinWorkflowInstancesForLock());
-        // RR assertEquals(modDate,
-        // getterSettings.getItemProperty("").getValue()getModifiedDate());
-        // RR assertEquals(60,
-        // getterSettings.getItemProperty("").getValue()getMonitorAveragingPeriodSeconds());
-        // RR assertEquals(10,
-        // getterSettings.getItemProperty("").getValue()getMonitorUpdateIntervalSeconds());
+        assertEquals(1, getterSettings.getItemProperty(
+                "maxWorkflowInstancesForShutdown").getValue());
+        assertEquals(1, getterSettings.getItemProperty(
+                "maxWorkflowInstancesForUnlock").getValue());
+        assertEquals((byte) 100, getterSettings.getItemProperty(
+                "minServerLoadForLock").getValue());
+        assertEquals(1, getterSettings.getItemProperty("minUnlockedServers")
+                .getValue());
+        assertEquals(1, getterSettings.getItemProperty(
+                "minWorkflowInstancesForLock").getValue());
+        assertEquals(modDate, getterSettings.getItemProperty("modifiedDate")
+                .getValue());
+        assertEquals(60, getterSettings.getItemProperty(
+                "monitorAveragingPeriodSeconds").getValue());
+        assertEquals(10, getterSettings.getItemProperty(
+                "monitorUpdateIntervalSeconds").getValue());
         assertEquals("localhost", getterSettings.getItemProperty("mtaHostname")
                 .getValue());
         assertEquals("asdfg", getterSettings.getItemProperty("mtaPassword")
@@ -159,8 +159,8 @@ public class SystemFacadeTest {
                 "passwordResetRequestLifeTimeSeconds").getValue());
         assertEquals(2000, getterSettings.getItemProperty(
                 "registrationRequestLifetimeSeconds").getValue());
-        // RR assertEquals(3,
-        // getterSettings.getItemProperty("").getValue()getServerPoolInstances());
+        assertEquals(3, getterSettings.getItemProperty("serverPoolInstances")
+                .getValue());
         assertEquals("decidr@decidr.biz", getterSettings.getItemProperty(
                 "systemEmailAddress").getValue());
         assertEquals("De Cidr", getterSettings.getItemProperty("systemName")
@@ -211,23 +211,28 @@ public class SystemFacadeTest {
                 .getValue());
         assertEquals(0, getterSettings
                 .getItemProperty("maxAttachmentsPerEmail").getValue());
-        // RR assertEquals((byte) 10,
-        // getterSettings.getMaxServerLoadForShutdown());
-        // RR assertEquals((byte) 10,
-        // getterSettings.getMaxServerLoadForUnlock());
+        assertEquals((byte) 10, getterSettings.getItemProperty(
+                "maxServerLoadForShutdown").getValue());
+        assertEquals((byte) 10, getterSettings.getItemProperty(
+                "maxServerLoadForUnlock").getValue());
         assertEquals(100, getterSettings.getItemProperty(
                 "maxUploadFileSizeByte").getValue());
-        // RR assertEquals(100,
-        // getterSettings.getMaxWorkflowInstancesForShutdown());
-        // RR assertEquals(10,
-        // getterSettings.getMaxWorkflowInstancesForUnlock());
-        // RR assertEquals((byte) 10, getterSettings.getMinServerLoadForLock());
-        // RR assertEquals(10, getterSettings.getMinUnlockedServers());
-        // RR assertEquals(10, getterSettings.getMinWorkflowInstancesForLock());
-        // RR assertEquals(modDate, getterSettings.getModifiedDate());
-        // RR assertEquals(600,
-        // getterSettings.getMonitorAveragingPeriodSeconds());
-        // RR assertEquals(1, getterSettings.getMonitorUpdateIntervalSeconds());
+        assertEquals(100, getterSettings.getItemProperty(
+                "maxWorkflowInstancesForShutdown").getValue());
+        assertEquals(10, getterSettings.getItemProperty(
+                "maxWorkflowInstancesForUnlock").getValue());
+        assertEquals((byte) 10, getterSettings.getItemProperty(
+                "minServerLoadForLock").getValue());
+        assertEquals(10, getterSettings.getItemProperty("minUnlockedServers")
+                .getValue());
+        assertEquals(10, getterSettings.getItemProperty(
+                "minWorkflowInstancesForLock").getValue());
+        assertEquals(modDate, getterSettings.getItemProperty("modifiedDate")
+                .getValue());
+        assertEquals(600, getterSettings.getItemProperty(
+                "monitorAveragingPeriodSeconds").getValue());
+        assertEquals(1, getterSettings.getItemProperty(
+                "monitorUpdateIntervalSeconds").getValue());
         // DH should this return null or ""?
         assertNull(getterSettings.getItemProperty("mtaHostname").getValue());
         assertNull(getterSettings.getItemProperty("mtaPassword").getValue());
@@ -237,7 +242,8 @@ public class SystemFacadeTest {
                 "passwordResetRequestLifeTimeSeconds").getValue());
         assertEquals(2, getterSettings.getItemProperty(
                 "registrationRequestLifetimeSeconds").getValue());
-        // RR assertEquals(1, getterSettings.getServerPoolInstances());
+        assertEquals(1, getterSettings.getItemProperty("serverPoolInstances")
+                .getValue());
         assertEquals("dumbo@decidr.eu", getterSettings.getItemProperty(
                 "systemEmailAddress").getValue());
         assertEquals("Darth Vader", getterSettings
