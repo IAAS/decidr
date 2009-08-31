@@ -65,7 +65,7 @@ public class DatabaseTestsuite extends TestSuite {
     @BeforeClass
     public static void setUpBeforeClass() {
         try {
-            session = new Configuration().configure("hibernate.cfg.xml")
+            session = new Configuration().configure("/hibernate.cfg.xml")
                     .buildSessionFactory().openSession();
         } catch (Exception e) {
             e.printStackTrace();
