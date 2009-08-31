@@ -17,7 +17,7 @@ public class PasswordTest {
      * 
      */
     @BeforeClass
-    public void getPasswordForSuperadminInTestDatas() {
+    public static void getPasswordForSuperadminInTestDatas() {
 
         String salt = "";
         String hash = "";

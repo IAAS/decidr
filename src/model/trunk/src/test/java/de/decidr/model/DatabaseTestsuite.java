@@ -69,7 +69,8 @@ public class DatabaseTestsuite extends TestSuite {
                     .buildSessionFactory().openSession();
         } catch (Exception e) {
             e.printStackTrace();
-            fail("Couldn't connect to database");
+            fail("ERROR: Couldn't connect to database; Error message: "
+                    + e.getMessage());
         }
 
         testString = RUNNING_CONSTANT;
