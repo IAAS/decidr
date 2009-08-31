@@ -233,7 +233,6 @@ public class SystemFacadeTest {
                 "monitorAveragingPeriodSeconds").getValue());
         assertEquals(1, getterSettings.getItemProperty(
                 "monitorUpdateIntervalSeconds").getValue());
-        // DH should this return null or ""?
         assertNull(getterSettings.getItemProperty("mtaHostname").getValue());
         assertNull(getterSettings.getItemProperty("mtaPassword").getValue());
         assertEquals(22, getterSettings.getItemProperty("mtaPort").getValue());
@@ -429,7 +428,6 @@ public class SystemFacadeTest {
         Server testServer;
 
         for (ServerTypeEnum type : ServerTypeEnum.values()) {
-            // DH what should happen here (empty location)?
             adminFacade.addServer(type, "", (byte) -1, true, true);
             adminFacade.addServer(type, null, (byte) -1, true, true);
             adminFacade.addServer(type, "127.0.0.1", (byte) -1, true, true);

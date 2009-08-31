@@ -34,6 +34,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 
 import de.decidr.model.DatabaseTestsuite;
+import de.decidr.model.LowLevelDatabaseTest;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.entities.UserProfile;
@@ -49,7 +50,7 @@ import de.decidr.model.filters.Paginator;
  * 
  * @author Reinhold
  */
-public class UserFacadeTest {
+public class UserFacadeTest extends LowLevelDatabaseTest {
 
     static UserFacade adminFacade;
     static UserFacade userFacade;
@@ -58,7 +59,7 @@ public class UserFacadeTest {
     static Set<UserFacade> allFacades = new HashSet<UserFacade>(4);
 
     static UserProfile classProfile = new UserProfile();
-    static long testUserID;
+    static Long testUserID;
     static final String TEST_EMAIL = "decidr.iaas@googlemail.com";
     static final String TEST_PASSWORD = "asd";
     static final String TEST_USERNAME = "tEsstUsser";
@@ -116,11 +117,12 @@ public class UserFacadeTest {
                 "lastName", "city", "street", "postalCode", "username" });
         adminFacade.registerUser("asd2@desk.de", "", testItem);
 
-        // RR throw error? (null password)
         testProfile.setUsername("testuser4");
         testItem = new BeanItem(testProfile, new String[] { "firstName",
                 "lastName", "city", "street", "postalCode", "username" });
-        adminFacade.registerUser("asd3@desk.de", null, testItem);
+        registerUserExceptionHelper(
+                "registering user with null password succeeded", adminFacade,
+                "asd3@desk.de", null, testItem);
 
         testProfile.setUsername("testuser5");
         testItem = new BeanItem(testProfile, new String[] { "firstName",
@@ -132,12 +134,13 @@ public class UserFacadeTest {
                 "registering user with null email succeeded", adminFacade,
                 null, "asd", testItem);
 
-        // RR throw error? (null profile)
-        adminFacade.registerUser("asd4@desk.de", "asd", null);
+        registerUserExceptionHelper(
+                "registering user with null profile succeeded", adminFacade,
+                "asd4@desk.de", "asd", null);
 
-        // RR throw error? (empty profile)
-        adminFacade.registerUser("asd5@desk.de", "asd", new BeanItem(
-                new UserProfile()));
+        registerUserExceptionHelper(
+                "registering user with empty profile succeeded", adminFacade,
+                "asd5@desk.de", "asd", new BeanItem(new UserProfile()));
 
         testProfile.setFirstName(null);
         testProfile.setLastName(null);
@@ -169,7 +172,7 @@ public class UserFacadeTest {
     }
 
     @Before
-    public void setUp() throws TransactionException {
+    public void setUpTestCase() throws TransactionException {
         classProfile.setFirstName("test");
         classProfile.setLastName("user");
         classProfile.setUsername(TEST_USERNAME);
@@ -185,8 +188,9 @@ public class UserFacadeTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDownTestCase() {
         // RR delete all users
+        session.createQuery("");
     }
 
     /**
@@ -334,8 +338,10 @@ public class UserFacadeTest {
      * Test method for {@link UserFacade#setEmailAddress(Long, String)}.
      */
     @Test
-    public void testSetEmailAddress() {
+    public void testSetEmailAddress() throws TransactionException {
+        adminFacade.setEmailAddress(testUserID, TEST_EMAIL + ".vu");
         fail("Not yet implemented"); // RR setEmailAddress
+        adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
     }
 
     /**
