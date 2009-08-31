@@ -17,7 +17,6 @@
 package de.decidr.model;
 
 import static org.junit.Assert.fail;
-import junit.framework.TestSuite;
 
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
@@ -52,7 +51,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
         SystemFacadeTest.class, WorkItemFacadeTest.class,
         WorkflowInstanceFacadeTest.class, UserFacadeTest.class,
         WorkflowModelFacadeTest.class, TenantFacadeTest.class })
-public class DatabaseTestsuite extends TestSuite {
+public class DatabaseTestsuite /*extends TestSuite*/ {
 
     static Session session;
     private static String testString;
