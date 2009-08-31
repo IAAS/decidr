@@ -32,6 +32,7 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
+import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.ui.view.CreateWorkflowInstanceComponent;
 import de.decidr.ui.view.Main;
@@ -60,7 +61,7 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
     
     private Table table = null;
    
-    private byte[] dwdl = null;
+    private byte[] wsc = null;
     
     private TConfiguration tConfiguration = null;
     
@@ -74,13 +75,8 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
         table = ((CreateWorkflowInstanceComponent)siteFrame.getContent()).getInstanceTable();
         workflowModelId = (Long)table.getContainerProperty(table.getValue(), "id").getValue();
         try{
-            dwdl = workflowModelFacade.getLastStartConfiguration(workflowModelId);
-            JAXBContext dwdlContext = JAXBContext.newInstance(TConfiguration.class);
-            Unmarshaller dwdlUnmarshaller = dwdlContext.createUnmarshaller();
-            JAXBElement<TConfiguration> dwdlElement = dwdlUnmarshaller.unmarshal(
-                    new StreamSource(new ByteArrayInputStream(dwdl)),
-                    TConfiguration.class);
-            tConfiguration = (TConfiguration)dwdlElement.getValue();
+            wsc = workflowModelFacade.getLastStartConfiguration(workflowModelId);
+            tConfiguration = TransformUtil.bytes2Configuration(wsc);
             Main.getCurrent().getMainWindow().addWindow(new StartConfigurationWindow(tConfiguration));
         }catch(JAXBException exception){
             //TODO
