@@ -32,6 +32,18 @@ public class CommandStack {
     private static CommandStack instance = null;
 
     /**
+     * Returns the command stack instance.
+     * 
+     * @return The command stack instance
+     */
+    public static CommandStack getInstance() {
+        if (instance == null) {
+            instance = new CommandStack();
+        }
+        return instance;
+    }
+
+    /**
      * All user performed operations are pushed on this stack that they can be
      * made undone at later time.
      */
@@ -46,42 +58,6 @@ public class CommandStack {
 
     private CommandStack() {
 
-    }
-
-    /**
-     * Returns the command stack instance.
-     * 
-     * @return The command stack instance
-     */
-    public static CommandStack getInstance() {
-        if (instance == null) {
-            instance = new CommandStack();
-        }
-        return instance;
-    }
-
-    /**
-     * Performs the undo method of the top command on the undo stack, if
-     * present. The undone command is pushed on the redo stack.
-     */
-    public void undo() {
-        if (!undoStack.isEmpty()) {
-            UndoableCommand command = undoStack.pop();
-            redoStack.push(command);
-            command.undo();
-        }
-    }
-
-    /**
-     * Performs the execute method of the top command on the redo stack, if
-     * present. The redone command is pushed on the undo stack.
-     */
-    public void redo() {
-        if (!redoStack.isEmpty()) {
-            UndoableCommand command = redoStack.pop();
-            undoStack.push(command);
-            command.execute();
-        }
     }
 
     /**
@@ -105,6 +81,38 @@ public class CommandStack {
     public void executeCommand(UndoableCommand command) {
         addCommand(command);
         command.execute();
+    }
+
+    /**
+     * Flushes the command stack.
+     */
+    public void flush() {
+        undoStack.clear();
+        redoStack.clear();
+    }
+
+    /**
+     * Performs the execute method of the top command on the redo stack, if
+     * present. The redone command is pushed on the undo stack.
+     */
+    public void redo() {
+        if (!redoStack.isEmpty()) {
+            UndoableCommand command = redoStack.pop();
+            undoStack.push(command);
+            command.execute();
+        }
+    }
+    
+    /**
+     * Performs the undo method of the top command on the undo stack, if
+     * present. The undone command is pushed on the redo stack.
+     */
+    public void undo() {
+        if (!undoStack.isEmpty()) {
+            UndoableCommand command = undoStack.pop();
+            redoStack.push(command);
+            command.undo();
+        }
     }
 
 }

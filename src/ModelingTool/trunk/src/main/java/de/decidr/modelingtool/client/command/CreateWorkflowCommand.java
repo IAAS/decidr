@@ -90,6 +90,9 @@ public class CreateWorkflowCommand implements Command {
         Workflow.getInstance().setModel(workflowModel);
         // create child nodes and connections
         cmdList.execute();
+        
+        // flush command stack
+        CommandStack.getInstance().flush();
     }
 
     /**

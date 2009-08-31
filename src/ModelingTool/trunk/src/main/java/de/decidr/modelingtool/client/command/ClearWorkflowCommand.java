@@ -24,7 +24,7 @@ import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author JE
  */
 public class ClearWorkflowCommand implements Command {
@@ -32,20 +32,23 @@ public class ClearWorkflowCommand implements Command {
     @Override
     public void execute() {
         CommandList cmdList = new CommandList();
-        
-        for (Node node: Workflow.getInstance().getNodes()) {
+
+        for (Node node : Workflow.getInstance().getNodes()) {
             if (node.isDeletable()) {
                 try {
                     cmdList.addCommand(new RemoveNodeCommand(node));
                 } catch (OperationNotAllowedException e) {
                     // do nothing, node can not be deleted
-                    //JE: debug:
+                    // JE: debug:
                     e.printStackTrace();
                 }
             }
         }
 
         cmdList.execute();
+
+        // flush command stack
+        CommandStack.getInstance().flush();
     }
 
 }
