@@ -39,6 +39,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.decidr.modelingtool.client.command.CreateWorkflowCommand;
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
 import de.decidr.modelingtool.client.exception.LoadDWDLException;
+import de.decidr.modelingtool.client.io.DWDLParser;
+import de.decidr.modelingtool.client.io.DWDLParserImpl;
 import de.decidr.modelingtool.client.io.DataExchanger;
 import de.decidr.modelingtool.client.io.WorkflowIO;
 import de.decidr.modelingtool.client.io.WorkflowIOStub;
@@ -142,9 +144,7 @@ public class ModelingToolWidget extends Composite implements
         return addDomHandler(handler, MouseUpEvent.getType());
     }
 
-    public void init(DataExchanger dataExchanger) {
-        dataExchgr = dataExchanger;
-
+    public void init() {
         // Load Workflow Model
         // TODO: substitute stub by real implementation
         WorkflowIO io = new WorkflowIOStub();
@@ -158,6 +158,21 @@ public class ModelingToolWidget extends Composite implements
         } catch (IncompleteModelDataException e) {
             Window.alert(e.getMessage());
         }
+    }
+
+    protected void setDWDL(String dwdl) {
+        DWDLParser parser = new DWDLParserImpl();
+        WorkflowModel workflowModel = parser.parse(dwdl);
+        try {
+            Command createWorkflowCmd = new CreateWorkflowCommand(workflowModel);
+            createWorkflowCmd.execute();
+        } catch (IncompleteModelDataException e) {
+            Window.alert(e.getMessage());
+        }
+    }
+
+    protected void setUsers(String userxml) {
+        // TODO: implement
     }
 
     /**
