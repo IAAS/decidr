@@ -64,9 +64,12 @@ public class ValueEditorInvoker {
         if (variable.getType() == VariableType.ROLE) {
             ((RoleEditor) DialogRegistry.getInstance().getDialog(
                     RoleEditor.class.getName())).setVariable(variable);
+            DialogRegistry.getInstance().showDialog(RoleEditor.class.getName());
         } else {
             ((ValueEditor) DialogRegistry.getInstance().getDialog(
                     ValueEditor.class.getName())).setVariable(variable);
+            DialogRegistry.getInstance()
+                    .showDialog(ValueEditor.class.getName());
         }
 
     }

@@ -1,9 +1,12 @@
 package de.decidr.modelingtool.client.menu;
 
+import java.util.List;
+
 import com.google.gwt.user.client.Command;
 
-import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
-import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
+import de.decidr.modelingtool.client.model.variable.Variable;
+import de.decidr.modelingtool.client.ui.Workflow;
+import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditorInvoker;
 
 /**
  * TODO: add comment
@@ -13,6 +16,8 @@ import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
 public class VariablesMenuItem implements Command {
     @Override
     public void execute() {
-        DialogRegistry.getInstance().showDialog(VariableEditor.class.getName());
+        List<Variable> variables = Workflow.getInstance().getModel()
+                .getVariables();
+        VariableEditorInvoker.invoke(variables);
     }
 }

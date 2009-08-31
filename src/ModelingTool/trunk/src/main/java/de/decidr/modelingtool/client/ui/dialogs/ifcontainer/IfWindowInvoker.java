@@ -26,11 +26,10 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
  */
 public class IfWindowInvoker {
 
-    // JS change all invokers so that dialog registry is called here (see
-    // ValueEditorInvoker)
     public static void invoke(IfContainer node) {
         ((IfWindow) DialogRegistry.getInstance().getDialog(
                 IfWindow.class.getName())).setNode(node);
+        DialogRegistry.getInstance().showDialog(IfWindow.class.getName());
     }
 
 }

@@ -38,7 +38,6 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ChangeVariablesCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.variable.Variable;
-import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.Dialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorInvoker;
@@ -92,7 +91,8 @@ public class VariableEditor extends Dialog {
                 ModelingToolWidget.messages.arrayVarColumn());
         columns.add(arrayVarColumn);
         ConfigVarColumn configVarColumn = new ConfigVarColumn(
-                Variable.CONFIGVAR, ModelingToolWidget.messages.configVarColumn());
+                Variable.CONFIGVAR, ModelingToolWidget.messages
+                        .configVarColumn());
         columns.add(configVarColumn);
 
         columnModel = new ColumnModel(columns);
@@ -186,18 +186,10 @@ public class VariableEditor extends Dialog {
      * TODO: add comment
      * 
      */
-    private void getVariablesFromModel() {
+    public void setVariables(List<Variable> variablesModel) {
         variables.removeAll();
-        List<Variable> variablesModel = Workflow.getInstance().getModel()
-                .getVariables();
-        for (Variable v : variablesModel) {
-            Variable targetVar = new Variable();
-            targetVar.setId(v.getId());
-            targetVar.setLabel(v.getLabel());
-            targetVar.setType(v.getType());
-            targetVar.setValues(v.getValues());
-            targetVar.setConfig(v.isConfig());
-            variables.add(targetVar);
+        for (Variable var : variablesModel) {
+            variables.add(var.copy());
         }
     }
 
@@ -232,7 +224,6 @@ public class VariableEditor extends Dialog {
      */
     @Override
     public void initialize() {
-        getVariablesFromModel();
         listener.setDataChanged(false);
     }
 

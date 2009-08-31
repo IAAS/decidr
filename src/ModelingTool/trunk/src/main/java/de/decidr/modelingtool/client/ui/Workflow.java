@@ -32,8 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.model.HasChildModels;
 import de.decidr.modelingtool.client.model.WorkflowModel;
-import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
-import de.decidr.modelingtool.client.ui.dialogs.WorkflowPropertyWindow;
+import de.decidr.modelingtool.client.ui.dialogs.workflow.WorkflowPropertyWindowInvoker;
 import de.decidr.modelingtool.client.ui.dnd.ConnectionDragController;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 import de.decidr.modelingtool.client.ui.dnd.ResizeDragController;
@@ -233,8 +232,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
     }
 
     public void showPropertyWindow() {
-        DialogRegistry.getInstance().showDialog(
-                WorkflowPropertyWindow.class.getName());
+        WorkflowPropertyWindowInvoker.invoke(Workflow.getInstance().getModel());
     }
 
 }

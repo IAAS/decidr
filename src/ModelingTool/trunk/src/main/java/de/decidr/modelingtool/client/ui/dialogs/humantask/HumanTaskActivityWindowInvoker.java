@@ -29,5 +29,7 @@ public class HumanTaskActivityWindowInvoker {
     public static void invoke(HumanTaskInvokeNode node) {
         ((HumanTaskActivityWindow) DialogRegistry.getInstance().getDialog(
                 HumanTaskActivityWindow.class.getName())).setNode(node);
+        DialogRegistry.getInstance().showDialog(
+                HumanTaskActivityWindow.class.getName());
     }
 }

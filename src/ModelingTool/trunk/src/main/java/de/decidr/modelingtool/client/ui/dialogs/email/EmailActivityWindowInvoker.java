@@ -29,6 +29,8 @@ public class EmailActivityWindowInvoker {
     public static void invoke(EmailInvokeNode node) {
         ((EmailActivityWindow) DialogRegistry.getInstance().getDialog(
                 EmailActivityWindow.class.getName())).setNode(node);
+        DialogRegistry.getInstance().showDialog(
+                EmailActivityWindow.class.getName());
     }
 
 }

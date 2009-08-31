@@ -14,9 +14,9 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui.dialogs.foreachcontainer;
+package de.decidr.modelingtool.client.ui.dialogs.workflow;
 
-import de.decidr.modelingtool.client.ui.ForEachContainer;
+import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
@@ -24,12 +24,13 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
  * 
  * @author Jonas Schlaak
  */
-public class ForEachWindowInvoker {
+public class WorkflowPropertyWindowInvoker {
 
-    public static void invoke(ForEachContainer node) {
-        ((ForEachWindow) DialogRegistry.getInstance().getDialog(
-                ForEachWindow.class.getName())).setNode(node);
-        DialogRegistry.getInstance().showDialog(ForEachWindow.class.getName());
+    public static void invoke(WorkflowModel workflow) {
+        ((WorkflowPropertyWindow) DialogRegistry.getInstance().getDialog(
+                WorkflowPropertyWindow.class.getName())).setModel(workflow);
+        DialogRegistry.getInstance().showDialog(
+                WorkflowPropertyWindow.class.getName());
     }
 
 }

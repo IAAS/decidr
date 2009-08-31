@@ -21,8 +21,6 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 
 import de.decidr.modelingtool.client.menu.MenuImageBundle;
-import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
-import de.decidr.modelingtool.client.ui.dialogs.humantask.HumanTaskActivityWindow;
 import de.decidr.modelingtool.client.ui.dialogs.humantask.HumanTaskActivityWindowInvoker;
 
 /**
@@ -37,17 +35,9 @@ public class HumanTaskInvokeNode extends InvokeNode {
 
         FocusPanel graphic = new FocusPanel();
         graphic.addStyleName("node-graphic-std");
-//        graphic.setWidget(new Label("HT"));
-//        graphic.setWidget(new Button(ModelingToolWidget.messages
-//                .changePropertyButton(), new SelectionListener<ButtonEvent>() {
-//            @Override
-//            public void componentSelected(ButtonEvent ce) {
-//                showPropertyWindow();
-//            }
-//        }));
-        
+
         MenuImageBundle imgBundle = GWT.create(MenuImageBundle.class);
-        String html = imgBundle.humantask().getHTML() + "<br/>Human Task"; 
+        String html = imgBundle.humantask().getHTML() + "<br/>Human Task";
         graphic.setWidget(new HTML(html));
 
         this.setGraphic(graphic);
@@ -59,8 +49,6 @@ public class HumanTaskInvokeNode extends InvokeNode {
     @Override
     public void showPropertyWindow() {
         HumanTaskActivityWindowInvoker.invoke(HumanTaskInvokeNode.this);
-        DialogRegistry.getInstance().showDialog(
-                HumanTaskActivityWindow.class.getName());
     }
 
 }

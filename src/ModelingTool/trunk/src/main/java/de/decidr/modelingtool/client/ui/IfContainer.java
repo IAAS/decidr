@@ -16,13 +16,6 @@
 
 package de.decidr.modelingtool.client.ui;
 
-import com.extjs.gxt.ui.client.event.ButtonEvent;
-import com.extjs.gxt.ui.client.event.SelectionListener;
-import com.extjs.gxt.ui.client.widget.button.Button;
-
-import de.decidr.modelingtool.client.ModelingToolWidget;
-import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
-import de.decidr.modelingtool.client.ui.dialogs.ifcontainer.IfWindow;
 import de.decidr.modelingtool.client.ui.dialogs.ifcontainer.IfWindowInvoker;
 
 /**
@@ -39,23 +32,14 @@ public class IfContainer extends Container {
      */
     public IfContainer(HasChildren parentPanel) {
         super(parentPanel);
-        
+
         getContainerStartPort().setMultipleConnectionsAllowed(true);
         getContainerExitPort().setMultipleConnectionsAllowed(true);
-
-        graphic.setWidget(new Button(ModelingToolWidget.messages
-                .changePropertyButton(), new SelectionListener<ButtonEvent>() {
-            @Override
-            public void componentSelected(ButtonEvent ce) {
-                showPropertyWindow();
-            }
-        }));
     }
 
     @Override
     public void showPropertyWindow() {
         IfWindowInvoker.invoke(IfContainer.this);
-        DialogRegistry.getInstance().showDialog(IfWindow.class.getName());
     }
 
 }

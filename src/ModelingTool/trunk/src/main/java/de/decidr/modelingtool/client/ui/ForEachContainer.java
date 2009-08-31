@@ -16,13 +16,6 @@
 
 package de.decidr.modelingtool.client.ui;
 
-import com.extjs.gxt.ui.client.event.ButtonEvent;
-import com.extjs.gxt.ui.client.event.SelectionListener;
-import com.extjs.gxt.ui.client.widget.button.Button;
-
-import de.decidr.modelingtool.client.ModelingToolWidget;
-import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
-import de.decidr.modelingtool.client.ui.dialogs.foreachcontainer.ForEachWindow;
 import de.decidr.modelingtool.client.ui.dialogs.foreachcontainer.ForEachWindowInvoker;
 
 /**
@@ -30,31 +23,18 @@ import de.decidr.modelingtool.client.ui.dialogs.foreachcontainer.ForEachWindowIn
  * 
  * @author Jonas Schlaak
  */
-// JE: this is a stub, please check this!
 public class ForEachContainer extends Container {
 
     public ForEachContainer(HasChildren parentPanel) {
         super(parentPanel);
-        //FocusPanel graphic = new FocusPanel();
-        //graphic.addStyleName("container-std");
-        //graphic.setWidget(new Label("ForEach"));
 
-        graphic.setWidget(new Button(ModelingToolWidget.messages
-                .changePropertyButton(), new SelectionListener<ButtonEvent>() {
-            @Override
-            public void componentSelected(ButtonEvent ce) {
-                showPropertyWindow();
-            }
-        }));
-        
-        //this.setGraphic(graphic);
+        getContainerStartPort().setMultipleConnectionsAllowed(true);
+        getContainerExitPort().setMultipleConnectionsAllowed(true);
     }
-    
+
     @Override
     public void showPropertyWindow() {
         ForEachWindowInvoker.invoke(ForEachContainer.this);
-        DialogRegistry.getInstance().showDialog(
-                ForEachWindow.class.getName());
     }
 
 }

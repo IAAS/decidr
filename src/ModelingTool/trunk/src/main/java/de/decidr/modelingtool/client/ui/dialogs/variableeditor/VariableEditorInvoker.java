@@ -14,9 +14,11 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui.dialogs.foreachcontainer;
+package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 
-import de.decidr.modelingtool.client.ui.ForEachContainer;
+import java.util.List;
+
+import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
@@ -24,12 +26,12 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
  * 
  * @author Jonas Schlaak
  */
-public class ForEachWindowInvoker {
+public class VariableEditorInvoker {
 
-    public static void invoke(ForEachContainer node) {
-        ((ForEachWindow) DialogRegistry.getInstance().getDialog(
-                ForEachWindow.class.getName())).setNode(node);
-        DialogRegistry.getInstance().showDialog(ForEachWindow.class.getName());
+    public static void invoke(List<Variable> variables) {
+        ((VariableEditor) DialogRegistry.getInstance().getDialog(
+                VariableEditor.class.getName())).setVariables(variables);
+        DialogRegistry.getInstance().showDialog(VariableEditor.class.getName());
     }
 
 }

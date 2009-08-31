@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui.dialogs;
+package de.decidr.modelingtool.client.ui.dialogs.workflow;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
@@ -36,7 +36,8 @@ import de.decidr.modelingtool.client.model.WorkflowProperties;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
-import de.decidr.modelingtool.client.ui.Workflow;
+import de.decidr.modelingtool.client.ui.dialogs.Dialog;
+import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
  * TODO: add comment
@@ -109,6 +110,10 @@ public class WorkflowPropertyWindow extends Dialog {
                 }));
     }
 
+    public void setModel(WorkflowModel workflow) {
+        model = workflow;
+    }
+
     private void changeWorkflowModel() {
         WorkflowProperties newProperties = new WorkflowProperties();
         newProperties.setRecipientVariableId(recipientField.getValue().getId());
@@ -168,7 +173,6 @@ public class WorkflowPropertyWindow extends Dialog {
 
     @Override
     public void initialize() {
-        model = Workflow.getInstance().getModel();
         createFields();
     }
 

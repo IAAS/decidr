@@ -26,6 +26,7 @@ import de.decidr.modelingtool.client.ui.dialogs.ifcontainer.IfWindow;
 import de.decidr.modelingtool.client.ui.dialogs.valueeditor.RoleEditor;
 import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditor;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
+import de.decidr.modelingtool.client.ui.dialogs.workflow.WorkflowPropertyWindow;
 
 /**
  * TODO: add comment
