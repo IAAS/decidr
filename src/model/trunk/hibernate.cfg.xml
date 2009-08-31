@@ -10,7 +10,6 @@
         <property name="hibernate.connection.url">jdbc:mysql://localhost/decidrtestdb</property>
         <property name="hibernate.connection.username">decidr</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
-        <mapping resource="de/decidr/model/entities/Activity.hbm.xml" />
         <mapping resource="de/decidr/model/entities/StartConfiguration.hbm.xml" />
         <mapping resource="de/decidr/model/entities/UserAdministratesWorkflowInstance.hbm.xml" />
         <mapping resource="de/decidr/model/entities/StartableWorkflowModelView.hbm.xml" />
@@ -19,13 +18,14 @@
         <mapping resource="de/decidr/model/entities/User.hbm.xml" />
         <mapping resource="de/decidr/model/entities/UserHasFileAccess.hbm.xml" />
         <mapping resource="de/decidr/model/entities/SystemSettings.hbm.xml" />
+        <mapping resource="de/decidr/model/entities/Activity.hbm.xml" />
         <mapping resource="de/decidr/model/entities/UserIsMemberOfTenant.hbm.xml" />
         <mapping resource="de/decidr/model/entities/ChangeEmailRequest.hbm.xml" />
         <mapping resource="de/decidr/model/entities/UserParticipatesInWorkflow.hbm.xml" />
         <mapping resource="de/decidr/model/entities/Permission.hbm.xml" />
         <mapping resource="de/decidr/model/entities/PasswordResetRequest.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/RoleHasPermission.hbm.xml" />
         <mapping resource="de/decidr/model/entities/Invitation.hbm.xml" />
+        <mapping resource="de/decidr/model/entities/RoleHasPermission.hbm.xml" />
         <mapping resource="de/decidr/model/entities/ServerType.hbm.xml" />
         <mapping resource="de/decidr/model/entities/KnownWebService.hbm.xml" />
         <mapping resource="de/decidr/model/entities/UserProfile.hbm.xml" />
