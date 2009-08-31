@@ -65,8 +65,8 @@ public class DatabaseTestsuite extends TestSuite {
     @BeforeClass
     public static void setUpBeforeClass() {
         try {
-            session = new Configuration().configure("hibernate.cfg.xml")
-                    .buildSessionFactory().openSession();
+            session = new Configuration().configure().buildSessionFactory()
+                    .openSession();
         } catch (Exception e) {
             e.printStackTrace();
             fail("ERROR: Couldn't connect to database; Error message: "
