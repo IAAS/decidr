@@ -16,6 +16,8 @@
 
 package de.decidr.ui.view;
 
+import com.vaadin.colorpicker.ColorPicker;
+import com.vaadin.colorpicker.ColorPickerPopup;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -179,6 +181,7 @@ public class TenantSettingsComponent extends CustomComponent {
     private void changeToBasic(){
         backgroundButton = new Button("Background");
         backgroundButton.setStyleName(Button.STYLE_LINK);
+        
         foregroundButton = new Button("Foreground");
         foregroundButton.setStyleName(Button.STYLE_LINK);
         fontButton = new Button("Font");

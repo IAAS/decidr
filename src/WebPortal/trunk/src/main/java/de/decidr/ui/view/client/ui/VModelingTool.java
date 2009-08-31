@@ -2,10 +2,13 @@ package de.decidr.ui.view.client.ui;
 
 
 
+import java.util.Set;
+
 import com.vaadin.data.Item;
 import com.vaadin.terminal.gwt.client.ApplicationConnection;
 import com.vaadin.terminal.gwt.client.Paintable;
 import com.vaadin.terminal.gwt.client.UIDL;
+
 
 
 public class VModelingTool extends de.decidr.modelingtool.client.ModelingToolWidget implements Paintable {
@@ -21,6 +24,7 @@ public class VModelingTool extends de.decidr.modelingtool.client.ModelingToolWid
 
     /** Reference to the server connection object. */
     ApplicationConnection client;
+
     
     
     /**
@@ -47,11 +51,12 @@ public class VModelingTool extends de.decidr.modelingtool.client.ModelingToolWid
         this.client = client;
 
         // Save the UIDL identifier for the component
-        uidlId = uidl.getId();
-        //Long id = uidl.getLongAttribute("userId");
-        Long workflowModelId = uidl.getLongAttribute("workflowModelId");
-        init(workflowModelId);
+        //uidlId = uidl.getId();
+        
+        //init();
         
     }
+    
+    
 
 }
