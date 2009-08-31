@@ -190,7 +190,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     @After
     public void tearDownTestCase() {
         // RR delete all users
-        session.createQuery("");
+        session.createQuery("delete from User").executeUpdate();
     }
 
     /**

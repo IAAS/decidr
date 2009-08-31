@@ -59,7 +59,7 @@ public class DecidrReverseEngineeringStrategy extends
 
     /**
      * Turns MySQL underscored table_names into camelCased identifiers.<br>
-     * Leading and trailing underscores are ignored.
+     * Leading and trailing underscores are removed.
      * 
      * @param tableName
      *            underscored table name

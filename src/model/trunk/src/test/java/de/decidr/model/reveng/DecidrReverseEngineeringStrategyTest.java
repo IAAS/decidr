@@ -51,14 +51,14 @@ public class DecidrReverseEngineeringStrategyTest {
     public void testConvertTableNameToIdentifier() {
         HashMap<String, String> IOMapping = new HashMap<String, String>();
         IOMapping.put("", "");
-        IOMapping.put("_", "_");
+        IOMapping.put("_", "");
         IOMapping.put("asd_efg", "asdEfg");
-        IOMapping.put("_asd", "Asd");
+        IOMapping.put("_asd", "asd");
         IOMapping.put("asd", "asd");
-        IOMapping.put("AsDeFg", "AsDeFg");
-        IOMapping.put("_asd_efg_", "AsdEfg_");
-        IOMapping.put("As_Def_g", "AsDefG");
-        IOMapping.put("asd_", "asd_");
+        IOMapping.put("AsDeFg", "asdefg");
+        IOMapping.put("_asd_efg_", "asdEfg");
+        IOMapping.put("As_Def_g", "asDefG");
+        IOMapping.put("asd_", "asd");
 
         for (String input : IOMapping.keySet()) {
             assertEquals(IOMapping.get(input), DecidrReverseEngineeringStrategy
