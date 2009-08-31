@@ -16,8 +16,6 @@
 
 package de.decidr.ui.view;
 
-import com.vaadin.colorpicker.ColorPicker;
-import com.vaadin.colorpicker.ColorPickerPopup;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
