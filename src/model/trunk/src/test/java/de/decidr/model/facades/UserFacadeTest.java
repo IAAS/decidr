@@ -33,7 +33,6 @@ import org.junit.Test;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 
-import de.decidr.model.DatabaseTestsuite;
 import de.decidr.model.LowLevelDatabaseTest;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
@@ -42,11 +41,13 @@ import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
+import de.decidr.model.testsuites.DatabaseTestSuite;
 
 /**
  * Test case for <code>{@link UserFacade}</code>. Some of the methods can't be
- * tested properly within the confines of a unit test, as they interact with web
- * services.
+ * tested easily within the confines of a unit test, as they interact with web
+ * services. These methods will be tested at a later point in time when the most
+ * important test cases are written or during the system test.
  * 
  * @author Reinhold
  */
@@ -71,8 +72,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     @BeforeClass
     public static void setUpBeforeClass() throws NullPointerException,
             TransactionException {
-        if (!DatabaseTestsuite.running()) {
-            fail("Needs to run inside " + DatabaseTestsuite.class.getName());
+        if (!DatabaseTestSuite.running()) {
+            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
 
         adminFacade = new UserFacade(new SuperAdminRole());

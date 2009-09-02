@@ -47,8 +47,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<includes>
-						<include>**/OtherTestsSuite.java</include>
-						<include>**/DatabaseTestsuite.java</include>
+						<include>**/de/decidr/model/testsuites/*.java</include>
 					</includes>
 				</configuration>
 			</plugin>

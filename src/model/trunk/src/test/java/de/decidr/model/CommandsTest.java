@@ -23,6 +23,7 @@ import org.junit.BeforeClass;
 
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.testsuites.DatabaseTestSuite;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 
 /**
@@ -34,8 +35,8 @@ public abstract class CommandsTest {
 
     @BeforeClass
     public static final void setUp() {
-        if (!DatabaseTestsuite.running()) {
-            fail("Needs to run inside " + DatabaseTestsuite.class.getName());
+        if (!DatabaseTestSuite.running()) {
+            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
     }
 

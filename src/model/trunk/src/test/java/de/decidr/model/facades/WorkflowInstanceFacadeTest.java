@@ -21,19 +21,20 @@ import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.decidr.model.DatabaseTestsuite;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.testsuites.DatabaseTestSuite;
 
 /**
  * Test case for <code>{@link WorkflowInstanceFacade}</code>. Some of the
- * methods can't be tested properly within the confines of a unit test, as they
- * interact with web services.
+ * methods can't be tested easily within the confines of a unit test, as they
+ * interact with web services. These methods will be tested at a later point in
+ * time when the most important test cases are written or during the system
+ * test.
  * 
  * @author Reinhold
  */
-// RR create start WF instance?
-// RR ensure order Model -> Instance -> Item?
+// RR create & start WF instance?
 public class WorkflowInstanceFacadeTest {
 
     static WorkflowInstanceFacade adminFacade;
@@ -45,8 +46,8 @@ public class WorkflowInstanceFacadeTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
-        if (!DatabaseTestsuite.running()) {
-            fail("Needs to run inside " + DatabaseTestsuite.class.getName());
+        if (!DatabaseTestSuite.running()) {
+            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
 
         adminFacade = new WorkflowInstanceFacade(new SuperAdminRole());

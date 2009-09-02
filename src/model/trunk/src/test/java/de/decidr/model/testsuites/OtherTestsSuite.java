@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.model;
+package de.decidr.model.testsuites;
 
 import junit.framework.TestSuite;
 

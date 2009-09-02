@@ -25,6 +25,8 @@ import org.hibernate.cfg.Configuration;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
+import de.decidr.model.testsuites.DatabaseTestSuite;
+
 /**
  * Creates a session for low-level database access.
  * 
@@ -35,8 +37,8 @@ public abstract class LowLevelDatabaseTest {
 
     @BeforeClass
     public static final void setUp() {
-        if (!DatabaseTestsuite.running()) {
-            fail("Needs to run inside " + DatabaseTestsuite.class.getName());
+        if (!DatabaseTestSuite.running()) {
+            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
 
         session = new Configuration().configure(

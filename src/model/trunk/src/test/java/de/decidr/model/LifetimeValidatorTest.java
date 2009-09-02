@@ -29,6 +29,7 @@ import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.PasswordResetRequest;
 import de.decidr.model.entities.RegistrationRequest;
+import de.decidr.model.testsuites.DatabaseTestSuite;
 
 /**
  * Unit tests for <code>{@link LifetimeValidator}</code>.
@@ -39,8 +40,8 @@ public class LifetimeValidatorTest {
 
     @BeforeClass
     public static final void setUp() {
-        if (!DatabaseTestsuite.running()) {
-            fail("Needs to run inside " + DatabaseTestsuite.class.getName());
+        if (!DatabaseTestSuite.running()) {
+            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
     }
 

@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.model;
+package de.decidr.model.testsuites;
 
 import static org.junit.Assert.fail;
 import junit.framework.TestSuite;
@@ -27,7 +27,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import de.decidr.model.DecidrGlobalsTest;
+import de.decidr.model.LifetimeValidatorTest;
 import de.decidr.model.commands.SystemCommandsTest;
+import de.decidr.model.commands.TenantCommandsTest;
 import de.decidr.model.commands.WorkItemCommandsTest;
 import de.decidr.model.commands.WorkflowInstanceCommandsTest;
 import de.decidr.model.facades.SystemFacadeTest;
@@ -46,13 +49,15 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
  * @author Reinhold
  */
 @RunWith(Suite.class)
-@SuiteClasses( { DecidrGlobalsTest.class, LifetimeValidatorTest.class,
-        HibernateTransactionCoordinatorTest.class, SystemCommandsTest.class,
-        WorkItemCommandsTest.class, WorkflowInstanceCommandsTest.class,
-        SystemFacadeTest.class, WorkItemFacadeTest.class,
-        WorkflowInstanceFacadeTest.class, UserFacadeTest.class,
-        WorkflowModelFacadeTest.class, TenantFacadeTest.class })
-public class DatabaseTestsuite extends TestSuite {
+// The order of these tests should not be changed without good reason
+@SuiteClasses( { HibernateTransactionCoordinatorTest.class,
+        DecidrGlobalsTest.class, LifetimeValidatorTest.class,
+        SystemCommandsTest.class, TenantCommandsTest.class,
+        WorkflowInstanceCommandsTest.class, WorkItemCommandsTest.class,
+        SystemFacadeTest.class, TenantFacadeTest.class,
+        WorkflowModelFacadeTest.class, WorkflowInstanceFacadeTest.class,
+        WorkItemFacadeTest.class, UserFacadeTest.class })
+public class DatabaseTestSuite extends TestSuite {
 
     static Session session;
     private static String testString;
@@ -65,7 +70,7 @@ public class DatabaseTestsuite extends TestSuite {
     @BeforeClass
     public static void setUpBeforeClass() {
         try {
-            session = new Configuration().configure("/hibernate.cfg.xml")
+            session = new Configuration().configure("hibernate.cfg.xml")
                     .buildSessionFactory().openSession();
         } catch (Exception e) {
             e.printStackTrace();

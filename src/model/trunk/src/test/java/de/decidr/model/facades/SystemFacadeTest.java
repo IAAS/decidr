@@ -32,7 +32,6 @@ import org.junit.Test;
 
 import com.vaadin.data.Item;
 
-import de.decidr.model.DatabaseTestsuite;
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
@@ -42,6 +41,7 @@ import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
+import de.decidr.model.testsuites.DatabaseTestSuite;
 
 /**
  * Test case for <code>{@link SystemFacade}</code>.
@@ -59,8 +59,8 @@ public class SystemFacadeTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
-        if (!DatabaseTestsuite.running()) {
-            fail("Needs to run inside " + DatabaseTestsuite.class.getName());
+        if (!DatabaseTestSuite.running()) {
+            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
 
         adminFacade = new SystemFacade(new SuperAdminRole());

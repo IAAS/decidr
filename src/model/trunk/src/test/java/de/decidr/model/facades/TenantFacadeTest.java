@@ -24,15 +24,16 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.decidr.model.DatabaseTestsuite;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.filters.Paginator;
+import de.decidr.model.testsuites.DatabaseTestSuite;
 
 /**
  * Test case for <code>{@link TenantFacade}</code>. Some of the methods can't be
- * tested properly within the confines of a unit test, as they interact with web
- * services.
+ * tested easily within the confines of a unit test, as they interact with web
+ * services. These methods will be tested at a later point in time when the most
+ * important test cases are written or during the system test.
  * 
  * @author Reinhold
  */
@@ -47,8 +48,8 @@ public class TenantFacadeTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
-        if (!DatabaseTestsuite.running()) {
-            fail("Needs to run inside " + DatabaseTestsuite.class.getName());
+        if (!DatabaseTestSuite.running()) {
+            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
 
         adminFacade = new TenantFacade(new SuperAdminRole());

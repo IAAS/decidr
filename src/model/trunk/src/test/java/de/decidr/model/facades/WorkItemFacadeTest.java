@@ -21,9 +21,9 @@ import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.decidr.model.DatabaseTestsuite;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.testsuites.DatabaseTestSuite;
 
 /**
  * Test case for <code>{@link WorkItemFacade}</code>.
@@ -41,8 +41,8 @@ public class WorkItemFacadeTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
-        if (!DatabaseTestsuite.running()) {
-            fail("Needs to run inside " + DatabaseTestsuite.class.getName());
+        if (!DatabaseTestSuite.running()) {
+            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
 
         adminFacade = new WorkItemFacade(new SuperAdminRole());

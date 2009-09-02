@@ -29,6 +29,7 @@ import org.junit.Test;
 
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.enums.ServerTypeEnum;
+import de.decidr.model.testsuites.DatabaseTestSuite;
 
 /**
  * This class tests the constraints of the return values of the
@@ -40,8 +41,8 @@ public class DecidrGlobalsTest {
 
     @BeforeClass
     public static final void setUp() {
-        if (!DatabaseTestsuite.running()) {
-            fail("Needs to run inside " + DatabaseTestsuite.class.getName());
+        if (!DatabaseTestSuite.running()) {
+            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
     }
 
