@@ -1,5 +1,7 @@
 package de.decidr.model.permissions;
 
+import static junit.framework.Assert.fail;
+
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
@@ -7,8 +9,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.acl.Password;
-
-import static junit.framework.Assert.*;
 
 public class PasswordTest {
 

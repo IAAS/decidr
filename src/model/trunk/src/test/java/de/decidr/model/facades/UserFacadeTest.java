@@ -16,14 +16,15 @@
 
 package de.decidr.model.facades;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.AbstractMap.SimpleImmutableEntry;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,9 +33,11 @@ import org.junit.Test;
 
 import com.vaadin.data.Item;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.LowLevelDatabaseTest;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
@@ -319,15 +322,17 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
 
-        setEmailAddressExceptionHelper("setting same email succeeded",
-                adminFacade, secondUserID, TEST_EMAIL);
-        setEmailAddressExceptionHelper("setting null email succeeded",
-                adminFacade, testUserID, null);
-        setEmailAddressExceptionHelper("setting empty email succeeded",
-                adminFacade, testUserID, "");
-        setEmailAddressExceptionHelper(
-                "setting email for null user ID succeeded", adminFacade, null,
-                "test@example.com");
+        for (UserFacade facade : allFacades) {
+            setEmailAddressExceptionHelper("setting same email succeeded",
+                    facade, secondUserID, TEST_EMAIL);
+            setEmailAddressExceptionHelper("setting null email succeeded",
+                    facade, testUserID, null);
+            setEmailAddressExceptionHelper("setting empty email succeeded",
+                    facade, testUserID, "");
+            setEmailAddressExceptionHelper(
+                    "setting email for null user ID succeeded", adminFacade,
+                    null, "test@example.com");
+        }
 
         setEmailAddressExceptionHelper(
                 "setting email with null facade succeeded", nullFacade,
@@ -351,16 +356,86 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      * Test method for {@link UserFacade#setDisableSince(Long, Date)}.
      */
     @Test
-    public void testSetDisableSince() {
-        fail("Not yet implemented"); // RR setDisableSince
+    public void testSetDisableSince() throws TransactionException {
+        try {
+            userFacade.setDisableSince(testUserID, new Date());
+            fail("setting user disabled with normal user facade succeeded.");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            nullFacade.setDisableSince(testUserID, new Date());
+            fail("setting user disabled with null facade succeeded.");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        Date testDate = new Date();
+        adminFacade.setDisableSince(testUserID, testDate);
+        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
+                .getItemProperty("disabledSince").getValue());
+
+        testDate = DecidrGlobals.getTime().getTime();
+        adminFacade.setDisableSince(testUserID, testDate);
+        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
+                .getItemProperty("disabledSince").getValue());
+
+        testDate = new Date(new Date().getTime() - 1000000);
+        adminFacade.setDisableSince(testUserID, testDate);
+        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
+                .getItemProperty("disabledSince").getValue());
+
+        testDate = new Date(new Date().getTime() + 1000000);
+        adminFacade.setDisableSince(testUserID, testDate);
+        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
+                .getItemProperty("disabledSince").getValue());
+
+        adminFacade.setDisableSince(testUserID, null);
+        assertNull(adminFacade.getUserProfile(testUserID).getItemProperty(
+                "disabledSince").getValue());
     }
 
     /**
      * Test method for {@link UserFacade#setUnavailableSince(Long, Date)}.
      */
     @Test
-    public void testSetUnavailableSince() {
-        fail("Not yet implemented"); // RR setUnavailableSince
+    public void testSetUnavailableSince() throws TransactionException {
+        try {
+            userFacade.setUnavailableSince(testUserID, new Date());
+            fail("setting user disabled with normal user facade succeeded.");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            nullFacade.setUnavailableSince(testUserID, new Date());
+            fail("setting user disabled with null facade succeeded.");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        Date testDate = new Date();
+        adminFacade.setUnavailableSince(testUserID, testDate);
+        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
+                .getItemProperty("unavailableSince").getValue());
+
+        testDate = DecidrGlobals.getTime().getTime();
+        adminFacade.setUnavailableSince(testUserID, testDate);
+        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
+                .getItemProperty("unavailableSince").getValue());
+
+        testDate = new Date(new Date().getTime() - 1000000);
+        adminFacade.setUnavailableSince(testUserID, testDate);
+        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
+                .getItemProperty("unavailableSince").getValue());
+
+        testDate = new Date(new Date().getTime() + 1000000);
+        adminFacade.setUnavailableSince(testUserID, testDate);
+        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
+                .getItemProperty("unavailableSince").getValue());
+
+        adminFacade.setDisableSince(testUserID, null);
+        assertNull(adminFacade.getUserProfile(testUserID).getItemProperty(
+                "unavailableSince").getValue());
     }
 
     /**
@@ -374,13 +449,55 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for {@link UserFacade#setProfile(Long, Item)} and
+     * Test method for {@link UserFacade#setProfile(Long, Item)},
+     * {@link UserFacade#getUserProfile(Long, Boolean)} and
      * {@link UserFacade#getUserProfile(Long)}.
      */
     @Test
-    public void testProfile() {
+    public void testProfile() throws TransactionException {
+        Map.Entry<User, UserProfile> userProfile = getProfile(adminFacade
+                .getUserProfile(testUserID));
+        UserProfile testProfile = userProfile.getValue();
+        User testUser = userProfile.getKey();
         fail("Not yet implemented"); // RR setProfile
-        fail("Not yet implemented"); // RR getUserProfile
+        fail("Not yet implemented"); // RR getUserProfile(Long)
+        fail("Not yet implemented"); // RR getUserProfile(Long, Boolean)
+    }
+
+    private static Map.Entry<User, UserProfile> getProfile(Item profileItem) {
+        User user = new User();
+        UserProfile profile = new UserProfile();
+        SimpleImmutableEntry<User, UserProfile> returnEntry;
+
+        user.setId((Long) profileItem.getItemProperty("id").getValue());
+        user.setAuthKey((String) profileItem.getItemProperty("authKey")
+                .getValue());
+        user.setEmail((String) profileItem.getItemProperty("email").getValue());
+        user.setDisabledSince((Date) profileItem.getItemProperty(
+                "disabledSince").getValue());
+        user.setUnavailableSince((Date) profileItem.getItemProperty(
+                "unavailableSince").getValue());
+        user.setRegisteredSince((Date) profileItem.getItemProperty(
+                "registeredSince").getValue());
+        user.setCreationDate((Date) profileItem.getItemProperty("creationDate")
+                .getValue());
+
+        profile
+                .setCity((String) profileItem.getItemProperty("city")
+                        .getValue());
+        profile.setFirstName((String) profileItem.getItemProperty("firstName")
+                .getValue());
+        profile.setLastName((String) profileItem.getItemProperty("lastName")
+                .getValue());
+        profile.setPostalCode((String) profileItem
+                .getItemProperty("postalCode").getValue());
+        profile.setStreet((String) profileItem.getItemProperty("street")
+                .getValue());
+        profile.setUsername((String) profileItem.getItemProperty("username")
+                .getValue());
+
+        returnEntry = new SimpleImmutableEntry<User, UserProfile>(user, profile);
+        return returnEntry;
     }
 
     /**

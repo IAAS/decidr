@@ -19,7 +19,12 @@ package de.decidr.model.reveng;
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
+import java.util.List;
 
+import org.hibernate.cfg.reveng.ReverseEngineeringSettings;
+import org.hibernate.cfg.reveng.ReverseEngineeringStrategy;
+import org.hibernate.cfg.reveng.TableIdentifier;
+import org.hibernate.mapping.ForeignKey;
 import org.junit.Test;
 
 /**
@@ -110,7 +115,7 @@ public class DecidrReverseEngineeringStrategyTest {
      */
     @Test
     public void testTableToMetaAttributesTableIdentifier() {
-       dres.tableToMetaAttributes(null);
+        dres.tableToMetaAttributes(null);
     }
 
     /**

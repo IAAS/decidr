@@ -16,9 +16,10 @@
 
 package de.decidr.model.logging;
 
+import static junit.framework.Assert.*;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import static junit.framework.Assert.*;
 
 /**
  * Tests whether logging is possible at all using the default logger.
