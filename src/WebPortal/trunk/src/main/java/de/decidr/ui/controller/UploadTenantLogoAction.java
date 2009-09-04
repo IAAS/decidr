@@ -19,6 +19,7 @@ package de.decidr.ui.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.servlet.http.HttpSession;
@@ -29,8 +30,10 @@ import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.SucceededEvent;
 
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action handles the upload of the tenant logo
@@ -57,13 +60,18 @@ public class UploadTenantLogoAction implements Upload.SucceededListener,
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(file);
+            int index = file.getCanonicalPath().indexOf('.');
+            String suffix = file.getCanonicalPath().substring(index);
             
             tenant = (Item)session.getAttribute("tenant");
-            //FIXME: tenantFacade.setLogo((Long)tenant.getItemProperty("id").getValue(), fis);
+            tenantFacade.setLogo((Long)tenant.getItemProperty("id").getValue(), fis, suffix, file.getName());
             
         } catch (final java.io.FileNotFoundException e) {
-            // TODO
-            e.printStackTrace();
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+        }catch(TransactionException exception){
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+        }catch(IOException exception){
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
         }
     }
     
@@ -88,8 +96,7 @@ public class UploadTenantLogoAction implements Upload.SucceededListener,
         try {
             fos = new FileOutputStream(file);
         } catch (final java.io.FileNotFoundException e) {
-            // TODO
-            e.printStackTrace();
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
             return null;
         }
         

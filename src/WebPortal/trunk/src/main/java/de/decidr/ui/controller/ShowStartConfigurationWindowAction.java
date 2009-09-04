@@ -38,6 +38,7 @@ import de.decidr.ui.view.CreateWorkflowInstanceComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.StartConfigurationWindow;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action takes the configuration file and unmarshall it to an object.
@@ -79,9 +80,9 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
             tConfiguration = TransformUtil.bytes2Configuration(wsc);
             Main.getCurrent().getMainWindow().addWindow(new StartConfigurationWindow(tConfiguration));
         }catch(JAXBException exception){
-            //TODO
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
         }catch(TransactionException exception){
-            //TODO
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
         }
         
         

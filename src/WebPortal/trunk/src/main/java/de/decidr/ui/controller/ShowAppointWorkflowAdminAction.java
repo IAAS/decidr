@@ -16,40 +16,50 @@
 
 package de.decidr.ui.controller;
 
+import java.util.Set;
+
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.view.AppointWorkflowAdminComponent;
+import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author AT
  */
 public class ShowAppointWorkflowAdminAction implements ClickListener {
-    
-    private UIDirector uiDirector = UIDirector.getInstance(); 
+
+    private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
-    
+
     private Table table = null;
-    
+
     /**
      * TODO: add comment
-     *
+     * 
      */
     public ShowAppointWorkflowAdminAction(Table table) {
         this.table = table;
     }
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //TODO: Abfrage ob multi selektion durchgeführt worden ist. Wenn ja abfangen.
-        siteFrame.setContent(new AppointWorkflowAdminComponent((Long)table.getContainerProperty(table.getValue(), "id").getValue()));
+        if (!table.getValue().getClass().equals(Set.class)) {
+            siteFrame.setContent(new AppointWorkflowAdminComponent((Long) table
+                    .getContainerProperty(table.getValue(), "id").getValue()));
+        }else{
+            Main.getCurrent().getMainWindow().showNotification("Bitte wählen sie nur einen admin aus");
+        }
 
     }
 

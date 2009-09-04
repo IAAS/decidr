@@ -28,29 +28,37 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action creates a new user.
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class RegisterUserAction implements ClickListener  {
+public class RegisterUserAction implements ClickListener {
 
     private UserFacade userFacade = new UserFacade(new UserRole());
-    
+
     private RegisterUserComponent content = null;
-        
+
     @Override
     public void buttonClick(ClickEvent event) {
-        content = (RegisterUserComponent) UIDirector.getInstance().getTemplateView().getContent();
+        content = (RegisterUserComponent) UIDirector.getInstance()
+                .getTemplateView().getContent();
         content.saveRegistrationForm();
         try {
-            userFacade.registerUser(content.getRegistrationForm().getItemProperty("email").getValue().toString(), content.getRegistrationForm().getItemProperty("password").getValue().toString(), content.getRegistrationForm());
+            userFacade.registerUser(content.getRegistrationForm()
+                    .getItemProperty("email").getValue().toString(), content
+                    .getRegistrationForm().getItemProperty("password")
+                    .getValue().toString(), content.getRegistrationForm());
         } catch (NullPointerException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
-        
-        //TODO: remove
-        Main.getCurrent().getMainWindow().showNotification("Hello " + content.getRegistrationForm().getItemProperty("userName").getValue().toString());
+
+        // TODO: remove
+        Main.getCurrent().getMainWindow().showNotification(
+                "Hello "
+                        + content.getRegistrationForm().getItemProperty(
+                                "userName").getValue().toString());
     }
 }
