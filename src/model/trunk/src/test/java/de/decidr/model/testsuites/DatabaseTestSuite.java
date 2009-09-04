@@ -75,7 +75,7 @@ public class DatabaseTestSuite extends TestSuite {
             session.createQuery("FROM User").list();
         } catch (Exception e) {
             e.printStackTrace();
-            fail("ERROR: Couldn't connect to database; Error message: "
+            fail("Couldn't connect to database; Error message: "
                     + e.getMessage());
         }
 
