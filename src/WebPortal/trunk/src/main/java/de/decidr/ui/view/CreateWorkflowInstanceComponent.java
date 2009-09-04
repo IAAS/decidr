@@ -16,28 +16,21 @@
 package de.decidr.ui.view;
 
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
-
-import de.decidr.ui.controller.ShowStartConfigurationWindowAction;
 import de.decidr.ui.data.WorkflowInstanceContainer;
 
 /**
- * TODO: add comment
- *
+ * In this component the user can create a workflow instance from
+ * a workflow model. The user has to choose a workflow model from 
+ * table and push the create button.
+ * 
  * @author AT
  */
 public class CreateWorkflowInstanceComponent extends CustomComponent {
     
-    /**
-     * In this component the user can create a workflow instance from
-     * a workflow model. The user has to choose a workflow model from 
-     * table and push the create button.
-     * 
-     * @author AT
-     */
+    
     private static final long serialVersionUID = -2283442464298218331L;
     
     private WorkflowInstanceContainer workflowInstanceContainer = null;

@@ -2,12 +2,11 @@ package de.decidr.ui.view.client.ui;
 
 
 
-import java.util.Set;
-
-import com.vaadin.data.Item;
 import com.vaadin.terminal.gwt.client.ApplicationConnection;
 import com.vaadin.terminal.gwt.client.Paintable;
 import com.vaadin.terminal.gwt.client.UIDL;
+
+
 
 
 
@@ -36,7 +35,7 @@ public class VModelingTool extends de.decidr.modelingtool.client.ModelingToolWid
         // This method call of the Paintable interface sets the component
         // style name in DOM tree
         setStyleName(CLASSNAME);
-
+        
     }
 
     public void updateFromUIDL(UIDL uidl, ApplicationConnection client) {
@@ -52,11 +51,11 @@ public class VModelingTool extends de.decidr.modelingtool.client.ModelingToolWid
 
         // Save the UIDL identifier for the component
         //uidlId = uidl.getId();
-        
-        //init();
+       
+       //init();
+        setDWDL(uidl.getStringVariable("dwdl"));
         
     }
-    
     
 
 }

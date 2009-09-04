@@ -17,7 +17,8 @@
 package de.decidr.ui.view;
 
 /**
- * TODO: add comment
+ * Represents the resources which are used in the web portal to have
+ * a central point where all resources are handled.
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -34,6 +35,11 @@ public class Resources {
         }
         
 
+        /**
+         * Returns an instance of this class
+         *
+         * @return resources
+         */
         public static Resources getInstance(){
         if(resources == null){
                 resources = new Resources();
@@ -42,6 +48,11 @@ public class Resources {
     }
         
         
+        /**
+         * Returns the decidr logo as a theme resource
+         *
+         * @return imgDecidrLogo
+         */
         public ThemeResource getDecidrLogo(){
                 if(imgDecidrLogo == null){
                         imgDecidrLogo = new ThemeResource("img/decidrlogo.png");

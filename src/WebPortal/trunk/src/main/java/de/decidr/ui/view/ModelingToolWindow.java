@@ -21,7 +21,9 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 /**
- * TODO: add comment
+ * This class represents the client side of the modeling tool widget
+ * which is integrated into the web portal. It is a window which wraps 
+ * the modeling tool widget.
  *
  * @author AT
  */
@@ -32,7 +34,7 @@ public class ModelingToolWindow extends Window {
     private ModelingTool modelingTool = null;
     
     /**
-     * TODO: add comment
+     * Default constructor which calls the init method
      *
      */
     public ModelingToolWindow() {
@@ -40,7 +42,7 @@ public class ModelingToolWindow extends Window {
     }
 
     /**
-     * TODO: add comment
+     * Initializes the components for the modeling tool window.
      *
      */
     private void init() {
@@ -52,6 +54,7 @@ public class ModelingToolWindow extends Window {
         verticalLayout.setHeight(420, VerticalLayout.UNITS_PIXELS);
         
         modelingTool = new ModelingTool();
+        
         
         verticalLayout.addComponent(modelingTool);
         

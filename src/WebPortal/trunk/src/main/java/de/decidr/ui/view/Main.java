@@ -36,9 +36,7 @@ import de.decidr.ui.controller.UIDirector;
  */
 public class Main extends Application implements TransactionListener{
 
-    /**
-     * TODO: add comment
-     */
+    
     private static final long serialVersionUID = 2668887930201158755L;
     
     private ApplicationContext ctx = null;
