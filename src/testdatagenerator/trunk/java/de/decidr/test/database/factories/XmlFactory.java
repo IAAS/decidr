@@ -53,7 +53,7 @@ public class XmlFactory extends EntityFactory {
      * @return the DWDL of a sample process as raw xml data
      */
     public byte[] getDwdl() {
-        return getRawData("processes.sampleProcess.xml");
+        return getRawData("processes/sampleProcess.xml");
     }
 
     /**
@@ -64,7 +64,7 @@ public class XmlFactory extends EntityFactory {
     public byte[] getActivityMapping(String activityName) {
         // convention: all activity mapping files have to be named
         // <activityname>.xml
-        return getRawData("mappings." + activityName + ".xml");
+        return getRawData("mappings/" + activityName + ".xml");
     }
 
     /**
@@ -74,7 +74,7 @@ public class XmlFactory extends EntityFactory {
      */
     public byte[] getWsdl(String webServiceName) {
         // convention: all wsdl files have to be named <webservicename>.wsdl
-        return getRawData("wsdl." + webServiceName + ".wsdl");
+        return getRawData("wsdl/" + webServiceName + ".wsdl");
     }
 
     /**
@@ -87,12 +87,12 @@ public class XmlFactory extends EntityFactory {
      * @return raw resource bytes
      */
     private byte[] getRawData(String relativePath) {
-        if (!relativePath.startsWith(".")) {
-            relativePath = "." + relativePath;
+        if (!relativePath.startsWith("/")) {
+            relativePath = "/" + relativePath;
         }
 
         InputStream inStream = getClass().getClassLoader().getResourceAsStream(
-                "de.decidr.test.database.resources" + relativePath);
+                "de/decidr/test/database/resources" + relativePath);
 
         if (inStream == null) {
             throw new IllegalArgumentException("Cannot find resource "
