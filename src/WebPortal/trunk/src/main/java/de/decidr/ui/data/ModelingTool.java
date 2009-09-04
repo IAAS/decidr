@@ -25,26 +25,33 @@ import javax.servlet.http.HttpSession;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.XMLParser;
+import com.sun.mail.imap.protocol.UID;
 import com.vaadin.data.Item;
 import com.vaadin.terminal.PaintException;
 import com.vaadin.terminal.PaintTarget;
+import com.vaadin.terminal.gwt.client.ui.Table;
 import com.vaadin.ui.AbstractComponent;
 
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.WorkflowModelFacade;
+import de.decidr.ui.controller.UIDirector;
+import de.decidr.ui.view.CurrentTenantModelTable;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
-import de.decidr.ui.view.client.ui.VModelingTool;
+import de.decidr.ui.view.WorkflowModelsComponent;
 
 /**
- * TODO: add comment
+ * This class represents the server side component of the modeling tool widget
+ * which is integrated in the Vaadin web portal. It is used to communicate with
+ * the client side of the modeling toll widget. The modeling tool is an abstract
+ * component which is wrapped by a window and displayed to the user.
  * 
- * @author AT, Jonas Schlaak
+ * @author AT
  */
-@SuppressWarnings("serial")
-public class Server extends AbstractComponent {
+public class ModelingTool extends AbstractComponent {
 
     private HttpSession session = null;
     private Long userId = null;
@@ -54,20 +61,27 @@ public class Server extends AbstractComponent {
     private WorkflowModelFacade workflowModelFacade = null;
     private Long workflowModelId = null;
     private HashMap<Long, String> userList = null;
+    private UIDirector uiDirector = null;
+    private SiteFrame siteFrame = null;
 
     /**
-     * TODO: add comment
+     * Default constructor which initializes the server side components which
+     * are needed to gain access to the database.
      * 
      */
-    public Server() {
+    public ModelingTool() {
         super();
         session = Main.getCurrent().getSession();
         userId = (Long) session.getAttribute("userId");
         tenantName = (String) session.getAttribute("tenant");
         tenantFacade = new TenantFacade(new UserRole(userId));
         workflowModelFacade = new WorkflowModelFacade(new UserRole(userId));
-        // TODO: get workflow id properly
-        workflowModelId = 0L;
+        uiDirector = UIDirector.getInstance();
+        siteFrame = uiDirector.getTemplateView();
+        CurrentTenantModelTable table = ((WorkflowModelsComponent) siteFrame
+                .getContent()).getCurrentTenantTable();
+        workflowModelId = (Long) table.getItem(table.getValue())
+                .getItemProperty("id").getValue();
     }
 
     private String getDWDL() {
@@ -132,6 +146,11 @@ public class Server extends AbstractComponent {
         return doc.toString();
     }
 
+    @Override
+    public String getTag() {
+        return "modelingtool";
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -141,10 +160,10 @@ public class Server extends AbstractComponent {
      */
     @Override
     public void paintContent(PaintTarget target) throws PaintException {
-
         super.paintContent(target);
         target.addVariable(this, "dwdl", getDWDL());
         target.addVariable(this, "users", getUsers());
+
     }
 
     /*
@@ -153,7 +172,6 @@ public class Server extends AbstractComponent {
      * @see com.vaadin.ui.AbstractComponent#changeVariables(java.lang.Object,
      * java.util.Map)
      */
-    @SuppressWarnings("unchecked")
     @Override
     public void changeVariables(Object source, Map variables) {
         if (variables.containsKey("dwdl")) {
@@ -166,16 +184,7 @@ public class Server extends AbstractComponent {
                 e.printStackTrace();
             }
         }
-    }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.ui.AbstractComponent#getTag()
-     */
-    @Override
-    public String getTag() {
-        return VModelingTool.TAGNAME;
     }
 
 }

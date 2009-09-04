@@ -32,6 +32,7 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This container holds all tenants which belong to the current user.
@@ -65,7 +66,7 @@ public class CurrentTenantContainer extends Observable implements Container, Con
                 addItem(item);
             }
         }catch(TransactionException exception){
-            //TODO
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
         }
     }
 

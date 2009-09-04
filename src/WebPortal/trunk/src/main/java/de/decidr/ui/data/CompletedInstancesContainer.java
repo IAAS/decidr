@@ -202,8 +202,8 @@ public class CompletedInstancesContainer extends Observable implements
     @Override
     public Object addItemAfter(Object previousItemId)
             throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
-        return null;
+        
+        return new UnsupportedOperationException();
     }
 
     /* (non-Javadoc)
@@ -212,7 +212,8 @@ public class CompletedInstancesContainer extends Observable implements
     @Override
     public Item addItemAfter(Object previousItemId, Object newItemId)
             throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
+        
+        new UnsupportedOperationException();
         return null;
     }
 
@@ -248,7 +249,7 @@ public class CompletedInstancesContainer extends Observable implements
      */
     @Override
     public Object lastItemId() {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 

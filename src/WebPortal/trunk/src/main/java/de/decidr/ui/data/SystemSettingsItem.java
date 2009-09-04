@@ -34,6 +34,7 @@ import com.vaadin.data.util.BeanItem;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.facades.SystemFacade;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 public class SystemSettingsItem implements Item {
 
@@ -50,7 +51,7 @@ public class SystemSettingsItem implements Item {
 			//TODO: remove later
 			 items = new BeanItem(ProfileSettingsContainer.getInstance());
 		} catch (Exception e){
-			//TODO: Add error handler
+			Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
 		}
 	}
 
