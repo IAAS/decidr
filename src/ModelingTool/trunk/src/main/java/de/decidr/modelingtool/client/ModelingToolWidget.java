@@ -16,6 +16,8 @@
 
 package de.decidr.modelingtool.client;
 
+import java.util.HashMap;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.HasAllMouseHandlers;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -41,7 +43,6 @@ import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
 import de.decidr.modelingtool.client.exception.LoadDWDLException;
 import de.decidr.modelingtool.client.io.DWDLParser;
 import de.decidr.modelingtool.client.io.DWDLParserImpl;
-import de.decidr.modelingtool.client.io.DataExchanger;
 import de.decidr.modelingtool.client.io.WorkflowIO;
 import de.decidr.modelingtool.client.io.WorkflowIOStub;
 import de.decidr.modelingtool.client.menu.Menu;
@@ -59,7 +60,7 @@ public class ModelingToolWidget extends Composite implements
 
     public static Messages messages;
 
-    private static DataExchanger dataExchgr;
+    private static HashMap<Long, String> users;
 
     // private static final String html = "<table align=\"center\">"
     // + "<tr><td id=\"menu\"></td></tr>"
@@ -147,6 +148,7 @@ public class ModelingToolWidget extends Composite implements
     public void init() {
         // Load Workflow Model
         // TODO: substitute stub by real implementation
+        // This code maybe obsolete, except for testin purposes
         WorkflowIO io = new WorkflowIOStub();
         // WorkflowIO io = new WorkflowIOImpl(dataExchanger);
         try {
@@ -160,7 +162,7 @@ public class ModelingToolWidget extends Composite implements
         }
     }
 
-    protected void setDWDL(String dwdl) {
+    public void setDWDL(String dwdl) {
         DWDLParser parser = new DWDLParserImpl();
         WorkflowModel workflowModel = parser.parse(dwdl);
         try {
@@ -171,17 +173,24 @@ public class ModelingToolWidget extends Composite implements
         }
     }
 
-    protected void setUsers(String userxml) {
-        // TODO: implement
+    public void setUsers(String userxml) {
+        // JS: implement, first parse xml with gwt tools, then create user
+        // objects as hash maps
+        users = new HashMap<Long, String>();
+        users.put(0L, "dsf");
+        users.put(1L, "sdf");
+        users.put(2L, "fgh");
     }
 
-    /**
-     * TODO: add comment
-     * 
-     * @return the dataExchanger
-     */
-    public static DataExchanger getDataExchanger() {
-        return dataExchgr;
+    public static HashMap<Long, String> getUsers() {
+        return users;
+    }
+
+    public static void sendDWDLtoServer(String dwdl) {
+        /*
+         * This method is intentionally left emtpy. The implementation is done
+         * by the child class in the WebPortal.
+         */
     }
 
 }

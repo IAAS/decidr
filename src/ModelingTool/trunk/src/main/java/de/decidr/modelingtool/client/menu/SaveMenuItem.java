@@ -18,32 +18,37 @@ package de.decidr.modelingtool.client.menu;
 
 import com.google.gwt.user.client.Command;
 
-import de.decidr.modelingtool.client.exception.SaveDWDLException;
-import de.decidr.modelingtool.client.io.WorkflowIO;
-import de.decidr.modelingtool.client.io.WorkflowIOStub;
+import de.decidr.modelingtool.client.ModelingToolWidget;
+import de.decidr.modelingtool.client.io.WorkflowParser;
+import de.decidr.modelingtool.client.io.WorkflowParserImpl;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author Johannes Engelhardt
  */
 public class SaveMenuItem implements Command {
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.google.gwt.user.client.Command#execute()
      */
     @Override
     public void execute() {
         // JS replace with real implementation
-        WorkflowIO io = new WorkflowIOStub();
-        try {
-            io.saveWorkflow(Workflow.getInstance().getModel());
-        } catch (SaveDWDLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+//        WorkflowIO io = new WorkflowIOStub();
+//        try {
+//            io.saveWorkflow(Workflow.getInstance().getModel());
+//        } catch (SaveDWDLException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
 
+        WorkflowParser parser = new WorkflowParserImpl();
+        String dwdl = parser.parse(Workflow.getInstance().getModel());
+        ModelingToolWidget.sendDWDLtoServer(dwdl);
     }
 
 }

@@ -32,6 +32,7 @@ public class ModelingTool implements EntryPoint {
         ModelingToolWidget mtw = new ModelingToolWidget();
         RootPanel.get("panel").add(mtw);
         mtw.init();
+        mtw.setUsers(null);
 
     }
 
