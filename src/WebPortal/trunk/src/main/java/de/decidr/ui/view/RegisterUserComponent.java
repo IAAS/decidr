@@ -17,6 +17,9 @@
 package de.decidr.ui.view;
 
 import com.vaadin.data.Item;
+import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.data.validator.RegexpValidator;
+import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Form;
@@ -78,7 +81,6 @@ public class RegisterUserComponent extends CustomComponent {
      *
      */
     public void saveRegistrationForm(){
-        //TODO: validation
         registrationForm.commit();
     }
     
@@ -103,6 +105,10 @@ public class RegisterUserComponent extends CustomComponent {
         
         userName = new TextField();
         userName.setCaption("User Name:");
+        userName
+        .addValidator(new RegexpValidator(
+                "\\w{3,20}",
+                "Der Username darf 3-20 Zeichen lang sein und darf keine Sonderzeichen enthalten"));
         password = new TextField();
         password.setCaption("Password:");
         password.setSecret(true);
@@ -111,14 +117,24 @@ public class RegisterUserComponent extends CustomComponent {
         passwordConfirm.setSecret(true);
         email = new TextField();
         email.setCaption("E-Mail:");
+        email.addValidator(new EmailValidator(
+        "Bitte geben sie eine valide Emailadresse an"));
         firstName = new TextField();
         firstName.setCaption("First Name:");
+        firstName
+        .addValidator(new StringLengthValidator(
+                "Bitte geben Sie ihren Vorname ein. Dieser darf maximal 50 Zeichen betragen",
+                0, 50, false));
         lastName = new TextField();
         lastName.setCaption("Last Name:");
+        lastName.addValidator(new StringLengthValidator(
+                "Bitte geben Sie ihren Vorname ein. Dieser darf maximal 50 Zeichen betragen",
+                0, 50, false));
         street = new TextField();
         street.setCaption("Street:");
         postalCode = new TextField();
         postalCode.setCaption("PostalCode:");
+        postalCode.addValidator(new RegexpValidator("[1-9][0-9]{4,15}", "Bitte geben sie nur Zahlen ein"));
         city = new TextField();
         city.setCaption("City");
         

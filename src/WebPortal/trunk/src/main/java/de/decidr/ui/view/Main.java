@@ -70,7 +70,7 @@ public class Main extends Application implements TransactionListener{
         ctx = getContext();
         webCtx = (WebApplicationContext)ctx;        
         session = webCtx.getHttpSession();
-
+        
         
     }
     

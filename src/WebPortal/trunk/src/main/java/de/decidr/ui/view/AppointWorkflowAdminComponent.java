@@ -76,8 +76,7 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
         
         appointSelf = new TextField();
         appointSelf.setCaption("Username:");
-        //TODO: get username from session
-        appointSelf.setValue("username");
+        appointSelf.setValue(Main.getCurrent().getUser());
         appointSelf.setEnabled(false);
         
         appointForm.addField("user"+userCounter.toString(), appointSelf);

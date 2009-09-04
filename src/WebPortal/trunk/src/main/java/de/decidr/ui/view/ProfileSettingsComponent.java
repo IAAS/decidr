@@ -176,10 +176,9 @@ public class ProfileSettingsComponent extends CustomComponent {
 		myProfileLabel.setContentMode(Label.CONTENT_XHTML);
 		usernameLabel = new Label("Username: ");
 		emailLabel = new Label("Email address: ");
-		//TODO: items auslesen für username und email adresse und als label setzen
-		usernameNameLabel = new Label("test1");
-		emailNameLabel = new Label("test");
-		addressDataLabel = new Label("Address Data (optional)");
+		usernameNameLabel = new Label((String)settingsItem.getItemProperty("username").getValue());
+		emailNameLabel = new Label((String)settingsItem.getItemProperty("email").getValue());
+		addressDataLabel = new Label((String)settingsItem.getItemProperty("street").getValue());
 		
 		
 		changeEmailLink = new Button("Change email", new ShowChangeEmailAction());

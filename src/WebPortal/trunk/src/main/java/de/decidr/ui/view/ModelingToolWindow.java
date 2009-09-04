@@ -20,6 +20,8 @@ package de.decidr.ui.view;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
+import de.decidr.ui.data.ModelingTool;
+
 /**
  * This class represents the client side of the modeling tool widget
  * which is integrated into the web portal. It is a window which wraps 
