@@ -126,7 +126,9 @@ public class MailBackend {
 
         log.debug("Using InternetAddress.parse() to determine validity");
         try {
-            InternetAddress.parse(addressList, true);
+            if (InternetAddress.parse(addressList, true).length < 0) {
+                return false;
+            }
         } catch (AddressException e) {
             log.debug("AddressException in InternetAddress.parse()"
                     + " => invalid", e);
@@ -1122,9 +1124,8 @@ public class MailBackend {
 
     /**
      * Specify the host the MTA is running on. Defaults to
-     * <code>localhost</code>.
-     * If the given value is empty or null, then the host
-     * will be set to default.
+     * <code>localhost</code>. If the given value is empty or null, then the
+     * host will be set to default.
      * 
      * @param hostname
      *            The hostname of the MTA. May also be an IP address.

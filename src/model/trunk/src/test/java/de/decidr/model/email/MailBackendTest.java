@@ -77,6 +77,7 @@ public class MailBackendTest {
         // XXX These seem to be JavaMail implementation bugs
         // assertFalse(MailBackend.validateAddresses("<aaabbb> \"a.b@c.de\""));
         // assertFalse(MailBackend.validateAddresses("ab@[127.0.1]"));
+        // assertFalse(MailBackend.validateAddresses("ab@[example.com]"));
         // assertFalse(MailBackend.validateAddresses("ab@c.de, "));
 
         assertTrue(MailBackend.validateAddresses("a.b@c.de, abc@ddd.de"));
