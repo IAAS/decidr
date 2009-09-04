@@ -25,6 +25,7 @@ import de.decidr.model.commands.tenant.GetAllTenantsCommand;
 import de.decidr.model.commands.tenant.GetCurrentColorSchemeCommand;
 import de.decidr.model.commands.tenant.GetTenantIdCommand;
 import de.decidr.model.commands.tenant.GetTenantLogoCommand;
+import de.decidr.model.commands.tenant.GetTenantSettingsCommand;
 import de.decidr.model.commands.tenant.GetTenantsToApproveCommand;
 import de.decidr.model.commands.tenant.GetUsersOfTenantCommand;
 import de.decidr.model.commands.tenant.GetWorkflowInstancesCommand;
@@ -43,6 +44,7 @@ import de.decidr.model.entities.TenantWithAdminView;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
@@ -628,5 +630,34 @@ public class TenantFacade extends AbstractFacade {
                 actor, tenantId, workflowModelIds);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
+    }
+
+    /**
+     * Retrieves the current tenant settings from the database as a Vaadin Item
+     * with the following properties:
+     * 
+     * <ul>
+     * <li>id: {@link Long} - tenant id (should be the same as the given
+     * tenantId)</li>
+     * <li>name: {@link String} - tenant name</li>
+     * <li>description: {@link String} - tenant description</li>
+     * <li>approvedSince: {@link Date} - date when the tenant was approved</li>
+     * </ul>
+     * 
+     * @param tenantId
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             iff the given tenant does not exist
+     */
+    @AllowedRole(TenantAdminRole.class)
+    public Item getTenantSettings(Long tenantId) throws TransactionException {
+        GetTenantSettingsCommand cmd = new GetTenantSettingsCommand(actor,
+                tenantId);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        // FIXME DH also fetch color schemes!
+        String[] properties = { "id", "name", "description", "approvedSince" };
+        return new BeanItem(cmd.getTenantSettings(), properties);
     }
 }
