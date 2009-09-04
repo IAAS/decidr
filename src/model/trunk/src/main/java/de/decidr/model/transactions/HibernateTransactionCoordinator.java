@@ -263,7 +263,11 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                         rollbackException);
             }
 
-            throw new TransactionException(e);
+            if (e instanceof TransactionException) {
+                throw (TransactionException) e;
+            } else {
+                throw new TransactionException(e);
+            }
         }
     }
 

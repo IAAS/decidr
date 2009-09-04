@@ -72,6 +72,7 @@ public class DatabaseTestSuite extends TestSuite {
         try {
             session = new Configuration().configure("hibernate.cfg.xml")
                     .buildSessionFactory().openSession();
+            session.createQuery("FROM User").list();
         } catch (Exception e) {
             e.printStackTrace();
             fail("ERROR: Couldn't connect to database; Error message: "
