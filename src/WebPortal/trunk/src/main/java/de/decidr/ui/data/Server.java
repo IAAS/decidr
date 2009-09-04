@@ -18,42 +18,73 @@ package de.decidr.ui.data;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.XMLParser;
 import com.vaadin.data.Item;
+import com.vaadin.terminal.PaintException;
+import com.vaadin.terminal.PaintTarget;
+import com.vaadin.ui.AbstractComponent;
 
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
-import de.decidr.modelingtool.client.io.DataExchanger;
+import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * TODO: add comment
- *
- * @author AT
+ * 
+ * @author AT, Jonas Schlaak
  */
-public class Server implements DataExchanger {
-    
+@SuppressWarnings("serial")
+public class Server extends AbstractComponent {
+
     private HttpSession session = null;
-
     private Long userId = null;
-
     private Long tenantId = null;
-
     private String tenantName = null;
-
     private TenantFacade tenantFacade = null;
-
+    private WorkflowModelFacade workflowModelFacade = null;
+    private Long workflowModelId = null;
     private HashMap<Long, String> userList = null;
 
-    /* (non-Javadoc)
-     * @see de.decidr.modelingtool.client.io.DataExchanger#getUsers()
+    /**
+     * TODO: add comment
+     * 
      */
-    @Override
-    public HashMap<Long, String> getUsers() {
+    public Server() {
+        super();
+        session = Main.getCurrent().getSession();
+        userId = (Long) session.getAttribute("userId");
+        tenantName = (String) session.getAttribute("tenant");
+        tenantFacade = new TenantFacade(new UserRole(userId));
+        workflowModelFacade = new WorkflowModelFacade(new UserRole(userId));
+        // TODO: get workflow id properly
+        workflowModelId = 0L;
+    }
+
+    private String getDWDL() {
+
+        try {
+
+            Item workflowModel = workflowModelFacade
+                    .getWorkflowModel(workflowModelId);
+            return new String((byte[]) workflowModel.getItemProperty("dwdl")
+                    .getValue());
+
+        } catch (TransactionException e) {
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+            return null;
+        }
+    }
+
+    private String getUsers() {
         session = Main.getCurrent().getSession();
         userId = (Long) session.getAttribute("userId");
         tenantName = (String) session.getAttribute("tenant");
@@ -66,7 +97,8 @@ public class Server implements DataExchanger {
                     userList.put((Long) item.getItemProperty("id").getValue(),
                             (String) item.getItemProperty("first_name")
                                     .getValue()
-                                    +" " + (String) item
+                                    + " "
+                                    + (String) item
                                             .getItemProperty("last_name")
                                             .getValue()
                                     + " ("
@@ -77,7 +109,7 @@ public class Server implements DataExchanger {
                             (String) item.getItemProperty("email").getValue());
                 }
             }
-            return userList;
+            return convertUserHashMapToString(userList);
         } catch (TransactionException exception) {
             Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
             return null;
@@ -85,22 +117,64 @@ public class Server implements DataExchanger {
 
     }
 
-    /* (non-Javadoc)
-     * @see de.decidr.modelingtool.client.io.DataExchanger#loadDWDL()
-     */
-    @Override
-    public String loadDWDL() {
-        // TODO Auto-generated method stub
-        return null;
+    private String convertUserHashMapToString(HashMap<Long, String> userList) {
+        Document doc = XMLParser.createDocument();
+
+        Element root = doc.createElement("userlist");
+        for (Long userId : userList.keySet()) {
+            Element user = doc.createElement("user");
+            user.setAttribute("id", userId.toString());
+            user.setAttribute("name", userList.get(user));
+            root.appendChild(user);
+        }
+
+        return doc.toString();
     }
 
-    /* (non-Javadoc)
-     * @see de.decidr.modelingtool.client.io.DataExchanger#saveDWDL(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.vaadin.ui.AbstractComponent#paintContent(com.vaadin.terminal.PaintTarget
+     * )
      */
     @Override
-    public void saveDWDL(String dwdl) {
-        // TODO Auto-generated method stub
+    public void paintContent(PaintTarget target) throws PaintException {
 
+        super.paintContent(target);
+        target.addVariable(this, "dwdl", getDWDL());
+        target.addVariable(this, "users", getUsers());
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.ui.AbstractComponent#changeVariables(java.lang.Object,
+     * java.util.Map)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void changeVariables(Object source, Map variables) {
+        if (variables.containsKey("dwdl")) {
+            byte[] dwdl = (byte[]) variables.get("dwdl");
+            try {
+                workflowModelFacade.saveWorkflowModel(workflowModelId, "", "",
+                        dwdl);
+            } catch (TransactionException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.ui.AbstractComponent#getTag()
+     */
+    @Override
+    public String getTag() {
+        return "modelingtool";
     }
 
 }
