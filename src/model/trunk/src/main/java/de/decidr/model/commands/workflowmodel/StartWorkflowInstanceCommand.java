@@ -397,8 +397,8 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
      * @param user
      */
     private void completeStartConfigEntry(User user) {
-        for (TRole role : startConfiguration.getRoles().getRole()) {
-            for (TActor actor : role.getActor()) {
+        for (TRole configRole : startConfiguration.getRoles().getRole()) {
+            for (TActor actor : configRole.getActor()) {
                 Long userId = null;
                 try {
                     userId = Long.parseLong(actor.getUserId());
@@ -420,26 +420,28 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
                     // this exception will not be thrown as long as the empty
                     // string is passed to setPersonal()
                 }
-                
-                //both usernames are converted to lowercase for comparison
+
+                // both usernames are converted to lowercase for comparison
                 String actorUsername = actor.getName();
                 if (actorUsername != null) {
                     actorUsername = actorUsername.toLowerCase();
                 }
-                String username = user.getUserProfile() != null ? user.getUserProfile().getUsername();
+                String username = user.getUserProfile() != null ? user
+                        .getUserProfile().getUsername() : null;
                 if (username != null) {
                     username = username.toLowerCase();
                 }
-                
+
                 if (userId != null && userId.equals(user.getId())) {
                     // the user id of the actor has been set and matches.
-                        copyUserToActor(user, actor);
+                    copyUserToActor(user, actor);
                 } else if (actor.getEmail() != null
                         && !actor.getEmail().isEmpty()
                         && actorEmail.equals(userEmail)) {
-                    //the email has been set and matches
+                    // the email has been set and matches
                     copyUserToActor(user, actor);
-                } else if (actorUsername != null && actorUsername.equals(username)) {
+                } else if (actorUsername != null
+                        && actorUsername.equals(username)) {
                     // the username has been set and matches
                     copyUserToActor(user, actor);
                 }
