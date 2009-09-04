@@ -66,9 +66,18 @@ public class ModelingToolWidget extends Composite implements
 
     private static HashMap<Long, String> users;
 
+    private static ModelingToolWidget instance;
+
     // private static final String html = "<table align=\"center\">"
     // + "<tr><td id=\"menu\"></td></tr>"
     // + "<tr><td id=\"workflow\"></td></tr>" + "</table>";
+
+    public static ModelingToolWidget getInstance() {
+        if (instance == null) {
+            instance = new ModelingToolWidget();
+        }
+        return instance;
+    }
 
     public ModelingToolWidget() {
         super();
@@ -210,11 +219,11 @@ public class ModelingToolWidget extends Composite implements
      * 
      * @return
      */
-    public static HashMap<Long, String> getUsers() {
+    public HashMap<Long, String> getUsers() {
         return users;
     }
 
-    public static void sendDWDLtoServer(String dwdl) {
+    public void sendDWDLtoServer(String dwdl) {
         /*
          * This method is intentionally left emtpy. The implementation is done
          * by the child class in the WebPortal.

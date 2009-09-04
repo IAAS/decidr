@@ -193,7 +193,7 @@ public class RoleEditor extends Dialog {
                 new RoleEditorUserComparator()));
         for (Long userId : roleUserIds) {
             roleUsersStore.add(new RoleEditorUser(userId, ModelingToolWidget
-                    .getUsers().get(userId)));
+                    .getInstance().getUsers().get(userId)));
         }
         roleUsersView.setStore(roleUsersStore);
     }
@@ -242,9 +242,9 @@ public class RoleEditor extends Dialog {
     @Override
     public void initialize() {
         tenantUsers = new HashMap<Long, String>();
-        for (Long userId : ModelingToolWidget.getUsers().keySet()) {
+        for (Long userId : ModelingToolWidget.getInstance().getUsers().keySet()) {
             tenantUsers.put(new Long(userId), new String(ModelingToolWidget
-                    .getUsers().get(userId)));
+                    .getInstance().getUsers().get(userId)));
         }
         roleUserIds = new ArrayList<Long>();
         for (String userId : variable.getValues()) {
