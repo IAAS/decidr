@@ -90,11 +90,14 @@ public class WorkflowModelFactory extends EntityFactory {
         List<Tenant> owners = getRandomApprovedTenants(numModels
                 / modelsPerTenant);
 
+        XmlFactory xml = new XmlFactory(session);
+        byte[] sampleDwdl = xml.getDwdl();
+
         for (int i = 0; i < numModels; i++) {
             WorkflowModel model = new WorkflowModel();
             model.setDescription("test workflow model #" + Integer.toString(i));
             model.setName("workflow " + Integer.toString(i));
-            model.setDwdl(getSampleDwdl());
+            model.setDwdl(sampleDwdl);
             model.setVersion(rnd.nextInt(1000000));
             model.setExecutable(rnd.nextBoolean());
 
@@ -237,36 +240,6 @@ public class WorkflowModelFactory extends EntityFactory {
             throw new RuntimeException("Cannot find an approved tenant.");
         }
 
-        return result;
-    }
-
-    /**
-     * @return the contents of a sample DWDL file.
-     */
-    private byte[] getSampleDwdl() {
-        java.io.File sampleFile = new java.io.File("sampleProcess.xml");
-        byte[] result = new byte[(int) sampleFile.length()];
-
-        FileInputStream stream = null;
-        try {
-            stream = new FileInputStream("sampleProcess.xml");
-            int bytesRead = stream.read(result);
-            if (sampleFile.length() != bytesRead || sampleFile.length() == 0) {
-                throw new RuntimeException("could not read sample DWDL");
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (stream != null) {
-                try {
-                    stream.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
         return result;
     }
 }

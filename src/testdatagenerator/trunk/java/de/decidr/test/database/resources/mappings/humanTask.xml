@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mapping xmlns="http://decidr.de/schema/wsmapping" xmlns:ns2="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+    <activity>Decidr-HumanTask</activity>
+    <portType>HumanTaskPT</portType>
+    <operation>createTask</operation>
+    <binding>HumanTaskSOAP</binding>
+    <properties>
+        <ns2:property xmlns:ns3="http://decidr.de/schema/DecidrTypes" type="ns3:tID" name="wfmID"/>
+        <ns2:property xmlns:ns3="http://decidr.de/schema/DecidrTypes" type="ns3:tID" name="user"/>
+        <ns2:property xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" name="name"/>
+        <ns2:property xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" name="description"/>
+        <ns2:property xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:boolean" name="userNotification"/>
+        <ns2:property xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" name="taskDescription"/>
+        <ns2:property xmlns:ns3="http://decidr.de/schema/wsmapping" xmlns="" type="nochtnichtdefiniert" name="taskResult"/>
+    </properties>
+    <propertyAliases>
+        <ns2:propertyAlias xmlns:ns3="http://decidr.de/schema/DecidrTypes" xmlns:ns4="http://decidr.de/schema/wsmapping" xmlns="" type="ns3:tID" messageType="createTaskRequest" propertyName="wfmID"/>
+        <ns2:propertyAlias xmlns:ns3="http://decidr.de/schema/DecidrTypes" xmlns:ns4="http://decidr.de/schema/wsmapping" xmlns="" type="ns3:tID" messageType="createTaskRequest" propertyName="user"/>
+        <ns2:propertyAlias xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://decidr.de/schema/wsmapping" xmlns="" type="xs:string" messageType="createTaskRequest" propertyName="name"/>
+        <ns2:propertyAlias xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://decidr.de/schema/wsmapping" xmlns="" type="xs:string" messageType="createTaskRequest" propertyName="description"/>
+        <ns2:propertyAlias xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://decidr.de/schema/wsmapping" xmlns="" type="xs:boolean" messageType="createTaskRequest" propertyName="user"/>
+        <ns2:propertyAlias xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://decidr.de/schema/wsmapping" xmlns="" type="xs:string" messageType="createTaskRequest" propertyName="taskDescription"/>
+        <ns2:propertyAlias xmlns:ns3="http://decidr.de/schema/wsmapping" xmlns="" type="nochtnichtdefiniert" messageType="createTaskRequest" propertyName="taskResult"/>
+    </propertyAliases>
+</mapping>

@@ -23,6 +23,8 @@ import org.hibernate.Session;
 
 import de.decidr.model.entities.Activity;
 import de.decidr.model.entities.KnownWebService;
+import de.decidr.model.webservices.EmailInterface;
+import de.decidr.model.webservices.HumanTaskInterface;
 import de.decidr.test.database.main.ProgressListener;
 
 /**
@@ -57,32 +59,34 @@ public class ActivityFactory extends EntityFactory {
     public List<Activity> createActivites() {
         ArrayList<Activity> result = new ArrayList<Activity>();
 
+        XmlFactory xml = new XmlFactory(session);
+
         // create known web services
         KnownWebService emailWS = new KnownWebService();
-        emailWS.setWsdl(getBlobStub());
-        emailWS.setNamespace("http://decidr.de/services/emailWS");
+        emailWS.setWsdl(xml.getWsdl("email"));
+        emailWS.setNamespace(EmailInterface.TARGET_NAMESPACE);
         session.save(emailWS);
 
         KnownWebService humanTaskWS = new KnownWebService();
-        humanTaskWS.setWsdl(getBlobStub());
-        humanTaskWS.setNamespace("http://decidr.de/services/humanTaskWS");
+        humanTaskWS.setWsdl(xml.getWsdl("humanTask"));
+        humanTaskWS.setNamespace(HumanTaskInterface.TARGET_NAMESPACE);
         session.save(humanTaskWS);
 
         // create activities that use the known web services
         Activity emailActivity = new Activity();
         emailActivity.setKnownWebService(emailWS);
-        emailActivity.setMapping(getBlobStub());
+        emailActivity.setMapping(xml.getActivityMapping("email"));
         emailActivity.setName("DecidR-Email");
         session.save(emailActivity);
 
         Activity humanTaskActivity = new Activity();
         humanTaskActivity.setKnownWebService(humanTaskWS);
-        humanTaskActivity.setMapping(getBlobStub());
+        humanTaskActivity.setMapping(xml.getActivityMapping("humanTask"));
         humanTaskActivity.setName("DecidR-Human Task");
         session.save(humanTaskActivity);
 
         fireProgressEvent(2, 2);
-        
+
         return result;
     }
 
