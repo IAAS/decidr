@@ -31,7 +31,7 @@ import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.humantask.TaskItem;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
-import de.decidr.modelingtool.client.ui.dialogs.Dialog;
+import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
@@ -39,7 +39,7 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
  * 
  * @author Jonas Schlaak
  */
-public class HumanTaskActivityWindow extends Dialog {
+public class HumanTaskActivityWindow extends ModelingToolDialog {
 
     private HumanTaskInvokeNode node;
     private HumanTaskInvokeNodeModel model;

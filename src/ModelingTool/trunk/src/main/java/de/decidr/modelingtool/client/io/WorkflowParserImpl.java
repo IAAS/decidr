@@ -62,7 +62,7 @@ public class WorkflowParserImpl implements WorkflowParser {
 
         /* Create work flow root element */
         Element workflowElement = doc.createElement(DWDLNames.root);
-        // JS set namespace properly
+        // JS set namespace properly, ask Modood
         workflowElement.setAttribute(DWDLNames.name, model.getName());
         workflowElement.setAttribute(DWDLNames.id, model.getId().toString());
         workflowElement.setAttribute(DWDLNames.namespace, "http://decidr.de/"
@@ -173,6 +173,7 @@ public class WorkflowParserImpl implements WorkflowParser {
 
         /* Set name and label */
         roleElement.setAttribute(DWDLNames.label, role.getLabel());
+        /* For variableNCNamePrefix, see comment in createVariables() */
         roleElement.setAttribute(DWDLNames.name, DWDLNames.variableNCnamePrefix
                 + role.getId());
 
@@ -421,8 +422,6 @@ public class WorkflowParserImpl implements WorkflowParser {
             }
         }
         for (int i = 0; i < highestKey; i++) {
-
-            // JS default condition has no operators, check with if window
             Condition conditionModel = (Condition) conditions.get(i);
             Element conditionElement = doc.createElement(DWDLNames.condition);
             /*
@@ -435,22 +434,20 @@ public class WorkflowParserImpl implements WorkflowParser {
             } else {
                 conditionElement.setAttribute(DWDLNames.defaultCondition,
                         DWDLNames.no);
+                conditionElement.appendChild(createTextElement(doc,
+                        DWDLNames.leftOp, conditionModel.getLeftOperandId()
+                                .toString()));
+                conditionElement.appendChild(createTextElement(doc,
+                        DWDLNames.operator, conditionModel.getOperator()
+                                .getDisplayString()));
+                conditionElement.appendChild(createTextElement(doc,
+                        DWDLNames.rightOp, conditionModel.getRightOperandId()
+                                .toString()));
+                conditionElement.appendChild(createChildNodeElements(doc,
+                        workflow, model));
+                conditionElement.appendChild(createArcElements(doc, model));
             }
-
-            conditionElement.appendChild(createTextElement(doc,
-                    DWDLNames.leftOp, conditionModel.getLeftOperandId()
-                            .toString()));
-            conditionElement.appendChild(createTextElement(doc,
-                    DWDLNames.operator, conditionModel.getOperator()
-                            .getDisplayString()));
-            conditionElement.appendChild(createTextElement(doc,
-                    DWDLNames.rightOp, conditionModel.getRightOperandId()
-                            .toString()));
-            conditionElement.appendChild(createChildNodeElements(doc, workflow,
-                    model));
-            conditionElement.appendChild(createArcElements(doc, model));
             ifElement.appendChild(conditionElement);
-
         }
         return ifElement;
     }
@@ -522,7 +519,7 @@ public class WorkflowParserImpl implements WorkflowParser {
 
     /*
      * The created element looks like this: <setProperty name="<name>"
-     * variable="<variableID>"> <propertyValue> variableID.value
+     * variable="<NCnamePrefix + variableID>"> <propertyValue> variableID.value
      * </propertyValue> </setProperty>
      */
     private Element createPropertyElement(Document doc, String name,
@@ -530,7 +527,8 @@ public class WorkflowParserImpl implements WorkflowParser {
         Element property = doc.createElement(DWDLNames.setProperty);
         property.setAttribute(DWDLNames.name, name);
         if (variableId != null) {
-            property.setAttribute(DWDLNames.variable, variableId.toString());
+            property.setAttribute(DWDLNames.variable,
+                    DWDLNames.variableNCnamePrefix + variableId.toString());
         }
         return property;
     }

@@ -36,7 +36,7 @@ import de.decidr.modelingtool.client.model.WorkflowProperties;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
-import de.decidr.modelingtool.client.ui.dialogs.Dialog;
+import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
@@ -44,7 +44,7 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
  * 
  * @author Jonas Schlaak
  */
-public class WorkflowPropertyWindow extends Dialog {
+public class WorkflowPropertyWindow extends ModelingToolDialog {
 
     private WorkflowModel model;
 

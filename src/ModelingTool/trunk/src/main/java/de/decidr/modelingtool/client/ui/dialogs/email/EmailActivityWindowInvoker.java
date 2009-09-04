@@ -20,12 +20,20 @@ import de.decidr.modelingtool.client.ui.EmailInvokeNode;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
- * TODO: add comment
+ * Invoker for the {@link EmailActivityWindow}. The invoker first calls the
+ * window to set the node and then calls the {@link DialogRegistry} to show the
+ * window.
  * 
  * @author Jonas Schlaak
  */
 public class EmailActivityWindowInvoker {
 
+    /**
+     * Invokes the window.
+     * 
+     * @param node
+     *            the node which properties are to be displayed by the window
+     */
     public static void invoke(EmailInvokeNode node) {
         ((EmailActivityWindow) DialogRegistry.getInstance().getDialog(
                 EmailActivityWindow.class.getName())).setNode(node);

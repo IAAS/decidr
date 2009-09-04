@@ -35,7 +35,7 @@ import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 import de.decidr.modelingtool.client.ui.EmailInvokeNode;
-import de.decidr.modelingtool.client.ui.dialogs.Dialog;
+import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
@@ -43,7 +43,7 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
  * 
  * @author Jonas Schlaak
  */
-public class EmailActivityWindow extends Dialog {
+public class EmailActivityWindow extends ModelingToolDialog {
 
     private EmailInvokeNode node;
     private EmailInvokeNodeModel model;

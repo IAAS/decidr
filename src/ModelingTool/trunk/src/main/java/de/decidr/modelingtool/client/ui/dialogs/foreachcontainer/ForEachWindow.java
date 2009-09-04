@@ -35,7 +35,7 @@ import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 import de.decidr.modelingtool.client.ui.ForEachContainer;
-import de.decidr.modelingtool.client.ui.dialogs.Dialog;
+import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
@@ -43,7 +43,7 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
  * 
  * @author Jonas Schlaak
  */
-public class ForEachWindow extends Dialog {
+public class ForEachWindow extends ModelingToolDialog {
 
     // JS todo: visibility of iteration variable
     private ForEachContainer node;

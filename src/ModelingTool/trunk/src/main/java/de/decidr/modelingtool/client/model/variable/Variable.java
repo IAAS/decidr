@@ -25,7 +25,7 @@ import com.extjs.gxt.ui.client.data.BaseModelData;
 import de.decidr.modelingtool.client.ModelingToolWidget;
 
 /**
- * TODO: add comment
+ * This is the model of variable for a workflow.
  * 
  * @author Jonas Schlaak
  */
@@ -42,9 +42,8 @@ public class Variable extends BaseModelData {
     public static final String CONFIGVAR = "config";
 
     /**
-     * 
-     * 
-     * TODO: add comment
+     * Creates a new non-configuration variable. The type is string. The new
+     * variable has one empty string has single value.
      */
     public Variable() {
         super();
@@ -60,23 +59,13 @@ public class Variable extends BaseModelData {
     }
 
     /**
-     * TODO: add comment
+     * This method creates a copy of the variable, including id, label, values
+     * etc. It does basically the same as you would expect from a clone method.
+     * The method was named copy to avoid inheriting from the super class method
+     * (which throws some exceptions which are inconvenient to deal with).
      * 
-     * Default constructor for a single non-configuration Variable
+     * @return a copy of the variable
      */
-    public Variable(String name, VariableType type, String value) {
-        super();
-        this.set(ID, new Date().getTime());
-        this.set(LABEL, name);
-        this.set(TYPE, type);
-        this.set(TYPELOCALNAME, type.getLocalName());
-        ArrayList<String> values = new ArrayList<String>();
-        values.add(type.getDefaultValue());
-        this.set(VALUE, values);
-        this.setArray();
-        this.set(CONFIGVAR, true);
-    }
-
     public Variable copy() {
         Variable copy = new Variable();
         copy.setId(this.getId());
@@ -89,46 +78,45 @@ public class Variable extends BaseModelData {
     }
 
     /**
+     * Returns the id of the variable.
      * 
-     * TODO: add comment
-     * 
-     * @return the ID
+     * @return the Id
      */
     public Long getId() {
         return (Long) get(ID);
     }
 
     /**
-     * 
-     * TODO: add comment
+     * Sets the id of the variable.
      * 
      * @param id
+     *            the id to set
      */
     public void setId(Long id) {
         set(ID, id);
     }
 
     /**
-     * TODO: add comment
+     * Returns the label of the variable.
      * 
-     * @return the name
+     * @return the label
      */
     public String getLabel() {
         return get(LABEL);
     }
 
     /**
-     * TODO: add comment
+     * Sets the label of the variable
      * 
      * @param label
-     *            the name to set
+     *            the label to set
      */
     public void setLabel(String label) {
         set(LABEL, label);
     }
 
     /**
-     * TODO: add comment
+     * Returns the type of the variable.
      * 
      * @return the type
      */
@@ -137,7 +125,7 @@ public class Variable extends BaseModelData {
     }
 
     /**
-     * TODO: add comment
+     * Sets the type of the variable.
      * 
      * @param type
      *            the type to set
@@ -148,7 +136,7 @@ public class Variable extends BaseModelData {
     }
 
     /**
-     * TODO: add comment
+     * Returns the values of the variable as list of strings.
      * 
      * @return the values
      */
@@ -157,7 +145,7 @@ public class Variable extends BaseModelData {
     }
 
     /**
-     * TODO: add comment
+     * Sets the values of the variable.
      * 
      * @param values
      *            the values to set
@@ -168,7 +156,8 @@ public class Variable extends BaseModelData {
     }
 
     /**
-     * TODO: add comment
+     * Returns whether the variable is an array or not by determining the size
+     * of the value list.
      * 
      * @return the array
      */
@@ -181,7 +170,10 @@ public class Variable extends BaseModelData {
     }
 
     /**
-     * TODO: add comment
+     * Sets the internal property field to whether the variable is an array or
+     * not. The values of the internal property fields are used by the grid of
+     * the variable editor. The method is private because is only needs to be
+     * called when the values of the variable are updated.
      * 
      * @param array
      *            the array to set
@@ -191,19 +183,19 @@ public class Variable extends BaseModelData {
     }
 
     /**
-     * TODO: add comment
+     * Returns whether the variable is a configurations variable or not.
      * 
-     * @return the configVariable
+     * @return the config boolean
      */
     public Boolean isConfig() {
         return get(CONFIGVAR);
     }
 
     /**
-     * TODO: add comment
+     * Sets whether the variable should be configuration variable or not.
      * 
      * @param config
-     *            the configVariable to set
+     *            the config boolean to set
      */
     public void setConfig(boolean config) {
         set(CONFIGVAR, config);

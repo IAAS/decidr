@@ -20,7 +20,9 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.model.ContainerStartConnectionModel;
 
 /**
- * TODO: add comment
+ * This class is the model for a condition of an {@link IfContainerModel}. A
+ * conditions basically consist of an left operand, an operator, a right operand
+ * and the execution order.
  * 
  * @author Jonas Schlaak
  */
@@ -33,6 +35,9 @@ public class Condition extends ContainerStartConnectionModel {
 
     private static Integer counter;
 
+    /**
+     * Creates an blank condition, no operands etc. are set.
+     */
     public Condition() {
         super();
         if (counter == null) {
@@ -44,6 +49,20 @@ public class Condition extends ContainerStartConnectionModel {
                 + counter.toString());
     }
 
+    /**
+     * Creates a condition with with defined values.
+     * 
+     * @param name
+     *            the name of the condition
+     * @param leftOperandId
+     *            the left operand
+     * @param operator
+     *            the operator
+     * @param rightOperandId
+     *            the right operand
+     * @param order
+     *            the execution order of the condition
+     */
     public Condition(String name, Long leftOperandId, Operator operator,
             Long rightOperandId, Integer order) {
         super();

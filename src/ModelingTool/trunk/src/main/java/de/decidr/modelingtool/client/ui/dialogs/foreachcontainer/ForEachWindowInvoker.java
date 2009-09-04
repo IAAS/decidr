@@ -20,12 +20,19 @@ import de.decidr.modelingtool.client.ui.ForEachContainer;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
- * TODO: add comment
+ * Invoker for the {@link ForEachWindow}. The invoker first calls the window to
+ * set the node and then calls the {@link DialogRegistry} to show the window.
  * 
  * @author Jonas Schlaak
  */
 public class ForEachWindowInvoker {
 
+    /**
+     * Invokes the window.
+     * 
+     * @param node
+     *            the node which properties are to be displayed by the window
+     */
     public static void invoke(ForEachContainer node) {
         ((ForEachWindow) DialogRegistry.getInstance().getDialog(
                 ForEachWindow.class.getName())).setNode(node);

@@ -43,7 +43,7 @@ import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.ui.Workflow;
-import de.decidr.modelingtool.client.ui.dialogs.Dialog;
+import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
 
@@ -52,7 +52,7 @@ import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
  * 
  * @author Jonas Schlaak
  */
-public class ValueEditor extends Dialog {
+public class ValueEditor extends ModelingToolDialog {
 
     private ContentPanel contentPanel;
     private FlexTable table;

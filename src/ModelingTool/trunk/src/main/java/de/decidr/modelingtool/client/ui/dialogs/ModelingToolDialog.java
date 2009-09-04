@@ -19,34 +19,34 @@ package de.decidr.modelingtool.client.ui.dialogs;
 import com.extjs.gxt.ui.client.widget.Window;
 
 /**
- * TODO: add comment
+ * The base class for all dialogs of the Modeling Tool. It inherits from the gxt
+ * class {@link Window}.
  * 
  * @author Jonas Schlaak
  */
-abstract public class Dialog extends Window {
-    
+abstract public class ModelingToolDialog extends Window {
+
     /**
-     * TODO: add comment
-     * 
+     * Default constructor invoking the parent class constructor
      */
-    public Dialog() {
+    public ModelingToolDialog() {
         super();
     }
 
     /**
-     * TODO: add comment will be called, when window is closed
+     * Will be called by {@link DialogRegistry}, when window is about to be
+     * closed
      */
     abstract public void reset();
 
     /**
-     * TODO: add comment will be called, when window is displayed
+     * Will be called by {@link DialogRegistry}, when window is about to be
+     * displayed
      */
     abstract public void initialize();
 
     /**
-     * 
-     * TODO: add comment provide a method which updates the view when a model
-     * change occured
+     * Provides a method which updates the view when a model change occured
      */
     abstract public void refresh();
 

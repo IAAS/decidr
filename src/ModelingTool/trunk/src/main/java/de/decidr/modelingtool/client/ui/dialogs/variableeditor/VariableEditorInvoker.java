@@ -20,14 +20,22 @@ import java.util.List;
 
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
+import de.decidr.modelingtool.client.ui.dialogs.foreachcontainer.ForEachWindow;
 
 /**
- * TODO: add comment
+ * Invoker for the {@link ForEachWindow}. The invoker first calls the window to
+ * set the node and then calls the {@link DialogRegistry} to show the window.
  * 
  * @author Jonas Schlaak
  */
 public class VariableEditorInvoker {
 
+    /**
+     * Invokes the window.
+     * 
+     * @param node
+     *            the node which properties are to be displayed by the window
+     */
     public static void invoke(List<Variable> variables) {
         ((VariableEditor) DialogRegistry.getInstance().getDialog(
                 VariableEditor.class.getName())).setVariables(variables);

@@ -38,7 +38,7 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ChangeVariablesCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.variable.Variable;
-import de.decidr.modelingtool.client.ui.dialogs.Dialog;
+import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorInvoker;
 
@@ -47,7 +47,7 @@ import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorInvoker;
  * 
  * @author Jonas Schlaak
  */
-public class VariableEditor extends Dialog {
+public class VariableEditor extends ModelingToolDialog {
 
     private ContentPanel editorPanel;
     private ToolBar toolBar;

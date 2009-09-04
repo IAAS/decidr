@@ -23,7 +23,9 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import de.decidr.modelingtool.client.ModelingToolWidget;
 
 /**
- * TODO: add comment
+ * This class converts and validates values of type {@link Date} into the date
+ * format defined by the dwdl xml schema (see also {@link
+ * ModelingToolWidget.messages.dateFormat()}.
  * 
  * @author Jonas Schlaak
  */
@@ -32,14 +34,35 @@ public class DateFormatter {
     private static DateTimeFormat formatter = DateTimeFormat
             .getFormat(ModelingToolWidget.messages.dateFormat());
 
+    /**
+     * Converts a {@link Date} into a formatted string (format is currently
+     * yyyy-MM-dd).
+     * 
+     * @param date
+     *            the date to be converted
+     * @return the formated date string
+     */
     public static String format(Date date) {
         return formatter.format(date);
     }
 
+    /**
+     * Returns the current date as formatted string
+     * 
+     * @return the formatted date string
+     */
     public static String getToday() {
         return formatter.format(new Date());
     }
 
+    /**
+     * Validated a formatted string to see if the format is correct and the date
+     * is plausible.
+     * 
+     * @param date
+     *            the date to be validated
+     * @return the validation result
+     */
     public static boolean validate(String date) {
         boolean result = true;
         if (formatter.parseStrict(date, 0, new Date()) == 0) {

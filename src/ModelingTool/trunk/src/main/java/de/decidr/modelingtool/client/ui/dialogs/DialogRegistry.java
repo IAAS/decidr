@@ -29,7 +29,10 @@ import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
 import de.decidr.modelingtool.client.ui.dialogs.workflow.WorkflowPropertyWindow;
 
 /**
- * TODO: add comment
+ * This class manages all instances of the activity and container property
+ * windows. Only exactly one instance of each window is created. The instance
+ * are stored in a map. The registry provides methods to show and hide the
+ * windows as well as getting the window instances.
  * 
  * @author Jonas Schlaak
  */
@@ -37,8 +40,13 @@ public class DialogRegistry {
 
     private static DialogRegistry instance;
 
-    private Map<String, Dialog> dialogs;
+    private Map<String, ModelingToolDialog> dialogs;
 
+    /**
+     * The dialog registry is a singleton.
+     * 
+     * @return the instance of the dialog registry
+     */
     public static DialogRegistry getInstance() {
         if (instance == null) {
             instance = new DialogRegistry();
@@ -46,6 +54,9 @@ public class DialogRegistry {
         return instance;
     }
 
+    /**
+     * Creates instances of all known dialogs and registers them.
+     */
     private DialogRegistry() {
         register(new WorkflowPropertyWindow());
         register(new VariableEditor());
@@ -57,34 +68,59 @@ public class DialogRegistry {
         register(new IfWindow());
     }
 
-    public void register(Dialog dialog) {
+    /**
+     * Registers the instance of a dialog.
+     * 
+     * @param dialog
+     *            the dialog to register
+     */
+    private void register(ModelingToolDialog dialog) {
         getDialogs().put(dialog.getClass().getName(), dialog);
     }
 
-    // JS modality
+    /**
+     *Makes a dialog visible.
+     * 
+     * @param dialogName
+     *            the class name of the dialog to be displayed
+     */
     public void showDialog(String dialogName) {
-        Dialog dialog = getDialog(dialogName);
+        // JS modality
+        ModelingToolDialog dialog = getDialog(dialogName);
         dialog.initialize();
         dialog.setModal(true);
         // ModelingToolWidget.view.mask();
         dialog.show();
     }
 
+    /**
+     * Hides a dialog
+     * 
+     * @param dialogName
+     *            the class name of the dialog to be hidden
+     */
     public void hideDialog(String dialogName) {
-        Dialog dialog = getDialog(dialogName);
+        ModelingToolDialog dialog = getDialog(dialogName);
         dialog.hide();
         dialog.setModal(false);
         // ModelingToolWidget.view.unmask();
         dialog.reset();
     }
 
-    public Dialog getDialog(String dialogName) {
+    /**
+     * Return the instance of a dialog
+     * 
+     * @param dialogName
+     *            the class name of the dialog
+     * @return the instance of the dialog
+     */
+    public ModelingToolDialog getDialog(String dialogName) {
         return getDialogs().get(dialogName);
     }
 
-    private Map<String, Dialog> getDialogs() {
+    private Map<String, ModelingToolDialog> getDialogs() {
         if (dialogs == null) {
-            dialogs = new HashMap<String, Dialog>();
+            dialogs = new HashMap<String, ModelingToolDialog>();
         }
         return dialogs;
     }

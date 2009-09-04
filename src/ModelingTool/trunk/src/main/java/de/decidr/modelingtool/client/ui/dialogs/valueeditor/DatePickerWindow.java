@@ -26,17 +26,21 @@ import com.extjs.gxt.ui.client.widget.tips.Tip;
 import de.decidr.modelingtool.client.ui.resources.DateFormatter;
 
 /**
- * TODO: add comment
+ * A simple windows without any heading or buttons. The window only holds a
+ * {@link DatePicker} widget.
  * 
  * @author Jonas Schlaak
  */
 public class DatePickerWindow extends Tip {
 
     /**
-     * TODO: add comment
+     * Creates a date picker window. After the date was selected from the
+     * {@link DatePicker} widget the value is written into a {@link TextField}
+     * in a format as defined in {@link DateFormatter}.
      * 
      * @param text
-     * 
+     *            the {@link TextField} into which the selected date shall be
+     *            written
      */
     public DatePickerWindow(final TextField<String> text) {
         final DatePicker datePicker = new DatePicker();

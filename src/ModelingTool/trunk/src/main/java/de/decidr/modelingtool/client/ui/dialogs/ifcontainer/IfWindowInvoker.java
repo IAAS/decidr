@@ -20,12 +20,19 @@ import de.decidr.modelingtool.client.ui.IfContainer;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
- * TODO: add comment
+ * Invoker for the {@link IfWindow}. The invoker first calls the window to set
+ * the node and then calls the {@link DialogRegistry} to show the window.
  * 
  * @author Jonas Schlaak
  */
 public class IfWindowInvoker {
 
+    /**
+     * Invokes the window.
+     * 
+     * @param node
+     *            the node which properties are to be displayed by the window
+     */
     public static void invoke(IfContainer node) {
         ((IfWindow) DialogRegistry.getInstance().getDialog(
                 IfWindow.class.getName())).setNode(node);

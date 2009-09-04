@@ -36,7 +36,7 @@ import de.decidr.modelingtool.client.model.ifcondition.Condition;
 import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
 import de.decidr.modelingtool.client.model.ifcondition.Operator;
 import de.decidr.modelingtool.client.ui.IfContainer;
-import de.decidr.modelingtool.client.ui.dialogs.Dialog;
+import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
@@ -44,7 +44,7 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
  * 
  * @author Jonas Schlaak
  */
-public class IfWindow extends Dialog {
+public class IfWindow extends ModelingToolDialog {
 
     private IfContainer node;
     private IfContainerModel model;
