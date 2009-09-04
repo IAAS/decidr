@@ -31,7 +31,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
 
 import de.decidr.model.LowLevelDatabaseTest;
 import de.decidr.model.acl.roles.BasicRole;
@@ -67,7 +66,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
     /**
      * Initialises the facade instances and registers a User, testing
-     * {@link UserFacade#registerUser(String, String, Item)}.
+     * {@link UserFacade#registerUser(String, String, UserProfile)}.
      */
     @BeforeClass
     public static void setUpBeforeClass() throws NullPointerException,
@@ -92,48 +91,35 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         testProfile.setPostalCode("112");
         testProfile.setUsername("testuser");
 
-        Item testItem = new BeanItem(testProfile, new String[] { "firstName",
-                "lastName", "city", "street", "postalCode", "username" });
-
         registerUserExceptionHelper(
                 "registering user with null facade succeeded", nullFacade,
-                "asd@desk.de", "asd", testItem);
+                "asd@desk.de", "asd", testProfile);
         registerUserExceptionHelper(
                 "registering user with normal user facade succeeded",
-                userFacade, "asd@desk.de", "asd", testItem);
+                userFacade, "asd@desk.de", "asd", testProfile);
 
         testProfile.setUsername("testuser1");
-        testItem = new BeanItem(testProfile, new String[] { "firstName",
-                "lastName", "city", "street", "postalCode", "username" });
-        adminFacade.registerUser("asd1@desk.de", "asd", testItem);
+        adminFacade.registerUser("asd1@desk.de", "asd", testProfile);
 
         testProfile.setUsername("testuser2");
-        testItem = new BeanItem(testProfile, new String[] { "firstName",
-                "lastName", "city", "street", "postalCode", "username" });
         registerUserExceptionHelper("registering user twice succeeded",
-                adminFacade, "asd1@desk.de", "asd", testItem);
+                adminFacade, "asd1@desk.de", "asd", testProfile);
 
         testProfile.setUsername("testuser3");
-        testItem = new BeanItem(testProfile, new String[] { "firstName",
-                "lastName", "city", "street", "postalCode", "username" });
-        adminFacade.registerUser("asd2@desk.de", "", testItem);
+        adminFacade.registerUser("asd2@desk.de", "", testProfile);
 
         testProfile.setUsername("testuser4");
-        testItem = new BeanItem(testProfile, new String[] { "firstName",
-                "lastName", "city", "street", "postalCode", "username" });
         registerUserExceptionHelper(
                 "registering user with null password succeeded", adminFacade,
-                "asd3@desk.de", null, testItem);
+                "asd3@desk.de", null, testProfile);
 
         testProfile.setUsername("testuser5");
-        testItem = new BeanItem(testProfile, new String[] { "firstName",
-                "lastName", "city", "street", "postalCode", "username" });
         registerUserExceptionHelper(
                 "registering user with empty email succeeded", adminFacade, "",
-                "asd", testItem);
+                "asd", testProfile);
         registerUserExceptionHelper(
                 "registering user with null email succeeded", adminFacade,
-                null, "asd", testItem);
+                null, "asd", testProfile);
 
         registerUserExceptionHelper(
                 "registering user with null profile succeeded", adminFacade,
@@ -141,7 +127,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         registerUserExceptionHelper(
                 "registering user with empty profile succeeded", adminFacade,
-                "asd5@desk.de", "asd", new BeanItem(new UserProfile()));
+                "asd5@desk.de", "asd", new UserProfile());
 
         testProfile.setFirstName(null);
         testProfile.setLastName(null);
@@ -149,24 +135,20 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         testProfile.setStreet(null);
         testProfile.setPostalCode(null);
         testProfile.setUsername("testuser6");
-        testItem = new BeanItem(testProfile, new String[] { "firstName",
-                "lastName", "city", "street", "postalCode", "username" });
-        adminFacade.registerUser("asd6@desk.de", "asd", testItem);
+        adminFacade.registerUser("asd6@desk.de", "asd", testProfile);
         registerUserExceptionHelper(
                 "invalid profile (double username) succeeded", adminFacade,
-                "asd7@desk.de", "asd", testItem);
+                "asd7@desk.de", "asd", testProfile);
 
         testProfile.setUsername(null);
-        testItem = new BeanItem(testProfile, new String[] { "firstName",
-                "lastName", "city", "street", "postalCode", "username" });
         registerUserExceptionHelper(
                 "invalid profile (empty username) succeeded", adminFacade,
-                "asd@desk.de", "asd", testItem);
+                "asd@desk.de", "asd", testProfile);
         testProfile.setUsername("testuser");
     }
 
     private static void registerUserExceptionHelper(String failmsg,
-            UserFacade facade, String email, String passwd, Item profile) {
+            UserFacade facade, String email, String passwd, UserProfile profile) {
         try {
             facade.registerUser(email, passwd, profile);
             fail(failmsg);
@@ -184,11 +166,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         classProfile.setPostalCode("112");
         classProfile.setCity("boringtown");
 
-        Item profileItem = new BeanItem(classProfile, new String[] {
-                "firstName", "lastName", "city", "street", "postalCode",
-                "username" });
         testUserID = adminFacade.registerUser(TEST_EMAIL, TEST_PASSWORD,
-                profileItem);
+                classProfile);
     }
 
     @After
@@ -331,10 +310,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         testProfile.setPostalCode("112");
         testProfile.setUsername("test_user");
 
-        Item testItem = new BeanItem(testProfile, new String[] { "firstName",
-                "lastName", "city", "street", "postalCode", "username" });
         Long secondUserID = adminFacade.registerUser("asds1@desk.de", "asd",
-                testItem);
+                testProfile);
 
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL + ".vu");
         assertEquals(TEST_EMAIL + ".vu", adminFacade.getUserProfile(testUserID,
