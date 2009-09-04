@@ -45,146 +45,82 @@ public class ProfileSettingsContainer {
         //Nothing
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @return the firstName
-     */
+    
     public String getFirstName() {
         return firstName;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @param firstName the firstName to set
-     */
+   
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @return the lastName
-     */
+    
     public String getLastName() {
         return lastName;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @param lastName the lastName to set
-     */
+    
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @return the street
-     */
+    
     public String getStreet() {
         return street;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @param street the street to set
-     */
+    
     public void setStreet(String street) {
         this.street = street;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @return the postalCode
-     */
+    
     public String getPostalCode() {
         return postalCode;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @param postalCode the postalCode to set
-     */
+    
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @return the city
-     */
+    
     public String getCity() {
         return city;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @param city the city to set
-     */
+    
     public void setCity(String city) {
         this.city = city;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @return the eMail
-     */
+    
     public String getEMail() {
         return eMail;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @param mail the eMail to set
-     */
+    
     public void setEMail(String mail) {
         eMail = mail;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @return the username
-     */
+    
     public String getUsername() {
         return username;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @param username the username to set
-     */
+    
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @return the password
-     */
+    
     public String getPassword() {
         return password;
     }
 
-    /**
-     * TODO: add comment
-     *
-     * @param password the password to set
-     */
+    
     public void setPassword(String password) {
         this.password = password;
     }

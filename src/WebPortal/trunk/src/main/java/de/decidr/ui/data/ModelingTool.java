@@ -180,8 +180,7 @@ public class ModelingTool extends AbstractComponent {
                 workflowModelFacade.saveWorkflowModel(workflowModelId, "", "",
                         dwdl);
             } catch (TransactionException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
             }
         }
 
