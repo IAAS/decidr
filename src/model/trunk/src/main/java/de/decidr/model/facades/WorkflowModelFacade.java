@@ -490,12 +490,8 @@ public class WorkflowModelFacade extends AbstractFacade {
             UserUnavailableException, UserDisabledException,
             UsernameNotFoundException {
 
-        // FIXME modify the command(s) so users that are created on the fly are
-        // added to the start configuration.
-
         StartWorkflowInstanceCommand startCmd = new StartWorkflowInstanceCommand(
-                actor, workflowModelId, startConfiguration, startImmediately,
-                participantUsernames, participantEmails);
+                actor, workflowModelId, startConfiguration, startImmediately);
 
         SaveStartConfigurationCommand saveCmd = new SaveStartConfigurationCommand(
                 actor, workflowModelId, startConfiguration);

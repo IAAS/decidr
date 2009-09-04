@@ -17,8 +17,10 @@
 package de.decidr.model.commands.user;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.security.NoSuchAlgorithmException;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
@@ -68,26 +70,49 @@ public class RegisterUserCommand extends AclEnabledCommand {
     public RegisterUserCommand(Role role, String email,
             String passwordPlaintext, UserProfile profile) {
         super(role, (Permission) null);
+
+        if (email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be null or empty");
+        }
+
+        if (passwordPlaintext == null || passwordPlaintext.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Password cannot be null or empty");
+        }
+
+        if (profile == null || profile.getUsername() == null
+                || profile.getUsername().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Username cannot be null or empty");
+        }
+
         this.email = email;
         this.passwordPlaintext = passwordPlaintext;
-        // do not modify the incoming object, create a copy.
+        // do not modify the given user profile object, create a copy in case
+        // the object is modified by someone else.
         this.profile = new UserProfile();
-        this.profile.setFirstName(profile.getFirstName());
-        this.profile.setLastName(profile.getLastName());
-        this.profile.setCity(profile.getCity());
-        this.profile.setStreet(profile.getStreet());
-        this.profile.setPostalCode(profile.getPostalCode());
-        this.profile.setUsername(profile.getUsername());
+        try {
+            BeanUtils.copyProperties(this.profile, profile);
+        } catch (IllegalAccessException e) {
+            throw new IllegalArgumentException(e);
+        } catch (InvocationTargetException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
         /*
-         * does a user who has the given email or username already exist?
+         * Does a user who has the given email or username already exist?
          */
         Criteria crit = evt.getSession().createCriteria(User.class, "u");
         crit.createAlias("userProfile", "p", CriteriaSpecification.LEFT_JOIN);
+        /*
+         * The DecidR username criteria prevent that two users user1 and user2
+         * exist where user1.email = user2.username. Should the database be
+         * inconsistend, uniqueResult will throw a rntime exception.
+         */
         crit.add(Restrictions.or(Restrictions.eq("u.email", email),
                 Restrictions.eq("p.username", profile.getUsername())));
 
@@ -121,7 +146,7 @@ public class RegisterUserCommand extends AclEnabledCommand {
         }
 
         /*
-         * Now existingUser is an existing user that has no profile - lets
+         * Now existingUser is a persisted user that has no profile - lets
          * assign his profile and create a registration request!
          */
         try {
@@ -129,7 +154,9 @@ public class RegisterUserCommand extends AclEnabledCommand {
             profile.setPasswordHash(Password.getHash(passwordPlaintext, profile
                     .getPasswordSalt()));
             profile.setUserId(existingUser.getId());
+            profile.setUser(existingUser);
             existingUser.setUserProfile(profile);
+            evt.getSession().save(profile);
             evt.getSession().update(existingUser);
 
             RegistrationRequest request = new RegistrationRequest();
@@ -138,6 +165,7 @@ public class RegisterUserCommand extends AclEnabledCommand {
             request.setCreationDate(DecidrGlobals.getTime().getTime());
             request.setUser(existingUser);
             evt.getSession().saveOrUpdate(request);
+            existingUser.setRegistrationRequest(request);
 
         } catch (UnsupportedEncodingException e) {
             throw new TransactionException(e);

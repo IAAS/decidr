@@ -34,8 +34,8 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Fetches a map of users that can be used to tell whether the given usernames
- * or emails belong to:
+ * Fetches a map of users that can be used to tell whether the given user IDs,
+ * usernames or emails belong to:
  * 
  * <ul>
  * <li>users that are unknown to the system. (invitations type A must be sent)</li>
@@ -51,8 +51,8 @@ import de.decidr.model.transactions.TransactionEvent;
 public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
 
     private List<String> usernames;
-
     private List<String> emails;
+    private List<Long> userIds;
 
     private Map<User, UserWorkflowParticipationState> result;
 
@@ -64,16 +64,20 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
      *            user / system executing the command
      * @param workflowModelId
      *            workflow model of which a new instance will be created
+     * @param userIds
+     *            list of user IDs to check
      * @param usernames
      *            list of usernames to search for
      * @param emails
      *            list of email addresses to search for
      */
     public GetWorkflowParticipationStateCommand(Role role,
-            Long workflowModelId, List<String> usernames, List<String> emails) {
+            Long workflowModelId, List<Long> userIds, List<String> usernames,
+            List<String> emails) {
         super(role, workflowModelId);
         this.usernames = usernames;
         this.emails = emails;
+        this.userIds = userIds;
     }
 
     @Override
@@ -131,13 +135,15 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
      */
     @SuppressWarnings("unchecked")
     private List<User> getKnownUsers(Session session) {
-        String hql = "select distinct u.id, u.email "
+        String hql = "select distinct u"
                 + "from User as u left join fetch u.userProfile "
                 + "where (u.email in (:emails)) or "
-                + "(u.userProfile.username in (:usernames))";
+                + "(u.userProfile.username in (:usernames)) or "
+                + "(u.id in (:userIds)";
 
         Query q = session.createQuery(hql).setParameterList("emails", emails)
-                .setParameterList("usernames", usernames);
+                .setParameterList("usernames", usernames).setParameterList(
+                        "userIds", userIds);
 
         return q.list();
     }
@@ -158,8 +164,7 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
     @SuppressWarnings("unchecked")
     private List<User> getMembers(List<User> knownUsers, WorkflowModel model,
             Session session) {
-        String hql = "select u.id from User u "
-                + "inner join UserIsMemberOfTenant as rel "
+        String hql = "from User u " + "inner join UserIsMemberOfTenant as rel "
                 + "inner join WorkflowModel as w"
                 + "where (u in (:knownUsers)) and (rel.user = u) and "
                 + "(rel.tenant = w.tenant) and " + "w.id = :modelId";
@@ -191,11 +196,12 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
     }
 
     /**
-     * Finds those usernames and email addresses that are unknown to the system
-     * by looking at the given list of known users and the current list of
-     * usernames and emails.
+     * Finds those user IDs,s usernames and email addresses that are unknown to
+     * the system by looking at the given list of known users and the current
+     * list of usernames and emails.
      * 
-     * @param knownUsers list of known users to modify
+     * @param knownUsers
+     *            list of known users to modify
      * @return all unknown users
      */
     private List<User> getUnknownUsers(List<User> knownUsers) {
@@ -203,6 +209,7 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
         /*-
          * Username is unknown <-> no known user has this username 
          * Email is unknown <-> no known user has this email
+         * Id is unknown <-> no known user has this id
          * :-)
          */
         for (String email : emails) {
@@ -254,6 +261,24 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
                 unknownUsers.add(unknownUser);
             }
 
+        }
+
+        for (Long userId : userIds) {
+            Boolean idIsUnknown = true;
+
+            for (User u : knownUsers) {
+
+                if (u.getId().equals(userId)) {
+                    idIsUnknown = false;
+                    break;
+                }
+            }
+
+            if (idIsUnknown) {
+                User unknownUser = new User();
+                unknownUser.setId(userId);
+                unknownUsers.add(unknownUser);
+            }
         }
 
         return unknownUsers;

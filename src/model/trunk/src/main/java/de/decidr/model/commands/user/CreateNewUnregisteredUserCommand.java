@@ -19,6 +19,7 @@ package de.decidr.model.commands.user;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.Password;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
@@ -30,6 +31,9 @@ import de.decidr.model.transactions.TransactionEvent;
 /**
  * Creates a new user in the database that has no user profile but may login
  * using an auto-generated authentication key.
+ * 
+ * <b>Note that this command will modify the given user object directly, making
+ * it a persisted entity.</b>
  * 
  * @author Daniel Huss
  * @version 0.1
@@ -74,6 +78,7 @@ public class CreateNewUnregisteredUserCommand extends AclEnabledCommand {
         newUser.setDisabledSince(null);
         newUser.setUnavailableSince(null);
         newUser.setUserProfile(null);
+        newUser.setCreationDate(DecidrGlobals.getTime().getTime());
 
         evt.getSession().save(newUser);
     }

@@ -363,18 +363,17 @@ public class TenantFacade extends AbstractFacade {
     }
 
     /**
-     * 
-     * FIXME DH add more properties (user id), include tenant admin (by param?)
-     * 
-     * Returns the Users of the given tenant.<br>
-     * The tenant admin will not be part of the result. <br>
+     * Returns a list of all members of the given tenant including the tenant
+     * admin.<br>
      * <br>
      * The returned Items contain the following properties:<br>
      * <ul>
-     * <li>id</li>
-     * <li>username</li>
-     * <li>firstName</li>
-     * <li>lastName</li>
+     * <li>id: {@link Long} - user id</li>
+     * <li>username {@link String} - username (only if the user is registered)</li>
+     * <li>firstName {@link String} - user first name (only if the user is
+     * registered)</li>
+     * <li>lastName {@link String} - user last name (only if the user is
+     * registered)</li>
      * <li>email</li>
      * </ul>
      * 

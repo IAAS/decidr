@@ -76,7 +76,9 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
         // find the existing user
         Criteria crit = evt.getSession().createCriteria(User.class, "u");
         crit.createAlias("userProfile", "p", CriteriaSpecification.LEFT_JOIN);
-        // FIXME: may return two results when user1.username == user2.email ~rr
+        // the DecidR username criteria do not allow non-alphanumeric characters
+        // in usernames, so the case user1.username = user2.email should not
+        // occur. Otherwise, uniqueResult() will throw a runtime exception.
         crit.add(Restrictions.or(Restrictions.eq("u.email", emailOrUsername),
                 Restrictions.eq("p.username", emailOrUsername)));
 

@@ -95,55 +95,28 @@ public class UserFacade extends AbstractFacade {
 
     /**
      * Creates a new user (if necessary) and adds a user profile and a
-     * registration request. The following properties are expected to be present
-     * in the given Vaadin {@link Item}:
-     * <ul>
-     * <li>username - the desired username</li>
-     * <li>firstName - first name of the user</li>
-     * <li>lastName - last name of the user</li>
-     * <li>city - name of the city where the user lives</li>
-     * <li>street - street where the user lives</li>
-     * <li>postalCode - postal code of the city</li>
-     * </ul>
+     * registration request.
      * 
      * @param email
      *            email address of user to register
      * @param passwordPlaintext
      *            the password as plain text string
      * @param userProfile
-     *            the user profile data
+     *            the user profile data, you need not set properties such as ID
+     *            and password salt as they will be generated.
      * @return The ID of the user that has been registered
      * @throws TransactionException
      *             if the transaction is aborted for any reason
+     * @throws IllegalArgumentException
+     *             if email, passwordPlaintext or userProfile are either null or
+     *             empty
      */
     @AllowedRole(UserRole.class)
     public Long registerUser(String email, String passwordPlaintext,
-            Item userProfile) throws TransactionException {
-
-        // retrieve needed properties from Vaadin item.
-        String firstName = userProfile.getItemProperty("firstName").getValue()
-                .toString();
-        String lastName = userProfile.getItemProperty("lastName").getValue()
-                .toString();
-        String city = userProfile.getItemProperty("city").getValue().toString();
-        String street = userProfile.getItemProperty("street").getValue()
-                .toString();
-        String postalCode = userProfile.getItemProperty("postalCode")
-                .getValue().toString();
-        String username = userProfile.getItemProperty("username").getValue()
-                .toString();
-
-        // create the new user profile
-        UserProfile profile = new UserProfile();
-        profile.setFirstName(firstName);
-        profile.setLastName(lastName);
-        profile.setCity(city);
-        profile.setStreet(street);
-        profile.setPostalCode(postalCode);
-        profile.setUsername(username);
+            UserProfile userProfile) throws TransactionException {
 
         RegisterUserCommand cmd = new RegisterUserCommand(actor, email,
-                passwordPlaintext, profile);
+                passwordPlaintext, userProfile);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
@@ -160,7 +133,8 @@ public class UserFacade extends AbstractFacade {
      *            the account password as plain text (no hash).
      * @return user ID
      * @throws TransactionException
-     *             iff the transaction
+     *             if the transaction is aborted for any reason or if the
+     *             database contains user1, user2:
      * @throws EntityNotFoundException
      *             iff no such account exists or the password doesn't match.
      */
