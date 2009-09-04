@@ -1,12 +1,9 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
-
 DROP SCHEMA IF EXISTS `decidrdb`;
-
 CREATE SCHEMA IF NOT EXISTS `decidrdb` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 USE `decidrdb`;
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`file`
 -- -----------------------------------------------------
@@ -18,8 +15,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`file` (
   `fileSizeBytes` BIGINT NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`tenant`
 -- -----------------------------------------------------
@@ -67,8 +62,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`tenant` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`user`
 -- -----------------------------------------------------
@@ -94,8 +87,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`user` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 COMMENT = 'Stores user related data.';
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`user_profile`
 -- -----------------------------------------------------
@@ -124,8 +115,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_profile` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 COMMENT = 'Represents a user profile (weak entity)';
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`user_is_member_of_tenant`
 -- -----------------------------------------------------
@@ -146,8 +135,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_is_member_of_tenant` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`workflow_model`
 -- -----------------------------------------------------
@@ -181,8 +168,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`workflow_model` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`deployed_workflow_model`
 -- -----------------------------------------------------
@@ -214,8 +199,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`deployed_workflow_model` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`server_type`
 -- -----------------------------------------------------
@@ -225,8 +208,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`server_type` (
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `unique_name` (`name` ASC) )
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`server`
 -- -----------------------------------------------------
@@ -247,8 +228,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`server` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`workflow_instance`
 -- -----------------------------------------------------
@@ -278,8 +257,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`workflow_instance` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`work_item`
 -- -----------------------------------------------------
@@ -309,8 +286,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`work_item` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`user_administrates_workflow_model`
 -- -----------------------------------------------------
@@ -331,8 +306,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_administrates_workflow_model` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`user_participates_in_workflow`
 -- -----------------------------------------------------
@@ -353,8 +326,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_participates_in_workflow` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`change_email_request`
 -- -----------------------------------------------------
@@ -371,8 +342,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`change_email_request` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`registration_request`
 -- -----------------------------------------------------
@@ -388,8 +357,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`registration_request` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`invitation`
 -- -----------------------------------------------------
@@ -433,8 +400,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`invitation` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`session`
 -- -----------------------------------------------------
@@ -452,8 +417,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`session` (
   INDEX `index_valid` (`valid` ASC) )
 ENGINE = InnoDB
 COMMENT = 'Used to store the Tomcat HTTP session.';
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`user_has_file_access`
 -- -----------------------------------------------------
@@ -477,8 +440,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_has_file_access` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`role`
 -- -----------------------------------------------------
@@ -488,8 +449,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`role` (
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `unique_role` (`name` ASC) )
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`permission`
 -- -----------------------------------------------------
@@ -499,8 +458,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`permission` (
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `unique_resource` (`name` ASC) )
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`role_has_permission`
 -- -----------------------------------------------------
@@ -521,8 +478,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`role_has_permission` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`user_administrates_workflow_instance`
 -- -----------------------------------------------------
@@ -543,8 +498,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_administrates_workflow_instance` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`known_web_service`
 -- -----------------------------------------------------
@@ -555,8 +508,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`known_web_service` (
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `unique_name` (`namespace` ASC) )
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`start_configuration`
 -- -----------------------------------------------------
@@ -572,8 +523,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`start_configuration` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`system_settings`
 -- -----------------------------------------------------
@@ -615,8 +564,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`system_settings` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`workflow_model_is_deployed_on_server`
 -- -----------------------------------------------------
@@ -637,8 +584,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`workflow_model_is_deployed_on_server` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`log`
 -- -----------------------------------------------------
@@ -668,8 +613,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`log` (
   INDEX `index_prio` (`prio` ASC) ,
   INDEX `index_iprio` (`iprio` ASC) )
 ENGINE = MyISAM;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`password_reset_request`
 -- -----------------------------------------------------
@@ -685,8 +628,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`password_reset_request` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`login`
 -- -----------------------------------------------------
@@ -704,8 +645,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`login` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `decidrdb`.`activity`
 -- -----------------------------------------------------
@@ -723,38 +662,30 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`activity` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Placeholder table for view `decidrdb`.`server_load_view`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `decidrdb`.`server_load_view` (`id` INT);
-
 -- -----------------------------------------------------
 -- Placeholder table for view `decidrdb`.`work_item_summary_view`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `decidrdb`.`work_item_summary_view` (`id` INT);
-
 -- -----------------------------------------------------
 -- Placeholder table for view `decidrdb`.`tenant_summary_view`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `decidrdb`.`tenant_summary_view` (`id` INT);
-
 -- -----------------------------------------------------
 -- Placeholder table for view `decidrdb`.`tenant_with_admin_view`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `decidrdb`.`tenant_with_admin_view` (`id` INT);
-
 -- -----------------------------------------------------
 -- Placeholder table for view `decidrdb`.`startable_workflow_model_view`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `decidrdb`.`startable_workflow_model_view` (`id` INT);
-
 -- -----------------------------------------------------
 -- Placeholder table for view `decidrdb`.`invitation_view`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `decidrdb`.`invitation_view` (`id` INT);
-
 -- -----------------------------------------------------
 -- View `decidrdb`.`server_load_view`
 -- -----------------------------------------------------
@@ -766,7 +697,6 @@ FROM `server` AS s
 JOIN `server_type` AS t ON t.id = s.serverTypeId
 LEFT JOIN `workflow_instance` AS wi ON wi.serverId = s.id
 GROUP BY s.id;
-
 -- -----------------------------------------------------
 -- View `decidrdb`.`work_item_summary_view`
 -- -----------------------------------------------------
@@ -789,13 +719,11 @@ WHERE (w.userId = u.id) AND
       (w.workflowInstanceId = wfi.id) AND 
       (wfi.deployedWorkflowModelId = dwfm.id) AND 
       (dwfm.tenantId = t.id);
-
 -- -----------------------------------------------------
 -- View `decidrdb`.`tenant_summary_view`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `decidrdb`.`tenant_summary_view`;
 #Retrieves a tenant summary including the number of (deployed) workflow models, worfklow instances and users.
-
 CREATE  OR REPLACE VIEW `decidrdb`.`tenant_summary_view` AS
 SELECT DISTINCT t.id AS id, t.`name` AS tenantName,
                 a.`firstName` AS adminFirstName, 
@@ -817,7 +745,6 @@ WHERE (t.adminId = a.userId) AND
       (dwfm.tenantId = t.id) AND
       (wfi.deployedWorkflowModelId = dwfm.id)
 GROUP BY t.id, t.`name`;
-
 -- -----------------------------------------------------
 -- View `decidrdb`.`tenant_with_admin_view`
 -- -----------------------------------------------------
@@ -830,20 +757,17 @@ u.firstName AS adminFirstName,
 u.lastName AS adminLastName 
 FROM tenant AS t 
 LEFT JOIN user_profile AS u ON t.adminId = u.userId;
-
 -- -----------------------------------------------------
 -- View `decidrdb`.`startable_workflow_model_view`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `decidrdb`.`startable_workflow_model_view`;
 # Only workflow models where creating a new workflow instance is allowed, 
 # i.e. a deployed workflow model exists that has the same version. 
-
 CREATE  OR REPLACE VIEW `decidrdb`.`startable_workflow_model_view` AS
 SELECT w.* FROM workflow_model AS w 
 JOIN deployed_workflow_model AS d ON 
   ( (d.originalWorkflowModelId = w.id) AND (d.version = w.version) )
 WHERE (w.executable = true);
-
 -- -----------------------------------------------------
 -- View `decidrdb`.`invitation_view`
 -- -----------------------------------------------------
@@ -867,7 +791,6 @@ LEFT JOIN workflow_instance AS wfi ON (wfi.id = i.participateInWorkflowInstanceI
 LEFT JOIN deployed_workflow_model AS dwfm ON (dwfm.id = wfi.deployedWorkflowModelId)
 LEFT JOIN tenant AS t3 ON (t3.id = dwfm.tenantId);
 USE `decidrdb`;
-
 DELIMITER //
 CREATE TRIGGER check_unique_email_update
 BEFORE UPDATE ON `user`
@@ -876,11 +799,7 @@ FOR EACH ROW BEGIN
         CALL ERROR_CANNOT_CREATE_USER_EMAIL_MAYBE_TAKEN();
     END IF;
 END;
-
 //
-
-
-
 CREATE TRIGGER check_unique_email_insert
 BEFORE INSERT ON `user`
 FOR EACH ROW BEGIN
@@ -888,13 +807,8 @@ FOR EACH ROW BEGIN
         CALL ERROR_CANNOT_CREATE_USER_EMAIL_MAYBE_TAKEN();
     END IF;
 END;
-
-
 //
-
-
 DELIMITER ;
-
 DELIMITER //
 CREATE TRIGGER `check_tenant_name_min_length_update`
 BEFORE UPDATE ON `tenant`
@@ -903,11 +817,7 @@ FOR EACH ROW BEGIN
         CALL ERROR_TENANT_NAME_TOO_SHORT();
     END IF;
 END;
-
 //
-
-
-
 CREATE TRIGGER `check_tenant_name_min_length_insert`
 BEFORE INSERT ON `tenant`
 FOR EACH ROW BEGIN
@@ -916,10 +826,7 @@ FOR EACH ROW BEGIN
     END IF;
 END;
 //
-
-
 DELIMITER ;
-
 DELIMITER //
 CREATE TRIGGER check_unique_email_change_request_update
 BEFORE UPDATE ON change_email_request
@@ -928,14 +835,7 @@ FOR EACH ROW BEGIN
         CALL ERROR_CANNOT_CHANGE_TO_EXISTING_EMAIL_ADDRESS();
     END IF;
 END;
-
-
 //
-
-
-
-
-
 CREATE TRIGGER check_unique_email_change_request_insert
 BEFORE INSERT ON change_email_request
 FOR EACH ROW BEGIN
@@ -943,28 +843,23 @@ FOR EACH ROW BEGIN
         CALL ERROR_CANNOT_CHANGE_TO_EXISTING_EMAIL_ADDRESS();
     END IF;
 END;
-
-
 //
-
-
 DELIMITER ;
-
 DELIMITER //
 CREATE TRIGGER `check_invitation_insert`
 BEFORE INSERT ON `invitation`
 FOR EACH ROW BEGIN
     SET @nullCols = 0;
     
-    IF (NEW.participateInWorkflowInstanceId = null) THEN
+    IF (NEW.participateInWorkflowInstanceId is null) THEN
         SET @nullCols = @nullCols + 1;
     END IF;
     
-    IF (NEW.joinTenantId = null) THEN
+    IF (NEW.joinTenantId is null) THEN
         SET @nullCols = @nullCols + 1;
     END IF;
     
-    IF (NEW.administrateWorkflowModelId = null) THEN
+    IF (NEW.administrateWorkflowModelId is null) THEN
         SET @nullCols = @nullCols + 1;
     END IF;
     
@@ -972,14 +867,7 @@ FOR EACH ROW BEGIN
         CALL ERROR_ONLY_ONE_KIND_OF_INVITATION_ALLOWED();
     END IF;    
 END;
-
-
 //
-
-
-
-
-
 CREATE TRIGGER `check_invitation_update`
 BEFORE UPDATE ON `invitation`
 FOR EACH ROW BEGIN
@@ -1001,12 +889,8 @@ FOR EACH ROW BEGIN
         CALL ERROR_ONLY_ONE_KIND_OF_INVITATION_ALLOWED();
     END IF;   
 END;
-
 //
-
-
 DELIMITER ;
-
 DELIMITER //
 CREATE TRIGGER `check_deployed_workflow_model_insert`
 BEFORE INSERT ON `deployed_workflow_model`
@@ -1027,13 +911,7 @@ FOR EACH ROW BEGIN
         CALL ERROR_DWFM_VERSION_HIGHER_THAN_ORIGINAL();
     END IF;
 END;
-
 //
-
-
-
-
-
 CREATE TRIGGER `check_deployed_workflow_model_update`
 BEFORE UPDATE ON `deployed_workflow_model`
 FOR EACH ROW BEGIN
@@ -1053,11 +931,7 @@ FOR EACH ROW BEGIN
         CALL ERROR_DWFM_VERSION_HIGHER_THAN_ORIGINAL();
     END IF;
 END;//
-
-
 DELIMITER ;
-
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
