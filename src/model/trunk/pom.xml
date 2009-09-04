@@ -32,6 +32,21 @@
 		</repository>
 	</repositories>
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.hbm.ftl</include>
+					<include>**/*.hbm.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>resources</directory>
+				<includes>
+					<include>**</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -39,13 +54,6 @@
 					<encoding>UTF-8</encoding>
 					<source>1.6</source>
 					<target>1.6</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<includes>**/*.xml</includes>
 				</configuration>
 			</plugin>
 			<plugin>
