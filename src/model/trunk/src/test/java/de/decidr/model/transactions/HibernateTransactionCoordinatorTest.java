@@ -101,9 +101,10 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
 
     @Test
     public void testGetInstance() {
-        TransactionCoordinator htc = HibernateTransactionCoordinator
-                .getInstance();
-        assertNotNull(htc);
+        assertNotNull(HibernateTransactionCoordinator.getInstance());
+        assertNotNull(HibernateTransactionCoordinator.getInstance());
+        assertSame(HibernateTransactionCoordinator.getInstance(),
+                HibernateTransactionCoordinator.getInstance());
     }
 
     @Test
@@ -133,6 +134,12 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
         assertFalse(c.getCommitted());
         assertTrue(c.getAborted());
         assertTrue(transactionThrown);
+    }
+
+    @Test
+    public void testRunTransactionTransactionalCommandCollection() {
+        fail("Not yet implemented");
+        // RR runTransactionTransactionalCommandCollection
     }
 
     @Test
@@ -168,5 +175,18 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
                 new TransactionalCommand[2]);
     }
 
-    // RR finish this test
+    @Test
+    public void testGetConfiguration() {
+        fail("Not yet implemented"); // RR getConfiguration
+    }
+
+    @Test
+    public void testSetConfiguration() {
+        fail("Not yet implemented"); // RR setConfiguration
+    }
+
+    @Test
+    public void testGetCurrentSession() {
+        fail("Not yet implemented"); // RR getCurrentSession
+    }
 }

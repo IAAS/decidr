@@ -347,6 +347,7 @@ public class UserFacade extends AbstractFacade {
      *             if at least one of the required properties is missing.
      */
     @AllowedRole(UserRole.class)
+    // DH Item als parameter
     public void setProfile(Long userId, Item newProfile)
             throws TransactionException, EntityNotFoundException,
             NullPointerException {
@@ -470,10 +471,11 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * 
      * This command changes the email address of the given user iff the given
      * auth key is correct. If not an exception will be thrown. The request
-     * object will be deleted as all.
+     * object will be deleted as all.<br>
+     * XXX this suggests that the request object is deleted even if the auth key
+     * is incorrect
      * 
      * @param userId
      *            ID of the user whose request should be treated
@@ -554,6 +556,8 @@ public class UserFacade extends AbstractFacade {
      * 
      * @param userId
      *            the id of the user whose profile should be returned
+     * @param requiredProfile
+     *            TODO document
      * @return Vaadin item which is described above
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
@@ -950,15 +954,13 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * RR new method, please add JUnit test case
-     * 
-     * Returns the ID of the last tenant that the user has switched to (can be
-     * null!)
+     * Returns the ID of the last tenant that the user has switched to
+     * <em>(can be <code>null</code>!)</em>
      * 
      * @param userId
      *            the ID of the user whose current tenant should be retrieved
-     * @return the id of the current tenant or null if the user has never
-     *         switched to a tenant or the tenant has been deleted.
+     * @return the ID of the current tenant or <code>null</code> if the user has
+     *         never switched to a tenant or the tenant has been deleted.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason
      */
@@ -978,7 +980,7 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * RR new method, please add JUnit test case
+     * TODO document
      * 
      * @param userId
      * @param currentTenantId

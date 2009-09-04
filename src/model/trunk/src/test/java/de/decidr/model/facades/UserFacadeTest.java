@@ -152,6 +152,9 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         testItem = new BeanItem(testProfile, new String[] { "firstName",
                 "lastName", "city", "street", "postalCode", "username" });
         adminFacade.registerUser("asd6@desk.de", "asd", testItem);
+        registerUserExceptionHelper(
+                "invalid profile (double username) succeeded", adminFacade,
+                "asd7@desk.de", "asd", testItem);
 
         testProfile.setUsername(null);
         testItem = new BeanItem(testProfile, new String[] { "firstName",
@@ -190,14 +193,12 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
     @After
     public void tearDownTestCase() {
-        // RR delete all users
         session.createQuery("delete from User").executeUpdate();
     }
 
     /**
      * Test method for {@link UserFacade#getAllUsers(List, Paginator)}.
      */
-    @SuppressWarnings("null")
     @Test
     public void testGetAllUsers() throws TransactionException {
         List<Item> userList;
@@ -217,6 +218,10 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         if (testUserItem == null) {
             fail("couldn't get user created previously");
+            // fail() throws an unchecked exception which the java compiler
+            // doesn't know about. This means we need to indicate that the
+            // method is always being exited here.
+            return;
         }
 
         assertEquals(TEST_EMAIL, testUserItem.getItemProperty("email")
@@ -270,19 +275,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testGetUserIdByLogin() throws TransactionException {
-        UserProfile testProfile = new UserProfile();
-        testProfile.setFirstName("test");
-        testProfile.setLastName("user");
-        testProfile.setCity("boringtown");
-        testProfile.setStreet("ancient st.");
-        testProfile.setPostalCode("112");
-        testProfile.setUsername(TEST_EMAIL);
-
-        Item testItem = new BeanItem(testProfile, new String[] { "firstName",
-                "lastName", "city", "street", "postalCode", "username" });
-        Long emailUserID = adminFacade.registerUser(TEST_EMAIL + ".vu",
-                TEST_PASSWORD, testItem);
-
         for (UserFacade facade : allFacades) {
             assertEquals(testUserID, facade.getUserIdByLogin(TEST_USERNAME,
                     null));
@@ -294,41 +286,32 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             assertEquals(testUserID, facade.getUserIdByLogin(TEST_EMAIL,
                     TEST_PASSWORD));
             try {
+                facade.getUserIdByLogin(null, null);
+                fail("getting user ID with null email/username succeeded");
+            } catch (EntityNotFoundException e) {
+                // supposed to be thrown
+            }
+            try {
+                facade.getUserIdByLogin("", null);
+                fail("getting user ID with empty email/username succeeded");
+            } catch (EntityNotFoundException e) {
+                // supposed to be thrown
+            }
+            try {
                 facade.getUserIdByLogin(TEST_EMAIL, null);
+                fail("getting user ID with null password succeeded");
             } catch (EntityNotFoundException e) {
                 // supposed to be thrown
             }
             try {
                 facade.getUserIdByLogin(TEST_EMAIL, "");
+                fail("getting user ID with empty password succeeded");
             } catch (EntityNotFoundException e) {
                 // supposed to be thrown
             }
             try {
                 facade.getUserIdByLogin(TEST_EMAIL, "asdfgthsf");
-            } catch (EntityNotFoundException e) {
-                // supposed to be thrown
-            }
-
-            assertEquals(emailUserID, facade.getUserIdByLogin(TEST_EMAIL, null));
-            assertEquals(emailUserID, facade.getUserIdByLogin(TEST_EMAIL, ""));
-            assertEquals(emailUserID, facade.getUserIdByLogin(TEST_EMAIL,
-                    "sdfsdfsdf"));
-            assertEquals(emailUserID, facade.getUserIdByLogin(TEST_EMAIL,
-                    TEST_PASSWORD));
-            assertEquals(emailUserID, facade.getUserIdByLogin(TEST_EMAIL
-                    + ".vu", TEST_PASSWORD));
-            try {
-                facade.getUserIdByLogin(TEST_EMAIL + ".vu", null);
-            } catch (EntityNotFoundException e) {
-                // supposed to be thrown
-            }
-            try {
-                facade.getUserIdByLogin(TEST_EMAIL + ".vu", "");
-            } catch (EntityNotFoundException e) {
-                // supposed to be thrown
-            }
-            try {
-                facade.getUserIdByLogin(TEST_EMAIL + ".vu", "asdfgthsf");
+                fail("getting user ID with wrong password succeeded");
             } catch (EntityNotFoundException e) {
                 // supposed to be thrown
             }
@@ -340,9 +323,51 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testSetEmailAddress() throws TransactionException {
+        UserProfile testProfile = new UserProfile();
+        testProfile.setFirstName("test");
+        testProfile.setLastName("user");
+        testProfile.setCity("boringtown");
+        testProfile.setStreet("ancient st.");
+        testProfile.setPostalCode("112");
+        testProfile.setUsername("test_user");
+
+        Item testItem = new BeanItem(testProfile, new String[] { "firstName",
+                "lastName", "city", "street", "postalCode", "username" });
+        Long secondUserID = adminFacade.registerUser("asds1@desk.de", "asd",
+                testItem);
+
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL + ".vu");
-        fail("Not yet implemented"); // RR setEmailAddress
+        assertEquals(TEST_EMAIL + ".vu", adminFacade.getUserProfile(testUserID,
+                true).getItemProperty("email").getValue());
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
+        adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
+
+        setEmailAddressExceptionHelper("setting same email succeeded",
+                adminFacade, secondUserID, TEST_EMAIL);
+        setEmailAddressExceptionHelper("setting null email succeeded",
+                adminFacade, testUserID, null);
+        setEmailAddressExceptionHelper("setting empty email succeeded",
+                adminFacade, testUserID, "");
+        setEmailAddressExceptionHelper(
+                "setting email for null user ID succeeded", adminFacade, null,
+                "test@example.com");
+
+        setEmailAddressExceptionHelper(
+                "setting email with null facade succeeded", nullFacade,
+                testUserID, TEST_EMAIL);
+        setEmailAddressExceptionHelper(
+                "setting email with normal user facade succeeded", userFacade,
+                testUserID, TEST_EMAIL);
+    }
+
+    private static void setEmailAddressExceptionHelper(String failmsg,
+            UserFacade facade, Long userID, String newEmail) {
+        try {
+            facade.setEmailAddress(userID, newEmail);
+            fail(failmsg);
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
     }
 
     /**
@@ -366,6 +391,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testSetPassword() {
+        // DH gibt es eine Methode ein Passwort zu prüfen außer
+        // getUserIdByLogin?
         fail("Not yet implemented"); // RR setPassword
     }
 
@@ -403,17 +430,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testConfirmChangeEmailRequest() {
+        // DH wie kommt der ChangeEmailRequest in die Datenbank?
         fail("Not yet implemented"); // RR confirmChangeEmailRequest
-    }
-
-    /**
-     * Test method for {@link UserFacade#getInvitation(Long)} and
-     * {@link UserFacade#authKeyMatches(Long, String)}.
-     */
-    @Test
-    public void testInvitation() {
-        fail("Not yet implemented"); // RR getInvitation
-        fail("Not yet implemented"); // RR authKeyMatches
     }
 
     /**
@@ -421,6 +439,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testGetHighestUserRole() {
+        // DH how are user roles set?
         fail("Not yet implemented"); // RR getHighestUserRole
     }
 
@@ -429,6 +448,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testGetUserRoleForTenant() {
+        // DH how are user roles set?
         fail("Not yet implemented"); // RR getUserRoleForTenant
     }
 
@@ -455,6 +475,16 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     @Test
     public void testGetAdministratedWorkflowModels() {
         fail("Not yet implemented"); // RR getAdministratedWorkflowModels
+    }
+
+    /**
+     * Test method for {@link UserFacade#setCurrentTenantId(Long, Long)} and
+     * {@link UserFacade#getCurrentTenantId(Long).
+     */
+    @Test
+    public void testSetCurrentTenantId() {
+        fail("Not yet implemented"); // RR setCurrentTenantId
+        fail("Not yet implemented"); // RR getCurrentTenantId
     }
 
     /**

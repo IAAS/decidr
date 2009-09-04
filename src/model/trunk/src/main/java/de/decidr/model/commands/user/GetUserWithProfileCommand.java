@@ -9,9 +9,6 @@ import de.decidr.model.transactions.TransactionEvent;
  * Fetches the user's properties including his profile (if he has one) from the
  * database
  * 
- * RR renamed the command, changed functionalitiy from "fetch user profile only"
- * to "fetch user data and user profile" ~dh
- * 
  * @author Markus Fischer
  * @author Daniel Huss
  * 

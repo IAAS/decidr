@@ -53,7 +53,6 @@ import de.decidr.model.exceptions.WorkflowModelNotStartableException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
 /**

@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -160,8 +159,11 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     }
 
     /**
-     * @return the current Hibernate session or null if no session has been
-     *         opened yet. The returned session is not necessarily open.
+     * @return the current Hibernate session or <code>null</code> if no session
+     *         has been opened yet. The returned session is not necessarily
+     *         open.<br>
+     *         XXX Dieser Kommentar widerspricht sich: Laut dem ersten Satz ist
+     *         die session immer offen, da sonst null zurückgegeben wird ~rr
      */
     public Session getCurrentSession() {
         return session;
@@ -172,9 +174,9 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * runnning transactions are not affected by the new configuration. The new
      * configuration will be applied the next time a session is opened.
      * 
-     * @param config the initialized configuration
+     * @param config
+     *            the initialized configuration
      */
-    // RR new method, please add JUnit test case
     public void setConfiguration(Configuration config) {
         if (config == null) {
             throw new IllegalArgumentException(
@@ -192,7 +194,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * 
      * @return the currently used Hibernate configuration.
      */
-    // RR new method, please add JUnit test case
     public Configuration getConfiguration() {
         return configuration;
     }
