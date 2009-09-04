@@ -40,11 +40,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.decidr.modelingtool.client.command.CreateWorkflowCommand;
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
-import de.decidr.modelingtool.client.exception.LoadDWDLException;
 import de.decidr.modelingtool.client.io.DWDLParser;
 import de.decidr.modelingtool.client.io.DWDLParserImpl;
-import de.decidr.modelingtool.client.io.WorkflowIO;
-import de.decidr.modelingtool.client.io.WorkflowIOStub;
 import de.decidr.modelingtool.client.menu.Menu;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.Workflow;
@@ -149,17 +146,17 @@ public class ModelingToolWidget extends Composite implements
         // Load Workflow Model
         // TODO: substitute stub by real implementation
         // This code maybe obsolete, except for testin purposes
-        WorkflowIO io = new WorkflowIOStub();
-        // WorkflowIO io = new WorkflowIOImpl(dataExchanger);
-        try {
-            WorkflowModel workflowModel = io.loadWorkflow();
-            Command createWorkflowCmd = new CreateWorkflowCommand(workflowModel);
-            createWorkflowCmd.execute();
-        } catch (LoadDWDLException e) {
-            Window.alert(e.getMessage());
-        } catch (IncompleteModelDataException e) {
-            Window.alert(e.getMessage());
-        }
+//        WorkflowIO io = new WorkflowIOStub();
+//        // WorkflowIO io = new WorkflowIOImpl(dataExchanger);
+//        try {
+//            WorkflowModel workflowModel = io.loadWorkflow();
+//            Command createWorkflowCmd = new CreateWorkflowCommand(workflowModel);
+//            createWorkflowCmd.execute();
+//        } catch (LoadDWDLException e) {
+//            Window.alert(e.getMessage());
+//        } catch (IncompleteModelDataException e) {
+//            Window.alert(e.getMessage());
+//        }
     }
 
     public void setDWDL(String dwdl) {
