@@ -36,6 +36,7 @@ import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.client.ui.VModelingTool;
 
 /**
  * TODO: add comment
@@ -174,7 +175,7 @@ public class Server extends AbstractComponent {
      */
     @Override
     public String getTag() {
-        return "modelingtool";
+        return VModelingTool.TAGNAME;
     }
 
 }
