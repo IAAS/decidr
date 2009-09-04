@@ -37,11 +37,18 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NodeList;
+import com.google.gwt.xml.client.XMLParser;
 
 import de.decidr.modelingtool.client.command.CreateWorkflowCommand;
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
+import de.decidr.modelingtool.client.exception.LoadDWDLException;
 import de.decidr.modelingtool.client.io.DWDLParser;
 import de.decidr.modelingtool.client.io.DWDLParserImpl;
+import de.decidr.modelingtool.client.io.WorkflowIO;
+import de.decidr.modelingtool.client.io.WorkflowIOStub;
 import de.decidr.modelingtool.client.menu.Menu;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.Workflow;
@@ -146,19 +153,25 @@ public class ModelingToolWidget extends Composite implements
         // Load Workflow Model
         // TODO: substitute stub by real implementation
         // This code maybe obsolete, except for testin purposes
-//        WorkflowIO io = new WorkflowIOStub();
-//        // WorkflowIO io = new WorkflowIOImpl(dataExchanger);
-//        try {
-//            WorkflowModel workflowModel = io.loadWorkflow();
-//            Command createWorkflowCmd = new CreateWorkflowCommand(workflowModel);
-//            createWorkflowCmd.execute();
-//        } catch (LoadDWDLException e) {
-//            Window.alert(e.getMessage());
-//        } catch (IncompleteModelDataException e) {
-//            Window.alert(e.getMessage());
-//        }
+        WorkflowIO io = new WorkflowIOStub();
+        // WorkflowIO io = new WorkflowIOImpl(dataExchanger);
+        try {
+            WorkflowModel workflowModel = io.loadWorkflow();
+            Command createWorkflowCmd = new CreateWorkflowCommand(workflowModel);
+            createWorkflowCmd.execute();
+        } catch (LoadDWDLException e) {
+            Window.alert(e.getMessage());
+        } catch (IncompleteModelDataException e) {
+            Window.alert(e.getMessage());
+        }
     }
 
+    /**
+     * 
+     * TODO: add comment
+     * 
+     * @param dwdl
+     */
     public void setDWDL(String dwdl) {
         DWDLParser parser = new DWDLParserImpl();
         WorkflowModel workflowModel = parser.parse(dwdl);
@@ -170,15 +183,33 @@ public class ModelingToolWidget extends Composite implements
         }
     }
 
+    /**
+     * 
+     * TODO: add comment
+     * 
+     * @param userxml
+     */
     public void setUsers(String userxml) {
-        // JS: implement, first parse xml with gwt tools, then create user
-        // objects as hash maps
         users = new HashMap<Long, String>();
-        users.put(0L, "dsf");
-        users.put(1L, "sdf");
-        users.put(2L, "fgh");
+
+        Document doc = XMLParser.createDocument();
+        doc = XMLParser.parse(userxml);
+        NodeList list = doc.getElementsByTagName("user");
+
+        for (int i = 0; i < list.getLength(); i++) {
+            Element element = (Element) list.item(i);
+            Long id = new Long(element.getAttribute("id"));
+            String name = element.getAttribute("name");
+            users.put(id, name);
+        }
     }
 
+    /**
+     * 
+     * TODO: add comment
+     * 
+     * @return
+     */
     public static HashMap<Long, String> getUsers() {
         return users;
     }

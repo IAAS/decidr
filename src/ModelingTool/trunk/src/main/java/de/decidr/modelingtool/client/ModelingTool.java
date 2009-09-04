@@ -32,7 +32,9 @@ public class ModelingTool implements EntryPoint {
         ModelingToolWidget mtw = new ModelingToolWidget();
         RootPanel.get("panel").add(mtw);
         mtw.init();
-        mtw.setUsers(null);
+        // TODO, JS: This is test data
+        mtw
+                .setUsers("<userlist><user id=\"23\" name=\"Clark Kent\"/><user id=\"42\" name=\"Bruce Wayne\"/><user id=\"113\" name=\"Peter Parker\"/></userlist>");
 
     }
 
