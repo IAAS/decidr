@@ -22,9 +22,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import de.decidr.model.acl.PasswordTest;
 import de.decidr.model.email.MailBackendTest;
 import de.decidr.model.logging.DefaultLoggerTest;
-import de.decidr.model.permissions.PasswordTest;
 import de.decidr.model.reveng.DecidrReverseEngineeringStrategyTest;
 
 /**
