@@ -19,11 +19,12 @@ package de.decidr.modelingtool.client.command;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
- * TODO: add comment
+ * This command changes the variables of a {@link WorkflowModel}.
  * 
  * @author Jonas Schlaak
  */

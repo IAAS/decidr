@@ -171,19 +171,34 @@ public class WorkflowPropertyWindow extends ModelingToolDialog {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#initialize()
+     */
     @Override
     public void initialize() {
         createFields();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#reset()
+     */
     @Override
     public void reset() {
         clearAllEntries();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#refresh()
+     */
     @Override
     public void refresh() {
-        // TODO Auto-generated method stub
-
     }
 }

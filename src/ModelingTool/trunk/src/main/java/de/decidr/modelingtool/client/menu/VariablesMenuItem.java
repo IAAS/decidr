@@ -6,10 +6,11 @@ import com.google.gwt.user.client.Command;
 
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.ui.Workflow;
+import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditorInvoker;
 
 /**
- * TODO: add comment
+ * Displays the {@link VariableEditor}.
  * 
  * @author Jonas Schlaak
  */

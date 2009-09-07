@@ -27,7 +27,10 @@ import de.decidr.modelingtool.client.ui.resources.Messages;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 /**
- * TODO: add comment
+ * Menu item for editing the properties of a selected {@link Node}. If the
+ * selected Node has no properties to be edited an error message is displayed.
+ * If no Node was selected, the properties of the {@link Workflow} will be
+ * displayed.
  * 
  * @author Jonas Schlaak
  */

@@ -16,14 +16,20 @@
 
 package de.decidr.modelingtool.client.io.resources;
 
+import de.decidr.modelingtool.client.io.DWDLParserImpl;
+import de.decidr.modelingtool.client.io.WorkflowParserImpl;
+
 /**
- * TODO: add comment
+ * This class holds all tag and attribute names of a dwdl file as static field.
+ * This is done because both {@link WorkflowParserImpl} and
+ * {@link DWDLParserImpl} access this class and rely on the same tag and
+ * attribute names.
  * 
  * @author Jonas Schlaak
  */
 public class DWDLNames {
     public static VariableTypes variableTypes = new VariableTypes();
-    
+    // JS: put fields in seperate classes like variable types
     public static String activity = "activity";
     public static String actor = "actor";
     public static String arc = "arc";

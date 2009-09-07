@@ -18,33 +18,31 @@ package de.decidr.modelingtool.client.model.foreach;
 
 import de.decidr.modelingtool.client.model.ContainerModel;
 import de.decidr.modelingtool.client.model.HasChildModels;
+import de.decidr.modelingtool.client.ui.ForEachContainer;
 
 /**
- * TODO: add comment
+ * This class holds all properties of a {@link ForEachContainer}.
  * 
  * @author Johannes Engelhardt, Jonas Schlaak
  */
 public class ForEachContainerModel extends ContainerModel {
 
-    private final String iterationFieldName = "iteration";
+    private final String iterationVariableFieldName = "iteration";
     private final String exitConditionFieldName = "exit";
     private final String parallelFieldName = "parallel";
 
-    public ForEachContainerModel() {
-        super();
-    }
-
     /**
-     * TODO: add comment
+     * Default constructor. No properties are set by default.
      * 
      * @param parentModel
+     *            the model of the parent node
      */
     public ForEachContainerModel(HasChildModels parentModel) {
         super(parentModel);
     }
 
     public Long getIterationVariableId() {
-        return properties.get(iterationFieldName);
+        return properties.get(iterationVariableFieldName);
     }
 
     public ExitCondition getExitCondition() {
@@ -56,7 +54,8 @@ public class ForEachContainerModel extends ContainerModel {
     }
 
     public void setIterationVariableId(Long iterationVariableId) {
-        this.properties.set(this.iterationFieldName, iterationVariableId);
+        this.properties.set(this.iterationVariableFieldName,
+                iterationVariableId);
     }
 
     public void setExitCondition(ExitCondition exitCondition) {

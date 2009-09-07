@@ -52,7 +52,7 @@ import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 
 /**
- * TODO: add comment
+ * The actual implementation of a dwdl parser.
  * 
  * @author Modood Alvi, Jonas Schlaak
  * @version 0.1
@@ -76,7 +76,7 @@ public class DWDLParserImpl implements DWDLParser {
 
         createWorkflowProperties(doc, workflow);
 
-        /* Create variables */
+        /* Create variables and roles */
         List<Variable> variables = new ArrayList<Variable>();
         createVariables(doc, variables);
         createRoles(doc, variables);
@@ -512,7 +512,8 @@ public class DWDLParserImpl implements DWDLParser {
 
     private ContainerModel createForEachModel(Element forEachElement,
             WorkflowModel workflow, HasChildModels parentModel) {
-        ForEachContainerModel forEachModel = new ForEachContainerModel();
+        ForEachContainerModel forEachModel = new ForEachContainerModel(
+                parentModel);
 
         /* Set name id and graphics */
         forEachModel.setName(forEachElement.getAttribute(DWDLNames.name));

@@ -1,5 +1,10 @@
 package de.decidr.modelingtool.client.io.resources;
 
+/**
+ * The names of the various variable types.
+ * 
+ * @author Jonas Schlaak
+ */
 public class VariableTypes {
 
     public String STRING = "string";

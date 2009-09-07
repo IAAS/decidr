@@ -17,6 +17,7 @@
 package de.decidr.modelingtool.client.model.foreach;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
+import de.decidr.modelingtool.client.ui.dialogs.foreachcontainer.ForEachWindow;
 
 /**
  * This enumaration type holds all possible exit condition types a for each
@@ -25,8 +26,9 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
  * @author Jonas Schlaak
  */
 public enum ExitCondition {
-    AND(ModelingToolWidget.messages.andConLabel()), XOR(
-            ModelingToolWidget.messages.xorConLabel());
+
+    AND(ModelingToolWidget.messages.andConLabel()),
+    XOR(ModelingToolWidget.messages.xorConLabel());
 
     private String label;
 
@@ -41,14 +43,27 @@ public enum ExitCondition {
         this.label = label;
     }
 
+    /**
+     * Returns the label of an exit conditions. Labels are there to label the
+     * radio buttons in {@link ForEachWindow}. Labels are localized.
+     * 
+     * @return the label
+     */
     public String getLabel() {
         return label;
     }
 
-    public static ExitCondition getTypeFromLabel(String localName) {
+    /**
+     * Returns the type of exit condition for a given label.
+     * 
+     * @param label
+     *            the label
+     * @return the type of exit condition
+     */
+    public static ExitCondition getTypeFromLabel(String label) {
         ExitCondition result = null;
         for (ExitCondition e : ExitCondition.values()) {
-            if (localName == e.getLabel())
+            if (label == e.getLabel())
                 result = e;
         }
         return result;

@@ -22,7 +22,8 @@ import de.decidr.modelingtool.client.model.HasChildModels;
 import de.decidr.modelingtool.client.model.InvokeNodeModel;
 
 /**
- * TODO: add comment
+ * This class holds all properties of a {@link HumanTaskInvokeNodeModel}.
+ * 
  * 
  * @author Johannes Engelhardt, Jonas Schlaak
  */
@@ -36,16 +37,13 @@ public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
     private final String taskItemsFieldName = "taskItems";
 
     /**
-     * TODO: add comment
+     * Default constructor. No properties are set by default.
      * 
      * @param parentModel
+     *            the model of the parent node
      */
     public HumanTaskInvokeNodeModel(HasChildModels parentModel) {
         super(parentModel);
-    }
-
-    public HumanTaskInvokeNodeModel() {
-        super();
     }
 
     public Long getUserVariableId() {

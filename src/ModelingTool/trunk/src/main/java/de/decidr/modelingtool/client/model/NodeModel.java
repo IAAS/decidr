@@ -30,6 +30,9 @@ public class NodeModel extends AbstractModel {
     private ConnectionModel output = null;
     private Node node = null;
 
+    /**
+     * The property container for the model data.
+     */
     protected NodePropertyData properties;
 
     /**
@@ -41,13 +44,18 @@ public class NodeModel extends AbstractModel {
      * The y coordinate of the assigned change listener
      */
     protected int changeListenerTop = 0;
-    
+
     /** The height of the assigned changelistener */
     protected int changeListenerWidth = 0;
 
     /** The width of the assigned changelistener */
     protected int changeListenerHeight = 0;
 
+    /**
+     * 
+     * TODO: add comment
+     * 
+     */
     public NodeModel() {
         super();
         properties = new NodePropertyData();
@@ -91,15 +99,17 @@ public class NodeModel extends AbstractModel {
         this.changeListenerLeft = left;
         this.changeListenerTop = top;
     }
-    
+
     /**
      * Sets the size properties of the change listener. After changing this
      * data, fireModelChanged hast to be called.
-     *
-     * @param width The (desired) width of the change listener.
-     * @param height The (desired) height of the change listener.
+     * 
+     * @param width
+     *            The (desired) width of the change listener.
+     * @param height
+     *            The (desired) height of the change listener.
      */
-    public void setChangeListenerSize(int width, int height) {   
+    public void setChangeListenerSize(int width, int height) {
         this.changeListenerWidth = width;
         this.changeListenerHeight = height;
     }

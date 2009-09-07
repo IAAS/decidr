@@ -16,11 +16,15 @@
 
 package de.decidr.modelingtool.client.command;
 
+import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.model.WorkflowProperties;
 import de.decidr.modelingtool.client.ui.Workflow;
+import de.decidr.modelingtool.client.ui.dialogs.workflow.WorkflowPropertyWindow;
 
 /**
- * TODO: add comment
+ * This command changes the properties of a {@link WorkflowModel}. The
+ * properties are changed by the {@link WorkflowPropertyWindow}. The command
+ * gets the workflow model by accessing the {@link Workflow} singelton instance.
  * 
  * @author Jonas Schlaak
  */
@@ -29,6 +33,13 @@ public class ChangeWorkflowPropertiesCommand implements UndoableCommand {
     private WorkflowProperties oldProperties;
     private WorkflowProperties newProperties;
 
+    /**
+     * Default constructor for the command
+     * 
+     * @param newProperties
+     *            the new workflow model properties stored in
+     *            {@link WorkflowProperties}
+     */
     public ChangeWorkflowPropertiesCommand(WorkflowProperties newProperties) {
         this.oldProperties = Workflow.getInstance().getModel().getProperties();
         this.newProperties = newProperties;

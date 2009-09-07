@@ -16,24 +16,31 @@
 
 package de.decidr.modelingtool.client.command;
 
+import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
 import de.decidr.modelingtool.client.model.NodePropertyData;
+import de.decidr.modelingtool.client.ui.EmailInvokeNode;
 import de.decidr.modelingtool.client.ui.Node;
 
 /**
- * TODO: add comment
+ * This command changes the properties of a {@link Node}. The properties of a
+ * node are typically the model data, for example, the properties of an
+ * {@link EmailInvokeNode} are stored in {@link EmailInvokeNodeModel}.
  * 
  * @author Jonas Schlaak
  */
-public class ChangeNodePropertiesCommand implements
-        UndoableCommand {
+public class ChangeNodePropertiesCommand implements UndoableCommand {
 
     private Node node;
     private NodePropertyData oldProperties;
     private NodePropertyData newProperties;
 
     /**
-     * TODO: add comment
+     * Default constructor for the command.
      * 
+     * @param node
+     *            the node whose properties are to be changed
+     * @param newModel
+     *            the new model in which the properties are stored
      */
     public ChangeNodePropertiesCommand(Node node, NodePropertyData newModel) {
         this.node = node;
