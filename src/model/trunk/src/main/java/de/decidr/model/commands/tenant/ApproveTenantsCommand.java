@@ -26,7 +26,7 @@ import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Approves all tenants which corresponds to the given IDs.<br>
- * Non-existing tenants will we ignored.
+ * Non-existing tenants will we ignored (no exception is thrown).
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -40,10 +40,10 @@ public class ApproveTenantsCommand extends AclEnabledCommand {
     /**
      * Creates a new ApproveTenantsCommand. This Command will approve all
      * tenants which corresponds to the given IDs. Not existing tenants will we
-     * ignored.
+     * ignored (no exception is thrown).
      * 
      * @param role
-     *            the user which executes the command
+     *            the user/system which executes the command
      * @param tenantIds
      *            list of IDs of tenants which should be approved
      */

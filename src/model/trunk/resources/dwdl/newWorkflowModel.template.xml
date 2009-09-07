@@ -1,0 +1,3 @@
+<workflow name="NCName" id="long"
+	targetNamespace="http://decidr.de/tenantName/processes/NCName" xmlns="http://decidr.de/schema/dwdl">
+</workflow>

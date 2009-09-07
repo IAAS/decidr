@@ -23,10 +23,9 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Creates a tenant with the given properties.
+ * Creates a new tenant with the given properties.
  * 
  * @author Markus Fischer
- * 
  * @version 0.1
  */
 public class CreateTenantCommand extends TenantCommand {
@@ -37,11 +36,11 @@ public class CreateTenantCommand extends TenantCommand {
     private Long tenantId;
 
     /**
-     * Creates a new CreateTenantCommand. The tenant which will be created in
-     * this command will have the given properties.
+     * Creates a new CreateTenantCommand that will create a new tenant with the
+     * given properties.
      * 
      * @param role
-     *            user which executes the command
+     *            user/system which executes the command
      * @param name
      *            tenant name
      * @param description
@@ -61,6 +60,8 @@ public class CreateTenantCommand extends TenantCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+
+        tenantId = null;
 
         User admin = (User) evt.getSession().get(User.class, adminId);
 

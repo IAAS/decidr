@@ -21,7 +21,7 @@ import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Removes the server from the database. The corresponding real server will not
- * be closed. If the server doesn't exist the command will be ignored.
+ * be closed. If the server doesn't exist no exception is thrown.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -35,10 +35,10 @@ public class RemoveServerCommand extends SystemCommand {
     /**
      * Creates a new RemoveServerCommand. The command removes the server from
      * the database. The corresponding real server will not be closed. If the
-     * server doesn't exist the command will be ignored.
+     * server doesn't exist no exception is thrown.
      * 
      * @param role
-     *            the user who wants to execute the command
+     *            the user/system which executes the command
      * @param serverId
      *            the id of the server to remove from the database
      */

@@ -137,7 +137,7 @@ public class DefaultAccessControlList implements AccessControlList {
      * 
      * @version 0.1
      */
-    class Key {
+    class RuleKey {
 
         private Role role;
         private Permission permission;
@@ -148,7 +148,7 @@ public class DefaultAccessControlList implements AccessControlList {
          * @param role
          * @param permission
          */
-        public Key(Role role, Permission permission) {
+        public RuleKey(Role role, Permission permission) {
             super();
             this.role = role;
             this.permission = permission;
@@ -159,8 +159,8 @@ public class DefaultAccessControlList implements AccessControlList {
 
             Boolean equal = false;
 
-            if (obj instanceof Key) {
-                Key key = (Key) obj;
+            if (obj instanceof RuleKey) {
+                RuleKey key = (RuleKey) obj;
 
                 Boolean roleEqual = role == null ? key.role == null : (role
                         .equals(key.role));
@@ -193,7 +193,7 @@ public class DefaultAccessControlList implements AccessControlList {
          * @param key
          * @return true iff the given key is implied by this key.
          */
-        public Boolean implies(Key key) {
+        public Boolean implies(RuleKey key) {
             if (key == null) {
                 return false;
             } else {
@@ -214,7 +214,7 @@ public class DefaultAccessControlList implements AccessControlList {
      * 
      * @version 0.1
      */
-    class Value {
+    class RuleConditions {
         Set<Asserter> asserters;
         AssertMode assertMode;
 
@@ -224,7 +224,7 @@ public class DefaultAccessControlList implements AccessControlList {
          * @param asserters
          * @param assertMode
          */
-        public Value(Asserter[] asserters, AssertMode assertMode) {
+        public RuleConditions(Asserter[] asserters, AssertMode assertMode) {
             super();
             this.assertMode = assertMode;
             this.asserters = asserters == null ? null : new HashSet<Asserter>(
@@ -236,8 +236,8 @@ public class DefaultAccessControlList implements AccessControlList {
 
             Boolean equal = false;
 
-            if (obj instanceof Value) {
-                Value value = (Value) obj;
+            if (obj instanceof RuleConditions) {
+                RuleConditions value = (RuleConditions) obj;
 
                 Boolean assertEqual = asserters == null ? value.asserters == null
                         : asserters.equals(value.asserters);
@@ -273,7 +273,7 @@ public class DefaultAccessControlList implements AccessControlList {
     /**
      * Map containing all rules.
      */
-    protected Map<Key, Value> ruleMap;
+    protected Map<RuleKey, RuleConditions> ruleMap;
 
     /**
      * Singleton getter.
@@ -289,7 +289,7 @@ public class DefaultAccessControlList implements AccessControlList {
      */
     private DefaultAccessControlList() {
         super();
-        this.ruleMap = new HashMap<Key, Value>();
+        this.ruleMap = new HashMap<RuleKey, RuleConditions>();
         this.init();
     }
 
@@ -322,9 +322,6 @@ public class DefaultAccessControlList implements AccessControlList {
         setRule(ServerLoadUpdaterRole.getInstance(), new CommandPermission(
                 GetServersCommand.class), AssertMode.SatisfyAll,
                 alwaysTrueAsserter);
-        
-
-        
         
         /**
          *  Command Permissions Tenant Facade
@@ -616,9 +613,9 @@ public class DefaultAccessControlList implements AccessControlList {
         Boolean isAlreadyImplied = hasRule(role, permission);
 
         if (!isAlreadyImplied) {
-            Key newKey = new Key(role, permission);
+            RuleKey newKey = new RuleKey(role, permission);
             removeImpliedRules(newKey);
-            ruleMap.put(newKey, new Value(asserters, mode));
+            ruleMap.put(newKey, new RuleConditions(asserters, mode));
         }
 
         return !isAlreadyImplied;
@@ -628,8 +625,8 @@ public class DefaultAccessControlList implements AccessControlList {
      * Removes the rules that key implies from the ruleset. Be aware that this
      * will include key itself if it is currently present in the ruleset.
      */
-    private void removeImpliedRules(Key key) {
-        for (Key impliedKey : ruleMap.keySet()) {
+    private void removeImpliedRules(RuleKey key) {
+        for (RuleKey impliedKey : ruleMap.keySet()) {
             if (!key.equals(impliedKey) && key.implies(impliedKey)) {
                 ruleMap.remove(impliedKey);
             }
@@ -659,7 +656,7 @@ public class DefaultAccessControlList implements AccessControlList {
     public Boolean isAllowed(Role role, Permission permission)
             throws TransactionException {
         Boolean allowed = true;
-        Value rule = ruleMap.get(new Key(role, permission));
+        RuleConditions rule = ruleMap.get(new RuleKey(role, permission));
 
         if (rule == null) {
             allowed = false;
@@ -698,11 +695,11 @@ public class DefaultAccessControlList implements AccessControlList {
 
     @Override
     public Boolean hasRule(Role role, Permission permission) {
-        Key key = new Key(role, permission);
+        RuleKey key = new RuleKey(role, permission);
 
         // Try to find implying rule
         Boolean isAlreadyImplied = false;
-        for (Key oldKey : ruleMap.keySet()) {
+        for (RuleKey oldKey : ruleMap.keySet()) {
             if (oldKey.implies(key)) {
                 isAlreadyImplied = true;
                 break;

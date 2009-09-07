@@ -1,10 +1,26 @@
+/*
+ * The DecidR Development Team licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package de.decidr.model.commands.system;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Updates the server load of a given server at the database.
+ * Updates the server load of a given server at the database. If the server does
+ * not exist no exeption is thrown.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -18,10 +34,10 @@ public class UpdateServerLoadCommand extends SystemCommand {
 
     /**
      * Updates the server load of a given server at the database. If given
-     * server does not exists nothing will happen.
+     * server does not exist no exception is thrown.
      * 
      * @param role
-     *            the user who wants to execute the command
+     *            the user/system that is executing the command
      * @param serverid
      *            the id of the server to update
      * @param load
@@ -35,7 +51,6 @@ public class UpdateServerLoadCommand extends SystemCommand {
 
     @Override
     public void transactionAllowed(TransactionEvent evt) {
-
         evt.getSession().createQuery(
                 "update Server set load = :newLoad where id = :serverId")
                 .setByte("newLoad", load).setLong("serverId", serverId)

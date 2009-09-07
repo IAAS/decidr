@@ -34,11 +34,10 @@ import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.deployment.DeployerImpl;
 
 /**
- * Deletes all tenants which corresponds to the given IDs including all
- * corresponding WorkflowInstances and workitems.
+ * Deletes all tenants which correspond to the given IDs including all
+ * corresponding workflow instances and work items.
  * 
  * @author Markus Fischer
- * 
  * @version 0.1
  */
 public class DeleteTenantCommand extends TenantCommand {
@@ -52,7 +51,8 @@ public class DeleteTenantCommand extends TenantCommand {
      * 
      * @param role
      *            the user which executes the command
-     * @param tenantId the id of the tenant which should be deleted
+     * @param tenantId
+     *            the id of the tenant which should be deleted
      */
     public DeleteTenantCommand(Role role, Long tenantId) {
         super(role, null);
@@ -71,7 +71,7 @@ public class DeleteTenantCommand extends TenantCommand {
         if (tenant != null) {
 
             StorageProviderFactory factory;
-            
+
             try {
                 factory = StorageProviderFactory.getDefaultFactory();
             } catch (InvalidPropertiesFormatException e) {
@@ -81,82 +81,69 @@ public class DeleteTenantCommand extends TenantCommand {
             } catch (IOException e) {
                 throw new TransactionException(e);
             }
-            
+
             // delete File logo (permanent storage)
             try {
-                factory.getStorageProvider().removeFile(tenant.getLogo().getId());
+                factory.getStorageProvider().removeFile(
+                        tenant.getLogo().getId());
+
+                // delete File logo (db representation)
+                evt.getSession().delete(tenant.getLogo());
+
+                // delete File simpleColorScheme (permanent storage)
+                factory.getStorageProvider().removeFile(
+                        tenant.getSimpleColorScheme().getId());
+
+                // delete File simplecolorScheme (db representation)
+                evt.getSession().delete(tenant.getSimpleColorScheme());
+
+                // delete File advancedColorScheme (permanent storage)
+
+                factory.getStorageProvider().removeFile(
+                        tenant.getAdvancedColorScheme().getId());
+
+                // delete File advancedColorScheme (db representation)
+                evt.getSession().delete(tenant.getAdvancedColorScheme());
+
+                // delete File currentColorScheme (permanent storage)
+
+                factory.getStorageProvider().removeFile(
+                        tenant.getCurrentColorScheme().getId());
             } catch (StorageException e) {
                 throw new TransactionException(e);
             } catch (IncompleteConfigurationException e) {
                 throw new TransactionException(e);
             }
-            
-            // delete File logo (db representation)
-            evt.getSession().delete(tenant.getLogo());
-            
-            // delete File simpleColorScheme (permanent storage)
-            try {
-                factory.getStorageProvider().removeFile(tenant.getSimpleColorScheme().getId());
-            } catch (StorageException e) {
-                throw new TransactionException(e);
-            } catch (IncompleteConfigurationException e) {
-                throw new TransactionException(e);
-            }
-            
-            // delete File simplecolorScheme (db representation)
-            evt.getSession().delete(tenant.getSimpleColorScheme());
-            
-            // delete File advancedColorScheme (permanent storage)
-            try {
-                factory.getStorageProvider().removeFile(tenant.getAdvancedColorScheme().getId());
-            } catch (StorageException e) {
-                throw new TransactionException(e);
-            } catch (IncompleteConfigurationException e) {
-                throw new TransactionException(e);
-            }
-            
-            // delete File advancedColorScheme (db representation)
-            evt.getSession().delete(tenant.getAdvancedColorScheme());
-            
-            // delete File currentColorScheme (permanent storage)
-            try {
-                factory.getStorageProvider().removeFile(tenant.getCurrentColorScheme().getId());
-            } catch (StorageException e) {
-                throw new TransactionException(e);
-            } catch (IncompleteConfigurationException e) {
-                throw new TransactionException(e);
-            }
-            
+
             // delete File currentColorScheme (db representation)
             evt.getSession().delete(tenant.getCurrentColorScheme());
-            
-            
+
             for (DeployedWorkflowModel model : tenant
                     .getDeployedWorkflowModels()) {
                 // Undeploy models from server
-                
-                String hql = "from Server s join WorkflowModelIsDeployedOnServer rel where rel.server = s and rel.deployedWorkflowModel.id = :toUndeploy";
-                
+                String hql = "select s from Server s join WorkflowModelIsDeployedOnServer rel "
+                        + "where rel.server = s and rel.deployedWorkflowModel = :toUndeploy";
+
                 Query q = evt.getSession().createQuery(hql);
-                q.setLong("toUndeploy", model.getId());
+                q.setEntity("toUndeploy", model);
                 List<Server> result = q.list();
-                
-                for(Server server: result){
+
+                for (Server server : result) {
                     try {
                         deployer.undeploy(model, server);
                     } catch (Exception e) {
                         throw new TransactionException(e);
                     }
                 }
-                
+
                 /*
                  * corresponding WorkflowInstances and Workitems will be
-                 * automatically deleted by the database
+                 * automatically deleted by the dbms.
                  */
                 evt.getSession().delete(model);
 
             }
-            
+
             // finally delete tenant object
             evt.getSession().delete(tenant);
         }

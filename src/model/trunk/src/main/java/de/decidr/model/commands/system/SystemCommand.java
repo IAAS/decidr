@@ -25,11 +25,18 @@ import de.decidr.model.commands.AclEnabledCommand;
  * The abstract system command. All system commands are derived from this class.
  * 
  * @author Markus Fischer
- * 
  * @version 0.1
  */
 public abstract class SystemCommand extends AclEnabledCommand {
 
+    /**
+     * Creates a new SystemCommand.
+     * 
+     * @param role
+     *            user/system executing the command
+     * @param permission
+     *            addtional resource that are being accessed by this command
+     */
     public SystemCommand(Role role, Collection<Permission> permission) {
         super(role, permission);
     }

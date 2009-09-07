@@ -160,10 +160,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
 
     /**
      * @return the current Hibernate session or <code>null</code> if no session
-     *         has been opened yet. The returned session is not necessarily
-     *         open.<br>
-     *         XXX Dieser Kommentar widerspricht sich: Laut dem ersten Satz ist
-     *         die session immer offen, da sonst null zurückgegeben wird ~rr
+     *         has been opened yet. The returned session may have been closed
+     *         using the close() method, so is not necessarily open.<br>
      */
     public Session getCurrentSession() {
         return session;
@@ -172,7 +170,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * Updates the session factory using the given configuration. Currently
      * runnning transactions are not affected by the new configuration. The new
-     * configuration will be applied the next time a session is opened.
+     * configuration will be applied the next time a session is opened. A new
+     * session is opened every time a top-level transaction is started.
      * 
      * @param config
      *            the initialized configuration
@@ -269,6 +268,15 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 throw new TransactionException(e);
             }
         }
+
+        // this code can only be reached if no exception occurred during the
+        // transaction and thus the transaction succeeded.
+        for (TransactionalCommand command : notifiedReceivers) {
+            // note: the chain is broken if one of the commands throws an
+            // exception in its transactionCommitted() method.
+            fireTransactionCommitted(command);
+        }
+        notifiedReceivers.clear();
     }
 
     /**
@@ -298,5 +306,19 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         TransactionAbortedEvent event = new TransactionAbortedEvent(session,
                 caughtException, transactionDepth > 1);
         receiver.transactionAborted(event);
+    }
+
+    /**
+     * Fires transaction committed event.
+     * 
+     * @param receiver
+     *            the receiver of the "transaction committed" event
+     * @throws TransactionException
+     */
+    private void fireTransactionCommitted(TransactionalCommand receiver)
+            throws TransactionException {
+        TransactionEvent event = new TransactionEvent(session,
+                transactionDepth > 1);
+        receiver.transactionCommitted(event);
     }
 }

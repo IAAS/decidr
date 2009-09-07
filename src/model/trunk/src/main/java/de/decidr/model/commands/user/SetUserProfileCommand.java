@@ -63,7 +63,8 @@ public class SetUserProfileCommand extends UserCommand {
         }
 
         // copying the properties from the new profile data for safety and
-        // robustness.
+        // robustness. Disadvantage: must be updated if the user profile
+        // receives new properties.
         currentProfile.setCity(newProfile.getCity());
         currentProfile.setFirstName(newProfile.getFirstName());
         currentProfile.setLastName(newProfile.getLastName());

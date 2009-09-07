@@ -321,35 +321,15 @@ public class UserFacade extends AbstractFacade {
      *             if at least one of the required properties is missing.
      */
     @AllowedRole(UserRole.class)
-    // DH Item als parameter
-    public void setProfile(Long userId, Item newProfile)
+    public void setProfile(Long userId, UserProfile newProfile)
             throws TransactionException, EntityNotFoundException,
             NullPointerException {
-
-        // retrieve needed properties from Vaadin item.
-        String firstName = newProfile.getItemProperty("firstName").getValue()
-                .toString();
-        String lastName = newProfile.getItemProperty("lastname").getValue()
-                .toString();
-        String city = newProfile.getItemProperty("city").getValue().toString();
-        String street = newProfile.getItemProperty("street").getValue()
-                .toString();
-        String postalCode = newProfile.getItemProperty("postalCode").getValue()
-                .toString();
-
-        // create the new user profile
-        UserProfile profile = new UserProfile();
-        profile.setFirstName(firstName);
-        profile.setLastName(lastName);
-        profile.setCity(city);
-        profile.setStreet(street);
-        profile.setPostalCode(postalCode);
 
         // We're not using the SetUserPropertyCommand because that might
         // potentially insert a user profile even if the user didn't previously
         // have one, making him a registered user without actually registering.
         SetUserProfileCommand cmd = new SetUserProfileCommand(actor, userId,
-                profile);
+                newProfile);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
     }

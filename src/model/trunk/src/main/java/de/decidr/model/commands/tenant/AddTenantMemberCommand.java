@@ -27,7 +27,6 @@ import de.decidr.model.transactions.TransactionEvent;
  * Create the relation is member of between the given tenant and the given user.
  * 
  * @author Markus Fischer
- * 
  * @version 0.1
  */
 public class AddTenantMemberCommand extends TenantCommand {
@@ -39,7 +38,7 @@ public class AddTenantMemberCommand extends TenantCommand {
      * member of between the given tenant and the given user.
      * 
      * @param role
-     *            user which executes the command
+     *            user/system that which executes the command
      * @param tenantId
      *            id of the tenant
      * @param memberId
@@ -64,8 +63,7 @@ public class AddTenantMemberCommand extends TenantCommand {
             throws TransactionException {
 
         User member = (User) evt.getSession().load(User.class, memberId);
-        Tenant tenant = (Tenant) evt.getSession().load(Tenant.class,
-                getTenantId());
+        Tenant tenant = fetchTenant(evt.getSession());
 
         UserIsMemberOfTenant uimof = new UserIsMemberOfTenant();
         uimof.setTenant(tenant);
