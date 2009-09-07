@@ -69,8 +69,7 @@ public class IfFieldSet {
                                                 .getVariablesOfType(
                                                         VariableType
                                                                 .getTypeFromLocalName(typeSelector
-                                                                        .getValue()
-                                                                        .getValue()))
+                                                                        .getSimpleValue()))
                                                 .getModels());
 
                         operatorList.setEnabled(true);
@@ -86,8 +85,7 @@ public class IfFieldSet {
                                                 .getVariablesOfType(
                                                         VariableType
                                                                 .getTypeFromLocalName(typeSelector
-                                                                        .getValue()
-                                                                        .getValue()))
+                                                                        .getSimpleValue()))
                                                 .getModels());
                     }
                 });

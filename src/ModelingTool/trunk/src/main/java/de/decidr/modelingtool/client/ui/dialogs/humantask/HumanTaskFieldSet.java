@@ -27,12 +27,19 @@ import de.decidr.modelingtool.client.model.variable.Variable;
  * 
  * @author Jonas Schlaak
  */
-public class HTFieldSet {
+public class HumanTaskFieldSet {
 
     private TextField<String> labelField;
     private ComboBox<Variable> variableField;
 
-    public HTFieldSet(TextField<String> labelField,
+    /**
+     * 
+     * TODO: add comment
+     * 
+     * @param labelField
+     * @param variableField
+     */
+    public HumanTaskFieldSet(TextField<String> labelField,
             ComboBox<Variable> variableField) {
         this.labelField = labelField;
         this.variableField = variableField;

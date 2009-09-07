@@ -21,10 +21,13 @@ import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 
 import de.decidr.modelingtool.client.model.variable.Variable;
+import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditor;
 import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorInvoker;
 
 /**
- * TODO: add comment
+ * Listener class for the "change value" button in the
+ * {@link EmailActivityWindow}. When the button is pressed, the
+ * {@link ValueEditor} is invoked.
  * 
  * @author Jonas Schlaak
  */
@@ -33,17 +36,25 @@ public class ChangeValueButtonListener extends SelectionListener<ButtonEvent> {
     private ComboBox<Variable> field;
 
     /**
-     * 
-     * TODO: add comment
+     * Constructs a listener. Associates the listener with the combobox next to
+     * the button so that the id of the variable whose values should be changed,
+     * can be easily accessed.
      * 
      * @param field
+     *            the combobox
      */
     public ChangeValueButtonListener(ComboBox<Variable> field) {
         super();
         this.field = field;
     }
 
-    @Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.extjs.gxt.ui.client.event.SelectionListener#componentSelected(com
+     * .extjs.gxt.ui.client.event.ComponentEvent)
+     */
     public void componentSelected(ButtonEvent ce) {
         ValueEditorInvoker.invoke(field.getValue().getId());
     }

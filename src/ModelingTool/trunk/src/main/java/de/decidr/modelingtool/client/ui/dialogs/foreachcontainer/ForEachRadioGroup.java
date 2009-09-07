@@ -90,4 +90,20 @@ public class ForEachRadioGroup extends RadioGroup {
         }
     }
 
+    /**
+     * Return true if one radio button is currently selected.
+     * 
+     * @return the result
+     */
+    public Boolean isSelected() {
+        Boolean result = false;
+        for (Radio radio : radioList) {
+            /* If one radio button value is true, that means it was selected */
+            if (radio.getValue()) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
 }

@@ -20,6 +20,7 @@ import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
@@ -35,11 +36,13 @@ import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 import de.decidr.modelingtool.client.ui.EmailInvokeNode;
-import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
+import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 
 /**
- * TODO: add comment
+ * The property window for a {@link EmailInvokeNode}. It consists of six
+ * comboboxes, each enabling to select the variable for the property. The
+ * properties are: to, cc, bcc, subject, message and attachments.
  * 
  * @author Jonas Schlaak
  */
@@ -62,19 +65,22 @@ public class EmailActivityWindow extends ModelingToolDialog {
     public EmailActivityWindow() {
         super();
         this.setLayout(new FitLayout());
-        this.setSize(400, 200);
+        this.setSize(450, 250);
         this.setResizable(true);
         createContentPanel();
         createButtons();
     }
 
+    /**
+     * Creates a {@link ContentPanel} which holds a {@link FlexTable} to which
+     * the comboboxes are added.
+     */
     private void createContentPanel() {
         contentPanel = new ContentPanel();
 
         contentPanel.setHeading(ModelingToolWidget.messages.emailActivity());
         contentPanel.setLayout(new FitLayout());
 
-        // TODO: fix layout
         table = new FlexTable();
         table.setBorderWidth(0);
         table.setWidth("100%");
@@ -86,16 +92,29 @@ public class EmailActivityWindow extends ModelingToolDialog {
         this.add(contentPanel);
     }
 
+    /**
+     * Creates the ok and cancel button.
+     */
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
         addButton(new Button(ModelingToolWidget.messages.okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
-                        // JS implement change listener
-                        changeWorkflowModel();
-                        DialogRegistry.getInstance().hideDialog(
-                                EmailActivityWindow.class.getName());
+                        /*
+                         * check if the inputs are valid. If not, display a
+                         * warning message, else change the workflow model.
+                         */
+                        if (validateInputs()) {
+                            changeWorkflowModel();
+                            DialogRegistry.getInstance().hideDialog(
+                                    EmailActivityWindow.class.getName());
+                        } else {
+                            MessageBox.alert(ModelingToolWidget.messages
+                                    .warningTitle(),
+                                    ModelingToolWidget.messages
+                                            .emailActivityWarning(), null);
+                        }
                     }
                 }));
         addButton(new Button(ModelingToolWidget.messages.cancelButton(),
@@ -108,11 +127,31 @@ public class EmailActivityWindow extends ModelingToolDialog {
                 }));
     }
 
+    /**
+     * Sets the {@link EmailInvokeNode} whose properties are to be modeled with
+     * this window.
+     * 
+     * @param node
+     *            the EmailInvokeNode
+     */
     public void setNode(EmailInvokeNode node) {
         this.node = node;
         model = (EmailInvokeNodeModel) node.getModel();
     }
 
+    private boolean validateInputs() {
+        Boolean result = false;
+        /* only the to and the subject fields are not allowed to be null. */
+        if (toField.getValue() != null && subjectField.getValue() != null) {
+            result = true;
+        }
+        return result;
+    }
+
+    /**
+     * Retrieves the values from all fields. Creates and executes a
+     * {@link ChangeNodePropertiesCommand} with the new values.
+     */
     private void changeWorkflowModel() {
         EmailInvokeNodeModel newModel = new EmailInvokeNodeModel(node
                 .getModel().getParentModel());
@@ -131,14 +170,25 @@ public class EmailActivityWindow extends ModelingToolDialog {
             newModel
                     .setAttachmentVariableId(attachmentField.getValue().getId());
         }
-        newModel.getProperties();
         CommandStack.getInstance()
                 .executeCommand(
                         new ChangeNodePropertiesCommand(node, newModel
                                 .getProperties()));
-
     }
 
+    /**
+     * Adds a combobox to the window's table. The combobox is initialized which
+     * the value from the workflow model.
+     * 
+     * @param field
+     *            the combobox to be added
+     * @param label
+     *            the label of the combobox
+     * @param type
+     *            the variable type of the variables that the combobox displays
+     * @param variableId
+     *            the id of the variable to which the combobox is set to
+     */
     private void addComboField(ComboBox<Variable> field, String label,
             VariableType type, Long variableId) {
         field.setDisplayField(Variable.LABEL);
@@ -154,6 +204,9 @@ public class EmailActivityWindow extends ModelingToolDialog {
                 new ChangeValueButtonListener(field)));
     }
 
+    /**
+     * Creates the comboboxes and adds them to the window's table.
+     */
     private void createFields() {
         toField = new ComboBox<Variable>();
         addComboField(toField, ModelingToolWidget.messages.toFieldLabel(),
@@ -178,6 +231,10 @@ public class EmailActivityWindow extends ModelingToolDialog {
                 .getAttachmentVariableId());
     }
 
+    /**
+     * Removes the comboboxes from the table so that they can be readded on the
+     * next call of the EmailActivityWindow.
+     */
     private void clearAllEntries() {
         if (table.getRowCount() > 0) {
             int start = table.getRowCount();
@@ -187,19 +244,35 @@ public class EmailActivityWindow extends ModelingToolDialog {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#initialize()
+     */
     @Override
     public void initialize() {
         createFields();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#reset()
+     */
     @Override
     public void reset() {
         clearAllEntries();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#refresh()
+     */
     @Override
     public void refresh() {
-        // TODO Auto-generated method stub
 
     }
 }

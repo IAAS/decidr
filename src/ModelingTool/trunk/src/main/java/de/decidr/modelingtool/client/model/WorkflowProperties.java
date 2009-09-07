@@ -31,6 +31,10 @@ public class WorkflowProperties {
 
     private NodePropertyData properties;
 
+    public WorkflowProperties() {
+        properties = new NodePropertyData();
+    }
+
     public Long getRecipientVariableId() {
         return properties.get(recipientFieldName);
     }

@@ -61,6 +61,8 @@ public interface Messages extends Constants {
 
     String changeValueButton();
 
+    String emailActivityWarning();
+
     /* Human task */
     String humanTaskActivity();
 
@@ -94,6 +96,8 @@ public interface Messages extends Constants {
     String xorConLabel();
 
     String parallelLabel();
+
+    String flowContainerWarning();
 
     /* If container */
     String ifContainer();

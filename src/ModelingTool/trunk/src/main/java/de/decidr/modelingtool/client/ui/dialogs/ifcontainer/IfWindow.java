@@ -101,7 +101,6 @@ public class IfWindow extends ModelingToolDialog {
                                             .conditionOrderWarning(), null);
                         }
                     }
-
                 }));
         addButton(new Button(ModelingToolWidget.messages.cancelButton(),
                 new SelectionListener<ButtonEvent>() {
