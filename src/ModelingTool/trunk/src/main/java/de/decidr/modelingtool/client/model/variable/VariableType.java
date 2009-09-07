@@ -21,7 +21,9 @@ import de.decidr.modelingtool.client.io.resources.DWDLNames;
 import de.decidr.modelingtool.client.ui.resources.DateFormatter;
 
 /**
- * TODO: add comment
+ * This enumeration class holds all types that a {@link Variable} can have. It
+ * also holds some additional informations such as the localized name of the
+ * variable type or the default value
  * 
  * @author Jonas Schlaak
  */
@@ -45,11 +47,19 @@ public enum VariableType {
             null);
 
     private final String dwdlName;
-
     private final String localName;
-
     private final String defaultValue;
 
+    /**
+     * Constructor of a variable type.
+     * 
+     * @param dwdlName
+     *            the dwdl name of the variable type
+     * @param localName
+     *            the localized name of the variable type
+     * @param defaultValue
+     *            the default value each variable of the type has
+     */
     private VariableType(String dwdlName, String localName, String defaultValue) {
         this.dwdlName = dwdlName;
         this.localName = localName;
@@ -57,7 +67,6 @@ public enum VariableType {
     }
 
     /**
-     * 
      * This method returns the dwdl name the variable type has according to the
      * dwdl structure document.
      * 
@@ -68,7 +77,6 @@ public enum VariableType {
     }
 
     /**
-     * 
      * This methods returns the localized name of the variable type (e.g.
      * "Datei" for "File") in a proper format (i.e. no caps).
      * 
@@ -79,7 +87,6 @@ public enum VariableType {
     }
 
     /**
-     * 
      * This method return a reasonable (i.e. valid format) value for that type
      * of variable.
      * 
@@ -89,6 +96,13 @@ public enum VariableType {
         return defaultValue;
     }
 
+    /**
+     * Returns the variable type to a given localized name of a variable type
+     * 
+     * @param localName
+     *            the localized name
+     * @return the variable type
+     */
     public static VariableType getTypeFromLocalName(String localName) {
         VariableType result = null;
         for (VariableType t : VariableType.values()) {

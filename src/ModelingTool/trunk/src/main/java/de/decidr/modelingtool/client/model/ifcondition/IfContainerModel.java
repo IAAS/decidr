@@ -23,30 +23,37 @@ import de.decidr.modelingtool.client.model.ConnectionModel;
 import de.decidr.modelingtool.client.model.ContainerModel;
 import de.decidr.modelingtool.client.model.HasChildModels;
 import de.decidr.modelingtool.client.model.NodePropertyData;
+import de.decidr.modelingtool.client.ui.IfContainer;
 
 /**
- * TODO: add comment
+ * This class holds all properties of a {@link IfContainer}.
  * 
- * @author Johannes Engelhardt
+ * @author Johannes Engelhardt, Jonas Schlaak
  */
 public class IfContainerModel extends ContainerModel {
 
-    public IfContainerModel() {
-        super();
-    }
-
     /**
-     * TODO: add comment
+     * Default constructor. No properties are set by default.
      * 
      * @param parentModel
+     *            the model of the parent node
      */
     public IfContainerModel(HasChildModels parentModel) {
         super(parentModel);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.decidr.modelingtool.client.model.NodeModel#getProperties()
+     */
     @Override
     public NodePropertyData getProperties() {
         NodePropertyData result = new NodePropertyData();
+        /*
+         * Check every connection model in the container. Only connection models
+         * which are containers are model data.
+         */
         for (ConnectionModel connectionModel : getChildConnectionModels()) {
             if (connectionModel instanceof Condition) {
                 Condition con = (Condition) connectionModel;
@@ -56,6 +63,13 @@ public class IfContainerModel extends ContainerModel {
         return result;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.modelingtool.client.model.NodeModel#setProperties(de.decidr
+     * .modelingtool.client.model.NodePropertyData)
+     */
     @Override
     public void setProperties(NodePropertyData properties) {
         /* remove old objects */
@@ -64,15 +78,27 @@ public class IfContainerModel extends ContainerModel {
                 getChildConnectionModels().remove(con);
             }
         }
-        for (Object ob : properties.getValues()) {
-            getChildConnectionModels().add((Condition) ob);
+        for (Object value : properties.getValues()) {
+            getChildConnectionModels().add((Condition) value);
         }
     }
 
-    public void addCondition(Condition con) {
-        getChildConnectionModels().add(con);
+    /**
+     * Adds a {@link Condition} the the child connection models of this
+     * container.
+     * 
+     * @param condition
+     *            the condition to add
+     */
+    public void addCondition(Condition condition) {
+        getChildConnectionModels().add(condition);
     }
 
+    /**
+     * Returns all conditions of this model.
+     * 
+     * @return the conditions
+     */
     public List<Condition> getConditions() {
         List<Condition> result = new ArrayList<Condition>();
         for (ConnectionModel con : getChildConnectionModels()) {

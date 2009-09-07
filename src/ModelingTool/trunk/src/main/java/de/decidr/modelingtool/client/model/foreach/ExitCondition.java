@@ -20,7 +20,7 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.ui.dialogs.foreachcontainer.ForEachWindow;
 
 /**
- * This enumaration type holds all possible exit condition types a for each
+ * This enumeration type holds all possible exit condition types a for each
  * container can have.
  * 
  * @author Jonas Schlaak
@@ -33,8 +33,7 @@ public enum ExitCondition {
     private String label;
 
     /**
-     * 
-     * Default constructor of an enumeration type
+     * Default constructor of an exit condition
      * 
      * @param label
      *            the label of the radio button

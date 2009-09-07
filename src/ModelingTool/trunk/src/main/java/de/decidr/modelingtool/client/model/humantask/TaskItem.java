@@ -29,6 +29,15 @@ public class TaskItem {
     private String label = null;
     private Long variableId = null;
 
+    /**
+     * Constructor for a tak item with a given label and the id of a
+     * {@link Variable}.
+     * 
+     * @param label
+     *            the label of the task item
+     * @param variableId
+     *            the id of the variable
+     */
     public TaskItem(String label, Long variableId) {
         this.label = label;
         this.variableId = variableId;

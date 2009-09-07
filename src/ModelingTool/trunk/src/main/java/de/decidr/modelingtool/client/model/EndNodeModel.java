@@ -16,25 +16,24 @@
 
 package de.decidr.modelingtool.client.model;
 
+import de.decidr.modelingtool.client.ui.EndNode;
+import de.decidr.modelingtool.client.ui.InputPort;
+import de.decidr.modelingtool.client.ui.OutputPort;
+
 /**
- * TODO: add comment
- *
+ * This class is the model of a {@link EndNode}. The node has no model data (aka
+ * {@link NodePropertyData}), only an {@link OutputPort} and no
+ * {@link InputPort}.
+ * 
  * @author Johannes Engelhardt
  */
 public class EndNodeModel extends NodeModel {
 
     /**
-     * TODO: add comment
-     *
-     */
-    public EndNodeModel() {
-        super();
-    }
-
-    /**
-     * TODO: add comment
-     *
+     * Default constructor. No properties are set by default.
+     * 
      * @param parentModel
+     *            the model of the parent node
      */
     public EndNodeModel(HasChildModels parentModel) {
         super(parentModel);

@@ -44,6 +44,10 @@ public class Variable extends BaseModelData {
     /**
      * Creates a new non-configuration variable. The type is string. The new
      * variable has one empty string has single value.
+     * 
+     * WARNING: because the id of a variable is actually the current timestamp
+     * of when this constructor is called, it is advised to use this constructor
+     * cautiously in order to prevent that two variables share the same id.
      */
     public Variable() {
         super();

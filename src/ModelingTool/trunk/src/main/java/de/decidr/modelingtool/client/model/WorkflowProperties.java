@@ -24,40 +24,42 @@ package de.decidr.modelingtool.client.model;
  */
 public class WorkflowProperties {
 
-    private Long recipientVariableId = null;
-    private Long faultMessageVariableId = null;
-    private Long successMessageVariableId = null;
-    private Boolean notifyOnSuccess = false;
+    private final String recipientFieldName = "recipient";
+    private final String faultMessageFieldName = "faultMessage";
+    private final String successMessageFieldName = "successMessage";
+    private final String notifyOnSuccessFieldName = "notify";
+
+    private NodePropertyData properties;
 
     public Long getRecipientVariableId() {
-        return recipientVariableId;
+        return properties.get(recipientFieldName);
     }
 
     public Long getFaultMessageVariableId() {
-        return faultMessageVariableId;
+        return properties.get(faultMessageFieldName);
     }
 
     public Long getSuccessMessageVariableId() {
-        return successMessageVariableId;
+        return properties.get(successMessageFieldName);
     }
 
     public Boolean getNotifyOnSuccess() {
-        return notifyOnSuccess;
+        return properties.get(notifyOnSuccessFieldName);
     }
 
     public void setRecipientVariableId(Long recipientVariableId) {
-        this.recipientVariableId = recipientVariableId;
+        this.properties.set(recipientFieldName, recipientVariableId);
     }
 
     public void setFaultMessageVariableId(Long faultMessageVariableId) {
-        this.faultMessageVariableId = faultMessageVariableId;
+        this.properties.set(faultMessageFieldName, faultMessageVariableId);
     }
 
     public void setSuccessMessageVariableId(Long successMessageVariableId) {
-        this.successMessageVariableId = successMessageVariableId;
+        this.properties.set(successMessageFieldName, successMessageVariableId);
     }
 
     public void setNotifyOnSuccess(Boolean notifyOnSuccess) {
-        this.notifyOnSuccess = notifyOnSuccess;
+        this.properties.set(notifyOnSuccessFieldName, notifyOnSuccess);
     }
 }

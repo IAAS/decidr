@@ -24,7 +24,7 @@ import de.decidr.modelingtool.client.ui.ModelChangeListener;
  * This abstract model provides basic functionality of all models; id, name,
  * description, change listener.
  * 
- * @author Johannes Engelhardt
+ * @author Johannes Engelhardt, Jonas Schlaak
  */
 public abstract class AbstractModel implements Model {
 

@@ -21,7 +21,7 @@ import de.decidr.modelingtool.client.ui.Node;
 /**
  * TODO: add comment
  * 
- * @author Johannes Engelhardt
+ * @author Johannes Engelhardt, Jonas Schlaak
  */
 public class NodeModel extends AbstractModel {
 
@@ -87,10 +87,22 @@ public class NodeModel extends AbstractModel {
         return output;
     }
 
+    /**
+     * 
+     * TODO: add comment
+     * 
+     * @return
+     */
     public HasChildModels getParentModel() {
         return parentModel;
     }
 
+    /**
+     * 
+     * TODO: add comment
+     * 
+     * @return
+     */
     public NodePropertyData getProperties() {
         return this.properties;
     }

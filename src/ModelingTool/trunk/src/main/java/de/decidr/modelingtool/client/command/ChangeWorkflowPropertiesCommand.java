@@ -24,7 +24,7 @@ import de.decidr.modelingtool.client.ui.dialogs.workflow.WorkflowPropertyWindow;
 /**
  * This command changes the properties of a {@link WorkflowModel}. The
  * properties are changed by the {@link WorkflowPropertyWindow}. The command
- * gets the workflow model by accessing the {@link Workflow} singelton instance.
+ * gets the workflow model by accessing the {@link Workflow} singleton instance.
  * 
  * @author Jonas Schlaak
  */

@@ -16,8 +16,10 @@
 
 package de.decidr.modelingtool.client.model;
 
+import de.decidr.modelingtool.client.ui.EmailInvokeNode;
+
 /**
- * TODO: add comment
+ * This class holds all properties of a {@link EmailInvokeNode}.
  * 
  * @author Johannes Engelhardt, Jonas Schlaak
  */
@@ -31,9 +33,10 @@ public class EmailInvokeNodeModel extends InvokeNodeModel {
     private final String attachmentFieldName = "attachment";
 
     /**
-     * TODO: add comment
+     * Default constructor. No properties are set by default.
      * 
      * @param parentModel
+     *            the model of the parent node
      */
     public EmailInvokeNodeModel(HasChildModels parentModel) {
         super(parentModel);

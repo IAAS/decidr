@@ -24,7 +24,6 @@ import de.decidr.modelingtool.client.model.InvokeNodeModel;
 /**
  * This class holds all properties of a {@link HumanTaskInvokeNodeModel}.
  * 
- * 
  * @author Johannes Engelhardt, Jonas Schlaak
  */
 public class HumanTaskInvokeNodeModel extends InvokeNodeModel {

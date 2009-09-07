@@ -50,7 +50,7 @@ public class Condition extends ContainerStartConnectionModel {
     }
 
     /**
-     * Creates a condition with with defined values.
+     * Creates a condition with defined values.
      * 
      * @param name
      *            the name of the condition

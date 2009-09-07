@@ -20,9 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.decidr.modelingtool.client.model.variable.VariableType;
+import de.decidr.modelingtool.client.ui.dialogs.ifcontainer.IfWindow;
 
 /**
- * TODO: add comment
+ * This enumeration type holds all operator types and their properties.
+ * Operators are used in {@link Condition} as part of the condition statement.
+ * This class also holds some additional information about the operator, for
+ * example, to which variable types the operator can be applied to.
  * 
  * @author Jonas Schlaak
  */
@@ -43,11 +47,26 @@ public enum Operator {
     private String displayString;
     private VariableType[] types;
 
+    /**
+     * Default constructor of an operator
+     * 
+     * @param displayString
+     *            the string representation of the operator which is displayed
+     *            in a combobox of {@link IfWindow}.
+     * @param types
+     *            the variable types to which the operator can be applied to
+     */
     private Operator(String displayString, VariableType... types) {
         this.displayString = displayString;
         this.types = types;
     }
 
+    /**
+     * Returns a ("mathematical") string representation of the operator. Useful
+     * for identifying an operator in a combobox.
+     * 
+     * @return the display string
+     */
     public String getDisplayString() {
         return displayString;
     }
@@ -70,6 +89,11 @@ public enum Operator {
         return result;
     }
 
+    /**
+     * Returns an array of variables type to which this operator can be applied.
+     * 
+     * @return the variable types
+     */
     public VariableType[] getTypes() {
         return types;
     }
@@ -92,6 +116,13 @@ public enum Operator {
         return list;
     }
 
+    /**
+     * Checks whether this operator can be applied to a given variable type.
+     * 
+     * @param type
+     *            the type to be checked against
+     * @return the result
+     */
     private boolean isApplicableToType(VariableType type) {
         boolean result = false;
         for (VariableType t : types) {

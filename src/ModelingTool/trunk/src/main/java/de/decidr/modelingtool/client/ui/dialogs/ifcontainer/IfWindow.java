@@ -138,7 +138,8 @@ public class IfWindow extends ModelingToolDialog {
     }
 
     private void changeWorkflowModel() {
-        IfContainerModel newModel = new IfContainerModel();
+        IfContainerModel newModel = new IfContainerModel(node.getModel()
+                .getParentModel());
         for (IfFieldSet fs : fieldsets) {
             String label = fs.getLabel().getText();
             Long operand1Id = fs.getLeftOperandField().getValue().getId();

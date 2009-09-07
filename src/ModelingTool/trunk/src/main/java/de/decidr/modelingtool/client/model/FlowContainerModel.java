@@ -18,18 +18,14 @@ package de.decidr.modelingtool.client.model;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author Johannes Engelhardt
  */
 public class FlowContainerModel extends ContainerModel {
 
-    public FlowContainerModel() {
-        super();
-    }
-    
     /**
      * TODO: add comment
-     *
+     * 
      * @param parentModel
      */
     public FlowContainerModel(HasChildModels parentModel) {

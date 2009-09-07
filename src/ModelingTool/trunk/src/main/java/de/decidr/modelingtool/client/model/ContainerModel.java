@@ -45,7 +45,9 @@ public class ContainerModel extends NodeModel implements HasChildModels {
 
     /**
      * Constructor with given parent model.
-     * @param parentModel The parent model of this.
+     * 
+     * @param parentModel
+     *            The parent model of this.
      */
     public ContainerModel(HasChildModels parentModel) {
         super(parentModel);

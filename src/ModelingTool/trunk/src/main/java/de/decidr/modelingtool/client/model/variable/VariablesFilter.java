@@ -18,15 +18,39 @@ package de.decidr.modelingtool.client.model.variable;
 
 import com.extjs.gxt.ui.client.store.ListStore;
 
+import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
- * TODO: add comment
+ * This class provides some methods to filter the variables of a
+ * {@link WorkflowModel}.
  * 
  * @author Jonas Schlaak
  */
 public class VariablesFilter {
 
+    /**
+     * Return a {@link ListStore} of all variables of the {@link WorkflowModel}.
+     * The returned variables are copies, not references.
+     * 
+     * @return the variables of the workflow model
+     */
+    public static ListStore<Variable> getAllVariables() {
+        ListStore<Variable> result = new ListStore<Variable>();
+        for (Variable var : Workflow.getInstance().getModel().getVariables()) {
+            result.add(var.copy());
+        }
+        return result;
+    }
+
+    /**
+     * Returns all variables of the given type. The returned variables are
+     * copies, not references.
+     * 
+     * @param type
+     *            the type of variables to be return
+     * @return the variables that have the given type
+     */
     public static ListStore<Variable> getVariablesOfType(VariableType type) {
         ListStore<Variable> result = new ListStore<Variable>();
         for (Variable var : Workflow.getInstance().getModel().getVariables()) {
@@ -37,14 +61,13 @@ public class VariablesFilter {
         return result;
     }
 
-    public static ListStore<Variable> getAllVariables() {
-        ListStore<Variable> result = new ListStore<Variable>();
-        for (Variable var : Workflow.getInstance().getModel().getVariables()) {
-            result.add(var.copy());
-        }
-        return result;
-    }
-
+    /**
+     * Returns the variable that has the given id. Variable id a reference.
+     * 
+     * @param id
+     *            the id
+     * @return the variable
+     */
     public static Variable getVariableById(Long id) {
         Variable result = null;
         for (Variable var : Workflow.getInstance().getModel().getVariables()) {

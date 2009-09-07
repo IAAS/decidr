@@ -16,33 +16,32 @@
 
 package de.decidr.modelingtool.client.model;
 
+import de.decidr.modelingtool.client.ui.InputPort;
+import de.decidr.modelingtool.client.ui.OutputPort;
+import de.decidr.modelingtool.client.ui.StartNode;
+
 /**
- * TODO: add comment
- *
+ * This class is the model of a {@link StartNode}. The node has no model data
+ * (aka {@link NodePropertyData}), only an {@link InputPort} and no
+ * {@link OutputPort}.
+ * 
  * @author Johannes Engelhardt
  */
 public class StartNodeModel extends NodeModel {
 
     /**
-     * TODO: add comment
-     *
+     * Default constructor. No properties are set by default.
+     * 
      * @param parentModel
+     *            the model of the parent node
      */
     public StartNodeModel(HasChildModels parentModel) {
         super(parentModel);
     }
 
-    /**
-     * TODO: add comment
-     *
-     */
-    public StartNodeModel() {
-        super();
-    }
-
     @Override
     public ConnectionModel getInput() {
         return null;
-    } 
+    }
 
 }

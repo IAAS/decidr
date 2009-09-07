@@ -23,14 +23,22 @@ import java.util.List;
 
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.ui.HasChildren;
+import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
- * TODO: add comment
+ * The model class for {@link Workflow}. The model data is stored separately in
+ * a propertied class, {@link WorkflowProperties}.
  * 
  * @author Jonas Schlaak
  */
 public class WorkflowModel extends AbstractModel implements HasChildModels {
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @seede.decidr.modelingtool.client.model.HasChildModels#
+     * getHasChildrenChangeListener()
+     */
     @Override
     public HasChildren getHasChildrenChangeListener() {
         if (changeListener instanceof HasChildren) {
@@ -41,12 +49,15 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
     }
 
     private Collection<NodeModel> childNodeModels = new HashSet<NodeModel>();
-
     private Collection<ConnectionModel> childConnectionModels = new HashSet<ConnectionModel>();
 
     private WorkflowProperties properties;
     private List<Variable> variables;
 
+    /**
+     * Constructs a new workflow model. Initializes the variables list and the
+     * properties container.
+     */
     public WorkflowModel() {
         properties = new WorkflowProperties();
         variables = new ArrayList<Variable>();
@@ -82,18 +93,40 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
         childNodeModels.remove(model);
     }
 
+    /**
+     * Return a list of all variables of this workflow model.
+     * 
+     * @return the variables
+     */
     public List<Variable> getVariables() {
         return variables;
     }
 
+    /**
+     * Returns the container for the properties of this workflow
+     * 
+     * @return the properties
+     */
     public WorkflowProperties getProperties() {
         return properties;
     }
 
+    /**
+     * Sets the variables of this workflow
+     * 
+     * @param variables
+     *            the variables
+     */
     public void setVariables(List<Variable> variables) {
         this.variables = variables;
     }
 
+    /**
+     * Sets the proerties continer for this workflow
+     * 
+     * @param properties
+     *            the properties container
+     */
     public void setProperties(WorkflowProperties properties) {
         this.properties = properties;
     }
