@@ -16,46 +16,64 @@
 
 package de.decidr.model.acl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
 /**
- * @author Reinhold Rumberger
+ * @author Reinhold
  * @version 0.1
  */
 public class PasswordTest {
 
     /**
-     * Test method for {@link de.decidr.model.acl.Password#getHash(java.lang.String, java.lang.String)}.
+     * Test method for {@link Password#getHash(String, String)}.
      */
     @Test
     public void testGetHash() {
-        fail("Not yet implemented"); // RR
+        // <Password, Salt> mappings
+        final Map<String, String> testPWDs = new HashMap<String, String>();
+        testPWDs.put("", "");
+
+        fail("Not yet implemented"); // RR getHash
+    }
+
+    private String hashHelper(String string) throws NoSuchAlgorithmException {
+        String result = null;
+
+        MessageDigest digest= MessageDigest.getInstance(Password.getHashAlgorithm());
+        digest.reset();
+//        result=digest.
+        
+        return result;
     }
 
     /**
-     * Test method for {@link de.decidr.model.acl.Password#getRandomAuthKey()}.
+     * Test method for {@link Password#getRandomAuthKey()}.
      */
     @Test
     public void testGetRandomAuthKey() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR getRandomAuthKey
     }
 
     /**
-     * Test method for {@link de.decidr.model.acl.Password#getRandomSalt()}.
+     * Test method for {@link Password#getRandomSalt()}.
      */
     @Test
     public void testGetRandomSalt() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR getRandomSalt
     }
 
     /**
-     * Test method for {@link de.decidr.model.acl.Password#generateRandomPassword()}.
+     * Test method for {@link Password#generateRandomPassword()}.
      */
     @Test
     public void testGenerateRandomPassword() {
-        fail("Not yet implemented"); // RR
+        fail("Not yet implemented"); // RR generateRandomPassword
     }
-
 }

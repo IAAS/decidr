@@ -19,7 +19,7 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Updates the server load of a given server at the database. If the server does
+ * Updates the server load of a given server in the database. If the server does
  * not exist no exeption is thrown.
  * 
  * @author Markus Fischer
@@ -33,13 +33,13 @@ public class UpdateServerLoadCommand extends SystemCommand {
     private byte load;
 
     /**
-     * Updates the server load of a given server at the database. If given
+     * Updates the server load of a given server in the database. If given
      * server does not exist no exception is thrown.
      * 
      * @param role
      *            the user/system that is executing the command
      * @param serverid
-     *            the id of the server to update
+     *            the ID of the server to update
      * @param load
      *            the new load
      */

@@ -35,17 +35,18 @@ public class Password {
      * necessary. Changing the algorithm will render all users unable to log
      * into the system until they reset their passwords.
      */
+    // DH do you mind if I implement a package private getter for this field? I
+    // need some way to access this to write a proper test case. (see below) ~rr
     private static final String hashAlgorithm = "SHA-512";
 
+    // DH java uses UTF-16 for strings - are you sure this is correct? ~rr
     private static final String charset = "UTF-8";
 
     /**
      * Character table used to create a hex string from a byte array.
      */
-    private static final byte[] hexCharTable = { (byte) '0', (byte) '1',
-            (byte) '2', (byte) '3', (byte) '4', (byte) '5', (byte) '6',
-            (byte) '7', (byte) '8', (byte) '9', (byte) 'a', (byte) 'b',
-            (byte) 'c', (byte) 'd', (byte) 'e', (byte) 'f' };
+    private static final byte[] hexCharTable = { '0', '1', '2', '3', '4', '5',
+            '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
     /**
      * Character table used to create an authentication key from a byte array.
@@ -54,6 +55,13 @@ public class Password {
             '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
             'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
             'v', 'w', 'x', 'y', 'z' };
+
+    /**
+     * Needed for testing purposes. Returns <code>{@link #hashAlgorithm}</code>.
+     */
+    static final String getHashAlgorithm() {
+        return hashAlgorithm;
+    }
 
     /**
      * Returns a lowercase hex string representing the given raw byte array.
@@ -65,8 +73,8 @@ public class Password {
      *             if the system doesn't support the ASCII encoding (should
      *             never happen)
      */
-    private static String getHexString(byte[] raw)
-            throws UnsupportedEncodingException {
+    // DH I made this package private to ease testing
+    static String getHexString(byte[] raw) throws UnsupportedEncodingException {
         byte[] hex = new byte[2 * raw.length];
         int index = 0;
 
@@ -87,10 +95,16 @@ public class Password {
      * @return alphanumeric string
      */
     private static String getAlnumString(byte[] raw) {
+        // DH why not simply
+        // "return new String(raw).replaceAll("\\W|_", "0").toLowerCase();"
+        // (replaces all non-alnum characters with a 0 and then lower-cases
+        // what's left)? ~rr
         StringBuffer buf = new StringBuffer(raw.length);
 
         for (byte b : raw) {
-            int positive = b + Byte.MAX_VALUE + 1;
+            // DH was macht diese Zeile? (mit der 2 kommt wenigstens bei a-z das
+            // selbe raus) ~rr
+            int positive = b + Byte.MAX_VALUE + 2;
             buf.append(alnumCharTable[positive % alnumCharTable.length]);
         }
 
@@ -99,9 +113,12 @@ public class Password {
 
     /**
      * Returns a hash string of the given plaintext password using the given
-     * salt, using the following algorithm:
-     * 
-     * hash := SHA512( SHA512( plaintext * salt ) )
+     * salt, using the following algorithm (where <code><em>ALG</em></code>
+     * represents the hashing algorithm specified by
+     * <code>{@link Password#hashAlgorithm}</code>):<br>
+     * <br>
+     * <code>hash := <em>ALG</em>( <em>ALG</em>( plaintext * salt ) )</code><br>
+     * XXX: define the "String * String" operation.
      * 
      * @param plaintext
      *            the plaintext password
@@ -110,7 +127,8 @@ public class Password {
      *            representation.
      * @return the password hash in lowercase hex string representation
      * @throws NoSuchAlgorithmException
-     *             iff the hashing algorithm SHA-512 is not available
+     *             iff the hashing algorithm specified by
+     *             <code>{@link Password#hashAlgorithm}</code> is not available
      * @throws UnsupportedEncodingException
      *             iff the encodings UTF-8 or ASCII are not supported
      */
@@ -125,6 +143,9 @@ public class Password {
 
         byte[] result = digest.digest(plaintext.getBytes(Password.charset));
 
+        // DH FYI: hashing multiple times doesn't increase security
+        // significantly
+        // ~rr
         /*
          * result now contains the salted hash of the password. For additional
          * security, it is hashed again.
@@ -184,16 +205,16 @@ public class Password {
     public static String generateRandomPassword() {
         int newPasswordLength = 12;
         Random rnd = new Random();
-        
+
         StringBuffer buf = new StringBuffer(newPasswordLength);
-        for (int i=0; i < newPasswordLength; i++) {
+        for (int i = 0; i < newPasswordLength; i++) {
             char c = alnumCharTable[rnd.nextInt(alnumCharTable.length)];
             if (rnd.nextBoolean()) {
                 c = Character.toUpperCase(c);
             }
             buf.append(c);
         }
-        
+
         return buf.toString();
     }
 

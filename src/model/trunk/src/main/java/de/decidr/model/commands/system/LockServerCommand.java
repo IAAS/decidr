@@ -36,9 +36,9 @@ public class LockServerCommand extends SystemCommand {
      * If server does not exist, no exception is thrown.
      * 
      * @param role
-     *            user, who wants to execute the command
+     *            user who wants to execute the command
      * @param serverId
-     *            id of server to unlock
+     *            ID of server to unlock
      * @param lock
      *            whether the server should be locked. If false, the server is
      *            unlocked.

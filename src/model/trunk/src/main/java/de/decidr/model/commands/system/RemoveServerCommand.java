@@ -38,7 +38,7 @@ public class RemoveServerCommand extends SystemCommand {
      * server doesn't exist no exception is thrown.
      * 
      * @param role
-     *            the user/system which executes the command
+     *            the user/system that executes the command
      * @param serverId
      *            the id of the server to remove from the database
      */
