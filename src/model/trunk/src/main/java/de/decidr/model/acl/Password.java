@@ -45,8 +45,11 @@ public class Password {
     /**
      * Character table used to create a hex string from a byte array.
      */
-    private static final byte[] hexCharTable = { '0', '1', '2', '3', '4', '5',
-            '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+    // DH Sollte auch ohne casts gehn. ~rr
+    private static final byte[] hexCharTable = { (byte) '0', (byte) '1',
+            (byte) '2', (byte) '3', (byte) '4', (byte) '5', (byte) '6',
+            (byte) '7', (byte) '8', (byte) '9', (byte) 'a', (byte) 'b',
+            (byte) 'c', (byte) 'd', (byte) 'e', (byte) 'f' };
 
     /**
      * Character table used to create an authentication key from a byte array.
@@ -130,7 +133,8 @@ public class Password {
      *             iff the hashing algorithm specified by
      *             <code>{@link Password#hashAlgorithm}</code> is not available
      * @throws UnsupportedEncodingException
-     *             iff the encodings UTF-8 or ASCII are not supported
+     *             iff the encodings UTF-8 or ASCII are not supported<br>
+     *             XXX shouldn't this be wrapped inside a RuntimeException? ~rr
      */
     public static String getHash(String plaintext, String salt)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -144,8 +148,7 @@ public class Password {
         byte[] result = digest.digest(plaintext.getBytes(Password.charset));
 
         // DH FYI: hashing multiple times doesn't increase security
-        // significantly
-        // ~rr
+        // significantly ~rr
         /*
          * result now contains the salted hash of the password. For additional
          * security, it is hashed again.
@@ -175,7 +178,7 @@ public class Password {
         digest.reset();
         byte[] randomBytes = digest.digest(uuid.toString().getBytes(charset));
 
-        /**
+        /*
          * randomBytes now contains 64 random bytes
          */
         return getAlnumString(randomBytes);
@@ -198,7 +201,8 @@ public class Password {
     }
 
     /**
-     * Creates a random password string consisting of alphanumerical characters.
+     * Creates a random password string consisting of alphanumerical characters.<br>
+     * XXX how long will it be? Upper vs. lower case? Variable vs. fixed length?
      * 
      * @return a randomly generated password
      */
@@ -217,5 +221,4 @@ public class Password {
 
         return buf.toString();
     }
-
 }
