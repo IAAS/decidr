@@ -24,6 +24,7 @@ import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.event.ToolBarEvent;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.CheckBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
@@ -46,6 +47,7 @@ import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
+import de.decidr.modelingtool.client.ui.dialogs.email.EmailActivityWindow;
 
 /**
  * The property window for a {@link HumanTaskInvokeNode}. It consists of
@@ -186,10 +188,20 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
-                        // JS implement change listener, validate inputs
-                        changeWorkflowModel();
-                        DialogRegistry.getInstance().hideDialog(
-                                HumanTaskActivityWindow.class.getName());
+                        /*
+                         * check if the inputs are valid. If not, display a
+                         * warning message, else change the workflow model.
+                         */
+                        if (validateInputs()) {
+                            changeWorkflowModel();
+                            DialogRegistry.getInstance().hideDialog(
+                                    EmailActivityWindow.class.getName());
+                        } else {
+                            MessageBox.alert(ModelingToolWidget.messages
+                                    .warningTitle(),
+                                    ModelingToolWidget.messages
+                                            .humanTaskActivityWarning(), null);
+                        }
                     }
                 }));
         addButton(new Button(ModelingToolWidget.messages.cancelButton(),
@@ -200,6 +212,15 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
                                 HumanTaskActivityWindow.class.getName());
                     }
                 }));
+    }
+
+    private boolean validateInputs() {
+        Boolean result = false;
+        if (userField.getValue() != null && nameField != null
+                && descriptionField != null && formContainerField != null) {
+            result = true;
+        }
+        return result;
     }
 
     /**
@@ -234,11 +255,12 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
             taskItems.add(item);
         }
         newModel.setTaskItems(taskItems);
-        // JS check if changed
-        CommandStack.getInstance()
-                .executeCommand(
-                        new ChangeNodePropertiesCommand(node, newModel
-                                .getProperties()));
+        /* only push to command stack if changes where made */
+        if (newModel.getProperties().equals(model.getProperties()) == false) {
+            CommandStack.getInstance().executeCommand(
+                    new ChangeNodePropertiesCommand(node, newModel
+                            .getProperties()));
+        }
     }
 
     private void createFields() {

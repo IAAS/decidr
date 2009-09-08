@@ -170,10 +170,12 @@ public class EmailActivityWindow extends ModelingToolDialog {
             newModel
                     .setAttachmentVariableId(attachmentField.getValue().getId());
         }
-        CommandStack.getInstance()
-                .executeCommand(
-                        new ChangeNodePropertiesCommand(node, newModel
-                                .getProperties()));
+        /* only push to command stack if changes where made */
+        if (newModel.getProperties().equals(model.getProperties()) == false) {
+            CommandStack.getInstance().executeCommand(
+                    new ChangeNodePropertiesCommand(node, newModel
+                            .getProperties()));
+        }
     }
 
     /**

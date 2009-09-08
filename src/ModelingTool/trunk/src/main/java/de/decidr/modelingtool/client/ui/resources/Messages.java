@@ -84,6 +84,8 @@ public interface Messages extends Constants {
 
     String workItemOutputVar();
 
+    String humanTaskActivityWarning();
+
     /* For Each container */
     String forEachContainer();
 

@@ -73,4 +73,43 @@ public class NodePropertyData {
         return properties.values();
     }
 
+    /**
+     * Compares another container to this container and checks whether they are
+     * equal or not. They are equal if they have the exact same keys the exact
+     * same values associated with the keys.
+     * 
+     * @param container
+     *            the container to which this container is compared to
+     * @return
+     */
+    public Boolean equals(NodePropertyData container) {
+        Boolean result = true;
+
+        /* Compare key set sizes */
+        if (this.properties.keySet().size() != container.properties.keySet()
+                .size()) {
+            result = false;
+        }
+
+        /*
+         * Check if one set contains all the keys of the other set, only branch
+         * if result is still true
+         */
+        if (result
+                && this.properties.keySet().containsAll(
+                        container.properties.keySet()) == false) {
+            result = false;
+        }
+
+        /* Check the values for each key, only branch if result is still true */
+        if (result) {
+            for (String key : this.properties.keySet()) {
+                if (this.properties.get(key) != container.properties.get(key)) {
+                    result = false;
+                }
+            }
+        }
+
+        return result;
+    }
 }

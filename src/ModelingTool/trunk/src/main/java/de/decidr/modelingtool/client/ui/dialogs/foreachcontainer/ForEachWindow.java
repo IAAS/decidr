@@ -140,6 +140,7 @@ public class ForEachWindow extends ModelingToolDialog {
 
     private boolean validateInputs() {
         Boolean result = false;
+        /* iteration variable and an exit condition have to be selected */
         if (iterableField.getValue() != null && exitConditionGroup.isSelected()) {
             result = true;
         }
@@ -156,10 +157,12 @@ public class ForEachWindow extends ModelingToolDialog {
         newModel.setIterationVariableId(iterableField.getValue().getId());
         newModel.setExitCondition(exitConditionGroup.getSelectedValue());
         newModel.setParallel(parallelField.getValue());
-        CommandStack.getInstance()
-                .executeCommand(
-                        new ChangeNodePropertiesCommand(node, newModel
-                                .getProperties()));
+        /* only push to command stack if changes where made */
+        if (newModel.getProperties().equals(model.getProperties()) == false) {
+            CommandStack.getInstance().executeCommand(
+                    new ChangeNodePropertiesCommand(node, newModel
+                            .getProperties()));
+        }
     }
 
     /**
