@@ -48,7 +48,8 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
 
 /**
- * TODO: add comment
+ * A dialog that is for editing the values of a {@link Variable} of all types,
+ * except for role (see {@link RoleEditor}).
  * 
  * @author Jonas Schlaak
  */
@@ -62,29 +63,26 @@ public class ValueEditor extends ModelingToolDialog {
     private List<TextField<String>> fields = new ArrayList<TextField<String>>();
 
     /**
-     * TODO: add comment
-     * 
+     * Default constructor that sets the layout.
      */
     public ValueEditor() {
         super();
         this.setLayout(new FitLayout());
-        this.setSize(400, 200);
+        this.setSize(500, 300);
         this.setResizable(true);
         createContentPanel();
         createButtons();
     }
 
     /**
-     * 
-     * TODO: add comment
-     * 
+     * Creates the content panel for the dialog. The content panel holds the
+     * text fields for the values and a toolbar.
      */
     private void createContentPanel() {
         contentPanel = new ContentPanel();
         contentPanel.setHeading(ModelingToolWidget.messages.editVariable());
         contentPanel.setLayout(new FitLayout());
 
-        // TODO: fix layout
         table = new FlexTable();
         table.setBorderWidth(0);
         table.setWidth("100%");
@@ -96,8 +94,7 @@ public class ValueEditor extends ModelingToolDialog {
     }
 
     /**
-     * TODO: add comment
-     * 
+     * Creates a toolbar that has two buttons to add or delete a value.
      */
     private void createToolBar() {
         ToolBar toolBar = new ToolBar();
@@ -126,8 +123,7 @@ public class ValueEditor extends ModelingToolDialog {
     }
 
     /**
-     * TODO: add comment
-     * 
+     * Creates ok and cancel button
      */
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
@@ -178,12 +174,13 @@ public class ValueEditor extends ModelingToolDialog {
          * not in the workflow model, it means that the variable is a reference
          * to an element in the list store of the variable editor.
          */
-        // JS check if changed
         if (Workflow.getInstance().getModel().getVariables().contains(variable)) {
-            Variable newVariable = variable.copy();
-            newVariable.setValues(newValues);
-            CommandStack.getInstance().executeCommand(
-                    new ChangeVariablesCommand(newVariable));
+            if (variable.getValues().equals(newValues)) {
+                Variable newVariable = variable.copy();
+                newVariable.setValues(newValues);
+                CommandStack.getInstance().executeCommand(
+                        new ChangeVariablesCommand(newVariable));
+            }
         } else {
             variable.setValues(newValues);
         }
@@ -219,10 +216,14 @@ public class ValueEditor extends ModelingToolDialog {
     }
 
     /**
-     * TODO: add comment
+     * Adds an input helper to the text fields that is displayed whenever the
+     * text field is focused. An input helper is, for example, a date picker
+     * widget.
      * 
      * @param text
+     *            the text field the input helper should be added to
      * @param type
+     *            the type of the values to be entered in the text field
      */
     private void addInputHelpers(final TextField<String> text, VariableType type) {
         if (type == VariableType.DATE) {
@@ -236,7 +237,6 @@ public class ValueEditor extends ModelingToolDialog {
 
             });
         }
-
     }
 
     private void removeEntry() {
@@ -257,9 +257,10 @@ public class ValueEditor extends ModelingToolDialog {
     }
 
     /**
-     * TODO: add comment
-     *
+     * Sets the variable which values are to be edited.
+     * 
      * @param variable
+     *            the variable
      */
     public void setVariable(Variable variable) {
         this.variable = variable;
@@ -271,10 +272,11 @@ public class ValueEditor extends ModelingToolDialog {
      * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#initialize()
      */
     @Override
-    public void initialize() {
+    public Boolean initialize() {
         for (String value : variable.getValues()) {
             addEntry(new String(value));
         }
+        return true;
     }
 
     /*
@@ -294,6 +296,6 @@ public class ValueEditor extends ModelingToolDialog {
      */
     @Override
     public void refresh() {
-        // TODO Auto-generated method stub
+
     }
 }

@@ -23,7 +23,9 @@ import de.decidr.modelingtool.client.model.variable.Variable;
 
 /**
  * This container holds the references to all fields of one row of the form
- * elements part of the {@link HumanTaskActivityWindowContentPanel}.
+ * elements part of the {@link HumanTaskActivityWindowContentPanel}. When the
+ * workflow is being executed a human task appears as work item to the user.
+ * This container then represents an input field of a specific type.
  * 
  * @author Jonas Schlaak
  */
@@ -33,11 +35,14 @@ public class HumanTaskFieldSet {
     private ComboBox<Variable> variableField;
 
     /**
-     * 
-     * TODO: add comment
+     * Constructs a field set with the given parameters.
      * 
      * @param labelField
+     *            this field is for the name of the input field which later
+     *            appears to the user
      * @param variableField
+     *            from this field the variable can be selected into which the
+     *            input from the user shall be written
      */
     public HumanTaskFieldSet(TextField<String> labelField,
             ComboBox<Variable> variableField) {

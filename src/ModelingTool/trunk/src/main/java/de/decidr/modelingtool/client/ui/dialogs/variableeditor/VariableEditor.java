@@ -87,9 +87,6 @@ public class VariableEditor extends ModelingToolDialog {
         ValueColumn valueColumn = new ValueColumn(Variable.VALUE,
                 ModelingToolWidget.messages.valueColumn());
         columns.add(valueColumn);
-        ArrayVarColumn arrayVarColumn = new ArrayVarColumn(Variable.ARRAYVAR,
-                ModelingToolWidget.messages.arrayVarColumn());
-        columns.add(arrayVarColumn);
         ConfigVarColumn configVarColumn = new ConfigVarColumn(
                 Variable.CONFIGVAR, ModelingToolWidget.messages
                         .configVarColumn());
@@ -102,7 +99,6 @@ public class VariableEditor extends ModelingToolDialog {
         csm = new CellSelectionModel<Variable>();
         grid.setSelectionModel(csm);
         grid.setAutoExpandColumn(Variable.VALUE);
-        grid.addPlugin(arrayVarColumn);
         grid.addPlugin(configVarColumn);
 
         editorPanel.add(grid);
@@ -223,8 +219,9 @@ public class VariableEditor extends ModelingToolDialog {
      * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#initialize()
      */
     @Override
-    public void initialize() {
+    public Boolean initialize() {
         listener.setDataChanged(false);
+        return true;
     }
 
     /*

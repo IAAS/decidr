@@ -106,7 +106,7 @@ public interface Messages extends Constants {
 
     String condition();
 
-    String fallback();
+    String defaultCondition();
 
     String conditionOrderWarning();
 
@@ -133,8 +133,6 @@ public interface Messages extends Constants {
 
     String valueColumn();
 
-    String arrayVarColumn();
-
     String configVarColumn();
 
     /* ValueEditor */
@@ -147,6 +145,8 @@ public interface Messages extends Constants {
     String wrongPlural();
 
     String invalidFormat();
+
+    String invalidUserIds();
 
     /* windows common */
     String warningTitle();

@@ -23,7 +23,8 @@ import java.util.TreeSet;
 import de.decidr.modelingtool.client.ModelingToolWidget;
 
 /**
- * 
+ * A callback class which serbes as a container to hold the message, which
+ * inputs of which textfields of the {@link ValueEditor} have a wrong format.
  * 
  * @author Jonas Schlaak
  */
@@ -32,7 +33,7 @@ public class ValueValidatorCallback {
     private SortedSet<Integer> values = new TreeSet<Integer>();
 
     /**
-     * TODO: add comment
+     * Returns the callback message
      * 
      * @return the callback message
      */
@@ -56,8 +57,8 @@ public class ValueValidatorCallback {
     }
 
     /**
-     * 
-     * TODO: add comment
+     * Adds the number of a text fields which input has a wrong format to the
+     * callback message.
      * 
      * @param valueNumber
      *            the number of the value that has an incorrect format

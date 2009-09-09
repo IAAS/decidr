@@ -79,7 +79,7 @@ public class DialogRegistry {
     }
 
     /**
-     *Makes a dialog visible.
+     * Makes a dialog visible.
      * 
      * @param dialogName
      *            the class name of the dialog to be displayed
@@ -87,10 +87,11 @@ public class DialogRegistry {
     public void showDialog(String dialogName) {
         // JS modality
         ModelingToolDialog dialog = getDialog(dialogName);
-        dialog.initialize();
-        dialog.setModal(true);
-        // ModelingToolWidget.view.mask();
-        dialog.show();
+        if (dialog.initialize()) {
+            dialog.setModal(true);
+            // ModelingToolWidget.view.mask();
+            dialog.show();
+        }
     }
 
     /**

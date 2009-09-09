@@ -90,6 +90,10 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         createButtons();
     }
 
+    /**
+     * Creates a {@link ContentPanel} which holds a {@link FlexTable} to which
+     * the comboboxes are added.
+     */
     private void createContentPanel() {
         contentPanel = new ContentPanel();
 
@@ -362,8 +366,9 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
      * de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#initialize()
      */
     @Override
-    public void initialize() {
+    public Boolean initialize() {
         createFields();
+        return true;
     }
 
     /*

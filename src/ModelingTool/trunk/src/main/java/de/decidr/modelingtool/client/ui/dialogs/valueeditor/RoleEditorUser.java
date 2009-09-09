@@ -19,7 +19,9 @@ package de.decidr.modelingtool.client.ui.dialogs.valueeditor;
 import com.extjs.gxt.ui.client.data.BaseModelData;
 
 /**
- * TODO: add comment
+ * This class models the user object used in {@link RoleEditor}. It has a user
+ * id of type long (which is the id in the user database) and a display name
+ * string to make the user object "human readable".
  * 
  * @author Jonas Schlaak
  */
@@ -30,8 +32,7 @@ public class RoleEditorUser extends BaseModelData {
     public static final String DISPLAYNAME = "displayname";
 
     /**
-     * TODO: add comment
-     * 
+     * Constructs a user object with a given id and display name
      */
     public RoleEditorUser(Long userId, String displayName) {
         this.setUserId(userId);
@@ -39,7 +40,7 @@ public class RoleEditorUser extends BaseModelData {
     }
 
     /**
-     * TODO: add comment
+     * Gets the user id.
      * 
      * @return the userid
      */
@@ -48,7 +49,7 @@ public class RoleEditorUser extends BaseModelData {
     }
 
     /**
-     * TODO: add comment
+     * Sets the user id.
      * 
      * @param userId
      *            the userid to set
@@ -58,7 +59,7 @@ public class RoleEditorUser extends BaseModelData {
     }
 
     /**
-     * TODO: add comment
+     * Gets the display name.
      * 
      * @return the username
      */
@@ -67,7 +68,7 @@ public class RoleEditorUser extends BaseModelData {
     }
 
     /**
-     * TODO: add comment
+     * Sets the display name.
      * 
      * @param username
      *            the username to set

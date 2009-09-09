@@ -29,7 +29,12 @@ import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 
 /**
- * TODO: add comment
+ * This container holds all references to the input fields that are necessary to
+ * model a {@link Condition} in an {@link IfWindow}. The container consist of a
+ * label (which displays the name of the condition), a type selector to select
+ * the variable type, all necessary comboboxes to model a conditional expression
+ * (see also {@link Operator}), and a combobox the set the execution order of
+ * the conditions.
  * 
  * @author Jonas Schlaak
  */
@@ -44,6 +49,14 @@ public class IfFieldSet {
 
     private Condition condition;
 
+    /**
+     * Default constructor to create an IfFieldSet from a condition
+     * 
+     * @param condition
+     *            the condition
+     * @param count
+     *            the execution order, 0 stands for default condition
+     */
     public IfFieldSet(Condition condition, int count) {
         this.condition = condition;
 
@@ -59,6 +72,10 @@ public class IfFieldSet {
                     @Override
                     public void selectionChanged(
                             SelectionChangedEvent<Variable> se) {
+                        /*
+                         * If type selector changes, get all variables with
+                         * selected type from workflow
+                         */
                         leftOperandField.setEnabled(true);
                         leftOperandField.getStore().removeAll();
                         leftOperandField.clearSelections();
@@ -75,6 +92,10 @@ public class IfFieldSet {
                         operatorList.setEnabled(true);
                         updateOperatorListEntries();
 
+                        /*
+                         * If type selector changes, get all variables with
+                         * selected type from workflow
+                         */
                         rightOperandField.setEnabled(true);
                         rightOperandField.getStore().removeAll();
                         rightOperandField.clearSelections();

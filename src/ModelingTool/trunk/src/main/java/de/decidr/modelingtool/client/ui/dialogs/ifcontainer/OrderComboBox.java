@@ -20,19 +20,25 @@ import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.model.ifcondition.Condition;
+import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
+import de.decidr.modelingtool.client.ui.resources.Messages;
 
 /**
- * TODO: add comment
+ * A combobox for selecting the execution order of a {@link Condition}.
+ * Execution order means the order in which the conditional expressions are
+ * checked if they are true.
  * 
  * @author Jonas Schlaak
  */
 public class OrderComboBox extends SimpleComboBox<String> {
 
     /**
-     * TODO: add comment
+     * Constructs a combobox with the given parameters.
      * 
+     * @param count
+     *            the number of conditions the {@link IfContainerModel} has
      * @param condition
-     * 
+     *            the condition which this combobox is for
      */
     public OrderComboBox(int count, Condition condition) {
         super();
@@ -43,7 +49,7 @@ public class OrderComboBox extends SimpleComboBox<String> {
          * if no other condition is true). Therefore, there can be n-1 proper
          * order "ranks" for n conditions.
          */
-        this.add(ModelingToolWidget.messages.fallback());
+        this.add(ModelingToolWidget.messages.defaultCondition());
         for (Integer i = 1; i < count; i++) {
             this.add(i.toString());
         }
@@ -52,7 +58,7 @@ public class OrderComboBox extends SimpleComboBox<String> {
         if (condition.getOperator() != null) {
             String order;
             if (condition.getOrder() == 0) {
-                order = ModelingToolWidget.messages.fallback();
+                order = ModelingToolWidget.messages.defaultCondition();
             } else {
                 order = condition.getOrder().toString();
             }
@@ -62,9 +68,17 @@ public class OrderComboBox extends SimpleComboBox<String> {
         this.setEditable(false);
     }
 
+    /**
+     * Returns the selected order as integer value. If the entry for the default
+     * condition was selected (see also {@link Messages#defaultCondition()}, the
+     * returned value is 0.
+     * 
+     * @return the order
+     */
     public Integer getOrder() {
         Integer result;
-        if (this.getSimpleValue() == ModelingToolWidget.messages.fallback()) {
+        if (this.getSimpleValue() == ModelingToolWidget.messages
+                .defaultCondition()) {
             result = 0;
         } else {
             result = new Integer(this.getValue().getValue());

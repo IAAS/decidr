@@ -36,16 +36,19 @@ import de.decidr.modelingtool.client.model.ifcondition.Condition;
 import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
 import de.decidr.modelingtool.client.model.ifcondition.Operator;
 import de.decidr.modelingtool.client.ui.IfContainer;
-import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
+import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 
 /**
- * TODO: add comment
+ * The property window for an {@link IfContainer}. It consists of one
+ * {@link IfFieldSet} for each {@link Condition} that is in the IfContainer.
  * 
  * @author Jonas Schlaak
  */
 public class IfWindow extends ModelingToolDialog {
 
+    // JS todo: check null pointer exception for getOrder() (order fields left
+    // empty)
     private IfContainer node;
     private IfContainerModel model;
 
@@ -58,7 +61,7 @@ public class IfWindow extends ModelingToolDialog {
     public IfWindow() {
         super();
         this.setLayout(new FitLayout());
-        this.setSize(600, 200);
+        this.setSize(1000, 300);
         this.setResizable(true);
         createContentPanel();
         createButtons();
@@ -66,13 +69,16 @@ public class IfWindow extends ModelingToolDialog {
         fieldsets = new ArrayList<IfFieldSet>();
     }
 
+    /**
+     * Creates a {@link ContentPanel} which holds a {@link FlexTable} to which
+     * the comboboxes are added.
+     */
     private void createContentPanel() {
         contentPanel = new ContentPanel();
 
         contentPanel.setHeading(ModelingToolWidget.messages.ifContainer());
         contentPanel.setLayout(new FitLayout());
 
-        // TODO: fix layout
         table = new FlexTable();
         table.setBorderWidth(0);
         table.setWidth("100%");
@@ -84,12 +90,19 @@ public class IfWindow extends ModelingToolDialog {
         this.add(contentPanel);
     }
 
+    /**
+     * Creates the ok and cancel button.
+     */
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
         addButton(new Button(ModelingToolWidget.messages.okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
+                        /*
+                         * check if the inputs are valid. If not, display a
+                         * warning message, else change the workflow model.
+                         */
                         if (validateInputs()) {
                             changeWorkflowModel();
                             DialogRegistry.getInstance().hideDialog(
@@ -112,6 +125,13 @@ public class IfWindow extends ModelingToolDialog {
                 }));
     }
 
+    /**
+     * Sets the {@link IfContainer} whose properties are to be modeled with this
+     * window.
+     * 
+     * @param node
+     *            the IfContainer
+     */
     public void setNode(IfContainer node) {
         this.node = node;
         this.model = (IfContainerModel) node.getModel();
@@ -149,10 +169,12 @@ public class IfWindow extends ModelingToolDialog {
             newModel.addCondition(new Condition(label, operand1Id, operator,
                     operand2Id, order));
         }
-        CommandStack.getInstance()
-                .executeCommand(
-                        new ChangeNodePropertiesCommand(node, newModel
-                                .getProperties()));
+        /* only push to command stack if changes where made */
+        if (newModel.getProperties().equals(model.getProperties()) == false) {
+            CommandStack.getInstance().executeCommand(
+                    new ChangeNodePropertiesCommand(node, newModel
+                            .getProperties()));
+        }
     }
 
     private void createFields() {
@@ -188,19 +210,37 @@ public class IfWindow extends ModelingToolDialog {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#initialize()
+     */
     @Override
-    public void initialize() {
+    public Boolean initialize() {
         createFields();
+        return true;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#reset()
+     */
     @Override
     public void reset() {
         clearAllEntries();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#refresh()
+     */
     @Override
     public void refresh() {
-        // TODO Auto-generated method stub
+
     }
 
 }

@@ -26,7 +26,8 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 
 /**
- * TODO: add comment
+ * A validator class that can check if the input of a {@link TextField} is of
+ * the desired {@link VariableType}.
  * 
  * @author Jonas Schlaak
  */
@@ -35,10 +36,10 @@ public class FieldValidator implements Validator<String, TextField<String>> {
     private VariableType type = null;
 
     /**
-     * 
-     * TODO: add comment
+     * Default constructor.
      * 
      * @param type
+     *            the variable type to check against
      */
     public FieldValidator(VariableType type) {
         this.type = type;

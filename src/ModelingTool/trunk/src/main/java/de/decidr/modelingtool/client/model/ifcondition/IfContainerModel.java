@@ -49,7 +49,6 @@ public class IfContainerModel extends ContainerModel {
      */
     @Override
     public NodePropertyData getProperties() {
-        NodePropertyData result = new NodePropertyData();
         /*
          * Check every connection model in the container. Only connection models
          * which are containers are model data.
@@ -57,10 +56,10 @@ public class IfContainerModel extends ContainerModel {
         for (ConnectionModel connectionModel : getChildConnectionModels()) {
             if (connectionModel instanceof Condition) {
                 Condition con = (Condition) connectionModel;
-                result.set(con.getName(), con);
+                properties.set(con.getName(), con);
             }
         }
-        return result;
+        return properties;
     }
 
     /*
@@ -79,8 +78,11 @@ public class IfContainerModel extends ContainerModel {
             }
         }
         for (Object value : properties.getValues()) {
-            getChildConnectionModels().add((Condition) value);
+            if (value instanceof Condition) {
+                getChildConnectionModels().add((Condition) value);
+            }
         }
+        super.setProperties(properties);
     }
 
     /**
@@ -92,6 +94,7 @@ public class IfContainerModel extends ContainerModel {
      */
     public void addCondition(Condition condition) {
         getChildConnectionModels().add(condition);
+        this.properties.set(condition.getName(), condition);
     }
 
     /**

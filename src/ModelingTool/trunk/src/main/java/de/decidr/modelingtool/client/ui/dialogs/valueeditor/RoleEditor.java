@@ -31,6 +31,7 @@ import com.extjs.gxt.ui.client.store.StoreSorter;
 import com.extjs.gxt.ui.client.util.Margins;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.ListView;
+import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.layout.RowData;
@@ -40,13 +41,15 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ChangeVariablesCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.variable.Variable;
+import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
 
 /**
- * TODO: add comment
+ * A dialog for selecting users for a {@link Variable} of the type
+ * {@link VariableType#ROLE}.
  * 
  * @author Jonas Schlaak
  */
@@ -62,8 +65,7 @@ public class RoleEditor extends ModelingToolDialog {
     private Variable variable;
 
     /**
-     * TODO: add comment
-     * 
+     * Default constructor.
      */
     public RoleEditor() {
         super();
@@ -75,9 +77,8 @@ public class RoleEditor extends ModelingToolDialog {
     }
 
     /**
-     * 
-     * TODO: add comment
-     * 
+     * Creates the {@link ContentPanel} which holds two {@link ListView}s. One
+     * to select users from, the other holds the selected users.
      */
     private void createContentPanel() {
         contentPanel = new ContentPanel();
@@ -109,8 +110,7 @@ public class RoleEditor extends ModelingToolDialog {
     }
 
     /**
-     * TODO: add comment
-     * 
+     * Create ok and cancel button.
      */
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
@@ -207,12 +207,13 @@ public class RoleEditor extends ModelingToolDialog {
          * not in the workflow model, it means that the variable is a reference
          * to an element in the list store of the variable editor.
          */
-        // JS check if changed
         if (Workflow.getInstance().getModel().getVariables().contains(variable)) {
-            Variable newVariable = variable.copy();
-            newVariable.setValues(newValues);
-            CommandStack.getInstance().executeCommand(
-                    new ChangeVariablesCommand(newVariable));
+            if (variable.getValues().equals(newValues)) {
+                Variable newVariable = variable.copy();
+                newVariable.setValues(newValues);
+                CommandStack.getInstance().executeCommand(
+                        new ChangeVariablesCommand(newVariable));
+            }
         } else {
             variable.setValues(newValues);
         }
@@ -226,9 +227,10 @@ public class RoleEditor extends ModelingToolDialog {
     }
 
     /**
-     * TODO: add comment
+     * Sets the "role" variable that is to be modeled with this dialog.
      * 
      * @param variable
+     *            the variable
      */
     public void setVariable(Variable variable) {
         this.variable = variable;
@@ -240,32 +242,25 @@ public class RoleEditor extends ModelingToolDialog {
      * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#initialize()
      */
     @Override
-    public void initialize() {
+    public Boolean initialize() {
         tenantUsers = new HashMap<Long, String>();
         for (Long userId : ModelingToolWidget.getInstance().getUsers().keySet()) {
             tenantUsers.put(new Long(userId), new String(ModelingToolWidget
                     .getInstance().getUsers().get(userId)));
         }
         roleUserIds = new ArrayList<Long>();
+
         for (String userId : variable.getValues()) {
             try {
                 roleUserIds.add(new Long(userId));
             } catch (NumberFormatException e) {
-                // TODO: handle exception
+                MessageBox.alert(ModelingToolWidget.messages.warningTitle(),
+                        ModelingToolWidget.messages.invalidUserIds(), null);
+                return false;
             }
         }
         setStores(tenantUsersView, roleUsersView, tenantUsers, roleUserIds);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#refresh()
-     */
-    @Override
-    public void refresh() {
-        // TODO Auto-generated method stub
-
+        return true;
     }
 
     /*
@@ -278,4 +273,13 @@ public class RoleEditor extends ModelingToolDialog {
         clearAllEntries();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#refresh()
+     */
+    @Override
+    public void refresh() {
+
+    }
 }

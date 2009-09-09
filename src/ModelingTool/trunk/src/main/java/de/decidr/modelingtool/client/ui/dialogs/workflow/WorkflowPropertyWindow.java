@@ -36,8 +36,8 @@ import de.decidr.modelingtool.client.model.WorkflowProperties;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
-import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
+import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 
 /**
  * TODO: add comment
@@ -124,9 +124,11 @@ public class WorkflowPropertyWindow extends ModelingToolDialog {
                     .getValue().getId());
         }
         newProperties.setNotifyOnSuccess(notifyBox.getValue());
-        // JS check if changed
-        CommandStack.getInstance().executeCommand(
-                new ChangeWorkflowPropertiesCommand(newProperties));
+        /* only push to command stack if changes where made */
+        if (newProperties.getProperties().equals(model.getProperties()) == false) {
+            CommandStack.getInstance().executeCommand(
+                    new ChangeWorkflowPropertiesCommand(newProperties));
+        }
     }
 
     private void addComboField(ComboBox<Variable> field, String label,
@@ -178,8 +180,9 @@ public class WorkflowPropertyWindow extends ModelingToolDialog {
      * de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#initialize()
      */
     @Override
-    public void initialize() {
+    public Boolean initialize() {
         createFields();
+        return true;
     }
 
     /*

@@ -253,8 +253,9 @@ public class EmailActivityWindow extends ModelingToolDialog {
      * de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#initialize()
      */
     @Override
-    public void initialize() {
+    public Boolean initialize() {
         createFields();
+        return true;
     }
 
     /*

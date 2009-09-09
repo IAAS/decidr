@@ -42,8 +42,10 @@ abstract public class ModelingToolDialog extends Window {
     /**
      * Will be called by {@link DialogRegistry}, when window is about to be
      * displayed
+     * 
+     * @return true, if the dialog could be initialized
      */
-    abstract public void initialize();
+    abstract public Boolean initialize();
 
     /**
      * Provides a method which updates the view when a model change occured

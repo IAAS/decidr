@@ -19,18 +19,18 @@ package de.decidr.modelingtool.client.ui.dialogs.valueeditor;
 import java.util.Comparator;
 
 /**
- * TODO: add comment
+ * Compares two {@link RoleEditorUser} object to determine the alphabetical
+ * order between those two.
  * 
  * @author Jonas Schlaak
  */
 public class RoleEditorUserComparator implements Comparator<Object> {
 
     /**
-     * TODO: add comment
-     * 
+     * Default constructor that just calls the super constructor.
      */
     public RoleEditorUserComparator() {
-        // TODO Auto-generated constructor stub
+        super();
     }
 
     /*
