@@ -30,6 +30,7 @@ import com.extjs.gxt.ui.client.widget.grid.CellSelectionModel;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.EditorGrid;
+import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.TextToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
@@ -43,7 +44,9 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorInvoker;
 
 /**
- * TODO: add comment
+ * Editor for {@link Variables}. Variables can be added, edited and deleted. The
+ * Editor consists of a {@link Grid} with four columns: A {@link NameColumn}, a
+ * {@link TypeColumn}, a {@link ValueColumn} and a {@link ConfigVarColumn}.
  * 
  * @author Jonas Schlaak
  */
@@ -149,8 +152,7 @@ public class VariableEditor extends ModelingToolDialog {
     }
 
     /**
-     * TODO: add comment
-     * 
+     * Creates ok and cancel button
      */
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
@@ -178,9 +180,7 @@ public class VariableEditor extends ModelingToolDialog {
     }
 
     /**
-     * 
-     * TODO: add comment
-     * 
+     * Sets the list of variable to edit
      */
     public void setVariables(List<Variable> variablesModel) {
         variables.removeAll();
@@ -189,11 +189,6 @@ public class VariableEditor extends ModelingToolDialog {
         }
     }
 
-    /**
-     * 
-     * TODO: add comment
-     * 
-     */
     private void changeWorkflowModel() {
         List<Variable> variablesModel = new ArrayList<Variable>();
         for (int i = 0; i < variables.getCount(); i++) {
@@ -204,10 +199,9 @@ public class VariableEditor extends ModelingToolDialog {
     }
 
     /**
+     * Gets the list of variables that are currently edited.
      * 
-     * TODO: add comment
-     * 
-     * @return
+     * @return the variables
      */
     public ListStore<Variable> getVariables() {
         return variables;

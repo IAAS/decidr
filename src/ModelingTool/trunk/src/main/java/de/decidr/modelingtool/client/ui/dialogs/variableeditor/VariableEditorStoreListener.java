@@ -22,7 +22,7 @@ import com.extjs.gxt.ui.client.store.StoreListener;
 import de.decidr.modelingtool.client.model.variable.Variable;
 
 /**
- * TODO: add comment
+ * Listens for changes made to the variables in the {@link VariableEditor}.
  * 
  * @author Jonas Schlaak
  */
@@ -51,7 +51,6 @@ public class VariableEditorStoreListener extends StoreListener<Variable> {
      */
     @Override
     public void storeAdd(StoreEvent<Variable> se) {
-        // TODO Auto-generated method stub
         super.storeAdd(se);
         dataChanged = true;
     }
@@ -65,7 +64,6 @@ public class VariableEditorStoreListener extends StoreListener<Variable> {
      */
     @Override
     public void storeRemove(StoreEvent<Variable> se) {
-        // TODO Auto-generated method stub
         super.storeRemove(se);
         dataChanged = true;
     }
@@ -79,13 +77,12 @@ public class VariableEditorStoreListener extends StoreListener<Variable> {
      */
     @Override
     public void storeUpdate(StoreEvent<Variable> se) {
-        // TODO Auto-generated method stub
         super.storeUpdate(se);
         dataChanged = true;
     }
 
     /**
-     * TODO: add comment
+     * Returns whether the variables have changed or not.
      * 
      * @return the dataChanged
      */
@@ -94,7 +91,7 @@ public class VariableEditorStoreListener extends StoreListener<Variable> {
     }
 
     /**
-     * TODO: add comment
+     * Reset the listener to a value.
      * 
      * @param dataChanged
      *            the dataChanged to set

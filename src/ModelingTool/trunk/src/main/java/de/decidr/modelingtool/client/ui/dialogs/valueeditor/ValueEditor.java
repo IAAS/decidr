@@ -109,16 +109,6 @@ public class ValueEditor extends ModelingToolDialog {
         });
         toolBar.add(addValue);
 
-        TextToolItem delValue = new TextToolItem(ModelingToolWidget.messages
-                .delValue()); //$NON-NLS-1$
-        delValue.addSelectionListener(new SelectionListener<ToolBarEvent>() {
-            @Override
-            public void componentSelected(ToolBarEvent ce) {
-                removeEntry();
-            }
-        });
-        toolBar.add(delValue);
-
         contentPanel.setBottomComponent(toolBar);
     }
 
@@ -212,7 +202,8 @@ public class ValueEditor extends ModelingToolDialog {
 
         fields.add(text);
         table.insertRow(table.getRowCount());
-        table.setWidget(table.getRowCount() - 1, 0, text);
+        table.setWidget(table.getRowCount() - 1, 0, new ValueFieldWidget(table, text,
+                fields));
     }
 
     /**
@@ -237,11 +228,6 @@ public class ValueEditor extends ModelingToolDialog {
 
             });
         }
-    }
-
-    private void removeEntry() {
-        table.removeRow(table.getRowCount() - 1);
-        fields.remove(table.getRowCount());
     }
 
     private void clearAllEntries() {

@@ -21,7 +21,7 @@ import com.extjs.gxt.ui.client.widget.grid.CellEditor;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 
 /**
- * TODO: add comment
+ * Column, where the display name of a variable can be edited.
  * 
  * @author Jonas Schlaak
  */

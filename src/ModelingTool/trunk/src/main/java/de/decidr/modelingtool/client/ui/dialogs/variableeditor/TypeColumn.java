@@ -28,7 +28,7 @@ import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 
 /**
- * TODO: add comment
+ * TColumn where the type of a variable can be set.
  * 
  * @author Jonas Schlaak
  */
@@ -42,6 +42,7 @@ public class TypeColumn extends ColumnConfig {
         this.setHeader(header);
         this.setWidth(60);
 
+        /* Renderer that displays the localized name of a variable type */
         GridCellRenderer<Variable> cellRenderer = new GridCellRenderer<Variable>() {
             @Override
             public String render(Variable model, String property,
@@ -67,7 +68,6 @@ public class TypeColumn extends ColumnConfig {
              */
             @Override
             public Object preProcessValue(Object value) {
-                // TODO Auto-generated method stub
                 return typeComboBox.findModel(value.toString());
             }
 
@@ -80,7 +80,6 @@ public class TypeColumn extends ColumnConfig {
              */
             @Override
             public Object postProcessValue(Object value) {
-                // TODO Auto-generated method stub
                 Object result;
                 if (value == null) {
                     result = VariableType.STRING;

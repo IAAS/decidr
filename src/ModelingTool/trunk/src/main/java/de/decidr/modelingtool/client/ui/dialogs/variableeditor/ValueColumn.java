@@ -19,7 +19,7 @@ package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 
 /**
- * TODO: add comment
+ * Column where the values of a variable are displayed.
  * 
  * @author Jonas Schlaak
  */

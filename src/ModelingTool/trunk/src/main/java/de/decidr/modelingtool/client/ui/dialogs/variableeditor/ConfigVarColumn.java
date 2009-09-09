@@ -19,7 +19,7 @@ package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 import com.extjs.gxt.ui.client.widget.grid.CheckColumnConfig;
 
 /**
- * TODO: add comment
+ * Column for setting a variable to a configuration variable and vice versa.
  * 
  * @author Jonas Schlaak
  */
