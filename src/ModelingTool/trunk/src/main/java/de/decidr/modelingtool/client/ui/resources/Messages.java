@@ -108,6 +108,8 @@ public interface Messages extends Constants {
 
     String defaultCondition();
 
+    String conditionWarning();
+
     String conditionOrderWarning();
 
     /* Variable editor */

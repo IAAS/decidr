@@ -21,8 +21,9 @@ import com.google.gwt.user.client.Command;
 import de.decidr.modelingtool.client.command.ClearWorkflowCommand;
 
 /**
- * TODO: add comment
- *
+ * This command clears the workflow from all nodes and container and only leaves
+ * a start and end node.
+ * 
  * @author JE
  */
 public class ClearWorkflowMenuItem implements Command {
@@ -32,5 +33,5 @@ public class ClearWorkflowMenuItem implements Command {
         Command cmd = new ClearWorkflowCommand();
         cmd.execute();
     }
-    
+
 }

@@ -80,7 +80,7 @@ public class NodePropertyData {
      * 
      * @param container
      *            the container to which this container is compared to
-     * @return
+     * @return true, if equal, otherwise false
      */
     public Boolean equals(NodePropertyData container) {
         Boolean result = true;

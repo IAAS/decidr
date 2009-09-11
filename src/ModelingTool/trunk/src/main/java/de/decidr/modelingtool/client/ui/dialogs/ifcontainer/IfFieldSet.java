@@ -166,6 +166,19 @@ public class IfFieldSet {
         }
     }
 
+    /**
+     * Checks whether the fields of the conditional expression (right and left
+     * operand, operator) are empty, that means a value has not been selected.
+     * 
+     * @return true, if in all comboboxes a value has been selected
+     */
+    public Boolean areConditionFieldsOK() {
+        /* all three fields must be filled with a value */
+        return (leftOperandField.getValue() != null
+                && operatorList.getSimpleValue() != null && rightOperandField
+                .getValue() != null);
+    }
+
     public Label getLabel() {
         return label;
     }

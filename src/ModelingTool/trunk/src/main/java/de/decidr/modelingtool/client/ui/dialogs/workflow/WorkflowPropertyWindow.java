@@ -40,7 +40,7 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 
 /**
- * TODO: add comment
+ * Dialog or editing the {@link WorkflowProperties}.
  * 
  * @author Jonas Schlaak
  */
@@ -57,11 +57,6 @@ public class WorkflowPropertyWindow extends ModelingToolDialog {
     private ComboBox<Variable> successMessageField;
     private CheckBox notifyBox;
 
-    /**
-     * 
-     * TODO: add comment
-     * 
-     */
     public WorkflowPropertyWindow() {
         super();
         this.setLayout(new FitLayout());
@@ -77,7 +72,6 @@ public class WorkflowPropertyWindow extends ModelingToolDialog {
         contentPanel.setHeading(ModelingToolWidget.messages.workflowProperty());
         contentPanel.setLayout(new FitLayout());
 
-        // TODO: fix layout
         table = new FlexTable();
         table.setBorderWidth(0);
         table.setWidth("100%");
@@ -203,5 +197,6 @@ public class WorkflowPropertyWindow extends ModelingToolDialog {
      */
     @Override
     public void refresh() {
+
     }
 }

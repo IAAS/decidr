@@ -25,18 +25,18 @@ import de.decidr.modelingtool.client.ui.FlowContainer;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
- * TODO: add comment
- *
+ * This command adds a new {@link FlowContainer} to the workflow.
+ * 
  * @author Johannes Engelhardt
  */
-public class CreateFlowContainerMenuItem implements Command {   
-    
+public class CreateFlowContainerMenuItem implements Command {
+
     @Override
     public void execute() {
-        Container container = new FlowContainer (Workflow.getInstance());
+        Container container = new FlowContainer(Workflow.getInstance());
         Workflow.getInstance().addNode(container);
         container.setPixelSize(200, 150);
-        
+
         CommandStack.getInstance().executeCommand(
                 new CreateContainerCommand(container));
     }

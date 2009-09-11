@@ -71,10 +71,12 @@ public class IfContainerModel extends ContainerModel {
      */
     @Override
     public void setProperties(NodePropertyData properties) {
-        /* remove old objects */
-        for (ConnectionModel con : this.getChildConnectionModels()) {
-            if (con instanceof Condition) {
-                getChildConnectionModels().remove(con);
+        /* if there are any, remove old objects */
+        if (this.getChildConnectionModels() != null) {
+            for (ConnectionModel con : this.getChildConnectionModels()) {
+                if (con instanceof Condition) {
+                    getChildConnectionModels().remove(con);
+                }
             }
         }
         for (Object value : properties.getValues()) {

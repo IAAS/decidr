@@ -19,7 +19,9 @@ package de.decidr.modelingtool.client.model;
 import de.decidr.modelingtool.client.ui.Node;
 
 /**
- * TODO: add comment
+ * This is the base class for all nodes and container models of a workflow. It
+ * has an input and output connection as well as a {@link NodePropertyData}
+ * container.
  * 
  * @author Johannes Engelhardt, Jonas Schlaak
  */
@@ -51,11 +53,6 @@ public class NodeModel extends AbstractModel {
     /** The width of the assigned changelistener */
     protected int changeListenerHeight = 0;
 
-    /**
-     * 
-     * TODO: add comment
-     * 
-     */
     public NodeModel() {
         super();
         properties = new NodePropertyData();
@@ -87,22 +84,10 @@ public class NodeModel extends AbstractModel {
         return output;
     }
 
-    /**
-     * 
-     * TODO: add comment
-     * 
-     * @return
-     */
     public HasChildModels getParentModel() {
         return parentModel;
     }
 
-    /**
-     * 
-     * TODO: add comment
-     * 
-     * @return
-     */
     public NodePropertyData getProperties() {
         return this.properties;
     }

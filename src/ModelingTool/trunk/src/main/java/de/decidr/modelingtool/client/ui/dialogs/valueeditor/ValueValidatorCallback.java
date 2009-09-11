@@ -41,7 +41,7 @@ public class ValueValidatorCallback {
         String message = new String();
         if (values.size() == 1) {
             message = ModelingToolWidget.messages.valueSingular()
-                    + values.first()
+                    + values.first() + " "
                     + ModelingToolWidget.messages.wrongSingular();
         } else {
             message = ModelingToolWidget.messages.valuePlural();
@@ -51,7 +51,7 @@ public class ValueValidatorCallback {
                     message = message + ", ";
                 }
             }
-            message = message + ModelingToolWidget.messages.wrongPlural();
+            message = message + " " + ModelingToolWidget.messages.wrongPlural();
         }
         return message;
     }

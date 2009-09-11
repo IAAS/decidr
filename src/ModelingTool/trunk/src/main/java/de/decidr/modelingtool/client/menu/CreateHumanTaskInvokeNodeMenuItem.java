@@ -24,7 +24,7 @@ import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
- * TODO: add comment
+ * This command adds a new {@link HumanTaskInvokeNode} to the workflow.
  * 
  * @author Johannes Engelhardt
  */
@@ -32,7 +32,8 @@ public class CreateHumanTaskInvokeNodeMenuItem implements Command {
 
     @Override
     public void execute() {
-        HumanTaskInvokeNode node = new HumanTaskInvokeNode(Workflow.getInstance());
+        HumanTaskInvokeNode node = new HumanTaskInvokeNode(Workflow
+                .getInstance());
         Workflow.getInstance().addNode(node);
 
         CommandStack.getInstance().executeCommand(

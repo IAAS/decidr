@@ -17,20 +17,21 @@
 package de.decidr.modelingtool.client.model;
 
 /**
- * TODO: add comment
+ * Model class for the {@link FlowContainerModel}. Currently, this class hold no
+ * propertied a can or need to be modeled.
  * 
  * @author Johannes Engelhardt
  */
 public class FlowContainerModel extends ContainerModel {
 
     /**
-     * TODO: add comment
+     * Default constructor invoking the super constructor.
      * 
      * @param parentModel
+     *            the mode of the parent node
      */
     public FlowContainerModel(HasChildModels parentModel) {
         super(parentModel);
-        // TODO Auto-generated constructor stub
     }
 
 }

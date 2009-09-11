@@ -183,7 +183,6 @@ public class VariableEditor extends ModelingToolDialog {
      * Sets the list of variable to edit
      */
     public void setVariables(List<Variable> variablesModel) {
-        variables.removeAll();
         for (Variable var : variablesModel) {
             variables.add(var.copy());
         }
@@ -225,7 +224,7 @@ public class VariableEditor extends ModelingToolDialog {
      */
     @Override
     public void reset() {
-        // TODO: write method
+        variables.removeAll();
     }
 
     /*

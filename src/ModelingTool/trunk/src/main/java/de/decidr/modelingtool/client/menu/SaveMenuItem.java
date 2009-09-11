@@ -24,9 +24,10 @@ import de.decidr.modelingtool.client.io.WorkflowParserImpl;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
- * TODO: add comment
+ * This command invokes the {@link WorkflowParser} which created a dwdl xml file
+ * from the workflow. The xml file is sent to the server via the vaadin objects.
  * 
- * @author Johannes Engelhardt
+ * @author Johannes Engelhardt, Jonas Schlaak
  */
 public class SaveMenuItem implements Command {
 
@@ -38,13 +39,12 @@ public class SaveMenuItem implements Command {
     @Override
     public void execute() {
         // JS replace with real implementation
-//        WorkflowIO io = new WorkflowIOStub();
-//        try {
-//            io.saveWorkflow(Workflow.getInstance().getModel());
-//        } catch (SaveDWDLException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
+        // WorkflowIO io = new WorkflowIOStub();
+        // try {
+        // io.saveWorkflow(Workflow.getInstance().getModel());
+        // } catch (SaveDWDLException e) {
+        // e.printStackTrace();
+        // }
 
         WorkflowParser parser = new WorkflowParserImpl();
         String dwdl = parser.parse(Workflow.getInstance().getModel());

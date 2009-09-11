@@ -25,18 +25,18 @@ import de.decidr.modelingtool.client.ui.ForEachContainer;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
- * TODO: add comment
- *
+ * This command adds a new {@link ForEachContainer} to the workflow.
+ * 
  * @author Johannes Engelhardt
  */
-public class CreateForEachContainerMenuItem implements Command {   
-    
+public class CreateForEachContainerMenuItem implements Command {
+
     @Override
     public void execute() {
-        Container container = new ForEachContainer (Workflow.getInstance());
+        Container container = new ForEachContainer(Workflow.getInstance());
         Workflow.getInstance().addNode(container);
         container.setPixelSize(200, 150);
-        
+
         CommandStack.getInstance().executeCommand(
                 new CreateContainerCommand(container));
     }

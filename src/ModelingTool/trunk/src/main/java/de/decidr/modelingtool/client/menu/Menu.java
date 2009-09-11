@@ -22,7 +22,8 @@ import com.google.gwt.user.client.ui.MenuBar;
 import de.decidr.modelingtool.client.command.ClearWorkflowCommand;
 
 /**
- * TODO: add comment
+ * Menu for the modeling tool where all commands for modeling a workflow can be
+ * selected.
  * 
  * @author Johannes Engelhardt
  */
@@ -57,7 +58,7 @@ public class Menu extends MenuBar {
                 new CreateIfContainerMenuItem());
         addItem(imgBundle.foreachcontainer().getHTML(), true,
                 new CreateForEachContainerMenuItem());
-        
+
         addSeparator();
 
         // JS externalize or replace with Icons

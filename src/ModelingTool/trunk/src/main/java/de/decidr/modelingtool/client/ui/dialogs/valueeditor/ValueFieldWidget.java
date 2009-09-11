@@ -20,6 +20,7 @@ import java.util.List;
 
 import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PushButton;
 
@@ -50,14 +51,16 @@ public class ValueFieldWidget extends HorizontalPanel {
      */
     public ValueFieldWidget(FlexTable table, TextField<String> text,
             List<TextField<String>> fields) {
+        this.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+
         this.textField = text;
+        this.add(this.textField);
+
         ValueFieldClickHandler handler = new ValueFieldClickHandler(table,
                 this, fields);
         this.button = new PushButton(ModelingToolWidget.messages.delValue(),
                 handler);
-        this.add(this.textField);
         this.add(this.button);
-
     }
 
     /**

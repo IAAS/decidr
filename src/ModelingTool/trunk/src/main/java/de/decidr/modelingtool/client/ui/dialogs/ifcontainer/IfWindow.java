@@ -47,8 +47,6 @@ import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
  */
 public class IfWindow extends ModelingToolDialog {
 
-    // JS todo: check null pointer exception for getOrder() (order fields left
-    // empty)
     private IfContainer node;
     private IfContainerModel model;
 
@@ -103,15 +101,20 @@ public class IfWindow extends ModelingToolDialog {
                          * check if the inputs are valid. If not, display a
                          * warning message, else change the workflow model.
                          */
-                        if (validateInputs()) {
-                            changeWorkflowModel();
-                            DialogRegistry.getInstance().hideDialog(
-                                    IfWindow.class.getName());
-                        } else {
+                        if (validateConditions() == false) {
+                            MessageBox.alert(ModelingToolWidget.messages
+                                    .warningTitle(),
+                                    ModelingToolWidget.messages
+                                            .conditionWarning(), null);
+                        } else if (validateOrder() == false) {
                             MessageBox.alert(ModelingToolWidget.messages
                                     .warningTitle(),
                                     ModelingToolWidget.messages
                                             .conditionOrderWarning(), null);
+                        } else {
+                            changeWorkflowModel();
+                            DialogRegistry.getInstance().hideDialog(
+                                    IfWindow.class.getName());
                         }
                     }
                 }));
@@ -137,7 +140,17 @@ public class IfWindow extends ModelingToolDialog {
         this.model = (IfContainerModel) node.getModel();
     }
 
-    private boolean validateInputs() {
+    private boolean validateConditions() {
+        boolean result = true;
+        for (IfFieldSet fieldset : fieldsets) {
+            if (fieldset.areConditionFieldsOK() == false) {
+                result = false;
+            }
+        }
+        return result;
+    }
+
+    private boolean validateOrder() {
         Boolean result = false;
         /*
          * There has to be a default condition. Every index must not be used
@@ -146,7 +159,8 @@ public class IfWindow extends ModelingToolDialog {
         for (int order = 0; order < fieldsets.size(); order++) {
             Boolean indexFound = false;
             for (IfFieldSet fs : fieldsets) {
-                if (fs.getOrderField().getOrder() == order) {
+                if (fs.getOrderField() != null
+                        && fs.getOrderField().getOrder() == order) {
                     indexFound = true;
                 }
             }

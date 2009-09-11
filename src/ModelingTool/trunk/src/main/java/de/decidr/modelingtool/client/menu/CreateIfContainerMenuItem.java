@@ -25,18 +25,18 @@ import de.decidr.modelingtool.client.ui.IfContainer;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
- * TODO: add comment
- *
+ * This command adds a new {@link IfContainer} to the workflow.
+ * 
  * @author Johannes Engelhardt
  */
-public class CreateIfContainerMenuItem implements Command {   
-    
+public class CreateIfContainerMenuItem implements Command {
+
     @Override
     public void execute() {
-        Container container = new IfContainer (Workflow.getInstance());
+        Container container = new IfContainer(Workflow.getInstance());
         Workflow.getInstance().addNode(container);
         container.setPixelSize(200, 150);
-        
+
         CommandStack.getInstance().executeCommand(
                 new CreateContainerCommand(container));
     }

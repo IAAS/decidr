@@ -81,9 +81,14 @@ public class OrderComboBox extends SimpleComboBox<String> {
                 .defaultCondition()) {
             result = 0;
         } else {
-            result = new Integer(this.getValue().getValue());
+
+            try {
+                result = new Integer(this.getSimpleValue());
+            } catch (NumberFormatException e) {
+                result = -1;
+            }
+
         }
         return result;
     }
-
 }

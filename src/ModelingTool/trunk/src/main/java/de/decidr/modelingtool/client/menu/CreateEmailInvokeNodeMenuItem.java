@@ -24,7 +24,7 @@ import de.decidr.modelingtool.client.ui.EmailInvokeNode;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
- * TODO: add comment
+ * This command adds a new {@link EmailInvokeNode} to the workflow.
  * 
  * @author Johannes Engelhardt
  */
