@@ -47,7 +47,8 @@ public final class Password {
      * The number of bits that comprise a byte (if some standard Java class
      * already defines this, please let me know).
      */
-    private static final int BITS_PER_BYTE = 8;
+    // DH letting you know :-P ~rr
+    private static final int BITS_PER_BYTE = Byte.SIZE;
 
     /**
      * Character table used to create a hex string from a byte array.
@@ -73,24 +74,25 @@ public final class Password {
     /**
      * Returns a string representation of the given raw message digest.
      * <p>
-     * This is a java port of the code posted by "Andre D" at
-     * "http://de2.php.net/manual/en/function.sha1.php" on 09-Oct-2008 03:28
+     * This is a java port of the code posted by &quot;Andre D&quot; at &quot;<a
+     * href="http://de2.php.net/manual/en/function.sha1.php">http://de2.php.net/
+     * manual/en/function.sha1.php</a>&quot; on 09-Oct-2008 03:28.
      * 
      * @param bytes
      *            raw message digest
      * @param bitsPerCharacter
      *            bits per character, if this value is too small using the given
      *            character set, it will be adjusted to the maximum possible
-     *            value for the character set.
+     *            value for the character set. XXX: don't you mean "too large"
      * @param chars
-     *            charcacter set to use. If null or an array that contains less
-     *            than two characters is passed, all alphanumeric characters
-     *            (upper and lowercase), the minus sign and the comma will be
-     *            used.<br>
-     *            This default character set allows for 6 bits per character. It
-     *            is your responsibility to make sure that there are no
-     *            duplicate characters in the provided array.
-     * @return string the string representation of the given message digest
+     *            character set to use. If <code>null</code> or an array that
+     *            contains less than two characters is passed, all alphanumeric
+     *            characters (upper and lowercase), the minus sign and the comma
+     *            will be used.<br>
+     *            This default character set allows for 6 bits per character.<br>
+     *            <em><b><u>NOTE</u></b>: It is your responsibility to make sure
+     *            that there are no duplicate characters in the provided array.</em>
+     * @return the string representation of the given message digest
      */
     public static String getDigestNotation(byte[] bytes, int bitsPerCharacter,
             char[] chars) {
@@ -192,16 +194,18 @@ public final class Password {
      * <ul>
      * <li><code><em>ALG</em></code> represents the hashing algorithm specified
      * by <code>{@link Password#hashAlgorithm}.</code></li>
-     * <li>ALG<sup>n</sup> means that the algorithm is iterated n times.</li>
+     * <li><code><em>ALG<sup>n</sup></em></code> means that the algorithm is
+     * iterated n times.</li>
      * <li>data1 * data2 is an algorithm-dependent operation which causes the
-     * digest to be updated with data1 before finalizing the digest using data2.</li>
+     * digest to be updated with data1 before finalizing the digest using data2.
+     * </li>
      * </ul>
-     * <code>hash :=  <em>ALG</em><sup>5000</sup>(<em>ALG</em>( salt * plaintext ) )</code>
+     * <code>hash :=  <em>ALG<sup>5000</sup></em>(<em>ALG</em>( salt * plaintext ) )</code>
      * <br>
      * 
      * <p>
-     * Note that the encoding of password and salt are converted to UTF-8 before
-     * hashing for consistency.
+     * <em>Note that the encoding of password and salt are converted to UTF-8 before
+     * hashing for consistency.</em>
      * 
      * @param plaintext
      *            the plaintext password

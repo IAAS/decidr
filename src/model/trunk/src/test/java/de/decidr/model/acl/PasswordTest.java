@@ -18,13 +18,14 @@ package de.decidr.model.acl;
 
 import static org.junit.Assert.*;
 
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.regex.Pattern;
 
 import org.junit.Test;
 
@@ -42,8 +43,7 @@ public class PasswordTest {
      * Test method for {@link Password#getHash(String, String)}.
      */
     @Test
-    public void testGetHash() throws NoSuchAlgorithmException,
-            UnsupportedEncodingException {
+    public void testGetHash() throws NoSuchAlgorithmException {
         final List<String> testPWDs = new ArrayList<String>();
         final List<String> testSalts = new ArrayList<String>();
         fillTestPWDs(testPWDs);
@@ -297,8 +297,10 @@ public class PasswordTest {
         digest.reset();
         result = new String(digest.digest((salt + passwd).getBytes()));
 
-        digest.reset();
-        result = new String(digest.digest((result).getBytes()));
+        for (int i = 0; i < 5000; i++) {
+            digest.reset();
+            result = new String(digest.digest((result).getBytes()));
+        }
 
         return result;
     }
@@ -307,19 +309,22 @@ public class PasswordTest {
      * Test method for {@link Password#getRandomAuthKey()}.
      */
     @Test
-    public void testGetRandomAuthKey() throws UnsupportedEncodingException,
-            NoSuchAlgorithmException {
+    public void testGetRandomAuthKey() {
         String authKey = Password.getRandomAuthKey();
         String compareKey;
 
         assertNotNull(authKey);
-        assertTrue(authKey.length() <= 64);
+        assertEquals(64, authKey.length());
+        assertEquals(authKey.toLowerCase(), authKey);
+        assertTrue(authKey.matches("\\p{Alnum}*"));
 
         for (int i = 0; i < 1000; i++) {
             compareKey = Password.getRandomAuthKey();
 
             assertNotNull(compareKey);
-            assertTrue(compareKey.length() <= 64);
+            assertEquals(64, compareKey.length());
+            assertEquals(compareKey.toLowerCase(), compareKey);
+            assertTrue(compareKey.matches("\\p{Alnum}*"));
             assertFalse(compareKey.equals(authKey));
         }
     }
@@ -328,19 +333,23 @@ public class PasswordTest {
      * Test method for {@link Password#getRandomSalt()}.
      */
     @Test
-    public void testGetRandomSalt() throws NoSuchAlgorithmException,
-            UnsupportedEncodingException {
+    public void testGetRandomSalt() {
         String salt = Password.getRandomSalt();
         String compareSalt;
 
         assertNotNull(salt);
-        assertTrue(salt.length() <= 128);
+        assertEquals(128, salt.length());
+        assertEquals(salt.toLowerCase(), salt);
+        assertTrue(salt.matches("\\p{Alnum}*"));
 
-        for (int i = 0; i < 1000; i++) {
+        // generating salts takes too long, so only test this method 300 times
+        for (int i = 0; i < 300; i++) {
             compareSalt = Password.getRandomSalt();
 
             assertNotNull(compareSalt);
-            assertTrue(compareSalt.length() <= 128);
+            assertEquals(128, compareSalt.length());
+            assertEquals(compareSalt.toLowerCase(), compareSalt);
+            assertTrue(compareSalt.matches("\\p{Alnum}*"));
             assertFalse(compareSalt.equals(salt));
         }
     }
@@ -354,22 +363,98 @@ public class PasswordTest {
         String comparePasswd;
 
         assertNotNull(passwd);
-        // RR length and other constraints
+        assertTrue(passwd.matches("\\p{Alnum}*"));
         assertTrue(passwd.length() <= 12);
+        assertTrue(passwd.length() >= 8);
 
         for (int i = 0; i < 1000; i++) {
             comparePasswd = Password.generateRandomPassword();
 
             assertNotNull(comparePasswd);
+            assertTrue(comparePasswd.matches("\\p{Alnum}*"));
             assertTrue(comparePasswd.length() <= 12);
+            assertTrue(comparePasswd.length() >= 8);
             assertFalse(comparePasswd.equals(passwd));
         }
     }
-    
+
+    /**
+     * Test method for {@link Password#getDigestNotation(byte[])}
+     */
+    @Test
+    // This test case is not reproducible but at least covers a great amount of
+    // use cases without me having to spend several weeks writing a
+    // comprehensive test case.
+    public void testGetDigestNotationByteArray() {
+        String digestNotation;
+
+        for (int i = 0; i < 1000; i++) {
+            byte[] randomBytes = getRandomBytes(1000);
+            digestNotation = Password.getDigestNotation(randomBytes);
+
+            assertTrue(digestNotation.matches("[\\p{Alnum},-]*"));
+        }
+    }
+
+    /**
+     * @param i
+     *            the size of the random byte array returned.
+     */
+    private byte[] getRandomBytes(int i) {
+        byte[] result = new byte[i];
+        new Random().nextBytes(result);
+        return result;
+    }
+
     /**
      * Test method for {@link Password#getDigestNotation(byte[], int, char[])}
      */
-    public void testgetDigestNotation() {
-        //RR
+    @Test
+    // This test case is not reproducible but at least covers a great amount of
+    // use cases without me having to spend several weeks writing a
+    // comprehensive test case.
+    public void testGetDigestNotationByteArrayIntCharArray() {
+        String digestNotation;
+        StringBuilder testChars = new StringBuilder();
+        Random rand = new Random();
+        byte[] randomBytes = getRandomBytes(1000);
+
+        for (int i = 0; i < 1000; i++) {
+            randomBytes = getRandomBytes(1000);
+            digestNotation = Password.getDigestNotation(randomBytes, 6, null);
+            assertTrue(digestNotation.matches("[\\p{Alnum},-]*"));
+
+            assertEquals(digestNotation, Password.getDigestNotation(
+                    randomBytes, 6, null));
+            assertEquals(digestNotation, Password.getDigestNotation(
+                    randomBytes, 7, null));
+            assertEquals(digestNotation, Password.getDigestNotation(
+                    randomBytes, Integer.MAX_VALUE, null));
+            assertEquals(digestNotation, Password.getDigestNotation(
+                    randomBytes, 100, null));
+
+            digestNotation = Password.getDigestNotation(randomBytes, 6,
+                    new char[] {});
+            assertTrue(digestNotation.matches("[\\p{Alnum},-]*"));
+
+            digestNotation = Password.getDigestNotation(randomBytes, 6,
+                    new char[] { 'a' });
+            assertTrue(digestNotation.matches("[\\p{Alnum},-]*"));
+        }
+
+        // running this 1000 times takes too long so run only once and not the
+        // whole char space either, as that takes too long, too.
+        int stepping = 250;
+        for (char b = Character.MIN_VALUE; b <= Character.MAX_VALUE - stepping
+                + 1; b += rand.nextInt(stepping) + 1) {
+            testChars.append(b);
+            if (testChars.length() < 2) {
+                continue;
+            }
+
+            assertTrue(Password.getDigestNotation(randomBytes, 1,
+                    testChars.toString().toCharArray()).matches(
+                    "[" + Pattern.quote(testChars.toString()) + "]*"));
+        }
     }
 }
