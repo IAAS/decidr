@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.user.CreateNewUnregisteredUserCommand;
 import de.decidr.model.entities.Invitation;
@@ -85,7 +86,7 @@ public class InviteUsersAsTenantMembersCommand extends TenantCommand {
         for (String uname : usernames) {
 
             Query q = evt.getSession().createQuery(
-                    "from UserProfile where username= :uname");
+                    "from UserProfile where username = :uname");
             q.setString("uname", uname);
 
             profile = (UserProfile) q.uniqueResult();
@@ -121,6 +122,7 @@ public class InviteUsersAsTenantMembersCommand extends TenantCommand {
             invi.setJoinTenant(tenant);
             invi.setReceiver(newUser);
             invi.setSender(actor);
+            invi.setCreationDate(DecidrGlobals.getTime().getTime());
             evt.getSession().save(invi);
 
             NotificationEvents.invitedUnregisteredUserAsTenantMember(invi);

@@ -27,7 +27,6 @@ import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
-import de.decidr.model.workflowmodel.dwdl.translator.Translator;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
 /**

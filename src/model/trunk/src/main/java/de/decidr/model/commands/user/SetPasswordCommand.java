@@ -16,9 +16,6 @@
 
 package de.decidr.model.commands.user;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
 import de.decidr.model.acl.Password;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.UserProfile;
@@ -59,22 +56,16 @@ public class SetPasswordCommand extends UserCommand {
             throw new EntityNotFoundException(UserProfile.class, getUserId());
         }
 
-        try {
-            String hash = Password.getHash(oldPassword, profile
-                    .getPasswordSalt());
+        String hash = Password.getHash(oldPassword, profile
+                .getPasswordSalt());
 
-            if (hash.equals(profile.getPasswordHash())) {
-                // the given oldPassword is correct
-                profile.setPasswordHash(Password.getHash(newPassword, Password
-                        .getRandomSalt()));
-            }
-
-            evt.getSession().update(profile);
-        } catch (NoSuchAlgorithmException e) {
-            throw new TransactionException(e);
-        } catch (UnsupportedEncodingException e) {
-            throw new TransactionException(e);
+        if (hash.equals(profile.getPasswordHash())) {
+            // the given oldPassword is correct
+            profile.setPasswordHash(Password.getHash(newPassword, Password
+                    .getRandomSalt()));
         }
+
+        evt.getSession().update(profile);
 
         passwordWasChanged = true;
     }

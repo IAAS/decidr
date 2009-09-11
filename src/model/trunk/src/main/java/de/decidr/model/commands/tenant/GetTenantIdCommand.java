@@ -15,8 +15,6 @@
  */
 package de.decidr.model.commands.tenant;
 
-import java.util.List;
-
 import org.hibernate.Query;
 
 import de.decidr.model.acl.roles.Role;
@@ -53,22 +51,19 @@ public class GetTenantIdCommand extends TenantCommand {
         this.tenantName = tenantName;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        Query q = evt.getSession().createQuery("from Tenant where name=:tname");
-        q.setString("tname", tenantName);
-        List<Tenant> result = q.list();
+        Query q = evt.getSession().createQuery(
+                "from Tenant where name = :tenantName");
+        q.setString("tenantName", tenantName);
+        Tenant result = (Tenant) q.uniqueResult();
 
-        if (result.size() > 1) {
-            throw new TransactionException(
-                    "More than one Tenant found. But Tenant name schould be unique.");
-        } else if (result.size() == 0) {
+        if (result == null) {
             throw new EntityNotFoundException(Tenant.class);
         } else {
-            tenantId = result.get(0).getId();
+            tenantId = result.getId();
         }
     }
 

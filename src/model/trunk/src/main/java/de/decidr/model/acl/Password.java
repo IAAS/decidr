@@ -28,31 +28,35 @@ import java.util.UUID;
  * @author Daniel Huss
  * @version 0.1
  */
-public class Password {
+public final class Password {
 
     /**
      * Do NOT change the algorithm or password charset unless absolutely
      * necessary. Changing the algorithm will render all users unable to log
      * into the system until they reset their passwords.
      */
-    // DH do you mind if I implement a package private getter for this field? I
-    // need some way to access this to write a proper test case. (see below) ~rr
     private static final String hashAlgorithm = "SHA-512";
 
-    // DH java uses UTF-16 for strings - are you sure this is correct? ~rr
+    /**
+     * For <strong>consistency</strong>, all password strings are converted to
+     * this encoding before they are hashed.
+     */
     private static final String charset = "UTF-8";
+
+    /**
+     * The number of bits that comprise a byte (if some standard Java class
+     * already defines this, please let me know).
+     */
+    private static final int BITS_PER_BYTE = 8;
 
     /**
      * Character table used to create a hex string from a byte array.
      */
-    // DH Sollte auch ohne casts gehn. ~rr
-    private static final byte[] hexCharTable = { (byte) '0', (byte) '1',
-            (byte) '2', (byte) '3', (byte) '4', (byte) '5', (byte) '6',
-            (byte) '7', (byte) '8', (byte) '9', (byte) 'a', (byte) 'b',
-            (byte) 'c', (byte) 'd', (byte) 'e', (byte) 'f' };
+    private static final char[] hexCharTable = { '0', '1', '2', '3', '4', '5',
+            '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
     /**
-     * Character table used to create an authentication key from a byte array.
+     * Character table used to create a random password.
      */
     private static final char[] alnumCharTable = { '0', '1', '2', '3', '4',
             '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
@@ -60,68 +64,144 @@ public class Password {
             'v', 'w', 'x', 'y', 'z' };
 
     /**
-     * Needed for testing purposes. Returns <code>{@link #hashAlgorithm}</code>.
+     * Returns the used <code>{@link #hashAlgorithm}</code>.
      */
-    static final String getHashAlgorithm() {
+    public static final String getHashAlgorithm() {
         return hashAlgorithm;
     }
 
     /**
-     * Returns a lowercase hex string representing the given raw byte array.
+     * Returns a string representation of the given raw message digest.
+     * <p>
+     * This is a java port of the code posted by "Andre D" at
+     * "http://de2.php.net/manual/en/function.sha1.php" on 09-Oct-2008 03:28
      * 
-     * @param raw
-     *            raw bytes to convert
-     * @return lowercase hex representation of raw input.
-     * @throws UnsupportedEncodingException
-     *             if the system doesn't support the ASCII encoding (should
-     *             never happen)
+     * @param bytes
+     *            raw message digest
+     * @param bitsPerCharacter
+     *            bits per character, if this value is too small using the given
+     *            character set, it will be adjusted to the maximum possible
+     *            value for the character set.
+     * @param chars
+     *            charcacter set to use. If null or an array that contains less
+     *            than two characters is passed, all alphanumeric characters
+     *            (upper and lowercase), the minus sign and the comma will be
+     *            used.<br>
+     *            This default character set allows for 6 bits per character. It
+     *            is your responsibility to make sure that there are no
+     *            duplicate characters in the provided array.
+     * @return string the string representation of the given message digest
      */
-    // DH I made this package private to ease testing
-    static String getHexString(byte[] raw) throws UnsupportedEncodingException {
-        byte[] hex = new byte[2 * raw.length];
-        int index = 0;
+    public static String getDigestNotation(byte[] bytes, int bitsPerCharacter,
+            char[] chars) {
 
-        for (byte b : raw) {
-            int v = b & 0xFF;
-            hex[index++] = hexCharTable[v >>> 4];
-            hex[index++] = hexCharTable[v & 0xF];
+        if (chars == null || chars.length < 2) {
+            chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-,"
+                    .toCharArray();
         }
-        return new String(hex, "ASCII");
+
+        if (bitsPerCharacter < 1) {
+            // bitsPerCharacter must be at least 1
+            bitsPerCharacter = 1;
+
+        } else if (chars.length < Math.pow(2, bitsPerCharacter)) {
+            // Character length of chars is too small for bitsPerCharacter
+            // Set bitsPerCharacter to greatest value allowed by length of chars
+            bitsPerCharacter = 1;
+            int minCharLength = 2;
+
+            while (chars.length >= (minCharLength *= 2)) {
+                bitsPerCharacter++;
+            }
+        }
+
+        int byteCount = bytes.length;
+
+        StringBuffer result = new StringBuffer();
+
+        int byteIdx = 0;
+        byte currentByte = bytes[byteIdx];
+
+        int bitsRead = 0;
+
+        for (int i = 0; i < byteCount * BITS_PER_BYTE / bitsPerCharacter; i++) {
+
+            int oldBits;
+            int oldBitCount;
+
+            if (bitsRead + bitsPerCharacter > BITS_PER_BYTE) {
+                // Not enough bits remain in this currentByte for the current
+                // character
+                // Get remaining bits and get next byte
+                oldBits = currentByte
+                        - (currentByte >> BITS_PER_BYTE - bitsRead << BITS_PER_BYTE
+                                - bitsRead);
+
+                if (byteIdx == bytes.length - 1) {
+                    // Last bits; match final character and exit loop
+                    result.append(chars[oldBits]);
+                    break;
+                }
+
+                oldBitCount = BITS_PER_BYTE - bitsRead;
+
+                byteIdx++;
+                currentByte = bytes[byteIdx];
+                bitsRead = 0;
+
+            } else {
+                oldBitCount = 0;
+                oldBits = 0;
+            }
+
+            // Read only the needed bits from this byte
+            int bits = currentByte >> BITS_PER_BYTE
+                    - (bitsRead + (bitsPerCharacter - oldBitCount));
+            bits = bits
+                    - (bits >> bitsPerCharacter - oldBitCount << bitsPerCharacter
+                            - oldBitCount);
+            bitsRead += bitsPerCharacter - oldBitCount;
+
+            if (oldBitCount > 0) {
+                // Bits come from seperate bytes, add oldBits to bits
+                bits = (oldBits << bitsPerCharacter - oldBitCount) | bits;
+            }
+
+            result.append(chars[bits]);
+        }
+
+        return result.toString();
     }
 
     /**
-     * Returns an alphanumeric string representation of the given raw byte
-     * array.
+     * Returns a string representation of the given raw message digest using all
+     * alphanumeric characters (upper and lowercase), the minus sign and the
+     * comma.
      * 
-     * @param raw
-     *            bytes that are mapped to alphanumeric characters.
-     * @return alphanumeric string
+     * @param bytes
+     *            raw message digest
+     * @return string the string representation of the given message digest
      */
-    private static String getAlnumString(byte[] raw) {
-        // DH why not simply
-        // "return new String(raw).replaceAll("\\W|_", "0").toLowerCase();"
-        // (replaces all non-alnum characters with a 0 and then lower-cases
-        // what's left)? ~rr
-        StringBuffer buf = new StringBuffer(raw.length);
-
-        for (byte b : raw) {
-            // DH was macht diese Zeile? (mit der 2 kommt wenigstens bei a-z das
-            // selbe raus) ~rr
-            int positive = b + Byte.MAX_VALUE + 2;
-            buf.append(alnumCharTable[positive % alnumCharTable.length]);
-        }
-
-        return buf.toString();
+    public static String getDigestNotation(byte[] bytes) {
+        return getDigestNotation(bytes, 6, null);
     }
 
     /**
      * Returns a hash string of the given plaintext password using the given
-     * salt, using the following algorithm (where <code><em>ALG</em></code>
-     * represents the hashing algorithm specified by
-     * <code>{@link Password#hashAlgorithm}</code>):<br>
+     * salt using the following algorithm:
+     * <ul>
+     * <li><code><em>ALG</em></code> represents the hashing algorithm specified
+     * by <code>{@link Password#hashAlgorithm}.</code></li>
+     * <li>ALG<sup>n</sup> means that the algorithm is iterated n times.</li>
+     * <li>data1 * data2 is an algorithm-dependent operation which causes the
+     * digest to be updated with data1 before finalizing the digest using data2.</li>
+     * </ul>
+     * <code>hash :=  <em>ALG</em><sup>5000</sup>(<em>ALG</em>( salt * plaintext ) )</code>
      * <br>
-     * <code>hash := <em>ALG</em>( <em>ALG</em>( plaintext * salt ) )</code><br>
-     * XXX: define the "String * String" operation.
+     * 
+     * <p>
+     * Note that the encoding of password and salt are converted to UTF-8 before
+     * hashing for consistency.
      * 
      * @param plaintext
      *            the plaintext password
@@ -129,35 +209,47 @@ public class Password {
      *            the salt as generated by getRandomSalt in lowercase hex string
      *            representation.
      * @return the password hash in lowercase hex string representation
-     * @throws NoSuchAlgorithmException
-     *             iff the hashing algorithm specified by
-     *             <code>{@link Password#hashAlgorithm}</code> is not available
-     * @throws UnsupportedEncodingException
-     *             iff the encodings UTF-8 or ASCII are not supported<br>
-     *             XXX shouldn't this be wrapped inside a RuntimeException? ~rr
+     * @throws RuntimeException
+     *             <ul>
+     *             <li> iff the hashing algorithm specified by <code>
+     *             {@link Password#hashAlgorithm}</code> is not available</li>
+     *             <li>iff the encodings UTF-8 or ASCII are not supported</li>
+     *             </ul>
      */
-    public static String getHash(String plaintext, String salt)
-            throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static String getHash(String plaintext, String salt) {
+        if (plaintext == null || salt == null) {
+            throw new IllegalArgumentException(
+                    "Password and salt must not be null.");
+        }
 
-        MessageDigest digest = MessageDigest
-                .getInstance(Password.hashAlgorithm);
+        MessageDigest digest;
+        byte[] result;
 
-        digest.reset();
-        digest.update(salt.getBytes(Password.charset));
+        try {
+            digest = MessageDigest.getInstance(Password.hashAlgorithm);
+            digest.reset();
+            digest.update(salt.getBytes(Password.charset));
 
-        byte[] result = digest.digest(plaintext.getBytes(Password.charset));
+            result = digest.digest(plaintext.getBytes(Password.charset));
 
-        // DH FYI: hashing multiple times doesn't increase security
-        // significantly ~rr
-        /*
-         * result now contains the salted hash of the password. For additional
-         * security, it is hashed again.
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+
+        /*-
+         * 5000 iterations are performed to make this a more costly operation.
+         *
+         * (see RFC 2898: http://tools.ietf.org/html/rfc2898)
          */
+        for (int iteration = 0; iteration < 5000; iteration++) {
+            digest.reset();
+            result = digest.digest(result);
+        }
 
-        digest.reset();
-        result = digest.digest(result);
-
-        return getHexString(result);
+        // the hex char table can store 4 bits in a single character.
+        return getDigestNotation(result, 4, hexCharTable);
     }
 
     /**
@@ -165,23 +257,36 @@ public class Password {
      * lowercase alphanumerical characters.
      * 
      * @return The authentication key
-     * @throws NoSuchAlgorithmException
-     *             iff the hashing algorithm SHA-512 is not available
-     * @throws UnsupportedEncodingException
-     *             iff the encodings UTF-8 or ASCII are not supported
+     * @throws RuntimeException
+     *             <ul>
+     *             <li>iff the hashing algorithm specified by <code>
+     *             {@link Password#hashAlgorithm}</code>
+     *             is not available</li>
+     *             <li>iff the encodings UTF-8 or ASCII are not supported</li>
+     *             </ul>
      */
-    public static String getRandomAuthKey()
-            throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public static String getRandomAuthKey() {
         UUID uuid = UUID.randomUUID();
 
-        MessageDigest digest = MessageDigest.getInstance(hashAlgorithm);
-        digest.reset();
-        byte[] randomBytes = digest.digest(uuid.toString().getBytes(charset));
+        byte[] randomBytes;
+
+        try {
+            MessageDigest digest = MessageDigest.getInstance(hashAlgorithm);
+            digest.reset();
+
+            randomBytes = digest.digest(uuid.toString().getBytes(charset));
+
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
 
         /*
          * randomBytes now contains 64 random bytes
          */
-        return getAlnumString(randomBytes);
+        return getDigestNotation(randomBytes, 8, alnumCharTable).substring(0,
+                64);
     }
 
     /**
@@ -189,29 +294,37 @@ public class Password {
      * alphanumerical characters for use with password hashing.
      * 
      * @return Salt in lowercase hex string representation.
-     * @throws NoSuchAlgorithmException
-     *             iff the hashing algorithm SHA-512 is not available
-     * @throws UnsupportedEncodingException
-     *             iff the encodings UTF-8 or ASCII are not supported
+     * @throws RuntimeException
+     *             <ul>
+     *             <li>iff the hashing algorithm specified by <code>
+     *             {@link Password#hashAlgorithm}</code>
+     *             is not available</li>
+     *             <li>iff the encodings UTF-8 or ASCII are not supported</li>
+     *             </ul>
      */
-    public static String getRandomSalt() throws NoSuchAlgorithmException,
-            UnsupportedEncodingException {
+    public static String getRandomSalt() {
         return getHash(UUID.randomUUID().toString(), Double.toString(Math
                 .random()));
     }
 
     /**
      * Creates a random password string consisting of alphanumerical characters.<br>
-     * XXX how long will it be? Upper vs. lower case? Variable vs. fixed length?
+     * Properties of the generated password:
+     * <ul>
+     * <li>Minimum length: 8 characters</li>
+     * <li>Maximum length: 12 characters</li>
+     * <li>Charset: [a-zA-Z0-9]</li>
+     * </ul>
      * 
      * @return a randomly generated password
      */
     public static String generateRandomPassword() {
-        int newPasswordLength = 12;
+        int minPasswordLength = 8;
         Random rnd = new Random();
+        int passwordLength = minPasswordLength + rnd.nextInt(5);
 
-        StringBuffer buf = new StringBuffer(newPasswordLength);
-        for (int i = 0; i < newPasswordLength; i++) {
+        StringBuffer buf = new StringBuffer(minPasswordLength);
+        for (int i = 1; i <= passwordLength; i++) {
             char c = alnumCharTable[rnd.nextInt(alnumCharTable.length)];
             if (rnd.nextBoolean()) {
                 c = Character.toUpperCase(c);

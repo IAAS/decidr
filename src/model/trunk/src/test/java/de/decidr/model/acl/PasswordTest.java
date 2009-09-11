@@ -365,4 +365,11 @@ public class PasswordTest {
             assertFalse(comparePasswd.equals(passwd));
         }
     }
+    
+    /**
+     * Test method for {@link Password#getDigestNotation(byte[], int, char[])}
+     */
+    public void testgetDigestNotation() {
+        //RR
+    }
 }

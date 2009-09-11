@@ -16,9 +16,7 @@
 
 package de.decidr.model.commands.user;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
-import java.security.NoSuchAlgorithmException;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.Criteria;
@@ -145,33 +143,22 @@ public class RegisterUserCommand extends AclEnabledCommand {
             }
         }
 
-        /*
-         * Now existingUser is a persisted user that has no profile - lets
-         * assign his profile and create a registration request!
-         */
-        try {
-            profile.setPasswordSalt(Password.getRandomSalt());
-            profile.setPasswordHash(Password.getHash(passwordPlaintext, profile
-                    .getPasswordSalt()));
-            profile.setUserId(existingUser.getId());
-            profile.setUser(existingUser);
-            existingUser.setUserProfile(profile);
-            evt.getSession().save(profile);
-            evt.getSession().update(existingUser);
+        profile.setPasswordSalt(Password.getRandomSalt());
+        profile.setPasswordHash(Password.getHash(passwordPlaintext, profile
+                .getPasswordSalt()));
+        profile.setUserId(existingUser.getId());
+        profile.setUser(existingUser);
+        existingUser.setUserProfile(profile);
+        evt.getSession().save(profile);
+        evt.getSession().update(existingUser);
 
-            RegistrationRequest request = new RegistrationRequest();
+        RegistrationRequest request = new RegistrationRequest();
 
-            request.setAuthKey(Password.getRandomAuthKey());
-            request.setCreationDate(DecidrGlobals.getTime().getTime());
-            request.setUser(existingUser);
-            evt.getSession().saveOrUpdate(request);
-            existingUser.setRegistrationRequest(request);
-
-        } catch (UnsupportedEncodingException e) {
-            throw new TransactionException(e);
-        } catch (NoSuchAlgorithmException e) {
-            throw new TransactionException(e);
-        }
+        request.setAuthKey(Password.getRandomAuthKey());
+        request.setCreationDate(DecidrGlobals.getTime().getTime());
+        request.setUser(existingUser);
+        evt.getSession().saveOrUpdate(request);
+        existingUser.setRegistrationRequest(request);
 
         registeredUser = existingUser;
     }

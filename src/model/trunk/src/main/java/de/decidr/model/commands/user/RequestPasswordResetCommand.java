@@ -16,11 +16,7 @@
 
 package de.decidr.model.commands.user;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
 import de.decidr.model.DecidrGlobals;
-import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.acl.Password;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
@@ -28,6 +24,7 @@ import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.PasswordResetRequest;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
@@ -72,24 +69,17 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
                 "emailOrUsername", emailOrUsername).uniqueResult();
 
         if (user != null) {
-            try {
-                PasswordResetRequest request = new PasswordResetRequest();
-                request.setUserId(user.getId());
-                request.setUser(user);
-                request.setAuthKey(Password.getRandomAuthKey());
-                request.setCreationDate(DecidrGlobals.getTime().getTime());
+            PasswordResetRequest request = new PasswordResetRequest();
+            request.setUserId(user.getId());
+            request.setUser(user);
+            request.setAuthKey(Password.getRandomAuthKey());
+            request.setCreationDate(DecidrGlobals.getTime().getTime());
 
-                // Overwrite an existing password reset request
-                evt.getSession().saveOrUpdate(request);
+            // Overwrite an existing password reset request
+            evt.getSession().saveOrUpdate(request);
 
-                NotificationEvents.createdPasswordResetRequest(request);
-                requestWasCreated = true;
-
-            } catch (UnsupportedEncodingException e) {
-                throw new TransactionException(e);
-            } catch (NoSuchAlgorithmException e) {
-                throw new TransactionException(e);
-            }
+            NotificationEvents.createdPasswordResetRequest(request);
+            requestWasCreated = true;
         }
     }
 

@@ -16,9 +16,6 @@
 
 package de.decidr.model.commands.user;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.Password;
 import de.decidr.model.acl.permissions.Permission;
@@ -67,13 +64,7 @@ public class CreateNewUnregisteredUserCommand extends AclEnabledCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
         newUser.setId(null);
-        try {
-            newUser.setAuthKey(Password.getRandomAuthKey());
-        } catch (UnsupportedEncodingException e) {
-            throw new TransactionException(e);
-        } catch (NoSuchAlgorithmException e) {
-            throw new TransactionException(e);
-        }
+        newUser.setAuthKey(Password.getRandomAuthKey());
         newUser.setRegisteredSince(null);
         newUser.setDisabledSince(null);
         newUser.setUnavailableSince(null);

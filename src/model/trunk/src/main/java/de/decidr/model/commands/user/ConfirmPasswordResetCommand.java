@@ -16,17 +16,14 @@
 
 package de.decidr.model.commands.user;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
 import de.decidr.model.LifetimeValidator;
-import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.acl.Password;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.PasswordResetRequest;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
@@ -83,31 +80,25 @@ public class ConfirmPasswordResetCommand extends UserCommand {
                 .isPasswordResetRequestValid(request);
 
         if (isAlive) {
-            try {
-                // generate a new password
-                UserProfile profile = (UserProfile) evt.getSession().get(
-                        UserProfile.class, getUserId());
+            // generate a new password
+            UserProfile profile = (UserProfile) evt.getSession().get(
+                    UserProfile.class, getUserId());
 
-                if (profile == null) {
-                    throw new EntityNotFoundException(UserProfile.class,
-                            getUserId());
-                }
-
-                newPassword = Password.generateRandomPassword();
-                profile.setPasswordHash(Password.getHash(newPassword, profile
-                        .getPasswordSalt()));
-
-                // save new password
-                evt.getSession().save(profile);
-
-                // notify the user
-                NotificationEvents.generatedNewPassword(profile.getUser(),
-                        newPassword);
-            } catch (NoSuchAlgorithmException e) {
-                throw new TransactionException(e);
-            } catch (UnsupportedEncodingException e) {
-                throw new TransactionException(e);
+            if (profile == null) {
+                throw new EntityNotFoundException(UserProfile.class,
+                        getUserId());
             }
+
+            newPassword = Password.generateRandomPassword();
+            profile.setPasswordHash(Password.getHash(newPassword, profile
+                    .getPasswordSalt()));
+
+            // save new password
+            evt.getSession().save(profile);
+
+            // notify the user
+            NotificationEvents.generatedNewPassword(profile.getUser(),
+                    newPassword);
         } else {
             // the request has expired
             requestExpired = true;

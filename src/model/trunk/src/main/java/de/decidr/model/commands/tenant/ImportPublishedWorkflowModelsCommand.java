@@ -15,8 +15,13 @@
  */
 package de.decidr.model.commands.tenant;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.beanutils.BeanUtils;
+
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.access.WorkflowModelAccess;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Tenant;
@@ -33,7 +38,8 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-public class ImportPublishedWorkflowModelsCommand extends TenantCommand implements WorkflowModelAccess{
+public class ImportPublishedWorkflowModelsCommand extends TenantCommand
+        implements WorkflowModelAccess {
 
     private List<Long> modelIdList;
     private List<WorkflowModel> modelList;
@@ -56,27 +62,35 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand implemen
         this.modelIdList = workflowModelIds;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        Tenant t = (Tenant) evt.getSession().get(Tenant.class, getTenantId());
+        Date now = DecidrGlobals.getTime().getTime();
+        
+        Tenant t = fetchTenant(evt.getSession());
 
-        if (t == null) {
-            throw new EntityNotFoundException(Tenant.class, getTenantId());
-        }
-
-        for (Long id : modelIdList) {
-            modelList.add((WorkflowModel) evt.getSession().load(
-                    WorkflowModel.class, id));
-        }
+        modelList = evt.getSession().createQuery(
+                "from WorkflowModel m where m.id in (:modelIds)")
+                .setParameterList("modelIds", modelIdList).list();
 
         for (WorkflowModel model : modelList) {
 
             if (model.isPublished()) {
-                model.setId(null);
-                model.setTenant(t);
-                evt.getSession().save(t);
+                // create a copy of the model that belongs to tenant "t"
+                WorkflowModel newModel = new WorkflowModel();
+                newModel.setPublished(false);
+                newModel.setTenant(t);
+                newModel.setDwdl(model.getDwdl());
+                newModel.setDescription(model.getDescription());
+                newModel.setName(model.getName());
+                newModel.setModifiedByUser(t.getAdmin());
+                newModel.setModifiedDate(now);
+                newModel.setCreationDate(now);
+                newModel.setVersion(0);
+                newModel.setExecutable(false);
+                evt.getSession().save(newModel);
             } else {
                 throw new TransactionException(
                         "Given workflowModel is not published.");

@@ -16,9 +16,6 @@
 
 package de.decidr.model.commands.user;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
 import org.hibernate.Criteria;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
@@ -89,27 +86,20 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
             throw new EntityNotFoundException(User.class);
         }
 
-        try {
-            String hash = Password.getHash(passwordPlaintext, existingUser
-                    .getUserProfile().getPasswordSalt());
+        String hash = Password.getHash(passwordPlaintext, existingUser
+                .getUserProfile().getPasswordSalt());
 
-            // is the password correct?
-            passwordCorrect = hash.equals(existingUser.getUserProfile()
-                    .getPasswordHash());
-            user = existingUser;
+        // is the password correct?
+        passwordCorrect = hash.equals(existingUser.getUserProfile()
+                .getPasswordHash());
+        user = existingUser;
 
-            // log the login to the database
-            Login thisLogin = new Login();
-            thisLogin.setLoginDate(DecidrGlobals.getTime().getTime());
-            thisLogin.setSuccess(passwordCorrect);
-            thisLogin.setUser(existingUser);
-            evt.getSession().save(thisLogin);
-
-        } catch (NoSuchAlgorithmException e) {
-            throw new TransactionException(e);
-        } catch (UnsupportedEncodingException e) {
-            throw new TransactionException(e);
-        }
+        // log the login to the database
+        Login thisLogin = new Login();
+        thisLogin.setLoginDate(DecidrGlobals.getTime().getTime());
+        thisLogin.setSuccess(passwordCorrect);
+        thisLogin.setUser(existingUser);
+        evt.getSession().save(thisLogin);
     }
 
     /**
