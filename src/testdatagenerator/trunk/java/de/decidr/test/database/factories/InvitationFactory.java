@@ -25,6 +25,11 @@ import de.decidr.test.database.main.ProgressListener;
 public class InvitationFactory extends EntityFactory {
 
     /**
+     * Pools for random selection.
+     */
+    private List<User> userPool = null;
+
+    /**
      * Constructor
      * 
      * @param session
@@ -52,16 +57,16 @@ public class InvitationFactory extends EntityFactory {
     public List<Invitation> createRandomInvitations(int numInvitations) {
         ArrayList<Invitation> result = new ArrayList<Invitation>();
 
-        // fetch available invitation receivers from database
-        List<User> users = session.createQuery("from User u").list();
-        if (users == null || users.isEmpty()) {
+        // fill random pools
+        userPool = session.createQuery("from User u").list();
+        if (userPool == null || userPool.isEmpty()) {
             throw new RuntimeException(
                     "need at least one user to create invitations.");
         }
 
         for (int i = 0; i < numInvitations; i++) {
             Invitation newInvitation;
-            User randomUser = users.get(rnd.nextInt(users.size()));
+            User randomUser = userPool.get(rnd.nextInt(userPool.size()));
 
             switch (i % 3) {
             case 0:

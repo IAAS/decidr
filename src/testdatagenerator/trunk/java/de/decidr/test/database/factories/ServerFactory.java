@@ -77,6 +77,7 @@ public class ServerFactory extends EntityFactory {
                 server.setDynamicallyAdded(i + 1 > settings
                         .getServerPoolInstances());
                 server.setLoad((byte) rnd.nextInt(101));
+                server.setLastLoadUpdate(rnd.nextBoolean() ? null : getRandomDate(false, true, 30000));
                 server.setLocation("http://localhost/server/" + type.toString()
                         + "/" + Integer.toString(i));
                 // at least one server remains unlocked

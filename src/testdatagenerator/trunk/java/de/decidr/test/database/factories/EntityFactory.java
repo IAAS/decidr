@@ -20,6 +20,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import org.hibernate.Session;
@@ -137,5 +138,40 @@ public class EntityFactory {
         if (progressListener != null) {
             progressListener.reportProgress(totalItems, doneItems);
         }
+    }
+
+    /**
+     * Returns a subset containing numItems items of the given list, in random
+     * order.
+     * 
+     * @param list
+     *            must not be null
+     * @param numItems
+     *            must be positive
+     * @return random subset
+     */
+    @SuppressWarnings("unchecked")
+    public List getRandomList(List list, int numItems) {
+        ArrayList result = new ArrayList(Math.min(list.size(), numItems));
+
+        if (list.isEmpty()) {
+            // nothing to do, return empty list
+        } else if (list.size() == 1) {
+            // (frequent) special case where the input list can serve as a
+            // random pool
+            result.add(list.get(rnd.nextInt(list.size())));
+        } else {
+            // create temporary shallow copy that serves as a random pool.
+            ArrayList copy = new ArrayList(list.size());
+            copy.addAll(list);
+
+            for (int i = 0; i < numItems; i++) {
+                result.add(copy.remove(rnd.nextInt(copy.size())));
+            }
+
+            copy.clear();
+        }
+
+        return result;
     }
 }

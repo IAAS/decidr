@@ -1,7 +1,5 @@
 package de.decidr.test.database.factories;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,103 +70,94 @@ public class UserFactory extends EntityFactory {
      * @return
      */
     public List<User> createRandomUsers(int numUsers) {
-        try {
-            ArrayList<User> result = new ArrayList<User>(numUsers);
+        ArrayList<User> result = new ArrayList<User>(numUsers);
 
-            for (int i = 0; i < numUsers; i++) {
-                User user = new User();
+        for (int i = 0; i < numUsers; i++) {
+            User user = new User();
+            
+            Date now = DecidrGlobals.getTime().getTime();
+
+            user.setEmail(getUniqueEmailAddress(i));
+            user.setCreationDate(now);
+            session.save(user);
+
+            // every 23th user is banned
+            user.setDisabledSince((i % 23 == 0) ? now : null);
+
+            // every 13th user is unavailable
+            user.setUnavailableSince((i % 13 == 0) ? now : null);
+
+            // every 31th user wants to change his email address
+            if (i % 31 == 0) {
+                ChangeEmailRequest request = new ChangeEmailRequest();
+                request.setAuthKey(Password.getRandomAuthKey());
+                request.setCreationDate(now);
+                request.setNewEmail("new_" + getUniqueEmailAddress(i));
+                request.setUser(user);
+                session.save(request);
+                user.setChangeEmailRequest(request);
+            }
+
+            // half our users will be registered users, the other half are
+            // unregistered users
+            if (i % 2 == 0) {
+                // the user is a registered user
+
+                UserProfile profile = new UserProfile();
+                profile
+                        .setLastName(lastNames[rnd
+                                .nextInt(lastNames.length)]);
+                profile.setFirstName(firstNames[rnd
+                        .nextInt(firstNames.length)]);
+                profile.setCity(cities[rnd.nextInt(cities.length)]);
+                profile.setPostalCode(Integer.toString(rnd.nextInt(99999)));
+                profile.setStreet(streets[rnd.nextInt(streets.length)]
+                        + " " + Integer.toString(rnd.nextInt(999)));
+                String username = "user" + Integer.toString(i);
+                profile.setUsername(username);
+                profile.setPasswordSalt(Password.getRandomSalt());
+                profile.setPasswordHash(Password.getHash(username, profile
+                        .getPasswordSalt()));
+                profile.setUser(user);
+                user.setRegisteredSince(now);
+
+                user.setAuthKey(null);
                 
-                Date now = DecidrGlobals.getTime().getTime();
+                session.save(profile);
+                user.setUserProfile(profile);
 
-                user.setEmail(getUniqueEmailAddress(i));
-                user.setCreationDate(now);
-                session.save(user);
-
-                // every 23th user is banned
-                user.setDisabledSince((i % 23 == 0) ? now : null);
-
-                // every 13th user is unavailable
-                user.setUnavailableSince((i % 13 == 0) ? now : null);
-
-                // every 31th user wants to change his email address
-                if (i % 31 == 0) {
-                    ChangeEmailRequest request = new ChangeEmailRequest();
+                // every 17th registered user has not yet confirmed his
+                // registration request
+                if (i % 17 == 0) {
+                    RegistrationRequest request = new RegistrationRequest();
                     request.setAuthKey(Password.getRandomAuthKey());
                     request.setCreationDate(now);
-                    request.setNewEmail("new_" + getUniqueEmailAddress(i));
                     request.setUser(user);
                     session.save(request);
-                    user.setChangeEmailRequest(request);
+                    user.setRegistrationRequest(request);
                 }
 
-                // half our users will be registered users, the other half are
-                // unregistered users
-                if (i % 2 == 0) {
-                    // the user is a registered user
-
-                    UserProfile profile = new UserProfile();
-                    profile
-                            .setLastName(lastNames[rnd
-                                    .nextInt(lastNames.length)]);
-                    profile.setFirstName(firstNames[rnd
-                            .nextInt(firstNames.length)]);
-                    profile.setCity(cities[rnd.nextInt(cities.length)]);
-                    profile.setPostalCode(Integer.toString(rnd.nextInt(99999)));
-                    profile.setStreet(streets[rnd.nextInt(streets.length)]
-                            + " " + Integer.toString(rnd.nextInt(999)));
-                    String username = "user" + Integer.toString(i);
-                    profile.setUsername(username);
-                    profile.setPasswordSalt(Password.getRandomSalt());
-                    profile.setPasswordHash(Password.getHash(username, profile
-                            .getPasswordSalt()));
-                    profile.setUser(user);
-                    user.setRegisteredSince(now);
-
-                    user.setAuthKey(null);
-                    
-                    session.save(profile);
-                    user.setUserProfile(profile);
-
-                    // every 17th registered user has not yet confirmed his
-                    // registration request
-                    if (i % 17 == 0) {
-                        RegistrationRequest request = new RegistrationRequest();
-                        request.setAuthKey(Password.getRandomAuthKey());
-                        request.setCreationDate(now);
-                        request.setUser(user);
-                        session.save(request);
-                        user.setRegistrationRequest(request);
-                    }
-
-                    // every 29th registered user wants to reset his password
-                    if (i % 29 == 0) {
-                        PasswordResetRequest request = new PasswordResetRequest();
-                        request.setAuthKey(Password.getRandomAuthKey());
-                        request.setCreationDate(now);
-                        request.setUser(user);
-                        session.save(request);
-                        user.setPasswordResetRequest(request);
-                    }
-
-                } else {
-                    // the user is not registered
-                    user.setAuthKey(Password.getRandomAuthKey());
+                // every 29th registered user wants to reset his password
+                if (i % 29 == 0) {
+                    PasswordResetRequest request = new PasswordResetRequest();
+                    request.setAuthKey(Password.getRandomAuthKey());
+                    request.setCreationDate(now);
+                    request.setUser(user);
+                    session.save(request);
+                    user.setPasswordResetRequest(request);
                 }
 
-                session.update(user);
-                result.add(user);
-                
-                fireProgressEvent(numUsers, i+1);
+            } else {
+                // the user is not registered
+                user.setAuthKey(Password.getRandomAuthKey());
             }
-            return result;
 
-        } catch (NoSuchAlgorithmException e) {
-            // this should never happen, abort!
-            throw new RuntimeException(e);
-        } catch (UnsupportedEncodingException e) {
-            // this should never happen, abort!
-            throw new RuntimeException(e);
+            session.update(user);
+            result.add(user);
+            
+            fireProgressEvent(numUsers, i+1);
         }
+        return result;
     }
 
     /**
@@ -177,16 +166,8 @@ public class UserFactory extends EntityFactory {
      */
     private String getUniqueEmailAddress(int localPartNumber) {
         String localpart;
-        try {
-            localpart = "user_" + Integer.toString(localPartNumber) + "_"
-                    + Password.getRandomSalt();
-        } catch (NoSuchAlgorithmException e) {
-            // this should never happen, abort!
-            throw new RuntimeException(e);
-        } catch (UnsupportedEncodingException e) {
-            // this should never happen, abort!
-            throw new RuntimeException(e);
-        }
+        localpart = "user_" + Integer.toString(localPartNumber) + "_"
+                + Password.getRandomSalt();
 
         String domain = "test.decidr.de";
 

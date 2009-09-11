@@ -1,7 +1,5 @@
 package de.decidr.test.database.factories;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -105,15 +103,7 @@ public class WorkflowInstanceFactory extends EntityFactory {
                 }
             }
 
-            try {
-                newInstance.setOdePid(Password.getRandomAuthKey());
-            } catch (UnsupportedEncodingException e) {
-                // should never happen - abort!
-                throw new RuntimeException(e);
-            } catch (NoSuchAlgorithmException e) {
-                // should never happen - abort!
-                throw new RuntimeException(e);
-            }
+            newInstance.setOdePid(Password.getRandomAuthKey());
             newInstance.setServer(servers.get(rnd.nextInt(servers.size())));
             newInstance.setStartConfiguration(getBlobStub());
             newInstance.setDeployedWorkflowModel(deployedModels.get(rnd
