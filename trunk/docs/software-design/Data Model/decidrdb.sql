@@ -93,8 +93,8 @@ COMMENT = 'Stores user related data.';
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_profile` (
   `userId` BIGINT NOT NULL ,
   `username` VARCHAR(20) NOT NULL ,
-  `passwordHash` CHAR(128) NOT NULL COMMENT 'The system does not store the password in plain text, but uses a double hash and a salt to make attacks on the hashed password much harder. This field stores:\n\nSHA512( SHA512(password) XOR passwordSalt )' ,
-  `passwordSalt` CHAR(128) NOT NULL COMMENT 'The salt in hexit representation which is XORed with the first password hash.' ,
+  `passwordHash` CHAR(128) NOT NULL ,
+  `passwordSalt` CHAR(128) NOT NULL ,
   `firstName` VARCHAR(50) NULL ,
   `lastName` VARCHAR(50) NULL ,
   `street` VARCHAR(100) NULL ,
