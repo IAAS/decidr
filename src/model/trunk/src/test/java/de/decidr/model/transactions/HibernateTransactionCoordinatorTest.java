@@ -115,7 +115,6 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
                 .getInstance();
         TestCommandCommit c = new TestCommandCommit();
         TestCommandAbort c2 = new TestCommandAbort();
-        Boolean transactionThrown = false;
 
         htc.runTransaction(c);
 
@@ -125,15 +124,14 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
 
         try {
             htc.runTransaction(c2);
+            fail("transaction should have aborted but didn't");
         } catch (TransactionException e) {
-            transactionThrown = true;
+            // supposed to be thrown
         }
 
-        //RR This could be a typo, did you mean to check c2 instead? ~dh
-        assertTrue(c.getStarted());
-        assertFalse(c.getCommitted());
-        assertTrue(c.getAborted());
-        assertTrue(transactionThrown);
+        assertTrue(c2.getStarted());
+        assertFalse(c2.getCommitted());
+        assertTrue(c2.getAborted());
     }
 
     @Test
