@@ -27,24 +27,32 @@ package de.decidr.modelingtool.client.model.humantask;
 public class TaskItem {
 
     private String label = null;
+    private String hint = null;
     private Long variableId = null;
 
     /**
-     * Constructor for a tak item with a given label and the id of a
+     * Constructor for a task item with a given label, hint and the id of a
      * {@link Variable}.
      * 
      * @param label
      *            the label of the task item
+     * @param hint
+     *            hint message for the user
      * @param variableId
      *            the id of the variable
      */
-    public TaskItem(String label, Long variableId) {
+    public TaskItem(String label, String hint, Long variableId) {
         this.label = label;
+        this.hint = hint;
         this.variableId = variableId;
     }
 
     public String getLabel() {
         return label;
+    }
+
+    public String getHint() {
+        return hint;
     }
 
     public Long getVariableId() {
@@ -53,6 +61,10 @@ public class TaskItem {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public void setHint(String hint) {
+        this.hint = hint;
     }
 
     public void setVariableId(Long variableId) {

@@ -14,27 +14,24 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.ui.dialogs.valueeditor;
+package de.decidr.modelingtool.client.ui.dialogs.humantask;
 
 import java.util.List;
 
-import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 
 /**
- * EventHandler for {@link ValueFieldSet}. Handles the mouse click on the remove
- * button (Remove value) by removing the whole widget from the {@link FlexTable}
- * of the value editor.
+ * TODO: add comment
  * 
  * @author Jonas Schlaak
  */
-public class ValueFieldClickHandler implements ClickHandler {
+public class TaskItemClickHandler implements ClickHandler {
 
     private FlexTable table;
-    private ValueFieldWidget widget;
-    private List<TextField<String>> fields;
+    private TaskItemFieldSet widget;
+    private List<TaskItemFieldSet> fieldssets;
 
     /**
      * Default constructor for this event handler.
@@ -46,11 +43,11 @@ public class ValueFieldClickHandler implements ClickHandler {
      * @param fields
      *            the list which holds references to all value text fields
      */
-    public ValueFieldClickHandler(FlexTable table, ValueFieldWidget widget,
-            List<TextField<String>> fields) {
+    public TaskItemClickHandler(FlexTable table, TaskItemFieldSet widget,
+            List<TaskItemFieldSet> fieldsets) {
         this.table = table;
         this.widget = widget;
-        this.fields = fields;
+        this.fieldssets = fieldsets;
     }
 
     /*
@@ -62,7 +59,8 @@ public class ValueFieldClickHandler implements ClickHandler {
      */
     @Override
     public void onClick(ClickEvent event) {
-        fields.remove(widget.getTextField());
+        fieldssets.remove(widget);
         table.remove(widget);
     }
+
 }

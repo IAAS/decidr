@@ -19,17 +19,19 @@ package de.decidr.modelingtool.client.io;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 
 /**
- * The DWDLParser is responsible for converting a DWDL into a {@link WorkflowModel}. 
- *
+ * The DWDLParser is responsible for converting a DWDL into a
+ * {@link WorkflowModel}.
+ * 
  * @author Modood Alvi
  * @version 0.1
  */
 public interface DWDLParser {
-    
+
     /**
-     * TODO: add comment
-     *
+     * Parses an xml dwdl docuemnt and created a {@link WorkflowModel} from it.
+     * 
      * @param dwdl
+     *            the dwdl to parse
      * @return {@link WorkflowModel}
      */
     public WorkflowModel parse(String dwdl);

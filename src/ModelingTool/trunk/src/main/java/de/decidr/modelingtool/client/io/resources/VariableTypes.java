@@ -1,7 +1,7 @@
 package de.decidr.modelingtool.client.io.resources;
 
 /**
- * The names of the various variable types.
+ * The dwdl names of the various variable types.
  * 
  * @author Jonas Schlaak
  */
@@ -13,6 +13,7 @@ public class VariableTypes {
     public String BOOLEAN = "boolean";
     public String FILE = "anyURI";
     public String DATE = "date";
+    
     /* role is left intentionally empty, role has an extra tag */
     public String ROLE = "";
     public String FORM = "form";

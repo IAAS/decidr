@@ -62,7 +62,8 @@ public class WorkflowParserImpl implements WorkflowParser {
 
         /* Create work flow root element */
         Element workflowElement = doc.createElement(DWDLNames.root);
-        // JS set namespace properly, ask Modood
+        // JS namespace is set by model, parse it properly and save it to the
+        // workflow
         workflowElement.setAttribute(DWDLNames.name, model.getName());
         workflowElement.setAttribute(DWDLNames.id, model.getId().toString());
         workflowElement.setAttribute(DWDLNames.namespace, "http://decidr.de/"
@@ -339,7 +340,7 @@ public class WorkflowParserImpl implements WorkflowParser {
         userNotification.setAttribute(DWDLNames.name,
                 DWDLNames.userNotification);
         String valueText;
-        if (model.getNotify()) {
+        if (model.getNotifyActor()) {
             valueText = DWDLNames.yes;
         } else {
             valueText = DWDLNames.no;
@@ -360,6 +361,7 @@ public class WorkflowParserImpl implements WorkflowParser {
             Element taskItem = doc.createElement(DWDLNames.taskItem);
             Variable variable = VariablesFilter.getVariableById(ti
                     .getVariableId());
+            // JS: get ncname of task item
             taskItem.setAttribute(DWDLNames.name, "name");
             taskItem.setAttribute(DWDLNames.variable, variable.getId()
                     .toString());
@@ -367,6 +369,8 @@ public class WorkflowParserImpl implements WorkflowParser {
                     .getDwdlName());
             taskItem.appendChild(createTextElement(doc, DWDLNames.label, ti
                     .getLabel()));
+            taskItem.appendChild(createTextElement(doc, DWDLNames.hint, ti
+                    .getHint()));
             taskItem.appendChild(createTextElement(doc, DWDLNames.value,
                     variable.getValues().get(0)));
             humanTaskData.appendChild(taskItem);

@@ -386,9 +386,9 @@ public class DWDLParserImpl implements DWDLParser {
                         DWDLNames.propertyValue).get(0);
                 Text valueText = (Text) valueElement.getChildNodes().item(0);
                 if (valueText.getNodeValue() == DWDLNames.yes) {
-                    humanTaskModel.setNotifyVariableId(true);
+                    humanTaskModel.setNotifyActor(true);
                 } else {
-                    humanTaskModel.setNotifyVariableId(false);
+                    humanTaskModel.setNotifyActor(false);
                 }
             }
         }
@@ -414,7 +414,10 @@ public class DWDLParserImpl implements DWDLParser {
                     String label = new String(getChildNodesByTagName(
                             taskItemElement, DWDLNames.label).get(0)
                             .getNodeValue());
-                    TaskItem taskitem = new TaskItem(label, variableId);
+                    String hint = new String(getChildNodesByTagName(
+                            taskItemElement, DWDLNames.hint).get(0)
+                            .getNodeValue());
+                    TaskItem taskitem = new TaskItem(label, hint, variableId);
                     taskItems.add(taskitem);
                 }
                 humanTaskModel.setTaskItems(taskItems);

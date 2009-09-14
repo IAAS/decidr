@@ -28,7 +28,6 @@ import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.CheckBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
-import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.TextToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
@@ -54,7 +53,7 @@ import de.decidr.modelingtool.client.ui.dialogs.email.EmailActivityWindow;
  * comboboxes for selecting the role, the task name and description, the form
  * caontainer and a checkbox to determine whether the users should be notified
  * when they receive the work item or not. With the tool bar, the user can add
- * or remove a {@link HumanTaskFieldSet}.
+ * or remove a {@link TaskItemFieldSet}.
  * 
  * @author Jonas Schlaak
  */
@@ -67,24 +66,18 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
     private ScrollPanel scrollPanel;
     private FlexTable table;
 
-    /*
-     * This constant holds die number of fields which are not to be removed by
-     * the removeEntry method.
-     */
-    private static final int STATICFIELDS = 5;
-
     private ComboBox<Variable> userField;
     private ComboBox<Variable> nameField;
     private ComboBox<Variable> descriptionField;
     private ComboBox<Variable> formContainerField;
     private CheckBox notifyCheckBox;
 
-    private List<HumanTaskFieldSet> fieldsets;
+    private List<TaskItemFieldSet> fieldsets;
 
     public HumanTaskActivityWindow() {
         super();
         this.setLayout(new FitLayout());
-        this.setSize(600, 400);
+        this.setSize(400, 250);
         this.setResizable(true);
         createContentPanel();
         createButtons();
@@ -108,7 +101,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         table.setCellSpacing(2);
         scrollPanel = new ScrollPanel(table);
         contentPanel.add(scrollPanel);
-        fieldsets = new ArrayList<HumanTaskFieldSet>();
+        fieldsets = new ArrayList<TaskItemFieldSet>();
 
         createToolBar();
 
@@ -118,69 +111,18 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
     private void createToolBar() {
         ToolBar toolBar = new ToolBar();
 
-        /* tool bar button to add a human task field set */
-        TextToolItem addVar = new TextToolItem(ModelingToolWidget.messages
-                .addValue());
-        addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
+        /* tool bar button which displays the TaskItemWindow */
+        TextToolItem editButton = new TextToolItem(ModelingToolWidget.messages
+                .editTaskItems());
+        editButton.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
-                addFieldSetEntry(ModelingToolWidget.messages.newStringValue(),
-                        null);
+                TaskItemWindowInvoker.invoke(model);
             }
         });
-        toolBar.add(addVar);
-
-        /* tool bar button to remove a human task field set */
-        TextToolItem delVar = new TextToolItem(ModelingToolWidget.messages
-                .delValue());
-        delVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
-            @Override
-            public void componentSelected(ToolBarEvent ce) {
-                removeFieldSetEntry();
-            }
-        });
-        toolBar.add(delVar);
+        toolBar.add(editButton);
 
         this.setBottomComponent(toolBar);
-    }
-
-    /**
-     * Adds a human task field set
-     */
-    private void addFieldSetEntry(String label, Long variableId) {
-        table.insertRow(table.getRowCount());
-
-        /* label */
-        TextField<String> labelField = new TextField<String>();
-        labelField.setValue(label);
-        labelField.setAutoWidth(true);
-        table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingToolWidget.messages.workItemLabel()));
-        table.setWidget(table.getRowCount() - 1, 1, labelField);
-
-        /* combobox */
-        ComboBox<Variable> variableField = new ComboBox<Variable>();
-        variableField.setDisplayField(Variable.LABEL);
-        variableField.setStore(VariablesFilter.getAllVariables());
-        if (variableId != null) {
-            variableField.setValue(VariablesFilter.getVariableById(variableId));
-        }
-        variableField.setTypeAhead(true);
-        table.setWidget(table.getRowCount() - 1, 2, new Label(
-                ModelingToolWidget.messages.workItemOutputVar()));
-        table.setWidget(table.getRowCount() - 1, 3, variableField);
-
-        fieldsets.add(new HumanTaskFieldSet(labelField, variableField));
-    }
-
-    /**
-     * removes a human task field set
-     */
-    private void removeFieldSetEntry() {
-        if (table.getRowCount() > STATICFIELDS) {
-            table.removeRow(table.getRowCount() - 1);
-            fieldsets.remove(table.getRowCount() - STATICFIELDS);
-        }
     }
 
     /**
@@ -219,7 +161,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
     }
 
     private boolean validateInputs() {
-        Boolean result = false;
+        boolean result = false;
         if (userField.getValue() != null && nameField != null
                 && descriptionField != null && formContainerField != null) {
             result = true;
@@ -251,11 +193,12 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         newModel.setWorkItemDescriptionVariableId(descriptionField.getValue()
                 .getId());
         newModel.setFormVariableId(formContainerField.getValue().getId());
-        newModel.setNotifyVariableId(notifyCheckBox.getValue());
+        newModel.setNotifyActor(notifyCheckBox.getValue());
         List<TaskItem> taskItems = new ArrayList<TaskItem>();
-        for (HumanTaskFieldSet fields : fieldsets) {
+        for (TaskItemFieldSet fields : fieldsets) {
             TaskItem item = new TaskItem(fields.getLabelField().getValue(),
-                    fields.getVariableField().getValue().getId());
+                    fields.getHintField().getValue(), fields.getVariableField()
+                            .getValue().getId());
             taskItems.add(item);
         }
         newModel.setTaskItems(taskItems);
@@ -326,21 +269,11 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
 
         /* checkbox for notification */
         notifyCheckBox = new CheckBox();
-        notifyCheckBox.setValue(model.getNotify());
+        notifyCheckBox.setValue(model.getNotifyActor());
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
                 ModelingToolWidget.messages.notifyLabel()));
         table.setWidget(table.getRowCount() - 1, 1, notifyCheckBox);
-
-        createFormFields(model);
-    }
-
-    private void createFormFields(HumanTaskInvokeNodeModel model) {
-        if (model.getTaskItems() != null) {
-            for (TaskItem ti : model.getTaskItems()) {
-                addFieldSetEntry(ti.getLabel(), ti.getVariableId());
-            }
-        }
     }
 
     /**

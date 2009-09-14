@@ -61,7 +61,7 @@ public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
         return properties.get(formFieldName);
     }
 
-    public Boolean getNotify() {
+    public Boolean getNotifyActor() {
         return properties.get(notifyFieldName);
     }
 
@@ -87,7 +87,7 @@ public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
         this.properties.set(this.formFieldName, formVariableId);
     }
 
-    public void setNotifyVariableId(Boolean notify) {
+    public void setNotifyActor(Boolean notify) {
         this.properties.set(this.notifyFieldName, notify);
     }
 

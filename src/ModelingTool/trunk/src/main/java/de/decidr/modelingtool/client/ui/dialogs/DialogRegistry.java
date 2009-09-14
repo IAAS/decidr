@@ -22,6 +22,7 @@ import java.util.Map;
 import de.decidr.modelingtool.client.ui.dialogs.email.EmailActivityWindow;
 import de.decidr.modelingtool.client.ui.dialogs.foreachcontainer.ForEachWindow;
 import de.decidr.modelingtool.client.ui.dialogs.humantask.HumanTaskActivityWindow;
+import de.decidr.modelingtool.client.ui.dialogs.humantask.TaskItemWindow;
 import de.decidr.modelingtool.client.ui.dialogs.ifcontainer.IfWindow;
 import de.decidr.modelingtool.client.ui.dialogs.valueeditor.RoleEditor;
 import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditor;
@@ -64,6 +65,7 @@ public class DialogRegistry {
         register(new RoleEditor());
         register(new EmailActivityWindow());
         register(new HumanTaskActivityWindow());
+        register(new TaskItemWindow());
         register(new ForEachWindow());
         register(new IfWindow());
     }

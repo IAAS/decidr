@@ -104,4 +104,5 @@ public class DWDLNames {
     public static String x = "x";
     public static String y = "y";
     public static String yes = "yes";
+    public static String hint = "hint";
 }

@@ -94,7 +94,7 @@ public class ValueEditor extends ModelingToolDialog {
     }
 
     /**
-     * Creates a toolbar that has two buttons to add or delete a value.
+     * Creates a toolbar that has one button to add a value.
      */
     private void createToolBar() {
         ToolBar toolBar = new ToolBar();
@@ -202,8 +202,8 @@ public class ValueEditor extends ModelingToolDialog {
 
         fields.add(text);
         table.insertRow(table.getRowCount());
-        table.setWidget(table.getRowCount() - 1, 0, new ValueFieldWidget(table, text,
-                fields));
+        table.setWidget(table.getRowCount() - 1, 0, new ValueFieldWidget(table,
+                text, fields));
     }
 
     /**

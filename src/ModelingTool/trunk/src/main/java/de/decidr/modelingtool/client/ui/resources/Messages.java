@@ -19,8 +19,8 @@ package de.decidr.modelingtool.client.ui.resources;
 import com.google.gwt.i18n.client.Constants;
 
 /**
- * 
- * TODO: add comment
+ * This class hold all method for accessing localized strings. The string itself
+ * can be found in the properties file
  * 
  * @author Jonas Schlaak
  */
@@ -78,13 +78,23 @@ public interface Messages extends Constants {
 
     String notifyLabel();
 
-    String workItemForm();
+    String editTaskItems();
 
-    String workItemLabel();
+    String taskItemForm();
 
-    String workItemOutputVar();
+    String taskItemLabel();
+
+    String taskItemHint();
+
+    String taskItemOutputVar();
+
+    String addTaskItem();
+
+    String delTaskItem();
 
     String humanTaskActivityWarning();
+
+    String taskItemWarning();
 
     /* For Each container */
     String forEachContainer();
