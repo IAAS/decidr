@@ -2,6 +2,11 @@ package de.decidr.model.transactions;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Properties;
+
+import org.hibernate.cfg.Configuration;
 import org.junit.Test;
 
 import de.decidr.model.CommandsTest;
@@ -11,54 +16,11 @@ import de.decidr.model.exceptions.TransactionException;
 
 public class HibernateTransactionCoordinatorTest extends CommandsTest {
 
-    class TestCommandCommit extends AbstractTransactionalCommand {
-
-        private Boolean started = false;
-        private Boolean committed = false;
-        private Boolean aborted = false;
-
-        @Override
-        public void transactionAborted(TransactionAbortedEvent evt) {
-            aborted = true;
-        }
-
-        @Override
-        public void transactionCommitted(TransactionEvent evt) {
-            committed = true;
-        }
-
-        @Override
-        public void transactionStarted(TransactionEvent evt) {
-            started = true;
-        }
-
-        /**
-         * @return the started
-         */
-        public Boolean getStarted() {
-            return started;
-        }
-
-        /**
-         * @return the committed
-         */
-        public Boolean getCommitted() {
-            return committed;
-        }
-
-        /**
-         * @return the aborted
-         */
-        public Boolean getAborted() {
-            return aborted;
-        }
-    }
-
     class TestCommandAbort extends AbstractTransactionalCommand {
 
-        private Boolean started = false;
-        private Boolean committed = false;
-        private Boolean aborted = false;
+        public Boolean started = false;
+        public Boolean committed = false;
+        public Boolean aborted = false;
 
         @Override
         public void transactionAborted(TransactionAbortedEvent evt) {
@@ -76,27 +38,82 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
             // throw exception to provoke rollback
             throw new RuntimeException("MOEP");
         }
+    }
 
-        /**
-         * @return the started
-         */
-        public Boolean getStarted() {
-            return started;
+    class TestCommandCommit extends AbstractTransactionalCommand {
+
+        public Boolean started = false;
+        public Boolean committed = false;
+        public Boolean aborted = false;
+
+        @Override
+        public void transactionAborted(TransactionAbortedEvent evt) {
+            aborted = true;
         }
 
-        /**
-         * @return the committed
-         */
-        public Boolean getCommitted() {
-            return committed;
+        @Override
+        public void transactionCommitted(TransactionEvent evt) {
+            committed = true;
         }
 
-        /**
-         * @return the aborted
-         */
-        public Boolean getAborted() {
-            return aborted;
+        @Override
+        public void transactionStarted(TransactionEvent evt) {
+            started = true;
         }
+    }
+
+    @Test
+    public void testConfiguration() {
+        Configuration origCfg;
+        HibernateTransactionCoordinator htc = HibernateTransactionCoordinator
+                .getInstance();
+
+        assertNotNull(htc.getConfiguration());
+        assertEquals(htc.getConfiguration(), htc.getConfiguration());
+        assertSame(htc.getConfiguration(), htc.getConfiguration());
+
+        try {
+            htc.setConfiguration(null);
+            fail(htc.getClass().getName()
+                    + ".setConfiguration() accepted a null configuration");
+        } catch (IllegalArgumentException e) {
+            // supposed to be thrown
+        }
+
+        origCfg = htc.getConfiguration();
+
+        try {
+            Configuration cfg = new Configuration();
+
+            htc.setConfiguration(cfg);
+
+            assertNotNull(origCfg.getProperties());
+            cfg.setProperties((Properties) origCfg.getProperties().clone());
+            htc.setConfiguration(cfg);
+            assertNotNull(cfg.getProperties());
+            assertEquals(origCfg.getProperties(), cfg.getProperties());
+            assertNotSame(origCfg.getProperties(), cfg.getProperties());
+
+            cfg.setProperty("testproperty", "testvalue");
+
+            htc.setConfiguration(cfg);
+            assertEquals("testvalue", htc.getConfiguration().getProperty(
+                    "testproperty"));
+        } finally {
+            try {
+                htc.setConfiguration(origCfg);
+                assertEquals(origCfg, htc.getConfiguration());
+                assertSame(origCfg, htc.getConfiguration());
+            } catch (Exception e) {
+                throw new Error("Cancelling tests as original hibernate "
+                        + "configuration could not be restored!", e);
+            }
+        }
+    }
+
+    @Test
+    public void testGetCurrentSession() {
+        HibernateTransactionCoordinator.getInstance().getCurrentSession();
     }
 
     @Test
@@ -118,9 +135,9 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
 
         htc.runTransaction(c);
 
-        assertTrue(c.getStarted());
-        assertTrue(c.getCommitted());
-        assertFalse(c.getAborted());
+        assertTrue(c.started);
+        assertTrue(c.committed);
+        assertFalse(c.aborted);
 
         try {
             htc.runTransaction(c2);
@@ -129,15 +146,9 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
             // supposed to be thrown
         }
 
-        assertTrue(c2.getStarted());
-        assertFalse(c2.getCommitted());
-        assertTrue(c2.getAborted());
-    }
-
-    @Test
-    public void testRunTransactionTransactionalCommandCollection() {
-        fail("Not yet implemented");
-        // RR runTransactionTransactionalCommandCollection
+        assertTrue(c2.started);
+        assertFalse(c2.committed);
+        assertTrue(c2.aborted);
     }
 
     @Test
@@ -152,13 +163,13 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
 
         htc.runTransaction(commands);
 
-        assertTrue(c.getStarted());
-        assertTrue(c.getCommitted());
-        assertFalse(c.getAborted());
+        assertTrue(c.started);
+        assertTrue(c.committed);
+        assertFalse(c.aborted);
 
-        assertTrue(c2.getStarted());
-        assertTrue(c2.getCommitted());
-        assertFalse(c2.getAborted());
+        assertTrue(c2.started);
+        assertTrue(c2.committed);
+        assertFalse(c2.aborted);
 
         assertTransactionException("can't run null transaction",
                 (TransactionalCommand) null);
@@ -173,17 +184,37 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
     }
 
     @Test
-    public void testGetConfiguration() {
-        fail("Not yet implemented"); // RR getConfiguration
-    }
+    public void testRunTransactionTransactionalCommandCollection()
+            throws TransactionException {
+        TransactionCoordinator htc = HibernateTransactionCoordinator
+                .getInstance();
+        TestCommandCommit c = new TestCommandCommit();
+        TestCommandCommit c2 = new TestCommandCommit();
+        Collection<TransactionalCommand> commands = new ArrayList<TransactionalCommand>();
+        commands.add(c);
+        commands.add(c2);
 
-    @Test
-    public void testSetConfiguration() {
-        fail("Not yet implemented"); // RR setConfiguration
-    }
+        htc.runTransaction(commands);
 
-    @Test
-    public void testGetCurrentSession() {
-        fail("Not yet implemented"); // RR getCurrentSession
+        assertTrue(c.started);
+        assertTrue(c.committed);
+        assertFalse(c.aborted);
+
+        assertTrue(c2.started);
+        assertTrue(c2.committed);
+        assertFalse(c2.aborted);
+
+        try {
+            htc.runTransaction((Collection<TransactionalCommand>) null);
+            fail("can't run empty transaction");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            htc.runTransaction(new ArrayList<TransactionalCommand>());
+            fail("can't run empty transaction");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
     }
 }

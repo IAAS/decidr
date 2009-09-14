@@ -29,21 +29,9 @@ import de.decidr.model.exceptions.TransactionException;
 public interface TransactionCoordinator {
 
     /**
-     * Executes a single command within a transaction. If another transaction is
-     * already running, the new transaction becomes an inner transaction.
-     * 
-     * @param command
-     *            the command to execute - must not be null.
-     * @throws TransactionException
-     *             if transaction is not successful or command is null
-     */
-    public void runTransaction(TransactionalCommand command)
-            throws TransactionException;
-
-    /**
      * Executes a number of commands within a transaction. If another
-     * transaction is already running, the new transaction becomes an inner
-     * transaction.
+     * transaction is already running, the new transactions become inner
+     * transactions.
      * 
      * @param commands
      *            the commands to execute - must not be null or empty.
@@ -56,8 +44,8 @@ public interface TransactionCoordinator {
 
     /**
      * Executes a number of commands within a transaction. If another
-     * transaction is already running, the new transaction becomes an inner
-     * transaction.
+     * transaction is already running, the new transactions become inner
+     * transactions.
      * 
      * @param commands
      *            the commands to execute - must not be null or empty.

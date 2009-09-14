@@ -161,7 +161,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * @return the current Hibernate session or <code>null</code> if no session
      *         has been opened yet. The returned session may have been closed
-     *         using the close() method, so is not necessarily open.<br>
+     *         using the close() method, and therefore is not necessarily open.<br>
      */
     public Session getCurrentSession() {
         return session;
@@ -195,15 +195,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     public Configuration getConfiguration() {
         return configuration;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void runTransaction(TransactionalCommand command)
-            throws TransactionException {
-        TransactionalCommand[] commands = { command };
-        runTransaction(commands);
     }
 
     /**
