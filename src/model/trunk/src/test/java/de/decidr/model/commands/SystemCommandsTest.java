@@ -343,6 +343,7 @@ public class SystemCommandsTest extends CommandsTest {
         File decidrFileB = new File("testfile", "text/plain", true, 100);
         File invalidDecidrFile = new File("testfile", "text/plain", true, -1);
 
+        fail("Not yet implemented");
         // RR set files
 
         GetFileCommand getterA = new GetFileCommand(decidrFileA.getId());
