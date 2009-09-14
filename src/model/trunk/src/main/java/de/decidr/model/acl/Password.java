@@ -44,13 +44,6 @@ public final class Password {
     private static final String charset = "UTF-8";
 
     /**
-     * The number of bits that comprise a byte (if some standard Java class
-     * already defines this, please let me know).
-     */
-    // DH letting you know :-P ~rr
-    private static final int BITS_PER_BYTE = Byte.SIZE;
-
-    /**
      * Character table used to create a hex string from a byte array.
      */
     private static final char[] hexCharTable = { '0', '1', '2', '3', '4', '5',
@@ -81,9 +74,9 @@ public final class Password {
      * @param bytes
      *            raw message digest
      * @param bitsPerCharacter
-     *            bits per character, if this value is too small using the given
+     *            bits per character, if this value is too large using the given
      *            character set, it will be adjusted to the maximum possible
-     *            value for the character set. XXX: don't you mean "too large"
+     *            value for the character set.
      * @param chars
      *            character set to use. If <code>null</code> or an array that
      *            contains less than two characters is passed, all alphanumeric
@@ -126,17 +119,17 @@ public final class Password {
 
         int bitsRead = 0;
 
-        for (int i = 0; i < byteCount * BITS_PER_BYTE / bitsPerCharacter; i++) {
+        for (int i = 0; i < byteCount * Byte.SIZE / bitsPerCharacter; i++) {
 
             int oldBits;
             int oldBitCount;
 
-            if (bitsRead + bitsPerCharacter > BITS_PER_BYTE) {
+            if (bitsRead + bitsPerCharacter > Byte.SIZE) {
                 // Not enough bits remain in this currentByte for the current
                 // character
                 // Get remaining bits and get next byte
                 oldBits = currentByte
-                        - (currentByte >> BITS_PER_BYTE - bitsRead << BITS_PER_BYTE
+                        - (currentByte >> Byte.SIZE - bitsRead << Byte.SIZE
                                 - bitsRead);
 
                 if (byteIdx == bytes.length - 1) {
@@ -145,7 +138,7 @@ public final class Password {
                     break;
                 }
 
-                oldBitCount = BITS_PER_BYTE - bitsRead;
+                oldBitCount = Byte.SIZE - bitsRead;
 
                 byteIdx++;
                 currentByte = bytes[byteIdx];
@@ -157,7 +150,7 @@ public final class Password {
             }
 
             // Read only the needed bits from this byte
-            int bits = currentByte >> BITS_PER_BYTE
+            int bits = currentByte >> Byte.SIZE
                     - (bitsRead + (bitsPerCharacter - oldBitCount));
             bits = bits
                     - (bits >> bitsPerCharacter - oldBitCount << bitsPerCharacter

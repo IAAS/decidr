@@ -220,9 +220,23 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     public void runTransaction(TransactionalCommand... commands)
             throws TransactionException {
+
+        // check parameters
         if (commands == null) {
             throw new TransactionException(new IllegalArgumentException(
-                    "Null value not allowed."));
+                    "Command(s) must not be null."));
+        }
+
+        if (commands.length == 0) {
+            throw new TransactionException(new IllegalArgumentException(
+                    "Must supply at least one command to execute."));
+        }
+
+        for (TransactionalCommand c : commands) {
+            if (c == null) {
+                throw new TransactionException(new IllegalArgumentException(
+                        "Command(s) must not be null."));
+            }
         }
 
         notifiedReceivers.clear();
@@ -231,6 +245,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             beginTransaction();
 
             for (TransactionalCommand c : commands) {
+                notifiedReceivers.add(c);
                 fireTransactionStarted(c);
             }
 
@@ -290,7 +305,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         TransactionEvent event = new TransactionEvent(session,
                 transactionDepth > 1);
         receiver.transactionStarted(event);
-        notifiedReceivers.add(receiver);
     }
 
     /**

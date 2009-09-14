@@ -23,7 +23,7 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
 
 /**
- * FIXME add comments! ~dh
+ * Abstract base class for commands that deal with workflow instances.
  * 
  * @author Markus Fischer
  * @version 0.1

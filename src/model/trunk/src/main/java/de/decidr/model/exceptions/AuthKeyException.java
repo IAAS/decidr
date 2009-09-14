@@ -1,7 +1,7 @@
 package de.decidr.model.exceptions;
 
 /**
- * Thrown to indicate that two auth keys do not match.
+ * Thrown to indicate that two authentication keys do not match.
  * 
  * @author Markus Fischer
  * @version 0.1

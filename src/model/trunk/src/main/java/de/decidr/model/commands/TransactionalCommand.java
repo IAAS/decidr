@@ -21,9 +21,15 @@ import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * An instance of TransactionalCommand is where the actual magic happens: it
- * takes on the role of receiver in terms of the command pattern. All database
- * access should take place within commands.
+ * The TransactionalCommand is very similar to the AWT {@link ActionListener}.
+ * It acts as a receiver for events that signal
+ * <ul>
+ * <li>the beginning of a transaction</li>
+ * <li>the (successful) end of a transaction</li>
+ * <li>the rollback of a transaction</li>.
+ * </ul>
+ * <p>
+ * All database access should take place within commands.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -37,8 +43,9 @@ public interface TransactionalCommand {
      * so, the event object provides the current Hibernate Session object. If
      * this method throws an exception, the transaction is rolled back.
      * 
-     * @param evt started event data
-     *            
+     * @param evt
+     *            started event data
+     * 
      */
     public void transactionStarted(TransactionEvent evt)
             throws TransactionException;
@@ -48,8 +55,9 @@ public interface TransactionalCommand {
      * this method to react to a rollback (e.g. by logging the exception that
      * occurred).
      * 
-     * @param evt abort event data
-     *            
+     * @param evt
+     *            abort event data
+     * 
      */
     public void transactionAborted(TransactionAbortedEvent evt)
             throws TransactionException;
@@ -59,8 +67,9 @@ public interface TransactionalCommand {
      * event is part of a nested transaction, the command may assume that its
      * changes have been applied to the database.
      * 
-     * @param evt commit event data
-     *            
+     * @param evt
+     *            commit event data
+     * 
      */
     public void transactionCommitted(TransactionEvent evt)
             throws TransactionException;

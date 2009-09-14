@@ -148,8 +148,7 @@ public class CreateWorkflowModelCommand extends TenantCommand {
 
         URL templateUrl = getClass().getClassLoader().getResource(
                 "resources/dwdl/newWorkflowModel.template.xml");
-        // DH I have no bloody idea if this works. Are our generated XML classes
-        // intended to be used in this way? ~dh
+
         JAXBContext jc = JAXBContext.newInstance(Workflow.class);
         Unmarshaller u = jc.createUnmarshaller();
 

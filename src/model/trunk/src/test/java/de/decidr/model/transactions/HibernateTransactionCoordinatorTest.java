@@ -120,7 +120,6 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
         htc.runTransaction(c);
 
         assertTrue(c.getStarted());
-        // DH this test fails ~rr
         assertTrue(c.getCommitted());
         assertFalse(c.getAborted());
 
@@ -130,6 +129,7 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
             transactionThrown = true;
         }
 
+        //RR This could be a typo, did you mean to check c2 instead? ~dh
         assertTrue(c.getStarted());
         assertFalse(c.getCommitted());
         assertTrue(c.getAborted());
@@ -155,7 +155,6 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
         htc.runTransaction(commands);
 
         assertTrue(c.getStarted());
-        // DH this test fails ~rr
         assertTrue(c.getCommitted());
         assertFalse(c.getAborted());
 

@@ -33,7 +33,7 @@ public interface TransactionCoordinator {
      * already running, the new transaction becomes an inner transaction.
      * 
      * @param command
-     *            the command to execute.
+     *            the command to execute - must not be null.
      * @throws TransactionException
      *             if transaction is not successful or command is null
      */
@@ -46,13 +46,13 @@ public interface TransactionCoordinator {
      * transaction.
      * 
      * @param commands
-     *            the commands to execute
+     *            the commands to execute - must not be null or empty.
      * @throws TransactionException
-     *             if transaction is not successful or command is null.
+     *             if transaction is not successful or commands are null or
+     *             empty.
      */
     public void runTransaction(TransactionalCommand... commands)
             throws TransactionException;
-
 
     /**
      * Executes a number of commands within a transaction. If another
@@ -60,10 +60,12 @@ public interface TransactionCoordinator {
      * transaction.
      * 
      * @param commands
-     *            the commands to execute
+     *            the commands to execute - must not be null or empty.
      * @throws TransactionException
-     *             if transaction is not successful or command is null.
+     *             if transaction is not successful or commands are null or
+     *             empty.
      */
-    public void runTransaction(Collection<? extends TransactionalCommand> commands)
+    public void runTransaction(
+            Collection<? extends TransactionalCommand> commands)
             throws TransactionException;
 }

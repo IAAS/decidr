@@ -65,6 +65,7 @@ import de.decidr.model.entities.UserProfile;
 import de.decidr.model.entities.WorkItemSummaryView;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
+import de.decidr.model.exceptions.AuthKeyException;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.RequestExpiredException;
 import de.decidr.model.exceptions.TransactionException;
@@ -425,16 +426,23 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * This command changes the email address of the given user iff the given
-     * auth key is correct. If not an exception will be thrown. The request
-     * object will be deleted as all.<br>
-     * XXX this suggests that the request object is deleted even if the auth key
-     * is incorrect
+     * Changes the email address of the given user and deletes the corresponding
+     * change email request from the database if there is a pending change email
+     * request and the given authentication key is correct. If the
+     * authentication key is incorrect, an {@link AuthKeyException} is thrown
+     * and the request remains unchanged.
      * 
      * @param userId
      *            ID of the user whose request should be treated
      * @param requestAuthKey
      *            the auth key which allows the user to change the address
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     * @throws AuthKeyException
+     *             iff the given authentication key is incorrect.
+     * @throws EntityNotFoundException
+     *             iff the user does not exist or has no pending change email
+     *             request.
      */
     @AllowedRole(UserRole.class)
     public void confirmChangeEmailRequest(Long userId, String requestAuthKey)
@@ -444,7 +452,6 @@ public class UserFacade extends AbstractFacade {
                 actor, userId, requestAuthKey);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
     }
 
     /**
@@ -510,8 +517,9 @@ public class UserFacade extends AbstractFacade {
      * 
      * @param userId
      *            the id of the user whose profile should be returned
-     * @param requiredProfile
-     *            TODO document
+     * @param requireProfile
+     *            whether an exception should be thrown if the user has no
+     *            profile.
      * @return Vaadin item which is described above
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
@@ -934,10 +942,13 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * TODO document
+     * Sets the ID of the last thenant that the user has switched to.
      * 
      * @param userId
+     *            user whose current tenant should be set.
      * @param currentTenantId
+     *            current tenant id or NULL if the current tenant is the default
+     *            tenant.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason
      */
@@ -946,10 +957,16 @@ public class UserFacade extends AbstractFacade {
             throws TransactionException {
         // since the tenant property is an entity we create one with the given
         // ID
-        Tenant currentTenant = new Tenant();
-        currentTenant.setId(currentTenantId);
+        Tenant currentTenant;
+        if (currentTenantId == null) {
+            currentTenant = new Tenant();
+            currentTenant.setId(currentTenantId);
+        } else {
+            currentTenant = null;
+        }
+
         Map<String, Tenant> newProperties = new HashMap<String, Tenant>();
-        newProperties.put("tenant", currentTenant);
+        newProperties.put("currentTenant", currentTenant);
 
         SetUserPropertyCommand cmd = new SetUserPropertyCommand(actor, userId,
                 newProperties);

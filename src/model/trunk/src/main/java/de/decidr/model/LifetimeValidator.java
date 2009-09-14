@@ -94,10 +94,14 @@ public class LifetimeValidator {
      * @return true iff the request is still alive/valid
      */
     private static Boolean requestIsAlive(Date creationDate, int lifetimeSeconds) {
-        // request is alive <-> createdDate + lifetime > now
-        Calendar maxValidDate = DecidrGlobals.getTime();
-        maxValidDate.setTime(creationDate);
-        maxValidDate.add(Calendar.SECOND, lifetimeSeconds);
-        return maxValidDate.after(DecidrGlobals.getTime());
+        if (creationDate == null) {
+            return false;
+        } else {
+            // request is alive <-> createdDate + lifetime > now
+            Calendar maxValidDate = DecidrGlobals.getTime();
+            maxValidDate.setTime(creationDate);
+            maxValidDate.add(Calendar.SECOND, lifetimeSeconds);
+            return maxValidDate.after(DecidrGlobals.getTime());
+        }
     }
 }

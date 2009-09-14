@@ -19,6 +19,7 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.AuthKeyException;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
@@ -59,11 +60,17 @@ public class ConfirmChangeEmailRequestCommand extends UserCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        User user = (User) evt.getSession().load(User.class, userId);
+        User user = (User) evt.getSession().get(User.class, userId);
+        if (user == null) {
+            throw new EntityNotFoundException(User.class, userId);
+        }
+
         ChangeEmailRequest request = user.getChangeEmailRequest();
+        if (request == null) {
+            throw new EntityNotFoundException(ChangeEmailRequest.class, userId);
+        }
 
         if (requestAuthKey.equals(request.getAuthKey())) {
-
             // change email address
             user.setEmail(request.getNewEmail());
             evt.getSession().update(user);

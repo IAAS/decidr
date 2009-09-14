@@ -83,7 +83,7 @@ public class DecidrReverseEngineeringStrategyTest {
      * {@link DecidrReverseEngineeringStrategy#foreignKeyToCollectionName(String, TableIdentifier, List, TableIdentifier, List, boolean)}
      * .
      */
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testForeignKeyToCollectionNameStringTableIdentifierListTableIdentifierListBoolean() {
         dres.foreignKeyToCollectionName(null, null, null, null, null, false);
     }
@@ -93,7 +93,7 @@ public class DecidrReverseEngineeringStrategyTest {
      * {@link DecidrReverseEngineeringStrategy#foreignKeyToEntityName(String, TableIdentifier, List, TableIdentifier, List, boolean)}
      * .
      */
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testForeignKeyToEntityNameStringTableIdentifierListTableIdentifierListBoolean() {
         dres.foreignKeyToEntityName(null, null, null, null, null, false);
     }
@@ -103,7 +103,7 @@ public class DecidrReverseEngineeringStrategyTest {
      * {@link DecidrReverseEngineeringStrategy#foreignKeyToManyToManyName(ForeignKey, TableIdentifier, ForeignKey, boolean)}
      * .
      */
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testForeignKeyToManyToManyNameForeignKeyTableIdentifierForeignKeyBoolean() {
         dres.foreignKeyToManyToManyName(null, null, null, false);
     }
@@ -113,7 +113,7 @@ public class DecidrReverseEngineeringStrategyTest {
      * {@link DecidrReverseEngineeringStrategy#tableToMetaAttributes(TableIdentifier)}
      * .
      */
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testTableToMetaAttributesTableIdentifier() {
         dres.tableToMetaAttributes(null);
     }
@@ -123,7 +123,7 @@ public class DecidrReverseEngineeringStrategyTest {
      * {@link DecidrReverseEngineeringStrategy#getPrimaryKeyColumnNames(TableIdentifier)}
      * .
      */
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testGetPrimaryKeyColumnNamesTableIdentifier() {
         dres.getPrimaryKeyColumnNames(null);
     }
@@ -135,6 +135,7 @@ public class DecidrReverseEngineeringStrategyTest {
      */
     @Test
     public void testSetSettingsReverseEngineeringSettings() {
+        // null means default settings, so this should not throw an exception.
         dres.setSettings(null);
     }
 }
