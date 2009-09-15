@@ -105,4 +105,5 @@ public class DWDLNames {
     public static String y = "y";
     public static String yes = "yes";
     public static String hint = "hint";
+    public static String schema = "xmlns";
 }

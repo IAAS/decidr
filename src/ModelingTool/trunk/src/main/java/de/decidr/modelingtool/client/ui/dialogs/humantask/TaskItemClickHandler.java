@@ -23,7 +23,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 
 /**
- * TODO: add comment
+ * EventHandler for {@link TaskItemFieldSet}. Handles the mouse click on the
+ * remove button (Remove Taskitem) by removing the whole widget from the
+ * {@link FlexTable} of the task item editor.
  * 
  * @author Jonas Schlaak
  */

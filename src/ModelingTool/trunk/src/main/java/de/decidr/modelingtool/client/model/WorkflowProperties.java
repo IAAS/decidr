@@ -24,6 +24,9 @@ package de.decidr.modelingtool.client.model;
  */
 public class WorkflowProperties {
 
+    private final String namespaceFieldName = "namespace";
+    private final String schemaFieldName = "schema";
+
     private final String recipientFieldName = "recipient";
     private final String faultMessageFieldName = "faultMessage";
     private final String successMessageFieldName = "successMessage";
@@ -43,6 +46,14 @@ public class WorkflowProperties {
         this.properties = properties;
     }
 
+    public String getNamespace() {
+        return properties.get(namespaceFieldName);
+    }
+
+    public String getSchema() {
+        return properties.get(schemaFieldName);
+    }
+
     public Long getRecipientVariableId() {
         return properties.get(recipientFieldName);
     }
@@ -57,6 +68,14 @@ public class WorkflowProperties {
 
     public Boolean getNotifyOnSuccess() {
         return properties.get(notifyOnSuccessFieldName);
+    }
+
+    public void setNamespace(String namespace) {
+        this.properties.set(namespaceFieldName, namespace);
+    }
+
+    public void setSchema(String schema) {
+        this.properties.set(schemaFieldName, schema);
     }
 
     public void setRecipientVariableId(Long recipientVariableId) {
@@ -74,4 +93,5 @@ public class WorkflowProperties {
     public void setNotifyOnSuccess(Boolean notifyOnSuccess) {
         this.properties.set(notifyOnSuccessFieldName, notifyOnSuccess);
     }
+
 }

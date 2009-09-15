@@ -102,6 +102,10 @@ public class DWDLParserImpl implements DWDLParser {
         }
         WorkflowProperties properties = new WorkflowProperties();
 
+        /* Get namespace and schema*/
+        properties.setNamespace(root.getAttribute(DWDLNames.namespace));
+        properties.setSchema(root.getAttribute(DWDLNames.schema));
+
         /* parse faultHandlerElement and set fault message id and recipient */
         Element faultHandler = getChildNodesByTagName(root,
                 DWDLNames.faultHandler).get(0);

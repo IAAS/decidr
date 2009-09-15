@@ -60,15 +60,14 @@ public class WorkflowParserImpl implements WorkflowParser {
     public String parse(WorkflowModel model) {
         Document doc = XMLParser.createDocument();
 
-        /* Create work flow root element */
+        /* Create workflow root element and set attributes */
         Element workflowElement = doc.createElement(DWDLNames.root);
-        // JS namespace is set by model, parse it properly and save it to the
-        // workflow
         workflowElement.setAttribute(DWDLNames.name, model.getName());
         workflowElement.setAttribute(DWDLNames.id, model.getId().toString());
-        workflowElement.setAttribute(DWDLNames.namespace, "http://decidr.de/"
-                + "insert tenant name here" + "processes/" + model.getName());
-        workflowElement.setAttribute("xmlns", "http://decidr.de/schema/dwdl");
+        workflowElement.setAttribute(DWDLNames.namespace, model.getProperties()
+                .getNamespace());
+        workflowElement.setAttribute(DWDLNames.schema, model.getProperties()
+                .getSchema());
 
         /* Create description node */
         workflowElement.appendChild(createTextElement(doc,
