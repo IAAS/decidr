@@ -17,7 +17,9 @@
 package de.decidr.modelingtool.client.menu;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 
+import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ClearWorkflowCommand;
 
 /**
@@ -30,8 +32,10 @@ public class ClearWorkflowMenuItem implements Command {
 
     @Override
     public void execute() {
-        Command cmd = new ClearWorkflowCommand();
-        cmd.execute();
+        if (Window.confirm(ModelingToolWidget.messages.confirmClearWorkflow())) {
+            Command cmd = new ClearWorkflowCommand();
+            cmd.execute();
+        }
     }
 
 }

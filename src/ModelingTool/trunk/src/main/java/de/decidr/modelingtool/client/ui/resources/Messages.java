@@ -26,6 +26,13 @@ import com.google.gwt.i18n.client.Constants;
  */
 public interface Messages extends Constants {
 
+    /* Menu */
+    String confirmClearWorkflow();
+    
+    String variablesMenuItem();
+
+    String propertiesMenuItem();
+
     /* Workflow */
     String workflowProperty();
 

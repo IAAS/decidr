@@ -97,35 +97,6 @@ public class ModelingToolWidget extends Composite implements
         /* Internationalization: "Instantiate" the Message interface class. */
         messages = GWT.create(Messages.class);
 
-        /*
-         * ButtonBar buttonBar = new ButtonBar(); buttonBar.add(new
-         * Button("Variables", new SelectionListener<ButtonEvent>() {
-         * 
-         * @Override public void componentSelected(ButtonEvent ce) {
-         * DialogRegistry.getInstance().showDialog(
-         * VariableEditor.class.getName()); } })); buttonBar.add(new
-         * Button("Email", new SelectionListener<ButtonEvent>() {
-         * 
-         * @Override public void componentSelected(ButtonEvent ce) {
-         * DialogRegistry.getInstance().showDialog(
-         * EmailActivityWindow.class.getName()); } })); buttonBar.add(new
-         * Button("HT", new SelectionListener<ButtonEvent>() {
-         * 
-         * @Override public void componentSelected(ButtonEvent ce) {
-         * DialogRegistry.getInstance().showDialog(
-         * HumanTaskActivityWindow.class.getName()); } })); buttonBar.add(new
-         * Button("ForEach", new SelectionListener<ButtonEvent>() {
-         * 
-         * @Override public void componentSelected(ButtonEvent ce) {
-         * DialogRegistry.getInstance().showDialog(
-         * ForEachWindow.class.getName()); } })); buttonBar.add(new
-         * Button("Workflow", new SelectionListener<ButtonEvent>() {
-         * 
-         * @Override public void componentSelected(ButtonEvent ce) {
-         * DialogRegistry.getInstance().showDialog(
-         * WorkflowPropertyWindow.class.getName()); } }));
-         * RootPanel.get().add(buttonBar);
-         */
     }
 
     @Override

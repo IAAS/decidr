@@ -360,8 +360,7 @@ public class WorkflowParserImpl implements WorkflowParser {
             Element taskItem = doc.createElement(DWDLNames.taskItem);
             Variable variable = VariablesFilter.getVariableById(ti
                     .getVariableId());
-            // JS: get ncname of task item
-            taskItem.setAttribute(DWDLNames.name, "name");
+            taskItem.setAttribute(DWDLNames.name, "taskItem");
             taskItem.setAttribute(DWDLNames.variable, variable.getId()
                     .toString());
             taskItem.setAttribute(DWDLNames.type, variable.getType()

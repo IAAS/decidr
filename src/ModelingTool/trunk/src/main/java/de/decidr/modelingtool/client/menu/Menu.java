@@ -19,7 +19,7 @@ package de.decidr.modelingtool.client.menu;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.MenuBar;
 
-import de.decidr.modelingtool.client.command.ClearWorkflowCommand;
+import de.decidr.modelingtool.client.ui.resources.Messages;
 
 /**
  * Menu for the modeling tool where all commands for modeling a workflow can be
@@ -37,7 +37,7 @@ public class Menu extends MenuBar {
 
         MenuImageBundle imgBundle = GWT.create(MenuImageBundle.class);
 
-        addItem(imgBundle.clear().getHTML(), true, new ClearWorkflowCommand());
+        addItem(imgBundle.clear().getHTML(), true, new ClearWorkflowMenuItem());
         addItem(imgBundle.save().getHTML(), true, new SaveMenuItem());
         addItem(imgBundle.undo().getHTML(), true, new UndoMenuItem());
         addItem(imgBundle.redo().getHTML(), true, new RedoMenuItem());
@@ -61,9 +61,13 @@ public class Menu extends MenuBar {
 
         addSeparator();
 
-        // JS externalize or replace with Icons
-        addItem("Variables", new VariablesMenuItem());
-        addItem("Properties", new PropertiesMenuItem());
+        /*
+         * Message class needs to be created here, accessing the
+         * ModelingToolWidget creates null pointer exceptions
+         */
+        Messages msg = GWT.create(Messages.class);
+        addItem(msg.variablesMenuItem(), new VariablesMenuItem());
+        addItem(msg.propertiesMenuItem(), new PropertiesMenuItem());
     }
 
 }
