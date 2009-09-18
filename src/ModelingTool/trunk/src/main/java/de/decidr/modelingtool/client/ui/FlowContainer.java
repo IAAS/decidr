@@ -19,17 +19,12 @@ package de.decidr.modelingtool.client.ui;
 import de.decidr.modelingtool.client.exception.NoPropertyWindowException;
 
 /**
- * TODO: add comment
- *
+ * This node represents a flow container.
+ * 
  * @author Johannes Engelhardt
  */
 public class FlowContainer extends Container {
 
-    /**
-     * TODO: add comment
-     *
-     * @param parentPanel
-     */
     public FlowContainer(HasChildren parentPanel) {
         super(parentPanel);
         getContainerStartPort().setMultipleConnectionsAllowed(true);
@@ -40,5 +35,5 @@ public class FlowContainer extends Container {
     public void showPropertyWindow() throws NoPropertyWindowException {
         throw new NoPropertyWindowException("This node has no properties.");
     }
-    
+
 }

@@ -19,7 +19,7 @@ package de.decidr.modelingtool.client.ui;
 import de.decidr.modelingtool.client.ui.dialogs.foreachcontainer.ForEachWindowInvoker;
 
 /**
- * TODO: add comment
+ * This node represents a for each container.
  * 
  * @author Jonas Schlaak
  */

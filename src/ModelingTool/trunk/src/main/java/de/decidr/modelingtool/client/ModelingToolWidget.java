@@ -55,9 +55,9 @@ import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.resources.Messages;
 
 /**
- * TODO: add comment
+ * The main class of the modeling tool.
  * 
- * @author Johannes Engelhardt
+ * @author Johannes Engelhardt, Jonas Schlaak
  */
 public class ModelingToolWidget extends Composite implements
         HasAllMouseHandlers {
@@ -147,10 +147,11 @@ public class ModelingToolWidget extends Composite implements
     }
 
     /**
-     * 
-     * TODO: add comment
+     * Sets the dwdl document for the modeling tool. The modeling tool parses
+     * the dwdl and creates the (graphical) workflow.
      * 
      * @param dwdl
+     *            the dwdl document
      */
     public void setDWDL(String dwdl) {
         DWDLParser parser = new DWDLParserImpl();
@@ -164,10 +165,12 @@ public class ModelingToolWidget extends Composite implements
     }
 
     /**
-     * 
-     * TODO: add comment
+     * Sets the userlist (all users of the tenant) for the modeling tool. The
+     * userlist is a xml document, in which every user element has the user id
+     * and a display name for user.
      * 
      * @param userxml
+     *            the user list as xml
      */
     public void setUsers(String userxml) {
         users = new HashMap<Long, String>();
@@ -185,10 +188,9 @@ public class ModelingToolWidget extends Composite implements
     }
 
     /**
+     * Returns the tenant users as a hash map with user id and display username.
      * 
-     * TODO: add comment
-     * 
-     * @return
+     * @return the user hash map
      */
     public HashMap<Long, String> getUsers() {
         return users;
