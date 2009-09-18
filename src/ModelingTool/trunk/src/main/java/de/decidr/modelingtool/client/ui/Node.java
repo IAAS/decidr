@@ -334,30 +334,45 @@ public abstract class Node extends AbsolutePanel implements
         int yOffset = port.getYOffset();
 
         switch (port.getPosition()) {
-        case TOP:
-            this.setWidgetPosition(port, this.getOffsetWidth() / 2 - portWidth
-                    / 2 + xOffset, BORDER_OFFSET - portHeight / 2 + yOffset);
-            break;
-        case LEFT:
-            this.setWidgetPosition(port, BORDER_OFFSET - portWidth / 2
-                    + xOffset, this.getOffsetHeight() / 2 - portHeight / 2
-                    + yOffset);
-            break;
-        case RIGHT:
-            this.setWidgetPosition(port, this.getOffsetWidth() - BORDER_OFFSET
-                    - portWidth / 2 + xOffset, this.getOffsetHeight() / 2
-                    - portHeight / 2 + yOffset);
-            break;
-        case BOTTOM:
-            this.setWidgetPosition(port, this.getOffsetWidth() / 2 - portWidth
-                    / 2 + xOffset, this.getOffsetHeight() - BORDER_OFFSET
-                    - portHeight / 2 + yOffset);
-            break;
+            case TOP:
+                setWidgetPosition(port, getOffsetWidth() / 2 - portWidth / 2
+                        + xOffset, BORDER_OFFSET - portHeight / 2 + yOffset);
+                break;
 
-        case ABSOLUTE:
-            this.setWidgetPosition(port, xOffset, yOffset);
-            break;
+            case LEFT:
+                setWidgetPosition(port,
+                        BORDER_OFFSET - portWidth / 2 + xOffset,
+                        getOffsetHeight() / 2 - portHeight / 2 + yOffset);
+                break;
+
+            case RIGHT:
+                setWidgetPosition(port, getOffsetWidth() - BORDER_OFFSET
+                        - portWidth / 2 + xOffset, this.getOffsetHeight() / 2
+                        - portHeight / 2 + yOffset);
+                break;
+
+            case BOTTOM:
+                setWidgetPosition(port, getOffsetWidth() / 2 - portWidth / 2
+                        + xOffset, getOffsetHeight() - BORDER_OFFSET
+                        - portHeight / 2 + yOffset);
+                break;
+
+            case ABSOLUTE:
+                setWidgetPosition(port, xOffset, yOffset);
+                break;
         }
+
+        // set position of connection indicator
+        PortConnectionIndicator ci = port.getConnectionIndicator();
+        add(ci);
+        ci.setVisible(true);
+        setWidgetPosition(ci, getWidgetLeft(port) + port.getOffsetWidth() / 2
+                - ci.getOffsetWidth() / 2, getWidgetTop(port)
+                + port.getOffsetHeight() / 2 - ci.getOffsetHeight() / 2);
+        ci.setVisible(false);
+        
+        // set port to front
+        add(port, getWidgetLeft(port), getWidgetTop(port));
 
         port.refreshConnections();
     }
@@ -425,6 +440,7 @@ public abstract class Node extends AbsolutePanel implements
     protected void setInputPort(InputPort inputPort) {
         this.inputPort = inputPort;
 
+        this.add(inputPort.getConnectionIndicator());
         this.add(inputPort);
         inputPort.setParentNode(this);
     }
@@ -441,6 +457,7 @@ public abstract class Node extends AbsolutePanel implements
     protected void setOutputPort(OutputPort outputPort) {
         this.outputPort = outputPort;
 
+        this.add(outputPort.getConnectionIndicator());
         this.add(outputPort);
         outputPort.setParentNode(this);
     }
@@ -461,7 +478,7 @@ public abstract class Node extends AbsolutePanel implements
         assert (getParent() instanceof AbsolutePanel);
         ((AbsolutePanel) getParent()).setWidgetPosition(this, left, top);
         refreshConnections();
-        
+
         if (isSelected()) {
             SelectionHandler.getInstance().refreshSelection();
         }
@@ -471,7 +488,7 @@ public abstract class Node extends AbsolutePanel implements
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
-    
+
     @Override
     public abstract void showPropertyWindow() throws NoPropertyWindowException;
 

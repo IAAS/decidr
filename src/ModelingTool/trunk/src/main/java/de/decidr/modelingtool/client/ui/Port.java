@@ -37,24 +37,28 @@ import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 public abstract class Port extends AbsolutePanel {
 
     /**
-     * Indicates where the port is located on its parent node. TOP, BOTTOM,
-     * LEFT and RIGHT indicate that the port is located at the according border
-     * of the node. ABSOLUTE indicated that the port is located in an absolute
+     * Indicates where the port is located on its parent node. TOP, BOTTOM, LEFT
+     * and RIGHT indicate that the port is located at the according border of
+     * the node. ABSOLUTE indicated that the port is located in an absolute
      * position on the node, offset origin is the upper left corner of the node.
      */
     public static enum Position {
-        TOP, BOTTOM, LEFT, RIGHT, ABSOLUTE
+        TOP,
+        BOTTOM,
+        LEFT,
+        RIGHT,
+        ABSOLUTE
     };
 
     /** The position of the port. */
     private Position position;
-    
+
     /**
      * The x offset of the port in pixels. This value is added to the position
      * specified by the position attribute.
      */
     private int xOffset = 0;
-    
+
     /**
      * The y offset of the port in pixels. This value is added to the position
      * specified by the position attribute.
@@ -67,14 +71,18 @@ public abstract class Port extends AbsolutePanel {
      */
     private boolean multipleConnectionsAllowed = false;
 
-    /**  The node the port is assigned to. */
+    /** The node the port is assigned to. */
     private Node parentNode = null;
 
     /** The drop controller of the port. */
     private DropController dropController = new PortDropController(this);
-    
+
     /** Indicates id a drop controller is registeres to the port. */
     protected boolean dropControllerRegistered = false;
+
+    /** The connection indicator of the port. */
+    private PortConnectionIndicator connectionIndicator = new PortConnectionIndicator(
+            false);
 
     /**
      * The collection of the glued drag boxes currently glued to the port. If
@@ -82,19 +90,20 @@ public abstract class Port extends AbsolutePanel {
      */
     private Collection<ConnectionDragBox> gluedDragBoxes = new HashSet<ConnectionDragBox>();
 
-    /** Indicates if a drop controller is registered or not.
-    protected boolean dropControllerRegistered = false;
-
     /**
-     * Dummy drag box for drawing a new connection. Has to be made draggable by
-     * subclasses.
+     * Indicates if a drop controller is registered or not. protected boolean
+     * dropControllerRegistered = false;
+     * 
+     * /** Dummy drag box for drawing a new connection. Has to be made draggable
+     * by subclasses.
      */
     protected ConnectionDragBox singleDragBox;
 
     /**
      * Constructor.
-     *
-     * @param position The position of the port in the node
+     * 
+     * @param position
+     *            The position of the port in the node
      */
     public Port(Position position) {
         this(position, 0, 0);
@@ -102,10 +111,13 @@ public abstract class Port extends AbsolutePanel {
 
     /**
      * Constructor.
-     *
-     * @param position The position of the port in the node
-     * @param xOffset x direction offset in pixels
-     * @param yOffset y direction offset in pixels
+     * 
+     * @param position
+     *            The position of the port in the node
+     * @param xOffset
+     *            x direction offset in pixels
+     * @param yOffset
+     *            y direction offset in pixels
      */
     public Port(Position position, int xOffset, int yOffset) {
         this.position = position;
@@ -121,25 +133,35 @@ public abstract class Port extends AbsolutePanel {
         super.add(w);
         setWidgetPosition(w, 0, 0);
     }
-    
+
     /**
      * Adds a dragbox to the port. The drag box has to be part of a connection.
      * 
-     * @param dragBox The dragbox to be added.
+     * @param dragBox
+     *            The dragbox to be added.
      */
     public void addConnectionDragBox(ConnectionDragBox dragBox) {
         assert dragBox.getConnection() != null;
-        
+
         gluedDragBoxes.add(dragBox);
 
         if (!multipleConnectionsAllowed) {
-            //assert gluedDragBoxes.isEmpty();
+            // assert gluedDragBoxes.isEmpty();
             removeSingleDragBox();
         }
 
         add(dragBox);
-        
+
         // bring single drag box to front, if present
+        if (singleDragBox != null) {
+            add(singleDragBox);
+        }
+    }
+
+    /**
+     * Brings the single drag box to front, if existing.
+     */
+    public void bringSingleDragBoxToFront() {
         if (singleDragBox != null) {
             add(singleDragBox);
         }
@@ -156,20 +178,15 @@ public abstract class Port extends AbsolutePanel {
             singleDragBox = new ConnectionDragBox(this);
 
             add(singleDragBox);
-            //setWidgetPosition(singleDragBox, 0, 0);
+            // setWidgetPosition(singleDragBox, 0, 0);
 
             singleDragBox.setVisibleStyle(false);
             singleDragBox.makeDraggable(false);
         }
     }
-    
-    /**
-     * Brings the single drag box to front, if existing.
-     */
-    public void bringSingleDragBoxToFront() {
-        if (singleDragBox != null) {
-            add(singleDragBox);
-        }
+
+    public PortConnectionIndicator getConnectionIndicator() {
+        return connectionIndicator;
     }
 
     public DropController getDropController() {
@@ -217,7 +234,7 @@ public abstract class Port extends AbsolutePanel {
     /**
      * Indicated if this port is a container port (instance of ContainerExitPort
      * or ContainerStartPort) or not. Has to be implemented by subclasses.
-     *
+     * 
      * @return True, if this port is a container port.
      */
     public abstract boolean isContainerPort();
@@ -225,13 +242,13 @@ public abstract class Port extends AbsolutePanel {
     public boolean isDropControllerRegistered() {
         return dropControllerRegistered;
     }
-    
+
     public abstract boolean isInputPort();
 
     public boolean isMultipleConnectionsAllowed() {
         return multipleConnectionsAllowed;
     }
-    
+
     public abstract boolean isOutputPort();
 
     /**
@@ -251,7 +268,8 @@ public abstract class Port extends AbsolutePanel {
      */
     public abstract void registerDropController();
 
-    public void removeConnectionDragBox(ConnectionDragBox dragBox, boolean performRemove) {
+    public void removeConnectionDragBox(ConnectionDragBox dragBox,
+            boolean performRemove) {
         if (dragBox == singleDragBox) {
             // remove single drag box
             singleDragBox = null;
@@ -259,7 +277,7 @@ public abstract class Port extends AbsolutePanel {
             // remove from glued drag boxes, if present
             gluedDragBoxes.remove(dragBox);
         }
-            
+
         if (multipleConnectionsAllowed) {
             if (singleDragBox == null) {
                 createSingleDragBox();
@@ -269,7 +287,7 @@ public abstract class Port extends AbsolutePanel {
                 createSingleDragBox();
             }
         }
-        
+
         if (performRemove) {
             remove(dragBox);
         }

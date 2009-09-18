@@ -76,8 +76,10 @@ public class PortDropController extends AbstractDropController {
 
         try {
             onPreviewDrop(context);
-            // JE: andere Lösung!
-            this.getDropTarget().setPixelSize(20, 20);
+            if (getDropTarget() instanceof Port) {
+                Port port = (Port)getDropTarget();
+                port.getConnectionIndicator().setVisible(true);
+            }
         } catch (VetoDragException e) {
             // drag item is not droppable on this port, perform no action
         }
@@ -87,7 +89,10 @@ public class PortDropController extends AbstractDropController {
     public void onLeave(DragContext context) {
         super.onLeave(context);
 
-        this.getDropTarget().setPixelSize(8, 8);
+        if (getDropTarget() instanceof Port) {
+            Port port = (Port)getDropTarget();
+            port.getConnectionIndicator().setVisible(false);
+        }
     }
 
     @Override

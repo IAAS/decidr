@@ -60,6 +60,19 @@
 	font-size: 1px;
 }
 
+.port-indicator-invisible {
+	width: 20px;
+	height: 20px;
+	font-size: 1px;
+}
+
+.port-indicator-visible {
+	width: 20px;
+	height: 20px;
+	font-size: 1px;
+	background-color: #FFFF66;
+}
+
 .dragbox-node {
 	width: 6px;
 	height: 6px;
