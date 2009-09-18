@@ -51,7 +51,6 @@ public class ResetPasswordAction implements ClickListener{
     public void buttonClick(ClickEvent event) {
         request = ((ResetPasswordComponent)event.getButton().getWindow()).getRequestForm();
         
-        //TODO: add validator to ResetPasswordComponent
         
         try {
             userFacade.requestPasswordReset(request.getItemProperty("email").getValue().toString());

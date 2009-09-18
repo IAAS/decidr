@@ -21,6 +21,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.InvitationDialogComponent;
@@ -29,44 +30,65 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action creates a new user and performs the given invitation.
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class RegisterUserWithInvitationAction implements ClickListener  {
+public class RegisterUserWithInvitationAction implements ClickListener {
 
     private UserFacade userFacade = new UserFacade(new UserRole());
-    
+
     private Form settingsForm = null;
     private Long invitationId = null;
     private Long userId = null;
     
-    public RegisterUserWithInvitationAction(Form form, Long invId){
-    	settingsForm = form;
-    	invitationId = invId;
+    private UserProfile userProfile = null;
+
+    public RegisterUserWithInvitationAction(Form form, Long invId) {
+        settingsForm = form;
+        invitationId = invId;
     }
-        
+
     @Override
     public void buttonClick(ClickEvent event) {
         settingsForm.commit();
-        
+
         try {
-            userId = userFacade.registerUser(settingsForm.getItemProperty("email").getValue().toString(), settingsForm.getItemProperty("password").getValue().toString(), settingsForm);
+            userId = userFacade.registerUser(settingsForm.getItemProperty(
+                    "email").getValue().toString(), settingsForm
+                    .getItemProperty("password").getValue().toString(),
+                    fillUserProfile());
         } catch (NullPointerException e) {
-            // TODO Auto-generated catch block
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
             e.printStackTrace();
         } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
-        
-        if(userId != null){
-        	String invDescription = "invitation";
-			// GH:       	Item invitationItem = userFacade.getInvitation(invitationId);
-			//        	 invDescription = "Please confirm this invitation from " + 
-			//        							invitationItem.getItemProperty("senderFirstName").getValue().toString() +
-			//        							" " +
-			//        							invitationItem.getItemProperty("senderLastName").getValue().toString();
-			Main.getCurrent().getMainWindow().addWindow(new InvitationDialogComponent(invDescription,invitationId, userId));
-			//userFacade.confirmInvitation(invitationId);
+
+        if (userId != null) {
+            String invDescription = "invitation";
+            // GH: Item invitationItem = userFacade.getInvitation(invitationId);
+            // invDescription = "Please confirm this invitation from " +
+            // invitationItem.getItemProperty("senderFirstName").getValue().toString()
+            // +
+            // " " +
+            // invitationItem.getItemProperty("senderLastName").getValue().toString();
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InvitationDialogComponent(invDescription, invitationId,
+                            userId));
+            // userFacade.confirmInvitation(invitationId);
         }
+    }
+    
+    private UserProfile fillUserProfile(){
+        userProfile = new UserProfile();
+        userProfile.setFirstName(settingsForm.getItemProperty("firstName").getValue().toString());
+        userProfile.setLastName(settingsForm.getItemProperty("lastName").getValue().toString());
+        userProfile.setCity(settingsForm.getItemProperty("city").getValue().toString());
+        userProfile.setPostalCode(settingsForm.getItemProperty("postalCode").getValue().toString());
+        userProfile.setStreet(settingsForm.getItemProperty("street").getValue().toString());
+        userProfile.setUsername(settingsForm.getItemProperty("userName").getValue().toString());
+        return userProfile;
     }
 }

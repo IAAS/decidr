@@ -51,8 +51,6 @@ public class ChangeEmailAction implements ClickListener{
     public void buttonClick(ClickEvent event) {
         email = ((ChangeEmailComponent)event.getButton().getWindow()).getNewEmail();
         
-        //TODO: add validator to ChangeEmailComponent
-        
         try {
             userFacade.setEmailAddress(userId, email.getItemProperty("newEmail").getValue().toString());
         } catch (TransactionException e) {
@@ -60,8 +58,8 @@ public class ChangeEmailAction implements ClickListener{
         }
         
         //TODO: remove
-        Main.getCurrent().getMainWindow().showNotification("new email: " + email.getItemProperty("newEmail").getValue().toString());
-        Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
+        //Main.getCurrent().getMainWindow().showNotification("new email: " + email.getItemProperty("newEmail").getValue().toString());
+        //Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
         
     }
 }

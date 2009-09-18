@@ -20,7 +20,17 @@ import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.UIBuilder;
 
 /**
- * TODO: add comment
+ * This class is the director for building the ui. In the DecidR application
+ * there are different roles. Every role has an other authority and other items
+ * are displayed. The user with most less authority is the unregistered user. He
+ * only can browse through the application. The next level is the registered user.
+ * He is able to edit his personal settings and to log in. The worklfow administrator
+ * is able to administrate a workflow instance which is started within the DecidR 
+ * application. The tenant administrator administrates an amount of user which belongs
+ * to him. He can make his sepcifi look and feel from the application with CSS. And he 
+ * is able to leave a user and to invite a user. The super administrator is the one with 
+ * full functionality. He can do evereything. He is able to delete user from the application
+ * and to manage server specific adjustments.
  *
  * @author AT
  */
@@ -38,7 +48,8 @@ public class UIDirector {
     }
 
     /**
-     * TODO: add comment
+     * Returns the template view, which is the basic of all sites
+     * generated in the DecidR application.
      *
      * @return
      */
@@ -47,7 +58,7 @@ public class UIDirector {
     }
 
     /**
-     * TODO: add comment
+     * Sets the ui builder which determines how the user interface is built.
      *
      * @param uiBuilder
      */
@@ -60,7 +71,8 @@ public class UIDirector {
     }
     
     /**
-     * TODO: add comment
+     * Constructs the view which is shown to the user. Here the header, the specific content
+     * and the specific vertical navigation menu is build depending on which role the user has.
      *
      */
     public void constructView(){

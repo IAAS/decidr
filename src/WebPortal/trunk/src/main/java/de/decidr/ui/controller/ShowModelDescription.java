@@ -19,23 +19,23 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.ui.view.Main;
+import de.decidr.ui.view.WorkflowDescriptionWindow;
 
 /**
- * Restores the default settings from the the tenant settings.
- * The css settings and other settings are restored and set
- * to a decidr global setting.
+ * Opens the window so that the user can enter a name and a description
+ * for the created workflow model.
  *
  * @author AT
  */
-public class RestoreDefaultTenantSettingsAction implements ClickListener {
+public class ShowModelDescription implements ClickListener {
 
     /* (non-Javadoc)
      * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //TODO: Klärung von default settings
-
+        Main.getCurrent().getMainWindow().addWindow(new WorkflowDescriptionWindow());
     }
 
 }

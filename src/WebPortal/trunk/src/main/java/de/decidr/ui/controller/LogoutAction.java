@@ -16,8 +16,6 @@
 
 package de.decidr.ui.controller;
 
-import java.net.URL;
-
 import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -27,8 +25,9 @@ import de.decidr.ui.view.HorizontalNavigationMenu;
 import de.decidr.ui.view.Main;
 
 /**
- * TODO: add comment
- *
+ * This action logs a user out, invalidates the session, makes the logout button 
+ * invisible and returns to the main page of the DecidR application.
+ * 
  * @author AT
  */
 public class LogoutAction implements ClickListener {

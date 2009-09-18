@@ -18,6 +18,7 @@ package de.decidr.ui.controller;
 
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -30,47 +31,62 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action creates a new tenant
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class CreateTenantAction implements ClickListener{
+public class CreateTenantAction implements ClickListener {
 
     private HttpSession session = Main.getCurrent().getSession();
 
-    private Long userId = (Long)session.getAttribute("userId");
-    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));	
-	
+    private Long userId = (Long) session.getAttribute("userId");
+    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+
     private Form createForm = null;
-	
-    public CreateTenantAction(Form form){
-	createForm = form;
+
+    public CreateTenantAction(Form form) {
+        createForm = form;
     }
-	
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //TODO: add validator
-	createForm.commit();
-		
-	Long tId = null;
-	try {
-	    tId = tenantFacade.getTenantId(createForm.getItemProperty("tenantName").getValue().toString());
-	} catch (TransactionException e) {
-	    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
-	}
-	if (tId != null){
-	    //TODO: tenant already exists
-	}else{
-	    try {
-		tenantFacade.createTenant(createForm.getItemProperty("tenantName").getValue().toString(),
-					  createForm.getItemProperty("tenantDescription").getValue().toString(), 
-					  userId);
-		} catch (TransactionException e) {
-		    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
-		}
-	}
-	}
+        createForm
+                .getField("tenantName")
+                .addValidator(
+                        new RegexpValidator(
+                                "\\w{2,50}",
+                                "Der Tenant name darf 2-50 Zeichen lang sein und darf keine Sonderzeichen enthalten"));
+        createForm.commit();
+
+        Long tId = null;
+        try {
+            tId = tenantFacade.getTenantId(createForm.getItemProperty(
+                    "tenantName").getValue().toString());
+            
+            if (tId != null) {
+                createForm.getField("tenantName").setValue((String)Main.getCurrent().getSession().getAttribute("tenant"));
+                createForm.getField("tenantDescription").setValue(tenantFacade.getTenantSettings(tId).getItemProperty("description").getValue());
+            } else {
+                try {
+                    tenantFacade.createTenant(createForm.getItemProperty(
+                            "tenantName").getValue().toString(), createForm
+                            .getItemProperty("tenantDescription").getValue()
+                            .toString(), userId);
+                } catch (TransactionException e) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new TransactionErrorDialogComponent());
+                }
+            }
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
+        }
+        
+    }
 
 }

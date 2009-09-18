@@ -54,7 +54,7 @@ public class ChangePasswordAction implements ClickListener {
 		passwords = ((ChangePasswordComponent) event.getButton().getWindow())
 				.getPasswords();
 
-		// TODO: add validator to ChangePasswordComponent
+		
 		String passwd = passwords.getItemProperty("newPassword").getValue()
 				.toString();
 		if (!passwd.equals(passwords.getItemProperty("newPasswordConfirm")

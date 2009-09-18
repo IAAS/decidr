@@ -32,7 +32,9 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * TODO: add comment
+ * This paramter handler handles the url for confirming users. If a users has to 
+ * confirm his registration he gets a special link. This link has a special syntax.
+ * To extract the information from the url this parameter handler is used.
  *
  * @author Geoffrey-Alexeij Heinze
  */
@@ -82,8 +84,7 @@ public class ConfirmationParameterHandler implements ParameterHandler {
 					userFacade.confirmChangeEmailRequest(Long.parseLong(userId), confirmationId);
 					Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent("Your email address has been successfully changed!", "Email Changed!"));
 				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				        Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
 				} catch (TransactionException e) {
 					Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
 				}
@@ -92,7 +93,7 @@ public class ConfirmationParameterHandler implements ParameterHandler {
 					userFacade.confirmPasswordReset(Long.parseLong(userId), confirmationId);
 					Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent("A new password has been created and sent to your email address.", "Password Reset Confirmed!"));
 				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
+				    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
 					e.printStackTrace();
 				} catch (TransactionException e) {
 					Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
@@ -102,7 +103,7 @@ public class ConfirmationParameterHandler implements ParameterHandler {
 					userFacade.confirmRegistration(Long.parseLong(userId), confirmationId);
 					Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent("You successfully completed your registration!<br>You can now login with your account.", "Registration Complete!"));
 				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
+				    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
 					e.printStackTrace();
 				} catch (TransactionException e) {
 					Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());

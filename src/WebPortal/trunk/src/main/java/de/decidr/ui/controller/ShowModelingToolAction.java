@@ -24,7 +24,7 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ModelingToolWindow;
 
 /**
- * TODO: add comment
+ * Opens the modeling tool.
  *
  * @author AT
  */
@@ -37,11 +37,9 @@ public class ShowModelingToolAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {    
+        new HideDialogWindowAction();
+        //Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
         Main.getCurrent().getMainWindow().addWindow(modelingToolWindow);
-        
-       
-       
-
     }
 
 }

@@ -50,7 +50,8 @@ public class SwitchTenantAction implements ClickListener {
     private Long tenantId = null;
     
     /**
-     * TODO: add comment
+     * Constructor which is given a tenant name to determine to which tenant
+     * the user wants to switch
      *
      */
     public SwitchTenantAction(String tenantName) {

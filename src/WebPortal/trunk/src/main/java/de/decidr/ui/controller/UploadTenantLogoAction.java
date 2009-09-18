@@ -80,7 +80,7 @@ public class UploadTenantLogoAction implements Upload.SucceededListener,
     */
     @Override
     public void uploadFailed(FailedEvent event) {
-        // TODO Auto-generated method stub
+        Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
     }
     
     /* (non-Javadoc)
@@ -90,7 +90,7 @@ public class UploadTenantLogoAction implements Upload.SucceededListener,
     public OutputStream receiveUpload(String filename, String MIMEType) {
         FileOutputStream fos = null;
         
-        //TODO: change to correct path
+        
         file = new File(filename);
         
         try {

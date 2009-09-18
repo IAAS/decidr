@@ -20,7 +20,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 /**
- * TODO: add comment
+ * This action edits a selected user from the table.
  *
  * @author AT
  */

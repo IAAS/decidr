@@ -27,7 +27,8 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 
 /**
- * TODO: add comment
+ * Opens the appoint workflow admin component. So the user is able to decide
+ * which user is a workflow administrator for a worklfow instance.
  * 
  * @author AT
  */
@@ -39,7 +40,8 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
     private Table table = null;
 
     /**
-     * TODO: add comment
+     * Constructor which gets a table as parameter to determine which item is selected
+     * from which table.
      * 
      */
     public ShowAppointWorkflowAdminAction(Table table) {

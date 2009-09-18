@@ -23,13 +23,12 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * TODO: add comment
+ * Marks a selected work item as done.
  *
  * @author AT
  */
@@ -43,7 +42,8 @@ public class MarkWorkItemAsDoneAction implements ClickListener {
     private Long workItemId = null;
     
     /**
-     * TODO: add comment
+     * Constructor which gets a work item id as a parameter to know which
+     * work item is to be marked done.
      *
      */
     public MarkWorkItemAsDoneAction(Long workItemId) {

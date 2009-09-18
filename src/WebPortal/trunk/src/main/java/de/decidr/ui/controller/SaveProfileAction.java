@@ -28,6 +28,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
@@ -44,6 +45,8 @@ public class SaveProfileAction implements ClickListener  {
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
     
     private ProfileSettingsComponent content = null;
+    
+    private UserProfile userProfile = null;
 
     /* (non-Javadoc)
      * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
@@ -53,18 +56,26 @@ public class SaveProfileAction implements ClickListener  {
     	content = (ProfileSettingsComponent) UIDirector.getInstance().getTemplateView().getContent();
     	content.saveSettingsItem();
     	try {
-            userFacade.setProfile(userId, content.getSettingsItem());
+            userFacade.setProfile(userId, fillUserProfile());
         } catch (EntityNotFoundException e) {
-            // TODO Auto-generated catch block
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
             e.printStackTrace();
         } catch (NullPointerException e) {
-            // TODO Auto-generated catch block
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
             e.printStackTrace();
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
         }
-        
-        //TODO: remove
-    	Main.getCurrent().getMainWindow().showNotification("Profile Settings Saved " + ProfileSettingsContainer.getInstance().getStreet());
+       
+    }
+    
+    private UserProfile fillUserProfile(){
+        userProfile = new UserProfile();
+        userProfile.setFirstName(content.getSettingsItem().getItemProperty("firstName").getValue().toString());
+        userProfile.setLastName(content.getSettingsItem().getItemProperty("lastName").getValue().toString());
+        userProfile.setCity(content.getSettingsItem().getItemProperty("city").getValue().toString());
+        userProfile.setPostalCode(content.getSettingsItem().getItemProperty("postalCode").getValue().toString());
+        userProfile.setStreet(content.getSettingsItem().getItemProperty("street").getValue().toString());
+        return userProfile;
     }
 }

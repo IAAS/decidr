@@ -20,6 +20,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
@@ -29,38 +30,60 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action first creates a new user, then a new tenant
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class RegisterTenantAction implements ClickListener  {
+public class RegisterTenantAction implements ClickListener {
 
     private UserFacade userFacade = new UserFacade(new UserRole());
     private TenantFacade tenantFacade = new TenantFacade(new UserRole());
-    
+
     private Long userId = null;
     private RegisterTenantComponent content = null;
+    
+    private UserProfile userProfile = null;
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        content = (RegisterTenantComponent) UIDirector.getInstance().getTemplateView().getContent();
+        content = (RegisterTenantComponent) UIDirector.getInstance()
+                .getTemplateView().getContent();
         content.saveRegistrationForm();
         try {
-            userId = userFacade.registerUser(content.getRegistrationForm().getItemProperty("email").getValue().toString(), content.getRegistrationForm().getItemProperty("password").getValue().toString(), content.getRegistrationForm());
+            userId = userFacade.registerUser(content.getRegistrationForm()
+                    .getItemProperty("email").getValue().toString(), content
+                    .getRegistrationForm().getItemProperty("password")
+                    .getValue().toString(), fillUserProfile());
         } catch (NullPointerException e) {
-            // TODO Auto-generated catch block
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
             e.printStackTrace();
         } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
         try {
-            tenantFacade.createTenant(content.getRegistrationForm().getItemProperty("tenantName").getValue().toString(), "", userId);
+            tenantFacade.createTenant(content.getRegistrationForm()
+                    .getItemProperty("tenantName").getValue().toString(), "",
+                    userId);
         } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
-        //TODO: remove
-        Main.getCurrent().getMainWindow().showNotification("Hello " + content.getRegistrationForm().getItemProperty("userName").getValue().toString());
+    }
+    
+    private UserProfile fillUserProfile(){
+        userProfile = new UserProfile();
+        userProfile.setFirstName(content.getRegistrationForm().getItemProperty("firstName").getValue().toString());
+        userProfile.setLastName(content.getRegistrationForm().getItemProperty("lastName").getValue().toString());
+        userProfile.setCity(content.getRegistrationForm().getItemProperty("city").getValue().toString());
+        userProfile.setPostalCode(content.getRegistrationForm().getItemProperty("postalCode").getValue().toString());
+        userProfile.setStreet(content.getRegistrationForm().getItemProperty("street").getValue().toString());
+        userProfile.setUsername(content.getRegistrationForm().getItemProperty("userName").getValue().toString());
+        return userProfile;
     }
 }
