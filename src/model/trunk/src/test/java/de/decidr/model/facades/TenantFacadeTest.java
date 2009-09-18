@@ -43,6 +43,11 @@ public class TenantFacadeTest {
     static TenantFacade userFacade;
     static TenantFacade nullFacade;
 
+    @BeforeClass
+    public static void disable() {
+        fail("This test class has not yet been implemented");
+    }
+
     /**
      * Initialises the facade instances.
      */

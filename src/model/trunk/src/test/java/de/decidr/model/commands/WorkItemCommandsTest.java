@@ -18,6 +18,7 @@ package de.decidr.model.commands;
 
 import static org.junit.Assert.fail;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.CommandsTest;
@@ -37,6 +38,11 @@ import de.decidr.model.enums.WorkItemStatus;
  * @author Reinhold
  */
 public class WorkItemCommandsTest extends CommandsTest {
+
+    @BeforeClass
+    public static void disable() {
+        fail("This test class has not yet been implemented");
+    }
 
     /**
      * Test method for

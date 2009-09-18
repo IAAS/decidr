@@ -20,6 +20,7 @@ import static org.junit.Assert.fail;
 
 import java.util.Collection;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.CommandsTest;
@@ -40,7 +41,12 @@ import de.decidr.model.commands.workflowinstance.WorkflowInstanceCommand;
  */
 public class WorkflowInstanceCommandsTest extends CommandsTest {
 
-    /**
+    @BeforeClass
+    public static void disable() {
+        fail("This test class has not yet been implemented");
+    }
+
+   /**
      * Test method for
      * {@link DeleteWorkflowInstanceCommand#DeleteWorkFlowInstanceCommand(Role, Long)}
      * .

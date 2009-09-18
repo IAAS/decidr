@@ -42,7 +42,12 @@ public class WorkflowModelFacadeTest {
     static WorkflowModelFacade userFacade;
     static WorkflowModelFacade nullFacade;
 
-    /**
+    @BeforeClass
+    public static void disable() {
+        fail("This test class has not yet been implemented");
+    }
+
+   /**
      * Initialises the facade instances.
      */
     @BeforeClass

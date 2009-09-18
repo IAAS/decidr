@@ -36,6 +36,11 @@ public class WorkItemFacadeTest {
     static WorkItemFacade userFacade;
     static WorkItemFacade nullFacade;
 
+    @BeforeClass
+    public static void disable() {
+        fail("This test class has not yet been implemented");
+    }
+
     /**
      * Initialises the facade instances.
      */

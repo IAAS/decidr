@@ -21,6 +21,7 @@ import static org.junit.Assert.fail;
 import java.io.FileInputStream;
 import java.util.List;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.acl.roles.Role;
@@ -54,6 +55,11 @@ import de.decidr.model.filters.Paginator;
  * @author Reinhold
  */
 public class TenantCommandsTest {
+
+    @BeforeClass
+    public static void disable() {
+        fail("This test class has not yet been implemented");
+    }
 
     /**
      * Test method for
