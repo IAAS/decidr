@@ -85,13 +85,18 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
      */
     public AclEnabledCommand(Role role, Permission additionalPermission) {
         this(role, (Collection<Permission>) null);
-        this.additionalPermissions.add(additionalPermission);
+        if (additionalPermission != null) {
+            this.additionalPermissions.add(additionalPermission);
+        }
     }
 
     /**
      * Performs the necessary permission checks, then forwards to
      * transactionAllowed iff the ACL grants access to this command and all
      * specified additional permissions.
+     * 
+     * @param evt
+     *            forwarded event
      */
     @Override
     public final void transactionStarted(TransactionEvent evt)
@@ -101,10 +106,12 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
         Boolean mayExecute = acl.isAllowed(role, new CommandPermission(this));
 
         for (Permission p : additionalPermissions) {
-            if (mayExecute) {
-                mayExecute = acl.isAllowed(role, p);
-            } else {
-                break;
+            if (p != null) {
+                if (mayExecute) {
+                    mayExecute = acl.isAllowed(role, p);
+                } else {
+                    break;
+                }
             }
         }
 
@@ -116,8 +123,10 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
             permissions.append(this.getClass().getName());
 
             for (Permission p : additionalPermissions) {
-                permissions.append(", ");
-                permissions.append(p.getName());
+                if (p != null) {
+                    permissions.append(", ");
+                    permissions.append(p.getName());
+                }
             }
 
             throw new AccessDeniedException(String.format(

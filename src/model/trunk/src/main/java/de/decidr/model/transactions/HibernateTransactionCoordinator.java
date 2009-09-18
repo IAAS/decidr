@@ -203,7 +203,15 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     public void runTransaction(
             Collection<? extends TransactionalCommand> commands)
             throws TransactionException {
-        runTransaction((TransactionalCommand[]) commands.toArray());
+        if (commands == null) {
+            throw new TransactionException(new IllegalArgumentException(
+                    "Commands collection must not be null."));
+        }
+
+        TransactionalCommand[] emptyArray = new TransactionalCommand[0];
+        commands.toArray(emptyArray);
+
+        runTransaction(commands.toArray(emptyArray));
     }
 
     /**
