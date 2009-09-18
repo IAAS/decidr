@@ -153,7 +153,7 @@ public class SiteFrame extends CustomComponent{
         }
         
         /**
-         * TODO: add comment
+         * Returns the current horizontal navigation menu.
          *
          * @return
          */

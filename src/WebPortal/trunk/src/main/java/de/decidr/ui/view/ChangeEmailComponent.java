@@ -24,6 +24,7 @@ package de.decidr.ui.view;
  */
 
 import com.vaadin.data.Item;
+import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;
@@ -96,6 +97,7 @@ public class ChangeEmailComponent extends Window {
         emailForm.setWidth(370, Form.UNITS_PIXELS);
         //emailForm.setSizeUndefined();
         emailForm.addField("newEmail", newEmailText);
+        emailForm.getField("newEmail").addValidator(new EmailValidator("Please enter a valid email adress"));
 
         verticalLayout.addComponent(infoLabel);
         verticalLayout.addComponent(emailForm);
