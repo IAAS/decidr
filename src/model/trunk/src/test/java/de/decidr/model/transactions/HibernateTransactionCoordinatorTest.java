@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
 
+import org.hibernate.HibernateException;
 import org.hibernate.cfg.Configuration;
 import org.junit.Test;
 
@@ -87,7 +88,12 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
             // RR it seems that a blank new configuration does not have all
             // required properties set. Try calling the configure() method or set
             // the required properties manually. ~dh
-            htc.setConfiguration(cfg);
+            try {
+                htc.setConfiguration(cfg);
+                fail("Accepted empty hibernate config");
+            } catch (HibernateException e) {
+                // supposed to be thrown
+            }
 
             assertNotNull(origCfg.getProperties());
             cfg.setProperties((Properties) origCfg.getProperties().clone());
