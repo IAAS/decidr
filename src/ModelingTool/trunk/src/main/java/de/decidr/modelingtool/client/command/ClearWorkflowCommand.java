@@ -23,9 +23,9 @@ import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
- * TODO: add comment
+ * This command clears the workflow, except the start and exit node.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class ClearWorkflowCommand implements Command {
 

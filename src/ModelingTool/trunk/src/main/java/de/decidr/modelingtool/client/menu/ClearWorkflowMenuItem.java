@@ -26,7 +26,7 @@ import de.decidr.modelingtool.client.command.ClearWorkflowCommand;
  * This command clears the workflow from all nodes and container and only leaves
  * a start and end node.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class ClearWorkflowMenuItem implements Command {
 

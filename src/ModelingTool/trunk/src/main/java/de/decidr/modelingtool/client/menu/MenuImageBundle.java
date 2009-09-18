@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.MenuBar;
 
 /**
- * TODO: add comment
+ * This interface manages all menu icons.
  *
  * @author Johannes Engelhardt
  */

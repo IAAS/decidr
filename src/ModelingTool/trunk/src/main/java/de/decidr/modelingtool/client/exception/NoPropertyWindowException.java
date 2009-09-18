@@ -17,18 +17,14 @@
 package de.decidr.modelingtool.client.exception;
 
 /**
- * TODO: add comment
+ * This exception is thrown if a property window (eg. of a node), that is not
+ * present, is tried to open.
  *
- * @author JE
+ * @author Johannes Engelhardt
  */
 @SuppressWarnings("serial")
 public class NoPropertyWindowException extends OperationNotAllowedException {
 
-    /**
-     * TODO: add comment
-     *
-     * @param msg
-     */
     public NoPropertyWindowException(String msg) {
         super(msg);
     }

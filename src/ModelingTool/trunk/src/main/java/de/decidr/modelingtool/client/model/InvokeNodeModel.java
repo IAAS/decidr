@@ -17,25 +17,16 @@
 package de.decidr.modelingtool.client.model;
 
 /**
- * TODO: add comment
+ * This is the parent model of all invoke node models.
  *
  * @author Johannes Engelhardt
  */
 public class InvokeNodeModel extends NodeModel {
 
-    /**
-     * TODO: add comment
-     *
-     * @param parentModel
-     */
     public InvokeNodeModel(HasChildModels parentModel) {
         super(parentModel);
     }
 
-    /**
-     * TODO: add comment
-     *
-     */
     public InvokeNodeModel() {
         super();
     }

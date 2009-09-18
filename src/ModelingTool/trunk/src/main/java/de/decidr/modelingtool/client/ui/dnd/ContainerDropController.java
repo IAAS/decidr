@@ -25,17 +25,12 @@ import de.decidr.modelingtool.client.ui.EndNode;
 import de.decidr.modelingtool.client.ui.StartNode;
 
 /**
- * TODO: add comment
+ * This drop controllers handles the drop operations on any container.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class ContainerDropController extends AbsolutePositionDropController {
 
-    /**
-     * TODO: add comment
-     * 
-     * @param dropTarget
-     */
     public ContainerDropController(AbsolutePanel dropTarget) {
         super(dropTarget);
     }
@@ -44,6 +39,7 @@ public class ContainerDropController extends AbsolutePositionDropController {
     public void onPreviewDrop(DragContext context) throws VetoDragException {
         super.onPreviewDrop(context);
 
+        // prevent StartNode and EndNode from dropping on a container
         if (context.draggable instanceof StartNode
                 || context.draggable instanceof EndNode) {
             throw new VetoDragException();

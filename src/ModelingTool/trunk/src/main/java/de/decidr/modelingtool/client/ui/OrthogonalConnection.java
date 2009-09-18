@@ -30,9 +30,10 @@ public class OrthogonalConnection extends Connection {
     /** The width of the connection lines. */
     private final int LINE_WIDTH = 2;
 
-    /** TODO: add comment */
+    /** The contraction of the end lines in pixels. */
     private final int LINE_CONTRACTION = 4;
 
+    /** The length of the end lines in pixels. */
     private final int STARTEND_LINE_LENGTH = 20;
 
     /** X coordinate offset of the label position relative to the middle line. */
@@ -40,14 +41,15 @@ public class OrthogonalConnection extends Connection {
     /** Y coordinate offset of the label position relative to the middle line. */
     private final int LABEL_YOFFSET = -20;
 
+    /** The start line of the connection. */
     private ConnectionLine startLine = new ConnectionLine(this, LINE_WIDTH);
-    /** the start line of the connection. */
+    /** The line between start line and middle line. */
     private ConnectionLine startMidLine = new ConnectionLine(this, LINE_WIDTH);
     /** The middle line of the connection. */
     private ConnectionLine midLine = new ConnectionLine(this, LINE_WIDTH);
     /** The end line of the connection. */
     private ConnectionLine endMidLine = new ConnectionLine(this, LINE_WIDTH);
-
+    /** The line beween middle line and end line. */
     private ConnectionLine endLine = new ConnectionLine(this, LINE_WIDTH);
 
     public OrthogonalConnection(HasChildren parentPanel) {
@@ -60,7 +62,6 @@ public class OrthogonalConnection extends Connection {
         midLine.addMouseDownHandler(sh);
         endMidLine.addMouseDownHandler(sh);
         endLine.addMouseDownHandler(sh);
-        // label.addMouseDownHandler(sh);
     }
 
     @Override
@@ -76,98 +77,87 @@ public class OrthogonalConnection extends Connection {
 
     @Override
     public void draw() {
-        if (parentPanel instanceof AbsolutePanel && startDragBox != null
-                && endDragBox != null) {
-            AbsolutePanel absPanel = (AbsolutePanel) parentPanel;
+        assert (parentPanel instanceof AbsolutePanel && startDragBox != null
+                && endDragBox != null);
+        AbsolutePanel absPanel = (AbsolutePanel) parentPanel;
 
-            int startX = startDragBox.getMiddleLeft() - parentPanel.getLeft()
-                    - LINE_WIDTH / 2;
-            int startY = startDragBox.getMiddleTop() - parentPanel.getTop();
-            int endX = endDragBox.getMiddleLeft() - parentPanel.getLeft()
-                    - LINE_WIDTH / 2;
-            int endY = endDragBox.getMiddleTop() - parentPanel.getTop();
+        int startX = startDragBox.getMiddleLeft() - parentPanel.getLeft()
+                - LINE_WIDTH / 2;
+        int startY = startDragBox.getMiddleTop() - parentPanel.getTop();
+        int endX = endDragBox.getMiddleLeft() - parentPanel.getLeft()
+                - LINE_WIDTH / 2;
+        int endY = endDragBox.getMiddleTop() - parentPanel.getTop();
 
-            // calculate width and height
-            int width = Math.abs(startX - endX) + LINE_WIDTH;
-            int height = Math.abs(startY - endY);
+        // calculate width and height
+        int width = Math.abs(startX - endX) + LINE_WIDTH;
+        int height = Math.abs(startY - endY);
 
-            // add lines to panel / bring to front
-            absPanel.add(startMidLine);
-            absPanel.add(midLine);
-            absPanel.add(endMidLine);
-            // add label to panel / bring to front
-            absPanel.add(label);
+        // add lines to panel / bring to front
+        absPanel.add(startMidLine);
+        absPanel.add(midLine);
+        absPanel.add(endMidLine);
+        // add label to panel / bring to front
+        absPanel.add(label);
 
-            if (startY <= endY) {
-                // startLine and endLine not needed
-                startLine.removeFromParent();
-                endLine.removeFromParent();
+        if (startY <= endY) {
+            // startLine and endLine not needed
+            startLine.removeFromParent();
+            endLine.removeFromParent();
 
-                // 3-part line
-                absPanel.setWidgetPosition(startMidLine, startX, startY
-                        + LINE_CONTRACTION);
-                absPanel.setWidgetPosition(endMidLine, endX, endY - height / 2);
+            // 3-part line
+            absPanel.setWidgetPosition(startMidLine, startX, startY
+                    + LINE_CONTRACTION);
+            absPanel.setWidgetPosition(endMidLine, endX, endY - height / 2);
 
-                if (startX <= endX) {
-                    absPanel.setWidgetPosition(midLine, startX,
-                            (startY + endY) / 2);
-                    absPanel.setWidgetPosition(label, startX + LABEL_XOFFSET,
-                            (startY + endY) / 2 + LABEL_YOFFSET);
-                } else {
-                    absPanel.setWidgetPosition(midLine, endX,
-                            (startY + endY) / 2);
-                    absPanel.setWidgetPosition(label, endX + LABEL_XOFFSET,
-                            (startY + endY) / 2 + LABEL_YOFFSET);
-                }
-
-                // set orientation and length of lines
-                startMidLine.setVerticalOrientation(height / 2
-                        - LINE_CONTRACTION);
-                endMidLine
-                        .setVerticalOrientation(height / 2 - LINE_CONTRACTION);
-                midLine.setHorizontalOrientation(width);
-
+            if (startX <= endX) {
+                absPanel
+                        .setWidgetPosition(midLine, startX, (startY + endY) / 2);
+                absPanel.setWidgetPosition(label, startX + LABEL_XOFFSET,
+                        (startY + endY) / 2 + LABEL_YOFFSET);
             } else {
-                // 5-part-line
-                // add additional lines
-                absPanel.add(startLine);
-                absPanel.add(endLine);
-
-                absPanel.setWidgetPosition(startLine, startX, startY
-                        + LINE_CONTRACTION);
-                startLine.setVerticalOrientation(STARTEND_LINE_LENGTH
-                        + LINE_WIDTH);
-
-                absPanel.setWidgetPosition(endLine, endX, endY
-                        - STARTEND_LINE_LENGTH - LINE_CONTRACTION);
-                endLine.setVerticalOrientation(STARTEND_LINE_LENGTH);
-
-                absPanel.setWidgetPosition(midLine, (startX + endX) / 2, endY
-                        - STARTEND_LINE_LENGTH - LINE_CONTRACTION);
-                midLine.setVerticalOrientation(height + STARTEND_LINE_LENGTH
-                        * 2 + LINE_CONTRACTION * 2 + LINE_WIDTH);
-
-                if (startX <= endX) {
-                    absPanel.setWidgetPosition(startMidLine, startX, startY
-                            + STARTEND_LINE_LENGTH + LINE_CONTRACTION);
-                    absPanel.setWidgetPosition(endMidLine, (startX + endX) / 2,
-                            endY - STARTEND_LINE_LENGTH - LINE_CONTRACTION);
-                } else {
-                    absPanel.setWidgetPosition(startMidLine,
-                            (startX + endX) / 2, startY + STARTEND_LINE_LENGTH
-                                    + LINE_CONTRACTION);
-                    absPanel.setWidgetPosition(endMidLine, endX, endY
-                            - STARTEND_LINE_LENGTH - LINE_CONTRACTION);
-                }
-
-                startMidLine.setHorizontalOrientation(width / 2 + LINE_WIDTH
-                        / 2);
-                endMidLine.setHorizontalOrientation(width / 2 + LINE_WIDTH / 2);
+                absPanel.setWidgetPosition(midLine, endX, (startY + endY) / 2);
+                absPanel.setWidgetPosition(label, endX + LABEL_XOFFSET,
+                        (startY + endY) / 2 + LABEL_YOFFSET);
             }
 
+            // set orientation and length of lines
+            startMidLine.setVerticalOrientation(height / 2 - LINE_CONTRACTION);
+            endMidLine.setVerticalOrientation(height / 2 - LINE_CONTRACTION);
+            midLine.setHorizontalOrientation(width);
+
         } else {
-            // TODO: Debug
-            System.out.println("Connection cannot be drawn");
+            // 5-part-line
+            // add additional lines
+            absPanel.add(startLine);
+            absPanel.add(endLine);
+
+            absPanel.setWidgetPosition(startLine, startX, startY
+                    + LINE_CONTRACTION);
+            startLine.setVerticalOrientation(STARTEND_LINE_LENGTH + LINE_WIDTH);
+
+            absPanel.setWidgetPosition(endLine, endX, endY
+                    - STARTEND_LINE_LENGTH - LINE_CONTRACTION);
+            endLine.setVerticalOrientation(STARTEND_LINE_LENGTH);
+
+            absPanel.setWidgetPosition(midLine, (startX + endX) / 2, endY
+                    - STARTEND_LINE_LENGTH - LINE_CONTRACTION);
+            midLine.setVerticalOrientation(height + STARTEND_LINE_LENGTH * 2
+                    + LINE_CONTRACTION * 2 + LINE_WIDTH);
+
+            if (startX <= endX) {
+                absPanel.setWidgetPosition(startMidLine, startX, startY
+                        + STARTEND_LINE_LENGTH + LINE_CONTRACTION);
+                absPanel.setWidgetPosition(endMidLine, (startX + endX) / 2,
+                        endY - STARTEND_LINE_LENGTH - LINE_CONTRACTION);
+            } else {
+                absPanel.setWidgetPosition(startMidLine, (startX + endX) / 2,
+                        startY + STARTEND_LINE_LENGTH + LINE_CONTRACTION);
+                absPanel.setWidgetPosition(endMidLine, endX, endY
+                        - STARTEND_LINE_LENGTH - LINE_CONTRACTION);
+            }
+
+            startMidLine.setHorizontalOrientation(width / 2 + LINE_WIDTH / 2);
+            endMidLine.setHorizontalOrientation(width / 2 + LINE_WIDTH / 2);
         }
     }
 

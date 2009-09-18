@@ -51,7 +51,6 @@ public class PortDropController extends AbstractDropController {
 
     @Override
     public void onDrop(DragContext context) {
-        // TODO Auto-generated method stub
         super.onDrop(context);
 
         // dragged drag box
@@ -73,20 +72,19 @@ public class PortDropController extends AbstractDropController {
 
     @Override
     public void onEnter(DragContext context) {
-        // TODO Auto-generated method stub
         super.onEnter(context);
 
         try {
             onPreviewDrop(context);
+            // JE: andere Lösung!
             this.getDropTarget().setPixelSize(20, 20);
         } catch (VetoDragException e) {
-
+            // drag item is not droppable on this port, perform no action
         }
     }
 
     @Override
     public void onLeave(DragContext context) {
-        // TODO Auto-generated method stub
         super.onLeave(context);
 
         this.getDropTarget().setPixelSize(8, 8);
@@ -94,7 +92,6 @@ public class PortDropController extends AbstractDropController {
 
     @Override
     public void onMove(DragContext context) {
-        // TODO Auto-generated method stub
         super.onMove(context);
     }
 

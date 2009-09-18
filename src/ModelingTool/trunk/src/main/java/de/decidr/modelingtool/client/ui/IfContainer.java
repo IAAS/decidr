@@ -19,17 +19,12 @@ package de.decidr.modelingtool.client.ui;
 import de.decidr.modelingtool.client.ui.dialogs.ifcontainer.IfWindowInvoker;
 
 /**
- * TODO: add comment
+ * The If Container.
  * 
  * @author Johannes Engelhardt
  */
 public class IfContainer extends Container {
 
-    /**
-     * TODO: add comment
-     * 
-     * @param parentPanel
-     */
     public IfContainer(HasChildren parentPanel) {
         super(parentPanel);
 

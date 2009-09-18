@@ -22,9 +22,10 @@ import de.decidr.modelingtool.client.ui.Port;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 
 /**
- * TODO: add comment
+ * This command moves one side of an existing connection from one to another
+ * port.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class MoveConnectionCommand implements UndoableCommand {
 

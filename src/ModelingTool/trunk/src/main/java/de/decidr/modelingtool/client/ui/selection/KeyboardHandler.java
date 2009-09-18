@@ -35,9 +35,9 @@ import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.resources.Messages;
 
 /**
- * TODO: add comment
+ * This class handles keyboard inputs from the user. This is a singleton.
  * 
- * @author JE
+ * @author Johannes Engelhardt
  */
 public class KeyboardHandler implements KeyDownHandler {
 
