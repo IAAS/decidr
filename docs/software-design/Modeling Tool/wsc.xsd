@@ -39,6 +39,7 @@
             <xsd:element name="value" type="xsd:string" minOccurs="1"
 				maxOccurs="unbounded" />
         </xsd:sequence>
+        <xsd:attribute name="valueType" type="xsd:string"/>
     </xsd:complexType>
 
     <xsd:element name="roles" type="tRoles" />
