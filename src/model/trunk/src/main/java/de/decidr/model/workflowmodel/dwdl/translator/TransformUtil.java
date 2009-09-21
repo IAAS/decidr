@@ -49,6 +49,7 @@ import org.xml.sax.InputSource;
 
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
+import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
 /**
@@ -117,6 +118,11 @@ public class TransformUtil {
                 new StreamSource(new ByteArrayInputStream(dwdl)),
                 Workflow.class);
         return dwdlElement.getValue();
+    }
+    
+    public static THumanTaskData bytes2HumanTask(byte[] dwdl) throws JAXBException{
+        //TODO: Implement the unmarshaling 
+        return null;
     }
 
     public static Document workflow2DOM(Workflow dwdl) throws JAXBException,
