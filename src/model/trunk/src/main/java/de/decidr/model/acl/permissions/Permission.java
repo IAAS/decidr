@@ -38,7 +38,54 @@ public class Permission extends BasicPermission {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Creates a new Permission with the given name.
+     * 
+     * @param name
+     *            name of the new permission
+     */
     public Permission(String name) {
         super(name);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        // consider permissions equal even if the class names differ.
+        return (other instanceof Permission)
+                && this.getName().equals(((Permission) other).getName());
+    }
+
+    /**
+     * Returns a new instance of {@link Permission} that implies this
+     * permission. This method guarantees that there is no other permission
+     * besides the return value and this permission that also implies this
+     * permission.
+     * 
+     * @return the next implying permission. If there is no implying permission,
+     *         this instance is returned.
+     */
+    public Permission getNextImplyingPermission() {
+        String name = getName();
+        int lastSeparatorIndex = name.lastIndexOf(".");
+
+        if (lastSeparatorIndex == -1) {
+            if ("*".equals(name)) {
+                // there is no implying permission for *
+                return this;
+            } else {
+                return new Permission("*");
+            }
+        }
+
+        String removedPart = name.substring(lastSeparatorIndex);
+        String implyingName = name.substring(0, lastSeparatorIndex);
+
+        if (!".*".equals(removedPart)) {
+            // "permission.*" is implied by "permission", but
+            // "workflowmodels.properties" is implied by "workflowmodels.*"
+            implyingName += ".*";
+        }
+
+        return new Permission(implyingName);
     }
 }

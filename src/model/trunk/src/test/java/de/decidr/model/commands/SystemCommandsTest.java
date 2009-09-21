@@ -90,40 +90,46 @@ public class SystemCommandsTest extends CommandsTest {
     public void testServerCommands() throws TransactionException {
         Set<AddServerCommand> goodCommands = new HashSet<AddServerCommand>();
         Set<AddServerCommand> badCommands = new HashSet<AddServerCommand>();
-        for (ServerTypeEnum serverType : ServerTypeEnum.values()) {
-            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, null, (byte) 0, false, false));
-            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, "", (byte) 0, false, false));
-            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, null, (byte) 0, false, true));
-            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, "", (byte) 0, true, true));
-            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, null, (byte) 0, true, false));
-            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, "", (byte) 0, true, false));
-            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, null, (byte) 0, true, true));
-            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, "", (byte) 0, true, true));
 
-            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, null, (byte) -1, false, false));
-            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, "", (byte) -1, false, false));
-            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, null, (byte) -1, false, true));
-            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, "", (byte) -1, true, true));
-            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, null, (byte) -1, true, false));
-            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, "", (byte) -1, true, false));
-            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, null, (byte) -1, true, true));
-            goodCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, "", (byte) -1, true, true));
+        SystemSettings settings = DecidrGlobals.getSettings();
+        Long superAdminId = settings.getSuperAdmin().getId();
+
+        SuperAdminRole superAdminRole = new SuperAdminRole(superAdminId);
+
+        for (ServerTypeEnum serverType : ServerTypeEnum.values()) {
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    null, (byte) 0, false, false));
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "", (byte) 0, false, false));
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    null, (byte) 0, false, true));
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "", (byte) 0, true, true));
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    null, (byte) 0, true, false));
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "", (byte) 0, true, false));
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    null, (byte) 0, true, true));
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "", (byte) 0, true, true));
+
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    null, (byte) -1, false, false));
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "", (byte) -1, false, false));
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    null, (byte) -1, false, true));
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "", (byte) -1, true, true));
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    null, (byte) -1, true, false));
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "", (byte) -1, true, false));
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    null, (byte) -1, true, true));
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "", (byte) -1, true, true));
 
             badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
                     null, (byte) 0, false, false));
@@ -159,22 +165,22 @@ public class SystemCommandsTest extends CommandsTest {
             badCommands.add(new AddServerCommand(null, serverType, "",
                     (byte) 0, true, true));
 
-            badCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, null, (byte) -10, false, false));
-            badCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, "", (byte) -10, false, false));
-            badCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, null, (byte) -10, false, true));
-            badCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, "", (byte) -10, true, true));
-            badCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, null, (byte) -10, true, false));
-            badCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, "", (byte) -10, true, false));
-            badCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, null, (byte) -10, true, true));
-            badCommands.add(new AddServerCommand(new SuperAdminRole(),
-                    serverType, "", (byte) -10, true, true));
+            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    null, (byte) -10, false, false));
+            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "", (byte) -10, false, false));
+            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    null, (byte) -10, false, true));
+            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "", (byte) -10, true, true));
+            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    null, (byte) -10, true, false));
+            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "", (byte) -10, true, false));
+            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    null, (byte) -10, true, true));
+            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "", (byte) -10, true, true));
         }
 
         for (AddServerCommand addServerCommand : goodCommands) {
@@ -188,7 +194,7 @@ public class SystemCommandsTest extends CommandsTest {
         }
 
         GetServersCommand serversSuperNull = new GetServersCommand(
-                new SuperAdminRole(), (ServerTypeEnum) null);
+                superAdminRole, (ServerTypeEnum) null);
         GetServersCommand serversBasicNull = new GetServersCommand(
                 new BasicRole(0L), (ServerTypeEnum) null);
         GetServersCommand serversNullNull = new GetServersCommand(null,
@@ -208,7 +214,7 @@ public class SystemCommandsTest extends CommandsTest {
 
         for (ServerTypeEnum serverType : ServerTypeEnum.values()) {
             GetServersCommand serversSuperType = new GetServersCommand(
-                    new SuperAdminRole(), serverType);
+                    superAdminRole, serverType);
             GetServersCommand serversBasicType = new GetServersCommand(
                     new BasicRole(0L), serverType);
             GetServersCommand serversNullType = new GetServersCommand(null,
@@ -230,7 +236,7 @@ public class SystemCommandsTest extends CommandsTest {
         }
 
         GetServerStatisticsCommand stats = new GetServerStatisticsCommand(
-                new SuperAdminRole());
+                superAdminRole);
         HibernateTransactionCoordinator.getInstance().runTransaction(stats);
         for (ServerLoadView serverLoadView : stats.getResult()) {
             assertTrue(serverLoadView.getLastLoadUpdate() == null
@@ -257,9 +263,9 @@ public class SystemCommandsTest extends CommandsTest {
                 serversSuperNull);
         Long serverID = serversSuperNull.getResult().get(0).getId();
         LockServerCommand lockerSuper = new LockServerCommand(
-                new SuperAdminRole(), serverID, true);
+                superAdminRole, serverID, true);
         LockServerCommand unlockerSuper = new LockServerCommand(
-                new SuperAdminRole(), serverID, false);
+                superAdminRole, serverID, false);
         LockServerCommand lockerBasic = new LockServerCommand(
                 new BasicRole(0L), serverID, true);
         LockServerCommand unlockerBasic = new LockServerCommand(null, serverID,
@@ -291,7 +297,7 @@ public class SystemCommandsTest extends CommandsTest {
         byte[] goodLoads = new byte[] { 0, -1, 100, 50 };
         byte[] badLoads = new byte[] { -2, -100, 101, 127 };
         for (byte b : goodLoads) {
-            loader = new UpdateServerLoadCommand(new SuperAdminRole(),
+            loader = new UpdateServerLoadCommand(superAdminRole,
                     serverID, b);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(loader);
@@ -310,20 +316,20 @@ public class SystemCommandsTest extends CommandsTest {
         }
 
         for (byte b : badLoads) {
-            loader = new UpdateServerLoadCommand(new SuperAdminRole(),
+            loader = new UpdateServerLoadCommand(superAdminRole,
                     serverID, b);
             assertTransactionException("shouldn't be able to set this value.",
                     loader);
         }
 
         GetServersCommand getAllServers = new GetServersCommand(
-                new SuperAdminRole(), (ServerTypeEnum) null);
+                superAdminRole, (ServerTypeEnum) null);
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 getAllServers);
 
         Set<RemoveServerCommand> delete = new HashSet<RemoveServerCommand>();
         for (Server server : getAllServers.getResult()) {
-            delete.add(new RemoveServerCommand(new SuperAdminRole(), server
+            delete.add(new RemoveServerCommand(superAdminRole, server
                     .getId()));
         }
         HibernateTransactionCoordinator.getInstance().runTransaction(delete);

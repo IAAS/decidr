@@ -64,6 +64,12 @@ public class AddServerCommand extends SystemCommand {
     public AddServerCommand(Role actor, ServerTypeEnum type, String location,
             Byte initialLoad, Boolean locked, Boolean dynamicallyAdded) {
         super(actor, null);
+
+        if (type == null || location == null) {
+            throw new IllegalArgumentException(
+                    "Server type and location must not be null.");
+        }
+
         this.type = type;
         this.location = location;
         this.initialLoad = initialLoad;

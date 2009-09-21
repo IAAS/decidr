@@ -446,7 +446,8 @@ public class WorkflowModelFacade extends AbstractFacade {
      * Invitations are automatically sent to users that are not already a member
      * of the tenant that owns the workflow model.
      * 
-     * This method will fail with an exception if participatingUsers cotains:
+     * This method will fail with an exception if the start configuration
+     * cotains:
      * <ul>
      * <li>a username that is unknown to the system</li>
      * <li>a username that belongs to an inactive, disabled or unavailable user

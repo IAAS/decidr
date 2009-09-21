@@ -86,7 +86,7 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
         try {
             Configuration cfg = new Configuration();
             // RR it seems that a blank new configuration does not have all
-            // required properties set. Try calling the configure() method or set
+            // required properties set. Try the configure() method or set
             // the required properties manually. ~dh
             try {
                 htc.setConfiguration(cfg);

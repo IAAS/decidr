@@ -56,10 +56,10 @@ public interface AccessControlList {
      *            grant access.
      * @param asserters
      *            the conditions under which access is granted or denied
-     * @return true iff the rule was set and no implying rule already exists.
+     * @return true iff the rule was set.
      */
-    public Boolean setRule(Role role, Permission permission,
-           AssertMode mode,Asserter... asserters);
+    public Boolean setRule(Role role, Permission permission, AssertMode mode,
+            Asserter... asserters);
 
     /**
      * Adds a new rule to the access control list. There can only be one rule
@@ -77,8 +77,8 @@ public interface AccessControlList {
      *            the condition(s) under which access is granted or denied
      * @return true iff the rule was set and no implying rule already exists.
      */
-    public Boolean setRule(Role role, Permission permission,
-            AssertMode mode,Asserter asserter);
+    public Boolean setRule(Role role, Permission permission, AssertMode mode,
+            Asserter asserter);
 
     /**
      * Returns true iff a rule exists for the given role and permission,
@@ -111,7 +111,8 @@ public interface AccessControlList {
      * @param permission
      *            the permission to which access is requested
      * @return true if access is granted, false otherwise.
-     * @throws TransactionException 
+     * @throws TransactionException
      */
-    public Boolean isAllowed(Role role, Permission permission) throws TransactionException;
+    public Boolean isAllowed(Role role, Permission permission)
+            throws TransactionException;
 }
