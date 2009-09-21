@@ -19,16 +19,16 @@ package de.decidr.ui.view;
 import java.util.Collection;
 
 import javax.servlet.http.HttpSession;
-
-import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.validator.IntegerValidator;
+import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.event.Action;
-import com.vaadin.event.Action.Handler;
 import com.vaadin.ui.AbstractSelect;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;
@@ -46,6 +46,8 @@ import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.model.workflowmodel.wsc.TRole;
+import de.decidr.ui.controller.HideDialogWindowAction;
+import de.decidr.ui.controller.SaveStartConfigurationAction;
 
 /**
  * This window represents the start configuration xml file. In this window the
@@ -61,6 +63,10 @@ public class StartConfigurationWindow extends Window {
 
     private VerticalLayout verticalLayout = null;
 
+    private VerticalLayout mainVerticalLayout = null;
+
+    private HorizontalLayout buttonHorizontalLayout = null;
+
     private SplitPanel splitPanel = null;
 
     private Tree rolesTree = null;
@@ -70,6 +76,12 @@ public class StartConfigurationWindow extends Window {
     private TextField emailTextField = null;
 
     private Button applyButton = null;
+
+    private Button okButton = null;
+
+    private Button cancelButton = null;
+    
+    private CheckBox checkBox = null;
 
     private ComboBox comboBox = null;
 
@@ -83,8 +95,8 @@ public class StartConfigurationWindow extends Window {
      * Default constructor with TConfiguration as parameter.
      * 
      */
-    public StartConfigurationWindow(TConfiguration tConfiguration) {
-        init(tConfiguration);
+    public StartConfigurationWindow(TConfiguration tConfiguration, Long workflowModelId) {
+        init(tConfiguration, workflowModelId);
     }
 
     /**
@@ -94,14 +106,20 @@ public class StartConfigurationWindow extends Window {
      * 
      * @param tconfiguration
      */
-    private void init(TConfiguration tconfiguration) {
+    private void init(TConfiguration tconfiguration, Long workflowModelId) {
         splitPanel = new SplitPanel();
         horizontalLayout = new HorizontalLayout();
         verticalLayout = new VerticalLayout();
+        mainVerticalLayout = new VerticalLayout();
+        buttonHorizontalLayout = new HorizontalLayout();
         rolesTree = new Tree("Rollen");
         assignmentForm = new Form();
         emailTextField = new TextField("E-Mail: ");
         applyButton = new Button("Apply");
+        okButton = new Button("OK", new SaveStartConfigurationAction(rolesTree,
+                assignmentForm, tconfiguration, workflowModelId, checkBox.booleanValue()));
+        cancelButton = new Button("Cancel", new HideDialogWindowAction());
+        checkBox = new CheckBox();
         comboBox = new ComboBox("Wählen sie einen User aus!");
 
         rolesTree.setItemCaptionPropertyId("caption");
@@ -205,7 +223,7 @@ public class StartConfigurationWindow extends Window {
 
         });
 
-        this.setContent(splitPanel);
+        this.setContent(mainVerticalLayout);
 
         this.setModal(true);
 
@@ -228,6 +246,26 @@ public class StartConfigurationWindow extends Window {
         addAssignmentToForm(tconfiguration);
 
         splitPanel.setSecondComponent(assignmentForm);
+
+        mainVerticalLayout.addComponent(splitPanel);
+
+        buttonHorizontalLayout.setSpacing(true);
+        buttonHorizontalLayout.addComponent(checkBox);
+        checkBox.setCaption("Start Immediately");
+        buttonHorizontalLayout.setComponentAlignment(checkBox, Alignment.MIDDLE_RIGHT);
+        buttonHorizontalLayout.addComponent(okButton);
+        buttonHorizontalLayout.addComponent(cancelButton);
+
+        mainVerticalLayout.addComponent(buttonHorizontalLayout);
+    }
+
+    /**
+     * Returns the check box
+     *
+     * @return checkBox
+     */
+    public CheckBox getCheckBox() {
+        return checkBox;
     }
 
     /**
@@ -255,11 +293,31 @@ public class StartConfigurationWindow extends Window {
      */
     private void addAssignmentToForm(TConfiguration tConfiguration) {
         for (TAssignment assignment : tConfiguration.getAssignment()) {
-            assignmentForm.addField(assignment.getKey(), new TextField(
-                    assignment.getKey()));
+
+            if (assignment.getValueType().equals("String")) {
+                assignmentForm.addField(assignment.getKey(), new TextField(
+                        assignment.getKey()));
+                assignmentForm.getField(assignment.getKey()).addValidator(
+                        new RegexpValidator("[a-zA-Z]",
+                                "Please enter a value of the type string"));
+            } else if (assignment.getValueType().equals("Integer")) {
+                assignmentForm.addField(assignment.getKey(), new TextField(
+                        assignment.getKey()));
+                assignmentForm.getField(assignment.getKey()).addValidator(
+                        new IntegerValidator(
+                                "Please enter a value of the type integer"));
+            }else if(assignment.getValueType().equals("File")){
+               
+            }
+            // TODO: file upload hinzufügen
         }
     }
 
+    /**
+     * Fills the combo box with the current usernames of the tenant, so the user
+     * can choose from the usernames and add them as actors to a role.
+     *
+     */
     private void fillContainer() {
         HttpSession session = Main.getCurrent().getSession();
         String tenantName = (String) session.getAttribute("tenant");
@@ -275,5 +333,7 @@ public class StartConfigurationWindow extends Window {
         }
 
     }
+    
+   
 
 }

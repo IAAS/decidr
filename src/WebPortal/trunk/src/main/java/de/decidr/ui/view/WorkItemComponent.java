@@ -79,6 +79,15 @@ public class WorkItemComponent extends CustomComponent {
     }
     
     /**
+     * Returns the work item table
+     *
+     * @return workItemTable
+     */
+    public WorkItemTable getWorkItemTable() {
+        return workItemTable;
+    }
+
+    /**
      * This method initializes the components of the work item component
      *
      */
