@@ -16,20 +16,40 @@
 
 package de.decidr.modelingtool;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.XMLParser;
+
+import de.decidr.modelingtool.client.io.WorkflowParser;
+import de.decidr.modelingtool.client.io.WorkflowParserImpl;
+import de.decidr.modelingtool.client.model.WorkflowModel;
 
 /**
  * TODO: add comment
  * 
  * @author Jonas Schlaak
  */
-public class ParserTest {
+public class WorkflowParserImplTest {
+
+    private WorkflowModel model;
+    private Document doc;
+    private WorkflowParser parser;
+
+    @Before
+    public void init() {
+        doc = XMLParser.createDocument();
+        parser = new WorkflowParserImpl();
+        
+    }
+
     @Test
-    public void simpleTest() {
-        assertTrue(true);
+    public void variablesAndRolesTest() {
+        parser.parse(model);
     }
 
 }
