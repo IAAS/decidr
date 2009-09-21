@@ -462,13 +462,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      *            id of workflow model of which an instance should be started
      * @param startConfiguration
      *            xml object of start configuration to use it will be updated
-     *            accordingly if new users are created
-     * @param participantUsernames
-     *            a list of usernames of the users that have been assigned to
-     *            the new workflow instance.
-     * @param participantEmails
-     *            a list of email addresses that have been assigned to the new
-     *            workflow instance.
+     *            accordingly if new users are created.
      * @param startImmediately
      *            whether the system should delay creating the workflow instance
      *            on the ODE until all users have confirmed their invitations.
@@ -484,8 +478,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      */
     @AllowedRole(WorkflowAdminRole.class)
     public Long startWorkflowInstance(Long workflowModelId,
-            TConfiguration startConfiguration, Boolean startImmediately,
-            List<String> participantUsernames, List<String> participantEmails)
+            TConfiguration startConfiguration, Boolean startImmediately)
             throws TransactionException, WorkflowModelNotStartableException,
             UserUnavailableException, UserDisabledException,
             UsernameNotFoundException {
