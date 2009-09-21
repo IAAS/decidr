@@ -16,14 +16,8 @@
 
 package de.decidr.ui.controller;
 
-import java.io.ByteArrayInputStream;
-
 import javax.servlet.http.HttpSession;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
 
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
@@ -31,31 +25,31 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.UserFacade;
+import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
-import de.decidr.model.workflowmodel.wsc.TConfiguration;
+import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 import de.decidr.ui.view.CreateWorkflowInstanceComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.StartConfigurationWindow;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.WorkItemComponent;
+import de.decidr.ui.view.WorkItemWindow;
 
 /**
- * This action takes the configuration file and unmarshall it to an object. This
- * object is given as parameter to the StartConfigurationWindow where the object
- * is parsed so that the values stored in the file can be shown to the user as a
- * form and a tree.
+ * TODO: add comment
  * 
  * @author AT
  */
-public class ShowStartConfigurationWindowAction implements ClickListener {
+public class ShowWorkItemWindowAction implements ClickListener {
 
     private HttpSession session = Main.getCurrent().getSession();
 
     private Long userId = (Long) session.getAttribute("userId");
 
-    private WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
-            new UserRole(userId));
+    private WorkItemFacade workItemFacade = new WorkItemFacade(new UserRole(
+            userId));
 
     private UIDirector uiDirector = UIDirector.getInstance();
 
@@ -63,11 +57,11 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
 
     private Table table = null;
 
-    private byte[] wsc = null;
+    private Long workItemId = null;
 
-    private TConfiguration tConfiguration = null;
+    private byte[] ht = null;
 
-    private Long workflowModelId = null;
+    private THumanTaskData tHumanTaskData = null;
 
     /*
      * (non-Javadoc)
@@ -77,23 +71,21 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        table = ((CreateWorkflowInstanceComponent) siteFrame.getContent())
-                .getInstanceTable();
-        workflowModelId = (Long) table.getContainerProperty(table.getValue(),
-                "id").getValue();
+        table = ((WorkItemComponent) siteFrame.getContent()).getWorkItemTable();
+        workItemId = (Long) table.getContainerProperty(table.getValue(), "id")
+                .getValue();
         try {
-            wsc = workflowModelFacade
-                    .getLastStartConfiguration(workflowModelId);
-            tConfiguration = TransformUtil.bytes2Configuration(wsc);
+            ht = (byte[]) workItemFacade.getWorkItem(workItemId)
+                    .getItemProperty("data").getValue();
+            tHumanTaskData = TransformUtil.bytes2HumanTask(ht);
             Main.getCurrent().getMainWindow().addWindow(
-                    new StartConfigurationWindow(tConfiguration,
-                            workflowModelId));
-        } catch (JAXBException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+                    new WorkItemWindow(tHumanTaskData));
         } catch (TransactionException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
+        } catch (JAXBException exception) {
+            Main.getCurrent().getMainWindow().showNotification("JAXB error!");
         }
-
     }
 
 }
