@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.XMLParser;
 
@@ -34,7 +35,7 @@ import de.decidr.modelingtool.client.model.WorkflowModel;
  * 
  * @author Jonas Schlaak
  */
-public class WorkflowParserImplTest {
+public class WorkflowParserImplTest extends GWTTestCase {
 
     private WorkflowModel model;
     private Document doc;
@@ -44,12 +45,22 @@ public class WorkflowParserImplTest {
     public void init() {
         doc = XMLParser.createDocument();
         parser = new WorkflowParserImpl();
-        
+
     }
 
     @Test
     public void variablesAndRolesTest() {
         parser.parse(model);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.google.gwt.junit.client.GWTTestCase#getModuleName()
+     */
+    @Override
+    public String getModuleName() {
+        return "de.decidr.modelingtool.ModelingTool";
     }
 
 }

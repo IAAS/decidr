@@ -43,6 +43,8 @@ public class WorkflowIOStub implements WorkflowIO {
         // create workflow model
         WorkflowModel workflowModel = new WorkflowModel();
         workflowModel.setName("Simple Workflow");
+        workflowModel.getProperties().setNamespace("namespace");
+        workflowModel.getProperties().setSchema("schema");
 
         // create test variables
         Variable faultMessage = new Variable();

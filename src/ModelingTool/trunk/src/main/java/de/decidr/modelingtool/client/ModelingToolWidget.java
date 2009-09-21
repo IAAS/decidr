@@ -201,6 +201,7 @@ public class ModelingToolWidget extends Composite implements
          * This method is intentionally left emtpy. The implementation is done
          * by the child class in the WebPortal.
          */
+        System.out.print(dwdl);
     }
 
 }
