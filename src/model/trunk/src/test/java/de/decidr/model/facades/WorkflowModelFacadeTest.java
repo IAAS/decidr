@@ -23,6 +23,7 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.filters.Paginator;
@@ -47,7 +48,7 @@ public class WorkflowModelFacadeTest {
         fail("This test class has not yet been implemented");
     }
 
-   /**
+    /**
      * Initialises the facade instances.
      */
     @BeforeClass
@@ -56,7 +57,8 @@ public class WorkflowModelFacadeTest {
             fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
 
-        adminFacade = new WorkflowModelFacade(new SuperAdminRole());
+        adminFacade = new WorkflowModelFacade(new SuperAdminRole(DecidrGlobals
+                .getSettings().getSuperAdmin().getId()));
         userFacade = new WorkflowModelFacade(new BasicRole(0L));
         nullFacade = new WorkflowModelFacade(null);
     }

@@ -58,7 +58,8 @@ public class SystemFacadeTest {
             fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
 
-        adminFacade = new SystemFacade(new SuperAdminRole());
+        adminFacade = new SystemFacade(new SuperAdminRole(DecidrGlobals
+                .getSettings().getSuperAdmin().getId()));
         userFacade = new SystemFacade(new BasicRole(0L));
         nullFacade = new SystemFacade(null);
     }

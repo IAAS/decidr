@@ -24,6 +24,7 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.filters.Paginator;
@@ -57,7 +58,8 @@ public class TenantFacadeTest {
             fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
 
-        adminFacade = new TenantFacade(new SuperAdminRole());
+        adminFacade = new TenantFacade(new SuperAdminRole(DecidrGlobals
+                .getSettings().getSuperAdmin().getId()));
         userFacade = new TenantFacade(new BasicRole(0L));
         nullFacade = new TenantFacade(null);
     }

@@ -62,9 +62,12 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
  */
 public class SystemCommandsTest extends CommandsTest {
 
+    private static Long SUPER_ADMIN_ID = DecidrGlobals.getSettings()
+            .getSuperAdmin().getId();
+
     private Server getServer(long ID) throws TransactionException {
         GetServersCommand getAllServers = new GetServersCommand(
-                new SuperAdminRole(), (ServerTypeEnum) null);
+                new SuperAdminRole(SUPER_ADMIN_ID), (ServerTypeEnum) null);
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 getAllServers);
 
@@ -75,6 +78,78 @@ public class SystemCommandsTest extends CommandsTest {
         }
 
         return null;
+    }
+
+    /**
+     * Test method for {@link GetFileCommand#GetFileCommand(Long)}.
+     */
+    @Test
+    public void testGetFileCommand() throws TransactionException {
+        File decidrFileA = new File("testfile", "text/plain", true, 0);
+        File decidrFileB = new File("testfile", "text/plain", true, 100);
+        File invalidDecidrFile = new File("testfile", "text/plain", true, -1);
+
+        fail("Not yet implemented");
+        // RR set files
+
+        GetFileCommand getterA = new GetFileCommand(decidrFileA.getId());
+        GetFileCommand getterB = new GetFileCommand(decidrFileB.getId());
+
+        GetFileCommand getterInvalid = new GetFileCommand(invalidDecidrFile
+                .getId());
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(getterA);
+        HibernateTransactionCoordinator.getInstance().runTransaction(getterB);
+
+        assertEquals(decidrFileA.getFileName(), getterA.getFile().getFileName());
+        assertEquals(decidrFileA.getMimeType(), getterA.getFile().getMimeType());
+        assertEquals(decidrFileA.isMayPublicRead(), getterA.getFile()
+                .isMayPublicRead());
+        assertEquals(decidrFileA.getFileSizeBytes(), getterA.getFile()
+                .getFileSizeBytes());
+
+        assertEquals(decidrFileB.getFileName(), getterB.getFile().getFileName());
+        assertEquals(decidrFileB.getMimeType(), getterB.getFile().getMimeType());
+        assertEquals(decidrFileB.isMayPublicRead(), getterB.getFile()
+                .isMayPublicRead());
+        assertEquals(decidrFileB.getFileSizeBytes(), getterB.getFile()
+                .getFileSizeBytes());
+
+        assertTransactionException("managed to get file with negative size",
+                getterInvalid);
+    }
+
+    /**
+     * Test method for
+     * {@link GetLogCommand#GetLogCommand(Role, List, Paginator)}.
+     */
+    @Test
+    public void testGetLogCommand() throws TransactionException {
+        SuperAdminRole superAdminRole = new SuperAdminRole(SUPER_ADMIN_ID);
+
+        GetLogCommand getter = new GetLogCommand(superAdminRole,
+                new ArrayList<Filter>(), new Paginator());
+        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
+        assertNotNull(getter.getResult());
+
+        getter = new GetLogCommand(superAdminRole, new ArrayList<Filter>(),
+                null);
+        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
+        assertNotNull(getter.getResult());
+
+        getter = new GetLogCommand(superAdminRole, null, new Paginator());
+        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
+        assertNotNull(getter.getResult());
+
+        getter = new GetLogCommand(superAdminRole, null, null);
+        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
+        assertNotNull(getter.getResult());
+
+        assertTransactionException("managed to get file with null user", getter);
+        getter = new GetLogCommand(new BasicRole(0L), new ArrayList<Filter>(),
+                new Paginator());
+        assertTransactionException("managed to get file with basic role",
+                getter);
     }
 
     /**
@@ -91,10 +166,7 @@ public class SystemCommandsTest extends CommandsTest {
         Set<AddServerCommand> goodCommands = new HashSet<AddServerCommand>();
         Set<AddServerCommand> badCommands = new HashSet<AddServerCommand>();
 
-        SystemSettings settings = DecidrGlobals.getSettings();
-        Long superAdminId = settings.getSuperAdmin().getId();
-
-        SuperAdminRole superAdminRole = new SuperAdminRole(superAdminId);
+        SuperAdminRole superAdminRole = new SuperAdminRole(SUPER_ADMIN_ID);
 
         for (ServerTypeEnum serverType : ServerTypeEnum.values()) {
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
@@ -262,10 +334,10 @@ public class SystemCommandsTest extends CommandsTest {
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 serversSuperNull);
         Long serverID = serversSuperNull.getResult().get(0).getId();
-        LockServerCommand lockerSuper = new LockServerCommand(
-                superAdminRole, serverID, true);
-        LockServerCommand unlockerSuper = new LockServerCommand(
-                superAdminRole, serverID, false);
+        LockServerCommand lockerSuper = new LockServerCommand(superAdminRole,
+                serverID, true);
+        LockServerCommand unlockerSuper = new LockServerCommand(superAdminRole,
+                serverID, false);
         LockServerCommand lockerBasic = new LockServerCommand(
                 new BasicRole(0L), serverID, true);
         LockServerCommand unlockerBasic = new LockServerCommand(null, serverID,
@@ -297,8 +369,7 @@ public class SystemCommandsTest extends CommandsTest {
         byte[] goodLoads = new byte[] { 0, -1, 100, 50 };
         byte[] badLoads = new byte[] { -2, -100, 101, 127 };
         for (byte b : goodLoads) {
-            loader = new UpdateServerLoadCommand(superAdminRole,
-                    serverID, b);
+            loader = new UpdateServerLoadCommand(superAdminRole, serverID, b);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(loader);
             assertEquals(b, getServer(serverID).getLoad());
@@ -316,21 +387,19 @@ public class SystemCommandsTest extends CommandsTest {
         }
 
         for (byte b : badLoads) {
-            loader = new UpdateServerLoadCommand(superAdminRole,
-                    serverID, b);
+            loader = new UpdateServerLoadCommand(superAdminRole, serverID, b);
             assertTransactionException("shouldn't be able to set this value.",
                     loader);
         }
 
-        GetServersCommand getAllServers = new GetServersCommand(
-                superAdminRole, (ServerTypeEnum) null);
+        GetServersCommand getAllServers = new GetServersCommand(superAdminRole,
+                (ServerTypeEnum) null);
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 getAllServers);
 
         Set<RemoveServerCommand> delete = new HashSet<RemoveServerCommand>();
         for (Server server : getAllServers.getResult()) {
-            delete.add(new RemoveServerCommand(superAdminRole, server
-                    .getId()));
+            delete.add(new RemoveServerCommand(superAdminRole, server.getId()));
         }
         HibernateTransactionCoordinator.getInstance().runTransaction(delete);
 
@@ -338,76 +407,6 @@ public class SystemCommandsTest extends CommandsTest {
                 getAllServers);
         assertTrue(getAllServers.getResult() == null
                 || getAllServers.getResult().isEmpty());
-    }
-
-    /**
-     * Test method for {@link GetFileCommand#GetFileCommand(Long)}.
-     */
-    @Test
-    public void testGetFileCommand() throws TransactionException {
-        File decidrFileA = new File("testfile", "text/plain", true, 0);
-        File decidrFileB = new File("testfile", "text/plain", true, 100);
-        File invalidDecidrFile = new File("testfile", "text/plain", true, -1);
-
-        fail("Not yet implemented");
-        // RR set files
-
-        GetFileCommand getterA = new GetFileCommand(decidrFileA.getId());
-        GetFileCommand getterB = new GetFileCommand(decidrFileB.getId());
-
-        GetFileCommand getterInvalid = new GetFileCommand(invalidDecidrFile
-                .getId());
-
-        HibernateTransactionCoordinator.getInstance().runTransaction(getterA);
-        HibernateTransactionCoordinator.getInstance().runTransaction(getterB);
-
-        assertEquals(decidrFileA.getFileName(), getterA.getFile().getFileName());
-        assertEquals(decidrFileA.getMimeType(), getterA.getFile().getMimeType());
-        assertEquals(decidrFileA.isMayPublicRead(), getterA.getFile()
-                .isMayPublicRead());
-        assertEquals(decidrFileA.getFileSizeBytes(), getterA.getFile()
-                .getFileSizeBytes());
-
-        assertEquals(decidrFileB.getFileName(), getterB.getFile().getFileName());
-        assertEquals(decidrFileB.getMimeType(), getterB.getFile().getMimeType());
-        assertEquals(decidrFileB.isMayPublicRead(), getterB.getFile()
-                .isMayPublicRead());
-        assertEquals(decidrFileB.getFileSizeBytes(), getterB.getFile()
-                .getFileSizeBytes());
-
-        assertTransactionException("managed to get file with negative size",
-                getterInvalid);
-    }
-
-    /**
-     * Test method for
-     * {@link GetLogCommand#GetLogCommand(Role, List, Paginator)}.
-     */
-    @Test
-    public void testGetLogCommand() throws TransactionException {
-        GetLogCommand getter = new GetLogCommand(new SuperAdminRole(),
-                new ArrayList<Filter>(), new Paginator());
-        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
-        assertNotNull(getter.getResult());
-
-        getter = new GetLogCommand(new SuperAdminRole(),
-                new ArrayList<Filter>(), null);
-        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
-        assertNotNull(getter.getResult());
-
-        getter = new GetLogCommand(new SuperAdminRole(), null, new Paginator());
-        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
-        assertNotNull(getter.getResult());
-
-        getter = new GetLogCommand(new SuperAdminRole(), null, null);
-        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
-        assertNotNull(getter.getResult());
-
-        assertTransactionException("managed to get file with null user", getter);
-        getter = new GetLogCommand(new BasicRole(0L), new ArrayList<Filter>(),
-                new Paginator());
-        assertTransactionException("managed to get file with basic role",
-                getter);
     }
 
     /**
@@ -420,7 +419,7 @@ public class SystemCommandsTest extends CommandsTest {
         SystemSettings setterSettings = new SystemSettings();
         SystemSettings getterSettings;
         Date modDate;
-        SuperAdminRole superRole = new SuperAdminRole();
+        SuperAdminRole superRole = new SuperAdminRole(SUPER_ADMIN_ID);
         SetSystemSettingsCommand setter = new SetSystemSettingsCommand(
                 superRole, setterSettings);
         GetSystemSettingsCommand getter = new GetSystemSettingsCommand(

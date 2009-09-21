@@ -78,7 +78,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
 
-        adminFacade = new UserFacade(new SuperAdminRole());
+        adminFacade = new UserFacade(new SuperAdminRole(DecidrGlobals
+                .getSettings().getSuperAdmin().getId()));
         userFacade = new UserFacade(new BasicRole(0L));
         nullFacade = new UserFacade(null);
 

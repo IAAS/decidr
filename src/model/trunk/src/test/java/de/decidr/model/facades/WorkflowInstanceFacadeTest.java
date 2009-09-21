@@ -21,6 +21,7 @@ import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.testsuites.DatabaseTestSuite;
@@ -55,7 +56,8 @@ public class WorkflowInstanceFacadeTest {
             fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
 
-        adminFacade = new WorkflowInstanceFacade(new SuperAdminRole());
+        adminFacade = new WorkflowInstanceFacade(new SuperAdminRole(
+                DecidrGlobals.getSettings().getSuperAdmin().getId()));
         userFacade = new WorkflowInstanceFacade(new BasicRole(0L));
         nullFacade = new WorkflowInstanceFacade(null);
     }
