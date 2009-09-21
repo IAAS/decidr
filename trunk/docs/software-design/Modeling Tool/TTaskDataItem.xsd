@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://decidr.de/schema/dwdl"
+	xmlns="http://decidr.de/schema/dwdl" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:decidr="http://decidr.de/schema/DecidrTypes" elementFormDefault="qualified">
+
+
+<xsd:complexType name="tTaskDataItem">
+	<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="1" maxOccurs="1" /> 
+	</xsd:sequence>
+	<xsd:attribute name="name" type="xsd:NCName" use="required" />
+	<xsd:attribute name="type" type="xsd:string" use="required" />
+</xsd:complexType>
+
+</xsd:schema>
