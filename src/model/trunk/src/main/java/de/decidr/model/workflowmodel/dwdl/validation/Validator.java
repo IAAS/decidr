@@ -75,38 +75,7 @@ public class Validator {
         }
     }
 
-    /**
-     * GH testing only
-     * 
-     * @param dwdl
-     * @return
-     */
-    // public List<IProblem> validate(StreamSource dwdl) {
-    // DWDLErrorHandler errHandler = null;
-    // List<IProblem> errList = null;
-    //
-    // validator.setErrorHandler(new DWDLErrorHandler());
-    // try {
-    // validator.validate(dwdl);
-    // } catch (SAXException e) {
-    // errList = new ArrayList<IProblem>();
-    // errList.add(new Problem(e.getMessage(), "global"));
-    // } catch (IOException e) {
-    // errList = new ArrayList<IProblem>();
-    // errList.add(new Problem(e.getMessage(), "global"));
-    // }
-    //
-    // errHandler = (DWDLErrorHandler) (validator.getErrorHandler());
-    // errList = errHandler.getProblemList();
-    //
-    // // GH how to transform from byte[] to TWorkflow? ---> Use TransformUtil
-    // in workflowmodel.
-    // // errList.addAll(checkVariables(dwdl));
-    // // errList.addAll(checkUsers(dwdl));
-    //
-    // return errList;
-    // }
-
+    
     /**
      * This methods validates a given DWDL Workflow and returns a list of
      * {@link IProblem}s. The workflow will be parsed and checked till to the
@@ -120,13 +89,16 @@ public class Validator {
         DWDLErrorHandler errHandler = null;
         List<IProblem> errList = null;
 
-        DOMSource dom = null;
+        byte[] wf_bytes = null;
+        StreamSource src = null;
 
         validator.setErrorHandler(new DWDLErrorHandler());
 
         try {
-            dom = new DOMSource(TransformUtil.workflow2DOM(dwdl));
-            validator.validate(dom);
+            wf_bytes = TransformUtil.workflow2Bytes(dwdl);
+            src = new StreamSource(new ByteArrayInputStream(wf_bytes));
+            validator.setErrorHandler(new DWDLErrorHandler());
+            validator.validate(src);
 
             errHandler = (DWDLErrorHandler) (validator.getErrorHandler());
             errList = errHandler.getProblemList();
@@ -140,10 +112,6 @@ public class Validator {
             errList = new ArrayList<IProblem>();
             errList.add(new Problem(e.getMessage(), "global"));
         } catch (JAXBException e) {
-            errList = new ArrayList<IProblem>();
-            errList.add(new Problem(e.getMessage(), "global"));
-            e.printStackTrace();
-        } catch (ParserConfigurationException e) {
             errList = new ArrayList<IProblem>();
             errList.add(new Problem(e.getMessage(), "global"));
             e.printStackTrace();

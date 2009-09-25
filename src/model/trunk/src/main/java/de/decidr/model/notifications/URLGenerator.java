@@ -25,14 +25,13 @@ import de.decidr.model.entities.SystemSettings;
 /**
  * Provides generators for URLs like confirmation links
  * 
- * GH: static -> instance
- * GH: registered vs. unregistered user: unreg. gets authkey, reg. has
- *      to login, authkey is empty -> portal
- * 
  * @author Geoffrey-Alexeij Heinze
  */
 public class URLGenerator {
 
+
+    // registered vs. unregistered user: unreg. gets authkey, reg. has
+    // to login, authkey is empty -> portal
     private SystemSettings settings = null;
     private String encoding = "UTF-8";
 

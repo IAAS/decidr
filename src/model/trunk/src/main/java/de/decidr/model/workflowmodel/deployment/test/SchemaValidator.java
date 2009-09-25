@@ -16,7 +16,13 @@
 
 package de.decidr.model.workflowmodel.deployment.test;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import javax.xml.bind.JAXBException;
+
+import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
 import de.decidr.model.workflowmodel.dwdl.validation.IProblem;
 
 /**
@@ -51,22 +57,7 @@ public class SchemaValidator {
 //        } catch (Exception ex) {
 //            ex.printStackTrace();
 //        }
-        dwdlValidator();
     }
     
-    private static void dwdlValidator(){
-        de.decidr.model.workflowmodel.dwdl.validation.Validator val = new de.decidr.model.workflowmodel.dwdl.validation.Validator();
-        List<IProblem> errList = null;
-        
-        //errList = val.validate(new StreamSource("sampleProcess.xml"));
-        if (errList == null) {
-            // GH: no System.out.println anywhere in the model!!! (use logging) ~rr
-            System.out.println("no errors.");
-        } else {
-            System.out.println(errList.size() + " errors.");
-            for (IProblem prob : errList){
-                System.out.println(prob.getErrorPosition() + ": " + prob.getErrorDescription());
-            }
-        }
-    }
+
 }

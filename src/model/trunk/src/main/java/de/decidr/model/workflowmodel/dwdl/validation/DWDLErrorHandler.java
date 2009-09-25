@@ -45,7 +45,6 @@ public class DWDLErrorHandler implements ErrorHandler {
 
     @Override
     public void warning(SAXParseException e) throws SAXException {
-        // GH might be removed
         addProblemToList(e);
     }
 
