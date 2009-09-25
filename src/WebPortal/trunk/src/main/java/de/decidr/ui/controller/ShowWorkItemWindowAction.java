@@ -25,12 +25,9 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.UserFacade;
 import de.decidr.model.facades.WorkItemFacade;
-import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
-import de.decidr.ui.view.CreateWorkflowInstanceComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.TransactionErrorDialogComponent;

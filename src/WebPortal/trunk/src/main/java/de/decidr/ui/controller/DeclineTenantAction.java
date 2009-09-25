@@ -65,7 +65,7 @@ public class DeclineTenantAction implements ClickListener{
         List<Long> tenants = new ArrayList<Long>();
         Set<?> value = (Set<?>) table.getValue();
         if (value != null && value.size() != 0){
-            for (Iterator iter = value.iterator(); iter.hasNext();){
+            for (Iterator<?> iter = value.iterator(); iter.hasNext();){
                 tenants.add((Long)table.getContainerProperty(iter.next(), "id").getValue());
             }
         }

@@ -69,9 +69,6 @@ public class InviteUserToTenantAction implements ClickListener{
                 }
             }
         }
-      //TODO: remove
-        Main.getCurrent().getMainWindow().showNotification(userNames.toString());
-        Main.getCurrent().getMainWindow().showNotification(emails.toString());
         
         try {
             tenantFacade.inviteUsersAsMembers((Long)tenant.getItemProperty("id").getValue(), emails, userNames);

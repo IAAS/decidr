@@ -58,7 +58,7 @@ public class ConfirmationParameterHandler implements ParameterHandler {
     public void handleParameters(Map parameters) {
     	confirmationId = null;
     	userId = null;
-        for (Iterator it = parameters.keySet().iterator(); it.hasNext();) {
+        for (Iterator<?> it = parameters.keySet().iterator(); it.hasNext();) {
             key   = (String) it.next();
             value = ((String[]) parameters.get(key))[0];
             if(key.equals(DecidrGlobals.URL_PARAM_USER_ID)){

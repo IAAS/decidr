@@ -62,7 +62,7 @@ public class ActivateAccountAction implements ClickListener{
     public void buttonClick(ClickEvent event) {
         Set<?> value = (Set<?>) table.getValue();
         if (value != null && value.size() != 0){
-            for (Iterator iter = value.iterator(); iter.hasNext();){
+            for (Iterator<?> iter = value.iterator(); iter.hasNext();){
                 try {
                     userFacade.setUnavailableSince((Long)table.getContainerProperty(iter.next(), "id").getValue(), null);
                 } catch (TransactionException e) {

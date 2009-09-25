@@ -26,7 +26,6 @@ import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.ui.controller.AppointWorkflowAdminAction;
 import de.decidr.ui.controller.LockWorkflowModelAction;
 import de.decidr.ui.controller.PublishWorkflowModelAction;
 import de.decidr.ui.controller.RemoveWorkflowModelAction;

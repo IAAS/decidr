@@ -17,9 +17,6 @@
 package de.decidr.ui.controller;
 
 import java.util.ArrayList;
-import java.util.Collection;
-
-import javax.xml.bind.JAXBException;
 
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Tree;
@@ -33,7 +30,6 @@ import de.decidr.model.exceptions.UserUnavailableException;
 import de.decidr.model.exceptions.UsernameNotFoundException;
 import de.decidr.model.exceptions.WorkflowModelNotStartableException;
 import de.decidr.model.facades.WorkflowModelFacade;
-import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.model.workflowmodel.wsc.TRole;

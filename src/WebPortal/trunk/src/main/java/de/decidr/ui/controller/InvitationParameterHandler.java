@@ -62,7 +62,7 @@ public class InvitationParameterHandler implements ParameterHandler {
     	userId = null;
     	authKey = "";
     	registrationRequired = false;
-        for (Iterator it = parameters.keySet().iterator(); it.hasNext();) {
+        for (Iterator<?> it = parameters.keySet().iterator(); it.hasNext();) {
             key   = (String) it.next();
             value = ((String[]) parameters.get(key))[0];
             try{

@@ -22,14 +22,18 @@ package de.decidr.ui.controller;
  * @author Geoffrey-Alexeij Heinze
  */
 
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 public class CancelMembershipAction implements ClickListener {
     
@@ -47,7 +51,11 @@ public class CancelMembershipAction implements ClickListener {
         
         //TODO: how to cancel membership?
         
-        //setDisableSince(Long userId, Date date);
+        try {
+			userFacade.setDisableSince( userId, new Date());
+		} catch (TransactionException e) {
+			Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+		}
         Main.getCurrent().getMainWindow().showNotification("you are no longer a member of decidr");
         Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
         

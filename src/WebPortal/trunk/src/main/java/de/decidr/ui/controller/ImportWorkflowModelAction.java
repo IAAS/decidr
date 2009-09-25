@@ -68,7 +68,7 @@ public class ImportWorkflowModelAction implements ClickListener  {
         List<Long> wfms = new ArrayList<Long>();
         Set<?> value = (Set<?>) table.getValue();
         if (value != null && value.size() != 0){
-            for (Iterator iter = value.iterator(); iter.hasNext();){
+            for (Iterator<?> iter = value.iterator(); iter.hasNext();){
                 wfms.add((Long)table.getContainerProperty(iter.next(), "id").getValue());
             }
         }

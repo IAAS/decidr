@@ -65,10 +65,6 @@ public class AppointWorkflowAdminAction implements ClickListener {
             userNames.add(appointForm.getItemProperty("user" + c).getValue()
                     .toString());
 
-            // TODO: remove
-            Main.getCurrent().getMainWindow().showNotification(
-                    appointForm.getItemProperty("user" + c.toString())
-                            .getValue().toString());
         }
         try {
             wfmFacade.setWorkflowAdministrators(wfmId, null, userNames);

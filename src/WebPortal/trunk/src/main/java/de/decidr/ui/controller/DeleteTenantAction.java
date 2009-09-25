@@ -62,7 +62,7 @@ public class DeleteTenantAction implements ClickListener{
     public void buttonClick(ClickEvent event) {
         Set<?> value = (Set<?>) table.getValue();
         if (value != null && value.size() != 0){
-            for (Iterator iter = value.iterator(); iter.hasNext();){
+            for (Iterator<?> iter = value.iterator(); iter.hasNext();){
                 try {
                     tenantFacade.deleteTenant((Long)table.getContainerProperty(iter.next(), "id").getValue());
                 } catch (TransactionException e) {

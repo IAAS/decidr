@@ -57,9 +57,5 @@ public class ChangeEmailAction implements ClickListener{
             Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
         }
         
-        //TODO: remove
-        //Main.getCurrent().getMainWindow().showNotification("new email: " + email.getItemProperty("newEmail").getValue().toString());
-        //Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
-        
     }
 }

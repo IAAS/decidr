@@ -18,7 +18,6 @@ package de.decidr.ui.view;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -26,7 +25,6 @@ import com.vaadin.ui.Window;
 
 import de.decidr.ui.controller.CreateWorkflowModelAction;
 import de.decidr.ui.controller.HideDialogWindowAction;
-import de.decidr.ui.controller.ShowModelingToolAction;
 
 /**
  * This window is called when a user wants to create a new workflow model. He

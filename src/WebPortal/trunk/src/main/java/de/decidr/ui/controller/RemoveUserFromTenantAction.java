@@ -67,7 +67,7 @@ public class RemoveUserFromTenantAction implements ClickListener{
 
         Set<?> value = (Set<?>) table.getValue();
         if (value != null && value.size() != 0){
-            for (Iterator iter = value.iterator(); iter.hasNext();){
+            for (Iterator<?> iter = value.iterator(); iter.hasNext();){
                 try {
                     userFacade.removeFromTenant((Long)table.getContainerProperty(iter.next(), "id").getValue(), (Long)tenant.getItemProperty("id").getValue());
                 } catch (TransactionException e) {
