@@ -54,6 +54,7 @@ import de.decidr.model.commands.user.LeaveTenantCommand;
 import de.decidr.model.commands.user.RefuseInviationCommand;
 import de.decidr.model.commands.user.RegisterUserCommand;
 import de.decidr.model.commands.user.RemoveFromTenantCommand;
+import de.decidr.model.commands.user.RequestChangeEmailCommand;
 import de.decidr.model.commands.user.RequestPasswordResetCommand;
 import de.decidr.model.commands.user.SetPasswordCommand;
 import de.decidr.model.commands.user.SetUserProfileCommand;
@@ -296,6 +297,35 @@ public class UserFacade extends AbstractFacade {
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
         return cmd.getRequestWasCreated();
+    }
+
+    /**
+     * Creates a new change email request for the given user. The user must
+     * confirm his new email address.<br>
+     * This method sends a confirmation email containing a link that leads back
+     * to the DecidR web front-end to the new email address.
+     * <p>
+     * If the user already has a pending change email request, that request is
+     * replaced by the new request.
+     * <p>
+     * Once the request has been confirmed, use the method
+     * {@link UserFacade#confirmChangeEmailRequest(Long, String)} to set the new
+     * email address.
+     * 
+     * @param userId
+     *            ID of user whose email address should be changed.
+     * @param newEmail
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             iff the given user does not exist.
+     */
+    public void requestChangeEmail(Long userId, String newEmail)
+            throws TransactionException {
+        RequestChangeEmailCommand cmd = new RequestChangeEmailCommand(actor,
+                userId, newEmail);
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
     }
 
     /**

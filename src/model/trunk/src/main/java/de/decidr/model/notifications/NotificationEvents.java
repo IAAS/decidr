@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.PasswordResetRequest;
 import de.decidr.model.entities.SystemSettings;
@@ -119,6 +120,16 @@ public final class NotificationEvents {
         } catch (Exception e) {
             throw new TransactionException(e);
         }
+    }
+
+    /**
+     * Sends a confirmation email to the new email address.
+     * 
+     * @param request
+     *            the change email request containing the new email address.
+     */
+    public static void createdChangeEmailRequest(ChangeEmailRequest request) {
+        // GH implement me :) ~dh
     }
 
     /**
