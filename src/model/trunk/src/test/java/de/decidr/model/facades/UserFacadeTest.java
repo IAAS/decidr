@@ -443,11 +443,77 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      * Test method for {@link UserFacade#setPassword(Long, String, String)}.
      */
     @Test
-    public void testSetPassword() {
-        // DH gibt es eine Methode ein Passwort zu prüfen außer
-        // getUserIdByLogin?
-        
-        fail("Not yet implemented"); // RR setPassword
+    public void testSetPassword() throws TransactionException {
+        assertTrue(adminFacade.setPassword(testUserID, TEST_PASSWORD,
+                "Fuuni PWD"));
+        assertTrue(checkPWD("Fuuni PWD"));
+        resetPWD();
+        assertTrue(adminFacade.setPassword(testUserID, TEST_PASSWORD + "wronk",
+                "Fuuni PWD"));
+        assertTrue(checkPWD("Fuuni PWD"));
+        resetPWD();
+        assertTrue(adminFacade.setPassword(testUserID, null, "Fuuni PWD"));
+        assertTrue(checkPWD("Fuuni PWD"));
+        resetPWD();
+
+        assertTrue(userFacade.setPassword(testUserID, TEST_PASSWORD,
+                "Fuuni PWD"));
+        assertTrue(checkPWD("Fuuni PWD"));
+        resetPWD();
+        assertFalse(userFacade.setPassword(testUserID, TEST_PASSWORD + "wronk",
+                "Fuuni PWD"));
+        assertFalse(checkPWD("Fuuni PWD"));
+        resetPWD();
+        assertFalse(userFacade.setPassword(testUserID, null, "Fuuni PWD"));
+        assertFalse(checkPWD("Fuuni PWD"));
+        resetPWD();
+
+        assertTrue(nullFacade.setPassword(testUserID, TEST_PASSWORD,
+                "Fuuni PWD"));
+        assertTrue(checkPWD("Fuuni PWD"));
+        resetPWD();
+        assertFalse(nullFacade.setPassword(testUserID, TEST_PASSWORD + "wronk",
+                "Fuuni PWD"));
+        assertFalse(checkPWD("Fuuni PWD"));
+        resetPWD();
+        assertFalse(nullFacade.setPassword(testUserID, null, "Fuuni PWD"));
+        assertFalse(checkPWD("Fuuni PWD"));
+        resetPWD();
+
+        try {
+            adminFacade.setPassword(testUserID, TEST_PASSWORD, null);
+            resetPWD();
+            fail("setting null password using admin facade succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            userFacade.setPassword(testUserID, TEST_PASSWORD, null);
+            resetPWD();
+            fail("setting null password using admin facade succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            nullFacade.setPassword(testUserID, TEST_PASSWORD, null);
+            resetPWD();
+            fail("setting null password using admin facade succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+    }
+
+    private boolean checkPWD(String pwd) throws TransactionException {
+        try {
+            userFacade.getUserIdByLogin(TEST_EMAIL, pwd);
+            return true;
+        } catch (EntityNotFoundException e) {
+            return false;
+        }
+    }
+
+    private void resetPWD() throws TransactionException {
+        adminFacade.setPassword(testUserID, null, TEST_PASSWORD);
     }
 
     /**
@@ -458,15 +524,43 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     @Test
     public void testProfile() throws TransactionException {
         Map.Entry<User, UserProfile> userProfile = getProfile(adminFacade
-                .getUserProfile(testUserID));
+                .getUserProfile(testUserID), true);
         UserProfile testProfile = userProfile.getValue();
         User testUser = userProfile.getKey();
-        fail("Not yet implemented"); // RR setProfile
-        fail("Not yet implemented"); // RR getUserProfile(Long)
-        fail("Not yet implemented"); // RR getUserProfile(Long, Boolean)
+
+        assertNotNull(testUser);
+
+        testProfile.setCity("Acity");
+        adminFacade.setProfile(testUserID, testProfile);
+        userProfile = getProfile(adminFacade.getUserProfile(testUserID), true);
+        assertEquals("Acity", userProfile.getValue().getCity());
+        assertNotNull(userProfile.getKey());
+
+        adminFacade.setProfile(testUserID, new UserProfile());
+        assertNotNull(getProfile(adminFacade.getUserProfile(testUserID, false),
+                false).getKey());
+
+        // make sure only proper fields are deleted
+        userProfile = getProfile(adminFacade.getUserProfile(testUserID), true);
+        assertNotNull(userProfile.getKey());
+        testProfile = userProfile.getValue();
+        assertTrue("".equals(testProfile.getCity()));
+        assertTrue("".equals(testProfile.getFirstName()));
+        assertTrue("".equals(testProfile.getLastName()));
+        assertTrue("".equals(testProfile.getPostalCode()));
+        assertTrue("".equals(testProfile.getStreet()));
+        assertFalse("".equals(testProfile.getUsername()));
+
+        try {
+            adminFacade.setProfile(testUserID, null);
+            fail("managed to set null profile");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
     }
 
-    private static Map.Entry<User, UserProfile> getProfile(Item profileItem) {
+    private static Map.Entry<User, UserProfile> getProfile(Item profileItem,
+            boolean parseProfile) {
         User user = new User();
         UserProfile profile = new UserProfile();
         SimpleImmutableEntry<User, UserProfile> returnEntry;
@@ -484,19 +578,20 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         user.setCreationDate((Date) profileItem.getItemProperty("creationDate")
                 .getValue());
 
-        profile
-                .setCity((String) profileItem.getItemProperty("city")
-                        .getValue());
-        profile.setFirstName((String) profileItem.getItemProperty("firstName")
-                .getValue());
-        profile.setLastName((String) profileItem.getItemProperty("lastName")
-                .getValue());
-        profile.setPostalCode((String) profileItem
-                .getItemProperty("postalCode").getValue());
-        profile.setStreet((String) profileItem.getItemProperty("street")
-                .getValue());
-        profile.setUsername((String) profileItem.getItemProperty("username")
-                .getValue());
+        if (parseProfile) {
+            profile.setCity((String) profileItem.getItemProperty("city")
+                    .getValue());
+            profile.setFirstName((String) profileItem.getItemProperty(
+                    "firstName").getValue());
+            profile.setLastName((String) profileItem
+                    .getItemProperty("lastName").getValue());
+            profile.setPostalCode((String) profileItem.getItemProperty(
+                    "postalCode").getValue());
+            profile.setStreet((String) profileItem.getItemProperty("street")
+                    .getValue());
+            profile.setUsername((String) profileItem
+                    .getItemProperty("username").getValue());
+        }
 
         returnEntry = new SimpleImmutableEntry<User, UserProfile>(user, profile);
         return returnEntry;
@@ -535,7 +630,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testGetHighestUserRole() {
-        // DH how are user roles set?
         fail("Not yet implemented"); // RR getHighestUserRole
     }
 
@@ -544,7 +638,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testGetUserRoleForTenant() {
-        // DH how are user roles set?
         fail("Not yet implemented"); // RR getUserRoleForTenant
     }
 
@@ -578,7 +671,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      * {@link UserFacade#getCurrentTenantId(Long).
      */
     @Test
-    public void testSetCurrentTenantId() {
+    public void testCurrentTenantId() {
         fail("Not yet implemented"); // RR setCurrentTenantId
         fail("Not yet implemented"); // RR getCurrentTenantId
     }
