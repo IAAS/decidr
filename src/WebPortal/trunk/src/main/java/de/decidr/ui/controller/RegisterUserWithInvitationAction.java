@@ -16,6 +16,7 @@
 
 package de.decidr.ui.controller;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -67,18 +68,78 @@ public class RegisterUserWithInvitationAction implements ClickListener {
         }
 
         if (userId != null) {
-            String invDescription = "invitation";
-            // GH: Item invitationItem = userFacade.getInvitation(invitationId);
-            // invDescription = "Please confirm this invitation from " +
-            // invitationItem.getItemProperty("senderFirstName").getValue().toString()
-            // +
-            // " " +
-            // invitationItem.getItemProperty("senderLastName").getValue().toString();
-            Main.getCurrent().getMainWindow().addWindow(
-                    new InvitationDialogComponent(invDescription, invitationId,
-                            userId));
-            // userFacade.confirmInvitation(invitationId);
+        	Item invitationItem;
+        	String concern = null;
+        	
+			try {
+				invitationItem = userFacade.getInvitation(invitationId);
+			
+	        	if (!isNullOrEmpty(invitationItem.getItemProperty("joinTenantName").getValue().toString())){
+	        		concern = "Join this tenant: " + 
+	        				  invitationItem.getItemProperty("joinTenantName").getValue().toString();
+	        
+	        	}
+	        	
+	        	if (!isNullOrEmpty(invitationItem.getItemProperty("administratedWorkflowModelName").getValue().toString())){
+	        		if (concern == null){
+	        			concern = "Admininstrate a workflow: " + 
+	        					  invitationItem.getItemProperty("administratedWorkflowModelName").getValue().toString();
+	        		}else{
+	        			concern = ", admininstrate a workflow: " + 
+						  			  invitationItem.getItemProperty("administratedWorkflowModelName").getValue().toString();
+	        		}
+	        	} 
+	        	
+	        	if (!isNullOrEmpty(invitationItem.getItemProperty("workflowInstanceId").getValue().toString())){
+	        		if (concern == null){
+	        			concern = "Participate in a workflow";
+	        		}else{
+	        			concern = ", participate in a workflow";
+	        		}
+	        	}
+	        	
+	        	if ( concern == null){
+	        		concern = "No reason specified.";
+	        	}
+	        		
+	        	String invDescription = "You received an invitation.<br/>" +
+	        							"Sender: " +
+	        							invitationItem.getItemProperty("senderFirstName").getValue().toString() +
+	        							" " +
+	        							invitationItem.getItemProperty("senderLastName").getValue().toString() +
+	        							"<br/><br/>" +
+	        							"You have been invited to: " + 
+	        							concern +
+	        							"<br/><br/>" + 
+	        							"Confirm this invitation?";
+	        	
+	        	
+	            Main.getCurrent().getMainWindow().addWindow(
+	                    new InvitationDialogComponent(invDescription, invitationId,
+	                            userId));
+            
+			} catch (TransactionException e) {
+				Main.getCurrent().getMainWindow().addWindow(
+	                    new TransactionErrorDialogComponent());
+			}
         }
+    }
+    
+    /**
+     * Returns true if the given String is null or empty 
+     *
+     * @param t
+     * 		The string to be checked
+     * @return
+     * 		True if the given string is null or empty, 
+     * 		False if not.
+     */
+    private boolean isNullOrEmpty(String t){
+    	if ( t == null || t.isEmpty()){
+    		return true;
+    	}else{
+    		return false;
+    	}
     }
     
     private UserProfile fillUserProfile(){
