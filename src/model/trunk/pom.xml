@@ -93,7 +93,7 @@
 					<url>jdbc:mysql://localhost/decidrdb</url>
 					<username>decidr</username>
 					<password>decidr42</password>
-					<encoding>utf8</encoding>
+					<!-- encoding>utf8</encoding-->
 				</configuration>
 				<executions>
 					<execution>
