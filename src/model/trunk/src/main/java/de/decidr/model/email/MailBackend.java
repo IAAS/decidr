@@ -1164,13 +1164,13 @@ public class MailBackend {
      * Specify the port the MTA is listening on.
      * 
      * @param portNum
-     *            The port the MTA is listening on. <code>-1</code> specifies
-     *            the protocol dependent default port.
+     *            The port the MTA is listening on. <code>-1</code> or
+     *            <code>0</code> specify the protocol dependent default port.
      */
     public void setPortNum(int portNum) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setProtNum(int)");
-        if (portNum < -1) {
+        if (portNum < -1 || portNum == 0) {
             portNum = -1;
         }
 

@@ -36,7 +36,6 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
  *         &lt;element name=&quot;poolInstance&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}boolean&quot;/&gt;
- *         &lt;element name=&quot;odeID&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}long&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -44,33 +43,12 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "poolInstance", "odeID" })
+@XmlType(name = "", propOrder = { "poolInstance" })
 @XmlRootElement(name = "registerODEResponse")
 public class RegisterODEResponse {
 
     @XmlElement(required = true)
     protected boolean poolInstance;
-    @XmlElement(required = true)
-    protected long odeID;
-
-    /**
-     * Gets the value of the odeID property.
-     * 
-     * @return possible object is {@link Long }
-     */
-    public long getOdeID() {
-        return odeID;
-    }
-
-    /**
-     * Sets the value of the odeID property.
-     * 
-     * @param value
-     *            allowed object is {@link Long }
-     */
-    public void setOdeID(long value) {
-        this.odeID = value;
-    }
 
     /**
      * Gets the value of the poolInstance property.

@@ -849,7 +849,7 @@ public class MailBackendTest {
     @Test
     public void testSetPortNum() {
         testMail.setPortNum(0);
-        assertEquals(0, testMail.getSMTPPortNum());
+        assertEquals(-1, testMail.getSMTPPortNum());
         testMail.setPortNum(2020);
         assertEquals(2020, testMail.getSMTPPortNum());
         testMail.setPortNum(-1);
@@ -977,14 +977,14 @@ public class MailBackendTest {
         assertEquals(-1, testMail.getSMTPPortNum());
         testMail.setServerInfo("decidr.de", 0);
         assertEquals("decidr.de", testMail.getSMTPServerHost());
-        assertEquals(0, testMail.getSMTPPortNum());
+        assertEquals(-1, testMail.getSMTPPortNum());
 
         testMail.setServerInfo("", 0);
         assertEquals("localhost", testMail.getSMTPServerHost());
-        assertEquals(0, testMail.getSMTPPortNum());
+        assertEquals(-1, testMail.getSMTPPortNum());
         testMail.setServerInfo(null, 0);
         assertEquals("localhost", testMail.getSMTPServerHost());
-        assertEquals(0, testMail.getSMTPPortNum());
+        assertEquals(-1, testMail.getSMTPPortNum());
     }
 
     /**

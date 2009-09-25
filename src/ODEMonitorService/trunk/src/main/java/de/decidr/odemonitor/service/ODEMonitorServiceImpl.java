@@ -33,7 +33,7 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.ODERole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.TransactionalCommand;
-import de.decidr.model.commands.system.AddServerCommand;
+import de.decidr.model.commands.system.GetServerCommand;
 import de.decidr.model.commands.system.GetServersCommand;
 import de.decidr.model.commands.system.LockServerCommand;
 import de.decidr.model.commands.system.UpdateServerLoadCommand;
@@ -98,32 +98,19 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
      * @see de.decidr.odemonitor.service.ODEMonitorService#registerODE(boolean)
      */
     @Override
-    public void registerODE(Holder<Boolean> poolInstance, Holder<Long> odeID)
-            throws TransactionException {
+    public void registerODE(Holder<Boolean> poolInstance, long odeID)
+            throws TransactionException, IllegalArgumentException {
         log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".registerODE()");
-        GetServersCommand cmd1 = new GetServersCommand(ODE_ROLE,
-                ServerTypeEnum.Ode);
-        HibernateTransactionCoordinator.getInstance().runTransaction(cmd1);
-
-        int neededInstances = DecidrGlobals.getSettings()
-                .getServerPoolInstances();
-        int presentInstances = 0;
-        for (Server serv : cmd1.getResult()) {
-            if (!serv.isDynamicallyAdded()) {
-                presentInstances++;
-            }
-        }
-        if (neededInstances > presentInstances) {
-            poolInstance.value = true;
-        } else {
-            poolInstance.value = false;
-        }
-
-        AddServerCommand cmd = new AddServerCommand(ODE_ROLE,
-                ServerTypeEnum.Ode, "", (byte) 0, false, !poolInstance.value);
+        GetServerCommand cmd = new GetServerCommand(ODE_ROLE, odeID);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-        odeID.value = cmd.getNewServer().getId();
+
+        if (cmd.getServer() == null) {
+            throw new IllegalArgumentException(
+                    "Couldn't find the ODE server with the specified ID!");
+        }
+
+        poolInstance.value = !cmd.getServer().isDynamicallyAdded();
         log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".registerODE()");
     }

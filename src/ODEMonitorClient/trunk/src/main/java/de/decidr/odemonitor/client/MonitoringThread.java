@@ -24,8 +24,11 @@ import java.util.Map;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.Holder;
 
+import org.apache.log4j.Logger;
+
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.odemonitor.service.ODEMonitor;
 import de.decidr.odemonitor.service.ODEMonitorService;
 
@@ -38,6 +41,7 @@ import de.decidr.odemonitor.service.ODEMonitorService;
 // No logging in this class to not spam stdout
 public class MonitoringThread extends Thread {
 
+    private static Logger log = DefaultLogger.getLogger(MonitoringThread.class);
     private static final int DEFAULT_INTERVAL = 60;
     private static final int DEFAULT_PERIOD = 300;
     private static final AbstractOSStatsCollector osStats = OSStatsCollectorFactory
@@ -93,6 +97,61 @@ public class MonitoringThread extends Thread {
         lastUpdate = calendarHolder.value;
     }
 
+    /**
+     * Gets the average system load over the configured period of time.
+     * 
+     * @return The average system load
+     */
+    private int getAvgLoad() {
+        int average = 0;
+        int total = 0;
+        int systemLoad = osStats.getSystemLoad();
+        long oldestTime = DecidrGlobals.getTime().getTimeInMillis()
+                - averagePeriod;
+
+        // clean Map of outdated entries
+        for (Long time : loadMap.keySet()) {
+            if (time < oldestTime) {
+                loadMap.remove(time);
+            }
+        }
+
+        // add new entry
+        loadMap.put(DecidrGlobals.getTime().getTimeInMillis(), systemLoad);
+
+        // get average
+        for (Long time : loadMap.keySet()) {
+            average += loadMap.get(time);
+            total++;
+        }
+        if (total == 0) {
+            average = systemLoad;
+        } else {
+            average = Math.round(((float) average) / total);
+        }
+        return average;
+    }
+
+    /**
+     * Gets the <code>{@link ODEMonitorService}</code> using either the default
+     * ESB or the provided one.
+     * 
+     * @return A usable instance of <code>{@link ODEMonitorService}</code>.
+     * @throws IllegalArgumentException
+     *             thrown if the ESB location wasn't a well-formed
+     *             <code>{@link URL}</code>.
+     */
+    private ODEMonitorService getServer() {
+        ODEMonitorService server;
+        try {
+            server = new ODEMonitor().getODEMonitorSOAP();
+        } catch (MalformedURLException e) {
+            log.error("can't access ESB", e);
+            throw new IllegalArgumentException("unusable ESB", e);
+        }
+        return server;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -110,11 +169,10 @@ public class MonitoringThread extends Thread {
         InstanceManager manager = new LocalInstanceManager();
 
         // register with server
-        Holder<Long> odeIDHolder = new Holder<Long>();
         // try to register every updateInterval until we succeed
         while (true) {
             try {
-                server.registerODE(booleanHolder, odeIDHolder);
+                server.registerODE(booleanHolder, odeID);
                 break;
             } catch (TransactionException e) {
                 try {
@@ -122,11 +180,12 @@ public class MonitoringThread extends Thread {
                 } catch (InterruptedException ex) {
                     // we wake and resume work due to someone watching us
                 }
+            } catch (IllegalArgumentException e) {
+                log.fatal("The specified ODE server ID could not be found.");
+                System.exit(1);
             }
         }
         poolInstance = booleanHolder.value;
-        odeID = odeIDHolder.value;
-        odeIDHolder = null;
 
         // get config
         fetchNewConfig();
@@ -180,60 +239,8 @@ public class MonitoringThread extends Thread {
         }
     }
 
-    /**
-     * Gets the average system load over the configured period of time.
-     * 
-     * @return The average system load
-     */
-    private int getAvgLoad() {
-        int average = 0;
-        int total = 0;
-        int systemLoad = osStats.getSystemLoad();
-        long oldestTime = DecidrGlobals.getTime().getTimeInMillis()
-                - averagePeriod;
-
-        // clean Map of outdated entries
-        for (Long time : loadMap.keySet()) {
-            if (time < oldestTime) {
-                loadMap.remove(time);
-            }
-        }
-
-        // add new entry
-        loadMap.put(DecidrGlobals.getTime().getTimeInMillis(), systemLoad);
-
-        // get average
-        for (Long time : loadMap.keySet()) {
-            average += loadMap.get(time);
-            total++;
-        }
-        if (total == 0) {
-            average = systemLoad;
-        } else {
-            average = Math.round(((float) average) / total);
-        }
-        return average;
-    }
-
-    /**
-     * Gets the <code>{@link ODEMonitorService}</code> using either the default
-     * ESB or the provided one.
-     * 
-     * @return A usable instance of <code>{@link ODEMonitorService}</code>.
-     * @throws IllegalArgumentException
-     *             thrown if the ESB location wasn't a well-formed
-     *             <code>{@link URL}</code>.
-     */
-    private ODEMonitorService getServer() {
-        ODEMonitorService server;
-        try {
-            server = new ODEMonitor().getODEMonitorSOAP();
-        } catch (MalformedURLException e) {
-            System.err.println("Error: can't access ESB");
-            System.err.println("Java stack trace, providing reason:");
-            e.printStackTrace();
-            throw new IllegalArgumentException("unusable ESB", e);
-        }
-        return server;
+    public synchronized void start(long id) {
+        odeID = id;
+        super.start();
     }
 }

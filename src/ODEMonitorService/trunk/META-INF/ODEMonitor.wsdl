@@ -38,14 +38,15 @@
 			</xsd:element>
 			<xsd:element name="registerODE">
 				<xsd:complexType>
-					<xsd:sequence />
+					<xsd:sequence>
+						<xsd:element name="odeID" type="xsd:long" />
+					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="registerODEResponse">
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="poolInstance" type="xsd:boolean" />
-						<xsd:element name="odeID" type="xsd:long" />
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>

@@ -51,6 +51,10 @@ public class ODEMonitorClient {
      *            <td>Forces fetching the configuration.</td>
      *            </tr>
      *            <tr>
+     *            <td><code>--id</code></td>
+     *            <td>Forces fetching the configuration.</td>
+     *            </tr>
+     *            <tr>
      *            <td><code>--help | -h</code></td>
      *            <td>A summary of the available options is printed to stdout.</td>
      *            </tr>
@@ -97,6 +101,7 @@ public class ODEMonitorClient {
      */
     public static void main(String[] args) {
         int interval = -1;
+        Long ID = null;
         LocalInstanceManager localInstanceManager = new LocalInstanceManager();
 
         for (int i = 0; i < args.length; i++) {
@@ -109,12 +114,24 @@ public class ODEMonitorClient {
                 if (monitor != null) {
                     monitor.changeInterval(interval);
                 }
+            } else if (args[i].equals("--id")) {
+                if (monitor != null) {
+                    log.error("Can't change monitored ID.");
+                    return;
+                }
+
+                i++;
+                try {
+                    ID = new Long(args[i]);
+                } catch (NumberFormatException e) {
+                    log.error("The specified ID is not a valid long!");
+                }
             } else if (args[i].equals("--config")) {
                 if (monitor != null) {
                     monitor.fetchNewConfig();
                     monitor.interrupt();
                 } else {
-                    System.err.println("Error: ODE monitoring instance has "
+                    log.error("ODE monitoring instance has "
                             + "not been started yet.");
                 }
             } else if (args[i].equals("--help") || args[i].equals("-h")) {
@@ -149,9 +166,20 @@ public class ODEMonitorClient {
             }
         }
 
+        if (ID == null) {
+            log.error("You have to specify the ID"
+                    + " of the local ODE server.");
+        }
+
+        // exit if a local instance is already running
+        if (monitor != null) {
+            monitor.changeInterval(interval);
+            return;
+        }
+
         if (!localInstanceManager.isRunning()
                 && !localInstanceManager.startInstance()) {
-            System.err.println("Error: can't start any instances locally");
+            log.error("can't start any instances locally");
         }
 
         // in milliseconds
@@ -159,7 +187,7 @@ public class ODEMonitorClient {
         long maxTimeToWait = 300000;
         double waitingFactor = 1.1;
         while (!localInstanceManager.isRunning()) {
-            System.out.println("Waiting " + Math.round(timeToWait / 1000.0)
+            log.info("Waiting " + Math.round(timeToWait / 1000.0)
                     + "s for local instance to become available...");
             try {
                 Thread.sleep(timeToWait);
@@ -175,7 +203,7 @@ public class ODEMonitorClient {
 
         monitor = new MonitoringThread();
         monitor.changeInterval(interval);
-        monitor.start();
+        monitor.start(ID);
     }
 
     /**
@@ -196,10 +224,14 @@ public class ODEMonitorClient {
                 .println("This is the command line interface to the DecidR ODE Monitoring Client.");
         System.out.println("");
         System.out
-                .println("java -jar ODEMonitorClient.jar [-h | --help | -V | --version | --debug | --trace | --start | --stop");
+                .println("java -jar ODEMonitorClient.jar --id <long> [-h | --help | -V | --version | --debug | --trace | --start");
         System.out
-                .println("                               | --cpu | --mem | --inst | -wfm | -i <int> | --esb <ESB_URL_AND_PATH>");
-        System.out.println("                               | --config]");
+                .println("                               | --stop | --cpu | --mem | --inst | -wfm | -i <int>");
+        System.out
+                .println("                               | --esb <ESB_URL_AND_PATH> | --config]");
+        System.out.println("");
+        System.out.println("\t--id <long>");
+        System.out.println("\t\tThe ID of the local ODE server.");
         System.out.println("");
         System.out.println("\t-h | --help");
         System.out.println("\t\tDisplay this help.");

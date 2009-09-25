@@ -18,6 +18,7 @@ package de.decidr.odemonitor.service;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -33,17 +34,37 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;complexType&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
- *       &lt;sequence /&gt;
+ *       &lt;xsd:sequence&gt;
+ *         &lt;xsd:element name=&quot;odeID&quot; type=&quot;xsd:long&quot; /&gt;
+ *       &lt;/xsd:sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "poolInstance" })
+@XmlType(name = "", propOrder = { "odeID" })
 @XmlRootElement(name = "registerODE")
 public class RegisterODE {
-    // no parameters
+    @XmlElement(required = true)
+    protected long odeID;
+
+    /**
+     * Gets the value of the odeID property.
+     * 
+     * @return possible object is {@link Long }
+     */
+    public long getOdeID() {
+        return odeID;
+    }
+
+    /**
+     * Sets the value of the odeID property.
+     * 
+     * @param value
+     *            allowed object is {@link Long }
+     */
+    public void setOdeID(long value) {
+        this.odeID = value;
+    }
 }

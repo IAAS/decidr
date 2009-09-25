@@ -83,14 +83,16 @@ public interface ODEMonitorService {
      *            The ID of the registered ODE instance/monitor.
      * @throws TransactionException
      *             May be thrown during the attempt to register the server
+     * @throws IllegalArgumentException
+     *             Is thrown when the <code>odeID</code> is incorrect.
      */
     @WebMethod(action = "http://decidr.de/webservices/ODEMonitor/registerODE")
     @RequestWrapper(localName = "registerODE", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.RegisterODE")
     @ResponseWrapper(localName = "registerODEResponse", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.RegisterODEResponse")
     public void registerODE(
             @WebParam(name = "poolInstance", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Boolean> poolInstance,
-            @WebParam(name = "odeID", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Long> odeID)
-            throws TransactionException;
+            @WebParam(name = "odeID", targetNamespace = "", mode = WebParam.Mode.IN) long odeID)
+            throws TransactionException, IllegalArgumentException;
 
     /**
      * Called to unregister an ODE instance/monitor.
