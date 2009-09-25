@@ -250,7 +250,9 @@ public class UserFacade extends AbstractFacade {
 
     /**
      * Sets a new password for the given user if the provided current password
-     * is correct.
+     * is correct. If invoked by a superadmin, the oldPassword parameter will be
+     * ignored as the superadmin does not have to know the current password in
+     * order to set a new password.
      * 
      * @param userId
      *            the id of the user whose password should be set

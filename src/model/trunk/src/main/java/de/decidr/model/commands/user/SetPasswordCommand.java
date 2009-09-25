@@ -18,13 +18,15 @@ package de.decidr.model.commands.user;
 
 import de.decidr.model.acl.Password;
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Sets the password of a user if the current password is known to the invoker.
+ * Sets the password of a user. Unless invoked by a superadmin, the caller must
+ * know the current password.
  * 
  * @author Daniel Huss
  * @version 0.1
@@ -32,12 +34,37 @@ import de.decidr.model.transactions.TransactionEvent;
 public class SetPasswordCommand extends UserCommand {
 
     private Boolean passwordWasChanged = false;
-    private String oldPassword;
-    private String newPassword;
+    private String oldPassword = null;
+    private String newPassword = null;
 
+    /**
+     * Creates a new SetPasswordCommand that sets the password of a given user.
+     * Unless invoked by a superadmin, the caller must know the current
+     * password.
+     * 
+     * @param role
+     *            user / system executing the command.
+     * @param userId
+     *            user whose password should be changed
+     * @param oldPassword
+     *            old password (if executed by a superadmin, this parameter can
+     *            be null or any value as it will be ignored).
+     * @param newPassword
+     *            New password to set.
+     */
     public SetPasswordCommand(Role role, Long userId, String oldPassword,
             String newPassword) {
         super(role, userId);
+
+        if (newPassword == null) {
+            throw new IllegalArgumentException("New password must not be null");
+        }
+
+        if (!(role instanceof SuperAdminRole) && (oldPassword == null)) {
+            throw new IllegalArgumentException(
+                    "Must provide old password to continue.");
+        }
+
         this.oldPassword = oldPassword;
         this.newPassword = newPassword;
     }
@@ -56,18 +83,23 @@ public class SetPasswordCommand extends UserCommand {
             throw new EntityNotFoundException(UserProfile.class, getUserId());
         }
 
-        String hash = Password.getHash(oldPassword, profile
-                .getPasswordSalt());
-
-        if (hash.equals(profile.getPasswordHash())) {
-            // the given oldPassword is correct
-            profile.setPasswordHash(Password.getHash(newPassword, Password
-                    .getRandomSalt()));
+        // superadmins don't have to know the old password.
+        Boolean allowChange = true;
+        if (!(role instanceof SuperAdminRole)) {
+            String hash = Password.getHash(oldPassword, profile
+                    .getPasswordSalt());
+            allowChange = hash.equals(profile.getPasswordHash());
         }
 
-        evt.getSession().update(profile);
+        if (allowChange) {
+            String newSalt = Password.getRandomSalt();
 
-        passwordWasChanged = true;
+            profile.setPasswordHash(Password.getHash(newPassword, newSalt));
+            profile.setPasswordSalt(newSalt);
+
+            evt.getSession().update(profile);
+            passwordWasChanged = true;
+        }
     }
 
     /**
