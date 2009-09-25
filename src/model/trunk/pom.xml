@@ -93,7 +93,7 @@
 					<url>jdbc:mysql://localhost/decidrdb</url>
 					<username>decidr</username>
 					<password>decidr42</password>
-					<!-- encoding>utf8</encoding-->
+					<encoding>utf8</encoding>
 				</configuration>
 				<executions>
 					<execution>
@@ -103,6 +103,7 @@
 							<goal>execute</goal>
 						</goals>
 						<configuration>
+							<orderFile>ascending</orderFile>
 							<fileset>
 								<basedir>src/test/java</basedir>
 								<includes>
