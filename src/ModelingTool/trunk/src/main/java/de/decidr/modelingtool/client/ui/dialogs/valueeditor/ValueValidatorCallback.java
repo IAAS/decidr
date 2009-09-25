@@ -40,18 +40,19 @@ public class ValueValidatorCallback {
     public String getMessage() {
         String message = new String();
         if (values.size() == 1) {
-            message = ModelingToolWidget.messages.valueSingular()
+            message = ModelingToolWidget.getMessages().valueSingular()
                     + values.first() + " "
-                    + ModelingToolWidget.messages.wrongSingular();
+                    + ModelingToolWidget.getMessages().wrongSingular();
         } else {
-            message = ModelingToolWidget.messages.valuePlural();
+            message = ModelingToolWidget.getMessages().valuePlural();
             for (Iterator<Integer> i = values.iterator(); i.hasNext();) {
                 message = message + i.next();
                 if (i.hasNext()) {
                     message = message + ", ";
                 }
             }
-            message = message + " " + ModelingToolWidget.messages.wrongPlural();
+            message = message + " "
+                    + ModelingToolWidget.getMessages().wrongPlural();
         }
         return message;
     }

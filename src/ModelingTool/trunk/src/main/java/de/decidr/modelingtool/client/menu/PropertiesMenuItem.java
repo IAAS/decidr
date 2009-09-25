@@ -47,7 +47,7 @@ public class PropertiesMenuItem implements Command {
                 selectedItem.showPropertyWindow();
             } catch (NoPropertyWindowException e) {
                 // display error message
-                Window.alert(ModelingToolWidget.messages
+                Window.alert(ModelingToolWidget.getMessages()
                         .noPropertyWindowMessage());
             }
         } else {

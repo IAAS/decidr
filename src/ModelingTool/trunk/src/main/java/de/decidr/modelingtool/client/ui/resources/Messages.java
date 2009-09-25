@@ -191,8 +191,6 @@ public interface Messages extends Constants {
 
     String typeForm();
 
-    String decimalSeparator();
-
     String dateFormat();
 
 }

@@ -80,7 +80,8 @@ public class ValueEditor extends ModelingToolDialog {
      */
     private void createContentPanel() {
         contentPanel = new ContentPanel();
-        contentPanel.setHeading(ModelingToolWidget.messages.editVariable());
+        contentPanel
+                .setHeading(ModelingToolWidget.getMessages().editVariable());
         contentPanel.setLayout(new FitLayout());
 
         table = new FlexTable();
@@ -99,8 +100,8 @@ public class ValueEditor extends ModelingToolDialog {
     private void createToolBar() {
         ToolBar toolBar = new ToolBar();
 
-        TextToolItem addValue = new TextToolItem(ModelingToolWidget.messages
-                .addValue()); //$NON-NLS-1$
+        TextToolItem addValue = new TextToolItem(ModelingToolWidget
+                .getMessages().addValue()); //$NON-NLS-1$
         addValue.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
@@ -117,7 +118,7 @@ public class ValueEditor extends ModelingToolDialog {
      */
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingToolWidget.messages.okButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -139,13 +140,13 @@ public class ValueEditor extends ModelingToolDialog {
                             DialogRegistry.getInstance().hideDialog(
                                     ValueEditor.class.getName());
                         } else {
-                            MessageBox.alert(ModelingToolWidget.messages
+                            MessageBox.alert(ModelingToolWidget.getMessages()
                                     .warningTitle(), call.getMessage(), null);
                         }
                     }
 
                 }));
-        addButton(new Button(ModelingToolWidget.messages.cancelButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {

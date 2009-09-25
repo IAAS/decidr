@@ -78,7 +78,8 @@ public class EmailActivityWindow extends ModelingToolDialog {
     private void createContentPanel() {
         contentPanel = new ContentPanel();
 
-        contentPanel.setHeading(ModelingToolWidget.messages.emailActivity());
+        contentPanel.setHeading(ModelingToolWidget.getMessages()
+                .emailActivity());
         contentPanel.setLayout(new FitLayout());
 
         table = new FlexTable();
@@ -97,7 +98,7 @@ public class EmailActivityWindow extends ModelingToolDialog {
      */
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingToolWidget.messages.okButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -110,14 +111,15 @@ public class EmailActivityWindow extends ModelingToolDialog {
                             DialogRegistry.getInstance().hideDialog(
                                     EmailActivityWindow.class.getName());
                         } else {
-                            MessageBox.alert(ModelingToolWidget.messages
-                                    .warningTitle(),
-                                    ModelingToolWidget.messages
+                            MessageBox
+                                    .alert(ModelingToolWidget.getMessages()
+                                            .warningTitle(), ModelingToolWidget
+                                            .getMessages()
                                             .emailActivityWarning(), null);
                         }
                     }
                 }));
-        addButton(new Button(ModelingToolWidget.messages.cancelButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -202,7 +204,7 @@ public class EmailActivityWindow extends ModelingToolDialog {
         table.setWidget(table.getRowCount() - 1, 0, new Label(label));
         table.setWidget(table.getRowCount() - 1, 1, field);
         table.setWidget(table.getRowCount() - 1, 2, new Button(
-                ModelingToolWidget.messages.changeValueButton(),
+                ModelingToolWidget.getMessages().changeValueButton(),
                 new ChangeValueButtonListener(field)));
     }
 
@@ -211,24 +213,24 @@ public class EmailActivityWindow extends ModelingToolDialog {
      */
     private void createFields() {
         toField = new ComboBox<Variable>();
-        addComboField(toField, ModelingToolWidget.messages.toFieldLabel(),
+        addComboField(toField, ModelingToolWidget.getMessages().toFieldLabel(),
                 VariableType.ROLE, model.getToVariableId());
         ccField = new ComboBox<Variable>();
-        addComboField(ccField, ModelingToolWidget.messages.ccFieldLabel(),
+        addComboField(ccField, ModelingToolWidget.getMessages().ccFieldLabel(),
                 VariableType.ROLE, model.getCcVariableId());
         bccField = new ComboBox<Variable>();
-        addComboField(bccField, ModelingToolWidget.messages.bccFieldLabel(),
-                VariableType.ROLE, model.getBccVariableId());
+        addComboField(bccField, ModelingToolWidget.getMessages()
+                .bccFieldLabel(), VariableType.ROLE, model.getBccVariableId());
         subjectField = new ComboBox<Variable>();
-        addComboField(subjectField, ModelingToolWidget.messages
+        addComboField(subjectField, ModelingToolWidget.getMessages()
                 .subjectFieldLabel(), VariableType.STRING, model
                 .getSubjectVariableId());
         messageField = new ComboBox<Variable>();
-        addComboField(messageField, ModelingToolWidget.messages
+        addComboField(messageField, ModelingToolWidget.getMessages()
                 .messageFieldLabel(), VariableType.STRING, model
                 .getMessageVariableId());
         attachmentField = new ComboBox<Variable>();
-        addComboField(attachmentField, ModelingToolWidget.messages
+        addComboField(attachmentField, ModelingToolWidget.getMessages()
                 .attachmentFieldLabel(), VariableType.FILE, model
                 .getAttachmentVariableId());
     }

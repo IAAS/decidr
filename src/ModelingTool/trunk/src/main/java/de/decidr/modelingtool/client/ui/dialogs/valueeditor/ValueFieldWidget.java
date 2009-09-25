@@ -58,8 +58,8 @@ public class ValueFieldWidget extends HorizontalPanel {
 
         ValueFieldClickHandler handler = new ValueFieldClickHandler(table,
                 this, fields);
-        this.button = new PushButton(ModelingToolWidget.messages.delValue(),
-                handler);
+        this.button = new PushButton(ModelingToolWidget.getMessages()
+                .delValue(), handler);
         this.add(this.button);
     }
 

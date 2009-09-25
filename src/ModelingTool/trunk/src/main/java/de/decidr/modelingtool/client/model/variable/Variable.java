@@ -52,7 +52,7 @@ public class Variable extends BaseModelData {
     public Variable() {
         super();
         set(ID, new Date().getTime());
-        set(LABEL, ModelingToolWidget.messages.enterVariableName());
+        set(LABEL, ModelingToolWidget.getMessages().enterVariableName());
         set(TYPE, VariableType.STRING);
         set(TYPELOCALNAME, VariableType.STRING.getLocalName());
         ArrayList<String> values = new ArrayList<String>();

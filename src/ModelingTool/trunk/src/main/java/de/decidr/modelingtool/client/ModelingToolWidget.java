@@ -62,7 +62,7 @@ import de.decidr.modelingtool.client.ui.resources.Messages;
 public class ModelingToolWidget extends Composite implements
         HasAllMouseHandlers {
 
-    public static Messages messages;
+    private static Messages messages;
 
     private static HashMap<Long, String> users;
 
@@ -97,6 +97,13 @@ public class ModelingToolWidget extends Composite implements
         /* Internationalization: "Instantiate" the Message interface class. */
         messages = GWT.create(Messages.class);
 
+    }
+
+    public static Messages getMessages() {
+        if (messages == null) {
+            messages = GWT.create(Messages.class);
+        }
+        return messages;
     }
 
     @Override

@@ -74,7 +74,7 @@ public class IfWindow extends ModelingToolDialog {
     private void createContentPanel() {
         contentPanel = new ContentPanel();
 
-        contentPanel.setHeading(ModelingToolWidget.messages.ifContainer());
+        contentPanel.setHeading(ModelingToolWidget.getMessages().ifContainer());
         contentPanel.setLayout(new FitLayout());
 
         table = new FlexTable();
@@ -93,7 +93,7 @@ public class IfWindow extends ModelingToolDialog {
      */
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingToolWidget.messages.okButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -102,15 +102,14 @@ public class IfWindow extends ModelingToolDialog {
                          * warning message, else change the workflow model.
                          */
                         if (validateConditions() == false) {
-                            MessageBox.alert(ModelingToolWidget.messages
-                                    .warningTitle(),
-                                    ModelingToolWidget.messages
-                                            .conditionWarning(), null);
+                            MessageBox.alert(ModelingToolWidget.getMessages()
+                                    .warningTitle(), ModelingToolWidget
+                                    .getMessages().conditionWarning(), null);
                         } else if (validateOrder() == false) {
-                            MessageBox.alert(ModelingToolWidget.messages
-                                    .warningTitle(),
-                                    ModelingToolWidget.messages
-                                            .conditionOrderWarning(), null);
+                            MessageBox.alert(ModelingToolWidget.getMessages()
+                                    .warningTitle(), ModelingToolWidget
+                                    .getMessages().conditionOrderWarning(),
+                                    null);
                         } else {
                             changeWorkflowModel();
                             DialogRegistry.getInstance().hideDialog(
@@ -118,7 +117,7 @@ public class IfWindow extends ModelingToolDialog {
                         }
                     }
                 }));
-        addButton(new Button(ModelingToolWidget.messages.cancelButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {

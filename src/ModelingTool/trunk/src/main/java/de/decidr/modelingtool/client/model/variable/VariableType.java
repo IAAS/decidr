@@ -29,22 +29,22 @@ import de.decidr.modelingtool.client.ui.resources.DateFormatter;
  */
 public enum VariableType {
 
-    STRING(DWDLNames.variableTypes.STRING, ModelingToolWidget.messages
-            .typeString(), ModelingToolWidget.messages.newStringValue()),
-    INTEGER(DWDLNames.variableTypes.INTEGER, ModelingToolWidget.messages
+    STRING(DWDLNames.variableTypes.STRING, ModelingToolWidget.getMessages()
+            .typeString(), ModelingToolWidget.getMessages().newStringValue()),
+    INTEGER(DWDLNames.variableTypes.INTEGER, ModelingToolWidget.getMessages()
             .typeInteger(), "1"),
-    FLOAT(DWDLNames.variableTypes.FLOAT, ModelingToolWidget.messages
+    FLOAT(DWDLNames.variableTypes.FLOAT, ModelingToolWidget.getMessages()
             .typeFloat(), "1.0"),
-    BOOLEAN(DWDLNames.variableTypes.BOOLEAN, ModelingToolWidget.messages
+    BOOLEAN(DWDLNames.variableTypes.BOOLEAN, ModelingToolWidget.getMessages()
             .typeBoolean(), "false"),
-    FILE(DWDLNames.variableTypes.FILE, ModelingToolWidget.messages.typeFile(),
-            ModelingToolWidget.messages.newStringValue()),
-    DATE(DWDLNames.variableTypes.DATE, ModelingToolWidget.messages.typeDate(),
-            DateFormatter.getToday()),
-    ROLE(DWDLNames.variableTypes.ROLE, ModelingToolWidget.messages.typeRole(),
-            ModelingToolWidget.messages.newStringValue()),
-    FORM(DWDLNames.variableTypes.FORM, ModelingToolWidget.messages.typeForm(),
-            null);
+    FILE(DWDLNames.variableTypes.FILE, ModelingToolWidget.getMessages()
+            .typeFile(), ModelingToolWidget.getMessages().newStringValue()),
+    DATE(DWDLNames.variableTypes.DATE, ModelingToolWidget.getMessages()
+            .typeDate(), DateFormatter.getToday()),
+    ROLE(DWDLNames.variableTypes.ROLE, ModelingToolWidget.getMessages()
+            .typeRole(), ModelingToolWidget.getMessages().newStringValue()),
+    FORM(DWDLNames.variableTypes.FORM, ModelingToolWidget.getMessages()
+            .typeForm(), null);
 
     private final String dwdlName;
     private final String localName;
@@ -105,9 +105,25 @@ public enum VariableType {
      */
     public static VariableType getTypeFromLocalName(String localName) {
         VariableType result = null;
-        for (VariableType t : VariableType.values()) {
-            if (localName == t.getLocalName())
-                result = t;
+        for (VariableType type : VariableType.values()) {
+            if (localName == type.getLocalName())
+                result = type;
+        }
+        return result;
+    }
+
+    /**
+     * Returns the variable type to a given dwdl name of a variable type
+     * 
+     * @param dwdlName
+     *            the localized name
+     * @return the variable type
+     */
+    public static VariableType getTypeFromDWDLName(String dwdlName) {
+        VariableType result = null;
+        for (VariableType type : VariableType.values()) {
+            if (dwdlName == type.getDwdlName())
+                result = type;
         }
         return result;
     }

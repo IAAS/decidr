@@ -32,7 +32,8 @@ public class ClearWorkflowMenuItem implements Command {
 
     @Override
     public void execute() {
-        if (Window.confirm(ModelingToolWidget.messages.confirmClearWorkflow())) {
+        if (Window.confirm(ModelingToolWidget.getMessages()
+                .confirmClearWorkflow())) {
             Command cmd = new ClearWorkflowCommand();
             cmd.execute();
         }

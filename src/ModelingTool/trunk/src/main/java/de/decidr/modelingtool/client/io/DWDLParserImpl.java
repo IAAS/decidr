@@ -102,7 +102,7 @@ public class DWDLParserImpl implements DWDLParser {
         }
         WorkflowProperties properties = new WorkflowProperties();
 
-        /* Get namespace and schema*/
+        /* Get namespace and schema */
         properties.setNamespace(root.getAttribute(DWDLNames.namespace));
         properties.setSchema(root.getAttribute(DWDLNames.schema));
 
@@ -126,11 +126,15 @@ public class DWDLParserImpl implements DWDLParser {
             Element endNode = getChildNodesByTagName(
                     getChildNodesByTagName(root, DWDLNames.nodes).get(0),
                     DWDLNames.endNode).get(0);
-            Element notification = getChildNodesByTagName(endNode,
-                    DWDLNames.notificationOfSuccess).get(0);
-            properties
-                    .setSuccessMessageVariableId(getVariableIdFromPropertyElement(
-                            notification, DWDLNames.successMsg));
+            // notification of success is optional
+            if (getChildNodesByTagName(endNode, DWDLNames.notificationOfSuccess)
+                    .isEmpty() == false) {
+                Element notification = getChildNodesByTagName(endNode,
+                        DWDLNames.notificationOfSuccess).get(0);
+                properties
+                        .setSuccessMessageVariableId(getVariableIdFromPropertyElement(
+                                notification, DWDLNames.successMsg));
+            }
         }
         workflow.setProperties(properties);
     }
@@ -172,7 +176,7 @@ public class DWDLParserImpl implements DWDLParser {
                         .substring(DWDLNames.listprefix.length());
                 isArray = true;
             }
-            variable.setType(VariableType.valueOf(typeString));
+            variable.setType(VariableType.getTypeFromDWDLName(typeString));
 
             /*
              * Set the values, if the variable has multiple values (determined
@@ -658,7 +662,7 @@ public class DWDLParserImpl implements DWDLParser {
         List<Element> result = new ArrayList<Element>();
         for (int i = 0; i < parent.getChildNodes().getLength(); i++) {
             Node child = parent.getChildNodes().item(i);
-            if (child.getNodeName() == tagName) {
+            if (child.getNodeName().equals(tagName)) {
                 result.add((Element) child);
             }
         }

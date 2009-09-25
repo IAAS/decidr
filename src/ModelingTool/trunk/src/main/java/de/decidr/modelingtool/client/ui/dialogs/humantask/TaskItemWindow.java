@@ -76,7 +76,8 @@ public class TaskItemWindow extends ModelingToolDialog {
      */
     private void createContentPanel() {
         contentPanel = new ContentPanel();
-        contentPanel.setHeading(ModelingToolWidget.messages.editVariable());
+        contentPanel
+                .setHeading(ModelingToolWidget.getMessages().editVariable());
         contentPanel.setLayout(new FitLayout());
 
         table = new FlexTable();
@@ -95,13 +96,13 @@ public class TaskItemWindow extends ModelingToolDialog {
     private void createToolBar() {
         ToolBar toolBar = new ToolBar();
 
-        TextToolItem addTaskItem = new TextToolItem(ModelingToolWidget.messages
-                .addTaskItem()); //$NON-NLS-1$
+        TextToolItem addTaskItem = new TextToolItem(ModelingToolWidget
+                .getMessages().addTaskItem()); //$NON-NLS-1$
         addTaskItem.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
-                addEntry(new TaskItem(ModelingToolWidget.messages
-                        .taskItemLabel(), ModelingToolWidget.messages
+                addEntry(new TaskItem(ModelingToolWidget.getMessages()
+                        .taskItemLabel(), ModelingToolWidget.getMessages()
                         .taskItemHint(), null));
             }
         });
@@ -115,7 +116,7 @@ public class TaskItemWindow extends ModelingToolDialog {
      */
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingToolWidget.messages.okButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -124,15 +125,14 @@ public class TaskItemWindow extends ModelingToolDialog {
                             DialogRegistry.getInstance().hideDialog(
                                     TaskItemWindow.class.getName());
                         } else {
-                            MessageBox.alert(ModelingToolWidget.messages
-                                    .warningTitle(),
-                                    ModelingToolWidget.messages
-                                            .taskItemWarning(), null);
+                            MessageBox.alert(ModelingToolWidget.getMessages()
+                                    .warningTitle(), ModelingToolWidget
+                                    .getMessages().taskItemWarning(), null);
                         }
                     }
 
                 }));
-        addButton(new Button(ModelingToolWidget.messages.cancelButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {

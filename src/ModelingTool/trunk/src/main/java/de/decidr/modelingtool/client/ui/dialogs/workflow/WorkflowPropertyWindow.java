@@ -69,7 +69,8 @@ public class WorkflowPropertyWindow extends ModelingToolDialog {
     private void createcontentPanel() {
         contentPanel = new ContentPanel();
 
-        contentPanel.setHeading(ModelingToolWidget.messages.workflowProperty());
+        contentPanel.setHeading(ModelingToolWidget.getMessages()
+                .workflowProperty());
         contentPanel.setLayout(new FitLayout());
 
         table = new FlexTable();
@@ -85,7 +86,7 @@ public class WorkflowPropertyWindow extends ModelingToolDialog {
 
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingToolWidget.messages.okButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -94,7 +95,7 @@ public class WorkflowPropertyWindow extends ModelingToolDialog {
                                 WorkflowPropertyWindow.class.getName());
                     }
                 }));
-        addButton(new Button(ModelingToolWidget.messages.cancelButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -139,22 +140,22 @@ public class WorkflowPropertyWindow extends ModelingToolDialog {
 
     private void createFields() {
         recipientField = new ComboBox<Variable>();
-        addComboField(recipientField, ModelingToolWidget.messages
+        addComboField(recipientField, ModelingToolWidget.getMessages()
                 .recipientFieldLabel(), VariableType.ROLE, model
                 .getProperties().getRecipientVariableId());
         faultMessageField = new ComboBox<Variable>();
-        addComboField(faultMessageField, ModelingToolWidget.messages
+        addComboField(faultMessageField, ModelingToolWidget.getMessages()
                 .faultMessageFieldLabel(), VariableType.STRING, model
                 .getProperties().getFaultMessageVariableId());
         successMessageField = new ComboBox<Variable>();
-        addComboField(successMessageField, ModelingToolWidget.messages
+        addComboField(successMessageField, ModelingToolWidget.getMessages()
                 .successMessageFieldLabel(), VariableType.STRING, model
                 .getProperties().getSuccessMessageVariableId());
         notifyBox = new CheckBox();
         notifyBox.setValue(model.getProperties().getNotifyOnSuccess());
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingToolWidget.messages.notifyCheckBox()));
+                ModelingToolWidget.getMessages().notifyCheckBox()));
         table.setWidget(table.getRowCount() - 1, 1, notifyBox);
     }
 

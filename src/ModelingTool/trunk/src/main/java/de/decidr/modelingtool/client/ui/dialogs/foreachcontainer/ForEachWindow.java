@@ -77,7 +77,8 @@ public class ForEachWindow extends ModelingToolDialog {
     private void createContentPanel() {
         contentPanel = new ContentPanel();
 
-        contentPanel.setHeading(ModelingToolWidget.messages.forEachContainer());
+        contentPanel.setHeading(ModelingToolWidget.getMessages()
+                .forEachContainer());
         contentPanel.setLayout(new FitLayout());
 
         table = new FlexTable();
@@ -96,7 +97,7 @@ public class ForEachWindow extends ModelingToolDialog {
      */
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingToolWidget.messages.okButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -109,14 +110,15 @@ public class ForEachWindow extends ModelingToolDialog {
                             DialogRegistry.getInstance().hideDialog(
                                     ForEachWindow.class.getName());
                         } else {
-                            MessageBox.alert(ModelingToolWidget.messages
-                                    .warningTitle(),
-                                    ModelingToolWidget.messages
+                            MessageBox
+                                    .alert(ModelingToolWidget.getMessages()
+                                            .warningTitle(), ModelingToolWidget
+                                            .getMessages()
                                             .flowContainerWarning(), null);
                         }
                     }
                 }));
-        addButton(new Button(ModelingToolWidget.messages.cancelButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -180,7 +182,7 @@ public class ForEachWindow extends ModelingToolDialog {
         iterableField.setWidth("200px");
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingToolWidget.messages.iterationVarLabel()));
+                ModelingToolWidget.getMessages().iterationVarLabel()));
         table.setWidget(table.getRowCount() - 1, 1, iterableField);
 
         /* radio button group for exit condition */
@@ -188,7 +190,7 @@ public class ForEachWindow extends ModelingToolDialog {
         exitConditionGroup.setSelectedValue(model.getExitCondition());
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingToolWidget.messages.exitConLabel()));
+                ModelingToolWidget.getMessages().exitConLabel()));
         table.setWidget(table.getRowCount() - 1, 1, exitConditionGroup);
 
         /* check box for execution */
@@ -196,7 +198,7 @@ public class ForEachWindow extends ModelingToolDialog {
         parallelField.setValue(model.isParallel());
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingToolWidget.messages.parallelLabel()));
+                ModelingToolWidget.getMessages().parallelLabel()));
         table.setWidget(table.getRowCount() - 1, 1, parallelField);
     }
 

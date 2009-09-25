@@ -62,20 +62,22 @@ public class TaskItemFieldSet extends HorizontalPanel {
         this.setSpacing(3);
 
         this.labelField = labelField;
-        this.add(new Label(ModelingToolWidget.messages.taskItemLabel()));
+        this.add(new Label(ModelingToolWidget.getMessages().taskItemLabel()));
         this.add(labelField);
 
         this.hintField = hintField;
-        this.add(new Label(ModelingToolWidget.messages.taskItemHint()));
+        this.add(new Label(ModelingToolWidget.getMessages().taskItemHint()));
         this.add(hintField);
 
         this.variableField = variableField;
-        this.add(new Label(ModelingToolWidget.messages.taskItemOutputVar()));
+        this
+                .add(new Label(ModelingToolWidget.getMessages()
+                        .taskItemOutputVar()));
         this.add(variableField);
 
         TaskItemClickHandler handler = new TaskItemClickHandler(table, this,
                 fieldsets);
-        PushButton button = new PushButton(ModelingToolWidget.messages
+        PushButton button = new PushButton(ModelingToolWidget.getMessages()
                 .delTaskItem(), handler);
         this.add(button);
 

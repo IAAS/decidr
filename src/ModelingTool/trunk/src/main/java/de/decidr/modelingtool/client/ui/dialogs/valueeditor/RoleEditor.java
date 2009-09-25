@@ -82,7 +82,8 @@ public class RoleEditor extends ModelingToolDialog {
      */
     private void createContentPanel() {
         contentPanel = new ContentPanel();
-        contentPanel.setHeading(ModelingToolWidget.messages.editVariable());
+        contentPanel
+                .setHeading(ModelingToolWidget.getMessages().editVariable());
         contentPanel.setFrame(true);
         contentPanel.setLayout(new RowLayout(Orientation.HORIZONTAL));
 
@@ -114,7 +115,7 @@ public class RoleEditor extends ModelingToolDialog {
      */
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingToolWidget.messages.okButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -136,7 +137,7 @@ public class RoleEditor extends ModelingToolDialog {
 
                     }
                 }));
-        addButton(new Button(ModelingToolWidget.messages.cancelButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -254,8 +255,9 @@ public class RoleEditor extends ModelingToolDialog {
             try {
                 roleUserIds.add(new Long(userId));
             } catch (NumberFormatException e) {
-                MessageBox.alert(ModelingToolWidget.messages.warningTitle(),
-                        ModelingToolWidget.messages.invalidUserIds(), null);
+                MessageBox.alert(ModelingToolWidget.getMessages()
+                        .warningTitle(), ModelingToolWidget.getMessages()
+                        .invalidUserIds(), null);
                 return false;
             }
         }

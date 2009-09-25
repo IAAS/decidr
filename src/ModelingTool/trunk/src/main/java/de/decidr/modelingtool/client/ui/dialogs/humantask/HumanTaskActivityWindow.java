@@ -90,8 +90,8 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
     private void createContentPanel() {
         contentPanel = new ContentPanel();
 
-        contentPanel
-                .setHeading(ModelingToolWidget.messages.humanTaskActivity());
+        contentPanel.setHeading(ModelingToolWidget.getMessages()
+                .humanTaskActivity());
         contentPanel.setLayout(new FitLayout());
 
         table = new FlexTable();
@@ -112,8 +112,8 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         ToolBar toolBar = new ToolBar();
 
         /* tool bar button which displays the TaskItemWindow */
-        TextToolItem editButton = new TextToolItem(ModelingToolWidget.messages
-                .editTaskItems());
+        TextToolItem editButton = new TextToolItem(ModelingToolWidget
+                .getMessages().editTaskItems());
         editButton.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
@@ -130,7 +130,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
      */
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingToolWidget.messages.okButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -143,14 +143,14 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
                             DialogRegistry.getInstance().hideDialog(
                                     EmailActivityWindow.class.getName());
                         } else {
-                            MessageBox.alert(ModelingToolWidget.messages
-                                    .warningTitle(),
-                                    ModelingToolWidget.messages
-                                            .humanTaskActivityWarning(), null);
+                            MessageBox.alert(ModelingToolWidget.getMessages()
+                                    .warningTitle(), ModelingToolWidget
+                                    .getMessages().humanTaskActivityWarning(),
+                                    null);
                         }
                     }
                 }));
-        addButton(new Button(ModelingToolWidget.messages.cancelButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -222,7 +222,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         userField.setWidth("200px");
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingToolWidget.messages.userLabel()));
+                ModelingToolWidget.getMessages().userLabel()));
         table.setWidget(table.getRowCount() - 1, 1, userField);
 
         /* combobox for task name */
@@ -236,7 +236,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         nameField.setWidth("200px");
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingToolWidget.messages.nameLabel()));
+                ModelingToolWidget.getMessages().nameLabel()));
         table.setWidget(table.getRowCount() - 1, 1, nameField);
 
         /* combobox for task description */
@@ -250,7 +250,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         descriptionField.setWidth("200px");
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingToolWidget.messages.descriptionLabel()));
+                ModelingToolWidget.getMessages().descriptionLabel()));
         table.setWidget(table.getRowCount() - 1, 1, descriptionField);
 
         /* combobox for form container */
@@ -264,7 +264,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         formContainerField.setWidth("200px");
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingToolWidget.messages.formLabel()));
+                ModelingToolWidget.getMessages().formLabel()));
         table.setWidget(table.getRowCount() - 1, 1, formContainerField);
 
         /* checkbox for notification */
@@ -272,7 +272,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         notifyCheckBox.setValue(model.getNotifyActor());
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingToolWidget.messages.notifyLabel()));
+                ModelingToolWidget.getMessages().notifyLabel()));
         table.setWidget(table.getRowCount() - 1, 1, notifyCheckBox);
     }
 

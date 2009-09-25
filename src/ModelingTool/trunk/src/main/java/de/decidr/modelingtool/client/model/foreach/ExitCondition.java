@@ -27,8 +27,8 @@ import de.decidr.modelingtool.client.ui.dialogs.foreachcontainer.ForEachWindow;
  */
 public enum ExitCondition {
 
-    AND(ModelingToolWidget.messages.andConLabel()),
-    XOR(ModelingToolWidget.messages.xorConLabel());
+    AND(ModelingToolWidget.getMessages().andConLabel()),
+    XOR(ModelingToolWidget.getMessages().xorConLabel());
 
     private String label;
 

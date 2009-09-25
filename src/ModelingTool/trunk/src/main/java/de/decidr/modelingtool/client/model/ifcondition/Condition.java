@@ -45,7 +45,7 @@ public class Condition extends ContainerStartConnectionModel {
         } else {
             counter = counter + 1;
         }
-        this.setName(ModelingToolWidget.messages.condition() + " "
+        this.setName(ModelingToolWidget.getMessages().condition() + " "
                 + counter.toString());
     }
 

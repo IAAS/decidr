@@ -32,7 +32,7 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
 public class DateFormatter {
 
     private static DateTimeFormat formatter = DateTimeFormat
-            .getFormat(ModelingToolWidget.messages.dateFormat());
+            .getFormat(ModelingToolWidget.getMessages().dateFormat());
 
     /**
      * Converts a {@link Date} into a formatted string (format is currently

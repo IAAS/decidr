@@ -49,7 +49,7 @@ public class OrderComboBox extends SimpleComboBox<String> {
          * if no other condition is true). Therefore, there can be n-1 proper
          * order "ranks" for n conditions.
          */
-        this.add(ModelingToolWidget.messages.defaultCondition());
+        this.add(ModelingToolWidget.getMessages().defaultCondition());
         for (Integer i = 1; i < count; i++) {
             this.add(i.toString());
         }
@@ -58,7 +58,7 @@ public class OrderComboBox extends SimpleComboBox<String> {
         if (condition.getOperator() != null) {
             String order;
             if (condition.getOrder() == 0) {
-                order = ModelingToolWidget.messages.defaultCondition();
+                order = ModelingToolWidget.getMessages().defaultCondition();
             } else {
                 order = condition.getOrder().toString();
             }
@@ -77,7 +77,7 @@ public class OrderComboBox extends SimpleComboBox<String> {
      */
     public Integer getOrder() {
         Integer result;
-        if (this.getSimpleValue() == ModelingToolWidget.messages
+        if (this.getSimpleValue() == ModelingToolWidget.getMessages()
                 .defaultCondition()) {
             result = 0;
         } else {

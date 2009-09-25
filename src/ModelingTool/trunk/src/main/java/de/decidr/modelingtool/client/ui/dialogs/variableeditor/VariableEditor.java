@@ -76,22 +76,23 @@ public class VariableEditor extends ModelingToolDialog {
         editorPanel = new ContentPanel();
 
         /* Do the layout of the panel which holds the grid */
-        editorPanel.setHeading(ModelingToolWidget.messages.editorHeading());
+        editorPanel
+                .setHeading(ModelingToolWidget.getMessages().editorHeading());
         editorPanel.setLayout(new FitLayout());
 
         /* Creating the columns and the Columns model */
         columns = new ArrayList<ColumnConfig>();
         NameColumn nameColumn = new NameColumn(Variable.LABEL,
-                ModelingToolWidget.messages.nameColumn());
+                ModelingToolWidget.getMessages().nameColumn());
         columns.add(nameColumn);
         TypeColumn typeColumn = new TypeColumn(Variable.TYPE,
-                ModelingToolWidget.messages.typeColumn());
+                ModelingToolWidget.getMessages().typeColumn());
         columns.add(typeColumn);
         ValueColumn valueColumn = new ValueColumn(Variable.VALUE,
-                ModelingToolWidget.messages.valueColumn());
+                ModelingToolWidget.getMessages().valueColumn());
         columns.add(valueColumn);
         ConfigVarColumn configVarColumn = new ConfigVarColumn(
-                Variable.CONFIGVAR, ModelingToolWidget.messages
+                Variable.CONFIGVAR, ModelingToolWidget.getMessages()
                         .configVarColumn());
         columns.add(configVarColumn);
 
@@ -112,7 +113,7 @@ public class VariableEditor extends ModelingToolDialog {
     private void createToolBar() {
         toolBar = new ToolBar();
 
-        TextToolItem addVar = new TextToolItem(ModelingToolWidget.messages
+        TextToolItem addVar = new TextToolItem(ModelingToolWidget.getMessages()
                 .addVariable()); //$NON-NLS-1$
         addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
@@ -125,7 +126,7 @@ public class VariableEditor extends ModelingToolDialog {
         });
         toolBar.add(addVar);
 
-        TextToolItem delVar = new TextToolItem(ModelingToolWidget.messages
+        TextToolItem delVar = new TextToolItem(ModelingToolWidget.getMessages()
                 .delVariable()); //$NON-NLS-1$
         delVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
@@ -136,8 +137,8 @@ public class VariableEditor extends ModelingToolDialog {
         });
         toolBar.add(delVar);
 
-        TextToolItem editVar = new TextToolItem(ModelingToolWidget.messages
-                .editVariable());
+        TextToolItem editVar = new TextToolItem(ModelingToolWidget
+                .getMessages().editVariable());
         editVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
@@ -156,7 +157,7 @@ public class VariableEditor extends ModelingToolDialog {
      */
     private void createButtons() {
         setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingToolWidget.messages.okButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().okButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
@@ -168,7 +169,7 @@ public class VariableEditor extends ModelingToolDialog {
                                 VariableEditor.class.getName());
                     }
                 }));
-        addButton(new Button(ModelingToolWidget.messages.cancelButton(),
+        addButton(new Button(ModelingToolWidget.getMessages().cancelButton(),
                 new SelectionListener<ButtonEvent>() {
                     @Override
                     public void componentSelected(ButtonEvent ce) {

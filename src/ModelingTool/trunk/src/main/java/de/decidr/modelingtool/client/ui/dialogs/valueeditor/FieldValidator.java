@@ -60,7 +60,7 @@ public class FieldValidator implements Validator<String, TextField<String>> {
         if (validator.validate(new ValueValidatorCallback())) {
             return null;
         } else {
-            return ModelingToolWidget.messages.invalidFormat();
+            return ModelingToolWidget.getMessages().invalidFormat();
         }
     }
 
