@@ -446,6 +446,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     public void testSetPassword() {
         // DH gibt es eine Methode ein Passwort zu prüfen außer
         // getUserIdByLogin?
+        
         fail("Not yet implemented"); // RR setPassword
     }
 

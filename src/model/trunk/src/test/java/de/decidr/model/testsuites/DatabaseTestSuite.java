@@ -17,7 +17,6 @@
 package de.decidr.model.testsuites;
 
 import static org.junit.Assert.fail;
-import junit.framework.TestSuite;
 
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
@@ -28,6 +27,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import de.decidr.model.DecidrGlobalsTest;
+import de.decidr.model.GlobalPreconditionsSuite;
 import de.decidr.model.LifetimeValidatorTest;
 import de.decidr.model.commands.SystemCommandsTest;
 import de.decidr.model.commands.TenantCommandsTest;
@@ -57,7 +57,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
         SystemFacadeTest.class, TenantFacadeTest.class,
         WorkflowModelFacadeTest.class, WorkflowInstanceFacadeTest.class,
         WorkItemFacadeTest.class, UserFacadeTest.class })
-public class DatabaseTestSuite extends TestSuite {
+public class DatabaseTestSuite extends GlobalPreconditionsSuite {
 
     static Session session;
     private static String testString;
