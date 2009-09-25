@@ -70,7 +70,8 @@ public class DecidrGlobals {
     public static final String URL_PARAM_AUTHENTICATION_KEY = "authkey";
 
     /**
-     * URL parameter name that indicates that the user has to be registered to follow this url.
+     * URL parameter name that indicates that the user has to be registered to
+     * follow this url.
      */
     public static final String URL_PARAM_REGISTRATION_REQUIRED = "regreq";
 
@@ -131,6 +132,10 @@ public class DecidrGlobals {
             settings = (SystemSettings) evt.getSession().createQuery(
                     "from SystemSettings s join fetch s.superAdmin")
                     .setMaxResults(1).uniqueResult();
+
+            if (settings == null) {
+                throw new EntityNotFoundException(SystemSettings.class);
+            }
         }
     }
 
