@@ -544,12 +544,12 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         userProfile = getProfile(adminFacade.getUserProfile(testUserID), true);
         assertNotNull(userProfile.getKey());
         testProfile = userProfile.getValue();
-        assertTrue("".equals(testProfile.getCity()));
-        assertTrue("".equals(testProfile.getFirstName()));
-        assertTrue("".equals(testProfile.getLastName()));
-        assertTrue("".equals(testProfile.getPostalCode()));
-        assertTrue("".equals(testProfile.getStreet()));
-        assertFalse("".equals(testProfile.getUsername()));
+        assertEquals("", testProfile.getCity());
+        assertEquals("", testProfile.getFirstName());
+        assertEquals("", testProfile.getLastName());
+        assertEquals("", testProfile.getPostalCode());
+        assertEquals("", testProfile.getStreet());
+        assertEquals("", testProfile.getUsername());
 
         try {
             adminFacade.setProfile(testUserID, null);

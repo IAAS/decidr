@@ -103,7 +103,6 @@
 							<goal>execute</goal>
 						</goals>
 						<configuration>
-							<orderFile>ascending</orderFile>
 							<fileset>
 								<basedir>src/test/java</basedir>
 								<includes>
