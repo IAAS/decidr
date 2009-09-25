@@ -447,7 +447,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * of the tenant that owns the workflow model.
      * 
      * This method will fail with an exception if the start configuration
-     * cotains:
+     * contains:
      * <ul>
      * <li>a username that is unknown to the system</li>
      * <li>a username that belongs to an inactive, disabled or unavailable user
