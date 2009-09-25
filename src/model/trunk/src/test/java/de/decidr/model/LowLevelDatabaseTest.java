@@ -18,8 +18,6 @@ package de.decidr.model;
 
 import static org.junit.Assert.fail;
 
-import java.io.File;
-
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.junit.AfterClass;
@@ -41,9 +39,8 @@ public abstract class LowLevelDatabaseTest {
             fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
 
-        session = new Configuration().configure(
-                new File("hibernate.cfg.xml")).buildSessionFactory()
-                .openSession();
+        session = new Configuration().configure("hibernate.cfg.xml")
+                .buildSessionFactory().openSession();
     }
 
     @AfterClass
