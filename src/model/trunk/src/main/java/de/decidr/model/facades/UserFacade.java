@@ -300,8 +300,9 @@ public class UserFacade extends AbstractFacade {
 
     /**
      * Updates an existing user profile with new data. The following properties
-     * are expected to be present in the given Vaadin {@link Item}:
+     * of the given {@link UserProfile} will be considered:
      * <ul>
+     * <li>userName - the login username</li>
      * <li>firstName - first name of the user</li>
      * <li>lastName - last name of the user</li>
      * <li>city - name of the city where the user lives</li>
@@ -309,19 +310,18 @@ public class UserFacade extends AbstractFacade {
      * <li>postalCode - postal code of the city</li>
      * </ul>
      * 
-     * Other properties will be ignored.
+     * Other properties (password hash, password salt, relations, ...) will be
+     * ignored.
      * 
      * @param userId
-     *            the id of the user whose profile should be set
+     *            the id of the user whose profile should be set.
      * @param newProfile
-     *            the profile by which the old one should be replaced
+     *            the profile that replaces the current profile.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
      *             iff the given user doesn't exist or doesn't have a user
      *             profile.
-     * @throws NullPointerException
-     *             if at least one of the required properties is missing.
      */
     @AllowedRole(UserRole.class)
     public void setProfile(Long userId, UserProfile newProfile)

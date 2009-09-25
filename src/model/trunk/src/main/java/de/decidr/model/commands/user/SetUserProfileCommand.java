@@ -46,7 +46,7 @@ public class SetUserProfileCommand extends UserCommand {
     public SetUserProfileCommand(Role role, Long userId, UserProfile newProfile) {
         super(role, userId);
         if (newProfile == null) {
-            throw new NullPointerException("newProfile must not be null.");
+            throw new IllegalArgumentException("newProfile must not be null.");
         }
         this.newProfile = newProfile;
     }
@@ -65,6 +65,7 @@ public class SetUserProfileCommand extends UserCommand {
         // copying the properties from the new profile data for safety and
         // robustness. Disadvantage: must be updated if the user profile
         // receives new properties.
+        currentProfile.setUsername(newProfile.getUsername());
         currentProfile.setCity(newProfile.getCity());
         currentProfile.setFirstName(newProfile.getFirstName());
         currentProfile.setLastName(newProfile.getLastName());
