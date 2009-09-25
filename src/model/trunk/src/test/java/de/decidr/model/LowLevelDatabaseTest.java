@@ -42,7 +42,7 @@ public abstract class LowLevelDatabaseTest {
         }
 
         session = new Configuration().configure(
-                new File("hibernate_test.cfg.xml")).buildSessionFactory()
+                new File("hibernate.cfg.xml")).buildSessionFactory()
                 .openSession();
     }
 
