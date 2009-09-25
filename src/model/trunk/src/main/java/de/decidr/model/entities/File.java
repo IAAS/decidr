@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 24.08.2009 15:40:36 by Hibernate Tools 3.2.4.GA
+// Generated 25.09.2009 13:27:01 by Hibernate Tools 3.2.4.GA
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +18,10 @@ public class File implements java.io.Serializable {
     private String fileName;
     private String mimeType;
     private boolean mayPublicRead;
+    private boolean mayPublicReplace;
+    private boolean mayPublicDelete;
     private long fileSizeBytes;
+    private byte[] data;
     private Set<Tenant> tenantsForAdvancedColorSchemeId = new HashSet<Tenant>(0);
     private Set<Tenant> tenantsForSimpleColorSchemeId = new HashSet<Tenant>(0);
     private Set<Tenant> tenantsForLogoId = new HashSet<Tenant>(0);
@@ -30,15 +33,20 @@ public class File implements java.io.Serializable {
     }
 
     public File(String fileName, String mimeType, boolean mayPublicRead,
+            boolean mayPublicReplace, boolean mayPublicDelete,
             long fileSizeBytes) {
         this.fileName = fileName;
         this.mimeType = mimeType;
         this.mayPublicRead = mayPublicRead;
+        this.mayPublicReplace = mayPublicReplace;
+        this.mayPublicDelete = mayPublicDelete;
         this.fileSizeBytes = fileSizeBytes;
     }
 
     public File(String fileName, String mimeType, boolean mayPublicRead,
-            long fileSizeBytes, Set<Tenant> tenantsForAdvancedColorSchemeId,
+            boolean mayPublicReplace, boolean mayPublicDelete,
+            long fileSizeBytes, byte[] data,
+            Set<Tenant> tenantsForAdvancedColorSchemeId,
             Set<Tenant> tenantsForSimpleColorSchemeId,
             Set<Tenant> tenantsForLogoId,
             Set<Tenant> tenantsForCurrentColorSchemeId,
@@ -46,7 +54,10 @@ public class File implements java.io.Serializable {
         this.fileName = fileName;
         this.mimeType = mimeType;
         this.mayPublicRead = mayPublicRead;
+        this.mayPublicReplace = mayPublicReplace;
+        this.mayPublicDelete = mayPublicDelete;
         this.fileSizeBytes = fileSizeBytes;
+        this.data = data;
         this.tenantsForAdvancedColorSchemeId = tenantsForAdvancedColorSchemeId;
         this.tenantsForSimpleColorSchemeId = tenantsForSimpleColorSchemeId;
         this.tenantsForLogoId = tenantsForLogoId;
@@ -86,12 +97,36 @@ public class File implements java.io.Serializable {
         this.mayPublicRead = mayPublicRead;
     }
 
+    public boolean isMayPublicReplace() {
+        return this.mayPublicReplace;
+    }
+
+    public void setMayPublicReplace(boolean mayPublicReplace) {
+        this.mayPublicReplace = mayPublicReplace;
+    }
+
+    public boolean isMayPublicDelete() {
+        return this.mayPublicDelete;
+    }
+
+    public void setMayPublicDelete(boolean mayPublicDelete) {
+        this.mayPublicDelete = mayPublicDelete;
+    }
+
     public long getFileSizeBytes() {
         return this.fileSizeBytes;
     }
 
     public void setFileSizeBytes(long fileSizeBytes) {
         this.fileSizeBytes = fileSizeBytes;
+    }
+
+    public byte[] getData() {
+        return this.data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
     }
 
     public Set<Tenant> getTenantsForAdvancedColorSchemeId() {

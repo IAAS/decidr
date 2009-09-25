@@ -55,7 +55,7 @@ public class GetSystemSettingsCommand extends SystemCommand {
         Criteria c = evt.getSession().createCriteria(SystemSettings.class);
         List<SystemSettings> results = c.list();
 
-        if (results.size() > 0) {
+        if (results.size() > 1) {
             throw new TransactionException(
                     "More than one system settings row found, but system settings should be unique.");
         } else if (results.size() == 0) {

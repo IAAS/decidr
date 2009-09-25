@@ -85,9 +85,12 @@ public class SystemCommandsTest extends CommandsTest {
      */
     @Test
     public void testGetFileCommand() throws TransactionException {
-        File decidrFileA = new File("testfile", "text/plain", true, 0);
-        File decidrFileB = new File("testfile", "text/plain", true, 100);
-        File invalidDecidrFile = new File("testfile", "text/plain", true, -1);
+        File decidrFileA = new File("testfile", "text/plain", true, true, true,
+                0);
+        File decidrFileB = new File("testfile", "text/plain", true, true, true,
+                100);
+        File invalidDecidrFile = new File("testfile", "text/plain", true, true,
+                true, -1);
 
         fail("Not yet implemented");
         // RR set files

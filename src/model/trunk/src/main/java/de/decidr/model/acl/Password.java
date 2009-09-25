@@ -197,8 +197,8 @@ public final class Password {
      * <br>
      * 
      * <p>
-     * <em>Note that the encoding of password and salt are converted to UTF-8 before
-     * hashing for consistency.</em>
+     * <em>Note that for consistency, the encoding of password and salt are converted to UTF-8 before
+     * hashing.</em>
      * 
      * @param plaintext
      *            the plaintext password
