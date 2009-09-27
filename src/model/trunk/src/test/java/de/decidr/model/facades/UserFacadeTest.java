@@ -109,15 +109,14 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         registerUserExceptionHelper("registering user twice succeeded",
                 adminFacade, "asd1@desk.de", "asd", testProfile);
 
-        testProfile.setUsername("testuser3");
-        adminFacade.registerUser("asd2@desk.de", "", testProfile);
+        registerUserExceptionHelper(
+                "registering user with empty password succeeded", adminFacade,
+                "asd2@desk.de", "", testProfile);
 
-        testProfile.setUsername("testuser4");
         registerUserExceptionHelper(
                 "registering user with null password succeeded", adminFacade,
                 "asd3@desk.de", null, testProfile);
 
-        testProfile.setUsername("testuser5");
         registerUserExceptionHelper(
                 "registering user with empty email succeeded", adminFacade, "",
                 "asd", testProfile);
@@ -138,7 +137,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         testProfile.setCity(null);
         testProfile.setStreet(null);
         testProfile.setPostalCode(null);
-        testProfile.setUsername("testuser6");
+        testProfile.setUsername("testuser3");
         adminFacade.registerUser("asd6@desk.de", "asd", testProfile);
         registerUserExceptionHelper(
                 "invalid profile (double username) succeeded", adminFacade,
