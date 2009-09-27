@@ -82,6 +82,9 @@ import de.decidr.model.transactions.TransactionCoordinator;
  * @author Daniel Huss
  * @version 0.1
  */
+// DH one can get AccessDeniedExceptions instead of TransactionExceptions in
+// every method (probably not only in this class, either). Either mention them
+// in the javadoc or wrap them in a TransactionException ~rr
 public class UserFacade extends AbstractFacade {
 
     /**
@@ -127,7 +130,10 @@ public class UserFacade extends AbstractFacade {
 
     /**
      * Returns the user id that belongs to a given username or email/password
-     * combination iff the account exists and the password matches.
+     * combination iff the account exists and the password matches.<br>
+     * XXX This reads as if no password needs to be supplied when a username is
+     * given but the test indicates that it still needs to be supplied. please
+     * either correct the docu or the code ~rr
      * 
      * @param emailOrUsername
      *            can be either an email address or the user's username.
