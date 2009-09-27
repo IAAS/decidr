@@ -78,20 +78,44 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.1.1</version>
-				<configuration>
-					<executable>echo</executable>
-					<workingDirectory>/tmp</workingDirectory>
-					<arguments>
-						<argument>Hello</argument>
-						<argument>world</argument>
-					</arguments>
-				</configuration>
 				<executions>
 					<execution>
+						<id>1</id>
 						<phase>compile</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
+						<configuration>
+							<executable>${mysql_client}</executable>
+							<workingDirectory>src/test/java/sql</workingDirectory>
+							<arguments>
+								<argument>--host=localhost</argument>
+								<argument>--user=root</argument>
+								<argument>--password=decidr42</argument>
+								<argument>-e</argument>
+								<argument>source decidrdb.sql</argument>
+								<argument>decidrdb</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>2</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>${mysql_client}</executable>
+							<workingDirectory>src/test/java/sql</workingDirectory>
+							<arguments>
+								<argument>--host=localhost</argument>
+								<argument>--user=decidr</argument>
+								<argument>--password=decidr42</argument>
+								<argument>-e</argument>
+								<argument>source testdata.sql</argument>
+								<argument>decidrdb</argument>
+							</arguments>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
