@@ -78,6 +78,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
 
+        session.createQuery("delete from User").executeUpdate();
+
         adminFacade = new UserFacade(new SuperAdminRole(DecidrGlobals
                 .getSettings().getSuperAdmin().getId()));
         userFacade = new UserFacade(new BasicRole(0L));
