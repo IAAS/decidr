@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.AbstractMap.SimpleImmutableEntry;
 
+import org.hibernate.Transaction;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -68,6 +69,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     static final String TEST_USERNAME = "tEsstUsser";
 
     private static void deleteTestUsers() {
+        Transaction trans = session.beginTransaction();
         session.createQuery(
                 "delete from User WHERE email LIKE '" + TEST_EMAIL + "'")
                 .executeUpdate();
@@ -76,6 +78,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         session.createQuery(
                 "DELETE UserProfile WHERE username LIKE 'testuser%'")
                 .executeUpdate();
+        trans.commit();
     }
 
     /**
@@ -169,6 +172,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             facade.registerUser(email, passwd, profile);
             fail(failmsg);
         } catch (TransactionException e) {
+            // supposed to be thrown
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
     }
