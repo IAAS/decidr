@@ -101,7 +101,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         allFacades.add(adminFacade);
         allFacades.add(userFacade);
-        allFacades.add(nullFacade);
 
         UserProfile testProfile = new UserProfile();
         testProfile.setFirstName("test");
@@ -316,6 +315,13 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 // supposed to be thrown
             }
         }
+
+        try {
+            nullFacade.getUserIdByLogin(TEST_USERNAME, TEST_PASSWORD);
+            fail("getting user ID with null facade");
+        } catch (EntityNotFoundException e) {
+            // supposed to be thrown
+        }
     }
 
     /**
@@ -348,9 +354,18 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             setEmailAddressExceptionHelper("setting empty email succeeded",
                     facade, testUserID, "");
             setEmailAddressExceptionHelper(
-                    "setting email for null user ID succeeded", adminFacade,
-                    null, "test@example.com");
+                    "setting email for null user ID succeeded", facade, null,
+                    "test@example.com");
         }
+        setEmailAddressExceptionHelper("setting same email succeeded",
+                nullFacade, secondUserID, TEST_EMAIL);
+        setEmailAddressExceptionHelper("setting null email succeeded",
+                nullFacade, testUserID, null);
+        setEmailAddressExceptionHelper("setting empty email succeeded",
+                nullFacade, testUserID, "");
+        setEmailAddressExceptionHelper(
+                "setting email for null user ID succeeded", nullFacade, null,
+                "test@example.com");
 
         setEmailAddressExceptionHelper(
                 "setting email with null facade succeeded", nullFacade,
