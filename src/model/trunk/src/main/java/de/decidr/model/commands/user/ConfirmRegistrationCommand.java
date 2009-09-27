@@ -49,6 +49,8 @@ public class ConfirmRegistrationCommand extends UserCommand {
         User user = (User) evt.getSession().load(User.class, userId);
         RegistrationRequest request = user.getRegistrationRequest();
 
+        // DH: what if nor request exists because user already is registered?
+        // ~rr
         if (authKey.equals(request.getAuthKey())) {
 
             // set user profile

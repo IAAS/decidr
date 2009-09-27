@@ -38,6 +38,7 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.LowLevelDatabaseTest;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.entities.RegistrationRequest;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.EntityNotFoundException;
@@ -642,18 +643,119 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      * {@link UserFacade#isRegistered(Long)}.
      */
     @Test
-    public void testRegistration() {
-        fail("Not yet implemented"); // RR confirmRegistration
-        fail("Not yet implemented"); // RR isRegistered
+    public void testRegistration() throws TransactionException {
+        String authKey;
+        long invalidID = Long.MIN_VALUE;
+
+        UserProfile testProfile = new UserProfile();
+        testProfile.setFirstName("test");
+        testProfile.setLastName("user");
+        testProfile.setCity("boringtown");
+        testProfile.setStreet("ancient st.");
+        testProfile.setPostalCode("112");
+        testProfile.setUsername("testuser");
+
+        testProfile.setUsername("testuser1");
+        Long userId = adminFacade.registerUser("asd1@desk.de", "asd",
+                testProfile);
+
+        for (long l = invalidID; session.createQuery(
+                "FROM User WHERE id = :given").setLong("given", l)
+                .uniqueResult() != null; l++)
+            invalidID = l + 1;
+
+        assertFalse(adminFacade.isRegistered(testUserID));
+        assertFalse(userFacade.isRegistered(testUserID));
+
+        User user = (User) session.load(User.class, testUserID);
+        RegistrationRequest request = user.getRegistrationRequest();
+        authKey = request.getAuthKey();
+
+        try {
+            nullFacade.isRegistered(testUserID);
+            fail("checking registration with null facade succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        try {
+            adminFacade.confirmRegistration(testUserID, null);
+            fail("confirming registration with null authkey succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.confirmRegistration(testUserID, "");
+            fail("confirming registration with empty authkey succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.confirmRegistration(testUserID, "wrong");
+            fail("confirming registration with wrong authkey succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        try {
+            nullFacade.confirmRegistration(testUserID, authKey);
+            fail("confirming registration with null facade succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        adminFacade.confirmRegistration(testUserID, authKey);
+        try {
+            adminFacade.confirmRegistration(testUserID, authKey);
+            fail("confirming registration twice succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        user = (User) session.load(User.class, userId);
+        request = user.getRegistrationRequest();
+        authKey = request.getAuthKey();
+
+        userFacade.confirmRegistration(userId, authKey);
+        try {
+            userFacade.confirmRegistration(userId, authKey);
+            fail("confirming registration twice succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        try {
+            adminFacade.confirmRegistration(invalidID, authKey);
+            fail("confirming registration with invalid ID succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        assertTrue(adminFacade.isRegistered(testUserID));
+        assertTrue(userFacade.isRegistered(testUserID));
+
+        try {
+            nullFacade.isRegistered(testUserID);
+            fail("checking registration with null facade succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        try {
+            adminFacade.isRegistered(invalidID);
+            fail("checking registration with non-existend ID succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
     }
 
     /**
-     * Test method for
+     * Test method for {@link UserFacade#requestChangeEmail(Long, String)} and
      * {@link UserFacade#confirmChangeEmailRequest(Long, String)}.
      */
     @Test
     public void testConfirmChangeEmailRequest() {
-        // DH wie kommt der ChangeEmailRequest in die Datenbank?
+        fail("Not yet implemented"); // RR requestChangeEmail
         fail("Not yet implemented"); // RR confirmChangeEmailRequest
     }
 

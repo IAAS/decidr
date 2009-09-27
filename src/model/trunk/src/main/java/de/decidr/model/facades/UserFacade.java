@@ -85,6 +85,8 @@ import de.decidr.model.transactions.TransactionCoordinator;
 // DH one can get AccessDeniedExceptions instead of TransactionExceptions in
 // every method (probably not only in this class, either). Either mention them
 // in the javadoc or wrap them in a TransactionException ~rr
+// DH also, you should probably let the super user do pretty much anything
+// (instead of nothing in this class)
 public class UserFacade extends AbstractFacade {
 
     /**
@@ -100,7 +102,8 @@ public class UserFacade extends AbstractFacade {
 
     /**
      * Creates a new user (if necessary) and adds a user profile and a
-     * registration request.
+     * registration request. XXX remove the "(if necessary)" as double creation
+     * causes TransactionException? ~rr
      * 
      * @param email
      *            email address of user to register
@@ -117,6 +120,9 @@ public class UserFacade extends AbstractFacade {
      *             empty
      */
     @AllowedRole(UserRole.class)
+    // DH name is stupid as "registered" user is added, not registered until
+    // confirmRegistration() is called ~rr
+    // XXX after a call to this method, a call to isRegistered() returns true
     public Long registerUser(String email, String passwordPlaintext,
             UserProfile userProfile) throws TransactionException {
 
@@ -326,6 +332,7 @@ public class UserFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             iff the given user does not exist.
      */
+    // DH add @AllowedRole
     public void requestChangeEmail(Long userId, String newEmail)
             throws TransactionException {
         RequestChangeEmailCommand cmd = new RequestChangeEmailCommand(actor,
@@ -445,7 +452,8 @@ public class UserFacade extends AbstractFacade {
 
     /**
      * Creates the user profile for the given user and removes the auth key.
-     * After that the user will be registered.
+     * After that the user will be registered. XXX: what if the user already was
+     * registered? ~rr
      * 
      * @param userId
      *            ID of the user whose registration should be treated

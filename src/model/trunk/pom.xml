@@ -81,7 +81,7 @@
 				<executions>
 					<execution>
 						<id>1</id>
-						<phase>compile</phase>
+						<phase>process-test-resources</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
@@ -90,8 +90,8 @@
 							<workingDirectory>src/test/java/sql</workingDirectory>
 							<arguments>
 								<argument>--host=localhost</argument>
-								<argument>--user=root</argument>
-								<argument>--password=decidr42</argument>
+								<argument>--user=${mysql_root}</argument>
+								<argument>--password=${mysql_rtpwd}</argument>
 								<argument>-e</argument>
 								<argument>source decidrdb.sql</argument>
 								<argument>decidrdb</argument>
@@ -100,7 +100,7 @@
 					</execution>
 					<execution>
 						<id>2</id>
-						<phase>compile</phase>
+						<phase>process-test-resources</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
