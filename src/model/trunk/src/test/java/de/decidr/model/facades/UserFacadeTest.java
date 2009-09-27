@@ -67,6 +67,17 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     static final String TEST_PASSWORD = "asd";
     static final String TEST_USERNAME = "tEsstUsser";
 
+    private static void deleteTestUsers() {
+        session.createQuery(
+                "delete from User WHERE email LIKE '" + TEST_EMAIL + "'")
+                .executeUpdate();
+        session.createQuery("delete from User WHERE email LIKE 'asd%@desk.de'")
+                .executeUpdate();
+        session.createQuery(
+                "DELETE User WHERE 'userProfile.username' LIKE 'testuser%'")
+                .executeUpdate();
+    }
+
     /**
      * Initialises the facade instances and registers a User, testing
      * {@link UserFacade#registerUser(String, String, UserProfile)}.
@@ -78,7 +89,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
 
-        session.createQuery("delete from User").executeUpdate();
+        deleteTestUsers();
 
         adminFacade = new UserFacade(new SuperAdminRole(DecidrGlobals
                 .getSettings().getSuperAdmin().getId()));
@@ -177,7 +188,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
     @After
     public void tearDownTestCase() {
-        session.createQuery("delete from User").executeUpdate();
+        deleteTestUsers();
     }
 
     /**

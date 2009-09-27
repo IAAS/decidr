@@ -424,54 +424,87 @@ public class SystemFacadeTest {
         Server testServer;
 
         for (ServerTypeEnum type : ServerTypeEnum.values()) {
-            adminFacade.addServer(type, "", (byte) -1, true, true);
-            adminFacade.addServer(type, null, (byte) -1, true, true);
             adminFacade.addServer(type, "127.0.0.1", (byte) -1, true, true);
-            adminFacade.addServer(type, "", (byte) 0, true, true);
-            adminFacade.addServer(type, null, (byte) 0, true, true);
             adminFacade.addServer(type, "127.0.0.1", (byte) 0, true, true);
-            adminFacade.addServer(type, "", (byte) 50, true, true);
-            adminFacade.addServer(type, null, (byte) 50, true, true);
             adminFacade.addServer(type, "127.0.0.1", (byte) 50, true, true);
-            adminFacade.addServer(type, "", (byte) 100, true, true);
-            adminFacade.addServer(type, null, (byte) 100, true, true);
             adminFacade.addServer(type, "127.0.0.1", (byte) 100, true, true);
-            adminFacade.addServer(type, "", (byte) -1, false, true);
-            adminFacade.addServer(type, null, (byte) -1, false, true);
             adminFacade.addServer(type, "127.0.0.1", (byte) -1, false, true);
-            adminFacade.addServer(type, "", (byte) 0, false, true);
-            adminFacade.addServer(type, null, (byte) 0, false, true);
             adminFacade.addServer(type, "127.0.0.1", (byte) 0, false, true);
-            adminFacade.addServer(type, "", (byte) 50, false, true);
-            adminFacade.addServer(type, null, (byte) 50, false, true);
             adminFacade.addServer(type, "127.0.0.1", (byte) 50, false, true);
-            adminFacade.addServer(type, "", (byte) 100, false, true);
-            adminFacade.addServer(type, null, (byte) 100, false, true);
             adminFacade.addServer(type, "127.0.0.1", (byte) 100, false, true);
-            adminFacade.addServer(type, "", (byte) -1, true, false);
-            adminFacade.addServer(type, null, (byte) -1, true, false);
             adminFacade.addServer(type, "127.0.0.1", (byte) -1, true, false);
-            adminFacade.addServer(type, "", (byte) 0, true, false);
-            adminFacade.addServer(type, null, (byte) 0, true, false);
             adminFacade.addServer(type, "127.0.0.1", (byte) 0, true, false);
-            adminFacade.addServer(type, "", (byte) 50, true, false);
-            adminFacade.addServer(type, null, (byte) 50, true, false);
             adminFacade.addServer(type, "127.0.0.1", (byte) 50, true, false);
-            adminFacade.addServer(type, "", (byte) 100, true, false);
-            adminFacade.addServer(type, null, (byte) 100, true, false);
             adminFacade.addServer(type, "127.0.0.1", (byte) 100, true, false);
-            adminFacade.addServer(type, "", (byte) -1, false, false);
-            adminFacade.addServer(type, null, (byte) -1, false, false);
             adminFacade.addServer(type, "127.0.0.1", (byte) -1, false, false);
-            adminFacade.addServer(type, "", (byte) 0, false, false);
-            adminFacade.addServer(type, null, (byte) 0, false, false);
             adminFacade.addServer(type, "127.0.0.1", (byte) 0, false, false);
-            adminFacade.addServer(type, "", (byte) 50, false, false);
-            adminFacade.addServer(type, null, (byte) 50, false, false);
             adminFacade.addServer(type, "127.0.0.1", (byte) 50, false, false);
-            adminFacade.addServer(type, "", (byte) 100, false, false);
-            adminFacade.addServer(type, null, (byte) 100, false, false);
             adminFacade.addServer(type, "127.0.0.1", (byte) 100, false, false);
+
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, "", (byte) -1, true, true);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, null, (byte) -1, true, true);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, "", (byte) 0, true, true);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, null, (byte) 0, true, true);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, "", (byte) 50, true, true);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, null, (byte) 50, true, true);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, "", (byte) 100, true, true);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, null, (byte) 100, true, true);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, "", (byte) -1, false, true);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, null, (byte) -1, false, true);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, "", (byte) 0, false, true);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, null, (byte) 0, false, true);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, "", (byte) 50, false, true);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, null, (byte) 50, false, true);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, "", (byte) 100, false, true);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, null, (byte) 100, false, true);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, "", (byte) -1, true, false);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, null, (byte) -1, true, false);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, "", (byte) 0, true, false);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, null, (byte) 0, true, false);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, "", (byte) 50, true, false);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, null, (byte) 50, true, false);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, "", (byte) 100, true, false);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, null, (byte) 100, true, false);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, "", (byte) -1, false, false);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, null, (byte) -1, false, false);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, "", (byte) 0, false, false);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, null, (byte) 0, false, false);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, "", (byte) 50, false, false);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, null, (byte) 50, false, false);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, "", (byte) 100, false, false);
+            addServerExceptionHelper("invalid value succeeded", adminFacade,
+                    type, null, (byte) 100, false, false);
 
             addServerExceptionHelper("invalid value succeeded", adminFacade,
                     type, "", (byte) -1, true, true);

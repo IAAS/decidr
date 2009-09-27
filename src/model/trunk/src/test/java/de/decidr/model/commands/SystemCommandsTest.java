@@ -148,7 +148,9 @@ public class SystemCommandsTest extends CommandsTest {
         HibernateTransactionCoordinator.getInstance().runTransaction(getter);
         assertNotNull(getter.getResult());
 
-        assertTransactionException("managed to get file with null user", getter);
+        getter = new GetLogCommand(null, null, null);
+        assertTransactionException("managed to get log with null user", getter);
+
         getter = new GetLogCommand(new BasicRole(0L), new ArrayList<Filter>(),
                 new Paginator());
         assertTransactionException("managed to get file with basic role",
@@ -173,89 +175,82 @@ public class SystemCommandsTest extends CommandsTest {
 
         for (ServerTypeEnum serverType : ServerTypeEnum.values()) {
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    null, (byte) 0, false, false));
+                    "localhost", (byte) 0, false, false));
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "", (byte) 0, false, false));
+                    "localhost", (byte) 0, true, true));
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    null, (byte) 0, false, true));
+                    "localhost", (byte) 0, true, false));
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "", (byte) 0, true, true));
-            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    null, (byte) 0, true, false));
-            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "", (byte) 0, true, false));
-            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    null, (byte) 0, true, true));
-            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "", (byte) 0, true, true));
+                    "localhost", (byte) 0, true, true));
 
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    null, (byte) -1, false, false));
+                    "localhost", (byte) -1, false, false));
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "", (byte) -1, false, false));
+                    "localhost", (byte) -1, true, true));
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    null, (byte) -1, false, true));
+                    "localhost", (byte) -1, true, false));
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "", (byte) -1, true, true));
-            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    null, (byte) -1, true, false));
-            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "", (byte) -1, true, false));
-            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    null, (byte) -1, true, true));
-            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "", (byte) -1, true, true));
+                    "localhost", (byte) -1, true, true));
+
+            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "localhost", (byte) 0, false, false));
+            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "localhost", (byte) 0, true, true));
+            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "localhost", (byte) 0, true, false));
+            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "localhost", (byte) 0, true, true));
+
+            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "localhost", (byte) -1, false, false));
+            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "localhost", (byte) -1, true, true));
+            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "localhost", (byte) -1, true, false));
+            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    "localhost", (byte) -1, true, true));
 
             badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
-                    null, (byte) 0, false, false));
+                    "localhost", (byte) 0, false, false));
             badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
-                    "", (byte) 0, false, false));
+                    "localhost", (byte) 0, true, true));
             badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
-                    null, (byte) 0, false, true));
+                    "localhost", (byte) 0, true, false));
             badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
-                    "", (byte) 0, true, true));
-            badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
-                    null, (byte) 0, true, false));
-            badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
-                    "", (byte) 0, true, false));
-            badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
-                    null, (byte) 0, true, true));
-            badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
-                    "", (byte) 0, true, true));
+                    "localhost", (byte) 0, true, true));
 
-            badCommands.add(new AddServerCommand(null, serverType, null,
+            badCommands.add(new AddServerCommand(null, serverType, "localhost",
                     (byte) 0, false, false));
-            badCommands.add(new AddServerCommand(null, serverType, "",
-                    (byte) 0, false, false));
-            badCommands.add(new AddServerCommand(null, serverType, null,
-                    (byte) 0, false, true));
-            badCommands.add(new AddServerCommand(null, serverType, "",
+            badCommands.add(new AddServerCommand(null, serverType, "localhost",
                     (byte) 0, true, true));
-            badCommands.add(new AddServerCommand(null, serverType, null,
+            badCommands.add(new AddServerCommand(null, serverType, "localhost",
                     (byte) 0, true, false));
-            badCommands.add(new AddServerCommand(null, serverType, "",
-                    (byte) 0, true, false));
-            badCommands.add(new AddServerCommand(null, serverType, null,
-                    (byte) 0, true, true));
-            badCommands.add(new AddServerCommand(null, serverType, "",
+            badCommands.add(new AddServerCommand(null, serverType, "localhost",
                     (byte) 0, true, true));
 
             badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    null, (byte) -10, false, false));
+                    "localhost", (byte) -10, false, false));
             badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "", (byte) -10, false, false));
+                    "localhost", (byte) -10, true, true));
             badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    null, (byte) -10, false, true));
+                    "localhost", (byte) -10, true, false));
             badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "", (byte) -10, true, true));
-            badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    null, (byte) -10, true, false));
-            badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "", (byte) -10, true, false));
-            badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    null, (byte) -10, true, true));
-            badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "", (byte) -10, true, true));
+                    "localhost", (byte) -10, true, true));
+
+            try {
+                badCommands.add(new AddServerCommand(superAdminRole,
+                        serverType, null, (byte) 0, false, false));
+                fail("managed to set a null server location");
+            } catch (IllegalArgumentException e) {
+                // supposed to be thrown
+            }
+            try {
+                badCommands.add(new AddServerCommand(superAdminRole,
+                        serverType, "", (byte) 0, false, false));
+                fail("managed to set an empty server location");
+            } catch (IllegalArgumentException e) {
+                // supposed to be thrown
+            }
         }
 
         for (AddServerCommand addServerCommand : goodCommands) {
