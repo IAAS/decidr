@@ -27,7 +27,7 @@
 				<version>1.5</version>
 				<configuration>
 					<aarName>HumanTaskWS</aarName>
-					<includeDependencies>false</includeDependencies>
+					<includeDependencies>true</includeDependencies>
 					<wsdlFile>META-INF/HumanTask.wsdl</wsdlFile>
 					<wsdlFileName>HumanTask.wsdl</wsdlFileName>
 					<servicesXmlFile>META-INF/services.xml</servicesXmlFile>
