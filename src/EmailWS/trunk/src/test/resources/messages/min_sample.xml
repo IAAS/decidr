@@ -5,14 +5,14 @@
       <ema:sendEmail>
          <to>
             <!--1 or more repetitions:-->
-            <dec:emailUser><dec:user>reini@localhost</dec:user></dec:emailUser>
+            <dec:emailUser><dec:user>rumbergerr@googlemail.com</dec:user></dec:emailUser>
          </to>
          <cc xsi:nil="true"/>
          <bcc xsi:nil="true"/>
          <!--type: string-->
          <fromName>gero et</fromName>
          <!--type: string-->
-         <fromAddress>root@localhost</fromAddress>
+         <fromAddress>decidr@googlemail.com</fromAddress>
          <!--type: string-->
          <subject>quae divum incedo</subject>
          <headers xsi:nil="true"/>
