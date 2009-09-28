@@ -35,6 +35,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.SplitPanel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Tree;
+import com.vaadin.ui.Upload;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.AbstractSelect.Filtering;
@@ -48,6 +49,7 @@ import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.model.workflowmodel.wsc.TRole;
 import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.SaveStartConfigurationAction;
+import de.decidr.ui.controller.UploadFileHumanTaskAction;
 
 /**
  * This window represents the start configuration xml file. In this window the
@@ -80,10 +82,16 @@ public class StartConfigurationWindow extends Window {
     private Button okButton = null;
 
     private Button cancelButton = null;
-    
+
     private CheckBox checkBox = null;
 
     private ComboBox comboBox = null;
+    
+    private Upload upload = null;
+    
+    private TConfiguration tConfiguration = null;
+    
+    private Long workflowModelId = null;
 
     private static final Action ACTION_ADD = new Action("Add child item");
     private static final Action ACTION_DELETE = new Action("Delete");
@@ -95,9 +103,26 @@ public class StartConfigurationWindow extends Window {
      * Default constructor with TConfiguration as parameter.
      * 
      */
-    public StartConfigurationWindow(TConfiguration tConfiguration, Long workflowModelId) {
+    public StartConfigurationWindow(TConfiguration tConfiguration,
+            Long workflowModelId) {
+        this.tConfiguration = tConfiguration;
+        this.workflowModelId = workflowModelId;
         init(tConfiguration, workflowModelId);
     }
+    
+    
+    /**
+     * Default constructor
+     *
+     */
+    public StartConfigurationWindow(){
+        init(this.tConfiguration, this.workflowModelId);
+    }
+
+    public Form getAssignmentForm() {
+        return assignmentForm;
+    }
+
 
     /**
      * Initializes the components for the start configuration window. The
@@ -117,10 +142,12 @@ public class StartConfigurationWindow extends Window {
         emailTextField = new TextField("E-Mail: ");
         applyButton = new Button("Apply");
         okButton = new Button("OK", new SaveStartConfigurationAction(rolesTree,
-                assignmentForm, tconfiguration, workflowModelId, checkBox.booleanValue()));
+                assignmentForm, tconfiguration, workflowModelId, checkBox
+                        .booleanValue()));
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
         checkBox = new CheckBox();
         comboBox = new ComboBox("Wählen sie einen User aus!");
+        upload = new Upload("Upload", new UploadFileHumanTaskAction());
 
         rolesTree.setItemCaptionPropertyId("caption");
         rolesTree.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_PROPERTY);
@@ -252,7 +279,8 @@ public class StartConfigurationWindow extends Window {
         buttonHorizontalLayout.setSpacing(true);
         buttonHorizontalLayout.addComponent(checkBox);
         checkBox.setCaption("Start Immediately");
-        buttonHorizontalLayout.setComponentAlignment(checkBox, Alignment.MIDDLE_RIGHT);
+        buttonHorizontalLayout.setComponentAlignment(checkBox,
+                Alignment.MIDDLE_RIGHT);
         buttonHorizontalLayout.addComponent(okButton);
         buttonHorizontalLayout.addComponent(cancelButton);
 
@@ -261,7 +289,7 @@ public class StartConfigurationWindow extends Window {
 
     /**
      * Returns the check box
-     *
+     * 
      * @return checkBox
      */
     public CheckBox getCheckBox() {
@@ -306,17 +334,26 @@ public class StartConfigurationWindow extends Window {
                 assignmentForm.getField(assignment.getKey()).addValidator(
                         new IntegerValidator(
                                 "Please enter a value of the type integer"));
-            }else if(assignment.getValueType().equals("File")){
-               
+            } else if (assignment.getValueType().equals("File")) {
+                assignmentForm.getLayout().addComponent(
+                        upload);
             }
-            // TODO: file upload hinzufügen
         }
+    }
+
+    /**
+     * Returns the upload field
+     *
+     * @return uploadField
+     */
+    public Upload getUpload() {
+        return upload;
     }
 
     /**
      * Fills the combo box with the current usernames of the tenant, so the user
      * can choose from the usernames and add them as actors to a role.
-     *
+     * 
      */
     private void fillContainer() {
         HttpSession session = Main.getCurrent().getSession();
@@ -333,7 +370,5 @@ public class StartConfigurationWindow extends Window {
         }
 
     }
-    
-   
 
 }

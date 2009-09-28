@@ -16,6 +16,9 @@
 
 package de.decidr.ui.controller;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -34,6 +37,8 @@ public class SaveWorkItemAction implements ClickListener {
     private Form form = null;
     
     private THumanTaskData tHumanTaskData = null;
+    
+    private List<TTaskDataItem> taskDataItemList = new LinkedList<TTaskDataItem>();
     
     /**
      * Constructor which has a form and a tHumanTaskData as parameter so the
@@ -56,9 +61,11 @@ public class SaveWorkItemAction implements ClickListener {
             tTaskDataItem.setName(taskItem.getName());
             tTaskDataItem.setValue(taskItem.getValue().toString());
             tTaskDataItem.setType(taskItem.getType().toString());
+            taskDataItemList.add(tTaskDataItem);
         }
-        new HideDialogWindowAction();
         //TODO: in datenbank abspeichern
+        new HideDialogWindowAction();
+        
     }
 
 }

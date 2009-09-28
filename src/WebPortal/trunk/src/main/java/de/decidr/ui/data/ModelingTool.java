@@ -70,7 +70,7 @@ public class ModelingTool extends AbstractComponent {
      * 
      */
     public ModelingTool() {
-        super();
+        //super();
         session = Main.getCurrent().getSession();
         userId = (Long) session.getAttribute("userId");
         tenantName = (String) session.getAttribute("tenant");
@@ -78,14 +78,13 @@ public class ModelingTool extends AbstractComponent {
         workflowModelFacade = new WorkflowModelFacade(new UserRole(userId));
         uiDirector = UIDirector.getInstance();
         siteFrame = uiDirector.getTemplateView();
-        CurrentTenantModelTable table = ((WorkflowModelsComponent) siteFrame
-                .getContent()).getCurrentTenantTable();
-        workflowModelId = (Long) table.getItem(table.getValue())
-                .getItemProperty("id").getValue();
     }
 
     private String getDWDL() {
-
+        /*CurrentTenantModelTable table = ((WorkflowModelsComponent) siteFrame
+                .getContent()).getCurrentTenantTable();
+        workflowModelId = (Long) table.getItem(table.getValue())
+                .getItemProperty("id").getValue();*/
         try {
 
             Item workflowModel = workflowModelFacade
