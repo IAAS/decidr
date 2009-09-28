@@ -83,7 +83,7 @@ public class DWDLParserImpl implements DWDLParser {
         workflow.setVariables(variables);
 
         /* Create nodes */
-        createChildNodeModels((Element) doc, workflow, workflow);
+        createChildNodeModels(doc, workflow, workflow);
 
         return workflow;
     }
@@ -95,9 +95,10 @@ public class DWDLParserImpl implements DWDLParser {
         workflow.setName(root.getAttribute(DWDLNames.name));
         workflow.setId(new Long(root.getAttribute(DWDLNames.id)));
         for (int i = 0; i < root.getChildNodes().getLength(); i++) {
-            if (root.getChildNodes().item(i).getNodeName() == DWDLNames.description) {
+            if (root.getChildNodes().item(i).getNodeName().equals(
+                    DWDLNames.description)) {
                 workflow.setDescription(root.getChildNodes().item(i)
-                        .getNodeValue());
+                        .getFirstChild().getNodeValue());
             }
         }
         WorkflowProperties properties = new WorkflowProperties();
@@ -129,11 +130,16 @@ public class DWDLParserImpl implements DWDLParser {
             // notification of success is optional
             if (getChildNodesByTagName(endNode, DWDLNames.notificationOfSuccess)
                     .isEmpty() == false) {
+                // if notification is existent, this attribute is always true
+                properties.setNotifyOnSuccess(true);
+
                 Element notification = getChildNodesByTagName(endNode,
                         DWDLNames.notificationOfSuccess).get(0);
                 properties
                         .setSuccessMessageVariableId(getVariableIdFromPropertyElement(
                                 notification, DWDLNames.successMsg));
+            } else {
+                properties.setNotifyOnSuccess(false);
             }
         }
         workflow.setProperties(properties);
@@ -176,7 +182,6 @@ public class DWDLParserImpl implements DWDLParser {
                         .substring(DWDLNames.listprefix.length());
                 isArray = true;
             }
-            variable.setType(VariableType.getTypeFromDWDLName(typeString));
 
             /*
              * Set the values, if the variable has multiple values (determined
@@ -193,8 +198,10 @@ public class DWDLParserImpl implements DWDLParser {
                         DWDLNames.initValue);
             }
             for (Element valueElement : valueElements) {
-                variable.getValues().add(
-                        new String(valueElement.getNodeValue()));
+                if (valueElement.getNodeValue() != null) {
+                    variable.getValues().add(
+                            new String(valueElement.getNodeValue()));
+                }
             }
 
             /* Add variable to model */
@@ -248,7 +255,7 @@ public class DWDLParserImpl implements DWDLParser {
          */
         for (Element property : getChildNodesByTagName(parent,
                 DWDLNames.setProperty)) {
-            if (property.getAttribute(DWDLNames.name) == propertyName) {
+            if (property.getAttribute(DWDLNames.name).equals(propertyName)) {
                 variableId = new Long(property.getAttribute(DWDLNames.variable)
                         .substring(DWDLNames.variableNCnamePrefix.length()));
             }
@@ -256,7 +263,7 @@ public class DWDLParserImpl implements DWDLParser {
         return variableId;
     }
 
-    private Collection<NodeModel> createChildNodeModels(Element parentElement,
+    private Collection<NodeModel> createChildNodeModels(Node parentElement,
             WorkflowModel workflow, HasChildModels parentModel) {
         Collection<NodeModel> childNodeModels = new HashSet<NodeModel>();
         for (Element childElement : getChildElementsAsList(parentElement)) {
@@ -669,7 +676,7 @@ public class DWDLParserImpl implements DWDLParser {
         return result;
     }
 
-    private List<Element> getChildElementsAsList(Element parentElement) {
+    private List<Element> getChildElementsAsList(Node parentElement) {
         List<Element> list = new ArrayList<Element>();
         for (int i = 0; i < parentElement.getChildNodes().getLength(); i++) {
             list.add((Element) parentElement.getChildNodes().item(i));

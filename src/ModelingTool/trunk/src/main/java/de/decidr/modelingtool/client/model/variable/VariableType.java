@@ -106,7 +106,7 @@ public enum VariableType {
     public static VariableType getTypeFromLocalName(String localName) {
         VariableType result = null;
         for (VariableType type : VariableType.values()) {
-            if (localName == type.getLocalName())
+            if (localName.equals(type.getLocalName()))
                 result = type;
         }
         return result;
@@ -122,7 +122,7 @@ public enum VariableType {
     public static VariableType getTypeFromDWDLName(String dwdlName) {
         VariableType result = null;
         for (VariableType type : VariableType.values()) {
-            if (dwdlName == type.getDwdlName())
+            if (dwdlName.equals(type.getDwdlName()))
                 result = type;
         }
         return result;
