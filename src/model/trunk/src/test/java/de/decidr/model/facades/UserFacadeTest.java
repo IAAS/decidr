@@ -755,6 +755,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testConfirmChangeEmailRequest() {
+//        adminFacade.confirmChangeEmailRequest(testUserID, requestAuthKey)
+        
         fail("Not yet implemented"); // RR requestChangeEmail
         fail("Not yet implemented"); // RR confirmChangeEmailRequest
     }

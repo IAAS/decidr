@@ -67,7 +67,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testAddTenantMemberCommand() {
-        fail("Not yet implemented"); // RR AddTenantMemberCommand
+        fail("Not yet implemented"); // TODO AddTenantMemberCommand
     }
 
     /**
@@ -76,7 +76,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testApproveTenantsCommand() {
-        fail("Not yet implemented"); // RR ApproveTenantsCommand
+        fail("Not yet implemented"); // TODO ApproveTenantsCommand
     }
 
     /**
@@ -86,7 +86,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testCreateTenantCommand() {
-        fail("Not yet implemented"); // RR CreateTenantCommand
+        fail("Not yet implemented"); // TODO CreateTenantCommand
     }
 
     /**
@@ -96,7 +96,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testCreateWorkflowModelCommand() {
-        fail("Not yet implemented"); // RR CreateWorkflowModelCommand
+        fail("Not yet implemented"); // TODO CreateWorkflowModelCommand
     }
 
     /**
@@ -105,7 +105,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testDeleteTenantCommand() {
-        fail("Not yet implemented"); // RR DeleteTenantCommand
+        fail("Not yet implemented"); // TODO DeleteTenantCommand
     }
 
     /**
@@ -114,7 +114,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testGetAllTenantsCommand() {
-        fail("Not yet implemented"); // RR GetAllTenantsCommand
+        fail("Not yet implemented"); // TODO GetAllTenantsCommand
     }
 
     /**
@@ -124,7 +124,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testGetCurrentColorSchemeCommand() {
-        fail("Not yet implemented"); // RR GetCurrentColorSchemeCommand
+        fail("Not yet implemented"); // TODO GetCurrentColorSchemeCommand
     }
 
     /**
@@ -133,7 +133,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testGetTenantIdCommand() {
-        fail("Not yet implemented"); // RR GetTenantIdCommand
+        fail("Not yet implemented"); // TODO GetTenantIdCommand
     }
 
     /**
@@ -142,7 +142,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testGetTenantLogoCommand() {
-        fail("Not yet implemented"); // RR GetTenantLogoCommand
+        fail("Not yet implemented"); // TODO GetTenantLogoCommand
     }
 
     /**
@@ -152,7 +152,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testGetTenantsToApproveCommand() {
-        fail("Not yet implemented"); // RR GetTenantsToApproveCommand
+        fail("Not yet implemented"); // TODO GetTenantsToApproveCommand
     }
 
     /**
@@ -162,7 +162,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testGetUsersOfTenantCommand() {
-        fail("Not yet implemented"); // RR GetUsersOfTenantCommand
+        fail("Not yet implemented"); // TODO GetUsersOfTenantCommand
     }
 
     /**
@@ -172,7 +172,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testGetWorkflowInstancesCommand() {
-        fail("Not yet implemented"); // RR GetWorkflowInstancesCommand
+        fail("Not yet implemented"); // TODO GetWorkflowInstancesCommand
     }
 
     /**
@@ -182,7 +182,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testGetWorkflowModelsCommand() {
-        fail("Not yet implemented"); // RR GetWorkflowModelsCommand
+        fail("Not yet implemented"); // TODO GetWorkflowModelsCommand
     }
 
     /**
@@ -192,7 +192,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testImportPublishedWorkflowModelsCommand() {
-        fail("Not yet implemented"); // RR ImportPublishedWorkflowModelsCommand
+        fail("Not yet implemented"); // TODO ImportPublishedWorkflowModelsCommand
     }
 
     /**
@@ -202,7 +202,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testSetAdvancedColorSchemeCommand() {
-        fail("Not yet implemented"); // RR SetAdvancedColorSchemeCommand
+        fail("Not yet implemented"); // TODO SetAdvancedColorSchemeCommand
     }
 
     /**
@@ -212,7 +212,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testSetCurrentColorSchemeCommand() {
-        fail("Not yet implemented"); // RR SetCurrentColorSchemeCommand
+        fail("Not yet implemented"); // TODO SetCurrentColorSchemeCommand
     }
 
     /**
@@ -222,7 +222,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testSetSimpleColorSchemeCommand() {
-        fail("Not yet implemented"); // RR SetSimpleColorSchemeCommand
+        fail("Not yet implemented"); // TODO SetSimpleColorSchemeCommand
     }
 
     /**
@@ -232,7 +232,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testSetTenantDescriptionCommand() {
-        fail("Not yet implemented"); // RR SetTenantDescriptionCommand
+        fail("Not yet implemented"); // TODO SetTenantDescriptionCommand
     }
 
     /**
@@ -242,7 +242,7 @@ public class TenantCommandsTest {
      */
     @Test
     public void testSetTenantLogoCommand() {
-        fail("Not yet implemented"); // RR SetTenantLogoCommand
+        fail("Not yet implemented"); // TODO SetTenantLogoCommand
     }
 
     /**
@@ -250,6 +250,6 @@ public class TenantCommandsTest {
      */
     @Test
     public void testTenantCommand() {
-        fail("Not yet implemented"); // RR TenantCommand
+        fail("Not yet implemented"); // TODO TenantCommand
     }
 }
