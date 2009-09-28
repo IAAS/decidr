@@ -49,7 +49,7 @@ import de.decidr.model.commands.user.GetUserPropertiesCommand;
 import de.decidr.model.commands.user.GetUserRoleForTenantCommand;
 import de.decidr.model.commands.user.GetUserWithProfileCommand;
 import de.decidr.model.commands.user.GetWorkitemsCommand;
-import de.decidr.model.commands.user.IsRegisteredCommand;
+import de.decidr.model.commands.user.IsUserRegisteredCommand;
 import de.decidr.model.commands.user.LeaveTenantCommand;
 import de.decidr.model.commands.user.RefuseInviationCommand;
 import de.decidr.model.commands.user.RegisterUserCommand;
@@ -82,11 +82,6 @@ import de.decidr.model.transactions.TransactionCoordinator;
  * @author Daniel Huss
  * @version 0.1
  */
-// DH one can get AccessDeniedExceptions instead of TransactionExceptions in
-// every method (probably not only in this class, either). Either mention them
-// in the javadoc or wrap them in a TransactionException ~rr
-// DH also, you should probably let the super user do pretty much anything
-// (instead of nothing in this class)
 public class UserFacade extends AbstractFacade {
 
     /**
@@ -101,9 +96,7 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * Creates a new user (if necessary) and adds a user profile and a
-     * registration request. XXX remove the "(if necessary)" as double creation
-     * causes TransactionException? ~rr
+     * Creates a new user and adds a user profile and a registration request.
      * 
      * @param email
      *            email address of user to register
@@ -122,7 +115,6 @@ public class UserFacade extends AbstractFacade {
     @AllowedRole(UserRole.class)
     // DH name is stupid as "registered" user is added, not registered until
     // confirmRegistration() is called ~rr
-    // XXX after a call to this method, a call to isRegistered() returns true
     public Long registerUser(String email, String passwordPlaintext,
             UserProfile userProfile) throws TransactionException {
 
@@ -452,14 +444,19 @@ public class UserFacade extends AbstractFacade {
 
     /**
      * Creates the user profile for the given user and removes the auth key.
-     * After that the user will be registered. XXX: what if the user already was
-     * registered? ~rr
+     * After that the user will be registered. If the user is already
+     * registered, this method fails with an EntityNotFoundException.
      * 
      * @param userId
      *            ID of the user whose registration should be treated
      * @param authKey
      *            secret key which allows the user to confirm the registration
      *            (was sent via email to the user)
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the user does not exist or if the user has no pending
+     *             registration request.
      */
     @AllowedRole(UserRole.class)
     public void confirmRegistration(Long userId, String authKey)
@@ -954,7 +951,8 @@ public class UserFacade extends AbstractFacade {
      */
     @AllowedRole(BasicRole.class)
     public Boolean isRegistered(Long userId) throws TransactionException {
-        IsRegisteredCommand command = new IsRegisteredCommand(actor, userId);
+        IsUserRegisteredCommand command = new IsUserRegisteredCommand(actor,
+                userId);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
 

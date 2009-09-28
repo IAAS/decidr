@@ -16,25 +16,26 @@
 
 package de.decidr.model.commands.user;
 
+import java.util.Date;
+
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Sets the result variable true if the given user is registered, else false.
+ * Sets the result variable true if the given user is registered, false
+ * otherwise.
  * 
  * @author Markus Fischer
- * 
  * @version 0.1
  */
-public class IsRegisteredCommand extends UserCommand {
+public class IsUserRegisteredCommand extends UserCommand {
 
     private boolean result;
 
     /**
-     * Creates a new IsRegisteredCommand. This command sets the result variable
-     * <code>true</code> if the given user is registered, else
+     * Creates a new IsUserRegisteredCommand. This command sets the result
+     * variable <code>true</code> if the given user is registered, else
      * <code>false</code>.
      * 
      * @param role
@@ -42,7 +43,7 @@ public class IsRegisteredCommand extends UserCommand {
      * @param userId
      *            the id of the user which should be checked
      */
-    public IsRegisteredCommand(Role role, Long userId) {
+    public IsUserRegisteredCommand(Role role, Long userId) {
         super(role, userId);
         // nothing to do
     }
@@ -51,18 +52,18 @@ public class IsRegisteredCommand extends UserCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        User user = (User) evt.getSession().load(User.class, getUserId());
+        result = false;
 
-        if (user.getUserProfile() == null) {
-            result = false;
-        } else {
-            result = true;
-        }
+        Date registeredSince = (Date) evt.getSession().createQuery(
+                "select u.registeredSince from User u where u.id = :userId")
+                .setLong("userId", getUserId());
+
+        result = registeredSince != null;
     }
 
     /**
-     * @return <code>true</code> if the given user is registered, else
-     *         <code>false</code>.
+     * @return <code>true</code> if the given user is registered,
+     *         <code>false</code> otherwise.
      */
     public boolean getResult() {
         return result;

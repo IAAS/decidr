@@ -37,7 +37,7 @@ import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Creates a user profile (and if necessary, the user) for the given email
- * address.
+ * address. Registering the same user twice results in a TransactionException.
  * 
  * @author Daniel Huss
  * @version 0.1
@@ -129,7 +129,7 @@ public class RegisterUserCommand extends AclEnabledCommand {
              * there is a user with the given email address. Has the user
              * already registered?
              */
-            if (existingUser.getUserProfile() == null) {
+            if (existingUser.getRegisteredSince() == null) {
                 /*
                  * The user has not yet registered - nothing needs to be done.
                  */

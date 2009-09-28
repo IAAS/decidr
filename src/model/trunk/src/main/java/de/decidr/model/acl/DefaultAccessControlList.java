@@ -81,7 +81,7 @@ import de.decidr.model.commands.user.GetUserByLoginCommand;
 import de.decidr.model.commands.user.GetUserRoleForTenantCommand;
 import de.decidr.model.commands.user.GetUserWithProfileCommand;
 import de.decidr.model.commands.user.GetWorkitemsCommand;
-import de.decidr.model.commands.user.IsRegisteredCommand;
+import de.decidr.model.commands.user.IsUserRegisteredCommand;
 import de.decidr.model.commands.user.LeaveTenantCommand;
 import de.decidr.model.commands.user.RefuseInviationCommand;
 import de.decidr.model.commands.user.RegisterUserCommand;
@@ -503,7 +503,7 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
 
         setRule(new BasicRole(null), new CommandPermission(
-                IsRegisteredCommand.class), AssertMode.SatisfyAll,
+                IsUserRegisteredCommand.class), AssertMode.SatisfyAll,
                 alwaysTrueAsserter);
 
         setRule(new BasicRole(null), new CommandPermission(
