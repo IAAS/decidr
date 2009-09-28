@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://decidr.de/schema/DecidrProcessTypes" xmlns:tns="http://decidr.de/schema/DecidrProcessTypes"
+	xmlns:basic="http://decidr.de/schema/DecidrTypes" elementFormDefault="qualified">
+
+	<xsd:import namespace="http://decidr.de/schema/DecidrTypes"
+		schemaLocation="DecidrTypes.xsd" />
+
+	<xsd:simpleType name="list-integer">
+		<xsd:list itemType="xsd:integer" />
+	</xsd:simpleType>
+
+	<xsd:simpleType name="list-float">
+		<xsd:list itemType="xsd:float" />
+	</xsd:simpleType>
+
+	<xsd:simpleType name="list-string">
+		<xsd:list itemType="xsd:string" />
+	</xsd:simpleType>
+
+	<xsd:simpleType name="list-boolean">
+		<xsd:list itemType="xsd:boolean" />
+	</xsd:simpleType>
+
+	<xsd:simpleType name="list-date">
+		<xsd:list itemType="xsd:date" />
+	</xsd:simpleType>
+
+	<xsd:simpleType name="list-file">
+		<xsd:list itemType="xsd:anyURI" />
+	</xsd:simpleType>
+
+	<xsd:simpleType name="tID">
+		<xsd:restriction base="xsd:long" />
+	</xsd:simpleType>
+
+	<xsd:element name="humanTaskData" type="tns:tHumanTaskData" />
+	<xsd:complexType name="tHumanTaskData">
+		<xsd:sequence>
+			<xsd:element name="parameters" type="tns:tParameters"
+				minOccurs="1" maxOccurs="1" />
+			<xsd:choice minOccurs="1" maxOccurs="unbounded">
+				<xsd:element name="taskItem" type="tns:tTaskItem" />
+				<xsd:element name="information" type="tns:tInformation" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="tParameters">
+		<xsd:sequence>
+			<xsd:element name="parameter" type="tns:tParameter"
+				minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="tParameter">
+		<xsd:attribute name="name" type="xsd:NCName" use="required" />
+		<xsd:attribute name="type" type="DWDLVariableType" use="optional" />
+		<xsd:attribute name="variable" type="DWDLVariableName"
+			use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="tTaskItem">
+		<xsd:sequence>
+			<xsd:element name="label" type="xsd:string" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="hint" type="xsd:string" minOccurs="0"
+				maxOccurs="1" />
+			<xsd:element name="value" type="xsd:anySimpleType"
+				minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:NCName" use="required" />
+		<xsd:attribute name="variable" type="DWDLVariableName"
+			use="optional" />
+		<xsd:attribute name="type" type="DWDLSimpleVariableType"
+			use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="tInformation">
+		<xsd:sequence>
+			<xsd:element ref="content" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:NCName" use="required" />
+	</xsd:complexType>
+
+	<xsd:element name="content" type="tns:tContent" />
+	<xsd:complexType name="tContent">
+		<xsd:sequence>
+			<xsd:any minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="contentType" type="xsd:string" />
+	</xsd:complexType>
+</xsd:schema>

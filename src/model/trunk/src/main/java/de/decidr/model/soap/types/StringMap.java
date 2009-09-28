@@ -36,14 +36,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;item&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tStringMapping&quot; maxOccurs=&quot;unbounded&quot;/&gt;
+ *         &lt;element name=&quot;item&quot; type=&quot;{http://decidr.de/schema/DecidrWSTypes}tStringMapping&quot; maxOccurs=&quot;unbounded&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tStringMap", propOrder = { "item" })
@@ -68,12 +66,9 @@ public class StringMap {
      * getItem().add(newItem);
      * </pre>
      * 
-     * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link StringMapping }
-     * 
-     * 
      */
     public List<StringMapping> getItem() {
         if (item == null) {
@@ -81,5 +76,4 @@ public class StringMap {
         }
         return this.item;
     }
-
 }

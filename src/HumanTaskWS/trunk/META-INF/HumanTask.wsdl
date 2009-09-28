@@ -2,7 +2,7 @@
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
 	xmlns:tns="http://decidr.de/webservices/HumanTask" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dwsdl="http://decidr.de/wsdl/basicProcess"
-	xmlns:decidr="http://decidr.de/schema/DecidrTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+	xmlns:decidr="http://decidr.de/schema/DecidrWSTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
 	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
 	xmlns:ex="http://decidr.de/exceptions" name="HumanTask"
 	targetNamespace="http://decidr.de/webservices/HumanTask">
@@ -14,8 +14,8 @@
 		</xsd:schema>
 		<xsd:schema targetNamespace="http://decidr.de/webservices/HumanTask">
 			<!-- own type definitions -->
-			<xsd:import schemaLocation="DecidrTypes.xsd"
-				namespace="http://decidr.de/schema/DecidrTypes" />
+			<xsd:import schemaLocation="DecidrWSTypes.xsd"
+				namespace="http://decidr.de/schema/DecidrWSTypes" />
 
 			<!-- operations -->
 			<xsd:element name="createTask">

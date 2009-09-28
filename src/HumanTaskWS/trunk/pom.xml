@@ -8,8 +8,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<build>
 		<finalName>HumanTaskWS</finalName>
-		<resources>
-		</resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -82,12 +80,6 @@
 		</repository>
 	</repositories>
 	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.6</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>de.decidr</groupId>
 			<artifactId>model</artifactId>

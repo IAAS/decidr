@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;abstractUser&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tAbstractUser&quot; maxOccurs=&quot;unbounded&quot;/&gt;
+ *         &lt;element name=&quot;abstractUser&quot; type=&quot;{http://decidr.de/schema/DecidrWSTypes}tAbstractUser&quot; maxOccurs=&quot;unbounded&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://decidr.de/schema/DecidrWSTypes" xmlns:tns="http://decidr.de/schema/DecidrWSTypes"
+	xmlns:basic="http://decidr.de/schema/DecidrTypes" elementFormDefault="qualified">
+
+	<xsd:import namespace="http://decidr.de/schema/DecidrTypes"
+		schemaLocation="DecidrTypes.xsd" />
+
+	<xsd:complexType name="tIDList">
+		<xsd:sequence>
+			<xsd:element name="id" type="basic:tID" minOccurs="1"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="tStringMapping">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="value" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="tStringMap">
+		<xsd:sequence>
+			<xsd:element name="item" type="tns:tStringMapping"
+				minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>
