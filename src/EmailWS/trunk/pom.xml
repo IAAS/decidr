@@ -33,7 +33,7 @@
 							<directory>META-INF</directory>
 							<outputDirectory>META-INF</outputDirectory>
 							<includes>
-								<include>DecidrTypes.xsd</include>
+								<include>*.xsd</include>
 								<include>handler-chain.xml</include>
 							</includes>
 						</fileSet>
