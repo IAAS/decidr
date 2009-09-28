@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
-	xmlns:tns="http://decidr.de/webservices/Email" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dwsdl="http://decidr.de/wsdl/DecidrTypes"
+	xmlns:soap11="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://decidr.de/webservices/Email"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:dwsdl="http://decidr.de/wsdl/DecidrTypes" xmlns:basic="http://decidr.de/schema/DecidrTypes"
 	xmlns:decidr="http://decidr.de/schema/DecidrWSTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
 	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:ex="http://decidr.de/exceptions"
 	name="Email" targetNamespace="http://decidr.de/webservices/Email">
@@ -21,28 +22,30 @@
 			<!-- own type definitions -->
 			<xsd:import schemaLocation="DecidrWSTypes.xsd"
 				namespace="http://decidr.de/schema/DecidrWSTypes" />
+			<xsd:import schemaLocation="DecidrTypes.xsd"
+				namespace="http://decidr.de/schema/DecidrTypes" />
 
 			<!-- operations -->
 			<xsd:element name="sendEmail">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="to" type="decidr:tAbstractUserList" />
-						<xsd:element name="cc" type="decidr:tAbstractUserList"
-							nillable="true" />
-						<xsd:element name="bcc" type="decidr:tAbstractUserList"
-							nillable="true" />
+						<xsd:element name="to" type="basic:tAbstractUserList" />
+						<xsd:element name="cc" type="basic:tAbstractUserList"
+							minOccurs="0" nillable="true" />
+						<xsd:element name="bcc" type="basic:tAbstractUserList"
+							minOccurs="0" nillable="true" />
 						<xsd:element name="fromName" type="xsd:string"
-							nillable="true" />
+							minOccurs="0" nillable="true" />
 						<xsd:element name="fromAddress" type="xsd:string" />
 						<xsd:element name="subject" type="xsd:string" />
 						<xsd:element name="headers" type="decidr:tStringMap"
-							nillable="true" />
+							minOccurs="0" nillable="true" />
 						<xsd:element name="bodyTXT" type="xsd:string"
-							nillable="true" />
+							minOccurs="0" nillable="true" />
 						<xsd:element name="bodyHTML" type="xsd:string"
-							nillable="true" />
+							minOccurs="0" nillable="true" />
 						<xsd:element name="attachments" type="decidr:tIDList"
-							nillable="true" />
+							minOccurs="0" nillable="true" />
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -129,9 +132,48 @@
 			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>
+	<wsdl:binding name="EmailSOAP11" type="tns:EmailPT">
+		<soap11:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="sendEmail">
+			<soap11:operation soapAction="http://decidr.de/webservices/Email/sendEmail"
+				style="document" />
+			<wsdl:input>
+				<soap11:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap11:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="incompleteConfigurationException">
+				<soap11:body use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="storageException">
+				<soap11:body use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="transactionException">
+				<soap11:body use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="ioException">
+				<soap11:body use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="malformedURLException">
+				<soap11:body use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="messagingException">
+				<soap11:body use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
 
 	<!-- needs to be adapted for deployment -->
 	<wsdl:service name="Email">
-		<wsdl:port binding="tns:EmailSOAP" name="EmailSOAP" />
+		<wsdl:port binding="tns:EmailSOAP" name="EmailSOAP">
+			<soap:address
+				location="http://127.0.0.2:8080/axis2/services/Email.EmailSOAP11/" />
+		</wsdl:port>
+		<wsdl:port binding="tns:EmailSOAP11" name="EmailSOAP11">
+			<soap11:address
+				location="http://127.0.0.2:8080/axis2/services/Email.EmailSOAP11/" />
+		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>

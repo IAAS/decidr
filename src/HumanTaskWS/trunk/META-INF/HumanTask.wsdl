@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
-	xmlns:tns="http://decidr.de/webservices/HumanTask" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dwsdl="http://decidr.de/wsdl/basicProcess"
+	xmlns:soap11="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://decidr.de/webservices/HumanTask"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:dwsdl="http://decidr.de/wsdl/basicProcess" xmlns:basic="http://decidr.de/schema/DecidrTypes"
 	xmlns:decidr="http://decidr.de/schema/DecidrWSTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
 	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
 	xmlns:ex="http://decidr.de/exceptions" name="HumanTask"
@@ -14,6 +15,8 @@
 		</xsd:schema>
 		<xsd:schema targetNamespace="http://decidr.de/webservices/HumanTask">
 			<!-- own type definitions -->
+			<xsd:import schemaLocation="DecidrTypes.xsd"
+				namespace="http://decidr.de/schema/DecidrTypes" />
 			<xsd:import schemaLocation="DecidrWSTypes.xsd"
 				namespace="http://decidr.de/schema/DecidrWSTypes" />
 
@@ -21,7 +24,7 @@
 			<xsd:element name="createTask">
 				<xsd:complexType>
 					<xsd:sequence maxOccurs="1" minOccurs="1">
-						<xsd:element name="wfmID" type="decidr:tID" minOccurs="1"
+						<xsd:element name="wfmID" type="basic:tID" minOccurs="1"
 							maxOccurs="1" nillable="false">
 							<xsd:annotation>
 								<xsd:documentation>Workflow Model ID</xsd:documentation>
@@ -29,8 +32,8 @@
 						</xsd:element>
 						<xsd:element name="processID" type="xsd:string"
 							minOccurs="1" maxOccurs="1" nillable="false" />
-						<xsd:element name="userID" type="decidr:tID"
-							minOccurs="1" maxOccurs="1" nillable="false" />
+						<xsd:element name="userID" type="basic:tID" minOccurs="1"
+							maxOccurs="1" nillable="false" />
 						<xsd:element name="taskName" type="xsd:string"
 							minOccurs="1" maxOccurs="1" nillable="false" />
 						<xsd:element name="userNotification" type="xsd:boolean"
@@ -45,7 +48,7 @@
 			<xsd:element name="createTaskResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="taskID" type="decidr:tTaskIdentifier"
+						<xsd:element name="taskID" type="basic:tTaskIdentifier"
 							minOccurs="1" maxOccurs="1" nillable="false" />
 					</xsd:sequence>
 				</xsd:complexType>
@@ -53,8 +56,8 @@
 			<xsd:element name="taskCompleted">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="taskID" type="decidr:tID"
-							minOccurs="1" maxOccurs="1" nillable="false" />
+						<xsd:element name="taskID" type="basic:tID" minOccurs="1"
+							maxOccurs="1" nillable="false" />
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -66,7 +69,7 @@
 			<xsd:element name="removeTasks">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="wfmID" type="decidr:tID" minOccurs="1"
+						<xsd:element name="wfmID" type="basic:tID" minOccurs="1"
 							maxOccurs="1" nillable="false">
 							<xsd:annotation>
 								<xsd:documentation>Workflow Model ID</xsd:documentation>
@@ -222,9 +225,77 @@
 			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>
+	<wsdl:binding name="HumanTaskSOAP11" type="tns:HumanTaskPT">
+		<soap11:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="createTask">
+			<soap11:operation soapAction="http://decidr.de/webservices/HumanTask/createTask"
+				style="document" />
+			<wsdl:input>
+				<soap11:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap11:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="transactionException">
+				<soap11:body use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="taskCompleted">
+			<soap11:operation
+				soapAction="http://decidr.de/webservices/HumanTask/taskCompleted"
+				style="document" />
+			<wsdl:input>
+				<soap11:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap11:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="transactionException">
+				<soap11:body use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="reportingException">
+				<soap11:body use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="removeTasks">
+			<soap11:operation
+				soapAction="http://decidr.de/webservices/HumanTask/removeTasks"
+				style="document" />
+			<wsdl:input>
+				<soap11:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap11:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="transactionException">
+				<soap11:body use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="removeTask">
+			<soap11:operation soapAction="http://decidr.de/webservices/HumanTask/removeTask"
+				style="document" />
+			<wsdl:input>
+				<soap11:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap11:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="transactionException">
+				<soap11:body use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
 
 	<!-- needs to be adapted for deployment -->
 	<wsdl:service name="HumanTask">
-		<wsdl:port binding="tns:HumanTaskSOAP" name="HumanTaskSOAP" />
+		<wsdl:port binding="tns:HumanTaskSOAP" name="HumanTaskSOAP">
+			<soap11:address
+				location="http://127.0.0.2:8080/axis2/services/HumanTask.HumanTaskSOAP/" />
+		</wsdl:port>
+		<wsdl:port binding="tns:HumanTaskSOAP11" name="HumanTaskSOAP11">
+			<soap11:address
+				location="http://127.0.0.2:8080/axis2/services/HumanTask.HumanTaskSOAP11/" />
+		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>

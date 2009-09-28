@@ -41,7 +41,7 @@ public interface ODEMonitorService {
     public static final QName SERVICE = new QName(
             "http://decidr.de/webservices/ODEMonitor", SERVICE_NAME);
     public static final QName ENDPOINT = new QName(TARGET_NAMESPACE,
-            "ODEMonitorSOAP");
+            "ODEMonitorSOAP12Endpoint");
 
     /**
      * Called to update a client's statistical data.
