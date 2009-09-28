@@ -19,5 +19,9 @@ All explanations about the organization and responsibilities in DecidR. This wik
 || *Role* || *Person in Charge/Guarantor* || *Status* ||
 || *_Technical Prototype_*|| *JE* || <font color="red">*finished*</font> ||
 || *_Specs_*|| *MF* || <font color="red">*finished*</font> ||
-|| *_Web Services_*|| *JE* || <font color="green">*pending*</font> ||
-|| *_UI Mock-Ups_*|| *GH* || <font color="green">*pending*</font> ||
+|| *_Web Services_*|| *JE* || <font color="red">*finished*</font> ||
+|| *_UI Mock-Ups_*|| *GH* || <font color="red">*finished*</font> ||
+|| *_Web Portal_*|| *AT* || <font color="green">*pending*</font> ||
+|| *_Modelling Tool_*|| *JS* || <font color="red">*finished*</font> ||
+|| *_Data Model_*|| *DH* || <font color="green">*pending*</font> ||
+|| *_Integration_*|| *JE* || <font color="green">*pending*</font> ||
