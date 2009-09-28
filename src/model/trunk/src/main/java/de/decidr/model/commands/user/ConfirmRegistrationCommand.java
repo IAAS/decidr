@@ -1,3 +1,18 @@
+/*
+ * The DecidR Development Team licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package de.decidr.model.commands.user;
 
 import de.decidr.model.DecidrGlobals;
@@ -6,6 +21,7 @@ import de.decidr.model.entities.RegistrationRequest;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.AuthKeyException;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
@@ -20,7 +36,6 @@ import de.decidr.model.transactions.TransactionEvent;
  */
 public class ConfirmRegistrationCommand extends UserCommand {
 
-    private Long userId;
     private String authKey;
 
     /**
@@ -38,7 +53,12 @@ public class ConfirmRegistrationCommand extends UserCommand {
      */
     public ConfirmRegistrationCommand(Role role, Long userId, String authKey) {
         super(role, userId);
-        this.userId = userId;
+
+        if (authKey == null) {
+            throw new IllegalArgumentException(
+                    "Authentication key must not be null.");
+        }
+
         this.authKey = authKey;
     }
 
@@ -46,31 +66,32 @@ public class ConfirmRegistrationCommand extends UserCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        User user = (User) evt.getSession().load(User.class, userId);
+        User user = fetchUser(evt.getSession());
+
         RegistrationRequest request = user.getRegistrationRequest();
+        if (request == null) {
+            throw new EntityNotFoundException(RegistrationRequest.class);
+        }
 
-        // DH: what if nor request exists because user already is registered?
-        // ~rr
         if (authKey.equals(request.getAuthKey())) {
+            // make sure the user has a profile
+            if (user.getUserProfile() == null) {
+                throw new EntityNotFoundException(UserProfile.class);
+            }
 
-            // set user profile
-            UserProfile newUserProfile = request.getUser().getUserProfile();
-            user.setUserProfile(newUserProfile);
-
-            // set registration date and set auth key to null
+            // registered users have no authentication key but have a registered
+            // date.
             user.setRegisteredSince(DecidrGlobals.getTime().getTime());
             user.setAuthKey(null);
 
             // update user
             evt.getSession().update(user);
 
-            // delete request
+            // delete registration request
             evt.getSession().delete(request);
 
         } else {
-            throw new AuthKeyException("Auth key does not match");
+            throw new AuthKeyException("Authentication key does not match");
         }
-
     }
-
 }

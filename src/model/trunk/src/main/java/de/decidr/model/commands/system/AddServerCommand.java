@@ -65,10 +65,9 @@ public class AddServerCommand extends SystemCommand {
             Byte initialLoad, Boolean locked, Boolean dynamicallyAdded) {
         super(actor, null);
 
-        // DH what if location.isEmpty() == true? ~rr
-        if (type == null || location == null) {
+        if (type == null || location == null || location.isEmpty()) {
             throw new IllegalArgumentException(
-                    "Server type and location must not be null.");
+                    "Server type and location must not be null or empty.");
         }
 
         this.type = type;

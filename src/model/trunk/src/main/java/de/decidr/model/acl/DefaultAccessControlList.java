@@ -807,7 +807,8 @@ public class DefaultAccessControlList implements AccessControlList {
                     if (ruleMap.containsKey(currentKey)) {
                         result = currentKey;
                         // we do not break the for loops because there might be
-                        // an implying key even higher up the hierarchy.
+                        // an implying key even higher up the permission
+                        // hierarchy.
                     }
                 } catch (InstantiationException e) {
                     // If the role is abstract or private we cannot instanciate
@@ -816,6 +817,13 @@ public class DefaultAccessControlList implements AccessControlList {
                 } catch (IllegalAccessException e) {
                     // see above
                 }
+            }
+            /*
+             * The role hierarchy is only traversed if no rule exists for the
+             * current role and any permission.
+             */
+            if (result != null) {
+                break;
             }
         }
 

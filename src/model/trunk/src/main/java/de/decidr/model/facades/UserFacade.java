@@ -332,7 +332,7 @@ public class UserFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             iff the given user does not exist.
      */
-    // DH add @AllowedRole
+    @AllowedRole(UserRole.class)
     public void requestChangeEmail(Long userId, String newEmail)
             throws TransactionException {
         RequestChangeEmailCommand cmd = new RequestChangeEmailCommand(actor,
