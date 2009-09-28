@@ -109,7 +109,7 @@ public class RegisterUserCommand extends AclEnabledCommand {
         /*
          * The DecidR username criteria prevent that two users user1 and user2
          * exist where user1.email = user2.username. Should the database be
-         * inconsistend, uniqueResult will throw a rntime exception.
+         * inconsistent, uniqueResult will throw a runtime exception.
          */
         crit.add(Restrictions.or(Restrictions.eq("u.email", email),
                 Restrictions.eq("p.username", profile.getUsername())));
@@ -149,6 +149,7 @@ public class RegisterUserCommand extends AclEnabledCommand {
         profile.setUserId(existingUser.getId());
         profile.setUser(existingUser);
         existingUser.setUserProfile(profile);
+        existingUser.setRegisteredSince(null);
         evt.getSession().save(profile);
         evt.getSession().update(existingUser);
 

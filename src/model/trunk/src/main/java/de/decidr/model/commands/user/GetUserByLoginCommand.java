@@ -61,6 +61,17 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
     public GetUserByLoginCommand(Role role, String emailOrUsername,
             String passwordPlaintext) {
         super(role, (Permission) null);
+
+        if (emailOrUsername == null || emailOrUsername.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Email/username cannot be null or empty.");
+        }
+
+        if (passwordPlaintext == null || passwordPlaintext.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Password cannot be null or empty.");
+        }
+
         this.emailOrUsername = emailOrUsername;
         this.passwordPlaintext = passwordPlaintext;
     }

@@ -15,12 +15,13 @@
  */
 package de.decidr.model.acl.permissions;
 
+import de.decidr.model.entities.File;
+
 /**
  * Represents the permission to replace a file.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
- *
  * @version 0.1
  */
 public class FileReplacePermission extends FilePermission {
@@ -28,12 +29,13 @@ public class FileReplacePermission extends FilePermission {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Constructor.
+     * Creates a new FileReplacePermission.
      * 
      * @param fileId
+     *            ID of file to replace.
      */
     public FileReplacePermission(Long fileId) {
-        super(fileId);
-    }    
-    
+        super(File.class.getCanonicalName() + "replace", fileId);
+    }
+
 }

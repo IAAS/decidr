@@ -113,8 +113,6 @@ public class UserFacade extends AbstractFacade {
      *             empty
      */
     @AllowedRole(UserRole.class)
-    // DH name is stupid as "registered" user is added, not registered until
-    // confirmRegistration() is called ~rr
     public Long registerUser(String email, String passwordPlaintext,
             UserProfile userProfile) throws TransactionException {
 
@@ -129,14 +127,13 @@ public class UserFacade extends AbstractFacade {
     /**
      * Returns the user id that belongs to a given username or email/password
      * combination iff the account exists and the password matches.<br>
-     * XXX This reads as if no password needs to be supplied when a username is
-     * given but the test indicates that it still needs to be supplied. please
-     * either correct the docu or the code ~rr
+     * 
+     * If the password does not match, an EntityNotFoundException is thrown.
      * 
      * @param emailOrUsername
      *            can be either an email address or the user's username.
      * @param passwordPlaintext
-     *            the account password as plain text (no hash).
+     *            (required) the account password as plain text (no hash).
      * @return user ID
      * @throws TransactionException
      *             if the transaction is aborted for any reason or if the

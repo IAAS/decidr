@@ -129,7 +129,7 @@ public final class NotificationEvents {
      *            the change email request containing the new email address.
      */
     public static void createdChangeEmailRequest(ChangeEmailRequest request) {
-        // GH implement me :) ~dh
+        
     }
 
     /**

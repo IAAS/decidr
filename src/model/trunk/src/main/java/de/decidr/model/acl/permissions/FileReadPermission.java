@@ -15,11 +15,12 @@
  */
 package de.decidr.model.acl.permissions;
 
+import de.decidr.model.entities.File;
+
 /**
  * Represents the permission to read a file.
  * 
  * @author Markus Fischer
- *
  * @version 0.1
  */
 public class FileReadPermission extends FilePermission {
@@ -27,12 +28,13 @@ public class FileReadPermission extends FilePermission {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Constructor.
+     * Creates a new FileReadPermission.
      * 
      * @param fileId
+     *            ID of file to read.
      */
     public FileReadPermission(Long fileId) {
-        super(fileId);
-    }    
-    
+        super(File.class.getCanonicalName() + "read", fileId);
+    }
+
 }

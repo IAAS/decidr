@@ -15,25 +15,26 @@
  */
 package de.decidr.model.acl.permissions;
 
+import de.decidr.model.entities.File;
 
 /**
  * Represents the permission to delete a file.
  * 
  * @author Markus Fischer
- *
  * @version 0.1
  */
 public class FileDeletePermission extends FilePermission {
-    
+
     private static final long serialVersionUID = 1L;
 
     /**
-     * Constructor.
+     * Creates a new FileDeletePermission.
      * 
      * @param fileId
+     *            ID of file to delete.
      */
     public FileDeletePermission(Long fileId) {
-        super(fileId);
+        super(File.class.getCanonicalName() + "delete", fileId);
     }
 
 }
