@@ -38,8 +38,6 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.soap.types.AbstractUser;
 import de.decidr.model.soap.types.AbstractUserList;
 import de.decidr.model.soap.types.EmailUser;
-import de.decidr.model.soap.types.IDList;
-import de.decidr.model.soap.types.StringMap;
 import de.decidr.model.webservices.EmailInterface;
 
 /**
@@ -94,20 +92,17 @@ public final class NotificationEvents {
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc = new AbstractUserList();
-        AbstractUserList bcc = new AbstractUserList();
 
         SystemSettings settings = DecidrGlobals.getSettings();
 
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        StringMap headers = null;
-        IDList attachements = null;
-
         // fill "to" list
         EmailUser user = new EmailUser();
-        user.setUser(newWorkItem.getUser().getEmail());
+        List<String> addresses = new ArrayList<String>(2);
+        addresses.add(newWorkItem.getUser().getEmail());
+        user.setUser(addresses);
 
         List<AbstractUser> users = new ArrayList();
         users.add(user);
@@ -115,8 +110,8 @@ public final class NotificationEvents {
         to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
-                    headers, bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, null, null, fromName, fromAddress, subject,
+                    null, bodyTXT, bodyHTML, null);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
@@ -192,18 +187,15 @@ public final class NotificationEvents {
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc = new AbstractUserList();
-        AbstractUserList bcc = new AbstractUserList();
 
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        StringMap headers = null;
-        IDList attachements = null;
-
         // fill "to" list
         EmailUser user = new EmailUser();
-        user.setUser(request.getUser().getEmail());
+        List<String> addresses = new ArrayList<String>(2);
+        addresses.add(request.getUser().getEmail());
+        user.setUser(addresses);
 
         List<AbstractUser> users = new ArrayList();
         users.add(user);
@@ -211,8 +203,8 @@ public final class NotificationEvents {
         to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
-                    headers, bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, null, null, fromName, fromAddress, subject,
+                    null, bodyTXT, bodyHTML, null);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
@@ -248,20 +240,17 @@ public final class NotificationEvents {
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc = new AbstractUserList();
-        AbstractUserList bcc = new AbstractUserList();
 
         SystemSettings settings = DecidrGlobals.getSettings();
 
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        StringMap headers = null;
-        IDList attachements = null;
-
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        eUser.setUser(user.getEmail());
+        List<String> addresses = new ArrayList<String>(2);
+        addresses.add(user.getEmail());
+        eUser.setUser(addresses);
 
         List<AbstractUser> users = new ArrayList();
         users.add(eUser);
@@ -269,8 +258,8 @@ public final class NotificationEvents {
         to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
-                    headers, bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, null, null, fromName, fromAddress, subject,
+                    null, bodyTXT, bodyHTML, null);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
@@ -339,18 +328,15 @@ public final class NotificationEvents {
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc = new AbstractUserList();
-        AbstractUserList bcc = new AbstractUserList();
 
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        StringMap headers = null;
-        IDList attachements = null;
-
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        eUser.setUser(invitation.getReceiver().getEmail());
+        List<String> addresses = new ArrayList<String>(2);
+        addresses.add(invitation.getReceiver().getEmail());
+        eUser.setUser(addresses);
 
         List<AbstractUser> users = new ArrayList();
         users.add(eUser);
@@ -358,8 +344,8 @@ public final class NotificationEvents {
         to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
-                    headers, bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, null, null, fromName, fromAddress, subject,
+                    null, bodyTXT, bodyHTML, null);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
@@ -427,18 +413,15 @@ public final class NotificationEvents {
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc = new AbstractUserList();
-        AbstractUserList bcc = new AbstractUserList();
 
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        StringMap headers = null;
-        IDList attachements = null;
-
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        eUser.setUser(invitation.getReceiver().getEmail());
+        List<String> addresses = new ArrayList<String>(2);
+        addresses.add(invitation.getReceiver().getEmail());
+        eUser.setUser(addresses);
 
         List<AbstractUser> users = new ArrayList();
         users.add(eUser);
@@ -446,8 +429,8 @@ public final class NotificationEvents {
         to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
-                    headers, bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, null, null, fromName, fromAddress, subject,
+                    null, bodyTXT, bodyHTML, null);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
@@ -493,20 +476,17 @@ public final class NotificationEvents {
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc = new AbstractUserList();
-        AbstractUserList bcc = new AbstractUserList();
 
         SystemSettings settings = DecidrGlobals.getSettings();
 
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        StringMap headers = null;
-        IDList attachements = null;
-
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        eUser.setUser(user.getEmail());
+        List<String> addresses = new ArrayList<String>(2);
+        addresses.add(user.getEmail());
+        eUser.setUser(addresses);
 
         List<AbstractUser> users = new ArrayList();
         users.add(eUser);
@@ -514,8 +494,8 @@ public final class NotificationEvents {
         to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
-                    headers, bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, null, null, fromName, fromAddress, subject,
+                    null, bodyTXT, bodyHTML, null);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
@@ -554,20 +534,17 @@ public final class NotificationEvents {
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc = new AbstractUserList();
-        AbstractUserList bcc = new AbstractUserList();
 
         SystemSettings settings = DecidrGlobals.getSettings();
 
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        StringMap headers = null;
-        IDList attachements = null;
-
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        eUser.setUser(invitation.getSender().getEmail());
+        List<String> addresses = new ArrayList<String>(2);
+        addresses.add(invitation.getSender().getEmail());
+        eUser.setUser(addresses);
 
         List<AbstractUser> users = new ArrayList();
         users.add(eUser);
@@ -575,8 +552,8 @@ public final class NotificationEvents {
         to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
-                    headers, bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, null, null, fromName, fromAddress, subject,
+                    null, bodyTXT, bodyHTML, null);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
@@ -622,20 +599,17 @@ public final class NotificationEvents {
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc = new AbstractUserList();
-        AbstractUserList bcc = new AbstractUserList();
 
         SystemSettings settings = DecidrGlobals.getSettings();
 
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        StringMap headers = null;
-        IDList attachements = null;
-
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        eUser.setUser(user.getEmail());
+        List<String> addresses = new ArrayList<String>(2);
+        addresses.add(user.getEmail());
+        eUser.setUser(addresses);
 
         List<AbstractUser> users = new ArrayList();
         users.add(eUser);
@@ -643,8 +617,8 @@ public final class NotificationEvents {
         to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
-                    headers, bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, null, null, fromName, fromAddress, subject,
+                    null, bodyTXT, bodyHTML, null);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
@@ -675,20 +649,17 @@ public final class NotificationEvents {
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc = new AbstractUserList();
-        AbstractUserList bcc = new AbstractUserList();
 
         SystemSettings settings = DecidrGlobals.getSettings();
 
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        StringMap headers = null;
-        IDList attachements = null;
-
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        eUser.setUser(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
+        List<String> addresses = new ArrayList<String>(2);
+        addresses.add(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
+        eUser.setUser(addresses);
 
         List<AbstractUser> users = new ArrayList();
         users.add(eUser);
@@ -696,8 +667,8 @@ public final class NotificationEvents {
         to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
-                    headers, bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, null, null, fromName, fromAddress, subject,
+                    null, bodyTXT, bodyHTML, null);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
@@ -760,20 +731,17 @@ public final class NotificationEvents {
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc = new AbstractUserList();
-        AbstractUserList bcc = new AbstractUserList();
 
         SystemSettings settings = DecidrGlobals.getSettings();
 
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        StringMap headers = null;
-        IDList attachements = null;
-
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        eUser.setUser(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
+        List<String> addresses = new ArrayList<String>(2);
+        addresses.add(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
+        eUser.setUser(addresses);
 
         List<AbstractUser> users = new ArrayList();
         users.add(eUser);
@@ -781,8 +749,8 @@ public final class NotificationEvents {
         to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
-                    headers, bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, null, null, fromName, fromAddress, subject,
+                    null, bodyTXT, bodyHTML, null);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
@@ -849,20 +817,17 @@ public final class NotificationEvents {
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc = new AbstractUserList();
-        AbstractUserList bcc = new AbstractUserList();
 
         SystemSettings settings = DecidrGlobals.getSettings();
 
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        StringMap headers = null;
-        IDList attachements = null;
-
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        eUser.setUser(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
+        List<String> addresses = new ArrayList<String>(2);
+        addresses.add(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
+        eUser.setUser(addresses);
 
         List<AbstractUser> users = new ArrayList();
         users.add(eUser);
@@ -870,8 +835,8 @@ public final class NotificationEvents {
         to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
-                    headers, bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, null, null, fromName, fromAddress, subject,
+                    null, bodyTXT, bodyHTML, null);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
@@ -938,20 +903,17 @@ public final class NotificationEvents {
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc = new AbstractUserList();
-        AbstractUserList bcc = new AbstractUserList();
 
         SystemSettings settings = DecidrGlobals.getSettings();
 
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        StringMap headers = null;
-        IDList attachements = null;
-
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        eUser.setUser(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
+        List<String> addresses = new ArrayList<String>(2);
+        addresses.add(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
+        eUser.setUser(addresses);
 
         List<AbstractUser> users = new ArrayList();
         users.add(eUser);
@@ -959,8 +921,8 @@ public final class NotificationEvents {
         to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
-                    headers, bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, null, null, fromName, fromAddress, subject,
+                    null, bodyTXT, bodyHTML, null);
         } catch (Exception e) {
             throw new TransactionException(e);
         }
@@ -1027,20 +989,17 @@ public final class NotificationEvents {
 
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
-        AbstractUserList cc = new AbstractUserList();
-        AbstractUserList bcc = new AbstractUserList();
 
         SystemSettings settings = DecidrGlobals.getSettings();
 
         String fromAddress = settings.getSystemEmailAddress();
         String fromName = settings.getSystemName();
 
-        StringMap headers = null;
-        IDList attachements = null;
-
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        eUser.setUser(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
+        List<String> addresses = new ArrayList<String>(2);
+        addresses.add(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
+        eUser.setUser(addresses);
 
         List<AbstractUser> users = new ArrayList();
         users.add(eUser);
@@ -1048,8 +1007,8 @@ public final class NotificationEvents {
         to.setAbstractUser(users);
 
         try {
-            client.sendEmail(to, cc, bcc, fromName, fromAddress, subject,
-                    headers, bodyTXT, bodyHTML, attachements);
+            client.sendEmail(to, null, null, fromName, fromAddress, subject,
+                    null, bodyTXT, bodyHTML, null);
         } catch (Exception e) {
             throw new TransactionException(e);
         }

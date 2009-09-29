@@ -187,15 +187,17 @@ public class EmailService implements EmailInterface {
             throws TransactionException {
         log.trace("Entering " + EmailService.class.getSimpleName()
                 + ".extractEmails(AbstractUserList)");
-        Set<String> emailList = new HashSet<String>(userList
-                .getAbstractUser().size());
+        Set<String> emailList = new HashSet<String>(userList.getAbstractUser()
+                .size());
         List<Actor> actorList = new ArrayList<Actor>();
 
         log.debug("extracting email addresses from AbstractUserList");
         for (AbstractUser user : userList.getAbstractUser()) {
             if (user instanceof EmailUser) {
                 log.debug("found EmailUser");
-                emailList.add(((EmailUser) user).getUser());
+                for (String address : ((EmailUser) user).getUser()) {
+                    emailList.add(address);
+                }
             } else if (user instanceof ActorUser) {
                 log.debug("found ActorUser");
                 actorList.add(((ActorUser) user).getUser());

@@ -129,7 +129,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="tns:tAbstractUser">
 				<xsd:sequence>
-					<xsd:element name="user" type="xsd:string" />
+					<xsd:element name="user" type="xsd:string" maxOccurs="unbounded" />
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
