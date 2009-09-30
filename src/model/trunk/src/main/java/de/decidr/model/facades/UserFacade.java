@@ -125,15 +125,16 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the user id that belongs to a given username or email/password
-     * combination iff the account exists and the password matches.<br>
+     * Returns the user ID that belongs to a given username/password or
+     * email/password combination iff the account exists and the password
+     * matches.
      * 
      * If the password does not match, an EntityNotFoundException is thrown.
      * 
      * @param emailOrUsername
      *            can be either an email address or the user's username.
      * @param passwordPlaintext
-     *            (required) the account password as plain text (no hash).
+     *            the account password as plain text (no hash).
      * @return user ID
      * @throws TransactionException
      *             if the transaction is aborted for any reason or if the
@@ -141,6 +142,8 @@ public class UserFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             iff no such account exists or the password doesn't match.
      */
+    // DH you misunderstood how the comment could be misunderstood. (:-P) I
+    // adapted it for you ~rr
     @AllowedRole(BasicRole.class)
     public Long getUserIdByLogin(String emailOrUsername,
             String passwordPlaintext) throws TransactionException,
@@ -316,6 +319,7 @@ public class UserFacade extends AbstractFacade {
      * @param userId
      *            ID of user whose email address should be changed.
      * @param newEmail
+     *            TODO document
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
@@ -484,6 +488,11 @@ public class UserFacade extends AbstractFacade {
      *             iff the user does not exist or has no pending change email
      *             request.
      */
+    // DH: I have a slight problem with the concept here: why does the user need
+    // to log in when authenticating a new email address? Wouldn't it be better
+    // if the change in email addresses could be authenticated simply by
+    // clicking on the URL provided in the email? IOW while the UI still doesn't
+    // know which user is accessing it? ~rr
     @AllowedRole(UserRole.class)
     public void confirmChangeEmailRequest(Long userId, String requestAuthKey)
             throws TransactionException {

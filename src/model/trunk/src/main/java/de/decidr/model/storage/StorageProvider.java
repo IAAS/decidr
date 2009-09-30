@@ -67,7 +67,20 @@ public interface StorageProvider {
 
     /**
      * Checks to see if a <code>{@link Properties}</code> can be applied to this
-     * provider.
+     * provider. The default properties (see below) have to be checked by every
+     * <code>{@link StorageProvider}</code>.
+     * <p>
+     * Default properties:<br>
+     * <ul>
+     * <li>local (<code>boolean</code> - whether files are to be saved locally)</li>
+     * <li>amazons3 (<code>boolean</code> - whether files are to be stored in
+     * the Amazon S3 service)</li>
+     * <li>persistent (<code>boolean</code> - whether files should survive
+     * system reboot/failure)</li>
+     * <li>protocol (<code>{@link String}</code> - what protocol should be used
+     * to access files; e.g. &quot;file&quot;, &quot;http&quot;,
+     * &quot;https&quot;)</li>
+     * </ul>
      * 
      * @param config
      *            The configuration that should be checked.

@@ -76,7 +76,7 @@ public class PasswordTest {
                 Password.getHash(pwd, evilPWDs.get(pwd));
                 fail("Hashing \"" + pwd + "\" with salt \"" + evilPWDs.get(pwd)
                         + "\" succeeded!");
-            } catch (Exception e) {
+            } catch (RuntimeException e) {
                 // needs to be thrown
             }
         }

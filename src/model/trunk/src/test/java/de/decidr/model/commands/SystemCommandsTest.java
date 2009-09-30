@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Transaction;
 import org.junit.Test;
 
 import de.decidr.model.CommandsTest;
@@ -92,7 +93,7 @@ public class SystemCommandsTest extends CommandsTest {
         File invalidDecidrFile = new File("testfile", "text/plain", true, true,
                 true, -1);
 
-        fail("Not yet implemented");
+        fail("No way of actually putting a file into the DB yet");
         // RR set files
 
         GetFileCommand getterA = new GetFileCommand(decidrFileA.getId());
@@ -436,6 +437,11 @@ public class SystemCommandsTest extends CommandsTest {
                 "Null user shouldn't be able to set settings", nullSetter);
         assertTransactionException("Shouldn't be able to set empty settings",
                 setter);
+
+        Transaction trans = session.beginTransaction();
+        session.createQuery("delete from User WHERE email LIKE 'ab@c.de'")
+                .executeUpdate();
+        trans.commit();
 
         User admin = new User("ab@c.de", DecidrGlobals.getTime().getTime());
         CreateNewUnregisteredUserCommand userCreator = new CreateNewUnregisteredUserCommand(

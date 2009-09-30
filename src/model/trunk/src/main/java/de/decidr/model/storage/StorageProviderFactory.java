@@ -64,17 +64,9 @@ public class StorageProviderFactory {
      * authentification data. If a property is not set explicitly, all values
      * are considered acceptable.
      * <p>
-     * Standard properties:<br>
-     * <ul>
-     * <li>local (<code>boolean</code> - whether files are to be saved locally)</li>
-     * <li>amazons3 (<code>boolean</code> - whether files are to be stored in
-     * the Amazon S3 service)</li>
-     * <li>persistent (<code>boolean</code> - whether files should survive
-     * system reboot/failure)</li>
-     * <li>protocol (<code>{@link String}</code> - what protocol should be used
-     * to access files; e.g. &quot;file&quot;, &quot;http&quot;,
-     * &quot;https&quot;)</li>
-     * </ul>
+     * see <code>{@link StorageProvider#isApplicable(Properties)}</code> for
+     * default properties applicable to all
+     * <code>{@link StorageProvider StorageProviders}</code>.
      * 
      * @see StorageProvider
      */

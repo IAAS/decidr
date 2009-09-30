@@ -39,6 +39,7 @@ import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.facades.WorkItemFacadeTest;
 import de.decidr.model.facades.WorkflowInstanceFacadeTest;
 import de.decidr.model.facades.WorkflowModelFacadeTest;
+import de.decidr.model.storage.HibernateEntityStorageProviderTest;
 import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
 
 /**
@@ -56,7 +57,8 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
         WorkflowInstanceCommandsTest.class, WorkItemCommandsTest.class,
         SystemFacadeTest.class, TenantFacadeTest.class,
         WorkflowModelFacadeTest.class, WorkflowInstanceFacadeTest.class,
-        WorkItemFacadeTest.class, UserFacadeTest.class })
+        WorkItemFacadeTest.class, UserFacadeTest.class,
+        HibernateEntityStorageProviderTest.class })
 public class DatabaseTestSuite extends GlobalPreconditionsSuite {
 
     static Session session;

@@ -38,6 +38,7 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.LowLevelDatabaseTest;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.RegistrationRequest;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
@@ -45,7 +46,6 @@ import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.testsuites.DatabaseTestSuite;
 
 /**
  * Test case for <code>{@link UserFacade}</code>. Some of the methods can't be
@@ -68,6 +68,11 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     static final String TEST_EMAIL = "decidr.iaas@googlemail.com";
     static final String TEST_PASSWORD = "asd";
     static final String TEST_USERNAME = "tEsstUsser";
+    static final String USERNAME_PREFIX = "testuser";
+
+    private static String getTestEmail(int n) {
+        return "asd" + ((n > 0) ? n : "") + "@desk.de";
+    }
 
     private static void deleteTestUsers() {
         Transaction trans = session.beginTransaction();
@@ -77,8 +82,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         session.createQuery("delete from User WHERE email LIKE 'asd%@desk.de'")
                 .executeUpdate();
         session.createQuery(
-                "DELETE UserProfile WHERE username LIKE 'testuser%'")
-                .executeUpdate();
+                "DELETE UserProfile WHERE username LIKE '" + USERNAME_PREFIX
+                        + "%'").executeUpdate();
         trans.commit();
     }
 
@@ -89,10 +94,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     @BeforeClass
     public static void setUpBeforeClass() throws NullPointerException,
             TransactionException {
-        if (!DatabaseTestSuite.running()) {
-            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
-        }
-
         deleteTestUsers();
 
         adminFacade = new UserFacade(new SuperAdminRole(DecidrGlobals
@@ -109,29 +110,29 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         testProfile.setCity("boringtown");
         testProfile.setStreet("ancient st.");
         testProfile.setPostalCode("112");
-        testProfile.setUsername("testuser");
+        testProfile.setUsername(USERNAME_PREFIX);
 
         registerUserExceptionHelper(
                 "registering user with null facade succeeded", nullFacade,
-                "asd@desk.de", "asd", testProfile);
+                getTestEmail(0), "asd", testProfile);
         registerUserExceptionHelper(
                 "registering user with normal user facade succeeded",
-                userFacade, "asd@desk.de", "asd", testProfile);
+                userFacade, getTestEmail(0), "asd", testProfile);
 
-        testProfile.setUsername("testuser1");
-        adminFacade.registerUser("asd1@desk.de", "asd", testProfile);
+        testProfile.setUsername(USERNAME_PREFIX + "1");
+        adminFacade.registerUser(getTestEmail(1), "asd", testProfile);
 
-        testProfile.setUsername("testuser2");
+        testProfile.setUsername(USERNAME_PREFIX + "2");
         registerUserExceptionHelper("registering user twice succeeded",
-                adminFacade, "asd1@desk.de", "asd", testProfile);
+                adminFacade, getTestEmail(1), "asd", testProfile);
 
         registerUserExceptionHelper(
                 "registering user with empty password succeeded", adminFacade,
-                "asd2@desk.de", "", testProfile);
+                getTestEmail(2), "", testProfile);
 
         registerUserExceptionHelper(
                 "registering user with null password succeeded", adminFacade,
-                "asd3@desk.de", null, testProfile);
+                getTestEmail(3), null, testProfile);
 
         registerUserExceptionHelper(
                 "registering user with empty email succeeded", adminFacade, "",
@@ -142,28 +143,28 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         registerUserExceptionHelper(
                 "registering user with null profile succeeded", adminFacade,
-                "asd4@desk.de", "asd", null);
+                getTestEmail(4), "asd", null);
 
         registerUserExceptionHelper(
                 "registering user with empty profile succeeded", adminFacade,
-                "asd5@desk.de", "asd", new UserProfile());
+                getTestEmail(5), "asd", new UserProfile());
 
         testProfile.setFirstName(null);
         testProfile.setLastName(null);
         testProfile.setCity(null);
         testProfile.setStreet(null);
         testProfile.setPostalCode(null);
-        testProfile.setUsername("testuser3");
-        adminFacade.registerUser("asd6@desk.de", "asd", testProfile);
+        testProfile.setUsername(USERNAME_PREFIX + "3");
+        adminFacade.registerUser(getTestEmail(6), "asd", testProfile);
         registerUserExceptionHelper(
                 "invalid profile (double username) succeeded", adminFacade,
-                "asd7@desk.de", "asd", testProfile);
+                getTestEmail(7), "asd", testProfile);
 
         testProfile.setUsername(null);
         registerUserExceptionHelper(
                 "invalid profile (empty username) succeeded", adminFacade,
-                "asd@desk.de", "asd", testProfile);
-        testProfile.setUsername("testuser");
+                getTestEmail(8), "asd", testProfile);
+        testProfile.setUsername(USERNAME_PREFIX);
     }
 
     private static void registerUserExceptionHelper(String failmsg,
@@ -209,6 +210,14 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         adminFacade.getAllUsers(null, new Paginator());
         adminFacade.getAllUsers(new ArrayList<Filter>(), new Paginator());
 
+        if (userList == null || userList.isEmpty()) {
+            fail("No users were retrieved despite there being at least one");
+            // fail() throws an error which the java compiler doesn't know
+            // about. This means we need to indicate that the method is always
+            // being exited here.
+            return;
+        }
+
         for (Item item : userList) {
             if (item.getItemProperty("id").getValue().equals(testUserID)) {
                 testUserItem = item;
@@ -218,9 +227,9 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         if (testUserItem == null) {
             fail("couldn't get user created previously");
-            // fail() throws an unchecked exception which the java compiler
-            // doesn't know about. This means we need to indicate that the
-            // method is always being exited here.
+            // fail() throws an error which the java compiler doesn't know
+            // about. This means we need to indicate that the method is always
+            // being exited here.
             return;
         }
 
@@ -277,50 +286,46 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     public void testGetUserIdByLogin() throws TransactionException {
         for (UserFacade facade : allFacades) {
             assertEquals(testUserID, facade.getUserIdByLogin(TEST_USERNAME,
-                    null));
-            assertEquals(testUserID, facade.getUserIdByLogin(TEST_USERNAME, ""));
-            assertEquals(testUserID, facade.getUserIdByLogin(TEST_USERNAME,
-                    "sdfsdfsdf"));
-            assertEquals(testUserID, facade.getUserIdByLogin(TEST_USERNAME,
                     TEST_PASSWORD));
             assertEquals(testUserID, facade.getUserIdByLogin(TEST_EMAIL,
                     TEST_PASSWORD));
-            try {
-                facade.getUserIdByLogin(null, null);
-                fail("getting user ID with null email/username succeeded");
-            } catch (EntityNotFoundException e) {
-                // supposed to be thrown
-            }
-            try {
-                facade.getUserIdByLogin("", null);
-                fail("getting user ID with empty email/username succeeded");
-            } catch (EntityNotFoundException e) {
-                // supposed to be thrown
-            }
-            try {
-                facade.getUserIdByLogin(TEST_EMAIL, null);
-                fail("getting user ID with null password succeeded");
-            } catch (EntityNotFoundException e) {
-                // supposed to be thrown
-            }
-            try {
-                facade.getUserIdByLogin(TEST_EMAIL, "");
-                fail("getting user ID with empty password succeeded");
-            } catch (EntityNotFoundException e) {
-                // supposed to be thrown
-            }
-            try {
-                facade.getUserIdByLogin(TEST_EMAIL, "asdfgthsf");
-                fail("getting user ID with wrong password succeeded");
-            } catch (EntityNotFoundException e) {
-                // supposed to be thrown
-            }
+
+            getUserIdByLoginExceptionHelper(
+                    "getting user ID with null email/username succeeded",
+                    facade, null, TEST_PASSWORD);
+            getUserIdByLoginExceptionHelper(
+                    "getting user ID with empty email/username succeeded",
+                    facade, "", TEST_PASSWORD);
+            getUserIdByLoginExceptionHelper(
+                    "getting user ID with null password succeeded", facade,
+                    TEST_USERNAME, null);
+            getUserIdByLoginExceptionHelper(
+                    "getting user ID with empty password succeeded", facade,
+                    TEST_USERNAME, "");
+            getUserIdByLoginExceptionHelper(
+                    "getting user ID with wrong password succeeded", facade,
+                    TEST_USERNAME, TEST_PASSWORD + "blrgh");
+            getUserIdByLoginExceptionHelper(
+                    "getting user ID with null password succeeded", facade,
+                    TEST_EMAIL, null);
+            getUserIdByLoginExceptionHelper(
+                    "getting user ID with empty password succeeded", facade,
+                    TEST_EMAIL, "");
+            getUserIdByLoginExceptionHelper(
+                    "getting user ID with wrong password succeeded", facade,
+                    TEST_EMAIL, TEST_PASSWORD + "blrgh");
         }
 
+        getUserIdByLoginExceptionHelper("getting user ID with null facade",
+                nullFacade, TEST_USERNAME, TEST_PASSWORD);
+    }
+
+    private static void getUserIdByLoginExceptionHelper(String failmsg,
+            UserFacade facade, String emailName, String pwd) {
         try {
-            nullFacade.getUserIdByLogin(TEST_USERNAME, TEST_PASSWORD);
-            fail("getting user ID with null facade");
-        } catch (EntityNotFoundException e) {
+            facade.getUserIdByLogin(emailName, pwd);
+            fail(failmsg);
+        } catch (TransactionException e) {
             // supposed to be thrown
         }
     }
@@ -336,9 +341,9 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         testProfile.setCity("boringtown");
         testProfile.setStreet("ancient st.");
         testProfile.setPostalCode("112");
-        testProfile.setUsername("test_user");
+        testProfile.setUsername(USERNAME_PREFIX);
 
-        Long secondUserID = adminFacade.registerUser("asds1@desk.de", "asd",
+        Long secondUserID = adminFacade.registerUser(getTestEmail(2), "asd",
                 testProfile);
 
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL + ".vu");
@@ -356,7 +361,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                     facade, testUserID, "");
             setEmailAddressExceptionHelper(
                     "setting email for null user ID succeeded", facade, null,
-                    "test@example.com");
+                    getTestEmail(4));
         }
         setEmailAddressExceptionHelper("setting same email succeeded",
                 nullFacade, secondUserID, TEST_EMAIL);
@@ -366,7 +371,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 nullFacade, testUserID, "");
         setEmailAddressExceptionHelper(
                 "setting email for null user ID succeeded", nullFacade, null,
-                "test@example.com");
+                getTestEmail(4));
 
         setEmailAddressExceptionHelper(
                 "setting email with null facade succeeded", nullFacade,
@@ -573,7 +578,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         assertNotNull(getProfile(adminFacade.getUserProfile(testUserID, false),
                 false).getKey());
 
-        // make sure only proper fields are deleted
+        // make sure fields are deleted
         userProfile = getProfile(adminFacade.getUserProfile(testUserID), true);
         assertNotNull(userProfile.getKey());
         testProfile = userProfile.getValue();
@@ -653,10 +658,10 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         testProfile.setCity("boringtown");
         testProfile.setStreet("ancient st.");
         testProfile.setPostalCode("112");
-        testProfile.setUsername("testuser");
+        testProfile.setUsername(USERNAME_PREFIX);
 
-        testProfile.setUsername("testuser1");
-        Long userId = adminFacade.registerUser("asd1@desk.de", "asd",
+        testProfile.setUsername(USERNAME_PREFIX + "1");
+        Long userId = adminFacade.registerUser(getTestEmail(1), "asd",
                 testProfile);
 
         for (long l = invalidID; session.createQuery(
@@ -754,11 +759,95 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      * {@link UserFacade#confirmChangeEmailRequest(Long, String)}.
      */
     @Test
-    public void testConfirmChangeEmailRequest() {
-        // adminFacade.confirmChangeEmailRequest(testUserID, requestAuthKey)
+    public void testChangeEmailRequest() throws TransactionException {
+        long invalidID = Long.MIN_VALUE;
 
-        fail("Not yet implemented"); // RR requestChangeEmail
-        fail("Not yet implemented"); // RR confirmChangeEmailRequest
+        for (long l = invalidID; session.createQuery(
+                "FROM User WHERE id = :given").setLong("given", l)
+                .uniqueResult() != null; l++)
+            invalidID = l + 1;
+
+        for (UserFacade facade : allFacades) {
+            confirmChangeEmailRequestExceptionHelper(
+                    "managed to confirm a nonexistent ChangeEmailRequest without an authKey",
+                    facade, testUserID, "");
+
+            facade.requestChangeEmail(testUserID, "invalid@example.com");
+            User user = (User) session.get(User.class, testUserID);
+            ChangeEmailRequest request = user.getChangeEmailRequest();
+            facade.confirmChangeEmailRequest(testUserID, request.getAuthKey());
+
+            confirmChangeEmailRequestExceptionHelper(
+                    "authenticating a ChangeEmailRequest twice succeeded",
+                    facade, testUserID, request.getAuthKey());
+
+            confirmChangeEmailRequestExceptionHelper(
+                    "authenticating a ChangeEmailRequest with null user ID succeeded",
+                    facade, null, request.getAuthKey());
+            confirmChangeEmailRequestExceptionHelper(
+                    "authenticating a ChangeEmailRequest with invalid user ID succeeded",
+                    facade, invalidID, request.getAuthKey());
+            confirmChangeEmailRequestExceptionHelper(
+                    "authenticating a ChangeEmailRequest with null authKey",
+                    facade, testUserID, null);
+            confirmChangeEmailRequestExceptionHelper(
+                    "authenticating a ChangeEmailRequest with empty authKey",
+                    facade, testUserID, "");
+            confirmChangeEmailRequestExceptionHelper(
+                    "authenticating a ChangeEmailRequest with null user ID & authKey succeeded",
+                    facade, null, null);
+
+            requestChangeEmailExceptionHelper(
+                    "requesting email change with null user ID and email succeeded",
+                    facade, null, null);
+            requestChangeEmailExceptionHelper(
+                    "requesting email change with null email succeeded",
+                    facade, testUserID, null);
+            requestChangeEmailExceptionHelper(
+                    "requesting email change with empty email succeeded",
+                    facade, testUserID, "");
+            requestChangeEmailExceptionHelper(
+                    "requesting email change with null user ID succeeded",
+                    facade, null, getTestEmail(0));
+            requestChangeEmailExceptionHelper(
+                    "requesting email change with invalid user ID succeeded",
+                    facade, invalidID, getTestEmail(1));
+        }
+
+        confirmChangeEmailRequestExceptionHelper(
+                "managed to confirm a nonexistent ChangeEmailRequest without an authKey with null facade",
+                nullFacade, testUserID, "");
+        requestChangeEmailExceptionHelper(
+                "managed to request an email change with null facade",
+                nullFacade, testUserID, "invalid@example.com");
+
+        adminFacade.requestChangeEmail(testUserID, "invalid@example.com");
+        User user = (User) session.get(User.class, testUserID);
+        ChangeEmailRequest request = user.getChangeEmailRequest();
+        confirmChangeEmailRequestExceptionHelper(
+                "managed to confirm a ChangeEmailRequest using null facade",
+                nullFacade, testUserID, request.getAuthKey());
+        adminFacade.confirmChangeEmailRequest(testUserID, request.getAuthKey());
+    }
+
+    private static void confirmChangeEmailRequestExceptionHelper(
+            String failmsg, UserFacade facade, Long userID, String authKey) {
+        try {
+            facade.confirmChangeEmailRequest(userID, authKey);
+            fail(failmsg);
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+    }
+
+    private static void requestChangeEmailExceptionHelper(String failmsg,
+            UserFacade facade, Long userID, String newEmail) {
+        try {
+            facade.requestChangeEmail(userID, newEmail);
+            fail(failmsg);
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
     }
 
     /**

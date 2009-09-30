@@ -178,6 +178,7 @@ public class HibernateEntityStorageProvider implements StorageProvider {
     }
 
     @Override
+    // DH please complete according to (updated) documentation ~rr
     public boolean isApplicable(Properties config) {
         return config != null
                 && config.containsKey(CONFIG_KEY_DATA_PROPERTY_NAME)
@@ -189,11 +190,11 @@ public class HibernateEntityStorageProvider implements StorageProvider {
     public void putFile(FileInputStream data, Long fileId)
             throws StorageException {
         checkFileId(fileId);
-        try {
-            if (data == null) {
-                throw new IllegalArgumentException("Data must not be null.");
-            }
+        if (data == null) {
+            throw new IllegalArgumentException("Data must not be null.");
+        }
 
+        try {
             // reading the entire file into a byte array may not be the most
             // elegant solution, but for small files
             // this should work well.

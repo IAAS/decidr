@@ -197,6 +197,11 @@ public class LocalStorageProvider implements StorageProvider {
             throws StorageException {
         log.trace("Entering " + LocalStorageProvider.class.getSimpleName()
                 + ".putFile(FileInputStream, Long)");
+        if (data == null || fileId == null) {
+            throw new IllegalArgumentException(
+                    "data and fileId must not be null.");
+        }
+
         File newFile = new File(storageDirectory, "DecidR_" + fileId + ".tmp");
         FileOutputStream fos = null;
         try {
@@ -204,7 +209,6 @@ public class LocalStorageProvider implements StorageProvider {
             int dataByte;
 
             log.debug("transferring data...");
-            // XXX: this might block - bad??
             while ((dataByte = data.read()) != -1) {
                 fos.write(dataByte);
             }

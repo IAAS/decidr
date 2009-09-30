@@ -19,11 +19,9 @@ package de.decidr.model;
 import static org.junit.Assert.fail;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
 
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.testsuites.DatabaseTestSuite;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 
 /**
@@ -31,14 +29,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
  * 
  * @author Reinhold
  */
-public abstract class CommandsTest {
-
-    @BeforeClass
-    public static final void setUp() {
-        if (!DatabaseTestSuite.running()) {
-            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
-        }
-    }
+public abstract class CommandsTest extends LowLevelDatabaseTest {
 
     /**
      * Makes sure that a <code>{@link TransactionException}</code> is thrown.
