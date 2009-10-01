@@ -337,6 +337,7 @@ public class StartConfigurationWindow extends Window {
             } else if (assignment.getValueType().equals("File")) {
                 assignmentForm.getLayout().addComponent(
                         upload);
+                
             }
         }
     }
