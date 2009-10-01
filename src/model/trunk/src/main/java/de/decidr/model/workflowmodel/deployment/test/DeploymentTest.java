@@ -18,11 +18,8 @@ package de.decidr.model.workflowmodel.deployment.test;
 
 import java.io.FileNotFoundException;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-
+import de.decidr.model.workflowmodel.deployment.DeployerImpl;
 import de.decidr.model.workflowmodel.dwdl.translator.DWDL2BPEL;
-import de.decidr.model.workflowmodel.dwdl.translator.Translator;
 
 /**
  * Simple deployment test class
@@ -40,17 +37,8 @@ public class DeploymentTest {
      */
     public static void main(String[] args) {
         try {
-            Translator t = new Translator();
-            // MA doit pleeeaaaaassseee
-            
-            System.out.println("Done");
-            de.decidr.model.workflowmodel.bpel.Process p = t.getBPEL();
-            JAXBContext cntxt = JAXBContext.newInstance(Process.class);
-            Marshaller marshaller = cntxt.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
-            marshaller.marshal(p, System.out);
+            DeployerImpl d = new DeployerImpl();
+            d.deploy("SampleProcess");
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Ups");
