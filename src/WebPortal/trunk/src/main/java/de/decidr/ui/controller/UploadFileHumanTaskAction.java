@@ -22,7 +22,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
+import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.FailedListener;
 import com.vaadin.ui.Upload.FinishedEvent;
@@ -30,22 +33,24 @@ import com.vaadin.ui.Upload.FinishedListener;
 import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.Upload.SucceededListener;
+
+import de.decidr.ui.view.DeleteUploadComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.StartConfigurationWindow;
 
 /**
- * This class handles the actions when the upload for a human task is started, finished 
- * and received.
+ * This class handles the actions when the upload for a human task is started,
+ * finished and received.
  * 
  * @author AT
  */
 public class UploadFileHumanTaskAction implements FailedListener, Receiver,
         SucceededListener, FinishedListener {
-    
+
     private StartConfigurationWindow startConfigurationWindow = new StartConfigurationWindow();
-    
-    private Button button = new Button("Delete");
-    
+
+    private DeleteUploadComponent deleteUploadComponent = new DeleteUploadComponent();
+
     private java.io.File file = null;
 
     /*
@@ -71,13 +76,14 @@ public class UploadFileHumanTaskAction implements FailedListener, Receiver,
     @Override
     public OutputStream receiveUpload(String filename, String MIMEType) {
         FileOutputStream fos = null;
-        
+
         file = new java.io.File(filename);
-        
-        try{
+
+        try {
             fos = new FileOutputStream(file);
-        }catch(final FileNotFoundException exception){
-            Main.getCurrent().getMainWindow().showNotification("File not found!");
+        } catch (final FileNotFoundException exception) {
+            Main.getCurrent().getMainWindow().showNotification(
+                    "File not found!");
             return null;
         }
         return fos;
@@ -95,18 +101,22 @@ public class UploadFileHumanTaskAction implements FailedListener, Receiver,
         Main.getCurrent().getMainWindow().showNotification(
                 "File " + event.getFilename()
                         + "successfully temporarily saved!");
-
+        // TODO: file id setzen
     }
 
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Upload.FinishedListener#uploadFinished(com.vaadin.ui.Upload.FinishedEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.vaadin.ui.Upload.FinishedListener#uploadFinished(com.vaadin.ui.Upload
+     * .FinishedEvent)
      */
     @Override
     public void uploadFinished(FinishedEvent event) {
+        deleteUploadComponent.getLabel().setValue(event.getFilename());
         startConfigurationWindow.getUpload().setVisible(false);
-        startConfigurationWindow.getAssignmentForm().addField("delete", button);
-        button.setDescription("Delete the file which was temporarliy uplaoded");
+        startConfigurationWindow.getAssignmentForm().getLayout().addComponent(
+                deleteUploadComponent);
     }
 
 }

@@ -34,7 +34,9 @@ import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.model.workflowmodel.wsc.TRole;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.StartConfigurationWindow;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.WorkflowModelsComponent;
 
 /**
  * TODO: add comment
@@ -78,6 +80,7 @@ public class SaveStartConfigurationAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
+        StartConfigurationWindow stWindow = (StartConfigurationWindow)event.getSource();
         for (TRole role : tConfiguration.getRoles().getRole()) {
             ArrayList<TRole> collect = (ArrayList<TRole>) tree.getChildren(role
                     .getName());
@@ -86,8 +89,13 @@ public class SaveStartConfigurationAction implements ClickListener {
             }
         }
         for (TAssignment assignment : tConfiguration.getAssignment()) {
-            assignment.getValue().add(
-                    form.getField(assignment.getKey()).getValue().toString());
+            if(assignment.getValueType().equals("File")){
+                //TODO: file id in assignment abspeichern
+            }else{
+                assignment.getValue().add(
+                        form.getField(assignment.getKey()).getValue().toString());
+            }
+            
         }
         try {
             workflowModelFacade.startWorkflowInstance(workflowModelId,
@@ -108,7 +116,8 @@ public class SaveStartConfigurationAction implements ClickListener {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent());
         }
-
+        //TODO: in datenbank abspeichern
+        new HideDialogWindowAction();
     }
 
 }
