@@ -1,0 +1,332 @@
+/* DecidR Layout */
+
+@import url(../reindeer/styles.css);
+
+
+
+/* general settings */
+/* ================ */
+
+.v-generated-body, .v-app{
+	background-color: transparent;
+	margin: 0px;
+	padding: 0px;
+	font-family:Arial Unicode MS,Arial,sans-serif;
+	font-size: 12px;
+	}
+
+.v-generated-body{
+	background: #FFFFFF;
+	}
+
+div > .v-button .v-button-caption, .v-ie7 .v-button .v-button-caption, div > .v-button.v-disabled .v-button-caption, .v-ie7 .v-button.v-disabled .v-button-caption{
+	background-image: none;
+	border: 0;
+	text-shadow: 0 0px 0 #000000;
+	}
+
+.v-splitpanel-horizontal {
+	border-left: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+	border-right: 1px solid #CCCCCC;
+	}
+	
+
+
+/* header of the Website */
+/* ===================== */
+
+.dcdr_header{
+	
+	}
+
+.v-gridlayout-margin{
+	background: transparent url(img/background/fade_blue_o20_1200.png) no-repeat center top;
+	}
+	
+	
+
+/* horizontal navigation bar of the website */
+/* ======================================== */
+
+.dcdr_hnav{
+	background: #000000 url(img/hnav/bar/background_o20_5050.png) repeat center;
+	}
+
+/*.v-ie7 .dcdr_hnav{
+	background-position: 0px -3px;
+	}*/
+	
+.dcdr_hnav .v-horizontallayout{
+	}
+	
+/* buttons */
+.dcdr_hnav .v-button-caption, .dcdr_hnav .v-button .v-button-caption,
+.v-ie7 .dcdr_hnav .v-button-caption, .v-ie7 .dcdr_hnav .v-button .v-button-caption{
+	background-image: none;
+	color: #FFFFFF;
+	font-size: 11px;
+	text-shadow: 0 1px 0 #020202;
+	}
+	
+.dcdr_hnav .v-button {
+	height: 25px;
+	margin: 0px 15px 0px 15px;
+	padding: 0px 6px 0px 6px;
+	
+	background-image: none;
+	background: #000000 url(img/hnav/bar/background_o20_5050.png) repeat center;
+	
+	border-left: 1px dashed #0E0E0E;
+	border-right: 1px dashed #0E0E0E;
+	
+	}
+
+/*.v-ie7 .dcdr_hnav .v-button{
+	background-position: 0px -3px;
+	}*/
+	
+.dcdr_hnav .v-button:hover {
+	background-color: #222222;
+	}
+	
+	
+	
+/* vertical navigation of the website */
+/* ================================== */
+
+.dcdr_vnav{
+	overflow: hidden;
+	padding-top: 20px;
+	}
+	
+/* vertical split bar */
+.v-splitpanel-hsplitter-locked {
+	visibility: hidden;
+	}
+
+.dcdr_vnav .v-button, 
+.dcdr_vnav .v-label,
+.dcdr_vnav .v-textfield{
+	margin-left: 10px;
+	}
+	
+.dcdr_vnav .v-button{
+	margin-left: 15px;
+	}
+	
+/* buttons with link-style */
+div > .dcdr_vnav .v-button.v-button-link .v-button-caption,
+div > .dcdr_vnav .v-button.v-button-link:focus .v-button-caption,
+div > .dcdr_vnav .v-button.v-button-link:active .v-button-caption,
+.v-ie7 .dcdr_vnav .v-button-link .v-button-caption,
+.v-ie7 .dcdr_vnav .v-button-link.v-pressed .v-button-caption,
+div > .dcdr_vnav .v-button.v-button-link.v-disabled .v-button-caption,
+.v-ie7 .dcdr_vnav .v-button-link.v-disabled .v-button-caption,
+.dcdr_vnav .v-button.v-button-link{
+	color: #006AB1;
+	text-decoration: none;
+	background-image: none;
+	}	
+	
+div > .dcdr_vnav .v-button.v-button-link:hover .v-button-caption,
+.v-ie7 .dcdr_vnav .v-button-link:hover .v-button-caption,
+.v-ie7 .dcdr_vnav .v-button-link.v-pressed:hover .v-button-caption,
+div > .dcdr_vnav .v-button.v-button-link.v-disabled:hover .v-button-caption,
+.v-ie7 .dcdr_vnav .v-button-link.v-disabled:hover .v-button-caption,
+.dcdr_vnav .v-button.v-button-link:hover{
+	text-decoration: underline;
+	}
+	
+	
+	
+/* content of the website */
+/* ====================== */
+
+.dcdr_content{
+	color: #000;
+	padding-top: 20px;
+	}
+
+	
+/* textfields */
+.dcdr_content .v-textfield{
+	}
+
+/* select boxes */
+.dcdr_content .v-select-select
+.v-ie7 .dcdr_content .v-select-select{
+	border: 2px inset threedface;
+	border-color: #A2A3A4 #BCBDBE #D2D3D4;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	}
+
+/* upload field */
+.dcdr_content .gwt-FileUpload,
+.dcdr_content input[type="file"]{
+	}
+	
+
+/* tables */
+.dcdr_content .v-table-header-wrap{
+	background: #E8E8E8 url(img/hnav/bar/background_o20_5050.png) repeat center;
+	}
+
+.dcdr_content .v-table-caption-container{
+	font-size: 11px;
+	}
+
+/* buttons */
+.dcdr_content .v-button,
+.dcdr_content .v-button:focus,
+.dcdr_content .v-button:active,
+.v-ie7 .dcdr_content .v-button,
+.v-ie7 .dcdr_content .v-button:focus,
+.v-ie7 .dcdr_content .v-button:active {
+	border: 0px;
+	padding: 1px 0px 0px 0px;
+	height: 25px;
+	background-position: 0px left;
+	background: transparent url(img/button/button1/right.png) no-repeat center right;
+	}
+	
+.dcdr_content .v-button:hover,
+.v-ie7 .dcdr_content .v-button:hover{
+	border: 0px;
+	background-position: 0px left;
+	background: transparent url(img/button/button1/right_hl.png) no-repeat center right;
+	}
+
+.dcdr_content .v-button span,
+.dcdr_content .v-button:focus span,
+.dcdr_content .v-button:active span,
+.dcdr_content .v-button.v-pressed span,
+.v-ie7 .dcdr_content .v-button span,
+.v-ie7 .dcdr_content .v-button:focus span,
+.v-ie7 .dcdr_content .v-button:active span,
+.v-ie7 .dcdr_content .v-button.v-pressed span{
+	border: 0px;
+	margin: -2px 9px 0px 0px;
+	padding: 5px 5px 0px 14px;
+	background-position: 0px left;
+	background: transparent url(img/button/button1/left.png) no-repeat center left;
+	}
+	
+.dcdr_content .v-button:hover span,
+.dcdr_content .v-button:hover .v-button-caption,
+.v-ie7 .dcdr_content .v-button:hover span,
+.v-ie7 .dcdr_content .v-button:hover .v-button-caption{
+	border: 0px;
+	background-position: 0px left;
+	background: transparent url(img/button/button1/left_hl.png) no-repeat center left;
+	}
+	
+.dcdr_content .gwt-Button{
+	border: 0px;
+	width: 104px;
+	background: transparent url(img/button/button1/full_104.png) no-repeat center;
+	}
+	
+.dcdr_content .gwt-Button:hover{
+	border: 0px;
+	width: 104px;
+	background: transparent url(img/button/button1/full_104_hl.png) no-repeat center;
+	}
+
+/* buttons with link-style */
+div > .dcdr_content .v-button.v-button-link .v-button-caption,
+div > .dcdr_content .v-button.v-button-link:focus .v-button-caption,
+div > .dcdr_content .v-button.v-button-link:active .v-button-caption,
+.v-ie7 .dcdr_content .v-button-link .v-button-caption,
+.v-ie7 .dcdr_content .v-button-link.v-pressed .v-button-caption,
+div > .dcdr_content .v-button.v-button-link.v-disabled .v-button-caption,
+.v-ie7 .dcdr_content .v-button-link.v-disabled .v-button-caption,
+.dcdr_content .v-button.v-button-link{
+	margin: 0px;
+	padding: 0px;
+	color: #006AB1;
+	text-decoration: none;
+	background-image: none;
+	}	
+	
+div > .dcdr_content .v-button.v-button-link:hover .v-button-caption,
+.v-ie7 .dcdr_content .v-button-link:hover .v-button-caption,
+.v-ie7 .dcdr_content .v-button-link.v-pressed:hover .v-button-caption,
+div > .dcdr_content .v-button.v-button-link.v-disabled:hover .v-button-caption,
+.v-ie7 .dcdr_content .v-button-link.v-disabled:hover .v-button-caption,
+.dcdr_content .v-button.v-button-link:hover{
+	text-decoration: underline;
+	background-image: none;
+	}
+	
+	
+
+/* popup boxes */
+/* =========== */
+
+.popupContent{
+	}
+	
+/* header */
+.popupContent .v-window-outerheader,
+.v-ie7 .popupContent .v-window-outerheader{
+	padding: 0px;
+	background: transparent url(img/hnav/bar/background_o20_5050.png) repeat center;
+	height: 25px;
+	margin: 0px;
+	}
+	
+.popupContent .v-window-outerheader .v-window-header,
+.v-ie7 .popupContent .v-window-outerheader .v-window-header{
+	padding-top: 5px;
+	margin: 0px 0px 0px 15px;
+	}
+	
+.popupContent .v-window-closebox{
+	top: 5px;
+	visibility: hidden;
+	}
+	
+/* buttons */
+.popupContent .v-button,
+.popupContent .v-button:focus,
+.popupContent .v-button:active,
+.v-ie7 .popupContent .v-button,
+.v-ie7 .popupContent .v-button:focus,
+.v-ie7 .popupContent .v-button:active{
+	padding: 1px 0px 0px 0px;
+	height: 25px;
+	background-position: 0px left;
+	background: transparent url(img/button/button1/right.png) no-repeat center right;
+	}
+	
+.popupContent .v-button:hover,
+.v-ie7 .popupContent .v-button:hover{
+	background-position: 0px left;
+	background: transparent url(img/button/button1/right_hl.png) no-repeat center right;
+	}
+
+.popupContent .v-button span,
+.popupContent .v-button:focus span,
+.popupContent .v-button:active span,
+.popupContent .v-button.v-pressed span,
+.v-ie7 .popupContent .v-button span,
+.v-ie7 .popupContent .v-button:focus span,
+.v-ie7 .popupContent .v-button:active span,
+.v-ie7 .popupContent .v-button.v-pressed span{
+	margin: -2px 9px 0px 0px;
+	padding: 5px 5px 0px 14px;
+	background-position: 0px left;
+	background: transparent url(img/button/button1/left.png) no-repeat center left;
+	}
+	
+.popupContent .v-button:hover span,
+.popupContent .v-button:hover .v-button-caption,
+.v-ie7 .popupContent .v-button:hover span,
+.v-ie7 .popupContent .v-button:hover .v-button-caption{
+	background-position: 0px left;
+	background: transparent url(img/button/button1/left_hl.png) no-repeat center left;
+	}

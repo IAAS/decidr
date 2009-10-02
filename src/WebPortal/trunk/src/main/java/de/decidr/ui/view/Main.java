@@ -60,6 +60,8 @@ public class Main extends Application implements TransactionListener{
         main.addParameterHandler(new InvitationParameterHandler());
         main.addParameterHandler(new ConfirmationParameterHandler());
         
+        setTheme("decidr");
+        
         director.setUiBuilder(ui);
         director.createNewView();
         director.constructView();

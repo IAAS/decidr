@@ -62,8 +62,8 @@ public class SiteFrame extends CustomComponent{
         
         
         gridFrame.setSizeFull();
-        gridFrame.setMargin(true);
-        gridFrame.setSpacing(true);
+        gridFrame.setMargin(false);
+        gridFrame.setSpacing(false);
         
         splitPanel = new SplitPanel();
         
@@ -90,6 +90,7 @@ public class SiteFrame extends CustomComponent{
         public void setHeader(Component header){
                 gridFrame.addComponent(header, 1, 1);
                 this.header = header;
+                this.header.addStyleName("dcdr_header");
         }
         
         /**
@@ -100,6 +101,7 @@ public class SiteFrame extends CustomComponent{
         public void setHorizontalNavigation(Component navigation){
                 gridFrame.addComponent(navigation, 1, 2);
                 this.hNavigation = navigation;
+                this.hNavigation.addStyleName("dcdr_hnav");
         }
         
 
@@ -112,6 +114,7 @@ public class SiteFrame extends CustomComponent{
         public void setVerticalNavigation(Component navigation){
                 splitPanel.setFirstComponent(navigation);
                 this.navigation = navigation;
+                this.navigation.addStyleName("dcdr_vnav");
         }
         
         /**
@@ -123,6 +126,8 @@ public class SiteFrame extends CustomComponent{
         public void setContent(Component content){
                 splitPanel.setSecondComponent(content);
                 this.content = content;
+                this.content.addStyleName("dcdr_content");
+                this.content.setWidth("775px");
         }
         
         /**

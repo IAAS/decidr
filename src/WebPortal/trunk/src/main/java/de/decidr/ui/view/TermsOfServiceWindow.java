@@ -31,7 +31,6 @@ public class TermsOfServiceWindow extends CustomComponent{
         
         private VerticalLayout verticalLayout = null;
         private Label labelTerms = null;
-        private Panel panelBounds = null;
         
         /**
          * Default constructor
@@ -49,15 +48,12 @@ public class TermsOfServiceWindow extends CustomComponent{
         verticalLayout = new VerticalLayout();
         this.setCompositionRoot(verticalLayout);
 
-        panelBounds = new Panel();
-        panelBounds.setWidth(550,Panel.UNITS_PIXELS);
         
         labelTerms = new Label("<h2>Terms of Service</h2><br/>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
                                                         Label.CONTENT_XHTML);
         
-        panelBounds.addComponent(labelTerms);
                 
-        verticalLayout.addComponent(panelBounds);
+        verticalLayout.addComponent(labelTerms );
         }
  
 }
