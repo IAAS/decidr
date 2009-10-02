@@ -62,6 +62,8 @@ public class Login {
     private Class<? extends Role> role = null;
     private String tenantName = null;
     
+    private TenantView tenantView = null;
+    
     
     /**
      * The method generates the session and checks if the given username and 
@@ -92,7 +94,8 @@ public class Login {
             session.setAttribute("tenant", tenantName);
             session.setAttribute("role", role);
             Main.getCurrent().setUser(username);
-            Main.getCurrent().setTheme(tenantName);
+            
+            
             
             loadProtectedResources();
        
@@ -124,7 +127,9 @@ public class Login {
             uiDirector.constructView();
         }
         
-        
+        tenantView = new TenantView();
+        tenantView.synchronize();
+        Main.getCurrent().setTheme(tenantName);
     }
     
 
