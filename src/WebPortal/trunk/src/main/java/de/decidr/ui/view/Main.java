@@ -48,7 +48,7 @@ public class Main extends Application implements TransactionListener{
     Window main = new Window();
     UIBuilder ui = new SuperAdminViewBuilder();
     UIDirector director = UIDirector.getInstance();
-    MyParamterHandler parameterHandler = new MyParamterHandler();
+    
 
     /* (non-Javadoc)
      * @see com.vaadin.Application#init()
@@ -56,10 +56,10 @@ public class Main extends Application implements TransactionListener{
     @Override
     public void init() {
         setMainWindow(main);
-        main.addParameterHandler(parameterHandler);
+        
         main.addParameterHandler(new InvitationParameterHandler());
         main.addParameterHandler(new ConfirmationParameterHandler());
-        setTheme("test");
+        
         director.setUiBuilder(ui);
         director.createNewView();
         director.constructView();
@@ -75,15 +75,7 @@ public class Main extends Application implements TransactionListener{
     }
     
 
-    /**
-     * Returns the parameter handler for getting the parameters in the URL.
-     *
-     * @return parameterHandler
-     */
-    public MyParamterHandler getParameterHandler() {
-        return parameterHandler;
-    }
-
+   
 
 
     /**
