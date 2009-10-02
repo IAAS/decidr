@@ -3,33 +3,45 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <servlet>
-  	<servlet-name>WebPortal</servlet-name>
-  	<servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet
+	<filter>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+		<init-param>
+			<param-name>logLevel</param-name>
+			<param-value>WARN</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<servlet>
+		<servlet-name>WebPortal</servlet-name>
+		<servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet
   	</servlet-class>
-  	<init-param>
-  		<param-name>application</param-name>
-  		<param-value>de.decidr.ui.view.Main</param-value>
-  	</init-param>
-  	<init-param>
-            <param-name>widgetset</param-name>
-            <param-value>de.decidr.ui.view.MainWidgetset</param-value>
-    </init-param>  	
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>WebPortal</servlet-name>
-  	<url-pattern>/*</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-        <servlet-name>WebPortal</servlet-name>
-        <url-pattern>/VAADIN/*</url-pattern>
-  </servlet-mapping>
-  <session-config>
-  	<session-timeout>2</session-timeout>
-  </session-config>
-  <welcome-file-list>
-  	<welcome-file>index.html</welcome-file>
-  </welcome-file-list>
+		<init-param>
+			<param-name>application</param-name>
+			<param-value>de.decidr.ui.view.Main</param-value>
+		</init-param>
+		<init-param>
+			<param-name>widgetset</param-name>
+			<param-value>de.decidr.ui.view.MainWidgetset</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WebPortal</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WebPortal</servlet-name>
+		<url-pattern>/VAADIN/*</url-pattern>
+	</servlet-mapping>
+	<session-config>
+		<session-timeout>2</session-timeout>
+	</session-config>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
 
-  
+
 </web-app>
