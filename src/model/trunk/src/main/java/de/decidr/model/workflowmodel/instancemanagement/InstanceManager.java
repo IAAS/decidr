@@ -18,6 +18,8 @@ package de.decidr.model.workflowmodel.instancemanagement;
 
 import java.util.List;
 
+import javax.xml.soap.SOAPException;
+
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.WorkflowInstance;
@@ -45,14 +47,15 @@ public interface InstanceManager {
      *            The byte-array containing the start configuration
      * @param serverStatistics
      *            A list of servers on which the workflow model is deployed
-     * @return The newly created WorkflowInstance
+     * @return A result type holding all relevant data
      */
-    public WorkflowInstance startInstance(DeployedWorkflowModel dwfm,
-            byte[] startConfiguration, List<ServerLoadView> serverStatistics);
-    
+    public StartInstanceResult startInstance(DeployedWorkflowModel dwfm,
+            byte[] startConfiguration, List<ServerLoadView> serverStatistics)
+            throws SOAPException;
+
     /**
      * This method is called to stop a workflow instance.
-     *
+     * 
      * @param instance
      *            The instance to be stopped.
      */

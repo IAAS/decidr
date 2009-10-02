@@ -32,13 +32,25 @@ public class ServerSelector {
 
     /**
      * The function expects a ServerLoadView and selects the server with the
-     * least load of the given servers and returns its ID.
+     * least load of the given servers and returns its ServerLoadView object.
      * 
      * @param serverStatistics
-     * @return ID of server with least load
+     * @return {@link ServerLoadView} The selected server with the least load.
      */
-    public long selectServer(List<ServerLoadView> serverStatistics) {
-        return 1l;
+    public ServerLoadView selectServer(List<ServerLoadView> serverStatistics) {
+        
+        if (serverStatistics.isEmpty()){
+            throw new IllegalArgumentException();
+        }
+        
+        ServerLoadView minServer = serverStatistics.get(0);
+        
+        for (ServerLoadView server : serverStatistics){
+            if (server.getLoad()<minServer.getLoad()){
+                minServer = server;
+            }
+        }
+        return minServer;
     }
 
 }

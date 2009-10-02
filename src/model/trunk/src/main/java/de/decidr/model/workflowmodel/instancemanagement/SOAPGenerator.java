@@ -16,6 +16,15 @@
 
 package de.decidr.model.workflowmodel.instancemanagement;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.MimeHeaders;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
+
 /**
  * This class generates a SOAP message, using the SOAP template of a workflow
  * model and a start configuration, to fill the template with data.
@@ -24,7 +33,10 @@ package de.decidr.model.workflowmodel.instancemanagement;
  * @version 0.1
  */
 public class SOAPGenerator {
-
+    
+    private String contentType = "Content-Type";
+    private String contentValue = "text/xml; charset=UTF-8";
+        
     /**
      * The function expects a SOAP template and a start configuration. Using
      * this input, the function generates a complete SOAP message which can be
@@ -35,10 +47,14 @@ public class SOAPGenerator {
      * @param template
      * @param bystartConfig
      * @return The generated SOAP message
+     * @throws SOAPException 
+     * @throws IOException 
      */
-    public String getSOAP(String template, byte[] bystartConfig) {
-
-        return null;
+    public SOAPMessage getSOAP(byte[] template, byte[] startConfig) throws SOAPException, IOException {
+        MessageFactory factory = MessageFactory.newInstance();
+        MimeHeaders headers = new MimeHeaders();
+        headers.addHeader(contentType, contentValue);
+        SOAPMessage soapTemplate = factory.createMessage(headers, new ByteArrayInputStream(template));
     }
 
 }

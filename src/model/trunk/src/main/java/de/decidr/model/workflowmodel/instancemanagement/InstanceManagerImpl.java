@@ -18,6 +18,9 @@ package de.decidr.model.workflowmodel.instancemanagement;
 
 import java.util.List;
 
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
+
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.WorkflowInstance;
@@ -40,17 +43,24 @@ public class InstanceManagerImpl implements InstanceManager {
      * java.util.List)
      */
     @Override
-    public WorkflowInstance startInstance(DeployedWorkflowModel dwfm,
-            byte[] startConfiguration, List<ServerLoadView> serverStatistics){
+    public StartInstanceResult startInstance(DeployedWorkflowModel dwfm,
+            byte[] startConfiguration, List<ServerLoadView> serverStatistics)
+            throws SOAPException{
         ServerSelector selector = new ServerSelector();
-        long serverID = selector.selectServer(serverStatistics);
+        ServerLoadView selectedServer = selector.selectServer(serverStatistics);
         SOAPGenerator generator = new SOAPGenerator();
-        String soapMessage = generator.getSOAP(dwfm.getSoapTemplate()
-                .toString(), startConfiguration);
+        SOAPMessage soapMessage = generator.getSOAP(dwfm.getSoapTemplate(), startConfiguration);
         SOAPExecution execution = new SOAPExecution();
-        execution.invoke(serverID, soapMessage);
-        return null; // MA please create a new instance or alternatively
-                     // create a new type "StartInstanceResult".
+        SOAPMessage replySOAPMessage;
+        replySOAPMessage = execution.invoke(selectedServer, soapMessage);
+        StartInstanceResult result = new StartInstanceResultImpl();
+        result.setServer(selectedServer.getId());
+        result.setODEPid(getODEPid(replySOAPMessage));
+        return result;
+    }
+
+    private String getODEPid(SOAPMessage replySOAPMessage) {
+        return null;
     }
 
     /*

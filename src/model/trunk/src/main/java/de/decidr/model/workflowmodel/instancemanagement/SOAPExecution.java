@@ -16,6 +16,13 @@
 
 package de.decidr.model.workflowmodel.instancemanagement;
 
+import javax.xml.soap.SOAPConnection;
+import javax.xml.soap.SOAPConnectionFactory;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
+
+import de.decidr.model.entities.ServerLoadView;
+
 /**
  * This class invokes a web service with a given SOAP message.
  * 
@@ -23,6 +30,7 @@ package de.decidr.model.workflowmodel.instancemanagement;
  * @version 0.1
  */
 public class SOAPExecution {
+    
 
     /**
      * The function expects the address of a Web service and a matching SOAP
@@ -31,10 +39,16 @@ public class SOAPExecution {
      * 
      * @param address
      * @param soap
+     * @throws SOAPException
      */
-    public void invoke(long serverID, String soapMessage) {
-        // MA please implement me
-        
-    }  
+    public SOAPMessage invoke(ServerLoadView server, SOAPMessage soapMessage)
+            throws SOAPException {
+        SOAPConnectionFactory soapConnFactory = SOAPConnectionFactory
+                .newInstance();
+        SOAPConnection connection = soapConnFactory.createConnection();
+        SOAPMessage reply = connection.call(soapMessage, server.getLocation());
+        connection.close();
+        return reply;
+    }
 
 }
