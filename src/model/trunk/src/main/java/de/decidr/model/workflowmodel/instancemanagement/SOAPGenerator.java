@@ -18,12 +18,26 @@ package de.decidr.model.workflowmodel.instancemanagement;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.namespace.QName;
+import javax.xml.soap.Detail;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
+import javax.xml.soap.Name;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPFault;
 import javax.xml.soap.SOAPMessage;
+
+import org.apache.axiom.soap.SOAPFactory;
+
+import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
+import de.decidr.model.workflowmodel.wsc.TActor;
+import de.decidr.model.workflowmodel.wsc.TAssignment;
+import de.decidr.model.workflowmodel.wsc.TConfiguration;
+import de.decidr.model.workflowmodel.wsc.TRole;
 
 /**
  * This class generates a SOAP message, using the SOAP template of a workflow
@@ -33,10 +47,10 @@ import javax.xml.soap.SOAPMessage;
  * @version 0.1
  */
 public class SOAPGenerator {
-    
+
     private String contentType = "Content-Type";
     private String contentValue = "text/xml; charset=UTF-8";
-        
+
     /**
      * The function expects a SOAP template and a start configuration. Using
      * this input, the function generates a complete SOAP message which can be
@@ -45,16 +59,43 @@ public class SOAPGenerator {
      * message is returned.
      * 
      * @param template
-     * @param bystartConfig
-     * @return The generated SOAP message
-     * @throws SOAPException 
-     * @throws IOException 
+     * @param startConfig
+     * @return {@link SOAPMessage} The generated SOAP message
+     * @throws SOAPException
+     * @throws IOException
+     * @throws JAXBException
      */
-    public SOAPMessage getSOAP(byte[] template, byte[] startConfig) throws SOAPException, IOException {
-        MessageFactory factory = MessageFactory.newInstance();
+    public SOAPMessage getSOAP(byte[] template, byte[] startConfig)
+            throws SOAPException, IOException, JAXBException {
+        MessageFactory messageFactory = MessageFactory.newInstance();
         MimeHeaders headers = new MimeHeaders();
         headers.addHeader(contentType, contentValue);
-        SOAPMessage soapTemplate = factory.createMessage(headers, new ByteArrayInputStream(template));
+        SOAPMessage soapTemplate = messageFactory.createMessage(headers,
+                new ByteArrayInputStream(template));
+        
+        TConfiguration startConfiguration = TransformUtil
+                .bytes2Configuration(startConfig);
+        javax.xml.soap.SOAPBody messageBody = soapTemplate.getSOAPBody();
+        if (startConfiguration.getRoles()!=null){
+            if (!startConfiguration.getRoles().getRole().isEmpty()) {
+                for (TRole role : startConfiguration.getRoles().getRole()) {
+                    
+                }
+            } 
+            if (!startConfiguration.getRoles().getActor().isEmpty()){
+                for (TActor actor : startConfiguration.getRoles().getActor()){
+                    
+                }
+            }
+        }
+        if (!startConfiguration.getAssignment().isEmpty()){
+            for (TAssignment assignment : startConfiguration.getAssignment()){
+                
+            }
+        }
+                
+
+        return soapTemplate;
     }
 
 }

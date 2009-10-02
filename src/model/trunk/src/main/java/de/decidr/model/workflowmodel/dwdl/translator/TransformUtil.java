@@ -105,7 +105,7 @@ public class TransformUtil {
     }
 
     /**
-     * Unmarshals an object from XML data stored in a byte array.
+     * Unmarshalls an object from XML data stored in a byte array.
      * 
      * @param clazz
      *            the expected class of the unmarshalled object.
@@ -173,7 +173,7 @@ public class TransformUtil {
 
     public static THumanTaskData bytes2HumanTask(byte[] dwdl)
             throws JAXBException {
-        // TODO: Implement the unmarshaling
+        // MA: Implement the unmarshaling
         return null;
     }
 
