@@ -62,7 +62,7 @@ public class TransformUtil {
 
     private static Document doc = null;
     private static JAXBContext dwdlCntxt = null;
-    private static JAXBContext wscCntxt = null; 
+    private static JAXBContext wscCntxt = null;
     private static Logger log = DefaultLogger.getLogger(TransformUtil.class);
 
     static {
@@ -78,6 +78,57 @@ public class TransformUtil {
         } catch (JAXBException e) {
             log.error("Couldn't create JAXBContext for DWDL", e);
         }
+    }
+
+    /**
+     * Marshals the given object to a byte array using the JAXB marshaller.
+     * 
+     * @param node
+     *            object to marshal
+     * @return the marshalled XML
+     * @throws JAXBException
+     *             if the given object is not recognized by JAXB as a valid XML
+     *             entity.
+     */
+    public static byte[] getBytes(Object node) throws JAXBException {
+        if (node == null) {
+            throw new IllegalArgumentException("Node must not be null.");
+        }
+
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+
+        Class<?> clazz = node.getClass();
+        JAXBContext context = JAXBContext.newInstance(clazz);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.marshal(node, outStream);
+        return outStream.toByteArray();
+    }
+
+    /**
+     * Unmarshals an object from XML data stored in a byte array.
+     * 
+     * @param clazz
+     *            the expected class of the unmarshalled object.
+     * @param bytes
+     *            the data source for unmarshalling
+     * @return the unmarshalled object
+     * @throws JAXBException
+     *             if the given class is not recognized by JAXB as a valid XML
+     *             entity.
+     */
+    public static Object getNode(Class<?> clazz, byte[] bytes)
+            throws JAXBException {
+        if (clazz == null) {
+            throw new IllegalArgumentException("Class must not be null.");
+        }
+        if (bytes == null || bytes.length == 0) {
+            throw new IllegalArgumentException(
+                    "Source byte array must not be null or empty.");
+        }
+
+        ByteArrayInputStream inStream = new ByteArrayInputStream(bytes);
+        JAXBContext context = JAXBContext.newInstance(clazz);
+        return context.createUnmarshaller().unmarshal(inStream);
     }
 
     public static byte[] fileToBytes(File file) throws IOException {
@@ -119,9 +170,10 @@ public class TransformUtil {
                 Workflow.class);
         return dwdlElement.getValue();
     }
-    
-    public static THumanTaskData bytes2HumanTask(byte[] dwdl) throws JAXBException{
-        //TODO: Implement the unmarshaling 
+
+    public static THumanTaskData bytes2HumanTask(byte[] dwdl)
+            throws JAXBException {
+        // TODO: Implement the unmarshaling
         return null;
     }
 
@@ -201,16 +253,18 @@ public class TransformUtil {
             String qName) {
         return doc.createAttributeNS(namespace, qName);
     }
-    
-    public static byte[] configuration2Bytes(TConfiguration con) throws JAXBException{
+
+    public static byte[] configuration2Bytes(TConfiguration con)
+            throws JAXBException {
         Marshaller dwdlMarshaller = wscCntxt.createMarshaller();
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         dwdlMarshaller.marshal(con, os);
 
-        return os.toByteArray();      
+        return os.toByteArray();
     }
-    
-    public static TConfiguration bytes2Configuration(byte[] wsc) throws JAXBException{
+
+    public static TConfiguration bytes2Configuration(byte[] wsc)
+            throws JAXBException {
         Unmarshaller wscUnmarshaller = wscCntxt.createUnmarshaller();
         JAXBElement<TConfiguration> dwdlElement = wscUnmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(wsc)),
