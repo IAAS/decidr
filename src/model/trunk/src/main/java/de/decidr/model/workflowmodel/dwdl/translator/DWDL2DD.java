@@ -16,6 +16,8 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import de.decidr.model.workflowmodel.bpel.PartnerLink;
@@ -23,6 +25,10 @@ import de.decidr.model.workflowmodel.bpel.Process;
 
 import de.decidr.model.workflowmodel.dd.ObjectFactory;
 import de.decidr.model.workflowmodel.dd.TDeployment;
+import de.decidr.model.workflowmodel.dd.TInvoke;
+import de.decidr.model.workflowmodel.dd.TProvide;
+import de.decidr.model.workflowmodel.dd.TService;
+import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
 
 /**
  * This class converts a given DWDL object and returns the resulting deployment
@@ -33,19 +39,47 @@ import de.decidr.model.workflowmodel.dd.TDeployment;
  */
 public class DWDL2DD {
 
-    Process bpelProcess = null;
     TDeployment deployment = null;
     
-    public TDeployment getDD(Process bpel) {
+    public TDeployment getDD(Process bpel, List<DecidrWebserviceAdapter> webservices) {
         ObjectFactory factory = new ObjectFactory();
-        bpelProcess = bpel;
         deployment = factory.createTDeployment();
         de.decidr.model.workflowmodel.dd.TDeployment.Process process = factory.createTDeploymentProcess();
         process.setName(new QName(bpel.getTargetNamespace(),bpel.getName(),"pns"));
         for (PartnerLink partnerLink : bpel.getPartnerLinks().getPartnerLink()){
-            
+            if (partnerLink.isSetMyRole() || partnerLink.isSetPartnerRole()){
+                if (partnerLink.isSetMyRole()){
+                    TProvide provide = factory.createTProvide();
+                    provide.setPartnerLink(partnerLink.getName());
+                    TService service = factory.createTService();
+                    DecidrWebserviceAdapter webservice = findWebserviceAdapter(partnerLink, webservices);
+                    service.setName(webservice.getService().getQName());
+                    provide.setService(service);
+                    process.getProvide().add(provide);
+                }
+                if (partnerLink.isSetPartnerRole()){
+                    TInvoke invoke = factory.createTInvoke();
+                    invoke.setPartnerLink(partnerLink.getName());
+                    TService service = factory.createTService();
+                    DecidrWebserviceAdapter webservice = findWebserviceAdapter(partnerLink, webservices);
+                    service.setName(webservice.getService().getQName());
+                    invoke.setService(service);
+                    process.getInvoke().add(invoke);
+                }
+            }
         }
+        deployment.getProcess().add(process);
         return deployment;
+    }
+    
+    private DecidrWebserviceAdapter findWebserviceAdapter(PartnerLink partnerLink,
+            List<DecidrWebserviceAdapter> webservices) {
+        for (DecidrWebserviceAdapter adapter: webservices){
+            if (adapter.getPartnerLink().getName().equals(partnerLink.getName())){
+                return adapter;
+            }
+        }
+        return null;
     }
 
 }

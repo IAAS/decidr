@@ -658,14 +658,19 @@ public class DWDL2BPEL {
                     adapter.getPartnerLinkType(), webservicePrefixes
                             .get(adapter)));
             wsPL.setPartnerRole(adapter.getName().getLocalPart() + "Provider");
+            // MA How to integrate callback-potential webservices?
 
-            // Decidr HumanTask web service callback
-            if (adapter.getName().getLocalPart()
-                    .equals(HUMANTASK_ACTIVITY_NAME)) {
-                wsPL.setMyRole(adapter.getName().getLocalPart() + "Client");
-            }
             process.getPartnerLinks().getPartnerLink().add(wsPL);
         }
+        
+        // Decidr HumanTask web service callback
+        // MA Think about it!
+        PartnerLink humanTaskPL = factory.createPartnerLink();
+        humanTaskPL.setName(webservices.get(HUMANTASK_ACTIVITY_NAME).getName().getLocalPart()+"Callback");
+        humanTaskPL.setPartnerLinkType(new QName(webservices.get(HUMANTASK_ACTIVITY_NAME).getTargetNamespace(),
+                webservices.get(HUMANTASK_ACTIVITY_NAME).getPartnerLinkType(), webservicePrefixes
+                .get(webservices.get(HUMANTASK_ACTIVITY_NAME))));
+        humanTaskPL.setMyRole("ProcessProvider");
 
         // create process client partner link
         PartnerLink processPL = factory.createPartnerLink();

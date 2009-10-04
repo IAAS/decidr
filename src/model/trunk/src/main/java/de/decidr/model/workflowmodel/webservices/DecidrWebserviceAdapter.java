@@ -19,7 +19,11 @@ package de.decidr.model.workflowmodel.webservices;
 import javax.wsdl.Definition;
 import javax.wsdl.Operation;
 import javax.wsdl.PortType;
+import javax.wsdl.Service;
 import javax.xml.namespace.QName;
+
+import de.decidr.model.workflowmodel.bpel.PartnerLink;
+import de.decidr.model.workflowmodel.bpel.PartnerLinkType;
 
 /**
  * This class supplies methods for the conversion components.
@@ -42,11 +46,13 @@ public class DecidrWebserviceAdapter {
         return definition.getQName();
     }
 
-    public String getPartnerLink() {
+    public PartnerLink getPartnerLink() {
+        // MA what about ParnterLinks?
         return null;
     }
 
-    public String getPartnerLinkType() {
+    public PartnerLinkType getPartnerLinkType() {
+        // MA what about PartnerLinkTypes?
         return null;
     }
 
@@ -72,12 +78,17 @@ public class DecidrWebserviceAdapter {
         return definition;
     }
     
-    public String getInputMessageType() {
-        return getOpertation().getInput().getMessage().getQName().getLocalPart();
+    public QName getInputMessageType() {
+        return getOpertation().getInput().getMessage().getQName();
     }
     
-    public String getOutputMessageType() {
-        return getOpertation().getOutput().getMessage().getQName().getLocalPart();
+    public QName getOutputMessageType() {
+        return getOpertation().getOutput().getMessage().getQName();
+    }
+    
+    public Service getService(){
+        // MA What about Service?
+        return null;
     }
     
 }
