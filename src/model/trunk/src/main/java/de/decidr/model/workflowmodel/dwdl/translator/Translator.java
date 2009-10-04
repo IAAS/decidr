@@ -131,11 +131,15 @@ public class Translator {
         return bpelProcess;
     }
 
-    public Definition getWSDL(String location, String tenantName) {
+    public Definition getWSDL(String location) {
+        DWDL2WSDL wsdlConverter = new DWDL2WSDL();
+        wsdl = wsdlConverter.getWSDL(dwdlWorkflow, location, tenantName);
         return wsdl;
     }
 
-    public TDeployment getDD(Process process) {
+    public TDeployment getDD() {
+        DWDL2DD ddConverter = new DWDL2DD();
+        dd = ddConverter.getDD(dwdl);
         return dd;
     }
 

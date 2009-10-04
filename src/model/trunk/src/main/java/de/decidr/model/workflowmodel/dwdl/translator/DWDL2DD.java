@@ -16,8 +16,13 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
+import javax.xml.namespace.QName;
+
+import de.decidr.model.workflowmodel.bpel.PartnerLink;
+import de.decidr.model.workflowmodel.bpel.Process;
+
+import de.decidr.model.workflowmodel.dd.ObjectFactory;
 import de.decidr.model.workflowmodel.dd.TDeployment;
-import de.decidr.model.workflowmodel.dwdl.Workflow;
 
 /**
  * This class converts a given DWDL object and returns the resulting deployment
@@ -28,8 +33,19 @@ import de.decidr.model.workflowmodel.dwdl.Workflow;
  */
 public class DWDL2DD {
 
-    public TDeployment getDD(Workflow dwdl) {
-        return null;
+    Process bpelProcess = null;
+    TDeployment deployment = null;
+    
+    public TDeployment getDD(Process bpel) {
+        ObjectFactory factory = new ObjectFactory();
+        bpelProcess = bpel;
+        deployment = factory.createTDeployment();
+        de.decidr.model.workflowmodel.dd.TDeployment.Process process = factory.createTDeploymentProcess();
+        process.setName(new QName(bpel.getTargetNamespace(),bpel.getName(),"pns"));
+        for (PartnerLink partnerLink : bpel.getPartnerLinks().getPartnerLink()){
+            
+        }
+        return deployment;
     }
 
 }

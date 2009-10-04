@@ -40,7 +40,7 @@ public class ServerSelector {
     public ServerLoadView selectServer(List<ServerLoadView> serverStatistics) {
         
         if (serverStatistics.isEmpty()){
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Server list for process invocation is empty");
         }
         
         ServerLoadView minServer = serverStatistics.get(0);

@@ -16,8 +16,10 @@
 
 package de.decidr.model.workflowmodel.instancemanagement;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.xml.bind.JAXBException;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
@@ -45,14 +47,13 @@ public class InstanceManagerImpl implements InstanceManager {
     @Override
     public StartInstanceResult startInstance(DeployedWorkflowModel dwfm,
             byte[] startConfiguration, List<ServerLoadView> serverStatistics)
-            throws SOAPException{
+            throws SOAPException, IOException, JAXBException{
         ServerSelector selector = new ServerSelector();
         ServerLoadView selectedServer = selector.selectServer(serverStatistics);
         SOAPGenerator generator = new SOAPGenerator();
         SOAPMessage soapMessage = generator.getSOAP(dwfm.getSoapTemplate(), startConfiguration);
         SOAPExecution execution = new SOAPExecution();
-        SOAPMessage replySOAPMessage;
-        replySOAPMessage = execution.invoke(selectedServer, soapMessage);
+        SOAPMessage replySOAPMessage = execution.invoke(selectedServer, soapMessage);
         StartInstanceResult result = new StartInstanceResultImpl();
         result.setServer(selectedServer.getId());
         result.setODEPid(getODEPid(replySOAPMessage));

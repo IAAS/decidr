@@ -20,18 +20,10 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.namespace.QName;
-import javax.xml.soap.Detail;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
-import javax.xml.soap.Name;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFault;
 import javax.xml.soap.SOAPMessage;
-
-import org.apache.axiom.soap.SOAPFactory;
 
 import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
 import de.decidr.model.workflowmodel.wsc.TActor;

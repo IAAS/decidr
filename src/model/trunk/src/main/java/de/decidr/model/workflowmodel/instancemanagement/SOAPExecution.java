@@ -37,8 +37,8 @@ public class SOAPExecution {
      * message. If the function is called, the specified Web service is invoked
      * using the provided SOAP message.
      * 
-     * @param address
-     * @param soap
+     * @param server
+     * @param soapMessage
      * @throws SOAPException
      */
     public SOAPMessage invoke(ServerLoadView server, SOAPMessage soapMessage)
