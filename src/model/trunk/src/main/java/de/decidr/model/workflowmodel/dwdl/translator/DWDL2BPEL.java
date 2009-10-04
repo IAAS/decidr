@@ -261,7 +261,7 @@ public class DWDL2BPEL {
             }
         }
         emailInvoke.setPartnerLink(webservices.get(EMAIL_ACTIVITY_NAME)
-                .getPartnerLink());
+                .getPartnerLink().getName());
         emailInvoke.setOperation(webservices.get(EMAIL_ACTIVITY_NAME)
                 .getOpertation().getName());
         emailInvoke.setInputVariable(SUCCESS_MESSAGE_REQUEST);
@@ -372,7 +372,7 @@ public class DWDL2BPEL {
         }
         sequence.getActivity().add(assign);
         invoke.setPartnerLink(webservices.get(node.getActivity())
-                .getPartnerLink());
+                .getPartnerLink().getName());
         invoke.setOperation(webservices.get(node.getActivity()).getOpertation()
                 .getName());
         invoke.setInputVariable(webserviceInputVariables.get(
@@ -582,7 +582,7 @@ public class DWDL2BPEL {
                 }
             }
             emailInvoke.setPartnerLink(webservices.get(EMAIL_ACTIVITY_NAME)
-                    .getPartnerLink());
+                    .getPartnerLink().getName());
             emailInvoke.setOperation(webservices.get(EMAIL_ACTIVITY_NAME)
                     .getOpertation().getName());
             emailInvoke.setInputVariable(FAULT_MESSAGE_REQUEST);
@@ -652,10 +652,10 @@ public class DWDL2BPEL {
         // create partner links for all known web services
         for (DecidrWebserviceAdapter adapter : webservices.values()) {
             PartnerLink wsPL = factory.createPartnerLink();
-            wsPL.setName(adapter.getPartnerLink());
+            wsPL.setName(adapter.getPartnerLink().getName());
 
             wsPL.setPartnerLinkType(new QName(adapter.getTargetNamespace(),
-                    adapter.getPartnerLinkType(), webservicePrefixes
+                    adapter.getPartnerLinkType().getName(), webservicePrefixes
                             .get(adapter)));
             wsPL.setPartnerRole(adapter.getName().getLocalPart() + "Provider");
             // MA How to integrate callback-potential webservices?
@@ -668,7 +668,7 @@ public class DWDL2BPEL {
         PartnerLink humanTaskPL = factory.createPartnerLink();
         humanTaskPL.setName(webservices.get(HUMANTASK_ACTIVITY_NAME).getName().getLocalPart()+"Callback");
         humanTaskPL.setPartnerLinkType(new QName(webservices.get(HUMANTASK_ACTIVITY_NAME).getTargetNamespace(),
-                webservices.get(HUMANTASK_ACTIVITY_NAME).getPartnerLinkType(), webservicePrefixes
+                webservices.get(HUMANTASK_ACTIVITY_NAME).getPartnerLinkType().getName(), webservicePrefixes
                 .get(webservices.get(HUMANTASK_ACTIVITY_NAME))));
         humanTaskPL.setMyRole("ProcessProvider");
 
@@ -726,12 +726,12 @@ public class DWDL2BPEL {
                     + adapter.getOpertation().getName() + "Input");
             inputVariable.setMessageType(new QName(
                     adapter.getTargetNamespace(),
-                    adapter.getInputMessageType(), webservicePrefixes
+                    adapter.getInputMessageType().getLocalPart(), webservicePrefixes
                             .get(adapter)));
             outputVariable.setName(webservicePrefixes.get(adapter)
                     + adapter.getOpertation() + "Output");
             outputVariable.setMessageType(new QName(adapter
-                    .getTargetNamespace(), adapter.getOutputMessageType(),
+                    .getTargetNamespace(), adapter.getOutputMessageType().getLocalPart(),
                     webservicePrefixes.get(adapter)));
 
             webserviceInputVariables.put(adapter, inputVariable);
@@ -753,24 +753,24 @@ public class DWDL2BPEL {
         faultMessage.setName(FAULT_MESSAGE_REQUEST);
         faultMessage.setMessageType(new QName(webservices.get(
                 EMAIL_ACTIVITY_NAME).getTargetNamespace(), webservices.get(
-                EMAIL_ACTIVITY_NAME).getInputMessageType(), webservicePrefixes
+                EMAIL_ACTIVITY_NAME).getInputMessageType().getLocalPart(), webservicePrefixes
                 .get(webservices.get(EMAIL_ACTIVITY_NAME))));
         faultMessageResponse.setName(FAULT_MESSAGE_RESPONSE);
         faultMessageResponse.setMessageType(new QName(webservices.get(
                 EMAIL_ACTIVITY_NAME).getTargetNamespace(), webservices.get(
-                EMAIL_ACTIVITY_NAME).getOutputMessageType(), webservicePrefixes
+                EMAIL_ACTIVITY_NAME).getOutputMessageType().getLocalPart(), webservicePrefixes
                 .get(webservices.get(EMAIL_ACTIVITY_NAME))));
 
         // setting success notification variables
         successMessage.setName(SUCCESS_MESSAGE_REQUEST);
         successMessage.setMessageType(new QName(webservices.get(
                 EMAIL_ACTIVITY_NAME).getTargetNamespace(), webservices.get(
-                EMAIL_ACTIVITY_NAME).getInputMessageType(), webservicePrefixes
+                EMAIL_ACTIVITY_NAME).getInputMessageType().getLocalPart(), webservicePrefixes
                 .get(webservices.get(EMAIL_ACTIVITY_NAME))));
         successMessageResponse.setName(SUCCESS_MESSAGE_RESPONSE);
         successMessageResponse.setMessageType(new QName(webservices.get(
                 EMAIL_ACTIVITY_NAME).getTargetNamespace(), webservices.get(
-                EMAIL_ACTIVITY_NAME).getOutputMessageType(), webservicePrefixes
+                EMAIL_ACTIVITY_NAME).getOutputMessageType().getLocalPart(), webservicePrefixes
                 .get(webservices.get(EMAIL_ACTIVITY_NAME))));
 
         // setting process human task data receiving variable

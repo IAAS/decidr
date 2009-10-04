@@ -139,7 +139,7 @@ public class Translator {
 
     public TDeployment getDD() {
         DWDL2DD ddConverter = new DWDL2DD();
-        dd = ddConverter.getDD(dwdl);
+        dd = ddConverter.getDD(bpelProcess,webserviceAdapters);
         return dd;
     }
 

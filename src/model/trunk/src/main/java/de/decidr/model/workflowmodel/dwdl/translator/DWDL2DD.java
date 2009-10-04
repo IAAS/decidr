@@ -16,7 +16,7 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -41,7 +41,7 @@ public class DWDL2DD {
 
     TDeployment deployment = null;
     
-    public TDeployment getDD(Process bpel, List<DecidrWebserviceAdapter> webservices) {
+    public TDeployment getDD(Process bpel, Map<String, DecidrWebserviceAdapter> webservices) {
         ObjectFactory factory = new ObjectFactory();
         deployment = factory.createTDeployment();
         de.decidr.model.workflowmodel.dd.TDeployment.Process process = factory.createTDeploymentProcess();
@@ -73,8 +73,8 @@ public class DWDL2DD {
     }
     
     private DecidrWebserviceAdapter findWebserviceAdapter(PartnerLink partnerLink,
-            List<DecidrWebserviceAdapter> webservices) {
-        for (DecidrWebserviceAdapter adapter: webservices){
+            Map<String, DecidrWebserviceAdapter> webservices) {
+        for (DecidrWebserviceAdapter adapter: webservices.values()){
             if (adapter.getPartnerLink().getName().equals(partnerLink.getName())){
                 return adapter;
             }
