@@ -541,7 +541,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         }
     }
 
-    private boolean checkPWD(String pwd) throws TransactionException {
+    private static boolean checkPWD(String pwd) throws TransactionException {
         try {
             userFacade.getUserIdByLogin(TEST_EMAIL, pwd);
             return true;
@@ -550,7 +550,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         }
     }
 
-    private void resetPWD() throws TransactionException {
+    private static void resetPWD() throws TransactionException {
         adminFacade.setPassword(testUserID, null, TEST_PASSWORD);
     }
 
