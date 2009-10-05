@@ -35,7 +35,7 @@ import de.decidr.model.testsuites.DatabaseTestSuite;
  * 
  * @author Reinhold
  */
-// RR create & start WF instance?
+// JE create & start WF instance?
 public class WorkflowInstanceFacadeTest {
 
     static WorkflowInstanceFacade adminFacade;
@@ -69,8 +69,8 @@ public class WorkflowInstanceFacadeTest {
      */
     @Test
     public void testWorkflowInstance() {
-        fail("Not yet implemented"); // RR getParticipatingUsers
-        fail("Not yet implemented"); // RR deleteWorkflowInstance
+        fail("Not yet implemented"); // JE getParticipatingUsers
+        fail("Not yet implemented"); // JE deleteWorkflowInstance
     }
 
     /**
@@ -79,7 +79,7 @@ public class WorkflowInstanceFacadeTest {
      */
     @Test
     public void testWorkItems() {
-        fail("Not yet implemented"); // RR getAllWorkItems
-        fail("Not yet implemented"); // RR removeAllWorkItems
+        fail("Not yet implemented"); // JE getAllWorkItems
+        fail("Not yet implemented"); // JE removeAllWorkItems
     }
 }

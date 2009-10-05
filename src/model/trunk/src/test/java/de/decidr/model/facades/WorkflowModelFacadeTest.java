@@ -70,7 +70,7 @@ public class WorkflowModelFacadeTest {
      */
     @Test
     public void testSaveWorkflowModel() {
-        fail("Not yet implemented"); // RR saveWorkflowModel
+        fail("Not yet implemented"); // JE saveWorkflowModel
     }
 
     /**
@@ -78,7 +78,7 @@ public class WorkflowModelFacadeTest {
      */
     @Test
     public void testGetWorkflowModel() {
-        fail("Not yet implemented"); // RR getWorkflowModel
+        fail("Not yet implemented"); // JE getWorkflowModel
     }
 
     /**
@@ -86,7 +86,7 @@ public class WorkflowModelFacadeTest {
      */
     @Test
     public void testPublishWorkflowModels() {
-        fail("Not yet implemented"); // RR publishWorkflowModels
+        fail("Not yet implemented"); // JE publishWorkflowModels
     }
 
     /**
@@ -95,7 +95,7 @@ public class WorkflowModelFacadeTest {
      */
     @Test
     public void testUnpublishWorkflowModels() {
-        fail("Not yet implemented"); // RR unpublishWorkflowModels
+        fail("Not yet implemented"); // JE unpublishWorkflowModels
     }
 
     /**
@@ -103,7 +103,7 @@ public class WorkflowModelFacadeTest {
      */
     @Test
     public void testSetExecutable() {
-        fail("Not yet implemented"); // RR setExecutable
+        fail("Not yet implemented"); // JE setExecutable
     }
 
     /**
@@ -112,7 +112,7 @@ public class WorkflowModelFacadeTest {
      */
     @Test
     public void testGetWorkflowAdministrators() {
-        fail("Not yet implemented"); // RR getWorkflowAdministrators
+        fail("Not yet implemented"); // JE getWorkflowAdministrators
     }
 
     /**

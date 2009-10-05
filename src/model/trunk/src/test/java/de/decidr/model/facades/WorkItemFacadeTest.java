@@ -69,12 +69,12 @@ public class WorkItemFacadeTest {
      */
     @Test
     public void testWorkItem() {
-        fail("Not yet implemented"); // RR createWorkItem
-        fail("Not yet implemented"); // RR getWorkItem
-        fail("Not yet implemented"); // RR setData
-        fail("Not yet implemented"); // RR setDataAndMarkAsDone
-        fail("Not yet implemented"); // RR getWorkItemAndMarkAsInProgress
-        fail("Not yet implemented"); // RR markWorkItemAsDone
-        fail("Not yet implemented"); // RR deleteWorkItem
+        fail("Not yet implemented"); // JE createWorkItem
+        fail("Not yet implemented"); // JE getWorkItem
+        fail("Not yet implemented"); // JE setData
+        fail("Not yet implemented"); // JE setDataAndMarkAsDone
+        fail("Not yet implemented"); // JE getWorkItemAndMarkAsInProgress
+        fail("Not yet implemented"); // JE markWorkItemAsDone
+        fail("Not yet implemented"); // JE deleteWorkItem
     }
 }
