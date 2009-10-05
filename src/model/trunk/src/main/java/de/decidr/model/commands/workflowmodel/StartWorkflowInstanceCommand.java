@@ -303,8 +303,8 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
 
             List<ServerLoadView> serverStatistics = q.list();
 
-            createdWorkflowInstance = manager.startInstance(deployedModel,
-                    binaryStartConfig, serverStatistics);
+//            createdWorkflowInstance = manager.startInstance(deployedModel,
+//                    binaryStartConfig, serverStatistics);
             createdWorkflowInstance.setStartedDate(DecidrGlobals.getTime()
                     .getTime());
 

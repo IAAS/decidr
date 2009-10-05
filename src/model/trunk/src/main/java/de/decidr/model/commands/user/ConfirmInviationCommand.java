@@ -214,13 +214,13 @@ public class ConfirmInviationCommand extends AclEnabledCommand implements Invita
                     ServerTypeEnum.Ode.toString()).list();
             
             // instance only needed to get the OdePid and Server from the instance manager
-            WorkflowInstance newInstance = manager.startInstance(instance
-                    .getDeployedWorkflowModel(), instance
-                    .getStartConfiguration(), serverStatistics);
+//            WorkflowInstance newInstance = manager.startInstance(instance
+//                    .getDeployedWorkflowModel(), instance
+//                    .getStartConfiguration(), serverStatistics);
             
-            instance.setOdePid(newInstance.getOdePid());
-            instance.setStartedDate(DecidrGlobals.getTime().getTime());
-            instance.setServer(newInstance.getServer());
+//            instance.setOdePid(newInstance.getOdePid());
+//            instance.setStartedDate(DecidrGlobals.getTime().getTime());
+//            instance.setServer(newInstance.getServer());
             session.save(instance);
         }
     }
