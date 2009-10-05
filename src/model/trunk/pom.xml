@@ -119,25 +119,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!--
-				plugin> <groupId>org.codehaus.mojo</groupId>
-				<artifactId>sql-maven-plugin</artifactId> <version>1.3</version>
-
-				<dependencies> <dependency> <groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-				<version>5.1.6</version> </dependency> </dependencies>
-
-				<configuration> <driver>com.mysql.jdbc.Driver</driver>
-				<url>jdbc:mysql://localhost/decidrdb</url>
-				<username>decidr</username> <password>decidr42</password>
-				<encoding>utf8</encoding> </configuration> <executions> <execution>
-				<id>create-data</id> <phase>process-test-resources</phase> <goals>
-				<goal>execute</goal> </goals> <configuration> <fileset>
-				<basedir>src/test/java</basedir> <includes>
-				<include>sql/decidrdb.sql</include>
-				<include>sql/testdata.sql</include> </includes> </fileset>
-				</configuration> </execution> </executions> </plugin
-			-->
 		</plugins>
 	</build>
 	<dependencies>
@@ -245,13 +226,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.axis2</groupId>
-			<artifactId>axis2-transport-http</artifactId>
-			<version>1.5</version>
-		</dependency>
-	    <dependency>
-			<groupId>org.apache.axis2</groupId>
-			<artifactId>axis2-transport-local</artifactId>
-			<version>1.5</version>
+			<artifactId>axis2-kernel</artifactId>
+			<version>1.4.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.ws.commons.axiom</groupId>
