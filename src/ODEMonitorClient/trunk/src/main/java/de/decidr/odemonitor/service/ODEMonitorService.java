@@ -62,7 +62,7 @@ public interface ODEMonitorService {
      * @throws TransactionException
      *             thrown during database access, whenever an error occurs.
      */
-    @WebMethod(action = "http://decidr.de/webservices/ODEMonitor/updateStats")
+    @WebMethod(action = "http://decidr.de/webservices/ODEMonitor/updateStats", operationName="updateStats")
     @RequestWrapper(localName = "updateStats", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.UpdateStats")
     @ResponseWrapper(localName = "updateStatsResponse", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.UpdateStatsResponse")
     public void updateStats(
