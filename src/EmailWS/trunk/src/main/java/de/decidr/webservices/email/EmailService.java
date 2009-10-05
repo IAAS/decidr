@@ -187,36 +187,49 @@ public class EmailService implements EmailInterface {
             throws TransactionException {
         log.trace("Entering " + EmailService.class.getSimpleName()
                 + ".extractEmails(AbstractUserList)");
+        if (userList == null) {
+            log.debug("Detected empty user list");
+            log.trace("Leaving " + EmailService.class.getSimpleName()
+                    + ".extractEmails(AbstractUserList)");
+            return new HashSet<String>();
+        }
+
         Set<String> emailList = new HashSet<String>(userList.getAbstractUser()
                 .size());
         List<Actor> actorList = new ArrayList<Actor>();
 
-        log.debug("extracting email addresses from AbstractUserList");
-        for (AbstractUser user : userList.getAbstractUser()) {
-            if (user instanceof EmailUser) {
-                log.debug("found EmailUser");
-                for (String address : ((EmailUser) user).getUser()) {
-                    emailList.add(address);
-                }
-            } else if (user instanceof ActorUser) {
-                log.debug("found ActorUser");
-                actorList.add(((ActorUser) user).getUser());
-            } else if (user instanceof RoleUser) {
-                log.debug("found RoleUser");
-                for (Actor actor : ((RoleUser) user).getUser().getActor()) {
-                    actorList.add(actor);
-                }
-            } else {
-                log.error("The AbstractUser " + user + " was not recognised. "
-                        + "Please check the ObjectFactory and "
-                        + "update this implementation!");
-                throw new TypeConstraintException("Invalid subclass of "
-                        + AbstractUser.class.getName());
-            }
-        }
+        if (userList.getAbstractUser().isEmpty()) {
+            log.debug("Detected empty user list");
+        } else {
 
-        if (!actorList.isEmpty()) {
-            emailList.addAll(extractActorAddresses(actorList));
+            log.debug("extracting email addresses from AbstractUserList");
+            for (AbstractUser user : userList.getAbstractUser()) {
+                if (user instanceof EmailUser) {
+                    log.debug("found EmailUser");
+                    for (String address : ((EmailUser) user).getUser()) {
+                        emailList.add(address);
+                    }
+                } else if (user instanceof ActorUser) {
+                    log.debug("found ActorUser");
+                    actorList.add(((ActorUser) user).getUser());
+                } else if (user instanceof RoleUser) {
+                    log.debug("found RoleUser");
+                    for (Actor actor : ((RoleUser) user).getUser().getActor()) {
+                        actorList.add(actor);
+                    }
+                } else {
+                    log.error("The AbstractUser " + user
+                            + " was not recognised. "
+                            + "Please check the ObjectFactory and "
+                            + "update this implementation!");
+                    throw new TypeConstraintException("Invalid subclass of "
+                            + AbstractUser.class.getName());
+                }
+            }
+
+            if (!actorList.isEmpty()) {
+                emailList.addAll(extractActorAddresses(actorList));
+            }
         }
 
         log.trace("Leaving " + EmailService.class.getSimpleName()
