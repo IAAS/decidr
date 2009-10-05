@@ -51,7 +51,7 @@ public class WorkItemCommandsTest extends CommandsTest {
      */
     @Test
     public void testCreateWorkItemCommand() {
-        fail("Not yet implemented"); // TODO CreateWorkItemCommand
+        fail("Not yet implemented"); // JE CreateWorkItemCommand
     }
 
     /**
@@ -60,7 +60,7 @@ public class WorkItemCommandsTest extends CommandsTest {
      */
     @Test
     public void testDeleteWorkItemCommand() {
-        fail("Not yet implemented"); // TODO DeleteWorkItemCommand
+        fail("Not yet implemented"); // JE DeleteWorkItemCommand
     }
 
     /**
@@ -69,7 +69,7 @@ public class WorkItemCommandsTest extends CommandsTest {
      */
     @Test
     public void testGetWorkItemCommand() {
-        fail("Not yet implemented"); // TODO GetWorkItemCommand
+        fail("Not yet implemented"); // JE GetWorkItemCommand
     }
 
     /**
@@ -78,7 +78,7 @@ public class WorkItemCommandsTest extends CommandsTest {
      */
     @Test
     public void testSetDataCommand() {
-        fail("Not yet implemented"); // TODO SetDataCommand
+        fail("Not yet implemented"); // JE SetDataCommand
     }
 
     /**
@@ -87,7 +87,7 @@ public class WorkItemCommandsTest extends CommandsTest {
      */
     @Test
     public void testSetStatusCommand() {
-        fail("Not yet implemented"); // TODO SetStatusCommand
+        fail("Not yet implemented"); // JE SetStatusCommand
     }
 
     /**
@@ -95,6 +95,6 @@ public class WorkItemCommandsTest extends CommandsTest {
      */
     @Test
     public void testWorkItemCommand() {
-        fail("Not yet implemented"); // TODO WorkItemCommand
+        fail("Not yet implemented"); // JE WorkItemCommand
     }
 }
