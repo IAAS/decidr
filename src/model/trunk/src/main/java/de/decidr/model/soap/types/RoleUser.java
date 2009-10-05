@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType name=&quot;tRoleUser&quot;&gt;
  *   &lt;complexContent&gt;
- *     &lt;extension base=&quot;{http://decidr.de/schema/DecidrWSTypes}tAbstractUser&quot;&gt;
+ *     &lt;extension base=&quot;{http://decidr.de/schema/DecidrTypes}tAbstractUser&quot;&gt;
  *       &lt;sequence&gt;
  *         &lt;element name=&quot;user&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tRole&quot;/&gt;
  *       &lt;/sequence&gt;

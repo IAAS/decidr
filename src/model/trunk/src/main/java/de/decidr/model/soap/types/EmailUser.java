@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType name=&quot;tEmailUser&quot;&gt;
  *   &lt;complexContent&gt;
- *     &lt;extension base=&quot;{http://decidr.de/schema/DecidrWSTypes}tAbstractUser&quot;&gt;
+ *     &lt;extension base=&quot;{http://decidr.de/schema/DecidrTypes}tAbstractUser&quot;&gt;
  *       &lt;sequence&gt;
  *         &lt;element name=&quot;user&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot; maxOccurs=&quot;unbounded&quot; /&gt;
  *       &lt;/sequence&gt;

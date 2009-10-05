@@ -28,6 +28,7 @@ import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.mail.MessagingException;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.TypeConstraintException;
 
 import org.apache.log4j.Logger;
@@ -202,18 +203,21 @@ public class EmailService implements EmailInterface {
             log.debug("Detected empty user list");
         } else {
             log.debug("extracting email addresses from AbstractUserList");
-            for (AbstractUser user : userList.getAbstractUser()) {
-                if (user instanceof EmailUser) {
+            AbstractUser value;
+            for (JAXBElement<? extends AbstractUser> user : userList
+                    .getAbstractUser()) {
+                value = user.getValue();
+                if (value instanceof EmailUser) {
                     log.debug("found EmailUser");
-                    for (String address : ((EmailUser) user).getUser()) {
+                    for (String address : ((EmailUser) value).getUser()) {
                         emailList.add(address);
                     }
-                } else if (user instanceof ActorUser) {
+                } else if (value instanceof ActorUser) {
                     log.debug("found ActorUser");
-                    actorList.add(((ActorUser) user).getUser());
-                } else if (user instanceof RoleUser) {
+                    actorList.add(((ActorUser) value).getUser());
+                } else if (value instanceof RoleUser) {
                     log.debug("found RoleUser");
-                    for (Actor actor : ((RoleUser) user).getUser().getActor()) {
+                    for (Actor actor : ((RoleUser) value).getUser().getActor()) {
                         actorList.add(actor);
                     }
                 } else {

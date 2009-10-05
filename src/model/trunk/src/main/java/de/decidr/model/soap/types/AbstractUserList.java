@@ -18,9 +18,10 @@ package de.decidr.model.soap.types;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -44,11 +45,11 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tAbstractUserList", propOrder = { "abstractUser" })
+@XmlType(name = "tAbstractUserList", propOrder = { "user" })
 public class AbstractUserList {
 
-    @XmlElement(required = true)
-    protected List<AbstractUser> abstractUser;
+    @XmlElementRef(name = "user", namespace = "http://decidr.de/schema/DecidrTypes", type = JAXBElement.class)
+    protected List<JAXBElement<? extends AbstractUser>> user;
 
     /**
      * Gets the value of the abstractUser property.
@@ -69,21 +70,15 @@ public class AbstractUserList {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link AbstractUser }
+     * {@link JAXBElement }{@code <}{@link TRoleUser }{@code >}
+     * {@link JAXBElement }{@code <}{@link TAbstractUser }{@code >}
+     * {@link JAXBElement }{@code <}{@link TActorUser }{@code >}
+     * {@link JAXBElement }{@code <}{@link TEmailUser }{@code >}
      */
-    public List<AbstractUser> getAbstractUser() {
-        if (abstractUser == null) {
-            abstractUser = new ArrayList<AbstractUser>();
+    public List<JAXBElement<? extends AbstractUser>> getAbstractUser() {
+        if (user == null) {
+            user = new ArrayList<JAXBElement<? extends AbstractUser>>();
         }
-        return this.abstractUser;
-    }
-    
-    /**
-     * Sets the Abstract user list.
-     * 
-     * @param list the new list
-     */
-    public void setAbstractUser(List<AbstractUser> list) {
-        this.abstractUser = list;
+        return this.user;
     }
 }

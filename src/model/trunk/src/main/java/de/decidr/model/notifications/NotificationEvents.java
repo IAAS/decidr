@@ -24,6 +24,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.Invitation;
@@ -35,7 +38,6 @@ import de.decidr.model.entities.WorkItem;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.soap.types.AbstractUser;
 import de.decidr.model.soap.types.AbstractUserList;
 import de.decidr.model.soap.types.EmailUser;
 import de.decidr.model.webservices.EmailInterface;
@@ -58,7 +60,6 @@ public final class NotificationEvents {
      * @param newWorkItem
      *            the corresponding workitem which has been created
      */
-    @SuppressWarnings("unchecked")
     public static void createdWorkItem(WorkItem newWorkItem)
             throws TransactionException {
 
@@ -104,10 +105,10 @@ public final class NotificationEvents {
         addresses.add(newWorkItem.getUser().getEmail());
         user.setUser(addresses);
 
-        List<AbstractUser> users = new ArrayList();
-        users.add(user);
-
-        to.setAbstractUser(users);
+        to.getAbstractUser().add(
+                new JAXBElement<EmailUser>(new QName(
+                        "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
+                        EmailUser.class, user));
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -124,7 +125,7 @@ public final class NotificationEvents {
      *            the change email request containing the new email address.
      */
     public static void createdChangeEmailRequest(ChangeEmailRequest request) {
-        
+        // TODO
     }
 
     /**
@@ -133,7 +134,6 @@ public final class NotificationEvents {
      * @param request
      *            the password request which has been created
      */
-    @SuppressWarnings("unchecked")
     public static void createdPasswordResetRequest(PasswordResetRequest request)
             throws TransactionException {
 
@@ -197,10 +197,10 @@ public final class NotificationEvents {
         addresses.add(request.getUser().getEmail());
         user.setUser(addresses);
 
-        List<AbstractUser> users = new ArrayList();
-        users.add(user);
-
-        to.setAbstractUser(users);
+        to.getAbstractUser().add(
+                new JAXBElement<EmailUser>(new QName(
+                        "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
+                        EmailUser.class, user));
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -218,7 +218,6 @@ public final class NotificationEvents {
      * @param tenantName
      *            name of the tenant which has been rejected
      */
-    @SuppressWarnings("unchecked")
     public static void rejectedTenant(User user, String tenantName)
             throws TransactionException {
 
@@ -252,10 +251,10 @@ public final class NotificationEvents {
         addresses.add(user.getEmail());
         eUser.setUser(addresses);
 
-        List<AbstractUser> users = new ArrayList();
-        users.add(eUser);
-
-        to.setAbstractUser(users);
+        to.getAbstractUser().add(
+                new JAXBElement<EmailUser>(new QName(
+                        "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
+                        EmailUser.class, eUser));
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -271,7 +270,6 @@ public final class NotificationEvents {
      * @param invitation
      *            the corresponding invitation
      */
-    @SuppressWarnings("unchecked")
     public static void invitedRegisteredUserAsTenantMember(Invitation invitation)
             throws TransactionException {
 
@@ -338,10 +336,10 @@ public final class NotificationEvents {
         addresses.add(invitation.getReceiver().getEmail());
         eUser.setUser(addresses);
 
-        List<AbstractUser> users = new ArrayList();
-        users.add(eUser);
-
-        to.setAbstractUser(users);
+        to.getAbstractUser().add(
+                new JAXBElement<EmailUser>(new QName(
+                        "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
+                        EmailUser.class, eUser));
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -358,7 +356,6 @@ public final class NotificationEvents {
      * @param invitation
      *            the corresponding invitation
      */
-    @SuppressWarnings("unchecked")
     public static void invitedUnregisteredUserAsTenantMember(
             Invitation invitation) throws TransactionException {
 
@@ -423,10 +420,10 @@ public final class NotificationEvents {
         addresses.add(invitation.getReceiver().getEmail());
         eUser.setUser(addresses);
 
-        List<AbstractUser> users = new ArrayList();
-        users.add(eUser);
-
-        to.setAbstractUser(users);
+        to.getAbstractUser().add(
+                new JAXBElement<EmailUser>(new QName(
+                        "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
+                        EmailUser.class, eUser));
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -444,7 +441,6 @@ public final class NotificationEvents {
      * @param tenant
      *            the tenant from which the user has been removed
      */
-    @SuppressWarnings("unchecked")
     public static void removedFromTenant(User user, Tenant tenant)
             throws TransactionException {
 
@@ -488,10 +484,10 @@ public final class NotificationEvents {
         addresses.add(user.getEmail());
         eUser.setUser(addresses);
 
-        List<AbstractUser> users = new ArrayList();
-        users.add(eUser);
-
-        to.setAbstractUser(users);
+        to.getAbstractUser().add(
+                new JAXBElement<EmailUser>(new QName(
+                        "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
+                        EmailUser.class, eUser));
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -507,7 +503,6 @@ public final class NotificationEvents {
      * @param invitation
      *            corresponding invitation
      */
-    @SuppressWarnings("unchecked")
     public static void refusedInvitation(Invitation invitation)
             throws TransactionException {
 
@@ -546,10 +541,10 @@ public final class NotificationEvents {
         addresses.add(invitation.getSender().getEmail());
         eUser.setUser(addresses);
 
-        List<AbstractUser> users = new ArrayList();
-        users.add(eUser);
-
-        to.setAbstractUser(users);
+        to.getAbstractUser().add(
+                new JAXBElement<EmailUser>(new QName(
+                        "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
+                        EmailUser.class, eUser));
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -569,7 +564,6 @@ public final class NotificationEvents {
      * @param newPassword
      *            the new password as string
      */
-    @SuppressWarnings("unchecked")
     public static void generatedNewPassword(User user, String newPassword)
             throws TransactionException {
 
@@ -611,10 +605,10 @@ public final class NotificationEvents {
         addresses.add(user.getEmail());
         eUser.setUser(addresses);
 
-        List<AbstractUser> users = new ArrayList();
-        users.add(eUser);
-
-        to.setAbstractUser(users);
+        to.getAbstractUser().add(
+                new JAXBElement<EmailUser>(new QName(
+                        "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
+                        EmailUser.class, eUser));
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -629,7 +623,6 @@ public final class NotificationEvents {
      * 
      * If parameter &quot;where == null&quot; = anywhere
      */
-    @SuppressWarnings("unchecked")
     public static void requestNewODEInstance(String where)
             throws TransactionException {
 
@@ -661,10 +654,10 @@ public final class NotificationEvents {
         addresses.add(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
         eUser.setUser(addresses);
 
-        List<AbstractUser> users = new ArrayList();
-        users.add(eUser);
-
-        to.setAbstractUser(users);
+        to.getAbstractUser().add(
+                new JAXBElement<EmailUser>(new QName(
+                        "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
+                        EmailUser.class, eUser));
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -684,7 +677,6 @@ public final class NotificationEvents {
      * @param model
      *            workflow model [and tenant via getTenant()] to administrate
      */
-    @SuppressWarnings("unchecked")
     public static void invitedUnregisteredUserAsWorkflowAdmin(
             Invitation invitation, WorkflowModel model)
             throws TransactionException {
@@ -743,10 +735,10 @@ public final class NotificationEvents {
         addresses.add(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
         eUser.setUser(addresses);
 
-        List<AbstractUser> users = new ArrayList();
-        users.add(eUser);
-
-        to.setAbstractUser(users);
+        to.getAbstractUser().add(
+                new JAXBElement<EmailUser>(new QName(
+                        "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
+                        EmailUser.class, eUser));
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -767,7 +759,6 @@ public final class NotificationEvents {
      * @param model
      *            workflow model [and tenant via getTenant()] to administrate
      */
-    @SuppressWarnings("unchecked")
     public static void invitedRegisteredUserAsWorkflowAdmin(
             Invitation invitation, WorkflowModel model)
             throws TransactionException {
@@ -829,10 +820,10 @@ public final class NotificationEvents {
         addresses.add(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
         eUser.setUser(addresses);
 
-        List<AbstractUser> users = new ArrayList();
-        users.add(eUser);
-
-        to.setAbstractUser(users);
+        to.getAbstractUser().add(
+                new JAXBElement<EmailUser>(new QName(
+                        "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
+                        EmailUser.class, eUser));
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -852,7 +843,6 @@ public final class NotificationEvents {
      * @param createdWorkflowInstance
      *            workflow instance in which the invited user should participate
      */
-    @SuppressWarnings("unchecked")
     public static void invitedRegisteredUserAsWorkflowParticipant(
             Invitation invitation, WorkflowInstance createdWorkflowInstance)
             throws TransactionException {
@@ -915,10 +905,10 @@ public final class NotificationEvents {
         addresses.add(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
         eUser.setUser(addresses);
 
-        List<AbstractUser> users = new ArrayList();
-        users.add(eUser);
-
-        to.setAbstractUser(users);
+        to.getAbstractUser().add(
+                new JAXBElement<EmailUser>(new QName(
+                        "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
+                        EmailUser.class, eUser));
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -938,7 +928,6 @@ public final class NotificationEvents {
      * @param createdWorkflowInstance
      *            workflow instance in which the invited user should participate
      */
-    @SuppressWarnings("unchecked")
     public static void invitedUnregisteredUserAsWorkflowParticipant(
             Invitation invitation, WorkflowInstance createdWorkflowInstance)
             throws TransactionException {
@@ -1001,10 +990,10 @@ public final class NotificationEvents {
         addresses.add(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
         eUser.setUser(addresses);
 
-        List<AbstractUser> users = new ArrayList();
-        users.add(eUser);
-
-        to.setAbstractUser(users);
+        to.getAbstractUser().add(
+                new JAXBElement<EmailUser>(new QName(
+                        "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
+                        EmailUser.class, eUser));
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
