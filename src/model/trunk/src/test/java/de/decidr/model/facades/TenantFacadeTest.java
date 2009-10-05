@@ -18,7 +18,6 @@ package de.decidr.model.facades;
 
 import static org.junit.Assert.fail;
 
-import java.io.FileInputStream;
 import java.util.List;
 
 import org.junit.BeforeClass;
@@ -82,7 +81,7 @@ public class TenantFacadeTest {
 
     /**
      * Test method for
-     * {@link TenantFacade#setLogo(Long, FileInputStream, String, String)} and
+     * {@link TenantFacade#setLogo(Long, Long)} and
      * {@link TenantFacade#getLogo(Long)}.
      */
     @Test
@@ -93,7 +92,7 @@ public class TenantFacadeTest {
 
     /**
      * Test method for
-     * {@link TenantFacade#setSimpleColorScheme(Long, FileInputStream, String, String)}
+     * {@link TenantFacade#setSimpleColorScheme(Long, Long)}
      * .
      */
     @Test
@@ -103,7 +102,7 @@ public class TenantFacadeTest {
 
     /**
      * Test method for
-     * {@link TenantFacade#setAdvancedColorScheme(FileInputStream, Long, String, String)}
+     * {@link TenantFacade#setAdvancedColorScheme(Long, Long)}
      * .
      */
     @Test
@@ -113,7 +112,7 @@ public class TenantFacadeTest {
 
     /**
      * Test method for
-     * {@link TenantFacade#setCurrentColorScheme(FileInputStream, Long, String, String)}
+     * {@link TenantFacade#setCurrentColorScheme(Long, Boolean)}
      * and {@link TenantFacade#getCurrentColorScheme(Long)}.
      */
     @Test

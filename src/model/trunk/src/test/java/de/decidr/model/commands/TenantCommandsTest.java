@@ -18,7 +18,6 @@ package de.decidr.model.commands;
 
 import static org.junit.Assert.fail;
 
-import java.io.FileInputStream;
 import java.util.List;
 
 import org.junit.BeforeClass;
@@ -197,7 +196,7 @@ public class TenantCommandsTest {
 
     /**
      * Test method for
-     * {@link SetAdvancedColorSchemeCommand#SetAdvancedColorSchemeCommand(Role, Long, FileInputStream, String, String)}
+     * {@link SetAdvancedColorSchemeCommand#SetAdvancedColorSchemeCommand(Role, Long, Long)}
      * .
      */
     @Test
@@ -207,7 +206,7 @@ public class TenantCommandsTest {
 
     /**
      * Test method for
-     * {@link SetCurrentColorSchemeCommand#SetCurrentColorSchemeCommand(Role, Long, FileInputStream, String, String)}
+     * {@link SetCurrentColorSchemeCommand#SetCurrentColorSchemeCommand(Role, Long, Boolean)}
      * .
      */
     @Test
@@ -217,7 +216,7 @@ public class TenantCommandsTest {
 
     /**
      * Test method for
-     * {@link SetSimpleColorSchemeCommand#SetSimpleColorSchemeCommand(Role, Long, FileInputStream, String, String)}
+     * {@link SetSimpleColorSchemeCommand#SetSimpleColorSchemeCommand(Role, Long, Long)}
      * .
      */
     @Test
@@ -237,7 +236,7 @@ public class TenantCommandsTest {
 
     /**
      * Test method for
-     * {@link SetTenantLogoCommand#SetTenantLogoCommand(Role, Long, FileInputStream, String, String)}
+     * {@link SetTenantLogoCommand#SetTenantLogoCommand(Role, Long, Long)}
      * .
      */
     @Test
