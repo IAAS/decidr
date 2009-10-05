@@ -47,7 +47,7 @@ public class SaveSystemSettingsAction implements ClickListener {
 
     private SystemSettingComponent content = null;
     private Item item = null;
-    private Form form = null;
+    
 
     /*
      * (non-Javadoc)
@@ -63,7 +63,7 @@ public class SaveSystemSettingsAction implements ClickListener {
                 .getTemplateView().getContent();
         content.saveSettingsItem();
         item = content.getSettingsItem();
-        form = content.getSettingsForm();
+        
 
         settings
                 .setAutoAcceptNewTenants(Boolean.parseBoolean(item

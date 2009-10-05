@@ -16,6 +16,7 @@
 
 package de.decidr.ui.data;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -31,6 +32,7 @@ import com.vaadin.data.Property;
 
 
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 
@@ -156,8 +158,25 @@ public class CompletedInstancesContainer extends Observable implements
      */
     @Override
     public Class<?> getType(Object propertyId) {
-        // TODO Auto-generated method stub
-        return String.class;
+        if(getContainerPropertyIds().contains(propertyId)){
+            if (propertyId.equals("id")){
+                return Long.class;
+            }
+            else if(propertyId.equals("startedDate") || propertyId.equals("completedDate")){
+                return Date.class;
+            }
+            else if(propertyId.equals("model")){
+                return WorkflowModel.class;
+            }
+            else{
+                return null;
+            }
+            
+        }else{
+            return null;
+        }
+        
+        
     }
 
     /* (non-Javadoc)
@@ -175,7 +194,8 @@ public class CompletedInstancesContainer extends Observable implements
     @Override
     public boolean removeContainerProperty(Object propertyId)
             throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
+        propertyIds.remove(propertyId);
+        return true;
     }
 
     /* (non-Javadoc)
@@ -222,8 +242,8 @@ public class CompletedInstancesContainer extends Observable implements
      */
     @Override
     public Object firstItemId() {
-        // TODO Auto-generated method stub
-        return null;
+        Object[] itemsArray = getItemIds().toArray();
+        return itemsArray[0];
     }
 
     /* (non-Javadoc)
@@ -231,8 +251,12 @@ public class CompletedInstancesContainer extends Observable implements
      */
     @Override
     public boolean isFirstId(Object itemId) {
-        // TODO Auto-generated method stub
-        return false;
+        if(firstItemId().equals(itemId)){
+            return true;
+        }else{
+            return false;
+        }
+        
     }
 
     /* (non-Javadoc)
@@ -240,8 +264,13 @@ public class CompletedInstancesContainer extends Observable implements
      */
     @Override
     public boolean isLastId(Object itemId) {
-        // TODO Auto-generated method stub
-        return false;
+        if(lastItemId().equals(itemId)){
+            return true;
+        }
+        else{
+            return false;
+        }
+        
     }
 
     /* (non-Javadoc)
@@ -249,8 +278,8 @@ public class CompletedInstancesContainer extends Observable implements
      */
     @Override
     public Object lastItemId() {
-        
-        return null;
+        Object[] itemsArray = getItemIds().toArray();
+        return itemsArray[getItemIds().size()];
     }
 
     /* (non-Javadoc)

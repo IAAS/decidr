@@ -150,8 +150,20 @@ public class CurrentTenantContainer extends Observable implements Container, Con
      */
     @Override
     public Class<?> getType(Object propertyId) {
+        if(getContainerPropertyIds().contains(propertyId)){
+            if(propertyId.equals("id")){
+                return Long.class;
+            }
+            else if(propertyId.equals("name")){
+                return String.class;
+            }
+            else{
+                return null;
+            }
+        }else{
+            return null;
+        }
         
-        return String.class;
     }
 
     /* (non-Javadoc)
@@ -169,7 +181,8 @@ public class CurrentTenantContainer extends Observable implements Container, Con
     @Override
     public boolean removeContainerProperty(Object propertyId)
             throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
+        propertyIds.remove(propertyId);
+        return true;
     }
 
     /* (non-Javadoc)
@@ -196,7 +209,7 @@ public class CurrentTenantContainer extends Observable implements Container, Con
     @Override
     public Object addItemAfter(Object previousItemId)
             throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
+        new UnsupportedOperationException();
         return null;
     }
 
@@ -206,7 +219,7 @@ public class CurrentTenantContainer extends Observable implements Container, Con
     @Override
     public Item addItemAfter(Object previousItemId, Object newItemId)
             throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
+        new UnsupportedOperationException();
         return null;
     }
 
@@ -215,8 +228,8 @@ public class CurrentTenantContainer extends Observable implements Container, Con
      */
     @Override
     public Object firstItemId() {
-        // TODO Auto-generated method stub
-        return null;
+        Object[] itemsArray = getItemIds().toArray();
+        return itemsArray[0];
     }
 
     /* (non-Javadoc)
@@ -224,8 +237,11 @@ public class CurrentTenantContainer extends Observable implements Container, Con
      */
     @Override
     public boolean isFirstId(Object itemId) {
-        // TODO Auto-generated method stub
-        return false;
+        if(firstItemId().equals(itemId)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /* (non-Javadoc)
@@ -233,8 +249,12 @@ public class CurrentTenantContainer extends Observable implements Container, Con
      */
     @Override
     public boolean isLastId(Object itemId) {
-        // TODO Auto-generated method stub
-        return false;
+        if(lastItemId().equals(itemId)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     /* (non-Javadoc)
@@ -242,8 +262,8 @@ public class CurrentTenantContainer extends Observable implements Container, Con
      */
     @Override
     public Object lastItemId() {
-        // TODO Auto-generated method stub
-        return null;
+        Object[] itemsArray = getItemIds().toArray();
+        return itemsArray[getItemIds().size()];
     }
 
     /* (non-Javadoc)

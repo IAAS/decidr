@@ -16,6 +16,7 @@
 
 package de.decidr.ui.data;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -29,6 +30,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
@@ -153,8 +155,23 @@ public class RunningInstanceContainer extends Observable implements Container, C
      */
     @Override
     public Class<?> getType(Object propertyId) {
-        
-        return String.class;
+        if(getContainerPropertyIds().contains(propertyId)){
+            if (propertyId.equals("id")){
+                return Long.class;
+            }
+            else if(propertyId.equals("startedDate") || propertyId.equals("completedDate")){
+                return Date.class;
+            }
+            else if(propertyId.equals("model")){
+                return WorkflowModel.class;
+            }
+            else{
+                return null;
+            }
+            
+        }else{
+            return null;
+        }
     }
 
     /* (non-Javadoc)
@@ -172,7 +189,8 @@ public class RunningInstanceContainer extends Observable implements Container, C
     @Override
     public boolean removeContainerProperty(Object propertyId)
             throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
+       getContainerPropertyIds().remove(propertyId);
+       return true;
     }
 
     /* (non-Javadoc)
@@ -200,7 +218,7 @@ public class RunningInstanceContainer extends Observable implements Container, C
     @Override
     public Object addItemAfter(Object previousItemId)
             throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
+        new UnsupportedOperationException();
         return null;
     }
 
@@ -211,7 +229,7 @@ public class RunningInstanceContainer extends Observable implements Container, C
     @Override
     public Item addItemAfter(Object previousItemId, Object newItemId)
             throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
+        new UnsupportedOperationException();
         return null;
     }
 
@@ -221,8 +239,8 @@ public class RunningInstanceContainer extends Observable implements Container, C
      */
     @Override
     public Object firstItemId() {
-        // TODO Auto-generated method stub
-        return null;
+        Object[] itemsArray = getItemIds().toArray();
+        return itemsArray[0];
     }
 
 
@@ -231,8 +249,11 @@ public class RunningInstanceContainer extends Observable implements Container, C
      */
     @Override
     public boolean isFirstId(Object itemId) {
-        // TODO Auto-generated method stub
-        return false;
+        if(firstItemId().equals(itemId)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 
@@ -241,8 +262,12 @@ public class RunningInstanceContainer extends Observable implements Container, C
      */
     @Override
     public boolean isLastId(Object itemId) {
-        // TODO Auto-generated method stub
-        return false;
+        if(lastItemId().equals(itemId)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 
@@ -251,8 +276,8 @@ public class RunningInstanceContainer extends Observable implements Container, C
      */
     @Override
     public Object lastItemId() {
-        // TODO Auto-generated method stub
-        return null;
+        Object[] itemsArray = getItemIds().toArray();
+        return itemsArray[getItemIds().size()];
     }
 
 

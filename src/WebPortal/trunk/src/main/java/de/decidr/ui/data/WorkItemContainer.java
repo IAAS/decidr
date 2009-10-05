@@ -18,6 +18,7 @@ package de.decidr.ui.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,64 +40,71 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * The container holds the work items. The work items are represented
- * as items in a table.
- *
+ * The container holds the work items. The work items are represented as items
+ * in a table.
+ * 
  * @author AT
  */
-public class WorkItemContainer extends Observable implements Container, Container.Filterable, Container.Ordered {
-    
+public class WorkItemContainer extends Observable implements Container,
+        Container.Filterable, Container.Ordered {
+
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
-    
+
+    private Long userId = (Long) session.getAttribute("userId");
+
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
-    
+
     private List<Item> workItemList = null;
-    
+
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
-    
+
     private KeywordFilter filter = new KeywordFilter();
-    
+
     private List<Filter> filterList = new LinkedList<Filter>();
-    
-    private Paginator paginator = new Paginator();      
-    
+
+    private Paginator paginator = new Paginator();
+
     /**
      * Default constructor. The work item items are added to the container.
-     *
+     * 
      */
-    public WorkItemContainer(){
+    public WorkItemContainer() {
         setChanged();
         notifyObservers();
         filterList.add(filter);
-        try{
-            workItemList = userFacade.getWorkItems(userId, filterList, paginator);
-            for(Item item : workItemList){
+        try {
+            workItemList = userFacade.getWorkItems(userId, filterList,
+                    paginator);
+            for (Item item : workItemList) {
                 addItem(item);
-             }
-        }catch(TransactionException exception){
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            }
+        } catch (TransactionException exception) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
-        
-        
+
     }
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container#addContainerProperty(java.lang.Object, java.lang.Class, java.lang.Object)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#addContainerProperty(java.lang.Object,
+     * java.lang.Class, java.lang.Object)
      */
     @Override
     public boolean addContainerProperty(Object propertyId, Class<?> type,
             Object defaultValue) throws UnsupportedOperationException {
-        if(propertyIds.contains(propertyId)){
+        if (propertyIds.contains(propertyId)) {
             return false;
         }
         propertyIds.add(propertyId);
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#addItem()
      */
     @Override
@@ -104,7 +112,9 @@ public class WorkItemContainer extends Observable implements Container, Containe
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#addItem(java.lang.Object)
      */
     @Override
@@ -113,57 +123,88 @@ public class WorkItemContainer extends Observable implements Container, Containe
         return getItem(itemId);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#containsId(java.lang.Object)
      */
     @Override
     public boolean containsId(Object itemId) {
-        return items.containsKey(itemId); 
+        return items.containsKey(itemId);
     }
 
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container#getContainerProperty(java.lang.Object, java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#getContainerProperty(java.lang.Object,
+     * java.lang.Object)
      */
     @Override
     public Property getContainerProperty(Object itemId, Object propertyId) {
         return getItem(itemId).getItemProperty(propertyId);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#getContainerPropertyIds()
      */
     @Override
     public Collection<?> getContainerPropertyIds() {
         return propertyIds;
-        
+
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#getItem(java.lang.Object)
      */
     @Override
     public Item getItem(Object itemId) {
-        Item item = (Item)items.get(itemId);
+        Item item = (Item) items.get(itemId);
         return item;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#getItemIds()
      */
     @Override
     public Collection<?> getItemIds() {
-       return items.keySet();
+        return items.keySet();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#getType(java.lang.Object)
      */
     @Override
     public Class<?> getType(Object propertyId) {
-        return String.class;
+        if (getContainerPropertyIds().contains(propertyId)) {
+            if (propertyId.equals("workItemName")
+                    || propertyId.equals("tenantName")
+                    || propertyId.equals("workItemStatus")) {
+                return String.class;
+            } else if (propertyId.equals("id") || propertyId.equals("userId")
+                    || propertyId.equals("workflowInstanceId")) {
+                return Long.class;
+            } else if (propertyId.equals("creationDate")) {
+                return Date.class;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#removeAllItems()
      */
     @Override
@@ -172,16 +213,21 @@ public class WorkItemContainer extends Observable implements Container, Containe
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#removeContainerProperty(java.lang.Object)
      */
     @Override
     public boolean removeContainerProperty(Object propertyId)
             throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
+        getContainerPropertyIds().remove(propertyId);
+        return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#removeItem(java.lang.Object)
      */
     @Override
@@ -191,7 +237,9 @@ public class WorkItemContainer extends Observable implements Container, Containe
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#size()
      */
     @Override
@@ -199,98 +247,129 @@ public class WorkItemContainer extends Observable implements Container, Containe
         return items.size();
     }
 
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container.Filterable#addContainerFilter(java.lang.Object, java.lang.String, boolean, boolean)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.vaadin.data.Container.Filterable#addContainerFilter(java.lang.Object,
+     * java.lang.String, boolean, boolean)
      */
     @Override
     public void addContainerFilter(Object propertyId, String filterString,
             boolean ignoreCase, boolean onlyMatchPrefix) {
         filter.setKeyword(filterString);
-        //filter.getProperties().add((String)propertyId);
-        
+        // filter.getProperties().add((String)propertyId);
+
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Filterable#removeAllContainerFilters()
      */
     @Override
     public void removeAllContainerFilters() {
         filter.setKeyword("");
-        
+
     }
 
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container.Filterable#removeContainerFilters(java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.vaadin.data.Container.Filterable#removeContainerFilters(java.lang
+     * .Object)
      */
     @Override
     public void removeContainerFilters(Object propertyId) {
-        if (filter.getProperties().contains(propertyId)){
+        if (filter.getProperties().contains(propertyId)) {
             filter.setKeyword("");
         }
-        
+
     }
-    
-    public void applyFilter(Filter filter){
+
+    public void applyFilter(Filter filter) {
         filterList.add(filter);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object)
      */
     @Override
     public Object addItemAfter(Object previousItemId)
             throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
+        new UnsupportedOperationException();
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object, java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object,
+     * java.lang.Object)
      */
     @Override
     public Item addItemAfter(Object previousItemId, Object newItemId)
             throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
+        new UnsupportedOperationException();
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#firstItemId()
      */
     @Override
     public Object firstItemId() {
-        // TODO Auto-generated method stub
-        return null;
+        Object[] itemsArray = getItemIds().toArray();
+        return itemsArray[0];
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#isFirstId(java.lang.Object)
      */
     @Override
     public boolean isFirstId(Object itemId) {
-        // TODO Auto-generated method stub
-        return false;
+        if (firstItemId().equals(itemId)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#isLastId(java.lang.Object)
      */
     @Override
     public boolean isLastId(Object itemId) {
-        // TODO Auto-generated method stub
-        return false;
+        if (lastItemId().equals(itemId)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#lastItemId()
      */
     @Override
     public Object lastItemId() {
-        // TODO Auto-generated method stub
-        return null;
+        Object[] itemsArray = getItemIds().toArray();
+        return itemsArray[getItemIds().size()];
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#nextItemId(java.lang.Object)
      */
     @Override
@@ -299,7 +378,9 @@ public class WorkItemContainer extends Observable implements Container, Containe
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#prevItemId(java.lang.Object)
      */
     @Override

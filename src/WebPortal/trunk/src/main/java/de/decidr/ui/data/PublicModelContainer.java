@@ -18,6 +18,7 @@ package de.decidr.ui.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -162,8 +163,22 @@ public class PublicModelContainer extends Observable implements Container, Filte
      */
     @Override
     public Class<?> getType(Object propertyId) {
+        if(getContainerPropertyIds().contains(propertyId)){
+            if(propertyId.equals("id") || propertyId.equals("tenantId")){
+                return Long.class;
+            }
+            else if(propertyId.equals("name") || propertyId.equals("description") || propertyId.equals("tenantName")){
+                return String.class;
+            }
+            else if(propertyId.equals("modifiedDate")){
+                return Date.class;
+            }else{
+                return null;
+            }
+        }else{
+            return null;
+        }
         
-        return String.class;
     }
 
     /* (non-Javadoc)
@@ -181,7 +196,8 @@ public class PublicModelContainer extends Observable implements Container, Filte
     @Override
     public boolean removeContainerProperty(Object propertyId)
             throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
+        getContainerPropertyIds().remove(propertyId);
+        return true;
     }
 
     /* (non-Javadoc)
@@ -239,7 +255,7 @@ public class PublicModelContainer extends Observable implements Container, Filte
     @Override
     public Object addItemAfter(Object previousItemId)
             throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
+        new UnsupportedOperationException();
         return null;
     }
 
@@ -249,7 +265,7 @@ public class PublicModelContainer extends Observable implements Container, Filte
     @Override
     public Item addItemAfter(Object previousItemId, Object newItemId)
             throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
+        new UnsupportedOperationException();
         return null;
     }
 
@@ -258,8 +274,8 @@ public class PublicModelContainer extends Observable implements Container, Filte
      */
     @Override
     public Object firstItemId() {
-        // TODO Auto-generated method stub
-        return null;
+        Object[] itemsArray = getItemIds().toArray();
+        return itemsArray[0];
     }
 
     /* (non-Javadoc)
@@ -267,8 +283,11 @@ public class PublicModelContainer extends Observable implements Container, Filte
      */
     @Override
     public boolean isFirstId(Object itemId) {
-        // TODO Auto-generated method stub
-        return false;
+        if(firstItemId().equals(itemId)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /* (non-Javadoc)
@@ -276,8 +295,12 @@ public class PublicModelContainer extends Observable implements Container, Filte
      */
     @Override
     public boolean isLastId(Object itemId) {
-        // TODO Auto-generated method stub
-        return false;
+        if(lastItemId().equals(itemId)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     /* (non-Javadoc)
@@ -285,8 +308,8 @@ public class PublicModelContainer extends Observable implements Container, Filte
      */
     @Override
     public Object lastItemId() {
-        // TODO Auto-generated method stub
-        return null;
+        Object[] itemsArray = getItemIds().toArray();
+        return itemsArray[getItemIds().size()];
     }
 
     /* (non-Javadoc)

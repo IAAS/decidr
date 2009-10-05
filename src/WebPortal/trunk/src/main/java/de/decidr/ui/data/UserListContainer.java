@@ -41,68 +41,74 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * The container holds the users. The users are repsresented as items in a table.
- *
+ * The container holds the users. The users are repsresented as items in a
+ * table.
+ * 
  * @author AT
  */
-public class UserListContainer extends Observable implements Container, Container.Filterable, Container.Ordered {
-    
+public class UserListContainer extends Observable implements Container,
+        Container.Filterable, Container.Ordered {
+
     private ApplicationContext ctx = Main.getCurrent().getContext();
-    private WebApplicationContext webCtx = (WebApplicationContext)ctx;
+    private WebApplicationContext webCtx = (WebApplicationContext) ctx;
     private HttpSession session = webCtx.getHttpSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
-    
+
+    private Long userId = (Long) session.getAttribute("userId");
+
     UserFacade userFacade = new UserFacade(new UserRole(userId));
-    
+
     List<Item> userList = null;
-    
+
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
-    
+
     private KeywordFilter filter = new KeywordFilter();
-    
+
     private List<Filter> filterList = new LinkedList<Filter>();
-    
+
     private Paginator paginator = new Paginator();
-    
+
     /**
      * Default constructor. The user items are added to the container.
-     *
+     * 
      */
-    public UserListContainer(){
+    public UserListContainer() {
         setChanged();
         notifyObservers();
         filterList.add(filter);
-        try{
+        try {
             userList = userFacade.getAllUsers(filterList, paginator);
-            for(Item item : userList){
+            for (Item item : userList) {
                 addItem(item);
             }
-        }catch(TransactionException exception){
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+        } catch (TransactionException exception) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
-        
-        
+
     }
 
-
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container#addContainerProperty(java.lang.Object, java.lang.Class, java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#addContainerProperty(java.lang.Object,
+     * java.lang.Class, java.lang.Object)
      */
     @Override
     public boolean addContainerProperty(Object propertyId, Class<?> type,
             Object defaultValue) throws UnsupportedOperationException {
-        if(propertyIds.contains(propertyId)){
+        if (propertyIds.contains(propertyId)) {
             propertyIds.add(propertyId);
             return false;
-            
+
         }
-        
+
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#addItem()
      */
     @Override
@@ -110,7 +116,9 @@ public class UserListContainer extends Observable implements Container, Containe
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#addItem(java.lang.Object)
      */
     @Override
@@ -119,7 +127,9 @@ public class UserListContainer extends Observable implements Container, Containe
         return getItem(itemId);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#containsId(java.lang.Object)
      */
     @Override
@@ -127,51 +137,76 @@ public class UserListContainer extends Observable implements Container, Containe
         return items.containsKey(itemId);
     }
 
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container#getContainerProperty(java.lang.Object, java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#getContainerProperty(java.lang.Object,
+     * java.lang.Object)
      */
     @Override
     public Property getContainerProperty(Object itemId, Object propertyId) {
         return getItem(itemId).getItemProperty(propertyId);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#getContainerPropertyIds()
      */
     @Override
     public Collection<?> getContainerPropertyIds() {
-        
+
         return propertyIds;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#getItem(java.lang.Object)
      */
     @Override
     public Item getItem(Object itemId) {
-        Item item = (Item)items.get(itemId);
+        Item item = (Item) items.get(itemId);
         return item;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#getItemIds()
      */
     @Override
     public Collection<?> getItemIds() {
-        
+
         return items.keySet();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#getType(java.lang.Object)
      */
     @Override
     public Class<?> getType(Object propertyId) {
-        
-        return String.class;
+        if (getContainerPropertyIds().contains(propertyId)) {
+            if (propertyId.equals("email") || propertyId.equals("lastName")
+                    || propertyId.equals("firstName")
+                    || propertyId.equals("username")) {
+                return String.class;
+            } else if (propertyId.equals("id")) {
+                return Long.class;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#removeAllItems()
      */
     @Override
@@ -180,16 +215,21 @@ public class UserListContainer extends Observable implements Container, Containe
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#removeContainerProperty(java.lang.Object)
      */
     @Override
     public boolean removeContainerProperty(Object propertyId)
             throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
+        getContainerPropertyIds().remove(propertyId);
+        return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#removeItem(java.lang.Object)
      */
     @Override
@@ -199,7 +239,9 @@ public class UserListContainer extends Observable implements Container, Containe
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#size()
      */
     @Override
@@ -207,104 +249,125 @@ public class UserListContainer extends Observable implements Container, Containe
         return items.size();
     }
 
-
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container.Filterable#addContainerFilter(java.lang.Object, java.lang.String, boolean, boolean)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.vaadin.data.Container.Filterable#addContainerFilter(java.lang.Object,
+     * java.lang.String, boolean, boolean)
      */
     @Override
     public void addContainerFilter(Object propertyId, String filterString,
             boolean ignoreCase, boolean onlyMatchPrefix) {
         filter.setKeyword(filterString);
-        filter.getProperties().add((String)propertyId);
-        
+        filter.getProperties().add((String) propertyId);
+
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Filterable#removeAllContainerFilters()
      */
     @Override
     public void removeAllContainerFilters() {
         filter.setKeyword("");
-        
+
     }
 
-
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container.Filterable#removeContainerFilters(java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.vaadin.data.Container.Filterable#removeContainerFilters(java.lang
+     * .Object)
      */
     @Override
     public void removeContainerFilters(Object propertyId) {
-        if (filter.getProperties().contains(propertyId)){
+        if (filter.getProperties().contains(propertyId)) {
             filter.setKeyword("");
         }
-        
+
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object)
      */
     @Override
     public Object addItemAfter(Object previousItemId)
             throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
+        new UnsupportedOperationException();
         return null;
     }
 
-
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object, java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object,
+     * java.lang.Object)
      */
     @Override
     public Item addItemAfter(Object previousItemId, Object newItemId)
             throws UnsupportedOperationException {
-        // TODO Auto-generated method stub
+        new UnsupportedOperationException();
         return null;
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#firstItemId()
      */
     @Override
     public Object firstItemId() {
-        // TODO Auto-generated method stub
-        return null;
+        Object[] itemsArray = getItemIds().toArray();
+        return itemsArray[0];
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#isFirstId(java.lang.Object)
      */
     @Override
     public boolean isFirstId(Object itemId) {
-        // TODO Auto-generated method stub
-        return false;
+        if (firstItemId().equals(itemId)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#isLastId(java.lang.Object)
      */
     @Override
     public boolean isLastId(Object itemId) {
-        // TODO Auto-generated method stub
-        return false;
+        if (lastItemId().equals(itemId)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#lastItemId()
      */
     @Override
     public Object lastItemId() {
-        // TODO Auto-generated method stub
-        return null;
+        Object[] itemsArray = getItemIds().toArray();
+        return itemsArray[getItemIds().size()];
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#nextItemId(java.lang.Object)
      */
     @Override
@@ -313,8 +376,9 @@ public class UserListContainer extends Observable implements Container, Containe
         return null;
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#prevItemId(java.lang.Object)
      */
     @Override
