@@ -25,7 +25,7 @@ public class DefaultLogger {
         // run configurator - every new logger will inherit the defaultAppender
          BasicConfigurator.configure(defaultAppender);
         // set default logging options
-        Logger.getRootLogger().setLevel(Level.DEBUG);
+        Logger.getLogger("de.decidr").setLevel(Level.DEBUG);
     }
 
     public static Logger getLogger(Class<?> clazz) {
