@@ -636,14 +636,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for {@link UserFacade#removeFromTenant(Long, Long)}.
-     */
-    @Test
-    public void testRemoveFromTenant() {
-        fail("Not yet implemented"); // RR removeFromTenant
-    }
-
-    /**
      * Test method for {@link UserFacade#confirmRegistration(Long, String)} and
      * {@link UserFacade#isRegistered(Long)}.
      */
@@ -859,28 +851,12 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for {@link UserFacade#getUserRoleForTenant(Long, Long)}.
-     */
-    @Test
-    public void testGetUserRoleForTenant() {
-        fail("Not yet implemented"); // RR getUserRoleForTenant
-    }
-
-    /**
      * Test method for
      * {@link facades.UserFacade#getAdminstratedWorkflowInstances(Long)}.
      */
     @Test
     public void testGetAdminstratedWorkflowInstances() {
         fail("Not yet implemented"); // RR getAdminstratedWorkflowInstances
-    }
-
-    /**
-     * Test method for {@link UserFacade#getJoinedTenants(Long)}.
-     */
-    @Test
-    public void testGetJoinedTenants() {
-        fail("Not yet implemented"); // RR getJoinedTenants
     }
 
     /**
@@ -892,11 +868,17 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for {@link UserFacade#setCurrentTenantId(Long, Long)} and
+     * Test method for {@link UserFacade#removeFromTenant(Long, Long)},
+     * {@link UserFacade#getUserRoleForTenant(Long, Long)},
+     * {@link UserFacade#getJoinedTenants(Long)},
+     * {@link UserFacade#setCurrentTenantId(Long, Long)} and
      * {@link UserFacade#getCurrentTenantId(Long).
      */
     @Test
-    public void testCurrentTenantId() {
+    public void testTenant() {
+        fail("Not yet implemented"); // RR removeFromTenant
+        fail("Not yet implemented"); // RR getUserRoleForTenant
+        fail("Not yet implemented"); // RR getJoinedTenants
         fail("Not yet implemented"); // RR setCurrentTenantId
         fail("Not yet implemented"); // RR getCurrentTenantId
     }

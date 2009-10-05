@@ -24,6 +24,8 @@ import javax.jws.WebService;
 import javax.mail.MessagingException;
 import javax.xml.bind.TypeConstraintException;
 import javax.xml.namespace.QName;
+import javax.xml.ws.RequestWrapper;
+import javax.xml.ws.ResponseWrapper;
 
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
@@ -104,6 +106,8 @@ public interface EmailInterface {
      *             is contained in a <code>{@link AbstractUserList}</code>.
      */
     @WebMethod(action = TARGET_NAMESPACE + "/sendEmail", operationName = "sendEmail")
+    @RequestWrapper(localName = "sendEmail", targetNamespace = TARGET_NAMESPACE)
+    @ResponseWrapper(localName = "sendEmail", targetNamespace = TARGET_NAMESPACE)
     public void sendEmail(
             @WebParam(name = "to", targetNamespace = "") AbstractUserList to,
             @WebParam(name = "cc", targetNamespace = "") AbstractUserList cc,
