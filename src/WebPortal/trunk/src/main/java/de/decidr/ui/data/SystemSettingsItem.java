@@ -16,7 +16,6 @@
 
 package de.decidr.ui.data;
 
-
 /**
  * This item stores the system settings.
  *
@@ -39,54 +38,63 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 public class SystemSettingsItem implements Item {
 
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
+
+    private Long userId = (Long) session.getAttribute("userId");
     private SystemFacade systemFacade = new SystemFacade(new UserRole(userId));
 
-	private Item items = null;
-	
-	public SystemSettingsItem(){
-		try{
-		//	items = systemFacade.getSettings();
-			//TODO: remove later
-			 items = new BeanItem(ProfileSettingsContainer.getInstance());
-		} catch (Exception e){
-			Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
-		}
-	}
+    private Item item = null;
 
-	/* (non-Javadoc)
-	 * @see com.vaadin.data.Item#addItemProperty(java.lang.Object, com.vaadin.data.Property)
-	 */
-	@Override
-	public boolean addItemProperty(Object id, Property property)
-			throws UnsupportedOperationException {
-		return items.addItemProperty(id, property);
-	}
+    public SystemSettingsItem() {
+        try {
+            item = systemFacade.getSettings();
+            // TODO: remove later
+            // item = new BeanItem(ProfileSettingsContainer.getInstance());
+        } catch (Exception e) {
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vaadin.data.Item#getItemProperty(java.lang.Object)
-	 */
-	@Override
-	public Property getItemProperty(Object id) {
-		return items.getItemProperty(id);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Item#addItemProperty(java.lang.Object,
+     * com.vaadin.data.Property)
+     */
+    @Override
+    public boolean addItemProperty(Object id, Property property)
+            throws UnsupportedOperationException {
+        return item.addItemProperty(id, property);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vaadin.data.Item#getItemPropertyIds()
-	 */
-	@Override
-	public Collection<?> getItemPropertyIds() {
-		return items.getItemPropertyIds();
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Item#getItemProperty(java.lang.Object)
+     */
+    @Override
+    public Property getItemProperty(Object id) {
+        return item.getItemProperty(id);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vaadin.data.Item#removeItemProperty(java.lang.Object)
-	 */
-	@Override
-	public boolean removeItemProperty(Object id)
-			throws UnsupportedOperationException {
-		return items.removeItemProperty(id);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Item#getItemPropertyIds()
+     */
+    @Override
+    public Collection<?> getItemPropertyIds() {
+        return item.getItemPropertyIds();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Item#removeItemProperty(java.lang.Object)
+     */
+    @Override
+    public boolean removeItemProperty(Object id)
+            throws UnsupportedOperationException {
+        return item.removeItemProperty(id);
+    }
 
 }

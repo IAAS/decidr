@@ -75,6 +75,7 @@ public class InviteUserToTenantComponent extends CustomComponent {
         inviteUser.setCaption("Username/E-Mail address:");
         
         inviteForm.addField("user"+userCounter.toString(), inviteUser);
+        inviteForm.getField("user"+userCounter.toString()).setRequired(true);
         
         addField = new Button("Add User", new Button.ClickListener(){
                 public void buttonClick(Button.ClickEvent event){
@@ -104,5 +105,6 @@ public class InviteUserToTenantComponent extends CustomComponent {
     private void addUser(){
         userCounter += 1;
         inviteForm.addField("user"+userCounter.toString(), new TextField("Username/E-Mail address:"));
+        inviteForm.getField("user"+userCounter.toString()).setRequired(true);
     }
 }

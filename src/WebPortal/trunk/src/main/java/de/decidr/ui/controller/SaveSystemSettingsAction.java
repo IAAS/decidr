@@ -25,6 +25,7 @@ package de.decidr.ui.controller;
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Item;
+import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -39,42 +40,74 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 public class SaveSystemSettingsAction implements ClickListener {
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
-	private Long userId = (Long) session.getAttribute("userId");
-	private SystemFacade systemFacade = new SystemFacade(new UserRole(userId));
+    private Long userId = (Long) session.getAttribute("userId");
+    private SystemFacade systemFacade = new SystemFacade(new UserRole(userId));
 
-	private SystemSettingComponent content = null;
-	private Item item = null;
+    private SystemSettingComponent content = null;
+    private Item item = null;
+    private Form form = null;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
-		SystemSettings settings = DecidrGlobals.getSettings();
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
+        SystemSettings settings = DecidrGlobals.getSettings();
 
-		content = (SystemSettingComponent) UIDirector.getInstance()
-				.getTemplateView().getContent();
-		content.saveSettingsItem();
-		item = content.getSettingsItem();
+        content = (SystemSettingComponent) UIDirector.getInstance()
+                .getTemplateView().getContent();
+        content.saveSettingsItem();
+        item = content.getSettingsItem();
+        form = content.getSettingsForm();
 
-		settings.setAutoAcceptNewTenants(Boolean.parseBoolean(item
-						.getItemProperty("autoAcceptNewTenants").getValue()
-						.toString()));
-		settings.setLogLevel(item.getItemProperty("logLevel").getValue()
-				.toString());
+        settings
+                .setAutoAcceptNewTenants(Boolean.parseBoolean(item
+                        .getItemProperty("autoAcceptNewTenants").getValue()
+                        .toString()));
+        settings.setLogLevel(item.getItemProperty("logLevel").getValue()
+                .toString());
+        settings.setChangeEmailRequestLifetimeSeconds(Integer.parseInt(item
+                .getItemProperty("changeEmailRequestLifetimeSeconds")
+                .getValue().toString()));
+        settings
+                .setDomain(item.getItemProperty("domain").getValue().toString());
+        settings.setInvitationLifetimeSeconds(Integer.parseInt(item
+                .getItemProperty("invitationLifetimeSeconds").getValue()
+                .toString()));
+        settings.setMaxAttachmentsPerEmail(Integer.parseInt(item
+                .getItemProperty("maxAttachmentsPerEmail").getValue()
+                .toString()));
+        settings.setMaxUploadFileSizeBytes(Long.parseLong(item.getItemProperty(
+                "maxUploadFileSizeByte").getValue().toString()));
+        settings.setMtaHostname(item.getItemProperty("mtaHostname").getValue()
+                .toString());
+        settings.setMtaPassword(item.getItemProperty("mtaPassword").getValue()
+                .toString());
+        settings.setMtaPort(Integer.parseInt(item.getItemProperty("mtaPort")
+                .getValue().toString()));
+        settings.setMtaUsername(item.getItemProperty("mtaUsername").getValue()
+                .toString());
+        settings.setMtaUseTls(Boolean.parseBoolean(item.getItemProperty(
+                "mtaUseTls").getValue().toString()));
+        settings.setPasswordResetRequestLifetimeSeconds(Integer.parseInt(item
+                .getItemProperty("passwordResetRequestLifeTimeSeconds")
+                .getValue().toString()));
+        settings.setRegistrationRequestLifetimeSeconds(Integer.parseInt(item
+                .getItemProperty("registrationRequestLifetimeSecond")
+                .getValue().toString()));
+//TODO: weitere settings speichern
+        try {
+            systemFacade.setSettings(settings);
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
+        }
 
-		try {
-			systemFacade.setSettings(settings);
-		} catch (TransactionException e) {
-			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent());
-		}
-
-	}
+    }
 
 }

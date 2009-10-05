@@ -74,7 +74,9 @@ private VerticalLayout verticalLayout = null;
     	tenantDescription.setRows(5);
     	
     	createTenantForm.addField("tenantName", tenantName);
+    	createTenantForm.getField("tenantName").setRequired(true);
     	createTenantForm.addField("tenantDescription", tenantDescription);
+    	createTenantForm.getField("tenantDescription").setRequired(true);
     	
     	createTenant = new Button("Create Tenant", new CreateTenantAction(createTenantForm));
     	

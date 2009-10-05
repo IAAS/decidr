@@ -266,17 +266,19 @@ public class ProfileSettingsComponent extends CustomComponent {
 
             if ("firstName".equals(propertyId)) {
                 TextField tf = (TextField) field;
+                tf.setRequired(true);
                 tf
                         .addValidator(new StringLengthValidator(
-                                "Bitte geben Sie ihren Vorname ein. Dieser darf maximal 50 Zeichen betragen",
+                                "Please enter your forename. Your forename may contain up to 50 characters",
                                 0, 50, false));
                 tf.setCaption("First Name");
                 tf.setColumns(30);
             } else if ("lastName".equals(propertyId)) {
                 TextField tf = (TextField) field;
+                tf.setRequired(true);
                 tf
                         .addValidator(new StringLengthValidator(
-                                "Bitte geben Sie ihren Vorname ein. Dieser darf maximal 50 Zeichen betragen",
+                                "Please enter your surename. Your surename may contain up to 50 characters",
                                 0, 50, false));
                 tf.setCaption("Last Name");
                 tf.setColumns(30);
@@ -287,7 +289,7 @@ public class ProfileSettingsComponent extends CustomComponent {
             } else if ("postalCode".equals(propertyId)) {
                 TextField tf = (TextField) field;
                 tf.addValidator(new RegexpValidator("[1-9][0-9]{4,15}",
-                        "Bitte geben sie nur Zahlen ein"));
+                        "Please enter only numbers"));
                 tf.setCaption("Postal Code");
                 tf.setColumns(30);
             } else if ("city".equals(propertyId)) {
@@ -295,7 +297,7 @@ public class ProfileSettingsComponent extends CustomComponent {
                 tf.setCaption("City");
                 tf.setColumns(30);
             }
-
+            
             return field;
         }
     }

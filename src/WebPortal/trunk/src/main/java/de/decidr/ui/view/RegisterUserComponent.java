@@ -141,9 +141,13 @@ public class RegisterUserComponent extends CustomComponent {
         completeRegistration = new Button("Complete Registration");
         
         registrationForm.addField("userName", userName);
+        registrationForm.getField("userName").setRequired(true);
         registrationForm.addField("password", password);
+        registrationForm.getField("password").setRequired(true);
         registrationForm.addField("passwordConfirm", passwordConfirm);
+        registrationForm.getField("passwordConfirm").setRequired(true);
         registrationForm.addField("email", email);
+        registrationForm.getField("email").setRequired(true);
         registrationForm.addField("firstName", firstName);
         registrationForm.addField("lastName", lastName);
         registrationForm.addField("street", street);

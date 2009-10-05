@@ -33,33 +33,39 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This actions saves the current tenant settings
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
 public class SaveTenantSettingsAction implements ClickListener {
-    
+
     private HttpSession session = Main.getCurrent().getSession();
 
-    private Long userId = (Long)session.getAttribute("userId");
-    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId)); 
-    
-    
+    private Long userId = (Long) session.getAttribute("userId");
+    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+
     private File file = null;
-    private Item tenant = null;
+    private String tenant = null;
     private TenantSettingsComponent content = null;
-    
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        content = (TenantSettingsComponent)UIDirector.getInstance().getTemplateView().getContent();
-        tenant = (Item)session.getAttribute("tenant");
+        content = (TenantSettingsComponent) UIDirector.getInstance()
+                .getTemplateView().getContent();
+        tenant = (String) session.getAttribute("tenant");
         try {
-            tenantFacade.setDescription((Long)tenant.getItemProperty("id").getValue(), content.getTenantDescription().getValue().toString());
+            Long tenantId = tenantFacade.getTenantId(tenant);
+            tenantFacade.setDescription(tenantId, content
+                    .getTenantDescription().getValue().toString());
+            //TODO: css abspeichern und logo hochladen
         } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
     }
 }
