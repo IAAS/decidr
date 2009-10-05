@@ -15,7 +15,11 @@
  */
 package de.decidr.model.commands.user;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.soap.SOAPException;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
@@ -28,6 +32,7 @@ import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.Invitation;
+import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
@@ -44,6 +49,7 @@ import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
+import de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult;
 
 /**
  * Confirms a single invitation by associating the user with the corresponding
@@ -56,7 +62,8 @@ import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
  * @author Daniel Huss
  * @version 0.1
  */
-public class ConfirmInviationCommand extends AclEnabledCommand implements InvitationAccess {
+public class ConfirmInviationCommand extends AclEnabledCommand implements
+        InvitationAccess {
 
     private static Logger logger = DefaultLogger
             .getLogger(ConfirmInviationCommand.class);
@@ -87,8 +94,10 @@ public class ConfirmInviationCommand extends AclEnabledCommand implements Invita
      * Makes the given user a member of the given tenant. This method has no
      * effect if the user is already a tenant member or the tenant admin.
      * 
-     * @param user user who should become member of the given tenant
-     * @param tenant tenant to which the given user should be added
+     * @param user
+     *            user who should become member of the given tenant
+     * @param tenant
+     *            tenant to which the given user should be added
      */
     private void makeMemberOfTenant(User user, Tenant tenant) {
         if (tenant == null || user == null) {
@@ -162,11 +171,16 @@ public class ConfirmInviationCommand extends AclEnabledCommand implements Invita
      * workflow instance and starts the instance if the receiver was the last
      * user who had to confirm his invitation.
      * 
-     * @throws EntityNotFoundException if no invitation could be found 
+     * @throws EntityNotFoundException
+     *             if no invitation could be found
+     * @throws JAXBException
+     * @throws IOException
+     * @throws SOAPException
      */
     @SuppressWarnings("unchecked")
     private void processWorkflowInstanceInvitation()
-            throws EntityNotFoundException {
+            throws EntityNotFoundException, SOAPException, IOException,
+            JAXBException {
         User user = invitation.getReceiver();
         Tenant tenant = invitation.getParticipateInWorkflowInstance()
                 .getDeployedWorkflowModel().getTenant();
@@ -212,15 +226,17 @@ public class ConfirmInviationCommand extends AclEnabledCommand implements Invita
                     .createQuery("from ServerLoadView s where s.serverType.name = :serverType");
             List<ServerLoadView> serverStatistics = q.setString("serverType",
                     ServerTypeEnum.Ode.toString()).list();
-            
-            // instance only needed to get the OdePid and Server from the instance manager
-//            WorkflowInstance newInstance = manager.startInstance(instance
-//                    .getDeployedWorkflowModel(), instance
-//                    .getStartConfiguration(), serverStatistics);
-            
-//            instance.setOdePid(newInstance.getOdePid());
-//            instance.setStartedDate(DecidrGlobals.getTime().getTime());
-//            instance.setServer(newInstance.getServer());
+
+            // instance only needed to get the OdePid and Server from the
+            // instance manager
+            StartInstanceResult startInstanceResult = manager.startInstance(
+                    instance.getDeployedWorkflowModel(), instance
+                            .getStartConfiguration(), serverStatistics);
+
+            instance.setOdePid(startInstanceResult.getODEPid());
+            instance.setStartedDate(DecidrGlobals.getTime().getTime());
+            instance.setServer((Server) session.get(Server.class,
+                    startInstanceResult.getServer()));
             session.save(instance);
         }
     }
@@ -253,7 +269,15 @@ public class ConfirmInviationCommand extends AclEnabledCommand implements Invita
         } else if (invitation.getParticipateInWorkflowInstance() != null) {
             // add to tenant if user isn't tenant member and start delayed
             // workflow instances
-            processWorkflowInstanceInvitation();
+            try {
+                processWorkflowInstanceInvitation();
+            } catch (Exception e) {
+                if (e instanceof TransactionException) {
+                    throw (TransactionException) e;
+                } else {
+                    throw new TransactionException(e);
+                }
+            }
         } else {
             // not a valid invitation type
             String warnMessage = String
@@ -269,7 +293,7 @@ public class ConfirmInviationCommand extends AclEnabledCommand implements Invita
 
     @Override
     public Long[] getInvitationIds() {
-        Long[] result = {invitationId};
+        Long[] result = { invitationId };
         return result;
     }
 }

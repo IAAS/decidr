@@ -16,6 +16,7 @@
 
 package de.decidr.model.commands.workflowmodel;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,6 +27,7 @@ import java.util.Map.Entry;
 
 import javax.mail.internet.InternetAddress;
 import javax.xml.bind.JAXBException;
+import javax.xml.soap.SOAPException;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -36,6 +38,7 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.user.CreateNewUnregisteredUserCommand;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Invitation;
+import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserParticipatesInWorkflow;
@@ -56,6 +59,7 @@ import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
+import de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult;
 import de.decidr.model.workflowmodel.wsc.TActor;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.model.workflowmodel.wsc.TRole;
@@ -142,6 +146,10 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         try {
             createWorkflowInstance(deployedWorkflowModel, evt.getSession());
         } catch (JAXBException e) {
+            throw new TransactionException(e);
+        } catch (SOAPException e) {
+            throw new TransactionException(e);
+        } catch (IOException e) {
             throw new TransactionException(e);
         }
 
@@ -285,14 +293,17 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
      * @param session
      *            current Hibernate Session
      * @throws JAXBException
+     * @throws IOException
+     * @throws SOAPException
      */
     @SuppressWarnings("unchecked")
     private void createWorkflowInstance(DeployedWorkflowModel deployedModel,
-            Session session) throws JAXBException {
+            Session session) throws JAXBException, SOAPException, IOException {
 
         byte[] binaryStartConfig = TransformUtil
                 .configuration2Bytes(startConfiguration);
 
+        createdWorkflowInstance = new WorkflowInstance();
         if ((usersThatNeedInvitations.size() == 0) || (startImmediately)) {
             InstanceManager manager = new InstanceManagerImpl();
 
@@ -303,13 +314,16 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
 
             List<ServerLoadView> serverStatistics = q.list();
 
-//            createdWorkflowInstance = manager.startInstance(deployedModel,
-//                    binaryStartConfig, serverStatistics);
+            StartInstanceResult startInstanceResult = manager.startInstance(
+                    deployedModel, binaryStartConfig, serverStatistics);
+
+            createdWorkflowInstance.setOdePid(startInstanceResult.getODEPid());
+            createdWorkflowInstance.setServer((Server) session.get(
+                    Server.class, startInstanceResult.getServer()));
             createdWorkflowInstance.setStartedDate(DecidrGlobals.getTime()
                     .getTime());
 
         } else {
-            createdWorkflowInstance = new WorkflowInstance();
             createdWorkflowInstance.setStartedDate(null);
         }
 

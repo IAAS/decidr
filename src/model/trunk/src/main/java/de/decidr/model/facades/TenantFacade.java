@@ -1,3 +1,18 @@
+/*
+ * The DecidR Development Team licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package de.decidr.model.facades;
 
 import java.io.FileInputStream;
@@ -39,6 +54,7 @@ import de.decidr.model.commands.tenant.SetSimpleColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetTenantDescriptionCommand;
 import de.decidr.model.commands.tenant.SetTenantLogoCommand;
 import de.decidr.model.commands.workflowmodel.DeleteWorkflowModelCommand;
+import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.TenantSummaryView;
 import de.decidr.model.entities.TenantWithAdminView;
 import de.decidr.model.entities.User;
@@ -55,6 +71,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
  * data/settings.
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  * 
  * @version 0.1
  */
@@ -135,18 +152,13 @@ public class TenantFacade extends AbstractFacade {
      * 
      * @param tenantId
      *            the tenant to which the logo will be set
-     * @param logo
-     *            the logo
-     * @param mimeType
-     *            the mimetype of the logo file
-     * @param fileName
-     *            the file name of the logo file
+     * @param fileId
+     *            the id of the file that should be used as the tenant logo
      */
     @AllowedRole(TenantAdminRole.class)
-    public void setLogo(Long tenantId, FileInputStream logo, String mimeType,
-            String fileName) throws TransactionException {
+    public void setLogo(Long tenantId, Long fileId) throws TransactionException {
         SetTenantLogoCommand command = new SetTenantLogoCommand(actor,
-                tenantId, logo, mimeType, fileName);
+                tenantId, fileId);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
@@ -156,20 +168,16 @@ public class TenantFacade extends AbstractFacade {
      * 
      * @param tenantId
      *            the id of the tenant where the scheme should be set
-     * @param simpleColorScheme
-     *            the color scheme file
-     * @param mimeType
-     *            mime type of the file
-     * @param fileName
-     *            file name of the file
+     * @param fileId
+     *            the id of the file that should be used as the simple color
+     *            scheme.
      */
     @AllowedRole(TenantAdminRole.class)
-    public void setSimpleColorScheme(Long tenantId,
-            FileInputStream simpleColorScheme, String mimeType, String fileName)
+    public void setSimpleColorScheme(Long tenantId, Long fileId)
             throws TransactionException {
 
         SetSimpleColorSchemeCommand command = new SetSimpleColorSchemeCommand(
-                actor, tenantId, simpleColorScheme, mimeType, fileName);
+                actor, tenantId, fileId);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
@@ -179,20 +187,15 @@ public class TenantFacade extends AbstractFacade {
      * 
      * @param tenantId
      *            the ID of the tenant where the scheme should be set
-     * @param advancedColorScheme
-     *            the color scheme file
-     * @param mimeType
-     *            mime type of the file
-     * @param fileName
-     *            file name of the file
+     * @param fileId
+     *            the ID of the file to use as the advanced color scheme
      */
     @AllowedRole(TenantAdminRole.class)
-    public void setAdvancedColorScheme(FileInputStream advancedColorScheme,
-            Long tenantId, String mimeType, String fileName)
+    public void setAdvancedColorScheme(Long tenantId, Long fileId)
             throws TransactionException {
 
         SetAdvancedColorSchemeCommand command = new SetAdvancedColorSchemeCommand(
-                actor, tenantId, advancedColorScheme, mimeType, fileName);
+                actor, tenantId, fileId);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
@@ -202,20 +205,16 @@ public class TenantFacade extends AbstractFacade {
      * 
      * @param tenantId
      *            the ID of the tenant where the scheme should be set
-     * @param advancedColorScheme
-     *            the color scheme file
-     * @param mimeType
-     *            mime type of the file
-     * @param fileName
-     *            file name of the file
+     * @param useAdvancedColorScheme
+     *            whether to use the advanced color scheme. If set to false the
+     *            simple color scheme is used instead.
      */
     @AllowedRole(TenantAdminRole.class)
-    public void setCurrentColorScheme(FileInputStream currentColorScheme,
-            Long tenantId, String mimeType, String fileName)
-            throws TransactionException {
+    public void setCurrentColorScheme(Long tenantId,
+            Boolean useAdvancedColorScheme) throws TransactionException {
 
         SetCurrentColorSchemeCommand command = new SetCurrentColorSchemeCommand(
-                actor, tenantId, currentColorScheme, mimeType, fileName);
+                actor, tenantId, useAdvancedColorScheme);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
@@ -417,14 +416,16 @@ public class TenantFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the WorkflowItems of the given tenant. <br>
+     * Returns a list of Vaadin items representing the workflow instances of the
+     * given tenant. <br>
      * <br>
-     * The returned Items contain the following properties:<br>
+     * The returned items contain the following properties:<br>
      * <ul>
-     * <li>id</li>
-     * <li>startDate</li>
-     * <li>workflow_model</li>
-     * <li>tenant_name</li>
+     * <li>id: Long - ID of workflow instance</li>
+     * <li>startDate: Date - date when the workflow instance was started (null
+     * if it hasn't been started yet)</li>
+     * <li>workflowModelName: String - name of the corresponding workflow model</li>
+     * <li>tenantName: String - name of tenant that owns the workflow instance</li>
      * </ul>
      * 
      * @param tenantId
@@ -443,7 +444,7 @@ public class TenantFacade extends AbstractFacade {
 
         List<Item> outList = new ArrayList<Item>();
         List<WorkflowInstance> inList = new ArrayList();
-        String[] properties = { "id,startDate" };
+        String[] properties = { "id", "startDate" };
         Item currentItem = null;
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
@@ -471,10 +472,11 @@ public class TenantFacade extends AbstractFacade {
      * Returns a list of all tenants which have to be approved as List<Item>
      * Each Item has the following properties:<br>
      * <ul>
-     * <li>id</li>
-     * <li>tenant_name</li>
-     * <li>first_name</li>
-     * <li>last_name</li>
+     * <li>id: Long - tenant ID</li>
+     * <li>name: String - tenant name</li>
+     * <li>adminFirstName: String - first name of tenant admin</li>
+     * <li>adminLastName: String - last name of tenant admin</li>
+     * <li>adminId: Long - user ID of tenant admin</li>
      * </ul>
      * 
      * @param filters
@@ -494,7 +496,8 @@ public class TenantFacade extends AbstractFacade {
         List<Item> outList = new ArrayList<Item>();
         List<TenantWithAdminView> inList = new ArrayList();
 
-        String[] properties = { "id", "adminFirstName", "adminLastName" };
+        String[] properties = { "id", "adminFirstName", "adminLastName",
+                "adminId" };
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
         inList = command.getResult();
@@ -506,7 +509,6 @@ public class TenantFacade extends AbstractFacade {
         }
 
         return outList;
-
     }
 
     /**
@@ -514,13 +516,16 @@ public class TenantFacade extends AbstractFacade {
      * result can be filtered by using filters and split in several pages by
      * using a paginator. Each item has the following properties:<br>
      * <ul>
-     * <li>adminFirstName</li>
-     * <li>adminLastName</li>
-     * <li>id</li>
-     * <li>numDeployedWorkflowModels</li>
-     * <li>numMembers</li>
-     * <li>numWorkflowInstance</li>
-     * <li>tenantName</li>
+     * <li>adminFirstName: String - the first name of the tenant admin</li>
+     * <li>adminLastName: String - the last name of the tenant admin</li>
+     * <li>id: Long - the tenant id</li>
+     * <li>numDeployedWorkflowModels: Long - the number of deployed workflow
+     * models that this tenant owns.</li>
+     * <li>numMembers: Long - the number of users that are members of this
+     * tenant.</li>
+     * <li>numWorkflowInstance: Long - the number of workflow instances that
+     * this tenant owns.</li>
+     * <li>tenantName: String - the name of this tenant.</li>
      * </ul>
      * 
      * @param filters
@@ -556,9 +561,10 @@ public class TenantFacade extends AbstractFacade {
      * Returns the WorkflowModels of the given tenant as List<Item>. Each Item
      * has the following properties<br>
      * <ul>
-     * <li>name</li>
-     * <li>creationDate</li>
-     * <li>published</li>
+     * <li>name: String - name of the workflow model</li>
+     * <li>creationDate: Date - date when the workflow model was created</li>
+     * <li>published: Boolean - whether this workflow model is available for
+     * import by other tenants.</li>
      * </ul>
      * 
      * @param tenantId
@@ -642,6 +648,12 @@ public class TenantFacade extends AbstractFacade {
      * <li>name: {@link String} - tenant name</li>
      * <li>description: {@link String} - tenant description</li>
      * <li>approvedSince: {@link Date} - date when the tenant was approved</li>
+     * <li>simpleColorSchemeId: {@link Long} - file ID of the simple color
+     * scheme</li>
+     * <li>advancedColorSchemeId: {@link Long} - file ID of the advanced color
+     * scheme</li>
+     * <li>currentColorSchemeId: {@link Long} - file ID of the current color
+     * scheme (which is either the simple or advanced scheme)</li>
      * </ul>
      * 
      * @param tenantId
@@ -656,8 +668,17 @@ public class TenantFacade extends AbstractFacade {
                 tenantId);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-        // FIXME DH also fetch color schemes!
         String[] properties = { "id", "name", "description", "approvedSince" };
-        return new BeanItem(cmd.getTenantSettings(), properties);
+
+        Tenant settings = cmd.getTenantSettings();
+        BeanItem result = new BeanItem(settings, properties);
+        result.addItemProperty("simpleColorSchemeId", new ObjectProperty(
+                settings.getSimpleColorScheme().getId()));
+        result.addItemProperty("advancedColorSchemeId", new ObjectProperty(
+                settings.getAdvancedColorScheme().getId()));
+        result.addItemProperty("currentColorSchemeId", new ObjectProperty(
+                settings.getCurrentColorScheme().getId()));
+
+        return result;
     }
 }

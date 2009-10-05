@@ -14,36 +14,38 @@
  * under the License.
  */
 
-package de.decidr.model.commands.system;
+package de.decidr.model.commands.file;
+
+import java.io.InputStream;
 
 import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.commands.file.FileCommand;
-import de.decidr.model.entities.File;
+import de.decidr.model.exceptions.StorageException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.storage.StorageProvider;
+import de.decidr.model.storage.StorageProviderFactory;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Retrieves file meta-information from the database. To retrieve the actual
- * file contents, see {@link StorageProvider}.
+ * Retrieves the contents of an existing file using the default storage
+ * provider.
  * 
  * @author Daniel Huss
  * @version 0.1
  */
-public class GetFileCommand extends FileCommand {
+public class GetFileDataCommand extends FileCommand {
 
-    private File file = null;
+    InputStream stream = null;
 
     /**
-     * Creates a new GetFileCommand
+     * Creates a new GetFileDataCommand that retrieves the contents of the given
+     * file.
      * 
      * @param role
-     *            the user / system executing the command
+     *            user / system executing the command
      * @param fileId
-     *            the file to retrieve
      */
-    public GetFileCommand(Role role, Long fileId) {
+    public GetFileDataCommand(Role role, Long fileId) {
         super(role, fileId);
         this.additionalPermissions.add(new FileReadPermission(fileId));
     }
@@ -51,14 +53,29 @@ public class GetFileCommand extends FileCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-        file = fetchFile(evt.getSession());
+        stream = null;
 
+        try {
+            StorageProvider storage = StorageProviderFactory
+                    .getDefaultFactory().getStorageProvider();
+
+            stream = storage.getFile(fileId);
+        } catch (StorageException e) {
+            throw new TransactionException(e);
+        } catch (Exception e) {
+            if (e instanceof TransactionException) {
+                throw (TransactionException) e;
+            } else {
+                throw new TransactionException(e);
+            }
+        }
     }
 
     /**
-     * @return the file
+     * @return the stream containing the file data.
      */
-    public File getFile() {
-        return file;
+    public InputStream getStream() {
+        return stream;
     }
+
 }

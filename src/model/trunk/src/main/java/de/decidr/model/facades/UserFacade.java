@@ -137,8 +137,7 @@ public class UserFacade extends AbstractFacade {
      *            the account password as plain text (no hash).
      * @return user ID
      * @throws TransactionException
-     *             if the transaction is aborted for any reason or if the
-     *             database contains user1, user2:
+     *             if the transaction is aborted for any reason.
      * @throws EntityNotFoundException
      *             iff no such account exists or the password doesn't match.
      */
@@ -319,7 +318,7 @@ public class UserFacade extends AbstractFacade {
      * @param userId
      *            ID of user whose email address should be changed.
      * @param newEmail
-     *            TODO document
+     *            the desired new email address that must be confirmed.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
@@ -871,12 +870,13 @@ public class UserFacade extends AbstractFacade {
      * Returns the workitems of the given user as List<Item> with the following
      * properties:<br>
      * <ul>
-     * <li>creationDate</li>
-     * <li>userId</li>
-     * <li>id</li>
-     * <li>tenantName</li>
-     * <li>workItemName</li>
-     * <li>workItemStatus</li>
+     * <li>creationDate: Date - date when the work item was created</li>
+     * <li>userId: Long - user ID</li>
+     * <li>id: Long - work item ID</li>
+     * <li>tenantName: String - tenant name</li>
+     * <li>workItemName: String - work item name</li>
+     * <li>workItemStatus: String - one of the enum names </li>
+     * <li>workflowInstanceId: Long - ID of the 
      * </ul>
      * 
      * @param userId

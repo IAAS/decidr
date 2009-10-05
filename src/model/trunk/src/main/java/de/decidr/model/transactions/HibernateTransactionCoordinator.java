@@ -112,7 +112,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * the existing outer transaction is reused.
      */
     protected synchronized void beginTransaction() {
-
+        logger.debug("Beginning transaction. Current transaction depth: " + transactionDepth);
         if (transactionDepth == 0) {
             session = sessionFactory.openSession();
             currentTransaction = session.beginTransaction();
@@ -124,7 +124,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * Commits the current transaction.
      */
-    protected void commitCurrentTransaction() throws TransactionException {
+    protected synchronized void commitCurrentTransaction() throws TransactionException {
 
         if (currentTransaction == null) {
             throw new TransactionException(
@@ -144,7 +144,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * Rolls the current transaction back.
      */
-    protected void rollbackCurrentTransaction() throws TransactionException {
+    protected synchronized void rollbackCurrentTransaction() throws TransactionException {
 
         if (currentTransaction == null) {
             throw new TransactionException(

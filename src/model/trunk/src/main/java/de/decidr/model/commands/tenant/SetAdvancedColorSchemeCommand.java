@@ -1,100 +1,61 @@
+/*
+ * The DecidR Development Team licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package de.decidr.model.commands.tenant;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.InvalidPropertiesFormatException;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.File;
 import de.decidr.model.entities.Tenant;
-import de.decidr.model.exceptions.IncompleteConfigurationException;
-import de.decidr.model.exceptions.StorageException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.storage.StorageProviderFactory;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Sets the advanced color scheme of the given tenant.
  * 
  * @author Markus Fischer
- * 
+ * @author Daniel Huss
  * @version 0.1
  */
 public class SetAdvancedColorSchemeCommand extends TenantCommand {
 
-    FileInputStream advancedColorScheme;
-    String mimeType;
-    String fileName;
+    Long fileId;
 
     /**
      * Creates a new SetAdvancedColorSchemeCommand. This command sets the
      * advanced color scheme of the given tenant.
      * 
      * @param role
-     *            user which executes the command
+     *            user / system executing the command
      * @param tenantId
-     *            the id of the tenant where the advanced color scheme should be
-     *            set
-     * @param simpleColorScheme
-     *            the color scheme file
-     * @param mimeType
-     *            mime type of the file
-     * @param fileName
-     *            name of the file
+     *            id of the tenant to modify
+     * @param fileId
+     *            id of color scheme file to use as the advanced color scheme
+     *            (can be null if the default theme should be used).
      */
-    public SetAdvancedColorSchemeCommand(Role role, Long tenantId,
-            FileInputStream advancedColorScheme, String mimeType,
-            String fileName) {
-
+    public SetAdvancedColorSchemeCommand(Role role, Long tenantId, Long fileId) {
         super(role, tenantId);
-        this.advancedColorScheme = advancedColorScheme;
-        this.mimeType = mimeType;
-        this.fileName = fileName;
+        this.fileId = fileId;
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        StorageProviderFactory factory;
-        File schemeFile;
-
-        Tenant tenant = (Tenant) evt.getSession().load(Tenant.class,
-                this.getTenantId());
-
-        if (tenant.getAdvancedColorScheme() == null) {
-            schemeFile = new File();
-        } else {
-            schemeFile = tenant.getAdvancedColorScheme();
-        }
-
-        schemeFile.setMimeType(mimeType);
-        schemeFile.setMayPublicRead(true);
-        schemeFile.setFileName(fileName);
-
-        evt.getSession().saveOrUpdate(schemeFile);
-
-        tenant.setAdvancedColorScheme(schemeFile);
-        evt.getSession().update(tenant);
-
-        try {
-            factory = StorageProviderFactory.getDefaultFactory();
-        } catch (InvalidPropertiesFormatException e) {
-            throw new TransactionException(e);
-        } catch (FileNotFoundException e) {
-            throw new TransactionException(e);
-        } catch (IOException e) {
-            throw new TransactionException(e);
-        }
-
-        try {
-            factory.getStorageProvider().putFile(advancedColorScheme,
-                    schemeFile.getId());
-        } catch (StorageException e) {
-            throw new TransactionException(e);
-        } catch (IncompleteConfigurationException e) {
-            throw new TransactionException(e);
-        }
+        Tenant tenant = fetchTenant(evt.getSession());
+        File advancedColorScheme = (File) evt.getSession().get(File.class, fileId);
+        tenant.setAdvancedColorScheme(advancedColorScheme);
+        evt.getSession().save(tenant);
     }
 }

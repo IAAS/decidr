@@ -38,6 +38,16 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
  * You can specify the name of the entity and the name of the property that
  * holds the file data via the configuration options "entityTypeName",
  * "idPropertyName" and "dataPropertyName".<br>
+ * All of these properties must be present in your configuration, otherwise this
+ * storage provider is not applicable.<br>
+ * You may omit the default storage provider properties, but if you set them,
+ * this storage provider will only accept the following properties:
+ * <ul>
+ * <li>amazons3=false</li>
+ * <li>local=false</li>
+ * <li>persistent=true</li>
+ * </ul>
+ * <ul>
  * <p>
  * This storage provider uses the {@link HibernateTransactionCoordinator} to
  * retrieve the current Hibernate session.<br>
@@ -178,12 +188,20 @@ public class HibernateEntityStorageProvider implements StorageProvider {
     }
 
     @Override
-    // DH please complete according to (updated) documentation ~rr
     public boolean isApplicable(Properties config) {
         return config != null
                 && config.containsKey(CONFIG_KEY_DATA_PROPERTY_NAME)
                 && config.containsKey(CONFIG_KEY_ENTITY_TYPE_NAME)
-                && config.containsKey(CONFIG_KEY_ID_PROPERTY_NAME);
+                && config.containsKey(CONFIG_KEY_ID_PROPERTY_NAME)
+                // Amazons3 property can be missing or explicitly false
+                && !Boolean.parseBoolean(config.getProperty(
+                        AMAZON_S3_CONFIG_KEY, Boolean.toString(false)))
+                // Persistent property can be missing or explicitly true
+                && Boolean.parseBoolean(config.getProperty(
+                        PERSISTENT_CONFIG_KEY, Boolean.toString(true)))
+                // Local property can be missing or explicity false
+                && !Boolean.parseBoolean(config.getProperty(LOCAL_CONFIG_KEY,
+                        Boolean.toString(false)));
     }
 
     @Override

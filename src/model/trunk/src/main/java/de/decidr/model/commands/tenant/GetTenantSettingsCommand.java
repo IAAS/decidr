@@ -49,6 +49,10 @@ public class GetTenantSettingsCommand extends TenantCommand {
             throws TransactionException {
         tenantSettings = null;
         tenantSettings = fetchTenant(evt.getSession());
+        // preload color schemes
+        tenantSettings.getCurrentColorScheme();
+        tenantSettings.getAdvancedColorScheme();
+        tenantSettings.getSimpleColorScheme();
     }
 
     /**

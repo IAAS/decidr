@@ -32,6 +32,7 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.system.AddServerCommand;
 import de.decidr.model.commands.system.GetFileCommand;
 import de.decidr.model.commands.system.GetLogCommand;
@@ -96,11 +97,14 @@ public class SystemCommandsTest extends CommandsTest {
         fail("No way of actually putting a file into the DB yet");
         // RR set files
 
-        GetFileCommand getterA = new GetFileCommand(decidrFileA.getId());
-        GetFileCommand getterB = new GetFileCommand(decidrFileB.getId());
+        //RR sorry for the bullshit roles, but I wanted the model to compile before committing ~dh
+        GetFileCommand getterA = new GetFileCommand(new UserRole(0L),
+                decidrFileA.getId());
+        GetFileCommand getterB = new GetFileCommand(new UserRole(0L),
+                decidrFileB.getId());
 
-        GetFileCommand getterInvalid = new GetFileCommand(invalidDecidrFile
-                .getId());
+        GetFileCommand getterInvalid = new GetFileCommand(new UserRole(0L),
+                invalidDecidrFile.getId());
 
         HibernateTransactionCoordinator.getInstance().runTransaction(getterA);
         HibernateTransactionCoordinator.getInstance().runTransaction(getterB);
