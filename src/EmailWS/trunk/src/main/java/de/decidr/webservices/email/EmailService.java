@@ -201,7 +201,6 @@ public class EmailService implements EmailInterface {
         if (userList.getAbstractUser().isEmpty()) {
             log.debug("Detected empty user list");
         } else {
-
             log.debug("extracting email addresses from AbstractUserList");
             for (AbstractUser user : userList.getAbstractUser()) {
                 if (user instanceof EmailUser) {

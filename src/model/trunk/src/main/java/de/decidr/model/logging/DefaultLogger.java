@@ -18,14 +18,16 @@ import org.apache.log4j.PatternLayout;
  */
 public class DefaultLogger {
 
-    private static Appender defaultAppender = new ConsoleAppender(new PatternLayout("[%p] %m%n"),
-                ConsoleAppender.SYSTEM_OUT);
+    private static Appender defaultAppender = new ConsoleAppender(
+            new PatternLayout("[%p] %m%n"), ConsoleAppender.SYSTEM_OUT);
 
     static {
         // run configurator - every new logger will inherit the defaultAppender
-         BasicConfigurator.configure(defaultAppender);
+        BasicConfigurator.configure(defaultAppender);
         // set default logging options
         Logger.getLogger("de.decidr").setLevel(Level.DEBUG);
+        // Don't pass messages to higher-level loggers
+        Logger.getLogger("de.decidr").setAdditivity(false);
     }
 
     public static Logger getLogger(Class<?> clazz) {
