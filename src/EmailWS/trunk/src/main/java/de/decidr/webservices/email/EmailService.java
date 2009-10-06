@@ -306,6 +306,12 @@ public class EmailService implements EmailInterface {
             IncompleteConfigurationException {
         log.trace("Entering " + EmailService.class.getSimpleName()
                 + ".sendEmail(...)");
+        log.debug("to: " + to + ", cc: " + cc + ", bcc: " + bcc
+                + ", fromName: " + fromName + ", fromAddress: " + fromAddress
+                + ", subject: " + subject + ", headers: " + headers
+                + ", bodyTXT: " + bodyTXT + ", bodyHTML: " + bodyHTML
+                + ", attachments: " + attachments);
+
         log.debug("checking parameters for nulls");
         if (to == null || fromAddress == null || subject == null) {
             log.error("A main parameter (to, fromAddress, subject) is null!");
