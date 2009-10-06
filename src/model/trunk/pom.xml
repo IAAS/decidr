@@ -52,6 +52,7 @@
 				<directory>src/test/java</directory>
 				<includes>
 					<include>**/hibernate.cfg.xml</include>
+					<include>**/decidr-storage.xml</include>
 				</includes>
 			</testResource>
 		</testResources>

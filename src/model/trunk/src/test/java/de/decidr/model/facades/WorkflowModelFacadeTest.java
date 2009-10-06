@@ -16,6 +16,7 @@
 
 package de.decidr.model.facades;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.util.List;
@@ -23,9 +24,13 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.vaadin.data.Item;
+
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.testsuites.DatabaseTestSuite;
 
@@ -39,14 +44,11 @@ import de.decidr.model.testsuites.DatabaseTestSuite;
  */
 public class WorkflowModelFacadeTest {
 
+    static long wfmId;
+
     static WorkflowModelFacade adminFacade;
     static WorkflowModelFacade userFacade;
     static WorkflowModelFacade nullFacade;
-
-    @BeforeClass
-    public static void disable() {
-        fail("This test class has not yet been implemented");
-    }
 
     /**
      * Initialises the facade instances.
@@ -63,14 +65,53 @@ public class WorkflowModelFacadeTest {
         nullFacade = new WorkflowModelFacade(null);
     }
 
+    @BeforeClass
+    public static void createWorkflowModel() throws TransactionException {
+        final String NAME = "WorkflowModelFacadeTestTenant";
+        final String DESCRIPTION = "TenantDescription";
+
+        Role role = new SuperAdminRole(DecidrGlobals.getSettings()
+                .getSuperAdmin().getId());
+        TenantFacade tenantFacade = new TenantFacade(role);
+        
+       // try {
+            long id = tenantFacade.getTenantId(NAME);
+            tenantFacade.deleteTenant(id);
+        //} catch (TransactionException e) {
+            // tenant does not exist - good!
+        //}
+            
+
+//        long tenantId = tenantFacade.createTenant(NAME, DESCRIPTION,
+//                DecidrGlobals.getSettings().getSuperAdmin().getId());
+//        wfmId = tenantFacade.createWorkflowModel(tenantId,
+//                "WorklfowModelFacadeTestWFModel");
+    }
+
     /**
      * Test method for
      * {@link WorkflowModelFacade#saveWorkflowModel(Long, String, String, byte[])}
      * .
      */
     @Test
-    public void testSaveWorkflowModel() {
-        fail("Not yet implemented"); // JE saveWorkflowModel
+    public void testSaveWorkflowModel() throws TransactionException {
+        final String NAME = "WorkflowModelFacadeTestWorkflowModel";
+        final String DESCRIPTION = "UnitTest Model for WorkflowModelFacade UnitTest";
+        final byte[] DWDL = "<dwdl>DWDLBLA</dwdl>".getBytes();
+
+        adminFacade.saveWorkflowModel(wfmId, NAME, DESCRIPTION, DWDL);
+        Item wfm = adminFacade.getWorkflowModel(wfmId);
+
+        long id = (Long) wfm.getItemProperty("id").getValue();
+        String name = (String) wfm.getItemProperty("name").getValue();
+        String description = (String) wfm.getItemProperty("description")
+                .getValue();
+        byte[] dwdl = (byte[]) wfm.getItemProperty("dwdl").getValue();
+
+        assertEquals(id, wfmId);
+        assertEquals(name, NAME);
+        assertEquals(description, DESCRIPTION);
+        assertEquals(dwdl, DWDL);
     }
 
     /**
@@ -120,7 +161,7 @@ public class WorkflowModelFacadeTest {
      */
     @Test
     public void testDeleteWorkflowModels() {
-        fail("Not yet implemented"); // RR deleteWorkflowModels
+        fail("Not yet implemented"); // JE deleteWorkflowModels
     }
 
     /**
@@ -129,7 +170,7 @@ public class WorkflowModelFacadeTest {
      */
     @Test
     public void testGetWorkflowInstances() {
-        fail("Not yet implemented"); // RR getWorkflowInstances
+        fail("Not yet implemented"); // JE getWorkflowInstances
     }
 
     /**
@@ -139,7 +180,7 @@ public class WorkflowModelFacadeTest {
      */
     @Test
     public void testGetAllPublishedWorkflowModels() {
-        fail("Not yet implemented"); // RR getAllPublishedWorkflowModels
+        fail("Not yet implemented"); // JE getAllPublishedWorkflowModels
     }
 
     /**
@@ -148,6 +189,6 @@ public class WorkflowModelFacadeTest {
      */
     @Test
     public void testGetLastStartConfiguration() {
-        fail("Not yet implemented"); // RR getLastStartConfiguration
+        fail("Not yet implemented"); // JE getLastStartConfiguration
     }
 }

@@ -23,7 +23,9 @@ import org.junit.Test;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.testsuites.DatabaseTestSuite;
 
 /**
@@ -55,10 +57,17 @@ public class WorkflowInstanceFacadeTest {
         if (!DatabaseTestSuite.running()) {
             fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
+        
+        Role adminRole = new SuperAdminRole(
+                DecidrGlobals.getSettings().getSuperAdmin().getId());
+        Role basicRole = new BasicRole(0L);
+        
+        WorkflowModelFacade adminModelFacade = new WorkflowModelFacade(adminRole);
+        WorkflowModelFacade userModelFacade = new WorkflowModelFacade(basicRole);
+        WorkflowModelFacade nullModelFacade = new WorkflowModelFacade(null);
 
-        adminFacade = new WorkflowInstanceFacade(new SuperAdminRole(
-                DecidrGlobals.getSettings().getSuperAdmin().getId()));
-        userFacade = new WorkflowInstanceFacade(new BasicRole(0L));
+        adminFacade = new WorkflowInstanceFacade(adminRole);
+        userFacade = new WorkflowInstanceFacade(basicRole);
         nullFacade = new WorkflowInstanceFacade(null);
     }
 
@@ -68,7 +77,7 @@ public class WorkflowInstanceFacadeTest {
      * {@link WorkflowInstanceFacade#deleteWorkflowInstance(Long)}.
      */
     @Test
-    public void testWorkflowInstance() {
+    public void testWorkflowInstance() throws TransactionException {
         fail("Not yet implemented"); // JE getParticipatingUsers
         fail("Not yet implemented"); // JE deleteWorkflowInstance
     }
