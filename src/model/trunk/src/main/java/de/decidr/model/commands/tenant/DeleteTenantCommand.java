@@ -141,7 +141,6 @@ public class DeleteTenantCommand extends TenantCommand {
                  * automatically deleted by the dbms.
                  */
                 evt.getSession().delete(model);
-
             }
 
             // finally delete tenant object

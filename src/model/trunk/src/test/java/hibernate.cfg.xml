@@ -5,11 +5,11 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="hibernate.bytecode.use_reflection_optimizer">false</property>
-        <property name="hibernate.connection.characterEncoding">utf8</property>
+		<property name="hibernate.connection.characterEncoding">utf8</property>
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 		<property name="hibernate.connection.password">decidr42</property>
 		<property name="hibernate.connection.url">jdbc:mysql://localhost/decidrdb</property>
-        <property name="hibernate.connection.useUnicode">true</property>
+		<property name="hibernate.connection.useUnicode">true</property>
 		<property name="hibernate.connection.username">decidr</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
 		<mapping resource="de/decidr/model/entities/StartConfiguration.hbm.xml" />

@@ -41,6 +41,7 @@ import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.RegistrationRequest;
 import de.decidr.model.entities.User;
+import de.decidr.model.entities.UserAdministratesWorkflowInstance;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
@@ -851,12 +852,30 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for
-     * {@link facades.UserFacade#getAdminstratedWorkflowInstances(Long)}.
+     * Test method for {@link UserFacade#getAdminstratedWorkflowInstances(Long)}
+     * .
      */
     @Test
-    public void testGetAdminstratedWorkflowInstances() {
-        fail("Not yet implemented"); // RR getAdminstratedWorkflowInstances
+    public void testGetAdminstratedWorkflowInstances()
+            throws TransactionException {
+        try {
+            userFacade.getAdminstratedWorkflowInstances(testUserID);
+            fail("succeeded getting administrated workflow instances as normal user");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        List<Item> WFIs = adminFacade
+                .getAdminstratedWorkflowInstances(testUserID);
+        assertNotNull(WFIs);
+        assertTrue(WFIs.isEmpty());
+
+        User u = ((UserAdministratesWorkflowInstance) session.createQuery(
+                "from UserAdministratesWorkflowInstance").uniqueResult())
+                .getUser();
+        WFIs = adminFacade.getAdminstratedWorkflowInstances(u.getId());
+        assertNotNull(WFIs);
+        assertFalse(WFIs.isEmpty());
     }
 
     /**
