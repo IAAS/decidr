@@ -53,8 +53,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
         SystemCommandsTest.class, SystemFacadeTest.class,
         TenantFacadeTest.class, UserFacadeTest.class,
         WorkflowModelFacadeTest.class, WorkflowInstanceFacadeTest.class,
-        WorkItemFacadeTest.class, HibernateEntityStorageProviderTest.class,
-        DatabaseTestSuite.class })
+        WorkItemFacadeTest.class, HibernateEntityStorageProviderTest.class })
 public class DatabaseTestSuite extends GlobalPreconditionsSuite {
 
     static Session session;
