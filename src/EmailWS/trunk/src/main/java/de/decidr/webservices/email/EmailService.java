@@ -28,7 +28,6 @@ import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.mail.MessagingException;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.TypeConstraintException;
 
 import org.apache.log4j.Logger;
@@ -195,27 +194,23 @@ public class EmailService implements EmailInterface {
             return new HashSet<String>();
         }
 
-        Set<String> emailList = new HashSet<String>(userList.getUser()
-                .size());
+        Set<String> emailList = new HashSet<String>(userList.getUser().size());
         List<Actor> actorList = new ArrayList<Actor>();
 
         if (userList.getUser().isEmpty()) {
             log.debug("Detected empty user list");
         } else {
             log.debug("extracting email addresses from AbstractUserList");
-            AbstractUser value;
-            for (JAXBElement<? extends AbstractUser> user : userList
-                    .getUser()) {
-                value = user.getValue();
-                if (value instanceof EmailUser) {
+            for (AbstractUser user : userList.getUser()) {
+                if (user instanceof EmailUser) {
                     log.debug("found EmailUser");
-                    emailList.add(((EmailUser) value).getEmail());
-                } else if (value instanceof ActorUser) {
+                    emailList.add(((EmailUser) user).getEmail());
+                } else if (user instanceof ActorUser) {
                     log.debug("found ActorUser");
-                    actorList.add(((ActorUser) value).getActor());
-                } else if (value instanceof RoleUser) {
+                    actorList.add(((ActorUser) user).getActor());
+                } else if (user instanceof RoleUser) {
                     log.debug("found RoleUser");
-                    for (Actor actor : ((RoleUser) value).getRole().getActor()) {
+                    for (Actor actor : ((RoleUser) user).getRole().getActor()) {
                         actorList.add(actor);
                     }
                 } else {

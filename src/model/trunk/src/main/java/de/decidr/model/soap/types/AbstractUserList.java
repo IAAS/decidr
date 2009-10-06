@@ -21,7 +21,7 @@ import java.util.List;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -48,8 +48,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "tAbstractUserList", propOrder = { "user" })
 public class AbstractUserList {
 
-    @XmlElementRef(name = "user", namespace = "http://decidr.de/schema/DecidrTypes", type = JAXBElement.class)
-    protected List<JAXBElement<? extends AbstractUser>> user;
+    @XmlElement(required = true)
+    protected List<? extends AbstractUser> user;
 
     /**
      * Gets the value of the user property.
@@ -61,24 +61,23 @@ public class AbstractUserList {
      * <CODE>set</CODE> method for the abstractUser property.
      * 
      * <p>
-     * For example, to add a new item, do as follows:
-     * 
-     * <pre>
-     * getUser().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link JAXBElement }{@code <}{@link TRoleUser }{@code >}
      * {@link JAXBElement }{@code <}{@link TAbstractUser }{@code >}
      * {@link JAXBElement }{@code <}{@link TActorUser }{@code >}
      * {@link JAXBElement }{@code <}{@link TEmailUser }{@code >}
      */
-    public List<JAXBElement<? extends AbstractUser>> getUser() {
+    public List<? extends AbstractUser> getUser() {
         if (user == null) {
-            user = new ArrayList<JAXBElement<? extends AbstractUser>>();
+            user = new ArrayList<AbstractUser>();
         }
         return this.user;
+    }
+
+    /**
+     * Sets the value of the user property.
+     */
+    public void setUser(List<? extends AbstractUser> user) {
+        this.user = user;
     }
 }
