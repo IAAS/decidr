@@ -30,9 +30,6 @@ import de.decidr.model.DecidrGlobalsTest;
 import de.decidr.model.GlobalPreconditionsSuite;
 import de.decidr.model.LifetimeValidatorTest;
 import de.decidr.model.commands.SystemCommandsTest;
-import de.decidr.model.commands.TenantCommandsTest;
-import de.decidr.model.commands.WorkItemCommandsTest;
-import de.decidr.model.commands.WorkflowInstanceCommandsTest;
 import de.decidr.model.facades.SystemFacadeTest;
 import de.decidr.model.facades.TenantFacadeTest;
 import de.decidr.model.facades.UserFacadeTest;
@@ -53,9 +50,8 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
 // The order of these tests should not be changed without good reason
 @SuiteClasses( { HibernateTransactionCoordinatorTest.class,
         DecidrGlobalsTest.class, LifetimeValidatorTest.class,
-        SystemCommandsTest.class, TenantCommandsTest.class,
-        WorkflowInstanceCommandsTest.class, WorkItemCommandsTest.class,
-        SystemFacadeTest.class, TenantFacadeTest.class, UserFacadeTest.class,
+        SystemCommandsTest.class, SystemFacadeTest.class,
+        TenantFacadeTest.class, UserFacadeTest.class,
         WorkflowModelFacadeTest.class, WorkflowInstanceFacadeTest.class,
         WorkItemFacadeTest.class, HibernateEntityStorageProviderTest.class,
         DatabaseTestSuite.class })

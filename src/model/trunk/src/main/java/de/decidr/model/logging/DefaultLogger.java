@@ -17,8 +17,10 @@ import org.apache.log4j.PatternLayout;
  * http://www.dankomannhaupt.de/projects/index.html for an improved JDBC
  * appender.
  */
+@SuppressWarnings("unchecked")
 public class DefaultLogger {
 
+    private static final String DEFAULT_LOGGER = "de.decidr";
     private static Appender defaultAppender = new ConsoleAppender(
             new PatternLayout("[%p] %m%n"), ConsoleAppender.SYSTEM_OUT);
 
@@ -30,7 +32,7 @@ public class DefaultLogger {
 
         boolean configured = false;
         Appender current;
-        Enumeration<Appender> appenders = Logger.getLogger("de.decidr")
+        Enumeration<Appender> appenders = Logger.getLogger(DEFAULT_LOGGER)
                 .getAllAppenders();
         while (appenders.hasMoreElements()) {
             current = appenders.nextElement();
@@ -41,11 +43,11 @@ public class DefaultLogger {
         }
 
         if (!configured) {
-            Logger.getLogger("de.decidr").addAppender(defaultAppender);
+            Logger.getLogger(DEFAULT_LOGGER).addAppender(defaultAppender);
             // set default logging options
-            Logger.getLogger("de.decidr").setLevel(Level.DEBUG);
+            Logger.getLogger(DEFAULT_LOGGER).setLevel(Level.DEBUG);
             // Don't pass messages to higher-level loggers
-            Logger.getLogger("de.decidr").setAdditivity(false);
+            Logger.getLogger(DEFAULT_LOGGER).setAdditivity(false);
         }
     }
 
