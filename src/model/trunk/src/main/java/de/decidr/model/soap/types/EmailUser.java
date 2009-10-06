@@ -15,8 +15,6 @@
  */
 package de.decidr.model.soap.types;
 
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -35,7 +33,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;extension base=&quot;{http://decidr.de/schema/DecidrTypes}tAbstractUser&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;user&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot; maxOccurs=&quot;unbounded&quot; /&gt;
+ *         &lt;element name=&quot;email&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot; maxOccurs=&quot;unbounded&quot; /&gt;
  *       &lt;/sequence&gt;
  *     &lt;/extension&gt;
  *   &lt;/complexContent&gt;
@@ -43,28 +41,28 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tEmailUser", propOrder = { "user" })
+@XmlType(name = "tEmailUser", propOrder = { "email" })
 public class EmailUser extends AbstractUser {
 
     @XmlElement(required = true)
-    protected List<String> user;
+    protected String email;
 
     /**
-     * Gets the value of the user property.
+     * Gets the value of the email property.
      * 
-     * @return possible object is {@link List<String> }
+     * @return possible object is {@link String }
      */
-    public List<String> getUser() {
-        return user;
+    public String getEmail() {
+        return email;
     }
 
     /**
-     * Sets the value of the user property.
+     * Sets the value of the email property.
      * 
      * @param value
-     *            allowed object is {@link List<String> }
+     *            allowed object is {@link String }
      */
-    public void setUser(List<String> value) {
-        this.user = value;
+    public void setEmail(String value) {
+        this.email = value;
     }
 }

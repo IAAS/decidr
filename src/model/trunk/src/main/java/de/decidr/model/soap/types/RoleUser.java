@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;extension base=&quot;{http://decidr.de/schema/DecidrTypes}tAbstractUser&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;user&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tRole&quot;/&gt;
+ *         &lt;element name=&quot;role&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tRole&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/extension&gt;
  *   &lt;/complexContent&gt;
@@ -41,28 +41,28 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tRoleUser", propOrder = { "user" })
+@XmlType(name = "tRoleUser", propOrder = { "role" })
 public class RoleUser extends AbstractUser {
 
     @XmlElement(required = true)
-    protected Role user;
+    protected Role role;
 
     /**
-     * Gets the value of the user property.
+     * Gets the value of the role property.
      * 
      * @return possible object is {@link Role }
      */
-    public Role getUser() {
-        return user;
+    public Role getRole() {
+        return role;
     }
 
     /**
-     * Sets the value of the user property.
+     * Sets the value of the role property.
      * 
      * @param value
      *            allowed object is {@link Role }
      */
-    public void setUser(Role value) {
-        this.user = value;
+    public void setRole(Role value) {
+        this.role = value;
     }
 }

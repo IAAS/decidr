@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;abstractUser&quot; type=&quot;{http://decidr.de/schema/DecidrWSTypes}tAbstractUser&quot; maxOccurs=&quot;unbounded&quot;/&gt;
+ *         &lt;element name=&quot;user&quot; type=&quot;{http://decidr.de/schema/DecidrWSTypes}tAbstractUser&quot; maxOccurs=&quot;unbounded&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -52,7 +52,7 @@ public class AbstractUserList {
     protected List<JAXBElement<? extends AbstractUser>> user;
 
     /**
-     * Gets the value of the abstractUser property.
+     * Gets the value of the user property.
      * 
      * <p>
      * This accessor method returns a reference to the live list, not a
@@ -64,7 +64,7 @@ public class AbstractUserList {
      * For example, to add a new item, do as follows:
      * 
      * <pre>
-     * getAbstractUser().add(newItem);
+     * getUser().add(newItem);
      * </pre>
      * 
      * 
@@ -75,7 +75,7 @@ public class AbstractUserList {
      * {@link JAXBElement }{@code <}{@link TActorUser }{@code >}
      * {@link JAXBElement }{@code <}{@link TEmailUser }{@code >}
      */
-    public List<JAXBElement<? extends AbstractUser>> getAbstractUser() {
+    public List<JAXBElement<? extends AbstractUser>> getUser() {
         if (user == null) {
             user = new ArrayList<JAXBElement<? extends AbstractUser>>();
         }

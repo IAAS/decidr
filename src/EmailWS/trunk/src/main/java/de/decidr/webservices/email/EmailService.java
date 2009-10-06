@@ -195,29 +195,27 @@ public class EmailService implements EmailInterface {
             return new HashSet<String>();
         }
 
-        Set<String> emailList = new HashSet<String>(userList.getAbstractUser()
+        Set<String> emailList = new HashSet<String>(userList.getUser()
                 .size());
         List<Actor> actorList = new ArrayList<Actor>();
 
-        if (userList.getAbstractUser().isEmpty()) {
+        if (userList.getUser().isEmpty()) {
             log.debug("Detected empty user list");
         } else {
             log.debug("extracting email addresses from AbstractUserList");
             AbstractUser value;
             for (JAXBElement<? extends AbstractUser> user : userList
-                    .getAbstractUser()) {
+                    .getUser()) {
                 value = user.getValue();
                 if (value instanceof EmailUser) {
                     log.debug("found EmailUser");
-                    for (String address : ((EmailUser) value).getUser()) {
-                        emailList.add(address);
-                    }
+                    emailList.add(((EmailUser) value).getEmail());
                 } else if (value instanceof ActorUser) {
                     log.debug("found ActorUser");
-                    actorList.add(((ActorUser) value).getUser());
+                    actorList.add(((ActorUser) value).getActor());
                 } else if (value instanceof RoleUser) {
                     log.debug("found RoleUser");
-                    for (Actor actor : ((RoleUser) value).getUser().getActor()) {
+                    for (Actor actor : ((RoleUser) value).getRole().getActor()) {
                         actorList.add(actor);
                     }
                 } else {

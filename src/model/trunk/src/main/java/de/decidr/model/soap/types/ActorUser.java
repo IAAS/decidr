@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;extension base=&quot;{http://decidr.de/schema/DecidrTypes}tAbstractUser&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;user&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tActor&quot;/&gt;
+ *         &lt;element name=&quot;actor&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tActor&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/extension&gt;
  *   &lt;/complexContent&gt;
@@ -41,28 +41,28 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tActorUser", propOrder = { "user" })
+@XmlType(name = "tActorUser", propOrder = { "actor" })
 public class ActorUser extends AbstractUser {
 
     @XmlElement(required = true)
-    protected Actor user;
+    protected Actor actor;
 
     /**
-     * Gets the value of the user property.
+     * Gets the value of the actor property.
      * 
      * @return possible object is {@link Actor }
      */
-    public Actor getUser() {
-        return user;
+    public Actor getActor() {
+        return actor;
     }
 
     /**
-     * Sets the value of the user property.
+     * Sets the value of the actor property.
      * 
      * @param value
      *            allowed object is {@link Actor }
      */
-    public void setUser(Actor value) {
-        this.user = value;
+    public void setActor(Actor value) {
+        this.actor = value;
     }
 }

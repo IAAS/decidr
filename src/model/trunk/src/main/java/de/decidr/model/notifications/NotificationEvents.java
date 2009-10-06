@@ -19,10 +19,8 @@ package de.decidr.model.notifications;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
@@ -101,11 +99,9 @@ public final class NotificationEvents {
 
         // fill "to" list
         EmailUser user = new EmailUser();
-        List<String> addresses = new ArrayList<String>(2);
-        addresses.add(newWorkItem.getUser().getEmail());
-        user.setUser(addresses);
+        user.setEmail(newWorkItem.getUser().getEmail());
 
-        to.getAbstractUser().add(
+        to.getUser().add(
                 new JAXBElement<EmailUser>(new QName(
                         "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
                         EmailUser.class, user));
@@ -193,11 +189,9 @@ public final class NotificationEvents {
 
         // fill "to" list
         EmailUser user = new EmailUser();
-        List<String> addresses = new ArrayList<String>(2);
-        addresses.add(request.getUser().getEmail());
-        user.setUser(addresses);
+        user.setEmail(request.getUser().getEmail());
 
-        to.getAbstractUser().add(
+        to.getUser().add(
                 new JAXBElement<EmailUser>(new QName(
                         "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
                         EmailUser.class, user));
@@ -247,11 +241,9 @@ public final class NotificationEvents {
 
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        List<String> addresses = new ArrayList<String>(2);
-        addresses.add(user.getEmail());
-        eUser.setUser(addresses);
+        eUser.setEmail(user.getEmail());
 
-        to.getAbstractUser().add(
+        to.getUser().add(
                 new JAXBElement<EmailUser>(new QName(
                         "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
                         EmailUser.class, eUser));
@@ -332,11 +324,9 @@ public final class NotificationEvents {
 
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        List<String> addresses = new ArrayList<String>(2);
-        addresses.add(invitation.getReceiver().getEmail());
-        eUser.setUser(addresses);
+        eUser.setEmail(invitation.getReceiver().getEmail());
 
-        to.getAbstractUser().add(
+        to.getUser().add(
                 new JAXBElement<EmailUser>(new QName(
                         "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
                         EmailUser.class, eUser));
@@ -416,11 +406,9 @@ public final class NotificationEvents {
 
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        List<String> addresses = new ArrayList<String>(2);
-        addresses.add(invitation.getReceiver().getEmail());
-        eUser.setUser(addresses);
+        eUser.setEmail(invitation.getReceiver().getEmail());
 
-        to.getAbstractUser().add(
+        to.getUser().add(
                 new JAXBElement<EmailUser>(new QName(
                         "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
                         EmailUser.class, eUser));
@@ -480,11 +468,9 @@ public final class NotificationEvents {
 
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        List<String> addresses = new ArrayList<String>(2);
-        addresses.add(user.getEmail());
-        eUser.setUser(addresses);
+        eUser.setEmail(user.getEmail());
 
-        to.getAbstractUser().add(
+        to.getUser().add(
                 new JAXBElement<EmailUser>(new QName(
                         "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
                         EmailUser.class, eUser));
@@ -537,11 +523,9 @@ public final class NotificationEvents {
 
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        List<String> addresses = new ArrayList<String>(2);
-        addresses.add(invitation.getSender().getEmail());
-        eUser.setUser(addresses);
+        eUser.setEmail(invitation.getSender().getEmail());
 
-        to.getAbstractUser().add(
+        to.getUser().add(
                 new JAXBElement<EmailUser>(new QName(
                         "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
                         EmailUser.class, eUser));
@@ -601,11 +585,9 @@ public final class NotificationEvents {
 
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        List<String> addresses = new ArrayList<String>(2);
-        addresses.add(user.getEmail());
-        eUser.setUser(addresses);
+        eUser.setEmail(user.getEmail());
 
-        to.getAbstractUser().add(
+        to.getUser().add(
                 new JAXBElement<EmailUser>(new QName(
                         "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
                         EmailUser.class, eUser));
@@ -650,11 +632,9 @@ public final class NotificationEvents {
 
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        List<String> addresses = new ArrayList<String>(2);
-        addresses.add(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
-        eUser.setUser(addresses);
+        eUser.setEmail(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
 
-        to.getAbstractUser().add(
+        to.getUser().add(
                 new JAXBElement<EmailUser>(new QName(
                         "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
                         EmailUser.class, eUser));
@@ -731,11 +711,9 @@ public final class NotificationEvents {
 
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        List<String> addresses = new ArrayList<String>(2);
-        addresses.add(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
-        eUser.setUser(addresses);
+        eUser.setEmail(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
 
-        to.getAbstractUser().add(
+        to.getUser().add(
                 new JAXBElement<EmailUser>(new QName(
                         "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
                         EmailUser.class, eUser));
@@ -816,11 +794,9 @@ public final class NotificationEvents {
 
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        List<String> addresses = new ArrayList<String>(2);
-        addresses.add(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
-        eUser.setUser(addresses);
+        eUser.setEmail(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
 
-        to.getAbstractUser().add(
+        to.getUser().add(
                 new JAXBElement<EmailUser>(new QName(
                         "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
                         EmailUser.class, eUser));
@@ -901,11 +877,9 @@ public final class NotificationEvents {
 
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        List<String> addresses = new ArrayList<String>(2);
-        addresses.add(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
-        eUser.setUser(addresses);
+        eUser.setEmail(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
 
-        to.getAbstractUser().add(
+        to.getUser().add(
                 new JAXBElement<EmailUser>(new QName(
                         "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
                         EmailUser.class, eUser));
@@ -986,11 +960,9 @@ public final class NotificationEvents {
 
         // fill "to" list
         EmailUser eUser = new EmailUser();
-        List<String> addresses = new ArrayList<String>(2);
-        addresses.add(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
-        eUser.setUser(addresses);
+        eUser.setEmail(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
 
-        to.getAbstractUser().add(
+        to.getUser().add(
                 new JAXBElement<EmailUser>(new QName(
                         "http://decidr.de/schema/DecidrTypes", "tEmailUser"),
                         EmailUser.class, eUser));
@@ -1001,6 +973,5 @@ public final class NotificationEvents {
         } catch (Exception e) {
             throw new TransactionException(e);
         }
-
     }
 }
