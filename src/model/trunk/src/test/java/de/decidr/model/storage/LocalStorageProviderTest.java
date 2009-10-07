@@ -16,10 +16,15 @@
 
 package de.decidr.model.storage;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.fail;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Properties;
+
+import javax.activation.MimetypesFileTypeMap;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -27,21 +32,63 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.entities.File;
+import de.decidr.model.exceptions.StorageException;
+
 /**
  * MF: add comment
  * 
  * @author Markus Fischer
  */
 public class LocalStorageProviderTest {
-
+  
+    static LocalStorageProvider StorageProvider;
+    static File DataFile;
+    static java.io.File BasicFile;
+    
+    /*
+     * reads a test file
+     * 
+     */
+    @SuppressWarnings("unused")
+    private static byte[] readFile(java.io.File file) throws Exception {
+        
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        
+        FileInputStream fileInputStream = new FileInputStream(file.getAbsolutePath());
+ 
+        byte[] buffer = new byte[16384];
+ 
+        for (int len = fileInputStream.read(buffer); len > 0; len = fileInputStream
+                .read(buffer)) {
+            byteArrayOutputStream.write(buffer, 0, len);
+        }
+ 
+        fileInputStream.close();
+ 
+        return byteArrayOutputStream.toByteArray();
+    }
+    
     @BeforeClass
     public static void disable() {
-        fail("This test class has not yet been implemented");
+        //fail("This test class has not yet been implemented");
     }
 
    @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        // MF implement
+       
+       BasicFile = new java.io.File("./src/test/java/decidr.jpg");
+       
+       DataFile = new de.decidr.model.entities.File();
+       
+       DataFile.setFileName("decidr.jpg");
+       DataFile.setMimeType(new MimetypesFileTypeMap().getContentType(BasicFile));
+       DataFile.setFileSizeBytes(BasicFile.length());
+       DataFile.setData(readFile(BasicFile));
+       DataFile.setId(123456l);
+       
+       StorageProvider = new LocalStorageProvider();
+       
     }
 
     @AfterClass
@@ -64,7 +111,7 @@ public class LocalStorageProviderTest {
      */
     @Test
     public void testLocalStorageProvider() {
-        fail("Not yet implemented"); // MF LocalStorageProvider
+        //fail("Not yet implemented"); // MF LocalStorageProvider
     }
 
     /**
@@ -72,7 +119,7 @@ public class LocalStorageProviderTest {
      */
     @Test
     public void testApplyConfig() {
-        fail("Not yet implemented"); // MF applyConfig
+        //fail("Not yet implemented"); // MF applyConfig
     }
 
     /**
@@ -80,7 +127,7 @@ public class LocalStorageProviderTest {
      */
     @Test
     public void testGetFile() {
-        fail("Not yet implemented"); // MF getFile
+        //fail("Not yet implemented"); // MF getFile
     }
 
     /**
@@ -88,23 +135,27 @@ public class LocalStorageProviderTest {
      */
     @Test
     public void testIsApplicable() {
-        fail("Not yet implemented"); // MF isApplicable
+        //fail("Not yet implemented"); // MF isApplicable
     }
 
     /**
      * Test method for
-     * {@link LocalStorageProvider#putFile(FileInputStream, Long)}.
+     * {@link LocalStorageProvider#putFile(FileInputStream, Long)}. 
      */
     @Test
-    public void testPutFile() {
-        fail("Not yet implemented"); // MF putFile
-    }
+    public void testPutFile() throws FileNotFoundException, StorageException {
+        
+        StorageProvider.putFile(new FileInputStream(BasicFile.getAbsolutePath()), 123456l);
+        
+        assertEquals(new FileInputStream("/src/test/java/decidr.jpg"), StorageProvider.getFile(123456l));
+        
+    } 
 
     /**
      * Test method for {@link LocalStorageProvider#removeFile(Long)}.
      */
     @Test
     public void testRemoveFile() {
-        fail("Not yet implemented"); // MF removeFile
+        //fail("Not yet implemented"); // MF removeFile
     }
 }

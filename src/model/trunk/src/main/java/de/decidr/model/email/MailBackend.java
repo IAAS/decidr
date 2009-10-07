@@ -324,9 +324,9 @@ public class MailBackend {
      * @throws MalformedURLException
      *             see <code>{@link URI#toURL()}</code>
      * @throws MessagingException
-     *             see <code>{@link URI#toURL()}</code>
+     *             see <code>{@link #addFile(URL)}</code>
      * @throws IOException
-     *             see <code>{@link URI#toURL()}</code>
+     *             see <code>{@link #addFile(URL)}</code>
      * @return see <code>{@link #addFile(URL)}</code>
      */
     public MimeBodyPart addFile(URI file) throws MalformedURLException,

@@ -16,9 +16,20 @@
 
 package de.decidr.model.email;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,7 +39,9 @@ import java.util.Set;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeBodyPart;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -36,17 +49,137 @@ import org.junit.Test;
  * 
  * @author Reinhold
  */
-// TODO addFile(File) seems not to be tested
-// TODO addFile(InputSteam) seems not to be tested
-// TODO addFile(URI) seems not to be tested
-// TODO addFile(URL) seems not to be tested
-// TODO sendMessage() seems not to be tested
 public class MailBackendTest {
+
     MailBackend testMail;
+    static File testfile;
 
     @Before
     public void setUpBeforeEachTest() {
         testMail = new MailBackend("new@new.de", null, "new@new.de", null);
+    }
+
+    @BeforeClass
+    public static void setUpBeforeClass() throws IOException {
+        testfile = File.createTempFile("decidr", ".jpg");
+
+        InputStream testStream = MailBackendTest.class
+                .getResourceAsStream("/decidr.jpg");
+
+        FileOutputStream writer = new FileOutputStream(testfile);
+
+        int content;
+        while ((content = testStream.read()) != -1) {
+            writer.write(content);
+        }
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() throws IOException {
+        testfile.delete();
+    }
+
+    /**
+     * 
+     * Test method for:
+     * <ul>
+     * <li>{@link MailBackend#addFile(java.io.File)}</li>
+     * </ul>
+     */
+    @Test
+    public void testAddFileFile() throws IOException, MessagingException {
+
+        try {
+            testMail.addFile((File) null);
+            fail("");
+        } catch (IllegalArgumentException e) {
+            // supposed to be thrown
+        }
+
+        testMail.addFile(testfile);
+
+        Set<MimeBodyPart> parts = testMail.getMessageParts();
+        assertFalse(parts.isEmpty());
+
+    }
+
+    /**
+     * 
+     * Test method for:
+     * <ul>
+     * <li>{@link MailBackend#addFile(java.io.InputStream)</li>
+     * </ul>
+     */
+    @Test
+    public void testAddFileInputStream() throws MessagingException {
+
+        InputStream testStream = MailBackendTest.class
+                .getResourceAsStream("/decidr.jpg");
+
+        try {
+            testMail.addFile((InputStream) null);
+            fail("");
+        } catch (IllegalArgumentException e) {
+            // supposed to be thrown
+        }
+
+        testMail.addFile(testStream);
+       
+
+        Set<MimeBodyPart> parts = testMail.getMessageParts();
+        assertFalse(parts.isEmpty());
+    }
+
+/**
+     * 
+     * Test method for:
+     * <ul>
+     * <li>{@link MailBackend#addFile(java.net.URI)</li>
+     * </ul>
+
+     * @throws IOException 
+     * @throws MessagingException 
+     * @throws MalformedURLException      * *
+     */
+    @Test
+    public void testAddFileURI() throws MalformedURLException,
+            MessagingException, IOException {
+
+        try {
+            testMail.addFile((URI) null);
+            fail("");
+        } catch (IllegalArgumentException e) {
+            // supposed to be thrown
+        }
+
+        testMail.addFile(testfile.toURI());
+
+        Set<MimeBodyPart> parts = testMail.getMessageParts();
+        assertFalse(parts.isEmpty());
+    }
+
+    /**
+     * 
+     * Test method for:
+     * <ul>
+     * <li>{@link MailBackend#addFile(java.net.URI)</li>
+     * </ul>
+     */
+    @Test
+    public void testAddFileURL() throws MalformedURLException,
+            MessagingException, IOException {
+
+        try {
+            testMail.addFile((URL) null);
+            fail("");
+        } catch (IllegalArgumentException e) {
+            // supposed to be thrown
+        }
+
+        testMail.addFile(testfile.toURI().toURL());
+
+        Set<MimeBodyPart> parts = testMail.getMessageParts();
+        assertFalse(parts.isEmpty());
     }
 
     /**
@@ -54,6 +187,7 @@ public class MailBackendTest {
      */
     @Test
     public void testValidateAddressesString() {
+
         assertTrue(MailBackend.validateAddresses("hallo123@c.de"));
         assertTrue(MailBackend.validateAddresses("a.b@c.de"));
         assertTrue(MailBackend.validateAddresses("a_b@c.de"));
@@ -69,6 +203,7 @@ public class MailBackendTest {
         assertFalse(MailBackend.validateAddresses(""));
         assertFalse(MailBackend.validateAddresses("a@b@c.de"));
         assertFalse(MailBackend.validateAddresses("a b@c.de"));
+
         // XXX These seem to be JavaMail implementation bugs
         // assertFalse(MailBackend.validateAddresses("<aaabbb> \"a.b@c.de\""));
         // assertFalse(MailBackend.validateAddresses("ab@[127.0.1]"));
@@ -100,15 +235,18 @@ public class MailBackendTest {
 
         assertFalse(MailBackend.validateAddresses((Set<String>) null));
         strList.add("");
+
         // XXX This seems to be a JavaMail implementation bug
         // assertFalse(MailBackend.validateAddresses(strList));
         strList.add("abc@d.de");
+
         // XXX This seems to be a JavaMail implementation bug
         // assertFalse(MailBackend.validateAddresses(strList));
 
         strList.clear();
         strList.add("");
         strList.add("");
+
         // XXX This seems to be a JavaMail implementation bug
         // assertFalse(MailBackend.validateAddresses(strList));
     }
