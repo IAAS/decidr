@@ -20,10 +20,8 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.AbstractMap.SimpleImmutableEntry;
 
 import org.hibernate.Transaction;
@@ -38,10 +36,12 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.LowLevelDatabaseTest;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.RegistrationRequest;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserAdministratesWorkflowInstance;
+import de.decidr.model.entities.UserAdministratesWorkflowModel;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
@@ -61,8 +61,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     static UserFacade adminFacade;
     static UserFacade userFacade;
     static UserFacade nullFacade;
-
-    static Set<UserFacade> allFacades = new HashSet<UserFacade>(4);
 
     static UserProfile classProfile = new UserProfile();
     static Long testUserID;
@@ -225,9 +223,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         userFacade = new UserFacade(new BasicRole(0L));
         nullFacade = new UserFacade(null);
 
-        allFacades.add(adminFacade);
-        allFacades.add(userFacade);
-
         UserProfile testProfile = new UserProfile();
         testProfile.setFirstName("test");
         testProfile.setLastName("user");
@@ -317,14 +312,18 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     public void testChangeEmailRequest() throws TransactionException {
         long invalidID = getInvalidUserID();
 
-        for (UserFacade facade : allFacades) {
+        User user;
+        for (UserFacade facade : new UserFacade[] {
+                new UserFacade(new UserRole(testUserID)), adminFacade }) {
             confirmChangeEmailRequestExceptionHelper(
                     "managed to confirm a nonexistent ChangeEmailRequest without an authKey",
                     facade, testUserID, "");
 
             facade.requestChangeEmail(testUserID, "invalid@example.com");
-            User user = (User) session.get(User.class, testUserID);
+            user = (User) session.get(User.class, testUserID);
+            assertNotNull(user);
             ChangeEmailRequest request = user.getChangeEmailRequest();
+            assertNotNull(request);
             facade.confirmChangeEmailRequest(testUserID, request.getAuthKey());
 
             confirmChangeEmailRequestExceptionHelper(
@@ -362,6 +361,9 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             requestChangeEmailExceptionHelper(
                     "requesting email change with invalid user ID succeeded",
                     facade, invalidID, getTestEmail(1));
+
+            deleteTestUsers();
+            setUpTestCase();
         }
 
         confirmChangeEmailRequestExceptionHelper(
@@ -372,8 +374,10 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 nullFacade, testUserID, "invalid@example.com");
 
         adminFacade.requestChangeEmail(testUserID, "invalid@example.com");
-        User user = (User) session.get(User.class, testUserID);
+        user = (User) session.get(User.class, testUserID);
+        assertNotNull(user);
         ChangeEmailRequest request = user.getChangeEmailRequest();
+        assertNotNull(request);
         confirmChangeEmailRequestExceptionHelper(
                 "managed to confirm a ChangeEmailRequest using null facade",
                 nullFacade, testUserID, request.getAuthKey());
@@ -384,20 +388,67 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      * Test method for {@link UserFacade#getAdministratedWorkflowModels(Long)}.
      */
     @Test
-    public void testGetAdministratedWorkflowModels() {
-        fail("Not yet implemented"); // RR getAdministratedWorkflowModels
+    public void testGetAdministratedWorkflowModels() throws TransactionException {
+        Long invalidID = getInvalidUserID();
+
+        try {
+            userFacade.getAdministratedWorkflowModels(testUserID);
+            fail("succeeded getting administrated workflow models as normal user");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        try {
+            userFacade.getAdministratedWorkflowModels(invalidID);
+            fail("succeeded getting administrated workflow models as normal user with invalid ID");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.getAdministratedWorkflowModels(invalidID);
+            fail("succeeded getting administrated workflow models as admin user with invalid ID");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        List<Item> WFIs = adminFacade
+                .getAdministratedWorkflowModels(testUserID);
+        assertNotNull(WFIs);
+        assertTrue(WFIs.isEmpty());
+
+        User u = ((UserAdministratesWorkflowModel) session.createQuery(
+                "from UserAdministratesWorkflowModel").uniqueResult())
+                .getUser();
+        WFIs = adminFacade.getAdministratedWorkflowModels(u.getId());
+        assertNotNull(WFIs);
+        assertFalse(WFIs.isEmpty());
     }
 
     /**
-     * Test method for {@link UserFacade#getAdministratedWorkflowInstances(Long)}
-     * .
+     * Test method for
+     * {@link UserFacade#getAdministratedWorkflowInstances(Long)} .
      */
     @Test
     public void testGetAdministratedWorkflowInstances()
             throws TransactionException {
+        Long invalidID = getInvalidUserID();
+
         try {
             userFacade.getAdministratedWorkflowInstances(testUserID);
             fail("succeeded getting administrated workflow instances as normal user");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        try {
+            userFacade.getAdministratedWorkflowInstances(invalidID);
+            fail("succeeded getting administrated workflow instances as normal user with invalid ID");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.getAdministratedWorkflowInstances(invalidID);
+            fail("succeeded getting administrated workflow instances as admin user with invalid ID");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
@@ -492,6 +543,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testGetHighestUserRole() {
+        // RR ask DH how to test
         fail("Not yet implemented"); // RR getHighestUserRole
     }
 
@@ -500,7 +552,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testGetUserIdByLogin() throws TransactionException {
-        for (UserFacade facade : allFacades) {
+        for (UserFacade facade : new UserFacade[] { userFacade, adminFacade }) {
             assertEquals(testUserID, facade.getUserIdByLogin(TEST_USERNAME,
                     TEST_PASSWORD));
             assertEquals(testUserID, facade.getUserIdByLogin(TEST_EMAIL,
@@ -594,7 +646,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     @Test
     public void testRegistration() throws TransactionException {
         String authKey;
-        long invalidID = Long.MIN_VALUE;
+        long invalidID = getInvalidUserID();
 
         UserProfile testProfile = new UserProfile();
         testProfile.setFirstName("test");
@@ -607,11 +659,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         testProfile.setUsername(USERNAME_PREFIX + "1");
         Long userId = adminFacade.registerUser(getTestEmail(1), "asd",
                 testProfile);
-
-        for (long l = invalidID; session.createQuery(
-                "FROM User WHERE id = :given").setLong("given", l)
-                .uniqueResult() != null; l++)
-            invalidID = l + 1;
 
         assertFalse(adminFacade.isRegistered(testUserID));
         assertFalse(userFacade.isRegistered(testUserID));
@@ -763,7 +810,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
 
-        for (UserFacade facade : allFacades) {
+        for (UserFacade facade : new UserFacade[] { userFacade, adminFacade, nullFacade }) {
             setEmailAddressExceptionHelper("setting same email succeeded",
                     facade, secondUserID, TEST_EMAIL);
             setEmailAddressExceptionHelper("setting null email succeeded",
@@ -774,15 +821,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                     "setting email for null user ID succeeded", facade, null,
                     getTestEmail(4));
         }
-        setEmailAddressExceptionHelper("setting same email succeeded",
-                nullFacade, secondUserID, TEST_EMAIL);
-        setEmailAddressExceptionHelper("setting null email succeeded",
-                nullFacade, testUserID, null);
-        setEmailAddressExceptionHelper("setting empty email succeeded",
-                nullFacade, testUserID, "");
-        setEmailAddressExceptionHelper(
-                "setting email for null user ID succeeded", nullFacade, null,
-                getTestEmail(4));
 
         setEmailAddressExceptionHelper(
                 "setting email with null facade succeeded", nullFacade,

@@ -143,6 +143,8 @@ public class UserFacade extends AbstractFacade {
      */
     // DH you misunderstood how the comment could be misunderstood. (:-P) I
     // adapted it for you ~rr
+    // DH either wrap the thrown IllegalArgumentException or add it to the
+    // javadoc ~rr
     @AllowedRole(BasicRole.class)
     public Long getUserIdByLogin(String emailOrUsername,
             String passwordPlaintext) throws TransactionException,
@@ -874,8 +876,8 @@ public class UserFacade extends AbstractFacade {
      * <li>id: Long - work item ID</li>
      * <li>tenantName: String - tenant name</li>
      * <li>workItemName: String - work item name</li>
-     * <li>workItemStatus: String - one of the enum names </li>
-     * <li>workflowInstanceId: Long - ID of the 
+     * <li>workItemStatus: String - one of the enum names</li>
+     * <li>workflowInstanceId: Long - ID of the
      * </ul>
      * 
      * @param userId

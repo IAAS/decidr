@@ -90,7 +90,9 @@ public class TransformUtil {
      *             if the given object is not recognized by JAXB as a valid XML
      *             entity.
      */
-    //RR needs unit test ~dh
+    // RR needs unit test ~dh
+    // DH we were'nt planning on testing these packages due to their not being
+    // finished on time and not having enough time for everything, anyway ~rr
     public static byte[] getBytes(Object node) throws JAXBException {
         if (node == null) {
             throw new IllegalArgumentException("Node must not be null.");
@@ -117,7 +119,8 @@ public class TransformUtil {
      *             if the given class is not recognized by JAXB as a valid XML
      *             entity.
      */
-    //RR needs unit test ~dh
+    // RR needs unit test ~dh
+    // DH see above ~rr
     public static Object getNode(Class<?> clazz, byte[] bytes)
             throws JAXBException {
         if (clazz == null) {

@@ -33,6 +33,7 @@ import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.commands.file.CreateFileCommand;
 import de.decidr.model.commands.system.AddServerCommand;
 import de.decidr.model.commands.system.GetFileCommand;
 import de.decidr.model.commands.system.GetLogCommand;
@@ -85,46 +86,56 @@ public class SystemCommandsTest extends CommandsTest {
     /**
      * Test method for {@link GetFileCommand#GetFileCommand(Long)}.
      */
-    @Test
+    // @Test
+    // RR talk to DH about moving method - only finish implementation if it
+    // isn't moved
     public void testGetFileCommand() throws TransactionException {
-        File decidrFileA = new File("testfile", "text/plain", true, true, true,
-                0);
-        File decidrFileB = new File("testfile", "text/plain", true, true, true,
-                100);
-        File invalidDecidrFile = new File("testfile", "text/plain", true, true,
-                true, -1);
+        Set<File> goodSet = new HashSet<File>();
+        Set<File> badSet = new HashSet<File>();
+
+        goodSet.add(new File("testfile", "text/plain", true, true, true, 0));
+        goodSet.add(new File("testfile", "text/plain", true, true, true, 100));
+        goodSet.add(new File("testfile", "text/plain", false, true, true, 0));
+        goodSet.add(new File("testfile", "text/plain", false, true, true, 100));
+        goodSet.add(new File("testfile", "text/plain", true, false, true, 0));
+        goodSet.add(new File("testfile", "text/plain", true, false, true, 100));
+        goodSet.add(new File("testfile", "text/plain", true, true, false, 0));
+        goodSet.add(new File("testfile", "text/plain", true, true, false, 100));
+
+        badSet.add(new File("testfile", "text/plain", true, true, true, -1));
+        badSet.add(new File("testfile", null, true, true, true, 0));
+        badSet.add(new File(null, "text/plain", true, true, true, 0));
 
         fail("No way of actually putting a file into the DB yet");
         // RR set files
 
-        //RR sorry for the bullshit roles, but I wanted the model to compile before committing ~dh
-        GetFileCommand getterA = new GetFileCommand(new UserRole(0L),
-                decidrFileA.getId());
-        GetFileCommand getterB = new GetFileCommand(new UserRole(0L),
-                decidrFileB.getId());
+        GetFileCommand getter;
+        CreateFileCommand adder;
+        for (File file : goodSet) {
+            adder = new CreateFileCommand(new SuperAdminRole(SUPER_ADMIN_ID),
+                    null, file.getFileName(), file.getMimeType(), true);
+            HibernateTransactionCoordinator.getInstance().runTransaction(adder);
+            file.setId(adder.getFile().getId());
 
-        GetFileCommand getterInvalid = new GetFileCommand(new UserRole(0L),
-                invalidDecidrFile.getId());
+            getter = new GetFileCommand(new UserRole(0L), file.getId());
 
-        HibernateTransactionCoordinator.getInstance().runTransaction(getterA);
-        HibernateTransactionCoordinator.getInstance().runTransaction(getterB);
+            assertEquals(file.getFileName(), getter.getFile().getFileName());
+            assertEquals(file.getMimeType(), getter.getFile().getMimeType());
+            assertEquals(file.isMayPublicRead(), getter.getFile()
+                    .isMayPublicRead());
+            assertEquals(file.isMayPublicDelete(), getter.getFile()
+                    .isMayPublicDelete());
+            assertEquals(file.isMayPublicReplace(), getter.getFile()
+                    .isMayPublicReplace());
+            assertEquals(file.getFileSizeBytes(), getter.getFile()
+                    .getFileSizeBytes());
+        }
 
-        assertEquals(decidrFileA.getFileName(), getterA.getFile().getFileName());
-        assertEquals(decidrFileA.getMimeType(), getterA.getFile().getMimeType());
-        assertEquals(decidrFileA.isMayPublicRead(), getterA.getFile()
-                .isMayPublicRead());
-        assertEquals(decidrFileA.getFileSizeBytes(), getterA.getFile()
-                .getFileSizeBytes());
-
-        assertEquals(decidrFileB.getFileName(), getterB.getFile().getFileName());
-        assertEquals(decidrFileB.getMimeType(), getterB.getFile().getMimeType());
-        assertEquals(decidrFileB.isMayPublicRead(), getterB.getFile()
-                .isMayPublicRead());
-        assertEquals(decidrFileB.getFileSizeBytes(), getterB.getFile()
-                .getFileSizeBytes());
-
-        assertTransactionException("managed to get file with negative size",
-                getterInvalid);
+        for (File file : badSet) {
+            getter = new GetFileCommand(new UserRole(0L), file.getId());
+            assertTransactionException(
+                    "managed to get file with negative size", getter);
+        }
     }
 
     /**
