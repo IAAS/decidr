@@ -63,7 +63,7 @@ public class RunningInstanceContainer extends Observable implements Container, C
         setChanged();
         notifyObservers();
        try{
-           runningInstanceList = userFacade.getAdminstratedWorkflowInstances(userId);
+           runningInstanceList = userFacade.getAdministratedWorkflowInstances(userId);
            for(Item item : runningInstanceList){
                if(item.getItemProperty("completed") == null ){
                    addItem(item);

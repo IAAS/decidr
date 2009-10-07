@@ -71,8 +71,23 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     static final String TEST_USERNAME = "tEsstUsser";
     static final String USERNAME_PREFIX = "testuser";
 
-    private static String getTestEmail(int n) {
-        return "asd" + ((n > 0) ? n : "") + "@desk.de";
+    private static boolean checkPWD(String pwd) throws TransactionException {
+        try {
+            userFacade.getUserIdByLogin(TEST_EMAIL, pwd);
+            return true;
+        } catch (EntityNotFoundException e) {
+            return false;
+        }
+    }
+
+    private static void confirmChangeEmailRequestExceptionHelper(
+            String failmsg, UserFacade facade, Long userID, String authKey) {
+        try {
+            facade.confirmChangeEmailRequest(userID, authKey);
+            fail(failmsg);
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
     }
 
     private static void deleteTestUsers() {
@@ -86,6 +101,114 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 "DELETE UserProfile WHERE username LIKE '" + USERNAME_PREFIX
                         + "%'").executeUpdate();
         trans.commit();
+    }
+
+    private static void getAllUsersExceptionHelper(String failmsg,
+            UserFacade facade, List<Filter> filters, Paginator paginator) {
+        try {
+            facade.getAllUsers(filters, paginator);
+            fail(failmsg);
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+    }
+
+    private static long getInvalidUserID() {
+        long invalidID = Long.MIN_VALUE;
+
+        for (long l = invalidID; session.createQuery(
+                "FROM User WHERE id = :given").setLong("given", l)
+                .uniqueResult() != null; l++)
+            invalidID = l + 1;
+        return invalidID;
+    }
+
+    private static Map.Entry<User, UserProfile> getProfile(Item profileItem,
+            boolean parseProfile) {
+        User user = new User();
+        UserProfile profile = new UserProfile();
+        SimpleImmutableEntry<User, UserProfile> returnEntry;
+
+        user.setId((Long) profileItem.getItemProperty("id").getValue());
+        user.setAuthKey((String) profileItem.getItemProperty("authKey")
+                .getValue());
+        user.setEmail((String) profileItem.getItemProperty("email").getValue());
+        user.setDisabledSince((Date) profileItem.getItemProperty(
+                "disabledSince").getValue());
+        user.setUnavailableSince((Date) profileItem.getItemProperty(
+                "unavailableSince").getValue());
+        user.setRegisteredSince((Date) profileItem.getItemProperty(
+                "registeredSince").getValue());
+        user.setCreationDate((Date) profileItem.getItemProperty("creationDate")
+                .getValue());
+
+        if (parseProfile) {
+            profile.setCity((String) profileItem.getItemProperty("city")
+                    .getValue());
+            profile.setFirstName((String) profileItem.getItemProperty(
+                    "firstName").getValue());
+            profile.setLastName((String) profileItem
+                    .getItemProperty("lastName").getValue());
+            profile.setPostalCode((String) profileItem.getItemProperty(
+                    "postalCode").getValue());
+            profile.setStreet((String) profileItem.getItemProperty("street")
+                    .getValue());
+            profile.setUsername((String) profileItem
+                    .getItemProperty("username").getValue());
+        }
+
+        returnEntry = new SimpleImmutableEntry<User, UserProfile>(user, profile);
+        return returnEntry;
+    }
+
+    private static String getTestEmail(int n) {
+        return "asd" + ((n > 0) ? n : "") + "@desk.de";
+    }
+
+    private static void getUserIdByLoginExceptionHelper(String failmsg,
+            UserFacade facade, String emailName, String pwd) {
+        try {
+            facade.getUserIdByLogin(emailName, pwd);
+            fail(failmsg);
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+    }
+
+    private static void registerUserExceptionHelper(String failmsg,
+            UserFacade facade, String email, String passwd, UserProfile profile) {
+        try {
+            facade.registerUser(email, passwd, profile);
+            fail(failmsg);
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        } catch (IllegalArgumentException e) {
+            // supposed to be thrown
+        }
+    }
+
+    private static void requestChangeEmailExceptionHelper(String failmsg,
+            UserFacade facade, Long userID, String newEmail) {
+        try {
+            facade.requestChangeEmail(userID, newEmail);
+            fail(failmsg);
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+    }
+
+    private static void resetPWD() throws TransactionException {
+        adminFacade.setPassword(testUserID, null, TEST_PASSWORD);
+    }
+
+    private static void setEmailAddressExceptionHelper(String failmsg,
+            UserFacade facade, Long userID, String newEmail) {
+        try {
+            facade.setEmailAddress(userID, newEmail);
+            fail(failmsg);
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
     }
 
     /**
@@ -168,18 +291,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         testProfile.setUsername(USERNAME_PREFIX);
     }
 
-    private static void registerUserExceptionHelper(String failmsg,
-            UserFacade facade, String email, String passwd, UserProfile profile) {
-        try {
-            facade.registerUser(email, passwd, profile);
-            fail(failmsg);
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        } catch (IllegalArgumentException e) {
-            // supposed to be thrown
-        }
-    }
-
     @Before
     public void setUpTestCase() throws TransactionException {
         classProfile.setFirstName("test");
@@ -196,6 +307,112 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     @After
     public void tearDownTestCase() {
         deleteTestUsers();
+    }
+
+    /**
+     * Test method for {@link UserFacade#requestChangeEmail(Long, String)} and
+     * {@link UserFacade#confirmChangeEmailRequest(Long, String)}.
+     */
+    @Test
+    public void testChangeEmailRequest() throws TransactionException {
+        long invalidID = getInvalidUserID();
+
+        for (UserFacade facade : allFacades) {
+            confirmChangeEmailRequestExceptionHelper(
+                    "managed to confirm a nonexistent ChangeEmailRequest without an authKey",
+                    facade, testUserID, "");
+
+            facade.requestChangeEmail(testUserID, "invalid@example.com");
+            User user = (User) session.get(User.class, testUserID);
+            ChangeEmailRequest request = user.getChangeEmailRequest();
+            facade.confirmChangeEmailRequest(testUserID, request.getAuthKey());
+
+            confirmChangeEmailRequestExceptionHelper(
+                    "authenticating a ChangeEmailRequest twice succeeded",
+                    facade, testUserID, request.getAuthKey());
+
+            confirmChangeEmailRequestExceptionHelper(
+                    "authenticating a ChangeEmailRequest with null user ID succeeded",
+                    facade, null, request.getAuthKey());
+            confirmChangeEmailRequestExceptionHelper(
+                    "authenticating a ChangeEmailRequest with invalid user ID succeeded",
+                    facade, invalidID, request.getAuthKey());
+            confirmChangeEmailRequestExceptionHelper(
+                    "authenticating a ChangeEmailRequest with null authKey",
+                    facade, testUserID, null);
+            confirmChangeEmailRequestExceptionHelper(
+                    "authenticating a ChangeEmailRequest with empty authKey",
+                    facade, testUserID, "");
+            confirmChangeEmailRequestExceptionHelper(
+                    "authenticating a ChangeEmailRequest with null user ID & authKey succeeded",
+                    facade, null, null);
+
+            requestChangeEmailExceptionHelper(
+                    "requesting email change with null user ID and email succeeded",
+                    facade, null, null);
+            requestChangeEmailExceptionHelper(
+                    "requesting email change with null email succeeded",
+                    facade, testUserID, null);
+            requestChangeEmailExceptionHelper(
+                    "requesting email change with empty email succeeded",
+                    facade, testUserID, "");
+            requestChangeEmailExceptionHelper(
+                    "requesting email change with null user ID succeeded",
+                    facade, null, getTestEmail(0));
+            requestChangeEmailExceptionHelper(
+                    "requesting email change with invalid user ID succeeded",
+                    facade, invalidID, getTestEmail(1));
+        }
+
+        confirmChangeEmailRequestExceptionHelper(
+                "managed to confirm a nonexistent ChangeEmailRequest without an authKey with null facade",
+                nullFacade, testUserID, "");
+        requestChangeEmailExceptionHelper(
+                "managed to request an email change with null facade",
+                nullFacade, testUserID, "invalid@example.com");
+
+        adminFacade.requestChangeEmail(testUserID, "invalid@example.com");
+        User user = (User) session.get(User.class, testUserID);
+        ChangeEmailRequest request = user.getChangeEmailRequest();
+        confirmChangeEmailRequestExceptionHelper(
+                "managed to confirm a ChangeEmailRequest using null facade",
+                nullFacade, testUserID, request.getAuthKey());
+        adminFacade.confirmChangeEmailRequest(testUserID, request.getAuthKey());
+    }
+
+    /**
+     * Test method for {@link UserFacade#getAdministratedWorkflowModels(Long)}.
+     */
+    @Test
+    public void testGetAdministratedWorkflowModels() {
+        fail("Not yet implemented"); // RR getAdministratedWorkflowModels
+    }
+
+    /**
+     * Test method for {@link UserFacade#getAdministratedWorkflowInstances(Long)}
+     * .
+     */
+    @Test
+    public void testGetAdministratedWorkflowInstances()
+            throws TransactionException {
+        try {
+            userFacade.getAdministratedWorkflowInstances(testUserID);
+            fail("succeeded getting administrated workflow instances as normal user");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        List<Item> WFIs = adminFacade
+                .getAdministratedWorkflowInstances(testUserID);
+        assertNotNull(WFIs);
+        assertTrue(WFIs.isEmpty());
+
+        User u = ((UserAdministratesWorkflowInstance) session.createQuery(
+                "from UserAdministratesWorkflowInstance").uniqueResult())
+                .getUser();
+        WFIs = adminFacade.getAdministratedWorkflowInstances(u.getId());
+        assertNotNull(WFIs);
+        assertFalse(WFIs.isEmpty());
     }
 
     /**
@@ -270,14 +487,12 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 nullFacade, new ArrayList<Filter>(), new Paginator());
     }
 
-    private static void getAllUsersExceptionHelper(String failmsg,
-            UserFacade facade, List<Filter> filters, Paginator paginator) {
-        try {
-            facade.getAllUsers(filters, paginator);
-            fail(failmsg);
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
+    /**
+     * Test method for {@link UserFacade#getHighestUserRole(Long)}.
+     */
+    @Test
+    public void testGetHighestUserRole() {
+        fail("Not yet implemented"); // RR getHighestUserRole
     }
 
     /**
@@ -321,238 +536,12 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 nullFacade, TEST_USERNAME, TEST_PASSWORD);
     }
 
-    private static void getUserIdByLoginExceptionHelper(String failmsg,
-            UserFacade facade, String emailName, String pwd) {
-        try {
-            facade.getUserIdByLogin(emailName, pwd);
-            fail(failmsg);
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-    }
-
     /**
-     * Test method for {@link UserFacade#setEmailAddress(Long, String)}.
+     * Test method for {@link UserFacade#getWorkItems(Long, List, Paginator)}.
      */
     @Test
-    public void testSetEmailAddress() throws TransactionException {
-        UserProfile testProfile = new UserProfile();
-        testProfile.setFirstName("test");
-        testProfile.setLastName("user");
-        testProfile.setCity("boringtown");
-        testProfile.setStreet("ancient st.");
-        testProfile.setPostalCode("112");
-        testProfile.setUsername(USERNAME_PREFIX);
-
-        Long secondUserID = adminFacade.registerUser(getTestEmail(2), "asd",
-                testProfile);
-
-        adminFacade.setEmailAddress(testUserID, TEST_EMAIL + ".vu");
-        assertEquals(TEST_EMAIL + ".vu", adminFacade.getUserProfile(testUserID,
-                true).getItemProperty("email").getValue());
-        adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
-        adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
-
-        for (UserFacade facade : allFacades) {
-            setEmailAddressExceptionHelper("setting same email succeeded",
-                    facade, secondUserID, TEST_EMAIL);
-            setEmailAddressExceptionHelper("setting null email succeeded",
-                    facade, testUserID, null);
-            setEmailAddressExceptionHelper("setting empty email succeeded",
-                    facade, testUserID, "");
-            setEmailAddressExceptionHelper(
-                    "setting email for null user ID succeeded", facade, null,
-                    getTestEmail(4));
-        }
-        setEmailAddressExceptionHelper("setting same email succeeded",
-                nullFacade, secondUserID, TEST_EMAIL);
-        setEmailAddressExceptionHelper("setting null email succeeded",
-                nullFacade, testUserID, null);
-        setEmailAddressExceptionHelper("setting empty email succeeded",
-                nullFacade, testUserID, "");
-        setEmailAddressExceptionHelper(
-                "setting email for null user ID succeeded", nullFacade, null,
-                getTestEmail(4));
-
-        setEmailAddressExceptionHelper(
-                "setting email with null facade succeeded", nullFacade,
-                testUserID, TEST_EMAIL);
-        setEmailAddressExceptionHelper(
-                "setting email with normal user facade succeeded", userFacade,
-                testUserID, TEST_EMAIL);
-    }
-
-    private static void setEmailAddressExceptionHelper(String failmsg,
-            UserFacade facade, Long userID, String newEmail) {
-        try {
-            facade.setEmailAddress(userID, newEmail);
-            fail(failmsg);
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-    }
-
-    /**
-     * Test method for {@link UserFacade#setDisableSince(Long, Date)}.
-     */
-    @Test
-    public void testSetDisableSince() throws TransactionException {
-        try {
-            userFacade.setDisableSince(testUserID, new Date());
-            fail("setting user disabled with normal user facade succeeded.");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            nullFacade.setDisableSince(testUserID, new Date());
-            fail("setting user disabled with null facade succeeded.");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-
-        Date testDate = new Date();
-        adminFacade.setDisableSince(testUserID, testDate);
-        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
-                .getItemProperty("disabledSince").getValue());
-
-        testDate = DecidrGlobals.getTime().getTime();
-        adminFacade.setDisableSince(testUserID, testDate);
-        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
-                .getItemProperty("disabledSince").getValue());
-
-        testDate = new Date(new Date().getTime() - 1000000);
-        adminFacade.setDisableSince(testUserID, testDate);
-        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
-                .getItemProperty("disabledSince").getValue());
-
-        testDate = new Date(new Date().getTime() + 1000000);
-        adminFacade.setDisableSince(testUserID, testDate);
-        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
-                .getItemProperty("disabledSince").getValue());
-
-        adminFacade.setDisableSince(testUserID, null);
-        assertNull(adminFacade.getUserProfile(testUserID).getItemProperty(
-                "disabledSince").getValue());
-    }
-
-    /**
-     * Test method for {@link UserFacade#setUnavailableSince(Long, Date)}.
-     */
-    @Test
-    public void testSetUnavailableSince() throws TransactionException {
-        try {
-            userFacade.setUnavailableSince(testUserID, new Date());
-            fail("setting user disabled with normal user facade succeeded.");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            nullFacade.setUnavailableSince(testUserID, new Date());
-            fail("setting user disabled with null facade succeeded.");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-
-        Date testDate = new Date();
-        adminFacade.setUnavailableSince(testUserID, testDate);
-        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
-                .getItemProperty("unavailableSince").getValue());
-
-        testDate = DecidrGlobals.getTime().getTime();
-        adminFacade.setUnavailableSince(testUserID, testDate);
-        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
-                .getItemProperty("unavailableSince").getValue());
-
-        testDate = new Date(new Date().getTime() - 1000000);
-        adminFacade.setUnavailableSince(testUserID, testDate);
-        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
-                .getItemProperty("unavailableSince").getValue());
-
-        testDate = new Date(new Date().getTime() + 1000000);
-        adminFacade.setUnavailableSince(testUserID, testDate);
-        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
-                .getItemProperty("unavailableSince").getValue());
-
-        adminFacade.setDisableSince(testUserID, null);
-        assertNull(adminFacade.getUserProfile(testUserID).getItemProperty(
-                "unavailableSince").getValue());
-    }
-
-    /**
-     * Test method for {@link UserFacade#setPassword(Long, String, String)}.
-     */
-    @Test
-    public void testSetPassword() throws TransactionException {
-        assertTrue(adminFacade.setPassword(testUserID, TEST_PASSWORD,
-                "Fuuni PWD"));
-        assertTrue(checkPWD("Fuuni PWD"));
-        resetPWD();
-        assertTrue(adminFacade.setPassword(testUserID, TEST_PASSWORD + "wronk",
-                "Fuuni PWD"));
-        assertTrue(checkPWD("Fuuni PWD"));
-        resetPWD();
-        assertTrue(adminFacade.setPassword(testUserID, null, "Fuuni PWD"));
-        assertTrue(checkPWD("Fuuni PWD"));
-        resetPWD();
-
-        assertTrue(userFacade.setPassword(testUserID, TEST_PASSWORD,
-                "Fuuni PWD"));
-        assertTrue(checkPWD("Fuuni PWD"));
-        resetPWD();
-        assertFalse(userFacade.setPassword(testUserID, TEST_PASSWORD + "wronk",
-                "Fuuni PWD"));
-        assertFalse(checkPWD("Fuuni PWD"));
-        resetPWD();
-        assertFalse(userFacade.setPassword(testUserID, null, "Fuuni PWD"));
-        assertFalse(checkPWD("Fuuni PWD"));
-        resetPWD();
-
-        assertTrue(nullFacade.setPassword(testUserID, TEST_PASSWORD,
-                "Fuuni PWD"));
-        assertTrue(checkPWD("Fuuni PWD"));
-        resetPWD();
-        assertFalse(nullFacade.setPassword(testUserID, TEST_PASSWORD + "wronk",
-                "Fuuni PWD"));
-        assertFalse(checkPWD("Fuuni PWD"));
-        resetPWD();
-        assertFalse(nullFacade.setPassword(testUserID, null, "Fuuni PWD"));
-        assertFalse(checkPWD("Fuuni PWD"));
-        resetPWD();
-
-        try {
-            adminFacade.setPassword(testUserID, TEST_PASSWORD, null);
-            resetPWD();
-            fail("setting null password using admin facade succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            userFacade.setPassword(testUserID, TEST_PASSWORD, null);
-            resetPWD();
-            fail("setting null password using admin facade succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            nullFacade.setPassword(testUserID, TEST_PASSWORD, null);
-            resetPWD();
-            fail("setting null password using admin facade succeeded");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-    }
-
-    private static boolean checkPWD(String pwd) throws TransactionException {
-        try {
-            userFacade.getUserIdByLogin(TEST_EMAIL, pwd);
-            return true;
-        } catch (EntityNotFoundException e) {
-            return false;
-        }
-    }
-
-    private static void resetPWD() throws TransactionException {
-        adminFacade.setPassword(testUserID, null, TEST_PASSWORD);
+    public void testGetWorkItems() {
+        fail("Not yet implemented"); // RR getWorkItems
     }
 
     /**
@@ -596,44 +585,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         } catch (TransactionException e) {
             // supposed to be thrown
         }
-    }
-
-    private static Map.Entry<User, UserProfile> getProfile(Item profileItem,
-            boolean parseProfile) {
-        User user = new User();
-        UserProfile profile = new UserProfile();
-        SimpleImmutableEntry<User, UserProfile> returnEntry;
-
-        user.setId((Long) profileItem.getItemProperty("id").getValue());
-        user.setAuthKey((String) profileItem.getItemProperty("authKey")
-                .getValue());
-        user.setEmail((String) profileItem.getItemProperty("email").getValue());
-        user.setDisabledSince((Date) profileItem.getItemProperty(
-                "disabledSince").getValue());
-        user.setUnavailableSince((Date) profileItem.getItemProperty(
-                "unavailableSince").getValue());
-        user.setRegisteredSince((Date) profileItem.getItemProperty(
-                "registeredSince").getValue());
-        user.setCreationDate((Date) profileItem.getItemProperty("creationDate")
-                .getValue());
-
-        if (parseProfile) {
-            profile.setCity((String) profileItem.getItemProperty("city")
-                    .getValue());
-            profile.setFirstName((String) profileItem.getItemProperty(
-                    "firstName").getValue());
-            profile.setLastName((String) profileItem
-                    .getItemProperty("lastName").getValue());
-            profile.setPostalCode((String) profileItem.getItemProperty(
-                    "postalCode").getValue());
-            profile.setStreet((String) profileItem.getItemProperty("street")
-                    .getValue());
-            profile.setUsername((String) profileItem
-                    .getItemProperty("username").getValue());
-        }
-
-        returnEntry = new SimpleImmutableEntry<User, UserProfile>(user, profile);
-        return returnEntry;
     }
 
     /**
@@ -748,142 +699,204 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for {@link UserFacade#requestChangeEmail(Long, String)} and
-     * {@link UserFacade#confirmChangeEmailRequest(Long, String)}.
+     * Test method for {@link UserFacade#setDisableSince(Long, Date)}.
      */
     @Test
-    public void testChangeEmailRequest() throws TransactionException {
-        long invalidID = Long.MIN_VALUE;
+    public void testSetDisableSince() throws TransactionException {
+        try {
+            userFacade.setDisableSince(testUserID, new Date());
+            fail("setting user disabled with normal user facade succeeded.");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            nullFacade.setDisableSince(testUserID, new Date());
+            fail("setting user disabled with null facade succeeded.");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
 
-        for (long l = invalidID; session.createQuery(
-                "FROM User WHERE id = :given").setLong("given", l)
-                .uniqueResult() != null; l++)
-            invalidID = l + 1;
+        Date testDate = new Date();
+        adminFacade.setDisableSince(testUserID, testDate);
+        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
+                .getItemProperty("disabledSince").getValue());
+
+        testDate = DecidrGlobals.getTime().getTime();
+        adminFacade.setDisableSince(testUserID, testDate);
+        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
+                .getItemProperty("disabledSince").getValue());
+
+        testDate = new Date(new Date().getTime() - 1000000);
+        adminFacade.setDisableSince(testUserID, testDate);
+        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
+                .getItemProperty("disabledSince").getValue());
+
+        testDate = new Date(new Date().getTime() + 1000000);
+        adminFacade.setDisableSince(testUserID, testDate);
+        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
+                .getItemProperty("disabledSince").getValue());
+
+        adminFacade.setDisableSince(testUserID, null);
+        assertNull(adminFacade.getUserProfile(testUserID).getItemProperty(
+                "disabledSince").getValue());
+    }
+
+    /**
+     * Test method for {@link UserFacade#setEmailAddress(Long, String)}.
+     */
+    @Test
+    public void testSetEmailAddress() throws TransactionException {
+        UserProfile testProfile = new UserProfile();
+        testProfile.setFirstName("test");
+        testProfile.setLastName("user");
+        testProfile.setCity("boringtown");
+        testProfile.setStreet("ancient st.");
+        testProfile.setPostalCode("112");
+        testProfile.setUsername(USERNAME_PREFIX);
+
+        Long secondUserID = adminFacade.registerUser(getTestEmail(2), "asd",
+                testProfile);
+
+        adminFacade.setEmailAddress(testUserID, TEST_EMAIL + ".vu");
+        assertEquals(TEST_EMAIL + ".vu", adminFacade.getUserProfile(testUserID,
+                true).getItemProperty("email").getValue());
+        adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
+        adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
 
         for (UserFacade facade : allFacades) {
-            confirmChangeEmailRequestExceptionHelper(
-                    "managed to confirm a nonexistent ChangeEmailRequest without an authKey",
-                    facade, testUserID, "");
-
-            facade.requestChangeEmail(testUserID, "invalid@example.com");
-            User user = (User) session.get(User.class, testUserID);
-            ChangeEmailRequest request = user.getChangeEmailRequest();
-            facade.confirmChangeEmailRequest(testUserID, request.getAuthKey());
-
-            confirmChangeEmailRequestExceptionHelper(
-                    "authenticating a ChangeEmailRequest twice succeeded",
-                    facade, testUserID, request.getAuthKey());
-
-            confirmChangeEmailRequestExceptionHelper(
-                    "authenticating a ChangeEmailRequest with null user ID succeeded",
-                    facade, null, request.getAuthKey());
-            confirmChangeEmailRequestExceptionHelper(
-                    "authenticating a ChangeEmailRequest with invalid user ID succeeded",
-                    facade, invalidID, request.getAuthKey());
-            confirmChangeEmailRequestExceptionHelper(
-                    "authenticating a ChangeEmailRequest with null authKey",
+            setEmailAddressExceptionHelper("setting same email succeeded",
+                    facade, secondUserID, TEST_EMAIL);
+            setEmailAddressExceptionHelper("setting null email succeeded",
                     facade, testUserID, null);
-            confirmChangeEmailRequestExceptionHelper(
-                    "authenticating a ChangeEmailRequest with empty authKey",
+            setEmailAddressExceptionHelper("setting empty email succeeded",
                     facade, testUserID, "");
-            confirmChangeEmailRequestExceptionHelper(
-                    "authenticating a ChangeEmailRequest with null user ID & authKey succeeded",
-                    facade, null, null);
-
-            requestChangeEmailExceptionHelper(
-                    "requesting email change with null user ID and email succeeded",
-                    facade, null, null);
-            requestChangeEmailExceptionHelper(
-                    "requesting email change with null email succeeded",
-                    facade, testUserID, null);
-            requestChangeEmailExceptionHelper(
-                    "requesting email change with empty email succeeded",
-                    facade, testUserID, "");
-            requestChangeEmailExceptionHelper(
-                    "requesting email change with null user ID succeeded",
-                    facade, null, getTestEmail(0));
-            requestChangeEmailExceptionHelper(
-                    "requesting email change with invalid user ID succeeded",
-                    facade, invalidID, getTestEmail(1));
+            setEmailAddressExceptionHelper(
+                    "setting email for null user ID succeeded", facade, null,
+                    getTestEmail(4));
         }
-
-        confirmChangeEmailRequestExceptionHelper(
-                "managed to confirm a nonexistent ChangeEmailRequest without an authKey with null facade",
+        setEmailAddressExceptionHelper("setting same email succeeded",
+                nullFacade, secondUserID, TEST_EMAIL);
+        setEmailAddressExceptionHelper("setting null email succeeded",
+                nullFacade, testUserID, null);
+        setEmailAddressExceptionHelper("setting empty email succeeded",
                 nullFacade, testUserID, "");
-        requestChangeEmailExceptionHelper(
-                "managed to request an email change with null facade",
-                nullFacade, testUserID, "invalid@example.com");
+        setEmailAddressExceptionHelper(
+                "setting email for null user ID succeeded", nullFacade, null,
+                getTestEmail(4));
 
-        adminFacade.requestChangeEmail(testUserID, "invalid@example.com");
-        User user = (User) session.get(User.class, testUserID);
-        ChangeEmailRequest request = user.getChangeEmailRequest();
-        confirmChangeEmailRequestExceptionHelper(
-                "managed to confirm a ChangeEmailRequest using null facade",
-                nullFacade, testUserID, request.getAuthKey());
-        adminFacade.confirmChangeEmailRequest(testUserID, request.getAuthKey());
+        setEmailAddressExceptionHelper(
+                "setting email with null facade succeeded", nullFacade,
+                testUserID, TEST_EMAIL);
+        setEmailAddressExceptionHelper(
+                "setting email with normal user facade succeeded", userFacade,
+                testUserID, TEST_EMAIL);
     }
 
-    private static void confirmChangeEmailRequestExceptionHelper(
-            String failmsg, UserFacade facade, Long userID, String authKey) {
+    /**
+     * Test method for {@link UserFacade#setPassword(Long, String, String)}.
+     */
+    @Test
+    public void testSetPassword() throws TransactionException {
+        assertTrue(adminFacade.setPassword(testUserID, TEST_PASSWORD,
+                "Fuuni PWD"));
+        assertTrue(checkPWD("Fuuni PWD"));
+        resetPWD();
+        assertTrue(adminFacade.setPassword(testUserID, TEST_PASSWORD + "wronk",
+                "Fuuni PWD"));
+        assertTrue(checkPWD("Fuuni PWD"));
+        resetPWD();
+        assertTrue(adminFacade.setPassword(testUserID, null, "Fuuni PWD"));
+        assertTrue(checkPWD("Fuuni PWD"));
+        resetPWD();
+
+        assertTrue(userFacade.setPassword(testUserID, TEST_PASSWORD,
+                "Fuuni PWD"));
+        assertTrue(checkPWD("Fuuni PWD"));
+        resetPWD();
+        assertFalse(userFacade.setPassword(testUserID, TEST_PASSWORD + "wronk",
+                "Fuuni PWD"));
+        assertFalse(checkPWD("Fuuni PWD"));
+        resetPWD();
+        assertFalse(userFacade.setPassword(testUserID, null, "Fuuni PWD"));
+        assertFalse(checkPWD("Fuuni PWD"));
+        resetPWD();
+
+        assertTrue(nullFacade.setPassword(testUserID, TEST_PASSWORD,
+                "Fuuni PWD"));
+        assertTrue(checkPWD("Fuuni PWD"));
+        resetPWD();
+        assertFalse(nullFacade.setPassword(testUserID, TEST_PASSWORD + "wronk",
+                "Fuuni PWD"));
+        assertFalse(checkPWD("Fuuni PWD"));
+        resetPWD();
+        assertFalse(nullFacade.setPassword(testUserID, null, "Fuuni PWD"));
+        assertFalse(checkPWD("Fuuni PWD"));
+        resetPWD();
+
         try {
-            facade.confirmChangeEmailRequest(userID, authKey);
-            fail(failmsg);
+            adminFacade.setPassword(testUserID, TEST_PASSWORD, null);
+            resetPWD();
+            fail("setting null password using admin facade succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
-    }
-
-    private static void requestChangeEmailExceptionHelper(String failmsg,
-            UserFacade facade, Long userID, String newEmail) {
         try {
-            facade.requestChangeEmail(userID, newEmail);
-            fail(failmsg);
+            userFacade.setPassword(testUserID, TEST_PASSWORD, null);
+            resetPWD();
+            fail("setting null password using admin facade succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            nullFacade.setPassword(testUserID, TEST_PASSWORD, null);
+            resetPWD();
+            fail("setting null password using admin facade succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
     }
 
     /**
-     * Test method for {@link UserFacade#getHighestUserRole(Long)}.
+     * Test method for {@link UserFacade#setUnavailableSince(Long, Date)}.
      */
     @Test
-    public void testGetHighestUserRole() {
-        fail("Not yet implemented"); // RR getHighestUserRole
-    }
-
-    /**
-     * Test method for {@link UserFacade#getAdminstratedWorkflowInstances(Long)}
-     * .
-     */
-    @Test
-    public void testGetAdminstratedWorkflowInstances()
-            throws TransactionException {
+    public void testSetUnavailableSince() throws TransactionException {
         try {
-            userFacade.getAdminstratedWorkflowInstances(testUserID);
-            fail("succeeded getting administrated workflow instances as normal user");
+            userFacade.setUnavailableSince(testUserID, new Date());
+            fail("setting user disabled with normal user facade succeeded.");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            nullFacade.setUnavailableSince(testUserID, new Date());
+            fail("setting user disabled with null facade succeeded.");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
 
-        List<Item> WFIs = adminFacade
-                .getAdminstratedWorkflowInstances(testUserID);
-        assertNotNull(WFIs);
-        assertTrue(WFIs.isEmpty());
+        Date testDate = new Date();
+        adminFacade.setUnavailableSince(testUserID, testDate);
+        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
+                .getItemProperty("unavailableSince").getValue());
 
-        User u = ((UserAdministratesWorkflowInstance) session.createQuery(
-                "from UserAdministratesWorkflowInstance").uniqueResult())
-                .getUser();
-        WFIs = adminFacade.getAdminstratedWorkflowInstances(u.getId());
-        assertNotNull(WFIs);
-        assertFalse(WFIs.isEmpty());
-    }
+        testDate = DecidrGlobals.getTime().getTime();
+        adminFacade.setUnavailableSince(testUserID, testDate);
+        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
+                .getItemProperty("unavailableSince").getValue());
 
-    /**
-     * Test method for {@link UserFacade#getAdministratedWorkflowModels(Long)}.
-     */
-    @Test
-    public void testGetAdministratedWorkflowModels() {
-        fail("Not yet implemented"); // RR getAdministratedWorkflowModels
+        testDate = new Date(new Date().getTime() - 1000000);
+        adminFacade.setUnavailableSince(testUserID, testDate);
+        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
+                .getItemProperty("unavailableSince").getValue());
+
+        testDate = new Date(new Date().getTime() + 1000000);
+        adminFacade.setUnavailableSince(testUserID, testDate);
+        assertEquals(testDate, adminFacade.getUserProfile(testUserID)
+                .getItemProperty("unavailableSince").getValue());
+
+        adminFacade.setDisableSince(testUserID, null);
+        assertNull(adminFacade.getUserProfile(testUserID).getItemProperty(
+                "unavailableSince").getValue());
     }
 
     /**
@@ -900,13 +913,5 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         fail("Not yet implemented"); // RR getJoinedTenants
         fail("Not yet implemented"); // RR setCurrentTenantId
         fail("Not yet implemented"); // RR getCurrentTenantId
-    }
-
-    /**
-     * Test method for {@link UserFacade#getWorkItems(Long, List, Paginator)}.
-     */
-    @Test
-    public void testGetWorkItems() {
-        fail("Not yet implemented"); // RR getWorkItems
     }
 }

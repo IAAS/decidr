@@ -766,7 +766,7 @@ public class UserFacade extends AbstractFacade {
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(WorkflowAdminRole.class)
-    public List<Item> getAdminstratedWorkflowInstances(Long userId)
+    public List<Item> getAdministratedWorkflowInstances(Long userId)
             throws TransactionException {
 
         GetAdminstratedWorkflowInstancesCommand command = new GetAdminstratedWorkflowInstancesCommand(
@@ -787,7 +787,6 @@ public class UserFacade extends AbstractFacade {
                     .getDeployedWorkflowModel().getName()));
 
             result.add(item);
-
         }
 
         return result;

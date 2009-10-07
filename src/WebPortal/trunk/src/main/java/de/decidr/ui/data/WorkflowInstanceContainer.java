@@ -65,7 +65,7 @@ public class WorkflowInstanceContainer extends Observable implements Container,
         notifyObservers();
         try {
             workflowInstanceList = userFacade
-                    .getAdminstratedWorkflowInstances(userId);
+                    .getAdministratedWorkflowInstances(userId);
             for (Item item : workflowInstanceList) {
                 addItem(item);
             }

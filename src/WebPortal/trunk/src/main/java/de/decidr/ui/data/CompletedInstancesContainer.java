@@ -67,7 +67,7 @@ public class CompletedInstancesContainer extends Observable implements
         setChanged();
         notifyObservers();
         try{
-            workflowInstanceList = userFacade. getAdminstratedWorkflowInstances(userId);
+            workflowInstanceList = userFacade. getAdministratedWorkflowInstances(userId);
             for(Item item : workflowInstanceList){
                 if(item.getItemProperty("completedDate") != null){
                     addItem(item);
