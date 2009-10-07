@@ -1,0 +1,100 @@
+<!-- This is the xml file which is used for testing in a more readable format -->
+
+<workflow name=\"Simple Workflow\" id=\"1253883165781\" targetNamespace=\"namespace\" xmlns=\"schema\">
+   <description>This is a simple workflow.</description>
+   <variables>
+      <variable name=\"L1254909164796\" label=\"Form Container\" type=\"form\" configurationVariable=\"no\">
+      </variable>
+      <variable name=\"L123\" label=\"Fault Message\" type=\"list-string\" configurationVariable=\"no\">
+         <initialValues>
+            <initialValue>value</initialValue>
+            <initialValue>Workflow failed</initialValue>
+         </initialValues>
+      </variable>
+      <variable name=\"L12\" label=\"Success Message\" type=\"list-string\" configurationVariable=\"no\">
+         <initialValues>
+            <initialValue>value</initialValue>
+            <initialValue>Workflow succeded</initialValue>
+         </initialValues>
+      </variable>
+      <variable name=\"L768768\" label=\"Text\" type=\"list-string\" configurationVariable=\"yes\">
+         <initialValues>
+            <initialValue>value</initialValue>
+            <initialValue>Loram Ipsum</initialValue>
+         </initialValues>
+      </variable>
+   </variables>
+   <roles>
+      <role configurationVariable=\"no\" label=\"Recipient\" name=\"L345\">
+         <actor userId=\"444555\"/>
+         <actor userId=\"666777\"/>
+      </role>
+   </roles>
+   <faultHandler>
+      <setProperty name=\"message\" variable=\"L123\"/>
+         <recipient>
+            <setProperty name=\"name\" variable=\"L345\"/>
+         </recipient>
+   </faultHandler>
+   <nodes>
+      <startNode name=\"java.lang.Class1253883165843\" id=\"1253883165843\">
+         <description></description>
+         <graphics x=\"25\" y=\"25\" width=\"50\" height=\"30\"/>
+         <sources>
+            <source arcId=\"1253883165859\"/>
+         </sources>
+      </startNode>
+      <endNode name=\"java.lang.Class1253883165860\" id=\"1253883165860\">
+         <description>
+         </description>
+         <graphics x=\"495\" y=\"325\" width=\"50\" height=\"30\"/>
+         <targets>
+            <target arcId=\"1253883165890\"/>
+         </targets>
+      </endNode>
+      <invokeNode name=\"java.lang.Class1253883165906\" id=\"1253883165906\" activity=\"Decidr-Email\">
+         <description>
+         </description>
+         <graphics x=\"237\" y=\"162\" width=\"100\" height=\"60\"/>
+         <sources>
+            <source arcId=\"1254909325312\"/>
+         </sources>
+         <targets>
+            <target arcId=\"1253883165859\"/>
+         </targets>
+         <setProperty name=\"to\" variable=\"L345\"/>
+         <setProperty name=\"cc\" variable=\"L345\"/>
+         <setProperty name=\"bcc\" variable=\"L345\"/>
+         <setProperty name=\"subject\" variable=\"L12\"/>
+         <setProperty name=\"message\" variable=\"L123\"/>
+         <setProperty name=\"attachement\"/>
+      </invokeNode>
+      <invokeNode name=\"java.lang.Class1254909325281\" id=\"1254909325281\" activity=\"Decidr-HumanTask\">
+         <description></description>
+         <graphics x=\"243\" y=\"143\" width=\"100\" height=\"60\"/>
+         <targets>
+            <target arcId=\"1253883165890\"/>
+         </targets>
+         <sources>
+            <source arcId=\"1254909325312\"/>
+         </sources>
+         <setProperty name=\"wfmID\" variable=\"L1254909325187\"/>
+         <setProperty name=\"user\" variable=\"L345\"/>
+         <setProperty name=\"name\" variable=\"L12\"/>
+         <setProperty name=\"description\" variable=\"L12\"/>
+         <setProperty name=\"userNotification\">
+            <propertyValue>yes</propertyValue>
+         </setProperty>
+         <getProperty name=\"taskResult\" variable=\"1254909164796\">
+            <parameters>
+               <humanTaskData/>
+            </parameters>
+         </getProperty>
+      </invokeNode>
+   </nodes>
+   <arcs>
+      <arc name=\"java.lang.Class1253883165890\" id=\"1253883165890\" source=\"1254909325281\" target=\"1253883165860\"/>
+      <arc name=\"java.lang.Class1253883165859\" id=\"1253883165859\" source=\"1253883165843\" target=\"1253883165906\"/>
+      <arc name=\"java.lang.Class1254909325312\" id=\"1254909325312\" source=\"1253883165906\" target=\"1254909325281\"/>
+   </arcs>
+</workflow>

@@ -324,6 +324,7 @@ public class DWDLParserImpl implements DWDLParser {
                 DWDLNames.source).get(0);
         startModel.setOutput(getConnectionForSourceElement(sourceElement,
                 startModel, workflow));
+        
         return startModel;
     }
 
@@ -651,7 +652,7 @@ public class DWDLParserImpl implements DWDLParser {
             parentModel.addConnectionModel(connection);
             connectionModels.put(connectionId, connection);
         }
-        resultConnection = connectionModels.get(0L);
+        resultConnection = connectionModels.get(connectionId);
 
         return resultConnection;
     }
@@ -690,7 +691,7 @@ public class DWDLParserImpl implements DWDLParser {
             connection.setParentModel(parentModel);
             connectionModels.put(connectionId, connection);
         }
-        resultConnection = connectionModels.get(0L);
+        resultConnection = connectionModels.get(connectionId);
 
         return resultConnection;
     }

@@ -46,7 +46,6 @@ import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
-import de.decidr.modelingtool.client.ui.dialogs.email.EmailActivityWindow;
 
 /**
  * The property window for a {@link HumanTaskInvokeNode}. It consists of
@@ -141,7 +140,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
                         if (validateInputs()) {
                             changeWorkflowModel();
                             DialogRegistry.getInstance().hideDialog(
-                                    EmailActivityWindow.class.getName());
+                                    HumanTaskActivityWindow.class.getName());
                         } else {
                             MessageBox.alert(ModelingToolWidget.getMessages()
                                     .warningTitle(), ModelingToolWidget
