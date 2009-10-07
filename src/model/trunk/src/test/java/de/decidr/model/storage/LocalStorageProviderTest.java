@@ -17,19 +17,13 @@
 package de.decidr.model.storage;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.Properties;
 
 import javax.activation.MimetypesFileTypeMap;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -48,10 +42,9 @@ public class LocalStorageProviderTest {
     static java.io.File BasicFile;
     
     /*
-     * reads a test file
+     * converts file into byte[]
      * 
      */
-    @SuppressWarnings("unused")
     private static byte[] readFile(java.io.File file) throws Exception {
         
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -70,12 +63,31 @@ public class LocalStorageProviderTest {
         return byteArrayOutputStream.toByteArray();
     }
     
-    @BeforeClass
-    public static void disable() {
-        //fail("This test class has not yet been implemented");
+    
+    /*
+     * converts InputStream into byte[]
+     * 
+     */
+    private static byte[] readInputStream(FileInputStream stream) throws Exception {
+        
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        
+        FileInputStream fileInputStream = stream;
+ 
+        byte[] buffer = new byte[16384];
+ 
+        for (int len = fileInputStream.read(buffer); len > 0; len = fileInputStream
+                .read(buffer)) {
+            byteArrayOutputStream.write(buffer, 0, len);
+        }
+ 
+        fileInputStream.close();
+ 
+        return byteArrayOutputStream.toByteArray();
     }
-
-   @BeforeClass
+    
+  
+    @BeforeClass
     public static void setUpBeforeClass() throws Exception {
        
        BasicFile = new java.io.File("./src/test/java/decidr.jpg");
@@ -92,27 +104,98 @@ public class LocalStorageProviderTest {
        
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-        // MF implement
-    }
 
-    @Before
-    public void setUp() throws Exception {
-        // MF implement
-    }
+    /**
+     * Test method for
+     * {@link LocalStorageProvider#putFile(FileInputStream, Long)}. 
+     * @throws Exception 
+     */
+    @Test
+    public void testPutFileGetFile() throws Exception {
+        
+        StorageProvider.putFile(new FileInputStream(BasicFile.getAbsolutePath()), 123456l,BasicFile.length());
+        
+        FileInputStream stream = new FileInputStream("./src/test/java/decidr.jpg");
+        
+        byte[] In = readInputStream(stream);
+        byte[] Out = readInputStream((FileInputStream)StorageProvider.getFile(123456l));
+        
+        assertTrue(java.util.Arrays.equals(In, Out));
+        
+        
+        try{
+            StorageProvider.putFile((FileInputStream)null,123l,BasicFile.length());
+            fail("IllegalArgumentException expected");
+        }
+        catch(IllegalArgumentException e){
+            //nothing to do
+        }
+        
+        
+        try{
+            StorageProvider.putFile(stream,(Long)null,BasicFile.length());
+            fail("IllegalArgumentException expected");
+        }
+        catch(IllegalArgumentException e){
+            //nothing to do
+        }
+        
+        try{
+            StorageProvider.putFile(stream,123l,(Long)null);
+            fail("IllegalArgumentException expected");
+        }
+        catch(IllegalArgumentException e){
+            //nothing to do
+        }
+        
+    } 
 
-    @After
-    public void tearDown() throws Exception {
-        // MF implement
-    }
 
+    /**
+     * Test method for {@link LocalStorageProvider#removeFile(Long)}.
+     * @throws StorageException 
+     */
+    @Test
+    public void testRemoveFile() throws StorageException {
+        
+        StorageProvider.removeFile(123456l);
+        
+        try{
+            StorageProvider.getFile(123456l);
+            fail("StorageException expected");
+        }
+        catch (StorageException e){
+            //nothing to do
+        }
+        
+              
+        try{
+            StorageProvider.removeFile(999999l);        // this file does'nt exist
+        }
+        catch(Exception e){
+            fail("No Exception should be thrown when an non existing file should be deleted");
+        }
+        
+        
+        try{
+            StorageProvider.removeFile((Long)null);
+            fail("IllegalArgumentException expected");
+        }
+        catch(IllegalArgumentException e){
+            //nothing to do
+        } 
+
+        
+    }
+    
+    
+    
     /**
      * Test method for {@link LocalStorageProvider#LocalStorageProvider()}.
      */
     @Test
     public void testLocalStorageProvider() {
-        //fail("Not yet implemented"); // MF LocalStorageProvider
+        fail("Not yet implemented"); // MF LocalStorageProvider
     }
 
     /**
@@ -120,44 +203,18 @@ public class LocalStorageProviderTest {
      */
     @Test
     public void testApplyConfig() {
-        //fail("Not yet implemented"); // MF applyConfig
+        fail("Not yet implemented"); // MF applyConfig
     }
 
-    /**
-     * Test method for {@link LocalStorageProvider#getFile(Long)}.
-     */
-    @Test
-    public void testGetFile() {
-        //fail("Not yet implemented"); // MF getFile
-    }
-
+ 
     /**
      * Test method for {@link LocalStorageProvider#isApplicable(Properties)}.
      */
     @Test
     public void testIsApplicable() {
-        //fail("Not yet implemented"); // MF isApplicable
+        fail("Not yet implemented"); // MF isApplicable
     }
 
-    /**
-     * Test method for
-     * {@link LocalStorageProvider#putFile(InputStream, Long)}. 
-     */
-    @Test
-    public void testPutFile() throws FileNotFoundException, StorageException {
-        
-        StorageProvider.putFile(new FileInputStream(BasicFile.getAbsolutePath()), 123456l);
-        
-        // MF dummes assert, da es nicht die Inhalte der Objekte prüft
-        assertEquals(new FileInputStream("/src/test/java/decidr.jpg"), StorageProvider.getFile(123456l));
-        
-    } 
-
-    /**
-     * Test method for {@link LocalStorageProvider#removeFile(Long)}.
-     */
-    @Test
-    public void testRemoveFile() {
-        //fail("Not yet implemented"); // MF removeFile
-    }
+    
+    
 }
