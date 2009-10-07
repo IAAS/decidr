@@ -24,7 +24,6 @@ import java.io.InputStream;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.decidr.model.acl.roles.Role;
 import de.decidr.model.testsuites.DatabaseTestSuite;
 
 /**
@@ -42,52 +41,21 @@ public class FileFacadeTest {
     }
 
     /**
-     * Test method for {@link FileFacade#FileFacade(Role)}.
-     */
-    @Test
-    public void testFileFacade() {
-        fail("Not yet implemented"); // RR FileFacade
-    }
-
-    /**
      * Test method for
-     * {@link FileFacade#createFile(InputStream, String, String, Boolean)}.
+     * {@link FileFacade#createFile(InputStream, String, String, Boolean)} and
+     * {@link FileFacade#replaceFile(Long, FileInputStream, String, String)},
+     * {@link FileFacade#getFileInfo(Long)},
+     * {@link FileFacade#getFileData(Long)}, {@link FileFacade#deleteFile(Long)}
+     * .
      */
     @Test
     public void testCreateFile() {
+        InputStream testFile = FileFacadeTest.class
+                .getResourceAsStream("decidr.jpg");
         fail("Not yet implemented"); // RR createFile
-    }
-
-    /**
-     * Test method for
-     * {@link FileFacade#replaceFile(Long, FileInputStream, String, String)}.
-     */
-    @Test
-    public void testReplaceFile() {
         fail("Not yet implemented"); // RR replaceFile
-    }
-
-    /**
-     * Test method for {@link FileFacade#deleteFile(Long)}.
-     */
-    @Test
-    public void testDeleteFile() {
-        fail("Not yet implemented"); // RR deleteFile
-    }
-
-    /**
-     * Test method for {@link FileFacade#getFileData(Long)}.
-     */
-    @Test
-    public void testGetFileData() {
-        fail("Not yet implemented"); // RR getFileData
-    }
-
-    /**
-     * Test method for {@link FileFacade#getFileInfo(Long)}.
-     */
-    @Test
-    public void testGetFileInfo() {
         fail("Not yet implemented"); // RR getFileInfo
+        fail("Not yet implemented"); // RR getFileData
+        fail("Not yet implemented"); // RR deleteFile
     }
 }

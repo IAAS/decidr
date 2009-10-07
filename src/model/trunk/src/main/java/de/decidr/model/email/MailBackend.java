@@ -303,12 +303,23 @@ public class MailBackend {
      *             see <code>{@link #addFile(URI)}</code>
      * @throws MalformedURLException
      *             see <code>{@link #addFile(URI)}</code>
+     * @throws IllegalArgumentException
+     *             if <code>file</code> is null or doesn't exist.
      * @return see <code>{@link #addFile(URI)}</code>
      */
     public MimeBodyPart addFile(File file) throws MalformedURLException,
             MessagingException, IOException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addFile(File)");
+        if (file == null) {
+            log.error("Parameter file mustn't be null");
+            throw new IllegalArgumentException("file must not be null");
+        }
+        if (!file.exists()) {
+            log.error("Parameter file doesn't exist");
+            throw new IllegalArgumentException("file doesn't exist");
+        }
+
         log.debug("calling addFile(URI) with URI of passed file");
         MimeBodyPart result = addFile(file.toURI());
         log.trace("Leaving " + MailBackend.class.getSimpleName()
@@ -327,12 +338,19 @@ public class MailBackend {
      *             see <code>{@link #addFile(URL)}</code>
      * @throws IOException
      *             see <code>{@link #addFile(URL)}</code>
+     * @throws IllegalArgumentException
+     *             if <code>file</code> is null.
      * @return see <code>{@link #addFile(URL)}</code>
      */
     public MimeBodyPart addFile(URI file) throws MalformedURLException,
             MessagingException, IOException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addFile(URI)");
+        if (file == null) {
+            log.error("Parameter file mustn't be null");
+            throw new IllegalArgumentException("file must not be null");
+        }
+
         log.debug("calling addFile(URL) with a URL equivalent "
                 + "to the passed URI");
         MimeBodyPart result = addFile(file.toURL());
@@ -351,12 +369,19 @@ public class MailBackend {
      * @throws IOException
      *             see
      *             <code>{@link MimeBodyPart#MimeBodyPart(java.io.InputStream)}</code>
+     * @throws IllegalArgumentException
+     *             if <code>file</code> is null.
      * @return The <code>{@link MimeBodyPart}</code> containing the file
      */
     public MimeBodyPart addFile(URL file) throws MessagingException,
             IOException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addFile(URL)");
+        if (file == null) {
+            log.error("Parameter file mustn't be null");
+            throw new IllegalArgumentException("file must not be null");
+        }
+
         log.debug("Opening stream to passed URL "
                 + "and calling addFile(InputStream)");
         MimeBodyPart result = addFile(file.openStream());
@@ -376,10 +401,17 @@ public class MailBackend {
      * @throws MessagingException
      *             see
      *             <code>{@link MimeBodyPart#MimeBodyPart(InputStream)}</code>
+     * @throws IllegalArgumentException
+     *             if <code>file</code> is null.
      */
     public MimeBodyPart addFile(InputStream file) throws MessagingException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addFile(InputStream)");
+        if (file == null) {
+            log.error("Parameter file mustn't be null");
+            throw new IllegalArgumentException("file must not be null");
+        }
+
         log.debug("Adding stream to message's body");
         MimeBodyPart result = new MimeBodyPart(file);
         addMimePart(result);

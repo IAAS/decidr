@@ -147,6 +147,7 @@ public class LocalStorageProviderTest {
         
         StorageProvider.putFile(new FileInputStream(BasicFile.getAbsolutePath()), 123456l);
         
+        // MF dummes assert, da es nicht die Inhalte der Objekte prüft
         assertEquals(new FileInputStream("/src/test/java/decidr.jpg"), StorageProvider.getFile(123456l));
         
     } 

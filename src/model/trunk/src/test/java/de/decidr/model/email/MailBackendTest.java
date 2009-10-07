@@ -16,12 +16,7 @@
 
 package de.decidr.model.email;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -75,7 +70,7 @@ public class MailBackendTest {
     }
 
     @AfterClass
-    public static void tearDownAfterClass() throws IOException {
+    public static void tearDownAfterClass() {
         testfile.delete();
     }
 
@@ -89,9 +84,10 @@ public class MailBackendTest {
     @Test
     public void testAddFileFile() throws IOException, MessagingException {
 
+        // MF: new test: file doesn't exist
         try {
             testMail.addFile((File) null);
-            fail("");
+            fail("");// MF finish
         } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
@@ -100,7 +96,6 @@ public class MailBackendTest {
 
         Set<MimeBodyPart> parts = testMail.getMessageParts();
         assertFalse(parts.isEmpty());
-
     }
 
     /**
@@ -118,13 +113,12 @@ public class MailBackendTest {
 
         try {
             testMail.addFile((InputStream) null);
-            fail("");
+            fail("");// MF finish
         } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
 
         testMail.addFile(testStream);
-       
 
         Set<MimeBodyPart> parts = testMail.getMessageParts();
         assertFalse(parts.isEmpty());
@@ -147,7 +141,7 @@ public class MailBackendTest {
 
         try {
             testMail.addFile((URI) null);
-            fail("");
+            fail("");// MF finish
         } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
@@ -171,7 +165,7 @@ public class MailBackendTest {
 
         try {
             testMail.addFile((URL) null);
-            fail("");
+            fail("");// MF finish
         } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
