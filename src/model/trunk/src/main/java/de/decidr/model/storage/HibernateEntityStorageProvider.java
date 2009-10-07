@@ -17,7 +17,6 @@
 package de.decidr.model.storage;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -109,7 +108,8 @@ public class HibernateEntityStorageProvider implements StorageProvider {
     }
 
     /**
-     * Throws an {@link IllegalArgumentException} if the given file ID is null.
+     * Throws an {@link IllegalArgumentException} if the given file ID is
+     * <code>null</code>.
      * 
      * @param fileId
      *            file id to check
@@ -117,6 +117,19 @@ public class HibernateEntityStorageProvider implements StorageProvider {
     private void checkFileId(Long fileId) {
         if (fileId == null) {
             throw new IllegalArgumentException("Invalid file ID.");
+        }
+    }
+
+    /**
+     * Throws an {@link IllegalArgumentException} if the given file size is
+     * <code>null</code>.
+     * 
+     * @param fileId
+     *            file size to check
+     */
+    private void checkFileSize(Long fileId) {
+        if (fileId == null) {
+            throw new IllegalArgumentException("Invalid file size.");
         }
     }
 
@@ -205,9 +218,10 @@ public class HibernateEntityStorageProvider implements StorageProvider {
     }
 
     @Override
-    public void putFile(FileInputStream data, Long fileId)
+    public void putFile(InputStream data, Long fileId, Long fileSize)
             throws StorageException {
         checkFileId(fileId);
+        checkFileSize(fileSize);
         if (data == null) {
             throw new IllegalArgumentException("Data must not be null.");
         }
@@ -217,12 +231,11 @@ public class HibernateEntityStorageProvider implements StorageProvider {
             // elegant solution, but for small files
             // this should work well.
 
-            Long size = data.getChannel().size();
-            if (size > Integer.MAX_VALUE) {
+            if (fileSize > Integer.MAX_VALUE) {
                 throw new StorageException("File is too large.");
             }
 
-            byte[] bytes = new byte[size.intValue()];
+            byte[] bytes = new byte[fileSize.intValue()];
             data.read(bytes);
 
             Session session = getCurrentSession();

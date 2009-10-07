@@ -16,7 +16,6 @@
 
 package de.decidr.model.storage;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -42,8 +41,19 @@ public interface StorageProvider {
     /**
      * Creates or replaces the file that is identified by the given id on the
      * storage backend.
+     * 
+     * @param data
+     *            the contents of the file
+     * @param fileId
+     *            the file identifier
+     * @param fileSize
+     *            the size of the file
+     * @throws StorageException
+     *             if a problem occurs while storing
+     * @throws IllegalArgumentException
+     *             if any of the parameters are <code>null</code>
      */
-    public void putFile(FileInputStream data, Long fileId)
+    public void putFile(InputStream data, Long fileId, Long fileSize)
             throws StorageException;
 
     /**
@@ -52,6 +62,8 @@ public interface StorageProvider {
      * 
      * @param fileId
      *            The file identifier.
+     * @throws IllegalArgumentException
+     *             if any of the parameters are <code>null</code>
      * @return the file data
      */
     public InputStream getFile(Long fileId) throws StorageException;
@@ -62,6 +74,8 @@ public interface StorageProvider {
      * 
      * @param fileId
      *            The file identifier.
+     * @throws IllegalArgumentException
+     *             if any of the parameters are <code>null</code>
      */
     public void removeFile(Long fileId) throws StorageException;
 
@@ -84,6 +98,8 @@ public interface StorageProvider {
      * 
      * @param config
      *            The configuration that should be checked.
+     * @throws IllegalArgumentException
+     *             if any of the parameters are <code>null</code>
      * @return - <code>true</code>, if the configuration can be applied<br>
      *         - <code>false</code>, if it can't
      */
@@ -112,6 +128,8 @@ public interface StorageProvider {
      *             The recommended course of action is to either manually choose
      *             a different <code>{@link StorageProvider}</code> or to run
      *             <code>{@link StorageProviderFactory#configure()}</code>.
+     * @throws IllegalArgumentException
+     *             if any of the parameters are <code>null</code>
      */
     public void applyConfig(Properties config)
             throws IncompleteConfigurationException;

@@ -18,7 +18,7 @@ package de.decidr.model.storage;
 
 import static org.junit.Assert.fail;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Properties;
 
 import org.junit.After;
@@ -93,7 +93,7 @@ public class HibernateEntityStorageProviderTest {
 
     /**
      * Test method for
-     * {@link HibernateEntityStorageProvider#putFile(FileInputStream, Long)}.
+     * {@link HibernateEntityStorageProvider#putFile(InputStream, Long)}.
      */
     @Test
     public void testPutFile() {

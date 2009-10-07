@@ -87,7 +87,8 @@ public class ReplaceFileCommand extends FileCommand {
 
             // since the changes to the file data cannot necessarily be rolled
             // back by the transaction manager, they are our last action.
-            storage.putFile(newContents, existingFile.getId());
+            storage.putFile(newContents, existingFile.getId(), newContents
+                    .getChannel().size());
         } catch (Exception e) {
             if (e instanceof TransactionException) {
                 throw (TransactionException) e;

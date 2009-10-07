@@ -101,6 +101,7 @@ public class FileFacade extends AbstractFacade {
      *             iff the given file ID is unknown to the system.
      */
     @AllowedRole(BasicRole.class)
+    // DH why a FileInputStream here and a simple InputStream further up?
     public Boolean replaceFile(Long fileId, FileInputStream newContents,
             String newFileName, String newMimeType) throws TransactionException {
         ReplaceFileCommand cmd = new ReplaceFileCommand(actor, fileId,

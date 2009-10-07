@@ -110,6 +110,10 @@ public class LocalStorageProvider implements StorageProvider {
     public InputStream getFile(Long fileId) throws StorageException {
         log.trace("Entering " + LocalStorageProvider.class.getSimpleName()
                 + ".getFile(Long)");
+        if (fileId == null) {
+            throw new IllegalArgumentException("fileId must not be null.");
+        }
+
         try {
             log.trace("Leaving " + LocalStorageProvider.class.getSimpleName()
                     + ".getFile(Long)");
@@ -135,6 +139,10 @@ public class LocalStorageProvider implements StorageProvider {
         boolean applicable = true;
         boolean configAmazon, configLocal, configPersistent;
 
+        if (config == null){
+            throw new IllegalArgumentException("config must not be null.");
+        }
+        
         // check whether we implement the required protocol
         if (applicable && config.contains(PROTOCOL_CONFIG_KEY)) {
             log.debug("checking protocol compliance");
@@ -188,18 +196,16 @@ public class LocalStorageProvider implements StorageProvider {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * de.decidr.model.storage.StorageProvider#putFile(java.io.FileInputStream,
-     * java.lang.Long)
+     * @see StorageProvider#putFile(InputStream, Long, Long)
      */
     @Override
-    public void putFile(FileInputStream data, Long fileId)
+    public void putFile(InputStream data, Long fileId, Long fileSize)
             throws StorageException {
         log.trace("Entering " + LocalStorageProvider.class.getSimpleName()
-                + ".putFile(FileInputStream, Long)");
-        if (data == null || fileId == null) {
+                + ".putFile(InputStream, Long, Long)");
+        if (data == null || fileId == null || fileSize == null) {
             throw new IllegalArgumentException(
-                    "data and fileId must not be null.");
+                    "parameters must not be null.");
         }
 
         File newFile = new File(storageDirectory, "DecidR_" + fileId + ".tmp");
@@ -241,6 +247,10 @@ public class LocalStorageProvider implements StorageProvider {
     public void removeFile(Long fileId) throws StorageException {
         log.trace("Entering " + LocalStorageProvider.class.getSimpleName()
                 + ".removeFile(Long)");
+        if (fileId == null) {
+            throw new IllegalArgumentException("fileId must not be null.");
+        }
+
         File superfluous = new File(storageDirectory, "DecidR_" + fileId
                 + ".tmp");
         if (superfluous.exists()) {

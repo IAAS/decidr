@@ -22,6 +22,7 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -140,7 +141,7 @@ public class LocalStorageProviderTest {
 
     /**
      * Test method for
-     * {@link LocalStorageProvider#putFile(FileInputStream, Long)}. 
+     * {@link LocalStorageProvider#putFile(InputStream, Long)}. 
      */
     @Test
     public void testPutFile() throws FileNotFoundException, StorageException {

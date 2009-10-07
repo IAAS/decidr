@@ -16,7 +16,7 @@
 
 package de.decidr.model.facades;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -24,6 +24,7 @@ import java.io.InputStream;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.testsuites.DatabaseTestSuite;
 
 /**
@@ -33,11 +34,19 @@ import de.decidr.model.testsuites.DatabaseTestSuite;
  */
 public class FileFacadeTest {
 
+    static FileFacade adminFacade;
+    static FileFacade userFacade;
+    static FileFacade nullFacade;
+
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         if (!DatabaseTestSuite.running()) {
             fail("Needs to run inside " + DatabaseTestSuite.class.getName());
         }
+
+        adminFacade = new FileFacade(null);
+        userFacade = new FileFacade(null);
+        nullFacade = new FileFacade(null);
     }
 
     /**
@@ -50,8 +59,43 @@ public class FileFacadeTest {
      */
     @Test
     public void testCreateFile() {
+        String testName = "decidr.jpg";
         InputStream testFile = FileFacadeTest.class
-                .getResourceAsStream("decidr.jpg");
+                .getResourceAsStream(testName);
+        assertNotNull(testFile);
+
+        try {
+            nullFacade.createFile(testFile, testName, "image/jpeg", true);
+            fail("calling createFile with nullFacade succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        // try {
+        // RR implement when consistent
+        // nullFacade.replaceFile(0L, testFile, testName, "image/jpeg");
+        // fail("calling replaceFile with nullFacade succeeded");
+        // } catch (TransactionException e) {
+        // // supposed to be thrown
+        // }
+        try {
+            nullFacade.getFileInfo(0L);
+            fail("calling  with nullFacade succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            nullFacade.getFileData(0L);
+            fail("calling  with nullFacade succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            nullFacade.deleteFile(0L);
+            fail("calling  with nullFacade succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
         fail("Not yet implemented"); // RR createFile
         fail("Not yet implemented"); // RR replaceFile
         fail("Not yet implemented"); // RR getFileInfo
