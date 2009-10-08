@@ -85,16 +85,16 @@
          <setProperty name=\"userNotification\">
             <propertyValue>yes</propertyValue>
          </setProperty>
-         <getProperty name=\"taskResult\" variable=\"1254909164796\">
+         <getProperty name=\"taskResult\" variable=\"L1254909164796\">
             <parameters>
                <humanTaskData>
-                  <taskItem name=\"taskItem\" variable=\"123\" type=\"string\">
-                     <label>Label</label>
+                  <taskItem name=\"taskItem\" variable=\"L123\" type=\"string\">
+                     <label>Label 1</label>
                      <hint>Hint</hint>
                      <value>Workflow failed</value>
                   </taskItem>
-                  <taskItem name=\"taskItem\" variable=\"123\" type=\"string\">
-                     <label>Label</label>
+                  <taskItem name=\"taskItem\" variable=\"L123\" type=\"string\">
+                     <label>Label 2</label>
                      <hint>Hint</hint>
                      <value>Workflow failed</value>
                   </taskItem>
