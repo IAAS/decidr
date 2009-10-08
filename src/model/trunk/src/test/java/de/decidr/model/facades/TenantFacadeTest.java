@@ -28,6 +28,7 @@ import org.junit.Test;
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Paginator;
@@ -78,7 +79,6 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         testTenantID = adminFacade.createTenant(TEST_NAME, TEST_DESC,
                 testAdminID);
         assertNotNull(testTenantID);
-        System.out.println("findme " + testTenantID);
     }
 
     /**
@@ -88,7 +88,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
     @Test
     public void testTenant() throws TransactionException {
         try {
-            nullFacade.createTenant(TEST_NAME, TEST_DESC, testAdminID);
+            nullFacade.createTenant(TEST_NAME + "foo", TEST_DESC, testAdminID);
             fail("Managed to create tenant using null facade");
         } catch (TransactionException e) {
             // supposed to be thrown
@@ -100,7 +100,77 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
             // supposed to be thrown
         }
 
-        fail("Not yet implemented"); // RR createTenant
+        try {
+            adminFacade.createTenant(null, TEST_DESC, testAdminID);
+            fail("Managed to create tenant using null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.createTenant(TEST_NAME + "foo", null, testAdminID);
+            fail("Managed to create tenant using null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.createTenant(TEST_NAME + "foo", TEST_DESC, null);
+            fail("Managed to create tenant using null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.createTenant(TEST_NAME + "foo", TEST_DESC,
+                    UserFacadeTest.getInvalidUserID());
+            fail("Managed to create tenant using invalid user id");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.createTenant(TEST_NAME, TEST_DESC, testAdminID);
+            fail("Managed to create tenant twice");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        try {
+            userFacade.createTenant(null, TEST_DESC, testAdminID);
+            fail("Managed to create tenant using null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            userFacade.createTenant(TEST_NAME + "foo", null, testAdminID);
+            fail("Managed to create tenant using null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            userFacade.createTenant(TEST_NAME + "foo", TEST_DESC, null);
+            fail("Managed to create tenant using null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        try {
+            adminFacade.deleteTenant(null);
+            fail("Managed to delete tenant using null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            userFacade.deleteTenant(null);
+            fail("Managed to delete tenant using null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        Long secondTenantID = adminFacade.createTenant(TEST_NAME + "blah",
+                TEST_DESC, testAdminID);
+        assertNotNull(secondTenantID);
+        adminFacade.deleteTenant(secondTenantID);
+        adminFacade.deleteTenant(secondTenantID);
+        new TenantFacade(new UserRole(testAdminID))
+                .deleteTenant(secondTenantID);
     }
 
     /**
@@ -168,9 +238,13 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
     }
 
     @After
-    public void deleteDefaultTenant() throws TransactionException {
+    public void deleteDefaultTenant() {
         if (testTenantID != null) {
-            adminFacade.deleteTenant(testTenantID);
+            try {
+                adminFacade.deleteTenant(testTenantID);
+            } catch (TransactionException e) {
+                // doesn't matter as long as it's gone
+            }
         }
     }
 

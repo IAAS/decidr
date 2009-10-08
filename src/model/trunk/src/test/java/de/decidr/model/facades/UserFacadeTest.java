@@ -113,7 +113,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         }
     }
 
-    private static long getInvalidUserID() {
+    static long getInvalidUserID() {
         long invalidID = Long.MIN_VALUE;
 
         for (long l = invalidID; session.createQuery(

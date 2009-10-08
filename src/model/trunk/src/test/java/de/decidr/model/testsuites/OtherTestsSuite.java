@@ -26,7 +26,6 @@ import de.decidr.model.acl.PasswordTest;
 import de.decidr.model.email.MailBackendTest;
 import de.decidr.model.logging.DefaultLoggerTest;
 import de.decidr.model.reveng.DecidrReverseEngineeringStrategyTest;
-import de.decidr.model.storage.HibernateEntityStorageProviderTest;
 import de.decidr.model.storage.LocalStorageProviderTest;
 import de.decidr.model.storage.StorageProviderFactoryTest;
 import de.decidr.model.testing.GlobalPreconditionsSuite;
