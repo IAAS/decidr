@@ -70,7 +70,6 @@ public class DeployerImpl implements Deployer {
     private Validator validator = null;
     private List<IProblem> problems = null;
     private Translator translator = null;
-    private FileDeployer fileDeployer = null;
     private DeploymentResult result = null;
     private ServiceClientUtil _client;
     private Object _factory;
@@ -145,7 +144,6 @@ public class DeployerImpl implements Deployer {
         OMElement zipElmt = ((OMFactory) _factory).createOMElement("zip", depns);
 
         // Add the zip to deploy
-        //InputStream is = this.getClass().getClassLoader().getResourceAsStream("DynPartner.zip");
         InputStream is = new FileInputStream("SampleProcess.zip");
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[4096];

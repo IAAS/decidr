@@ -176,10 +176,14 @@ public class TransformUtil {
         return dwdlElement.getValue();
     }
 
-    public static THumanTaskData bytes2HumanTask(byte[] dwdl)
+    public static THumanTaskData bytes2HumanTask(byte[] humanTaskData)
             throws JAXBException {
-        // MA: Implement the unmarshaling
-        return null;
+        JAXBContext context = JAXBContext.newInstance(THumanTaskData.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        JAXBElement<THumanTaskData> taskElement = unmarshaller.unmarshal(
+                new StreamSource(new ByteArrayInputStream(humanTaskData)),
+                THumanTaskData.class);
+        return taskElement.getValue();
     }
 
     public static Document workflow2DOM(Workflow dwdl) throws JAXBException,
