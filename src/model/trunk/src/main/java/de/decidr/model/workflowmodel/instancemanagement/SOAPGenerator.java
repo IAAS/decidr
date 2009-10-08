@@ -85,8 +85,7 @@ public class SOAPGenerator {
                 
             }
         }
-                
-
+        // AT getSOAP aus soap template und start config soap message erstellen       
         return soapTemplate;
     }
 

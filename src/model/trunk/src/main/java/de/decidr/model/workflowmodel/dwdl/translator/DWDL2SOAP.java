@@ -28,7 +28,7 @@ import javax.xml.soap.SOAPMessage;
  * @version 0.1
  */
 public class DWDL2SOAP {
-
+    // AT getSOAP aus wsdl eine soap message erstellen
     public SOAPMessage getSOAP(Definition wsdl) {
         return null;
     }

@@ -38,7 +38,7 @@ import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
  * @version 0.1
  */
 public class DWDL2DD {
-
+    // AT getDD testen bzw. implementierung überprüfen
     TDeployment deployment = null;
     
     public TDeployment getDD(Process bpel, Map<String, DecidrWebserviceAdapter> webservices) {

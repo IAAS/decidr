@@ -74,6 +74,7 @@ public class InstanceManagerImpl implements InstanceManager {
     @Override
     public void stopInstance(WorkflowInstance instance) {
         // MA StopWorkflowInstance implementieren
+        // AT stopInstance implementieren
 
     }
 }
