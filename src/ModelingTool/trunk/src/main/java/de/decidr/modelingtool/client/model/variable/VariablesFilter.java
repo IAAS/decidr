@@ -62,12 +62,13 @@ public class VariablesFilter {
     }
 
     /**
-     * Returns the variable that has the given id. Variable id a reference.
+     * Returns the variable that has the given id. 
      * 
      * @param id
      *            the id
      * @return the variable
      */
+    @Deprecated
     public static Variable getVariableById(Long id) {
         Variable result = null;
         for (Variable var : Workflow.getInstance().getModel().getVariables()) {

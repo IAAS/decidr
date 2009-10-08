@@ -16,7 +16,6 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.humantask;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
@@ -44,6 +43,7 @@ import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
+import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 
@@ -70,8 +70,6 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
     private ComboBox<Variable> descriptionField;
     private ComboBox<Variable> formContainerField;
     private CheckBox notifyCheckBox;
-
-    private List<TaskItemFieldSet> fieldsets;
 
     public HumanTaskActivityWindow() {
         super();
@@ -100,7 +98,6 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         table.setCellSpacing(2);
         scrollPanel = new ScrollPanel(table);
         contentPanel.add(scrollPanel);
-        fieldsets = new ArrayList<TaskItemFieldSet>();
 
         createToolBar();
 
@@ -193,14 +190,15 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
                 .getId());
         newModel.setFormVariableId(formContainerField.getValue().getId());
         newModel.setNotifyActor(notifyCheckBox.getValue());
-        List<TaskItem> taskItems = new ArrayList<TaskItem>();
-        for (TaskItemFieldSet fields : fieldsets) {
-            TaskItem item = new TaskItem(fields.getLabelField().getValue(),
-                    fields.getHintField().getValue(), fields.getVariableField()
-                            .getValue().getId());
-            taskItems.add(item);
+        List<TaskItem> newTaskItems = ((TaskItemWindow) DialogRegistry
+                .getInstance().getDialog(TaskItemWindow.class.getName()))
+                .getTaskItems();
+
+        if (newTaskItems == null) {
+            newModel.setTaskItems(model.getTaskItems());
+        } else {
+            newModel.setTaskItems(newTaskItems);
         }
-        newModel.setTaskItems(taskItems);
         /* only push to command stack if changes where made */
         if (newModel.getProperties().equals(model.getProperties()) == false) {
             CommandStack.getInstance().executeCommand(
@@ -215,8 +213,9 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         userField.setDisplayField(Variable.LABEL);
         userField.setStore(VariablesFilter
                 .getVariablesOfType(VariableType.ROLE));
-        userField.setValue(VariablesFilter.getVariableById(model
-                .getUserVariableId()));
+        userField.setValue(Workflow.getInstance().getModel().getVariable(
+                model.getUserVariableId()));
+
         userField.setTypeAhead(true);
         userField.setWidth("200px");
         table.insertRow(table.getRowCount());
@@ -229,8 +228,8 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         nameField.setDisplayField(Variable.LABEL);
         nameField.setStore(VariablesFilter
                 .getVariablesOfType(VariableType.STRING));
-        nameField.setValue(VariablesFilter.getVariableById(model
-                .getWorkItemNameVariableId()));
+        nameField.setValue(Workflow.getInstance().getModel().getVariable(
+                model.getWorkItemNameVariableId()));
         nameField.setTypeAhead(true);
         nameField.setWidth("200px");
         table.insertRow(table.getRowCount());
@@ -243,8 +242,8 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         descriptionField.setDisplayField(Variable.LABEL);
         descriptionField.setStore(VariablesFilter
                 .getVariablesOfType(VariableType.STRING));
-        descriptionField.setValue(VariablesFilter.getVariableById(model
-                .getWorkItemNameVariableId()));
+        descriptionField.setValue(Workflow.getInstance().getModel()
+                .getVariable(model.getWorkItemNameVariableId()));
         descriptionField.setTypeAhead(true);
         descriptionField.setWidth("200px");
         table.insertRow(table.getRowCount());
@@ -257,8 +256,8 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         formContainerField.setDisplayField(Variable.LABEL);
         formContainerField.setStore(VariablesFilter
                 .getVariablesOfType(VariableType.FORM));
-        formContainerField.setValue(VariablesFilter.getVariableById(model
-                .getFormVariableId()));
+        formContainerField.setValue(Workflow.getInstance().getModel()
+                .getVariable(model.getFormVariableId()));
         formContainerField.setTypeAhead(true);
         formContainerField.setWidth("200px");
         table.insertRow(table.getRowCount());
@@ -285,9 +284,6 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
             for (int i = start; i > 0; i--) {
                 table.removeRow(i - 1);
             }
-        }
-        if (fieldsets.size() > 0) {
-            fieldsets.clear();
         }
     }
 

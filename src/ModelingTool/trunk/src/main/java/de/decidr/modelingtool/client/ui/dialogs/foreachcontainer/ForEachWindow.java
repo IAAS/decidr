@@ -36,6 +36,7 @@ import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 import de.decidr.modelingtool.client.ui.ForEachContainer;
+import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 
@@ -176,8 +177,8 @@ public class ForEachWindow extends ModelingToolDialog {
         iterableField = new ComboBox<Variable>();
         iterableField.setDisplayField(Variable.LABEL);
         iterableField.setStore(VariablesFilter.getAllVariables());
-        iterableField.setValue(VariablesFilter.getVariableById(model
-                .getIterationVariableId()));
+        iterableField.setValue(Workflow.getInstance().getModel().getVariable(
+                model.getIterationVariableId()));
         iterableField.setTypeAhead(true);
         iterableField.setWidth("200px");
         table.insertRow(table.getRowCount());

@@ -18,7 +18,7 @@ package de.decidr.modelingtool.client.ui.dialogs.valueeditor;
 
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
-import de.decidr.modelingtool.client.model.variable.VariablesFilter;
+import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
@@ -62,7 +62,7 @@ public class ValueEditorInvoker {
      *            edited
      */
     public static void invoke(Long id) {
-        Variable variable = VariablesFilter.getVariableById(id);
+        Variable variable = Workflow.getInstance().getModel().getVariable(id);
         if (variable.getType() == VariableType.ROLE) {
             ((RoleEditor) DialogRegistry.getInstance().getDialog(
                     RoleEditor.class.getName())).setVariable(variable);

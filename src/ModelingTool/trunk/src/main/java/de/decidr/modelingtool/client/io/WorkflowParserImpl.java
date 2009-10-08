@@ -39,7 +39,7 @@ import de.decidr.modelingtool.client.model.ifcondition.Condition;
 import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
-import de.decidr.modelingtool.client.model.variable.VariablesFilter;
+import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
  * The actual implementation of a workflow parser.
@@ -358,8 +358,8 @@ public class WorkflowParserImpl implements WorkflowParser {
         /* Create task items */
         for (TaskItem ti : model.getTaskItems()) {
             Element taskItem = doc.createElement(DWDLNames.taskItem);
-            Variable variable = VariablesFilter.getVariableById(ti
-                    .getVariableId());
+            Variable variable = Workflow.getInstance().getModel().getVariable(
+                    ti.getVariableId());
             taskItem.setAttribute(DWDLNames.name, "taskItem");
             taskItem.setAttribute(DWDLNames.variable, variable.getId()
                     .toString());

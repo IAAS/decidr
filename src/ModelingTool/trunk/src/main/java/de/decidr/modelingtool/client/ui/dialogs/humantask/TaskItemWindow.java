@@ -40,6 +40,7 @@ import de.decidr.modelingtool.client.model.humantask.TaskItem;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
+import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 
@@ -54,7 +55,6 @@ public class TaskItemWindow extends ModelingToolDialog {
     private FlexTable table;
     private ScrollPanel scrollPanel;
 
-    private HumanTaskInvokeNodeModel model;
     private List<TaskItem> taskItems;
     private List<TaskItemFieldSet> fieldsets = new ArrayList<TaskItemFieldSet>();
 
@@ -160,7 +160,7 @@ public class TaskItemWindow extends ModelingToolDialog {
                     .getVariableField().getValue().getId());
             newTaskItems.add(newTaskItem);
         }
-        model.setTaskItems(newTaskItems);
+        taskItems = newTaskItems;
     }
 
     /**
@@ -182,8 +182,8 @@ public class TaskItemWindow extends ModelingToolDialog {
         variableField.setDisplayField(Variable.LABEL);
         variableField.setStore(VariablesFilter.getAllVariables());
         if (ti.getVariableId() != null) {
-            variableField.setValue(VariablesFilter.getVariableById(ti
-                    .getVariableId()));
+            variableField.setValue(Workflow.getInstance().getModel()
+                    .getVariable(ti.getVariableId()));
         }
         variableField.setTypeAhead(true);
 
@@ -213,8 +213,11 @@ public class TaskItemWindow extends ModelingToolDialog {
      *            the model
      */
     public void setModel(HumanTaskInvokeNodeModel model) {
-        this.model = model;
         this.taskItems = model.getTaskItems();
+    }
+
+    public List<TaskItem> getTaskItems() {
+        return taskItems;
     }
 
     /*

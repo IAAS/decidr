@@ -103,6 +103,23 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
     }
 
     /**
+     * Returns the variable that has the given id.
+     * 
+     * @param id
+     *            the id
+     * @return the variable
+     */
+    public Variable getVariable(Long id) {
+        Variable result = null;
+        for (Variable var : variables) {
+            if (var.getId().equals(id)) {
+                result = var;
+            }
+        }
+        return result;
+    }
+
+    /**
      * Returns the container for the properties of this workflow
      * 
      * @return the properties

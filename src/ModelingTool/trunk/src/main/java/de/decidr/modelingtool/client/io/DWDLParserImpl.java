@@ -324,7 +324,7 @@ public class DWDLParserImpl implements DWDLParser {
                 DWDLNames.source).get(0);
         startModel.setOutput(getConnectionForSourceElement(sourceElement,
                 startModel, workflow));
-        
+
         return startModel;
     }
 
@@ -425,8 +425,8 @@ public class DWDLParserImpl implements DWDLParser {
 
         /* Get the task items */
         for (Element getProperty : getChildNodesByTagName(
-                getChildNodesByTagName(humanTaskElement, DWDLNames.parameters)
-                        .get(0), DWDLNames.getProperty)) {
+                getChildNodesByTagName(humanTaskElement, DWDLNames.getProperty)
+                        .get(0), DWDLNames.parameters)) {
             if (getProperty.getAttribute(DWDLNames.name) == DWDLNames.taskResult) {
                 Element humanTaskData = getChildNodesByTagName(getProperty,
                         DWDLNames.humanTaskData).get(0);
@@ -698,12 +698,17 @@ public class DWDLParserImpl implements DWDLParser {
 
     private List<Element> getChildNodesByTagName(Element parent, String tagName) {
         List<Element> result = new ArrayList<Element>();
+        // JS remove
+        // System.out.println("Searching for \"" + tagName + "\" in parent: "
+        // + parent.getNodeName());
         for (int i = 0; i < parent.getChildNodes().getLength(); i++) {
             Node child = parent.getChildNodes().item(i);
             if (child.getNodeName().equals(tagName)) {
+                // System.out.println("  Found child: " + child.getNodeName());
                 result.add((Element) child);
             }
         }
+
         return result;
     }
 

@@ -27,6 +27,7 @@ import de.decidr.modelingtool.client.model.ifcondition.Operator;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
+import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
  * This container holds all references to the input fields that are necessary to
@@ -115,8 +116,8 @@ public class IfFieldSet {
         leftOperandField.setDisplayField(Variable.LABEL);
         leftOperandField.setStore(VariablesFilter.getAllVariables());
         if (condition.getLeftOperandId() != null) {
-            leftOperandField.setValue(VariablesFilter.getVariableById(condition
-                    .getLeftOperandId()));
+            leftOperandField.setValue(Workflow.getInstance().getModel()
+                    .getVariable(condition.getLeftOperandId()));
         }
         leftOperandField.setEditable(false);
         leftOperandField.setEnabled(false);
@@ -141,8 +142,8 @@ public class IfFieldSet {
         rightOperandField.setDisplayField(Variable.LABEL);
         rightOperandField.setStore(VariablesFilter.getAllVariables());
         if (condition.getRightOperandId() != null) {
-            rightOperandField.setValue(VariablesFilter
-                    .getVariableById(condition.getRightOperandId()));
+            rightOperandField.setValue(Workflow.getInstance().getModel()
+                    .getVariable(condition.getRightOperandId()));
         }
         rightOperandField.setEditable(false);
         rightOperandField.setEnabled(false);

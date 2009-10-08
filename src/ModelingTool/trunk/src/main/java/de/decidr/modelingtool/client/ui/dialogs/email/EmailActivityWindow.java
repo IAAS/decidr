@@ -36,6 +36,7 @@ import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 import de.decidr.modelingtool.client.ui.EmailInvokeNode;
+import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 
@@ -197,7 +198,8 @@ public class EmailActivityWindow extends ModelingToolDialog {
             VariableType type, Long variableId) {
         field.setDisplayField(Variable.LABEL);
         field.setStore(VariablesFilter.getVariablesOfType(type));
-        field.setValue(VariablesFilter.getVariableById(variableId));
+        field.setValue(Workflow.getInstance().getModel()
+                .getVariable(variableId));
         field.setTypeAhead(true);
         field.setWidth("200px");
         table.insertRow(table.getRowCount());
