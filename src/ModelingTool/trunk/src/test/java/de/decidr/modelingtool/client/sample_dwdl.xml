@@ -87,7 +87,18 @@
          </setProperty>
          <getProperty name=\"taskResult\" variable=\"1254909164796\">
             <parameters>
-               <humanTaskData/>
+               <humanTaskData>
+                  <taskItem name=\"taskItem\" variable=\"123\" type=\"string\">
+                     <label>Label</label>
+                     <hint>Hint</hint>
+                     <value>Workflow failed</value>
+                  </taskItem>
+                  <taskItem name=\"taskItem\" variable=\"123\" type=\"string\">
+                     <label>Label</label>
+                     <hint>Hint</hint>
+                     <value>Workflow failed</value>
+                  </taskItem>
+               </humanTaskData>
             </parameters>
          </getProperty>
       </invokeNode>
