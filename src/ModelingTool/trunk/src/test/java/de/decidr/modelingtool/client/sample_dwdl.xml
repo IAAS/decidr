@@ -73,10 +73,10 @@
          <description></description>
          <graphics x=\"243\" y=\"143\" width=\"100\" height=\"60\"/>
          <targets>
-            <target arcId=\"1253883165890\"/>
+            <target arcId=\"1254909325312\"/>
          </targets>
          <sources>
-            <source arcId=\"1254909325312\"/>
+            <source arcId=\"1253883165890\"/>
          </sources>
          <setProperty name=\"wfmID\" variable=\"L1254909325187\"/>
          <setProperty name=\"user\" variable=\"L345\"/>
