@@ -14,38 +14,43 @@
  * under the License.
  */
 
-package de.decidr.model;
-
-import junit.framework.TestSuite;
+package de.decidr.model.testing;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
+import de.decidr.model.testsuites.OtherTestsSuite;
+
 /**
- * This class adds the capability to add global preconditions to all tests.
+ * RR: add comment
  * 
  * @author Reinhold
  */
-public class GlobalPreconditionsSuite extends TestSuite {
+public abstract class DecidrOthersTest {
+
     @BeforeClass
-    public static void setUpBeforeSuite() {
-        // nothing as of yet
-    }
-
-    @Before
-    public void setUpSuiteCase() {
-        // nothing as of yet
-    }
-
-    @After
-    public void tearDownSuiteCase() {
-        // nothing as of yet
+    public static final void beforeClass() {
+        TestUtils.executeMethodsWithAnnotation(OtherTestsSuite.class,
+                BeforeClass.class);
     }
 
     @AfterClass
-    public static void tearDownAfterSuite() {
-        // nothing as of yet
+    public static final void afterClass() {
+        TestUtils.executeMethodsWithAnnotation(OtherTestsSuite.class,
+                AfterClass.class);
+    }
+
+    @Before
+    public final void beforeTest() {
+        TestUtils.executeMethodsWithAnnotation(OtherTestsSuite.class,
+                Before.class);
+    }
+
+    @After
+    public final void afterTest() {
+        TestUtils.executeMethodsWithAnnotation(OtherTestsSuite.class,
+                After.class);
     }
 }

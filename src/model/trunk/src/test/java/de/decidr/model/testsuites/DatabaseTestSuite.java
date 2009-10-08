@@ -18,16 +18,22 @@ package de.decidr.model.testsuites;
 
 import static org.junit.Assert.fail;
 
+
+
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import de.decidr.model.DecidrGlobalsTest;
-import de.decidr.model.GlobalPreconditionsSuite;
 import de.decidr.model.LifetimeValidatorTest;
 import de.decidr.model.commands.SystemCommandsTest;
 import de.decidr.model.facades.FileFacadeTest;
@@ -38,6 +44,8 @@ import de.decidr.model.facades.WorkItemFacadeTest;
 import de.decidr.model.facades.WorkflowInstanceFacadeTest;
 import de.decidr.model.facades.WorkflowModelFacadeTest;
 import de.decidr.model.storage.HibernateEntityStorageProviderTest;
+import de.decidr.model.testing.GlobalPreconditionsSuite;
+import de.decidr.model.testing.TestUtils;
 import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
 
 /**
@@ -58,8 +66,6 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
 public class DatabaseTestSuite extends GlobalPreconditionsSuite {
 
     static Session session;
-    private static String testString;
-    private static final String RUNNING_CONSTANT = "is running";
 
     /**
      * Fails if hibernate is not working properly and no working condition can
@@ -67,6 +73,10 @@ public class DatabaseTestSuite extends GlobalPreconditionsSuite {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
+        Logger.getLogger("org.hibernate").addAppender(
+                new ConsoleAppender(new PatternLayout("[%p] %m%n"),
+                        ConsoleAppender.SYSTEM_OUT));
+
         try {
             session = new Configuration().configure("hibernate.cfg.xml")
                     .buildSessionFactory().openSession();
@@ -76,8 +86,6 @@ public class DatabaseTestSuite extends GlobalPreconditionsSuite {
             fail("Couldn't connect to database; Error message: "
                     + e.getMessage());
         }
-
-        testString = RUNNING_CONSTANT;
     }
 
     /**
@@ -85,23 +93,10 @@ public class DatabaseTestSuite extends GlobalPreconditionsSuite {
      */
     @AfterClass
     public static void tearDownAfterClass() {
-        testString = null;
-
         if (session != null) {
             // Query q = session.createSQLQuery("drop database decidrdb");
             // q.executeUpdate();
             session.close();
         }
-    }
-
-    /**
-     * Checks whether the test suite is currently running. Can be used to fail
-     * classes that need to run inside the suite when it isn't running.
-     * 
-     * @return - <code>true</code>, when this test suite is running,<br>
-     *         - <code>false</code> when it isn't.
-     */
-    public static boolean running() {
-        return RUNNING_CONSTANT.equals(testString);
     }
 }

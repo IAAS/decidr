@@ -36,14 +36,14 @@ import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.testsuites.DatabaseTestSuite;
+import de.decidr.model.testing.DecidrDatabaseTest;
 
 /**
  * Test case for <code>{@link SystemFacade}</code>.
  * 
  * @author Reinhold
  */
-public class SystemFacadeTest {
+public class SystemFacadeTest extends DecidrDatabaseTest {
 
     static SystemFacade adminFacade;
     static SystemFacade userFacade;
@@ -54,10 +54,6 @@ public class SystemFacadeTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
-        if (!DatabaseTestSuite.running()) {
-            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
-        }
-
         adminFacade = new SystemFacade(new SuperAdminRole(DecidrGlobals
                 .getSettings().getSuperAdmin().getId()));
         userFacade = new SystemFacade(new BasicRole(0L));

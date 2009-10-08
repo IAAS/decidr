@@ -20,28 +20,20 @@ import static org.junit.Assert.*;
 
 import java.util.Date;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.PasswordResetRequest;
 import de.decidr.model.entities.RegistrationRequest;
-import de.decidr.model.testsuites.DatabaseTestSuite;
+import de.decidr.model.testing.DecidrOthersTest;
 
 /**
  * Unit tests for <code>{@link LifetimeValidator}</code>.
  * 
  * @author Reinhold
  */
-public class LifetimeValidatorTest {
-
-    @BeforeClass
-    public static final void setUp() {
-        if (!DatabaseTestSuite.running()) {
-            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
-        }
-    }
+public class LifetimeValidatorTest extends DecidrOthersTest {
 
     /**
      * Test method for

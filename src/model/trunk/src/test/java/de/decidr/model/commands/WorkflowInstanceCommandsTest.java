@@ -23,13 +23,13 @@ import java.util.Collection;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.decidr.model.CommandsTest;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.workflowinstance.DeleteWorkflowInstanceCommand;
 import de.decidr.model.commands.workflowinstance.GetAllWorkitemsCommand;
 import de.decidr.model.commands.workflowinstance.GetParticipatingUsersCommand;
 import de.decidr.model.commands.workflowinstance.RemoveAllWorkItemsCommand;
 import de.decidr.model.commands.workflowinstance.WorkflowInstanceCommand;
+import de.decidr.model.testing.CommandsTest;
 
 /**
  * This class tests the commands in

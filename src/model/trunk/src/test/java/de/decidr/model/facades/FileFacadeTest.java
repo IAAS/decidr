@@ -26,14 +26,14 @@ import org.junit.Test;
 
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.testsuites.DatabaseTestSuite;
+import de.decidr.model.testing.DecidrDatabaseTest;
 
 /**
  * Test case for <code>{@link FileFacade}</code>.
  * 
  * @author Reinhold
  */
-public class FileFacadeTest {
+public class FileFacadeTest extends DecidrDatabaseTest {
 
     static FileFacade adminFacade;
     static FileFacade userFacade;
@@ -41,10 +41,6 @@ public class FileFacadeTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        if (!DatabaseTestSuite.running()) {
-            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
-        }
-
         adminFacade = new FileFacade(null);
         userFacade = new FileFacade(null);
         nullFacade = new FileFacade(null);

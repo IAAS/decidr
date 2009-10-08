@@ -21,12 +21,11 @@ import static org.junit.Assert.*;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.enums.ServerTypeEnum;
-import de.decidr.model.testsuites.DatabaseTestSuite;
+import de.decidr.model.testing.DecidrOthersTest;
 
 /**
  * This class tests the constraints of the return values of the
@@ -34,14 +33,7 @@ import de.decidr.model.testsuites.DatabaseTestSuite;
  * 
  * @author Reinhold
  */
-public class DecidrGlobalsTest {
-
-    @BeforeClass
-    public static final void setUp() {
-        if (!DatabaseTestSuite.running()) {
-            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
-        }
-    }
+public class DecidrGlobalsTest extends DecidrOthersTest {
 
     /**
      * Test method for {@link DecidrGlobals#getTime()}.

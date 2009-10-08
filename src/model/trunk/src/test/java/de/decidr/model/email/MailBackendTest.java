@@ -39,12 +39,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.testing.DecidrOthersTest;
+
 /**
  * Test cases for <code>{@link MailBackend}</code>.
  * 
  * @author Reinhold
  */
-public class MailBackendTest {
+public class MailBackendTest extends DecidrOthersTest {
 
     MailBackend testMail;
     static File testfile;

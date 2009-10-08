@@ -21,7 +21,6 @@ import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.decidr.model.CommandsTest;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.workitem.CreateWorkItemCommand;
 import de.decidr.model.commands.workitem.DeleteWorkItemCommand;
@@ -30,6 +29,7 @@ import de.decidr.model.commands.workitem.SetDataCommand;
 import de.decidr.model.commands.workitem.SetStatusCommand;
 import de.decidr.model.commands.workitem.WorkItemCommand;
 import de.decidr.model.enums.WorkItemStatus;
+import de.decidr.model.testing.CommandsTest;
 
 /**
  * This class tests the commands in

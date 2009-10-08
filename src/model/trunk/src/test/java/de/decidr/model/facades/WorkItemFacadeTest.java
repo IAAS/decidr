@@ -24,14 +24,14 @@ import org.junit.Test;
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
-import de.decidr.model.testsuites.DatabaseTestSuite;
+import de.decidr.model.testing.DecidrDatabaseTest;
 
 /**
  * Test case for <code>{@link WorkItemFacade}</code>.
  * 
  * @author Reinhold
  */
-public class WorkItemFacadeTest {
+public class WorkItemFacadeTest extends DecidrDatabaseTest {
 
     static WorkItemFacade adminFacade;
     static WorkItemFacade userFacade;
@@ -47,16 +47,12 @@ public class WorkItemFacadeTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
-        if (!DatabaseTestSuite.running()) {
-            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
-        }
-
         adminFacade = new WorkItemFacade(new SuperAdminRole(DecidrGlobals
                 .getSettings().getSuperAdmin().getId()));
         userFacade = new WorkItemFacade(new BasicRole(0L));
         nullFacade = new WorkItemFacade(null);
     }
-
+    
     /**
      * Test method for
      * {@link WorkItemFacade#createWorkItem(Long, Long, String, String, String, byte[], Boolean)}

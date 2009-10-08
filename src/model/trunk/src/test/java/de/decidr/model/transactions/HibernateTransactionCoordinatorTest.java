@@ -10,10 +10,10 @@ import org.hibernate.HibernateException;
 import org.hibernate.cfg.Configuration;
 import org.junit.Test;
 
-import de.decidr.model.CommandsTest;
 import de.decidr.model.commands.AbstractTransactionalCommand;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.testing.CommandsTest;
 
 public class HibernateTransactionCoordinatorTest extends CommandsTest {
 

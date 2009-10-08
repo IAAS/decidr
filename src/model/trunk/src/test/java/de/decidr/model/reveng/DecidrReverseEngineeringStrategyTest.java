@@ -27,12 +27,14 @@ import org.hibernate.cfg.reveng.TableIdentifier;
 import org.hibernate.mapping.ForeignKey;
 import org.junit.Test;
 
+import de.decidr.model.testing.DecidrOthersTest;
+
 /**
  * Unit tests for <code>{@link DecidrReverseEngineeringStrategy}</code>
  * 
  * @author Reinhold
  */
-public class DecidrReverseEngineeringStrategyTest {
+public class DecidrReverseEngineeringStrategyTest extends DecidrOthersTest {
     DecidrReverseEngineeringStrategy dres = new DecidrReverseEngineeringStrategy(
             null);
 

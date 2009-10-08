@@ -46,12 +46,11 @@ import de.decidr.model.logging.DefaultLogger;
 public class StorageProviderFactory {
 
     /**
-     * The default properties file.
+     * The default properties file's location.
      */
-    private static final File DEFAULT_CONFIG_FILE = new File(
-            "decidr-storage.xml");
+    private static final String DEFAULT_CONFIG_FILE_LOCATION = "/decidr-storage.xml";
 
-    Logger log = DefaultLogger.getLogger(StorageProviderFactory.class);
+    static Logger log = DefaultLogger.getLogger(StorageProviderFactory.class);
 
     private List<Class<? extends StorageProvider>> knownProviders = new ArrayList<Class<? extends StorageProvider>>();
 
@@ -178,6 +177,12 @@ public class StorageProviderFactory {
             throws InvalidPropertiesFormatException, IOException {
         log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
                 + ".configure(InputStream)");
+        if (configFile == null) {
+            log.error("configFile stream was null!");
+            throw new IllegalArgumentException(
+                    "The specified config file input stream mustn't be null!");
+        }
+
         Properties config = new Properties();
         log.debug("loading config from InputStream");
         config.loadFromXML(configFile);
@@ -207,18 +212,25 @@ public class StorageProviderFactory {
      * 
      * @throws IOException
      *             see <code>{@link #configure(InputStream)}</code>
-     * @throws FileNotFoundException
-     *             thrown when the default config file can't be located/accessed
-     *             on the file system.
      * @throws InvalidPropertiesFormatException
      *             see <code>{@link #configure(InputStream)}</code>
+     * @throws IncompleteConfigurationException
+     *             thrown when the default config file can't be located/accessed
+     *             on the file system.
      * @return this object for method chaining.
      */
     public static StorageProviderFactory getDefaultFactory()
-            throws InvalidPropertiesFormatException, FileNotFoundException,
-            IOException {
-        return new StorageProviderFactory(new FileInputStream(
-                DEFAULT_CONFIG_FILE));
+            throws InvalidPropertiesFormatException, IOException,
+            IncompleteConfigurationException {
+        try {
+            return new StorageProviderFactory(StorageProviderFactory.class
+                    .getResourceAsStream(DEFAULT_CONFIG_FILE_LOCATION));
+        } catch (IllegalArgumentException e) {
+            log.error("couldnt find \"" + DEFAULT_CONFIG_FILE_LOCATION
+                    + "\" in classpath");
+            throw new IncompleteConfigurationException(
+                    "The default config file could not be found", e);
+        }
     }
 
     /**
@@ -230,6 +242,7 @@ public class StorageProviderFactory {
         log.debug("manually creating new list "
                 + "and filling it with all know providers");
         knownProviders = new ArrayList<Class<? extends StorageProvider>>();
+        knownProviders.add(HibernateEntityStorageProvider.class);
         knownProviders.add(LocalStorageProvider.class);
         log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
                 + ".discoverProviders()");

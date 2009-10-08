@@ -21,13 +21,15 @@ import static junit.framework.Assert.*;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
+import de.decidr.model.testing.DecidrOthersTest;
+
 /**
  * Tests whether logging is possible at all using the default logger.
  * 
  * @author Daniel Huss
  * @version 0.1
  */
-public class DefaultLoggerTest {
+public class DefaultLoggerTest extends DecidrOthersTest {
 
     @Test
     public void testGetLogger() {

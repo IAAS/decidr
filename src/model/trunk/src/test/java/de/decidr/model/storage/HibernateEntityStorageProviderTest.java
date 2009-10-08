@@ -17,8 +17,6 @@
 package de.decidr.model.storage;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -30,10 +28,10 @@ import javax.activation.MimetypesFileTypeMap;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.decidr.model.LowLevelDatabaseTest;
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
+import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
  * Test class for the HibernateEntityStorageProvider

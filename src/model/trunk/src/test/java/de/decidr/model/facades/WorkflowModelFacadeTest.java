@@ -16,8 +16,7 @@
 
 package de.decidr.model.facades;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -32,7 +31,7 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.testsuites.DatabaseTestSuite;
+import de.decidr.model.testing.DecidrDatabaseTest;
 
 /**
  * Test case for <code>{@link WorkflowModelFacade}</code>. Some of the methods
@@ -42,7 +41,7 @@ import de.decidr.model.testsuites.DatabaseTestSuite;
  * 
  * @author Reinhold
  */
-public class WorkflowModelFacadeTest {
+public class WorkflowModelFacadeTest extends DecidrDatabaseTest {
 
     static long wfmId;
 
@@ -55,10 +54,6 @@ public class WorkflowModelFacadeTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
-        if (!DatabaseTestSuite.running()) {
-            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
-        }
-
         adminFacade = new WorkflowModelFacade(new SuperAdminRole(DecidrGlobals
                 .getSettings().getSuperAdmin().getId()));
         userFacade = new WorkflowModelFacade(new BasicRole(0L));

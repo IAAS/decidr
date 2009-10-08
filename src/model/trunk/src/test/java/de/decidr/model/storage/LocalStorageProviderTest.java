@@ -30,13 +30,14 @@ import org.junit.Test;
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
+import de.decidr.model.testing.DecidrOthersTest;
 
 /**
  * Test class for the LocalStorageProvider
  * 
  * @author Markus Fischer
  */
-public class LocalStorageProviderTest {
+public class LocalStorageProviderTest extends DecidrOthersTest {
 
     static LocalStorageProvider StorageProvider;
     static File DataFile;

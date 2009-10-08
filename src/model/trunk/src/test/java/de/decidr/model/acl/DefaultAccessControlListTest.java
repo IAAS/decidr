@@ -18,43 +18,16 @@ package de.decidr.model.acl;
 
 import static org.junit.Assert.fail;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.decidr.model.testsuites.DatabaseTestSuite;
+import de.decidr.model.testing.DecidrOthersTest;
 
 /**
  * TODO: add comment
  * 
  * @author Reinhold
  */
-public class DefaultAccessControlListTest {
-
-    @BeforeClass
-    public static void setUpBeforeClass() {
-        if (!DatabaseTestSuite.running()) {
-            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
-        }
-        // TODO
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-        // TODO
-    }
-
-    @Before
-    public void setUp() throws Exception {
-        // TODO
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        // TODO
-    }
+public class DefaultAccessControlListTest extends DecidrOthersTest {
 
     /**
      * Test method for

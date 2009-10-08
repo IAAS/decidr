@@ -27,7 +27,6 @@ import java.util.Set;
 import org.hibernate.Transaction;
 import org.junit.Test;
 
-import de.decidr.model.CommandsTest;
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
@@ -55,6 +54,7 @@ import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
+import de.decidr.model.testing.CommandsTest;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 
 /**

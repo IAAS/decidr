@@ -26,7 +26,7 @@ import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.testsuites.DatabaseTestSuite;
+import de.decidr.model.testing.DecidrDatabaseTest;
 
 /**
  * Test case for <code>{@link WorkflowInstanceFacade}</code>. Some of the
@@ -38,7 +38,7 @@ import de.decidr.model.testsuites.DatabaseTestSuite;
  * @author Reinhold
  */
 // JE create & start WF instance?
-public class WorkflowInstanceFacadeTest {
+public class WorkflowInstanceFacadeTest extends DecidrDatabaseTest {
 
     static WorkflowInstanceFacade adminFacade;
     static WorkflowInstanceFacade userFacade;
@@ -54,15 +54,13 @@ public class WorkflowInstanceFacadeTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
-        if (!DatabaseTestSuite.running()) {
-            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
-        }
-        
         Role adminRole = new SuperAdminRole(
-                DecidrGlobals.getSettings().getSuperAdmin().getId());
+                DecidrGlobals.getSettings()
+                .getSuperAdmin().getId());
         Role basicRole = new BasicRole(0L);
-        
-        WorkflowModelFacade adminModelFacade = new WorkflowModelFacade(adminRole);
+
+        WorkflowModelFacade adminModelFacade = new WorkflowModelFacade(
+                adminRole);
         WorkflowModelFacade userModelFacade = new WorkflowModelFacade(basicRole);
         WorkflowModelFacade nullModelFacade = new WorkflowModelFacade(null);
 

@@ -14,39 +14,38 @@
  * under the License.
  */
 
-package de.decidr.model;
+package de.decidr.model.testing;
 
-import static org.junit.Assert.fail;
+import junit.framework.TestSuite;
 
-import org.hibernate.Session;
-import org.hibernate.cfg.Configuration;
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 
-import de.decidr.model.testsuites.DatabaseTestSuite;
-
 /**
- * Creates a session for low-level database access.
+ * This class adds the capability to add global preconditions to all tests.
  * 
  * @author Reinhold
  */
-public abstract class LowLevelDatabaseTest {
-    protected static Session session = null;
-
+public class GlobalPreconditionsSuite extends TestSuite {
     @BeforeClass
-    public static final void setUp() {
-        if (!DatabaseTestSuite.running()) {
-            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
-        }
+    public static void setUpBeforeSuite() {
+        // nothing as of yet
+    }
 
-        session = new Configuration().configure("hibernate.cfg.xml")
-                .buildSessionFactory().openSession();
+    @Before
+    public void setUpSuiteCase() {
+        // nothing as of yet
+    }
+
+    @After
+    public void tearDownSuiteCase() {
+        // nothing as of yet
     }
 
     @AfterClass
-    public static final void tearDown() {
-        if (session != null) {
-            session.close();
-        }
+    public static void tearDownAfterSuite() {
+        // nothing as of yet
     }
 }

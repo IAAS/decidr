@@ -15,7 +15,6 @@
  */
 package de.decidr.model.commands.tenant;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.InvalidPropertiesFormatException;
@@ -66,7 +65,7 @@ public class GetCurrentColorSchemeCommand extends TenantCommand {
             factory = StorageProviderFactory.getDefaultFactory();
         } catch (InvalidPropertiesFormatException e) {
             throw new TransactionException(e);
-        } catch (FileNotFoundException e) {
+        } catch (IncompleteConfigurationException e) {
             throw new TransactionException(e);
         } catch (IOException e) {
             throw new TransactionException(e);

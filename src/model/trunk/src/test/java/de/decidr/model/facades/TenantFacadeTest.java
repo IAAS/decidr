@@ -16,7 +16,7 @@
 
 package de.decidr.model.facades;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -28,9 +28,10 @@ import org.junit.Test;
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.testsuites.DatabaseTestSuite;
+import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
  * Test case for <code>{@link TenantFacade}</code>. Some of the methods can't be
@@ -40,7 +41,7 @@ import de.decidr.model.testsuites.DatabaseTestSuite;
  * 
  * @author Reinhold
  */
-public class TenantFacadeTest {
+public class TenantFacadeTest extends LowLevelDatabaseTest {
 
     private static final String TEST_NAME = "Doofus";
     private static final String TEST_DESC = "Доофус";
@@ -55,28 +56,51 @@ public class TenantFacadeTest {
      * Initialises the facade instances.
      */
     @BeforeClass
-    public static void setUpBeforeClass() {
-        if (!DatabaseTestSuite.running()) {
-            fail("Needs to run inside " + DatabaseTestSuite.class.getName());
-        }
-
+    public static void setUpBeforeClass() throws TransactionException {
         adminFacade = new TenantFacade(new SuperAdminRole(DecidrGlobals
                 .getSettings().getSuperAdmin().getId()));
         userFacade = new TenantFacade(new BasicRole(0L));
         nullFacade = new TenantFacade(null);
 
         testAdminID = DecidrGlobals.getSettings().getSuperAdmin().getId();
+
+        try {
+            adminFacade.deleteTenant(((Tenant) session.createQuery(
+                    "FROM Tenant WHERE name = '" + TEST_NAME + "'")
+                    .uniqueResult()).getId());
+        } catch (NullPointerException e) {
+            // doesn't matter
+        }
+    }
+
+    @Before
+    public void createDefaultTenant() throws TransactionException {
+        testTenantID = adminFacade.createTenant(TEST_NAME, TEST_DESC,
+                testAdminID);
+        assertNotNull(testTenantID);
+        System.out.println("findme " + testTenantID);
     }
 
     /**
-     * Test method for {@link TenantFacade#createTenant(String, String, Long)}.
+     * Test method for {@link TenantFacade#createTenant(String, String, Long)}
+     * and {@link TenantFacade#deleteTenant(Long)}.
      */
-    @Before
-    public void testCreateTenant() throws TransactionException {
-        fail("Not yet implemented"); // RR createTenant
+    @Test
+    public void testTenant() throws TransactionException {
+        try {
+            nullFacade.createTenant(TEST_NAME, TEST_DESC, testAdminID);
+            fail("Managed to create tenant using null facade");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            nullFacade.deleteTenant(testTenantID);
+            fail("Managed to delete tenant using null facade");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
 
-        testTenantID = adminFacade.createTenant(TEST_NAME, TEST_DESC,
-                testAdminID);
+        fail("Not yet implemented"); // RR createTenant
     }
 
     /**
@@ -143,14 +167,11 @@ public class TenantFacadeTest {
         fail("Not yet implemented"); // RR approveTenants
     }
 
-    /**
-     * Test method for {@link TenantFacade#deleteTenant(Long)}.
-     */
     @After
-    public void testDeleteTenant() throws TransactionException {
-        fail("Not yet implemented"); // RR deleteTenant
-
-        adminFacade.deleteTenant(testTenantID);
+    public void deleteDefaultTenant() throws TransactionException {
+        if (testTenantID != null) {
+            adminFacade.deleteTenant(testTenantID);
+        }
     }
 
     /**

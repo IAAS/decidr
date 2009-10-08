@@ -15,7 +15,6 @@
  */
 package de.decidr.model.commands.tenant;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.InvalidPropertiesFormatException;
 import java.util.List;
@@ -56,6 +55,7 @@ public class DeleteTenantCommand extends TenantCommand {
      */
     public DeleteTenantCommand(Role role, Long tenantId) {
         super(role, null);
+        // DH check for null tenant ID ~rr
 
         this.tenantId = tenantId;
     }
@@ -76,47 +76,55 @@ public class DeleteTenantCommand extends TenantCommand {
                 factory = StorageProviderFactory.getDefaultFactory();
             } catch (InvalidPropertiesFormatException e) {
                 throw new TransactionException(e);
-            } catch (FileNotFoundException e) {
+            } catch (IncompleteConfigurationException e) {
                 throw new TransactionException(e);
             } catch (IOException e) {
                 throw new TransactionException(e);
             }
 
-            // delete File logo (permanent storage)
             try {
-                factory.getStorageProvider().removeFile(
-                        tenant.getLogo().getId());
+                // DH I added some null checks to be able to continue unit test
+                // implementation. Please review these changes ~rr
+                if (tenant.getLogo() != null) {
+                    // delete File logo (permanent storage)
+                    factory.getStorageProvider().removeFile(
+                            tenant.getLogo().getId());
 
-                // delete File logo (db representation)
-                evt.getSession().delete(tenant.getLogo());
+                    // delete File logo (db representation)
+                    evt.getSession().delete(tenant.getLogo());
+                }
 
-                // delete File simpleColorScheme (permanent storage)
-                factory.getStorageProvider().removeFile(
-                        tenant.getSimpleColorScheme().getId());
+                if (tenant.getSimpleColorScheme() != null) {
+                    // delete File simpleColorScheme (permanent storage)
+                    factory.getStorageProvider().removeFile(
+                            tenant.getSimpleColorScheme().getId());
 
-                // delete File simplecolorScheme (db representation)
-                evt.getSession().delete(tenant.getSimpleColorScheme());
+                    // delete File simplecolorScheme (db representation)
+                    evt.getSession().delete(tenant.getSimpleColorScheme());
+                }
 
-                // delete File advancedColorScheme (permanent storage)
+                if (tenant.getAdvancedColorScheme() != null) {
+                    // delete File advancedColorScheme (permanent storage)
+                    factory.getStorageProvider().removeFile(
+                            tenant.getAdvancedColorScheme().getId());
 
-                factory.getStorageProvider().removeFile(
-                        tenant.getAdvancedColorScheme().getId());
+                    // delete File advancedColorScheme (db representation)
+                    evt.getSession().delete(tenant.getAdvancedColorScheme());
+                }
 
-                // delete File advancedColorScheme (db representation)
-                evt.getSession().delete(tenant.getAdvancedColorScheme());
+                if (tenant.getCurrentColorScheme() != null) {
+                    // delete File currentColorScheme (permanent storage)
+                    factory.getStorageProvider().removeFile(
+                            tenant.getCurrentColorScheme().getId());
 
-                // delete File currentColorScheme (permanent storage)
-
-                factory.getStorageProvider().removeFile(
-                        tenant.getCurrentColorScheme().getId());
+                    // delete File currentColorScheme (db representation)
+                    evt.getSession().delete(tenant.getCurrentColorScheme());
+                }
             } catch (StorageException e) {
                 throw new TransactionException(e);
             } catch (IncompleteConfigurationException e) {
                 throw new TransactionException(e);
             }
-
-            // delete File currentColorScheme (db representation)
-            evt.getSession().delete(tenant.getCurrentColorScheme());
 
             for (DeployedWorkflowModel model : tenant
                     .getDeployedWorkflowModels()) {

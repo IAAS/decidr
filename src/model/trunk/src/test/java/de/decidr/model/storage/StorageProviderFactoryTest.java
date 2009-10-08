@@ -28,12 +28,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.testing.DecidrOthersTest;
+
 /**
  * MF: add comment
  * 
  * @author Markus Fischer
  */
-public class StorageProviderFactoryTest {
+public class StorageProviderFactoryTest extends DecidrOthersTest {
 
     @BeforeClass
     public static void disable() {
@@ -51,12 +53,12 @@ public class StorageProviderFactoryTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUpCase() throws Exception {
         // MF implement
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDownCase() throws Exception {
         // MF implement
     }
 

@@ -33,7 +33,6 @@ import org.junit.Test;
 import com.vaadin.data.Item;
 
 import de.decidr.model.DecidrGlobals;
-import de.decidr.model.LowLevelDatabaseTest;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.UserRole;
@@ -49,6 +48,7 @@ import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
+import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
  * Test case for <code>{@link UserFacade}</code>. Some of the methods can't be
@@ -299,6 +299,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         testUserID = adminFacade.registerUser(TEST_EMAIL, TEST_PASSWORD,
                 classProfile);
+        assertNotNull(testUserID);
     }
 
     @After
