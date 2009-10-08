@@ -56,7 +56,7 @@ public class IsUserRegisteredCommand extends UserCommand {
 
         Date registeredSince = (Date) evt.getSession().createQuery(
                 "select u.registeredSince from User u where u.id = :userId")
-                .setLong("userId", getUserId());
+                .setLong("userId", getUserId()).uniqueResult();
 
         result = registeredSince != null;
     }

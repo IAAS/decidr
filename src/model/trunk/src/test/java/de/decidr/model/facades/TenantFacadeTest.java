@@ -20,12 +20,15 @@ import static org.junit.Assert.fail;
 
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.testsuites.DatabaseTestSuite;
 
@@ -39,14 +42,14 @@ import de.decidr.model.testsuites.DatabaseTestSuite;
  */
 public class TenantFacadeTest {
 
+    private static final String TEST_NAME = "Doofus";
+    private static final String TEST_DESC = "Доофус";
     static TenantFacade adminFacade;
     static TenantFacade userFacade;
     static TenantFacade nullFacade;
 
-    @BeforeClass
-    public static void disable() {
-        fail("This test class has not yet been implemented");
-    }
+    Long testTenantID;
+    private static Long testAdminID;
 
     /**
      * Initialises the facade instances.
@@ -61,14 +64,19 @@ public class TenantFacadeTest {
                 .getSettings().getSuperAdmin().getId()));
         userFacade = new TenantFacade(new BasicRole(0L));
         nullFacade = new TenantFacade(null);
+
+        testAdminID = DecidrGlobals.getSettings().getSuperAdmin().getId();
     }
 
     /**
      * Test method for {@link TenantFacade#createTenant(String, String, Long)}.
      */
-    @Test
-    public void testCreateTenant() {
+    @Before
+    public void testCreateTenant() throws TransactionException {
         fail("Not yet implemented"); // RR createTenant
+
+        testTenantID = adminFacade.createTenant(TEST_NAME, TEST_DESC,
+                testAdminID);
     }
 
     /**
@@ -80,8 +88,7 @@ public class TenantFacadeTest {
     }
 
     /**
-     * Test method for
-     * {@link TenantFacade#setLogo(Long, Long)} and
+     * Test method for {@link TenantFacade#setLogo(Long, Long)} and
      * {@link TenantFacade#getLogo(Long)}.
      */
     @Test
@@ -91,32 +98,15 @@ public class TenantFacadeTest {
     }
 
     /**
-     * Test method for
-     * {@link TenantFacade#setSimpleColorScheme(Long, Long)}
-     * .
+     * Test method for {@link TenantFacade#setSimpleColorScheme(Long, Long)},
+     * {@link TenantFacade#setAdvancedColorScheme(Long, Long)},
+     * {@link TenantFacade#setCurrentColorScheme(Long, Boolean)} and
+     * {@link TenantFacade#getCurrentColorScheme(Long)}.
      */
     @Test
-    public void testSetSimpleColorScheme() {
+    public void testColorScheme() {
         fail("Not yet implemented"); // RR setSimpleColorScheme
-    }
-
-    /**
-     * Test method for
-     * {@link TenantFacade#setAdvancedColorScheme(Long, Long)}
-     * .
-     */
-    @Test
-    public void testSetAdvancedColorScheme() {
         fail("Not yet implemented"); // RR setAdvancedColorScheme
-    }
-
-    /**
-     * Test method for
-     * {@link TenantFacade#setCurrentColorScheme(Long, Boolean)}
-     * and {@link TenantFacade#getCurrentColorScheme(Long)}.
-     */
-    @Test
-    public void testCurrentColorScheme() {
         fail("Not yet implemented"); // RR setCurrentColorScheme
         fail("Not yet implemented"); // RR getCurrentColorScheme
     }
@@ -130,35 +120,37 @@ public class TenantFacadeTest {
     }
 
     /**
-     * Test method for {@link TenantFacade#createWorkflowModel(Long, String)}.
+     * Test method for {@link TenantFacade#createWorkflowModel(Long, String)},
+     * {@link TenantFacade#getWorkflowModels(Long, List, Paginator)},
+     * {@link TenantFacade#importPublishedWorkflowModels(Long, List)} and
+     * {@link TenantFacade#removeWorkflowModel(Long)}.
      */
     @Test
-    public void testCreateWorkflowModel() {
+    public void testWorkflowModel() {
         fail("Not yet implemented"); // RR createWorkflowModel
-    }
-
-    /**
-     * Test method for {@link TenantFacade#removeWorkflowModel(Long)}.
-     */
-    @Test
-    public void testRemoveWorkflowModel() {
+        fail("Not yet implemented"); // RR getWorkflowModels
+        fail("Not yet implemented"); // RR importPublishedWorkflowModels
         fail("Not yet implemented"); // RR removeWorkflowModel
     }
 
     /**
-     * Test method for {@link TenantFacade#approveTenants(List)}.
+     * Test method for {@link TenantFacade#getTenantsToApprove(List, Paginator)}
+     * and {@link TenantFacade#approveTenants(List)}.
      */
     @Test
     public void testApproveTenants() {
+        fail("Not yet implemented"); // RR getTenantsToApprove
         fail("Not yet implemented"); // RR approveTenants
     }
 
     /**
      * Test method for {@link TenantFacade#deleteTenant(Long)}.
      */
-    @Test
-    public void testDeleteTenant() {
+    @After
+    public void testDeleteTenant() throws TransactionException {
         fail("Not yet implemented"); // RR deleteTenant
+
+        adminFacade.deleteTenant(testTenantID);
     }
 
     /**
@@ -187,37 +179,10 @@ public class TenantFacadeTest {
     }
 
     /**
-     * Test method for {@link TenantFacade#getTenantsToApprove(List, Paginator)}
-     * .
-     */
-    @Test
-    public void testGetTenantsToApprove() {
-        fail("Not yet implemented"); // RR getTenantsToApprove
-    }
-
-    /**
      * Test method for {@link TenantFacade#getAllTenants(List, Paginator)}.
      */
     @Test
     public void testGetAllTenants() {
         fail("Not yet implemented"); // RR getAllTenants
-    }
-
-    /**
-     * Test method for
-     * {@link TenantFacade#getWorkflowModels(Long, List, Paginator)}.
-     */
-    @Test
-    public void testGetWorkflowModels() {
-        fail("Not yet implemented"); // RR getWorkflowModels
-    }
-
-    /**
-     * Test method for
-     * {@link TenantFacade#importPublishedWorkflowModels(Long, List)}.
-     */
-    @Test
-    public void testImportPublishedWorkflowModels() {
-        fail("Not yet implemented"); // RR importPublishedWorkflowModels
     }
 }

@@ -46,9 +46,11 @@ public class TenantView {
     private String tenantName = (String) session.getAttribute("tenant");
     private Long tenantId = null;
 
-    private String winWebInf = "..\\..\\..\\..\\..\\webapp\\VAADIN\\themes\\";
-
-    private String unixWebInf = "../../../../../webapp/VAADIN/themes/";
+    // Aleks: try File.separator like so: ~rr
+    private String webInf = ".." + File.separator + ".." + File.separator
+            + ".." + File.separator + ".." + File.separator + ".."
+            + File.separator + "webapp" + File.separator + "VAADIN"
+            + File.separator + "themes" + File.separator + "";
 
     private InputStream css = null;
     private InputStream logo = null;
@@ -72,13 +74,9 @@ public class TenantView {
                     new TransactionErrorDialogComponent());
         }
 
-        if (System.getProperty("os.name").toLowerCase().contains("win")) {
-            cssFile = new File(winWebInf + tenantName + "\\styles.css");
-            logoFile = new File(winWebInf + tenantName + "\\img\\logo.png");
-        } else {
-            cssFile = new File(unixWebInf + tenantName + "/styles.css");
-            logoFile = new File(unixWebInf + tenantName + "/img/logo.png");
-        }
+        cssFile = new File(webInf + tenantName + File.separator + "styles.css");
+        logoFile = new File(webInf + tenantName + File.separator + "img"
+                + File.separator + "logo.png");
 
         if (cssFile.exists() || logoFile.exists()) {
             cssFile.delete();

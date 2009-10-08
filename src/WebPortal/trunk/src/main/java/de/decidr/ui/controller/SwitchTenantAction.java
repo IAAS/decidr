@@ -31,52 +31,56 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * If a user switches the tenant this action is called. The session attributes
- * role and tenant name will be overridden with the new tenant name and the
- * new role. The new tenant theme is set.
- *
+ * role and tenant name will be overridden with the new tenant name and the new
+ * role. The new tenant theme is set.
+ * 
  * @author AT
  */
 public class SwitchTenantAction implements ClickListener {
-    
+
     private String tenant = null;
-    
+
     private HttpSession session = null;
     private Class<? extends Role> role = null;
-    
+
     private Long userId = null;
     private TenantFacade tenantFacade = null;
     private UserFacade userFacade = null;
-    
+
     private Long tenantId = null;
-    
+
     /**
-     * Constructor which is given a tenant name to determine to which tenant
-     * the user wants to switch
-     *
+     * Constructor which is given a tenant name to determine to which tenant the
+     * user wants to switch
+     * 
      */
     public SwitchTenantAction(String tenantName) {
         tenant = tenantName;
     }
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        try{
+        try {
             session = Main.getCurrent().getSession();
-            userId = (Long)session.getAttribute("userId");
+            userId = (Long) session.getAttribute("userId");
             tenantFacade = new TenantFacade(new UserRole(userId));
             userFacade = new UserFacade(new UserRole(userId));
             tenantId = tenantFacade.getTenantId(tenant);
             role = userFacade.getUserRoleForTenant(userId, tenantId);
             Main.getCurrent().setTheme(tenant);
+            // Aleks: shouldn't you call UserFacade.setCurrentTenant() somewhere
+            // here? ~rr
             session.setAttribute("tenant", tenant);
             session.setAttribute("role", role);
-        }catch(TransactionException exception){
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+        } catch (TransactionException exception) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
-
     }
-
 }

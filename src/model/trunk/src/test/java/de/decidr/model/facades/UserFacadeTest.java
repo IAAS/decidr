@@ -39,10 +39,12 @@ import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.RegistrationRequest;
+import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserAdministratesWorkflowInstance;
 import de.decidr.model.entities.UserAdministratesWorkflowModel;
 import de.decidr.model.entities.UserProfile;
+import de.decidr.model.entities.WorkItem;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
@@ -388,7 +390,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      * Test method for {@link UserFacade#getAdministratedWorkflowModels(Long)}.
      */
     @Test
-    public void testGetAdministratedWorkflowModels() throws TransactionException {
+    public void testGetAdministratedWorkflowModels()
+            throws TransactionException {
         Long invalidID = getInvalidUserID();
 
         try {
@@ -417,8 +420,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         assertTrue(WFIs.isEmpty());
 
         User u = ((UserAdministratesWorkflowModel) session.createQuery(
-                "from UserAdministratesWorkflowModel").uniqueResult())
-                .getUser();
+                "from UserAdministratesWorkflowModel").list().get(0)).getUser();
         WFIs = adminFacade.getAdministratedWorkflowModels(u.getId());
         assertNotNull(WFIs);
         assertFalse(WFIs.isEmpty());
@@ -459,7 +461,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         assertTrue(WFIs.isEmpty());
 
         User u = ((UserAdministratesWorkflowInstance) session.createQuery(
-                "from UserAdministratesWorkflowInstance").uniqueResult())
+                "from UserAdministratesWorkflowInstance").list().get(0))
                 .getUser();
         WFIs = adminFacade.getAdministratedWorkflowInstances(u.getId());
         assertNotNull(WFIs);
@@ -592,8 +594,36 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      * Test method for {@link UserFacade#getWorkItems(Long, List, Paginator)}.
      */
     @Test
-    public void testGetWorkItems() {
-        fail("Not yet implemented"); // RR getWorkItems
+    public void testGetWorkItems() throws TransactionException {
+        List<Item> workItems;
+        Long workingUserID;
+
+        try {
+            nullFacade.getWorkItems(testUserID, null, null);
+            fail("managed to get user's work items with null facade");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        workingUserID = ((WorkItem) session.createQuery("from WorkItem").list()
+                .get(0)).getUser().getId();
+
+        for (UserFacade facade : new UserFacade[] {
+                new UserFacade(new UserRole(testUserID)), adminFacade }) {
+            assertTrue(facade.getWorkItems(testUserID, null, null).isEmpty());
+            workItems = facade.getWorkItems(workingUserID, null, null);
+            for (Item item : workItems) {
+                assertNotNull(item.getItemProperty("id").getValue());
+                assertEquals(workingUserID, item.getItemProperty("userId")
+                        .getValue());
+                assertNotNull(item.getItemProperty("creationDate").getValue());
+                assertNotNull(item.getItemProperty("tenantName").getValue());
+                assertNotNull(item.getItemProperty("workItemStatus").getValue());
+                assertNotNull(item.getItemProperty("workflowInstanceId")
+                        .getValue());
+                assertNotNull(item.getItemProperty("workItemName").getValue());
+            }
+        }
     }
 
     /**
@@ -810,7 +840,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
 
-        for (UserFacade facade : new UserFacade[] { userFacade, adminFacade, nullFacade }) {
+        for (UserFacade facade : new UserFacade[] { userFacade, adminFacade,
+                nullFacade }) {
             setEmailAddressExceptionHelper("setting same email succeeded",
                     facade, secondUserID, TEST_EMAIL);
             setEmailAddressExceptionHelper("setting null email succeeded",
@@ -835,6 +866,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testSetPassword() throws TransactionException {
+        UserFacade userFacade = new UserFacade(new UserRole(testUserID));
+
         assertTrue(adminFacade.setPassword(testUserID, TEST_PASSWORD,
                 "Fuuni PWD"));
         assertTrue(checkPWD("Fuuni PWD"));
@@ -938,18 +971,241 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for {@link UserFacade#removeFromTenant(Long, Long)},
-     * {@link UserFacade#getUserRoleForTenant(Long, Long)},
+     * Test method for {@link UserFacade#setCurrentTenantId(Long, Long)} and
+     * {@link UserFacade#getCurrentTenantId(Long)},
      * {@link UserFacade#getJoinedTenants(Long)},
-     * {@link UserFacade#setCurrentTenantId(Long, Long)} and
-     * {@link UserFacade#getCurrentTenantId(Long).
+     * {@link UserFacade#getUserRoleForTenant(Long, Long)} and
+     * {@link UserFacade#removeFromTenant(Long, Long)}.
      */
+    @SuppressWarnings("unchecked")
     @Test
-    public void testTenant() {
-        fail("Not yet implemented"); // RR removeFromTenant
-        fail("Not yet implemented"); // RR getUserRoleForTenant
-        fail("Not yet implemented"); // RR getJoinedTenants
-        fail("Not yet implemented"); // RR setCurrentTenantId
-        fail("Not yet implemented"); // RR getCurrentTenantId
+    public void testTenant() throws TransactionException {
+        UserFacade userFacade = new UserFacade(new UserRole(testUserID));
+        Long invalidUserID = getInvalidUserID();
+        Long tenantUserID = null;
+        Long tenantID = null;
+        List<Item> joinedTenants;
+
+        // find first tenant with a user and get that user's ID
+        for (Tenant t : (List<Tenant>) session.createQuery("FROM Tenant")
+                .list()) {
+            if (t.getUsers().iterator().hasNext()) {
+                tenantID = t.getId();
+                tenantUserID = t.getUsers().iterator().next().getId();
+                break;
+            }
+        }
+
+        try {
+            nullFacade.setCurrentTenantId(testUserID, null);
+            fail("could set current tenant with null facade");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            nullFacade.getCurrentTenantId(testUserID);
+            fail("could get current tenant with null facade");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            userFacade.setCurrentTenantId(null, null);
+            fail("could set current tenant with null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            userFacade.getCurrentTenantId(null);
+            fail("could get current tenant with null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.setCurrentTenantId(null, tenantID);
+            fail("could set current tenant with null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.getCurrentTenantId(null);
+            fail("could get current tenant with null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.setCurrentTenantId(testUserID, null);
+            fail("managed to set default current tenant ID for a newly registered user");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.setCurrentTenantId(invalidUserID, tenantID);
+            fail("could set current tenant with invalid user ID");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.getCurrentTenantId(invalidUserID);
+            fail("could get current tenant with null invalid user ID");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.setCurrentTenantId(invalidUserID, null);
+            fail("managed to set default current tenant ID with invalid user ID");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        assertNull(userFacade.getCurrentTenantId(testUserID));
+        assertNull(adminFacade.getCurrentTenantId(testUserID));
+
+        userFacade.setCurrentTenantId(tenantUserID, tenantID);
+        assertEquals(tenantID, userFacade.getCurrentTenantId(tenantUserID));
+        adminFacade.setCurrentTenantId(tenantUserID, tenantID);
+        assertEquals(tenantID, adminFacade.getCurrentTenantId(tenantUserID));
+
+        userFacade.setCurrentTenantId(tenantUserID, null);
+        assertNotNull(userFacade.getCurrentTenantId(tenantUserID));
+        adminFacade.setCurrentTenantId(tenantUserID, null);
+        assertNotNull(userFacade.getCurrentTenantId(tenantUserID));
+
+        try {
+            adminFacade.setCurrentTenantId(testUserID, tenantID);
+            fail("managed to set current tenant ID for a newly registered user");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        joinedTenants = userFacade.getJoinedTenants(tenantUserID);
+        assertFalse(joinedTenants.isEmpty());
+        boolean skipflag = false;
+        for (Item item : joinedTenants) {
+            assertNotNull(item.getItemProperty("id").getValue());
+            assertNotNull(item.getItemProperty("name").getValue());
+            assertNotNull(userFacade.getUserRoleForTenant(tenantUserID,
+                    (Long) item.getItemProperty("id").getValue()));
+
+            // skip every other item - the first one is not skipped
+            if ((skipflag = !skipflag) == true) {
+                assertTrue(userFacade.removeFromTenant(tenantUserID,
+                        (Long) item.getItemProperty("id").getValue()));
+            }
+        }
+
+        joinedTenants = adminFacade.getJoinedTenants(tenantUserID);
+        assertFalse(joinedTenants.isEmpty());
+        for (Item item : joinedTenants) {
+            assertNotNull(item.getItemProperty("id").getValue());
+            assertNotNull(item.getItemProperty("name").getValue());
+            assertNotNull(adminFacade.getUserRoleForTenant(tenantUserID,
+                    (Long) item.getItemProperty("id").getValue()));
+            assertTrue(adminFacade.removeFromTenant(tenantUserID, (Long) item
+                    .getItemProperty("id").getValue()));
+        }
+
+        assertTrue(userFacade.getJoinedTenants(testUserID).isEmpty());
+        assertTrue(adminFacade.getJoinedTenants(testUserID).isEmpty());
+        assertNull(userFacade.getUserRoleForTenant(testUserID, tenantID));
+        assertNull(adminFacade.getUserRoleForTenant(testUserID, tenantID));
+        assertFalse(userFacade.removeFromTenant(testUserID, tenantID));
+        assertFalse(adminFacade.removeFromTenant(testUserID, tenantID));
+
+        try {
+            nullFacade.getJoinedTenants(testUserID);
+            fail("Managed to get joined tenants with null facade");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            nullFacade.getUserRoleForTenant(tenantUserID, tenantID);
+            fail("Managed to get user role for tenant with null facade");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            nullFacade.removeFromTenant(tenantUserID, tenantID);
+            fail("Managed to remove user from tenant with null facade");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            userFacade.getJoinedTenants(null);
+            fail("Managed to get joined tenants with null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            userFacade.getUserRoleForTenant(null, tenantID);
+            fail("Managed to get user role for tenant with null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            userFacade.getUserRoleForTenant(tenantUserID, null);
+            fail("Managed to get user role for tenant with null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            userFacade.removeFromTenant(null, tenantID);
+            fail("Managed to remove user from tenant with null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            userFacade.removeFromTenant(tenantUserID, null);
+            fail("Managed to remove user from tenant with null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.getJoinedTenants(null);
+            fail("Managed to get joined tenants with null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.getUserRoleForTenant(null, tenantID);
+            fail("Managed to get user role for tenant with null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.getUserRoleForTenant(tenantUserID, null);
+            fail("Managed to get user role for tenant with null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.removeFromTenant(null, tenantID);
+            fail("Managed to remove user from tenant with null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.removeFromTenant(tenantUserID, null);
+            fail("Managed to remove user from tenant with null parameter");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.getJoinedTenants(invalidUserID);
+            fail("Managed to get joined tenants with invalid user ID");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.getUserRoleForTenant(invalidUserID, tenantID);
+            fail("Managed to get user role for tenant with invalid user ID");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.removeFromTenant(invalidUserID, tenantID);
+            fail("Managed to remove user from tenant with invalid user ID");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
     }
 }

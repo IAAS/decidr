@@ -144,7 +144,7 @@ public class UserFacade extends AbstractFacade {
     // DH you misunderstood how the comment could be misunderstood. (:-P) I
     // adapted it for you ~rr
     // DH either wrap the thrown IllegalArgumentException or add it to the
-    // javadoc ~rr
+    // javadoc; goes for every method in this class AFAICT ~rr
     @AllowedRole(BasicRole.class)
     public Long getUserIdByLogin(String emailOrUsername,
             String passwordPlaintext) throws TransactionException,
@@ -267,7 +267,8 @@ public class UserFacade extends AbstractFacade {
      * @param newPassword
      *            the new password (plaintext).
      * @return true if the password was changed to newPassword, false if
-     *         oldPassword doesn't match.
+     *         oldPassword doesn't match. XXX but this throws an
+     *         IllegalArumentException if the old password is null
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -401,8 +402,8 @@ public class UserFacade extends AbstractFacade {
      * @param userId
      *            the ID of the user which should be removed from tenant
      * @param tenantId
-     *            the ID of the tenent where the user should be removed
-     * @return true iff the user was sucessfully removed from the tenant.
+     *            the ID of the tenant where the user should be removed
+     * @return true iff the user was successfully removed from the tenant.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -733,7 +734,7 @@ public class UserFacade extends AbstractFacade {
      *            given tenant
      * @param tenantId
      *            the ID of the tenant where the role should be appointed
-     * @return UserRole highest user role of the user for the given tenant
+     * @return highest user role of the user for the given tenant
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -1009,6 +1010,8 @@ public class UserFacade extends AbstractFacade {
         // since the tenant property is an entity we create one with the given
         // ID
         Tenant currentTenant;
+        // DH judging from the comment, I'd guess that this should be the other
+        // way round... ~rr
         if (currentTenantId == null) {
             currentTenant = new Tenant();
             currentTenant.setId(currentTenantId);

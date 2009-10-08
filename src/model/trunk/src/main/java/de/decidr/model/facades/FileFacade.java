@@ -91,7 +91,8 @@ public class FileFacade extends AbstractFacade {
      *            new file name as reported by the user agent (browser)
      * @param newMimeType
      *            new mime type as reported by the user agent (browser)
-     * @return whether the file has been replaced
+     * @return whether the file has been replaced XXX: why? this is always true
+     *         unless an exception is thrown
      * @throws TransactionException
      *             iff the transaction is aborted for any reason
      * @throws AccessDeniedException
@@ -101,12 +102,14 @@ public class FileFacade extends AbstractFacade {
      *             iff the given file ID is unknown to the system.
      */
     @AllowedRole(BasicRole.class)
-    // DH why a FileInputStream here and a simple InputStream further up?
+    // DH why a FileInputStream here and a simple InputStream further up? BTW,
+    // the interface of the StorageProvider changed ~rr
     public Boolean replaceFile(Long fileId, FileInputStream newContents,
             String newFileName, String newMimeType) throws TransactionException {
         ReplaceFileCommand cmd = new ReplaceFileCommand(actor, fileId,
                 newContents, newFileName, newMimeType);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        // DH you can just replace this with "return true;"
         return cmd.isReplaced();
     }
 
