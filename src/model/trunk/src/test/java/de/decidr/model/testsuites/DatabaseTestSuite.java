@@ -49,12 +49,12 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
  */
 @RunWith(Suite.class)
 // The order of these tests should not be changed without good reason
-@SuiteClasses( { HibernateTransactionCoordinatorTest.class,
+@SuiteClasses( { HibernateEntityStorageProviderTest.class, HibernateTransactionCoordinatorTest.class,
         DecidrGlobalsTest.class, LifetimeValidatorTest.class,
         SystemFacadeTest.class, FileFacadeTest.class, TenantFacadeTest.class,
         UserFacadeTest.class, WorkflowModelFacadeTest.class,
         WorkflowInstanceFacadeTest.class, WorkItemFacadeTest.class,
-        SystemCommandsTest.class, HibernateEntityStorageProviderTest.class })
+        SystemCommandsTest.class})
 public class DatabaseTestSuite extends GlobalPreconditionsSuite {
 
     static Session session;

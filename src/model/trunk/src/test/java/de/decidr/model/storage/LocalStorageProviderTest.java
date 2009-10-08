@@ -28,174 +28,204 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.entities.File;
+import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
 
 /**
- * MF: add comment
+ * Test class for the LocalStorageProvider
  * 
  * @author Markus Fischer
  */
 public class LocalStorageProviderTest {
-  
+
     static LocalStorageProvider StorageProvider;
     static File DataFile;
     static java.io.File BasicFile;
-    
+
     /*
      * converts file into byte[]
-     * 
      */
     private static byte[] readFile(java.io.File file) throws Exception {
-        
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        
-        FileInputStream fileInputStream = new FileInputStream(file.getAbsolutePath());
- 
+
+        FileInputStream fileInputStream = new FileInputStream(file
+                .getAbsolutePath());
+
         byte[] buffer = new byte[16384];
- 
+
         for (int len = fileInputStream.read(buffer); len > 0; len = fileInputStream
                 .read(buffer)) {
             byteArrayOutputStream.write(buffer, 0, len);
         }
- 
+
         fileInputStream.close();
- 
+
         return byteArrayOutputStream.toByteArray();
-    }
-    
-    
-    /*
-     * converts InputStream into byte[]
-     * 
-     */
-    private static byte[] readInputStream(FileInputStream stream) throws Exception {
-        
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        
-        FileInputStream fileInputStream = stream;
- 
-        byte[] buffer = new byte[16384];
- 
-        for (int len = fileInputStream.read(buffer); len > 0; len = fileInputStream
-                .read(buffer)) {
-            byteArrayOutputStream.write(buffer, 0, len);
-        }
- 
-        fileInputStream.close();
- 
-        return byteArrayOutputStream.toByteArray();
-    }
-    
-  
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-       
-       BasicFile = new java.io.File("./src/test/java/decidr.jpg");
-       
-       DataFile = new de.decidr.model.entities.File();
-       
-       DataFile.setFileName("decidr.jpg");
-       DataFile.setMimeType(new MimetypesFileTypeMap().getContentType(BasicFile));
-       DataFile.setFileSizeBytes(BasicFile.length());
-       DataFile.setData(readFile(BasicFile));
-       DataFile.setId(123456l);
-       
-       StorageProvider = new LocalStorageProvider();
-       
     }
 
+    /*
+     * converts InputStream into byte[]
+     */
+    private static byte[] readInputStream(FileInputStream stream)
+            throws Exception {
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        FileInputStream fileInputStream = stream;
+
+        byte[] buffer = new byte[16384];
+
+        for (int len = fileInputStream.read(buffer); len > 0; len = fileInputStream
+                .read(buffer)) {
+            byteArrayOutputStream.write(buffer, 0, len);
+        }
+
+        fileInputStream.close();
+
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+
+        BasicFile = new java.io.File("./src/test/java/decidr.jpg");
+
+        DataFile = new de.decidr.model.entities.File();
+
+        DataFile.setFileName("decidr.jpg");
+        DataFile.setMimeType(new MimetypesFileTypeMap()
+                .getContentType(BasicFile));
+        DataFile.setFileSizeBytes(BasicFile.length());
+        DataFile.setData(readFile(BasicFile));
+        DataFile.setId(123456l);
+
+        StorageProvider = new LocalStorageProvider();
+
+    }
 
     /**
      * Test method for
-     * {@link LocalStorageProvider#putFile(FileInputStream, Long)}. 
-     * @throws Exception 
+     * {@link LocalStorageProvider#putFile(FileInputStream, Long)},
+     * {@link LocalStorageProvider#getFile(Long)}.
+     * 
+     * @throws Exception
      */
     @Test
     public void testPutFileGetFile() throws Exception {
-        
-        StorageProvider.putFile(new FileInputStream(BasicFile.getAbsolutePath()), 123456l,BasicFile.length());
-        
-        FileInputStream stream = new FileInputStream("./src/test/java/decidr.jpg");
-        
-        byte[] In = readInputStream(stream);
-        byte[] Out = readInputStream((FileInputStream)StorageProvider.getFile(123456l));
-        
-        assertTrue(java.util.Arrays.equals(In, Out));
-        
-        
-        try{
-            StorageProvider.putFile((FileInputStream)null,123l,BasicFile.length());
-            fail("IllegalArgumentException expected");
-        }
-        catch(IllegalArgumentException e){
-            //nothing to do
-        }
-        
-        
-        try{
-            StorageProvider.putFile(stream,(Long)null,BasicFile.length());
-            fail("IllegalArgumentException expected");
-        }
-        catch(IllegalArgumentException e){
-            //nothing to do
-        }
-        
-        try{
-            StorageProvider.putFile(stream,123l,(Long)null);
-            fail("IllegalArgumentException expected");
-        }
-        catch(IllegalArgumentException e){
-            //nothing to do
-        }
-        
-    } 
 
+        StorageProvider.putFile(
+                new FileInputStream(BasicFile.getAbsolutePath()), 123456l,
+                BasicFile.length());
+
+        FileInputStream stream = new FileInputStream(
+                "./src/test/java/decidr.jpg");
+
+        byte[] In = readInputStream(stream);
+        byte[] Out = readInputStream((FileInputStream) StorageProvider
+                .getFile(123456l));
+
+        assertTrue(java.util.Arrays.equals(In, Out));
+
+        try {
+            StorageProvider.putFile((FileInputStream) null, 123l, BasicFile
+                    .length());
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // nothing to do
+        }
+
+        try {
+            StorageProvider.putFile(stream, (Long) null, BasicFile.length());
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // nothing to do
+        }
+
+        try {
+            StorageProvider.putFile(stream, 123l, (Long) null);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // nothing to do
+        }
+
+    }
 
     /**
      * Test method for {@link LocalStorageProvider#removeFile(Long)}.
-     * @throws StorageException 
+     * 
+     * @throws StorageException
      */
     @Test
     public void testRemoveFile() throws StorageException {
-        
+
         StorageProvider.removeFile(123456l);
-        
-        try{
+
+        try {
             StorageProvider.getFile(123456l);
             fail("StorageException expected");
+        } catch (StorageException e) {
+            // nothing to do
         }
-        catch (StorageException e){
-            //nothing to do
-        }
-        
-              
-        try{
-            StorageProvider.removeFile(999999l);        // this file does'nt exist
-        }
-        catch(Exception e){
+
+        try {
+            StorageProvider.removeFile(999999l); // this file doesn't exist
+        } catch (Exception e) {
             fail("No Exception should be thrown when an non existing file should be deleted");
         }
-        
-        
-        try{
-            StorageProvider.removeFile((Long)null);
-            fail("IllegalArgumentException expected");
-        }
-        catch(IllegalArgumentException e){
-            //nothing to do
-        } 
 
-        
+        try {
+            StorageProvider.removeFile((Long) null);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // nothing to do
+        }
+
     }
-    
-    
-    
+
     /**
-     * Test method for {@link LocalStorageProvider#LocalStorageProvider()}.
+     * Test method for {@link LocalStorageProvider#isApplicable(Properties)}.
      */
     @Test
-    public void testLocalStorageProvider() {
-        fail("Not yet implemented"); // MF LocalStorageProvider
+    public void testIsApplicable() {
+
+        Properties props = new Properties();
+
+        props.setProperty("AMAZON_S3_CONFIG_KEY", "false");
+        props.setProperty("PROTOCOL_CONFIG_KEY", "file");
+        props.setProperty("LOCAL_CONFIG_KEY", "true");
+        props.setProperty("PERSISTENT_CONFIG_KEY", "true");
+
+        assertTrue(StorageProvider.isApplicable(props));
+
+        props = new Properties();
+
+        props.setProperty("AMAZON_S3_CONFIG_KEY", "true");
+        props.setProperty("PROTOCOL_CONFIG_KEY", "http");
+        props.setProperty("LOCAL_CONFIG_KEY", "true");
+        props.setProperty("PERSISTENT_CONFIG_KEY", "true");
+
+        assertTrue(StorageProvider.isApplicable(props));
+
+        props = new Properties();
+
+        props.setProperty("AMAZON_S3_CONFIG_KEY", "false");
+        props.setProperty("PROTOCOL_CONFIG_KEY", "file");
+        props.setProperty("LOCAL_CONFIG_KEY", "false");
+        props.setProperty("PERSISTENT_CONFIG_KEY", "false");
+
+        assertTrue(StorageProvider.isApplicable(props));
+
+        props = new Properties();
+        props = (Properties) null;
+
+        try {
+            StorageProvider.isApplicable(props);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // nothing to do
+        }
+
     }
 
     /**
@@ -203,18 +233,58 @@ public class LocalStorageProviderTest {
      */
     @Test
     public void testApplyConfig() {
-        fail("Not yet implemented"); // MF applyConfig
+
+        Properties props = new Properties();
+
+        props.setProperty("AMAZON_S3_CONFIG_KEY", "false");
+        props.setProperty("PROTOCOL_CONFIG_KEY", "file");
+        props.setProperty("LOCAL_CONFIG_KEY", "true");
+        props.setProperty("PERSISTENT_CONFIG_KEY", "true");
+
+        try {
+            StorageProvider.applyConfig(props);
+        } catch (IncompleteConfigurationException e1) {
+            fail("This configuration should work");
+        }
+
+        props = new Properties();
+
+        props.setProperty("AMAZON_S3_CONFIG_KEY", "true");
+        props.setProperty("PROTOCOL_CONFIG_KEY", "http");
+        props.setProperty("LOCAL_CONFIG_KEY", "true");
+        props.setProperty("PERSISTENT_CONFIG_KEY", "true");
+
+        try {
+            StorageProvider.applyConfig(props);
+        } catch (IncompleteConfigurationException e1) {
+            fail("This configuration should work");
+        }
+
+        props = new Properties();
+
+        props.setProperty("AMAZON_S3_CONFIG_KEY", "false");
+        props.setProperty("PROTOCOL_CONFIG_KEY", "file");
+        props.setProperty("LOCAL_CONFIG_KEY", "false");
+        props.setProperty("PERSISTENT_CONFIG_KEY", "false");
+
+        try {
+            StorageProvider.applyConfig(props);
+        } catch (IncompleteConfigurationException e1) {
+            fail("This configuration should work");
+        }
+
+        props = new Properties();
+        props = (Properties) null;
+
+        try {
+            StorageProvider.applyConfig(props);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // nothing to do
+        } catch (IncompleteConfigurationException e) {
+            fail("IllegalArgumentException expected");
+        }
+
     }
 
- 
-    /**
-     * Test method for {@link LocalStorageProvider#isApplicable(Properties)}.
-     */
-    @Test
-    public void testIsApplicable() {
-        fail("Not yet implemented"); // MF isApplicable
-    }
-
-    
-    
 }
