@@ -193,7 +193,12 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         List<TaskItem> newTaskItems = ((TaskItemWindow) DialogRegistry
                 .getInstance().getDialog(TaskItemWindow.class.getName()))
                 .getTaskItems();
-
+        /*
+         * if the newTaskItems variable is null, that means the task items were
+         * not edited by the task item window. Therefore, get the task items
+         * from the oldmodel. If not null, get the new task items from the task
+         * item window.
+         */
         if (newTaskItems == null) {
             newModel.setTaskItems(model.getTaskItems());
         } else {

@@ -25,7 +25,6 @@ import java.util.List;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
-import com.google.gwt.xml.client.Text;
 import com.google.gwt.xml.client.XMLParser;
 
 import de.decidr.modelingtool.client.io.resources.DWDLNames;
@@ -410,12 +409,13 @@ public class DWDLParserImpl implements DWDLParser {
                         humanTaskElement, DWDLNames.description));
 
         /* Get user notification property */
-        for (Element propertyElement : getChildElementsAsList(humanTaskElement)) {
-            if (propertyElement.getAttribute(DWDLNames.name) == DWDLNames.userNotification) {
-                Element valueElement = getChildNodesByTagName(propertyElement,
-                        DWDLNames.propertyValue).get(0);
-                Text valueText = (Text) valueElement.getChildNodes().item(0);
-                if (valueText.getNodeValue() == DWDLNames.yes) {
+        for (Element propertyElement : getChildNodesByTagName(humanTaskElement,
+                DWDLNames.setProperty)) {
+            if (propertyElement.getAttribute(DWDLNames.name).equals(
+                    DWDLNames.userNotification)) {
+                String valueText = propertyElement.getFirstChild()
+                        .getFirstChild().getNodeValue();
+                if (valueText.equals(DWDLNames.yes)) {
                     humanTaskModel.setNotifyActor(true);
                 } else {
                     humanTaskModel.setNotifyActor(false);
@@ -423,36 +423,51 @@ public class DWDLParserImpl implements DWDLParser {
             }
         }
 
-        /* Get the task items */
-        for (Element getProperty : getChildNodesByTagName(
-                getChildNodesByTagName(humanTaskElement, DWDLNames.getProperty)
-                        .get(0), DWDLNames.parameters)) {
-            if (getProperty.getAttribute(DWDLNames.name) == DWDLNames.taskResult) {
-                Element humanTaskData = getChildNodesByTagName(getProperty,
-                        DWDLNames.humanTaskData).get(0);
-                List<Element> taskItemElements = getChildNodesByTagName(
-                        humanTaskData, DWDLNames.taskItem);
-                List<TaskItem> taskItems = new ArrayList<TaskItem>();
-                for (Element taskItemElement : taskItemElements) {
-                    /*
-                     * Every task item node has to have a variable id as
-                     * attribute and a text child node with the label of the
-                     * task item
-                     */
-                    Long variableId = new Long(taskItemElement
-                            .getAttribute(DWDLNames.variable));
-                    String label = new String(getChildNodesByTagName(
-                            taskItemElement, DWDLNames.label).get(0)
-                            .getNodeValue());
-                    String hint = new String(getChildNodesByTagName(
-                            taskItemElement, DWDLNames.hint).get(0)
-                            .getNodeValue());
-                    TaskItem taskitem = new TaskItem(label, hint, variableId);
-                    taskItems.add(taskitem);
-                }
-                humanTaskModel.setTaskItems(taskItems);
+        /*
+         * Get the task items; first get the property element which name is task
+         * result. Set the form variable id
+         */
+        Element taskResultElement = null;
+        for (Element getPropertyElement : getChildNodesByTagName(
+                humanTaskElement, DWDLNames.getProperty)) {
+            if (getPropertyElement.getAttribute(DWDLNames.name).equals(
+                    DWDLNames.taskResult)) {
+                taskResultElement = getPropertyElement;
             }
         }
+        humanTaskModel.setFormVariableId(new Long(taskResultElement
+                .getAttribute(DWDLNames.variable).substring(
+                        DWDLNames.variableNCnamePrefix.length())));
+
+        /*
+         * From task result element, get the child node parameters, and from
+         * there the child node human task data
+         */
+        Element parametersElement = getChildNodesByTagName(taskResultElement,
+                DWDLNames.parameters).get(0);
+        Element humanTaskDataElement = getChildNodesByTagName(
+                parametersElement, DWDLNames.humanTaskData).get(0);
+
+        /* Get the task items, which are child nodes of human task data */
+        List<Element> taskItemElements = getChildNodesByTagName(
+                humanTaskDataElement, DWDLNames.taskItem);
+        List<TaskItem> taskItems = new ArrayList<TaskItem>();
+        for (Element taskItemElement : taskItemElements) {
+            /*
+             * Every task item node has to have a variable id as attribute and a
+             * text child node with the label of the task item
+             */
+            Long variableId = new Long(taskItemElement.getAttribute(
+                    DWDLNames.variable).substring(
+                    DWDLNames.variableNCnamePrefix.length()));
+            String label = new String(getChildNodesByTagName(taskItemElement,
+                    DWDLNames.label).get(0).getFirstChild().getNodeValue());
+            String hint = new String(getChildNodesByTagName(taskItemElement,
+                    DWDLNames.hint).get(0).getFirstChild().getNodeValue());
+            TaskItem taskitem = new TaskItem(label, hint, variableId);
+            taskItems.add(taskitem);
+        }
+        humanTaskModel.setTaskItems(taskItems);
 
         /* Set incoming and outgoing connections */
         Element targetsElement = getChildNodesByTagName(humanTaskElement,
@@ -632,28 +647,27 @@ public class DWDLParserImpl implements DWDLParser {
 
         /* If the connection is not in the hash map, it has to be created */
         if (connectionModels.get(connectionId) == null) {
-            ConnectionModel connection;
             /*
              * check the instance of the source model and create the appropriate
              * connection type.
              */
             if (sourceModel instanceof ContainerModel) {
                 if (sourceModel instanceof IfContainerModel) {
-                    connection = new Condition();
+                    resultConnection = new Condition();
                 } else {
-                    connection = new ContainerStartConnectionModel();
+                    resultConnection = new ContainerStartConnectionModel();
                 }
             } else {
-                connection = new ConnectionModel();
+                resultConnection = new ConnectionModel();
             }
-            connection.setId(connectionId);
-            connection.setSource(sourceModel);
-            connection.setParentModel(parentModel);
-            parentModel.addConnectionModel(connection);
-            connectionModels.put(connectionId, connection);
+            resultConnection.setId(connectionId);
+            resultConnection.setParentModel(parentModel);
+            parentModel.addConnectionModel(resultConnection);
+            connectionModels.put(connectionId, resultConnection);
+        } else {
+            resultConnection = connectionModels.get(connectionId);
         }
-        resultConnection = connectionModels.get(connectionId);
-
+        resultConnection.setSource(sourceModel);
         return resultConnection;
     }
 
@@ -676,35 +690,32 @@ public class DWDLParserImpl implements DWDLParser {
 
         /* If the connection is not in the hash map, it has to be created */
         if (connectionModels.get(connectionId) == null) {
-            ConnectionModel connection;
             /*
              * check the instance of the target model and create the appropriate
              * connection type.
              */
             if (targetModel instanceof ContainerModel) {
-                connection = new ContainerExitConnectionModel();
+                resultConnection = new ContainerExitConnectionModel();
             } else {
-                connection = new ConnectionModel();
+                resultConnection = new ConnectionModel();
             }
-            connection.setId(connectionId);
-            connection.setTarget(targetModel);
-            connection.setParentModel(parentModel);
-            connectionModels.put(connectionId, connection);
-        }
-        resultConnection = connectionModels.get(connectionId);
+            resultConnection.setId(connectionId);
 
+            resultConnection.setParentModel(parentModel);
+            connectionModels.put(connectionId, resultConnection);
+        } else {
+            resultConnection = connectionModels.get(connectionId);
+        }
+        resultConnection.setTarget(targetModel);
         return resultConnection;
     }
 
     private List<Element> getChildNodesByTagName(Element parent, String tagName) {
         List<Element> result = new ArrayList<Element>();
-        // JS remove
-        // System.out.println("Searching for \"" + tagName + "\" in parent: "
-        // + parent.getNodeName());
+
         for (int i = 0; i < parent.getChildNodes().getLength(); i++) {
             Node child = parent.getChildNodes().item(i);
             if (child.getNodeName().equals(tagName)) {
-                // System.out.println("  Found child: " + child.getNodeName());
                 result.add((Element) child);
             }
         }

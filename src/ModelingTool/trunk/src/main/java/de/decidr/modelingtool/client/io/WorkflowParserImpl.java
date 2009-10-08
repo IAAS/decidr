@@ -351,8 +351,8 @@ public class WorkflowParserImpl implements WorkflowParser {
         /* Create get property of human task */
         Element getProperty = doc.createElement(DWDLNames.getProperty);
         getProperty.setAttribute(DWDLNames.name, DWDLNames.taskResult);
-        getProperty.setAttribute(DWDLNames.variable, model.getFormVariableId()
-                .toString());
+        getProperty.setAttribute(DWDLNames.variable,
+                DWDLNames.variableNCnamePrefix + model.getFormVariableId());
         Element humanTaskData = doc.createElement(DWDLNames.humanTaskData);
 
         /* Create task items */
@@ -361,8 +361,8 @@ public class WorkflowParserImpl implements WorkflowParser {
             Variable variable = Workflow.getInstance().getModel().getVariable(
                     ti.getVariableId());
             taskItem.setAttribute(DWDLNames.name, "taskItem");
-            taskItem.setAttribute(DWDLNames.variable, variable.getId()
-                    .toString());
+            taskItem.setAttribute(DWDLNames.variable,
+                    DWDLNames.variableNCnamePrefix + variable.getId());
             taskItem.setAttribute(DWDLNames.type, variable.getType()
                     .getDwdlName());
             taskItem.appendChild(createTextElement(doc, DWDLNames.label, ti
