@@ -29,28 +29,27 @@ import de.decidr.model.testsuites.OtherTestsSuite;
  * @author Reinhold
  */
 public abstract class DecidrOthersTest {
+    private static OtherTestsSuite testSuite = new OtherTestsSuite();
 
     @BeforeClass
     public static final void beforeClass() {
-        TestUtils.executeMethodsWithAnnotation(OtherTestsSuite.class,
+        TestUtils.executeStaticMethodsWithAnnotation(OtherTestsSuite.class,
                 BeforeClass.class);
     }
 
     @AfterClass
     public static final void afterClass() {
-        TestUtils.executeMethodsWithAnnotation(OtherTestsSuite.class,
+        TestUtils.executeStaticMethodsWithAnnotation(OtherTestsSuite.class,
                 AfterClass.class);
     }
 
     @Before
     public final void beforeTest() {
-        TestUtils.executeMethodsWithAnnotation(OtherTestsSuite.class,
-                Before.class);
+        TestUtils.executeMethodsWithAnnotation(testSuite, Before.class);
     }
 
     @After
     public final void afterTest() {
-        TestUtils.executeMethodsWithAnnotation(OtherTestsSuite.class,
-                After.class);
+        TestUtils.executeMethodsWithAnnotation(testSuite, After.class);
     }
 }

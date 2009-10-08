@@ -29,28 +29,27 @@ import de.decidr.model.testsuites.DatabaseTestSuite;
  * @author Reinhold
  */
 public abstract class DecidrDatabaseTest {
+    private static DatabaseTestSuite testSuite = new DatabaseTestSuite();
 
     @BeforeClass
     public static final void beforeClass() {
-        TestUtils.executeMethodsWithAnnotation(DatabaseTestSuite.class,
+        TestUtils.executeStaticMethodsWithAnnotation(DatabaseTestSuite.class,
                 BeforeClass.class);
     }
 
     @AfterClass
     public static final void afterClass() {
-        TestUtils.executeMethodsWithAnnotation(DatabaseTestSuite.class,
+        TestUtils.executeStaticMethodsWithAnnotation(DatabaseTestSuite.class,
                 AfterClass.class);
     }
 
     @Before
     public final void beforeTest() {
-        TestUtils.executeMethodsWithAnnotation(DatabaseTestSuite.class,
-                Before.class);
+        TestUtils.executeMethodsWithAnnotation(testSuite, Before.class);
     }
 
     @After
     public final void afterTest() {
-        TestUtils.executeMethodsWithAnnotation(DatabaseTestSuite.class,
-                After.class);
+        TestUtils.executeMethodsWithAnnotation(testSuite, After.class);
     }
 }

@@ -28,12 +28,27 @@ import junit.framework.TestSuite;
  */
 public class TestUtils {
 
-    public static void executeMethodsWithAnnotation(Class<? extends TestSuite> suite,
-            Class<? extends Annotation> ann) {
+    public static void executeStaticMethodsWithAnnotation(
+            Class<? extends TestSuite> suite, Class<? extends Annotation> ann) {
         for (Method m : suite.getMethods()) {
             if (m.isAnnotationPresent(ann)) {
                 try {
                     m.invoke(null);
+                } catch (RuntimeException e) {
+                    throw e;
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    public static void executeMethodsWithAnnotation(TestSuite suite,
+            Class<? extends Annotation> ann) {
+        for (Method m : suite.getClass().getMethods()) {
+            if (m.isAnnotationPresent(ann)) {
+                try {
+                    m.invoke(suite);
                 } catch (RuntimeException e) {
                     throw e;
                 } catch (Exception e) {
