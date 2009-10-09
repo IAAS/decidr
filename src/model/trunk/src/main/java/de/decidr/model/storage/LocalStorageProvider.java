@@ -139,12 +139,12 @@ public class LocalStorageProvider implements StorageProvider {
         boolean applicable = true;
         boolean configAmazon, configLocal, configPersistent;
 
-        if (config == null){
+        if (config == null) {
             throw new IllegalArgumentException("config must not be null.");
         }
-        
+
         // check whether we implement the required protocol
-        if (applicable && config.contains(PROTOCOL_CONFIG_KEY)) {
+        if (applicable && config.containsKey(PROTOCOL_CONFIG_KEY)) {
             log.debug("checking protocol compliance");
             boolean found = false;
             String required = config.getProperty(PROTOCOL_CONFIG_KEY);
@@ -153,9 +153,8 @@ public class LocalStorageProvider implements StorageProvider {
                     found = true;
                 }
             }
-            if (!found) {
-                applicable = false;
-            }
+
+            applicable = found;
         }
 
         // check whether the config values exist and coincide with this
@@ -163,18 +162,18 @@ public class LocalStorageProvider implements StorageProvider {
         // if a value isn't contained in the config, it is assumed to be
         // applicable
         if (applicable) {
-            if (config.contains(AMAZON_S3_CONFIG_KEY)) {
+            if (config.containsKey(AMAZON_S3_CONFIG_KEY)) {
                 configAmazon = new Boolean(config
                         .getProperty(AMAZON_S3_CONFIG_KEY));
             } else {
                 configAmazon = amazonS3;
             }
-            if (config.contains(LOCAL_CONFIG_KEY)) {
+            if (config.containsKey(LOCAL_CONFIG_KEY)) {
                 configLocal = new Boolean(config.getProperty(LOCAL_CONFIG_KEY));
             } else {
                 configLocal = local;
             }
-            if (config.contains(PERSISTENT_CONFIG_KEY)) {
+            if (config.containsKey(PERSISTENT_CONFIG_KEY)) {
                 configPersistent = new Boolean(config
                         .getProperty(PERSISTENT_CONFIG_KEY));
             } else {
@@ -182,7 +181,9 @@ public class LocalStorageProvider implements StorageProvider {
             }
 
             log.debug("checking other default settings compliance");
-            if (!(configAmazon == amazonS3 && configLocal == local && configPersistent == persistent)) {
+            if (!(configAmazon == amazonS3 &&
+                    configLocal == local &&
+                    configPersistent == persistent)) {
                 applicable = false;
             }
         }
@@ -204,8 +205,7 @@ public class LocalStorageProvider implements StorageProvider {
         log.trace("Entering " + LocalStorageProvider.class.getSimpleName()
                 + ".putFile(InputStream, Long, Long)");
         if (data == null || fileId == null || fileSize == null) {
-            throw new IllegalArgumentException(
-                    "parameters must not be null.");
+            throw new IllegalArgumentException("parameters must not be null.");
         }
 
         File newFile = new File(storageDirectory, "DecidR_" + fileId + ".tmp");

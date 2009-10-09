@@ -66,11 +66,6 @@ public class DatabaseTestSuite extends GlobalPreconditionsSuite {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
-        // ConsoleAppender consoleAppender = new ConsoleAppender(new
-        // PatternLayout("[%p] %m%n"),
-        // ConsoleAppender.SYSTEM_OUT);
-        // Logger.getLogger("org.hibernate").addAppender(
-        // consoleAppender);
         DefaultLogger.getLogger(DatabaseTestSuite.class);
 
         try {
@@ -82,8 +77,6 @@ public class DatabaseTestSuite extends GlobalPreconditionsSuite {
             fail("Couldn't connect to database; Error message: "
                     + e.getMessage());
         }
-
-        // Logger.getLogger("org.hibernate").removeAppender(consoleAppender);
     }
 
     /**
@@ -92,8 +85,6 @@ public class DatabaseTestSuite extends GlobalPreconditionsSuite {
     @AfterClass
     public static void tearDownAfterClass() {
         if (session != null) {
-            // Query q = session.createSQLQuery("drop database decidrdb");
-            // q.executeUpdate();
             session.close();
         }
     }
