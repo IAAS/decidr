@@ -7,6 +7,9 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
+ * DH FIXME this needs to be revised: we have to examine the new properties
+ * (from XML) and persist any files that have been uploaded. ~dh
+ * 
  * Overwrites the raw XML data of a work item with the given raw bytes.
  * 
  * @author Daniel Huss

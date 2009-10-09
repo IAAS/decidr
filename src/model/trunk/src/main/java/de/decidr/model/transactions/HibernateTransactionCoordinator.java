@@ -99,6 +99,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * default configuration.
      */
     private HibernateTransactionCoordinator() {
+        logger = DefaultLogger.getLogger(this.getClass());
         logger
                 .debug("Creating HibernateTransactionCoordinator singleton instance.");
         this.setConfiguration(new Configuration().configure());

@@ -14,11 +14,10 @@
  * under the License.
  */
 
-package de.decidr.model.commands.system;
+package de.decidr.model.commands.file;
 
 import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.commands.file.FileCommand;
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.storage.StorageProvider;

@@ -24,7 +24,7 @@ import org.apache.log4j.PatternLayout;
 
 /**
  * Provides a common logging configuration for the DecidR components and
- * subsystems.
+ * subsystems. 
  * <p>
  * XXX use JDBC appender instead of or in addition to console appender, add
  * support for remotely triggered log level changes. See
@@ -34,6 +34,8 @@ import org.apache.log4j.PatternLayout;
 public class DefaultLogger {
 
     private static final String DEFAULT_LOGGER = "de.decidr";
+    private static final String HIBERNATE_LOGGER = "org.hibernate";
+
     private static Appender defaultAppender = new ConsoleAppender(
             new PatternLayout("[%p] %m%n"), ConsoleAppender.SYSTEM_OUT);
 
@@ -42,6 +44,8 @@ public class DefaultLogger {
         BasicConfigurator.resetConfiguration();
         BasicConfigurator.configure(defaultAppender);
 
+        Logger.getLogger(HIBERNATE_LOGGER).setLevel(Level.WARN);
+
         Logger.getLogger(DEFAULT_LOGGER).addAppender(defaultAppender);
         // set default logging options
         Logger.getLogger(DEFAULT_LOGGER).setLevel(Level.DEBUG);
@@ -49,10 +53,27 @@ public class DefaultLogger {
         Logger.getLogger(DEFAULT_LOGGER).setAdditivity(false);
     }
 
+    /**
+     * Retrieve a logger named according to the full class name of the clazz
+     * parameter. If the named logger already exists, then the existing instance
+     * will be returned. Otherwise, a new instance is created.
+     * 
+     * @param clazz
+     * @return A logger that uses
+     */
     public static Logger getLogger(Class<?> clazz) {
         return getLogger(clazz.getName());
     }
 
+    /**
+     * Retrieve a logger named according to the value of the name parameter. If
+     * the named logger already exists, then the existing instance will be
+     * returned. Otherwise, a new instance is created.
+     * 
+     * @param name
+     *            The name of the logger to retrieve.
+     * @return the named logger
+     */
     public static Logger getLogger(String name) {
         return Logger.getLogger(name);
     }
