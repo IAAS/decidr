@@ -29,6 +29,7 @@ import javax.mail.internet.InternetAddress;
 import javax.xml.bind.JAXBException;
 import javax.xml.soap.SOAPException;
 
+import org.apache.axis2.AxisFault;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -530,7 +531,11 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         InstanceManagerImpl iManager = new InstanceManagerImpl();
         if ((createdWorkflowInstance != null)
                 && (createdWorkflowInstance.getStartedDate() != null)) {
-            iManager.stopInstance(createdWorkflowInstance);
+            try {
+                iManager.stopInstance(createdWorkflowInstance);
+            } catch (AxisFault e) {
+                throw new TransactionException(e);
+            }
         }
         createdWorkflowInstance = null;
     }

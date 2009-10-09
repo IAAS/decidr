@@ -15,8 +15,12 @@
  */
 package de.decidr.model.commands.workflowinstance;
 
+import org.apache.axis2.AxisFault;
+import org.hibernate.HibernateException;
+
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.WorkflowInstance;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
@@ -37,12 +41,19 @@ public class StopWorkflowInstanceCommand extends WorkflowInstanceCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt) {
+    public void transactionAllowed(TransactionEvent evt)
+            throws TransactionException {
 
         InstanceManager iManager = new InstanceManagerImpl();
 
-        iManager.stopInstance((WorkflowInstance) evt.getSession().load(
-                WorkflowInstance.class, this.getWorkflowInstanceIds()[0]));
+        try {
+            iManager.stopInstance((WorkflowInstance) evt.getSession().load(
+                    WorkflowInstance.class, this.getWorkflowInstanceIds()[0]));
+        } catch (AxisFault e) {
+            throw new TransactionException(e);
+        } catch (HibernateException e) {
+            throw new TransactionException(e);
+        }
 
     }
 
