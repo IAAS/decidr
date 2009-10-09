@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.After;
@@ -31,6 +32,7 @@ import org.junit.Test;
 import com.vaadin.data.Item;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.permissions.FilePermission;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.UserRole;
@@ -217,8 +219,10 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         FileFacade fileFacade = new FileFacade(new SuperAdminRole(testAdminID));
         InputStream logoStream = TenantFacadeTest.class
                 .getResourceAsStream("/decidr.jpg");
-        Long logoID = fileFacade.createFile(logoStream, "decidr.jpg",
-                "image/jpeg", false);
+        // RR
+        Long logoID = fileFacade.createFile(logoStream, 0L, "decidr.jpg",
+                "image/jpeg", false,
+                new HashSet<Class<? extends FilePermission>>());
         Long invalidLogoID = getInvalidLogoID();
 
         try {

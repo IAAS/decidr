@@ -31,10 +31,7 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
-import de.decidr.model.acl.roles.UserRole;
-import de.decidr.model.commands.file.CreateFileCommand;
 import de.decidr.model.commands.system.AddServerCommand;
-import de.decidr.model.commands.system.GetFileCommand;
 import de.decidr.model.commands.system.GetLogCommand;
 import de.decidr.model.commands.system.GetServerStatisticsCommand;
 import de.decidr.model.commands.system.GetServersCommand;
@@ -45,7 +42,6 @@ import de.decidr.model.commands.system.SetSystemSettingsCommand;
 import de.decidr.model.commands.system.UpdateServerLoadCommand;
 import de.decidr.model.commands.user.CreateNewUnregisteredUserCommand;
 import de.decidr.model.commands.user.GetAllUsersCommand;
-import de.decidr.model.entities.File;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.SystemSettings;
@@ -81,61 +77,6 @@ public class SystemCommandsTest extends CommandsTest {
         }
 
         return null;
-    }
-
-    /**
-     * Test method for {@link GetFileCommand#GetFileCommand(Long)}.
-     */
-    // @Test
-    // RR talk to DH about moving method - only finish implementation if it
-    // isn't moved
-    public void testGetFileCommand() throws TransactionException {
-        Set<File> goodSet = new HashSet<File>();
-        Set<File> badSet = new HashSet<File>();
-
-        goodSet.add(new File("testfile", "text/plain", true, true, true, 0));
-        goodSet.add(new File("testfile", "text/plain", true, true, true, 100));
-        goodSet.add(new File("testfile", "text/plain", false, true, true, 0));
-        goodSet.add(new File("testfile", "text/plain", false, true, true, 100));
-        goodSet.add(new File("testfile", "text/plain", true, false, true, 0));
-        goodSet.add(new File("testfile", "text/plain", true, false, true, 100));
-        goodSet.add(new File("testfile", "text/plain", true, true, false, 0));
-        goodSet.add(new File("testfile", "text/plain", true, true, false, 100));
-
-        badSet.add(new File("testfile", "text/plain", true, true, true, -1));
-        badSet.add(new File("testfile", null, true, true, true, 0));
-        badSet.add(new File(null, "text/plain", true, true, true, 0));
-
-        fail("No way of actually putting a file into the DB yet");
-        // RR set files
-
-        GetFileCommand getter;
-        CreateFileCommand adder;
-        for (File file : goodSet) {
-            adder = new CreateFileCommand(new SuperAdminRole(SUPER_ADMIN_ID),
-                    null, file.getFileName(), file.getMimeType(), true);
-            HibernateTransactionCoordinator.getInstance().runTransaction(adder);
-            file.setId(adder.getFile().getId());
-
-            getter = new GetFileCommand(new UserRole(0L), file.getId());
-
-            assertEquals(file.getFileName(), getter.getFile().getFileName());
-            assertEquals(file.getMimeType(), getter.getFile().getMimeType());
-            assertEquals(file.isMayPublicRead(), getter.getFile()
-                    .isMayPublicRead());
-            assertEquals(file.isMayPublicDelete(), getter.getFile()
-                    .isMayPublicDelete());
-            assertEquals(file.isMayPublicReplace(), getter.getFile()
-                    .isMayPublicReplace());
-            assertEquals(file.getFileSizeBytes(), getter.getFile()
-                    .getFileSizeBytes());
-        }
-
-        for (File file : badSet) {
-            getter = new GetFileCommand(new UserRole(0L), file.getId());
-            assertTransactionException(
-                    "managed to get file with negative size", getter);
-        }
     }
 
     /**

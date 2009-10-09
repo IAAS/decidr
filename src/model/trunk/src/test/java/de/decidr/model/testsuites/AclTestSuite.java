@@ -24,9 +24,8 @@ import de.decidr.model.acl.DefaultAccessControlListTest;
 import de.decidr.model.acl.PasswordTest;
 import de.decidr.model.testing.GlobalPreconditionsSuite;
 
-
 @RunWith(Suite.class)
-@SuiteClasses( { PasswordTest.class, DefaultAccessControlListTest.class})
-public class AclTestSuite extends GlobalPreconditionsSuite  {
-
+@SuiteClasses( { PasswordTest.class, DefaultAccessControlListTest.class })
+public class AclTestSuite extends GlobalPreconditionsSuite {
+    // no preconditions
 }

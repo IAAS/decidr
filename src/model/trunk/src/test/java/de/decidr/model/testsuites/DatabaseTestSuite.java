@@ -18,9 +18,6 @@ package de.decidr.model.testsuites;
 
 import static org.junit.Assert.fail;
 
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.junit.AfterClass;
