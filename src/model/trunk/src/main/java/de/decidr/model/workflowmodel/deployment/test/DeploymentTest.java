@@ -38,7 +38,7 @@ public class DeploymentTest {
     public static void main(String[] args) {
         try {
             DeployerImpl d = new DeployerImpl();
-            d.deploy("SampleProcess");
+            
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Ups");
