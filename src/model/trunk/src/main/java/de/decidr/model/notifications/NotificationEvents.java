@@ -120,9 +120,81 @@ public final class NotificationEvents {
      * 
      * @param request
      *            the change email request containing the new email address.
+     * @throws TransactionException 
      */
-    public static void createdChangeEmailRequest(ChangeEmailRequest request) {
-        // MF implement me :) ~dh
+    @SuppressWarnings("unchecked")
+    public static void createdChangeEmailRequest(ChangeEmailRequest request) throws TransactionException {
+        
+        try {
+            client = de.decidr.model.webservices.DynamicClients
+                    .getEmailClient();
+        } catch (MalformedURLException e) {
+            throw new TransactionException(e);
+        }
+
+        // content creation
+        String signature = "";
+        
+        
+        // get userName
+        String userName;
+
+        if (request.getUser().getUserProfile() == null) {
+            userName = request.getUser().getEmail();
+        } else {
+            userName = request.getUser().getUserProfile().getUsername();
+        }
+                
+        // create url
+        URLGenerator URLGenerator = new URLGenerator();
+        Long userIdLong = request.getUserId();
+        String userId = userIdLong.toString();
+        String confirmationUrl;
+        
+        try {
+            confirmationUrl = URLGenerator.getChangeEmailRequestURL(userId, request.getAuthKey());
+        } catch (UnsupportedEncodingException e1) {
+            throw new TransactionException(e1);
+        }
+
+        
+        // calculate Date
+        SystemSettings settings = DecidrGlobals.getSettings();
+        int requestLifeTime = settings.getChangeEmailRequestLifetimeSeconds();
+
+        Calendar creationDate = Calendar.getInstance();
+        creationDate.setTime(request.getCreationDate());
+        creationDate.add(Calendar.SECOND, requestLifeTime);
+
+        SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
+        String expireDate = sd.format(new Date());       
+        
+        String bodyTXT = NotificationText.getChangeEmailRequestText(userName, confirmationUrl, expireDate, signature);
+        String bodyHTML = NotificationText.getChangeEmailRequestHTML(userName, confirmationUrl, expireDate, signature);
+        String subject = NotificationText.getChangeEmailRequestSubject();
+
+        
+        // sender and receiver data creation
+        AbstractUserList to = new AbstractUserList();
+
+        String fromAddress = settings.getSystemEmailAddress();
+        String fromName = settings.getSystemName();
+
+        // fill "to" list
+        EmailUser user = new EmailUser();
+        user.setEmail(request.getUser().getEmail());
+
+        List<AbstractUser> users = new ArrayList();
+        users.add(user);
+
+        to.setUser(users);
+
+        try {
+            client.sendEmail(to, null, null, fromName, fromAddress, subject,
+                    null, bodyTXT, bodyHTML, null);
+        } catch (Exception e) {
+            throw new TransactionException(e);
+        }
     }
 
     /**

@@ -46,7 +46,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
  */
 public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
 
-    static HibernateEntityStorageProvider StorageProvider;
+    static HibernateEntityStorageProvider storageProvider;
     static File DataFile;
     static java.io.File BasicFile;
 
@@ -108,7 +108,7 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
         DataFile.setData(readFile(BasicFile));
         DataFile.setId(123456l);
 
-        StorageProvider = new HibernateEntityStorageProvider();
+        storageProvider = new HibernateEntityStorageProvider();
 
     }
 
@@ -126,7 +126,7 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
          * put file
          */
         PutFileTestCommand cmd = new PutFileTestCommand(123456l, BasicFile,
-                StorageProvider);
+                storageProvider);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
         FileInputStream stream = new FileInputStream(
@@ -136,7 +136,7 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
          * get file
          */
         GetFileTestCommand cmd2 = new GetFileTestCommand(123456l,
-                StorageProvider);
+                storageProvider);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd2);
 
         /*
@@ -152,7 +152,7 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
          */
         try {
             PutFileTestFaultyCommand cmd3 = new PutFileTestFaultyCommand(
-                    123456l, BasicFile, StorageProvider);
+                    123456l, BasicFile, storageProvider);
             HibernateTransactionCoordinator.getInstance().runTransaction(cmd3);
 
             if (cmd3.getResult() == false) {
@@ -167,23 +167,29 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
 
     /**
      * Test method for {@link HibernateEntityStorageProvider#removeFile(Long)}.
-     * @throws TransactionException 
+     * @throws TransactionException .getNewWorkItemSubject(tenantName);
      * 
      * @throws StorageException
      */
     @Test
     public void testRemoveFile() throws TransactionException {
 
+        // removing test
+        
         try {
             RemoveFileTestCommand cmd4 = new RemoveFileTestCommand(123456l,
-                    StorageProvider);
+                    storageProvider);
             HibernateTransactionCoordinator.getInstance().runTransaction(cmd4);
         } catch (Exception e) {
             fail("Couldn't remove the file");
         }
 
+        
+        
+        // check if file is deleted
+        
         GetFileTestCommand cmd5 = new GetFileTestCommand(123456l,
-                StorageProvider);
+                storageProvider);
         try {
             HibernateTransactionCoordinator.getInstance().runTransaction(cmd5);
             fail("TransactionException expected");
@@ -191,9 +197,12 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
             // nothing to to
         }
 
+        
+        // remove non existing file
+        
         try {
             RemoveFileTestCommand cmd4 = new RemoveFileTestCommand(123456l,
-                    StorageProvider);
+                    storageProvider);
             HibernateTransactionCoordinator.getInstance().runTransaction(cmd4);
         } catch (Exception e) {
             fail("No Exception should be thrown when an non existing file should be deleted");
@@ -201,8 +210,10 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
 
         
         
+        // call with illegal params
+        
         RemoveFileFaultyTestCommand cmd6 = new RemoveFileFaultyTestCommand(123456l,
-                    StorageProvider);
+                    storageProvider);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd6);
         
         if(cmd6.getResul() == false){
@@ -220,31 +231,34 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
 
         Properties props = new Properties();
 
-        props.setProperty("AMAZON_S3_CONFIG_KEY", "false");
-        props.setProperty("PROTOCOL_CONFIG_KEY", "file");
-        props.setProperty("LOCAL_CONFIG_KEY", "false");
-        props.setProperty("PERSISTENT_CONFIG_KEY", "true");
+        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "false");
+        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "");
+        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "false");
+        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "true");
+        props.setProperty(HibernateEntityStorageProvider.CONFIG_KEY_ENTITY_TYPE_NAME, "File");
+        props.setProperty(HibernateEntityStorageProvider.CONFIG_KEY_DELETE_ENTITY, "true");
+        props.setProperty(HibernateEntityStorageProvider.CONFIG_KEY_ID_PROPERTY_NAME, "id");
+        props.setProperty(HibernateEntityStorageProvider.CONFIG_KEY_DATA_PROPERTY_NAME, "data");
 
-        assertTrue(StorageProvider.isApplicable(props));
+        assertTrue(storageProvider.isApplicable(props));
 
         props = new Properties();
 
-        props.setProperty("AMAZON_S3_CONFIG_KEY", "true");
-        props.setProperty("PROTOCOL_CONFIG_KEY", "http");
-        props.setProperty("LOCAL_CONFIG_KEY", "true");
-        props.setProperty("PERSISTENT_CONFIG_KEY", "true");
+        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "true");
+        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "http");
+        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "true");
+        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "true");
+        props.setProperty(HibernateEntityStorageProvider.CONFIG_KEY_ENTITY_TYPE_NAME, "File");
+        props.setProperty(HibernateEntityStorageProvider.CONFIG_KEY_DELETE_ENTITY, "true");
+        props.setProperty(HibernateEntityStorageProvider.CONFIG_KEY_ID_PROPERTY_NAME, "id");
+        props.setProperty(HibernateEntityStorageProvider.CONFIG_KEY_DATA_PROPERTY_NAME, "data");
 
-        assertFalse(StorageProvider.isApplicable(props));
+        assertFalse(storageProvider.isApplicable(props));
 
         props = new Properties();
         props = (Properties) null;
 
-        try {
-            StorageProvider.isApplicable(props);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException e) {
-            // nothing to do
-        }
+        assertFalse(storageProvider.isApplicable(props));
 
     }
 
@@ -257,42 +271,45 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
 
         Properties props = new Properties();
 
-        props.setProperty("AMAZON_S3_CONFIG_KEY", "false");
-        props.setProperty("PROTOCOL_CONFIG_KEY", "file");
-        props.setProperty("LOCAL_CONFIG_KEY", "false");
-        props.setProperty("PERSISTENT_CONFIG_KEY", "true");
+        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "false");
+        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "");
+        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "false");
+        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "true");
+        props.setProperty(HibernateEntityStorageProvider.CONFIG_KEY_ENTITY_TYPE_NAME, "File");
+        props.setProperty(HibernateEntityStorageProvider.CONFIG_KEY_DELETE_ENTITY, "true");
+        props.setProperty(HibernateEntityStorageProvider.CONFIG_KEY_ID_PROPERTY_NAME, "id");
+        props.setProperty(HibernateEntityStorageProvider.CONFIG_KEY_DATA_PROPERTY_NAME, "data");
+        
 
         try {
-            StorageProvider.applyConfig(props);
+            storageProvider.applyConfig(props);
         } catch (IncompleteConfigurationException e1) {
-            // MF no it shouldn't - it doesn't use the file protocol ~rr
             fail("This configuration should work");
         }
 
         props = new Properties();
 
-        props.setProperty("AMAZON_S3_CONFIG_KEY", "true");
-        props.setProperty("PROTOCOL_CONFIG_KEY", "http");
-        props.setProperty("LOCAL_CONFIG_KEY", "true");
-        props.setProperty("PERSISTENT_CONFIG_KEY", "true");
+        props.setProperty(HibernateEntityStorageProvider.CONFIG_KEY_ENTITY_TYPE_NAME, "File");
+        props.setProperty(HibernateEntityStorageProvider.CONFIG_KEY_DELETE_ENTITY, "true");
+        props.setProperty(HibernateEntityStorageProvider.CONFIG_KEY_DATA_PROPERTY_NAME, "data");
 
-        try {
-            StorageProvider.applyConfig(props);
+        try{
+            storageProvider.applyConfig(props);
             fail("This conf shouldn't work.");
         } catch (IncompleteConfigurationException e1) {
             // nothing to do
         }
 
-        props = new Properties();
-        props = (Properties) null;
+        
+        props = null;
 
         try {
-            StorageProvider.applyConfig(props);
-            fail("IllegalArgumentException expected");
+            storageProvider.applyConfig(props);
+            fail("IncompleteConfigurationException expected");
         } catch (IllegalArgumentException e) {
-            // nothing to do
-        } catch (IncompleteConfigurationException e) {
             fail("IllegalArgumentException expected");
+        } catch (IncompleteConfigurationException e) {
+            //nothing to do
         }
 
     }
