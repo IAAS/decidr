@@ -103,7 +103,7 @@ public class DeployerImpl implements Deployer {
         for (ServerLoadView server : prefferedServers) {
             wsdl = translator.getWSDL(server.getLocation());
             dd = translator.getDD();
-            byte[] zipFile = getDeploymentBundle(tenantName, bpel, wsdl, dd);
+            byte[] zipFile = getDeploymentBundle(tenantName, bpel, wsdl, dd, knownWebservices);
             deploy(tenantName, zipFile, server.getLocation());
             serverList.add(server.getId());
         }
