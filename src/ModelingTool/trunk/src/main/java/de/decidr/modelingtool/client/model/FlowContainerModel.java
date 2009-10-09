@@ -32,6 +32,7 @@ public class FlowContainerModel extends ContainerModel {
      */
     public FlowContainerModel(HasChildModels parentModel) {
         super(parentModel);
+        this.name = this.getClass().getName();
     }
 
 }

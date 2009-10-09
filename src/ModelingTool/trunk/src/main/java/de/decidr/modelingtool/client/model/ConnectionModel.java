@@ -33,6 +33,10 @@ public class ConnectionModel extends AbstractModel {
     /** The target node of the connection. */
     private NodeModel target = null;
 
+    public ConnectionModel() {
+        this.name = this.getClass().getName();
+    }
+
     public HasChildModels getParentModel() {
         return parentModel;
     }

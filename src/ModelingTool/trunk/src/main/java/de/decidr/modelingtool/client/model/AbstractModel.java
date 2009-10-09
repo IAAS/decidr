@@ -37,10 +37,10 @@ public abstract class AbstractModel implements Model {
     private static Long lastAssignedId = 0L;
 
     /** The name of the model. */
-    private String name;
+    protected String name;
 
     /** The description of the model. */
-    private String description;
+    String description;
 
     /**
      * Notifies the change listener (if present) that any data in the model has
@@ -93,7 +93,7 @@ public abstract class AbstractModel implements Model {
 
     public String getName() {
         if (name == null) {
-            name = Class.class.getName() + getId().toString();
+            name = "";
         }
         return name;
     }

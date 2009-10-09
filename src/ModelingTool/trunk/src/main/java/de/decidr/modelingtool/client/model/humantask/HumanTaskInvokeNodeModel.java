@@ -43,6 +43,7 @@ public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
      */
     public HumanTaskInvokeNodeModel(HasChildModels parentModel) {
         super(parentModel);
+        this.name = this.getClass().getName();
     }
 
     public Long getUserVariableId() {

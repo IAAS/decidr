@@ -39,6 +39,7 @@ public class ForEachContainerModel extends ContainerModel {
      */
     public ForEachContainerModel(HasChildModels parentModel) {
         super(parentModel);
+        this.name = this.getClass().getName();
     }
 
     public Long getIterationVariableId() {

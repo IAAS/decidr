@@ -40,10 +40,7 @@ public class EmailInvokeNodeModel extends InvokeNodeModel {
      */
     public EmailInvokeNodeModel(HasChildModels parentModel) {
         super(parentModel);
-    }
-
-    public EmailInvokeNodeModel() {
-        super();
+        this.name = this.getClass().getName();
     }
 
     public Long getToVariableId() {

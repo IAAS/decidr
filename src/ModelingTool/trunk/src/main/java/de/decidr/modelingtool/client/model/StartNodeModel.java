@@ -37,6 +37,7 @@ public class StartNodeModel extends NodeModel {
      */
     public StartNodeModel(HasChildModels parentModel) {
         super(parentModel);
+        this.name = this.getClass().getName();
     }
 
     @Override

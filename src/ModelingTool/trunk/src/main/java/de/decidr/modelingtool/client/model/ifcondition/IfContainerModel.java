@@ -40,6 +40,7 @@ public class IfContainerModel extends ContainerModel {
      */
     public IfContainerModel(HasChildModels parentModel) {
         super(parentModel);
+        this.name = this.getClass().getName();
     }
 
     /*

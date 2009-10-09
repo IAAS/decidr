@@ -37,6 +37,7 @@ public class EndNodeModel extends NodeModel {
      */
     public EndNodeModel(HasChildModels parentModel) {
         super(parentModel);
+        this.name = this.getClass().getName();
     }
 
     @Override
