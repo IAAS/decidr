@@ -113,12 +113,14 @@ public class TenantFacade extends AbstractFacade {
 
     /**
      * Sets the description of the given tenant. If the given tenant does not
-     * exists an Exception will be thrown.
+     * exist an Exception will be thrown.
      * 
      * @param tenantId
      *            the id of the tenant which should be changed
      * @param description
      *            the new description
+     * @throws TransactionException
+     *             TODO document
      */
     @AllowedRole(TenantAdminRole.class)
     public void setDescription(Long tenantId, String description)
@@ -148,7 +150,7 @@ public class TenantFacade extends AbstractFacade {
 
     /**
      * Saves the given <code>{@link FileInputStream}</code> as Logo of the given
-     * tenant.
+     * tenant. XXX update description
      * 
      * @param tenantId
      *            the tenant to which the logo will be set

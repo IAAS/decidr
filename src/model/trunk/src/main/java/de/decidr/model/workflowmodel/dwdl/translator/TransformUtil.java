@@ -91,7 +91,7 @@ public class TransformUtil {
      *             entity.
      */
     // RR needs unit test ~dh
-    // DH we were'nt planning on testing these packages due to their not being
+    // DH we weren't planning on testing these packages due to their not being
     // finished on time and not having enough time for everything, anyway ~rr
     public static byte[] getBytes(Object node) throws JAXBException {
         if (node == null) {

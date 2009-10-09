@@ -24,7 +24,8 @@ import org.junit.BeforeClass;
 import de.decidr.model.testsuites.OtherTestsSuite;
 
 /**
- * RR: add comment
+ * This is the abstract base test class for all test cases in the
+ * {@link OtherTestsSuite}.
  * 
  * @author Reinhold
  */

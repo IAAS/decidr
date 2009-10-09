@@ -39,6 +39,7 @@ import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.facades.WorkItemFacadeTest;
 import de.decidr.model.facades.WorkflowInstanceFacadeTest;
 import de.decidr.model.facades.WorkflowModelFacadeTest;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.storage.HibernateEntityStorageProviderTest;
 import de.decidr.model.testing.GlobalPreconditionsSuite;
 import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
@@ -52,12 +53,12 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
  */
 @RunWith(Suite.class)
 // The order of these tests should not be changed without good reason
-@SuiteClasses( { HibernateEntityStorageProviderTest.class, HibernateTransactionCoordinatorTest.class,
-        DecidrGlobalsTest.class, LifetimeValidatorTest.class,
-        SystemFacadeTest.class, FileFacadeTest.class, TenantFacadeTest.class,
-        UserFacadeTest.class, WorkflowModelFacadeTest.class,
-        WorkflowInstanceFacadeTest.class, WorkItemFacadeTest.class,
-        SystemCommandsTest.class})
+@SuiteClasses( { HibernateEntityStorageProviderTest.class,
+        HibernateTransactionCoordinatorTest.class, DecidrGlobalsTest.class,
+        LifetimeValidatorTest.class, SystemFacadeTest.class,
+        FileFacadeTest.class, TenantFacadeTest.class, UserFacadeTest.class,
+        WorkflowModelFacadeTest.class, WorkflowInstanceFacadeTest.class,
+        WorkItemFacadeTest.class, SystemCommandsTest.class })
 public class DatabaseTestSuite extends GlobalPreconditionsSuite {
 
     static Session session;
@@ -68,19 +69,24 @@ public class DatabaseTestSuite extends GlobalPreconditionsSuite {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
-        Logger.getLogger("org.hibernate").addAppender(
-                new ConsoleAppender(new PatternLayout("[%p] %m%n"),
-                        ConsoleAppender.SYSTEM_OUT));
+        // ConsoleAppender consoleAppender = new ConsoleAppender(new
+        // PatternLayout("[%p] %m%n"),
+        // ConsoleAppender.SYSTEM_OUT);
+        // Logger.getLogger("org.hibernate").addAppender(
+        // consoleAppender);
+        DefaultLogger.getLogger(DatabaseTestSuite.class);
 
         try {
             session = new Configuration().configure("hibernate.cfg.xml")
                     .buildSessionFactory().openSession();
-            session.createQuery("FROM User").list();
+            session.createQuery("FROM User").setMaxResults(1).list();
         } catch (Exception e) {
             e.printStackTrace();
             fail("Couldn't connect to database; Error message: "
                     + e.getMessage());
         }
+
+        // Logger.getLogger("org.hibernate").removeAppender(consoleAppender);
     }
 
     /**

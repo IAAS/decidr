@@ -56,7 +56,7 @@ public class FileFacadeTest extends DecidrDatabaseTest {
      */
     @Test
     public void testCreateFile() throws TransactionException {
-        String testName = "decidr.jpg";
+        String testName = "/decidr.jpg";
         String testMime = "image/jpeg";
         InputStream testFile = FileFacadeTest.class
                 .getResourceAsStream(testName);

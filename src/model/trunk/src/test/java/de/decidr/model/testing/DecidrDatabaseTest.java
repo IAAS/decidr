@@ -24,7 +24,8 @@ import org.junit.BeforeClass;
 import de.decidr.model.testsuites.DatabaseTestSuite;
 
 /**
- * RR: add comment
+ * This is the abstract base test class for all tests in the
+ * <code>{@link DatabaseTestSuite}</code>.
  * 
  * @author Reinhold
  */

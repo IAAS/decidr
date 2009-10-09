@@ -22,7 +22,7 @@ import java.lang.reflect.Method;
 import junit.framework.TestSuite;
 
 /**
- * RR: add comment
+ * Class containing utility methods that can be used in all tests.
  * 
  * @author Reinhold
  */

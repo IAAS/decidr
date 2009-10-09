@@ -238,6 +238,7 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
         try {
             StorageProvider.applyConfig(props);
         } catch (IncompleteConfigurationException e1) {
+            // MF no it shouldn't - it doesn't use the file protocol ~rr
             fail("This configuration should work");
         }
 
