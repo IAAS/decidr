@@ -22,6 +22,8 @@ import java.util.List;
 import javax.wsdl.WSDLException;
 import javax.xml.bind.JAXBException;
 
+import org.apache.axis2.AxisFault;
+
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.entities.Server;

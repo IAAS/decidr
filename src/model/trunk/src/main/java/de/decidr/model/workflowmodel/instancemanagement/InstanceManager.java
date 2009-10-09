@@ -22,6 +22,8 @@ import java.util.List;
 import javax.xml.bind.JAXBException;
 import javax.xml.soap.SOAPException;
 
+import org.apache.axis2.AxisFault;
+
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.WorkflowInstance;
