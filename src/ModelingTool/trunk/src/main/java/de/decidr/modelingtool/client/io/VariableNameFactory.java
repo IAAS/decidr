@@ -23,7 +23,7 @@ import de.decidr.modelingtool.client.io.resources.DWDLNames;
  * necessary because the dwdl schema requires variable names to be unique
  * ncnames. However, in the Modeling Tool, the variables have Long variables.
  * 
- * @author Jonas Schlaaj
+ * @author Jonas Schlaak
  */
 public class VariableNameFactory {
 

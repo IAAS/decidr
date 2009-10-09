@@ -208,6 +208,7 @@ public class WorkflowParserImpl implements WorkflowParser {
             WorkflowModel workflow, HasChildModels parent) {
         GWT.log("Creating " + parent.getChildNodeModels().size()
                 + " child nodes for " + parent.toString(), null);
+
         /*
          * Create nodes element which contains all child nodes of a workflow or
          * a container
@@ -240,35 +241,45 @@ public class WorkflowParserImpl implements WorkflowParser {
                         (ForEachContainerModel) nodeModel));
             }
         }
+
+        GWT.log("Finished creating child nodes", null);
         return nodes;
     }
 
     private Element createStartElement(Document doc, StartNodeModel model) {
+        GWT.log("Creating StartNode", null);
+
         Element startElement = doc.createElement(DWDLNames.startNode);
         startElement.setAttribute(DWDLNames.name, model.getName());
         startElement.setAttribute(DWDLNames.id, model.getId().toString());
         startElement.appendChild(createTextElement(doc, DWDLNames.description,
                 model.getDescription()));
         startElement.appendChild(createGraphicsElement(doc, model));
+
         /* start node is only source to connections */
         startElement.appendChild(createSourceElement(doc, model));
 
+        GWT.log("Finished creating StartNode", null);
         return startElement;
     }
 
     private Element createEndElement(Document doc, WorkflowModel workflow,
             EndNodeModel model) {
+        GWT.log("Creating EndNode", null);
+
         Element endElement = doc.createElement(DWDLNames.endNode);
         endElement.setAttribute(DWDLNames.name, model.getName());
         endElement.setAttribute(DWDLNames.id, model.getId().toString());
         endElement.appendChild(createTextElement(doc, DWDLNames.description,
                 model.getDescription()));
         endElement.appendChild(createGraphicsElement(doc, model));
+
         /* end node is only target to connections */
         endElement.appendChild(createTargetElement(doc, model));
 
         /* notification of success and recipient, create only if set to true */
         if (workflow.getProperties().getNotifyOnSuccess()) {
+            GWT.log("  Creating notification of success node", null);
             Element notification = doc
                     .createElement(DWDLNames.notificationOfSuccess);
             notification.appendChild(createPropertyElement(doc,
@@ -277,8 +288,10 @@ public class WorkflowParserImpl implements WorkflowParser {
             notification.appendChild(createPropertyElement(doc,
                     DWDLNames.recipient, workflow.getProperties()
                             .getRecipientVariableId()));
+            endElement.appendChild(notification);
         }
 
+        GWT.log("Finished creating EndNode", null);
         return endElement;
     }
 
