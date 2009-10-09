@@ -18,6 +18,7 @@ package de.decidr.modelingtool.client.io;
 
 import java.util.HashMap;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Text;
@@ -122,8 +123,8 @@ public class WorkflowParserImpl implements WorkflowParser {
          * (NCnames must not begin with a digit), we cannot simply use the long
          * id for this attribute, we have to set a prefix.
          */
-        variableElement.setAttribute(DWDLNames.name,
-                DWDLNames.variableNCnamePrefix + variable.getId());
+        variableElement.setAttribute(DWDLNames.name, VariableNameFactory
+                .createNCNameFromId(variable.getId()));
 
         /* Label */
         variableElement.setAttribute(DWDLNames.label, variable.getLabel());
@@ -174,8 +175,8 @@ public class WorkflowParserImpl implements WorkflowParser {
         /* Set name and label */
         roleElement.setAttribute(DWDLNames.label, role.getLabel());
         /* For variableNCNamePrefix, see comment in createVariables() */
-        roleElement.setAttribute(DWDLNames.name, DWDLNames.variableNCnamePrefix
-                + role.getId());
+        roleElement.setAttribute(DWDLNames.name, VariableNameFactory
+                .createNCNameFromId(role.getId()));
 
         /* Append the values of the role variables as actors */
         for (String value : role.getValues()) {
@@ -205,12 +206,16 @@ public class WorkflowParserImpl implements WorkflowParser {
 
     private Element createChildNodeElements(Document doc,
             WorkflowModel workflow, HasChildModels parent) {
+        GWT.log("Creating " + parent.getChildNodeModels().size()
+                + " child nodes for " + parent.toString(), null);
         /*
          * Create nodes element which contains all child nodes of a workflow or
          * a container
          */
         Element nodes = doc.createElement(DWDLNames.nodes);
         for (NodeModel nodeModel : parent.getChildNodeModels()) {
+            GWT.log("  Creating child node " + nodeModel.toString() + ", id: "
+                    + nodeModel.getId(), null);
             /* Find out type and call the according node */
             if (nodeModel instanceof StartNodeModel) {
                 nodes.appendChild(createStartElement(doc,
@@ -339,7 +344,7 @@ public class WorkflowParserImpl implements WorkflowParser {
         userNotification.setAttribute(DWDLNames.name,
                 DWDLNames.userNotification);
         String valueText;
-        if (model.getNotifyActor()) {
+        if (model.getNotifyActor() != null && model.getNotifyActor()) {
             valueText = DWDLNames.yes;
         } else {
             valueText = DWDLNames.no;
@@ -351,27 +356,29 @@ public class WorkflowParserImpl implements WorkflowParser {
         /* Create get property of human task */
         Element getProperty = doc.createElement(DWDLNames.getProperty);
         getProperty.setAttribute(DWDLNames.name, DWDLNames.taskResult);
-        getProperty.setAttribute(DWDLNames.variable,
-                DWDLNames.variableNCnamePrefix + model.getFormVariableId());
+        getProperty.setAttribute(DWDLNames.variable, VariableNameFactory
+                .createNCNameFromId(model.getFormVariableId()));
         Element humanTaskData = doc.createElement(DWDLNames.humanTaskData);
 
-        /* Create task items */
-        for (TaskItem ti : model.getTaskItems()) {
-            Element taskItem = doc.createElement(DWDLNames.taskItem);
-            Variable variable = Workflow.getInstance().getModel().getVariable(
-                    ti.getVariableId());
-            taskItem.setAttribute(DWDLNames.name, "taskItem");
-            taskItem.setAttribute(DWDLNames.variable,
-                    DWDLNames.variableNCnamePrefix + variable.getId());
-            taskItem.setAttribute(DWDLNames.type, variable.getType()
-                    .getDwdlName());
-            taskItem.appendChild(createTextElement(doc, DWDLNames.label, ti
-                    .getLabel()));
-            taskItem.appendChild(createTextElement(doc, DWDLNames.hint, ti
-                    .getHint()));
-            taskItem.appendChild(createTextElement(doc, DWDLNames.value,
-                    variable.getValues().get(0)));
-            humanTaskData.appendChild(taskItem);
+        /* Create task items, if there are any */
+        if (model.getTaskItems() != null) {
+            for (TaskItem ti : model.getTaskItems()) {
+                Element taskItem = doc.createElement(DWDLNames.taskItem);
+                Variable variable = Workflow.getInstance().getModel()
+                        .getVariable(ti.getVariableId());
+                taskItem.setAttribute(DWDLNames.name, "taskItem");
+                taskItem.setAttribute(DWDLNames.variable, VariableNameFactory
+                        .createNCNameFromId(variable.getId()));
+                taskItem.setAttribute(DWDLNames.type, variable.getType()
+                        .getDwdlName());
+                taskItem.appendChild(createTextElement(doc, DWDLNames.label, ti
+                        .getLabel()));
+                taskItem.appendChild(createTextElement(doc, DWDLNames.hint, ti
+                        .getHint()));
+                taskItem.appendChild(createTextElement(doc, DWDLNames.value,
+                        variable.getValues().get(0)));
+                humanTaskData.appendChild(taskItem);
+            }
         }
 
         /* Append human task data to parameter element */
@@ -386,6 +393,9 @@ public class WorkflowParserImpl implements WorkflowParser {
     private Element createFlowElement(Document doc, WorkflowModel workflow,
             FlowContainerModel model) {
         Element flowElement = doc.createElement(DWDLNames.flowNode);
+        flowElement.setAttribute(DWDLNames.name, model.getName());
+        flowElement.setAttribute(DWDLNames.id, model.getId().toString());
+
         flowElement.appendChild(createTextElement(doc, DWDLNames.description,
                 model.getDescription()));
         flowElement.appendChild(createGraphicsElement(doc, model));
@@ -399,6 +409,9 @@ public class WorkflowParserImpl implements WorkflowParser {
     private Element createIfElement(Document doc, WorkflowModel workflow,
             IfContainerModel model) {
         Element ifElement = doc.createElement(DWDLNames.ifNode);
+        ifElement.setAttribute(DWDLNames.name, model.getName());
+        ifElement.setAttribute(DWDLNames.id, model.getId().toString());
+
         ifElement.appendChild(createTextElement(doc, DWDLNames.description,
                 model.getDescription()));
         ifElement.appendChild(createGraphicsElement(doc, model));
@@ -457,6 +470,12 @@ public class WorkflowParserImpl implements WorkflowParser {
     private Element createForEachElement(Document doc, WorkflowModel workflow,
             ForEachContainerModel model) {
         Element forEachElement = doc.createElement(DWDLNames.forEachNode);
+        forEachElement.setAttribute(DWDLNames.name, model.getName());
+        forEachElement.setAttribute(DWDLNames.id, model.getId().toString());
+
+        forEachElement.appendChild(createTextElement(doc,
+                DWDLNames.description, model.getDescription()));
+
         forEachElement.setAttribute(DWDLNames.countername, model
                 .getIterationVariableId().toString());
         if (model.isParallel()) {
@@ -464,8 +483,7 @@ public class WorkflowParserImpl implements WorkflowParser {
         } else {
             forEachElement.setAttribute(DWDLNames.parallel, DWDLNames.no);
         }
-        forEachElement.appendChild(createTextElement(doc,
-                DWDLNames.description, model.getDescription()));
+
         forEachElement.appendChild(createGraphicsElement(doc, model));
         forEachElement.appendChild(createTargetElement(doc, model));
         forEachElement.appendChild(createSourceElement(doc, model));
@@ -529,8 +547,8 @@ public class WorkflowParserImpl implements WorkflowParser {
         Element property = doc.createElement(DWDLNames.setProperty);
         property.setAttribute(DWDLNames.name, name);
         if (variableId != null) {
-            property.setAttribute(DWDLNames.variable,
-                    DWDLNames.variableNCnamePrefix + variableId.toString());
+            property.setAttribute(DWDLNames.variable, VariableNameFactory
+                    .createNCNameFromId(variableId));
         }
         return property;
     }
