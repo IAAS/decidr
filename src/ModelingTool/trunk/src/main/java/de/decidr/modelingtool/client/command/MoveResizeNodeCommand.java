@@ -16,6 +16,8 @@
 
 package de.decidr.modelingtool.client.command;
 
+import com.google.gwt.core.client.GWT;
+
 import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.ui.HasChildren;
 import de.decidr.modelingtool.client.ui.Node;
@@ -162,6 +164,9 @@ public class MoveResizeNodeCommand implements UndoableCommand {
         // get selected state
         boolean selected = node.isSelected();
 
+        GWT.log("old parent " + oldParentPanel.getClass().getName()
+                + ", new parent " + newParentPanel.getClass().getName(), null);
+
         if (oldParentPanel != newParentPanel) {
             // unselect node, if selected (nessecary if parent panel of node is
             // changed.
@@ -179,6 +184,10 @@ public class MoveResizeNodeCommand implements UndoableCommand {
             try {
                 node.getModel().setParentModel(
                         newParentPanel.getHasChildModelsModel());
+                oldParentPanel.getHasChildModelsModel().removeNodeModel(
+                        node.getModel());
+                newParentPanel.getHasChildModelsModel().addNodeModel(
+                        node.getModel());
             } catch (InvalidTypeException e) {
                 e.printStackTrace();
             }
@@ -201,9 +210,8 @@ public class MoveResizeNodeCommand implements UndoableCommand {
         // select node if it was selected before
         if (selected) {
             SelectionHandler.getInstance().select(node);
-            //SelectionHandler.getInstance().refreshSelection();
+            // SelectionHandler.getInstance().refreshSelection();
         }
 
     }
-
 }
