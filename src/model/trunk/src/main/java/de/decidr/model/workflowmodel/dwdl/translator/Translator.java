@@ -36,7 +36,6 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.log4j.Logger;
 import org.xml.sax.InputSource;
 
-
 import de.decidr.model.entities.Activity;
 import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.logging.DefaultLogger;
@@ -54,7 +53,7 @@ import de.decidr.model.workflowmodel.webservices.WebserviceMapping;
  * @version 0.1
  */
 public class Translator {
-    
+
     private static Logger log = DefaultLogger.getLogger(Translator.class);
 
     private Workflow dwdlWorkflow = null;
@@ -139,7 +138,7 @@ public class Translator {
 
     public TDeployment getDD() {
         DWDL2DD ddConverter = new DWDL2DD();
-        dd = ddConverter.getDD(bpelProcess,webserviceAdapters);
+        dd = ddConverter.getDD(bpelProcess, webserviceAdapters);
         return dd;
     }
 
