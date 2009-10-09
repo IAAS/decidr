@@ -42,11 +42,6 @@ import de.decidr.model.logging.DefaultLogger;
  */
 public class HibernateTransactionCoordinator implements TransactionCoordinator {
 
-    /**
-     * The singleton instance.
-     */
-    private static final HibernateTransactionCoordinator instance = new HibernateTransactionCoordinator();
-
     private static Logger logger = DefaultLogger
             .getLogger(HibernateTransactionCoordinator.class);
 
@@ -99,7 +94,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * default configuration.
      */
     private HibernateTransactionCoordinator() {
-        logger = DefaultLogger.getLogger(this.getClass());
         logger
                 .debug("Creating HibernateTransactionCoordinator singleton instance.");
         this.setConfiguration(new Configuration().configure());
@@ -341,4 +335,11 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 transactionDepth > 1);
         receiver.transactionCommitted(event);
     }
+
+    /**
+     * The singleton instance. This has been moved to the bottom to make sure it
+     * is the last static part of the class during initialization. Otherwise
+     * accessing static parts in the contructor would be impossible.
+     */
+    private static final HibernateTransactionCoordinator instance = new HibernateTransactionCoordinator();
 }
