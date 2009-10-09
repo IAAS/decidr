@@ -28,7 +28,11 @@ import de.decidr.modelingtool.client.io.resources.DWDLNames;
 public class VariableNameFactory {
 
     public static String createNCNameFromId(Long variableId) {
-        return DWDLNames.variableNCnamePrefix + variableId.toString();
+        if (variableId != null) {
+            return DWDLNames.variableNCnamePrefix + variableId.toString();
+        } else {
+            return DWDLNames.variableNCnamePrefix + "null";
+        }
     }
 
     public static Long createIdFromNCName(String ncname) {

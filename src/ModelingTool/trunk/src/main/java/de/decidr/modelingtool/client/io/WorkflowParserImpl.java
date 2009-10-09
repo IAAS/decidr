@@ -215,7 +215,7 @@ public class WorkflowParserImpl implements WorkflowParser {
          */
         Element nodes = doc.createElement(DWDLNames.nodes);
         for (NodeModel nodeModel : parent.getChildNodeModels()) {
-            GWT.log("  Creating child node " + nodeModel.toString() + ", id: "
+            GWT.log("Creating child node " + nodeModel.toString() + ", id: "
                     + nodeModel.getId(), null);
             /* Find out type and call the according node */
             if (nodeModel instanceof StartNodeModel) {
@@ -279,7 +279,7 @@ public class WorkflowParserImpl implements WorkflowParser {
 
         /* notification of success and recipient, create only if set to true */
         if (workflow.getProperties().getNotifyOnSuccess()) {
-            GWT.log("  Creating notification of success node", null);
+            GWT.log("Creating notification of success node", null);
             Element notification = doc
                     .createElement(DWDLNames.notificationOfSuccess);
             notification.appendChild(createPropertyElement(doc,
@@ -405,6 +405,10 @@ public class WorkflowParserImpl implements WorkflowParser {
 
     private Element createFlowElement(Document doc, WorkflowModel workflow,
             FlowContainerModel model) {
+        GWT.log("Creating FlowNode, children: "
+                + model.getChildNodeModels().size() + ", parent: "
+                + model.getParentModel().toString(), null);
+
         Element flowElement = doc.createElement(DWDLNames.flowNode);
         flowElement.setAttribute(DWDLNames.name, model.getName());
         flowElement.setAttribute(DWDLNames.id, model.getId().toString());
@@ -416,6 +420,8 @@ public class WorkflowParserImpl implements WorkflowParser {
         flowElement.appendChild(createSourceElement(doc, model));
         flowElement.appendChild(createChildNodeElements(doc, workflow, model));
         flowElement.appendChild(createArcElements(doc, model));
+
+        GWT.log("Finished creating FlowNode", null);
         return flowElement;
     }
 
@@ -567,6 +573,8 @@ public class WorkflowParserImpl implements WorkflowParser {
     }
 
     private Element createSourceElement(Document doc, NodeModel nodeModel) {
+        GWT.log("Creating source element for " + nodeModel.getName(), null);
+
         Element sources = doc.createElement(DWDLNames.sources);
         Element source = doc.createElement(DWDLNames.source);
         /*
@@ -575,11 +583,18 @@ public class WorkflowParserImpl implements WorkflowParser {
          */
         source.setAttribute(DWDLNames.arcId, nodeModel.getOutput().getId()
                 .toString());
+        GWT.log("ArcID: " + nodeModel.getOutput().getId() + " Source: "
+                + nodeModel.getOutput().getSource().getName() + " Target: "
+                + nodeModel.getOutput().getTarget(), null);
         sources.appendChild(source);
+
+        GWT.log("Finished source target element", null);
         return sources;
     }
 
     private Element createTargetElement(Document doc, NodeModel nodeModel) {
+        GWT.log("Creating target element for " + nodeModel.getName(), null);
+
         Element targets = doc.createElement(DWDLNames.targets);
         Element target = doc.createElement(DWDLNames.target);
         /*
@@ -588,11 +603,19 @@ public class WorkflowParserImpl implements WorkflowParser {
          */
         target.setAttribute(DWDLNames.arcId, nodeModel.getInput().getId()
                 .toString());
+        GWT.log("ArcID: " + nodeModel.getInput().getId() + " Source: "
+                + nodeModel.getInput().getSource().getName() + " Target: "
+                + nodeModel.getInput().getTarget(), null);
         targets.appendChild(target);
+
+        GWT.log("Finished creating target element", null);
         return targets;
     }
 
     private Element createArcElements(Document doc, HasChildModels parent) {
+        GWT.log("Creating " + parent.getChildConnectionModels().size()
+                + " arc elements for " + parent.toString(), null);
+
         Element arcs = doc.createElement(DWDLNames.arcs);
         for (ConnectionModel con : parent.getChildConnectionModels()) {
             Element arc = doc.createElement(DWDLNames.arc);
@@ -604,6 +627,8 @@ public class WorkflowParserImpl implements WorkflowParser {
                     .toString());
             arcs.appendChild(arc);
         }
+
+        GWT.log("Finished creating arc elements", null);
         return arcs;
     }
 

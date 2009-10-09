@@ -8,6 +8,7 @@ import de.decidr.modelingtool.client.io.DWDLParser;
 import de.decidr.modelingtool.client.io.DWDLParserImpl;
 import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
 import de.decidr.modelingtool.client.model.EndNodeModel;
+import de.decidr.modelingtool.client.model.FlowContainerModel;
 import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.model.StartNodeModel;
 import de.decidr.modelingtool.client.model.WorkflowModel;
@@ -31,6 +32,7 @@ public class ModelingToolTest extends GWTTestCase {
      * Holds the xml which is used to test the parser
      */
     private String dwdl = "<workflow name=\"Simple Workflow\" id=\"1255087539250\" targetNamespace=\"namespace\" xmlns=\"schema\"><description>This is a simple workflow.</description><variables><variable name=\"L1255088324562\" label=\"Form Container\" type=\"form\" configurationVariable=\"no\"><initialValue>New Value</initialValue></variable><variable name=\"L1255088196312\" label=\"Name\" type=\"string\" configurationVariable=\"no\"><initialValue>New Value</initialValue></variable><variable name=\"L1255088188640\" label=\"Description\" type=\"string\" configurationVariable=\"no\"><initialValue>New Value</initialValue></variable><variable name=\"L1255088176468\" label=\"Output\" type=\"string\" configurationVariable=\"no\"><initialValue>New Value</initialValue></variable><variable name=\"L123\" label=\"Fault Message\" type=\"string\" configurationVariable=\"no\"><initialValue>Workflow failed</initialValue></variable><variable name=\"L12\" label=\"Success Message\" type=\"string\" configurationVariable=\"yes\"><initialValue>Workflow succeded</initialValue></variable><variable name=\"L768768\" label=\"Text\" type=\"string\" configurationVariable=\"yes\"><initialValue>Loram Ipsum</initialValue></variable></variables><roles><role configurationVariable=\"no\" label=\"User\" name=\"L1255088207843\"><actor userId=\"23\" /><actor userId=\"113\" /></role><role configurationVariable=\"no\" label=\"Recipient\" name=\"L345\"><actor userId=\"decidradmin\" /></role></roles><faultHandler><setProperty name=\"message\" variable=\"L123\" /><recipient><setProperty name=\"name\" variable=\"L345\" /></recipient></faultHandler><nodes><invokeNode name=\"EmailInvokeNode\" id=\"1255088341203\" activity=\"Decidr-Email\"><description></description><graphics x=\"32\" y=\"96\" width=\"100\" height=\"60\" /><sources><source arcId=\"1255088341234\" /></sources><targets><target arcId=\"1255088341235\" /></targets><setProperty name=\"to\" variable=\"L345\" /><setProperty name=\"cc\" variable=\"L345\" /><setProperty name=\"bcc\" variable=\"L1255088207843\" /><setProperty name=\"subject\" variable=\"L768768\" /><setProperty name=\"message\" variable=\"L768768\" /><setProperty name=\"attachement\" /></invokeNode><invokeNode name=\"de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel\" id=\"1255088341250\" activity=\"Decidr-HumanTask\"><description></description><graphics x=\"184\" y=\"27\" width=\"100\" height=\"60\" /><targets><target arcId=\"1255088341234\" /></targets><sources><source arcId=\"1255088341281\" /></sources><setProperty name=\"wfmID\" variable=\"L1255087539250\" /><setProperty name=\"user\" variable=\"L1255088207843\" /><setProperty name=\"name\" variable=\"L1255088196312\" /><setProperty name=\"description\" variable=\"L1255088188640\" /><setProperty name=\"userNotification\"><propertyValue>yes</propertyValue></setProperty><getProperty name=\"taskResult\" variable=\"L1255088324562\"><parameters><humanTaskData><taskItem name=\"taskItem\" variable=\"L1255088176468\" type=\"string\"><label>Label 1</label><hint>First</hint><value>New Value</value></taskItem><taskItem name=\"taskItem\" variable=\"L1255088176468\" type=\"string\"><label>Label 2</label><hint>Second</hint><value>New Value</value></taskItem></humanTaskData></parameters></getProperty></invokeNode><flowNode name=\"FlowContainer\" id=\"1255088341296\"><description></description><graphics x=\"176\" y=\"128\" width=\"311\" height=\"154\" /><targets><target arcId=\"1255088341312\" /></targets><sources><source arcId=\"1255088341328\" /></sources><nodes><invokeNode name=\"EmailInvokeNode\" id=\"1255088341329\" activity=\"Decidr-Email\"><description></description><graphics x=\"23\" y=\"54\" width=\"100\" height=\"60\" /><sources><source arcId=\"1255088341312\" /></sources><targets><target arcId=\"1255088341359\" /></targets><setProperty name=\"to\" /><setProperty name=\"cc\" /><setProperty name=\"bcc\" /><setProperty name=\"subject\" /><setProperty name=\"message\" /><setProperty name=\"attachement\" /></invokeNode><invokeNode name=\"de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel\" id=\"1255088341360\" activity=\"Decidr-HumanTask\"><description></description><graphics x=\"172\" y=\"54\" width=\"100\" height=\"60\" /><targets><target arcId=\"1255088341328\" /></targets><sources><source arcId=\"1255088341406\" /></sources><setProperty name=\"wfmID\" variable=\"L1255087539250\" /><setProperty name=\"user\" /><setProperty name=\"name\" /><setProperty name=\"description\" /><setProperty name=\"userNotification\"><propertyValue>no</propertyValue></setProperty><getProperty name=\"taskResult\" variable=\"Lnull\"><parameters><humanTaskData /></parameters></getProperty></invokeNode></nodes><arcs><arc name=\"\" id=\"1255088341359\" source=\"1255088341296\" target=\"1255088341329\" /><arc name=\"\" id=\"1255088341312\" source=\"1255088341329\" target=\"1255088341296\" /><arc name=\"\" id=\"1255088341406\" source=\"1255088341360\" target=\"1255088341296\" /><arc name=\"\" id=\"1255088341328\" source=\"1255088341296\" target=\"1255088341360\" /></arcs></flowNode><endNode name=\"EndNode\" id=\"1255087539312\"><description></description><graphics x=\"495\" y=\"325\" width=\"50\" height=\"30\" /><targets><target arcId=\"1255088341500\" /></targets><notificationOfSuccess><setProperty name=\"successMessage\" variable=\"L12\" /><setProperty name=\"recipient\" variable=\"L345\" /></notificationOfSuccess></endNode><startNode name=\"StartNode\" id=\"1255087539343\"><description></description><graphics x=\"25\" y=\"25\" width=\"50\" height=\"30\" /><sources><source arcId=\"1255088341235\" /></sources></startNode></nodes><arcs><arc name=\"\" id=\"1255088341281\" source=\"1255088341250\" target=\"1255088341296\" /><arc name=\"\" id=\"1255088341235\" source=\"1255087539343\" target=\"1255088341203\" /><arc name=\"\" id=\"1255088341234\" source=\"1255088341203\" target=\"1255088341250\" /><arc name=\"\" id=\"1255088341500\" source=\"1255088341296\" target=\"1255087539312\" /></arcs></workflow>";
+
     private Long workflowId = new Long("1255087539250");
 
     private Long formVarId = new Long("1255088324562");
@@ -155,7 +157,8 @@ public class ModelingToolTest extends GWTTestCase {
 
         EmailInvokeNodeModel emailNodeModel = null;
         for (NodeModel nodeModel : model.getChildNodeModels()) {
-            if (nodeModel instanceof EmailInvokeNodeModel) {
+            if (nodeModel instanceof EmailInvokeNodeModel
+                    && nodeModel.getId().equals(emailNodeId)) {
                 emailNodeModel = (EmailInvokeNodeModel) nodeModel;
             }
         }
@@ -182,7 +185,8 @@ public class ModelingToolTest extends GWTTestCase {
 
         HumanTaskInvokeNodeModel humanTaskNodeModel = null;
         for (NodeModel nodeModel : model.getChildNodeModels()) {
-            if (nodeModel instanceof HumanTaskInvokeNodeModel) {
+            if (nodeModel instanceof HumanTaskInvokeNodeModel
+                    && nodeModel.getId().equals(humanTaskNodeId)) {
                 humanTaskNodeModel = (HumanTaskInvokeNodeModel) nodeModel;
             }
         }
@@ -219,7 +223,25 @@ public class ModelingToolTest extends GWTTestCase {
 
     @Test
     public void testFlowNode() {
-        fail();
+        DWDLParser parser = new DWDLParserImpl();
+        WorkflowModel model = parser.parse(dwdl);
+
+        FlowContainerModel flowModel = null;
+        for (NodeModel nodeModel : model.getChildNodeModels()) {
+            if (nodeModel instanceof FlowContainerModel
+                    && nodeModel.getId().equals(flowNodeId)) {
+                flowModel = (FlowContainerModel) nodeModel;
+            }
+        }
+
+        assertEquals(flowNodeId, flowModel.getId());
+        assertEquals(176, flowModel.getChangeListenerLeft());
+        assertEquals(128, flowModel.getChangeListenerTop());
+        assertEquals(humanTaskNodeId, flowModel.getInput().getSource().getId());
+        assertEquals(endNodeId, flowModel.getOutput().getTarget().getId());
+
+        assertEquals(2, flowModel.getChildNodeModels().size());
+        assertEquals(4, flowModel.getChildConnectionModels().size());
     }
 
     @Test

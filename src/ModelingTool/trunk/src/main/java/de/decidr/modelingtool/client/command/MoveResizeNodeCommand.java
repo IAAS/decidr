@@ -16,8 +16,6 @@
 
 package de.decidr.modelingtool.client.command;
 
-import com.google.gwt.core.client.GWT;
-
 import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.ui.HasChildren;
 import de.decidr.modelingtool.client.ui.Node;
@@ -163,9 +161,6 @@ public class MoveResizeNodeCommand implements UndoableCommand {
     public void execute() {
         // get selected state
         boolean selected = node.isSelected();
-
-        GWT.log("old parent " + oldParentPanel.getClass().getName()
-                + ", new parent " + newParentPanel.getClass().getName(), null);
 
         if (oldParentPanel != newParentPanel) {
             // unselect node, if selected (nessecary if parent panel of node is
