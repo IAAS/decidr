@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 09.10.2009 11:43:53 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 09.10.2009 15:53:48 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.File" table="file" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="java.lang.Long">
@@ -33,6 +33,16 @@
         <property name="data" type="binary">
             <column name="`data`">
                 <comment>optional: the actual file data.</comment>
+            </column>
+        </property>
+        <property name="creationDate" type="timestamp">
+            <column name="`creationDate`" length="19" not-null="true">
+                <comment>Date when this file entry was created.</comment>
+            </column>
+        </property>
+        <property name="isTemporary" type="boolean">
+            <column name="`isTemporary`" not-null="true">
+                <comment>Temporary files are deleted after a certain time if they are not persisted.</comment>
             </column>
         </property>
         <set name="tenantsForAdvancedColorSchemeId" inverse="true" lazy="true" table="tenant" fetch="select">

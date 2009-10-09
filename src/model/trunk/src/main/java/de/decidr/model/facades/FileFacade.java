@@ -16,9 +16,13 @@
 
 package de.decidr.model.facades;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Set;
 
+import de.decidr.model.acl.permissions.FileDeletePermission;
+import de.decidr.model.acl.permissions.FilePermission;
+import de.decidr.model.acl.permissions.FileReadPermission;
+import de.decidr.model.acl.permissions.FileReplacePermission;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.AllowedRole;
@@ -53,11 +57,14 @@ public class FileFacade extends AbstractFacade {
     }
 
     /***
-     * Stores a new file and returns the ID of the new file.
+     * Stores a new file and returns the ID of the new file. It is the caller's
+     * responsibility to close the given file stream.
      * 
      * @param contents
-     *            the file contents to store. This method will read the given
-     *            input stream until there is no more data left.
+     *            the file contents to store. This method will read fileSize
+     *            byte from this stream.
+     * @param fileSize
+     *            the number of bytes to read from the stream.
      * @param originalFileName
      *            the original name of the file as reported by the uploader's
      *            user agent (browser).
@@ -67,15 +74,22 @@ public class FileFacade extends AbstractFacade {
      * @param temporary
      *            whether this is a temporary upload that is subject to deletion
      *            after a certain time limit.
+     * @param publicPermissions
+     *            the inital public permissions for this file. This is is a set
+     *            of {@link FileReadPermission}, {@link FileReplacePermission}
+     *            and {@link FileDeletePermission}.
      * @return the ID of the new file.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(BasicRole.class)
-    public Long createFile(InputStream contents, String originalFileName,
-            String mimeType, Boolean temporary) throws TransactionException {
+    public Long createFile(InputStream contents, Long fileSize,
+            String originalFileName, String mimeType, Boolean temporary,
+            Set<Class<? extends FilePermission>> publicPermissions)
+            throws TransactionException {
         CreateFileCommand cmd = new CreateFileCommand(actor, contents,
-                originalFileName, mimeType, temporary);
+                fileSize, originalFileName, mimeType, temporary,
+                publicPermissions);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
         return cmd.getFile().getId();
     }
@@ -87,12 +101,12 @@ public class FileFacade extends AbstractFacade {
      *            the file to replace
      * @param newContents
      *            new contents of the file
+     * @param fileSize
+     *            number of bytes to read from the given input stream.
      * @param newFileName
      *            new file name as reported by the user agent (browser)
      * @param newMimeType
      *            new mime type as reported by the user agent (browser)
-     * @return whether the file has been replaced XXX: why? this is always true
-     *         unless an exception is thrown
      * @throws TransactionException
      *             iff the transaction is aborted for any reason
      * @throws AccessDeniedException
@@ -102,15 +116,12 @@ public class FileFacade extends AbstractFacade {
      *             iff the given file ID is unknown to the system.
      */
     @AllowedRole(BasicRole.class)
-    // DH why a FileInputStream here and a simple InputStream further up? BTW,
-    // the interface of the StorageProvider changed ~rr
-    public Boolean replaceFile(Long fileId, FileInputStream newContents,
-            String newFileName, String newMimeType) throws TransactionException {
+    public void replaceFile(Long fileId, InputStream newContents,
+            Long fileSize, String newFileName, String newMimeType)
+            throws TransactionException {
         ReplaceFileCommand cmd = new ReplaceFileCommand(actor, fileId,
-                newContents, newFileName, newMimeType);
+                newContents, fileSize, newFileName, newMimeType);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-        // DH you can just replace this with "return true;"
-        return cmd.isReplaced();
     }
 
     /**
@@ -174,4 +185,5 @@ public class FileFacade extends AbstractFacade {
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
         return cmd.getFile();
     }
+    
 }

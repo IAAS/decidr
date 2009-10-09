@@ -17,16 +17,26 @@
 package de.decidr.model.commands.file;
 
 import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Set;
 
+import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.permissions.FileDeletePermission;
+import de.decidr.model.acl.permissions.FilePermission;
+import de.decidr.model.acl.permissions.FileReadPermission;
+import de.decidr.model.acl.permissions.FileReplacePermission;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.storage.StorageProvider;
 import de.decidr.model.storage.StorageProviderFactory;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
+ * Creates a new file using the default storage provider.
+ * 
  * @author Daniel Huss
  * @version 0.1
  */
@@ -36,6 +46,8 @@ public class CreateFileCommand extends AclEnabledCommand {
     private String originalFileName;
     private String mimeType;
     private Boolean temporary;
+    private Long fileSize;
+    private Set<Class<? extends FilePermission>> publicPermissions;
 
     private File newFile;
 
@@ -47,6 +59,8 @@ public class CreateFileCommand extends AclEnabledCommand {
      *            user / system executing the command
      * @param contents
      *            file contents
+     * @param fileSize
+     *            number of bytes to read from the given stream.
      * @param originalFileName
      *            original file name as reported by the uploader's user agent
      *            (browser).
@@ -56,9 +70,14 @@ public class CreateFileCommand extends AclEnabledCommand {
      *            whether the file is a temporary file that is subject to
      *            deletion if it is not made permanent within a certain time
      *            limit.
+     * @param publicPermissions
+     *            the initial global permissions of the file. If set to null,
+     *            the file will have no global permissions, i.e. it will not be
+     *            publicly readable/writeable.
      */
-    public CreateFileCommand(Role role, InputStream contents,
-            String originalFileName, String mimeType, Boolean temporary) {
+    public CreateFileCommand(Role role, InputStream contents, Long fileSize,
+            String originalFileName, String mimeType, Boolean temporary,
+            Set<Class<? extends FilePermission>> publicPermissions) {
         super(role, (Permission) null);
 
         if (contents == null) {
@@ -71,11 +90,19 @@ public class CreateFileCommand extends AclEnabledCommand {
         if (mimeType == null) {
             throw new IllegalArgumentException("Mime type must not be null.");
         }
+        if (fileSize != 0 && fileSize == null) {
+            throw new IllegalArgumentException("File size must not be null.");
+        }
+        if (publicPermissions == null) {
+            publicPermissions = new HashSet<Class<? extends FilePermission>>(0);
+        }
 
         this.contents = contents;
         this.originalFileName = originalFileName;
         this.mimeType = mimeType;
         this.temporary = temporary;
+        this.fileSize = fileSize;
+        this.publicPermissions = publicPermissions;
 
         this.newFile = null;
     }
@@ -85,6 +112,38 @@ public class CreateFileCommand extends AclEnabledCommand {
             throws TransactionException {
         this.newFile = null;
 
+        try {
+            /*
+             * The file metainformation is stored in a Hibernate entity, the
+             * actual file contents is handled by StorageProvider.
+             */
+            newFile = new File();
+            newFile.setCreationDate(DecidrGlobals.getTime().getTime());
+            newFile.setFileName(originalFileName);
+            newFile.setFileSizeBytes(fileSize);
+            newFile.setMayPublicDelete(publicPermissions
+                    .contains(FileDeletePermission.class));
+            newFile.setMayPublicRead(publicPermissions
+                    .contains(FileReadPermission.class));
+            newFile.setMayPublicReplace(publicPermissions
+                    .contains(FileReplacePermission.class));
+            newFile.setMimeType(mimeType);
+            newFile.setIsTemporary(temporary);
+
+            evt.getSession().save(newFile);
+
+            StorageProvider storage = StorageProviderFactory
+                    .getDefaultFactory().getStorageProvider();
+
+            storage.putFile(contents, newFile.getId(), fileSize);
+        } catch (Exception e) {
+            newFile = null;
+            if (e instanceof TransactionException) {
+                throw (TransactionException) e;
+            } else {
+                throw new TransactionException(e);
+            }
+        }
     }
 
     /**

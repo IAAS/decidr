@@ -1,7 +1,8 @@
 package de.decidr.model.entities;
 
-// Generated 09.10.2009 11:43:53 by Hibernate Tools 3.2.4.GA
+// Generated 09.10.2009 15:53:47 by Hibernate Tools 3.2.4.GA
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +23,8 @@ public class File implements java.io.Serializable {
     private boolean mayPublicDelete;
     private long fileSizeBytes;
     private byte[] data;
+    private Date creationDate;
+    private boolean isTemporary;
     private Set<Tenant> tenantsForAdvancedColorSchemeId = new HashSet<Tenant>(0);
     private Set<Tenant> tenantsForSimpleColorSchemeId = new HashSet<Tenant>(0);
     private Set<Tenant> tenantsForLogoId = new HashSet<Tenant>(0);
@@ -34,19 +37,21 @@ public class File implements java.io.Serializable {
 
     public File(String fileName, String mimeType, boolean mayPublicRead,
             boolean mayPublicReplace, boolean mayPublicDelete,
-            long fileSizeBytes) {
+            long fileSizeBytes, Date creationDate, boolean isTemporary) {
         this.fileName = fileName;
         this.mimeType = mimeType;
         this.mayPublicRead = mayPublicRead;
         this.mayPublicReplace = mayPublicReplace;
         this.mayPublicDelete = mayPublicDelete;
         this.fileSizeBytes = fileSizeBytes;
+        this.creationDate = creationDate;
+        this.isTemporary = isTemporary;
     }
 
     public File(String fileName, String mimeType, boolean mayPublicRead,
             boolean mayPublicReplace, boolean mayPublicDelete,
-            long fileSizeBytes, byte[] data,
-            Set<Tenant> tenantsForAdvancedColorSchemeId,
+            long fileSizeBytes, byte[] data, Date creationDate,
+            boolean isTemporary, Set<Tenant> tenantsForAdvancedColorSchemeId,
             Set<Tenant> tenantsForSimpleColorSchemeId,
             Set<Tenant> tenantsForLogoId,
             Set<Tenant> tenantsForCurrentColorSchemeId,
@@ -58,6 +63,8 @@ public class File implements java.io.Serializable {
         this.mayPublicDelete = mayPublicDelete;
         this.fileSizeBytes = fileSizeBytes;
         this.data = data;
+        this.creationDate = creationDate;
+        this.isTemporary = isTemporary;
         this.tenantsForAdvancedColorSchemeId = tenantsForAdvancedColorSchemeId;
         this.tenantsForSimpleColorSchemeId = tenantsForSimpleColorSchemeId;
         this.tenantsForLogoId = tenantsForLogoId;
@@ -127,6 +134,22 @@ public class File implements java.io.Serializable {
 
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    public Date getCreationDate() {
+        return this.creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public boolean isIsTemporary() {
+        return this.isTemporary;
+    }
+
+    public void setIsTemporary(boolean isTemporary) {
+        this.isTemporary = isTemporary;
     }
 
     public Set<Tenant> getTenantsForAdvancedColorSchemeId() {

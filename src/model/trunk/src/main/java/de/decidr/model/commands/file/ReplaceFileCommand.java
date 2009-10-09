@@ -16,7 +16,7 @@
 
 package de.decidr.model.commands.file;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 
 import de.decidr.model.acl.permissions.FileReplacePermission;
 import de.decidr.model.acl.roles.Role;
@@ -27,15 +27,17 @@ import de.decidr.model.storage.StorageProviderFactory;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
+ * Replaces an existing file using the default storage provider.
+ * 
  * @author Daniel Huss
  * @version 0.1
  */
 public class ReplaceFileCommand extends FileCommand {
 
-    FileInputStream newContents = null;
+    InputStream newContents = null;
     String newFileName = null;
     String newMimeType = null;
-    private Boolean replaced = false;
+    Long fileSize = null;
 
     /**
      * Creates a new ReplaceFileCommand that replaces the content, name and mime
@@ -44,10 +46,18 @@ public class ReplaceFileCommand extends FileCommand {
      * @param role
      *            user / system executing the command
      * @param fileId
-     *            ID of existing file that is being replaced.
+     *            ID of existing file that is being replaced
+     * @param newContents
+     *            new file contents.
+     * @param fileSize
+     *            number of bytes to read from the given stream.
+     * @param newFileName
+     *            new file name.
+     * @param newMimeType
+     *            new mime type.
      */
-    public ReplaceFileCommand(Role role, Long fileId,
-            FileInputStream newContents, String newFileName, String newMimeType) {
+    public ReplaceFileCommand(Role role, Long fileId, InputStream newContents,
+            Long fileSize, String newFileName, String newMimeType) {
         super(role, fileId);
 
         if (newContents == null) {
@@ -64,9 +74,14 @@ public class ReplaceFileCommand extends FileCommand {
                     "New mime type must not be null.");
         }
 
+        if (fileSize != 0 && fileSize == null) {
+            throw new IllegalArgumentException("File size must not be null.");
+        }
+
         this.newContents = newContents;
         this.newFileName = newFileName;
         this.newMimeType = newMimeType;
+        this.fileSize = fileSize;
 
         this.additionalPermissions.add(new FileReplacePermission(fileId));
     }
@@ -74,12 +89,11 @@ public class ReplaceFileCommand extends FileCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-        replaced = false;
         try {
             File existingFile = fetchFile(evt.getSession());
             existingFile.setFileName(newFileName);
             existingFile.setMimeType(newMimeType);
-            existingFile.setFileSizeBytes(newContents.getChannel().size());
+            existingFile.setFileSizeBytes(fileSize);
             evt.getSession().save(existingFile);
 
             StorageProvider storage = StorageProviderFactory
@@ -87,8 +101,7 @@ public class ReplaceFileCommand extends FileCommand {
 
             // since the changes to the file data cannot necessarily be rolled
             // back by the transaction manager, they are our last action.
-            storage.putFile(newContents, existingFile.getId(), newContents
-                    .getChannel().size());
+            storage.putFile(newContents, existingFile.getId(), fileSize);
         } catch (Exception e) {
             if (e instanceof TransactionException) {
                 throw (TransactionException) e;
@@ -96,14 +109,5 @@ public class ReplaceFileCommand extends FileCommand {
                 throw new TransactionException(e);
             }
         }
-        replaced = true;
     }
-
-    /**
-     * @return whether the file has been replaced.
-     */
-    public Boolean isReplaced() {
-        return replaced;
-    }
-
 }

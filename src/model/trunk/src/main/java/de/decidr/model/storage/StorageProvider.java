@@ -27,7 +27,7 @@ import de.decidr.model.exceptions.StorageException;
  * 
  * @author Markus Fischer
  * @author Daniel Huss
- * @author Reinhold
+ * @author Reinhold Rumberger
  * 
  * @version 0.1
  */
