@@ -27,7 +27,6 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.WorkflowModel;
-import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
@@ -43,7 +42,6 @@ import de.decidr.model.workflowmodel.dwdl.Workflow;
  */
 public class CreateWorkflowModelCommand extends TenantCommand {
 
-    private Long tenantId;
     private String workflowModelName;
     private Long workflowModelId;
 
@@ -82,35 +80,31 @@ public class CreateWorkflowModelCommand extends TenantCommand {
 
         workflowModelId = null;
 
-        Tenant tenant = (Tenant) evt.getSession().get(Tenant.class, tenantId);
+        Tenant tenant = fetchTenant(evt.getSession());
 
-        if (tenant == null) {
-            throw new EntityNotFoundException(Tenant.class, tenantId);
-        } else {
+        WorkflowModel model = new WorkflowModel();
+        model.setName(workflowModelName);
+        model.setCreationDate(DecidrGlobals.getTime().getTime());
+        model.setModifiedByUser(tenant.getAdmin());
+        model.setModifiedDate(DecidrGlobals.getTime().getTime());
+        model.setVersion(0);
+        model.setDwdl(new byte[0]);
+        model.setExecutable(false);
+        model.setPublished(false);
+        model.setTenant(tenant);
 
-            WorkflowModel model = new WorkflowModel();
-            model.setName(workflowModelName);
-            model.setCreationDate(DecidrGlobals.getTime().getTime());
-            model.setModifiedByUser(tenant.getAdmin());
-            model.setModifiedDate(DecidrGlobals.getTime().getTime());
-            model.setVersion(0);
-            model.setDwdl(new byte[0]);
-            model.setExecutable(false);
-            model.setPublished(false);
-            model.setTenant(tenant);
+        evt.getSession().save(model);
 
-            evt.getSession().save(model);
-
-            try {
-                model.setDwdl(createNewWorkflowModelXml(tenant.getName(), model
-                        .getId(), model.getName()));
-            } catch (JAXBException e) {
-                throw new TransactionException(e);
-            }
-            evt.getSession().update(model);
-
-            workflowModelId = model.getId();
+        try {
+            model.setDwdl(createNewWorkflowModelXml(tenant.getName(), model
+                    .getId(), model.getName()));
+        } catch (JAXBException e) {
+            throw new TransactionException(e);
         }
+        evt.getSession().update(model);
+
+        workflowModelId = model.getId();
+
     }
 
     /**
