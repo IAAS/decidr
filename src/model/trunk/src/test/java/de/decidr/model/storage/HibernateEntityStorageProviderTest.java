@@ -27,11 +27,17 @@ import javax.activation.MimetypesFileTypeMap;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.storage.commands.GetFileTestCommand;
+import de.decidr.model.storage.commands.PutFileTestCommand;
+import de.decidr.model.storage.commands.PutFileTestFaultyCommand;
+import de.decidr.model.storage.commands.RemoveFileFaultyTestCommand;
+import de.decidr.model.storage.commands.RemoveFileTestCommand;
 import de.decidr.model.testing.LowLevelDatabaseTest;
+import de.decidr.model.transactions.HibernateTransactionCoordinator;
 
 /**
  * Test class for the HibernateEntityStorageProvider
@@ -43,7 +49,7 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
     static HibernateEntityStorageProvider StorageProvider;
     static File DataFile;
     static java.io.File BasicFile;
-    
+
     /*
      * converts file into byte[]
      */
@@ -105,8 +111,7 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
         StorageProvider = new HibernateEntityStorageProvider();
 
     }
-    
-    
+
     /**
      * Test method for
      * {@link HibernateEntityStorageProvider#putFile(InputStream, Long, Long)},
@@ -117,37 +122,43 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
     @Test
     public void testPutFileGetFile() throws Exception {
 
-        StorageProvider.putFile(
-                new FileInputStream(BasicFile.getAbsolutePath()), 123456l,
-                BasicFile.length());
+        /*
+         * put file
+         */
+        PutFileTestCommand cmd = new PutFileTestCommand(123456l, BasicFile,
+                StorageProvider);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
         FileInputStream stream = new FileInputStream(
                 "./src/test/java/decidr.jpg");
 
+        /*
+         * get file
+         */
+        GetFileTestCommand cmd2 = new GetFileTestCommand(123456l,
+                StorageProvider);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd2);
+
+        /*
+         * check if equal
+         */
         byte[] In = readInputStream(stream);
-        byte[] Out = readInputStream((FileInputStream) StorageProvider
-                .getFile(123456l));
+        byte[] Out = readInputStream(cmd2.getResultStrem());
 
         assertTrue(java.util.Arrays.equals(In, Out));
 
+        /*
+         * check some illegal calls
+         */
         try {
-            StorageProvider.putFile((FileInputStream) null, 123l, BasicFile
-                    .length());
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException e) {
-            // nothing to do
-        }
+            PutFileTestFaultyCommand cmd3 = new PutFileTestFaultyCommand(
+                    123456l, BasicFile, StorageProvider);
+            HibernateTransactionCoordinator.getInstance().runTransaction(cmd3);
 
-        try {
-            StorageProvider.putFile(stream, (Long) null, BasicFile.length());
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException e) {
-            // nothing to do
-        }
+            if (cmd3.getResult() == false) {
+                fail("IllegalArgumentExpected");
+            }
 
-        try {
-            StorageProvider.putFile(stream, 123l, (Long) null);
-            fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // nothing to do
         }
@@ -156,38 +167,53 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
 
     /**
      * Test method for {@link HibernateEntityStorageProvider#removeFile(Long)}.
+     * @throws TransactionException 
      * 
      * @throws StorageException
      */
     @Test
-    public void testRemoveFile() throws StorageException {
-
-        StorageProvider.removeFile(123456l);
+    public void testRemoveFile() throws TransactionException {
 
         try {
-            StorageProvider.getFile(123456l);
-            fail("StorageException expected");
-        } catch (StorageException e) {
-            // nothing to do
+            RemoveFileTestCommand cmd4 = new RemoveFileTestCommand(123456l,
+                    StorageProvider);
+            HibernateTransactionCoordinator.getInstance().runTransaction(cmd4);
+        } catch (Exception e) {
+            fail("Couldn't remove the file");
+        }
+
+        GetFileTestCommand cmd5 = new GetFileTestCommand(123456l,
+                StorageProvider);
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(cmd5);
+            fail("TransactionException expected");
+        } catch (TransactionException e1) {
+            // nothing to to
         }
 
         try {
-            StorageProvider.removeFile(999999l); // this file doesn't exist
+            RemoveFileTestCommand cmd4 = new RemoveFileTestCommand(123456l,
+                    StorageProvider);
+            HibernateTransactionCoordinator.getInstance().runTransaction(cmd4);
         } catch (Exception e) {
             fail("No Exception should be thrown when an non existing file should be deleted");
         }
 
-        try {
-            StorageProvider.removeFile((Long) null);
+        
+        
+        RemoveFileFaultyTestCommand cmd6 = new RemoveFileFaultyTestCommand(123456l,
+                    StorageProvider);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd6);
+        
+        if(cmd6.getResul() == false){
             fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException e) {
-            // nothing to do
         }
-
+        
     }
 
     /**
-     * Test method for {@link HibernateEntityStorageProvider#isApplicable(Properties)}.
+     * Test method for
+     * {@link HibernateEntityStorageProvider#isApplicable(Properties)}.
      */
     @Test
     public void testIsApplicable() {
@@ -223,7 +249,8 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for {@link HibernateEntityStorageProvider#applyConfig(Properties)}.
+     * Test method for
+     * {@link HibernateEntityStorageProvider#applyConfig(Properties)}.
      */
     @Test
     public void testApplyConfig() {
@@ -253,9 +280,8 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
             StorageProvider.applyConfig(props);
             fail("This conf shouldn't work.");
         } catch (IncompleteConfigurationException e1) {
-            //nothing to do
+            // nothing to do
         }
-
 
         props = new Properties();
         props = (Properties) null;

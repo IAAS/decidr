@@ -43,7 +43,7 @@ public class LocalStorageProviderTest extends DecidrOthersTest {
     static File DataFile;
     static java.io.File BasicFile;
 
-    /*
+    /**
      * converts file into byte[]
      */
     private static byte[] readFile(java.io.File file) throws Exception {
@@ -65,7 +65,7 @@ public class LocalStorageProviderTest extends DecidrOthersTest {
         return byteArrayOutputStream.toByteArray();
     }
 
-    /*
+    /**
      * converts InputStream into byte[]
      */
     private static byte[] readInputStream(FileInputStream stream)
@@ -190,6 +190,8 @@ public class LocalStorageProviderTest extends DecidrOthersTest {
     @Test
     public void testIsApplicable() {
 
+        // set as it should be
+        
         Properties props = new Properties();
 
         props.setProperty("AMAZON_S3_CONFIG_KEY", "false");
@@ -199,6 +201,9 @@ public class LocalStorageProviderTest extends DecidrOthersTest {
 
         assertTrue(StorageProvider.isApplicable(props));
 
+        
+        // set s3
+        
         props = new Properties();
 
         props.setProperty("AMAZON_S3_CONFIG_KEY", "true");
@@ -206,8 +211,11 @@ public class LocalStorageProviderTest extends DecidrOthersTest {
         props.setProperty("LOCAL_CONFIG_KEY", "true");
         props.setProperty("PERSISTENT_CONFIG_KEY", "true");
 
-        assertTrue(StorageProvider.isApplicable(props));
+        assertFalse(StorageProvider.isApplicable(props));
 
+        
+        // set all false
+        
         props = new Properties();
 
         props.setProperty("AMAZON_S3_CONFIG_KEY", "false");
@@ -217,15 +225,28 @@ public class LocalStorageProviderTest extends DecidrOthersTest {
 
         assertTrue(StorageProvider.isApplicable(props));
 
-        props = new Properties();
-        props = (Properties) null;
+        
+        // give null
+        
+        props = null;
 
         try {
             StorageProvider.isApplicable(props);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
-            // nothing to do
+            // nthing to do
         }
+        
+        
+        // one missing key
+        
+        props = new Properties();
+
+        props.setProperty("PROTOCOL_CONFIG_KEY", "file");
+        props.setProperty("LOCAL_CONFIG_KEY", "false");
+        props.setProperty("PERSISTENT_CONFIG_KEY", "false");
+
+        assertTrue(StorageProvider.isApplicable(props));
 
     }
 
@@ -235,6 +256,8 @@ public class LocalStorageProviderTest extends DecidrOthersTest {
     @Test
     public void testApplyConfig() {
 
+        //set as it should
+        
         Properties props = new Properties();
 
         props.setProperty("AMAZON_S3_CONFIG_KEY", "false");
@@ -248,6 +271,9 @@ public class LocalStorageProviderTest extends DecidrOthersTest {
             fail("This configuration should work");
         }
 
+        
+        //set s3
+        
         props = new Properties();
 
         props.setProperty("AMAZON_S3_CONFIG_KEY", "true");
@@ -257,10 +283,14 @@ public class LocalStorageProviderTest extends DecidrOthersTest {
 
         try {
             StorageProvider.applyConfig(props);
+            fail("This configuration shouldn't work");
         } catch (IncompleteConfigurationException e1) {
-            fail("This configuration should work");
+            //nothing to do
         }
 
+        
+        // set all false
+        
         props = new Properties();
 
         props.setProperty("AMAZON_S3_CONFIG_KEY", "false");
@@ -274,8 +304,10 @@ public class LocalStorageProviderTest extends DecidrOthersTest {
             fail("This configuration should work");
         }
 
-        props = new Properties();
-        props = (Properties) null;
+        
+        //give null
+        
+        props = null;
 
         try {
             StorageProvider.applyConfig(props);
@@ -284,6 +316,21 @@ public class LocalStorageProviderTest extends DecidrOthersTest {
             // nothing to do
         } catch (IncompleteConfigurationException e) {
             fail("IllegalArgumentException expected");
+        }
+        
+        
+        // one missing key
+        
+        props = new Properties();
+
+        props.setProperty("PROTOCOL_CONFIG_KEY", "file");
+        props.setProperty("LOCAL_CONFIG_KEY", "false");
+        props.setProperty("PERSISTENT_CONFIG_KEY", "false");
+
+        try {
+            StorageProvider.applyConfig(props);
+        } catch (IncompleteConfigurationException e1) {
+            fail("This configuration should work");
         }
 
     }

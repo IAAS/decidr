@@ -50,6 +50,7 @@ public class MailBackendTest extends DecidrOthersTest {
 
     MailBackend testMail;
     static File testfile;
+    static File nonExistingFile;
 
     @Before
     public void setUpBeforeEachTest() {
@@ -58,6 +59,9 @@ public class MailBackendTest extends DecidrOthersTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws IOException {
+        
+        // testFile
+        
         testfile = File.createTempFile("decidr", ".jpg");
 
         InputStream testStream = MailBackendTest.class
@@ -69,6 +73,11 @@ public class MailBackendTest extends DecidrOthersTest {
         while ((content = testStream.read()) != -1) {
             writer.write(content);
         }
+        
+        // non existing file
+        
+        nonExistingFile = new File("meohcoewhvofehvefv");
+        
     }
 
     @AfterClass
@@ -86,10 +95,17 @@ public class MailBackendTest extends DecidrOthersTest {
     @Test
     public void testAddFileFile() throws IOException, MessagingException {
 
-        // MF: new test: file doesn't exist
+        
+        try {testMail.addFile(nonExistingFile);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // supposed to be thrown
+        }
+        
+        
         try {
             testMail.addFile((File) null);
-            fail("");// MF finish
+            fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
@@ -115,7 +131,7 @@ public class MailBackendTest extends DecidrOthersTest {
 
         try {
             testMail.addFile((InputStream) null);
-            fail("");// MF finish
+            fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
@@ -143,7 +159,7 @@ public class MailBackendTest extends DecidrOthersTest {
 
         try {
             testMail.addFile((URI) null);
-            fail("");// MF finish
+            fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
@@ -167,7 +183,7 @@ public class MailBackendTest extends DecidrOthersTest {
 
         try {
             testMail.addFile((URL) null);
-            fail("");// MF finish
+            fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
