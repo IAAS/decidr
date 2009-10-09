@@ -115,7 +115,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
      * Test method for {@link TenantFacade#addTenantMember(Long, Long)}.
      */
     @Test
-    public void testAddTenantMember() {
+    public void testAddTenantMember() throws TransactionException {
         assertEquals(2, adminFacade.getUsersOfTenant(testTenantID, null).size());
         fail("Not yet implemented"); // RR addTenantMember
     }
