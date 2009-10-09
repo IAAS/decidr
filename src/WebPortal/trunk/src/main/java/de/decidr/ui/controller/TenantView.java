@@ -46,7 +46,7 @@ public class TenantView {
     private String tenantName = (String) session.getAttribute("tenant");
     private Long tenantId = null;
 
-    // Aleks: try File.separator like so: ~rr
+    
     private String webInf = ".." + File.separator + ".." + File.separator
             + ".." + File.separator + ".." + File.separator + ".."
             + File.separator + "webapp" + File.separator + "VAADIN"

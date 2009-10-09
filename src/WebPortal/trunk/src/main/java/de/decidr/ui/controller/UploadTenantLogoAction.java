@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashSet;
 
 import javax.servlet.http.HttpSession;
 
@@ -29,6 +30,8 @@ import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.SucceededEvent;
 
+import de.decidr.model.acl.permissions.FilePermission;
+import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
@@ -69,8 +72,11 @@ public class UploadTenantLogoAction implements Upload.SucceededListener,
             String suffix = file.getCanonicalPath().substring(index);
 
             tenant = (Item) session.getAttribute("tenant");
-            Long fileId = fileFacade.createFile(fis, event.getFilename(), event
-                    .getMIMEType(), true);
+            
+            HashSet<Class<? extends FilePermission>> filePermission = new HashSet<Class<? extends FilePermission>>();
+            filePermission.add(FileReadPermission.class);
+            Long fileId = fileFacade.createFile(fis, event.getLength(), event.getFilename(), event
+                    .getMIMEType(), true, filePermission);
             de.decidr.model.entities.File file = fileFacade.getFileInfo(fileId);
             tenantFacade.setLogo(
                     (Long) tenant.getItemProperty("id").getValue(), file
