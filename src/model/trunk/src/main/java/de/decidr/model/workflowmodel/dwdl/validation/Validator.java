@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -66,7 +64,8 @@ public class Validator {
         try {
             SchemaFactory sf = SchemaFactory
                     .newInstance("http://www.w3.org/2001/XMLSchema");
-            schema = sf.newSchema(new StreamSource("dwdl.xsd"));
+            Class<Validator> resourceClass = Validator.class;
+            schema = sf.newSchema(new StreamSource (resourceClass.getResourceAsStream("resources/dwdl.xsd")));
 
             validator = schema.newValidator();
         } catch (SAXException e) {

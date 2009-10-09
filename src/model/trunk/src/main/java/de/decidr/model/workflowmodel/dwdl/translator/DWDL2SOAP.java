@@ -17,8 +17,9 @@
 package de.decidr.model.workflowmodel.dwdl.translator;
 
 import javax.wsdl.Definition;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
-
 
 /**
  * This class traverses a given WSDL and returns the resulting SOAP template,
@@ -29,8 +30,13 @@ import javax.xml.soap.SOAPMessage;
  */
 public class DWDL2SOAP {
     // AT getSOAP aus wsdl eine soap message erstellen
-    public SOAPMessage getSOAP(Definition wsdl) {
-        return null;
+    public SOAPMessage getSOAP(Definition wsdl, String portName)
+            throws UnsupportedOperationException, SOAPException {
+        // Next, create the actual message
+        MessageFactory messageFactory = MessageFactory.newInstance();
+        SOAPMessage message = messageFactory.createMessage();
+        
+        return message;
     }
 
 }

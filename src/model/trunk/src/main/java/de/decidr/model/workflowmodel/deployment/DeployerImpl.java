@@ -16,15 +16,19 @@
 
 package de.decidr.model.workflowmodel.deployment;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
+import javax.wsdl.xml.WSDLReader;
 import javax.wsdl.xml.WSDLWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -39,7 +43,9 @@ import org.apache.axiom.om.util.Base64;
 import org.apache.axis2.AxisFault;
 import org.apache.ode.axis2.service.ServiceClientUtil;
 import org.apache.ode.utils.Namespaces;
+import org.xml.sax.InputSource;
 
+import com.ibm.wsdl.xml.WSDLReaderImpl;
 import com.ibm.wsdl.xml.WSDLWriterImpl;
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.DeployedWorkflowModel;
@@ -67,8 +73,8 @@ public class DeployerImpl implements Deployer {
     private List<IProblem> problems = null;
     private Translator translator = null;
     private DeploymentResult result = null;
+    private OMFactory _factory;
     private ServiceClientUtil _client;
-    private Object _factory;
     private final String AMAZON_EC2 = "http://ec2-174-129-24-232.compute-1.amazonaws.com:8080";
 
     /*
@@ -103,7 +109,8 @@ public class DeployerImpl implements Deployer {
         for (ServerLoadView server : prefferedServers) {
             wsdl = translator.getWSDL(server.getLocation());
             dd = translator.getDD();
-            byte[] zipFile = getDeploymentBundle(tenantName, bpel, wsdl, dd, knownWebservices);
+            byte[] zipFile = getDeploymentBundle(tenantName, bpel, wsdl, dd,
+                    knownWebservices);
             deploy(tenantName, zipFile, server.getLocation());
             serverList.add(server.getId());
         }
@@ -145,6 +152,7 @@ public class DeployerImpl implements Deployer {
         zipElmt.addChild(zipContent);
 
         // Deploy
+        // result Element for further development
         OMElement result = sendToDeployment(root, location);
     }
 
@@ -162,7 +170,19 @@ public class DeployerImpl implements Deployer {
      */
     @Override
     public void undeploy(DeployedWorkflowModel dwfm, Server server)
-            throws Exception {
+            throws AxisFault {
+        OMNamespace depns = ((OMFactory) _factory).createOMNamespace(
+                Namespaces.ODE_DEPLOYAPI_NS, "deployapi");
+        OMElement root = ((OMFactory) _factory).createOMElement("undeploy",
+                depns);
+        OMElement part = ((OMFactory) _factory).createOMElement("packageName",
+                null);
+        part.setText(dwfm.getTenant().getName());
+        root.addChild(part);
+
+        // Undeploy
+        // result Element for further development
+        OMElement result = sendToDeployment(root, server.getLocation());
     }
 
     private byte[] getDeploymentBundle(String name, Process bpel,
@@ -200,9 +220,31 @@ public class DeployerImpl implements Deployer {
         zip_out_stream.putNextEntry(new ZipEntry(ddFilename));
         zip_out_stream.write(ddOut.toByteArray());
         zip_out_stream.closeEntry();
+        Map<KnownWebService, Definition> definitions = retrieveWSDLs(knownWebservices);
+        for (KnownWebService webservice : knownWebservices) {
+            zip_out_stream.putNextEntry(new ZipEntry(definitions
+                    .get(webservice).getQName().getLocalPart()
+                    + "wsdl"));
+            zip_out_stream.write(webservice.getWsdl());
+            zip_out_stream.closeEntry();
+        }
         zip_out_stream.close();
 
         return zipOut.toByteArray();
     }
 
+    private Map<KnownWebService,Definition> retrieveWSDLs(List<KnownWebService> webservices)
+            throws WSDLException {
+        Map<KnownWebService,Definition> definitions = new HashMap<KnownWebService,Definition>();
+        WSDLReader wsdlReader = new WSDLReaderImpl();
+        ByteArrayInputStream inStream = null;
+        InputSource in = null;
+        for (KnownWebService webservice : webservices) {
+            inStream = new ByteArrayInputStream(webservice.getWsdl());
+            in = new InputSource(inStream);
+            Definition webserviceDefinition = wsdlReader.readWSDL(null, in);
+            definitions.put(webservice, webserviceDefinition);
+        }
+        return definitions;
+    }
 }

@@ -23,6 +23,10 @@ import javax.xml.bind.JAXBException;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
+import org.apache.axiom.om.OMElement;
+import org.apache.axis2.AxisFault;
+import org.apache.ode.axis2.service.ServiceClientUtil;
+
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.WorkflowInstance;
@@ -37,6 +41,9 @@ import de.decidr.model.entities.WorkflowInstance;
  */
 public class InstanceManagerImpl implements InstanceManager {
 
+    private ServiceClientUtil client;
+    private final String AMAZON_EC2 = "http://ec2-174-129-24-232.compute-1.amazonaws.com:8080";
+
     /*
      * (non-Javadoc)
      * 
@@ -47,13 +54,15 @@ public class InstanceManagerImpl implements InstanceManager {
     @Override
     public StartInstanceResult startInstance(DeployedWorkflowModel dwfm,
             byte[] startConfiguration, List<ServerLoadView> serverStatistics)
-            throws SOAPException, IOException, JAXBException{
+            throws SOAPException, IOException, JAXBException {
         ServerSelector selector = new ServerSelector();
         ServerLoadView selectedServer = selector.selectServer(serverStatistics);
         SOAPGenerator generator = new SOAPGenerator();
-        SOAPMessage soapMessage = generator.getSOAP(dwfm.getSoapTemplate(), startConfiguration);
+        SOAPMessage soapMessage = generator.getSOAP(dwfm.getSoapTemplate(),
+                startConfiguration);
         SOAPExecution execution = new SOAPExecution();
-        SOAPMessage replySOAPMessage = execution.invoke(selectedServer, soapMessage);
+        SOAPMessage replySOAPMessage = execution.invoke(selectedServer,
+                soapMessage);
         StartInstanceResult result = new StartInstanceResultImpl();
         result.setServer(selectedServer.getId());
         result.setODEPid(getODEPid(replySOAPMessage));
@@ -72,9 +81,11 @@ public class InstanceManagerImpl implements InstanceManager {
      * (de.decidr.model.entities.WorkflowInstance)
      */
     @Override
-    public void stopInstance(WorkflowInstance instance) {
-        // MA StopWorkflowInstance implementieren
-        // AT stopInstance implementieren
-
+    public void stopInstance(WorkflowInstance instance) throws AxisFault {
+        client = new ServiceClientUtil();
+        OMElement msg = client.buildMessage("terminate",
+                new String[] { "iid" }, new String[] { instance.getOdePid() });
+        OMElement result = client.send(msg, instance.getServer().getLocation()
+                + "/ode/processes/InstanceManagement");
     }
 }
