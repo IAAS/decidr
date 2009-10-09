@@ -46,7 +46,6 @@ public class XmlFactory extends EntityFactory {
      */
     public byte[] createStartConfiguration() {
         return getBlobStub();
-        // DH implement me!
     }
 
     /**

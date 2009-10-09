@@ -133,6 +133,10 @@ public class TenantFactory extends EntityFactory {
         File result = new File();
         result.setFileName("uploaded.css");
         result.setMayPublicRead(true);
+        result.setMayPublicDelete(false);
+        result.setMayPublicReplace(false);
+        result.setIsTemporary(false);
+        result.setCreationDate(DecidrGlobals.getTime().getTime());
         result.setMimeType("text/css");
         session.save(result);
         return result;
@@ -147,8 +151,12 @@ public class TenantFactory extends EntityFactory {
     public File createDefaultLogo() {
         File result = new File();
         result.setFileName("logo.jpeg");
-        result.setMayPublicRead(true);
         result.setMimeType("image/jpeg");
+        result.setMayPublicRead(true);
+        result.setMayPublicDelete(false);
+        result.setMayPublicReplace(false);
+        result.setIsTemporary(false);
+        result.setCreationDate(DecidrGlobals.getTime().getTime());
         session.save(result);
         return result;
     }
