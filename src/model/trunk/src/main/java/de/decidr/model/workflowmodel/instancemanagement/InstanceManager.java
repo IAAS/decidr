@@ -16,7 +16,11 @@
 
 package de.decidr.model.workflowmodel.instancemanagement;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.soap.SOAPException;
 
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.ServerLoadView;
@@ -49,8 +53,8 @@ public interface InstanceManager {
      */
     public StartInstanceResult startInstance(DeployedWorkflowModel dwfm,
             byte[] startConfiguration, List<ServerLoadView> serverStatistics)
-            throws Exception;
+            throws SOAPException, IOException, JAXBException;
 
-    public void stopInstance(WorkflowInstance instance) throws Exception;
+    public void stopInstance(WorkflowInstance instance) throws AxisFault;
 
 }

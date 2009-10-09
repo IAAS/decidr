@@ -69,7 +69,8 @@ public interface Deployer {
     public DeploymentResult deploy(byte[] dwdl,
             List<KnownWebService> webservices, String tenantName,
             List<ServerLoadView> serverStatistics, DeploymentStrategy strategy)
-            throws Exception;
+            throws DWDLValidationException, ODESelectorException, IOException,
+            JAXBException, WSDLException;
 
     /**
      * This method undeploys a given workflow model. The files in the ODE
@@ -80,6 +81,6 @@ public interface Deployer {
      * @throws Exception Exception thrown after failed undeployment
      */
     public void undeploy(DeployedWorkflowModel dwfm, Server server)
-            throws Exception;
+            throws AxisFault;
 
 }
