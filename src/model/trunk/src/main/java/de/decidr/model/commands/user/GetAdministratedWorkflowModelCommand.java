@@ -26,8 +26,8 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Fetches all workflow models that are administrated by the given user from the
- * datbase.
+ * Retrieves all {@link WorkflowModel}s that are administrated by a given user.
+ * 
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -46,7 +46,8 @@ public class GetAdministratedWorkflowModelCommand extends UserCommand {
      * @param role
      *            user which executes the command
      * @param userId
-     *            the id of the user whose administrated wokflow models should be requested
+     *            the ID of the user whose administrated wokflow models should
+     *            be requested
      */
     public GetAdministratedWorkflowModelCommand(Role role, Long userId) {
         super(role, null);

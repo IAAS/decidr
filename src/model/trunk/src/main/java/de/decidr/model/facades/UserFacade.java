@@ -754,10 +754,10 @@ public class UserFacade extends AbstractFacade {
      * Returns all administrated workflow instances of the given user as Item.
      * Each item has the following properties:<br>
      * <ul>
-     * <li>id</li>
-     * <li>startedDate</li>
-     * <li>completedDate</li>
-     * <li>model</li>
+     * <li>id: Long - workflow instance ID</li>
+     * <li>startedDate: Date - date when the workflow instance was started (null if it hasn't been started yet)</li>
+     * <li>completedDate: Date - date when the workflow instance terminated (null if is hasn't terminted yet)</li>
+     * <li>model: </li>
      * </ul>
      * 
      * @param userId

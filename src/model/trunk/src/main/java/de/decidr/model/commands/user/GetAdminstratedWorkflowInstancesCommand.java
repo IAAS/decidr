@@ -19,21 +19,17 @@ package de.decidr.model.commands.user;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.Restrictions;
-
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.entities.User;
-import de.decidr.model.entities.UserAdministratesWorkflowInstance;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Saves all administrated WorkflowInstances of the given user in the result
+ * Retrieves all {@link WorkflowInstance}s that are administrated by a given
+ * user.
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  * 
  * @version 0.1
  */
@@ -43,14 +39,15 @@ public class GetAdminstratedWorkflowInstancesCommand extends UserCommand {
     List<WorkflowInstance> result = new ArrayList();
 
     /**
-     * Creates a new GetAdminstratedWorkflowInstancesCommand. This Command saves
-     * all administrated WorkflowInstances of the given user in the result
-     * variable.
+     * Creates a new GetAdminstratedWorkflowInstancesCommand. This Command
+     * retrieves all workflow instances that are administrated by the given
+     * user.
      * 
      * @param role
      *            user which executes the command
      * @param userId
-     *            the ID of the user whose administrated workflow instances should be requested
+     *            the ID of the user whose administrated workflow instances
+     *            should be retrieved
      */
     public GetAdminstratedWorkflowInstancesCommand(Role role, Long userId) {
         super(role, userId);
@@ -60,25 +57,19 @@ public class GetAdminstratedWorkflowInstancesCommand extends UserCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        User user = new User();
-        List<UserAdministratesWorkflowInstance> list = new ArrayList();
+        String hql = "select rel.workflowInstance "
+                + "from UserAdministratesWorkflowInstance rel "
+                + "join fetch rel.workflowInstance wi "
+                + "join fetch wi.deployedWorkflowModel "
+                + "where rel.user.id = :userId";
 
-        user.setId(getUserId());
-
-        Criteria c = evt.getSession().createCriteria(
-                UserAdministratesWorkflowInstance.class).createCriteria(
-                "deployedWorkflowModel", CriteriaSpecification.LEFT_JOIN);
-        c.add(Restrictions.eq("user", user));
-
-        list = c.list();
-
-        for (UserAdministratesWorkflowInstance item : list) {
-            result.add(item.getWorkflowInstance());
-        }
+        result = evt.getSession().createQuery(hql).setLong("userId",
+                getUserId()).list();
     }
 
     /**
-     * @return List of WorkflowInstances which are administrated by the given user
+     * @return List of WorkflowInstances which are administrated by the given
+     *         user
      */
     public List<WorkflowInstance> getResult() {
         return result;

@@ -346,13 +346,15 @@ public class TenantFacade extends AbstractFacade {
 
     /**
      * Returns the tenantId of the tenant which corresponds to the given name.
-     * If the tenantName doesn't exists, an exception will be thrown.
+     * If the tenantName doesn't exist, an exception will be thrown.
      * 
      * @param tenantName
      *            the name of the tenant
      * @return tenandId, if tenant doesn't exist, an exception is thrown
      * @throws TransactionException
-     *             if tenant is not unique
+     *             if the transaction is aborted for any reason
+     * @throws EntityNotFoundException
+     *             iff no tenant with the given name exists.
      */
     @AllowedRole(UserRole.class)
     public Long getTenantId(String tenantName) throws TransactionException {

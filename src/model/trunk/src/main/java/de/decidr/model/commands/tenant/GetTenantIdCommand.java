@@ -15,23 +15,22 @@
  */
 package de.decidr.model.commands.tenant;
 
-import org.hibernate.Query;
-
+import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Writes the ID of the given tenant in the variable result. If the tenantName
- * doesn't exists, an exception will be thrown.
+ * Retrieves the ID of a tenant by name.
  * 
  * @author Markus Fischer
  * 
  * @version 0.1
  */
-public class GetTenantIdCommand extends TenantCommand {
+public class GetTenantIdCommand extends AclEnabledCommand {
 
     private String tenantName;
     private Long tenantId = null;
@@ -47,27 +46,29 @@ public class GetTenantIdCommand extends TenantCommand {
      *            the name of the tenant whose ID should be requested
      */
     public GetTenantIdCommand(Role role, String tenantName) {
-        super(role, null);
+        super(role, (Permission) null);
         this.tenantName = tenantName;
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+        tenantId = null;
 
-        Query q = evt.getSession().createQuery(
-                "from Tenant where name = :tenantName");
-        q.setString("tenantName", tenantName);
-        Tenant result = (Tenant) q.uniqueResult();
+        Number result = (Number) evt.getSession().createQuery(
+                "select t.id from Tenant t where t.name = :tenantName")
+                .setString("tenantName", tenantName).uniqueResult();
 
         if (result == null) {
             throw new EntityNotFoundException(Tenant.class);
         } else {
-            tenantId = result.getId();
+            tenantId = result.longValue();
         }
     }
 
-    @Override
+    /**
+     * @return The ID of the found tenant
+     */
     public Long getTenantId() {
         return tenantId;
     }
