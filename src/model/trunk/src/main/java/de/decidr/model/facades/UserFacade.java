@@ -35,7 +35,7 @@ import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.annotations.AllowedRole;
 import de.decidr.model.commands.user.CheckAuthKeyCommand;
 import de.decidr.model.commands.user.ConfirmChangeEmailRequestCommand;
-import de.decidr.model.commands.user.ConfirmInviationCommand;
+import de.decidr.model.commands.user.ConfirmInvitationCommand;
 import de.decidr.model.commands.user.ConfirmPasswordResetCommand;
 import de.decidr.model.commands.user.ConfirmRegistrationCommand;
 import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
@@ -521,7 +521,7 @@ public class UserFacade extends AbstractFacade {
     public void confirmInvitation(Long invitationId)
             throws TransactionException {
 
-        ConfirmInviationCommand command = new ConfirmInviationCommand(actor,
+        ConfirmInvitationCommand command = new ConfirmInvitationCommand(actor,
                 invitationId);
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }

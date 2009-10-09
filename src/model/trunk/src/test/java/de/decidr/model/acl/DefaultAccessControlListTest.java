@@ -63,7 +63,7 @@ import de.decidr.model.commands.tenant.SetTenantDescriptionCommand;
 import de.decidr.model.commands.tenant.SetTenantLogoCommand;
 import de.decidr.model.commands.user.CheckAuthKeyCommand;
 import de.decidr.model.commands.user.ConfirmChangeEmailRequestCommand;
-import de.decidr.model.commands.user.ConfirmInviationCommand;
+import de.decidr.model.commands.user.ConfirmInvitationCommand;
 import de.decidr.model.commands.user.ConfirmPasswordResetCommand;
 import de.decidr.model.commands.user.ConfirmRegistrationCommand;
 import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
@@ -241,7 +241,7 @@ public class DefaultAccessControlListTest extends DecidrOthersTest {
                 ConfirmChangeEmailRequestCommand.class)));
 
         assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                ConfirmInviationCommand.class))); //GH: Inviation <- spelling
+                ConfirmInvitationCommand.class))); //GH: Inviation <- spelling
 
         assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
                 RefuseInviationCommand.class))); //GH: Inviation <- spelling

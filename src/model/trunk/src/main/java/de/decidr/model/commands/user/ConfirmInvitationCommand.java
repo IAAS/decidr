@@ -62,11 +62,11 @@ import de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult;
  * @author Daniel Huss
  * @version 0.1
  */
-public class ConfirmInviationCommand extends AclEnabledCommand implements
+public class ConfirmInvitationCommand extends AclEnabledCommand implements
         InvitationAccess {
 
     private static Logger logger = DefaultLogger
-            .getLogger(ConfirmInviationCommand.class);
+            .getLogger(ConfirmInvitationCommand.class);
 
     private Long invitationId;
 
@@ -85,7 +85,7 @@ public class ConfirmInviationCommand extends AclEnabledCommand implements
      * @param invitationId
      *            the id of the invitation which should be confirmed
      */
-    public ConfirmInviationCommand(Role role, Long invitationId) {
+    public ConfirmInvitationCommand(Role role, Long invitationId) {
         super(role, (Permission) null);
         this.invitationId = invitationId;
     }

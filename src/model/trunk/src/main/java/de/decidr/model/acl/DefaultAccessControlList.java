@@ -69,7 +69,7 @@ import de.decidr.model.commands.tenant.SetTenantDescriptionCommand;
 import de.decidr.model.commands.tenant.SetTenantLogoCommand;
 import de.decidr.model.commands.user.CheckAuthKeyCommand;
 import de.decidr.model.commands.user.ConfirmChangeEmailRequestCommand;
-import de.decidr.model.commands.user.ConfirmInviationCommand;
+import de.decidr.model.commands.user.ConfirmInvitationCommand;
 import de.decidr.model.commands.user.ConfirmPasswordResetCommand;
 import de.decidr.model.commands.user.ConfirmRegistrationCommand;
 import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
@@ -455,7 +455,7 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
 
         setRule(new UserRole(), new CommandPermission(
-                ConfirmInviationCommand.class), AssertMode.SatisfyAll,
+                ConfirmInvitationCommand.class), AssertMode.SatisfyAll,
                 new UserIsInvitationReceiverAsserter());
 
         setRule(new UserRole(), new CommandPermission(
