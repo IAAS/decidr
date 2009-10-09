@@ -15,7 +15,9 @@
  */
 package de.decidr.model.commands.tenant;
 
+import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.EntityNotFoundException;
@@ -28,7 +30,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * @author Markus Fischer
  * @version 0.1
  */
-public class CreateTenantCommand extends TenantCommand {
+public class CreateTenantCommand extends AclEnabledCommand {
 
     private String name;
     private String description;
@@ -50,7 +52,7 @@ public class CreateTenantCommand extends TenantCommand {
      */
     public CreateTenantCommand(Role role, String name, String description,
             Long adminId) {
-        super(role, null);
+        super(role, (Permission) null);
 
         this.adminId = adminId;
         this.name = name;
@@ -99,7 +101,6 @@ public class CreateTenantCommand extends TenantCommand {
     /**
      * @return The ID of the new tenant
      */
-    @Override
     public Long getTenantId() {
         return tenantId;
     }

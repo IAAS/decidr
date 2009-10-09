@@ -99,8 +99,10 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * default configuration.
      */
     private HibernateTransactionCoordinator() {
-        super();
+        logger
+                .debug("Creating HibernateTransactionCoordinator singleton instance.");
         this.setConfiguration(new Configuration().configure());
+        logger.debug("Initial Hibernate configuration successfully applied.");
         this.currentTransaction = null;
         this.transactionDepth = 0;
         this.session = null;
@@ -112,7 +114,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * the existing outer transaction is reused.
      */
     protected synchronized void beginTransaction() {
-        logger.debug("Beginning transaction. Current transaction depth: " + transactionDepth);
+        logger.debug("Beginning transaction. Current transaction depth: "
+                + transactionDepth);
         if (transactionDepth == 0) {
             session = sessionFactory.openSession();
             currentTransaction = session.beginTransaction();
@@ -124,7 +127,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * Commits the current transaction.
      */
-    protected synchronized void commitCurrentTransaction() throws TransactionException {
+    protected synchronized void commitCurrentTransaction()
+            throws TransactionException {
 
         if (currentTransaction == null) {
             throw new TransactionException(
@@ -144,7 +148,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * Rolls the current transaction back.
      */
-    protected synchronized void rollbackCurrentTransaction() throws TransactionException {
+    protected synchronized void rollbackCurrentTransaction()
+            throws TransactionException {
 
         if (currentTransaction == null) {
             throw new TransactionException(
@@ -177,6 +182,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      *            the initialized configuration
      */
     public void setConfiguration(Configuration config) {
+        logger.debug("Setting new Hibernate configuration.");
         if (config == null) {
             throw new IllegalArgumentException(
                     "Hibernate config cannot be null");
