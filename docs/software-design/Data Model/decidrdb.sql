@@ -19,7 +19,17 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`file` (
   `mayPublicDelete` TINYINT(1) NOT NULL DEFAULT false ,
   `fileSizeBytes` BIGINT NOT NULL ,
   `data` LONGBLOB NULL COMMENT 'optional: the actual file data.' ,
-  PRIMARY KEY (`id`) )
+  `creationDate` DATETIME NOT NULL COMMENT 'Date when this file entry was created.' ,
+  `isTemporary` TINYINT(1) NOT NULL DEFAULT false COMMENT 'Temporary files are deleted after a certain time if they are not persisted.' ,
+  PRIMARY KEY (`id`) ,
+  INDEX `name_idx` (`fileName` ASC) ,
+  INDEX `mimetype_idx` (`mimeType` ASC) ,
+  INDEX `public_read_idx` (`mayPublicRead` ASC) ,
+  INDEX `public_replace_idx` (`mayPublicReplace` ASC) ,
+  INDEX `public_delete_idx` (`mayPublicDelete` ASC) ,
+  INDEX `filesize_idx` (`fileSizeBytes` ASC) ,
+  INDEX `creationdate_idx` (`creationDate` ASC) ,
+  INDEX `temporary_idx` (`isTemporary` ASC) )
 ENGINE = InnoDB;
 
 
