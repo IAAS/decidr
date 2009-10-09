@@ -91,13 +91,19 @@ public class DWDLParserImpl implements DWDLParser {
         Element root = (Element) doc.getElementsByTagName(DWDLNames.root).item(
                 0);
 
+        /* Set workflow name, id and description */
         workflow.setName(root.getAttribute(DWDLNames.name));
         workflow.setId(new Long(root.getAttribute(DWDLNames.id)));
         for (int i = 0; i < root.getChildNodes().getLength(); i++) {
-            if (root.getChildNodes().item(i).getNodeName().equals(
-                    DWDLNames.description)) {
-                workflow.setDescription(root.getChildNodes().item(i)
-                        .getFirstChild().getNodeValue());
+            /*
+             * Go through all child nodes until node with name "description" is
+             * found
+             */
+            Node childNode = root.getChildNodes().item(i);
+            if (childNode.getNodeName().equals(DWDLNames.description)
+                    && childNode.getFirstChild() != null) {
+                workflow.setDescription(childNode.getFirstChild()
+                        .getNodeValue());
             }
         }
         WorkflowProperties properties = new WorkflowProperties();
@@ -156,9 +162,9 @@ public class DWDLParserImpl implements DWDLParser {
             Variable variable = new Variable();
 
             /* Set id and label, get rid of the ncname prefix */
-            variable.setId(new Long(variableElement
-                    .getAttribute(DWDLNames.name).substring(
-                            DWDLNames.variableNCnamePrefix.length())));
+            variable.setId(VariableNameFactory
+                    .createIdFromNCName(variableElement
+                            .getAttribute(DWDLNames.name)));
             variable.setLabel(variableElement.getAttribute(DWDLNames.label));
 
             /* Set configuration */
@@ -222,8 +228,8 @@ public class DWDLParserImpl implements DWDLParser {
             Variable role = new Variable();
 
             /* Set id, name and type, get rid of variable ncname prefix */
-            role.setId(new Long(roleElement.getAttribute(DWDLNames.name)
-                    .substring(DWDLNames.variableNCnamePrefix.length())));
+            role.setId(VariableNameFactory.createIdFromNCName(roleElement
+                    .getAttribute(DWDLNames.name)));
             role.setLabel(roleElement.getAttribute(DWDLNames.label));
             role.setType(VariableType.ROLE);
 
@@ -258,8 +264,8 @@ public class DWDLParserImpl implements DWDLParser {
                 DWDLNames.setProperty)) {
             if (property.getAttribute(DWDLNames.name).equals(propertyName)
                     && property.getAttribute(DWDLNames.variable) != null) {
-                variableId = new Long(property.getAttribute(DWDLNames.variable)
-                        .substring(DWDLNames.variableNCnamePrefix.length()));
+                variableId = VariableNameFactory.createIdFromNCName(property
+                        .getAttribute(DWDLNames.variable));
             }
         }
         return variableId;
@@ -435,9 +441,9 @@ public class DWDLParserImpl implements DWDLParser {
                 taskResultElement = getPropertyElement;
             }
         }
-        humanTaskModel.setFormVariableId(new Long(taskResultElement
-                .getAttribute(DWDLNames.variable).substring(
-                        DWDLNames.variableNCnamePrefix.length())));
+        humanTaskModel.setFormVariableId(VariableNameFactory
+                .createIdFromNCName(taskResultElement
+                        .getAttribute(DWDLNames.variable)));
 
         /*
          * From task result element, get the child node parameters, and from
@@ -457,9 +463,9 @@ public class DWDLParserImpl implements DWDLParser {
              * Every task item node has to have a variable id as attribute and a
              * text child node with the label of the task item
              */
-            Long variableId = new Long(taskItemElement.getAttribute(
-                    DWDLNames.variable).substring(
-                    DWDLNames.variableNCnamePrefix.length()));
+            Long variableId = VariableNameFactory
+                    .createIdFromNCName(taskItemElement
+                            .getAttribute(DWDLNames.variable));
             String label = new String(getChildNodesByTagName(taskItemElement,
                     DWDLNames.label).get(0).getFirstChild().getNodeValue());
             String hint = new String(getChildNodesByTagName(taskItemElement,
