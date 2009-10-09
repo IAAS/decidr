@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.net.URL;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -84,6 +85,7 @@ public class CreateWorkflowModelCommand extends TenantCommand {
 
         WorkflowModel model = new WorkflowModel();
         model.setName(workflowModelName);
+        model.setDescription("");
         model.setCreationDate(DecidrGlobals.getTime().getTime());
         model.setModifiedByUser(tenant.getAdmin());
         model.setModifiedDate(DecidrGlobals.getTime().getTime());
@@ -123,6 +125,7 @@ public class CreateWorkflowModelCommand extends TenantCommand {
      * @throws JAXBException
      *             if the template cannot be found or contains invalid data.
      */
+    @SuppressWarnings("unchecked")
     protected byte[] createNewWorkflowModelXml(String tenantName, Long id,
             String name) throws JAXBException {
         if ((tenantName == null) || (tenantName.isEmpty())) {
@@ -141,15 +144,16 @@ public class CreateWorkflowModelCommand extends TenantCommand {
         }
 
         URL templateUrl = getClass().getClassLoader().getResource(
-                "resources/dwdl/newWorkflowModel.template.xml");
+                "dwdl/newWorkflowModel.template.xml");
 
         JAXBContext jc = JAXBContext.newInstance(Workflow.class);
         Unmarshaller u = jc.createUnmarshaller();
 
         /**
-         * Modify the template where necessary
+         * Modiy the template where necessary
          */
-        Workflow workflowModel = (Workflow) u.unmarshal(templateUrl);
+        JAXBElement<Workflow> je = (JAXBElement<Workflow>) u.unmarshal(templateUrl);
+        Workflow workflowModel = je.getValue();
         workflowModel.setName(name);
         workflowModel.setTargetNamespace("http://decidr.de/" + tenantName
                 + "/processes/" + id.toString());

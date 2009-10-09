@@ -16,8 +16,13 @@
 
 package de.decidr.model.facades;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.BeforeClass;
@@ -29,6 +34,7 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.testing.DecidrDatabaseTest;
@@ -69,24 +75,24 @@ public class WorkflowModelFacadeTest extends DecidrDatabaseTest {
                 .getSuperAdmin().getId());
         TenantFacade tenantFacade = new TenantFacade(role);
         
-       // try {
+        try {
             long id = tenantFacade.getTenantId(NAME);
             tenantFacade.deleteTenant(id);
-        //} catch (TransactionException e) {
+        } catch (EntityNotFoundException e) {
             // tenant does not exist - good!
-        //}
+        }
             
 
-//        long tenantId = tenantFacade.createTenant(NAME, DESCRIPTION,
-//                DecidrGlobals.getSettings().getSuperAdmin().getId());
-//        wfmId = tenantFacade.createWorkflowModel(tenantId,
-//                "WorklfowModelFacadeTestWFModel");
+        long tenantId = tenantFacade.createTenant(NAME, DESCRIPTION,
+                DecidrGlobals.getSettings().getSuperAdmin().getId());
+        wfmId = tenantFacade.createWorkflowModel(tenantId,
+                "WorkflowModelFacadeTestWFModel");
     }
 
     /**
      * Test method for
      * {@link WorkflowModelFacade#saveWorkflowModel(Long, String, String, byte[])}
-     * .
+     * {@link WorkflowModelFacade#getWorkflowModel(Long)}
      */
     @Test
     public void testSaveWorkflowModel() throws TransactionException {
@@ -106,40 +112,34 @@ public class WorkflowModelFacadeTest extends DecidrDatabaseTest {
         assertEquals(id, wfmId);
         assertEquals(name, NAME);
         assertEquals(description, DESCRIPTION);
-        assertEquals(dwdl, DWDL);
+        assertArrayEquals(dwdl, DWDL);
     }
 
     /**
-     * Test method for {@link WorkflowModelFacade#getWorkflowModel(Long)}.
+     * Test method for
+     * {@link WorkflowModelFacade#publishWorkflowModels(List)}
+     * {@link WorkflowModelFacade#unpublishWorkflowModels(List)}
      */
     @Test
-    public void testGetWorkflowModel() {
-        fail("Not yet implemented"); // JE getWorkflowModel
-    }
-
-    /**
-     * Test method for {@link WorkflowModelFacade#publishWorkflowModels(List)}.
-     */
-    @Test
-    public void testPublishWorkflowModels() {
-        fail("Not yet implemented"); // JE publishWorkflowModels
-    }
-
-    /**
-     * Test method for {@link WorkflowModelFacade#unpublishWorkflowModels(List)}
-     * .
-     */
-    @Test
-    public void testUnpublishWorkflowModels() {
-        fail("Not yet implemented"); // JE unpublishWorkflowModels
+    public void testPublishWorkflowModels() throws TransactionException {
+        List<Long> wfmIds = new ArrayList<Long>();
+        wfmIds.add(wfmId);
+        
+        adminFacade.publishWorkflowModels(wfmIds);
+        Object po = adminFacade.getWorkflowModel(wfmId).getItemProperty("published").getValue();
+        assertTrue((Boolean) po);
+        
+        adminFacade.unpublishWorkflowModels(wfmIds);
+        po = adminFacade.getWorkflowModel(wfmId).getItemProperty("published").getValue();
+        assertFalse((Boolean) po);
     }
 
     /**
      * Test method for {@link WorkflowModelFacade#setExecutable(Long, Boolean)}.
      */
     @Test
-    public void testSetExecutable() {
-        fail("Not yet implemented"); // JE setExecutable
+    public void testSetExecutable() throws TransactionException {
+        adminFacade.setExecutable(wfmId, true);
     }
 
     /**

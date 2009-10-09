@@ -16,12 +16,14 @@
 
 package de.decidr.model.commands.workflowmodel;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Query;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.entities.DeployedWorkflowModel;
@@ -100,6 +102,9 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
             dwfm.setDescription(workflowModel.getDescription());
             dwfm.setDwdl(workflowModel.getDwdl());
             dwfm.setVersion(workflowModel.getVersion());
+            dwfm.setWsdl(new byte[] {});
+            dwfm.setSoapTemplate(new byte[] {});
+            dwfm.setDeployDate(DecidrGlobals.getTime().getTime());
 
             evt.getSession().save(dwfm);
 
