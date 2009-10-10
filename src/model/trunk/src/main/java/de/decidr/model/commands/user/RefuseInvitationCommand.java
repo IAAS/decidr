@@ -31,7 +31,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-public class RefuseInviationCommand extends UserCommand implements InvitationAccess{
+public class RefuseInvitationCommand extends UserCommand implements InvitationAccess{
 
     private Long invitationId;
 
@@ -44,7 +44,7 @@ public class RefuseInviationCommand extends UserCommand implements InvitationAcc
      * @param invitationId
      *            the ID of the invitation which should be refused
      */
-    public RefuseInviationCommand(Role role, Long invitationId) {
+    public RefuseInvitationCommand(Role role, Long invitationId) {
         super(role, null);
 
         this.invitationId = invitationId;

@@ -73,7 +73,7 @@ import de.decidr.model.commands.user.ConfirmInvitationCommand;
 import de.decidr.model.commands.user.ConfirmPasswordResetCommand;
 import de.decidr.model.commands.user.ConfirmRegistrationCommand;
 import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
-import de.decidr.model.commands.user.GetAdminstratedWorkflowInstancesCommand;
+import de.decidr.model.commands.user.GetAdministratedWorkflowInstancesCommand;
 import de.decidr.model.commands.user.GetHighestUserRoleCommand;
 import de.decidr.model.commands.user.GetInvitationCommand;
 import de.decidr.model.commands.user.GetJoinedTenantsCommand;
@@ -83,7 +83,7 @@ import de.decidr.model.commands.user.GetUserWithProfileCommand;
 import de.decidr.model.commands.user.GetWorkitemsCommand;
 import de.decidr.model.commands.user.IsUserRegisteredCommand;
 import de.decidr.model.commands.user.LeaveTenantCommand;
-import de.decidr.model.commands.user.RefuseInviationCommand;
+import de.decidr.model.commands.user.RefuseInvitationCommand;
 import de.decidr.model.commands.user.RegisterUserCommand;
 import de.decidr.model.commands.user.RemoveFromTenantCommand;
 import de.decidr.model.commands.user.RequestPasswordResetCommand;
@@ -97,7 +97,7 @@ import de.decidr.model.commands.workflowinstance.StopWorkflowInstanceCommand;
 import de.decidr.model.commands.workflowmodel.DeleteWorkflowModelCommand;
 import de.decidr.model.commands.workflowmodel.GetLastStartConfigurationCommand;
 import de.decidr.model.commands.workflowmodel.GetPublishedWorkflowModelsCommand;
-import de.decidr.model.commands.workflowmodel.GetWorkflowAdminstratorsCommand;
+import de.decidr.model.commands.workflowmodel.GetWorkflowAdministratorsCommand;
 import de.decidr.model.commands.workflowmodel.GetWorkflowModelCommand;
 import de.decidr.model.commands.workflowmodel.MakeWorkflowModelExecutableCommand;
 import de.decidr.model.commands.workflowmodel.PublishWorkflowModelsCommand;
@@ -459,7 +459,7 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsInvitationReceiverAsserter());
 
         setRule(new UserRole(), new CommandPermission(
-                RefuseInviationCommand.class), AssertMode.SatisfyAll,
+                RefuseInvitationCommand.class), AssertMode.SatisfyAll,
                 new UserIsInvitationReceiverAsserter(),
                 new IsRoleEqualToAccessedUserAsserter());
 
@@ -478,7 +478,7 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
 
         setRule(new WorkflowAdminRole(), new CommandPermission(
-                GetAdminstratedWorkflowInstancesCommand.class),
+                GetAdministratedWorkflowInstancesCommand.class),
                 AssertMode.SatisfyAll, new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
@@ -566,7 +566,7 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsLoggedInAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(
-                GetWorkflowAdminstratorsCommand.class), AssertMode.SatisfyAll,
+                GetWorkflowAdministratorsCommand.class), AssertMode.SatisfyAll,
                 new UserOwnsWorkflowModelAsserter(),
                 new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());

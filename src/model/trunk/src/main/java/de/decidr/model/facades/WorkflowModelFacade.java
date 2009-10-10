@@ -30,7 +30,7 @@ import de.decidr.model.annotations.AllowedRole;
 import de.decidr.model.commands.workflowmodel.DeleteWorkflowModelCommand;
 import de.decidr.model.commands.workflowmodel.GetLastStartConfigurationCommand;
 import de.decidr.model.commands.workflowmodel.GetPublishedWorkflowModelsCommand;
-import de.decidr.model.commands.workflowmodel.GetWorkflowAdminstratorsCommand;
+import de.decidr.model.commands.workflowmodel.GetWorkflowAdministratorsCommand;
 import de.decidr.model.commands.workflowmodel.GetWorkflowInstancesCommand;
 import de.decidr.model.commands.workflowmodel.GetWorkflowModelCommand;
 import de.decidr.model.commands.workflowmodel.MakeWorkflowModelExecutableCommand;
@@ -238,7 +238,7 @@ public class WorkflowModelFacade extends AbstractFacade {
             throws TransactionException {
         ArrayList<Item> result = new ArrayList<Item>();
 
-        GetWorkflowAdminstratorsCommand cmd = new GetWorkflowAdminstratorsCommand(
+        GetWorkflowAdministratorsCommand cmd = new GetWorkflowAdministratorsCommand(
                 actor, workflowModelId);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);

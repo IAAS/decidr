@@ -34,7 +34,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * @version 0.1
  */
 @SuppressWarnings("unchecked")
-public class GetAdminstratedWorkflowInstancesCommand extends UserCommand {
+public class GetAdministratedWorkflowInstancesCommand extends UserCommand {
 
     List<WorkflowInstance> result = new ArrayList();
 
@@ -49,7 +49,7 @@ public class GetAdminstratedWorkflowInstancesCommand extends UserCommand {
      *            the ID of the user whose administrated workflow instances
      *            should be retrieved
      */
-    public GetAdminstratedWorkflowInstancesCommand(Role role, Long userId) {
+    public GetAdministratedWorkflowInstancesCommand(Role role, Long userId) {
         super(role, userId);
     }
 

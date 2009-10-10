@@ -39,7 +39,7 @@ import de.decidr.model.commands.user.ConfirmInvitationCommand;
 import de.decidr.model.commands.user.ConfirmPasswordResetCommand;
 import de.decidr.model.commands.user.ConfirmRegistrationCommand;
 import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
-import de.decidr.model.commands.user.GetAdminstratedWorkflowInstancesCommand;
+import de.decidr.model.commands.user.GetAdministratedWorkflowInstancesCommand;
 import de.decidr.model.commands.user.GetAllUsersCommand;
 import de.decidr.model.commands.user.GetHighestUserRoleCommand;
 import de.decidr.model.commands.user.GetInvitationCommand;
@@ -51,7 +51,7 @@ import de.decidr.model.commands.user.GetUserWithProfileCommand;
 import de.decidr.model.commands.user.GetWorkitemsCommand;
 import de.decidr.model.commands.user.IsUserRegisteredCommand;
 import de.decidr.model.commands.user.LeaveTenantCommand;
-import de.decidr.model.commands.user.RefuseInviationCommand;
+import de.decidr.model.commands.user.RefuseInvitationCommand;
 import de.decidr.model.commands.user.RegisterUserCommand;
 import de.decidr.model.commands.user.RemoveFromTenantCommand;
 import de.decidr.model.commands.user.RequestChangeEmailCommand;
@@ -538,7 +538,7 @@ public class UserFacade extends AbstractFacade {
     @AllowedRole(UserRole.class)
     public void refuseInviation(Long invitationId) throws TransactionException {
 
-        RefuseInviationCommand command = new RefuseInviationCommand(actor,
+        RefuseInvitationCommand command = new RefuseInvitationCommand(actor,
                 invitationId);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
@@ -772,7 +772,7 @@ public class UserFacade extends AbstractFacade {
     public List<Item> getAdministratedWorkflowInstances(Long userId)
             throws TransactionException {
 
-        GetAdminstratedWorkflowInstancesCommand command = new GetAdminstratedWorkflowInstancesCommand(
+        GetAdministratedWorkflowInstancesCommand command = new GetAdministratedWorkflowInstancesCommand(
                 actor, userId);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);

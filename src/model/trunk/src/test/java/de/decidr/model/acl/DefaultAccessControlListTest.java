@@ -67,7 +67,7 @@ import de.decidr.model.commands.user.ConfirmInvitationCommand;
 import de.decidr.model.commands.user.ConfirmPasswordResetCommand;
 import de.decidr.model.commands.user.ConfirmRegistrationCommand;
 import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
-import de.decidr.model.commands.user.GetAdminstratedWorkflowInstancesCommand;
+import de.decidr.model.commands.user.GetAdministratedWorkflowInstancesCommand;
 import de.decidr.model.commands.user.GetHighestUserRoleCommand;
 import de.decidr.model.commands.user.GetInvitationCommand;
 import de.decidr.model.commands.user.GetJoinedTenantsCommand;
@@ -77,7 +77,7 @@ import de.decidr.model.commands.user.GetUserWithProfileCommand;
 import de.decidr.model.commands.user.GetWorkitemsCommand;
 import de.decidr.model.commands.user.IsUserRegisteredCommand;
 import de.decidr.model.commands.user.LeaveTenantCommand;
-import de.decidr.model.commands.user.RefuseInviationCommand;
+import de.decidr.model.commands.user.RefuseInvitationCommand;
 import de.decidr.model.commands.user.RegisterUserCommand;
 import de.decidr.model.commands.user.RemoveFromTenantCommand;
 import de.decidr.model.commands.user.RequestPasswordResetCommand;
@@ -91,7 +91,7 @@ import de.decidr.model.commands.workflowinstance.StopWorkflowInstanceCommand;
 import de.decidr.model.commands.workflowmodel.DeleteWorkflowModelCommand;
 import de.decidr.model.commands.workflowmodel.GetLastStartConfigurationCommand;
 import de.decidr.model.commands.workflowmodel.GetPublishedWorkflowModelsCommand;
-import de.decidr.model.commands.workflowmodel.GetWorkflowAdminstratorsCommand;
+import de.decidr.model.commands.workflowmodel.GetWorkflowAdministratorsCommand;
 import de.decidr.model.commands.workflowmodel.GetWorkflowModelCommand;
 import de.decidr.model.commands.workflowmodel.MakeWorkflowModelExecutableCommand;
 import de.decidr.model.commands.workflowmodel.PublishWorkflowModelsCommand;
@@ -241,10 +241,10 @@ public class DefaultAccessControlListTest extends DecidrOthersTest {
                 ConfirmChangeEmailRequestCommand.class)));
 
         assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                ConfirmInvitationCommand.class))); //GH: Inviation <- spelling
+                ConfirmInvitationCommand.class)));
 
         assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                RefuseInviationCommand.class))); //GH: Inviation <- spelling
+                RefuseInvitationCommand.class)));
 
         assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
                 GetUserWithProfileCommand.class)));
@@ -256,7 +256,7 @@ public class DefaultAccessControlListTest extends DecidrOthersTest {
                 GetUserRoleForTenantCommand.class)));
 
         assertTrue(dacl.isAllowed(new WorkflowAdminRole(), new CommandPermission(
-                GetAdminstratedWorkflowInstancesCommand.class))); //GH adminstrated <- spelling
+                GetAdministratedWorkflowInstancesCommand.class)));
 
         assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
                 GetJoinedTenantsCommand.class)));
@@ -308,7 +308,7 @@ public class DefaultAccessControlListTest extends DecidrOthersTest {
                 MakeWorkflowModelExecutableCommand.class)));
 
         assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                GetWorkflowAdminstratorsCommand.class))); //GH adminstrator <- spelling
+                GetWorkflowAdministratorsCommand.class)));
 
         assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
                 SetWorkflowAdministratorsCommand.class)));
@@ -511,19 +511,19 @@ public class DefaultAccessControlListTest extends DecidrOthersTest {
         assertTrue(dacl.hasRule(new SuperAdminRole(), new Permission("*")));
         
         assertTrue(dacl.hasRule(new TenantAdminRole(),  new CommandPermission(
-                GetWorkflowAdminstratorsCommand.class)));
+                GetWorkflowAdministratorsCommand.class)));
         
         assertTrue(dacl.hasRule(new SuperAdminRole(),  new CommandPermission(
-                GetWorkflowAdminstratorsCommand.class)));
+                GetWorkflowAdministratorsCommand.class)));
         
         assertFalse(dacl.hasRule(new UserRole(),  new CommandPermission(
-                GetWorkflowAdminstratorsCommand.class)));
+                GetWorkflowAdministratorsCommand.class)));
         
         assertFalse(dacl.hasRule(new WorkflowAdminRole(), new Permission("*")));
         
         dacl.clearRules();
         
         assertFalse(dacl.hasRule(new TenantAdminRole(),  new CommandPermission(
-                GetWorkflowAdminstratorsCommand.class)));
+                GetWorkflowAdministratorsCommand.class)));
     }
 }
