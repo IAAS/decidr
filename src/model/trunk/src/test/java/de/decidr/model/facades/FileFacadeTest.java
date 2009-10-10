@@ -19,23 +19,31 @@ package de.decidr.model.facades;
 import static org.junit.Assert.*;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.permissions.FileDeletePermission;
 import de.decidr.model.acl.permissions.FilePermission;
+import de.decidr.model.acl.permissions.FileReadPermission;
+import de.decidr.model.acl.permissions.FileReplacePermission;
+import de.decidr.model.acl.roles.BasicRole;
+import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.testing.DecidrDatabaseTest;
+import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
  * Test case for <code>{@link FileFacade}</code>.
  * 
  * @author Reinhold
  */
-public class FileFacadeTest extends DecidrDatabaseTest {
+public class FileFacadeTest extends LowLevelDatabaseTest {
 
     static FileFacade adminFacade;
     static FileFacade userFacade;
@@ -43,9 +51,41 @@ public class FileFacadeTest extends DecidrDatabaseTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        adminFacade = new FileFacade(null);
-        userFacade = new FileFacade(null);
+        adminFacade = new FileFacade(new SuperAdminRole(DecidrGlobals
+                .getSettings().getSuperAdmin().getId()));
+        userFacade = new FileFacade(new BasicRole(0L));
         nullFacade = new FileFacade(null);
+    }
+
+    static long getInvalidFileID() {
+        long invalidID = Long.MIN_VALUE;
+
+        for (long l = invalidID; session.createQuery(
+                "FROM File WHERE id = :given").setLong("given", l)
+                .uniqueResult() != null; l++)
+            invalidID = l + 1;
+        return invalidID;
+    }
+
+    /**
+     * Returns the size of an {@link InputStream}. If the returned value is
+     * {@link Long#MAX_VALUE}, the stream is probably larger than a {@link Long}
+     * can express.
+     * <p>
+     * <em>Note: This might destroy the data contained in the stream. It should probably be re-opened!</em>
+     * 
+     * @see InputStream#skip(long)
+     */
+    public Long getInputStreamSize(InputStream in) {
+        long size;
+
+        try {
+            size = in.skip(Long.MAX_VALUE);
+        } catch (IOException e) {
+            size = -1;
+        }
+
+        return (size < 0) ? 0 : size;
     }
 
     /**
@@ -57,29 +97,34 @@ public class FileFacadeTest extends DecidrDatabaseTest {
      * .
      */
     @Test
-    public void testCreateFile() throws TransactionException {
+    public void testFile() throws TransactionException {
         String testName = "/decidr.jpg";
         String testMime = "image/jpeg";
         InputStream testFile = FileFacadeTest.class
                 .getResourceAsStream(testName);
         assertNotNull(testFile);
+        Long streamSize = getInputStreamSize(FileFacadeTest.class
+                .getResourceAsStream(testName));
+        Long invalidID = getInvalidFileID();
+        Set<Class<? extends FilePermission>> publicPermissions = new HashSet<Class<? extends FilePermission>>();
+        publicPermissions.add(FileReadPermission.class);
+        publicPermissions.add(FileDeletePermission.class);
+        publicPermissions.add(FileReplacePermission.class);
 
         try {
-            // RR
-            nullFacade.createFile(testFile, new Long(0L), testName, testMime,
-                    new Boolean(true),
-                    new HashSet<Class<? extends FilePermission>>());
+            nullFacade.createFile(testFile, streamSize, testName, testMime,
+                    new Boolean(true), publicPermissions);
             fail("calling createFile with nullFacade succeeded");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
-        // try {
-        // RR implement when consistent
-        // nullFacade.replaceFile(0L, testFile, testName, testMime);
-        // fail("calling replaceFile with nullFacade succeeded");
-        // } catch (TransactionException e) {
-        // // supposed to be thrown
-        // }
+        try {
+            nullFacade
+                    .replaceFile(0L, testFile, streamSize, testName, testMime);
+            fail("calling replaceFile with nullFacade succeeded");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
         try {
             nullFacade.getFileInfo(0L);
             fail("calling getFileInfo with nullFacade succeeded");
@@ -103,22 +148,152 @@ public class FileFacadeTest extends DecidrDatabaseTest {
         File compareFile;
         InputStream compareData;
         for (FileFacade facade : new FileFacade[] { userFacade, adminFacade }) {
-            // RR how to set the stupid permissions?
-            testID = null;// RR facade.createFile(testFile, testName, testMime,
-            // false);
-            // RR implement when consistent
-            // facade.replaceFile(testID, testFile, testName, testMime);
+            testID = facade.createFile(testFile, streamSize, testName,
+                    testMime, false, publicPermissions);
             compareFile = facade.getFileInfo(testID);
             assertEquals(testName, compareFile.getFileName());
             assertEquals(testMime, compareFile.getMimeType());
-            compareData = facade.getFileData(testID);
-            assertTrue(facade.deleteFile(testID));
+            // DH rename? ~rr
+            assertFalse(compareFile.isIsTemporary());
 
-            fail("Not yet implemented"); // RR createFile
-            fail("Not yet implemented"); // RR replaceFile
-            fail("Not yet implemented"); // RR getFileInfo
-            fail("Not yet implemented"); // RR getFileData
-            fail("Not yet implemented"); // RR deleteFile
+            facade
+                    .replaceFile(testID, testFile, streamSize, testName,
+                            testMime);
+            compareFile = facade.getFileInfo(testID);
+            assertEquals(testName, compareFile.getFileName());
+            assertEquals(testMime, compareFile.getMimeType());
+            // DH rename? ~rr
+            assertFalse(compareFile.isIsTemporary());
+
+            compareData = facade.getFileData(testID);
+            assertEquals(streamSize, getInputStreamSize(compareData));
+
+            try {
+                facade.createFile(null, streamSize, testName, testMime, false,
+                        publicPermissions);
+                fail("managed to create file with null parameter");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+            try {
+                facade.createFile(testFile, -1L, testName, testMime, false,
+                        publicPermissions);
+                fail("managed to create file with negative size");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+            try {
+                facade.createFile(testFile, null, testName, testMime, false,
+                        publicPermissions);
+                fail("managed to create file with null parameter");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+            try {
+                facade.createFile(testFile, streamSize, null, testMime, false,
+                        publicPermissions);
+                fail("managed to create file with null parameter");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+            try {
+                facade.createFile(testFile, streamSize, testName, null, false,
+                        publicPermissions);
+                fail("managed to create file with null parameter");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+
+            try {
+                facade.replaceFile(null, testFile, streamSize, testName,
+                        testMime);
+                fail("managed to replace file with null parameter");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+            try {
+                facade.replaceFile(invalidID, testFile, streamSize, testName,
+                        testMime);
+                fail("managed to replace file with invalid file ID");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+            try {
+                facade
+                        .replaceFile(testID, null, streamSize, testName,
+                                testMime);
+                fail("managed to replace file with null parameter");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+            try {
+                facade.replaceFile(testID, testFile, null, testName, testMime);
+                fail("managed to replace file with null parameter");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+            try {
+                facade.replaceFile(testID, testFile, -1L, testName, testMime);
+                fail("managed to replace file with negative size");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+            try {
+                facade
+                        .replaceFile(testID, testFile, streamSize, null,
+                                testMime);
+                fail("managed to replace file with null parameter");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+            try {
+                facade
+                        .replaceFile(testID, testFile, streamSize, testName,
+                                null);
+                fail("managed to replace file with null parameter");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+
+            try {
+                facade.getFileInfo(null);
+                fail("managed to get file info with null parameter");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+            try {
+                facade.getFileInfo(invalidID);
+                fail("managed to get file info with invalid file ID");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+            try {
+                facade.getFileData(null);
+                fail("managed to get file data with null parameter");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+            try {
+                facade.getFileData(invalidID);
+                fail("managed to get file data with invalid file ID");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+            try {
+                facade.deleteFile(null);
+                fail("managed to delete file with null parameter");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+            try {
+                facade.deleteFile(invalidID);
+                fail("managed to delete file with invalid file ID");
+            } catch (TransactionException e) {
+                // supposed to happen
+            }
+
+            assertTrue(facade.deleteFile(testID));
+            assertFalse(facade.deleteFile(testID));
         }
     }
 }

@@ -58,16 +58,6 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
     static TenantFacade userFacade;
     static TenantFacade nullFacade;
 
-    static long getInvalidLogoID() {
-        long invalidID = Long.MIN_VALUE;
-
-        for (long l = invalidID; session.createQuery(
-                "FROM File WHERE id = :given").setLong("given", l)
-                .uniqueResult() != null; l++)
-            invalidID = l + 1;
-        return invalidID;
-    }
-
     Long testTenantID;
     private Long invalidTenantID;
 
@@ -302,7 +292,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         Long logoID = fileFacade.createFile(logoStream, 0L, "decidr.jpg",
                 "image/jpeg", false,
                 new HashSet<Class<? extends FilePermission>>());
-        Long invalidLogoID = getInvalidLogoID();
+        Long invalidLogoID = FileFacadeTest.getInvalidFileID();
 
         try {
             nullFacade.setLogo(testTenantID, logoID);

@@ -169,7 +169,8 @@ public class FileFacade extends AbstractFacade {
     }
 
     /**
-     * Retrieves file metainformation for the file identified by fileId
+     * Retrieves file metainformation for the file identified by
+     * <code>fileId</code>.
      * 
      * @param fileId
      *            ID of file whose metainformation should be retrieved
@@ -185,5 +186,4 @@ public class FileFacade extends AbstractFacade {
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
         return cmd.getFile();
     }
-    
 }

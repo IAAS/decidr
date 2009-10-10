@@ -37,7 +37,7 @@ public class DefaultLogger {
     private static final String HIBERNATE_LOGGER = "org.hibernate";
 
     private static Appender defaultAppender = new ConsoleAppender(
-            new PatternLayout("[%p] %m%n"), ConsoleAppender.SYSTEM_OUT);
+            new PatternLayout("[%-5p: %d{dd.MM. HH:mm:ss}] %m%n"), ConsoleAppender.SYSTEM_OUT);
 
     static {
         // run configurator - every new logger will inherit the defaultAppender

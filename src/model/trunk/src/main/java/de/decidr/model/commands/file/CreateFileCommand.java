@@ -84,12 +84,15 @@ public class CreateFileCommand extends AclEnabledCommand {
             throw new IllegalArgumentException(
                     "File contents must not be null.");
         }
+        // DH why not? ~rr
         if (originalFileName == null) {
             throw new IllegalArgumentException("File name must not be null.");
         }
+        // DH why not? ~rr
         if (mimeType == null) {
             throw new IllegalArgumentException("Mime type must not be null.");
         }
+        // DH der erste Teil dieses checks ergibt keinen Sinn ~rr
         if (fileSize != 0 && fileSize == null) {
             throw new IllegalArgumentException("File size must not be null.");
         }
