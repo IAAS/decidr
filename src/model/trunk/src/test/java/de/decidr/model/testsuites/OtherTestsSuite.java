@@ -22,7 +22,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import de.decidr.model.acl.PasswordTest;
 import de.decidr.model.email.MailBackendTest;
 import de.decidr.model.logging.DefaultLoggerTest;
 import de.decidr.model.reveng.DecidrReverseEngineeringStrategyTest;
@@ -38,8 +37,8 @@ import de.decidr.model.testing.GlobalPreconditionsSuite;
  */
 @RunWith(Suite.class)
 @SuiteClasses( { MailBackendTest.class, DefaultLoggerTest.class,
-        PasswordTest.class, DecidrReverseEngineeringStrategyTest.class,
-        StorageProviderFactoryTest.class, LocalStorageProviderTest.class})
+        DecidrReverseEngineeringStrategyTest.class,
+        StorageProviderFactoryTest.class, LocalStorageProviderTest.class })
 public class OtherTestsSuite extends GlobalPreconditionsSuite {
     // no pre-conditions or other things, so nothing to see here
 }

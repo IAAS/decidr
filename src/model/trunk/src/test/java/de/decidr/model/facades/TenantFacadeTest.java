@@ -121,16 +121,84 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
     public void testAddTenantMember() throws TransactionException {
         UserFacade adminUserFacade = new UserFacade(new SuperAdminRole(
                 DecidrGlobals.getSettings().getSuperAdmin().getId()));
+        UserFacadeTest.deleteTestUsers();
 
         UserProfile userProfile = new UserProfile();
+        userProfile.setUsername("testname");
         Long secondUserID = adminUserFacade.registerUser(UserFacadeTest
                 .getTestEmail(0), "ads", userProfile);
 
+        try {
+            nullFacade.addTenantMember(testTenantID, testAdminID);
+            fail("managed to add a tenant member using null facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            adminFacade.addTenantMember(null, testAdminID);
+            fail("managed to add a tenant member using null parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            adminFacade.addTenantMember(testTenantID, null);
+            fail("managed to add a tenant member using null parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            adminFacade.addTenantMember(testTenantID, UserFacadeTest
+                    .getInvalidUserID());
+            fail("managed to add a tenant member using invalid user ID");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            adminFacade.addTenantMember(invalidTenantID, testAdminID);
+            fail("managed to add a tenant member using invalid tenant ID");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+
+        try {
+            userFacade.addTenantMember(null, testAdminID);
+            fail("managed to add a tenant member using null parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            userFacade.addTenantMember(testTenantID, null);
+            fail("managed to add a tenant member using null parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            userFacade.addTenantMember(testTenantID, UserFacadeTest
+                    .getInvalidUserID());
+            fail("managed to add a tenant member using invalid user ID");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            userFacade.addTenantMember(invalidTenantID, testAdminID);
+            fail("managed to add a tenant member using invalid tenant ID");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+
+        adminFacade.addTenantMember(testTenantID, secondUserID);
+        assertEquals(2, adminFacade.getUsersOfTenant(testTenantID, null).size());
         adminFacade.addTenantMember(testTenantID, secondUserID);
         assertEquals(2, adminFacade.getUsersOfTenant(testTenantID, null).size());
 
+        adminUserFacade.removeFromTenant(secondUserID, testTenantID);
+        assertEquals(1, adminFacade.getUsersOfTenant(testTenantID, null).size());
+        userFacade.addTenantMember(testTenantID, secondUserID);
+        assertEquals(2, adminFacade.getUsersOfTenant(testTenantID, null).size());
+        userFacade.addTenantMember(testTenantID, secondUserID);
+        assertEquals(2, adminFacade.getUsersOfTenant(testTenantID, null).size());
+
         UserFacadeTest.deleteTestUsers();
-        fail("Not yet implemented"); // RR addTenantMember
     }
 
     /**

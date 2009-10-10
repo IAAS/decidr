@@ -31,7 +31,7 @@ import org.junit.Test;
 import de.decidr.model.testing.DecidrOthersTest;
 
 /**
- * MF: add comment
+ * TODO: add comment
  * 
  * @author Markus Fischer
  */
@@ -44,22 +44,22 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        // MF implement
+        // TODO implement
     }
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception {
-        // MF implement
+        // TODO implement
     }
 
     @Before
     public void setUpCase() throws Exception {
-        // MF implement
+        // TODO implement
     }
 
     @After
     public void tearDownCase() throws Exception {
-        // MF implement
+        // TODO implement
     }
 
     /**
@@ -67,7 +67,7 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testStorageProviderFactory() {
-        fail("Not yet implemented"); // MF StorageProviderFactory()
+        fail("Not yet implemented"); // TODO StorageProviderFactory()
     }
 
     /**
@@ -76,7 +76,7 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testStorageProviderFactoryFile() {
-        fail("Not yet implemented"); // MF StorageProviderFactory(File)
+        fail("Not yet implemented"); // TODO StorageProviderFactory(File)
     }
 
     /**
@@ -85,7 +85,7 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testStorageProviderFactoryInputStream() {
-        fail("Not yet implemented"); // MF StorageProviderFactory(InputStream)
+        fail("Not yet implemented"); // TODO StorageProviderFactory(InputStream)
     }
 
     /**
@@ -94,7 +94,7 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testStorageProviderFactoryProperties() {
-        fail("Not yet implemented"); // MF StorageProviderFactory(Properties)
+        fail("Not yet implemented"); // TODO StorageProviderFactory(Properties)
     }
 
     /**
@@ -102,7 +102,7 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testConfigure() {
-        fail("Not yet implemented"); // MF configure()
+        fail("Not yet implemented"); // TODO configure()
     }
 
     /**
@@ -110,7 +110,7 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testConfigureInputStream() {
-        fail("Not yet implemented"); // MF configure(InputStream)
+        fail("Not yet implemented"); // TODO configure(InputStream)
     }
 
     /**
@@ -118,7 +118,7 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testConfigureProperties() {
-        fail("Not yet implemented"); // MF configure(Properties)
+        fail("Not yet implemented"); // TODO configure(Properties)
     }
 
     /**
@@ -126,7 +126,7 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testGetDefaultFactory() {
-        fail("Not yet implemented"); // MF getDefaultFactory
+        fail("Not yet implemented"); // TODO getDefaultFactory
     }
 
     /**
@@ -134,7 +134,7 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testGetStorageProvider() {
-        fail("Not yet implemented"); // MF getStorageProvider
+        fail("Not yet implemented"); // TODO getStorageProvider
     }
 
     /**
@@ -142,7 +142,7 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testSetAmazonS3() {
-        fail("Not yet implemented"); // MF setAmazonS3
+        fail("Not yet implemented"); // TODO setAmazonS3
     }
 
     /**
@@ -150,7 +150,7 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testSetLocalOnly() {
-        fail("Not yet implemented"); // MF setLocalOnly
+        fail("Not yet implemented"); // TODO setLocalOnly
     }
 
     /**
@@ -158,7 +158,7 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testSetPersistent() {
-        fail("Not yet implemented"); // MF setPersistent
+        fail("Not yet implemented"); // TODO setPersistent
     }
 
     /**
@@ -166,7 +166,7 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testSetProtocol() {
-        fail("Not yet implemented"); // MF setProtocol
+        fail("Not yet implemented"); // TODO setProtocol
     }
 
     /**
@@ -174,7 +174,7 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testUnsetAmazonS3() {
-        fail("Not yet implemented"); // MF unsetAmazonS3
+        fail("Not yet implemented"); // TODO unsetAmazonS3
     }
 
     /**
@@ -182,7 +182,7 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testUnsetLocalOnly() {
-        fail("Not yet implemented"); // MF unsetLocalOnly
+        fail("Not yet implemented"); // TODO unsetLocalOnly
     }
 
     /**
@@ -190,7 +190,7 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testUnsetPersistent() {
-        fail("Not yet implemented"); // MF unsetPersistent
+        fail("Not yet implemented"); // TODO unsetPersistent
     }
 
     /**
@@ -198,6 +198,6 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testUnsetProtocol() {
-        fail("Not yet implemented"); // MF unsetProtocol
+        fail("Not yet implemented"); // TODO unsetProtocol
     }
 }

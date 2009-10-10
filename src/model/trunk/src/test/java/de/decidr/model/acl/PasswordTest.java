@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 
 import de.decidr.model.logging.DefaultLogger;
-import de.decidr.model.testing.DecidrOthersTest;
+import de.decidr.model.testing.DecidrAclTest;
 
 /**
  * Test cases for <code>{@link Password}</code>.
@@ -38,7 +38,7 @@ import de.decidr.model.testing.DecidrOthersTest;
  * @author Reinhold
  * @version 0.1
  */
-public class PasswordTest extends DecidrOthersTest {
+public class PasswordTest extends DecidrAclTest {
 
     /**
      * Test method for {@link Password#getHash(String, String)}.
