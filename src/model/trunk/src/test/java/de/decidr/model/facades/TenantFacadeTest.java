@@ -37,6 +37,7 @@ import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.entities.Tenant;
+import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.testing.LowLevelDatabaseTest;
@@ -118,7 +119,17 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testAddTenantMember() throws TransactionException {
+        UserFacade adminUserFacade = new UserFacade(new SuperAdminRole(
+                DecidrGlobals.getSettings().getSuperAdmin().getId()));
+
+        UserProfile userProfile = new UserProfile();
+        Long secondUserID = adminUserFacade.registerUser(UserFacadeTest
+                .getTestEmail(0), "ads", userProfile);
+
+        adminFacade.addTenantMember(testTenantID, secondUserID);
         assertEquals(2, adminFacade.getUsersOfTenant(testTenantID, null).size());
+
+        UserFacadeTest.deleteTestUsers();
         fail("Not yet implemented"); // RR addTenantMember
     }
 

@@ -90,7 +90,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         }
     }
 
-    private static void deleteTestUsers() {
+    static void deleteTestUsers() {
         Transaction trans = session.beginTransaction();
         session.createQuery(
                 "delete from User WHERE email LIKE '" + TEST_EMAIL + "'")
@@ -161,7 +161,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         return returnEntry;
     }
 
-    private static String getTestEmail(int n) {
+    static String getTestEmail(int n) {
         return "asd" + ((n > 0) ? n : "") + "@desk.de";
     }
 

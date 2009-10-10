@@ -86,6 +86,10 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * @return the singleton instance.
      */
     public static HibernateTransactionCoordinator getInstance() {
+        if (instance == null) {
+            instance = new HibernateTransactionCoordinator();
+        }
+        
         return instance;
     }
 
@@ -341,5 +345,5 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * is the last static part of the class during initialization. Otherwise
      * accessing static parts in the contructor would be impossible.
      */
-    private static final HibernateTransactionCoordinator instance = new HibernateTransactionCoordinator();
+    private static HibernateTransactionCoordinator instance;
 }
