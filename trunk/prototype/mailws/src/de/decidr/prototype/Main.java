@@ -39,8 +39,8 @@ public class Main {
 		// System.exit(0);
 
 		MailBackend demo = new MailBackend(
-				"rumberrd@studi.informatik.uni-stuttgart.de",
-				"rumbergerr@yahoo.de", "testDemoMail");
+				"test@example.com",
+				"test@example.com", "testDemoMail");
 		JPasswordField passField = new JPasswordField();
 		String pwd;
 		if (JOptionPane.showConfirmDialog(null, passField, "password input",
@@ -54,14 +54,13 @@ public class Main {
 		demo.setBodyText("testestest");
 		demo.setHostname("smtp.googlemail.com");
 		demo.useTLS(true);
-		demo.setCC("rumbergerr@gmail.com");
-		demo.addCC("rrumberger@gmx.de, rrumberger@web.de");
+		demo.setCC("test@example.com");
+		demo.addCC("test@example.com, test@example.com");
 		demo.setPortNum((char) 25);
-		demo.setAuthInfo("rumbergerr@googlemail.com", pwd);
+		demo.setAuthInfo("test@example.com", pwd);
 		demo.addHeader("X-Test-Header", "stupidcontent");
 		demo.setXMailer("testmailer");
 
 		demo.sendMessage();
 	}
-
 }
