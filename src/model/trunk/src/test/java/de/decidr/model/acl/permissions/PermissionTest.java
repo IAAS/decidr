@@ -26,13 +26,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.acl.DefaultAccessControlList;
+import de.decidr.model.testing.DecidrAclTest;
 
 /**
  * TODO: add comment
  *
  * @author GH
  */
-public class PermissionTest {
+public class PermissionTest extends DecidrAclTest {
     private static List<String> strings = new ArrayList<String>();
 
     

@@ -20,12 +20,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import de.decidr.model.testing.DecidrAclTest;
+
 /**
  * TODO: add comment
  *
  * @author GH
  */
-public class UserHasAccessToFileAsserterTest {
+public class UserHasAccessToFileAsserterTest extends DecidrAclTest {
 
     /**
      * Test method for {@link de.decidr.model.acl.asserters.UserHasAccessToFileAsserter#assertRule(de.decidr.model.acl.roles.Role, de.decidr.model.acl.permissions.Permission)}.

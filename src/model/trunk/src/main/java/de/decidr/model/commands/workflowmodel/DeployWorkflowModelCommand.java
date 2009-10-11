@@ -16,7 +16,6 @@
 
 package de.decidr.model.commands.workflowmodel;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -102,6 +101,7 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
             dwfm.setDescription(workflowModel.getDescription());
             dwfm.setDwdl(workflowModel.getDwdl());
             dwfm.setVersion(workflowModel.getVersion());
+            // XXX why does a workflow model have a WSDL? ~rr
             dwfm.setWsdl(new byte[] {});
             dwfm.setSoapTemplate(new byte[] {});
             dwfm.setDeployDate(DecidrGlobals.getTime().getTime());

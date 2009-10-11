@@ -150,7 +150,7 @@ public class CreateWorkflowModelCommand extends TenantCommand {
         Unmarshaller u = jc.createUnmarshaller();
 
         /**
-         * Modiy the template where necessary
+         * Modify the template where necessary
          */
         JAXBElement<Workflow> je = (JAXBElement<Workflow>) u.unmarshal(templateUrl);
         Workflow workflowModel = je.getValue();

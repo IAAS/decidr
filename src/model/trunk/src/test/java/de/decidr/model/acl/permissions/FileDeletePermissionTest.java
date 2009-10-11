@@ -20,12 +20,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import de.decidr.model.testing.DecidrAclTest;
+
 /**
  * TODO: add comment
  *
  * @author GH
  */
-public class FileDeletePermissionTest {
+public class FileDeletePermissionTest extends DecidrAclTest {
 
     /**
      * Test method for {@link FileDeletePermission#FileDeletePermission(java.lang.Long)}.

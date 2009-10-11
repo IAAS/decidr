@@ -21,13 +21,15 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import de.decidr.model.testing.DecidrAclTest;
+
 /**
  * 
  * TODO: add comment
  *
  * @author GH
  */
-public class AlwaysTrueAsserterTest {
+public class AlwaysTrueAsserterTest extends DecidrAclTest {
 
     @Test
     public void testAssertRule() {

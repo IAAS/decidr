@@ -19,7 +19,7 @@ package de.decidr.model.acl.roles;
  * The role representing the DecidR Human Task Web service.
  * 
  * @author Daniel Huss
- * @author Reinhold Rumberger
+ * @author Reinhold
  * @version 0.1
  */
 public class HumanTaskRole extends BasicRole {
@@ -38,7 +38,7 @@ public class HumanTaskRole extends BasicRole {
     /**
      * @return the singleton instance.
      */
-    public static Role getInstance() {
+    public static HumanTaskRole getInstance() {
         return instance;
     }
 }

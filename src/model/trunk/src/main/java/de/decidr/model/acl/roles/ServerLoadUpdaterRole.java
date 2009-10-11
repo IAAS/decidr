@@ -39,7 +39,7 @@ public class ServerLoadUpdaterRole extends BasicRole {
     /**
      * @return the singleton instance.
      */
-    public static Role getInstance() {
+    public static ServerLoadUpdaterRole getInstance() {
         return instance;
     }
 }

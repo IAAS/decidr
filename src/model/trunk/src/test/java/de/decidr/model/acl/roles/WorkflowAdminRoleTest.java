@@ -20,12 +20,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import de.decidr.model.testing.DecidrAclTest;
+
 /**
  * TODO: add comment
  *
  * @author GH
  */
-public class WorkflowAdminRoleTest {
+public class WorkflowAdminRoleTest extends DecidrAclTest {
 
     /**
      * Test method for {@link WorkflowAdminRole#WorkflowAdminRole(Long)}.

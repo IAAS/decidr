@@ -20,12 +20,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import de.decidr.model.testing.DecidrAclTest;
+
 /**
  * TODO: add comment
  *
  * @author GH
  */
-public class UserIsSuperAdminAsserterTest {
+public class UserIsSuperAdminAsserterTest extends DecidrAclTest {
 
     /**
      * Test method for {@link de.decidr.model.acl.asserters.UserIsSuperAdminAsserter#transactionStarted(de.decidr.model.transactions.TransactionEvent)}.

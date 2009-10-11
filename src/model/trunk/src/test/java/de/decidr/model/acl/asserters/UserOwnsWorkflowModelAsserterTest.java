@@ -20,12 +20,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import de.decidr.model.testing.DecidrAclTest;
+
 /**
  * TODO: add comment
  *
  * @author GH
  */
-public class UserOwnsWorkflowModelAsserterTest {
+public class UserOwnsWorkflowModelAsserterTest extends DecidrAclTest {
 
     /**
      * Test method for {@link de.decidr.model.acl.asserters.UserOwnsWorkflowModelAsserter#transactionStarted(de.decidr.model.transactions.TransactionEvent)}.

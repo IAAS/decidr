@@ -20,12 +20,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import de.decidr.model.testing.DecidrAclTest;
+
 /**
  * TODO: add comment
  *
  * @author GH
  */
-public class HumanTaskRoleTest {
+public class HumanTaskRoleTest extends DecidrAclTest {
 
     /**
      * Test method for {@link HumanTaskRole#getInstance()}.

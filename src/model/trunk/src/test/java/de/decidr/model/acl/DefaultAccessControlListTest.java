@@ -16,11 +16,7 @@
 
 package de.decidr.model.acl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -66,8 +62,8 @@ import de.decidr.model.commands.user.ConfirmChangeEmailRequestCommand;
 import de.decidr.model.commands.user.ConfirmInvitationCommand;
 import de.decidr.model.commands.user.ConfirmPasswordResetCommand;
 import de.decidr.model.commands.user.ConfirmRegistrationCommand;
-import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
 import de.decidr.model.commands.user.GetAdministratedWorkflowInstancesCommand;
+import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
 import de.decidr.model.commands.user.GetHighestUserRoleCommand;
 import de.decidr.model.commands.user.GetInvitationCommand;
 import de.decidr.model.commands.user.GetJoinedTenantsCommand;
@@ -105,14 +101,14 @@ import de.decidr.model.commands.workitem.GetWorkItemCommand;
 import de.decidr.model.commands.workitem.SetDataCommand;
 import de.decidr.model.commands.workitem.SetStatusCommand;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.testing.DecidrOthersTest;
+import de.decidr.model.testing.DecidrDatabaseTest;
 
 /**
  * GH: add comment
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class DefaultAccessControlListTest extends DecidrOthersTest {
+public class DefaultAccessControlListTest extends DecidrDatabaseTest {
 
     private static DefaultAccessControlList dacl;
     

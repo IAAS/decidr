@@ -23,13 +23,14 @@ import org.junit.Test;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.user.CheckAuthKeyCommand;
 import de.decidr.model.commands.user.GetAllUsersCommand;
+import de.decidr.model.testing.DecidrAclTest;
 
 /**
  * TODO: add comment
  *
  * @author GH
  */
-public class CommandPermissionTest {
+public class CommandPermissionTest extends DecidrAclTest {
 
     /**
      * Test method for {@link CommandPermission#CommandPermission(TransactionalCommand)}.

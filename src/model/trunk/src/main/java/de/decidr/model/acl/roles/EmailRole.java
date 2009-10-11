@@ -19,7 +19,7 @@ package de.decidr.model.acl.roles;
  * The role representing the DecidR Email Web service.
  * 
  * @author Daniel Huss
- * @author Reinhold Rumberger
+ * @author Reinhold
  * @version 0.1
  */
 public class EmailRole extends BasicRole {
@@ -37,10 +37,8 @@ public class EmailRole extends BasicRole {
 
     /**
      * @return the singleton instance.
-     * DH: why does it return Role instead of EmailRole?
-     *     same with HumanTaskRole, ODERole, ServerLoadUpdaterRole
      */
-    public static Role getInstance() {
+    public static EmailRole getInstance() {
         return instance;
     }
 }

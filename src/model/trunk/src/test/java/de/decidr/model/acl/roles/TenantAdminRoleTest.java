@@ -20,12 +20,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import de.decidr.model.testing.DecidrAclTest;
+
 /**
  * TODO: add comment
  *
  * @author GH
  */
-public class TenantAdminRoleTest {
+public class TenantAdminRoleTest extends DecidrAclTest {
 
     /**
      * Test method for {@link TenantAdminRole#TenantAdminRole(Long)}.

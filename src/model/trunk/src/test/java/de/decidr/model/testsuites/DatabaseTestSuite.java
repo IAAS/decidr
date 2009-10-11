@@ -28,6 +28,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import de.decidr.model.DecidrGlobalsTest;
 import de.decidr.model.LifetimeValidatorTest;
+import de.decidr.model.acl.DefaultAccessControlListTest;
 import de.decidr.model.commands.SystemCommandsTest;
 import de.decidr.model.facades.FileFacadeTest;
 import de.decidr.model.facades.SystemFacadeTest;
@@ -51,6 +52,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
 @RunWith(Suite.class)
 // The order of these tests should not be changed without good reason
 @SuiteClasses( { HibernateEntityStorageProviderTest.class,
+        DefaultAccessControlListTest.class,
         HibernateTransactionCoordinatorTest.class, DecidrGlobalsTest.class,
         LifetimeValidatorTest.class, SystemFacadeTest.class,
         FileFacadeTest.class, TenantFacadeTest.class, UserFacadeTest.class,
