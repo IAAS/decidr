@@ -31,15 +31,26 @@ import de.decidr.model.testsuites.OtherTestsSuite;
  */
 public abstract class DecidrOthersTest {
     private static OtherTestsSuite testSuite = new OtherTestsSuite();
+    private static boolean skip = false;
 
     @BeforeClass
     public static final void beforeClass() {
+        if (OtherTestsSuite.isInSuite()) {
+            skip = true;
+            return;
+        }
+
         TestUtils.executeStaticMethodsWithAnnotation(OtherTestsSuite.class,
                 BeforeClass.class);
     }
 
     @AfterClass
     public static final void afterClass() {
+        if (skip) {
+            skip = false;
+            return;
+        }
+
         TestUtils.executeStaticMethodsWithAnnotation(OtherTestsSuite.class,
                 AfterClass.class);
     }

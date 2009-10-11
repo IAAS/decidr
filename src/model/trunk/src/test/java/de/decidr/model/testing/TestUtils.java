@@ -18,6 +18,7 @@ package de.decidr.model.testing;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 import junit.framework.TestSuite;
 
@@ -31,6 +32,10 @@ public class TestUtils {
     public static void executeStaticMethodsWithAnnotation(
             Class<? extends TestSuite> suite, Class<? extends Annotation> ann) {
         for (Method m : suite.getMethods()) {
+            if (!Modifier.isStatic(m.getModifiers())) {
+                continue;
+            }
+
             if (m.isAnnotationPresent(ann)) {
                 try {
                     m.invoke(null);
@@ -46,6 +51,10 @@ public class TestUtils {
     public static void executeMethodsWithAnnotation(TestSuite suite,
             Class<? extends Annotation> ann) {
         for (Method m : suite.getClass().getMethods()) {
+            if (Modifier.isStatic(m.getModifiers())) {
+                continue;
+            }
+
             if (m.isAnnotationPresent(ann)) {
                 try {
                     m.invoke(suite);

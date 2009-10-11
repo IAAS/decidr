@@ -18,34 +18,11 @@ package de.decidr.model.testing;
 
 import junit.framework.TestSuite;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-
 /**
  * This class adds the capability to add global preconditions to all tests.
  * 
  * @author Reinhold
  */
 public class GlobalPreconditionsSuite extends TestSuite {
-    @BeforeClass
-    public static void setUpBeforeSuite() {
-        // nothing as of yet
-    }
-
-    @Before
-    public void setUpSuiteCase() {
-        // nothing as of yet
-    }
-
-    @After
-    public void tearDownSuiteCase() {
-        // nothing as of yet
-    }
-
-    @AfterClass
-    public static void tearDownAfterSuite() {
-        // nothing as of yet
-    }
+    // nothing yet
 }

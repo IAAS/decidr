@@ -31,15 +31,26 @@ import de.decidr.model.testsuites.DatabaseTestSuite;
  */
 public abstract class DecidrDatabaseTest {
     private static DatabaseTestSuite testSuite = new DatabaseTestSuite();
+    private static boolean skip = false;
 
     @BeforeClass
     public static final void beforeClass() {
+        if (DatabaseTestSuite.isInSuite()) {
+            skip = true;
+            return;
+        }
+
         TestUtils.executeStaticMethodsWithAnnotation(DatabaseTestSuite.class,
                 BeforeClass.class);
     }
 
     @AfterClass
     public static final void afterClass() {
+        if (skip) {
+            skip = false;
+            return;
+        }
+
         TestUtils.executeStaticMethodsWithAnnotation(DatabaseTestSuite.class,
                 AfterClass.class);
     }

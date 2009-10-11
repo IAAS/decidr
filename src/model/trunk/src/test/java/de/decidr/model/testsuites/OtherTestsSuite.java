@@ -18,6 +18,8 @@ package de.decidr.model.testsuites;
 
 import junit.framework.TestSuite;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -40,5 +42,24 @@ import de.decidr.model.testing.GlobalPreconditionsSuite;
         DecidrReverseEngineeringStrategyTest.class,
         StorageProviderFactoryTest.class, LocalStorageProviderTest.class })
 public class OtherTestsSuite extends GlobalPreconditionsSuite {
-    // no pre-conditions or other things, so nothing to see here
+    private static boolean inSuite;
+
+    /**
+     * @return - <code>true</code>, if a {@link OtherTestsSuite} is currently
+     *         running<br>
+     *         - <code>false</code> if not
+     */
+    public static final boolean isInSuite() {
+        return inSuite;
+    }
+
+    @AfterClass
+    public static void deactivateSuite() {
+        inSuite = false;
+    }
+
+    @BeforeClass
+    public static void activateSuite() {
+        inSuite = true;
+    }
 }

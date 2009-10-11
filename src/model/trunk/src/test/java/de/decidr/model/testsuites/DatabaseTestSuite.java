@@ -18,6 +18,8 @@ package de.decidr.model.testsuites;
 
 import static org.junit.Assert.fail;
 
+import java.util.Calendar;
+
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.junit.AfterClass;
@@ -60,34 +62,62 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
         WorkItemFacadeTest.class, SystemCommandsTest.class })
 public class DatabaseTestSuite extends GlobalPreconditionsSuite {
 
-    static Session session;
+    static Calendar nextAttempt;
+    private static boolean inSuite;
 
     /**
-     * Fails if hibernate is not working properly and no working condition can
-     * be produced. Creates a testing database.
+     * Fails if hibernate is not working properly and no working environment can
+     * be produced.
+     * <p>
+     * If a working environment is found, attempting a connection within the
+     * next five minutes will be skipped to increase testing speed.
      */
     @BeforeClass
     public static void setUpBeforeClass() {
-        DefaultLogger.getLogger(DatabaseTestSuite.class);
+        if (!inSuite
+                && (nextAttempt == null || Calendar.getInstance().after(
+                        nextAttempt))) {
+            Session session = null;
+            // force initialisation of logging subsystem
+            DefaultLogger.getLogger(DatabaseTestSuite.class);
 
-        try {
-            session = new Configuration().configure("hibernate.cfg.xml")
-                    .buildSessionFactory().openSession();
-            session.createQuery("FROM User").setMaxResults(1).list();
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("Couldn't connect to database; Error message: "
-                    + e.getMessage());
+            // check whether a database connection can be established
+            try {
+                session = new Configuration().configure("hibernate.cfg.xml")
+                        .buildSessionFactory().openSession();
+                // get 1 user to force hibernate to actually attempt a database
+                // connection
+                session.createQuery("FROM User").setMaxResults(1).list();
+            } catch (Exception e) {
+                e.printStackTrace();
+                fail("Couldn't connect to database; Error message: "
+                        + e.getMessage());
+            } finally {
+                if (session != null) {
+                    session.close();
+                }
+            }
+
+            // don't retry for 5 minutes if a connection was successfully
+            // established
+            nextAttempt = Calendar.getInstance();
+            nextAttempt.add(Calendar.MINUTE, 5);
+
+            inSuite = true;
         }
     }
 
     /**
-     * Removes the testing database.
+     * @return - <code>true</code>, if a {@link DatabaseTestSuite} is currently
+     *         running<br>
+     *         - <code>false</code> if not
      */
+    public static final boolean isInSuite() {
+        return inSuite;
+    }
+
     @AfterClass
-    public static void tearDownAfterClass() {
-        if (session != null) {
-            session.close();
-        }
+    public static void deactivateSuite() {
+        inSuite = false;
     }
 }

@@ -16,6 +16,8 @@
 
 package de.decidr.model.testsuites;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -45,5 +47,24 @@ import de.decidr.model.testing.GlobalPreconditionsSuite;
         TenantAdminRoleTest.class, UserRoleTest.class,
         WorkflowAdminRoleTest.class })
 public class AclTestSuite extends GlobalPreconditionsSuite {
-    // no preconditions
+    private static boolean inSuite;
+
+    /**
+     * @return - <code>true</code>, if a {@link OtherTestsSuite} is currently
+     *         running<br>
+     *         - <code>false</code> if not
+     */
+    public static final boolean isInSuite() {
+        return inSuite;
+    }
+
+    @AfterClass
+    public static void deactivateSuite() {
+        inSuite = false;
+    }
+
+    @BeforeClass
+    public static void activateSuite() {
+        inSuite = true;
+    }
 }

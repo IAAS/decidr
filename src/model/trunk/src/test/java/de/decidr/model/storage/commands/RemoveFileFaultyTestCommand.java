@@ -27,7 +27,7 @@ public class RemoveFileFaultyTestCommand extends AbstractTransactionalCommand {
         error=true;
     }
     
-    public boolean getResul(){
+    public boolean getResult(){
         return error;
     }
     
@@ -43,8 +43,5 @@ public class RemoveFileFaultyTestCommand extends AbstractTransactionalCommand {
         } catch (StorageException e) {
             error = false;
         }
-        
-
     }
-
 }

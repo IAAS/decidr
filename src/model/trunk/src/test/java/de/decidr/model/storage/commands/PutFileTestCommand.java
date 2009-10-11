@@ -32,13 +32,11 @@ public class PutFileTestCommand extends AbstractTransactionalCommand {
             throws TransactionException {
 
         try {
+            // XXX need to configure provider first
             storageProvider.putFile(new FileInputStream(basicFile
                     .getAbsolutePath()), fId, basicFile.length());
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             throw new TransactionException(e);
         }
-
     }
-
 }

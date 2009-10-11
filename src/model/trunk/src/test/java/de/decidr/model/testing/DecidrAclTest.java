@@ -27,19 +27,30 @@ import de.decidr.model.testsuites.AclTestSuite;
  * GH: comment
  * 
  * @author Geoffrey-Alexeij Heinze
- *
+ * 
  */
 public class DecidrAclTest {
     private static AclTestSuite testSuite = new AclTestSuite();
+    private static boolean skip = false;
 
     @BeforeClass
     public static final void beforeClass() {
+        if (AclTestSuite.isInSuite()) {
+            skip = true;
+            return;
+        }
+
         TestUtils.executeStaticMethodsWithAnnotation(AclTestSuite.class,
                 BeforeClass.class);
     }
 
     @AfterClass
     public static final void afterClass() {
+        if (skip) {
+            skip = false;
+            return;
+        }
+
         TestUtils.executeStaticMethodsWithAnnotation(AclTestSuite.class,
                 AfterClass.class);
     }
