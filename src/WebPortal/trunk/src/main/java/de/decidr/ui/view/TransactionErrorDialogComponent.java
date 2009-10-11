@@ -17,19 +17,21 @@
 package de.decidr.ui.view;
 
 /**
- * This component displays an error message.
- * Should be used if an Action failed.
- *
+ * This component displays an error message. Should be used if an Action failed.
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
+// XXX This thing is way too generic and doesn't provide any useful info!
 public class TransactionErrorDialogComponent extends InformationDialogComponent {
 
     /**
      * Calls the super constructor with the given text and shows a notification
      * to the user.
-     *
      */
-    public TransactionErrorDialogComponent(){
-        super("An error occured while performing your request.<br/>Please check your internet connection and try again later.", "Transaction Error");
+    public TransactionErrorDialogComponent() {
+        super(
+                "An error occured while performing your request."
+                        + "<br/>Please check your internet connection and try again later.",
+                "Transaction Error");
     }
 }

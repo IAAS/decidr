@@ -76,7 +76,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
      * 
      * @see InputStream#skip(long)
      */
-    public Long getInputStreamSize(InputStream in) {
+    public static Long getInputStreamSize(InputStream in) {
         long size;
 
         try {

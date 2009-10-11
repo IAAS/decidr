@@ -60,7 +60,7 @@ public class CreateTenantAction implements ClickListener {
                 .addValidator(
                         new RegexpValidator(
                                 "\\w{2,50}",
-                                "Der Tenant name darf 2-50 Zeichen lang sein und darf keine Sonderzeichen enthalten"));
+                                "Der Tenant-Name darf 2-50 Zeichen lang sein und darf keine Sonderzeichen enthalten"));
         createForm.commit();
 
         Long tId = null;
@@ -86,7 +86,5 @@ public class CreateTenantAction implements ClickListener {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent());
         }
-        
     }
-
 }

@@ -192,6 +192,9 @@ public class TenantFacade extends AbstractFacade {
      * @param fileId
      *            the ID of the file to use as the advanced color scheme
      */
+    // DH how about only having one
+    // setColorScheme(Long tenantId, Long fileId, Boolean advanced)? both the
+    // functions and the commands do pretty much the same thing anyway... ~rr
     @AllowedRole(TenantAdminRole.class)
     public void setAdvancedColorScheme(Long tenantId, Long fileId)
             throws TransactionException {
@@ -304,7 +307,7 @@ public class TenantFacade extends AbstractFacade {
 
     /**
      * Approves the given tenants. Not existing and already approved/rejected
-     * tenants will we ignored.
+     * tenants will we ignored. XXX what about an empty list
      * 
      * @param tenantIds
      *            a list of tenant IDs which should be approved
@@ -473,11 +476,12 @@ public class TenantFacade extends AbstractFacade {
     }
 
     /**
-     * Returns a list of all tenants which have to be approved as List<Item>
-     * Each Item has the following properties:<br>
+     * Returns a list of all tenants which have to be approved as {@link List}
+     * {@code <}{@link Item}{@code >}. Each {@link Item} has the following
+     * properties:<br>
      * <ul>
      * <li>id: Long - tenant ID</li>
-     * <li>name: String - tenant name</li>
+     * <li>name: String - tenant name</li> XXX not according to the code
      * <li>adminFirstName: String - first name of tenant admin</li>
      * <li>adminLastName: String - last name of tenant admin</li>
      * <li>adminId: Long - user ID of tenant admin</li>
@@ -507,9 +511,7 @@ public class TenantFacade extends AbstractFacade {
         inList = command.getResult();
 
         for (TenantWithAdminView item : inList) {
-
             outList.add(new BeanItem(item, properties));
-
         }
 
         return outList;
@@ -525,9 +527,11 @@ public class TenantFacade extends AbstractFacade {
      * <li>id: Long - the tenant id</li>
      * <li>numDeployedWorkflowModels: Long - the number of deployed workflow
      * models that this tenant owns.</li>
+     * <li>numWorkflowModels: Long - the number of workflow models that this
+     * tenant owns.</li>
      * <li>numMembers: Long - the number of users that are members of this
      * tenant.</li>
-     * <li>numWorkflowInstance: Long - the number of workflow instances that
+     * <li>numWorkflowInstances: Long - the number of workflow instances that
      * this tenant owns.</li>
      * <li>tenantName: String - the name of this tenant.</li>
      * </ul>

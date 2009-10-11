@@ -20,9 +20,11 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,7 +34,10 @@ import org.junit.Test;
 import com.vaadin.data.Item;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.permissions.FileDeletePermission;
 import de.decidr.model.acl.permissions.FilePermission;
+import de.decidr.model.acl.permissions.FileReadPermission;
+import de.decidr.model.acl.permissions.FileReplacePermission;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.UserRole;
@@ -196,9 +201,59 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
      * and {@link TenantFacade#approveTenants(List)}.
      */
     @Test
-    public void testApproveTenants() {
-        fail("Not yet implemented"); // RR getTenantsToApprove
-        fail("Not yet implemented"); // RR approveTenants
+    public void testApproveTenants() throws TransactionException {
+        List<Item> tenants = adminFacade.getTenantsToApprove(null, null);
+        assertNotNull(tenants);
+        assertFalse(tenants.isEmpty());
+        List<Long> tenantIDs = new ArrayList<Long>(tenants.size());
+
+        for (Item tenant : tenants) {
+            assertNotNull(tenant.getItemProperty("id").getValue());
+            assertNotNull(tenant.getItemProperty("name").getValue());
+            assertNotNull(tenant.getItemProperty("adminFirstName").getValue());
+            assertNotNull(tenant.getItemProperty("adminLastName").getValue());
+            assertNotNull(tenant.getItemProperty("adminId").getValue());
+
+            tenantIDs.add((Long) tenant.getItemProperty("id").getValue());
+        }
+
+        try {
+            userFacade.getTenantsToApprove(null, null);
+            fail("managed to get a list of tenants to approve using basic user facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            nullFacade.getTenantsToApprove(null, null);
+            fail("managed to get a list of tenants to approve using null facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+
+        try {
+            adminFacade.approveTenants(null);
+            fail("managed to approve tenants without specifying them");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            userFacade.approveTenants(tenantIDs);
+            fail("managed to approve tenants using basic user facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            nullFacade.approveTenants(tenantIDs);
+            fail("managed to approve tenants using null facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+
+        adminFacade.approveTenants(tenantIDs);
+        adminFacade.approveTenants(tenantIDs);
+        adminFacade.approveTenants(new ArrayList<Long>(1));
+
+        assertTrue(adminFacade.getTenantsToApprove(null, null).isEmpty());
     }
 
     /**
@@ -209,6 +264,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testColorScheme() {
+        // RR clear up setXColorScheme vs SetColorScheme(..., bool)
         fail("Not yet implemented"); // RR setSimpleColorScheme
         fail("Not yet implemented"); // RR setAdvancedColorScheme
         fail("Not yet implemented"); // RR setCurrentColorScheme
@@ -219,8 +275,37 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
      * Test method for {@link TenantFacade#getAllTenants(List, Paginator)}.
      */
     @Test
-    public void testGetAllTenants() {
-        fail("Not yet implemented"); // RR getAllTenants
+    public void testGetAllTenants() throws TransactionException {
+        try {
+            userFacade.getAllTenants(null, null);
+            fail("managed to get a list of all tenants using basic user facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            nullFacade.getAllTenants(null, null);
+            fail("managed to get a list of all tenants using null facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+
+        List<Item> tenants = adminFacade.getAllTenants(null, null);
+        List<Item> compare = adminFacade.getAllTenants(null, null);
+        assertNotNull(tenants);
+        assertFalse(tenants.isEmpty());
+        assertNotNull(compare);
+        assertFalse(compare.isEmpty());
+        assertEquals(tenants.size(), compare.size());
+
+        for (int i = 0; i < tenants.size(); i++) {
+            for (String property : new String[] { "adminFirstName", "id",
+                    "adminLastName", "numDeployedWorkflowModels", "numMembers",
+                    "numWorkflowInstances", "tenantName", "numWorkflowModels" }) {
+                assertEquals(tenants.get(i).getItemProperty(property)
+                        .getValue(), compare.get(i).getItemProperty(property)
+                        .getValue());
+            }
+        }
     }
 
     /**
@@ -228,10 +313,62 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testGetTenantId() throws TransactionException {
+        String invalidName = TEST_NAME + "invalid";
+
         assertEquals(testTenantID, adminFacade.getTenantId(TEST_NAME));
         assertEquals(testTenantID, userFacade.getTenantId(TEST_NAME));
 
-        fail("Not yet implemented"); // RR getTenantId
+        try {
+            Long id = adminFacade.getTenantId(invalidName);
+            adminFacade.deleteTenant(id);
+        } catch (TransactionException e) {
+            // indicates the state we want
+        }
+
+        try {
+            nullFacade.getTenantId(TEST_NAME);
+            fail("managed to get tenant ID with null facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+
+        try {
+            adminFacade.getTenantId(null);
+            fail("managed to get tenant ID with null parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            adminFacade.getTenantId("");
+            fail("managed to get tenant ID with empty parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            adminFacade.getTenantId(invalidName);
+            fail("managed to get tenant ID with invalid parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+
+        try {
+            userFacade.getTenantId(null);
+            fail("managed to get tenant ID with null parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            userFacade.getTenantId("");
+            fail("managed to get tenant ID with empty parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            userFacade.getTenantId(invalidName);
+            fail("managed to get tenant ID with invalid parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
     }
 
     /**
@@ -288,10 +425,15 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         FileFacade fileFacade = new FileFacade(new SuperAdminRole(testAdminID));
         InputStream logoStream = TenantFacadeTest.class
                 .getResourceAsStream("/decidr.jpg");
-        // RR
-        Long logoID = fileFacade.createFile(logoStream, 0L, "decidr.jpg",
-                "image/jpeg", false,
-                new HashSet<Class<? extends FilePermission>>());
+        assertNotNull(logoStream);
+        Set<Class<? extends FilePermission>> publicPermissions = new HashSet<Class<? extends FilePermission>>();
+        publicPermissions.add(FileReadPermission.class);
+        publicPermissions.add(FileDeletePermission.class);
+        publicPermissions.add(FileReplacePermission.class);
+        Long logoID = fileFacade.createFile(logoStream, FileFacadeTest
+                .getInputStreamSize(TenantFacadeTest.class
+                        .getResourceAsStream("/decidr.jpg")), "decidr.jpg",
+                "image/jpeg", false, publicPermissions);
         Long invalidLogoID = FileFacadeTest.getInvalidFileID();
 
         try {

@@ -28,6 +28,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * @author Daniel Huss
  * @version 0.1
  */
+// XXX no null checking ~rr
 public class SetSimpleColorSchemeCommand extends TenantCommand {
 
     Long fileId;
