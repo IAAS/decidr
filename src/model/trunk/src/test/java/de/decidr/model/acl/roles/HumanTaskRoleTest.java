@@ -28,11 +28,17 @@ import org.junit.Test;
 public class HumanTaskRoleTest {
 
     /**
-     * Test method for {@link de.decidr.model.acl.roles.HumanTaskRole#getInstance()}.
+     * Test method for {@link HumanTaskRole#getInstance()}.
      */
     @Test
     public void testGetInstance() {
-        fail("Not yet implemented");
+        Role role = HumanTaskRole.getInstance();
+        Role role2 = null;
+        
+        assertNotNull(role);
+        
+        role2 = HumanTaskRole.getInstance();
+        assertEquals(role, role2);
     }
 
 }

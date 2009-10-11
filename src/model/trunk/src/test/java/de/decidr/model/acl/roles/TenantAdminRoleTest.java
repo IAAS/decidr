@@ -28,19 +28,31 @@ import org.junit.Test;
 public class TenantAdminRoleTest {
 
     /**
-     * Test method for {@link de.decidr.model.acl.roles.TenantAdminRole#TenantAdminRole(java.lang.Long)}.
+     * Test method for {@link TenantAdminRole#TenantAdminRole(Long)}.
      */
     @Test
     public void testTenantAdminRoleLong() {
-        fail("Not yet implemented");
+        TenantAdminRole role = new TenantAdminRole(1l);
+        
+        assertNotNull(role);
+        assertTrue(role.getActorId() == 1l);
+        
+        role = new TenantAdminRole(0l);
+        assertTrue(role.getActorId() == 0l);
+
+        role = new TenantAdminRole(-1l);
+        assertTrue(role.getActorId() == -1l);
     }
 
     /**
-     * Test method for {@link de.decidr.model.acl.roles.TenantAdminRole#TenantAdminRole()}.
+     * Test method for {@link TenantAdminRole#TenantAdminRole()}.
      */
     @Test
     public void testTenantAdminRole() {
-        fail("Not yet implemented");
+        TenantAdminRole role = new TenantAdminRole();
+        
+        assertNotNull(role);
+        assertTrue(role.getActorId() == UserRole.UNKNOWN_USER_ID );
     }
 
 }

@@ -22,10 +22,28 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import de.decidr.model.acl.DefaultAccessControlListTest;
 import de.decidr.model.acl.PasswordTest;
+import de.decidr.model.acl.permissions.CommandPermissionTest;
+import de.decidr.model.acl.permissions.FileDeletePermissionTest;
+import de.decidr.model.acl.permissions.FileReadPermissionTest;
+import de.decidr.model.acl.permissions.FileReplacePermissionTest;
+import de.decidr.model.acl.permissions.PermissionTest;
+import de.decidr.model.acl.roles.BasicRoleTest;
+import de.decidr.model.acl.roles.EmailRoleTest;
+import de.decidr.model.acl.roles.HumanTaskRoleTest;
+import de.decidr.model.acl.roles.ODERoleTest;
+import de.decidr.model.acl.roles.ServerLoadUpdaterRoleTest;
+import de.decidr.model.acl.roles.TenantAdminRoleTest;
+import de.decidr.model.acl.roles.UserRoleTest;
+import de.decidr.model.acl.roles.WorkflowAdminRoleTest;
 import de.decidr.model.testing.GlobalPreconditionsSuite;
 
 @RunWith(Suite.class)
-@SuiteClasses( { PasswordTest.class, DefaultAccessControlListTest.class })
+@SuiteClasses( { PasswordTest.class, DefaultAccessControlListTest.class,
+                 PermissionTest.class, CommandPermissionTest.class, 
+                 FileDeletePermissionTest.class, FileReadPermissionTest.class, FileReplacePermissionTest.class,
+                 BasicRoleTest.class, EmailRoleTest.class, HumanTaskRoleTest.class,
+                 ODERoleTest.class, ServerLoadUpdaterRoleTest.class, TenantAdminRoleTest.class,
+                 UserRoleTest.class, WorkflowAdminRoleTest.class})
 public class AclTestSuite extends GlobalPreconditionsSuite {
     // no preconditions
 }

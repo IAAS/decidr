@@ -37,6 +37,8 @@ public class EmailRole extends BasicRole {
 
     /**
      * @return the singleton instance.
+     * DH: why does it return Role instead of EmailRole?
+     *     same with HumanTaskRole, ODERole, ServerLoadUpdaterRole
      */
     public static Role getInstance() {
         return instance;

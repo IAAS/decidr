@@ -32,7 +32,13 @@ public class EmailRoleTest {
      */
     @Test
     public void testGetInstance() {
-        fail("Not yet implemented");
+        Role role = EmailRole.getInstance();
+        Role role2 = null;
+        
+        assertNotNull(role);
+        
+        role2 = EmailRole.getInstance();
+        assertEquals(role, role2);
     }
 
 }

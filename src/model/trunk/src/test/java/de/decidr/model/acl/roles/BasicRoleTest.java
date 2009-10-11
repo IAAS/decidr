@@ -17,6 +17,8 @@
 package de.decidr.model.acl.roles;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -28,27 +30,50 @@ import org.junit.Test;
 public class BasicRoleTest {
 
     /**
-     * Test method for {@link de.decidr.model.acl.roles.BasicRole#BasicRole(java.lang.Long)}.
+     * Test method for {@link BasicRole#BasicRole(Long)}.
      */
     @Test
     public void testBasicRole() {
-        fail("Not yet implemented");
+        BasicRole role = new BasicRole(1l);
+        
+        assertNotNull(role);
+        
+        role = new BasicRole(null);
+        assertNotNull(role);
     }
 
     /**
-     * Test method for {@link de.decidr.model.acl.roles.BasicRole#getActorId()}.
+     * Test method for {@link BasicRole#getActorId()}.
      */
     @Test
     public void testGetActorId() {
-        fail("Not yet implemented");
+        BasicRole role = new BasicRole(1l);
+        assertTrue(role.getActorId() == 1l);
+
+        role = new BasicRole(0l);
+        assertTrue(role.getActorId() == 0l);
+
+        role = new BasicRole(-1l);
+        assertTrue(role.getActorId() == -1l);
+
+        role = new BasicRole(null);
+        assertTrue(role.getActorId() == null);
     }
 
     /**
-     * Test method for {@link de.decidr.model.acl.roles.BasicRole#equals(java.lang.Object)}.
+     * Test method for {@link BasicRole#equals(Object)}.
      */
     @Test
     public void testEqualsObject() {
-        fail("Not yet implemented");
+        BasicRole role1 = new BasicRole(1l);
+        BasicRole role2 = new BasicRole(0l);
+        UserRole role3 = new UserRole();
+        
+        assertTrue(role1.equals(new BasicRole(1l)));
+        assertTrue(role1.equals(role2));
+        assertFalse(role1.equals(role3));
+        assertFalse(role3.equals(role1));
+        
     }
 
 }

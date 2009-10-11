@@ -28,19 +28,31 @@ import org.junit.Test;
 public class UserRoleTest {
 
     /**
-     * Test method for {@link de.decidr.model.acl.roles.UserRole#UserRole(java.lang.Long)}.
+     * Test method for {@link UserRole#UserRole(Long)}.
      */
     @Test
     public void testUserRoleLong() {
-        fail("Not yet implemented");
+        UserRole role = new UserRole(1l);
+        
+        assertNotNull(role);
+        assertTrue(role.getActorId() == 1l);
+        
+        role = new UserRole(0l);
+        assertTrue(role.getActorId() == 0l);
+
+        role = new UserRole(-1l);
+        assertTrue(role.getActorId() == -1l);
     }
 
     /**
-     * Test method for {@link de.decidr.model.acl.roles.UserRole#UserRole()}.
+     * Test method for {@link UserRole#UserRole()}.
      */
     @Test
     public void testUserRole() {
-        fail("Not yet implemented");
+        UserRole role = new UserRole();
+        
+        assertNotNull(role);
+        assertTrue(role.getActorId() == UserRole.UNKNOWN_USER_ID );
     }
 
 }

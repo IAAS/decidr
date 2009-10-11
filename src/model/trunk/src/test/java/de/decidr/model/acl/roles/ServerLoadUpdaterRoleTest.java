@@ -28,11 +28,17 @@ import org.junit.Test;
 public class ServerLoadUpdaterRoleTest {
 
     /**
-     * Test method for {@link de.decidr.model.acl.roles.ServerLoadUpdaterRole#getInstance()}.
+     * Test method for {@link ServerLoadUpdaterRole#getInstance()}.
      */
     @Test
     public void testGetInstance() {
-        fail("Not yet implemented");
+        Role role = ServerLoadUpdaterRole.getInstance();
+        Role role2 = null;
+        
+        assertNotNull(role);
+        
+        role2 = ServerLoadUpdaterRole.getInstance();
+        assertEquals(role, role2);
     }
 
 }

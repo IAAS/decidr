@@ -32,7 +32,13 @@ public class ODERoleTest {
      */
     @Test
     public void testGetInstance() {
-        fail("Not yet implemented");
+        Role role = ODERole.getInstance();
+        Role role2 = null;
+        
+        assertNotNull(role);
+        
+        role2 = ODERole.getInstance();
+        assertEquals(role, role2);
     }
 
 }

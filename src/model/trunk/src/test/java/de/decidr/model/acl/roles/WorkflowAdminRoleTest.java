@@ -28,19 +28,31 @@ import org.junit.Test;
 public class WorkflowAdminRoleTest {
 
     /**
-     * Test method for {@link de.decidr.model.acl.roles.WorkflowAdminRole#WorkflowAdminRole(java.lang.Long)}.
+     * Test method for {@link WorkflowAdminRole#WorkflowAdminRole(Long)}.
      */
     @Test
     public void testWorkflowAdminRoleLong() {
-        fail("Not yet implemented");
+        WorkflowAdminRole role = new WorkflowAdminRole(1l);
+        
+        assertNotNull(role);
+        assertTrue(role.getActorId() == 1l);
+        
+        role = new WorkflowAdminRole(0l);
+        assertTrue(role.getActorId() == 0l);
+
+        role = new WorkflowAdminRole(-1l);
+        assertTrue(role.getActorId() == -1l);
     }
 
     /**
-     * Test method for {@link de.decidr.model.acl.roles.WorkflowAdminRole#WorkflowAdminRole()}.
+     * Test method for {@link WorkflowAdminRole#WorkflowAdminRole()}.
      */
     @Test
     public void testWorkflowAdminRole() {
-        fail("Not yet implemented");
+        WorkflowAdminRole role = new WorkflowAdminRole();
+        
+        assertNotNull(role);
+        assertTrue(role.getActorId() == UserRole.UNKNOWN_USER_ID );
     }
 
 }

@@ -20,6 +20,10 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import de.decidr.model.commands.TransactionalCommand;
+import de.decidr.model.commands.user.CheckAuthKeyCommand;
+import de.decidr.model.commands.user.GetAllUsersCommand;
+
 /**
  * TODO: add comment
  *
@@ -28,7 +32,7 @@ import org.junit.Test;
 public class CommandPermissionTest {
 
     /**
-     * Test method for {@link de.decidr.model.acl.permissions.CommandPermission#CommandPermission(de.decidr.model.commands.TransactionalCommand)}.
+     * Test method for {@link CommandPermission#CommandPermission(TransactionalCommand)}.
      */
     @Test
     public void testCommandPermissionTransactionalCommand() {
@@ -36,23 +40,29 @@ public class CommandPermissionTest {
     }
 
     /**
-     * Test method for {@link de.decidr.model.acl.permissions.CommandPermission#CommandPermission(java.lang.Class)}.
+     * Test method for {@link CommandPermission#CommandPermission(java.lang.Class)}.
      */
     @Test
     public void testCommandPermissionClassOfQextendsTransactionalCommand() {
-        fail("Not yet implemented");
+
+        CommandPermission cmdPerm = new CommandPermission(GetAllUsersCommand.class);
+        assertNotNull(cmdPerm);
     }
 
     /**
-     * Test method for {@link de.decidr.model.acl.permissions.CommandPermission#getCommandClass()}.
+     * Test method for {@link CommandPermission#getCommandClass()}.
      */
     @Test
     public void testGetCommandClass() {
-        fail("Not yet implemented");
+
+        CommandPermission cmdPerm = new CommandPermission(GetAllUsersCommand.class);
+        assertNotNull(cmdPerm);
+        assertEquals(cmdPerm.getCommandClass(),GetAllUsersCommand.class );
+        assertFalse(cmdPerm.getCommandClass().equals(CheckAuthKeyCommand.class));
     }
 
     /**
-     * Test method for {@link de.decidr.model.acl.permissions.CommandPermission#getCommand()}.
+     * Test method for {@link CommandPermission#getCommand()}.
      */
     @Test
     public void testGetCommand() {
