@@ -68,6 +68,14 @@ public class UpdateStatsResponse {
     }
 
     /**
+     * Gets the value of the run property.
+     * 
+     */
+    public boolean isRun() {
+        return run;
+    }
+
+    /**
      * Sets the value of the configVersion property.
      * 
      * @param value
@@ -76,14 +84,6 @@ public class UpdateStatsResponse {
      */
     public void setConfigVersion(XMLGregorianCalendar value) {
         this.configVersion = value;
-    }
-
-    /**
-     * Gets the value of the run property.
-     * 
-     */
-    public boolean isRun() {
-        return run;
     }
 
     /**

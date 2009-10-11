@@ -128,6 +128,33 @@ public class EmailService implements EmailInterface {
     }
 
     /**
+     * Applies the configuration retrieved through the <code>model</code> to a
+     * <code>{@link MailBackend}</code>.
+     * 
+     * @param email
+     *            The <code>{@link MailBackend}</code> to be configured.
+     * @throws TransactionException
+     *             Thrown by the <code>{@link de.decidr.model}</code>.
+     */
+    @WebMethod(exclude = true)
+    private static void applyConfig(MailBackend email)
+            throws TransactionException {
+        log.trace("Entering " + EmailService.class.getSimpleName()
+                + ".applyConfig(MailBackend)");
+        log.debug("fetching system settings from database");
+        SystemSettings config = DecidrGlobals.getSettings();
+
+        log.debug("applying settings to mail");
+        email.setXMailer(USER_AGENT);
+        email.setAuthInfo(config.getMtaUsername(), config.getMtaPassword());
+        email.setHostname(config.getMtaHostname());
+        email.setPortNum(config.getMtaPort());
+        email.useTLS(config.isMtaUseTls());
+        log.trace("Leaving " + EmailService.class.getSimpleName()
+                + ".applyConfig(MailBackend)");
+    }
+
+    /**
      * Extracts a list of email addresses from a list of
      * <code>{@link Actor Actors}</code>.
      * 
@@ -263,33 +290,6 @@ public class EmailService implements EmailInterface {
         return result;
     }
 
-    /**
-     * Applies the configuration retrieved through the <code>model</code> to a
-     * <code>{@link MailBackend}</code>.
-     * 
-     * @param email
-     *            The <code>{@link MailBackend}</code> to be configured.
-     * @throws TransactionException
-     *             Thrown by the <code>{@link de.decidr.model}</code>.
-     */
-    @WebMethod(exclude = true)
-    private static void applyConfig(MailBackend email)
-            throws TransactionException {
-        log.trace("Entering " + EmailService.class.getSimpleName()
-                + ".applyConfig(MailBackend)");
-        log.debug("fetching system settings from database");
-        SystemSettings config = DecidrGlobals.getSettings();
-
-        log.debug("applying settings to mail");
-        email.setXMailer(USER_AGENT);
-        email.setAuthInfo(config.getMtaUsername(), config.getMtaPassword());
-        email.setHostname(config.getMtaHostname());
-        email.setPortNum(config.getMtaPort());
-        email.useTLS(config.isMtaUseTls());
-        log.trace("Leaving " + EmailService.class.getSimpleName()
-                + ".applyConfig(MailBackend)");
-    }
-
     public void sendEmail(AbstractUserList to, AbstractUserList cc,
             AbstractUserList bcc, String fromName, String fromAddress,
             String subject, StringMap headers, String bodyTXT, String bodyHTML,
@@ -306,12 +306,12 @@ public class EmailService implements EmailInterface {
                 + ", attachments: " + attachments);
 
         log.debug("checking parameters for nulls");
-        if (to == null || fromAddress == null || subject == null) {
+        if ((to == null) || (fromAddress == null) || (subject == null)) {
             log.error("A main parameter (to, fromAddress, subject) is null!");
             throw new IllegalArgumentException("The main parameters (to, "
                     + "fromAddress, subject) must not be null!");
         }
-        if (bodyHTML == null && bodyTXT == null) {
+        if ((bodyHTML == null) && (bodyTXT == null)) {
             log.error("Neither HTML nor text body was passed!");
             throw new IllegalArgumentException("There must be either an "
                     + "HTML or a text body");

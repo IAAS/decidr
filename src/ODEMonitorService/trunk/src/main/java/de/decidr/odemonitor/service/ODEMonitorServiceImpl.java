@@ -119,6 +119,25 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
      * (non-Javadoc)
      * 
      * @see
+     * de.decidr.odemonitor.service.ODEMonitorService#unregisterODE(java.lang
+     * .String)
+     */
+    @Override
+    public void unregisterODE(long odeID) throws TransactionException {
+        log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
+                + ".unregisterODE(String)");
+        log.debug("attempting to remove the server corresponding"
+                + " to the passed ODE ID...");
+        new SystemFacade(ODERole.getInstance()).removeServer(odeID);
+        log.debug("...success");
+        log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
+                + ".unregisterODE(String)");
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
      * de.decidr.odemonitor.service.ODEMonitorService#updateStats(java.math.
      * BigInteger, java.math.BigInteger, java.lang.String, javax.xml.ws.Holder,
      * javax.xml.ws.Holder)
@@ -175,12 +194,12 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         boolean isLocked = server.isLocked();
 
         commands.clear();
-        if ((isLocked && ((minHighInstances > wfInstances) || (avgLoad > -1 && avgLoad < minHighSysLoad)))
-                || (!isLocked && ((maxInstances < wfInstances) || (avgLoad > -1 && avgLoad > maxSysLoad)))) {
+        if ((isLocked && ((minHighInstances > wfInstances) || ((avgLoad > -1) && (avgLoad < minHighSysLoad))))
+                || (!isLocked && ((maxInstances < wfInstances) || ((avgLoad > -1) && (avgLoad > maxSysLoad))))) {
             commands.add(new LockServerCommand(ODE_ROLE, odeID, !isLocked));
         }
         if (server.isDynamicallyAdded()
-                && (minSysLoad > avgLoad && wfInstances < minInstances)) {
+                && ((minSysLoad > avgLoad) && (wfInstances < minInstances))) {
             run.value = false;
         } else {
             run.value = true;
@@ -218,24 +237,5 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         }
         log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".updateStats()");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.decidr.odemonitor.service.ODEMonitorService#unregisterODE(java.lang
-     * .String)
-     */
-    @Override
-    public void unregisterODE(long odeID) throws TransactionException {
-        log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
-                + ".unregisterODE(String)");
-        log.debug("attempting to remove the server corresponding"
-                + " to the passed ODE ID...");
-        new SystemFacade(ODERole.getInstance()).removeServer(odeID);
-        log.debug("...success");
-        log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
-                + ".unregisterODE(String)");
     }
 }

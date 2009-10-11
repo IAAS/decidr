@@ -36,6 +36,41 @@ public class LocalInstanceManager implements InstanceManager {
     Logger log = DefaultLogger.getLogger(LocalInstanceManager.class);
 
     /**
+     * Checks if the local ODE instance is running.
+     * 
+     * @return - <code>true</code>, if it is running<br>
+     *         - <code>false</code>, if it isn't.
+     */
+    @Override
+    public boolean isRunning() {
+        log.trace("Entering " + LocalInstanceManager.class.getSimpleName()
+                + ".isRunning()");
+        boolean running = false;
+        try {
+            // get URLConnection
+            URL localOdeUrl = new URL(ODEInstanceClient.LOCAL_ODE_LOCATION);
+            URLConnection con = localOdeUrl.openConnection();
+
+            // set connection properties & connect
+            con.setDoInput(true);
+            con.setUseCaches(false);
+            con.connect();
+
+            // see if we got a return code 2xx or 3xx (OK or forward)
+            running = con.getHeaderField(0).matches("2\\d\\d|3\\d\\d");
+
+            // close unneeded streams
+            con.getInputStream().close();
+            con.getOutputStream().close();
+        } catch (Exception e) {
+            // apparently the local instance isn't accessible
+        }
+        log.trace("Leaving " + LocalInstanceManager.class.getSimpleName()
+                + ".isRunning()");
+        return running;
+    }
+
+    /**
      * Sends an email to the system administrator to request the addition of a
      * new ODE instance on this machine, unless there is already a running
      * instance.
@@ -76,40 +111,5 @@ public class LocalInstanceManager implements InstanceManager {
                 + ".stopInstance()");
         log.info("This InstanceManager cannot stop it's ODE instance!");
         return false;
-    }
-
-    /**
-     * Checks if the local ODE instance is running.
-     * 
-     * @return - <code>true</code>, if it is running<br>
-     *         - <code>false</code>, if it isn't.
-     */
-    @Override
-    public boolean isRunning() {
-        log.trace("Entering " + LocalInstanceManager.class.getSimpleName()
-                + ".isRunning()");
-        boolean running = false;
-        try {
-            // get URLConnection
-            URL localOdeUrl = new URL(ODEInstanceClient.LOCAL_ODE_LOCATION);
-            URLConnection con = localOdeUrl.openConnection();
-
-            // set connection properties & connect
-            con.setDoInput(true);
-            con.setUseCaches(false);
-            con.connect();
-
-            // see if we got a return code 2xx or 3xx (OK or forward)
-            running = con.getHeaderField(0).matches("2\\d\\d|3\\d\\d");
-
-            // close unneeded streams
-            con.getInputStream().close();
-            con.getOutputStream().close();
-        } catch (Exception e) {
-            // apparently the local instance isn't accessible
-        }
-        log.trace("Leaving " + LocalInstanceManager.class.getSimpleName()
-                + ".isRunning()");
-        return running;
     }
 }

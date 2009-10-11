@@ -61,41 +61,12 @@ public class GetConfigResponse {
     protected XMLGregorianCalendar configChanged;
 
     /**
-     * Gets the value of the updateInterval property.
-     * 
-     * @return possible object is {@link Integer }
-     */
-    public Integer getUpdateInterval() {
-        return updateInterval;
-    }
-
-    /**
-     * Sets the value of the updateInterval property.
-     * 
-     * @param value
-     *            allowed object is {@link Integer }
-     */
-    public void setUpdateInterval(Integer value) {
-        this.updateInterval = value;
-    }
-
-    /**
      * Gets the value of the averagePeriod property.
      * 
      * @return possible object is {@link Integer }
      */
     public Integer getAveragePeriod() {
         return averagePeriod;
-    }
-
-    /**
-     * Sets the value of the averagePeriod property.
-     * 
-     * @param value
-     *            allowed object is {@link Integer }
-     */
-    public void setAveragePeriod(Integer value) {
-        this.averagePeriod = value;
     }
 
     /**
@@ -109,6 +80,25 @@ public class GetConfigResponse {
     }
 
     /**
+     * Gets the value of the updateInterval property.
+     * 
+     * @return possible object is {@link Integer }
+     */
+    public Integer getUpdateInterval() {
+        return updateInterval;
+    }
+
+    /**
+     * Sets the value of the averagePeriod property.
+     * 
+     * @param value
+     *            allowed object is {@link Integer }
+     */
+    public void setAveragePeriod(Integer value) {
+        this.averagePeriod = value;
+    }
+
+    /**
      * Sets the value of the configChanged property.
      * 
      * @param value
@@ -117,6 +107,16 @@ public class GetConfigResponse {
      */
     public void setConfigChanged(XMLGregorianCalendar value) {
         this.configChanged = value;
+    }
+
+    /**
+     * Sets the value of the updateInterval property.
+     * 
+     * @param value
+     *            allowed object is {@link Integer }
+     */
+    public void setUpdateInterval(Integer value) {
+        this.updateInterval = value;
     }
 
 }

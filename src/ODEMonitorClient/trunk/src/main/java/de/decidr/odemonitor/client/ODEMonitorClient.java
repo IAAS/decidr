@@ -207,14 +207,6 @@ public class ODEMonitorClient {
     }
 
     /**
-     * Prints the version information to stdout.
-     */
-    private static void printVersion() {
-        System.out.println("DecidR version " + DecidrGlobals.getVersion());
-        System.out.println("ODE Monitoring Tool version " + VERSION);
-    }
-
-    /**
      * Prints the usage information to stdout.
      */
     private static void printUsage() {
@@ -284,5 +276,13 @@ public class ODEMonitorClient {
         System.out
                 .println("\t\tForces an update of the local configuration to the global configration.");
         System.out.println("");
+    }
+
+    /**
+     * Prints the version information to stdout.
+     */
+    private static void printVersion() {
+        System.out.println("DecidR version " + DecidrGlobals.getVersion());
+        System.out.println("ODE Monitoring Tool version " + VERSION);
     }
 }

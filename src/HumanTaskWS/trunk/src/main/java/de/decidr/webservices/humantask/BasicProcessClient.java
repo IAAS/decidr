@@ -34,6 +34,21 @@ import de.decidr.model.DecidrGlobals;
 @WebServiceClient(name = "BasicProcessClient", targetNamespace = BasicProcessInterface.TARGET_NAMESPACE, wsdlLocation = "wsdl/ode_process.wsdl")
 public class BasicProcessClient extends Service {
 
+    public BasicProcessClient() throws MalformedURLException {
+        this(new URL(DecidrGlobals
+                .getWebServiceWsdlUrl(BasicProcessInterface.SERVICE_NAME)),
+                BasicProcessInterface.SERVICE);
+    }
+
+    /**
+     * @param wsdlLocation
+     *            A <code>{@link URL}</code> pointing to the WSDL of the
+     *            service.
+     */
+    public BasicProcessClient(URL wsdlLocation) {
+        this(wsdlLocation, BasicProcessInterface.SERVICE);
+    }
+
     /**
      * @param wsdlDocumentLocation
      *            A <code>{@link URL}</code> pointing to the WSDL of the
@@ -46,26 +61,12 @@ public class BasicProcessClient extends Service {
     }
 
     /**
-     * @param wsdlLocation
-     *            A <code>{@link URL}</code> pointing to the WSDL of the
-     *            service.
-     */
-    public BasicProcessClient(URL wsdlLocation) {
-        this(wsdlLocation, BasicProcessInterface.SERVICE);
-    }
-
-    public BasicProcessClient() throws MalformedURLException {
-        this(new URL(DecidrGlobals
-                .getWebServiceWsdlUrl(BasicProcessInterface.SERVICE_NAME)),
-                BasicProcessInterface.SERVICE);
-    }
-
-    /**
      * @return The callback of the the ODE engine.
      */
     @WebEndpoint(name = "basicProcessSOAP")
     public BasicProcessInterface getBPELCallbackInterfacePort() {
-        return super.getPort(BasicProcessInterface.ENDPOINT, BasicProcessInterface.class);
+        return super.getPort(BasicProcessInterface.ENDPOINT,
+                BasicProcessInterface.class);
     }
 
     /**
@@ -77,6 +78,7 @@ public class BasicProcessClient extends Service {
     @WebEndpoint(name = "basicProcessSOAP")
     public BasicProcessInterface getBPELCallbackInterfacePort(
             WebServiceFeature... features) {
-        return super.getPort(BasicProcessInterface.ENDPOINT, BasicProcessInterface.class, features);
+        return super.getPort(BasicProcessInterface.ENDPOINT,
+                BasicProcessInterface.class, features);
     }
 }

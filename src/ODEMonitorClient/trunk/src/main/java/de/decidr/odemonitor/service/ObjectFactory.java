@@ -42,27 +42,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link UpdateStatsResponse }
-     * 
-     */
-    public UpdateStatsResponse createUpdateStatsResponse() {
-        return new UpdateStatsResponse();
-    }
-
-    /**
-     * Create an instance of {@link RegisterODEResponse }
-     * 
-     */
-    public RegisterODEResponse createRegisterODEResponse() {
-        return new RegisterODEResponse();
-    }
-
-    /**
      * Create an instance of {@link GetConfig }
      * 
      */
     public GetConfig createGetConfig() {
         return new GetConfig();
+    }
+
+    /**
+     * Create an instance of {@link GetConfigResponse }
+     * 
+     */
+    public GetConfigResponse createGetConfigResponse() {
+        return new GetConfigResponse();
     }
 
     /**
@@ -74,19 +66,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link UpdateStats }
+     * Create an instance of {@link RegisterODEResponse }
      * 
      */
-    public UpdateStats createUpdateStats() {
-        return new UpdateStats();
-    }
-
-    /**
-     * Create an instance of {@link GetConfigResponse }
-     * 
-     */
-    public GetConfigResponse createGetConfigResponse() {
-        return new GetConfigResponse();
+    public RegisterODEResponse createRegisterODEResponse() {
+        return new RegisterODEResponse();
     }
 
     /**
@@ -101,5 +85,21 @@ public class ObjectFactory {
      */
     public UnregisterODEResponse createUnregisterODEResponse() {
         return new UnregisterODEResponse();
+    }
+
+    /**
+     * Create an instance of {@link UpdateStats }
+     * 
+     */
+    public UpdateStats createUpdateStats() {
+        return new UpdateStats();
+    }
+
+    /**
+     * Create an instance of {@link UpdateStatsResponse }
+     * 
+     */
+    public UpdateStatsResponse createUpdateStatsResponse() {
+        return new UpdateStatsResponse();
     }
 }

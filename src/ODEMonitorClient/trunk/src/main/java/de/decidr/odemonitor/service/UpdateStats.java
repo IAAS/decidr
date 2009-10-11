@@ -57,51 +57,11 @@ public class UpdateStats {
     protected long odeID;
 
     /**
-     * Gets the value of the wfInstances property.
-     * 
-     */
-    public int getWfInstances() {
-        return wfInstances;
-    }
-
-    /**
-     * Sets the value of the wfInstances property.
-     * 
-     */
-    public void setWfInstances(int value) {
-        this.wfInstances = value;
-    }
-
-    /**
-     * Gets the value of the wfModels property.
-     * 
-     */
-    public int getWfModels() {
-        return wfModels;
-    }
-
-    /**
-     * Sets the value of the wfModels property.
-     * 
-     */
-    public void setWfModels(int value) {
-        this.wfModels = value;
-    }
-
-    /**
      * Gets the value of the avgLoad property.
      * 
      */
     public int getAvgLoad() {
         return avgLoad;
-    }
-
-    /**
-     * Sets the value of the avgLoad property.
-     * 
-     */
-    public void setAvgLoad(int value) {
-        this.avgLoad = value;
     }
 
     /**
@@ -114,6 +74,30 @@ public class UpdateStats {
     }
 
     /**
+     * Gets the value of the wfInstances property.
+     * 
+     */
+    public int getWfInstances() {
+        return wfInstances;
+    }
+
+    /**
+     * Gets the value of the wfModels property.
+     * 
+     */
+    public int getWfModels() {
+        return wfModels;
+    }
+
+    /**
+     * Sets the value of the avgLoad property.
+     * 
+     */
+    public void setAvgLoad(int value) {
+        this.avgLoad = value;
+    }
+
+    /**
      * Sets the value of the odeID property.
      * 
      * @param value
@@ -121,5 +105,21 @@ public class UpdateStats {
      */
     public void setOdeID(long value) {
         this.odeID = value;
+    }
+
+    /**
+     * Sets the value of the wfInstances property.
+     * 
+     */
+    public void setWfInstances(int value) {
+        this.wfInstances = value;
+    }
+
+    /**
+     * Sets the value of the wfModels property.
+     * 
+     */
+    public void setWfModels(int value) {
+        this.wfModels = value;
     }
 }

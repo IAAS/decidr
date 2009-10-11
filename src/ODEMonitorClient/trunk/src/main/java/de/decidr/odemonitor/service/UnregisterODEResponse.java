@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { })
+@XmlType(name = "", propOrder = {})
 @XmlRootElement(name = "unregisterODEResponse")
 public class UnregisterODEResponse {
     // no parameters

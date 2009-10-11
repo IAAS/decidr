@@ -32,18 +32,18 @@ import de.decidr.model.DecidrGlobals;
  */
 @WebServiceClient(name = ODEMonitorService.SERVICE_NAME, targetNamespace = ODEMonitorService.TARGET_NAMESPACE)
 public class ODEMonitor extends Service {
-    public ODEMonitor(URL wsdlLocation, QName serviceName) {
-        super(wsdlLocation, serviceName);
+    public ODEMonitor() throws MalformedURLException {
+        this(new URL(DecidrGlobals
+                .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME)),
+                ODEMonitorService.SERVICE);
     }
 
     public ODEMonitor(URL wsdlLocation) {
         this(wsdlLocation, ODEMonitorService.SERVICE);
     }
 
-    public ODEMonitor() throws MalformedURLException {
-        this(new URL(DecidrGlobals
-                .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME)),
-                ODEMonitorService.SERVICE);
+    public ODEMonitor(URL wsdlLocation, QName serviceName) {
+        super(wsdlLocation, serviceName);
     }
 
     @WebEndpoint(name = "ODEMonitorSOAP12Endpoint")

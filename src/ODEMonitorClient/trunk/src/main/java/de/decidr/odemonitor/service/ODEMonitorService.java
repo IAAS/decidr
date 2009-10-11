@@ -44,35 +44,24 @@ public interface ODEMonitorService {
             "ODEMonitorSOAP12Endpoint");
 
     /**
-     * Called to update a client's statistical data.
+     * Returns the current configuration.
      * 
-     * @param wfInstances
-     *            The amount of workflow instances running on the client's ODE.
-     * @param wfModels
-     *            The amount of workflow models deployed on the client's ODE.
-     * @param avgLoad
-     *            The average system load over a configurable period of time.
-     * @param odeID
-     *            The ID of the updating ODE instance/monitor.
-     * @param configVersion
+     * @param configChanged
      *            The timestamp of the last config change.
-     * @param run
-     *            Whether the client should consider shutting its instance down
-     *            or re-starting it.
-     * @throws TransactionException
-     *             thrown during database access, whenever an error occurs.
+     * @param averagePeriod
+     *            The period of time (in seconds) to average the system load
+     *            over.
+     * @param updateInterval
+     *            The interval (in seconds) between updates to the client's
+     *            status.
      */
-    @WebMethod(action = "http://decidr.de/webservices/ODEMonitor/updateStats", operationName="updateStats")
-    @RequestWrapper(localName = "updateStats", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.UpdateStats")
-    @ResponseWrapper(localName = "updateStatsResponse", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.UpdateStatsResponse")
-    public void updateStats(
-            @WebParam(name = "wfInstances", targetNamespace = "") int wfInstances,
-            @WebParam(name = "wfModels", targetNamespace = "") int wfModels,
-            @WebParam(name = "avgLoad", targetNamespace = "") int avgLoad,
-            @WebParam(name = "odeID", targetNamespace = "") long odeID,
-            @WebParam(name = "configVersion", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<XMLGregorianCalendar> configVersion,
-            @WebParam(name = "run", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Boolean> run)
-            throws TransactionException;
+    @WebMethod(action = "http://decidr.de/webservices/ODEMonitor/getConfig")
+    @RequestWrapper(localName = "getConfig", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.GetConfig")
+    @ResponseWrapper(localName = "getConfigResponse", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.GetConfigResponse")
+    public void getConfig(
+            @WebParam(name = "updateInterval", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Integer> updateInterval,
+            @WebParam(name = "averagePeriod", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Integer> averagePeriod,
+            @WebParam(name = "configChanged", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<XMLGregorianCalendar> configChanged);
 
     /**
      * Called to register a new ODE instance/monitor.
@@ -110,22 +99,33 @@ public interface ODEMonitorService {
             throws TransactionException;
 
     /**
-     * Returns the current configuration.
+     * Called to update a client's statistical data.
      * 
-     * @param configChanged
+     * @param wfInstances
+     *            The amount of workflow instances running on the client's ODE.
+     * @param wfModels
+     *            The amount of workflow models deployed on the client's ODE.
+     * @param avgLoad
+     *            The average system load over a configurable period of time.
+     * @param odeID
+     *            The ID of the updating ODE instance/monitor.
+     * @param configVersion
      *            The timestamp of the last config change.
-     * @param averagePeriod
-     *            The period of time (in seconds) to average the system load
-     *            over.
-     * @param updateInterval
-     *            The interval (in seconds) between updates to the client's
-     *            status.
+     * @param run
+     *            Whether the client should consider shutting its instance down
+     *            or re-starting it.
+     * @throws TransactionException
+     *             thrown during database access, whenever an error occurs.
      */
-    @WebMethod(action = "http://decidr.de/webservices/ODEMonitor/getConfig")
-    @RequestWrapper(localName = "getConfig", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.GetConfig")
-    @ResponseWrapper(localName = "getConfigResponse", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.GetConfigResponse")
-    public void getConfig(
-            @WebParam(name = "updateInterval", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Integer> updateInterval,
-            @WebParam(name = "averagePeriod", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Integer> averagePeriod,
-            @WebParam(name = "configChanged", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<XMLGregorianCalendar> configChanged);
+    @WebMethod(action = "http://decidr.de/webservices/ODEMonitor/updateStats", operationName = "updateStats")
+    @RequestWrapper(localName = "updateStats", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.UpdateStats")
+    @ResponseWrapper(localName = "updateStatsResponse", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.UpdateStatsResponse")
+    public void updateStats(
+            @WebParam(name = "wfInstances", targetNamespace = "") int wfInstances,
+            @WebParam(name = "wfModels", targetNamespace = "") int wfModels,
+            @WebParam(name = "avgLoad", targetNamespace = "") int avgLoad,
+            @WebParam(name = "odeID", targetNamespace = "") long odeID,
+            @WebParam(name = "configVersion", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<XMLGregorianCalendar> configVersion,
+            @WebParam(name = "run", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Boolean> run)
+            throws TransactionException;
 }

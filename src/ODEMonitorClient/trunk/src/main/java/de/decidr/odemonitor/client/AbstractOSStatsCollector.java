@@ -32,6 +32,24 @@ public abstract class AbstractOSStatsCollector {
             .getLogger(AbstractOSStatsCollector.class);
 
     /**
+     * Returns the system load. This method may not be overridden by extending
+     * classes to guarantee that all system-dependent stats collectors provide a
+     * comparable system load.
+     * 
+     * @param cpu
+     *            the CPU load percentage
+     * @param mem
+     *            the Memory load percentage
+     * @return The system load. <code>-1</code> means an error occurred.
+     */
+    public static final int getSystemLoad(int cpu, int mem) {
+        log.trace("Entering & Leaving "
+                + AbstractOSStatsCollector.class.getSimpleName()
+                + ".getSystemLoad(int, int)");
+        return Math.max(cpu, mem);
+    }
+
+    /**
      * Extending classes should provide an OS-dependent CPU load, which should
      * be the percentage of time the CPU processed jobs over the last second.
      * 
@@ -61,26 +79,9 @@ public abstract class AbstractOSStatsCollector {
      * @return The system load. <code>-1</code> means an error occurred.
      */
     public final int getSystemLoad() {
-        log.trace("Entering + leaving " + AbstractOSStatsCollector.class.getSimpleName()
+        log.trace("Entering + leaving "
+                + AbstractOSStatsCollector.class.getSimpleName()
                 + ".getSystemLoad()");
         return getSystemLoad(getCPULoad(), getMemLoad());
-    }
-
-    /**
-     * Returns the system load. This method may not be overridden by extending
-     * classes to guarantee that all system-dependent stats collectors provide a
-     * comparable system load.
-     * 
-     * @param cpu
-     *            the CPU load percentage
-     * @param mem
-     *            the Memory load percentage
-     * @return The system load. <code>-1</code> means an error occurred.
-     */
-    public static final int getSystemLoad(int cpu, int mem) {
-        log.trace("Entering & Leaving "
-                + AbstractOSStatsCollector.class.getSimpleName()
-                + ".getSystemLoad(int, int)");
-        return Math.max(cpu, mem);
     }
 }
