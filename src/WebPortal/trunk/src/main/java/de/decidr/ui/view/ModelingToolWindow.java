@@ -17,6 +17,7 @@
 package de.decidr.ui.view;
 
 
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -52,8 +53,8 @@ public class ModelingToolWindow extends Window {
         verticalLayout.setSpacing(true);
         //verticalLayout.setSizeFull();
         //verticalLayout.setSizeUndefined();
-        verticalLayout.setWidth(600, VerticalLayout.UNITS_PIXELS);
-        verticalLayout.setHeight(420, VerticalLayout.UNITS_PIXELS);
+        verticalLayout.setWidth(600, Sizeable.UNITS_PIXELS);
+        verticalLayout.setHeight(420, Sizeable.UNITS_PIXELS);
         
         modelingTool = new ModelingTool();
         

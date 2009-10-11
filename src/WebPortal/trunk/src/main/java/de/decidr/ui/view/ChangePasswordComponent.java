@@ -23,6 +23,7 @@ package de.decidr.ui.view;
  */
 
 import com.vaadin.data.Item;
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;
@@ -104,7 +105,7 @@ public class ChangePasswordComponent extends Window {
         submitButton = new Button("Change Password", new ChangePasswordAction());
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
-        passwordForm.setWidth(400, Form.UNITS_PIXELS);
+        passwordForm.setWidth(400, Sizeable.UNITS_PIXELS);
         passwordForm.addField("newPassword", newPasswordText);
         passwordForm.addField("newPasswordConfirm", newPasswordConfirmText);
         passwordForm.addField("oldPassword", oldPasswordText);

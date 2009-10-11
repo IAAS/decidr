@@ -70,8 +70,7 @@ public class DWDL2WSDL {
     }
 
     private void setMessages() {
-       
-        
+        // XXX: document: why is this empty
     }
 
     private void setNamespaces() {
@@ -104,8 +103,10 @@ public class DWDL2WSDL {
         }
         catch (ParserConfigurationException e) {
             log.warn("creation of com.w3c.document failed for some really mysterious reasons");
+            // MA doc is null in this case and the following will result in an NPE ~rr
         }
         // MA create a schema element
+        // XXX potential null pointer access
         Element schemaElement = doc.createElementNS(XMLConstants.W3C_XML_SCHEMA_NS_URI, "xs:schema");
         
         schema.setElement(schemaElement);

@@ -203,6 +203,6 @@ public class WorkflowPropertyWindow extends ModelingToolDialog {
      */
     @Override
     public void refresh() {
-
+        // XXX: document: why is this empty
     }
 }

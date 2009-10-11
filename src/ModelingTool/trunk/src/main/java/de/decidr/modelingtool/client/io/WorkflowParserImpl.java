@@ -456,7 +456,7 @@ public class WorkflowParserImpl implements WorkflowParser {
             }
         }
         for (int i = 0; i < highestKey; i++) {
-            Condition conditionModel = (Condition) conditions.get(i);
+            Condition conditionModel = conditions.get(i);
             Element conditionElement = doc.createElement(DWDLNames.condition);
             /*
              * If order is zero, that means the condition is the default

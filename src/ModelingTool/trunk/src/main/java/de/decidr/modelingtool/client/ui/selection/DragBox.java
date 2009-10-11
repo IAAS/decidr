@@ -60,7 +60,7 @@ public class DragBox extends AbsolutePanel implements HasMouseDownHandlers,
         super();
 
         this.direction = direction;
-    };
+    }
 
     @Override
     public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {

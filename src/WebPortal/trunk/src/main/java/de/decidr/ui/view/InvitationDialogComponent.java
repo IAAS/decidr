@@ -23,6 +23,7 @@ package de.decidr.ui.view;
  * @author Geoffrey-Alexeij Heinze
  */
 
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -76,7 +77,7 @@ public class InvitationDialogComponent extends Window {
         horizontalLayout.setSizeUndefined();
         
         infoLabel = new Label(description, Label.CONTENT_XHTML);
-        infoLabel.setWidth(350,Label.UNITS_PIXELS);
+        infoLabel.setWidth(350,Sizeable.UNITS_PIXELS);
         
 
         

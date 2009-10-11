@@ -23,6 +23,7 @@ package de.decidr.ui.view;
  * @author Geoffrey-Alexeij Heinze
  */
 
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -63,7 +64,7 @@ public class ConfirmDialogComponent extends Window {
         verticalLayout.setSpacing(true);
         verticalLayout.setMargin(true);
         verticalLayout.setSizeUndefined();
-        verticalLayout.setWidth(400, VerticalLayout.UNITS_PIXELS);
+        verticalLayout.setWidth(400, Sizeable.UNITS_PIXELS);
         
         horizontalLayout = new HorizontalLayout();
         horizontalLayout.setSpacing(true);

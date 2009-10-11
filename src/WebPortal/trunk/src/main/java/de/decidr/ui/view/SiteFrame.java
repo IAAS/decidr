@@ -28,6 +28,7 @@ package de.decidr.ui.view;
  *
  * @author Geoffrey-Alexeij Heinze
  */
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;
@@ -70,7 +71,7 @@ public class SiteFrame extends CustomComponent{
         splitPanel.setOrientation(SplitPanel.ORIENTATION_HORIZONTAL);
         splitPanel.setWidth("1000px");
         splitPanel.setHeight("600px");
-        splitPanel.setSplitPosition(200 ,SplitPanel.UNITS_PIXELS);
+        splitPanel.setSplitPosition(200 ,Sizeable.UNITS_PIXELS);
         splitPanel.setLocked(true);
         
         gridFrame.setColumnExpandRatio(0, 1);

@@ -282,6 +282,6 @@ public class RoleEditor extends ModelingToolDialog {
      */
     @Override
     public void refresh() {
-
+        // XXX: document: why is this empty
     }
 }

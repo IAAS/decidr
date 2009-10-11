@@ -71,18 +71,18 @@ public class SOAPGenerator {
         if (startConfiguration.getRoles()!=null){
             if (!startConfiguration.getRoles().getRole().isEmpty()) {
                 for (TRole role : startConfiguration.getRoles().getRole()) {
-                    
+                    // XXX: document: why is this empty
                 }
             } 
             if (!startConfiguration.getRoles().getActor().isEmpty()){
                 for (TActor actor : startConfiguration.getRoles().getActor()){
-                    
+                    // XXX: document: why is this empty
                 }
             }
         }
         if (!startConfiguration.getAssignment().isEmpty()){
             for (TAssignment assignment : startConfiguration.getAssignment()){
-                
+                // XXX: document: why is this empty
             }
         }
         // AT getSOAP aus soap template und start config soap message erstellen       

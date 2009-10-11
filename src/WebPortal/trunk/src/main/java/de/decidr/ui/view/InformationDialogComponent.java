@@ -23,6 +23,7 @@ package de.decidr.ui.view;
  * @author Geoffrey-Alexeij Heinze
  */
 
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
@@ -62,12 +63,12 @@ public class InformationDialogComponent extends Window {
         verticalLayout.setSpacing(true);
         verticalLayout.setMargin(true);
         verticalLayout.setSizeUndefined();
-        verticalLayout.setWidth(400, VerticalLayout.UNITS_PIXELS);
+        verticalLayout.setWidth(400, Sizeable.UNITS_PIXELS);
         
         infoLabel = new Label(text, Label.CONTENT_XHTML);
         
         cancelButton = new Button("OK",new HideDialogWindowAction());
-        cancelButton.setWidth(75,Button.UNITS_PIXELS);
+        cancelButton.setWidth(75,Sizeable.UNITS_PIXELS);
 
         verticalLayout.addComponent(infoLabel);
         verticalLayout.addComponent(cancelButton);

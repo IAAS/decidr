@@ -32,6 +32,5 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tEnableSharing")
 public class TEnableSharing {
-
-
+    // XXX: document: why is this empty
 }

@@ -69,7 +69,7 @@ public class CreateTenantAction implements ClickListener {
                     "tenantName").getValue().toString());
             
             if (tId != null) {
-                createForm.getField("tenantName").setValue((String)Main.getCurrent().getSession().getAttribute("tenant"));
+                createForm.getField("tenantName").setValue(Main.getCurrent().getSession().getAttribute("tenant"));
                 createForm.getField("tenantDescription").setValue(tenantFacade.getTenantSettings(tId).getItemProperty("description").getValue());
             } else {
                 try {

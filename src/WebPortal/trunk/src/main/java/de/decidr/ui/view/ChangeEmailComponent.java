@@ -25,6 +25,7 @@ package de.decidr.ui.view;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;
@@ -84,7 +85,7 @@ public class ChangeEmailComponent extends Window {
         infoLabel = new Label("To change your email address, insert your new email address and click Change E-mail.<br/>" +
         		"A confirmation email will be send to the new address.",
                         Label.CONTENT_XHTML);
-        infoLabel.setWidth(350,Label.UNITS_PIXELS);
+        infoLabel.setWidth(350,Sizeable.UNITS_PIXELS);
         
         newEmailText = new TextField();
         newEmailText.setCaption("New E-mail Address");
@@ -94,7 +95,7 @@ public class ChangeEmailComponent extends Window {
         submitButton = new Button("Change E-mail", new ChangeEmailAction());
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
-        emailForm.setWidth(370, Form.UNITS_PIXELS);
+        emailForm.setWidth(370, Sizeable.UNITS_PIXELS);
         //emailForm.setSizeUndefined();
         emailForm.addField("newEmail", newEmailText);
         emailForm.getField("newEmail").addValidator(new EmailValidator("Please enter a valid email adress"));

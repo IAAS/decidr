@@ -28,6 +28,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * @version 0.1
  * @deprecated Use DecidrGlobals instead? ~dh
  */
+@Deprecated
 public class GetOdeUrlCommand extends WorkflowInstanceCommand {
 
     private String result;

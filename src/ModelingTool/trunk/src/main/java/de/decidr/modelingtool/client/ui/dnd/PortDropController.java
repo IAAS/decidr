@@ -114,6 +114,8 @@ public class PortDropController extends AbstractDropController {
                 throw new VetoDragException();
             }
 
+            // XXX potential null pointer access: what if port==null? (whole rest of loop)
+            
             // cancel drop operation if both ports belong to the same node
             if (context.draggable instanceof ConnectionDragBox) {
                 ConnectionDragBox draggedDragBox = (ConnectionDragBox) context.draggable;

@@ -166,6 +166,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
 
     @Override
     public HasChildModels getHasChildModelsModel() throws InvalidTypeException {
+        // XXX the following is always true
         if (model instanceof HasChildModels) {
             return (HasChildModels) model;
         } else {

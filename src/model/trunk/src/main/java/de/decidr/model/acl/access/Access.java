@@ -24,5 +24,5 @@ package de.decidr.model.acl.access;
  * @version 0.1
  */
 public interface Access {
-
+    // XXX: document: why is this empty
 }

@@ -129,7 +129,6 @@ public class TestDataGenerator {
         try {
             doRun();
         } catch (Throwable e) {
-            ;
             stdErr("An error occurred! Stack trace:");
             e.printStackTrace(System.err);
 

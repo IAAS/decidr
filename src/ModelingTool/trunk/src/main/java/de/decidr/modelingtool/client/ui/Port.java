@@ -48,7 +48,7 @@ public abstract class Port extends AbsolutePanel {
         LEFT,
         RIGHT,
         ABSOLUTE
-    };
+    }
 
     /** The position of the port. */
     private Position position;

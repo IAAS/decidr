@@ -441,6 +441,7 @@ public class DWDLParserImpl implements DWDLParser {
                 taskResultElement = getPropertyElement;
             }
         }
+        // XXX potential null pointer access: taskResultElement
         humanTaskModel.setFormVariableId(VariableNameFactory
                 .createIdFromNCName(taskResultElement
                         .getAttribute(DWDLNames.variable)));

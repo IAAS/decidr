@@ -34,6 +34,5 @@ import javax.xml.bind.annotation.XmlType;
 public class StartNode
     extends BasicNode
 {
-
-
+    // XXX: document: why is this empty
 }

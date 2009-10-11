@@ -23,6 +23,7 @@ package de.decidr.ui.view;
  */
 
 import com.vaadin.data.Item;
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;
@@ -85,7 +86,7 @@ public class ResetPasswordComponent extends Window {
         submitButton = new Button("Reset Password", new ResetPasswordAction());
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
-        requestForm.setWidth(400, Form.UNITS_PIXELS);
+        requestForm.setWidth(400, Sizeable.UNITS_PIXELS);
         requestForm.addField("email", email);
         
         verticalLayout.addComponent(requestForm);

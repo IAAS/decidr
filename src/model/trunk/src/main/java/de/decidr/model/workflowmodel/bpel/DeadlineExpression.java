@@ -35,6 +35,5 @@ import javax.xml.bind.annotation.XmlType;
 public class DeadlineExpression
     extends Expression
 {
-
-
+    // XXX: document: why is this empty
 }

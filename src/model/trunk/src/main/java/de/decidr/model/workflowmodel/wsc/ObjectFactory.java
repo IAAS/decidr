@@ -42,6 +42,7 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
+        // XXX: document: why is this empty
     }
 
     /**

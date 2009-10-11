@@ -130,21 +130,21 @@ public class DeployerImpl implements Deployer {
         _client = new ServiceClientUtil();
 
         // Use the factory to create three elements
-        OMNamespace depns = ((OMFactory) _factory).createOMNamespace(
+        OMNamespace depns = _factory.createOMNamespace(
                 Namespaces.ODE_DEPLOYAPI_NS, "deployapi");
-        OMElement root = ((OMFactory) _factory)
+        OMElement root = _factory
                 .createOMElement("deploy", depns);
-        OMElement namePart = ((OMFactory) _factory).createOMElement("name",
+        OMElement namePart = _factory.createOMElement("name",
                 null);
         namePart.setText(packageName);
-        OMElement zipPart = ((OMFactory) _factory).createOMElement("package",
+        OMElement zipPart = _factory.createOMElement("package",
                 null);
-        OMElement zipElmt = ((OMFactory) _factory)
+        OMElement zipElmt = _factory
                 .createOMElement("zip", depns);
 
         // Add the zip to deploy
         String base64Enc = Base64.encode(zip);
-        OMText zipContent = ((OMFactory) _factory).createOMText(base64Enc,
+        OMText zipContent = _factory.createOMText(base64Enc,
                 "application/zip", true);
         root.addChild(namePart);
         root.addChild(zipPart);
@@ -171,11 +171,11 @@ public class DeployerImpl implements Deployer {
     @Override
     public void undeploy(DeployedWorkflowModel dwfm, Server server)
             throws AxisFault {
-        OMNamespace depns = ((OMFactory) _factory).createOMNamespace(
+        OMNamespace depns = _factory.createOMNamespace(
                 Namespaces.ODE_DEPLOYAPI_NS, "deployapi");
-        OMElement root = ((OMFactory) _factory).createOMElement("undeploy",
+        OMElement root = _factory.createOMElement("undeploy",
                 depns);
-        OMElement part = ((OMFactory) _factory).createOMElement("packageName",
+        OMElement part = _factory.createOMElement("packageName",
                 null);
         part.setText(dwfm.getTenant().getName());
         root.addChild(part);

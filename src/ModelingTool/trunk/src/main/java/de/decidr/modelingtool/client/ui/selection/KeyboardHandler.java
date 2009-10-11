@@ -44,6 +44,7 @@ public class KeyboardHandler implements KeyDownHandler {
     private static KeyboardHandler instance;
 
     private KeyboardHandler() {
+        // XXX: document: why is this empty
     }
 
     public static KeyboardHandler getInstance() {

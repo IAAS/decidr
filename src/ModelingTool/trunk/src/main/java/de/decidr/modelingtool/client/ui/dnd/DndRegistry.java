@@ -38,7 +38,9 @@ public class DndRegistry {
     private Map<String, DragController> dragControllers = new HashMap<String, DragController>();
 
     /** Private contructor. */
-    private DndRegistry() {}
+    private DndRegistry() {
+        // private constructor to prevent non-singleton instantiation
+    }
 
     /**
      * Creates a new instance, if not done before, and returns it.

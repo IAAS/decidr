@@ -22,6 +22,7 @@ package de.decidr.ui.view;
  *
  * @author Geoffrey-Alexeij Heinze
  */
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.HorizontalLayout;
@@ -49,7 +50,7 @@ public class Header extends CustomComponent {
                 horizontalLayout = new HorizontalLayout();
                 this.setCompositionRoot(horizontalLayout);
                 
-                horizontalLayout.setWidth(800,HorizontalLayout.UNITS_PIXELS);
+                horizontalLayout.setWidth(800,Sizeable.UNITS_PIXELS);
                 
                 decidrLogo = new Embedded("",Resources.getInstance().getDecidrLogo());
                 

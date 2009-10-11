@@ -35,6 +35,5 @@ import javax.xml.bind.annotation.XmlType;
 public class Compensate
     extends Activity
 {
-
-
+    // XXX: document: why is this empty
 }

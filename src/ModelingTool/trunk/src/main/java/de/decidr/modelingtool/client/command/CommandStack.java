@@ -57,7 +57,7 @@ public class CommandStack {
     private Stack<UndoableCommand> redoStack = new Stack<UndoableCommand>();
 
     private CommandStack() {
-
+        // private constructor to prevent non-singleton instantiation
     }
 
     /**
