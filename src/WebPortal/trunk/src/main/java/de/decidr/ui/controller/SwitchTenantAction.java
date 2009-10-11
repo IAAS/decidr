@@ -74,8 +74,7 @@ public class SwitchTenantAction implements ClickListener {
             tenantId = tenantFacade.getTenantId(tenant);
             role = userFacade.getUserRoleForTenant(userId, tenantId);
             Main.getCurrent().setTheme(tenant);
-            // Aleks: shouldn't you call UserFacade.setCurrentTenant() somewhere
-            // here? ~rr
+            userFacade.setCurrentTenantId(userId, tenantId);
             session.setAttribute("tenant", tenant);
             session.setAttribute("role", role);
         } catch (TransactionException exception) {
