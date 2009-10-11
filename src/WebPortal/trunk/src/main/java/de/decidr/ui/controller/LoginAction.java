@@ -25,29 +25,39 @@ import de.decidr.ui.view.LoginComponent;
 import de.decidr.ui.view.Main;
 
 /**
- * This action implements the login. It calls the authenticate method and 
- * logs the user into the application.
- *
+ * This action implements the login. It calls the authenticate method and logs
+ * the user into the application.
+ * 
  * @author AT
  */
 public class LoginAction implements ClickListener {
-    
+
     private Login login = new Login();
     UIDirector uiDirector = UIDirector.getInstance();
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        try{
-            login.authenticate(((LoginComponent)uiDirector.getTemplateView().getContent()).getUsernameTextField().getValue().toString(), ((LoginComponent)uiDirector.getTemplateView().getContent()).getPasswordTextField().getValue().toString());
-            ((HorizontalNavigationMenu)uiDirector.getTemplateView().getHNavigation()).getLogoutButton().setVisible(true);
-        }catch(TransactionException exception){
-            Main.getCurrent().getMainWindow().showNotification("Login unsuccessful");
+        try {
+            login
+                    .authenticate(((LoginComponent) uiDirector
+                            .getTemplateView().getContent())
+                            .getUsernameTextField().getValue().toString(),
+                            ((LoginComponent) uiDirector.getTemplateView()
+                                    .getContent()).getPasswordTextField()
+                                    .getValue().toString());
+            ((HorizontalNavigationMenu) uiDirector.getTemplateView()
+                    .getHNavigation()).getLogoutButton().setVisible(true);
+        } catch (TransactionException exception) {
+            Main.getCurrent().getMainWindow().showNotification(
+                    "Login unsuccessful");
         }
         System.out.println(Main.getCurrent().getUser());
-        
 
     }
 

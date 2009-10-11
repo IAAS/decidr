@@ -24,21 +24,24 @@ import de.decidr.ui.view.SystemSettingComponent;
 
 /**
  * This component displays the SystemSettingsComponent in the content area
- *
+ * 
  * @author AT
  */
 public class ShowSystemSettingsAction implements ClickListener {
-    
+
     /**
      * Serial Version UID
      */
     private static final long serialVersionUID = -7440471792474065901L;
-    
+
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {

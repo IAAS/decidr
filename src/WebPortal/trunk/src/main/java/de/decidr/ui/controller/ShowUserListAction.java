@@ -71,12 +71,12 @@ public class ShowUserListAction implements ClickListener {
                     SuperAdminRole.class)) {
                 ((UserListComponent) siteFrame.getContent())
                         .changeToSuperAdmin();
-            }else if (userFacade.getUserRoleForTenant(
+            } else if (userFacade.getUserRoleForTenant(
                     (Long) Main.getCurrent().getSession()
-                    .getAttribute("userId"), tenantId).equals(
-            TenantAdminRole.class)){
+                            .getAttribute("userId"), tenantId).equals(
+                    TenantAdminRole.class)) {
                 ((UserListComponent) siteFrame.getContent())
-                .changeToTenantAdmin();
+                        .changeToTenantAdmin();
             }
         } catch (TransactionException exception) {
             Main.getCurrent().addWindow(new TransactionErrorDialogComponent());

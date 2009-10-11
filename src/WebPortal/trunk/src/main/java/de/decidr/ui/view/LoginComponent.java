@@ -22,17 +22,15 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.ui.controller.LoginAction;
 import de.decidr.ui.controller.LoginWithInvitationAction;
 import de.decidr.ui.controller.ShowRegistrationAction;
 import de.decidr.ui.controller.ShowResetPasswordAction;
-import de.decidr.ui.controller.ShowStartConfigurationWindowAction;
 
 /**
- * With the login component the user is able to authenticate himself
- * to the application. He has to insert his username and his password.
- *
+ * With the login component the user is able to authenticate himself to the
+ * application. He has to insert his username and his password.
+ * 
  * @author AT
  */
 public class LoginComponent extends CustomComponent {
@@ -42,77 +40,45 @@ public class LoginComponent extends CustomComponent {
      */
     private static final long serialVersionUID = 6622328174696591882L;
 
-    
     private VerticalLayout verticalLayout = null;
-    
+
     private Label loginLabel = null;
-    
+
     private TextField usernameTextField = null;
     private TextField passwordTextField = null;
-    
+
     private Button loginButton = null;
     private Button forgotPasswordButton = null;
     private Button registerButton = null;
-    
+
     /**
      * Default constructor.
-     *
+     * 
      */
     public LoginComponent() {
         init(null);
     }
 
-
     /**
      * Default constructor.
-     *
+     * 
      */
     public LoginComponent(InvitationDialogComponent invD) {
         init(invD);
     }
+
     /**
-     * This method initializes the components for the login component.
-     *
+     * Returns the password text field.
+     * 
+     * @return passwordTextField
      */
-    private void init(InvitationDialogComponent invD) {
-        verticalLayout = new VerticalLayout();
-        
-        loginLabel = new Label("<h3>Login:</h3>");
-        loginLabel.setContentMode(Label.CONTENT_XHTML);
-       
-        usernameTextField = new TextField();
-        usernameTextField.setCaption("Username");
-        passwordTextField = new TextField();
-        passwordTextField.setCaption("Password");
-        passwordTextField.setSecret(true);
-        
-        if (invD == null)
-        {
-        	loginButton = new Button("Login", new LoginAction());
-        }else{
-        	loginButton = new Button("Login", new LoginWithInvitationAction(invD));
-        }
-        forgotPasswordButton = new Button("Forgot your password?", new ShowResetPasswordAction());
-        forgotPasswordButton.setStyleName(Button.STYLE_LINK);
-        registerButton = new Button("Register", new ShowRegistrationAction());
-        registerButton.setStyleName(Button.STYLE_LINK);
-        
-       setCompositionRoot(verticalLayout);
-       
-       verticalLayout.setSpacing(true);
-       verticalLayout.setMargin(true);
-       verticalLayout.addComponent(loginLabel);
-       verticalLayout.addComponent(usernameTextField);
-       verticalLayout.addComponent(passwordTextField);
-       verticalLayout.addComponent(loginButton);
-       verticalLayout.addComponent(forgotPasswordButton);
-       verticalLayout.addComponent(registerButton);
+    public TextField getPasswordTextField() {
+        return passwordTextField;
     }
-    
 
     /**
      * Returns the username text field.
-     *
+     * 
      * @return usernameTextField
      */
     public TextField getUsernameTextField() {
@@ -120,12 +86,43 @@ public class LoginComponent extends CustomComponent {
     }
 
     /**
-     * Returns the password text field.
-     *
-     * @return passwordTextField
+     * This method initializes the components for the login component.
+     * 
      */
-    public TextField getPasswordTextField() {
-        return passwordTextField;
+    private void init(InvitationDialogComponent invD) {
+        verticalLayout = new VerticalLayout();
+
+        loginLabel = new Label("<h3>Login:</h3>");
+        loginLabel.setContentMode(Label.CONTENT_XHTML);
+
+        usernameTextField = new TextField();
+        usernameTextField.setCaption("Username");
+        passwordTextField = new TextField();
+        passwordTextField.setCaption("Password");
+        passwordTextField.setSecret(true);
+
+        if (invD == null) {
+            loginButton = new Button("Login", new LoginAction());
+        } else {
+            loginButton = new Button("Login", new LoginWithInvitationAction(
+                    invD));
+        }
+        forgotPasswordButton = new Button("Forgot your password?",
+                new ShowResetPasswordAction());
+        forgotPasswordButton.setStyleName(Button.STYLE_LINK);
+        registerButton = new Button("Register", new ShowRegistrationAction());
+        registerButton.setStyleName(Button.STYLE_LINK);
+
+        setCompositionRoot(verticalLayout);
+
+        verticalLayout.setSpacing(true);
+        verticalLayout.setMargin(true);
+        verticalLayout.addComponent(loginLabel);
+        verticalLayout.addComponent(usernameTextField);
+        verticalLayout.addComponent(passwordTextField);
+        verticalLayout.addComponent(loginButton);
+        verticalLayout.addComponent(forgotPasswordButton);
+        verticalLayout.addComponent(registerButton);
     }
 
 }

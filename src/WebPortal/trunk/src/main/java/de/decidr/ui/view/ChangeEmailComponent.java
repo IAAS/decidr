@@ -39,82 +39,82 @@ import de.decidr.ui.controller.HideDialogWindowAction;
 
 public class ChangeEmailComponent extends Window {
 
-    
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
-    
+
     private Label infoLabel = null;
-    
+
     private Form emailForm = null;
-    
+
     private TextField newEmailText = null;
-    
+
     private Button submitButton = null;
     private Button cancelButton = null;
-    
-    public Item getNewEmail(){
-        return emailForm;
-    }
-    
+
     /**
      * Default constructor
-     *
+     * 
      */
-    public ChangeEmailComponent(){
+    public ChangeEmailComponent() {
         init();
     }
-    
+
+    public Item getNewEmail() {
+        return emailForm;
+    }
+
     /**
      * Initializes the components for the change email component.
-     *
+     * 
      */
-    private void init(){
+    private void init() {
         emailForm = new Form();
         emailForm.setWriteThrough(false);
-        
+
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
         verticalLayout.setMargin(true);
         verticalLayout.setSizeUndefined();
-        
+
         horizontalLayout = new HorizontalLayout();
         horizontalLayout.setSpacing(true);
         horizontalLayout.setMargin(false);
         horizontalLayout.setSizeUndefined();
-        
-        infoLabel = new Label("To change your email address, insert your new email address and click Change E-mail.<br/>" +
-        		"A confirmation email will be send to the new address.",
-                        Label.CONTENT_XHTML);
-        infoLabel.setWidth(350,Sizeable.UNITS_PIXELS);
-        
+
+        infoLabel = new Label(
+                "To change your email address, insert your new email address and click Change E-mail.<br/>"
+                        + "A confirmation email will be send to the new address.",
+                Label.CONTENT_XHTML);
+        infoLabel.setWidth(350, Sizeable.UNITS_PIXELS);
+
         newEmailText = new TextField();
         newEmailText.setCaption("New E-mail Address");
         newEmailText.setColumns(20);
 
-        
         submitButton = new Button("Change E-mail", new ChangeEmailAction());
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
         emailForm.setWidth(370, Sizeable.UNITS_PIXELS);
-        //emailForm.setSizeUndefined();
+        // emailForm.setSizeUndefined();
         emailForm.addField("newEmail", newEmailText);
-        emailForm.getField("newEmail").addValidator(new EmailValidator("Please enter a valid email adress"));
+        emailForm.getField("newEmail").addValidator(
+                new EmailValidator("Please enter a valid email adress"));
 
         verticalLayout.addComponent(infoLabel);
         verticalLayout.addComponent(emailForm);
         horizontalLayout.addComponent(submitButton);
         horizontalLayout.addComponent(cancelButton);
         verticalLayout.addComponent(horizontalLayout);
-        
+
         horizontalLayout.setComponentAlignment(cancelButton, "right bottom");
         horizontalLayout.setComponentAlignment(submitButton, "right bottom");
 
         verticalLayout.setComponentAlignment(horizontalLayout, "right bottom");
-        
+
         this.setModal(true);
         this.setResizable(false);
         this.setCaption("Change E-mail Address");
         this.setContent(verticalLayout);
     }
-    
+
 }

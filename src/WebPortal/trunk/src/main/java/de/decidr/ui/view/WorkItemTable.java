@@ -23,7 +23,7 @@ import com.vaadin.ui.Table;
 
 import de.decidr.ui.data.WorkItemContainer;
 
-public class WorkItemTable extends Table implements Observer{
+public class WorkItemTable extends Table implements Observer {
 
     /**
      * The table represents the work items as items.
@@ -31,56 +31,57 @@ public class WorkItemTable extends Table implements Observer{
      * @author AT
      */
     private static final long serialVersionUID = 24861377458898625L;
-    
-   private Container workItemContainer = null;
-   private Observable observable = null;
+
+    private Container workItemContainer = null;
+    private Observable observable = null;
 
     /**
-     * Default constructor. The table is added as an observer to 
-     * the container which notifies the table if the data has changed.
-     *
+     * Default constructor. The table is added as an observer to the container
+     * which notifies the table if the data has changed.
+     * 
      * @param observable
      * @param container
      */
-    public WorkItemTable(Observable observable, Container container){
+    public WorkItemTable(Observable observable, Container container) {
         this.workItemContainer = container;
         this.observable = observable;
         observable.addObserver(this);
         init(container);
     }
-    
+
     /**
      * Initializes the table and sets the container data source.
-     *
+     * 
      * @param observable
      * @param container
      */
-    private void init(Container container){
-       
-        //workItemContainer = new WorkItemContainer();
+    private void init(Container container) {
+
+        // workItemContainer = new WorkItemContainer();
         setSizeFull();
         setContainerDataSource(container);
-       
+
         addContainerProperty("Name", String.class, null);
         addContainerProperty("Tenant", String.class, null);
         addContainerProperty("Data received", String.class, null);
         addContainerProperty("Status", String.class, null);
-        //setVisibleColumns(workItemContainer.getContainerPropertyIds().toArray());
-        
-        
+        // setVisibleColumns(workItemContainer.getContainerPropertyIds().toArray());
+
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof WorkItemContainer){
-            //TODO: daten aus der fassade holen
+        if (o instanceof WorkItemContainer) {
+            // TODO: daten aus der fassade holen
             this.requestRepaint();
             refreshCurrentPage();
         }
-        
+
     }
 
 }

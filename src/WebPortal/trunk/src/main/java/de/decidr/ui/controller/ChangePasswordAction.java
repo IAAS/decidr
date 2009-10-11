@@ -36,42 +36,42 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  */
 public class ChangePasswordAction implements ClickListener {
 
-        private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
-	private Long userId = (Long) session.getAttribute("userId");
-	private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    private Long userId = (Long) session.getAttribute("userId");
+    private UserFacade userFacade = new UserFacade(new UserRole(userId));
 
-	private Item passwords = null;
+    private Item passwords = null;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
-		passwords = ((ChangePasswordComponent) event.getButton().getWindow())
-				.getPasswords();
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
+        passwords = ((ChangePasswordComponent) event.getButton().getWindow())
+                .getPasswords();
 
-		
-		String passwd = passwords.getItemProperty("newPassword").getValue()
-				.toString();
-		if (!passwd.equals(passwords.getItemProperty("newPasswordConfirm")
-				.getValue().toString())) {
-			Main.getCurrent().getMainWindow().showNotification(
-					"new passwords don't match!");
-		} else {
-			try {
-				userFacade.setPassword(userId, passwords.getItemProperty(
-						"oldPassword").getValue().toString(), passwd);
-			} catch (TransactionException e) {
-			    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
-			}
-			Main.getCurrent().getMainWindow().showNotification(
-					"new password: " + passwd);
-			Main.getCurrent().getMainWindow().removeWindow(
-					event.getButton().getWindow());
-		}
-	}
+        String passwd = passwords.getItemProperty("newPassword").getValue()
+                .toString();
+        if (!passwd.equals(passwords.getItemProperty("newPasswordConfirm")
+                .getValue().toString())) {
+            Main.getCurrent().getMainWindow().showNotification(
+                    "new passwords don't match!");
+        } else {
+            try {
+                userFacade.setPassword(userId, passwords.getItemProperty(
+                        "oldPassword").getValue().toString(), passwd);
+            } catch (TransactionException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent());
+            }
+            Main.getCurrent().getMainWindow().showNotification(
+                    "new password: " + passwd);
+            Main.getCurrent().getMainWindow().removeWindow(
+                    event.getButton().getWindow());
+        }
+    }
 }

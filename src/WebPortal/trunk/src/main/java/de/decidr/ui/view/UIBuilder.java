@@ -17,50 +17,50 @@
 package de.decidr.ui.view;
 
 /**
- * The UIBuilder is a component of the builder pattern. This abstract 
- * class offers three methods for building the header, content and the 
- * navigation bar for the DecidR site. The concrete builder classes 
- * extend this class and build their specific header, content and navigation.
- *
+ * The UIBuilder is a component of the builder pattern. This abstract class
+ * offers three methods for building the header, content and the navigation bar
+ * for the DecidR site. The concrete builder classes extend this class and build
+ * their specific header, content and navigation.
+ * 
  * @author AT
  */
 public abstract class UIBuilder {
-    
+
     protected SiteFrame siteFrame = null;
-    
-    /**
-     * This method builds the header of the DecidR site.
-     *
-     */
-    public abstract void buildHeader();
-    
+
     /**
      * This method builds the content of the DecidR site.
-     *
+     * 
      */
     public abstract void buildContent();
 
     /**
+     * This method builds the header of the DecidR site.
+     * 
+     */
+    public abstract void buildHeader();
+
+    /**
      * This method builds the navigation of the DecidR site.
-     *
+     * 
      */
     public abstract void buildNavigation();
-    
+
     /**
-     * This method creates a new SiteFrame object, where the header,
-     * content and navigation is set.
-     *
+     * This method creates a new SiteFrame object, where the header, content and
+     * navigation is set.
+     * 
      */
-    public void createNewView(){
+    public void createNewView() {
         siteFrame = new SiteFrame();
     }
-    
+
     /**
      * This method returns the SiteFrame object.
-     *
+     * 
      * @return templateView
      */
-    public SiteFrame getView(){
+    public SiteFrame getView() {
         return siteFrame;
     }
 

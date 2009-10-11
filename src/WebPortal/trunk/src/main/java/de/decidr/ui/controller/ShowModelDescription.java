@@ -23,19 +23,23 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.WorkflowDescriptionWindow;
 
 /**
- * Opens the window so that the user can enter a name and a description
- * for the created workflow model.
- *
+ * Opens the window so that the user can enter a name and a description for the
+ * created workflow model.
+ * 
  * @author AT
  */
 public class ShowModelDescription implements ClickListener {
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        Main.getCurrent().getMainWindow().addWindow(new WorkflowDescriptionWindow());
+        Main.getCurrent().getMainWindow().addWindow(
+                new WorkflowDescriptionWindow());
     }
 
 }

@@ -24,7 +24,7 @@ import com.vaadin.ui.Table;
 
 import de.decidr.ui.data.RunningInstanceContainer;
 
-public class RunningInstanceTable extends Table implements Observer{
+public class RunningInstanceTable extends Table implements Observer {
 
     /**
      * This table holds the running workflow instances as items.
@@ -32,31 +32,31 @@ public class RunningInstanceTable extends Table implements Observer{
      * @author AT
      */
     private static final long serialVersionUID = 49258596599726066L;
-    
+
     private Observable observable = null;
     private Container runningInstanceContainer = null;
 
     /**
      * Default construtctor. The table is added as an observer to the container
      * which notifies the table if the data has changed.
-     *
+     * 
      * @param observable
      * @param container
      */
-    public RunningInstanceTable(Observable observable, Container container){
+    public RunningInstanceTable(Observable observable, Container container) {
         this.observable = observable;
         runningInstanceContainer = container;
         observable.addObserver(this);
         init(container);
     }
-    
+
     /**
      * Initializes the table and sets the container.
-     *
+     * 
      * @param observable
      * @param container
      */
-    private void init(Container container){
+    private void init(Container container) {
         setSizeFull();
         setContainerDataSource(container);
         addContainerProperty("Name", String.class, null);
@@ -66,15 +66,17 @@ public class RunningInstanceTable extends Table implements Observer{
         addContainerProperty("Terminate", Button.class, null);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override
     public void update(Observable o, Object arg) {
-        if(o instanceof RunningInstanceContainer){
+        if (o instanceof RunningInstanceContainer) {
             this.requestRepaint();
             refreshCurrentPage();
         }
-        
+
     }
 }

@@ -29,41 +29,47 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action refuses an invitation
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class RefuseInvitationAction implements ClickListener{
-    
+public class RefuseInvitationAction implements ClickListener {
+
     private HttpSession session = Main.getCurrent().getSession();
-    
+
     private Long userId = null;
     private UserFacade userFacade = null;
-    
+
     private Long invitationId = null;
-    
+
     /**
      * Constructor, requires id of the invitation
-     *
-     * @param invId: Id of the invitation
+     * 
+     * @param invId
+     *            : Id of the invitation
      */
-    public RefuseInvitationAction(Long invId, Long uId){
+    public RefuseInvitationAction(Long invId, Long uId) {
         invitationId = invId;
         userId = uId;
         userFacade = new UserFacade(new UserRole(userId));
     }
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-                
+
         try {
             userFacade.refuseInviation(invitationId);
-            Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
+            Main.getCurrent().getMainWindow().removeWindow(
+                    event.getButton().getWindow());
         } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
-        
+
     }
 }

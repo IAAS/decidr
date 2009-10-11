@@ -24,21 +24,24 @@ import de.decidr.ui.view.SiteFrame;
 
 /**
  * This action shows the ProfileSettingsComponent in the content area
- *
+ * 
  * @author AT
  */
 public class ShowProfileSettingsAction implements ClickListener {
-    
+
     /**
      * Serial Version UID
      */
     private static final long serialVersionUID = 33661750285092369L;
-    
+
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {

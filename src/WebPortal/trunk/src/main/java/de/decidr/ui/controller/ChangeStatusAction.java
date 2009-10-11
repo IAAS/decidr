@@ -37,35 +37,40 @@ import de.decidr.ui.view.ProfileSettingsComponent;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 public class ChangeStatusAction implements ValueChangeListener {
-    
+
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
+
+    private Long userId = (Long) session.getAttribute("userId");
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
-	
+
     private ProfileSettingsComponent content = null;
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void valueChange(ValueChangeEvent event) {
-    	content = (ProfileSettingsComponent) UIDirector.getInstance().getTemplateView().getContent();
-                    
-        if(content.getStatus().booleanValue()){
+        content = (ProfileSettingsComponent) UIDirector.getInstance()
+                .getTemplateView().getContent();
+
+        if (content.getStatus().booleanValue()) {
             try {
                 userFacade.setUnavailableSince(userId, new Date());
             } catch (TransactionException e) {
-                Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent());
             }
         } else {
             try {
                 userFacade.setUnavailableSince(userId, null);
             } catch (TransactionException e) {
-                Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent());
             }
         }
-        
-        
+
     }
 }

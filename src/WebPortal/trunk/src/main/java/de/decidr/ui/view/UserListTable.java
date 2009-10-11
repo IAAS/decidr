@@ -26,24 +26,24 @@ import com.vaadin.ui.Table;
 import de.decidr.ui.data.UserListContainer;
 
 /**
- * This class represents the user list's ui component. 
- * It will be connected with data from the database.
- *
+ * This class represents the user list's ui component. It will be connected with
+ * data from the database.
+ * 
  * @author AT
  */
-public class UserListTable extends Table implements Observer{
+public class UserListTable extends Table implements Observer {
 
     /**
      * Serial Version UID
      */
     private static final long serialVersionUID = -4772118786130924736L;
-    
+
     private Observable observable = null;
     private Container userListContainer = null;
 
     /**
      * Default constructor
-     *
+     * 
      */
     public UserListTable(Observable observable, Container container) {
         this.observable = observable;
@@ -54,10 +54,10 @@ public class UserListTable extends Table implements Observer{
 
     /**
      * This method initializes the components for the user list table
-     *
+     * 
      */
     private void init(Container container) {
-        //TODO: unterschiedliche  Anzeige der Tabelle je nach Rolle
+        // TODO: unterschiedliche Anzeige der Tabelle je nach Rolle
         setSizeFull();
         setContainerDataSource(container);
         addContainerProperty("Username", String.class, null);
@@ -65,21 +65,19 @@ public class UserListTable extends Table implements Observer{
         addContainerProperty("E-Mail address", String.class, null);
         addContainerProperty("Edit", Button.class, null);
     }
-    
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override
     public void update(Observable arg0, Object arg1) {
-        if(arg0 instanceof UserListContainer){
+        if (arg0 instanceof UserListContainer) {
             this.requestRepaint();
             refreshCurrentPage();
         }
-        
-    }
 
-    
-    
+    }
 
 }

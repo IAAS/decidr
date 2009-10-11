@@ -35,137 +35,132 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.SplitPanel;
 
 @SuppressWarnings("serial")
-public class SiteFrame extends CustomComponent{
-        
-        
-        private GridLayout gridFrame = null;
-        private SplitPanel splitPanel = null;
-        private Component content = null;
-        private Component header = null;
-        private Component navigation = null;
-        private Component hNavigation = null;
-        
-        /**
-         * Default constructor.
-         *
-         */
-        public SiteFrame(){
-                init();
-        }
-        
-        /**
-         * Initializes the components for the site frame.
-         *
-         */
-        private void init(){
-        gridFrame = new GridLayout(3,5);
+public class SiteFrame extends CustomComponent {
+
+    private GridLayout gridFrame = null;
+    private SplitPanel splitPanel = null;
+    private Component content = null;
+    private Component header = null;
+    private Component navigation = null;
+    private Component hNavigation = null;
+
+    /**
+     * Default constructor.
+     * 
+     */
+    public SiteFrame() {
+        init();
+    }
+
+    /**
+     * Returns the current content.
+     * 
+     * @return content
+     */
+    public Component getContent() {
+        return content;
+    }
+
+    /**
+     * Returns the current header.
+     * 
+     * @return header
+     */
+    public Component getHeader() {
+        return header;
+    }
+
+    /**
+     * Returns the current horizontal navigation menu.
+     * 
+     * @return
+     */
+    public Component getHNavigation() {
+        return hNavigation;
+    }
+
+    /**
+     * Returns the current vertical navigation menu.
+     * 
+     * @return navigation
+     */
+    public Component getNavigation() {
+        return navigation;
+    }
+
+    /**
+     * Initializes the components for the site frame.
+     * 
+     */
+    private void init() {
+        gridFrame = new GridLayout(3, 5);
         this.setCompositionRoot(gridFrame);
-        
-        
+
         gridFrame.setSizeFull();
         gridFrame.setMargin(false);
         gridFrame.setSpacing(false);
-        
+
         splitPanel = new SplitPanel();
-        
+
         splitPanel.setOrientation(SplitPanel.ORIENTATION_HORIZONTAL);
         splitPanel.setWidth("1000px");
         splitPanel.setHeight("600px");
-        splitPanel.setSplitPosition(200 ,Sizeable.UNITS_PIXELS);
+        splitPanel.setSplitPosition(200, Sizeable.UNITS_PIXELS);
         splitPanel.setLocked(true);
-        
+
         gridFrame.setColumnExpandRatio(0, 1);
         gridFrame.setColumnExpandRatio(2, 1);
-        
+
         gridFrame.addComponent(splitPanel, 1, 3);
-        
-        }
-         
-        
-        /**
-         * Sets the header into the site frame and stores the current
-         * header in a variable.
-         *
-         * @param header
-         */
-        public void setHeader(Component header){
-                gridFrame.addComponent(header, 1, 1);
-                this.header = header;
-                this.header.addStyleName("dcdr_header");
-        }
-        
-        /**
-         * Sets the horizontal navigation menu into the site frame.
-         *
-         * @param navigation
-         */
-        public void setHorizontalNavigation(Component navigation){
-                gridFrame.addComponent(navigation, 1, 2);
-                this.hNavigation = navigation;
-                this.hNavigation.addStyleName("dcdr_hnav");
-        }
-        
 
-        /**
-         * Sets the vertical navigation menu into the site frame 
-         * and stores the current vertical navigation menu in a variable.
-         *
-         * @param navigation
-         */
-        public void setVerticalNavigation(Component navigation){
-                splitPanel.setFirstComponent(navigation);
-                this.navigation = navigation;
-                this.navigation.addStyleName("dcdr_vnav");
-        }
-        
-        /**
-         * Sets the content into the site frame and stores the current
-         * content in a varibale.
-         *
-         * @param content
-         */
-        public void setContent(Component content){
-                splitPanel.setSecondComponent(content);
-                this.content = content;
-                this.content.addStyleName("dcdr_content");
-                this.content.setWidth("775px");
-        }
-        
-        /**
-         * Returns the current content.
-         *
-         * @return content
-         */
-        public Component getContent(){
-            return content;
-        }
-        
-        /**
-         * Returns the current header.
-         *
-         * @return header
-         */
-        public Component getHeader() {
-            return header;
-        }
+    }
 
-        /**
-         * Returns the current vertical navigation menu.
-         *
-         * @return navigation
-         */
-        public Component getNavigation() {
-            return navigation;
-        }
-        
-        /**
-         * Returns the current horizontal navigation menu.
-         *
-         * @return
-         */
-        public Component getHNavigation() {
-            return hNavigation;
-        }
+    /**
+     * Sets the content into the site frame and stores the current content in a
+     * varibale.
+     * 
+     * @param content
+     */
+    public void setContent(Component content) {
+        splitPanel.setSecondComponent(content);
+        this.content = content;
+        this.content.addStyleName("dcdr_content");
+        this.content.setWidth("775px");
+    }
+
+    /**
+     * Sets the header into the site frame and stores the current header in a
+     * variable.
+     * 
+     * @param header
+     */
+    public void setHeader(Component header) {
+        gridFrame.addComponent(header, 1, 1);
+        this.header = header;
+        this.header.addStyleName("dcdr_header");
+    }
+
+    /**
+     * Sets the horizontal navigation menu into the site frame.
+     * 
+     * @param navigation
+     */
+    public void setHorizontalNavigation(Component navigation) {
+        gridFrame.addComponent(navigation, 1, 2);
+        this.hNavigation = navigation;
+        this.hNavigation.addStyleName("dcdr_hnav");
+    }
+
+    /**
+     * Sets the vertical navigation menu into the site frame and stores the
+     * current vertical navigation menu in a variable.
+     * 
+     * @param navigation
+     */
+    public void setVerticalNavigation(Component navigation) {
+        splitPanel.setFirstComponent(navigation);
+        this.navigation = navigation;
+        this.navigation.addStyleName("dcdr_vnav");
+    }
 
 }
-

@@ -24,13 +24,16 @@ import de.decidr.ui.view.Main;
 
 /**
  * This action shows the ChangeEmailComponent
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class ShowChangeEmailAction  implements ClickListener {
+public class ShowChangeEmailAction implements ClickListener {
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {

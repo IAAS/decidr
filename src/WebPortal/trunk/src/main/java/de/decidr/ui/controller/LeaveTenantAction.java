@@ -34,34 +34,40 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 public class LeaveTenantAction implements ClickListener {
-    
+
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
+
+    private Long userId = (Long) session.getAttribute("userId");
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
-        
+
     private Long tenantId = null;
-    
+
     /**
      * Constructor, requires id of the tenant to be left
-     *
-     * @param id: Id of the tenant to be left
+     * 
+     * @param id
+     *            : Id of the tenant to be left
      */
-    public LeaveTenantAction(Long id){
+    public LeaveTenantAction(Long id) {
         tenantId = id;
     }
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-    	try {
+        try {
             userFacade.leaveTenant(userId, tenantId);
         } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
-        Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
-        
+        Main.getCurrent().getMainWindow().removeWindow(
+                event.getButton().getWindow());
+
     }
 }

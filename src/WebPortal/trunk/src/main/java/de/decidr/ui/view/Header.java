@@ -27,35 +27,33 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.HorizontalLayout;
 
-
 @SuppressWarnings("serial")
 public class Header extends CustomComponent {
-        
-        private HorizontalLayout horizontalLayout = null;
-        private Embedded decidrLogo = null;
-        
-        /**
-         * Default constructor
-         *
-         */
-        public Header(){
-                init();
-        }
-        
-        /**
-         * This method initializes the components of the header component
-         *
-         */
-        private void init(){
-                horizontalLayout = new HorizontalLayout();
-                this.setCompositionRoot(horizontalLayout);
-                
-                horizontalLayout.setWidth(800,Sizeable.UNITS_PIXELS);
-                
-                decidrLogo = new Embedded("",Resources.getInstance().getDecidrLogo());
-                
-                horizontalLayout.addComponent(decidrLogo);
-        }
-        
-       
+
+    private HorizontalLayout horizontalLayout = null;
+    private Embedded decidrLogo = null;
+
+    /**
+     * Default constructor
+     * 
+     */
+    public Header() {
+        init();
+    }
+
+    /**
+     * This method initializes the components of the header component
+     * 
+     */
+    private void init() {
+        horizontalLayout = new HorizontalLayout();
+        this.setCompositionRoot(horizontalLayout);
+
+        horizontalLayout.setWidth(800, Sizeable.UNITS_PIXELS);
+
+        decidrLogo = new Embedded("", Resources.getInstance().getDecidrLogo());
+
+        horizontalLayout.addComponent(decidrLogo);
+    }
+
 }

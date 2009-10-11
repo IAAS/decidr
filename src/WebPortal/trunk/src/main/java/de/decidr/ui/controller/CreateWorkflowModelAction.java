@@ -17,6 +17,7 @@
 package de.decidr.ui.controller;
 
 import javax.servlet.http.HttpSession;
+
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -39,7 +40,7 @@ public class CreateWorkflowModelAction implements ClickListener {
     private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
 
     private String tenant = null;
-    
+
     private Long tenantId = null;
 
     private String name = null;
@@ -61,7 +62,7 @@ public class CreateWorkflowModelAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         tenant = (String) session.getAttribute("tenant");
-        
+
         try {
             tenantId = tenantFacade.getTenantId(tenant);
             tenantFacade.createWorkflowModel(tenantId, name);

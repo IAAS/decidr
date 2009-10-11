@@ -26,42 +26,52 @@ import de.decidr.ui.view.LoginComponent;
 import de.decidr.ui.view.Main;
 
 /**
- * This action implements the login. It calls the authenticate method and 
- * logs the user into the application and shows
- *
+ * This action implements the login. It calls the authenticate method and logs
+ * the user into the application and shows
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
 public class LoginWithInvitationAction implements ClickListener {
-    
+
     private Login login = new Login();
     UIDirector uiDirector = UIDirector.getInstance();
     private InvitationDialogComponent invitationDialog = null;
-    
+
     /**
      * Constructor
-     *
+     * 
      * @param invD
-     * 		InvitationDialogComponent that is shown after successfull login
+     *            InvitationDialogComponent that is shown after successfull
+     *            login
      */
-    public LoginWithInvitationAction (InvitationDialogComponent invD)
-    {
-    	invitationDialog = invD;
+    public LoginWithInvitationAction(InvitationDialogComponent invD) {
+        invitationDialog = invD;
     }
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        try{
-            login.authenticate(((LoginComponent)uiDirector.getTemplateView().getContent()).getUsernameTextField().getValue().toString(), ((LoginComponent)uiDirector.getTemplateView().getContent()).getPasswordTextField().getValue().toString());
-            ((HorizontalNavigationMenu)uiDirector.getTemplateView().getHNavigation()).getLogoutButton().setVisible(true);
+        try {
+            login
+                    .authenticate(((LoginComponent) uiDirector
+                            .getTemplateView().getContent())
+                            .getUsernameTextField().getValue().toString(),
+                            ((LoginComponent) uiDirector.getTemplateView()
+                                    .getContent()).getPasswordTextField()
+                                    .getValue().toString());
+            ((HorizontalNavigationMenu) uiDirector.getTemplateView()
+                    .getHNavigation()).getLogoutButton().setVisible(true);
             Main.getCurrent().getMainWindow().addWindow(invitationDialog);
-        }catch(TransactionException exception){
-            Main.getCurrent().getMainWindow().showNotification("Login unsuccessful");
+        } catch (TransactionException exception) {
+            Main.getCurrent().getMainWindow().showNotification(
+                    "Login unsuccessful");
         }
         System.out.println(Main.getCurrent().getUser());
-        
 
     }
 

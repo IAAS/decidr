@@ -25,23 +25,29 @@ import de.decidr.ui.view.HorizontalNavigationMenu;
 import de.decidr.ui.view.Main;
 
 /**
- * This action logs a user out, invalidates the session, makes the logout button 
+ * This action logs a user out, invalidates the session, makes the logout button
  * invisible and returns to the main page of the DecidR application.
  * 
  * @author AT
  */
 public class LogoutAction implements ClickListener {
-    
+
     private UIDirector uiDirector = UIDirector.getInstance();
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
         Main.getCurrent().getSession().invalidate();
-        ((HorizontalNavigationMenu)uiDirector.getTemplateView().getHNavigation()).getLogoutButton().setVisible(false);
-        Main.getCurrent().getMainWindow().open(new ExternalResource("http://" + DecidrGlobals.getSettings().getDomain()));
+        ((HorizontalNavigationMenu) uiDirector.getTemplateView()
+                .getHNavigation()).getLogoutButton().setVisible(false);
+        Main.getCurrent().getMainWindow().open(
+                new ExternalResource("http://"
+                        + DecidrGlobals.getSettings().getDomain()));
     }
 
 }

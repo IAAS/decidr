@@ -16,7 +16,6 @@
 
 package de.decidr.ui.controller;
 
-
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -25,20 +24,23 @@ import de.decidr.ui.view.ModelingToolWindow;
 
 /**
  * Opens the modeling tool.
- *
+ * 
  * @author AT
  */
 public class ShowModelingToolAction implements ClickListener {
-    
+
     private ModelingToolWindow modelingToolWindow = new ModelingToolWindow();
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
-    public void buttonClick(ClickEvent event) {    
+    public void buttonClick(ClickEvent event) {
         new HideDialogWindowAction();
-        //Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
+        // Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
         Main.getCurrent().getMainWindow().addWindow(modelingToolWindow);
     }
 

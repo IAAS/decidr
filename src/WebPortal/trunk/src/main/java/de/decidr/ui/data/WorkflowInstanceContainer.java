@@ -118,11 +118,47 @@ public class WorkflowInstanceContainer extends Observable implements Container,
     /*
      * (non-Javadoc)
      * 
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object)
+     */
+    @Override
+    public Object addItemAfter(Object previousItemId)
+            throws UnsupportedOperationException {
+        new UnsupportedOperationException();
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object,
+     * java.lang.Object)
+     */
+    @Override
+    public Item addItemAfter(Object previousItemId, Object newItemId)
+            throws UnsupportedOperationException {
+        new UnsupportedOperationException();
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#containsId(java.lang.Object)
      */
     @Override
     public boolean containsId(Object itemId) {
         return items.containsKey(itemId);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container.Ordered#firstItemId()
+     */
+    @Override
+    public Object firstItemId() {
+        Object[] itemsArray = getItemIds().toArray();
+        return itemsArray[0];
     }
 
     /*
@@ -196,87 +232,6 @@ public class WorkflowInstanceContainer extends Observable implements Container,
     /*
      * (non-Javadoc)
      * 
-     * @see com.vaadin.data.Container#removeAllItems()
-     */
-    @Override
-    public boolean removeAllItems() throws UnsupportedOperationException {
-        items.clear();
-        return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container#removeContainerProperty(java.lang.Object)
-     */
-    @Override
-    public boolean removeContainerProperty(Object propertyId)
-            throws UnsupportedOperationException {
-        getContainerPropertyIds().remove(propertyId);
-        return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container#removeItem(java.lang.Object)
-     */
-    @Override
-    public boolean removeItem(Object itemId)
-            throws UnsupportedOperationException {
-        items.remove(itemId);
-        return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container#size()
-     */
-    @Override
-    public int size() {
-        return items.size();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object)
-     */
-    @Override
-    public Object addItemAfter(Object previousItemId)
-            throws UnsupportedOperationException {
-        new UnsupportedOperationException();
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object,
-     * java.lang.Object)
-     */
-    @Override
-    public Item addItemAfter(Object previousItemId, Object newItemId)
-            throws UnsupportedOperationException {
-        new UnsupportedOperationException();
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container.Ordered#firstItemId()
-     */
-    @Override
-    public Object firstItemId() {
-        Object[] itemsArray = getItemIds().toArray();
-        return itemsArray[0];
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see com.vaadin.data.Container.Ordered#isFirstId(java.lang.Object)
      */
     @Override
@@ -333,6 +288,51 @@ public class WorkflowInstanceContainer extends Observable implements Container,
     public Object prevItemId(Object itemId) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#removeAllItems()
+     */
+    @Override
+    public boolean removeAllItems() throws UnsupportedOperationException {
+        items.clear();
+        return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#removeContainerProperty(java.lang.Object)
+     */
+    @Override
+    public boolean removeContainerProperty(Object propertyId)
+            throws UnsupportedOperationException {
+        getContainerPropertyIds().remove(propertyId);
+        return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#removeItem(java.lang.Object)
+     */
+    @Override
+    public boolean removeItem(Object itemId)
+            throws UnsupportedOperationException {
+        items.remove(itemId);
+        return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#size()
+     */
+    @Override
+    public int size() {
+        return items.size();
     }
 
 }

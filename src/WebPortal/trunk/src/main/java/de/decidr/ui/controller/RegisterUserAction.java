@@ -37,25 +37,26 @@ public class RegisterUserAction implements ClickListener {
     private UserFacade userFacade = new UserFacade(new UserRole());
 
     private RegisterUserComponent content = null;
-    
+
     private UserProfile userProfile = null;
 
     @Override
     public void buttonClick(ClickEvent event) {
-        
-        
+
         content = (RegisterUserComponent) UIDirector.getInstance()
                 .getTemplateView().getContent();
         content.saveRegistrationForm();
-        userProfile.setFirstName(content.getRegistrationForm().getItemProperty("userName").getValue().toString());
-        
+        userProfile.setFirstName(content.getRegistrationForm().getItemProperty(
+                "userName").getValue().toString());
+
         try {
             userFacade.registerUser(content.getRegistrationForm()
                     .getItemProperty("email").getValue().toString(), content
                     .getRegistrationForm().getItemProperty("password")
                     .getValue().toString(), fillUserProfile());
         } catch (NullPointerException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
             e.printStackTrace();
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
@@ -63,15 +64,21 @@ public class RegisterUserAction implements ClickListener {
         }
 
     }
-    
-    private UserProfile fillUserProfile(){
+
+    private UserProfile fillUserProfile() {
         userProfile = new UserProfile();
-        userProfile.setFirstName(content.getRegistrationForm().getItemProperty("firstName").getValue().toString());
-        userProfile.setLastName(content.getRegistrationForm().getItemProperty("lastName").getValue().toString());
-        userProfile.setCity(content.getRegistrationForm().getItemProperty("city").getValue().toString());
-        userProfile.setPostalCode(content.getRegistrationForm().getItemProperty("postalCode").getValue().toString());
-        userProfile.setStreet(content.getRegistrationForm().getItemProperty("street").getValue().toString());
-        userProfile.setUsername(content.getRegistrationForm().getItemProperty("userName").getValue().toString());
+        userProfile.setFirstName(content.getRegistrationForm().getItemProperty(
+                "firstName").getValue().toString());
+        userProfile.setLastName(content.getRegistrationForm().getItemProperty(
+                "lastName").getValue().toString());
+        userProfile.setCity(content.getRegistrationForm().getItemProperty(
+                "city").getValue().toString());
+        userProfile.setPostalCode(content.getRegistrationForm()
+                .getItemProperty("postalCode").getValue().toString());
+        userProfile.setStreet(content.getRegistrationForm().getItemProperty(
+                "street").getValue().toString());
+        userProfile.setUsername(content.getRegistrationForm().getItemProperty(
+                "userName").getValue().toString());
         return userProfile;
     }
 }

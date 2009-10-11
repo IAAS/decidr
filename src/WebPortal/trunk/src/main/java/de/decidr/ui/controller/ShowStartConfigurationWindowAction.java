@@ -16,14 +16,8 @@
 
 package de.decidr.ui.controller;
 
-import java.io.ByteArrayInputStream;
-
 import javax.servlet.http.HttpSession;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
 
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;

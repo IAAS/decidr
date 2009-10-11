@@ -29,37 +29,42 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action terminates a workflow instance
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class TerminateWorkflowInstanceAction  implements ClickListener  {
+public class TerminateWorkflowInstanceAction implements ClickListener {
 
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
-    private WorkflowInstanceFacade wfiFacade = new WorkflowInstanceFacade(new UserRole(userId));
+
+    private Long userId = (Long) session.getAttribute("userId");
+    private WorkflowInstanceFacade wfiFacade = new WorkflowInstanceFacade(
+            new UserRole(userId));
 
     private Long instanceId = null;
-    
+
     /**
      * Constructor, requires id of the instance to be terminated
-     *
+     * 
      * @param id
      */
-    public TerminateWorkflowInstanceAction(Long id){
+    public TerminateWorkflowInstanceAction(Long id) {
         instanceId = id;
     }
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        
+
         try {
             wfiFacade.stopWorkflowInstance(instanceId);
         } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
     }
 }

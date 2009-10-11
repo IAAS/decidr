@@ -26,23 +26,23 @@ import de.decidr.ui.data.PublicModelContainer;
 
 /**
  * The tabel contains the public workflow models as items.
- *
+ * 
  * @author AT
  */
-public class PublicModelTable extends Table implements Observer{
+public class PublicModelTable extends Table implements Observer {
 
     /**
      * Serial Version UID
      */
     private static final long serialVersionUID = -8901605163680575150L;
-    
+
     private Observable observable = null;
     private Container publicModelContainer = null;
-    
+
     /**
-     * Default constructor. Adds this table as an observer to the container which 
-     * notifies the table if there are any changes in the data.
-     *
+     * Default constructor. Adds this table as an observer to the container
+     * which notifies the table if there are any changes in the data.
+     * 
      */
     public PublicModelTable(Observable observable, Container container) {
         this.observable = observable;
@@ -50,14 +50,14 @@ public class PublicModelTable extends Table implements Observer{
         observable.addObserver(this);
         init(container);
     }
-    
+
     /**
      * Initializes the table and sets the container and the properties.
-     *
+     * 
      * @param observable
      * @param container
      */
-    private void init(Container container){
+    private void init(Container container) {
         setSizeFull();
         setContainerDataSource(container);
         addContainerProperty("Name", String.class, null);
@@ -65,18 +65,18 @@ public class PublicModelTable extends Table implements Observer{
         addContainerProperty("Tenant Name", String.class, null);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override
     public void update(Observable o, Object arg) {
-        if(o instanceof PublicModelContainer){
+        if (o instanceof PublicModelContainer) {
             this.requestRepaint();
             refreshCurrentPage();
         }
-        
+
     }
 
-
-    
 }

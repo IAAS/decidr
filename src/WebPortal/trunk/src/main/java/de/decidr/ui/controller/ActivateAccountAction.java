@@ -33,40 +33,47 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action enables a list of user accounts.
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class ActivateAccountAction implements ClickListener{
-        
+public class ActivateAccountAction implements ClickListener {
+
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
+
+    private Long userId = (Long) session.getAttribute("userId");
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
-    
 
     private Table table = null;
-    
+
     /**
      * Contructor, requires the table which contains the data
-     *
-     * @param table: requires Table with data
+     * 
+     * @param table
+     *            : requires Table with data
      */
-    public ActivateAccountAction(Table table){
+    public ActivateAccountAction(Table table) {
         this.table = table;
     }
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
         Set<?> value = (Set<?>) table.getValue();
-        if (value != null && value.size() != 0){
-            for (Iterator<?> iter = value.iterator(); iter.hasNext();){
+        if ((value != null) && (value.size() != 0)) {
+            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
                 try {
-                    userFacade.setUnavailableSince((Long)table.getContainerProperty(iter.next(), "id").getValue(), null);
+                    userFacade.setUnavailableSince(
+                            (Long) table
+                                    .getContainerProperty(iter.next(), "id")
+                                    .getValue(), null);
                 } catch (TransactionException e) {
-                    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new TransactionErrorDialogComponent());
                 }
             }
         }

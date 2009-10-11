@@ -54,6 +54,10 @@ public class WorkflowDescriptionWindow extends Window {
         init();
     }
 
+    public TextField getNameTextField() {
+        return nameTextField;
+    }
+
     /**
      * Initializes the components
      * 
@@ -86,10 +90,6 @@ public class WorkflowDescriptionWindow extends Window {
 
         this.setModal(true);
 
-    }
-
-    public TextField getNameTextField() {
-        return nameTextField;
     }
 
 }

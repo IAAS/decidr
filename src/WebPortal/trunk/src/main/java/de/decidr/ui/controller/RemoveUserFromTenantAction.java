@@ -34,47 +34,55 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action removes a list users from a tenant
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class RemoveUserFromTenantAction implements ClickListener{
-        
+public class RemoveUserFromTenantAction implements ClickListener {
+
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
+
+    private Long userId = (Long) session.getAttribute("userId");
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
-    
+
     private Item tenant = null;
-    
 
     private Table table = null;
-    
+
     /**
      * Constructor, requires the table which contains the data
-     *
-     * @param table: requires Table with data
+     * 
+     * @param table
+     *            : requires Table with data
      */
-    public RemoveUserFromTenantAction(Table table){
+    public RemoveUserFromTenantAction(Table table) {
         this.table = table;
     }
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        tenant = (Item)session.getAttribute("tenant");
+        tenant = (Item) session.getAttribute("tenant");
 
         Set<?> value = (Set<?>) table.getValue();
-        if (value != null && value.size() != 0){
-            for (Iterator<?> iter = value.iterator(); iter.hasNext();){
+        if ((value != null) && (value.size() != 0)) {
+            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
                 try {
-                    userFacade.removeFromTenant((Long)table.getContainerProperty(iter.next(), "id").getValue(), (Long)tenant.getItemProperty("id").getValue());
+                    userFacade.removeFromTenant(
+                            (Long) table
+                                    .getContainerProperty(iter.next(), "id")
+                                    .getValue(), (Long) tenant.getItemProperty(
+                                    "id").getValue());
                 } catch (TransactionException e) {
-                    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new TransactionErrorDialogComponent());
                 }
             }
         }
-        
+
     }
 }

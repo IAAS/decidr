@@ -16,7 +16,7 @@
 
 package de.decidr.ui.controller;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Tree;
@@ -36,7 +36,6 @@ import de.decidr.model.workflowmodel.wsc.TRole;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.StartConfigurationWindow;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
-import de.decidr.ui.view.WorkflowModelsComponent;
 
 /**
  * TODO: add comment
@@ -78,24 +77,26 @@ public class SaveStartConfigurationAction implements ClickListener {
      * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
      * ClickEvent)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void buttonClick(ClickEvent event) {
-        StartConfigurationWindow stWindow = (StartConfigurationWindow)event.getSource();
+        StartConfigurationWindow stWindow = (StartConfigurationWindow) event
+                .getSource();
         for (TRole role : tConfiguration.getRoles().getRole()) {
-            ArrayList<TRole> collect = (ArrayList<TRole>) tree.getChildren(role
-                    .getName());
+            Collection<TRole> collect = tree.getChildren(role.getName());
             for (TRole tRole : collect) {
                 this.tConfiguration.getRoles().getRole().add(tRole);
             }
         }
         for (TAssignment assignment : tConfiguration.getAssignment()) {
-            if(assignment.getValueType().equals("File")){
-                //TODO: file id in assignment abspeichern
-            }else{
+            if (assignment.getValueType().equals("File")) {
+                // TODO: file id in assignment abspeichern
+            } else {
                 assignment.getValue().add(
-                        form.getField(assignment.getKey()).getValue().toString());
+                        form.getField(assignment.getKey()).getValue()
+                                .toString());
             }
-            
+
         }
         try {
             workflowModelFacade.startWorkflowInstance(workflowModelId,
@@ -116,7 +117,7 @@ public class SaveStartConfigurationAction implements ClickListener {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent());
         }
-        //TODO: in datenbank abspeichern
+        // TODO: in datenbank abspeichern
         new HideDialogWindowAction();
     }
 

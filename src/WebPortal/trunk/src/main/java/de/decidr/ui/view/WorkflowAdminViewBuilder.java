@@ -17,14 +17,17 @@
 package de.decidr.ui.view;
 
 /**
- * One concrete builder class which extends the UIBuilder and builds
- * the workflow administrator specific header, content and navigation for the DecidR site.
- *
+ * One concrete builder class which extends the UIBuilder and builds the
+ * workflow administrator specific header, content and navigation for the DecidR
+ * site.
+ * 
  * @author AT
  */
 public class WorkflowAdminViewBuilder extends UIBuilder {
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.decidr.ui.view.UIBuilder#buildContent()
      */
     @Override
@@ -33,7 +36,9 @@ public class WorkflowAdminViewBuilder extends UIBuilder {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.decidr.ui.view.UIBuilder#buildHeader()
      */
     @Override
@@ -42,7 +47,9 @@ public class WorkflowAdminViewBuilder extends UIBuilder {
         getView().setHorizontalNavigation(new HorizontalNavigationMenu());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.decidr.ui.view.UIBuilder#buildNavigation()
      */
     @Override

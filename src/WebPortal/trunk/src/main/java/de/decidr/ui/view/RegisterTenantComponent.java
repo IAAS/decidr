@@ -67,14 +67,6 @@ public class RegisterTenantComponent extends CustomComponent {
     }
 
     /**
-     * Saves the information which are entered into the form.
-     * 
-     */
-    public void saveRegistrationForm() {
-        registrationForm.commit();
-    }
-
-    /**
      * Returns the registration form.
      * 
      * @return registrationForm
@@ -125,14 +117,16 @@ public class RegisterTenantComponent extends CustomComponent {
                         0, 50, false));
         lastName = new TextField();
         lastName.setCaption("Last Name:");
-        lastName.addValidator(new StringLengthValidator(
+        lastName
+                .addValidator(new StringLengthValidator(
                         "Bitte geben Sie ihren Vorname ein. Dieser darf maximal 50 Zeichen betragen",
                         0, 50, false));
         street = new TextField();
         street.setCaption("Street:");
         postalCode = new TextField();
         postalCode.setCaption("PostalCode:");
-        postalCode.addValidator(new RegexpValidator("[1-9][0-9]{4,15}", "Bitte geben sie nur Zahlen ein"));
+        postalCode.addValidator(new RegexpValidator("[1-9][0-9]{4,15}",
+                "Bitte geben sie nur Zahlen ein"));
         city = new TextField();
         city.setCaption("City");
 
@@ -166,5 +160,13 @@ public class RegisterTenantComponent extends CustomComponent {
                 "right bottom");
 
         this.setCompositionRoot(verticalLayout);
+    }
+
+    /**
+     * Saves the information which are entered into the form.
+     * 
+     */
+    public void saveRegistrationForm() {
+        registrationForm.commit();
     }
 }

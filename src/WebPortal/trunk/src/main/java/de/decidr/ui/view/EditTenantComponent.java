@@ -29,37 +29,37 @@ import de.decidr.ui.controller.DeleteTenantAction;
 import de.decidr.ui.data.TenantContainer;
 
 /**
- * The tenants can be edited. By selecting a tenant from the table, a 
- * tenant can be deleted, approved or declined.
- *
+ * The tenants can be edited. By selecting a tenant from the table, a tenant can
+ * be deleted, approved or declined.
+ * 
  * @author AT
  */
 public class EditTenantComponent extends CustomComponent {
-    
+
     /**
      * Serial Version UID
      */
     private static final long serialVersionUID = 5979343483852012500L;
-    
+
     private TenantContainer tenantContainer = null;
-    
+
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout buttonHorizontalLayout = null;
-    
+
     private Label editTenantLabel = null;
-    
+
     private SearchPanel searchPanel = null;
     private Panel buttonPanel = null;
-    
+
     private TenantTable tenantTable = null;
-    
+
     private Button deleteButton = null;
     private Button approveButton = null;
     private Button declineButton = null;
-    
+
     /**
      * Default constructor.
-     *
+     * 
      */
     public EditTenantComponent() {
         init();
@@ -67,44 +67,44 @@ public class EditTenantComponent extends CustomComponent {
 
     /**
      * This method initializes the components for the edit tenant component.
-     *
+     * 
      */
     private void init() {
         tenantContainer = new TenantContainer();
-        
+
         verticalLayout = new VerticalLayout();
         buttonHorizontalLayout = new HorizontalLayout();
-        
+
         editTenantLabel = new Label("<h2> Edit tenant </h2>");
         editTenantLabel.setContentMode(Label.CONTENT_XHTML);
-        
+
         buttonPanel = new Panel();
-        
+
         tenantTable = new TenantTable(tenantContainer, tenantContainer);
-        
+
         searchPanel = new SearchPanel(tenantTable);
-        
+
         deleteButton = new Button("Delete", new DeleteTenantAction(tenantTable));
-        approveButton = new Button("Approve", new ApproveTenantAction(tenantTable));
-        declineButton = new Button("Decline", new DeclineTenantAction(tenantTable));
-        
+        approveButton = new Button("Approve", new ApproveTenantAction(
+                tenantTable));
+        declineButton = new Button("Decline", new DeclineTenantAction(
+                tenantTable));
+
         setCompositionRoot(verticalLayout);
-        
+
         verticalLayout.setSpacing(true);
         verticalLayout.addComponent(editTenantLabel);
         verticalLayout.addComponent(searchPanel);
         verticalLayout.addComponent(tenantTable);
         verticalLayout.addComponent(buttonPanel);
-        
+
         buttonPanel.setCaption("Selected tenants:");
         buttonPanel.addComponent(buttonHorizontalLayout);
         buttonHorizontalLayout.setSpacing(true);
         buttonHorizontalLayout.addComponent(approveButton);
         buttonHorizontalLayout.addComponent(declineButton);
         buttonHorizontalLayout.addComponent(deleteButton);
-        
+
     }
-    
-   
 
 }

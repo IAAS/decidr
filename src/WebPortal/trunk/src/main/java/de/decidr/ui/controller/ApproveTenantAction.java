@@ -35,43 +35,49 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action approves a list of tenants.
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class ApproveTenantAction implements ClickListener{
-    
+public class ApproveTenantAction implements ClickListener {
+
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
+
+    private Long userId = (Long) session.getAttribute("userId");
     private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
-    
+
     private Table table = null;
-    
+
     /**
      * Contructor, requires the table which contains the data
-     *
-     * @param table: requires Table with data
+     * 
+     * @param table
+     *            : requires Table with data
      */
-    public ApproveTenantAction(Table table){
+    public ApproveTenantAction(Table table) {
         this.table = table;
     }
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
         List<Long> tenants = new ArrayList<Long>();
         Set<?> value = (Set<?>) table.getValue();
-        if (value != null && value.size() != 0){
-            for (Iterator<?> iter = value.iterator(); iter.hasNext();){
-                tenants.add((Long)table.getContainerProperty(iter.next(), "id").getValue());
+        if ((value != null) && (value.size() != 0)) {
+            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
+                tenants.add((Long) table
+                        .getContainerProperty(iter.next(), "id").getValue());
             }
         }
         try {
             tenantFacade.approveTenants(tenants);
         } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
     }
 }

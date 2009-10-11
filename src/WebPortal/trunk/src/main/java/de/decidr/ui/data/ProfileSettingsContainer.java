@@ -16,117 +16,99 @@
 
 package de.decidr.ui.data;
 
-
 /**
  * @deprecated needs to be removed, but is currently used for testing
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
 // XXX deprecated; remove ASAP
 @Deprecated
 public class ProfileSettingsContainer {
-	private static ProfileSettingsContainer cont = null;
-	
+    private static ProfileSettingsContainer cont = null;
+
+    public static ProfileSettingsContainer getInstance() {
+        if (cont == null) {
+            cont = new ProfileSettingsContainer();
+        }
+        return cont;
+    }
+
     private String firstName = "Danny";
     private String lastName = "Street";
     private String street = "";
     private String postalCode = "";
     private String city = "";
     private String eMail = "";
-    private String username ="";
+    private String username = "";
+
     private String password = "";
-    
-    public static ProfileSettingsContainer getInstance(){
-    	if(cont == null){
-    		cont = new ProfileSettingsContainer();
-    	}
-    	return cont;
+
+    private ProfileSettingsContainer() {
+        // Nothing
     }
 
-    private ProfileSettingsContainer(){
-        //Nothing
-    }
-
-    
-    public String getFirstName() {
-        return firstName;
-    }
-
-   
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    
-    public String getLastName() {
-        return lastName;
-    }
-
-    
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    
-    public String getStreet() {
-        return street;
-    }
-
-    
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    
     public String getCity() {
         return city;
     }
 
-    
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    
     public String getEMail() {
         return eMail;
     }
 
-    
-    public void setEMail(String mail) {
-        eMail = mail;
+    public String getFirstName() {
+        return firstName;
     }
 
-    
-    public String getUsername() {
-        return username;
+    public String getLastName() {
+        return lastName;
     }
 
-    
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    
     public String getPassword() {
         return password;
     }
 
-    
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setEMail(String mail) {
+        eMail = mail;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
-   
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
 }

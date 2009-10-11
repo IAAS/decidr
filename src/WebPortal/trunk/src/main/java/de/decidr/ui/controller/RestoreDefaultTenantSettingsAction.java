@@ -19,22 +19,23 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-
 /**
- * Restores the default settings from the the tenant settings.
- * The css settings and other settings are restored and set
- * to a decidr global setting.
- *
+ * Restores the default settings from the the tenant settings. The css settings
+ * and other settings are restored and set to a decidr global setting.
+ * 
  * @author AT
  */
 public class RestoreDefaultTenantSettingsAction implements ClickListener {
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //TODO: Klärung von default settings
+        // TODO: Klärung von default settings
 
     }
 

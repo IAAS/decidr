@@ -35,30 +35,39 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ResetPasswordComponent;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
-public class ResetPasswordAction implements ClickListener{
-    
+public class ResetPasswordAction implements ClickListener {
+
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
+
+    private Long userId = (Long) session.getAttribute("userId");
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
-    
+
     private Item request = null;
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        request = ((ResetPasswordComponent)event.getButton().getWindow()).getRequestForm();
-        
-        
+        request = ((ResetPasswordComponent) event.getButton().getWindow())
+                .getRequestForm();
+
         try {
-            userFacade.requestPasswordReset(request.getItemProperty("email").getValue().toString());
+            userFacade.requestPasswordReset(request.getItemProperty("email")
+                    .getValue().toString());
         } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
-        Main.getCurrent().getMainWindow().showNotification("new password sent to: " + request.getItemProperty("email").getValue().toString());
-        Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
-        
+        Main.getCurrent().getMainWindow().showNotification(
+                "new password sent to: "
+                        + request.getItemProperty("email").getValue()
+                                .toString());
+        Main.getCurrent().getMainWindow().removeWindow(
+                event.getButton().getWindow());
+
     }
 }

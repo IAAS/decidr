@@ -16,16 +16,10 @@
 
 package de.decidr.ui.controller;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-import com.google.gwt.user.client.ui.ClickListener;
-import com.google.gwt.user.client.ui.Widget;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.FailedListener;
 import com.vaadin.ui.Upload.FinishedEvent;
@@ -56,20 +50,6 @@ public class UploadFileHumanTaskAction implements FailedListener, Receiver,
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.vaadin.ui.Upload.FailedListener#uploadFailed(com.vaadin.ui.Upload
-     * .FailedEvent)
-     */
-    @Override
-    public void uploadFailed(FailedEvent event) {
-        Main.getCurrent().getMainWindow().showNotification(
-                "File " + event.getFilename() + "uplaod not successful!");
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see com.vaadin.ui.Upload.Receiver#receiveUpload(java.lang.String,
      * java.lang.String)
      */
@@ -93,15 +73,14 @@ public class UploadFileHumanTaskAction implements FailedListener, Receiver,
      * (non-Javadoc)
      * 
      * @see
-     * com.vaadin.ui.Upload.SucceededListener#uploadSucceeded(com.vaadin.ui.
-     * Upload.SucceededEvent)
+     * com.vaadin.ui.Upload.FailedListener#uploadFailed(com.vaadin.ui.Upload
+     * .FailedEvent)
      */
     @Override
-    public void uploadSucceeded(SucceededEvent event) {
+    public void uploadFailed(FailedEvent event) {
         Main.getCurrent().getMainWindow().showNotification(
-                "File " + event.getFilename()
-                        + "successfully temporarily saved!");
-        // TODO: file id setzen
+                "File " + event.getFilename() + "uplaod not successful!");
+
     }
 
     /*
@@ -117,6 +96,21 @@ public class UploadFileHumanTaskAction implements FailedListener, Receiver,
         startConfigurationWindow.getUpload().setVisible(false);
         startConfigurationWindow.getAssignmentForm().getLayout().addComponent(
                 deleteUploadComponent);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.vaadin.ui.Upload.SucceededListener#uploadSucceeded(com.vaadin.ui.
+     * Upload.SucceededEvent)
+     */
+    @Override
+    public void uploadSucceeded(SucceededEvent event) {
+        Main.getCurrent().getMainWindow().showNotification(
+                "File " + event.getFilename()
+                        + "successfully temporarily saved!");
+        // TODO: file id setzen
     }
 
 }

@@ -37,60 +37,67 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * This container holds the running worfklow instances. The runnin instances 
- * are represented as items in a table.
- *
+ * This container holds the running worfklow instances. The runnin instances are
+ * represented as items in a table.
+ * 
  * @author AT
  */
-public class RunningInstanceContainer extends Observable implements Container, Container.Ordered {
-    
+public class RunningInstanceContainer extends Observable implements Container,
+        Container.Ordered {
+
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
-    
+
+    private Long userId = (Long) session.getAttribute("userId");
+
     UserFacade userFacade = new UserFacade(new UserRole(userId));
-    
+
     List<Item> runningInstanceList = null;
-    
+
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
-    
+
     /**
      * Default constructor.
-     *
+     * 
      */
     public RunningInstanceContainer() {
         setChanged();
         notifyObservers();
-       try{
-           runningInstanceList = userFacade.getAdministratedWorkflowInstances(userId);
-           for(Item item : runningInstanceList){
-               if(item.getItemProperty("completed") == null ){
-                   addItem(item);
-               }
-           }
-       }catch(TransactionException exception){
-           Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
-       }
+        try {
+            runningInstanceList = userFacade
+                    .getAdministratedWorkflowInstances(userId);
+            for (Item item : runningInstanceList) {
+                if (item.getItemProperty("completed") == null) {
+                    addItem(item);
+                }
+            }
+        } catch (TransactionException exception) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
+        }
     }
 
-
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container#addContainerProperty(java.lang.Object, java.lang.Class, java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#addContainerProperty(java.lang.Object,
+     * java.lang.Class, java.lang.Object)
      */
     @Override
     public boolean addContainerProperty(Object propertyId, Class<?> type,
             Object defaultValue) throws UnsupportedOperationException {
-        if(propertyIds.contains(propertyId)){
+        if (propertyIds.contains(propertyId)) {
             propertyIds.add(propertyId);
             return false;
-            
+
         }
-        
+
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#addItem()
      */
     @Override
@@ -98,7 +105,9 @@ public class RunningInstanceContainer extends Observable implements Container, C
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container#addItem(java.lang.Object)
      */
     @Override
@@ -107,112 +116,9 @@ public class RunningInstanceContainer extends Observable implements Container, C
         return getItem(itemId);
     }
 
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container#containsId(java.lang.Object)
-     */
-    @Override
-    public boolean containsId(Object itemId) {
-        return items.containsKey(itemId);
-    }
-
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container#getContainerProperty(java.lang.Object, java.lang.Object)
-     */
-    @Override
-    public Property getContainerProperty(Object itemId, Object propertyId) {
-        return getItem(itemId).getItemProperty(propertyId);
-    }
-
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container#getContainerPropertyIds()
-     */
-    @Override
-    public Collection<?> getContainerPropertyIds() {
-        
-        return propertyIds;
-    }
-
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container#getItem(java.lang.Object)
-     */
-    @Override
-    public Item getItem(Object itemId) {
-        Item item = (Item)items.get(itemId);
-        return item;
-    }
-
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container#getItemIds()
-     */
-    @Override
-    public Collection<?> getItemIds() {
-        
-        return items.keySet();
-    }
-
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container#getType(java.lang.Object)
-     */
-    @Override
-    public Class<?> getType(Object propertyId) {
-        if(getContainerPropertyIds().contains(propertyId)){
-            if (propertyId.equals("id")){
-                return Long.class;
-            }
-            else if(propertyId.equals("startedDate") || propertyId.equals("completedDate")){
-                return Date.class;
-            }
-            else if(propertyId.equals("model")){
-                return WorkflowModel.class;
-            }
-            else{
-                return null;
-            }
-            
-        }else{
-            return null;
-        }
-    }
-
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container#removeAllItems()
-     */
-    @Override
-    public boolean removeAllItems() throws UnsupportedOperationException {
-        items.clear();
-        return true;
-    }
-
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container#removeContainerProperty(java.lang.Object)
-     */
-    @Override
-    public boolean removeContainerProperty(Object propertyId)
-            throws UnsupportedOperationException {
-       getContainerPropertyIds().remove(propertyId);
-       return true;
-    }
-
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container#removeItem(java.lang.Object)
-     */
-    @Override
-    public boolean removeItem(Object itemId)
-            throws UnsupportedOperationException {
-        items.remove(itemId);
-        return true;
-    }
-
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container#size()
-     */
-    @Override
-    public int size() {
-        return items.size();
-    }
-
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object)
      */
     @Override
@@ -222,9 +128,11 @@ public class RunningInstanceContainer extends Observable implements Container, C
         return null;
     }
 
-
-    /* (non-Javadoc)
-     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object, java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object,
+     * java.lang.Object)
      */
     @Override
     public Item addItemAfter(Object previousItemId, Object newItemId)
@@ -233,8 +141,19 @@ public class RunningInstanceContainer extends Observable implements Container, C
         return null;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#containsId(java.lang.Object)
+     */
+    @Override
+    public boolean containsId(Object itemId) {
+        return items.containsKey(itemId);
+    }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#firstItemId()
      */
     @Override
@@ -243,35 +162,105 @@ public class RunningInstanceContainer extends Observable implements Container, C
         return itemsArray[0];
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#getContainerProperty(java.lang.Object,
+     * java.lang.Object)
+     */
+    @Override
+    public Property getContainerProperty(Object itemId, Object propertyId) {
+        return getItem(itemId).getItemProperty(propertyId);
+    }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#getContainerPropertyIds()
+     */
+    @Override
+    public Collection<?> getContainerPropertyIds() {
+
+        return propertyIds;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#getItem(java.lang.Object)
+     */
+    @Override
+    public Item getItem(Object itemId) {
+        Item item = (Item) items.get(itemId);
+        return item;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#getItemIds()
+     */
+    @Override
+    public Collection<?> getItemIds() {
+
+        return items.keySet();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#getType(java.lang.Object)
+     */
+    @Override
+    public Class<?> getType(Object propertyId) {
+        if (getContainerPropertyIds().contains(propertyId)) {
+            if (propertyId.equals("id")) {
+                return Long.class;
+            } else if (propertyId.equals("startedDate")
+                    || propertyId.equals("completedDate")) {
+                return Date.class;
+            } else if (propertyId.equals("model")) {
+                return WorkflowModel.class;
+            } else {
+                return null;
+            }
+
+        } else {
+            return null;
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#isFirstId(java.lang.Object)
      */
     @Override
     public boolean isFirstId(Object itemId) {
-        if(firstItemId().equals(itemId)){
+        if (firstItemId().equals(itemId)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#isLastId(java.lang.Object)
      */
     @Override
     public boolean isLastId(Object itemId) {
-        if(lastItemId().equals(itemId)){
+        if (lastItemId().equals(itemId)) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#lastItemId()
      */
     @Override
@@ -280,8 +269,9 @@ public class RunningInstanceContainer extends Observable implements Container, C
         return itemsArray[getItemIds().size()];
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#nextItemId(java.lang.Object)
      */
     @Override
@@ -290,14 +280,60 @@ public class RunningInstanceContainer extends Observable implements Container, C
         return null;
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.data.Container.Ordered#prevItemId(java.lang.Object)
      */
     @Override
     public Object prevItemId(Object itemId) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#removeAllItems()
+     */
+    @Override
+    public boolean removeAllItems() throws UnsupportedOperationException {
+        items.clear();
+        return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#removeContainerProperty(java.lang.Object)
+     */
+    @Override
+    public boolean removeContainerProperty(Object propertyId)
+            throws UnsupportedOperationException {
+        getContainerPropertyIds().remove(propertyId);
+        return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#removeItem(java.lang.Object)
+     */
+    @Override
+    public boolean removeItem(Object itemId)
+            throws UnsupportedOperationException {
+        items.remove(itemId);
+        return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container#size()
+     */
+    @Override
+    public int size() {
+        return items.size();
     }
 
 }

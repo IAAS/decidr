@@ -40,8 +40,8 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
     private Table table = null;
 
     /**
-     * Constructor which gets a table as parameter to determine which item is selected
-     * from which table.
+     * Constructor which gets a table as parameter to determine which item is
+     * selected from which table.
      * 
      */
     public ShowAppointWorkflowAdminAction(Table table) {
@@ -59,8 +59,9 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
         if (!table.getValue().getClass().equals(Set.class)) {
             siteFrame.setContent(new AppointWorkflowAdminComponent((Long) table
                     .getContainerProperty(table.getValue(), "id").getValue()));
-        }else{
-            Main.getCurrent().getMainWindow().showNotification("Bitte wählen sie nur einen admin aus");
+        } else {
+            Main.getCurrent().getMainWindow().showNotification(
+                    "Bitte wählen sie nur einen admin aus");
         }
 
     }

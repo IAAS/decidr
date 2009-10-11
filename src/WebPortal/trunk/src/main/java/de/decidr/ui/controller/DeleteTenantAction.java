@@ -33,40 +33,46 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action deletes a tenant
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class DeleteTenantAction implements ClickListener{
-    
+public class DeleteTenantAction implements ClickListener {
+
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
+
+    private Long userId = (Long) session.getAttribute("userId");
     private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
-    
 
     private Table table = null;
-    
+
     /**
      * Constructor, requires the table which contains the data
-     *
-     * @param table: requires Table with data
+     * 
+     * @param table
+     *            : requires Table with data
      */
-    public DeleteTenantAction(Table table){
+    public DeleteTenantAction(Table table) {
         this.table = table;
     }
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
         Set<?> value = (Set<?>) table.getValue();
-        if (value != null && value.size() != 0){
-            for (Iterator<?> iter = value.iterator(); iter.hasNext();){
+        if ((value != null) && (value.size() != 0)) {
+            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
                 try {
-                    tenantFacade.deleteTenant((Long)table.getContainerProperty(iter.next(), "id").getValue());
+                    tenantFacade
+                            .deleteTenant((Long) table.getContainerProperty(
+                                    iter.next(), "id").getValue());
                 } catch (TransactionException e) {
-                    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new TransactionErrorDialogComponent());
                 }
             }
         }

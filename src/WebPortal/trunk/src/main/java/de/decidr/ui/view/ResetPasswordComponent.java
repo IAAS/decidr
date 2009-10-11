@@ -35,74 +35,71 @@ import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.ResetPasswordAction;
 
 public class ResetPasswordComponent extends Window {
-    
-    
+
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
-    
+
     private Form requestForm = null;
-    
+
     private TextField email = null;
-    
+
     private Button submitButton = null;
     private Button cancelButton = null;
-    
-    public Item getRequestForm(){
-        return requestForm;
-    }
-    
+
     /**
      * Default constructor
-     *
+     * 
      */
-    public ResetPasswordComponent(){
+    public ResetPasswordComponent() {
         init();
     }
-    
+
+    public Item getRequestForm() {
+        return requestForm;
+    }
+
     /**
      * This method initializes the components of the reset password component
-     *
+     * 
      */
-    private void init(){
+    private void init() {
         requestForm = new Form();
         requestForm.setWriteThrough(false);
-        
-        
+
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
         verticalLayout.setMargin(true);
         verticalLayout.setSizeUndefined();
-        
+
         horizontalLayout = new HorizontalLayout();
         horizontalLayout.setSpacing(true);
         horizontalLayout.setMargin(false);
         horizontalLayout.setSizeUndefined();
-        
-        
+
         email = new TextField();
         email.setCaption("User Name or E-Mail:");
         email.setColumns(21);
-        
+
         submitButton = new Button("Reset Password", new ResetPasswordAction());
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
         requestForm.setWidth(400, Sizeable.UNITS_PIXELS);
         requestForm.addField("email", email);
-        
+
         verticalLayout.addComponent(requestForm);
         horizontalLayout.addComponent(submitButton);
         horizontalLayout.addComponent(cancelButton);
         verticalLayout.addComponent(horizontalLayout);
-        
+
         horizontalLayout.setComponentAlignment(cancelButton, "right bottom");
         horizontalLayout.setComponentAlignment(submitButton, "right bottom");
 
         verticalLayout.setComponentAlignment(horizontalLayout, "right bottom");
-        
+
         this.setModal(true);
         this.setResizable(false);
         this.setCaption("Reset Password");
         this.setContent(verticalLayout);
     }
-   
+
 }

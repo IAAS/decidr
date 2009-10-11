@@ -27,32 +27,32 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
-public class HelpWindow extends CustomComponent{
-        
-        private VerticalLayout verticalLayout = null;
-        private Label labelHelp = null;
-        
-        /**
-         * Default constructor
-         *
-         */
-        public HelpWindow(){
-                init();
-        }
-        
-        /**
-         * This method initializes the components of the help component
-         *
-         */
-        private void init(){
-                verticalLayout = new VerticalLayout();
+public class HelpWindow extends CustomComponent {
+
+    private VerticalLayout verticalLayout = null;
+    private Label labelHelp = null;
+
+    /**
+     * Default constructor
+     * 
+     */
+    public HelpWindow() {
+        init();
+    }
+
+    /**
+     * This method initializes the components of the help component
+     * 
+     */
+    private void init() {
+        verticalLayout = new VerticalLayout();
         this.setCompositionRoot(verticalLayout);
 
-        labelHelp = new Label("<h2>Help</h2><br/>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-                                                                Label.CONTENT_XHTML);
-        
+        labelHelp = new Label(
+                "<h2>Help</h2><br/>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                Label.CONTENT_XHTML);
+
         verticalLayout.addComponent(labelHelp);
-        }
-        
-        
+    }
+
 }

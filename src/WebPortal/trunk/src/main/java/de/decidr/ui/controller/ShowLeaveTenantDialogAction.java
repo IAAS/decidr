@@ -35,27 +35,37 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 public class ShowLeaveTenantDialogAction implements ClickListener {
-    
-	private HttpSession session = null;
-	private Long userId = null;
+
+    private HttpSession session = null;
+    private Long userId = null;
     private TenantFacade tenantFacade = null;
     private Long tenantId = null;
-    
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-    	try {
-    		session = Main.getCurrent().getSession();
-	    	userId = (Long) session.getAttribute("userId");
-	    	tenantFacade = new TenantFacade(new UserRole(userId));
-	    	tenantId = tenantFacade.getTenantId((String)session.getAttribute("tenant"));
-			
-	        Main.getCurrent().getMainWindow().addWindow(new ConfirmDialogComponent("Please confirm that you want to leave your tenant.",new LeaveTenantAction(tenantId)));
-    	} catch (TransactionException e) {
-    		Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
-		}
+        try {
+            session = Main.getCurrent().getSession();
+            userId = (Long) session.getAttribute("userId");
+            tenantFacade = new TenantFacade(new UserRole(userId));
+            tenantId = tenantFacade.getTenantId((String) session
+                    .getAttribute("tenant"));
+
+            Main
+                    .getCurrent()
+                    .getMainWindow()
+                    .addWindow(
+                            new ConfirmDialogComponent(
+                                    "Please confirm that you want to leave your tenant.",
+                                    new LeaveTenantAction(tenantId)));
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
+        }
     }
 }

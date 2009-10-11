@@ -29,35 +29,39 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * Marks a selected work item as done.
- *
+ * 
  * @author AT
  */
 public class MarkWorkItemAsDoneAction implements ClickListener {
-    
+
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
-    private WorkItemFacade workItemFacade = new WorkItemFacade(new UserRole(userId));
-    
+
+    private Long userId = (Long) session.getAttribute("userId");
+    private WorkItemFacade workItemFacade = new WorkItemFacade(new UserRole(
+            userId));
+
     private Long workItemId = null;
-    
+
     /**
-     * Constructor which gets a work item id as a parameter to know which
-     * work item is to be marked done.
-     *
+     * Constructor which gets a work item id as a parameter to know which work
+     * item is to be marked done.
+     * 
      */
     public MarkWorkItemAsDoneAction(Long workItemId) {
         this.workItemId = workItemId;
     }
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        try{
+        try {
             workItemFacade.markWorkItemAsDone(workItemId);
-        }catch(TransactionException exception){
+        } catch (TransactionException exception) {
             Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
         }
 

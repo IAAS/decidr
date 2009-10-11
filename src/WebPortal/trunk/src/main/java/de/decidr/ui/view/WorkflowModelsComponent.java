@@ -92,6 +92,76 @@ public class WorkflowModelsComponent extends CustomComponent {
     }
 
     /**
+     * Changes the view if public models are selected.
+     * 
+     */
+    private void changeToPublic() {
+        publicModelContainer = new PublicModelContainer();
+        publicModelTable = new PublicModelTable(publicModelContainer,
+                publicModelContainer);
+        importModelButton = new Button("Import");
+        if (!getNativeSelect().isSelected("Public models")) {
+            init();
+        } else {
+            getVerticalLayout().removeComponent(getCreateNewModelButton());
+            getVerticalLayout().removeComponent(getEditWorkflowModelButton());
+            getVerticalLayout().replaceComponent(getCurrentTenantTable(),
+                    publicModelTable);
+            getButtonPanel().removeAllComponents();
+            getButtonPanel().addComponent(importModelButton);
+        }
+    }
+
+    /**
+     * Gets the button panel from the component.
+     * 
+     * @return buttonPanel
+     */
+    public Panel getButtonPanel() {
+        return buttonPanel;
+    }
+
+    /**
+     * Gets the create new model button from the component.
+     * 
+     * @return createNewModelButton
+     */
+    public Button getCreateNewModelButton() {
+        return createNewModelButton;
+    }
+
+    /**
+     * Gets the current tenant table from the component.
+     * 
+     * @return currentTenantTable
+     */
+    public CurrentTenantModelTable getCurrentTenantTable() {
+        return currentTenantTable;
+    }
+
+    public Button getEditWorkflowModelButton() {
+        return editWorkflowModelButton;
+    }
+
+    /**
+     * Gets the native select component.
+     * 
+     * @return nativeSelect
+     */
+    public NativeSelect getNativeSelect() {
+        return nativeSelect;
+    }
+
+    /**
+     * Gets the vertical layout from the component.
+     * 
+     * @return verticalLayout
+     */
+    public VerticalLayout getVerticalLayout() {
+        return verticalLayout;
+    }
+
+    /**
      * This method initializes the components for the workflow model component.
      * 
      */
@@ -174,76 +244,6 @@ public class WorkflowModelsComponent extends CustomComponent {
     }
 
     /**
-     * Changes the view if public models are selected.
-     * 
-     */
-    private void changeToPublic() {
-        publicModelContainer = new PublicModelContainer();
-        publicModelTable = new PublicModelTable(publicModelContainer,
-                publicModelContainer);
-        importModelButton = new Button("Import");
-        if (!getNativeSelect().isSelected("Public models")) {
-            init();
-        } else {
-            getVerticalLayout().removeComponent(getCreateNewModelButton());
-            getVerticalLayout().removeComponent(getEditWorkflowModelButton());
-            getVerticalLayout().replaceComponent(getCurrentTenantTable(),
-                    publicModelTable);
-            getButtonPanel().removeAllComponents();
-            getButtonPanel().addComponent(importModelButton);
-        }
-    }
-
-    public Button getEditWorkflowModelButton() {
-        return editWorkflowModelButton;
-    }
-
-    /**
-     * Gets the native select component.
-     * 
-     * @return nativeSelect
-     */
-    public NativeSelect getNativeSelect() {
-        return nativeSelect;
-    }
-
-    /**
-     * Sets the native select component.
-     * 
-     * @param nativeSelect
-     */
-    public void setNativeSelect(NativeSelect nativeSelect) {
-        this.nativeSelect = nativeSelect;
-    }
-
-    /**
-     * Gets the vertical layout from the component.
-     * 
-     * @return verticalLayout
-     */
-    public VerticalLayout getVerticalLayout() {
-        return verticalLayout;
-    }
-
-    /**
-     * Sets the vertical layout for the component.
-     * 
-     * @param verticalLayout
-     */
-    public void setVerticalLayout(VerticalLayout verticalLayout) {
-        this.verticalLayout = verticalLayout;
-    }
-
-    /**
-     * Gets the button panel from the component.
-     * 
-     * @return buttonPanel
-     */
-    public Panel getButtonPanel() {
-        return buttonPanel;
-    }
-
-    /**
      * Sets the button panel for the component.
      * 
      * @param buttonPanel
@@ -253,12 +253,12 @@ public class WorkflowModelsComponent extends CustomComponent {
     }
 
     /**
-     * Gets the current tenant table from the component.
+     * Sets the create new model button for the component.
      * 
-     * @return currentTenantTable
+     * @param createNewModelButton
      */
-    public CurrentTenantModelTable getCurrentTenantTable() {
-        return currentTenantTable;
+    public void setCreateNewModelButton(Button createNewModelButton) {
+        this.createNewModelButton = createNewModelButton;
     }
 
     /**
@@ -271,21 +271,21 @@ public class WorkflowModelsComponent extends CustomComponent {
     }
 
     /**
-     * Gets the create new model button from the component.
+     * Sets the native select component.
      * 
-     * @return createNewModelButton
+     * @param nativeSelect
      */
-    public Button getCreateNewModelButton() {
-        return createNewModelButton;
+    public void setNativeSelect(NativeSelect nativeSelect) {
+        this.nativeSelect = nativeSelect;
     }
 
     /**
-     * Sets the create new model button for the component.
+     * Sets the vertical layout for the component.
      * 
-     * @param createNewModelButton
+     * @param verticalLayout
      */
-    public void setCreateNewModelButton(Button createNewModelButton) {
-        this.createNewModelButton = createNewModelButton;
+    public void setVerticalLayout(VerticalLayout verticalLayout) {
+        this.verticalLayout = verticalLayout;
     }
 
 }

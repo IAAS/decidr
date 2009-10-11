@@ -34,46 +34,55 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action invites a list of users and/or email addresses to join the tenant
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class InviteUserToTenantAction implements ClickListener{
+public class InviteUserToTenantAction implements ClickListener {
 
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
+
+    private Long userId = (Long) session.getAttribute("userId");
     private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
-    
+
     private Form inviteForm = null;
     private Item tenant = null;
-    
-    public InviteUserToTenantAction(Form form){
+
+    public InviteUserToTenantAction(Form form) {
         inviteForm = form;
     }
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        tenant = (Item)session.getAttribute("tenant");
-        
+        tenant = (Item) session.getAttribute("tenant");
+
         List<String> emails = new ArrayList<String>();
-        List<String> userNames = new ArrayList<String>(); 
-        for (Integer c = 1; c <= inviteForm.getItemPropertyIds().size(); c++ ){
-            if(inviteForm.getItemProperty("user"+c.toString()) != null){
-                if(inviteForm.getItemProperty("user"+c.toString()).getValue().toString().contains("@")){
-                    emails.add(inviteForm.getItemProperty("user"+c.toString()).getValue().toString());
-                }else{
-                    userNames.add(inviteForm.getItemProperty("user"+c.toString()).getValue().toString());
+        List<String> userNames = new ArrayList<String>();
+        for (Integer c = 1; c <= inviteForm.getItemPropertyIds().size(); c++) {
+            if (inviteForm.getItemProperty("user" + c.toString()) != null) {
+                if (inviteForm.getItemProperty("user" + c.toString())
+                        .getValue().toString().contains("@")) {
+                    emails.add(inviteForm
+                            .getItemProperty("user" + c.toString()).getValue()
+                            .toString());
+                } else {
+                    userNames.add(inviteForm.getItemProperty(
+                            "user" + c.toString()).getValue().toString());
                 }
             }
         }
-        
+
         try {
-            tenantFacade.inviteUsersAsMembers((Long)tenant.getItemProperty("id").getValue(), emails, userNames);
+            tenantFacade.inviteUsersAsMembers((Long) tenant.getItemProperty(
+                    "id").getValue(), emails, userNames);
         } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
     }
 

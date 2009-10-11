@@ -27,51 +27,54 @@ import de.decidr.ui.controller.ShowRegisterUserAction;
 
 /**
  * Here the user can choose if he wants to register a new tenant or a new user.
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
 public class RegistrationComponent extends CustomComponent {
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
-    
+
     private Label descriptionLabel = null;
-    
+
     private Button registerUser = null;
     private Button registerTenant = null;
-    
+
     /**
      * Default constructor
-     *
+     * 
      */
-    public RegistrationComponent(){
+    public RegistrationComponent() {
         init();
     }
-    
+
     /**
      * This method initializes the components of the registration component
-     *
+     * 
      */
-    private void init(){
+    private void init() {
         verticalLayout = new VerticalLayout();
         verticalLayout.setSizeFull();
         verticalLayout.setSpacing(true);
         this.setCompositionRoot(verticalLayout);
-        
-        descriptionLabel = new Label("Please select what you want to do:",Label.CONTENT_XHTML);
-        
-        registerTenant = new Button ("create new tenant", new ShowRegisterTenantAction());
+
+        descriptionLabel = new Label("Please select what you want to do:",
+                Label.CONTENT_XHTML);
+
+        registerTenant = new Button("create new tenant",
+                new ShowRegisterTenantAction());
         registerTenant.setStyle(Button.STYLE_LINK);
-        
-        registerUser = new Button("create new user", new ShowRegisterUserAction());
+
+        registerUser = new Button("create new user",
+                new ShowRegisterUserAction());
         registerUser.setStyle(Button.STYLE_LINK);
-        
+
         horizontalLayout = new HorizontalLayout();
         horizontalLayout.setSpacing(true);
         horizontalLayout.addComponent(registerUser);
         horizontalLayout.addComponent(registerTenant);
         horizontalLayout.setComponentAlignment(registerUser, "center bottom");
         horizontalLayout.setComponentAlignment(registerTenant, "center bottom");
-        
+
         verticalLayout.addComponent(descriptionLabel);
         verticalLayout.addComponent(horizontalLayout);
     }

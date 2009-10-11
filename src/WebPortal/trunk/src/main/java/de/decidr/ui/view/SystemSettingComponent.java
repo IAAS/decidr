@@ -20,7 +20,6 @@ import java.util.Arrays;
 import com.vaadin.data.Item;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.IntegerValidator;
-import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -72,7 +71,7 @@ public class SystemSettingComponent extends CustomComponent {
     private Slider changeEmailSlider = null;
     private Slider invitationSlider = null;
     private Slider maxAttachmentSlider = null;
-    //TODO: weitere settings hinzufügen
+    // TODO: weitere settings hinzufügen
     private Button saveButton = null;
 
     /**
@@ -83,17 +82,60 @@ public class SystemSettingComponent extends CustomComponent {
         init();
     }
 
-    /**
-     * Updates all changes since the previous commit to the data source.
-     * 
-     */
-    public void saveSettingsItem() {
-        try {
-            settingsForm.commit();
+    private void fillForm() {
+        settingsForm.addField(settingsItem.getItemProperty("logLevel"),
+                nativeSelect);
+        settingsForm.addField(settingsItem
+                .getItemProperty("autoAcceptNewTenants"), checkBox);
+        settingsForm.addField(settingsItem.getItemProperty("systemName"),
+                systemNameTextField);
+        settingsForm.getField(settingsItem.getItemProperty("systemName"))
+                .setValue("DecidR");
+        settingsForm.addField(settingsItem.getItemProperty("domain"),
+                domainTextField);
+        settingsForm.addField(settingsItem
+                .getItemProperty("systemEmailAddress"),
+                systemEmailAddressTextField);
+        settingsForm.getField(
+                settingsItem.getItemProperty("systemEmailAddress"))
+                .addValidator(
+                        new EmailValidator(
+                                "Please enter a valid email address!"));
+        settingsForm.addField(settingsItem
+                .getItemProperty("passwordResetRequestLifeTimeSeconds"),
+                passwordResetSlider);
+        settingsForm.addField(settingsItem
+                .getItemProperty("registrationRequestLifetimeSeconds"),
+                registrationSlider);
+        settingsForm.addField(settingsItem
+                .getItemProperty("changeEmailRequestLifetimeSeconds"),
+                changeEmailSlider);
+        settingsForm
+                .addField(settingsItem
+                        .getItemProperty("invitationLifetimeSeconds"),
+                        invitationSlider);
+        settingsForm.addField(settingsItem.getItemProperty("mtaHostname"),
+                mtaHostnameTextField);
+        settingsForm.addField(settingsItem.getItemProperty("mtaPort"),
+                mtaPortTextField);
+        settingsForm.getField(settingsItem.getItemProperty("mtaPort"))
+                .addValidator(
+                        new IntegerValidator("Please enter a valid integer!"));
+        settingsForm.addField(settingsItem.getItemProperty("mtaUseTls"),
+                mtaUseTlsCheckBox);
+        settingsForm.addField(settingsItem.getItemProperty("mtaUsername"),
+                mtaUsernameTextField);
+        settingsForm.addField(settingsItem.getItemProperty("mtaPassword"),
+                mtaPasswordTextField);
+        settingsForm.addField(settingsItem
+                .getItemProperty("maxUploadFileSizeByte"),
+                maxUploadSizeTextField);
+        settingsForm.addField(settingsItem
+                .getItemProperty("maxAttachmentSlider"), maxAttachmentSlider);
+    }
 
-        } catch (Exception e) {
-            Main.getCurrent().getMainWindow().showNotification(e.getMessage());
-        }
+    public Form getSettingsForm() {
+        return settingsForm;
     }
 
     /**
@@ -158,60 +200,17 @@ public class SystemSettingComponent extends CustomComponent {
         verticalLayout.setComponentAlignment(saveButton, Alignment.BOTTOM_LEFT);
     }
 
-    private void fillForm() {
-        settingsForm.addField(settingsItem.getItemProperty("logLevel"),
-                nativeSelect);
-        settingsForm.addField(settingsItem
-                .getItemProperty("autoAcceptNewTenants"), checkBox);
-        settingsForm.addField(settingsItem.getItemProperty("systemName"),
-                systemNameTextField);
-        settingsForm.getField(settingsItem.getItemProperty("systemName"))
-                .setValue("DecidR");
-        settingsForm.addField(settingsItem.getItemProperty("domain"),
-                domainTextField);
-        settingsForm.addField(settingsItem
-                .getItemProperty("systemEmailAddress"),
-                systemEmailAddressTextField);
-        settingsForm.getField(
-                settingsItem.getItemProperty("systemEmailAddress"))
-                .addValidator(
-                        new EmailValidator(
-                                "Please enter a valid email address!"));
-        settingsForm.addField(settingsItem
-                .getItemProperty("passwordResetRequestLifeTimeSeconds"),
-                passwordResetSlider);
-        settingsForm.addField(settingsItem
-                .getItemProperty("registrationRequestLifetimeSeconds"),
-                registrationSlider);
-        settingsForm.addField(settingsItem
-                .getItemProperty("changeEmailRequestLifetimeSeconds"),
-                changeEmailSlider);
-        settingsForm
-                .addField(settingsItem
-                        .getItemProperty("invitationLifetimeSeconds"),
-                        invitationSlider);
-        settingsForm.addField(settingsItem.getItemProperty("mtaHostname"),
-                mtaHostnameTextField);
-        settingsForm.addField(settingsItem.getItemProperty("mtaPort"),
-                mtaPortTextField);
-        settingsForm.getField(settingsItem.getItemProperty("mtaPort"))
-                .addValidator(
-                        new IntegerValidator("Please enter a valid integer!"));
-        settingsForm.addField(settingsItem.getItemProperty("mtaUseTls"),
-                mtaUseTlsCheckBox);
-        settingsForm.addField(settingsItem.getItemProperty("mtaUsername"),
-                mtaUsernameTextField);
-        settingsForm.addField(settingsItem.getItemProperty("mtaPassword"),
-                mtaPasswordTextField);
-        settingsForm.addField(settingsItem
-                .getItemProperty("maxUploadFileSizeByte"),
-                maxUploadSizeTextField);
-        settingsForm.addField(settingsItem
-                .getItemProperty("maxAttachmentSlider"), maxAttachmentSlider);
-    }
+    /**
+     * Updates all changes since the previous commit to the data source.
+     * 
+     */
+    public void saveSettingsItem() {
+        try {
+            settingsForm.commit();
 
-    public Form getSettingsForm() {
-        return settingsForm;
+        } catch (Exception e) {
+            Main.getCurrent().getMainWindow().showNotification(e.getMessage());
+        }
     }
 
 }

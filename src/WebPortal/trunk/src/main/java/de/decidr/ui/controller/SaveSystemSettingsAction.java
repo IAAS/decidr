@@ -25,7 +25,6 @@ package de.decidr.ui.controller;
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Item;
-import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -47,7 +46,6 @@ public class SaveSystemSettingsAction implements ClickListener {
 
     private SystemSettingComponent content = null;
     private Item item = null;
-    
 
     /*
      * (non-Javadoc)
@@ -63,7 +61,6 @@ public class SaveSystemSettingsAction implements ClickListener {
                 .getTemplateView().getContent();
         content.saveSettingsItem();
         item = content.getSettingsItem();
-        
 
         settings
                 .setAutoAcceptNewTenants(Boolean.parseBoolean(item
@@ -100,7 +97,7 @@ public class SaveSystemSettingsAction implements ClickListener {
         settings.setRegistrationRequestLifetimeSeconds(Integer.parseInt(item
                 .getItemProperty("registrationRequestLifetimeSecond")
                 .getValue().toString()));
-//TODO: weitere settings speichern
+        // TODO: weitere settings speichern
         try {
             systemFacade.setSettings(settings);
         } catch (TransactionException e) {

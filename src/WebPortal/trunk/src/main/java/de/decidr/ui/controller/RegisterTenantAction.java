@@ -40,7 +40,7 @@ public class RegisterTenantAction implements ClickListener {
 
     private Long userId = null;
     private RegisterTenantComponent content = null;
-    
+
     private UserProfile userProfile = null;
 
     /*
@@ -60,7 +60,8 @@ public class RegisterTenantAction implements ClickListener {
                     .getRegistrationForm().getItemProperty("password")
                     .getValue().toString(), fillUserProfile());
         } catch (NullPointerException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
             e.printStackTrace();
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
@@ -75,15 +76,21 @@ public class RegisterTenantAction implements ClickListener {
                     new TransactionErrorDialogComponent());
         }
     }
-    
-    private UserProfile fillUserProfile(){
+
+    private UserProfile fillUserProfile() {
         userProfile = new UserProfile();
-        userProfile.setFirstName(content.getRegistrationForm().getItemProperty("firstName").getValue().toString());
-        userProfile.setLastName(content.getRegistrationForm().getItemProperty("lastName").getValue().toString());
-        userProfile.setCity(content.getRegistrationForm().getItemProperty("city").getValue().toString());
-        userProfile.setPostalCode(content.getRegistrationForm().getItemProperty("postalCode").getValue().toString());
-        userProfile.setStreet(content.getRegistrationForm().getItemProperty("street").getValue().toString());
-        userProfile.setUsername(content.getRegistrationForm().getItemProperty("userName").getValue().toString());
+        userProfile.setFirstName(content.getRegistrationForm().getItemProperty(
+                "firstName").getValue().toString());
+        userProfile.setLastName(content.getRegistrationForm().getItemProperty(
+                "lastName").getValue().toString());
+        userProfile.setCity(content.getRegistrationForm().getItemProperty(
+                "city").getValue().toString());
+        userProfile.setPostalCode(content.getRegistrationForm()
+                .getItemProperty("postalCode").getValue().toString());
+        userProfile.setStreet(content.getRegistrationForm().getItemProperty(
+                "street").getValue().toString());
+        userProfile.setUsername(content.getRegistrationForm().getItemProperty(
+                "userName").getValue().toString());
         return userProfile;
     }
 }

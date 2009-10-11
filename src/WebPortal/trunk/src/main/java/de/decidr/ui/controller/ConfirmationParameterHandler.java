@@ -32,86 +32,118 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * This paramter handler handles the url for confirming users. If a users has to 
- * confirm his registration he gets a special link. This link has a special syntax.
- * To extract the information from the url this parameter handler is used.
- *
+ * This paramter handler handles the url for confirming users. If a users has to
+ * confirm his registration he gets a special link. This link has a special
+ * syntax. To extract the information from the url this parameter handler is
+ * used.
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
 public class ConfirmationParameterHandler implements ParameterHandler {
-    
-	private HttpSession session = null;
-	
-	private UserFacade userFacade = null;
-	
-	private String confirmationId = null;
-	private String userId = null;
-	private String action = null;
-	
+
+    private HttpSession session = null;
+
+    private UserFacade userFacade = null;
+
+    private String confirmationId = null;
+    private String userId = null;
+    private String action = null;
+
     String key = null;
     String value = null;
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.terminal.ParameterHandler#handleParameters(java.util.Map)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void handleParameters(Map parameters) {
-    	confirmationId = null;
-    	userId = null;
-        for (Iterator<?> it = parameters.keySet().iterator(); it.hasNext();) {
-            key   = (String) it.next();
+        confirmationId = null;
+        userId = null;
+        for (Iterator<String> it = parameters.keySet().iterator(); it.hasNext();) {
+            key = it.next();
             value = ((String[]) parameters.get(key))[0];
-            if(key.equals(DecidrGlobals.URL_PARAM_USER_ID)){
-            	userId = value;
-            }else if(key.equals(DecidrGlobals.URL_PARAM_CHANGE_EMAIL_REQUEST_ID)){
-            	confirmationId = value;
-            	action = "email";
-            }else if(key.equals(DecidrGlobals.URL_PARAM_CONFIRM_REGISTRATION_ID)){
-            	confirmationId = value;
-            	action = "reg";
-            }else if(key.equals(DecidrGlobals.URL_PARAM_PASSWORD_RESET_REQUEST_ID)){
-            	confirmationId = value;
-            	action = "pass";
+            if (key.equals(DecidrGlobals.URL_PARAM_USER_ID)) {
+                userId = value;
+            } else if (key
+                    .equals(DecidrGlobals.URL_PARAM_CHANGE_EMAIL_REQUEST_ID)) {
+                confirmationId = value;
+                action = "email";
+            } else if (key
+                    .equals(DecidrGlobals.URL_PARAM_CONFIRM_REGISTRATION_ID)) {
+                confirmationId = value;
+                action = "reg";
+            } else if (key
+                    .equals(DecidrGlobals.URL_PARAM_PASSWORD_RESET_REQUEST_ID)) {
+                confirmationId = value;
+                action = "pass";
             }
         }
-        
-        if (confirmationId != null){
-        	session = Main.getCurrent().getSession();
-        	userFacade = new UserFacade(new UserRole(Long.parseLong(userId)));
-        	        	
-        	if(action.equals("email")){
-        		try {
-					userFacade.confirmChangeEmailRequest(Long.parseLong(userId), confirmationId);
-					Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent("Your email address has been successfully changed!", "Email Changed!"));
-				} catch (NumberFormatException e) {
-				        Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
-				} catch (TransactionException e) {
-					Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
-				}
-        	}else if(action.equals("pass")){
-        		try {
-					userFacade.confirmPasswordReset(Long.parseLong(userId), confirmationId);
-					Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent("A new password has been created and sent to your email address.", "Password Reset Confirmed!"));
-				} catch (NumberFormatException e) {
-				    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
-					e.printStackTrace();
-				} catch (TransactionException e) {
-					Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
-				}
-        	}else if(action.equals("reg")){
-        		try {
-					userFacade.confirmRegistration(Long.parseLong(userId), confirmationId);
-					Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent("You successfully completed your registration!<br>You can now login with your account.", "Registration Complete!"));
-				} catch (NumberFormatException e) {
-				    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
-					e.printStackTrace();
-				} catch (TransactionException e) {
-					Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
-				}
-        	}
+
+        if (confirmationId != null) {
+            session = Main.getCurrent().getSession();
+            userFacade = new UserFacade(new UserRole(Long.parseLong(userId)));
+
+            if (action.equals("email")) {
+                try {
+                    userFacade.confirmChangeEmailRequest(
+                            Long.parseLong(userId), confirmationId);
+                    Main
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "Your email address has been successfully changed!",
+                                            "Email Changed!"));
+                } catch (NumberFormatException e) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new TransactionErrorDialogComponent());
+                } catch (TransactionException e) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new TransactionErrorDialogComponent());
+                }
+            } else if (action.equals("pass")) {
+                try {
+                    userFacade.confirmPasswordReset(Long.parseLong(userId),
+                            confirmationId);
+                    Main
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "A new password has been created and sent to your email address.",
+                                            "Password Reset Confirmed!"));
+                } catch (NumberFormatException e) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new TransactionErrorDialogComponent());
+                    e.printStackTrace();
+                } catch (TransactionException e) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new TransactionErrorDialogComponent());
+                }
+            } else if (action.equals("reg")) {
+                try {
+                    userFacade.confirmRegistration(Long.parseLong(userId),
+                            confirmationId);
+                    Main
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "You successfully completed your registration!<br>You can now login with your account.",
+                                            "Registration Complete!"));
+                } catch (NumberFormatException e) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new TransactionErrorDialogComponent());
+                    e.printStackTrace();
+                } catch (TransactionException e) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new TransactionErrorDialogComponent());
+                }
+            }
         }
-
-
 
     }
 

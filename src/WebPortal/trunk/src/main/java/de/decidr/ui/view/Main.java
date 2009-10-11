@@ -25,60 +25,17 @@ import com.vaadin.ui.Window;
 
 import de.decidr.ui.controller.ConfirmationParameterHandler;
 import de.decidr.ui.controller.InvitationParameterHandler;
-import de.decidr.ui.controller.MyParamterHandler;
 import de.decidr.ui.controller.UIDirector;
 
 /**
- * This is the main class. When calling the DecidR web site this class
- * is called first and initialized.
+ * This is the main class. When calling the DecidR web site this class is called
+ * first and initialized.
  * 
  * @author AT
  */
-public class Main extends Application implements TransactionListener{
+public class Main extends Application implements TransactionListener {
 
-    
     private static final long serialVersionUID = 2668887930201158755L;
-    
-    private ApplicationContext ctx = null;
-    private WebApplicationContext webCtx = null;
-    private HttpSession session = null;
-
-    private static ThreadLocal<Main> currentApplication = new ThreadLocal<Main>();
-
-    Window main = new Window();
-    UIBuilder ui = new SuperAdminViewBuilder();
-    UIDirector director = UIDirector.getInstance();
-    
-
-    /* (non-Javadoc)
-     * @see com.vaadin.Application#init()
-     */
-    @Override
-    public void init() {
-        setMainWindow(main);
-        
-        main.addParameterHandler(new InvitationParameterHandler());
-        main.addParameterHandler(new ConfirmationParameterHandler());
-        
-        setTheme("decidr");
-        
-        director.setUiBuilder(ui);
-        director.createNewView();
-        director.constructView();
-        main.addComponent(director.getTemplateView());
-        if (getContext() != null) {
-            getContext().addTransactionListener(this);
-        }   
-        ctx = getContext();
-        webCtx = (WebApplicationContext)ctx;        
-        session = webCtx.getHttpSession();
-        
-        
-    }
-    
-
-   
-
 
     /**
      * Returns the current application instance.
@@ -90,6 +47,13 @@ public class Main extends Application implements TransactionListener{
     }
 
     /**
+     * Remove the current application instance
+     */
+    public static void removeCurrent() {
+        currentApplication.remove();
+    }
+
+    /**
      * Set the current application instance
      */
     public static void setCurrent(Main application) {
@@ -98,11 +62,52 @@ public class Main extends Application implements TransactionListener{
         }
     }
 
+    private ApplicationContext ctx = null;
+
+    private WebApplicationContext webCtx = null;
+    private HttpSession session = null;
+    private static ThreadLocal<Main> currentApplication = new ThreadLocal<Main>();
+
+    Window main = new Window();
+
+    UIBuilder ui = new SuperAdminViewBuilder();
+
+    UIDirector director = UIDirector.getInstance();
+
     /**
-     * Remove the current application instance
+     * Returns the session from the depending DecidR instance.
+     * 
+     * @return session
      */
-    public static void removeCurrent() {
-        currentApplication.remove();
+    public HttpSession getSession() {
+        return session;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.Application#init()
+     */
+    @Override
+    public void init() {
+        setMainWindow(main);
+
+        main.addParameterHandler(new InvitationParameterHandler());
+        main.addParameterHandler(new ConfirmationParameterHandler());
+
+        setTheme("decidr");
+
+        director.setUiBuilder(ui);
+        director.createNewView();
+        director.constructView();
+        main.addComponent(director.getTemplateView());
+        if (getContext() != null) {
+            getContext().addTransactionListener(this);
+        }
+        ctx = getContext();
+        webCtx = (WebApplicationContext) ctx;
+        session = webCtx.getHttpSession();
+
     }
 
     /*
@@ -130,21 +135,5 @@ public class Main extends Application implements TransactionListener{
         Main.setCurrent(this);
 
     }
-    
-    /**
-     * Returns the session from the depending DecidR instance.
-     *
-     * @return session
-     */
-    public HttpSession getSession(){
-        return session;
-    }
-    
-    
-
-
-
-
-    
 
 }

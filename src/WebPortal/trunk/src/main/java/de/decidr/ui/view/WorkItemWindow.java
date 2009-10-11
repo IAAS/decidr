@@ -64,47 +64,6 @@ public class WorkItemWindow extends Window {
     }
 
     /**
-     * Initializes the components for the window and fills the form with the
-     * information from the THumanTaskData.
-     * 
-     * @param tHumanTaskData
-     */
-    private void init(THumanTaskData tHumanTaskData) {
-        verticalLayout = new VerticalLayout();
-
-        horizontalLayout = new HorizontalLayout();
-
-        label = new Label();
-
-        itemForm = new Form();
-        
-        fillForm(tHumanTaskData);
-
-        okButton = new Button("OK", new SaveWorkItemAction(itemForm, tHumanTaskData));
-        cancelButton = new Button("Cancel", new HideDialogWindowAction());
-
-        verticalLayout.addComponent(label);
-
-        verticalLayout.addComponent(itemForm);
-
-        horizontalLayout.addComponent(okButton);
-        horizontalLayout.addComponent(cancelButton);
-
-        verticalLayout.addComponent(horizontalLayout);
-
-        
-    }
-
-    /**
-     * Returns the item form
-     * 
-     * @return itemForm
-     */
-    public Form getItemForm() {
-        return itemForm;
-    }
-
-    /**
      * Fills the form with the specific settings from the THumanTaskData. For
      * every simple type an other Field is added to the form and if necessary a
      * validator is added, so the user can't enter invalid values. Also a
@@ -164,6 +123,47 @@ public class WorkItemWindow extends Window {
                 }
             }
         }
+    }
+
+    /**
+     * Returns the item form
+     * 
+     * @return itemForm
+     */
+    public Form getItemForm() {
+        return itemForm;
+    }
+
+    /**
+     * Initializes the components for the window and fills the form with the
+     * information from the THumanTaskData.
+     * 
+     * @param tHumanTaskData
+     */
+    private void init(THumanTaskData tHumanTaskData) {
+        verticalLayout = new VerticalLayout();
+
+        horizontalLayout = new HorizontalLayout();
+
+        label = new Label();
+
+        itemForm = new Form();
+
+        fillForm(tHumanTaskData);
+
+        okButton = new Button("OK", new SaveWorkItemAction(itemForm,
+                tHumanTaskData));
+        cancelButton = new Button("Cancel", new HideDialogWindowAction());
+
+        verticalLayout.addComponent(label);
+
+        verticalLayout.addComponent(itemForm);
+
+        horizontalLayout.addComponent(okButton);
+        horizontalLayout.addComponent(cancelButton);
+
+        verticalLayout.addComponent(horizontalLayout);
+
     }
 
 }

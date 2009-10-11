@@ -24,22 +24,25 @@ import de.decidr.ui.view.WorkItemComponent;
 
 /**
  * This action shows the WorkItemComponent in the content area
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
 @SuppressWarnings("serial")
 public class ShowMyWorkitemsAction implements ClickListener {
-    
+
     private UIDirector uiDirector = UIDirector.getInstance();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
         siteFrame.setContent(new WorkItemComponent());
 
     }
-    
+
 }

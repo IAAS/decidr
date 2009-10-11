@@ -39,98 +39,96 @@ import de.decidr.ui.view.UserViewBuilder;
 import de.decidr.ui.view.WorkflowAdminViewBuilder;
 
 /**
- * This class handles the login for the web application. If a user
- * logs in one tenant will be selected which the user belongs to. 
- * Only if the login is successful the specific user interface will
- * be loaded. The user interface which will be loaded depends on the 
- * user's role. Simultaneously the specific tenant theme will be loaded.
- * Also the user id, the tenant name and the user's role will be stored
- * in the session. So these information are accessible application wide.
- *
+ * This class handles the login for the web application. If a user logs in one
+ * tenant will be selected which the user belongs to. Only if the login is
+ * successful the specific user interface will be loaded. The user interface
+ * which will be loaded depends on the user's role. Simultaneously the specific
+ * tenant theme will be loaded. Also the user id, the tenant name and the user's
+ * role will be stored in the session. So these information are accessible
+ * application wide.
+ * 
  * @author AT
  */
 public class Login {
-    
+
     private UIDirector uiDirector = UIDirector.getInstance();
     private UIBuilder uiBuilder = null;
-    
+
     private UserFacade userFacade = new UserFacade(new UserRole());
-    
+
     private Long userId = null;
     private List<Item> tenantList = null;
     private Item tenantItem = null;
     private Class<? extends Role> role = null;
     private String tenantName = null;
-    
+
     private TenantView tenantView = null;
-    
-    
+
     /**
-     * The method generates the session and checks if the given username and 
-     * password are stored in the database and are correct. If login is successful 
-     * the user id, the tenant name and the user's role is stored in the session 
-     * and the tenant specific theme will be loaded.
-     *
-     * @param username - Username of the user which logs into the application
-     * @param password - Password of the user which logs into the application
+     * The method generates the session and checks if the given username and
+     * password are stored in the database and are correct. If login is
+     * successful the user id, the tenant name and the user's role is stored in
+     * the session and the tenant specific theme will be loaded.
+     * 
+     * @param username
+     *            - Username of the user which logs into the application
+     * @param password
+     *            - Password of the user which logs into the application
      * @throws TransactionException
      */
-    public void authenticate(String username, String password) throws TransactionException{
-        
-            ApplicationContext ctx = Main.getCurrent().getContext();
-            WebApplicationContext webCtx = (WebApplicationContext)ctx;
-            HttpSession session = webCtx.getHttpSession();
-            
-            userId = userFacade.getUserIdByLogin(username, password);
-            tenantList = userFacade.getJoinedTenants(userId);
-            if(!tenantList.isEmpty()){
-                tenantItem = tenantList.get(0);
-                tenantName = (String)tenantItem.getItemProperty("name").getValue();
-            }
-            role = userFacade.getUserRoleForTenant(userId, (Long)tenantItem.getItemProperty("id").getValue());
-            username = (String)userFacade.getUserProfile(userId).getItemProperty("username").getValue();
-            
-            session.setAttribute("userId", userId);
-            session.setAttribute("tenant", tenantName);
-            session.setAttribute("role", role);
-            Main.getCurrent().setUser(username);
-            
-            
-            
-            loadProtectedResources();
-       
+    public void authenticate(String username, String password)
+            throws TransactionException {
+
+        ApplicationContext ctx = Main.getCurrent().getContext();
+        WebApplicationContext webCtx = (WebApplicationContext) ctx;
+        HttpSession session = webCtx.getHttpSession();
+
+        userId = userFacade.getUserIdByLogin(username, password);
+        tenantList = userFacade.getJoinedTenants(userId);
+        if (!tenantList.isEmpty()) {
+            tenantItem = tenantList.get(0);
+            tenantName = (String) tenantItem.getItemProperty("name").getValue();
+        }
+        role = userFacade.getUserRoleForTenant(userId, (Long) tenantItem
+                .getItemProperty("id").getValue());
+        username = (String) userFacade.getUserProfile(userId).getItemProperty(
+                "username").getValue();
+
+        session.setAttribute("userId", userId);
+        session.setAttribute("tenant", tenantName);
+        session.setAttribute("role", role);
+        Main.getCurrent().setUser(username);
+
+        loadProtectedResources();
+
     }
 
     /**
      * Loads the protected resources if and only if the user is logged in.
-     *
+     * 
      */
     private void loadProtectedResources() {
-        if(role.getClass().equals(UserRole.class)){
+        if (role.getClass().equals(UserRole.class)) {
             uiBuilder = new UserViewBuilder();
             uiDirector.setUiBuilder(uiBuilder);
             uiDirector.constructView();
-        }
-        else if(role.getClass().equals(WorkflowAdminRole.class)){
+        } else if (role.getClass().equals(WorkflowAdminRole.class)) {
             uiBuilder = new WorkflowAdminViewBuilder();
             uiDirector.setUiBuilder(uiBuilder);
             uiDirector.constructView();
-        }
-        else if(role.getClass().equals(TenantAdminRole.class)){
+        } else if (role.getClass().equals(TenantAdminRole.class)) {
             uiBuilder = new TenantAdminViewBuilder();
             uiDirector.setUiBuilder(uiBuilder);
             uiDirector.constructView();
-        }
-        else if(role.getClass().equals(SuperAdminRole.class)){
+        } else if (role.getClass().equals(SuperAdminRole.class)) {
             uiBuilder = new SuperAdminViewBuilder();
             uiDirector.setUiBuilder(uiBuilder);
             uiDirector.constructView();
         }
-        
+
         tenantView = new TenantView();
         tenantView.synchronize();
         Main.getCurrent().setTheme(tenantName);
     }
-    
 
 }

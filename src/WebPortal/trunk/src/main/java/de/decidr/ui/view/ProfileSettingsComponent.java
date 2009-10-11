@@ -54,6 +54,56 @@ import de.decidr.ui.controller.ShowLeaveTenantDialogAction;
  */
 public class ProfileSettingsComponent extends CustomComponent {
 
+    /**
+     * This FieldFactory creates the input fields of the Form used above
+     * 
+     * @author Geoffrey-Alexeij Heinze
+     */
+    private class SettingsFieldFactory extends BaseFieldFactory {
+
+        @Override
+        public Field createField(Item item, Object propertyId,
+                Component uiContext) {
+            Field field = super.createField(item, propertyId, uiContext);
+
+            if ("firstName".equals(propertyId)) {
+                TextField tf = (TextField) field;
+                tf.setRequired(true);
+                tf
+                        .addValidator(new StringLengthValidator(
+                                "Please enter your forename. Your forename may contain up to 50 characters",
+                                0, 50, false));
+                tf.setCaption("First Name");
+                tf.setColumns(30);
+            } else if ("lastName".equals(propertyId)) {
+                TextField tf = (TextField) field;
+                tf.setRequired(true);
+                tf
+                        .addValidator(new StringLengthValidator(
+                                "Please enter your surename. Your surename may contain up to 50 characters",
+                                0, 50, false));
+                tf.setCaption("Last Name");
+                tf.setColumns(30);
+            } else if ("street".equals(propertyId)) {
+                TextField tf = (TextField) field;
+                tf.setCaption("Street");
+                tf.setColumns(30);
+            } else if ("postalCode".equals(propertyId)) {
+                TextField tf = (TextField) field;
+                tf.addValidator(new RegexpValidator("[1-9][0-9]{4,15}",
+                        "Please enter only numbers"));
+                tf.setCaption("Postal Code");
+                tf.setColumns(30);
+            } else if ("city".equals(propertyId)) {
+                TextField tf = (TextField) field;
+                tf.setCaption("City");
+                tf.setColumns(30);
+            }
+
+            return field;
+        }
+    }
+
     private Item settingsItem = null;
 
     private HttpSession session = null;
@@ -68,47 +118,44 @@ public class ProfileSettingsComponent extends CustomComponent {
 	 * 
 	 */
     private static final long serialVersionUID = 1L;
-
     private Panel profilePanel = null;
     private Panel addressPanel = null;
     private Panel formPanel = null;
     private Panel buttonPanel = null;
     private Panel usernamePanel = null;
-    private Panel profileButtonPanel = null;
 
+    private Panel profileButtonPanel = null;
     private VerticalLayout verticalLayout = null;
     private GridLayout usernameGridLayout = null;
     private VerticalLayout addressVerticalLayout = null;
     private VerticalLayout profileVerticalLayout = null;
     private VerticalLayout formVerticalLayout = null;
     private HorizontalLayout buttonHorizontalLayout = null;
-    private HorizontalLayout profileButtonHorizontalLayout = null;
 
+    private HorizontalLayout profileButtonHorizontalLayout = null;
     private Label myProfileLabel = null;
     private Label usernameLabel = null;
     private Label emailLabel = null;
     private Label usernameNameLabel = null;
     private Label emailNameLabel = null;
-    private Label addressDataLabel = null;
 
+    private Label addressDataLabel = null;
     private Button changeEmailLink = null;
     private Button changePasswordLink = null;
     private Button leaveTenantLink = null;
+
     private Button cancelMembershipLink = null;
 
     private Button saveButton = null;
 
     private CheckBox statusCheckBox = null;
 
-    // TODO: make private when no longer needed for testing
-    public void saveSettingsItem() {
-        try {
-            settingsForm.commit();
-
-        } catch (Exception e) {
-            Main.getCurrent().getMainWindow().showNotification(e.getMessage());
-        }
-
+    /**
+     * Default constructor
+     * 
+     */
+    public ProfileSettingsComponent() {
+        init();
     }
 
     /**
@@ -130,14 +177,6 @@ public class ProfileSettingsComponent extends CustomComponent {
         return statusCheckBox;
     }
 
-    /**
-     * Default constructor
-     * 
-     */
-    public ProfileSettingsComponent() {
-        init();
-    }
-    
     /**
      * This method initializes the components of the profile settings component
      * 
@@ -253,54 +292,15 @@ public class ProfileSettingsComponent extends CustomComponent {
         buttonHorizontalLayout.addComponent(cancelMembershipLink);
     }
 
-    /**
-     * This FieldFactory creates the input fields of the Form used above
-     * 
-     * @author Geoffrey-Alexeij Heinze
-     */
-    private class SettingsFieldFactory extends BaseFieldFactory {
+    // TODO: make private when no longer needed for testing
+    public void saveSettingsItem() {
+        try {
+            settingsForm.commit();
 
-        public Field createField(Item item, Object propertyId,
-                Component uiContext) {
-            Field field = super.createField(item, propertyId, uiContext);
-
-            if ("firstName".equals(propertyId)) {
-                TextField tf = (TextField) field;
-                tf.setRequired(true);
-                tf
-                        .addValidator(new StringLengthValidator(
-                                "Please enter your forename. Your forename may contain up to 50 characters",
-                                0, 50, false));
-                tf.setCaption("First Name");
-                tf.setColumns(30);
-            } else if ("lastName".equals(propertyId)) {
-                TextField tf = (TextField) field;
-                tf.setRequired(true);
-                tf
-                        .addValidator(new StringLengthValidator(
-                                "Please enter your surename. Your surename may contain up to 50 characters",
-                                0, 50, false));
-                tf.setCaption("Last Name");
-                tf.setColumns(30);
-            } else if ("street".equals(propertyId)) {
-                TextField tf = (TextField) field;
-                tf.setCaption("Street");
-                tf.setColumns(30);
-            } else if ("postalCode".equals(propertyId)) {
-                TextField tf = (TextField) field;
-                tf.addValidator(new RegexpValidator("[1-9][0-9]{4,15}",
-                        "Please enter only numbers"));
-                tf.setCaption("Postal Code");
-                tf.setColumns(30);
-            } else if ("city".equals(propertyId)) {
-                TextField tf = (TextField) field;
-                tf.setCaption("City");
-                tf.setColumns(30);
-            }
-            
-            return field;
+        } catch (Exception e) {
+            Main.getCurrent().getMainWindow().showNotification(e.getMessage());
         }
+
     }
-    
-    
+
 }

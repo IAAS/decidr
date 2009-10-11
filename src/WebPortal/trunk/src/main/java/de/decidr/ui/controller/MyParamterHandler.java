@@ -23,36 +23,35 @@ import com.vaadin.terminal.ParameterHandler;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author AT
  */
 public class MyParamterHandler implements ParameterHandler {
-    
+
     String key = null;
     String value = null;
 
-    /* (non-Javadoc)
-     * @see com.vaadin.terminal.ParameterHandler#handleParameters(java.util.Map)
-     */
-    @Override
-    public void handleParameters(Map parameters) {
-        for (Iterator it = parameters.keySet().iterator(); it.hasNext();) {
-            key   = (String) it.next();
-            value = ((String[]) parameters.get(key))[0];
-            
-        }
-
-
-
-    }
-
     /**
      * TODO: add comment
-     *
+     * 
      * @return
      */
     public String getKey() {
         return key;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.terminal.ParameterHandler#handleParameters(java.util.Map)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void handleParameters(Map parameters) {
+        for (Iterator<String> it = parameters.keySet().iterator(); it.hasNext();) {
+            key = it.next();
+            value = ((String[]) parameters.get(key))[0];
+        }
     }
 
 }

@@ -59,54 +59,6 @@ public class UploadTenantLogoAction implements Upload.SucceededListener,
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.vaadin.ui.Upload.SucceededListener#uploadSucceeded(com.vaadin.ui.
-     * Upload.SucceededEvent)
-     */
-    @Override
-    public void uploadSucceeded(SucceededEvent event) {
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(file);
-            int index = file.getCanonicalPath().indexOf('.');
-            String suffix = file.getCanonicalPath().substring(index);
-
-            tenant = (Item) session.getAttribute("tenant");
-            
-            HashSet<Class<? extends FilePermission>> filePermission = new HashSet<Class<? extends FilePermission>>();
-            filePermission.add(FileReadPermission.class);
-            Long fileId = fileFacade.createFile(fis, event.getLength(), event.getFilename(), event
-                    .getMIMEType(), true, filePermission);
-            de.decidr.model.entities.File file = fileFacade.getFileInfo(fileId);
-            tenantFacade.setLogo(
-                    (Long) tenant.getItemProperty("id").getValue(), file
-                            .getId());
-
-        } catch (final java.io.FileNotFoundException e) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
-        } catch (TransactionException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
-        } catch (IOException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.vaadin.ui.Upload.FailedListener#uploadFailed(com.vaadin.ui.Upload
-     * .FailedEvent)
-     */
-    @Override
-    public void uploadFailed(FailedEvent event) {
-        Main.getCurrent().getMainWindow().addWindow(
-                new TransactionErrorDialogComponent());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see com.vaadin.ui.Upload.Receiver#receiveUpload(java.lang.String,
      * java.lang.String)
      */
@@ -125,6 +77,54 @@ public class UploadTenantLogoAction implements Upload.SucceededListener,
 
         return fos;
 
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.vaadin.ui.Upload.FailedListener#uploadFailed(com.vaadin.ui.Upload
+     * .FailedEvent)
+     */
+    @Override
+    public void uploadFailed(FailedEvent event) {
+        Main.getCurrent().getMainWindow().addWindow(
+                new TransactionErrorDialogComponent());
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.vaadin.ui.Upload.SucceededListener#uploadSucceeded(com.vaadin.ui.
+     * Upload.SucceededEvent)
+     */
+    @Override
+    public void uploadSucceeded(SucceededEvent event) {
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+            int index = file.getCanonicalPath().indexOf('.');
+            String suffix = file.getCanonicalPath().substring(index);
+
+            tenant = (Item) session.getAttribute("tenant");
+
+            HashSet<Class<? extends FilePermission>> filePermission = new HashSet<Class<? extends FilePermission>>();
+            filePermission.add(FileReadPermission.class);
+            Long fileId = fileFacade.createFile(fis, event.getLength(), event
+                    .getFilename(), event.getMIMEType(), true, filePermission);
+            de.decidr.model.entities.File file = fileFacade.getFileInfo(fileId);
+            tenantFacade.setLogo(
+                    (Long) tenant.getItemProperty("id").getValue(), file
+                            .getId());
+
+        } catch (final java.io.FileNotFoundException e) {
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+        } catch (TransactionException exception) {
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+        } catch (IOException exception) {
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+        }
     }
 
 }

@@ -31,19 +31,19 @@ import de.decidr.ui.controller.RegisterUserAction;
 import de.decidr.ui.controller.RegisterUserWithInvitationAction;
 
 /**
- * A new user can be registered by entering some information. This
- * information contains the username, the password, the email address,
- * the first name, the last name, the street, the postal code and the city.
- *
+ * A new user can be registered by entering some information. This information
+ * contains the username, the password, the email address, the first name, the
+ * last name, the street, the postal code and the city.
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
 public class RegisterUserComponent extends CustomComponent {
     private VerticalLayout verticalLayout = null;
-    
+
     private Label descriptionLabel = null;
-    
+
     private Button completeRegistration = null;
-    
+
     private TextField userName = null;
     private TextField password = null;
     private TextField passwordConfirm = null;
@@ -53,62 +53,57 @@ public class RegisterUserComponent extends CustomComponent {
     private TextField street = null;
     private TextField postalCode = null;
     private TextField city = null;
-    
+
     private Form registrationForm = null;
-    
+
     /**
      * Default constructor
-     *
+     * 
      */
-    public RegisterUserComponent(){
+    public RegisterUserComponent() {
         init();
         setCompleteListener();
     }
-    
+
     /**
-     * This constructor should be used for invitations from unregistered
-     * users, who should automatically accept the invitation after registration
-     *
-     * @param invId: invitation id
+     * This constructor should be used for invitations from unregistered users,
+     * who should automatically accept the invitation after registration
+     * 
+     * @param invId
+     *            : invitation id
      */
-    public RegisterUserComponent(Long invId){
-    	init();
-    	setCompleteListener(invId);
+    public RegisterUserComponent(Long invId) {
+        init();
+        setCompleteListener(invId);
     }
-    
-    /**
-     * Saves the entered data from the form.
-     *
-     */
-    public void saveRegistrationForm(){
-        registrationForm.commit();
-    }
-    
+
     /**
      * Returns the registration form.
-     *
+     * 
      * @return registrationForm
      */
-    public Item getRegistrationForm(){
+    public Item getRegistrationForm() {
         return registrationForm;
     }
-    
+
     /**
      * This method initializes the components of the register user component
-     *
+     * 
      */
-    private void init(){
+    private void init() {
         registrationForm = new Form();
         registrationForm.setWriteThrough(false);
-        
-        descriptionLabel = new Label("Please fill out all fields to register as a new user:", Label.CONTENT_XHTML);
-        
+
+        descriptionLabel = new Label(
+                "Please fill out all fields to register as a new user:",
+                Label.CONTENT_XHTML);
+
         userName = new TextField();
         userName.setCaption("User Name:");
         userName
-        .addValidator(new RegexpValidator(
-                "\\w{3,20}",
-                "Der Username darf 3-20 Zeichen lang sein und darf keine Sonderzeichen enthalten"));
+                .addValidator(new RegexpValidator(
+                        "\\w{3,20}",
+                        "Der Username darf 3-20 Zeichen lang sein und darf keine Sonderzeichen enthalten"));
         password = new TextField();
         password.setCaption("Password:");
         password.setSecret(true);
@@ -118,28 +113,30 @@ public class RegisterUserComponent extends CustomComponent {
         email = new TextField();
         email.setCaption("E-Mail:");
         email.addValidator(new EmailValidator(
-        "Bitte geben sie eine valide Emailadresse an"));
+                "Bitte geben sie eine valide Emailadresse an"));
         firstName = new TextField();
         firstName.setCaption("First Name:");
         firstName
-        .addValidator(new StringLengthValidator(
-                "Bitte geben Sie ihren Vorname ein. Dieser darf maximal 50 Zeichen betragen",
-                0, 50, false));
+                .addValidator(new StringLengthValidator(
+                        "Bitte geben Sie ihren Vorname ein. Dieser darf maximal 50 Zeichen betragen",
+                        0, 50, false));
         lastName = new TextField();
         lastName.setCaption("Last Name:");
-        lastName.addValidator(new StringLengthValidator(
-                "Bitte geben Sie ihren Vorname ein. Dieser darf maximal 50 Zeichen betragen",
-                0, 50, false));
+        lastName
+                .addValidator(new StringLengthValidator(
+                        "Bitte geben Sie ihren Vorname ein. Dieser darf maximal 50 Zeichen betragen",
+                        0, 50, false));
         street = new TextField();
         street.setCaption("Street:");
         postalCode = new TextField();
         postalCode.setCaption("PostalCode:");
-        postalCode.addValidator(new RegexpValidator("[1-9][0-9]{4,15}", "Bitte geben sie nur Zahlen ein"));
+        postalCode.addValidator(new RegexpValidator("[1-9][0-9]{4,15}",
+                "Bitte geben sie nur Zahlen ein"));
         city = new TextField();
         city.setCaption("City");
-        
+
         completeRegistration = new Button("Complete Registration");
-        
+
         registrationForm.addField("userName", userName);
         registrationForm.getField("userName").setRequired(true);
         registrationForm.addField("password", password);
@@ -154,32 +151,42 @@ public class RegisterUserComponent extends CustomComponent {
         registrationForm.addField("postalCode", postalCode);
         registrationForm.addField("city", city);
         registrationForm.setSizeFull();
-        
+
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
-        
+
         verticalLayout.addComponent(descriptionLabel);
         verticalLayout.addComponent(registrationForm);
         verticalLayout.addComponent(completeRegistration);
-        verticalLayout.setComponentAlignment(completeRegistration, "right bottom");
-        
+        verticalLayout.setComponentAlignment(completeRegistration,
+                "right bottom");
+
         this.setCompositionRoot(verticalLayout);
     }
-    
+
     /**
-     * Sets a listener to the complete button with the given invitation id.
-     *
-     * @param invId
+     * Saves the entered data from the form.
+     * 
      */
-    private void setCompleteListener(Long invId){
-    	completeRegistration.addListener(new RegisterUserWithInvitationAction(registrationForm, invId));
+    public void saveRegistrationForm() {
+        registrationForm.commit();
     }
 
     /**
      * Sets a listener to the complete button.
-     *
+     * 
      */
-    private void setCompleteListener(){
-    	completeRegistration.addListener(new RegisterUserAction());
+    private void setCompleteListener() {
+        completeRegistration.addListener(new RegisterUserAction());
+    }
+
+    /**
+     * Sets a listener to the complete button with the given invitation id.
+     * 
+     * @param invId
+     */
+    private void setCompleteListener(Long invId) {
+        completeRegistration.addListener(new RegisterUserWithInvitationAction(
+                registrationForm, invId));
     }
 }

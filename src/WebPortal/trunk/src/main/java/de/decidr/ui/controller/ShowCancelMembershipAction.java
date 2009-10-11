@@ -30,11 +30,16 @@ import de.decidr.ui.view.Main;
 
 public class ShowCancelMembershipAction implements ClickListener {
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        Main.getCurrent().getMainWindow().addWindow(new ConfirmDialogComponent("Cancel membership?",new CancelMembershipAction()));
+        Main.getCurrent().getMainWindow().addWindow(
+                new ConfirmDialogComponent("Cancel membership?",
+                        new CancelMembershipAction()));
     }
 }

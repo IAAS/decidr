@@ -25,7 +25,8 @@ import com.vaadin.ui.Upload;
 import de.decidr.ui.controller.UploadFileHumanTaskAction;
 
 /**
- * This component represents the filename and a button to delete the uploaded file.
+ * This component represents the filename and a button to delete the uploaded
+ * file.
  * 
  * @author AT
  */

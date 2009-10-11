@@ -36,28 +36,31 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 public class CancelMembershipAction implements ClickListener {
-    
+
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
+
+    private Long userId = (Long) session.getAttribute("userId");
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
-        
+
     /**
      * Overrides default buttonClick(ClickEvent event) of ClickListener to
      * implement desired functionality
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        
-        //TODO: how to cancel membership?
-        
+
+        // TODO: how to cancel membership?
+
         try {
-			userFacade.setDisableSince( userId, new Date());
-		} catch (TransactionException e) {
-			Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
-		}
-        Main.getCurrent().getMainWindow().showNotification("you are no longer a member of decidr");
-        Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
-        
+            userFacade.setDisableSince(userId, new Date());
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
+        }
+        Main.getCurrent().getMainWindow().showNotification(
+                "you are no longer a member of decidr");
+        Main.getCurrent().getMainWindow().removeWindow(
+                event.getButton().getWindow());
+
     }
 }

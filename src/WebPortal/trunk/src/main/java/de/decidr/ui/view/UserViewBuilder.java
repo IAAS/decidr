@@ -17,14 +17,16 @@
 package de.decidr.ui.view;
 
 /**
- * One concrete builder class which extends the UIBuilder and builds
- * the user specific header, content and navigation for the DecidR site.
- *
+ * One concrete builder class which extends the UIBuilder and builds the user
+ * specific header, content and navigation for the DecidR site.
+ * 
  * @author AT
  */
 public class UserViewBuilder extends UIBuilder {
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.decidr.ui.view.UIBuilder#buildContent()
      */
     @Override
@@ -33,7 +35,9 @@ public class UserViewBuilder extends UIBuilder {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.decidr.ui.view.UIBuilder#buildHeader()
      */
     @Override
@@ -42,7 +46,9 @@ public class UserViewBuilder extends UIBuilder {
         getView().setHorizontalNavigation(new HorizontalNavigationMenu());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.decidr.ui.view.UIBuilder#buildNavigation()
      */
     @Override

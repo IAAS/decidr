@@ -36,45 +36,57 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
-public class SaveProfileAction implements ClickListener  {
+public class SaveProfileAction implements ClickListener {
 
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
+
+    private Long userId = (Long) session.getAttribute("userId");
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
-    
+
     private ProfileSettingsComponent content = null;
-    
+
     private UserProfile userProfile = null;
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-    	content = (ProfileSettingsComponent) UIDirector.getInstance().getTemplateView().getContent();
-    	content.saveSettingsItem();
-    	try {
+        content = (ProfileSettingsComponent) UIDirector.getInstance()
+                .getTemplateView().getContent();
+        content.saveSettingsItem();
+        try {
             userFacade.setProfile(userId, fillUserProfile());
         } catch (EntityNotFoundException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
             e.printStackTrace();
         } catch (NullPointerException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
             e.printStackTrace();
         } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
-       
+
     }
-    
-    private UserProfile fillUserProfile(){
+
+    private UserProfile fillUserProfile() {
         userProfile = new UserProfile();
-        userProfile.setFirstName(content.getSettingsItem().getItemProperty("firstName").getValue().toString());
-        userProfile.setLastName(content.getSettingsItem().getItemProperty("lastName").getValue().toString());
-        userProfile.setCity(content.getSettingsItem().getItemProperty("city").getValue().toString());
-        userProfile.setPostalCode(content.getSettingsItem().getItemProperty("postalCode").getValue().toString());
-        userProfile.setStreet(content.getSettingsItem().getItemProperty("street").getValue().toString());
+        userProfile.setFirstName(content.getSettingsItem().getItemProperty(
+                "firstName").getValue().toString());
+        userProfile.setLastName(content.getSettingsItem().getItemProperty(
+                "lastName").getValue().toString());
+        userProfile.setCity(content.getSettingsItem().getItemProperty("city")
+                .getValue().toString());
+        userProfile.setPostalCode(content.getSettingsItem().getItemProperty(
+                "postalCode").getValue().toString());
+        userProfile.setStreet(content.getSettingsItem().getItemProperty(
+                "street").getValue().toString());
         return userProfile;
     }
 }

@@ -29,43 +29,48 @@ import de.decidr.model.workflowmodel.humantask.dataitem.TTaskDataItem;
 
 /**
  * This action saves the entered information from the user in his work item.
- *
+ * 
  * @author AT
  */
 public class SaveWorkItemAction implements ClickListener {
-    
+
     private Form form = null;
-    
+
     private THumanTaskData tHumanTaskData = null;
-    
+
     private List<TTaskDataItem> taskDataItemList = new LinkedList<TTaskDataItem>();
-    
+
     /**
      * Constructor which has a form and a tHumanTaskData as parameter so the
      * entered information can be saved in the task items.
-     *
+     * 
      */
     public SaveWorkItemAction(Form form, THumanTaskData tHumanTaskData) {
         this.form = form;
         this.tHumanTaskData = tHumanTaskData;
     }
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        for(int i = 0; i < this.tHumanTaskData.getTaskItemOrInformation().size(); i++){
-            TTaskItem taskItem = (TTaskItem)this.tHumanTaskData.getTaskItemOrInformation().get(i);
+        for (int i = 0; i < this.tHumanTaskData.getTaskItemOrInformation()
+                .size(); i++) {
+            TTaskItem taskItem = (TTaskItem) this.tHumanTaskData
+                    .getTaskItemOrInformation().get(i);
             TTaskDataItem tTaskDataItem = new TTaskDataItem();
             tTaskDataItem.setName(taskItem.getName());
             tTaskDataItem.setValue(taskItem.getValue().toString());
             tTaskDataItem.setType(taskItem.getType().toString());
             taskDataItemList.add(tTaskDataItem);
         }
-        //TODO: in datenbank abspeichern
+        // TODO: in datenbank abspeichern
         new HideDialogWindowAction();
-        
+
     }
 
 }

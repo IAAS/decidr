@@ -15,7 +15,6 @@
  */
 package de.decidr.ui.view;
 
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -25,66 +24,63 @@ import com.vaadin.ui.TextField;
 
 import de.decidr.ui.controller.SearchAction;
 
-
 public class SearchPanel extends Panel {
-    
+
     /**
-     * This is a panel containing a text field and a button. 
-     * This should represent a search widget.
+     * This is a panel containing a text field and a button. This should
+     * represent a search widget.
      * 
      * @author AT
      */
     private static final long serialVersionUID = 8703352734047305920L;
 
     private HorizontalLayout searchHorizontalLayout = null;
-    
+
     private Label keywordLabel = null;
-    
+
     private TextField searchTextField = null;
-    
+
     private Button searchButton = null;
-    
-    
+
     /**
-     * Constructor requires a table to know in which table the keyword
-     * should be searched.
-     *
+     * Constructor requires a table to know in which table the keyword should be
+     * searched.
+     * 
      * @param table
      */
-    public SearchPanel(Table table){
+    public SearchPanel(Table table) {
         init(table);
-    }
-    
-    /**
-     * This method initializes the components of the search panel component
-     *
-     */
-    private void init(Table table){
-        searchHorizontalLayout = new HorizontalLayout();
-        
-        keywordLabel = new Label("Keyword: ");
-        
-        searchTextField = new TextField();
-        
-        searchButton = new Button("Search", new SearchAction(table ,searchTextField));
-        
-        addComponent(searchHorizontalLayout);
-        
-        searchHorizontalLayout.setSpacing(true);
-        searchHorizontalLayout.addComponent(keywordLabel);
-        searchHorizontalLayout.addComponent(searchTextField);
-        searchHorizontalLayout.addComponent(searchButton);
     }
 
     /**
      * Returns the horizontal layout.
-     *
+     * 
      * @return searchHorizontalLayout
      */
     public HorizontalLayout getSearchHorizontalLayout() {
         return searchHorizontalLayout;
     }
 
-    
+    /**
+     * This method initializes the components of the search panel component
+     * 
+     */
+    private void init(Table table) {
+        searchHorizontalLayout = new HorizontalLayout();
+
+        keywordLabel = new Label("Keyword: ");
+
+        searchTextField = new TextField();
+
+        searchButton = new Button("Search", new SearchAction(table,
+                searchTextField));
+
+        addComponent(searchHorizontalLayout);
+
+        searchHorizontalLayout.setSpacing(true);
+        searchHorizontalLayout.addComponent(keywordLabel);
+        searchHorizontalLayout.addComponent(searchTextField);
+        searchHorizontalLayout.addComponent(searchButton);
+    }
 
 }

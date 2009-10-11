@@ -34,72 +34,72 @@ import de.decidr.ui.controller.ConfirmInvitationAction;
 import de.decidr.ui.controller.RefuseInvitationAction;
 
 public class InvitationDialogComponent extends Window {
-    
+
     private Long invitationId = null;
     private Long userId = null;
-    
+
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
-    
+
     private Label infoLabel = null;
-        
+
     private Button submitButton = null;
     private Button cancelButton = null;
-        
+
     /**
-     * Default constructor. Stores the invitation id and calls the initialization
-     * with the given description.
-     *
+     * Default constructor. Stores the invitation id and calls the
+     * initialization with the given description.
+     * 
      * @param description
      * @param invId
      */
-    public InvitationDialogComponent(String description, Long invId, Long uId){
+    public InvitationDialogComponent(String description, Long invId, Long uId) {
         invitationId = invId;
         userId = uId;
         init(description);
     }
-    
+
     /**
-     * Initializes the components for the invitation dialog with the given description.
-     *
+     * Initializes the components for the invitation dialog with the given
+     * description.
+     * 
      * @param description
      */
-    private void init(String description){
-        
+    private void init(String description) {
+
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
         verticalLayout.setMargin(true);
         verticalLayout.setSizeUndefined();
-        
+
         horizontalLayout = new HorizontalLayout();
         horizontalLayout.setSpacing(true);
         horizontalLayout.setMargin(false);
         horizontalLayout.setSizeUndefined();
-        
+
         infoLabel = new Label(description, Label.CONTENT_XHTML);
-        infoLabel.setWidth(350,Sizeable.UNITS_PIXELS);
-        
+        infoLabel.setWidth(350, Sizeable.UNITS_PIXELS);
 
-        
-        submitButton = new Button("Accept Invitation", new ConfirmInvitationAction(invitationId, userId));
-        cancelButton = new Button("Refuse Invitation", new RefuseInvitationAction(invitationId, userId));
-
+        submitButton = new Button("Accept Invitation",
+                new ConfirmInvitationAction(invitationId, userId));
+        cancelButton = new Button("Refuse Invitation",
+                new RefuseInvitationAction(invitationId, userId));
 
         verticalLayout.addComponent(infoLabel);
         horizontalLayout.addComponent(submitButton);
         horizontalLayout.addComponent(cancelButton);
         verticalLayout.addComponent(horizontalLayout);
-        
+
         horizontalLayout.setComponentAlignment(cancelButton, "right bottom");
         horizontalLayout.setComponentAlignment(submitButton, "right bottom");
 
         verticalLayout.setComponentAlignment(horizontalLayout, "right bottom");
-        
+
         this.setModal(true);
         this.setName("InvitationDialog");
         this.setResizable(false);
         this.setCaption("Invitation");
         this.setContent(verticalLayout);
     }
-    
+
 }

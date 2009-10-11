@@ -36,57 +36,54 @@ import de.decidr.ui.controller.HideDialogWindowAction;
 
 public class ChangePasswordComponent extends Window {
 
-    
-    
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
-    
+
     private Form passwordForm = null;
-    
+
     private TextField newPasswordText = null;
     private TextField newPasswordConfirmText = null;
     private TextField oldPasswordText = null;
-    
+
     private Button submitButton = null;
     private Button cancelButton = null;
-    
+
     /**
-     * Return the password form item which contains the new and the old password.
+     * Default constructor
+     * 
+     */
+    public ChangePasswordComponent() {
+        init();
+    }
+
+    /**
+     * Return the password form item which contains the new and the old
+     * password.
      * 
      * @return passwordForm
      */
-    public Item getPasswords(){
+    public Item getPasswords() {
         return passwordForm;
     }
-    
-    /**
-     * Default constructor
-     *
-     */
-    public ChangePasswordComponent(){
-        init();
-    }
-    
+
     /**
      * Initializes the components for the change password component
-     *
+     * 
      */
-    private void init(){
+    private void init() {
         passwordForm = new Form();
         passwordForm.setWriteThrough(false);
-        
-        
+
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
         verticalLayout.setMargin(true);
         verticalLayout.setSizeUndefined();
-        
+
         horizontalLayout = new HorizontalLayout();
         horizontalLayout.setSpacing(true);
         horizontalLayout.setMargin(false);
         horizontalLayout.setSizeUndefined();
-        
-        
+
         newPasswordText = new TextField();
         newPasswordText.setCaption("New Password");
         newPasswordText.setSecret(true);
@@ -101,7 +98,7 @@ public class ChangePasswordComponent extends Window {
         oldPasswordText.setCaption("Old Password");
         oldPasswordText.setSecret(true);
         oldPasswordText.setColumns(21);
-        
+
         submitButton = new Button("Change Password", new ChangePasswordAction());
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
@@ -109,22 +106,21 @@ public class ChangePasswordComponent extends Window {
         passwordForm.addField("newPassword", newPasswordText);
         passwordForm.addField("newPasswordConfirm", newPasswordConfirmText);
         passwordForm.addField("oldPassword", oldPasswordText);
-        
+
         verticalLayout.addComponent(passwordForm);
         horizontalLayout.addComponent(submitButton);
         horizontalLayout.addComponent(cancelButton);
         verticalLayout.addComponent(horizontalLayout);
-        
+
         horizontalLayout.setComponentAlignment(cancelButton, "right bottom");
         horizontalLayout.setComponentAlignment(submitButton, "right bottom");
 
         verticalLayout.setComponentAlignment(horizontalLayout, "right bottom");
-        
+
         this.setModal(true);
         this.setResizable(false);
         this.setCaption("Change Password");
         this.setContent(verticalLayout);
     }
-    
-    
+
 }

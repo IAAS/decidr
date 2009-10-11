@@ -25,11 +25,9 @@ import javax.servlet.http.HttpSession;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.XMLParser;
-import com.sun.mail.imap.protocol.UID;
 import com.vaadin.data.Item;
 import com.vaadin.terminal.PaintException;
 import com.vaadin.terminal.PaintTarget;
-import com.vaadin.terminal.gwt.client.ui.Table;
 import com.vaadin.ui.AbstractComponent;
 
 import de.decidr.model.acl.roles.UserRole;
@@ -65,9 +63,8 @@ public class ModelingTool extends AbstractComponent {
     private SiteFrame siteFrame = null;
 
     /**
-     * Default constructor which initializes the server side components which
+     * Default constructor which initialises the server side components which
      * are needed to gain access to the database.
-     * 
      */
     public ModelingTool() {
         super();
@@ -78,6 +75,41 @@ public class ModelingTool extends AbstractComponent {
         workflowModelFacade = new WorkflowModelFacade(new UserRole(userId));
         uiDirector = UIDirector.getInstance();
         siteFrame = uiDirector.getTemplateView();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.ui.AbstractComponent#changeVariables(java.lang.Object,
+     * java.util.Map)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void changeVariables(Object source, Map variables) {
+        if (variables.containsKey("dwdl")) {
+            byte[] dwdl = (byte[]) variables.get("dwdl");
+            try {
+                workflowModelFacade.saveWorkflowModel(workflowModelId, "", "",
+                        dwdl);
+            } catch (TransactionException e) {
+                Main.getCurrent().addWindow(
+                        new TransactionErrorDialogComponent());
+            }
+        }
+    }
+
+    private String convertUserHashMapToString(HashMap<Long, String> userList) {
+        Document doc = XMLParser.createDocument();
+
+        Element root = doc.createElement("userlist");
+        for (Long userId : userList.keySet()) {
+            Element user = doc.createElement("user");
+            user.setAttribute("id", userId.toString());
+            user.setAttribute("name", userList.get(user));
+            root.appendChild(user);
+        }
+
+        return doc.toString();
     }
 
     private String getDWDL() {
@@ -96,6 +128,11 @@ public class ModelingTool extends AbstractComponent {
             Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
             return null;
         }
+    }
+
+    @Override
+    public String getTag() {
+        return "modelingtool";
     }
 
     private String getUsers() {
@@ -128,26 +165,6 @@ public class ModelingTool extends AbstractComponent {
             Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
             return null;
         }
-
-    }
-
-    private String convertUserHashMapToString(HashMap<Long, String> userList) {
-        Document doc = XMLParser.createDocument();
-
-        Element root = doc.createElement("userlist");
-        for (Long userId : userList.keySet()) {
-            Element user = doc.createElement("user");
-            user.setAttribute("id", userId.toString());
-            user.setAttribute("name", userList.get(user));
-            root.appendChild(user);
-        }
-
-        return doc.toString();
-    }
-
-    @Override
-    public String getTag() {
-        return "modelingtool";
     }
 
     /*
@@ -162,27 +179,5 @@ public class ModelingTool extends AbstractComponent {
         super.paintContent(target);
         target.addVariable(this, "dwdl", getDWDL());
         target.addVariable(this, "users", getUsers());
-
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.ui.AbstractComponent#changeVariables(java.lang.Object,
-     * java.util.Map)
-     */
-    @Override
-    public void changeVariables(Object source, Map variables) {
-        if (variables.containsKey("dwdl")) {
-            byte[] dwdl = (byte[]) variables.get("dwdl");
-            try {
-                workflowModelFacade.saveWorkflowModel(workflowModelId, "", "",
-                        dwdl);
-            } catch (TransactionException e) {
-                Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
-            }
-        }
-
-    }
-
 }

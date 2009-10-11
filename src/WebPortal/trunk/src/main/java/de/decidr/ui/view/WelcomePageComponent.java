@@ -60,13 +60,14 @@ public class WelcomePageComponent extends CustomComponent {
      * 
      */
     private void init() {
-        userId = (Long)session.getAttribute("userId");
+        userId = (Long) session.getAttribute("userId");
         tenantFacade = new TenantFacade(new UserRole(userId));
-        tenant = (String)session.getAttribute("tenant");
-        try{
+        tenant = (String) session.getAttribute("tenant");
+        try {
             tenantId = tenantFacade.getTenantId(tenant);
-            tenantDescription = (String)tenantFacade.getTenantSettings(tenantId).getItemProperty("description").getValue();
-            
+            tenantDescription = (String) tenantFacade.getTenantSettings(
+                    tenantId).getItemProperty("description").getValue();
+
             verticalLayout = new VerticalLayout();
             this.setCompositionRoot(verticalLayout);
 
@@ -80,9 +81,10 @@ public class WelcomePageComponent extends CustomComponent {
             }
 
             verticalLayout.addComponent(labelDesc);
-        }catch(TransactionException exception){
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+        } catch (TransactionException exception) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
-        
+
     }
 }

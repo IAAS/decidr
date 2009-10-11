@@ -26,66 +26,68 @@ import com.vaadin.ui.VerticalLayout;
 import de.decidr.ui.controller.CreateTenantAction;
 
 /**
- * A tenant will be created by entering some information about the tenant.
- * The informations are the tenant name and the tenant description.
- *
+ * A tenant will be created by entering some information about the tenant. The
+ * informations are the tenant name and the tenant description.
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
 public class CreateTenantComponent extends CustomComponent {
 
-private VerticalLayout verticalLayout = null;
-    
+    private VerticalLayout verticalLayout = null;
+
     private Label descriptionLabel = null;
-    
+
     private Button createTenant = null;
-    
+
     private TextField tenantName = null;
     private TextField tenantDescription = null;
-    
+
     private Form createTenantForm = null;
-    
+
     /**
      * Default constructor.
-     *
+     * 
      */
-    public CreateTenantComponent(){
-    	init();
+    public CreateTenantComponent() {
+        init();
     }
-    
+
     /**
      * Initializes the components for the create tenent component.
-     *
+     * 
      */
-    private void init(){
-    	verticalLayout = new VerticalLayout();
-    	verticalLayout.setSizeFull();
-    	verticalLayout.setSpacing(true);
-    	
-    	createTenantForm = new Form();
-    	createTenantForm.setWriteThrough(false);
-    	
-    	descriptionLabel = new Label("Create a new tenant by entring a name and description:<br/>Further options can be set later via Tenant Settings.", Label.CONTENT_XHTML);
-    	
-    	tenantName = new TextField();
-    	tenantName.setCaption("Tenant name:");
-    	
-    	tenantDescription = new TextField();
-    	tenantDescription.setCaption("Tenant description");
-    	tenantDescription.setRows(5);
-    	
-    	createTenantForm.addField("tenantName", tenantName);
-    	createTenantForm.getField("tenantName").setRequired(true);
-    	createTenantForm.addField("tenantDescription", tenantDescription);
-    	createTenantForm.getField("tenantDescription").setRequired(true);
-    	
-    	createTenant = new Button("Create Tenant", new CreateTenantAction(createTenantForm));
-    	
-    	verticalLayout.addComponent(descriptionLabel);
-    	verticalLayout.addComponent(createTenantForm);
-    	verticalLayout.addComponent(createTenant);
-    	
-    	this.setCompositionRoot(verticalLayout);
-    	
-    	
+    private void init() {
+        verticalLayout = new VerticalLayout();
+        verticalLayout.setSizeFull();
+        verticalLayout.setSpacing(true);
+
+        createTenantForm = new Form();
+        createTenantForm.setWriteThrough(false);
+
+        descriptionLabel = new Label(
+                "Create a new tenant by entring a name and description:<br/>Further options can be set later via Tenant Settings.",
+                Label.CONTENT_XHTML);
+
+        tenantName = new TextField();
+        tenantName.setCaption("Tenant name:");
+
+        tenantDescription = new TextField();
+        tenantDescription.setCaption("Tenant description");
+        tenantDescription.setRows(5);
+
+        createTenantForm.addField("tenantName", tenantName);
+        createTenantForm.getField("tenantName").setRequired(true);
+        createTenantForm.addField("tenantDescription", tenantDescription);
+        createTenantForm.getField("tenantDescription").setRequired(true);
+
+        createTenant = new Button("Create Tenant", new CreateTenantAction(
+                createTenantForm));
+
+        verticalLayout.addComponent(descriptionLabel);
+        verticalLayout.addComponent(createTenantForm);
+        verticalLayout.addComponent(createTenant);
+
+        this.setCompositionRoot(verticalLayout);
+
     }
 }

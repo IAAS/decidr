@@ -35,27 +35,33 @@ import de.decidr.ui.view.ChangeEmailComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
-public class ChangeEmailAction implements ClickListener{
-    
+public class ChangeEmailAction implements ClickListener {
+
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
+
+    private Long userId = (Long) session.getAttribute("userId");
     private UserFacade userFacade = new UserFacade(new UserRole(userId));
-    
+
     private Item email = null;
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        email = ((ChangeEmailComponent)event.getButton().getWindow()).getNewEmail();
-        
+        email = ((ChangeEmailComponent) event.getButton().getWindow())
+                .getNewEmail();
+
         try {
-            userFacade.requestChangeEmail(userId, email.getItemProperty("newEmail").getValue().toString());
+            userFacade.requestChangeEmail(userId, email.getItemProperty(
+                    "newEmail").getValue().toString());
         } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
-        
+
     }
 }

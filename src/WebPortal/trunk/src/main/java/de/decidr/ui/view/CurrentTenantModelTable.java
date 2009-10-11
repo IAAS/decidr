@@ -27,10 +27,10 @@ import de.decidr.ui.data.CurrentTenantContainer;
 
 /**
  * The table holds the current tenant items. It is integrated in a component.
- *
+ * 
  * @author AT
  */
-public class CurrentTenantModelTable extends Table implements Observer{
+public class CurrentTenantModelTable extends Table implements Observer {
 
     /**
      * Serial Version UID
@@ -38,11 +38,11 @@ public class CurrentTenantModelTable extends Table implements Observer{
     private static final long serialVersionUID = -3378507042364075268L;
     private Observable observable = null;
     private Container currentTenantContainer = null;
-    
+
     /**
      * Default Constructor. Adds this table as an observer to the depending
      * container.
-     *
+     * 
      */
     public CurrentTenantModelTable(Observable observable, Container container) {
         this.observable = observable;
@@ -51,10 +51,9 @@ public class CurrentTenantModelTable extends Table implements Observer{
         init(container);
     }
 
-    
     /**
      * Initializes the table and sets the container.
-     *
+     * 
      */
     private void init(Container container) {
         setSizeFull();
@@ -65,17 +64,18 @@ public class CurrentTenantModelTable extends Table implements Observer{
         addContainerProperty("Edit", Button.class, null);
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override
     public void update(Observable o, Object arg) {
-        if(o instanceof CurrentTenantContainer){
+        if (o instanceof CurrentTenantContainer) {
             this.requestRepaint();
             refreshCurrentPage();
         }
-        
+
     }
 
 }

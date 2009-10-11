@@ -21,17 +21,20 @@ import com.vaadin.ui.Button.ClickListener;
 
 /**
  * This action edits a selected user from the table.
- *
+ * 
  * @author AT
  */
 public class EditUserAction implements ClickListener {
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //TODO: user profile aufrufen aber mit entsprechender user id
+        // TODO: user profile aufrufen aber mit entsprechender user id
 
     }
 

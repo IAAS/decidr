@@ -16,50 +16,52 @@
 
 package de.decidr.ui.controller;
 
-import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filterable;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.data.WorkItemContainer;
-
-
 /**
- * This action filters a table and shows only these entries,
- * which contain the search string (partially or complete)
- *
+ * This action filters a table and shows only these entries, which contain the
+ * search string (partially or complete)
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
 public class SearchAction implements ClickListener {
 
     private Table searchTable = null;
     private TextField searchField = null;
-    
+
     /**
-     * Constructor, requires the Table which should be filtered and
-     * the TextField, which contains the search string
-     *
-     * @param table: Table to be searched
-     * @param textField: TextField, which contains the search string
+     * Constructor, requires the Table which should be filtered and the
+     * TextField, which contains the search string
+     * 
+     * @param table
+     *            : Table to be searched
+     * @param textField
+     *            : TextField, which contains the search string
      */
-    public SearchAction(Table table, TextField textField){
+    public SearchAction(Table table, TextField textField) {
         searchTable = table;
         searchField = textField;
     }
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        Filterable container = (Filterable)searchTable.getContainerDataSource();
-        
+        Filterable container = (Filterable) searchTable
+                .getContainerDataSource();
+
         container.removeAllContainerFilters();
-        container.addContainerFilter(container.getContainerPropertyIds(), searchField.getValue().toString(), true, false);
-        //TODO: check refresh method
+        container.addContainerFilter(container.getContainerPropertyIds(),
+                searchField.getValue().toString(), true, false);
+        // TODO: check refresh method
         searchTable.getParent().requestRepaint();
     }
 

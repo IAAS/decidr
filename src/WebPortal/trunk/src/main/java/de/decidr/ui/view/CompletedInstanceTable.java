@@ -23,40 +23,41 @@ import com.vaadin.ui.Table;
 
 import de.decidr.ui.data.CompletedInstancesContainer;
 
-public class CompletedInstanceTable extends Table implements Observer{
+public class CompletedInstanceTable extends Table implements Observer {
 
     /**
      * This table represents the completed workflow instances. The instances are
-     * stored in items. The table is connected to the {@link CompletedInstancesContainer}.
+     * stored in items. The table is connected to the
+     * {@link CompletedInstancesContainer}.
      * 
      * @author AT
      */
     private static final long serialVersionUID = -4341477724807479177L;
-    
+
     private Observable observable = null;
     private Container workflowInstanceContainer = null;
 
     /**
      * The table is added as an observer to the container.
-     *
+     * 
      * @param observable
      * @param container
      */
-    public CompletedInstanceTable(Observable observable, Container container){
+    public CompletedInstanceTable(Observable observable, Container container) {
         this.observable = observable;
         workflowInstanceContainer = container;
         observable.addObserver(this);
         init(container);
     }
-    
+
     /**
-     * Initializes the properties for the table like the data source and the 
+     * Initializes the properties for the table like the data source and the
      * container property.
-     *
+     * 
      * @param observable
      * @param container
      */
-    private void init(Container container){
+    private void init(Container container) {
         setSizeFull();
         setContainerDataSource(container);
         addContainerProperty("Name", String.class, null);
@@ -65,16 +66,18 @@ public class CompletedInstanceTable extends Table implements Observer{
         addContainerProperty("Completion date", String.class, null);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override
     public void update(Observable o, Object arg) {
-        if(o instanceof CompletedInstancesContainer){
+        if (o instanceof CompletedInstancesContainer) {
             this.requestRepaint();
             refreshCurrentPage();
         }
-        
+
     }
 
 }

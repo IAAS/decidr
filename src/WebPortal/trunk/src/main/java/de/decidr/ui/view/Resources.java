@@ -26,37 +26,35 @@ import com.vaadin.terminal.ThemeResource;
 
 public class Resources {
 
-        private static Resources resources = null;
-        
-        private ThemeResource imgDecidrLogo = null;
-        
-        private Resources(){
-                //nothing to do yet
-        }
-        
+    private static Resources resources = null;
 
-        /**
-         * Returns an instance of this class
-         *
-         * @return resources
-         */
-        public static Resources getInstance(){
-        if(resources == null){
-                resources = new Resources();
+    /**
+     * Returns an instance of this class
+     * 
+     * @return resources
+     */
+    public static Resources getInstance() {
+        if (resources == null) {
+            resources = new Resources();
         }
         return resources;
     }
-        
-        
-        /**
-         * Returns the decidr logo as a theme resource
-         *
-         * @return imgDecidrLogo
-         */
-        public ThemeResource getDecidrLogo(){
-                if(imgDecidrLogo == null){
-                        imgDecidrLogo = new ThemeResource("img/decidrlogo.png");
-                }
-                return imgDecidrLogo;
+
+    private ThemeResource imgDecidrLogo = null;
+
+    private Resources() {
+        // nothing to do yet
+    }
+
+    /**
+     * Returns the decidr logo as a theme resource
+     * 
+     * @return imgDecidrLogo
+     */
+    public ThemeResource getDecidrLogo() {
+        if (imgDecidrLogo == null) {
+            imgDecidrLogo = new ThemeResource("img/decidrlogo.png");
         }
+        return imgDecidrLogo;
+    }
 }

@@ -26,72 +26,72 @@ import de.decidr.ui.controller.ShowImpressumAction;
 import de.decidr.ui.controller.ShowTermsOfServiceAction;
 import de.decidr.ui.controller.ShowWelcomePageAction;
 
-
 /**
- * This menu represents five button links. The home button, the help button, 
+ * This menu represents five button links. The home button, the help button,
  * logout button, the legal information button and the terms of service button.
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
 
-
 @SuppressWarnings("serial")
 public class HorizontalNavigationMenu extends CustomComponent {
-        
-        private HorizontalLayout horizontalLayout = null;
 
-        private Button btnLogoutLink = null;
-        private Button btnHomeLink = null;
-        private Button btnHelpLink = null;
-        private Button btnImpressumLink = null;
-        private Button btnTermsOfServiceLink = null;
-        
-        /**
-         * Default constructor
-         *
-         */
-        public HorizontalNavigationMenu(){
-                init();
-        }
-        
-        /**
-         * This method initializes the components of the horizontal navigation menu component
-         *
-         */
-        private void init(){
-                horizontalLayout = new HorizontalLayout();
-                this.setCompositionRoot(horizontalLayout);
+    private HorizontalLayout horizontalLayout = null;
 
-                btnHomeLink = new Button("Home", new ShowWelcomePageAction());
-                //btnHomeLink.setStyleName(Button.STYLE_LINK);
-                btnHelpLink = new Button("Help", new ShowHelpAction());
-                //btnHelpLink.setStyleName(Button.STYLE_LINK);
-                btnImpressumLink = new Button("Impressum", new ShowImpressumAction());
-                //btnImpressumLink.setStyleName(Button.STYLE_LINK);
-                btnTermsOfServiceLink = new Button("Terms of Service", new ShowTermsOfServiceAction());
-                //btnTermsOfServiceLink.setStyleName(Button.STYLE_LINK);
-                btnLogoutLink = new Button("logout", new LogoutAction());
-                //btnLogoutLink.setStyleName(Button.STYLE_LINK);
-                //btnLogoutLink.setVisible(false);
-                
-                //horizontalLayout.setWidth(800,HorizontalLayout.UNITS_PIXELS);
-                horizontalLayout.setSpacing(false);
-                
-                horizontalLayout.addComponent(btnHomeLink);
-                horizontalLayout.addComponent(btnHelpLink);
-                horizontalLayout.addComponent(btnTermsOfServiceLink);
-                horizontalLayout.addComponent(btnImpressumLink);
-                horizontalLayout.addComponent(btnLogoutLink);
-                
-        }
-        
-        /**
-         * Returns the logout button.
-         *
-         * @return btnLogoutLink - The logout button
-         */
-        public Button getLogoutButton(){
-            return btnLogoutLink;
-        }
-    
+    private Button btnLogoutLink = null;
+    private Button btnHomeLink = null;
+    private Button btnHelpLink = null;
+    private Button btnImpressumLink = null;
+    private Button btnTermsOfServiceLink = null;
+
+    /**
+     * Default constructor
+     * 
+     */
+    public HorizontalNavigationMenu() {
+        init();
+    }
+
+    /**
+     * Returns the logout button.
+     * 
+     * @return btnLogoutLink - The logout button
+     */
+    public Button getLogoutButton() {
+        return btnLogoutLink;
+    }
+
+    /**
+     * This method initializes the components of the horizontal navigation menu
+     * component
+     * 
+     */
+    private void init() {
+        horizontalLayout = new HorizontalLayout();
+        this.setCompositionRoot(horizontalLayout);
+
+        btnHomeLink = new Button("Home", new ShowWelcomePageAction());
+        // btnHomeLink.setStyleName(Button.STYLE_LINK);
+        btnHelpLink = new Button("Help", new ShowHelpAction());
+        // btnHelpLink.setStyleName(Button.STYLE_LINK);
+        btnImpressumLink = new Button("Impressum", new ShowImpressumAction());
+        // btnImpressumLink.setStyleName(Button.STYLE_LINK);
+        btnTermsOfServiceLink = new Button("Terms of Service",
+                new ShowTermsOfServiceAction());
+        // btnTermsOfServiceLink.setStyleName(Button.STYLE_LINK);
+        btnLogoutLink = new Button("logout", new LogoutAction());
+        // btnLogoutLink.setStyleName(Button.STYLE_LINK);
+        // btnLogoutLink.setVisible(false);
+
+        // horizontalLayout.setWidth(800,HorizontalLayout.UNITS_PIXELS);
+        horizontalLayout.setSpacing(false);
+
+        horizontalLayout.addComponent(btnHomeLink);
+        horizontalLayout.addComponent(btnHelpLink);
+        horizontalLayout.addComponent(btnTermsOfServiceLink);
+        horizontalLayout.addComponent(btnImpressumLink);
+        horizontalLayout.addComponent(btnLogoutLink);
+
+    }
+
 }

@@ -47,6 +47,20 @@ public class VModelingTool extends
 
     }
 
+    @Override
+    public void sendDWDLtoServer(String dwdl) {
+        // Updating the state to the server can not be done
+        // before the server connection is known, i.e., before
+        // updateFromUIDL() has been called.
+        if ((uidlId == null) || (client == null)) {
+            return;
+        }
+
+        // Communicate the user interaction parameters to server.
+        // This call will initiate an AJAX request to the server.
+        client.updateVariable(uidlId, "dwdl", dwdl, false);
+    }
+
     public void updateFromUIDL(UIDL uidl, ApplicationConnection client) {
         // This call should be made first. Ensure correct implementation,
         // and let the containing layout manage caption, etc.
@@ -64,19 +78,6 @@ public class VModelingTool extends
         // Set the DWDL document received from server
         setDWDL(uidl.getStringVariable("dwdl"));
 
-    }
-
-    @Override
-    public void sendDWDLtoServer(String dwdl) {
-        // Updating the state to the server can not be done
-        // before the server connection is known, i.e., before
-        // updateFromUIDL() has been called.
-        if (uidlId == null || client == null)
-            return;
-
-        // Communicate the user interaction parameters to server.
-        // This call will initiate an AJAX request to the server.
-        client.updateVariable(uidlId, "dwdl", dwdl, false);
     }
 
 }

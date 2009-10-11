@@ -19,74 +19,76 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+
 import de.decidr.ui.data.WorkflowInstanceContainer;
 
 /**
- * In this component the user can create a workflow instance from
- * a workflow model. The user has to choose a workflow model from 
- * table and push the create button.
+ * In this component the user can create a workflow instance from a workflow
+ * model. The user has to choose a workflow model from table and push the create
+ * button.
  * 
  * @author AT
  */
 public class CreateWorkflowInstanceComponent extends CustomComponent {
-    
-    
+
     private static final long serialVersionUID = -2283442464298218331L;
-    
+
     private WorkflowInstanceContainer workflowInstanceContainer = null;
-    
+
     private VerticalLayout verticalLayout = null;
-    
+
     private SearchPanel searchPanel = null;
-    
+
     private Label createWorkflowInstanceLabel = null;
-    
+
     private WorkflowInstanceTable instanceTable = null;
 
-    
     /**
      * Default constructor
-     *
+     * 
      */
-    public CreateWorkflowInstanceComponent(){
+    public CreateWorkflowInstanceComponent() {
         init();
-    }
-    
-    /**
-     * This method initializes the components of the create workflow instance component
-     *
-     */
-    private void init(){
-        workflowInstanceContainer = new WorkflowInstanceContainer();
-        
-        verticalLayout = new VerticalLayout();
-        
-        createWorkflowInstanceLabel = new Label("<h2> Create Workflow Instance </h2>");
-        createWorkflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
-    
-        instanceTable = new WorkflowInstanceTable(workflowInstanceContainer, workflowInstanceContainer);
-        
-        searchPanel = new SearchPanel(instanceTable);
-
-        setCompositionRoot(verticalLayout);
-        
-        verticalLayout.setSpacing(true);
-        verticalLayout.addComponent(createWorkflowInstanceLabel);
-        verticalLayout.addComponent(searchPanel);
-        
-        verticalLayout.addComponent(instanceTable);
-        verticalLayout.setComponentAlignment(instanceTable, Alignment.MIDDLE_CENTER);
-
     }
 
     /**
      * Returns the workflow instance table
-     *
+     * 
      * @return instanceTable
      */
     public WorkflowInstanceTable getInstanceTable() {
         return instanceTable;
     }
-    
+
+    /**
+     * This method initializes the components of the create workflow instance
+     * component
+     * 
+     */
+    private void init() {
+        workflowInstanceContainer = new WorkflowInstanceContainer();
+
+        verticalLayout = new VerticalLayout();
+
+        createWorkflowInstanceLabel = new Label(
+                "<h2> Create Workflow Instance </h2>");
+        createWorkflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
+
+        instanceTable = new WorkflowInstanceTable(workflowInstanceContainer,
+                workflowInstanceContainer);
+
+        searchPanel = new SearchPanel(instanceTable);
+
+        setCompositionRoot(verticalLayout);
+
+        verticalLayout.setSpacing(true);
+        verticalLayout.addComponent(createWorkflowInstanceLabel);
+        verticalLayout.addComponent(searchPanel);
+
+        verticalLayout.addComponent(instanceTable);
+        verticalLayout.setComponentAlignment(instanceTable,
+                Alignment.MIDDLE_CENTER);
+
+    }
 
 }

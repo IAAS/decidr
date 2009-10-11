@@ -23,7 +23,7 @@ import com.vaadin.ui.VerticalLayout;
 import de.decidr.ui.data.TenantContainer;
 
 public class ChangeTenantComponent extends CustomComponent {
-    
+
     /**
      * The user can change the tenant if he wants. He has to choose one tenant
      * from the table and push the switch tenant button.
@@ -31,52 +31,51 @@ public class ChangeTenantComponent extends CustomComponent {
      * @author AT
      */
     private static final long serialVersionUID = 5599429204495615788L;
-    
+
     private TenantContainer tenantContainer = null;
-    
+
     private VerticalLayout verticalLayout = null;
-    
+
     private Label changeTenantLabel = null;
     private Label waitingForApprovalLabel = null;
-    
+
     private TenantTable tenantTable = null;
     private Table approvalTable = null;
-    
+
     /**
      * Default constructor
-     *
+     * 
      */
-    public ChangeTenantComponent(){
+    public ChangeTenantComponent() {
         init();
     }
-    
+
     /**
      * This method initializes the components of the change tenant component
-     *
+     * 
      */
-    private void init(){
+    private void init() {
         tenantContainer = new TenantContainer();
-        
+
         verticalLayout = new VerticalLayout();
-        
+
         changeTenantLabel = new Label("<h2> Change Tenant </h2>");
         changeTenantLabel.setContentMode(Label.CONTENT_XHTML);
         waitingForApprovalLabel = new Label("<h2> Waiting for approval </h2>");
         waitingForApprovalLabel.setContentMode(Label.CONTENT_XHTML);
-        
+
         tenantTable = new TenantTable(tenantContainer, tenantContainer);
-        tenantTable.setVisibleColumns(new Object[]{"Tenant", "Status"});
+        tenantTable.setVisibleColumns(new Object[] { "Tenant", "Status" });
         approvalTable = new Table();
         approvalTable.addContainerProperty("Tenant", String.class, null);
-        
+
         setCompositionRoot(verticalLayout);
-        
+
         verticalLayout.setSpacing(true);
         verticalLayout.addComponent(changeTenantLabel);
         verticalLayout.addComponent(tenantTable);
         verticalLayout.addComponent(waitingForApprovalLabel);
         verticalLayout.addComponent(approvalTable);
     }
-    
-   
+
 }

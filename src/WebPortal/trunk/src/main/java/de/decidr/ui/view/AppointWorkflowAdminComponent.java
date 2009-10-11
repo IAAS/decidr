@@ -27,16 +27,16 @@ import com.vaadin.ui.VerticalLayout;
 import de.decidr.ui.controller.AppointWorkflowAdminAction;
 
 /**
- * In this component a user can appoint a workflow administrator 
- * for a workflow instance.
- *
+ * In this component a user can appoint a workflow administrator for a workflow
+ * instance.
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
 public class AppointWorkflowAdminComponent extends CustomComponent {
 
     private Integer userCounter = 0;
     private Long wfmId = null;
-    
+
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
     private Form appointForm = null;
@@ -44,69 +44,73 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
     private TextField appointSelf = null;
     private Button addField = null;
     private Button appointUsers = null;
-    
+
     /**
      * Default constructor. The given workflow model id is stored in a variable.
-     *
+     * 
      * @param workflowModelId
      */
-    public AppointWorkflowAdminComponent(Long workflowModelId){
+    public AppointWorkflowAdminComponent(Long workflowModelId) {
         wfmId = workflowModelId;
         init();
     }
-    
+
+    /**
+     * Adds a user to the form.
+     * 
+     */
+    private void addUser() {
+        userCounter += 1;
+        appointForm.addField("user" + userCounter.toString(), new TextField(
+                "Username:"));
+    }
+
     /**
      * Initializes the components for the appoint workflow admin component.
-     *
+     * 
      */
-    private void init(){
+    private void init() {
         userCounter = 1;
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
         verticalLayout.setSizeFull();
-        
+
         horizontalLayout = new HorizontalLayout();
         horizontalLayout.setSizeFull();
         horizontalLayout.setSpacing(true);
-        
+
         appointForm = new Form();
         appointForm.setWriteThrough(true);
-        
-        descriptionLabel = new Label("Add new workflow admins by pressing Add User and entering their username.<br/>Yourself will always be added automatically.", Label.CONTENT_XHTML);
-        
+
+        descriptionLabel = new Label(
+                "Add new workflow admins by pressing Add User and entering their username.<br/>Yourself will always be added automatically.",
+                Label.CONTENT_XHTML);
+
         appointSelf = new TextField();
         appointSelf.setCaption("Username:");
         appointSelf.setValue(Main.getCurrent().getUser());
         appointSelf.setEnabled(false);
-        
-        appointForm.addField("user"+userCounter.toString(), appointSelf);
-        
-        addField = new Button("Add User", new Button.ClickListener(){
-                public void buttonClick(Button.ClickEvent event){
-                    addUser();
-                }
-            });
-        
-        appointUsers = new Button("Appoint Users as Workflow Admins", new AppointWorkflowAdminAction(appointForm, wfmId));
-        
+
+        appointForm.addField("user" + userCounter.toString(), appointSelf);
+
+        addField = new Button("Add User", new Button.ClickListener() {
+            public void buttonClick(Button.ClickEvent event) {
+                addUser();
+            }
+        });
+
+        appointUsers = new Button("Appoint Users as Workflow Admins",
+                new AppointWorkflowAdminAction(appointForm, wfmId));
+
         horizontalLayout.addComponent(addField);
         horizontalLayout.setComponentAlignment(addField, "left middle");
         horizontalLayout.addComponent(appointUsers);
         horizontalLayout.setComponentAlignment(appointUsers, "right middle");
-        
+
         verticalLayout.addComponent(descriptionLabel);
         verticalLayout.addComponent(horizontalLayout);
         verticalLayout.addComponent(appointForm);
-        
+
         this.setCompositionRoot(verticalLayout);
-    }
-    
-    /**
-     * Adds a user to the form.
-     *
-     */
-    private void addUser(){
-        userCounter += 1;
-        appointForm.addField("user"+userCounter.toString(), new TextField("Username:"));
     }
 }

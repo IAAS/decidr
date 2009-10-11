@@ -37,46 +37,45 @@ public class ConfirmDialogComponent extends Window {
 
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
-    
+
     private Label infoLabel = null;
-        
+
     private Button submitButton = null;
     private Button cancelButton = null;
-    
+
     /**
      * Default constructor.
-     *
+     * 
      * @param text
      * @param listener
      */
-    public ConfirmDialogComponent(String text, ClickListener listener){
+    public ConfirmDialogComponent(String text, ClickListener listener) {
         init(text, listener);
     }
-    
+
     /**
      * Initializes the components for the confirm dialog component.
-     *
+     * 
      * @param text
      * @param listener
      */
-    private void init (String text, ClickListener listener){
+    private void init(String text, ClickListener listener) {
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
         verticalLayout.setMargin(true);
         verticalLayout.setSizeUndefined();
         verticalLayout.setWidth(400, Sizeable.UNITS_PIXELS);
-        
+
         horizontalLayout = new HorizontalLayout();
         horizontalLayout.setSpacing(true);
         horizontalLayout.setMargin(false);
         horizontalLayout.setSizeUndefined();
-        
+
         infoLabel = new Label(text, Label.CONTENT_XHTML);
-        
+
         submitButton = new Button("Confirm");
         submitButton.addListener(listener);
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
-
 
         verticalLayout.addComponent(infoLabel);
         horizontalLayout.addComponent(submitButton);
@@ -87,11 +86,11 @@ public class ConfirmDialogComponent extends Window {
         horizontalLayout.setComponentAlignment(cancelButton, "center bottom");
 
         verticalLayout.setComponentAlignment(horizontalLayout, "right bottom");
-        
+
         this.setModal(true);
         this.setResizable(false);
         this.setCaption("Confirmation Required");
         this.setContent(verticalLayout);
     }
-    
+
 }

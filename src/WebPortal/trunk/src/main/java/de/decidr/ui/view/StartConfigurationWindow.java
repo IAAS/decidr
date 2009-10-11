@@ -19,6 +19,7 @@ package de.decidr.ui.view;
 import java.util.Collection;
 
 import javax.servlet.http.HttpSession;
+
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -86,11 +87,11 @@ public class StartConfigurationWindow extends Window {
     private CheckBox checkBox = null;
 
     private ComboBox comboBox = null;
-    
+
     private Upload upload = null;
-    
+
     private TConfiguration tConfiguration = null;
-    
+
     private Long workflowModelId = null;
 
     private static final Action ACTION_ADD = new Action("Add child item");
@@ -98,6 +99,14 @@ public class StartConfigurationWindow extends Window {
 
     private static final Action[] ACTIONS = new Action[] { ACTION_ADD,
             ACTION_DELETE };
+
+    /**
+     * Default constructor
+     * 
+     */
+    public StartConfigurationWindow() {
+        init(this.tConfiguration, this.workflowModelId);
+    }
 
     /**
      * Default constructor with TConfiguration as parameter.
@@ -109,20 +118,94 @@ public class StartConfigurationWindow extends Window {
         this.workflowModelId = workflowModelId;
         init(tConfiguration, workflowModelId);
     }
-    
-    
+
     /**
-     * Default constructor
-     *
+     * Adds a field for every assignment which is in the start configuration xml
+     * file. So for every assignment the user can enter his desired value.
+     * 
+     * @param tConfiguration
      */
-    public StartConfigurationWindow(){
-        init(this.tConfiguration, this.workflowModelId);
+    private void addAssignmentToForm(TConfiguration tConfiguration) {
+        for (TAssignment assignment : tConfiguration.getAssignment()) {
+
+            if (assignment.getValueType().equals("String")) {
+                assignmentForm.addField(assignment.getKey(), new TextField(
+                        assignment.getKey()));
+                assignmentForm.getField(assignment.getKey()).addValidator(
+                        new RegexpValidator("[a-zA-Z]",
+                                "Please enter a value of the type string"));
+            } else if (assignment.getValueType().equals("Integer")) {
+                assignmentForm.addField(assignment.getKey(), new TextField(
+                        assignment.getKey()));
+                assignmentForm.getField(assignment.getKey()).addValidator(
+                        new IntegerValidator(
+                                "Please enter a value of the type integer"));
+            } else if (assignment.getValueType().equals("File")) {
+                assignmentForm.getLayout().addComponent(upload);
+
+            }
+        }
+    }
+
+    /**
+     * Adds a child to the tree which will be a parent node and which represents
+     * the roles which are stored in the start configuration xml file. Also the
+     * nodes can contain children and they will be expanded.
+     * 
+     * @param tConfiguration
+     */
+    private void addRolesToTree(TConfiguration tConfiguration) {
+        for (TRole role : tConfiguration.getRoles().getRole()) {
+            rolesTree.addItem(role.getName());
+            rolesTree.setChildrenAllowed(role.getName(), true);
+            rolesTree.expandItem(role.getName());
+
+        }
+
+    }
+
+    /**
+     * Fills the combo box with the current usernames of the tenant, so the user
+     * can choose from the usernames and add them as actors to a role.
+     * 
+     */
+    private void fillContainer() {
+        HttpSession session = Main.getCurrent().getSession();
+        String tenantName = (String) session.getAttribute("tenant");
+        Long userId = (Long) session.getAttribute("userId");
+        TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+        try {
+            Long tenantId = tenantFacade.getTenantId(tenantName);
+            for (Item item : tenantFacade.getUsersOfTenant(tenantId, null)) {
+                comboBox.addItem(item.getItemProperty("username").getValue());
+            }
+        } catch (TransactionException exception) {
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+        }
+
     }
 
     public Form getAssignmentForm() {
         return assignmentForm;
     }
 
+    /**
+     * Returns the check box
+     * 
+     * @return checkBox
+     */
+    public CheckBox getCheckBox() {
+        return checkBox;
+    }
+
+    /**
+     * Returns the upload field
+     * 
+     * @return uploadField
+     */
+    public Upload getUpload() {
+        return upload;
+    }
 
     /**
      * Initializes the components for the start configuration window. The
@@ -158,7 +241,7 @@ public class StartConfigurationWindow extends Window {
                 // holt das ausgewählte item aus dem tree
                 Item item = rolesTree.getItem(rolesTree.getValue());
                 // holt die property ids aus dem ausgewählten item
-                Collection collect = item.getItemPropertyIds();
+                Collection<?> collect = item.getItemPropertyIds();
                 // Geht die property ids durch, schaut ob es property ids
                 // userId,
                 // username oder email
@@ -285,91 +368,6 @@ public class StartConfigurationWindow extends Window {
         buttonHorizontalLayout.addComponent(cancelButton);
 
         mainVerticalLayout.addComponent(buttonHorizontalLayout);
-    }
-
-    /**
-     * Returns the check box
-     * 
-     * @return checkBox
-     */
-    public CheckBox getCheckBox() {
-        return checkBox;
-    }
-
-    /**
-     * Adds a child to the tree which will be a parent node and which represents
-     * the roles which are stored in the start configuration xml file. Also the
-     * nodes can contain children and they will be expanded.
-     * 
-     * @param tConfiguration
-     */
-    private void addRolesToTree(TConfiguration tConfiguration) {
-        for (TRole role : tConfiguration.getRoles().getRole()) {
-            rolesTree.addItem(role.getName());
-            rolesTree.setChildrenAllowed(role.getName(), true);
-            rolesTree.expandItem(role.getName());
-
-        }
-
-    }
-
-    /**
-     * Adds a field for every assignment which is in the start configuration xml
-     * file. So for every assignment the user can enter his desired value.
-     * 
-     * @param tConfiguration
-     */
-    private void addAssignmentToForm(TConfiguration tConfiguration) {
-        for (TAssignment assignment : tConfiguration.getAssignment()) {
-
-            if (assignment.getValueType().equals("String")) {
-                assignmentForm.addField(assignment.getKey(), new TextField(
-                        assignment.getKey()));
-                assignmentForm.getField(assignment.getKey()).addValidator(
-                        new RegexpValidator("[a-zA-Z]",
-                                "Please enter a value of the type string"));
-            } else if (assignment.getValueType().equals("Integer")) {
-                assignmentForm.addField(assignment.getKey(), new TextField(
-                        assignment.getKey()));
-                assignmentForm.getField(assignment.getKey()).addValidator(
-                        new IntegerValidator(
-                                "Please enter a value of the type integer"));
-            } else if (assignment.getValueType().equals("File")) {
-                assignmentForm.getLayout().addComponent(
-                        upload);
-                
-            }
-        }
-    }
-
-    /**
-     * Returns the upload field
-     *
-     * @return uploadField
-     */
-    public Upload getUpload() {
-        return upload;
-    }
-
-    /**
-     * Fills the combo box with the current usernames of the tenant, so the user
-     * can choose from the usernames and add them as actors to a role.
-     * 
-     */
-    private void fillContainer() {
-        HttpSession session = Main.getCurrent().getSession();
-        String tenantName = (String) session.getAttribute("tenant");
-        Long userId = (Long) session.getAttribute("userId");
-        TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
-        try {
-            Long tenantId = tenantFacade.getTenantId(tenantName);
-            for (Item item : tenantFacade.getUsersOfTenant(tenantId, null)) {
-                comboBox.addItem(item.getItemProperty("username").getValue());
-            }
-        } catch (TransactionException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
-        }
-
     }
 
 }

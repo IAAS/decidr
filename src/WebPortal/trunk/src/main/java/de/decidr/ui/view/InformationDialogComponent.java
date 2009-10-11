@@ -31,53 +31,53 @@ import com.vaadin.ui.Window;
 
 import de.decidr.ui.controller.HideDialogWindowAction;
 
-public class InformationDialogComponent extends Window {    
+public class InformationDialogComponent extends Window {
 
     private VerticalLayout verticalLayout = null;
-    //private HorizontalLayout horizontalLayout = null;
-    
+    // private HorizontalLayout horizontalLayout = null;
+
     private Label infoLabel = null;
-       
+
     private Button cancelButton = null;
-    
+
     /**
-     * Default constructor. The given text and caption are shown in 
-     * the subwindow.
-     *
+     * Default constructor. The given text and caption are shown in the
+     * subwindow.
+     * 
      * @param text
      * @param caption
      */
-    public InformationDialogComponent(String text, String caption){
+    public InformationDialogComponent(String text, String caption) {
         init(text, caption);
     }
-    
+
     /**
      * Initializes the components of the information dialog with the given text
      * and the given caption
-     *
+     * 
      * @param text
      * @param caption
      */
-    private void init (String text, String caption){
+    private void init(String text, String caption) {
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
         verticalLayout.setMargin(true);
         verticalLayout.setSizeUndefined();
         verticalLayout.setWidth(400, Sizeable.UNITS_PIXELS);
-        
+
         infoLabel = new Label(text, Label.CONTENT_XHTML);
-        
-        cancelButton = new Button("OK",new HideDialogWindowAction());
-        cancelButton.setWidth(75,Sizeable.UNITS_PIXELS);
+
+        cancelButton = new Button("OK", new HideDialogWindowAction());
+        cancelButton.setWidth(75, Sizeable.UNITS_PIXELS);
 
         verticalLayout.addComponent(infoLabel);
         verticalLayout.addComponent(cancelButton);
         verticalLayout.setComponentAlignment(cancelButton, "center bottom");
-        
+
         this.setModal(true);
         this.setResizable(false);
         this.setCaption(caption);
         this.setContent(verticalLayout);
     }
-    
+
 }

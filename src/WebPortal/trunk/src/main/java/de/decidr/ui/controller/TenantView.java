@@ -46,7 +46,6 @@ public class TenantView {
     private String tenantName = (String) session.getAttribute("tenant");
     private Long tenantId = null;
 
-    
     private String webInf = ".." + File.separator + ".." + File.separator
             + ".." + File.separator + ".." + File.separator + ".."
             + File.separator + "webapp" + File.separator + "VAADIN"
@@ -89,12 +88,14 @@ public class TenantView {
                 byte logobuf[] = new byte[10485760];
                 int csslen;
                 int logolen;
-                while ((csslen = css.read(cssbuf)) > 0)
+                while ((csslen = css.read(cssbuf)) > 0) {
                     cssOut.write(cssbuf, 0, csslen);
+                }
                 cssOut.close();
                 css.close();
-                while ((logolen = logo.read(logobuf)) > 0)
+                while ((logolen = logo.read(logobuf)) > 0) {
                     logoOut.write(logobuf, 0, logolen);
+                }
                 logoOut.close();
                 logo.close();
             } catch (IOException exception) {

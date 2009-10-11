@@ -20,7 +20,6 @@ import java.io.File;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -62,7 +61,7 @@ public class SaveTenantSettingsAction implements ClickListener {
             Long tenantId = tenantFacade.getTenantId(tenant);
             tenantFacade.setDescription(tenantId, content
                     .getTenantDescription().getValue().toString());
-            //TODO: css abspeichern und logo hochladen
+            // TODO: css abspeichern und logo hochladen
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent());

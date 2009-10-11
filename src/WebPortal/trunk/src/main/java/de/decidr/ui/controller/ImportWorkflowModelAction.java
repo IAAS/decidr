@@ -36,46 +36,53 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action imports a list of published workflow models
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class ImportWorkflowModelAction implements ClickListener  {
+public class ImportWorkflowModelAction implements ClickListener {
 
     private HttpSession session = Main.getCurrent().getSession();
-    
-    private Long userId = (Long)session.getAttribute("userId");
+
+    private Long userId = (Long) session.getAttribute("userId");
     private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
 
     private Item tenant = null;
     private Table table = null;
-    
+
     /**
      * Constructor, requires the table which contains the data
-     *
-     * @param table: requires Table with data
+     * 
+     * @param table
+     *            : requires Table with data
      */
-    public ImportWorkflowModelAction(Table table){
+    public ImportWorkflowModelAction(Table table) {
         this.table = table;
     }
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        tenant = (Item)session.getAttribute("tenant");
+        tenant = (Item) session.getAttribute("tenant");
 
         List<Long> wfms = new ArrayList<Long>();
         Set<?> value = (Set<?>) table.getValue();
-        if (value != null && value.size() != 0){
-            for (Iterator<?> iter = value.iterator(); iter.hasNext();){
-                wfms.add((Long)table.getContainerProperty(iter.next(), "id").getValue());
+        if ((value != null) && (value.size() != 0)) {
+            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
+                wfms.add((Long) table.getContainerProperty(iter.next(), "id")
+                        .getValue());
             }
         }
         try {
-            tenantFacade.importPublishedWorkflowModels((Long)tenant.getItemProperty("id").getValue(), wfms);
+            tenantFacade.importPublishedWorkflowModels((Long) tenant
+                    .getItemProperty("id").getValue(), wfms);
         } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent());
         }
     }
 }
