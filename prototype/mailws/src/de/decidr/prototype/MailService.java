@@ -23,6 +23,7 @@ import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -35,56 +36,61 @@ import org.apache.log4j.Logger;
 @SOAPBinding(style = Style.RPC)
 public class MailService {
 
-	private static Logger log = Logger.getLogger(MailService.class);
+    private static Logger log = Logger.getLogger(MailService.class);
+    static {
+        log.removeAllAppenders();
+        BasicConfigurator.configure();
+    }
 
-	/**
-	 * Provides the means to send an Email.
-	 * 
-	 * @param subject
-	 *            The subject the Email should have.
-	 * @param body
-	 *            The Email's main content.
-	 * @param tos
-	 *            The recipients of the Email.
-	 * @param from
-	 *            The sender of the Email. May be overwritten by the mail
-	 *            transport agent.
-	 * @return <code>true</code>, if the Email was successfully received by the
-	 *         MTA, otherwise <code>false</code>.
-	 */
-	@WebMethod(operationName = "sendEmail")
-	public boolean sendEmail(
-			@WebParam(name = "subject", mode = Mode.IN) String subject,
-			@WebParam(name = "message", mode = Mode.IN) String body,
-			@WebParam(name = "recipient", mode = Mode.IN) String tos,
-			@WebParam(name = "sender", mode = Mode.IN) String from) {
-		BasicConfigurator.configure();
-		log.debug("Parameters:\n\tTo: " + tos + "\n\tFrom: " + from
-				+ "\n\tSubject: " + subject);
+    /**
+     * Provides the means to send an Email.
+     * 
+     * @param subject
+     *            The subject the Email should have.
+     * @param body
+     *            The Email's main content.
+     * @param tos
+     *            The recipients of the Email.
+     * @param from
+     *            The sender of the Email. May be overwritten by the mail
+     *            transport agent.
+     * @return <code>true</code>, if the Email was successfully received by the
+     *         MTA, otherwise <code>false</code>.
+     */
+    @WebMethod(operationName = "sendEmail")
+    public boolean sendEmail(
+            @WebParam(name = "subject", mode = Mode.IN) String subject,
+            @WebParam(name = "message", mode = Mode.IN) String body,
+            @WebParam(name = "recipient", mode = Mode.IN) String tos,
+            @WebParam(name = "sender", mode = Mode.IN) String from) {
 
-		try {
-			// construct the mail
-			log.debug("construction mail...");
-			MailBackend mail = new MailBackend(tos,
-					"decidr.iaas@googlemail.com", subject);
-			log.debug("setting body...");
-			mail.setBodyText(body);
-			log.debug("setting hostname...");
-			mail.setHostname("smtp.googlemail.com");
-			log.debug("tell mail to use ssl-based transport...");
-			mail.useTLS(true);
-			log.debug("setting authentification info...");
-			mail.setAuthInfo("decidr.iaas@googlemail.com", "DecidR0809");
-			mail.setXMailer("DecidR Prototype");
+        log.setLevel(Level.DEBUG);
+        log.error("Parameters:\n\tTo: " + tos + "\n\tFrom: " + from
+                + "\n\tSubject: " + subject);
 
-			// send the message
-			log.debug("sending message...");
-			mail.sendMessage();
-		} catch (Exception e) {
-			log.error("Error occurred while sending message!", e);
-			return false;
-		}
-		log.info("Successfully sent!");
-		return true;
-	}
+        try {
+            // construct the mail
+            log.error("construction mail...");
+            MailBackend mail = new MailBackend(tos,
+                    "decidr.iaas@googlemail.com", subject);
+            log.error("setting body...");
+            mail.setBodyText(body);
+            log.error("setting hostname...");
+            mail.setHostname("smtp.googlemail.com");
+            log.error("tell mail to use ssl-based transport...");
+            mail.useTLS(true);
+            log.error("setting authentification info...");
+            mail.setAuthInfo("decidr.iaas@googlemail.com", "DecidR0809");
+            mail.setXMailer("DecidR Prototype");
+
+            // send the message
+            log.error("sending message...");
+            mail.sendMessage();
+        } catch (Exception e) {
+            log.error("Error occurred while sending message!", e);
+            return false;
+        }
+        log.error("Successfully sent!");
+        return true;
+    }
 }
