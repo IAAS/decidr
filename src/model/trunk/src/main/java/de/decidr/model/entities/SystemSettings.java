@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 09.10.2009 15:53:47 by Hibernate Tools 3.2.4.GA
+// Generated 12.10.2009 16:53:44 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -44,49 +44,6 @@ public class SystemSettings implements java.io.Serializable {
     private int maxWorkflowInstancesForShutdown;
 
     public SystemSettings() {
-    }
-
-    public SystemSettings(Date modifiedDate, boolean autoAcceptNewTenants,
-            String systemName, String domain, String systemEmailAddress,
-            String logLevel, int passwordResetRequestLifetimeSeconds,
-            int registrationRequestLifetimeSeconds,
-            int changeEmailRequestLifetimeSeconds,
-            int invitationLifetimeSeconds, String mtaHostname, int mtaPort,
-            boolean mtaUseTls, String mtaUsername, String mtaPassword,
-            long maxUploadFileSizeBytes, int maxAttachmentsPerEmail,
-            int monitorUpdateIntervalSeconds,
-            int monitorAveragingPeriodSeconds, int serverPoolInstances,
-            byte minServerLoadForLock, byte maxServerLoadForUnlock,
-            byte maxServerLoadForShutdown, int minUnlockedServers,
-            int minWorkflowInstancesForLock, int maxWorkflowInstancesForUnlock,
-            int maxWorkflowInstancesForShutdown) {
-        this.modifiedDate = modifiedDate;
-        this.autoAcceptNewTenants = autoAcceptNewTenants;
-        this.systemName = systemName;
-        this.domain = domain;
-        this.systemEmailAddress = systemEmailAddress;
-        this.logLevel = logLevel;
-        this.passwordResetRequestLifetimeSeconds = passwordResetRequestLifetimeSeconds;
-        this.registrationRequestLifetimeSeconds = registrationRequestLifetimeSeconds;
-        this.changeEmailRequestLifetimeSeconds = changeEmailRequestLifetimeSeconds;
-        this.invitationLifetimeSeconds = invitationLifetimeSeconds;
-        this.mtaHostname = mtaHostname;
-        this.mtaPort = mtaPort;
-        this.mtaUseTls = mtaUseTls;
-        this.mtaUsername = mtaUsername;
-        this.mtaPassword = mtaPassword;
-        this.maxUploadFileSizeBytes = maxUploadFileSizeBytes;
-        this.maxAttachmentsPerEmail = maxAttachmentsPerEmail;
-        this.monitorUpdateIntervalSeconds = monitorUpdateIntervalSeconds;
-        this.monitorAveragingPeriodSeconds = monitorAveragingPeriodSeconds;
-        this.serverPoolInstances = serverPoolInstances;
-        this.minServerLoadForLock = minServerLoadForLock;
-        this.maxServerLoadForUnlock = maxServerLoadForUnlock;
-        this.maxServerLoadForShutdown = maxServerLoadForShutdown;
-        this.minUnlockedServers = minUnlockedServers;
-        this.minWorkflowInstancesForLock = minWorkflowInstancesForLock;
-        this.maxWorkflowInstancesForUnlock = maxWorkflowInstancesForUnlock;
-        this.maxWorkflowInstancesForShutdown = maxWorkflowInstancesForShutdown;
     }
 
     public SystemSettings(User superAdmin, Date modifiedDate,

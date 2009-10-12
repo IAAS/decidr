@@ -680,9 +680,9 @@ public class UserFacade extends AbstractFacade {
                 item.addItemProperty("firstName", new ObjectProperty(user
                         .getUserProfile().getFirstName(), String.class));
                 item.addItemProperty("lastName", new ObjectProperty(user
-                        .getUserProfile().getFirstName(), String.class));
+                        .getUserProfile().getLastName(), String.class));
                 item.addItemProperty("username", new ObjectProperty(user
-                        .getUserProfile().getFirstName(), String.class));
+                        .getUserProfile().getUsername(), String.class));
             } else {
                 item.addItemProperty("firstName", new ObjectProperty(null,
                         String.class));
@@ -691,6 +691,8 @@ public class UserFacade extends AbstractFacade {
                 item.addItemProperty("username", new ObjectProperty(null,
                         String.class));
             }
+            
+            result.add(item);
         }
 
         return result;

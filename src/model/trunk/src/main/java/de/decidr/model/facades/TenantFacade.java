@@ -481,7 +481,7 @@ public class TenantFacade extends AbstractFacade {
      * properties:<br>
      * <ul>
      * <li>id: Long - tenant ID</li>
-     * <li>name: String - tenant name</li> XXX not according to the code
+     * <li>name: String - tenant name</li>
      * <li>adminFirstName: String - first name of tenant admin</li>
      * <li>adminLastName: String - last name of tenant admin</li>
      * <li>adminId: Long - user ID of tenant admin</li>
@@ -504,8 +504,8 @@ public class TenantFacade extends AbstractFacade {
         List<Item> outList = new ArrayList<Item>();
         List<TenantWithAdminView> inList = new ArrayList();
 
-        String[] properties = { "id", "adminFirstName", "adminLastName",
-                "adminId" };
+        String[] properties = { "id", "name", "adminFirstName",
+                "adminLastName", "adminId" };
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
         inList = command.getResult();

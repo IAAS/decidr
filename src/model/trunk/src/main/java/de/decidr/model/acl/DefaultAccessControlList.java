@@ -15,6 +15,8 @@
  */
 package de.decidr.model.acl;
 
+import static de.decidr.model.acl.asserters.AssertMode.SatisfyAny;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,96 +24,17 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 import de.decidr.model.acl.asserters.AlwaysTrueAsserter;
 import de.decidr.model.acl.asserters.AssertMode;
 import de.decidr.model.acl.asserters.Asserter;
-import de.decidr.model.acl.asserters.IsRoleEqualToAccessedUserAsserter;
-import de.decidr.model.acl.asserters.UserAdministratesWorkflowInstanceAsserter;
-import de.decidr.model.acl.asserters.UserAdministratesWorkflowModelAsserter;
-import de.decidr.model.acl.asserters.UserHasAccessToFileAsserter;
-import de.decidr.model.acl.asserters.UserIsEnabledAsserter;
-import de.decidr.model.acl.asserters.UserIsInvitationReceiverAsserter;
-import de.decidr.model.acl.asserters.UserIsLoggedInAsserter;
 import de.decidr.model.acl.asserters.UserIsSuperAdminAsserter;
-import de.decidr.model.acl.asserters.UserIsTenantAdminAsserter;
-import de.decidr.model.acl.asserters.UserNotParticipatingInAnyWorkflowAsserter;
-import de.decidr.model.acl.asserters.UserOwnsWorkItemAsserter;
-import de.decidr.model.acl.asserters.UserOwnsWorkflowModelAsserter;
-import de.decidr.model.acl.permissions.CommandPermission;
-import de.decidr.model.acl.permissions.FileDeletePermission;
-import de.decidr.model.acl.permissions.FileReadPermission;
-import de.decidr.model.acl.permissions.FileReplacePermission;
 import de.decidr.model.acl.permissions.Permission;
-import de.decidr.model.acl.roles.BasicRole;
-import de.decidr.model.acl.roles.HumanTaskRole;
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.acl.roles.ServerLoadUpdaterRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
-import de.decidr.model.acl.roles.TenantAdminRole;
-import de.decidr.model.acl.roles.UserRole;
-import de.decidr.model.acl.roles.WorkflowAdminRole;
-import de.decidr.model.commands.system.GetServersCommand;
-import de.decidr.model.commands.system.UpdateServerLoadCommand;
-import de.decidr.model.commands.tenant.AddTenantMemberCommand;
-import de.decidr.model.commands.tenant.CreateTenantCommand;
-import de.decidr.model.commands.tenant.CreateWorkflowModelCommand;
-import de.decidr.model.commands.tenant.GetCurrentColorSchemeCommand;
-import de.decidr.model.commands.tenant.GetTenantLogoCommand;
-import de.decidr.model.commands.tenant.GetUsersOfTenantCommand;
-import de.decidr.model.commands.tenant.GetWorkflowInstancesCommand;
-import de.decidr.model.commands.tenant.GetWorkflowModelsCommand;
-import de.decidr.model.commands.tenant.ImportPublishedWorkflowModelsCommand;
-import de.decidr.model.commands.tenant.InviteUsersAsTenantMembersCommand;
-import de.decidr.model.commands.tenant.SetAdvancedColorSchemeCommand;
-import de.decidr.model.commands.tenant.SetCurrentColorSchemeCommand;
-import de.decidr.model.commands.tenant.SetSimpleColorSchemeCommand;
-import de.decidr.model.commands.tenant.SetTenantDescriptionCommand;
-import de.decidr.model.commands.tenant.SetTenantLogoCommand;
-import de.decidr.model.commands.user.CheckAuthKeyCommand;
-import de.decidr.model.commands.user.ConfirmChangeEmailRequestCommand;
-import de.decidr.model.commands.user.ConfirmInvitationCommand;
-import de.decidr.model.commands.user.ConfirmPasswordResetCommand;
-import de.decidr.model.commands.user.ConfirmRegistrationCommand;
-import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
-import de.decidr.model.commands.user.GetAdministratedWorkflowInstancesCommand;
-import de.decidr.model.commands.user.GetHighestUserRoleCommand;
-import de.decidr.model.commands.user.GetInvitationCommand;
-import de.decidr.model.commands.user.GetJoinedTenantsCommand;
-import de.decidr.model.commands.user.GetUserByLoginCommand;
-import de.decidr.model.commands.user.GetUserRoleForTenantCommand;
-import de.decidr.model.commands.user.GetUserWithProfileCommand;
-import de.decidr.model.commands.user.GetWorkitemsCommand;
-import de.decidr.model.commands.user.IsUserRegisteredCommand;
-import de.decidr.model.commands.user.LeaveTenantCommand;
-import de.decidr.model.commands.user.RefuseInvitationCommand;
-import de.decidr.model.commands.user.RegisterUserCommand;
-import de.decidr.model.commands.user.RemoveFromTenantCommand;
-import de.decidr.model.commands.user.RequestPasswordResetCommand;
-import de.decidr.model.commands.user.SetPasswordCommand;
-import de.decidr.model.commands.user.SetUserProfileCommand;
-import de.decidr.model.commands.user.SetUserPropertyCommand;
-import de.decidr.model.commands.workflowinstance.GetAllWorkitemsCommand;
-import de.decidr.model.commands.workflowinstance.GetParticipatingUsersCommand;
-import de.decidr.model.commands.workflowinstance.RemoveAllWorkItemsCommand;
-import de.decidr.model.commands.workflowinstance.StopWorkflowInstanceCommand;
-import de.decidr.model.commands.workflowmodel.DeleteWorkflowModelCommand;
-import de.decidr.model.commands.workflowmodel.GetLastStartConfigurationCommand;
-import de.decidr.model.commands.workflowmodel.GetPublishedWorkflowModelsCommand;
-import de.decidr.model.commands.workflowmodel.GetWorkflowAdministratorsCommand;
-import de.decidr.model.commands.workflowmodel.GetWorkflowModelCommand;
-import de.decidr.model.commands.workflowmodel.MakeWorkflowModelExecutableCommand;
-import de.decidr.model.commands.workflowmodel.PublishWorkflowModelsCommand;
-import de.decidr.model.commands.workflowmodel.SaveStartConfigurationCommand;
-import de.decidr.model.commands.workflowmodel.SaveWorkflowModelCommand;
-import de.decidr.model.commands.workflowmodel.SetWorkflowAdministratorsCommand;
-import de.decidr.model.commands.workflowmodel.StartWorkflowInstanceCommand;
-import de.decidr.model.commands.workitem.CreateWorkItemCommand;
-import de.decidr.model.commands.workitem.DeleteWorkItemCommand;
-import de.decidr.model.commands.workitem.GetWorkItemCommand;
-import de.decidr.model.commands.workitem.SetDataCommand;
-import de.decidr.model.commands.workitem.SetStatusCommand;
 import de.decidr.model.exceptions.TransactionException;
-import static de.decidr.model.acl.asserters.AssertMode.*;
+import de.decidr.model.logging.DefaultLogger;
 
 /**
  * Provides a centralized mechanism for permissions checking. The default ACL
@@ -204,6 +127,8 @@ import static de.decidr.model.acl.asserters.AssertMode.*;
  */
 public class DefaultAccessControlList implements AccessControlList {
 
+    Logger logger = DefaultLogger.getLogger(DefaultAccessControlList.class);
+
     /**
      * The compound key of the ruleset which maps one role and one permission to
      * a set of asserters and an assert mode.
@@ -255,10 +180,18 @@ public class DefaultAccessControlList implements AccessControlList {
                 RuleKey other = (RuleKey) obj;
 
                 // role and permission are never null.
-                return role.getClass().getName().equals(
+                Boolean result = role.getClass().getName().equals(
                         other.role.getClass().getName())
                         && permission.getName().equals(
                                 other.permission.getName());
+
+                logger.debug(String.format(
+                        "equals: (%1$s, %2$s) %5$s (%3$s, %4$s)", role
+                                .getClass().getName(), permission.getName(),
+                        other.role.getClass().getName(), other.permission
+                                .getName(), result ? "=" : "<>"));
+
+                return result;
             } else {
                 // "this" cannot be null.
                 return false;
@@ -269,11 +202,17 @@ public class DefaultAccessControlList implements AccessControlList {
         public int hashCode() {
             // hash code must be consistent with equals.
             // role and permission are never null.
-            int roleHashCode = this.role.getClass().getName()
-                    .hashCode();
-            int permissionHashCode = this.permission.getName().hashCode();
+            int roleHashCode = role.getClass().getName().hashCode();
+            int permissionHashCode = permission.getName().hashCode();
 
-            return roleHashCode ^ permissionHashCode;
+            int result = roleHashCode ^ permissionHashCode;
+
+            logger.debug(String.format(
+                    "hashCode: (%1$s, %2$s) => (%3$d, %4$d)", role.getClass()
+                            .getName(), permission.getName(), roleHashCode,
+                    permissionHashCode));
+
+            return result;
         }
     }
 
@@ -379,344 +318,348 @@ public class DefaultAccessControlList implements AccessControlList {
          * COMMAND PERMISSIONS
          */
 
-        /**
-         * Command Permissions System Facade
-         * 
-         * Nothing to do except one rule. All other commands are always allowed
-         * by SuperAdmin. These commands are already covered by the first rule.
-         * 
-         */
-        setRule(ServerLoadUpdaterRole.getInstance(), new CommandPermission(
-                UpdateServerLoadCommand.class), SatisfyAll, alwaysTrueAsserter);
-
-        setRule(ServerLoadUpdaterRole.getInstance(), new CommandPermission(
-                GetServersCommand.class), SatisfyAll, alwaysTrueAsserter);
-
-        /**
-         * Command Permissions Tenant Facade
-         */
-        setRule(new TenantAdminRole(), new CommandPermission(
-                AddTenantMemberCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new UserRole(),
-                new CommandPermission(CreateTenantCommand.class), SatisfyAll,
-                alwaysTrueAsserter);
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                CreateWorkflowModelCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new BasicRole(null), new CommandPermission(
-                GetCurrentColorSchemeCommand.class), SatisfyAll,
-                alwaysTrueAsserter);
-
-        setRule(new BasicRole(null), new CommandPermission(
-                GetTenantLogoCommand.class), SatisfyAll, alwaysTrueAsserter);
-
-        setRule(new WorkflowAdminRole(), new CommandPermission(
-                GetUsersOfTenantCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new WorkflowAdminRole(), new CommandPermission(
-                GetWorkflowInstancesCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                GetWorkflowModelsCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                ImportPublishedWorkflowModelsCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new WorkflowAdminRole(), new CommandPermission(
-                InviteUsersAsTenantMembersCommand.class), SatisfyAll,
-                new UserAdministratesWorkflowInstanceAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                SetAdvancedColorSchemeCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                SetCurrentColorSchemeCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                SetTenantDescriptionCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                SetTenantLogoCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                SetSimpleColorSchemeCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        /**
-         * Command Permissions User Facade
-         */
-        setRule(new UserRole(),
-                new CommandPermission(RegisterUserCommand.class), SatisfyAll,
-                alwaysTrueAsserter);
-
-        setRule(new BasicRole(null), new CommandPermission(
-                GetUserByLoginCommand.class), SatisfyAll, alwaysTrueAsserter);
-
-        setRule(new UserRole(),
-                new CommandPermission(CheckAuthKeyCommand.class), SatisfyAll,
-                alwaysTrueAsserter);
-
-        setRule(new UserRole(),
-                new CommandPermission(SetPasswordCommand.class), SatisfyAll,
-                new IsRoleEqualToAccessedUserAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new UserRole(), new CommandPermission(
-                RequestPasswordResetCommand.class), SatisfyAll,
-                new IsRoleEqualToAccessedUserAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new UserRole(),
-                new CommandPermission(LeaveTenantCommand.class), SatisfyAll,
-                new UserIsEnabledAsserter(),
-                new UserNotParticipatingInAnyWorkflowAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new UserRole(), new CommandPermission(
-                SetUserPropertyCommand.class), SatisfyAll,
-                new IsRoleEqualToAccessedUserAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                RemoveFromTenantCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserNotParticipatingInAnyWorkflowAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new UserRole(), new CommandPermission(
-                ConfirmPasswordResetCommand.class), SatisfyAll,
-                new IsRoleEqualToAccessedUserAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new UserRole(), new CommandPermission(
-                ConfirmRegistrationCommand.class), SatisfyAll,
-                new IsRoleEqualToAccessedUserAsserter(),
-                new UserIsEnabledAsserter());
-
-        setRule(new UserRole(), new CommandPermission(
-                ConfirmChangeEmailRequestCommand.class), SatisfyAll,
-                new IsRoleEqualToAccessedUserAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new UserRole(), new CommandPermission(
-                ConfirmInvitationCommand.class), SatisfyAll,
-                new UserIsInvitationReceiverAsserter());
-
-        setRule(new UserRole(), new CommandPermission(
-                RefuseInvitationCommand.class), SatisfyAll,
-                new UserIsInvitationReceiverAsserter(),
-                new IsRoleEqualToAccessedUserAsserter());
-
-        setRule(new UserRole(), new CommandPermission(
-                GetUserWithProfileCommand.class), SatisfyAll,
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new BasicRole(null), new CommandPermission(
-                GetHighestUserRoleCommand.class), SatisfyAll,
-                new IsRoleEqualToAccessedUserAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new BasicRole(null), new CommandPermission(
-                GetUserRoleForTenantCommand.class), SatisfyAll,
-                new IsRoleEqualToAccessedUserAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new WorkflowAdminRole(), new CommandPermission(
-                GetAdministratedWorkflowInstancesCommand.class), SatisfyAll,
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new UserRole(), new CommandPermission(
-                GetJoinedTenantsCommand.class), SatisfyAll,
-                new IsRoleEqualToAccessedUserAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                GetAdministratedWorkflowModelCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new UserRole(),
-                new CommandPermission(GetWorkitemsCommand.class), SatisfyAll,
-                new IsRoleEqualToAccessedUserAsserter(),
-                new UserOwnsWorkItemAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new UserRole(), new CommandPermission(
-                GetInvitationCommand.class), SatisfyAll,
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new BasicRole(null), new CommandPermission(
-                IsUserRegisteredCommand.class), SatisfyAll, alwaysTrueAsserter);
-
-        setRule(new BasicRole(null), new CommandPermission(
-                SetUserProfileCommand.class), SatisfyAll,
-                new IsRoleEqualToAccessedUserAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        /**
-         * Command Permissions WorkflowInstanceFacade
-         */
-        setRule(new WorkflowAdminRole(), new CommandPermission(
-                StopWorkflowInstanceCommand.class), SatisfyAll,
-                new UserAdministratesWorkflowInstanceAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new WorkflowAdminRole(), new CommandPermission(
-                GetParticipatingUsersCommand.class), SatisfyAll,
-                new UserAdministratesWorkflowInstanceAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new WorkflowAdminRole(), new CommandPermission(
-                StartWorkflowInstanceCommand.class), SatisfyAll,
-                new UserAdministratesWorkflowInstanceAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(HumanTaskRole.getInstance(), new CommandPermission(
-                RemoveAllWorkItemsCommand.class), SatisfyAll,
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new WorkflowAdminRole(), new CommandPermission(
-                GetAllWorkitemsCommand.class), SatisfyAll,
-                new UserAdministratesWorkflowInstanceAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        /**
-         * Command Permissions WorkflowModelFacade
-         */
-        setRule(new TenantAdminRole(), new CommandPermission(
-                SaveWorkflowModelCommand.class), SatisfyAll,
-                new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                GetWorkflowModelCommand.class), SatisfyAll,
-                new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                PublishWorkflowModelsCommand.class), SatisfyAll,
-                new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                MakeWorkflowModelExecutableCommand.class), SatisfyAll,
-                new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                GetWorkflowAdministratorsCommand.class), SatisfyAll,
-                new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                SetWorkflowAdministratorsCommand.class), SatisfyAll,
-                new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                DeleteWorkflowModelCommand.class), SatisfyAll,
-                new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                StartWorkflowInstanceCommand.class), SatisfyAll,
-                new UserAdministratesWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                StopWorkflowInstanceCommand.class), SatisfyAll,
-                new UserAdministratesWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                SaveStartConfigurationCommand.class), SatisfyAll,
-                new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                GetLastStartConfigurationCommand.class), SatisfyAll,
-                new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(new TenantAdminRole(), new CommandPermission(
-                GetPublishedWorkflowModelsCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        /**
-         * Command Permissions WorkitemFacade
-         */
-        setRule(new UserRole(),
-                new CommandPermission(GetWorkItemCommand.class), SatisfyAll,
-                new UserOwnsWorkItemAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        setRule(HumanTaskRole.getInstance(), new CommandPermission(
-                CreateWorkItemCommand.class), SatisfyAll,
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new UserRole(), new CommandPermission(SetDataCommand.class),
-                SatisfyAll, new UserOwnsWorkItemAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new UserRole(), new CommandPermission(SetStatusCommand.class),
-                SatisfyAll, new UserOwnsWorkItemAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
-
-        setRule(new WorkflowAdminRole(), new CommandPermission(
-                DeleteWorkItemCommand.class), SatisfyAll,
-                new UserOwnsWorkItemAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
-
-        /**
-         * file permissions
-         */
-        // File Delete Permissions
-        setRule(new BasicRole(null), new FileDeletePermission(null),
-                SatisfyAll, new UserHasAccessToFileAsserter());
-
-        // File Read Permissions
-        setRule(new BasicRole(null), new FileReadPermission(null), SatisfyAll,
-                new UserHasAccessToFileAsserter());
-
-        // File Replace Permissions
-        setRule(new BasicRole(null), new FileReplacePermission(null),
-                SatisfyAll, new UserHasAccessToFileAsserter());
+        // /**
+        // * Command Permissions System Facade
+        // *
+        // * Nothing to do except one rule. All other commands are always
+        // allowed
+        // * by SuperAdmin. These commands are already covered by the first
+        // rule.
+        // *
+        // */
+        // setRule(ServerLoadUpdaterRole.getInstance(), new CommandPermission(
+        // UpdateServerLoadCommand.class), SatisfyAll, alwaysTrueAsserter);
+        //
+        // setRule(ServerLoadUpdaterRole.getInstance(), new CommandPermission(
+        // GetServersCommand.class), SatisfyAll, alwaysTrueAsserter);
+        //
+        // /**
+        // * Command Permissions Tenant Facade
+        // */
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // AddTenantMemberCommand.class), SatisfyAll,
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new UserRole(),
+        // new CommandPermission(CreateTenantCommand.class), SatisfyAll,
+        // alwaysTrueAsserter);
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // CreateWorkflowModelCommand.class), SatisfyAll,
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new BasicRole(null), new CommandPermission(
+        // GetCurrentColorSchemeCommand.class), SatisfyAll,
+        // alwaysTrueAsserter);
+        //
+        // setRule(new BasicRole(null), new CommandPermission(
+        // GetTenantLogoCommand.class), SatisfyAll, alwaysTrueAsserter);
+        //
+        // setRule(new WorkflowAdminRole(), new CommandPermission(
+        // GetUsersOfTenantCommand.class), SatisfyAll,
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new WorkflowAdminRole(), new CommandPermission(
+        // GetWorkflowInstancesCommand.class), SatisfyAll,
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // GetWorkflowModelsCommand.class), SatisfyAll,
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // ImportPublishedWorkflowModelsCommand.class), SatisfyAll,
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new WorkflowAdminRole(), new CommandPermission(
+        // InviteUsersAsTenantMembersCommand.class), SatisfyAll,
+        // new UserAdministratesWorkflowInstanceAsserter(),
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // SetAdvancedColorSchemeCommand.class), SatisfyAll,
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // SetCurrentColorSchemeCommand.class), SatisfyAll,
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // SetTenantDescriptionCommand.class), SatisfyAll,
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // SetTenantLogoCommand.class), SatisfyAll,
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // SetSimpleColorSchemeCommand.class), SatisfyAll,
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // /**
+        // * Command Permissions User Facade
+        // */
+        // setRule(new UserRole(),
+        // new CommandPermission(RegisterUserCommand.class), SatisfyAll,
+        // alwaysTrueAsserter);
+        //
+        // setRule(new BasicRole(null), new CommandPermission(
+        // GetUserByLoginCommand.class), SatisfyAll, alwaysTrueAsserter);
+        //
+        // setRule(new UserRole(),
+        // new CommandPermission(CheckAuthKeyCommand.class), SatisfyAll,
+        // alwaysTrueAsserter);
+        //
+        // setRule(new UserRole(),
+        // new CommandPermission(SetPasswordCommand.class), SatisfyAll,
+        // new IsRoleEqualToAccessedUserAsserter(),
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new UserRole(), new CommandPermission(
+        // RequestPasswordResetCommand.class), SatisfyAll,
+        // new IsRoleEqualToAccessedUserAsserter(),
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new UserRole(),
+        // new CommandPermission(LeaveTenantCommand.class), SatisfyAll,
+        // new UserIsEnabledAsserter(),
+        // new UserNotParticipatingInAnyWorkflowAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new UserRole(), new CommandPermission(
+        // SetUserPropertyCommand.class), SatisfyAll,
+        // new IsRoleEqualToAccessedUserAsserter(),
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // RemoveFromTenantCommand.class), SatisfyAll,
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserNotParticipatingInAnyWorkflowAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new UserRole(), new CommandPermission(
+        // ConfirmPasswordResetCommand.class), SatisfyAll,
+        // new IsRoleEqualToAccessedUserAsserter(),
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new UserRole(), new CommandPermission(
+        // ConfirmRegistrationCommand.class), SatisfyAll,
+        // new IsRoleEqualToAccessedUserAsserter(),
+        // new UserIsEnabledAsserter());
+        //
+        // setRule(new UserRole(), new CommandPermission(
+        // ConfirmChangeEmailRequestCommand.class), SatisfyAll,
+        // new IsRoleEqualToAccessedUserAsserter(),
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new UserRole(), new CommandPermission(
+        // ConfirmInvitationCommand.class), SatisfyAll,
+        // new UserIsInvitationReceiverAsserter());
+        //
+        // setRule(new UserRole(), new CommandPermission(
+        // RefuseInvitationCommand.class), SatisfyAll,
+        // new UserIsInvitationReceiverAsserter(),
+        // new IsRoleEqualToAccessedUserAsserter());
+        //
+        // setRule(new UserRole(), new CommandPermission(
+        // GetUserWithProfileCommand.class), SatisfyAll,
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new BasicRole(null), new CommandPermission(
+        // GetHighestUserRoleCommand.class), SatisfyAll,
+        // new IsRoleEqualToAccessedUserAsserter(),
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new BasicRole(null), new CommandPermission(
+        // GetUserRoleForTenantCommand.class), SatisfyAll,
+        // new IsRoleEqualToAccessedUserAsserter(),
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new WorkflowAdminRole(), new CommandPermission(
+        // GetAdministratedWorkflowInstancesCommand.class), SatisfyAll,
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new UserRole(), new CommandPermission(
+        // GetJoinedTenantsCommand.class), SatisfyAll,
+        // new IsRoleEqualToAccessedUserAsserter(),
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // GetAdministratedWorkflowModelCommand.class), SatisfyAll,
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new UserRole(),
+        // new CommandPermission(GetWorkitemsCommand.class), SatisfyAll,
+        // new IsRoleEqualToAccessedUserAsserter(),
+        // new UserOwnsWorkItemAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new UserRole(), new CommandPermission(
+        // GetInvitationCommand.class), SatisfyAll,
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new BasicRole(null), new CommandPermission(
+        // IsUserRegisteredCommand.class), SatisfyAll, alwaysTrueAsserter);
+        //
+        // setRule(new BasicRole(null), new CommandPermission(
+        // SetUserProfileCommand.class), SatisfyAll,
+        // new IsRoleEqualToAccessedUserAsserter(),
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // /**
+        // * Command Permissions WorkflowInstanceFacade
+        // */
+        // setRule(new WorkflowAdminRole(), new CommandPermission(
+        // StopWorkflowInstanceCommand.class), SatisfyAll,
+        // new UserAdministratesWorkflowInstanceAsserter(),
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new WorkflowAdminRole(), new CommandPermission(
+        // GetParticipatingUsersCommand.class), SatisfyAll,
+        // new UserAdministratesWorkflowInstanceAsserter(),
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new WorkflowAdminRole(), new CommandPermission(
+        // StartWorkflowInstanceCommand.class), SatisfyAll,
+        // new UserAdministratesWorkflowInstanceAsserter(),
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(HumanTaskRole.getInstance(), new CommandPermission(
+        // RemoveAllWorkItemsCommand.class), SatisfyAll,
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new WorkflowAdminRole(), new CommandPermission(
+        // GetAllWorkitemsCommand.class), SatisfyAll,
+        // new UserAdministratesWorkflowInstanceAsserter(),
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // /**
+        // * Command Permissions WorkflowModelFacade
+        // */
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // SaveWorkflowModelCommand.class), SatisfyAll,
+        // new UserOwnsWorkflowModelAsserter(),
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // GetWorkflowModelCommand.class), SatisfyAll,
+        // new UserOwnsWorkflowModelAsserter(),
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // PublishWorkflowModelsCommand.class), SatisfyAll,
+        // new UserOwnsWorkflowModelAsserter(),
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // MakeWorkflowModelExecutableCommand.class), SatisfyAll,
+        // new UserOwnsWorkflowModelAsserter(),
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // GetWorkflowAdministratorsCommand.class), SatisfyAll,
+        // new UserOwnsWorkflowModelAsserter(),
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // SetWorkflowAdministratorsCommand.class), SatisfyAll,
+        // new UserOwnsWorkflowModelAsserter(),
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // DeleteWorkflowModelCommand.class), SatisfyAll,
+        // new UserOwnsWorkflowModelAsserter(),
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // StartWorkflowInstanceCommand.class), SatisfyAll,
+        // new UserAdministratesWorkflowModelAsserter(),
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // StopWorkflowInstanceCommand.class), SatisfyAll,
+        // new UserAdministratesWorkflowModelAsserter(),
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // SaveStartConfigurationCommand.class), SatisfyAll,
+        // new UserOwnsWorkflowModelAsserter(),
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // GetLastStartConfigurationCommand.class), SatisfyAll,
+        // new UserOwnsWorkflowModelAsserter(),
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(new TenantAdminRole(), new CommandPermission(
+        // GetPublishedWorkflowModelsCommand.class), SatisfyAll,
+        // new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // /**
+        // * Command Permissions WorkitemFacade
+        // */
+        // setRule(new UserRole(),
+        // new CommandPermission(GetWorkItemCommand.class), SatisfyAll,
+        // new UserOwnsWorkItemAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // setRule(HumanTaskRole.getInstance(), new CommandPermission(
+        // CreateWorkItemCommand.class), SatisfyAll,
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new UserRole(), new CommandPermission(SetDataCommand.class),
+        // SatisfyAll, new UserOwnsWorkItemAsserter(),
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new UserRole(), new
+        // CommandPermission(SetStatusCommand.class),
+        // SatisfyAll, new UserOwnsWorkItemAsserter(),
+        // new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+        //
+        // setRule(new WorkflowAdminRole(), new CommandPermission(
+        // DeleteWorkItemCommand.class), SatisfyAll,
+        // new UserOwnsWorkItemAsserter(), new UserIsEnabledAsserter(),
+        // new UserIsLoggedInAsserter());
+        //
+        // /**
+        // * file permissions
+        // */
+        // // File Delete Permissions
+        // setRule(new BasicRole(null), new FileDeletePermission(null),
+        // SatisfyAll, new UserHasAccessToFileAsserter());
+        //
+        // // File Read Permissions
+        // setRule(new BasicRole(null), new FileReadPermission(null),
+        // SatisfyAll,
+        // new UserHasAccessToFileAsserter());
+        //
+        // // File Replace Permissions
+        // setRule(new BasicRole(null), new FileReplacePermission(null),
+        // SatisfyAll, new UserHasAccessToFileAsserter());
     }
 
     /**
@@ -764,6 +707,7 @@ public class DefaultAccessControlList implements AccessControlList {
         RuleConditions rule = key == null ? null : ruleMap.get(key);
 
         if (rule == null) {
+            logger.debug("No rule conditions found for key " + key);
             return false;
         }
 
@@ -773,8 +717,14 @@ public class DefaultAccessControlList implements AccessControlList {
 
             for (Asserter a : rule.asserters) {
                 if (!a.assertRule(role, permission)) {
+                    logger.debug(String.format(
+                            "[SatisfyAll] %1$s DISAGREES, exiting loop.", a
+                                    .getClass().getSimpleName()));
                     allowed = false;
                     break;
+                } else {
+                    logger.debug(String.format("[SatisfyAll] %1$s agrees.", a
+                            .getClass().getSimpleName()));
                 }
             }
             break;
@@ -783,8 +733,14 @@ public class DefaultAccessControlList implements AccessControlList {
             allowed = false;
             for (Asserter a : rule.asserters) {
                 if (a.assertRule(role, permission)) {
+                    logger.debug(String.format(
+                            "[SatisfyAny] %1$s AGREES, exiting loop.", a
+                                    .getClass().getSimpleName()));
                     allowed = true;
                     break;
+                } else {
+                    logger.debug(String.format("[SatisfyAny] %1$s disagrees.",
+                            a.getClass().getSimpleName()));
                 }
             }
             break;
@@ -793,6 +749,9 @@ public class DefaultAccessControlList implements AccessControlList {
             allowed = false;
             break;
         }
+
+        logger.debug("Final isAllowed() decision: "
+                + (allowed ? "ALLOWED" : "DENIED"));
 
         return allowed;
     }
@@ -858,8 +817,7 @@ public class DefaultAccessControlList implements AccessControlList {
             nextRoleClass = roleClass.getSuperclass();
         } while (nextRoleClass != null
                 && Role.class.isAssignableFrom(nextRoleClass)
-                && !nextRoleClass.getName().equals(
-                        roleClass.getName()));
+                && !nextRoleClass.getName().equals(roleClass.getName()));
 
         RuleKey result = null;
         RuleKey currentKey;
@@ -889,6 +847,11 @@ public class DefaultAccessControlList implements AccessControlList {
             if (result != null) {
                 break;
             }
+        }
+
+        if (result == null) {
+            logger.debug("No rule found for " + key.role.getClass().getName()
+                    + ", " + key.permission.getName());
         }
 
         return result;

@@ -65,6 +65,6 @@ public class UserIsSuperAdminAsserter extends AbstractTransactionalCommand imple
                 .setMaxResults(1);
         Long superAdminId = (Long) q.uniqueResult();
 
-        isSuperAdmin = (superAdminId != null) && (superAdminId == userid);
+        isSuperAdmin = (superAdminId != null) && (superAdminId.equals(userid));
     }
 }

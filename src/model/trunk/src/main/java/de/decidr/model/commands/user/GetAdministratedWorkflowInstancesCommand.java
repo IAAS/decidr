@@ -60,7 +60,7 @@ public class GetAdministratedWorkflowInstancesCommand extends UserCommand {
         String hql = "select rel.workflowInstance "
                 + "from UserAdministratesWorkflowInstance rel "
                 + "join fetch rel.workflowInstance wi "
-                + "join fetch wi.deployedWorkflowModel "
+                + "join fetch rel.workflowInstance.deployedWorkflowModel "
                 + "where rel.user.id = :userId";
 
         result = evt.getSession().createQuery(hql).setLong("userId",

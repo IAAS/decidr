@@ -76,13 +76,14 @@ public class SystemFacade extends AbstractFacade {
      * <ul>
      * <li>autoAcceptNewTenants: <code>{@link Boolean}</code> - whether new
      * tenants don't have to be approved by the super admin</li>
-     * <li>systemName: <code>{@link }</code> - name of the system (usually
+     * <li>systemName: <code>{@link String}</code> - name of the system (usually
      * "DecidR")</li>
      * <li>domain: <code>{@link String}</code> - domain where the system can be
      * reached ("decidr.de"). Used for URL generation.</li>
      * <li>systemEmailAddress: <code>{@link String}</code> - from-Address to use
      * when sending notifications to users</li>
      * <li>logLevel: <code>{@link String}</code> - current global log level</li>
+     * <li>superAdmin: <code>{@link User}</code> - the super admin</li>
      * <li>passwordResetRequestLifeTimeSeconds: <code>{@link Integer}</code> -
      * the user has this many seconds to confirm his password reset.</li>
      * <li>registrationRequestLifetimeSeconds: <code>{@link Integer}</code> -
@@ -143,11 +144,11 @@ public class SystemFacade extends AbstractFacade {
 
     /**
      * Sets the given system settings.
-     * <p>
-     * The loglevel must be a string
      * 
+     * @param newSettings
+     *            the full new system settings.
      * @throws TransactionException
-     *             if an error occurs during the transaction s
+     *             if an error occurs during the transaction
      */
     @AllowedRole(SuperAdminRole.class)
     public void setSettings(SystemSettings newSettings)

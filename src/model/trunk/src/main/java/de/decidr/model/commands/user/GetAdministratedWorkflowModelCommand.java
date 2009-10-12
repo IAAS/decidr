@@ -61,7 +61,7 @@ public class GetAdministratedWorkflowModelCommand extends UserCommand {
             throws TransactionException {
 
         String hql = "select rel.workflowModel "
-                + "from UserAdministratesWorkflowModel as rel"
+                + "from UserAdministratesWorkflowModel rel"
                 + "where rel.user.id = :userId";
 
         Query q = evt.getSession().createQuery(hql).setLong("userId", userId);

@@ -647,6 +647,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         assertEquals("Acity", userProfile.getValue().getCity());
         assertNotNull(userProfile.getKey());
 
+        // RR
         adminFacade.setProfile(testUserID, new UserProfile());
         assertNotNull(getProfile(adminFacade.getUserProfile(testUserID, false),
                 false).getKey());

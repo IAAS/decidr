@@ -46,7 +46,7 @@ public class CommandPermission extends
     private Class<? extends TransactionalCommand> commandClass = null;
 
     /**
-     * Constructor. Creates CommandPermission for the given command Class.
+     * Constructor. Creates CommandPermission for the given command class.
      * 
      * @param commandClass
      */

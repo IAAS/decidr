@@ -36,6 +36,7 @@ import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.testing.DecidrDatabaseTest;
 
 /**
@@ -94,7 +95,7 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         setterSettings.setMonitorUpdateIntervalSeconds(10);
         setterSettings.setMtaHostname("localhost");
         setterSettings.setMtaPassword("asdfg");
-        setterSettings.setMtaPort(-1);
+        setterSettings.setMtaPort(0);
         setterSettings.setMtaUsername("asd");
         setterSettings.setMtaUseTls(true);
         setterSettings.setPasswordResetRequestLifetimeSeconds(200);
@@ -104,6 +105,7 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         setterSettings.setSystemName("De Cidr");
         adminFacade.setSettings(setterSettings);
 
+        DefaultLogger.getLogger(SystemFacadeTest.class).debug("LOOKY LOOKY");
         getterSettings = adminFacade.getSettings();
         assertEquals(true, getterSettings.getItemProperty(
                 "autoAcceptNewTenants").getValue());
@@ -242,7 +244,6 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 .getItemProperty("systemName").getValue());
 
         setterSettings.setMtaHostname("");
-        setterSettings.setMtaPort(-102);
         setterSettings.setMtaUsername("");
         setterSettings.setMtaPassword("");
         setterSettings.setSystemName("");
@@ -1006,6 +1007,7 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         Paginator emptyPaginator = new Paginator();
         ArrayList<Filter> emptyList = new ArrayList<Filter>();
 
+        
         adminFacade.getLog(null, null);
         adminFacade.getLog(emptyList, null);
         adminFacade.getLog(null, emptyPaginator);

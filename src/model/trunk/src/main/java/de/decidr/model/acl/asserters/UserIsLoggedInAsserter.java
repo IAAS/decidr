@@ -37,7 +37,8 @@ public class UserIsLoggedInAsserter implements Asserter {
         Boolean result = false;
         if (role instanceof UserRole) {
             UserRole userRole = (UserRole) role;
-            result = userRole.getActorId() >= UserRole.MIN_VALID_USER_ID;
+            result = UserRole.MIN_VALID_USER_ID
+                    .compareTo(userRole.getActorId()) < 0;
         }
         return result;
     }

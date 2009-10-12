@@ -17,6 +17,7 @@ package de.decidr.model.commands.tenant;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
@@ -93,7 +94,8 @@ public class GetUsersOfTenantCommand extends TenantCommand {
         c.add(Restrictions.or(isMemberRestriction, isAdminRestriction));
 
         // preload user profiles - no lazy loading desired
-        c.createCriteria("userProfile", CriteriaSpecification.LEFT_JOIN)
+        // DH fix that
+        c.createAlias("userProfile", "jerkov", Criteria.LEFT_JOIN)
                 .setProjection(plist);
 
         if (paginator != null) {

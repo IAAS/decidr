@@ -87,11 +87,14 @@ public class LifetimeValidatorTest extends DecidrOthersTest {
     public void testIsRegistrationRequestValid() {
         RegistrationRequest validRequest = new RegistrationRequest(null,
                 DecidrGlobals.getTime().getTime(), null);
-        RegistrationRequest invalidRequest = new RegistrationRequest(null,
-                new Date(DecidrGlobals.getTime().getTimeInMillis()
-                        - (DecidrGlobals.getSettings()
-                                .getInvitationLifetimeSeconds() * 1000) + 1),
-                null);
+        RegistrationRequest invalidRequest = new RegistrationRequest(
+                null,
+                new Date(
+                        DecidrGlobals.getTime().getTimeInMillis()
+                                - (DecidrGlobals
+                                        .getSettings()
+                                        .getRegistrationRequestLifetimeSeconds() * 1000)
+                                - 1000), null);
         RegistrationRequest emptyRequest = new RegistrationRequest();
 
         assertTrue(LifetimeValidator.isRegistrationRequestValid(validRequest));
@@ -111,8 +114,8 @@ public class LifetimeValidatorTest extends DecidrOthersTest {
         ChangeEmailRequest invalidRequest = new ChangeEmailRequest(null, null,
                 new Date(DecidrGlobals.getTime().getTimeInMillis()
                         - (DecidrGlobals.getSettings()
-                                .getInvitationLifetimeSeconds() * 1000) + 1),
-                null);
+                                .getChangeEmailRequestLifetimeSeconds() * 1000)
+                        - 1000), null);
         ChangeEmailRequest emptyRequest = new ChangeEmailRequest();
 
         assertTrue(LifetimeValidator.isChangeEmailRequestValid(validRequest));

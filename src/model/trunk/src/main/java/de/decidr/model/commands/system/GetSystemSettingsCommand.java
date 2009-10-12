@@ -53,6 +53,7 @@ public class GetSystemSettingsCommand extends SystemCommand {
             throws TransactionException {
 
         Criteria c = evt.getSession().createCriteria(SystemSettings.class);
+        c.createCriteria("superAdmin");
         List<SystemSettings> results = c.list();
 
         if (results.size() > 1) {

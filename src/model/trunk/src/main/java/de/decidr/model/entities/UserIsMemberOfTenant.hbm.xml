@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 09.10.2009 15:53:48 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 12.10.2009 16:53:45 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.UserIsMemberOfTenant" table="user_is_member_of_tenant" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <composite-id name="id" class="de.decidr.model.entities.UserIsMemberOfTenantId">

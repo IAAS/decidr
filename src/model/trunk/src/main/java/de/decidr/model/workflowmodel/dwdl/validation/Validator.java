@@ -65,16 +65,18 @@ public class Validator {
             SchemaFactory sf = SchemaFactory
                     .newInstance("http://www.w3.org/2001/XMLSchema");
             Class<Validator> resourceClass = Validator.class;
-            schema = sf.newSchema(new StreamSource (resourceClass.getResourceAsStream("resources/dwdl.xsd")));
+            schema = sf.newSchema(new StreamSource(resourceClass
+                    .getResourceAsStream("resources/dwdl.xsd")));
 
             validator = schema.newValidator();
         } catch (SAXException e) {
+            // MA here and every other catch: please re-throw after logging -
+            // the caller needs to know something went wrong! ~rr,dh
             log.error("Couldn't parse dwdl schema file for validation purpose",
                     e);
         }
     }
 
-    
     /**
      * This methods validates a given DWDL Workflow and returns a list of
      * {@link IProblem}s. The workflow will be parsed and checked till to the

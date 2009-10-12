@@ -19,6 +19,7 @@ package de.decidr.model.commands;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -374,7 +375,7 @@ public class SystemCommandsTest extends CommandsTest {
     public void testSystemSettingsCommands() throws TransactionException {
         SystemSettings setterSettings = new SystemSettings();
         SystemSettings getterSettings;
-        Date modDate;
+        Calendar modDate;
         SuperAdminRole superRole = new SuperAdminRole(SUPER_ADMIN_ID);
         SetSystemSettingsCommand setter = new SetSystemSettingsCommand(
                 superRole, setterSettings);
@@ -423,13 +424,16 @@ public class SystemCommandsTest extends CommandsTest {
         setterSettings.setMinServerLoadForLock((byte) 100);
         setterSettings.setMinUnlockedServers(1);
         setterSettings.setMinWorkflowInstancesForLock(1);
-        modDate = DecidrGlobals.getTime().getTime();
-        setterSettings.setModifiedDate(modDate);
+        modDate = DecidrGlobals.getTime();
+        modDate.setLenient(true);
+        modDate.set(Calendar.MILLISECOND,
+                modDate.get(Calendar.MILLISECOND) < 500 ? 0 : 1000);
+        setterSettings.setModifiedDate(modDate.getTime());
         setterSettings.setMonitorAveragingPeriodSeconds(60);
         setterSettings.setMonitorUpdateIntervalSeconds(10);
         setterSettings.setMtaHostname("localhost");
         setterSettings.setMtaPassword("asdfg");
-        setterSettings.setMtaPort(-1);
+        setterSettings.setMtaPort(0);
         setterSettings.setMtaUsername("asd");
         setterSettings.setMtaUseTls(true);
         setterSettings.setPasswordResetRequestLifetimeSeconds(200);
@@ -457,19 +461,19 @@ public class SystemCommandsTest extends CommandsTest {
         assertEquals((byte) 100, getterSettings.getMinServerLoadForLock());
         assertEquals(1, getterSettings.getMinUnlockedServers());
         assertEquals(1, getterSettings.getMinWorkflowInstancesForLock());
-        assertEquals(modDate, getterSettings.getModifiedDate());
+        assertEquals(modDate.getTime(), getterSettings.getModifiedDate());
         assertEquals(60, getterSettings.getMonitorAveragingPeriodSeconds());
         assertEquals(10, getterSettings.getMonitorUpdateIntervalSeconds());
         assertEquals("localhost", getterSettings.getMtaHostname());
         assertEquals("asdfg", getterSettings.getMtaPassword());
-        assertEquals(-1, getterSettings.getMtaPort());
+        assertEquals(0, getterSettings.getMtaPort());
         assertEquals("asd", getterSettings.getMtaUsername());
         assertEquals(200, getterSettings
                 .getPasswordResetRequestLifetimeSeconds());
         assertEquals(2000, getterSettings
                 .getRegistrationRequestLifetimeSeconds());
         assertEquals(3, getterSettings.getServerPoolInstances());
-        assertEquals(admin, getterSettings.getSuperAdmin());
+        assertEquals(admin.getId(), getterSettings.getSuperAdmin().getId());
         assertEquals("decidr@decidr.biz", getterSettings
                 .getSystemEmailAddress());
         assertEquals("De Cidr", getterSettings.getSystemName());
@@ -488,14 +492,11 @@ public class SystemCommandsTest extends CommandsTest {
         setterSettings.setMinServerLoadForLock((byte) 10);
         setterSettings.setMinUnlockedServers(10);
         setterSettings.setMinWorkflowInstancesForLock(10);
-        modDate = new Date(DecidrGlobals.getTime().getTimeInMillis() - 1000000);
-        setterSettings.setModifiedDate(modDate);
+        setterSettings.setModifiedDate(new Date(
+                modDate.getTimeInMillis() - 1000000));
         setterSettings.setMonitorAveragingPeriodSeconds(600);
         setterSettings.setMonitorUpdateIntervalSeconds(1);
-        setterSettings.setMtaHostname(null);
-        setterSettings.setMtaPassword(null);
         setterSettings.setMtaPort(22);
-        setterSettings.setMtaUsername(null);
         setterSettings.setMtaUseTls(false);
         setterSettings.setPasswordResetRequestLifetimeSeconds(20);
         setterSettings.setRegistrationRequestLifetimeSeconds(2);
@@ -521,13 +522,11 @@ public class SystemCommandsTest extends CommandsTest {
         assertEquals((byte) 10, getterSettings.getMinServerLoadForLock());
         assertEquals(10, getterSettings.getMinUnlockedServers());
         assertEquals(10, getterSettings.getMinWorkflowInstancesForLock());
-        assertEquals(modDate, getterSettings.getModifiedDate());
+        assertEquals(new Date(modDate.getTimeInMillis() - 1000000),
+                getterSettings.getModifiedDate());
         assertEquals(600, getterSettings.getMonitorAveragingPeriodSeconds());
         assertEquals(1, getterSettings.getMonitorUpdateIntervalSeconds());
-        assertNull(getterSettings.getMtaHostname());
-        assertNull(getterSettings.getMtaPassword());
         assertEquals(22, getterSettings.getMtaPort());
-        assertNull(getterSettings.getMtaUsername());
         assertEquals(20, getterSettings
                 .getPasswordResetRequestLifetimeSeconds());
         assertEquals(2, getterSettings.getRegistrationRequestLifetimeSeconds());
@@ -536,7 +535,6 @@ public class SystemCommandsTest extends CommandsTest {
         assertEquals("Darth Vader", getterSettings.getSystemName());
 
         setterSettings.setMtaHostname("");
-        setterSettings.setMtaPort(-102);
         setterSettings.setMtaUsername("");
         setterSettings.setMtaPassword("");
         setterSettings.setSystemName("");
