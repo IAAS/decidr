@@ -104,6 +104,30 @@ public class SystemFacade extends AbstractFacade {
      * for any file uploads</li>
      * <li>maxAttachmentsPerEmail: <code>{@link Integer}</code> - maximum number
      * of attachments an email sent by the system can have.</li>
+     * <li>monitorUpdateIntervalSeconds: {@link Integer} - time between to ODE
+     * monitor status updates in seconds</li>
+     * <li>monitorAveragingPeriodSeconds: {@link Integer} - time span over which
+     * collected data is averaged in seconds.</li>
+     * <li>serverPoolInstances: {@link Integer} - number of server instances
+     * that should never be shut down automatically by the monitor service</li>
+     * <li>minServerLoadForLock: {@link Short} - if server load goes above this
+     * value, the server will be locked.</li>
+     * <li>minServerLoadForUnlock: {@link Short} - if server load goes below
+     * this value, the server will be unlocked</li>
+     * <li>maxServerLoadForShutdown: {@link Short} - if server load goes below
+     * this value, the load monitor will consider shutting down the affected
+     * server.</li>
+     * <li>minUnlockedServers: {@link Integer} - number of servers that should
+     * remain unlocked even if their load is above minServerLoadForLock</li>
+     * <li>minWorkflowInstancesForLock: {@link Integer} - if a server has more
+     * than minWorkflowInstancesForLock workflow instances it will be locked by
+     * the load monitor</li>
+     * <li>maxWorkflowInstanceForUnlock: {@link Integer} - if a server has less
+     * than maxWorkflowInstancesForLock workflow instances it will be unlocked
+     * by the load monitor</li>
+     * <li>maxWorkflowInstancesForShutdown: {@link Integer} - if a server has
+     * less than maxWorkflowInstancesForShutdown workflow instances, the load
+     * monitor will consider shutting it down.</li>
      * </ul>
      * 
      * @return system settings as <code>{@link Item}</code>
