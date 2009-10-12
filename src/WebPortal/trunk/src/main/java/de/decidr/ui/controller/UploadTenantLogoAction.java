@@ -88,8 +88,7 @@ public class UploadTenantLogoAction implements Upload.SucceededListener,
      */
     @Override
     public void uploadFailed(FailedEvent event) {
-        Main.getCurrent().getMainWindow().addWindow(
-                new TransactionErrorDialogComponent());
+        Main.getCurrent().getMainWindow().showNotification("Upload failed");
     }
 
     /*
@@ -104,8 +103,6 @@ public class UploadTenantLogoAction implements Upload.SucceededListener,
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(file);
-            int index = file.getCanonicalPath().indexOf('.');
-            String suffix = file.getCanonicalPath().substring(index);
 
             tenant = (Item) session.getAttribute("tenant");
 
@@ -117,14 +114,14 @@ public class UploadTenantLogoAction implements Upload.SucceededListener,
             tenantFacade.setLogo(
                     (Long) tenant.getItemProperty("id").getValue(), file
                             .getId());
-
+            Main.getCurrent().getMainWindow().showNotification(
+                    "File " + event.getFilename()
+                            + "successfully temporarily saved!");
         } catch (final java.io.FileNotFoundException e) {
             Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
         } catch (TransactionException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
-        } catch (IOException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
-        }
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+        } 
     }
 
 }

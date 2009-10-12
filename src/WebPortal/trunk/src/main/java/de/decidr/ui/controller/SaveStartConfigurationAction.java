@@ -29,6 +29,7 @@ import de.decidr.model.exceptions.UserDisabledException;
 import de.decidr.model.exceptions.UserUnavailableException;
 import de.decidr.model.exceptions.UsernameNotFoundException;
 import de.decidr.model.exceptions.WorkflowModelNotStartableException;
+import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
@@ -57,6 +58,10 @@ public class SaveStartConfigurationAction implements ClickListener {
     private WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
             new UserRole((Long) Main.getCurrent().getSession().getAttribute(
                     "userId")));
+    private FileFacade fileFacade = new FileFacade(new UserRole((Long) Main
+            .getCurrent().getSession().getAttribute("userId")));
+
+    
 
     /**
      * TODO: add comment
@@ -90,7 +95,7 @@ public class SaveStartConfigurationAction implements ClickListener {
         }
         for (TAssignment assignment : tConfiguration.getAssignment()) {
             if (assignment.getValueType().equals("File")) {
-                // TODO: file id in assignment abspeichern
+                
             } else {
                 assignment.getValue().add(
                         form.getField(assignment.getKey()).getValue()
@@ -117,7 +122,6 @@ public class SaveStartConfigurationAction implements ClickListener {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent());
         }
-        // TODO: in datenbank abspeichern
         new HideDialogWindowAction();
     }
 

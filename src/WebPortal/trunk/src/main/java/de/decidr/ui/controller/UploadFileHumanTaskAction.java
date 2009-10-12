@@ -16,9 +16,11 @@
 
 package de.decidr.ui.controller;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.HashSet;
 
 import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.FailedListener;
@@ -28,9 +30,16 @@ import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.Upload.SucceededListener;
 
+import de.decidr.model.acl.permissions.FilePermission;
+import de.decidr.model.acl.permissions.FileReadPermission;
+import de.decidr.model.acl.roles.UserRole;
+
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.FileFacade;
 import de.decidr.ui.view.DeleteUploadComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.StartConfigurationWindow;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This class handles the actions when the upload for a human task is started,
@@ -46,6 +55,20 @@ public class UploadFileHumanTaskAction implements FailedListener, Receiver,
     private DeleteUploadComponent deleteUploadComponent = new DeleteUploadComponent();
 
     private java.io.File file = null;
+
+    private FileFacade fileFacade = new FileFacade(new UserRole((Long) Main
+            .getCurrent().getSession().getAttribute("userId")));
+    
+    private Long fileId = null;
+
+    /**
+     * Returns the filed Id
+     *
+     * @return fileId
+     */
+    public Long getFileId() {
+        return fileId;
+    }
 
     /*
      * (non-Javadoc)
@@ -107,10 +130,23 @@ public class UploadFileHumanTaskAction implements FailedListener, Receiver,
      */
     @Override
     public void uploadSucceeded(SucceededEvent event) {
-        Main.getCurrent().getMainWindow().showNotification(
-                "File " + event.getFilename()
-                        + "successfully temporarily saved!");
-        // TODO: file id setzen
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+            HashSet<Class<? extends FilePermission>> filePermission = new HashSet<Class<? extends FilePermission>>();
+            filePermission.add(FileReadPermission.class);
+            fileId = fileFacade.createFile(fis, event.getLength(), event
+                    .getFilename(), event.getMIMEType(), true,
+                    filePermission);
+            Main.getCurrent().getMainWindow().showNotification(
+                    "File " + event.getFilename()
+                            + "successfully temporarily saved!");
+        } catch (FileNotFoundException exception) {
+            Main.getCurrent().getMainWindow()
+                    .showNotification("File not found");
+        }catch(TransactionException exception){
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+        }
     }
 
 }
