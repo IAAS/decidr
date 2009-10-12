@@ -16,23 +16,13 @@
 
 package de.decidr.model.workflowmodel.deployment;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
-import javax.wsdl.xml.WSDLReader;
-import javax.wsdl.xml.WSDLWriter;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
@@ -43,10 +33,7 @@ import org.apache.axiom.om.util.Base64;
 import org.apache.axis2.AxisFault;
 import org.apache.ode.axis2.service.ServiceClientUtil;
 import org.apache.ode.utils.Namespaces;
-import org.xml.sax.InputSource;
 
-import com.ibm.wsdl.xml.WSDLReaderImpl;
-import com.ibm.wsdl.xml.WSDLWriterImpl;
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.KnownWebService;
@@ -73,9 +60,9 @@ public class DeployerImpl implements Deployer {
     private List<IProblem> problems = null;
     private Translator translator = null;
     private DeploymentResult result = null;
-    private OMFactory _factory;
-    private ServiceClientUtil _client;
-    private final String AMAZON_EC2 = "http://ec2-174-129-24-232.compute-1.amazonaws.com:8080";
+    private OMFactory factory = null;
+    private ServiceClientUtil client = null;
+    
 
     /*
      * (non-Javadoc)
@@ -91,32 +78,34 @@ public class DeployerImpl implements Deployer {
             throws DWDLValidationException, ODESelectorException, IOException,
             JAXBException, WSDLException {
 
+        // validate the given DWDL workflow
         validator = new Validator();
         problems = validator.validate(dwdl);
         if (!problems.isEmpty()) {
             throw new DWDLValidationException(problems);
         }
+        // select the server according deployment strategy
         prefferedServers = strategy.selectServer(serverStatistics);
         if (prefferedServers.isEmpty()) {
             throw new ODESelectorException(serverStatistics);
         }
+        // get BPEL, WSDL, SOAP, and DD files
         translator = new Translator();
         translator.load(dwdl, tenantName, knownWebservices);
         Process bpel = translator.getBPEL();
         byte[] soap = translator.getSOAP();
-        Definition wsdl = null;
-        TDeployment dd = null;
+        PackageBuilder builder = new PackageBuilder();
+        // deploy on each selected server
         for (ServerLoadView server : prefferedServers) {
-            wsdl = translator.getWSDL(server.getLocation());
-            dd = translator.getDD();
-            byte[] zipFile = getDeploymentBundle(tenantName, bpel, wsdl, dd,
-                    knownWebservices);
+            Definition wsdl = translator.getWSDL(server.getLocation());
+            TDeployment dd = translator.getDD();
+            byte[] zipFile = builder.getPackage(tenantName, bpel, wsdl, dd, knownWebservices);
             deploy(tenantName, zipFile, server.getLocation());
             serverList.add(server.getId());
         }
+        // create a deployment result 
         result = new DeploymentResultImpl();
         result.setDoplementDate(DecidrGlobals.getTime().getTime());
-        serverList.add(serverStatistics.get(0).getId());
         result.setSOAPTemplate(soap);
         result.setServers(serverList);
 
@@ -126,39 +115,33 @@ public class DeployerImpl implements Deployer {
     public void deploy(String packageName, byte[] zip, String location)
             throws AxisFault {
 
-        _factory = OMAbstractFactory.getOMFactory();
-        _client = new ServiceClientUtil();
+        factory = OMAbstractFactory.getOMFactory();
+        client = new ServiceClientUtil();
 
-        // Use the factory to create three elements
-        OMNamespace depns = _factory.createOMNamespace(
+        // use the factory to create three elements
+        OMNamespace depns = factory.createOMNamespace(
                 Namespaces.ODE_DEPLOYAPI_NS, "deployapi");
-        OMElement root = _factory
+        OMElement root = factory
                 .createOMElement("deploy", depns);
-        OMElement namePart = _factory.createOMElement("name",
+        OMElement namePart = factory.createOMElement("name",
                 null);
         namePart.setText(packageName);
-        OMElement zipPart = _factory.createOMElement("package",
+        OMElement zipPart = factory.createOMElement("package",
                 null);
-        OMElement zipElmt = _factory
+        OMElement zipElmt = factory
                 .createOMElement("zip", depns);
 
-        // Add the zip to deploy
+        // add the zip to deploy
         String base64Enc = Base64.encode(zip);
-        OMText zipContent = _factory.createOMText(base64Enc,
+        OMText zipContent = factory.createOMText(base64Enc,
                 "application/zip", true);
         root.addChild(namePart);
         root.addChild(zipPart);
         zipPart.addChild(zipElmt);
         zipElmt.addChild(zipContent);
 
-        // Deploy
-        // result Element for further development
-        OMElement result = sendToDeployment(root, location);
-    }
-
-    private OMElement sendToDeployment(OMElement msg, String location)
-            throws AxisFault {
-        return _client.send(msg, location + "/ode/processes/DeploymentService");
+        // deploy
+        client.send(root, location + "/ode/processes/DeploymentService");
     }
 
     /*
@@ -171,80 +154,16 @@ public class DeployerImpl implements Deployer {
     @Override
     public void undeploy(DeployedWorkflowModel dwfm, Server server)
             throws AxisFault {
-        OMNamespace depns = _factory.createOMNamespace(
+        OMNamespace depns = factory.createOMNamespace(
                 Namespaces.ODE_DEPLOYAPI_NS, "deployapi");
-        OMElement root = _factory.createOMElement("undeploy",
+        OMElement root = factory.createOMElement("undeploy",
                 depns);
-        OMElement part = _factory.createOMElement("packageName",
+        OMElement part = factory.createOMElement("packageName",
                 null);
         part.setText(dwfm.getTenant().getName());
         root.addChild(part);
 
-        // Undeploy
-        // result Element for further development
-        OMElement result = sendToDeployment(root, server.getLocation());
-    }
-
-    private byte[] getDeploymentBundle(String name, Process bpel,
-            Definition wsdl, TDeployment dd,
-            List<KnownWebService> knownWebservices) throws JAXBException,
-            WSDLException, IOException {
-        JAXBContext bpelCntxt = JAXBContext.newInstance(Process.class);
-        JAXBContext ddCntxt = JAXBContext.newInstance(TDeployment.class);
-        Marshaller bpelMarshaller = bpelCntxt.createMarshaller();
-        Marshaller ddMarshaller = ddCntxt.createMarshaller();
-
-        ByteArrayOutputStream bpelOut = new ByteArrayOutputStream();
-        ByteArrayOutputStream ddOut = new ByteArrayOutputStream();
-        ByteArrayOutputStream wsdlOut = new ByteArrayOutputStream();
-
-        ByteArrayOutputStream zipOut = new ByteArrayOutputStream();
-
-        WSDLWriter wsdlWriter = new WSDLWriterImpl();
-
-        String bpelFilename = name + ".bpel";
-        String wsdlFilename = name + ".wsdl";
-        String ddFilename = "deploy.xml";
-
-        bpelMarshaller.marshal(bpel, bpelOut);
-        ddMarshaller.marshal(dd, ddOut);
-        wsdlWriter.writeWSDL(wsdl, wsdlOut);
-
-        ZipOutputStream zip_out_stream = new ZipOutputStream(zipOut);
-        zip_out_stream.putNextEntry(new ZipEntry(bpelFilename));
-        zip_out_stream.write(bpelOut.toByteArray());
-        zip_out_stream.closeEntry();
-        zip_out_stream.putNextEntry(new ZipEntry(wsdlFilename));
-        zip_out_stream.write(wsdlOut.toByteArray());
-        zip_out_stream.closeEntry();
-        zip_out_stream.putNextEntry(new ZipEntry(ddFilename));
-        zip_out_stream.write(ddOut.toByteArray());
-        zip_out_stream.closeEntry();
-        Map<KnownWebService, Definition> definitions = retrieveWSDLs(knownWebservices);
-        for (KnownWebService webservice : knownWebservices) {
-            zip_out_stream.putNextEntry(new ZipEntry(definitions
-                    .get(webservice).getQName().getLocalPart()
-                    + "wsdl"));
-            zip_out_stream.write(webservice.getWsdl());
-            zip_out_stream.closeEntry();
-        }
-        zip_out_stream.close();
-
-        return zipOut.toByteArray();
-    }
-
-    private Map<KnownWebService,Definition> retrieveWSDLs(List<KnownWebService> webservices)
-            throws WSDLException {
-        Map<KnownWebService,Definition> definitions = new HashMap<KnownWebService,Definition>();
-        WSDLReader wsdlReader = new WSDLReaderImpl();
-        ByteArrayInputStream inStream = null;
-        InputSource in = null;
-        for (KnownWebService webservice : webservices) {
-            inStream = new ByteArrayInputStream(webservice.getWsdl());
-            in = new InputSource(inStream);
-            Definition webserviceDefinition = wsdlReader.readWSDL(null, in);
-            definitions.put(webservice, webserviceDefinition);
-        }
-        return definitions;
+        // undeploy
+        client.send(root, server.getLocation() + "/ode/processes/DeploymentService");
     }
 }

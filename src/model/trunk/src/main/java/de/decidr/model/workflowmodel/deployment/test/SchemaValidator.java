@@ -16,14 +16,6 @@
 
 package de.decidr.model.workflowmodel.deployment.test;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
-import javax.xml.bind.JAXBException;
-
-import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
-import de.decidr.model.workflowmodel.dwdl.validation.IProblem;
 
 /**
  * A simple schema validator
@@ -37,26 +29,7 @@ public class SchemaValidator {
      * validation.
      */
     public static void main(String[] args) {
-//        try {
-//            // define the type of schema - we use W3C:
-//            String schemaLang = "http://www.w3.org/2001/XMLSchema";
-//
-//            // get validation driver:
-//            SchemaFactory factory = SchemaFactory.newInstance(schemaLang);
-//
-//            // create schema by reading it from an XSD file:
-//            Schema schema = factory.newSchema(new StreamSource("dwdl.xsd"));
-//            Validator validator = schema.newValidator();
-//
-//            // at last perform validation:
-//            validator.validate(new StreamSource("sampleProcess.xml"));
-//
-//        } catch (SAXException ex) {
-//            // we are here if the document is not valid:
-//            ex.printStackTrace();
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
+        ;
     }
     
 

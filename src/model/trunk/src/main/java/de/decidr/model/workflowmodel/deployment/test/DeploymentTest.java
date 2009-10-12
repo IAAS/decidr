@@ -16,10 +16,6 @@
 
 package de.decidr.model.workflowmodel.deployment.test;
 
-import java.io.FileNotFoundException;
-
-import de.decidr.model.workflowmodel.deployment.DeployerImpl;
-import de.decidr.model.workflowmodel.dwdl.translator.DWDL2BPEL;
 
 /**
  * Simple deployment test class
@@ -36,13 +32,7 @@ public class DeploymentTest {
      * @throws FileNotFoundException
      */
     public static void main(String[] args) {
-        try {
-            DeployerImpl d = new DeployerImpl();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Ups");
-        }
+        ;
     }
     
 }
