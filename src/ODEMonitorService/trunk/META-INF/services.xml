@@ -19,6 +19,9 @@
 			<outputActionMapping>
 				http://decidr.de/webservices/ODEMonitor/updateStatsResponse
 			</outputActionMapping>
+			<faultActionMapping faultName="transactionException">
+				http://decidr.de/webservices/ODEMonitor/ODEMonitorPT/updateStats/Fault/transactionException
+			</faultActionMapping>
 		</operation>
 		<operation name="registerODE" mep="http://www.w3.org/ns/wsdl/in-out"
 			namespace="http://decidr.de/webservices/ODEMonitor">
@@ -27,6 +30,9 @@
 			<outputActionMapping>
 				http://decidr.de/webservices/ODEMonitor/registerODEResponse
 			</outputActionMapping>
+			<faultActionMapping faultName="transactionException">
+				http://decidr.de/webservices/ODEMonitor/ODEMonitorPT/registerODE/Fault/transactionException
+			</faultActionMapping>
 		</operation>
 		<operation name="unregisterODE" mep="http://www.w3.org/ns/wsdl/in-only"
 			namespace="http://decidr.de/webservices/ODEMonitor">
@@ -35,6 +41,9 @@
 			<outputActionMapping>
 				http://decidr.de/webservices/ODEMonitor/unregisterODEResponse
 			</outputActionMapping>
+			<faultActionMapping faultName="transactionException">
+				http://decidr.de/webservices/ODEMonitor/ODEMonitorPT/unregisterODE/Fault/transactionException
+			</faultActionMapping>
 		</operation>
 		<operation name="getConfig" mep="http://www.w3.org/ns/wsdl/in-out"
 			namespace="http://decidr.de/webservices/ODEMonitor">
@@ -43,6 +52,9 @@
 			<outputActionMapping>
 				http://decidr.de/webservices/ODEMonitor/getConfigResponse
 			</outputActionMapping>
+			<faultActionMapping faultName="transactionException">
+				http://decidr.de/webservices/ODEMonitor/ODEMonitorPT/getConfig/Fault/transactionException
+			</faultActionMapping>
 		</operation>
 	</service>
 </serviceGroup>

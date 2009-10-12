@@ -15,7 +15,8 @@
 			namespace="http://decidr.de/webservices/Email">
 			<actionMapping>http://decidr.de/webservices/Email/sendEmail
 			</actionMapping>
-			<outputActionMapping>http://decidr.de/webservices/Email/sendEmailResponse
+			<outputActionMapping>
+				http://decidr.de/webservices/Email/sendEmailResponse
 			</outputActionMapping>
 			<faultActionMapping faultName="malformedURLException">
 				http://decidr.de/webservices/Email/EmailPT/sendEmail/Fault/malformedURLException

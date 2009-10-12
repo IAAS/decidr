@@ -252,7 +252,6 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 .getValue());
         assertEquals("", getterSettings.getItemProperty("mtaPassword")
                 .getValue());
-        assertEquals(-102, getterSettings.getItemProperty("mtaPort").getValue());
         assertEquals("", getterSettings.getItemProperty("mtaUsername")
                 .getValue());
         assertEquals("", getterSettings.getItemProperty("systemName")

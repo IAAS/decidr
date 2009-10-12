@@ -545,7 +545,6 @@ public class SystemCommandsTest extends CommandsTest {
         getterSettings = getter.getResult();
         assertEquals("", getterSettings.getMtaHostname());
         assertEquals("", getterSettings.getMtaPassword());
-        assertEquals(-102, getterSettings.getMtaPort());
         assertEquals("", getterSettings.getMtaUsername());
         assertEquals("", getterSettings.getSystemName());
 
