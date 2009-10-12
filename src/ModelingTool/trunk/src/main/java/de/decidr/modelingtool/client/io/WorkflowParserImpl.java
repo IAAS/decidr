@@ -256,8 +256,13 @@ public class WorkflowParserImpl implements WorkflowParser {
                 model.getDescription()));
         startElement.appendChild(createGraphicsElement(doc, model));
 
-        /* start node is only source to connections */
-        startElement.appendChild(createSourceElement(doc, model));
+        /*
+         * start node is only source to connections, create source element only
+         * if connection exists
+         */
+        if (model.getOutput() != null) {
+            startElement.appendChild(createSourceElement(doc, model));
+        }
 
         GWT.log("Finished creating StartNode", null);
         return startElement;
@@ -274,8 +279,13 @@ public class WorkflowParserImpl implements WorkflowParser {
                 model.getDescription()));
         endElement.appendChild(createGraphicsElement(doc, model));
 
-        /* end node is only target to connections */
-        endElement.appendChild(createTargetElement(doc, model));
+        /*
+         * end node is only target to connections, create target element only if
+         * connection exists
+         */
+        if (model.getInput() != null) {
+            endElement.appendChild(createTargetElement(doc, model));
+        }
 
         /* notification of success and recipient, create only if set to true */
         if (workflow.getProperties().getNotifyOnSuccess()) {
@@ -305,8 +315,15 @@ public class WorkflowParserImpl implements WorkflowParser {
                 model.getDescription()));
 
         emailElement.appendChild(createGraphicsElement(doc, model));
-        emailElement.appendChild(createSourceElement(doc, model));
-        emailElement.appendChild(createTargetElement(doc, model));
+
+        /* Create targets and source elements only if connections exist */
+        if (model.getOutput() != null) {
+            emailElement.appendChild(createSourceElement(doc, model));
+        }
+        if (model.getInput() != null) {
+            emailElement.appendChild(createTargetElement(doc, model));
+        }
+
         emailElement.appendChild(createPropertyElement(doc, DWDLNames.to, model
                 .getToVariableId()));
         emailElement.appendChild(createPropertyElement(doc, DWDLNames.cc, model
@@ -334,8 +351,14 @@ public class WorkflowParserImpl implements WorkflowParser {
                 DWDLNames.description, model.getDescription()));
 
         humanTaskElement.appendChild(createGraphicsElement(doc, model));
-        humanTaskElement.appendChild(createTargetElement(doc, model));
-        humanTaskElement.appendChild(createSourceElement(doc, model));
+
+        /* Create targets and source elements only if connections exist */
+        if (model.getOutput() != null) {
+            humanTaskElement.appendChild(createSourceElement(doc, model));
+        }
+        if (model.getInput() != null) {
+            humanTaskElement.appendChild(createTargetElement(doc, model));
+        }
 
         /* Create property elements for user */
         humanTaskElement.appendChild(createPropertyElement(doc, DWDLNames.wfId,
@@ -416,8 +439,15 @@ public class WorkflowParserImpl implements WorkflowParser {
         flowElement.appendChild(createTextElement(doc, DWDLNames.description,
                 model.getDescription()));
         flowElement.appendChild(createGraphicsElement(doc, model));
-        flowElement.appendChild(createTargetElement(doc, model));
-        flowElement.appendChild(createSourceElement(doc, model));
+
+        /* Create targets and source elements only if connections exist */
+        if (model.getOutput() != null) {
+            flowElement.appendChild(createSourceElement(doc, model));
+        }
+        if (model.getInput() != null) {
+            flowElement.appendChild(createTargetElement(doc, model));
+        }
+
         flowElement.appendChild(createChildNodeElements(doc, workflow, model));
         flowElement.appendChild(createArcElements(doc, model));
 
@@ -434,8 +464,14 @@ public class WorkflowParserImpl implements WorkflowParser {
         ifElement.appendChild(createTextElement(doc, DWDLNames.description,
                 model.getDescription()));
         ifElement.appendChild(createGraphicsElement(doc, model));
-        ifElement.appendChild(createTargetElement(doc, model));
-        ifElement.appendChild(createSourceElement(doc, model));
+
+        /* Create targets and source elements only if connections exist */
+        if (model.getOutput() != null) {
+            ifElement.appendChild(createSourceElement(doc, model));
+        }
+        if (model.getInput() != null) {
+            ifElement.appendChild(createTargetElement(doc, model));
+        }
 
         /*
          * Create condition elements. The dwdl schema requires that the
@@ -495,29 +531,41 @@ public class WorkflowParserImpl implements WorkflowParser {
         forEachElement.appendChild(createTextElement(doc,
                 DWDLNames.description, model.getDescription()));
 
-        forEachElement.setAttribute(DWDLNames.countername, model
-                .getIterationVariableId().toString());
+        forEachElement.appendChild(createGraphicsElement(doc, model));
+
+        /* Create targets and source elements only if connections exist */
+        if (model.getOutput() != null) {
+            forEachElement.appendChild(createSourceElement(doc, model));
+        }
+        if (model.getInput() != null) {
+            forEachElement.appendChild(createTargetElement(doc, model));
+        }
+
+        if (model.getIterationVariableId() != null) {
+            /*
+             * Creating counter values and completion condition elements. The
+             * start counter value is always set to 1.
+             */
+            forEachElement.setAttribute(DWDLNames.countername,
+                    VariableNameFactory.createNCNameFromId(model
+                            .getIterationVariableId()));
+            forEachElement.appendChild(createTextElement(doc,
+                    DWDLNames.startCounterValue, "1"));
+            forEachElement
+                    .appendChild(createTextElement(doc,
+                            DWDLNames.finalCounterValue, VariableNameFactory
+                                    .createNCNameFromId(model
+                                            .getIterationVariableId())));
+        }
+
+        forEachElement.appendChild(createTextElement(doc,
+                DWDLNames.completionCon, model.getExitCondition().toString()));
+
         if (model.isParallel()) {
             forEachElement.setAttribute(DWDLNames.parallel, DWDLNames.yes);
         } else {
             forEachElement.setAttribute(DWDLNames.parallel, DWDLNames.no);
         }
-
-        forEachElement.appendChild(createGraphicsElement(doc, model));
-        forEachElement.appendChild(createTargetElement(doc, model));
-        forEachElement.appendChild(createSourceElement(doc, model));
-
-        /*
-         * Creating counter values and completion condition elements. The start
-         * counter value is always set to 1.
-         */
-        forEachElement.appendChild(createTextElement(doc,
-                DWDLNames.startCounterValue, "1"));
-        forEachElement.appendChild(createTextElement(doc,
-                DWDLNames.finalCounterValue, model.getIterationVariableId()
-                        .toString()));
-        forEachElement.appendChild(createTextElement(doc,
-                DWDLNames.completionCon, model.getExitCondition().toString()));
 
         forEachElement
                 .appendChild(createChildNodeElements(doc, workflow, model));

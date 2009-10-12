@@ -62,13 +62,13 @@ public class CreateConnectionCommand implements UndoableCommand {
         // get ports
         Port startPort = connection.getStartDragBox().getGluedPort();
         Port endPort = connection.getEndDragBox().getGluedPort();
-        
+
         if (!(startPort instanceof OutputPort || startPort instanceof ContainerStartPort)) {
             // swap drag box pointers, so startDragBox is on the output port
             ConnectionDragBox endDragBox = connection.getEndDragBox();
             connection.setEndDragBox(connection.getStartDragBox());
             connection.setStartDragBox(endDragBox);
-            
+
             // refresh ports
             startPort = connection.getStartDragBox().getGluedPort();
             endPort = connection.getEndDragBox().getGluedPort();
@@ -235,13 +235,16 @@ public class CreateConnectionCommand implements UndoableCommand {
         connection.getParentPanel().addConnection(connection);
         connection.draw();
 
-        // link model
+        // link model, set inputs and outputs only if connection is not an inner
+        // connection of a model
         model.getParentModel().addConnectionModel(model);
-        model.getSource().setOutput(model);
-        model.getTarget().setInput(model);
+        if (!(model instanceof ContainerStartConnectionModel)) {
+            model.getSource().setOutput(model);
+        }
+        if (!(model instanceof ContainerExitConnectionModel)) {
+            model.getTarget().setInput(model);
+        }
 
-        // TODO: DEBUG
-        // System.out.println(connection.getModel());
     }
 
     /**

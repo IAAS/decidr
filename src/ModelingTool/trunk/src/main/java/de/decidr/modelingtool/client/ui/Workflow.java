@@ -76,7 +76,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
 
         // set workflow properties
         this.addStyleName("workflow");
-        this.setSize("600px", "400px");
+        this.setSize("800px", "600px");
 
         // register workflow to selection handler
         this.addMouseDownHandler(SelectionHandler.getInstance());
