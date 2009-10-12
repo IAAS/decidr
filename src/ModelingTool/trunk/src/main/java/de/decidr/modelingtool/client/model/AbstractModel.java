@@ -108,7 +108,6 @@ public abstract class AbstractModel implements Model {
     }
 
     /**
-     * 
      * Sets the id of the model. The uniqueness of the id will not be tested,
      * i.e. the caller of this method has to be sure that the id given to this
      * method is not assigned elsewhere.

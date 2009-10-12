@@ -32,6 +32,8 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
 @SuppressWarnings("serial")
 public class Variable extends BaseModelData {
 
+    private static Long lastAssignedId = 0L;
+
     /* Field names */
     public static final String ID = "id";
     public static final String LABEL = "label";
@@ -44,14 +46,23 @@ public class Variable extends BaseModelData {
     /**
      * Creates a new non-configuration variable. The type is string. The new
      * variable has one empty string has single value.
-     * 
-     * WARNING: because the id of a variable is actually the current timestamp
-     * of when this constructor is called, it is advised to use this constructor
-     * cautiously in order to prevent that two variables share the same id.
      */
     public Variable() {
         super();
-        set(ID, new Date().getTime());
+        /*
+         * If the id is null, use timestamp as id. To ensure that the ids are
+         * unique, timestamp has to be greater that the last assigned id.
+         */
+        Long time = new Date().getTime();
+        if (time > lastAssignedId) {
+            set(ID, time);
+            lastAssignedId = time;
+        } else {
+            lastAssignedId++;
+            set(ID, lastAssignedId);
+
+        }
+
         set(LABEL, ModelingToolWidget.getMessages().enterVariableName());
         set(TYPE, VariableType.STRING);
         set(TYPELOCALNAME, VariableType.STRING.getLocalName());
@@ -95,13 +106,18 @@ public class Variable extends BaseModelData {
     }
 
     /**
-     * Sets the id of the variable.
+     * Sets the id of the variable. The uniqueness of the id will not be tested,
+     * i.e. the caller of this method has to be sure that the id given to this
+     * method is not assigned elsewhere.
      * 
      * @param id
      *            the id to set
      */
     public void setId(Long id) {
         set(ID, id);
+        if (id > lastAssignedId) {
+            lastAssignedId = id;
+        }
     }
 
     /**

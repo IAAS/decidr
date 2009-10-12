@@ -304,6 +304,7 @@ public class DWDLParserImpl implements DWDLParser {
                             parentModel);
                 }
             }
+
             if (nodeModel != null) {
                 parentModel.addNodeModel(nodeModel);
                 childNodeModels.add(nodeModel);
@@ -513,6 +514,8 @@ public class DWDLParserImpl implements DWDLParser {
         flowModel.setId(new Long(flowElement.getAttribute(DWDLNames.id)));
         setGraphics(flowElement, flowModel);
 
+        createInnerContainerConnections(flowElement, flowModel, parentModel);
+
         createChildNodeModels(flowElement, workflow, flowModel);
 
         /* Set incoming and outgoing connections */
@@ -667,6 +670,17 @@ public class DWDLParserImpl implements DWDLParser {
             ((ContainerModel) model).setChangeListenerSize(width, height);
         }
 
+    }
+
+    private void createInnerContainerConnections(Element containerElement,
+            ContainerModel containerModel, HasChildModels parentModel) {
+        /*
+         * Parse inner arcs element of the container. Arcs, which reference the
+         * container as source element, are container start connections. Arcs,
+         * which reference the container as target element, are container exit
+         * connections.
+         */
+        // JS implement
     }
 
     private ConnectionModel getConnectionForSourceElement(

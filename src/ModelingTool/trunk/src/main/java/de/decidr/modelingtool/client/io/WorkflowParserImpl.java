@@ -33,6 +33,7 @@ import de.decidr.modelingtool.client.model.HasChildModels;
 import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.model.StartNodeModel;
 import de.decidr.modelingtool.client.model.WorkflowModel;
+import de.decidr.modelingtool.client.model.foreach.ExitCondition;
 import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.model.humantask.TaskItem;
@@ -448,8 +449,14 @@ public class WorkflowParserImpl implements WorkflowParser {
             flowElement.appendChild(createTargetElement(doc, model));
         }
 
-        flowElement.appendChild(createChildNodeElements(doc, workflow, model));
-        flowElement.appendChild(createArcElements(doc, model));
+        /* Create child nodes and child connections if they exist */
+        if (model.getChildNodeModels().size() > 0) {
+            flowElement.appendChild(createChildNodeElements(doc, workflow,
+                    model));
+        }
+        if (model.getChildConnectionModels().size() > 0) {
+            flowElement.appendChild(createArcElements(doc, model));
+        }
 
         GWT.log("Finished creating FlowNode", null);
         return flowElement;
@@ -513,9 +520,14 @@ public class WorkflowParserImpl implements WorkflowParser {
                 conditionElement.appendChild(createTextElement(doc,
                         DWDLNames.rightOp, conditionModel.getRightOperandId()
                                 .toString()));
-                conditionElement.appendChild(createChildNodeElements(doc,
-                        workflow, model));
-                conditionElement.appendChild(createArcElements(doc, model));
+                /* Create child nodes and child connections if they exist */
+                if (model.getChildNodeModels().size() > 0) {
+                    conditionElement.appendChild(createChildNodeElements(doc,
+                            workflow, model));
+                }
+                if (model.getChildConnectionModels().size() > 0) {
+                    conditionElement.appendChild(createArcElements(doc, model));
+                }
             }
             ifElement.appendChild(conditionElement);
         }
@@ -558,18 +570,27 @@ public class WorkflowParserImpl implements WorkflowParser {
                                             .getIterationVariableId())));
         }
 
-        forEachElement.appendChild(createTextElement(doc,
-                DWDLNames.completionCon, model.getExitCondition().toString()));
+        ExitCondition exitCondition = model.getExitCondition();
+        if (exitCondition != null) {
+            forEachElement.appendChild(createTextElement(doc,
+                    DWDLNames.completionCon, exitCondition.toString()));
 
-        if (model.isParallel()) {
+        }
+
+        if (model.isParallel() != null && model.isParallel()) {
             forEachElement.setAttribute(DWDLNames.parallel, DWDLNames.yes);
         } else {
             forEachElement.setAttribute(DWDLNames.parallel, DWDLNames.no);
         }
 
-        forEachElement
-                .appendChild(createChildNodeElements(doc, workflow, model));
-        forEachElement.appendChild(createArcElements(doc, model));
+        /* Create child nodes and child connections if they exist */
+        if (model.getChildNodeModels().size() > 0) {
+            forEachElement.appendChild(createChildNodeElements(doc, workflow,
+                    model));
+        }
+        if (model.getChildConnectionModels().size() > 0) {
+            forEachElement.appendChild(createArcElements(doc, model));
+        }
 
         return forEachElement;
 
