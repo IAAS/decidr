@@ -41,7 +41,8 @@ import de.decidr.model.transactions.TransactionEvent;
  * @author Daniel Huss
  * @version 0.1
  */
-public class UserHasAccessToFileAsserter implements Asserter, TransactionalCommand {
+public class UserHasAccessToFileAsserter implements Asserter,
+        TransactionalCommand {
 
     private Long userId = null;
     private Long fileId = null;
@@ -50,7 +51,8 @@ public class UserHasAccessToFileAsserter implements Asserter, TransactionalComma
     private Boolean hasFileAccess = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission) throws TransactionException{
+    public Boolean assertRule(Role role, Permission permission)
+            throws TransactionException {
         Boolean result = false;
 
         if ((role instanceof UserRole)
@@ -77,20 +79,24 @@ public class UserHasAccessToFileAsserter implements Asserter, TransactionalComma
             // The file exists, so far so good.
 
             UserHasFileAccess access = (UserHasFileAccess) session.get(
-                    UserHasAccessToFileAsserter.class, new UserHasFileAccessId(userId,
-                            fileId));
+                    UserHasAccessToFileAsserter.class, new UserHasFileAccessId(
+                            userId, fileId));
 
             if (permission instanceof FileReadPermission) {
                 hasFileAccess = file.isMayPublicRead();
-                if ((!hasFileAccess) && (access != null)) {
+                if (!hasFileAccess && access != null) {
                     hasFileAccess = access.isMayRead();
                 }
-            } else if ((permission instanceof FileReplacePermission)
-                    && (access != null)) {
-                hasFileAccess = access.isMayReplace();
-            } else if ((permission instanceof FileDeletePermission)
-                    && (access != null)) {
-                hasFileAccess = access.isMayDelete();
+            } else if (permission instanceof FileReplacePermission) {
+                hasFileAccess = file.isMayPublicReplace();
+                if (!hasFileAccess && access != null) {
+                    hasFileAccess = access.isMayReplace();
+                }
+            } else if (permission instanceof FileDeletePermission) {
+                hasFileAccess = file.isMayPublicDelete();
+                if (!hasFileAccess && access != null) {
+                    hasFileAccess = access.isMayDelete();
+                }
             } else {
                 hasFileAccess = false;
             }
@@ -104,7 +110,7 @@ public class UserHasAccessToFileAsserter implements Asserter, TransactionalComma
 
     @Override
     public void transactionCommitted(TransactionEvent evt) {
-     // nothing to do
+        // nothing to do
     }
 
 }
