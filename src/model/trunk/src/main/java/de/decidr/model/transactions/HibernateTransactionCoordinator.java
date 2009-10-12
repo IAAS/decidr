@@ -85,11 +85,11 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * @return the singleton instance.
      */
-    public static HibernateTransactionCoordinator getInstance() {
+    public static synchronized HibernateTransactionCoordinator getInstance() {
         if (instance == null) {
             instance = new HibernateTransactionCoordinator();
         }
-        
+
         return instance;
     }
 
@@ -128,6 +128,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     protected synchronized void commitCurrentTransaction()
             throws TransactionException {
+        logger.debug("Committing transaction. Current transaction depth: "
+                + transactionDepth);
 
         if (currentTransaction == null) {
             throw new TransactionException(
@@ -149,6 +151,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     protected synchronized void rollbackCurrentTransaction()
             throws TransactionException {
+        logger.debug("Aborting transaction. Current transaction depth: "
+                + transactionDepth);
 
         if (currentTransaction == null) {
             throw new TransactionException(
