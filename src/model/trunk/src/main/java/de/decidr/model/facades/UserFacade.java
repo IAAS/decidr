@@ -141,8 +141,6 @@ public class UserFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             iff no such account exists or the password doesn't match.
      */
-    // DH you misunderstood how the comment could be misunderstood. (:-P) I
-    // adapted it for you ~rr
     // DH either wrap the thrown IllegalArgumentException or add it to the
     // javadoc; goes for every method in this class AFAICT ~rr
     @AllowedRole(BasicRole.class)
@@ -490,11 +488,6 @@ public class UserFacade extends AbstractFacade {
      *             iff the user does not exist or has no pending change email
      *             request.
      */
-    // DH: I have a slight problem with the concept here: why does the user need
-    // to log in when authenticating a new email address? Wouldn't it be better
-    // if the change in email addresses could be authenticated simply by
-    // clicking on the URL provided in the email? IOW while the UI still doesn't
-    // know which user is accessing it? ~rr
     @AllowedRole(UserRole.class)
     public void confirmChangeEmailRequest(Long userId, String requestAuthKey)
             throws TransactionException {
@@ -755,9 +748,11 @@ public class UserFacade extends AbstractFacade {
      * Each item has the following properties:<br>
      * <ul>
      * <li>id: Long - workflow instance ID</li>
-     * <li>startedDate: Date - date when the workflow instance was started (null if it hasn't been started yet)</li>
-     * <li>completedDate: Date - date when the workflow instance terminated (null if is hasn't terminted yet)</li>
-     * <li>model: </li>
+     * <li>startedDate: Date - date when the workflow instance was started (null
+     * if it hasn't been started yet)</li>
+     * <li>completedDate: Date - date when the workflow instance terminated
+     * (null if is hasn't terminted yet)</li>
+     * <li>model:</li>
      * </ul>
      * 
      * @param userId
@@ -999,8 +994,8 @@ public class UserFacade extends AbstractFacade {
      * @param userId
      *            user whose current tenant should be set.
      * @param currentTenantId
-     *            current tenant id or NULL if the current tenant is the default
-     *            tenant.
+     *            current tenant id or <code>null</code> if the current tenant
+     *            is the default tenant.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason
      */
@@ -1010,9 +1005,8 @@ public class UserFacade extends AbstractFacade {
         // since the tenant property is an entity we create one with the given
         // ID
         Tenant currentTenant;
-        // DH judging from the comment, I'd guess that this should be the other
-        // way round... ~rr
-        if (currentTenantId == null) {
+
+        if (currentTenantId != null) {
             currentTenant = new Tenant();
             currentTenant.setId(currentTenantId);
         } else {

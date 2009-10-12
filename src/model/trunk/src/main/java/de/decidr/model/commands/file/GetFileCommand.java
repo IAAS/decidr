@@ -30,7 +30,6 @@ import de.decidr.model.transactions.TransactionEvent;
  * @author Daniel Huss
  * @version 0.1
  */
-// DH: shouldn't this be moved to the commands.file package? ~rr
 public class GetFileCommand extends FileCommand {
 
     private File file = null;

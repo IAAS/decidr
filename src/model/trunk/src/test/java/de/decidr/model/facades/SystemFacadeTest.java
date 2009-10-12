@@ -43,6 +43,7 @@ import de.decidr.model.testing.DecidrDatabaseTest;
  * 
  * @author Reinhold
  */
+// RR location is unique
 public class SystemFacadeTest extends DecidrDatabaseTest {
 
     static SystemFacade adminFacade;

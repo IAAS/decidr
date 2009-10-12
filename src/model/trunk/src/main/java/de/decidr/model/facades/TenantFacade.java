@@ -192,7 +192,7 @@ public class TenantFacade extends AbstractFacade {
      * @param fileId
      *            the ID of the file to use as the advanced color scheme
      */
-    // DH how about only having one
+    // RR how about only having one
     // setColorScheme(Long tenantId, Long fileId, Boolean advanced)? both the
     // functions and the commands do pretty much the same thing anyway... ~rr
     @AllowedRole(TenantAdminRole.class)

@@ -59,6 +59,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
  * 
  * @author Reinhold
  */
+// RR location is unique
 public class SystemCommandsTest extends CommandsTest {
 
     private static Long SUPER_ADMIN_ID = DecidrGlobals.getSettings()
