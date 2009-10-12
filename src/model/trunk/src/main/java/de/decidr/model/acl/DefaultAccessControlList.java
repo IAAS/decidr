@@ -255,8 +255,8 @@ public class DefaultAccessControlList implements AccessControlList {
                 RuleKey other = (RuleKey) obj;
 
                 // role and permission are never null.
-                return role.getClass().getCanonicalName().equals(
-                        other.role.getClass().getCanonicalName())
+                return role.getClass().getName().equals(
+                        other.role.getClass().getName())
                         && permission.getName().equals(
                                 other.permission.getName());
             } else {
@@ -269,7 +269,7 @@ public class DefaultAccessControlList implements AccessControlList {
         public int hashCode() {
             // hash code must be consistent with equals.
             // role and permission are never null.
-            int roleHashCode = this.role.getClass().getCanonicalName()
+            int roleHashCode = this.role.getClass().getName()
                     .hashCode();
             int permissionHashCode = this.permission.getName().hashCode();
 
@@ -357,7 +357,7 @@ public class DefaultAccessControlList implements AccessControlList {
     }
 
     /**
-     * Constructor.
+     * Constructor, also initializes the ACL.
      */
     private DefaultAccessControlList() {
         super();
@@ -366,15 +366,14 @@ public class DefaultAccessControlList implements AccessControlList {
     }
 
     /**
-     * clears list and sets default rules
-     * 
+     * Clears rule lis and sets default rules.
      */
     public void init() {
         clearRules();
 
         // The superadmin can do anything
         setRule(new SuperAdminRole(), new Permission("*"), SatisfyAny,
-                new UserIsSuperAdminAsserter(), new UserIsLoggedInAsserter());
+                new UserIsSuperAdminAsserter());
 
         /**
          * COMMAND PERMISSIONS
@@ -682,7 +681,6 @@ public class DefaultAccessControlList implements AccessControlList {
         /**
          * Command Permissions WorkitemFacade
          */
-
         setRule(new UserRole(),
                 new CommandPermission(GetWorkItemCommand.class), SatisfyAll,
                 new UserOwnsWorkItemAsserter(), new UserIsEnabledAsserter(),
@@ -708,7 +706,6 @@ public class DefaultAccessControlList implements AccessControlList {
         /**
          * file permissions
          */
-
         // File Delete Permissions
         setRule(new BasicRole(null), new FileDeletePermission(null),
                 SatisfyAll, new UserHasAccessToFileAsserter());
@@ -861,8 +858,8 @@ public class DefaultAccessControlList implements AccessControlList {
             nextRoleClass = roleClass.getSuperclass();
         } while (nextRoleClass != null
                 && Role.class.isAssignableFrom(nextRoleClass)
-                && !nextRoleClass.getCanonicalName().equals(
-                        roleClass.getCanonicalName()));
+                && !nextRoleClass.getName().equals(
+                        roleClass.getName()));
 
         RuleKey result = null;
         RuleKey currentKey;

@@ -20,8 +20,8 @@ import de.decidr.model.commands.TransactionalCommand;
 /**
  * Represents the permission to execute a transactional command.
  * <p>
- * Internally the canonical name of the represented command class is used to
- * identify the permission: <br>
+ * Internally the fully qualified name of the represented command class is used
+ * to identify the permission: <br>
  * new CommandPermission(DeleteTenantCommand.class) is internally stored as the
  * string "de.decidr.model.commands.tenant.DeleteTenantCommand".
  * <p>
@@ -33,57 +33,57 @@ import de.decidr.model.commands.TransactionalCommand;
  * 
  * @author Markus Fischer
  * @author Daniel Huss
- *
+ * 
  * @version 0.1
- *
+ * 
  */
-public class CommandPermission extends de.decidr.model.acl.permissions.Permission {
-    
-    	private static final long serialVersionUID = 1L;
+public class CommandPermission extends
+        de.decidr.model.acl.permissions.Permission {
 
-	private TransactionalCommand command = null;
-	private Class<? extends TransactionalCommand> commandClass=null; 
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Constructor. Creates CommandPermission for the given command Class.
-	 * 
-	 * @param commandClass
-	 */
-	public CommandPermission(TransactionalCommand command) {
-		super(command.getClass().getCanonicalName());
-		this.command = command;
-	}
-	
-	/**
-         * Constructor. Creates CommandPermission for the given command Class.
-         * 
-         * @param commandClass
-         */
-        public CommandPermission(Class<? extends TransactionalCommand> clazz) {
-                super(clazz.getCanonicalName());
-                this.command = null;
-                this.commandClass=clazz;
+    private TransactionalCommand command = null;
+    private Class<? extends TransactionalCommand> commandClass = null;
+
+    /**
+     * Constructor. Creates CommandPermission for the given command Class.
+     * 
+     * @param commandClass
+     */
+    public CommandPermission(TransactionalCommand command) {
+        super(command.getClass().getName());
+        this.command = command;
+    }
+
+    /**
+     * Constructor. Creates CommandPermission for the given command Class.
+     * 
+     * @param commandClass
+     */
+    public CommandPermission(Class<? extends TransactionalCommand> clazz) {
+        super(clazz.getName());
+        this.command = null;
+        this.commandClass = clazz;
+    }
+
+    /**
+     * 
+     * @return Class of the Command which will be executed
+     */
+    public Class<? extends TransactionalCommand> getCommandClass() {
+        if (command != null) {
+            return this.command.getClass();
+        } else {
+            return this.commandClass;
         }
+    }
 
-	/**
-	 *  
-	 * @return Class of the Command which will be executed
-	 */
-	public Class<? extends TransactionalCommand> getCommandClass() {
-		if(command !=null){
-		    return this.command.getClass();
-		}
-		else{
-		    return this.commandClass;
-		}
-	}
-
-	/**
-	 * 
-	 * @return the command instance
-	 * 
-	 */
-	public TransactionalCommand getCommand(){
-	    return this.command;
-	}
+    /**
+     * 
+     * @return the command instance
+     * 
+     */
+    public TransactionalCommand getCommand() {
+        return this.command;
+    }
 }

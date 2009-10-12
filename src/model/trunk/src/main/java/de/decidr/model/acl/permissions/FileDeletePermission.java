@@ -34,7 +34,7 @@ public class FileDeletePermission extends FilePermission {
      *            ID of file to delete.
      */
     public FileDeletePermission(Long fileId) {
-        super(File.class.getCanonicalName() + "delete", fileId);
+        super(File.class.getName() + "delete", fileId);
     }
 
 }

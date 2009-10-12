@@ -35,7 +35,7 @@ public class FileReplacePermission extends FilePermission {
      *            ID of file to replace.
      */
     public FileReplacePermission(Long fileId) {
-        super(File.class.getCanonicalName() + "replace", fileId);
+        super(File.class.getName() + "replace", fileId);
     }
 
 }

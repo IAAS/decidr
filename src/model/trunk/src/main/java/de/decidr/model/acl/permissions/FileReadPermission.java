@@ -34,7 +34,7 @@ public class FileReadPermission extends FilePermission {
      *            ID of file to read.
      */
     public FileReadPermission(Long fileId) {
-        super(File.class.getCanonicalName() + "read", fileId);
+        super(File.class.getName() + "read", fileId);
     }
 
 }
