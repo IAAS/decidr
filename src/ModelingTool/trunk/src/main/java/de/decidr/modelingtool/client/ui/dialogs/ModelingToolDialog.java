@@ -47,9 +47,4 @@ abstract public class ModelingToolDialog extends Window {
      */
     abstract public Boolean initialize();
 
-    /**
-     * Provides a method which updates the view when a model change occurred
-     */
-    abstract public void refresh();
-
 }

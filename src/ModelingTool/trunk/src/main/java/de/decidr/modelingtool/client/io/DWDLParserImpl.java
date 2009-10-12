@@ -439,12 +439,11 @@ public class DWDLParserImpl implements DWDLParser {
             if (getPropertyElement.getAttribute(DWDLNames.name).equals(
                     DWDLNames.taskResult)) {
                 taskResultElement = getPropertyElement;
+                humanTaskModel.setFormVariableId(VariableNameFactory
+                        .createIdFromNCName(taskResultElement
+                                .getAttribute(DWDLNames.variable)));
             }
         }
-        // XXX potential null pointer access: taskResultElement
-        humanTaskModel.setFormVariableId(VariableNameFactory
-                .createIdFromNCName(taskResultElement
-                        .getAttribute(DWDLNames.variable)));
 
         /*
          * From task result element, get the child node parameters, and from

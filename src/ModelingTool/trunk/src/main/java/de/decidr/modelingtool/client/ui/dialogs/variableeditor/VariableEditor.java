@@ -229,12 +229,9 @@ public class VariableEditor extends ModelingToolDialog {
         variables.removeAll();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#refresh()
+    /**
+     *This method updates the view when a model change occurred
      */
-    @Override
     public void refresh() {
         if (grid != null && csm != null && csm.getSelectCell() != null
                 && csm.getSelectCell().model != null) {

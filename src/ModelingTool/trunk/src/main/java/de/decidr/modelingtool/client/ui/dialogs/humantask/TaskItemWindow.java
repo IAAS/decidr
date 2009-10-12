@@ -254,15 +254,4 @@ public class TaskItemWindow extends ModelingToolDialog {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#refresh()
-     */
-    @Override
-    public void refresh() {
-        // XXX: document: why is this empty
-    }
-
 }

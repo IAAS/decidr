@@ -135,8 +135,9 @@ public class ValueEditor extends ModelingToolDialog {
                              * Refresh of the variable editor needed so that the
                              * displayed values are updated
                              */
-                            DialogRegistry.getInstance().getDialog(
-                                    VariableEditor.class.getName()).refresh();
+                            ((VariableEditor) DialogRegistry.getInstance()
+                                    .getDialog(VariableEditor.class.getName()))
+                                    .refresh();
                             DialogRegistry.getInstance().hideDialog(
                                     ValueEditor.class.getName());
                         } else {
@@ -276,13 +277,4 @@ public class ValueEditor extends ModelingToolDialog {
         clearAllEntries();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#refresh()
-     */
-    @Override
-    public void refresh() {
-        // XXX: document: why is this empty
-    }
 }

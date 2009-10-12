@@ -130,8 +130,9 @@ public class RoleEditor extends ModelingToolDialog {
                          * Refresh of the variable editor needed so that the
                          * displayed values are updated
                          */
-                        DialogRegistry.getInstance().getDialog(
-                                VariableEditor.class.getName()).refresh();
+                        ((VariableEditor) DialogRegistry.getInstance()
+                                .getDialog(VariableEditor.class.getName()))
+                                .refresh();
                         DialogRegistry.getInstance().hideDialog(
                                 RoleEditor.class.getName());
 
@@ -275,13 +276,4 @@ public class RoleEditor extends ModelingToolDialog {
         clearAllEntries();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#refresh()
-     */
-    @Override
-    public void refresh() {
-        // XXX: document: why is this empty
-    }
 }
