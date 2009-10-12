@@ -58,14 +58,15 @@ public class InstanceManagerImpl implements InstanceManager {
         ServerSelector selector = new ServerSelector();
         ServerLoadView selectedServer = selector.selectServer(serverStatistics);
         SOAPGenerator generator = new SOAPGenerator();
-        SOAPMessage soapMessage = generator.getSOAP(dwfm.getSoapTemplate(),
-                startConfiguration);
+// MA commented out to allow compilation
+//        SOAPMessage soapMessage = generator.getSOAP(dwfm.getSoapTemplate(),
+//                startConfiguration);
         SOAPExecution execution = new SOAPExecution();
-        SOAPMessage replySOAPMessage = execution.invoke(selectedServer,
-                soapMessage);
+//        SOAPMessage replySOAPMessage = execution.invoke(selectedServer,
+//                soapMessage);
         StartInstanceResult result = new StartInstanceResultImpl();
         result.setServer(selectedServer.getId());
-        result.setODEPid(getODEPid(replySOAPMessage));
+//        result.setODEPid(getODEPid(replySOAPMessage));
         return result;
     }
 
