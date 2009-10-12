@@ -40,6 +40,15 @@ div > .v-button .v-button-caption, .v-ie7 .v-button .v-button-caption, div > .v-
 	
 	}
 
+.v-ie7 .dcdr_header{
+	margin-top: -15px;
+	}
+
+.dcdr_header img{
+	padding: 0;
+	margin: 0;
+	}
+
 .v-gridlayout-margin{
 	background: transparent url(img/background/fade_blue_o20_1200.png) no-repeat center top;
 	}
@@ -191,6 +200,7 @@ div > .dcdr_vnav .v-button.v-button-link.v-disabled:hover .v-button-caption,
 	height: 25px;
 	background-position: 0px left;
 	background: transparent url(img/button/button1/right.png) no-repeat center right;
+	display: inline-block;
 	}
 	
 .dcdr_content .v-button:hover,
@@ -234,6 +244,23 @@ div > .dcdr_vnav .v-button.v-button-link.v-disabled:hover .v-button-caption,
 	border: 0px;
 	width: 104px;
 	background: transparent url(img/button/button1/full_104_hl.png) no-repeat center;
+	}
+
+.v-ie7 .dcdr_content .v-button,
+.v-ie7 .dcdr_content .v-button:focus,
+.v-ie7 .dcdr_content .v-button:active {
+	border: 0px;
+	padding: 0px 0px 0px 0px;
+	}
+	
+.v-ie7 .dcdr_content .v-button span,
+.v-ie7 .dcdr_content .v-button:focus span,
+.v-ie7 .dcdr_content .v-button:active span,
+.v-ie7 .dcdr_content .v-button.v-pressed span{
+	border: 0px;
+	margin: -4px 9px 0px 0px;
+	padding: 6px 5px 0px 14px;
+	height: 25px;
 	}
 
 /* buttons with link-style */
@@ -329,4 +356,21 @@ div > .dcdr_content .v-button.v-button-link.v-disabled:hover .v-button-caption,
 .v-ie7 .popupContent .v-button:hover .v-button-caption{
 	background-position: 0px left;
 	background: transparent url(img/button/button1/left_hl.png) no-repeat center left;
+	}
+
+.v-ie7 .popupContent .v-button,
+.v-ie7 .popupContent .v-button:focus,
+.v-ie7 .popupContent .v-button:active {
+	border: 0px;
+	padding: 0px 0px 0px 0px;
+	}
+	
+.v-ie7 .popupContent .v-button span,
+.v-ie7 .popupContent .v-button:focus span,
+.v-ie7 .popupContent .v-button:active span,
+.v-ie7 .popupContent .v-button.v-pressed span{
+	border: 0px;
+	margin: -4px 9px 0px 0px;
+	padding: 6px 5px 0px 14px;
+	height: 25px;
 	}
