@@ -286,6 +286,10 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         testProfile.setUsername(null);
         registerUserExceptionHelper(
+                "invalid profile (null username) succeeded", adminFacade,
+                getTestEmail(8), "asd", testProfile);
+        testProfile.setUsername("");
+        registerUserExceptionHelper(
                 "invalid profile (empty username) succeeded", adminFacade,
                 getTestEmail(8), "asd", testProfile);
         testProfile.setUsername(USERNAME_PREFIX);
@@ -650,8 +654,9 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         assertEquals("Acity", userProfile.getValue().getCity());
         assertNotNull(userProfile.getKey());
 
-        // RR
-        adminFacade.setProfile(testUserID, new UserProfile());
+        UserProfile newProfile = new UserProfile();
+        newProfile.setUsername(TEST_USERNAME + "asd");
+        adminFacade.setProfile(testUserID, newProfile);
         assertNotNull(getProfile(adminFacade.getUserProfile(testUserID, false),
                 false).getKey());
 
@@ -664,7 +669,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         assertEquals("", testProfile.getLastName());
         assertEquals("", testProfile.getPostalCode());
         assertEquals("", testProfile.getStreet());
-        assertEquals("", testProfile.getUsername());
+        assertEquals(TEST_USERNAME + "asd", testProfile.getUsername());
 
         try {
             adminFacade.setProfile(testUserID, null);

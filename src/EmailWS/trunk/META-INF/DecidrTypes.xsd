@@ -7,14 +7,14 @@
 	<xsd:element name="actor" type="tns:tActor" />
 	<xsd:complexType name="tActor">
 		<xsd:attribute name="name" type="xsd:NCName" />
-		<xsd:attribute name="userid" type="xsd:ID" use="required" />
+		<xsd:attribute name="userid" type="tns:tID" use="required" />
 		<xsd:attribute name="email" type="xsd:string" />
 	</xsd:complexType>
 
 	<xsd:element name="role" type="tns:tRole" />
 	<xsd:complexType name="tRole">
 		<xsd:sequence>
-			<xsd:element ref="tns:actor" minOccurs="1" maxOccurs="unbounded" />
+			<xsd:element ref="tns:actor" maxOccurs="unbounded" />
 		</xsd:sequence>
 		<xsd:attribute name="name" type="xsd:NCName" use="required" />
 	</xsd:complexType>
@@ -150,8 +150,7 @@
 
 	<xsd:complexType name="tTaskIdentifier">
 		<xsd:sequence>
-			<xsd:element name="taskID" type="tns:tID" minOccurs="1"
-				maxOccurs="1" nillable="false" />
+			<xsd:element name="taskID" type="tns:tID" />
 			<xsd:element name="processID" type="xsd:string"
 				minOccurs="1" maxOccurs="1" nillable="false" />
 			<xsd:element name="userID" type="tns:tID" minOccurs="1"

@@ -17,6 +17,7 @@ package de.decidr.model.soap.types;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -41,16 +42,17 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = { "taskID", "processID", "userID" })
 @XmlRootElement(name = "tTaskIdentifier")
 public class TaskIdentifier {
 
+    @XmlElement(required = true)
     protected long taskID;
+    @XmlElement(required = true)
     protected String processID;
+    @XmlElement(required = true)
     protected long userID;
 
     /**

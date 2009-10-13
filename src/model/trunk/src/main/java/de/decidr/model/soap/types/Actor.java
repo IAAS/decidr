@@ -18,7 +18,6 @@ package de.decidr.model.soap.types;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
@@ -37,7 +36,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;attribute name=&quot;name&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}NCName&quot; /&gt;
- *       &lt;attribute name=&quot;userid&quot; use=&quot;required&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}ID&quot; /&gt;
+ *       &lt;attribute name=&quot;userid&quot; use=&quot;required&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tID&quot; /&gt;
  *       &lt;attribute name=&quot;email&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot; /&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -51,10 +50,10 @@ public class Actor {
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     @XmlSchemaType(name = "NCName")
     protected String name;
+    
     @XmlAttribute(required = true)
-    @XmlID
-    @XmlSchemaType(name = "ID")
     protected Long userid;
+    
     @XmlAttribute
     protected String email;
 
