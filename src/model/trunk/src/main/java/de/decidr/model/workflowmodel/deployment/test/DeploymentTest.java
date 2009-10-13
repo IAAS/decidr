@@ -16,6 +16,27 @@
 
 package de.decidr.model.workflowmodel.deployment.test;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.wsdl.Definition;
+import javax.wsdl.WSDLException;
+import javax.wsdl.extensions.ExtensibilityElement;
+import javax.wsdl.extensions.UnknownExtensibilityElement;
+import javax.wsdl.factory.WSDLFactory;
+import javax.xml.bind.JAXBException;
+
+import org.jdom.input.DOMBuilder;
+import org.jdom.output.XMLOutputter;
+import org.w3c.dom.Element;
+
+import com.ibm.wsdl.extensions.schema.SchemaImpl;
+import com.ibm.wsdl.extensions.schema.SchemaImportImpl;
+
+import de.decidr.model.workflowmodel.dwdl.translator.DWDL2BPEL;
 
 /**
  * Simple deployment test class
@@ -28,11 +49,53 @@ public class DeploymentTest {
      * This class tests the translator component {@link DWDL2BPEL}
      * 
      * @param args
+     * @throws WSDLException
+     * @throws IOException 
      * @throws JAXBException
      * @throws FileNotFoundException
      */
-    public static void main(String[] args) {
-        ;
+    public static void main(String[] args) throws WSDLException, IOException {
+        String wsdlUri = "http://yourwsdlurl?WSDL";
+        WSDLFactory wsdlFactory = WSDLFactory.newInstance();
+        javax.wsdl.xml.WSDLReader wsdlReader = wsdlFactory.newWSDLReader();
+
+        wsdlReader.setFeature("javax.wsdl.verbose", true);
+        wsdlReader.setFeature("javax.wsdl.importDocuments", true);
+
+        System.out.println("getting wsdl definition...");
+        Definition definition = wsdlReader.readWSDL(wsdlUri);
+        System.out.println("definition got. parsing.");
+        if (definition == null) {
+            System.err.println("definition element is null");
+            System.exit(1);
+        }
+
+        org.w3c.dom.Element schemaElement = null;
+
+        ExtensibilityElement schemaExtElem = findExtensibilityElement(
+                definition.getTypes().getExtensibilityElements(), "schema");
+        if ((schemaExtElem != null)
+                && (schemaExtElem instanceof UnknownExtensibilityElement)) {
+            schemaElement = ((UnknownExtensibilityElement) schemaExtElem)
+                    .getElement();
+        }
+        DOMBuilder domBuilder = new DOMBuilder();
+        org.jdom.Element jdomSchemaElement = domBuilder.build(schemaElement);
+        XMLOutputter out = new XMLOutputter();
+        out.output(jdomSchemaElement, System.out);
     }
-    
+
+    private static ExtensibilityElement findExtensibilityElement(
+            List extensibilityElements, String name) {
+        Iterator itt = extensibilityElements.iterator();
+        while (itt.hasNext()) {
+            ExtensibilityElement ext = (ExtensibilityElement) itt.next();
+            if (ext.getElementType().getLocalPart().equals(name)) {
+                return ext;
+            }
+        }
+        throw new RuntimeException("Ext element with name " + name
+                + " was not found.");
+    }
+
 }
