@@ -626,7 +626,7 @@ public class DWDL2BPEL {
 
         // setting import for process WSDL
         processImport.setNamespace(process.getTargetNamespace());
-        processImport.setImportType(BPELConstants.WSDL_IMPORTTYPE);
+        processImport.setImportType(Constants.NS_URI_WSDL11);
         // setting location with space replaced with underscore
         processImport
                 .setLocation(process.getName().replace(" ", "_") + ".wsdl");
