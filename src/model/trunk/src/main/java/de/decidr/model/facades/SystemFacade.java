@@ -38,6 +38,7 @@ import de.decidr.model.entities.Log;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.SystemSettings;
+import de.decidr.model.entities.User;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
@@ -84,7 +85,7 @@ public class SystemFacade extends AbstractFacade {
      * when sending notifications to users</li>
      * <li>logLevel: <code>{@link String}</code> - current global log level</li>
      * <li>superAdmin: <code>{@link User}</code> - the super admin</li>
-     * <li>passwordResetRequestLifeTimeSeconds: <code>{@link Integer}</code> -
+     * <li>passwordResetRequestLifetimeSeconds: <code>{@link Integer}</code> -
      * the user has this many seconds to confirm his password reset.</li>
      * <li>registrationRequestLifetimeSeconds: <code>{@link Integer}</code> -
      * the user has this many seconds to confirm his registration.</li>
@@ -101,7 +102,7 @@ public class SystemFacade extends AbstractFacade {
      * sending email.</li>
      * <li>mtaPassword: <code>{@link String}</code> - password to use when
      * seding email</li>
-     * <li>maxUploadFileSizeByte: <code>{@link Long}</code> - maximum filesize
+     * <li>maxUploadFileSizeBytes: <code>{@link Long}</code> - maximum filesize
      * for any file uploads</li>
      * <li>maxAttachmentsPerEmail: <code>{@link Integer}</code> - maximum number
      * of attachments an email sent by the system can have.</li>
@@ -111,11 +112,11 @@ public class SystemFacade extends AbstractFacade {
      * collected data is averaged in seconds.</li>
      * <li>serverPoolInstances: {@link Integer} - number of server instances
      * that should never be shut down automatically by the monitor service</li>
-     * <li>minServerLoadForLock: {@link Short} - if server load goes above this
+     * <li>minServerLoadForLock: {@link Byte} - if server load goes above this
      * value, the server will be locked.</li>
-     * <li>minServerLoadForUnlock: {@link Short} - if server load goes below
-     * this value, the server will be unlocked</li>
-     * <li>maxServerLoadForShutdown: {@link Short} - if server load goes below
+     * <li>minServerLoadForUnlock: {@link Byte} - if server load goes below this
+     * value, the server will be unlocked</li>
+     * <li>maxServerLoadForShutdown: {@link Byte} - if server load goes below
      * this value, the load monitor will consider shutting down the affected
      * server.</li>
      * <li>minUnlockedServers: {@link Integer} - number of servers that should

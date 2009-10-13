@@ -77,6 +77,10 @@ public class GetTenantLogoCommand extends TenantCommand {
             throw new TransactionException(e);
         } catch (IncompleteConfigurationException e) {
             throw new TransactionException(e);
+        } catch (InstantiationException e) {
+            throw new TransactionException(e);
+        } catch (IllegalAccessException e) {
+            throw new TransactionException(e);
         }
     }
 

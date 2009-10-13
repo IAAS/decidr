@@ -95,6 +95,12 @@ public class EmailService implements EmailInterface {
      * @throws IncompleteConfigurationException
      *             see
      *             <code>{@link StorageProviderFactory#getStorageProvider()}</code>
+     * @throws IllegalAccessException
+     *             see
+     *             <code>{@link StorageProviderFactory#getStorageProvider()}</code>
+     * @throws InstantiationException
+     *             see
+     *             <code>{@link StorageProviderFactory#getStorageProvider()}</code>
      * @throws IoExceptionWrapper
      *             see <code>{@link MailBackend#addFile(java.net.URI)}</code>
      */
@@ -102,7 +108,8 @@ public class EmailService implements EmailInterface {
     private static void addAttachments(MailBackend email, IDList attachments)
             throws MessagingException, MalformedURLException,
             TransactionException, IOException, StorageException,
-            IncompleteConfigurationException {
+            IncompleteConfigurationException, InstantiationException,
+            IllegalAccessException {
         log.trace("Entering " + EmailService.class.getSimpleName()
                 + ".addAttachments(MailBackend, IDList)");
         log.debug("getting system settings from database");
@@ -362,6 +369,10 @@ public class EmailService implements EmailInterface {
                 throw new MessagingExceptionWrapper(e.getMessage());
             } catch (IOException e) {
                 throw new IoExceptionWrapper(e.getMessage(), e.getCause());
+            } catch (InstantiationException e) {
+                throw new RuntimeException(e);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
             }
         }
 

@@ -52,9 +52,8 @@ import de.decidr.model.commands.tenant.GetWorkflowInstancesCommand;
 import de.decidr.model.commands.tenant.GetWorkflowModelsCommand;
 import de.decidr.model.commands.tenant.ImportPublishedWorkflowModelsCommand;
 import de.decidr.model.commands.tenant.InviteUsersAsTenantMembersCommand;
-import de.decidr.model.commands.tenant.SetAdvancedColorSchemeCommand;
+import de.decidr.model.commands.tenant.SetColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetCurrentColorSchemeCommand;
-import de.decidr.model.commands.tenant.SetSimpleColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetTenantDescriptionCommand;
 import de.decidr.model.commands.tenant.SetTenantLogoCommand;
 import de.decidr.model.commands.user.CheckAuthKeyCommand;
@@ -101,7 +100,6 @@ import de.decidr.model.commands.workitem.GetWorkItemCommand;
 import de.decidr.model.commands.workitem.SetDataCommand;
 import de.decidr.model.commands.workitem.SetStatusCommand;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.testing.DecidrDatabaseTest;
 
 /**
@@ -186,7 +184,7 @@ public class DefaultAccessControlListTest extends DecidrDatabaseTest {
                 new CommandPermission(InviteUsersAsTenantMembersCommand.class)));
 
         assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                SetAdvancedColorSchemeCommand.class)));
+                SetColorSchemeCommand.class)));
 
         assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
                 SetCurrentColorSchemeCommand.class)));
@@ -196,9 +194,6 @@ public class DefaultAccessControlListTest extends DecidrDatabaseTest {
 
         assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
                 SetTenantLogoCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                SetSimpleColorSchemeCommand.class)));
 
         // user facade
 

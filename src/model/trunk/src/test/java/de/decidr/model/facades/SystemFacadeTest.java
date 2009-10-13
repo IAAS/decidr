@@ -19,9 +19,11 @@ package de.decidr.model.facades;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -32,11 +34,11 @@ import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.SystemSettings;
+import de.decidr.model.entities.User;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.testing.DecidrDatabaseTest;
 
 /**
@@ -44,7 +46,6 @@ import de.decidr.model.testing.DecidrDatabaseTest;
  * 
  * @author Reinhold
  */
-// RR location is unique
 public class SystemFacadeTest extends DecidrDatabaseTest {
 
     static SystemFacade adminFacade;
@@ -62,6 +63,25 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         nullFacade = new SystemFacade(null);
     }
 
+    public static String HOSTNAME_PREFIX = "127.0.0.1";
+    private static int hostCounter = 0;
+
+    @BeforeClass
+    @AfterClass
+    public static void removeTestServers() throws TransactionException {
+        if (adminFacade == null) {
+            adminFacade = new SystemFacade(new SuperAdminRole(DecidrGlobals
+                    .getSettings().getSuperAdmin().getId()));
+        }
+
+        for (Server server : adminFacade.getServers()) {
+            if (server.getLocation().startsWith(HOSTNAME_PREFIX)) {
+                adminFacade.removeServer(server.getId());
+            }
+        }
+        hostCounter = 0;
+    }
+
     /**
      * Test method for {@link SystemFacade#getSettings()} and
      * {@link SystemFacade#setSettings(SystemSettings)}.
@@ -70,11 +90,14 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
     public void testSettings() throws TransactionException {
         SystemSettings setterSettings = new SystemSettings();
         Item getterSettings;
-        Date modDate;
+        Calendar modDate;
 
         getterSettings = adminFacade.getSettings();
         assertNotNull(getterSettings);
+        User admin = (User) getterSettings.getItemProperty("superAdmin")
+                .getValue();
 
+        setterSettings.setSuperAdmin(admin);
         setterSettings.setAutoAcceptNewTenants(true);
         setterSettings.setChangeEmailRequestLifetimeSeconds(20);
         setterSettings.setDomain("decidr.de");
@@ -89,8 +112,9 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         setterSettings.setMinServerLoadForLock((byte) 100);
         setterSettings.setMinUnlockedServers(1);
         setterSettings.setMinWorkflowInstancesForLock(1);
-        modDate = DecidrGlobals.getTime().getTime();
-        setterSettings.setModifiedDate(modDate);
+        modDate = DecidrGlobals.getTime();
+        modDate.set(Calendar.MILLISECOND, 0);
+        setterSettings.setModifiedDate(modDate.getTime());
         setterSettings.setMonitorAveragingPeriodSeconds(60);
         setterSettings.setMonitorUpdateIntervalSeconds(10);
         setterSettings.setMtaHostname("localhost");
@@ -105,7 +129,6 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         setterSettings.setSystemName("De Cidr");
         adminFacade.setSettings(setterSettings);
 
-        DefaultLogger.getLogger(SystemFacadeTest.class).debug("LOOKY LOOKY");
         getterSettings = adminFacade.getSettings();
         assertEquals(true, getterSettings.getItemProperty(
                 "autoAcceptNewTenants").getValue());
@@ -125,8 +148,8 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 "maxServerLoadForShutdown").getValue());
         assertEquals((byte) 100, getterSettings.getItemProperty(
                 "maxServerLoadForUnlock").getValue());
-        assertEquals(1, getterSettings.getItemProperty("maxUploadFileSizeByte")
-                .getValue());
+        assertEquals(1L, getterSettings.getItemProperty(
+                "maxUploadFileSizeBytes").getValue());
         assertEquals(1, getterSettings.getItemProperty(
                 "maxWorkflowInstancesForShutdown").getValue());
         assertEquals(1, getterSettings.getItemProperty(
@@ -137,8 +160,6 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 .getValue());
         assertEquals(1, getterSettings.getItemProperty(
                 "minWorkflowInstancesForLock").getValue());
-        assertEquals(modDate, getterSettings.getItemProperty("modifiedDate")
-                .getValue());
         assertEquals(60, getterSettings.getItemProperty(
                 "monitorAveragingPeriodSeconds").getValue());
         assertEquals(10, getterSettings.getItemProperty(
@@ -147,11 +168,11 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 .getValue());
         assertEquals("asdfg", getterSettings.getItemProperty("mtaPassword")
                 .getValue());
-        assertEquals(-1, getterSettings.getItemProperty("mtaPort").getValue());
+        assertEquals(0, getterSettings.getItemProperty("mtaPort").getValue());
         assertEquals("asd", getterSettings.getItemProperty("mtaUsername")
                 .getValue());
         assertEquals(200, getterSettings.getItemProperty(
-                "passwordResetRequestLifeTimeSeconds").getValue());
+                "passwordResetRequestLifetimeSeconds").getValue());
         assertEquals(2000, getterSettings.getItemProperty(
                 "registrationRequestLifetimeSeconds").getValue());
         assertEquals(3, getterSettings.getItemProperty("serverPoolInstances")
@@ -160,6 +181,8 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 "systemEmailAddress").getValue());
         assertEquals("De Cidr", getterSettings.getItemProperty("systemName")
                 .getValue());
+        assertEquals(modDate.getTimeInMillis(), ((Date) getterSettings
+                .getItemProperty("modifiedDate").getValue()).getTime());
 
         setterSettings.setAutoAcceptNewTenants(false);
         setterSettings.setChangeEmailRequestLifetimeSeconds(150);
@@ -175,14 +198,11 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         setterSettings.setMinServerLoadForLock((byte) 10);
         setterSettings.setMinUnlockedServers(10);
         setterSettings.setMinWorkflowInstancesForLock(10);
-        modDate = new Date(DecidrGlobals.getTime().getTimeInMillis() - 1000000);
-        setterSettings.setModifiedDate(modDate);
+        setterSettings.setModifiedDate(new Date(
+                modDate.getTimeInMillis() - 1000000));
         setterSettings.setMonitorAveragingPeriodSeconds(600);
         setterSettings.setMonitorUpdateIntervalSeconds(1);
-        setterSettings.setMtaHostname(null);
-        setterSettings.setMtaPassword(null);
         setterSettings.setMtaPort(22);
-        setterSettings.setMtaUsername(null);
         setterSettings.setMtaUseTls(false);
         setterSettings.setPasswordResetRequestLifetimeSeconds(20);
         setterSettings.setRegistrationRequestLifetimeSeconds(2);
@@ -210,8 +230,8 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 "maxServerLoadForShutdown").getValue());
         assertEquals((byte) 10, getterSettings.getItemProperty(
                 "maxServerLoadForUnlock").getValue());
-        assertEquals(100, getterSettings.getItemProperty(
-                "maxUploadFileSizeByte").getValue());
+        assertEquals(100L, getterSettings.getItemProperty(
+                "maxUploadFileSizeBytes").getValue());
         assertEquals(100, getterSettings.getItemProperty(
                 "maxWorkflowInstancesForShutdown").getValue());
         assertEquals(10, getterSettings.getItemProperty(
@@ -222,18 +242,13 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 .getValue());
         assertEquals(10, getterSettings.getItemProperty(
                 "minWorkflowInstancesForLock").getValue());
-        assertEquals(modDate, getterSettings.getItemProperty("modifiedDate")
-                .getValue());
         assertEquals(600, getterSettings.getItemProperty(
                 "monitorAveragingPeriodSeconds").getValue());
         assertEquals(1, getterSettings.getItemProperty(
                 "monitorUpdateIntervalSeconds").getValue());
-        assertNull(getterSettings.getItemProperty("mtaHostname").getValue());
-        assertNull(getterSettings.getItemProperty("mtaPassword").getValue());
         assertEquals(22, getterSettings.getItemProperty("mtaPort").getValue());
-        assertNull(getterSettings.getItemProperty("mtaUsername").getValue());
         assertEquals(20, getterSettings.getItemProperty(
-                "passwordResetRequestLifeTimeSeconds").getValue());
+                "passwordResetRequestLifetimeSeconds").getValue());
         assertEquals(2, getterSettings.getItemProperty(
                 "registrationRequestLifetimeSeconds").getValue());
         assertEquals(1, getterSettings.getItemProperty("serverPoolInstances")
@@ -242,6 +257,9 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 "systemEmailAddress").getValue());
         assertEquals("Darth Vader", getterSettings
                 .getItemProperty("systemName").getValue());
+        assertEquals(modDate.getTimeInMillis() - 1000000,
+                ((Date) getterSettings.getItemProperty("modifiedDate")
+                        .getValue()).getTime());
 
         setterSettings.setMtaHostname("");
         setterSettings.setMtaUsername("");
@@ -381,13 +399,13 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         setterSettings.setServerPoolInstances(1);
 
         setterSettings.setSystemEmailAddress("in@valid@email");
-        setSettingsExceptionHelper("invalid email address ucceeded",
+        setSettingsExceptionHelper("invalid email address succeeded",
                 adminFacade, setterSettings);
         setterSettings.setSystemEmailAddress("");
-        setSettingsExceptionHelper("empty email address ucceeded", adminFacade,
-                setterSettings);
+        setSettingsExceptionHelper("empty email address succeeded",
+                adminFacade, setterSettings);
         setterSettings.setSystemEmailAddress(null);
-        setSettingsExceptionHelper("null email address ucceeded", adminFacade,
+        setSettingsExceptionHelper("null email address succeeded", adminFacade,
                 setterSettings);
         setterSettings.setSystemEmailAddress("invalid@email.de");
 
@@ -395,6 +413,8 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         setSettingsExceptionHelper("null system name succeeded", adminFacade,
                 setterSettings);
         setterSettings.setSystemName("DecidR");
+
+        adminFacade.setSettings(setterSettings);
     }
 
     private static void setSettingsExceptionHelper(String failmsg,
@@ -421,22 +441,23 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         Server testServer;
 
         for (ServerTypeEnum type : ServerTypeEnum.values()) {
-            adminFacade.addServer(type, "127.0.0.1", (byte) -1, true, true);
-            adminFacade.addServer(type, "127.0.0.1", (byte) 0, true, true);
-            adminFacade.addServer(type, "127.0.0.1", (byte) 50, true, true);
-            adminFacade.addServer(type, "127.0.0.1", (byte) 100, true, true);
-            adminFacade.addServer(type, "127.0.0.1", (byte) -1, false, true);
-            adminFacade.addServer(type, "127.0.0.1", (byte) 0, false, true);
-            adminFacade.addServer(type, "127.0.0.1", (byte) 50, false, true);
-            adminFacade.addServer(type, "127.0.0.1", (byte) 100, false, true);
-            adminFacade.addServer(type, "127.0.0.1", (byte) -1, true, false);
-            adminFacade.addServer(type, "127.0.0.1", (byte) 0, true, false);
-            adminFacade.addServer(type, "127.0.0.1", (byte) 50, true, false);
-            adminFacade.addServer(type, "127.0.0.1", (byte) 100, true, false);
-            adminFacade.addServer(type, "127.0.0.1", (byte) -1, false, false);
-            adminFacade.addServer(type, "127.0.0.1", (byte) 0, false, false);
-            adminFacade.addServer(type, "127.0.0.1", (byte) 50, false, false);
-            adminFacade.addServer(type, "127.0.0.1", (byte) 100, false, false);
+            adminFacade.addServer(type, getHostname(), (byte) -1, true, true);
+            adminFacade.addServer(type, getHostname(), (byte) 0, true, true);
+            adminFacade.addServer(type, getHostname(), (byte) 50, true, true);
+            adminFacade.addServer(type, getHostname(), (byte) 100, true, true);
+            adminFacade.addServer(type, getHostname(), (byte) -1, false, true);
+            adminFacade.addServer(type, getHostname(), (byte) 0, false, true);
+            adminFacade.addServer(type, getHostname(), (byte) 50, false, true);
+            adminFacade.addServer(type, getHostname(), (byte) 100, false, true);
+            adminFacade.addServer(type, getHostname(), (byte) -1, true, false);
+            adminFacade.addServer(type, getHostname(), (byte) 0, true, false);
+            adminFacade.addServer(type, getHostname(), (byte) 50, true, false);
+            adminFacade.addServer(type, getHostname(), (byte) 100, true, false);
+            adminFacade.addServer(type, getHostname(), (byte) -1, false, false);
+            adminFacade.addServer(type, getHostname(), (byte) 0, false, false);
+            adminFacade.addServer(type, getHostname(), (byte) 50, false, false);
+            adminFacade
+                    .addServer(type, getHostname(), (byte) 100, false, false);
 
             addServerExceptionHelper("invalid value succeeded", adminFacade,
                     type, "", (byte) -1, true, true);
@@ -512,279 +533,268 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
             addServerExceptionHelper("invalid value succeeded", adminFacade,
                     type, "", (byte) -1, false, false);
             addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, "localhost", (byte) -2, true, true);
+                    type, getHostname(), (byte) 101, true, true);
             addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, "localhost", (byte) -200, true, true);
+                    type, getHostname(), (byte) 200, true, true);
             addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, "localhost", (byte) 101, true, true);
+                    type, getHostname(), (byte) 101, false, true);
             addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, "localhost", (byte) 200, true, true);
+                    type, getHostname(), (byte) 200, false, true);
             addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, "localhost", (byte) -2, false, true);
+                    type, getHostname(), (byte) 101, true, false);
             addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, "localhost", (byte) -200, false, true);
+                    type, getHostname(), (byte) 200, true, false);
             addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, "localhost", (byte) 101, false, true);
+                    type, getHostname(), (byte) 101, false, false);
             addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, "localhost", (byte) 200, false, true);
-            addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, "localhost", (byte) -2, true, false);
-            addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, "localhost", (byte) -200, true, false);
-            addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, "localhost", (byte) 101, true, false);
-            addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, "localhost", (byte) 200, true, false);
-            addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, "localhost", (byte) -2, false, false);
-            addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, "localhost", (byte) -200, false, false);
-            addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, "localhost", (byte) 101, false, false);
-            addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, "localhost", (byte) 200, false, false);
+                    type, getHostname(), (byte) 200, false, false);
 
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) -1, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) -1, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) -1, true, true);
+                    nullFacade, type, getHostname(), (byte) -1, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) 0, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) 0, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) 0, true, true);
+                    nullFacade, type, getHostname(), (byte) 0, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) 50, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) 50, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) 50, true, true);
+                    nullFacade, type, getHostname(), (byte) 50, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) 100, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) 100, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) 100, true, true);
+                    nullFacade, type, getHostname(), (byte) 100, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) 200, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) 200, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) 200, true, true);
+                    nullFacade, type, getHostname(), (byte) 200, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) -1, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) -1, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) -1, false, true);
+                    nullFacade, type, getHostname(), (byte) -1, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) 0, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) 0, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) 0, false, true);
+                    nullFacade, type, getHostname(), (byte) 0, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) 50, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) 50, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) 50, false, true);
+                    nullFacade, type, getHostname(), (byte) 50, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) 100, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) 100, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) 100, false, true);
+                    nullFacade, type, getHostname(), (byte) 100, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) 200, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) 200, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) 200, false, true);
+                    nullFacade, type, getHostname(), (byte) 200, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) -1, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) -1, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) -1, true, false);
+                    nullFacade, type, getHostname(), (byte) -1, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) 0, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) 0, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) 0, true, false);
+                    nullFacade, type, getHostname(), (byte) 0, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) 50, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) 50, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) 50, true, false);
+                    nullFacade, type, getHostname(), (byte) 50, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) 100, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) 100, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) 100, true, false);
+                    nullFacade, type, getHostname(), (byte) 100, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) 200, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) 200, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) 200, true, false);
+                    nullFacade, type, getHostname(), (byte) 200, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) -1, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) -1, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) -1, false, false);
+                    nullFacade, type, getHostname(), (byte) -1, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) 0, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) 0, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) 0, false, false);
+                    nullFacade, type, getHostname(), (byte) 0, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) 50, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) 50, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) 50, false, false);
+                    nullFacade, type, getHostname(), (byte) 50, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) 100, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) 100, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) 100, false, false);
+                    nullFacade, type, getHostname(), (byte) 100, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) 200, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, null, (byte) 200, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    nullFacade, type, "127.0.0.1", (byte) 200, false, false);
+                    nullFacade, type, getHostname(), (byte) 200, false, false);
 
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) -1, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) -1, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) -1, true, true);
+                    userFacade, type, getHostname(), (byte) -1, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) 0, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) 0, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) 0, true, true);
+                    userFacade, type, getHostname(), (byte) 0, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) 50, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) 50, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) 50, true, true);
+                    userFacade, type, getHostname(), (byte) 50, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) 100, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) 100, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) 100, true, true);
+                    userFacade, type, getHostname(), (byte) 100, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) 200, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) 200, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) 200, true, true);
+                    userFacade, type, getHostname(), (byte) 200, true, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) -1, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) -1, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) -1, false, true);
+                    userFacade, type, getHostname(), (byte) -1, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) 0, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) 0, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) 0, false, true);
+                    userFacade, type, getHostname(), (byte) 0, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) 50, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) 50, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) 50, false, true);
+                    userFacade, type, getHostname(), (byte) 50, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) 100, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) 100, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) 100, false, true);
+                    userFacade, type, getHostname(), (byte) 100, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) 200, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) 200, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) 200, false, true);
+                    userFacade, type, getHostname(), (byte) 200, false, true);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) -1, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) -1, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) -1, true, false);
+                    userFacade, type, getHostname(), (byte) -1, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) 0, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) 0, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) 0, true, false);
+                    userFacade, type, getHostname(), (byte) 0, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) 50, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) 50, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) 50, true, false);
+                    userFacade, type, getHostname(), (byte) 50, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) 100, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) 100, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) 100, true, false);
+                    userFacade, type, getHostname(), (byte) 100, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) 200, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) 200, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) 200, true, false);
+                    userFacade, type, getHostname(), (byte) 200, true, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) -1, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) -1, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) -1, false, false);
+                    userFacade, type, getHostname(), (byte) -1, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) 0, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) 0, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) 0, false, false);
+                    userFacade, type, getHostname(), (byte) 0, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) 50, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) 50, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) 50, false, false);
+                    userFacade, type, getHostname(), (byte) 50, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) 100, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) 100, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) 100, false, false);
+                    userFacade, type, getHostname(), (byte) 100, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, "", (byte) 200, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
                     userFacade, type, null, (byte) 200, false, false);
             addServerExceptionHelper("Null Facade action succeeded",
-                    userFacade, type, "127.0.0.1", (byte) 200, false, false);
+                    userFacade, type, getHostname(), (byte) 200, false, false);
+
+            String hostname = getHostname();
+            adminFacade.addServer(type, hostname, (byte) 50, true, true);
+            addServerExceptionHelper("duplicate location succeeded",
+                    adminFacade, type, hostname, (byte) 50, true, true);
 
             assertNotNull(adminFacade.getServers(type));
             assertFalse(adminFacade.getServers(type).isEmpty());
@@ -1007,7 +1017,6 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         Paginator emptyPaginator = new Paginator();
         ArrayList<Filter> emptyList = new ArrayList<Filter>();
 
-        
         adminFacade.getLog(null, null);
         adminFacade.getLog(emptyList, null);
         adminFacade.getLog(null, emptyPaginator);
@@ -1037,6 +1046,10 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         logExceptionHelper(
                 "getting log (obj, obj) with normal user facade succeeded",
                 userFacade, emptyList, emptyPaginator);
+    }
+
+    public static String getHostname() {
+        return HOSTNAME_PREFIX + ":" + (hostCounter++);
     }
 
     private static void logExceptionHelper(String failmsg, SystemFacade facade,

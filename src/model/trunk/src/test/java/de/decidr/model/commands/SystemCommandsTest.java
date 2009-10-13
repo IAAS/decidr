@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Transaction;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.DecidrGlobals;
@@ -49,6 +51,7 @@ import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.entities.User;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.SystemFacadeTest;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.testing.CommandsTest;
@@ -57,14 +60,21 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
 /**
  * This class tests the commands in <code>de.decidr.model.commands.system</code>
  * .
+ * <p>
+ * <em>NOTE: due to time constraints, {@link SystemFacadeTest} may be more complete in places!</em>
  * 
  * @author Reinhold
  */
-// RR location is unique
 public class SystemCommandsTest extends CommandsTest {
 
     private static Long SUPER_ADMIN_ID = DecidrGlobals.getSettings()
             .getSuperAdmin().getId();
+
+    @AfterClass
+    @BeforeClass
+    public static void deleteServers() throws TransactionException {
+        SystemFacadeTest.removeTestServers();
+    }
 
     private Server getServer(long ID) throws TransactionException {
         GetServersCommand getAllServers = new GetServersCommand(
@@ -134,67 +144,46 @@ public class SystemCommandsTest extends CommandsTest {
 
         for (ServerTypeEnum serverType : ServerTypeEnum.values()) {
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) 0, false, false));
+                    SystemFacadeTest.getHostname(), (byte) 0, false, false));
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) 0, true, true));
+                    SystemFacadeTest.getHostname(), (byte) 0, true, true));
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) 0, true, false));
+                    SystemFacadeTest.getHostname(), (byte) 0, true, false));
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) 0, true, true));
+                    SystemFacadeTest.getHostname(), (byte) 0, true, true));
 
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) -1, false, false));
+                    SystemFacadeTest.getHostname(), (byte) -1, false, false));
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) -1, true, true));
+                    SystemFacadeTest.getHostname(), (byte) -1, true, true));
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) -1, true, false));
+                    SystemFacadeTest.getHostname(), (byte) -1, true, false));
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) -1, true, true));
+                    SystemFacadeTest.getHostname(), (byte) -1, true, true));
 
+            String hostname = SystemFacadeTest.getHostname();
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
+                    hostname, (byte) 10, true, true));
             badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) 0, false, false));
-            badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) 0, true, true));
-            badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) 0, true, false));
-            badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) 0, true, true));
-
-            badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) -1, false, false));
-            badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) -1, true, true));
-            badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) -1, true, false));
-            badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) -1, true, true));
+                    hostname, (byte) 10, true, true));
 
             badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
-                    "localhost", (byte) 0, false, false));
+                    SystemFacadeTest.getHostname(), (byte) 0, false, false));
             badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
-                    "localhost", (byte) 0, true, true));
+                    SystemFacadeTest.getHostname(), (byte) 0, true, true));
             badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
-                    "localhost", (byte) 0, true, false));
+                    SystemFacadeTest.getHostname(), (byte) 0, true, false));
             badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,
-                    "localhost", (byte) 0, true, true));
+                    SystemFacadeTest.getHostname(), (byte) 0, true, true));
 
-            badCommands.add(new AddServerCommand(null, serverType, "localhost",
-                    (byte) 0, false, false));
-            badCommands.add(new AddServerCommand(null, serverType, "localhost",
-                    (byte) 0, true, true));
-            badCommands.add(new AddServerCommand(null, serverType, "localhost",
-                    (byte) 0, true, false));
-            badCommands.add(new AddServerCommand(null, serverType, "localhost",
-                    (byte) 0, true, true));
-
-            badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) -10, false, false));
-            badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) -10, true, true));
-            badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) -10, true, false));
-            badCommands.add(new AddServerCommand(superAdminRole, serverType,
-                    "localhost", (byte) -10, true, true));
+            badCommands.add(new AddServerCommand(null, serverType,
+                    SystemFacadeTest.getHostname(), (byte) 0, false, false));
+            badCommands.add(new AddServerCommand(null, serverType,
+                    SystemFacadeTest.getHostname(), (byte) 0, true, true));
+            badCommands.add(new AddServerCommand(null, serverType,
+                    SystemFacadeTest.getHostname(), (byte) 0, true, false));
+            badCommands.add(new AddServerCommand(null, serverType,
+                    SystemFacadeTest.getHostname(), (byte) 0, true, true));
 
             try {
                 badCommands.add(new AddServerCommand(superAdminRole,
@@ -356,7 +345,11 @@ public class SystemCommandsTest extends CommandsTest {
 
         Set<RemoveServerCommand> delete = new HashSet<RemoveServerCommand>();
         for (Server server : getAllServers.getResult()) {
-            delete.add(new RemoveServerCommand(superAdminRole, server.getId()));
+            if (server.getLocation().startsWith(
+                    SystemFacadeTest.HOSTNAME_PREFIX)) {
+                delete.add(new RemoveServerCommand(superAdminRole, server
+                        .getId()));
+            }
         }
         HibernateTransactionCoordinator.getInstance().runTransaction(delete);
 
@@ -426,8 +419,7 @@ public class SystemCommandsTest extends CommandsTest {
         setterSettings.setMinWorkflowInstancesForLock(1);
         modDate = DecidrGlobals.getTime();
         modDate.setLenient(true);
-        modDate.set(Calendar.MILLISECOND,
-                modDate.get(Calendar.MILLISECOND) < 500 ? 0 : 1000);
+        modDate.set(Calendar.MILLISECOND, 0);
         setterSettings.setModifiedDate(modDate.getTime());
         setterSettings.setMonitorAveragingPeriodSeconds(60);
         setterSettings.setMonitorUpdateIntervalSeconds(10);
@@ -461,7 +453,6 @@ public class SystemCommandsTest extends CommandsTest {
         assertEquals((byte) 100, getterSettings.getMinServerLoadForLock());
         assertEquals(1, getterSettings.getMinUnlockedServers());
         assertEquals(1, getterSettings.getMinWorkflowInstancesForLock());
-        assertEquals(modDate.getTime(), getterSettings.getModifiedDate());
         assertEquals(60, getterSettings.getMonitorAveragingPeriodSeconds());
         assertEquals(10, getterSettings.getMonitorUpdateIntervalSeconds());
         assertEquals("localhost", getterSettings.getMtaHostname());
@@ -477,6 +468,8 @@ public class SystemCommandsTest extends CommandsTest {
         assertEquals("decidr@decidr.biz", getterSettings
                 .getSystemEmailAddress());
         assertEquals("De Cidr", getterSettings.getSystemName());
+        assertEquals(modDate.getTimeInMillis(), getterSettings
+                .getModifiedDate().getTime());
 
         setterSettings.setAutoAcceptNewTenants(false);
         setterSettings.setChangeEmailRequestLifetimeSeconds(150);
@@ -522,8 +515,6 @@ public class SystemCommandsTest extends CommandsTest {
         assertEquals((byte) 10, getterSettings.getMinServerLoadForLock());
         assertEquals(10, getterSettings.getMinUnlockedServers());
         assertEquals(10, getterSettings.getMinWorkflowInstancesForLock());
-        assertEquals(new Date(modDate.getTimeInMillis() - 1000000),
-                getterSettings.getModifiedDate());
         assertEquals(600, getterSettings.getMonitorAveragingPeriodSeconds());
         assertEquals(1, getterSettings.getMonitorUpdateIntervalSeconds());
         assertEquals(22, getterSettings.getMtaPort());
@@ -533,6 +524,8 @@ public class SystemCommandsTest extends CommandsTest {
         assertEquals(1, getterSettings.getServerPoolInstances());
         assertEquals("dumbo@decidr.eu", getterSettings.getSystemEmailAddress());
         assertEquals("Darth Vader", getterSettings.getSystemName());
+        assertEquals(modDate.getTimeInMillis() - 1000000, getterSettings
+                .getModifiedDate().getTime());
 
         setterSettings.setMtaHostname("");
         setterSettings.setMtaUsername("");
@@ -553,9 +546,9 @@ public class SystemCommandsTest extends CommandsTest {
         setterSettings.setChangeEmailRequestLifetimeSeconds(1);
 
         setterSettings.setDomain(null);
-        assertTransactionException("null domain succeded", setter);
+        assertTransactionException("null domain succeeded", setter);
         setterSettings.setDomain("");
-        assertTransactionException("empty domain succeded", setter);
+        assertTransactionException("empty domain succeeded", setter);
         setterSettings.setDomain("decidr.de");
 
         setterSettings.setInvitationLifetimeSeconds(-1);

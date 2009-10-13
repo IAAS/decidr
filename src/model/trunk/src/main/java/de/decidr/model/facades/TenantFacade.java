@@ -18,6 +18,7 @@ package de.decidr.model.facades;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.vaadin.data.Item;
@@ -48,9 +49,8 @@ import de.decidr.model.commands.tenant.GetWorkflowModelsCommand;
 import de.decidr.model.commands.tenant.ImportPublishedWorkflowModelsCommand;
 import de.decidr.model.commands.tenant.InviteUsersAsTenantMembersCommand;
 import de.decidr.model.commands.tenant.RejectTenantsCommand;
-import de.decidr.model.commands.tenant.SetAdvancedColorSchemeCommand;
+import de.decidr.model.commands.tenant.SetColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetCurrentColorSchemeCommand;
-import de.decidr.model.commands.tenant.SetSimpleColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetTenantDescriptionCommand;
 import de.decidr.model.commands.tenant.SetTenantLogoCommand;
 import de.decidr.model.commands.workflowmodel.DeleteWorkflowModelCommand;
@@ -166,41 +166,21 @@ public class TenantFacade extends AbstractFacade {
     }
 
     /**
-     * Sets the simple color scheme of the given tenant.
-     * 
-     * @param tenantId
-     *            the id of the tenant where the scheme should be set
-     * @param fileId
-     *            the id of the file that should be used as the simple color
-     *            scheme.
-     */
-    @AllowedRole(TenantAdminRole.class)
-    public void setSimpleColorScheme(Long tenantId, Long fileId)
-            throws TransactionException {
-
-        SetSimpleColorSchemeCommand command = new SetSimpleColorSchemeCommand(
-                actor, tenantId, fileId);
-
-        HibernateTransactionCoordinator.getInstance().runTransaction(command);
-    }
-
-    /**
-     * Sets the advanced color scheme of the given tenant.
+     * Sets the simple or advanced color scheme of the given tenant.
      * 
      * @param tenantId
      *            the ID of the tenant where the scheme should be set
      * @param fileId
-     *            the ID of the file to use as the advanced color scheme
+     *            the ID of the file to use as the color scheme
+     * @param advanced
+     *            whether to set the advanced or the simple color scheme
      */
-    // RR how about only having one
-    // setColorScheme(Long tenantId, Long fileId, Boolean advanced)? both the
-    // functions and the commands do pretty much the same thing anyway... ~rr
     @AllowedRole(TenantAdminRole.class)
-    public void setAdvancedColorScheme(Long tenantId, Long fileId)
+    public void setColorScheme(Long tenantId, Long fileId, Boolean advanced)
             throws TransactionException {
 
-        SetAdvancedColorSchemeCommand command = new SetAdvancedColorSchemeCommand(
-                actor, tenantId, fileId);
+        SetColorSchemeCommand command = new SetColorSchemeCommand(actor,
+                tenantId, fileId, advanced);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }

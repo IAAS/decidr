@@ -251,8 +251,6 @@ public class StorageProviderFactory {
     /**
      * Returns a configured storage provider.
      * 
-     * RR TODO throw exception if no storage provider is found.
-     * 
      * @return <ul>
      *         <li value="-"><code>null</code>, if there is no
      *         <code>{@link StorageProvider}</code> available that is compatible
@@ -262,25 +260,30 @@ public class StorageProviderFactory {
      *         </ul>
      * @throws IncompleteConfigurationException
      *             see
-     *             <code>{@link StorageProvider#applyConfig(Properties)}</code>
+     *             <code>{@link StorageProvider#applyConfig(Properties)}</code>;
+     *             also thrown when no suitable {@link StorageProvider} was
+     *             found
+     * @throws IllegalAccessException
+     *             see <code>{@link Class#newInstance()}</code>
+     * @throws InstantiationException
+     *             see <code>{@link Class#newInstance()}</code>
      */
     public StorageProvider getStorageProvider()
-            throws IncompleteConfigurationException {
+            throws IncompleteConfigurationException, InstantiationException,
+            IllegalAccessException {
         log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
                 + ".getStorageProvider()");
         StorageProvider result = null;
 
-        log.debug("creating & configuring new provider instance");
-        if (selectedProvider != null) {
-            try {
-                result = selectedProvider.newInstance();
-                result.applyConfig(config);
-            } catch (InstantiationException e) {
-                selectedProvider = null;
-            } catch (IllegalAccessException e) {
-                selectedProvider = null;
-            }
+        if (selectedProvider == null) {
+            log.error("Couldn't find a suitable storage provider");
+            throw new IncompleteConfigurationException(
+                    "No suitable storage provider could be found");
         }
+
+        log.debug("creating & configuring new provider instance");
+        result = selectedProvider.newInstance();
+        result.applyConfig(config);
 
         log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
                 + ".getStorageProvider()");

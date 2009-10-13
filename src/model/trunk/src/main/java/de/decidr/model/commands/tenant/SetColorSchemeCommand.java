@@ -26,11 +26,13 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @author Markus Fischer
  * @author Daniel Huss
+ * @author Reinhold
  * @version 0.1
  */
-public class SetAdvancedColorSchemeCommand extends TenantCommand {
+public class SetColorSchemeCommand extends TenantCommand {
 
     Long fileId;
+    Boolean advanced;
 
     /**
      * Creates a new SetAdvancedColorSchemeCommand. This command sets the
@@ -43,10 +45,14 @@ public class SetAdvancedColorSchemeCommand extends TenantCommand {
      * @param fileId
      *            id of color scheme file to use as the advanced color scheme
      *            (can be null if the default theme should be used).
+     * @param advanced
+     *            whether to set the advanced or the simple color scheme
      */
-    public SetAdvancedColorSchemeCommand(Role role, Long tenantId, Long fileId) {
+    public SetColorSchemeCommand(Role role, Long tenantId, Long fileId,
+            Boolean advanced) {
         super(role, tenantId);
         this.fileId = fileId;
+        this.advanced = advanced;
     }
 
     @Override
@@ -54,8 +60,11 @@ public class SetAdvancedColorSchemeCommand extends TenantCommand {
             throws TransactionException {
 
         Tenant tenant = fetchTenant(evt.getSession());
-        File advancedColorScheme = (File) evt.getSession().get(File.class, fileId);
-        tenant.setAdvancedColorScheme(advancedColorScheme);
+        File colorScheme = (File) evt.getSession().get(File.class, fileId);
+        if (advanced)
+            tenant.setAdvancedColorScheme(colorScheme);
+        else
+            tenant.setSimpleColorScheme(colorScheme);
         evt.getSession().save(tenant);
     }
 }

@@ -257,16 +257,13 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for {@link TenantFacade#setSimpleColorScheme(Long, Long)},
-     * {@link TenantFacade#setAdvancedColorScheme(Long, Long)},
+     * Test method for {@link TenantFacade#setColorScheme(Long, Long, Boolean)},
      * {@link TenantFacade#setCurrentColorScheme(Long, Boolean)} and
      * {@link TenantFacade#getCurrentColorScheme(Long)}.
      */
     @Test
     public void testColorScheme() {
-        // RR clear up setXColorScheme vs SetColorScheme(..., bool)
-        fail("Not yet implemented"); // RR setSimpleColorScheme
-        fail("Not yet implemented"); // RR setAdvancedColorScheme
+        fail("Not yet implemented"); // RR setColorScheme
         fail("Not yet implemented"); // RR setCurrentColorScheme
         fail("Not yet implemented"); // RR getCurrentColorScheme
     }
