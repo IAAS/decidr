@@ -16,7 +16,17 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.wsdl.Definition;
+import javax.wsdl.Message;
+import javax.wsdl.Operation;
+import javax.wsdl.Part;
+import javax.wsdl.PortType;
+import javax.wsdl.extensions.ExtensibilityElement;
+import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
@@ -29,14 +39,45 @@ import javax.xml.soap.SOAPMessage;
  * @version 0.1
  */
 public class DWDL2SOAP {
-    // AT getSOAP aus wsdl eine soap message erstellen
-    public SOAPMessage getSOAP(Definition wsdl, String portName)
-            throws UnsupportedOperationException, SOAPException {
-        // Next, create the actual message
+
+    public SOAPMessage getSOAP(Definition wsdl, String portName,
+            String operationName) throws UnsupportedOperationException,
+            SOAPException {
         MessageFactory messageFactory = MessageFactory.newInstance();
-        SOAPMessage message = messageFactory.createMessage();
-        
-        return message;
+        SOAPMessage soapMessage = messageFactory.createMessage();
+        PortType port = wsdl.getPortType(new QName(wsdl.getTargetNamespace(),
+                portName));
+        Operation operation = port.getOperation(null, operationName, null);
+        Message message = operation.getInput().getMessage();
+        Iterator<?> partIter = message.getParts().values().iterator();
+        while (partIter.hasNext()) {
+            Part messagePart = (Part) partIter.next();
+            QName elementName = messagePart.getElementName();
+            System.out.println("Element name" + elementName);
+            QName typeName = messagePart.getElementName();
+            System.out.println("Element name" + elementName);
+            if (elementName != null) {
+                ExtensibilityElement extElement = findExtensibilityElement(wsdl
+                        .getTypes().getExtensibilityElements(), "schema");
+                System.out.println(extElement);
+            } else if (typeName != null) {
+
+            }
+        }
+        return soapMessage;
+    }
+
+    private ExtensibilityElement findExtensibilityElement(List<?> extElements,
+            String elementName) {
+        Iterator<?> extElementIter = extElements.iterator();
+        while (extElementIter.hasNext()) {
+            ExtensibilityElement extElement = (ExtensibilityElement) extElementIter
+                    .next();
+            if (extElement.getElementType().getLocalPart().equals(elementName)) {
+                return extElement;
+            }
+        }
+        return null;
     }
 
 }

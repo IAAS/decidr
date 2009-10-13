@@ -64,15 +64,17 @@ public class DecidrWebserviceAdapter {
         PartnerLinkType partnerLinkType = new PartnerLinkType();
         partnerLinkType.setName(definition.getQName().getLocalPart() + "PLT");
         TRole myRole = new TRole();
-        myRole.setName(mapping.getActivity() + "Requestor"); 
+        myRole.setName(mapping.getActivity() + "Requestor");
         de.decidr.model.workflowmodel.bpel.TRole.PortType myPortType = new TRole.PortType();
-        myPortType.setName(new QName(definition.getTargetNamespace(),mapping.getPortType()));
+        myPortType.setName(new QName(definition.getTargetNamespace(), mapping
+                .getPortType()));
         myRole.setPortType(myPortType);
         TRole partnerRole = new TRole();
         partnerRole.setName(mapping.getActivity() + "Provider");
         de.decidr.model.workflowmodel.bpel.TRole.PortType partnerPortType = new TRole.PortType();
         // MA change mapping schema for callback port
-        partnerPortType.setName(new QName(definition.getTargetNamespace(),"think about it"));        
+        partnerPortType.setName(new QName(definition.getTargetNamespace(),
+                "think about it"));
         return null;
     }
 
@@ -107,7 +109,8 @@ public class DecidrWebserviceAdapter {
     }
 
     public Service getService() {
-        return definition.getService(new QName(definition.getTargetNamespace(),mapping.getService()));
+        return definition.getService(new QName(definition.getTargetNamespace(),
+                mapping.getService()));
     }
 
 }
