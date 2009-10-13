@@ -79,7 +79,6 @@ public class GetHighestUserRoleCommand extends UserCommand {
         }
 
         // check if user is tenant admin
-
         Query q = evt.getSession().createQuery(
                 "select count(*) from Tenant a where a.admin.id = :userId");
         q.setLong("userId", getUserId());

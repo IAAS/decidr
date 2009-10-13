@@ -60,6 +60,7 @@ import de.decidr.model.testing.LowLevelDatabaseTest;
  */
 public class UserFacadeTest extends LowLevelDatabaseTest {
 
+    static Long adminID;
     static UserFacade adminFacade;
     static UserFacade userFacade;
     static UserFacade nullFacade;
@@ -223,8 +224,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             TransactionException {
         deleteTestUsers();
 
-        adminFacade = new UserFacade(new SuperAdminRole(DecidrGlobals
-                .getSettings().getSuperAdmin().getId()));
+        adminID = DecidrGlobals.getSettings().getSuperAdmin().getId();
+        adminFacade = new UserFacade(new SuperAdminRole(adminID));
         userFacade = new UserFacade(new BasicRole(0L));
         nullFacade = new UserFacade(null);
 
@@ -552,9 +553,11 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      * Test method for {@link UserFacade#getHighestUserRole(Long)}.
      */
     @Test
-    public void testGetHighestUserRole() {
-        // RR ask DH how to test
-        fail("Not yet implemented"); // RR getHighestUserRole
+    public void testGetHighestUserRole() throws TransactionException {
+        assertEquals(adminFacade.actor.getClass(), adminFacade
+                .getHighestUserRole(adminID));
+        assertEquals(adminFacade.actor.getClass(), userFacade
+                .getHighestUserRole(adminID));
     }
 
     /**
