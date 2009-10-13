@@ -25,6 +25,7 @@ import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import javax.xml.transform.TransformerException;
 
+import org.apache.axis2.Constants;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
 
@@ -607,7 +608,7 @@ public class DWDL2BPEL {
             Import wsImport = factory.createImport();
             wsImport.setNamespace(adapter.getTargetNamespace());
             wsImport.setLocation(adapter.getLocation());
-            wsImport.setImportType(BPELConstants.WSDL_IMPORTTYPE);
+            wsImport.setImportType(Constants.NS_URI_WSDL11);
             // initialize web service prefixes
             webservicePrefixes.put(adapter, "ws" + wsPrefixNumber);
             process.getImport().add(wsImport);

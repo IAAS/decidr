@@ -33,7 +33,8 @@ public interface DeploymentStrategy {
      * Selection of servers for deployment
      *
      * @param serverStatistics
-     * @return
+     * @return List of server on which deployment can be done
      */
     public List<ServerLoadView> selectServer(List<ServerLoadView> serverStatistics);
+    
 }

@@ -34,18 +34,19 @@ public class StandardDeploymentStrategy implements DeploymentStrategy {
      */
     @Override
     public List<ServerLoadView> selectServer(List<ServerLoadView> serverStatistics) {
+        if (serverStatistics.isEmpty()){
+            throw new IllegalArgumentException("Server list for process deployment is empty");
+        }
         List<ServerLoadView> resultList = new ArrayList<ServerLoadView>();
-        ServerLoadView bestServer = null;
-        byte bestLoad = 100;
+        ServerLoadView minServer = serverStatistics.get(0);
         for (ServerLoadView serverView : serverStatistics){
             if (!serverView.isLocked()){
-                if(serverView.getLoad() < bestLoad){
-                    bestLoad = serverView.getLoad();
-                    bestServer = serverView;
+                if(serverView.getLoad() < minServer.getId()){
+                    minServer = serverView;
                 }
             }
         }
-        resultList.add(bestServer);
+        resultList.add(minServer);
         return resultList;
     }
 }

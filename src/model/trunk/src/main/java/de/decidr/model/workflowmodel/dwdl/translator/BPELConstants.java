@@ -29,11 +29,8 @@ public final class BPELConstants {
     public static final String DWDL_NAMESPACE = "http://decidr.de/schema/dwdl";
     public static final String DECIDRTYPES_NAMESPACE = "http://decidr.de/schema/DecidrTypes";
     public static final String ODE_NAMESPACE = "http://www.apache.org/ode/type/extension";
-    public static final String WSDL_IMPORTTYPE = "http://schemas.xmlsoap.org/wsdl/";
     public static final String DECIDRTYPES_LOCATION = "DecidrTypes.xsd";
     public static final String[] CORRELATION_PROPERTIES = {"processID", "userID", "taskID"};
-    
-
     private BPELConstants() {
         // do nothing
     }
