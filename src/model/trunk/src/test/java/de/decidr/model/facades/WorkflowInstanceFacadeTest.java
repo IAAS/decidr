@@ -25,6 +25,7 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.testing.DecidrDatabaseTest;
 
@@ -67,6 +68,7 @@ public class WorkflowInstanceFacadeTest extends DecidrDatabaseTest {
         adminFacade = new WorkflowInstanceFacade(adminRole);
         userFacade = new WorkflowInstanceFacade(basicRole);
         nullFacade = new WorkflowInstanceFacade(null);
+        
     }
 
     /**

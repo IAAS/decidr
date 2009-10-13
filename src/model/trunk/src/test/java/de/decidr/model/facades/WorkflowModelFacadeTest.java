@@ -78,7 +78,6 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
 
     @BeforeClass
     public static void createWorkflowModel() throws TransactionException {
-
         // create test tenant
         final String NAME = "WorkflowModelFacadeTestTenant";
         final String DESCRIPTION = "TenantDescription";
@@ -200,7 +199,6 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
             UserUnavailableException, UsernameNotFoundException,
             TransactionException {
 
-        // JE: unfinished
         final String INVALID_USERNAME = "InvalidUserName";
 
         List<String> emails = new ArrayList<String>();
@@ -275,7 +273,7 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
             adminFacade.getWorkflowModel(wfmId);
             fail("Model to be deleted is still in the database.");
         } catch (EntityNotFoundException e) {
-            // that's what is expected
+            // expected
         }
     }
 }

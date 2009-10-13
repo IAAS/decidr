@@ -18,12 +18,17 @@ package de.decidr.model.facades;
 
 import static org.junit.Assert.fail;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.entities.UserProfile;
+import de.decidr.model.exceptions.EntityNotFoundException;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.testing.DecidrDatabaseTest;
 
 /**
@@ -33,9 +38,15 @@ import de.decidr.model.testing.DecidrDatabaseTest;
  */
 public class WorkItemFacadeTest extends DecidrDatabaseTest {
 
+    static long wfmId;
+    static String username;
+    static long userId;
+
     static WorkItemFacade adminFacade;
     static WorkItemFacade userFacade;
     static WorkItemFacade nullFacade;
+
+    static UserFacade adminUserFacade;
 
     @BeforeClass
     public static void disable() {
@@ -46,13 +57,53 @@ public class WorkItemFacadeTest extends DecidrDatabaseTest {
      * Initialises the facade instances.
      */
     @BeforeClass
-    public static void setUpBeforeClass() {
+    public static void setUpBeforeClass() throws TransactionException {
         adminFacade = new WorkItemFacade(new SuperAdminRole(DecidrGlobals
                 .getSettings().getSuperAdmin().getId()));
         userFacade = new WorkItemFacade(new BasicRole(0L));
         nullFacade = new WorkItemFacade(null);
+
+        // create test tenant
+        final String NAME = "WorkItemFacadeTestTenant";
+        final String DESCRIPTION = "TenantDescription";
+
+        Role role = new SuperAdminRole(DecidrGlobals.getSettings()
+                .getSuperAdmin().getId());
+        TenantFacade tenantFacade = new TenantFacade(role);
+
+        try {
+            long id = tenantFacade.getTenantId(NAME);
+            tenantFacade.deleteTenant(id);
+        } catch (EntityNotFoundException e) {
+            // tenant does not exist - good!
+        }
+
+        long tenantId = tenantFacade.createTenant(NAME, DESCRIPTION,
+                DecidrGlobals.getSettings().getSuperAdmin().getId());
+
+        // create test workflow model
+        wfmId = tenantFacade.createWorkflowModel(tenantId,
+                "WorkItemFacadeTestWFModel");
+        // make executable
+        WorkflowModelFacade wfmFacade = new WorkflowModelFacade(role);
+        wfmFacade.setExecutable(wfmId, true);
+
+        // create test user for workflow admin test purpose
+        UserFacadeTest.deleteTestUsers();
+        adminUserFacade = new UserFacade(role);
+
+        UserProfile userProfile = new UserProfile();
+        username = UserFacadeTest.USERNAME_PREFIX + "WIFTestUser";
+        userProfile.setUsername(username);
+        userId = adminUserFacade.registerUser(UserFacadeTest.getTestEmail(0),
+                "ads", userProfile);
     }
     
+    @AfterClass
+    public static void tearDownTestCase() {
+        UserFacadeTest.deleteTestUsers();
+    }
+
     /**
      * Test method for
      * {@link WorkItemFacade#createWorkItem(Long, Long, String, String, String, byte[], Boolean)}
