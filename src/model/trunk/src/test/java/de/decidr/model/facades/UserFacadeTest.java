@@ -73,7 +73,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
     private static boolean checkPWD(String pwd) throws TransactionException {
         try {
-            userFacade.getUserIdByLogin(TEST_EMAIL, pwd);
+            adminFacade.getUserIdByLogin(TEST_EMAIL, pwd);
             return true;
         } catch (EntityNotFoundException e) {
             return false;
@@ -90,6 +90,9 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         }
     }
 
+    /**
+     * Needs to be run from a {@link LowLevelDatabaseTest}.
+     */
     static void deleteTestUsers() {
         Transaction trans = session.beginTransaction();
         session.createQuery(

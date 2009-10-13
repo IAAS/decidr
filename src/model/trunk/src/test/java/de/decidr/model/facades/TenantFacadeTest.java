@@ -40,6 +40,7 @@ import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.acl.permissions.FileReplacePermission;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.UserProfile;
@@ -210,8 +211,8 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         for (Item tenant : tenants) {
             assertNotNull(tenant.getItemProperty("id").getValue());
             assertNotNull(tenant.getItemProperty("name").getValue());
-            assertNotNull(tenant.getItemProperty("adminFirstName").getValue());
-            assertNotNull(tenant.getItemProperty("adminLastName").getValue());
+            tenant.getItemProperty("adminFirstName").getValue();
+            tenant.getItemProperty("adminLastName").getValue();
             assertNotNull(tenant.getItemProperty("adminId").getValue());
 
             tenantIDs.add((Long) tenant.getItemProperty("id").getValue());
@@ -528,7 +529,8 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testSetDescription() throws TransactionException {
-        TenantFacade userFacade = new TenantFacade(new UserRole(testAdminID));
+        TenantFacade userFacade = new TenantFacade(new TenantAdminRole(
+                testAdminID));
 
         try {
             nullFacade
@@ -668,8 +670,6 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         assertNotNull(secondTenantID);
         adminFacade.deleteTenant(secondTenantID);
         adminFacade.deleteTenant(secondTenantID);
-        new TenantFacade(new UserRole(testAdminID))
-                .deleteTenant(secondTenantID);
     }
 
     /**

@@ -29,14 +29,14 @@ import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.testing.DecidrDatabaseTest;
+import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
  * Test case for <code>{@link WorkItemFacade}</code>.
  * 
  * @author Reinhold
  */
-public class WorkItemFacadeTest extends DecidrDatabaseTest {
+public class WorkItemFacadeTest extends LowLevelDatabaseTest {
 
     static long wfmId;
     static String username;
@@ -98,7 +98,7 @@ public class WorkItemFacadeTest extends DecidrDatabaseTest {
         userId = adminUserFacade.registerUser(UserFacadeTest.getTestEmail(0),
                 "ads", userProfile);
     }
-    
+
     @AfterClass
     public static void tearDownTestCase() {
         UserFacadeTest.deleteTestUsers();
