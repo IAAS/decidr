@@ -61,8 +61,8 @@
                 <xsd:element name="initialValues" type="tInitialValues" />
             </xsd:choice>
         </xsd:sequence>
-        <xsd:attribute name="id" type="xsd:long" use="required" />
-        <xsd:attribute name="name" type="DWDLVariableName" use="required" />
+        <xsd:attribute name="label" type="xsd:string" use="required" />
+        <xsd:attribute name="name" type="xsd:NCName" use="required" />
         <xsd:attribute name="type" type="DWDLVariableType" use="required" />
         <xsd:attribute name="configurationVariable" type="tBoolean"
 			default="no" />
@@ -92,6 +92,7 @@
     <xsd:complexType name="tActor">
         <xsd:attribute name="userId" type="xsd:long" use="optional" />
         <xsd:attribute name="name" type="DWDLVariableName" use="optional" />
+        <xsd:attribute name="label" type="xsd:string" use="optional" />
         <xsd:attribute name="email" type="tEmail" use="optional" />
         <xsd:attribute name="configurationVariable" type="tBoolean"
 			default="no" />
@@ -101,6 +102,7 @@
         <xsd:sequence>
             <xsd:element ref="actor" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
+        <xsd:attribute name="label" type="xsd:string" use="required" />
         <xsd:attribute name="name" type="DWDLVariableName" use="required" />
         <xsd:attribute name="configurationVariable" type="tBoolean"
 			default="no" />
@@ -158,10 +160,10 @@
     </xsd:complexType>
     <xsd:element name="graphics" type="tGraphics" />
     <xsd:complexType name="tGraphics">
-        <xsd:attribute name="x" type="xsd:integer" use="required" />
-        <xsd:attribute name="y" type="xsd:integer" use="required" />
-        <xsd:attribute name="width" type="xsd:integer" use="optional" />
-        <xsd:attribute name="height" type="xsd:integer" use="optional" />
+        <xsd:attribute name="x" type="xsd:int" use="required" />
+        <xsd:attribute name="y" type="xsd:int" use="required" />
+        <xsd:attribute name="width" type="xsd:int" use="optional" />
+        <xsd:attribute name="height" type="xsd:int" use="optional" />
     </xsd:complexType>
     <xsd:element name="targets" type="tTargets" />
     <xsd:complexType name="tTargets">
@@ -273,7 +275,7 @@
                 <xsd:sequence>
                     <xsd:element ref="setProperty" minOccurs="1" maxOccurs="unbounded" />
                     <xsd:element ref="getProperty" minOccurs="0" maxOccurs="unbounded" />
-                    <xsd:element name="parameter" type="xsd:anyType" minOccurs="0" maxOccurs="1"/>
+                    <xsd:element ref="parameter" minOccurs="0" maxOccurs="1"/>
                     <xsd:element name="attachment" type="xsd:anyType" minOccurs="0" maxOccurs="1" />
                 </xsd:sequence>
                 <xsd:attribute name="activity" type="xsd:NCName" use="required" />
@@ -298,63 +300,14 @@
         <xsd:attribute name="variable" type="DWDLVariableName"
 			use="required" />
     </xsd:complexType>
-
-    <xsd:element name="humanTaskData" type="tHumanTaskData" />
-    <xsd:complexType name="tHumanTaskData">
-        <xsd:sequence>
-            <xsd:element name="parameters" type="tParameters"
-				minOccurs="1" maxOccurs="1" />
-            <xsd:choice minOccurs="1" maxOccurs="unbounded">
-                <xsd:element name="taskItem" type="tTaskItem" />
-                <xsd:element name="information" type="tInformation" />
-            </xsd:choice>
-        </xsd:sequence>
-    </xsd:complexType>
-
-    <xsd:complexType name="tParameters">
-        <xsd:sequence>
-            <xsd:element name="parameter" type="tParameter"
-				minOccurs="1" maxOccurs="unbounded" />
-        </xsd:sequence>
-    </xsd:complexType>
-
+   
+    <xsd:element name="parameter" type="tParameter" />
     <xsd:complexType name="tParameter">
-        <xsd:attribute name="name" type="xsd:NCName" use="required" />
-        <xsd:attribute name="type" type="DWDLVariableType" use="optional" />
-        <xsd:attribute name="variable" type="DWDLVariableName"
-			use="required" />
-    </xsd:complexType>
-
-    <xsd:complexType name="tTaskItem">
-        <xsd:sequence>
-            <xsd:element name="label" type="xsd:string" minOccurs="1"
-				maxOccurs="1" />
-            <xsd:element name="hint" type="xsd:string" minOccurs="0"
-				maxOccurs="1" />
-            <xsd:element name="value" type="xsd:anySimpleType"
-				minOccurs="0" maxOccurs="1" />
-        </xsd:sequence>
-        <xsd:attribute name="name" type="xsd:NCName" use="required" />
-        <xsd:attribute name="variable" type="DWDLVariableName"
-			use="optional" />
-        <xsd:attribute name="type" type="DWDLSimpleVariableType"
-			use="required" />
-    </xsd:complexType>
-
-    <xsd:complexType name="tInformation">
-        <xsd:sequence>
-            <xsd:element ref="content" minOccurs="1" maxOccurs="1" />
-        </xsd:sequence>
-        <xsd:attribute name="name" type="xsd:NCName" use="required" />
-    </xsd:complexType>
-
-    <xsd:element name="content" type="tContent" />
-    <xsd:complexType name="tContent">
-        <xsd:sequence>
-            <xsd:any minOccurs="1" maxOccurs="1" />
-        </xsd:sequence>
-        <xsd:attribute name="contentType" type="xsd:string" />
-    </xsd:complexType>
+       <xsd:sequence>
+          <xsd:any minOccurs="0" maxOccurs="1" />
+       </xsd:sequence>
+       <xsd:attribute name="setProperty" type="xsd:NCName" use="optional" />
+    </xsd:complexType> 
 
     <xsd:element name="arcs" type="tArcs" />
     <xsd:complexType name="tArcs">
