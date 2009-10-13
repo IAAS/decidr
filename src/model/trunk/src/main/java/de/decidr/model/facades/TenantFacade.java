@@ -209,8 +209,9 @@ public class TenantFacade extends AbstractFacade {
      * 
      * @param tenantId
      *            the ID of the tenant for which the color scheme is requested
-     * @return tenant logo
+     * @return tenant logo TODO document
      */
+    // DH WTF ist das für 'ne rolle? ~rr
     @AllowedRole(Role.class)
     public InputStream getCurrentColorScheme(Long tenantId)
             throws TransactionException {
@@ -553,7 +554,7 @@ public class TenantFacade extends AbstractFacade {
      * <li>creationDate: Date - date when the workflow model was created</li>
      * <li>published: Boolean - whether this workflow model is available for
      * import by other tenants.</li>
-     * </ul>
+     * </ul> XXX what about ID?
      * 
      * @param tenantId
      *            ID of the tenant whose workflow models should be requested
@@ -617,6 +618,7 @@ public class TenantFacade extends AbstractFacade {
      *            a list of the IDs of the models which should be imported
      */
     @AllowedRole(TenantAdminRole.class)
+    // DH how do I get the IDs of the newly created WFMs? ~rr
     public void importPublishedWorkflowModels(Long tenantId,
             List<Long> workflowModelIds) throws TransactionException {
 

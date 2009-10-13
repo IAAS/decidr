@@ -691,7 +691,7 @@ public class UserFacade extends AbstractFacade {
                 item.addItemProperty("username", new ObjectProperty(null,
                         String.class));
             }
-            
+
             result.add(item);
         }
 

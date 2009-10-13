@@ -88,6 +88,24 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
         return (size < 0) ? 0 : size;
     }
 
+    public static boolean compareInputStreams(InputStream a, InputStream b)
+            throws IOException {
+        boolean result = true;
+
+        int lastByteA;
+        int lastByteB;
+        while ((lastByteA = a.read()) == (lastByteB = b.read())
+                && lastByteA != -1) {
+            // skip equal bytes
+        }
+
+        if (lastByteA != -1 || lastByteB != -1) {
+            result = false;
+        }
+
+        return result;
+    }
+
     /**
      * Test method for
      * {@link FileFacade#createFile(InputStream, String, String, Boolean)} and
@@ -97,7 +115,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
      * .
      */
     @Test
-    public void testFile() throws TransactionException {
+    public void testFile() throws TransactionException, IOException {
         String testName = "/decidr.jpg";
         String testMime = "image/jpeg";
         InputStream testFile = FileFacadeTest.class
@@ -162,11 +180,12 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
             compareFile = facade.getFileInfo(testID);
             assertEquals(testName, compareFile.getFileName());
             assertEquals(testMime, compareFile.getMimeType());
-            // DH rename? ~rr
             assertFalse(compareFile.isIsTemporary());
 
             compareData = facade.getFileData(testID);
             assertEquals(streamSize, getInputStreamSize(compareData));
+            assertTrue(compareInputStreams(FileFacadeTest.class
+                    .getResourceAsStream(testName), facade.getFileData(testID)));
 
             try {
                 facade.createFile(null, streamSize, testName, testMime, false,

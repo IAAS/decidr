@@ -91,8 +91,8 @@ public class WorkflowModelFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the properties of the given workflow model as a Vaadin item with
-     * the following properties:
+     * Returns the properties of the given workflow model as a Vaadin
+     * {@link Item} with the following properties:
      * <ul>
      * <li>id: Long - workflow model id</li>
      * <li>dwdl: byte[] - dwdl raw xml data</li>

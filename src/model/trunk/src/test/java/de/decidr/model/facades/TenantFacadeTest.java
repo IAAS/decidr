@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -64,7 +65,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
     static TenantFacade userFacade;
     static TenantFacade nullFacade;
 
-    Long testTenantID;
+    private Long testTenantID;
     private Long invalidTenantID;
 
     private static Long testAdminID;
@@ -263,10 +264,83 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
      * {@link TenantFacade#getCurrentColorScheme(Long)}.
      */
     @Test
-    public void testColorScheme() {
-        fail("Not yet implemented"); // RR setColorScheme
-        fail("Not yet implemented"); // RR setCurrentColorScheme
-        fail("Not yet implemented"); // RR getCurrentColorScheme
+    // RR add some valid data to files
+    public void testColorScheme() throws TransactionException, IOException {
+        Set<Class<? extends FilePermission>> publicPermissions = new HashSet<Class<? extends FilePermission>>();
+        publicPermissions.add(FileReadPermission.class);
+        publicPermissions.add(FileDeletePermission.class);
+        publicPermissions.add(FileReplacePermission.class);
+        FileFacade fileFacade = new FileFacade(new SuperAdminRole(DecidrGlobals
+                .getSettings().getSuperAdmin().getId()));
+        Long simpleSize = FileFacadeTest.getInputStreamSize(this.getClass()
+                .getResourceAsStream("/test_simple_cs.css"));
+        Long advSize = FileFacadeTest.getInputStreamSize(this.getClass()
+                .getResourceAsStream("/test_adv_cs.css"));
+        Long simpleID = fileFacade.createFile(this.getClass()
+                .getResourceAsStream("/test_simple_cs.css"), simpleSize,
+                "test_simple_cs.css", "text/plain", false, publicPermissions);
+        Long advancedID = fileFacade.createFile(this.getClass()
+                .getResourceAsStream("/test_adv_cs.css"), advSize,
+                "test_adv_cs.css", "text/plain", false, publicPermissions);
+
+        assertNull(adminFacade.getCurrentColorScheme(testTenantID));
+        assertNull(userFacade.getCurrentColorScheme(testTenantID));
+
+        adminFacade.setCurrentColorScheme(testTenantID, true);
+        adminFacade.setCurrentColorScheme(testTenantID, false);
+
+        try {
+            adminFacade.getCurrentColorScheme(invalidTenantID);
+            fail("managed getting invalid facade's color scheme");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            userFacade.getCurrentColorScheme(invalidTenantID);
+            fail("managed getting invalid facade's color scheme");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+
+        try {
+            adminFacade.setCurrentColorScheme(invalidTenantID, true);
+            fail("managed setting invalid facade's color scheme");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            adminFacade.setCurrentColorScheme(invalidTenantID, false);
+            fail("managed setting invalid facade's color scheme");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+
+        adminFacade.setColorScheme(testTenantID, simpleID, false);
+        adminFacade.setColorScheme(testTenantID, advancedID, true);
+
+        adminFacade.setCurrentColorScheme(testTenantID, true);
+        assertEquals(advSize, FileFacadeTest.getInputStreamSize(adminFacade
+                .getCurrentColorScheme(testTenantID)));
+        assertTrue(FileFacadeTest.compareInputStreams(this.getClass()
+                .getResourceAsStream("/test_adv_cs.css"), adminFacade
+                .getCurrentColorScheme(testTenantID)));
+        assertEquals(advSize, FileFacadeTest.getInputStreamSize(userFacade
+                .getCurrentColorScheme(testTenantID)));
+        assertTrue(FileFacadeTest.compareInputStreams(this.getClass()
+                .getResourceAsStream("/test_adv_cs.css"), userFacade
+                .getCurrentColorScheme(testTenantID)));
+
+        adminFacade.setCurrentColorScheme(testTenantID, false);
+        assertEquals(simpleSize, FileFacadeTest.getInputStreamSize(adminFacade
+                .getCurrentColorScheme(testTenantID)));
+        assertTrue(FileFacadeTest.compareInputStreams(this.getClass()
+                .getResourceAsStream("/test_simple_cs.css"), adminFacade
+                .getCurrentColorScheme(testTenantID)));
+        assertEquals(simpleSize, FileFacadeTest.getInputStreamSize(userFacade
+                .getCurrentColorScheme(testTenantID)));
+        assertTrue(FileFacadeTest.compareInputStreams(this.getClass()
+                .getResourceAsStream("/test_simple_cs.css"), userFacade
+                .getCurrentColorScheme(testTenantID)));
     }
 
     /**
@@ -409,7 +483,9 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
      * {@link TenantFacade#getWorkflowInstances(Long, Paginator)}.
      */
     @Test
-    public void testGetWorkflowInstances() {
+    public void testGetWorkflowInstances() throws TransactionException {
+        assertTrue(adminFacade.getWorkflowInstances(testTenantID, null)
+                .isEmpty());
         fail("Not yet implemented"); // RR getWorkflowInstances
     }
 
@@ -679,10 +755,149 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
      * {@link TenantFacade#removeWorkflowModel(Long)}.
      */
     @Test
-    public void testWorkflowModel() {
-        fail("Not yet implemented"); // RR createWorkflowModel
-        fail("Not yet implemented"); // RR getWorkflowModels
-        fail("Not yet implemented"); // RR importPublishedWorkflowModels
-        fail("Not yet implemented"); // RR removeWorkflowModel
+    // RR add some valid data to file
+    public void testWorkflowModel() throws TransactionException {
+        assertTrue(adminFacade.getWorkflowModels(testTenantID, null, null)
+                .isEmpty());
+
+        Long wfmID = adminFacade.createWorkflowModel(testTenantID, "testWFM");
+        assertEquals(1, adminFacade.getWorkflowModels(testTenantID, null, null)
+                .size());
+        Item WFM = adminFacade.getWorkflowModels(testTenantID, null, null).get(
+                0);
+        assertEquals("testWFM", WFM.getItemProperty("name").getValue());
+        assertEquals(false, WFM.getItemProperty("published").getValue());
+        // The dates must be less than 60s apart to count as equal
+        assertTrue(Math.abs(DecidrGlobals.getTime().getTimeInMillis()
+                - ((Date) WFM.getItemProperty("creationDate").getValue())
+                        .getTime()) < 60000);
+
+        ArrayList<Long> myWFM = new ArrayList<Long>(2);
+        myWFM.add(wfmID);
+        new WorkflowModelFacade(new SuperAdminRole(DecidrGlobals.getSettings()
+                .getSuperAdmin().getId())).publishWorkflowModels(myWFM);
+        adminFacade.importPublishedWorkflowModels(testTenantID, myWFM);
+        // RR check if this and the following are correct
+        assertEquals(1, adminFacade.getWorkflowModels(testTenantID, null, null)
+                .size());
+
+        adminFacade.removeWorkflowModel(wfmID);
+        assertTrue(adminFacade.getWorkflowModels(testTenantID, null, null)
+                .isEmpty());
+        adminFacade.removeWorkflowModel(wfmID);
+        adminFacade.importPublishedWorkflowModels(testTenantID,
+                new ArrayList<Long>(1));
+        assertTrue(adminFacade.getWorkflowModels(testTenantID, null, null)
+                .isEmpty());
+
+        try {
+            adminFacade.createWorkflowModel(null, "testWFM");
+            fail("Managed to create workflow model with null parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            adminFacade.createWorkflowModel(testTenantID, null);
+            fail("Managed to create workflow model with null parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            adminFacade.createWorkflowModel(invalidTenantID, "testWFM");
+            fail("Managed to create workflow model with invalid parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            nullFacade.createWorkflowModel(testTenantID, "testWFM");
+            fail("Managed to create workflow model with null facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            userFacade.createWorkflowModel(testTenantID, "testWFM");
+            fail("Managed to create workflow model with normal user facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+
+        try {
+            adminFacade.getWorkflowModels(null, null, null);
+            fail("Managed to get workflow models with null parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            adminFacade.getWorkflowModels(invalidTenantID, null, null);
+            fail("Managed to get workflow models with invalid parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            nullFacade.getWorkflowModels(testTenantID, null, null);
+            fail("Managed to get workflow models with null facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            userFacade.getWorkflowModels(testTenantID, null, null);
+            fail("Managed to get workflow models with normal user facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+
+        try {
+            adminFacade.removeWorkflowModel(null);
+            fail("Managed to remove a workflow model with null parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            nullFacade.removeWorkflowModel(wfmID);
+            fail("Managed to remove a workflow model with null facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            userFacade.removeWorkflowModel(wfmID);
+            fail("Managed to remove a workflow model with normal user facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+
+        try {
+            adminFacade.importPublishedWorkflowModels(null,
+                    new ArrayList<Long>(1));
+            fail("Managed to import workflow models with null parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            adminFacade.importPublishedWorkflowModels(testTenantID, null);
+            fail("Managed to import workflow models with null parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            adminFacade.importPublishedWorkflowModels(invalidTenantID,
+                    new ArrayList<Long>(1));
+            fail("Managed to import workflow models with invalid parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            nullFacade.importPublishedWorkflowModels(testTenantID,
+                    new ArrayList<Long>(1));
+            fail("Managed to import workflow models with null facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            userFacade.importPublishedWorkflowModels(testTenantID,
+                    new ArrayList<Long>(1));
+            fail("Managed to import workflow models with normal user facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
     }
 }

@@ -64,7 +64,7 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand
             throws TransactionException {
 
         Date now = DecidrGlobals.getTime().getTime();
-        
+
         Tenant t = fetchTenant(evt.getSession());
 
         modelList = evt.getSession().createQuery(
@@ -72,7 +72,7 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand
                 .setParameterList("modelIds", modelIdList).list();
 
         for (WorkflowModel model : modelList) {
-
+            // DH what if the published wfm belongs to the tenant t?
             if (model.isPublished()) {
                 // create a copy of the model that belongs to tenant "t"
                 WorkflowModel newModel = new WorkflowModel();

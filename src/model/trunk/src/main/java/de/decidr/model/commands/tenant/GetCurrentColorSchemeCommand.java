@@ -58,6 +58,8 @@ public class GetCurrentColorSchemeCommand extends TenantCommand {
             throws TransactionException {
 
         Tenant tenant = (Tenant) evt.getSession().load(Tenant.class, tenantId);
+        // DH this might be null if it hasn't previously been set; should return
+        // default color scheme/null in that case ~rr
         Long schemeId = tenant.getCurrentColorScheme().getId();
         StorageProviderFactory factory;
 

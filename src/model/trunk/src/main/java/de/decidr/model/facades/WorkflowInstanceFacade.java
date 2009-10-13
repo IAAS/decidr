@@ -19,6 +19,7 @@ import de.decidr.model.commands.workflowinstance.RemoveAllWorkItemsCommand;
 import de.decidr.model.commands.workflowinstance.StopWorkflowInstanceCommand;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkItem;
+import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 
@@ -60,12 +61,13 @@ public class WorkflowInstanceFacade extends AbstractFacade {
     }
 
     /**
-     * Returns all participants of the given WorkflowInstance
+     * Returns all participants of the given {@link WorkflowInstance}.<br>
+     * TODO complete comment
      * 
      * @param workflowInstanceId
      *            the ID of the workflow instance whose participating users
      *            should be requested
-     * @return List of participatin Users
+     * @return List of participating Users
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(WorkflowAdminRole.class)
@@ -80,7 +82,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
         Set<User> inSet = command.getResult();
         List<Item> outList = new ArrayList();
 
-        String[] properties = { "id,email" };
+        String[] properties = { "id", "email" };
 
         for (User user : inSet) {
             outList.add(new BeanItem(user, properties));
@@ -105,9 +107,8 @@ public class WorkflowInstanceFacade extends AbstractFacade {
         DeleteWorkflowInstanceCommand command2 = new DeleteWorkflowInstanceCommand(
                 actor, workflowInstanceId);
 
-        TransactionalCommand[] commands = { command, command2 };
-
-        HibernateTransactionCoordinator.getInstance().runTransaction(commands);
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                new TransactionalCommand[] { command, command2 });
 
     }
 
