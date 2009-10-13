@@ -23,8 +23,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -34,10 +36,14 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.exceptions.UserDisabledException;
+import de.decidr.model.exceptions.UserUnavailableException;
+import de.decidr.model.exceptions.UsernameNotFoundException;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.testing.DecidrDatabaseTest;
+import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
  * Test case for <code>{@link WorkflowModelFacade}</code>. Some of the methods
@@ -47,13 +53,17 @@ import de.decidr.model.testing.DecidrDatabaseTest;
  * 
  * @author Reinhold
  */
-public class WorkflowModelFacadeTest extends DecidrDatabaseTest {
+public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
 
     static long wfmId;
+    static String username;
+    static long userId;
 
     static WorkflowModelFacade adminFacade;
     static WorkflowModelFacade userFacade;
     static WorkflowModelFacade nullFacade;
+
+    static UserFacade adminUserFacade;
 
     /**
      * Initialises the facade instances.
@@ -68,25 +78,43 @@ public class WorkflowModelFacadeTest extends DecidrDatabaseTest {
 
     @BeforeClass
     public static void createWorkflowModel() throws TransactionException {
+
+        // create test tenant
         final String NAME = "WorkflowModelFacadeTestTenant";
         final String DESCRIPTION = "TenantDescription";
 
         Role role = new SuperAdminRole(DecidrGlobals.getSettings()
                 .getSuperAdmin().getId());
         TenantFacade tenantFacade = new TenantFacade(role);
-        
+
         try {
             long id = tenantFacade.getTenantId(NAME);
             tenantFacade.deleteTenant(id);
         } catch (EntityNotFoundException e) {
             // tenant does not exist - good!
         }
-            
 
         long tenantId = tenantFacade.createTenant(NAME, DESCRIPTION,
                 DecidrGlobals.getSettings().getSuperAdmin().getId());
+
+        // create test workflow model
         wfmId = tenantFacade.createWorkflowModel(tenantId,
                 "WorkflowModelFacadeTestWFModel");
+
+        // create test user for workflow admin test purpose
+        UserFacadeTest.deleteTestUsers();
+        adminUserFacade = new UserFacade(role);
+
+        UserProfile userProfile = new UserProfile();
+        username = UserFacadeTest.USERNAME_PREFIX + "WMFTestUser";
+        userProfile.setUsername(username);
+        userId = adminUserFacade.registerUser(UserFacadeTest.getTestEmail(0),
+                "ads", userProfile);
+    }
+
+    @AfterClass
+    public static void tearDownTestCase() {
+        UserFacadeTest.deleteTestUsers();
     }
 
     /**
@@ -116,22 +144,41 @@ public class WorkflowModelFacadeTest extends DecidrDatabaseTest {
     }
 
     /**
-     * Test method for
-     * {@link WorkflowModelFacade#publishWorkflowModels(List)}
+     * Test method for {@link WorkflowModelFacade#publishWorkflowModels(List)}
      * {@link WorkflowModelFacade#unpublishWorkflowModels(List)}
+     * {@link WorkflowModelFacade#getAllPublishedWorkflowModels(List, Paginator)}
      */
     @Test
     public void testPublishWorkflowModels() throws TransactionException {
         List<Long> wfmIds = new ArrayList<Long>();
         wfmIds.add(wfmId);
-        
+
         adminFacade.publishWorkflowModels(wfmIds);
-        Object po = adminFacade.getWorkflowModel(wfmId).getItemProperty("published").getValue();
+        Object po = adminFacade.getWorkflowModel(wfmId).getItemProperty(
+                "published").getValue();
         assertTrue((Boolean) po);
-        
+
+        List<Item> pwfms = adminFacade
+                .getAllPublishedWorkflowModels(null, null);
+        assertTrue(itemListContainsWfmId(pwfms, wfmId));
+
         adminFacade.unpublishWorkflowModels(wfmIds);
-        po = adminFacade.getWorkflowModel(wfmId).getItemProperty("published").getValue();
+        po = adminFacade.getWorkflowModel(wfmId).getItemProperty("published")
+                .getValue();
         assertFalse((Boolean) po);
+
+        pwfms = adminFacade.getAllPublishedWorkflowModels(null, null);
+        assertFalse(itemListContainsWfmId(pwfms, wfmId));
+    }
+
+    private boolean itemListContainsWfmId(List<Item> items, long wfmId) {
+        for (Item item : items) {
+            if (wfmId == (Long) item.getItemProperty("id").getValue()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -139,24 +186,59 @@ public class WorkflowModelFacadeTest extends DecidrDatabaseTest {
      */
     @Test
     public void testSetExecutable() throws TransactionException {
+        // JE: how to test?
         adminFacade.setExecutable(wfmId, true);
     }
 
     /**
      * Test method for
+     * {@link WorkflowModelFacade#setWorkflowAdministrators(Long)}.
      * {@link WorkflowModelFacade#getWorkflowAdministrators(Long)}.
      */
     @Test
-    public void testGetWorkflowAdministrators() {
-        fail("Not yet implemented"); // JE getWorkflowAdministrators
-    }
+    public void testGetWorkflowAdministrators() throws UserDisabledException,
+            UserUnavailableException, UsernameNotFoundException,
+            TransactionException {
 
-    /**
-     * Test method for {@link WorkflowModelFacade#deleteWorkflowModels(List)}.
-     */
-    @Test
-    public void testDeleteWorkflowModels() {
-        fail("Not yet implemented"); // JE deleteWorkflowModels
+        // JE: unfinished
+        final String INVALID_USERNAME = "InvalidUserName";
+
+        List<String> emails = new ArrayList<String>();
+        List<String> unames = new ArrayList<String>();
+
+        unames.add(INVALID_USERNAME);
+        try {
+            adminFacade.setWorkflowAdministrators(wfmId, emails, unames);
+            fail("Username expected to be invalid, but is not.");
+        } catch (UsernameNotFoundException e) {
+            // expected
+        }
+
+        unames.clear();
+        unames.add(username);
+        adminUserFacade.setDisableSince(userId, new Date());
+        try {
+            adminFacade.setWorkflowAdministrators(wfmId, emails, unames);
+            fail("Username expected to be disabled, but is not.");
+        } catch (UserDisabledException e) {
+            // expected
+        }
+
+        adminUserFacade.setDisableSince(userId, null);
+        adminUserFacade.setUnavailableSince(userId, new Date());
+        try {
+            adminFacade.setWorkflowAdministrators(wfmId, emails, unames);
+            fail("Username expected to be unavailable, but is not.");
+        } catch (UserUnavailableException e) {
+            // expected
+        }
+
+        adminUserFacade.setUnavailableSince(userId, null);
+        adminFacade.setWorkflowAdministrators(wfmId, emails, unames);
+
+        Object un = adminFacade.getWorkflowAdministrators(wfmId).get(0)
+                .getItemProperty("username");
+        assertEquals((String) un, username);
     }
 
     /**
@@ -164,18 +246,10 @@ public class WorkflowModelFacadeTest extends DecidrDatabaseTest {
      * {@link WorkflowModelFacade#getWorkflowInstances(Long, Paginator)}.
      */
     @Test
-    public void testGetWorkflowInstances() {
-        fail("Not yet implemented"); // JE getWorkflowInstances
-    }
-
-    /**
-     * Test method for
-     * {@link WorkflowModelFacade#getAllPublishedWorkflowModels(List, Paginator)}
-     * .
-     */
-    @Test
-    public void testGetAllPublishedWorkflowModels() {
-        fail("Not yet implemented"); // JE getAllPublishedWorkflowModels
+    public void testGetWorkflowInstances() throws TransactionException {
+        // JE: how to test with existing items?
+        List<Item> items = adminFacade.getWorkflowInstances(wfmId, null);
+        assertTrue(items.isEmpty());
     }
 
     /**
@@ -183,7 +257,25 @@ public class WorkflowModelFacadeTest extends DecidrDatabaseTest {
      * {@link WorkflowModelFacade#getLastStartConfiguration(Long)}.
      */
     @Test
-    public void testGetLastStartConfiguration() {
-        fail("Not yet implemented"); // JE getLastStartConfiguration
+    public void testGetLastStartConfiguration() throws TransactionException {
+        // JE: how to test?
+        adminFacade.getLastStartConfiguration(wfmId);
+    }
+
+    /**
+     * Test method for {@link WorkflowModelFacade#deleteWorkflowModels(List)}.
+     */
+    @Test
+    public void testDeleteWorkflowModels() throws TransactionException {
+        List<Long> wfmIds = new ArrayList<Long>();
+        wfmIds.add(wfmId);
+        adminFacade.deleteWorkflowModels(wfmIds);
+
+        try {
+            adminFacade.getWorkflowModel(wfmId);
+            fail("Model to be deleted is still in the database.");
+        } catch (EntityNotFoundException e) {
+            // that's what is expected
+        }
     }
 }
