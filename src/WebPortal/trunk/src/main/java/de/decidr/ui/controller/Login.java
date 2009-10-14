@@ -30,6 +30,7 @@ import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SuperAdminViewBuilder;
@@ -55,6 +56,7 @@ public class Login {
     private UIBuilder uiBuilder = null;
 
     private UserFacade userFacade = new UserFacade(new UserRole());
+    private TenantFacade tenantFacade = new TenantFacade(new UserRole());
 
     private Long userId = null;
     private List<Item> tenantList = null;
@@ -85,10 +87,12 @@ public class Login {
 
         userId = userFacade.getUserIdByLogin(username, password);
         tenantList = userFacade.getJoinedTenants(userId);
-        if (!tenantList.isEmpty()) {
+        Item item = tenantFacade.getTenantSettings(userFacade.getCurrentTenantId(userId));
+        tenantName = item.getItemProperty("name").getValue().toString();
+        /*if (!tenantList.isEmpty()) {
             tenantItem = tenantList.get(0);
             tenantName = (String) tenantItem.getItemProperty("name").getValue();
-        }
+        }*/
         role = userFacade.getUserRoleForTenant(userId, (Long) tenantItem
                 .getItemProperty("id").getValue());
         username = (String) userFacade.getUserProfile(userId).getItemProperty(

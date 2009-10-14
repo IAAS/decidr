@@ -58,6 +58,8 @@ public class ChangeEmailAction implements ClickListener {
         try {
             userFacade.requestChangeEmail(userId, email.getItemProperty(
                     "newEmail").getValue().toString());
+            userFacade.setEmailAddress(userId, email
+                    .getItemProperty("newEmail").getValue().toString());
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent());
