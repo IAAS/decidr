@@ -755,7 +755,6 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
      * {@link TenantFacade#removeWorkflowModel(Long)}.
      */
     @Test
-    // RR add some valid data to file
     public void testWorkflowModel() throws TransactionException {
         assertTrue(adminFacade.getWorkflowModels(testTenantID, null, null)
                 .isEmpty());
