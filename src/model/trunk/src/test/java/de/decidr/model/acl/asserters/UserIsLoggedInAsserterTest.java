@@ -16,10 +16,15 @@
 
 package de.decidr.model.acl.asserters;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.permissions.Permission;
+import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
@@ -30,11 +35,13 @@ import de.decidr.model.testing.DecidrAclTest;
 public class UserIsLoggedInAsserterTest extends DecidrAclTest {
 
     /**
-     * Test method for {@link de.decidr.model.acl.asserters.UserIsLoggedInAsserter#assertRule(de.decidr.model.acl.roles.Role, de.decidr.model.acl.permissions.Permission)}.
+     * Test method for {@link UserIsLoggedInAsserter#assertRule(Role, Permission)}.
      */
     @Test
     public void testAssertRule() {
-        fail("Not yet implemented");
+        UserIsLoggedInAsserter asserter = new UserIsLoggedInAsserter();
+        assertTrue(asserter.assertRule(new SuperAdminRole(DecidrGlobals.getSettings().getSuperAdmin().getId()), new Permission("*")));
+        assertFalse(asserter.assertRule(new SuperAdminRole(), new Permission("*")));
     }
 
 }

@@ -20,6 +20,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.permissions.Permission;
+import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
@@ -30,19 +35,14 @@ import de.decidr.model.testing.DecidrAclTest;
 public class UserIsSuperAdminAsserterTest extends DecidrAclTest {
 
     /**
-     * Test method for {@link de.decidr.model.acl.asserters.UserIsSuperAdminAsserter#transactionStarted(de.decidr.model.transactions.TransactionEvent)}.
+     * Test method for {@link UserIsSuperAdminAsserter#assertRule(Role, Permission)}.
+     * @throws TransactionException 
      */
     @Test
-    public void testTransactionStarted() {
-        fail("Not yet implemented");
-    }
-
-    /**
-     * Test method for {@link de.decidr.model.acl.asserters.UserIsSuperAdminAsserter#assertRule(de.decidr.model.acl.roles.Role, de.decidr.model.acl.permissions.Permission)}.
-     */
-    @Test
-    public void testAssertRule() {
-        fail("Not yet implemented");
+    public void testAssertRule() throws TransactionException {
+        UserIsSuperAdminAsserter asserter = new UserIsSuperAdminAsserter();
+        assertTrue(asserter.assertRule((new SuperAdminRole(DecidrGlobals.getSettings().getSuperAdmin().getId())), new Permission("*")));
+        assertFalse(asserter.assertRule((new SuperAdminRole()), new Permission("*")));
     }
 
 }

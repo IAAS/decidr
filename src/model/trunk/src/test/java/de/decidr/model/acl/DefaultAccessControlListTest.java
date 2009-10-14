@@ -16,21 +16,27 @@
 
 package de.decidr.model.acl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Transaction;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.asserters.AssertMode;
 import de.decidr.model.acl.asserters.Asserter;
 import de.decidr.model.acl.asserters.UserIsEnabledAsserter;
-import de.decidr.model.acl.asserters.UserIsLoggedInAsserter;
+import de.decidr.model.acl.asserters.UserIsSuperAdminAsserter;
 import de.decidr.model.acl.asserters.UserOwnsWorkItemAsserter;
 import de.decidr.model.acl.permissions.CommandPermission;
-import de.decidr.model.acl.permissions.FileDeletePermission;
-import de.decidr.model.acl.permissions.FileReadPermission;
-import de.decidr.model.acl.permissions.FileReplacePermission;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.HumanTaskRole;
@@ -40,85 +46,97 @@ import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.acl.roles.WorkflowAdminRole;
-import de.decidr.model.commands.system.GetServersCommand;
-import de.decidr.model.commands.system.UpdateServerLoadCommand;
-import de.decidr.model.commands.tenant.AddTenantMemberCommand;
-import de.decidr.model.commands.tenant.CreateTenantCommand;
-import de.decidr.model.commands.tenant.CreateWorkflowModelCommand;
-import de.decidr.model.commands.tenant.GetCurrentColorSchemeCommand;
-import de.decidr.model.commands.tenant.GetTenantLogoCommand;
-import de.decidr.model.commands.tenant.GetUsersOfTenantCommand;
-import de.decidr.model.commands.tenant.GetWorkflowInstancesCommand;
-import de.decidr.model.commands.tenant.GetWorkflowModelsCommand;
-import de.decidr.model.commands.tenant.ImportPublishedWorkflowModelsCommand;
-import de.decidr.model.commands.tenant.InviteUsersAsTenantMembersCommand;
-import de.decidr.model.commands.tenant.SetColorSchemeCommand;
-import de.decidr.model.commands.tenant.SetCurrentColorSchemeCommand;
-import de.decidr.model.commands.tenant.SetTenantDescriptionCommand;
-import de.decidr.model.commands.tenant.SetTenantLogoCommand;
-import de.decidr.model.commands.user.CheckAuthKeyCommand;
-import de.decidr.model.commands.user.ConfirmChangeEmailRequestCommand;
-import de.decidr.model.commands.user.ConfirmInvitationCommand;
-import de.decidr.model.commands.user.ConfirmPasswordResetCommand;
-import de.decidr.model.commands.user.ConfirmRegistrationCommand;
-import de.decidr.model.commands.user.GetAdministratedWorkflowInstancesCommand;
-import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
-import de.decidr.model.commands.user.GetHighestUserRoleCommand;
-import de.decidr.model.commands.user.GetInvitationCommand;
-import de.decidr.model.commands.user.GetJoinedTenantsCommand;
-import de.decidr.model.commands.user.GetUserByLoginCommand;
-import de.decidr.model.commands.user.GetUserRoleForTenantCommand;
-import de.decidr.model.commands.user.GetUserWithProfileCommand;
-import de.decidr.model.commands.user.GetWorkitemsCommand;
-import de.decidr.model.commands.user.IsUserRegisteredCommand;
-import de.decidr.model.commands.user.LeaveTenantCommand;
-import de.decidr.model.commands.user.RefuseInvitationCommand;
-import de.decidr.model.commands.user.RegisterUserCommand;
-import de.decidr.model.commands.user.RemoveFromTenantCommand;
-import de.decidr.model.commands.user.RequestPasswordResetCommand;
-import de.decidr.model.commands.user.SetPasswordCommand;
-import de.decidr.model.commands.user.SetUserProfileCommand;
-import de.decidr.model.commands.user.SetUserPropertyCommand;
-import de.decidr.model.commands.workflowinstance.GetAllWorkitemsCommand;
-import de.decidr.model.commands.workflowinstance.GetParticipatingUsersCommand;
-import de.decidr.model.commands.workflowinstance.RemoveAllWorkItemsCommand;
-import de.decidr.model.commands.workflowinstance.StopWorkflowInstanceCommand;
 import de.decidr.model.commands.workflowmodel.DeleteWorkflowModelCommand;
-import de.decidr.model.commands.workflowmodel.GetLastStartConfigurationCommand;
-import de.decidr.model.commands.workflowmodel.GetPublishedWorkflowModelsCommand;
 import de.decidr.model.commands.workflowmodel.GetWorkflowAdministratorsCommand;
-import de.decidr.model.commands.workflowmodel.GetWorkflowModelCommand;
-import de.decidr.model.commands.workflowmodel.MakeWorkflowModelExecutableCommand;
-import de.decidr.model.commands.workflowmodel.PublishWorkflowModelsCommand;
 import de.decidr.model.commands.workflowmodel.SaveStartConfigurationCommand;
-import de.decidr.model.commands.workflowmodel.SaveWorkflowModelCommand;
-import de.decidr.model.commands.workflowmodel.SetWorkflowAdministratorsCommand;
-import de.decidr.model.commands.workflowmodel.StartWorkflowInstanceCommand;
-import de.decidr.model.commands.workitem.CreateWorkItemCommand;
-import de.decidr.model.commands.workitem.DeleteWorkItemCommand;
-import de.decidr.model.commands.workitem.GetWorkItemCommand;
-import de.decidr.model.commands.workitem.SetDataCommand;
-import de.decidr.model.commands.workitem.SetStatusCommand;
+import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.testing.DecidrDatabaseTest;
+import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.facades.UserFacade;
+import de.decidr.model.facades.WorkflowModelFacade;
+import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
  * GH: add comment
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class DefaultAccessControlListTest extends DecidrDatabaseTest {
+public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
 
     private static DefaultAccessControlList dacl;
+    
+    private static UserFacade userFacade;
+    private static TenantFacade tenantFacade;
+    private static WorkflowModelFacade wfmFacade;
+    
+    private static Long superAdminId;
+    private static Long tenantAdminId;
+    private static Long workflowAdminId;
+    private static Long userId;
+    
+    private static Long tenantId;
+    private static Long wfmId;
+        
+    private static final String TENANT_ADMIN_EMAIL = "test1@acl.decidr.de";
+    private static final String WORKFLOW_ADMIN_EMAIL = "test2@acl.decidr.de";
+    private static final String USER_EMAIL = "test3@acl.decidr.de";
 
     @BeforeClass
-    public static void setUpBeforeClass() {
+    public static void setUpBeforeClass() throws TransactionException {
         dacl = DefaultAccessControlList.getInstance();
+        
+        //create test users
+        superAdminId = DecidrGlobals.getSettings().getSuperAdmin().getId();
+        userFacade = new UserFacade(new SuperAdminRole(superAdminId));
+        
+        UserProfile userProfile = new UserProfile();
+        userProfile.setFirstName("test");
+        userProfile.setLastName("user");
+        userProfile.setCity("testcity");
+        userProfile.setStreet("test st.");
+        userProfile.setPostalCode("12test");
+        
+
+        userProfile.setUsername("tenantadmin17565");
+        tenantAdminId = userFacade.registerUser(TENANT_ADMIN_EMAIL, "qwertz", userProfile);
+        
+        userProfile.setUsername("wfadmin12377");
+        workflowAdminId = userFacade.registerUser(WORKFLOW_ADMIN_EMAIL, "qwertz", userProfile);
+        
+        userProfile.setUsername("user78626");
+        userId = userFacade.registerUser(USER_EMAIL, "qwertz", userProfile);
+        
+        //create test tenant
+        tenantFacade = new TenantFacade(new SuperAdminRole(superAdminId));
+        tenantId = tenantFacade.createTenant("acl.decidr", "mooomoo", tenantAdminId);
+        
+        
+        //create workflow admin
+        tenantFacade.addTenantMember(tenantId, workflowAdminId);
+        wfmId = tenantFacade.createWorkflowModel(tenantId, "wfm.ACL");
+        
+        wfmFacade = new WorkflowModelFacade(new SuperAdminRole(superAdminId));
+        List<String> wfmAdmins = new ArrayList<String>();
+        List<String> wfmAdminsEmail = new ArrayList<String>();
+        wfmAdmins.add("wfadmin12377");
+        wfmFacade.setWorkflowAdministrators(wfmId, wfmAdminsEmail, wfmAdmins);
+        
     }
 
     @AfterClass
-    public static void cleanUpAfterClass() {
+    public static void cleanUpAfterClass() throws TransactionException {
+        dacl.init();
         dacl = null;
+        
+        List<Long> wfm = new ArrayList<Long>();
+        wfm.add(wfmId);
+        wfmFacade.deleteWorkflowModels(wfm);
+        tenantFacade.deleteTenant(tenantId);
+        
+        Transaction trans = session.beginTransaction();
+        session.createQuery("delete from User WHERE email LIKE 'test%@acl.decidr.de'")
+                .executeUpdate();
+        trans.commit();
     }
 
     /**
@@ -143,219 +161,219 @@ public class DefaultAccessControlListTest extends DecidrDatabaseTest {
         dacl.init();
 
         // super admin
-        assertTrue(dacl.isAllowed(new SuperAdminRole(), new Permission("*")));
-
-        // serverload updater
-        assertTrue(dacl.isAllowed(ServerLoadUpdaterRole.getInstance(),
-                new CommandPermission(UpdateServerLoadCommand.class)));
-
-        assertTrue(dacl.isAllowed(ServerLoadUpdaterRole.getInstance(),
-                new CommandPermission(GetServersCommand.class)));
-
-        // tenant facade
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                AddTenantMemberCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                CreateTenantCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                CreateWorkflowModelCommand.class)));
-
-        assertTrue(dacl.isAllowed(new BasicRole(null), new CommandPermission(
-                GetCurrentColorSchemeCommand.class)));
-
-        assertTrue(dacl.isAllowed(new BasicRole(null), new CommandPermission(
-                GetTenantLogoCommand.class)));
-
-        assertTrue(dacl.isAllowed(new WorkflowAdminRole(),
-                new CommandPermission(GetUsersOfTenantCommand.class)));
-
-        assertTrue(dacl.isAllowed(new WorkflowAdminRole(),
-                new CommandPermission(GetWorkflowInstancesCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                GetWorkflowModelsCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                ImportPublishedWorkflowModelsCommand.class)));
-
-        assertTrue(dacl.isAllowed(new WorkflowAdminRole(),
-                new CommandPermission(InviteUsersAsTenantMembersCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                SetColorSchemeCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                SetCurrentColorSchemeCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                SetTenantDescriptionCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                SetTenantLogoCommand.class)));
-
-        // user facade
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                RegisterUserCommand.class)));
-
-        assertTrue(dacl.isAllowed(new BasicRole(null), new CommandPermission(
-                GetUserByLoginCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                CheckAuthKeyCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                SetPasswordCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                RequestPasswordResetCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                LeaveTenantCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                SetUserPropertyCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                RemoveFromTenantCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                ConfirmPasswordResetCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                ConfirmRegistrationCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                ConfirmChangeEmailRequestCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                ConfirmInvitationCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                RefuseInvitationCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                GetUserWithProfileCommand.class)));
-
-        assertTrue(dacl.isAllowed(new BasicRole(null), new CommandPermission(
-                GetHighestUserRoleCommand.class)));
-
-        assertTrue(dacl.isAllowed(new BasicRole(null), new CommandPermission(
-                GetUserRoleForTenantCommand.class)));
-
-        assertTrue(dacl.isAllowed(new WorkflowAdminRole(),
-                new CommandPermission(
-                        GetAdministratedWorkflowInstancesCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                GetJoinedTenantsCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                GetAdministratedWorkflowModelCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                GetWorkitemsCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                GetInvitationCommand.class)));
-
-        assertTrue(dacl.isAllowed(new BasicRole(null), new CommandPermission(
-                IsUserRegisteredCommand.class)));
-
-        assertTrue(dacl.isAllowed(new BasicRole(null), new CommandPermission(
-                SetUserProfileCommand.class)));
-
-        // workflow instance fassade
-
-        assertTrue(dacl.isAllowed(new WorkflowAdminRole(),
-                new CommandPermission(StopWorkflowInstanceCommand.class)));
-
-        assertTrue(dacl.isAllowed(new WorkflowAdminRole(),
-                new CommandPermission(GetParticipatingUsersCommand.class)));
-
-        assertTrue(dacl.isAllowed(new WorkflowAdminRole(),
-                new CommandPermission(StartWorkflowInstanceCommand.class)));
-
-        assertTrue(dacl.isAllowed(HumanTaskRole.getInstance(),
-                new CommandPermission(RemoveAllWorkItemsCommand.class)));
-
-        assertTrue(dacl.isAllowed(new WorkflowAdminRole(),
-                new CommandPermission(GetAllWorkitemsCommand.class)));
-
-        // Workflow model facade
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                SaveWorkflowModelCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                GetWorkflowModelCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                PublishWorkflowModelsCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                MakeWorkflowModelExecutableCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                GetWorkflowAdministratorsCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                SetWorkflowAdministratorsCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                DeleteWorkflowModelCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                StartWorkflowInstanceCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                StopWorkflowInstanceCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                SaveStartConfigurationCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                GetLastStartConfigurationCommand.class)));
-
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
-                GetPublishedWorkflowModelsCommand.class)));
-
-        // workitem facade
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                GetWorkItemCommand.class)));
-
-        assertTrue(dacl.isAllowed(HumanTaskRole.getInstance(),
-                new CommandPermission(CreateWorkItemCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                SetDataCommand.class)));
-
-        assertTrue(dacl.isAllowed(new UserRole(), new CommandPermission(
-                SetStatusCommand.class)));
-
-        assertTrue(dacl.isAllowed(new WorkflowAdminRole(),
-                new CommandPermission(DeleteWorkItemCommand.class)));
-
-        // file permissions
-
-        assertTrue(dacl.isAllowed(new BasicRole(null),
-                new FileDeletePermission(null)));
-
-        assertTrue(dacl.isAllowed(new BasicRole(null), new FileReadPermission(
-                null)));
-
-        assertTrue(dacl.isAllowed(new BasicRole(null),
-                new FileReplacePermission(null)));
+        assertTrue(dacl.isAllowed(new SuperAdminRole(superAdminId), new Permission("*")));
+
+//        // serverload updater
+//        assertTrue(dacl.isAllowed(ServerLoadUpdaterRole.getInstance(),
+//                new CommandPermission(UpdateServerLoadCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(ServerLoadUpdaterRole.getInstance(),
+//                new CommandPermission(GetServersCommand.class)));
+//
+//        // tenant facade
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                AddTenantMemberCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                CreateTenantCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                CreateWorkflowModelCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new BasicRole(null), new CommandPermission(
+//                GetCurrentColorSchemeCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new BasicRole(null), new CommandPermission(
+//                GetTenantLogoCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new WorkflowAdminRole(workflowAdminId),
+//                new CommandPermission(GetUsersOfTenantCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new WorkflowAdminRole(workflowAdminId),
+//                new CommandPermission(GetWorkflowInstancesCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                GetWorkflowModelsCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                ImportPublishedWorkflowModelsCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new WorkflowAdminRole(workflowAdminId),
+//                new CommandPermission(InviteUsersAsTenantMembersCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                SetColorSchemeCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                SetCurrentColorSchemeCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                SetTenantDescriptionCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                SetTenantLogoCommand.class)));
+//
+//        // user facade
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                RegisterUserCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new BasicRole(null), new CommandPermission(
+//                GetUserByLoginCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                CheckAuthKeyCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                SetPasswordCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                RequestPasswordResetCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                LeaveTenantCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                SetUserPropertyCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                RemoveFromTenantCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                ConfirmPasswordResetCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                ConfirmRegistrationCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                ConfirmChangeEmailRequestCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                ConfirmInvitationCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                RefuseInvitationCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                GetUserWithProfileCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new BasicRole(null), new CommandPermission(
+//                GetHighestUserRoleCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new BasicRole(null), new CommandPermission(
+//                GetUserRoleForTenantCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new WorkflowAdminRole(workflowAminId),
+//                new CommandPermission(
+//                        GetAdministratedWorkflowInstancesCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                GetJoinedTenantsCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                GetAdministratedWorkflowModelCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                GetWorkitemsCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                GetInvitationCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new BasicRole(null), new CommandPermission(
+//                IsUserRegisteredCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new BasicRole(null), new CommandPermission(
+//                SetUserProfileCommand.class)));
+//
+//        // workflow instance fassade
+//
+//        assertTrue(dacl.isAllowed(new WorkflowAdminRole(workflowAminId),
+//                new CommandPermission(StopWorkflowInstanceCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new WorkflowAdminRole(workflowAminId),
+//                new CommandPermission(GetParticipatingUsersCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new WorkflowAdminRole(workflowAminId),
+//                new CommandPermission(StartWorkflowInstanceCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(HumanTaskRole.getInstance(),
+//                new CommandPermission(RemoveAllWorkItemsCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new WorkflowAdminRole(workflowAminId),
+//                new CommandPermission(GetAllWorkitemsCommand.class)));
+//
+//        // Workflow model facade
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                SaveWorkflowModelCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                GetWorkflowModelCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                PublishWorkflowModelsCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                MakeWorkflowModelExecutableCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                GetWorkflowAdministratorsCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                SetWorkflowAdministratorsCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                DeleteWorkflowModelCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                StartWorkflowInstanceCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                StopWorkflowInstanceCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                SaveStartConfigurationCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                GetLastStartConfigurationCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new CommandPermission(
+//                GetPublishedWorkflowModelsCommand.class)));
+//
+//        // workitem facade
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                GetWorkItemCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(HumanTaskRole.getInstance(),
+//                new CommandPermission(CreateWorkItemCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                SetDataCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new UserRole(userId), new CommandPermission(
+//                SetStatusCommand.class)));
+//
+//        assertTrue(dacl.isAllowed(new WorkflowAdminRole(workflowAdminId),
+//                new CommandPermission(DeleteWorkItemCommand.class)));
+//
+//        // file permissions
+//
+//        assertTrue(dacl.isAllowed(new BasicRole(null),
+//                new FileDeletePermission(null)));
+//
+//        assertTrue(dacl.isAllowed(new BasicRole(null), new FileReadPermission(
+//                null)));
+//
+//        assertTrue(dacl.isAllowed(new BasicRole(null),
+//                new FileReplacePermission(null)));
 
         // false tests
         assertFalse(dacl.isAllowed(new BasicRole(null), new Permission("*")));
-        assertFalse(dacl.isAllowed(new UserRole(), new Permission("*")));
+        assertFalse(dacl.isAllowed(new UserRole(userId), new Permission("*")));
         assertFalse(dacl
-                .isAllowed(new WorkflowAdminRole(), new Permission("*")));
-        assertFalse(dacl.isAllowed(new TenantAdminRole(), new Permission("*")));
+                .isAllowed(new WorkflowAdminRole(workflowAdminId), new Permission("*")));
+        assertFalse(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new Permission("*")));
         assertFalse(dacl.isAllowed(HumanTaskRole.getInstance(), new Permission(
                 "*")));
         assertFalse(dacl.isAllowed(ServerLoadUpdaterRole.getInstance(),
@@ -373,11 +391,11 @@ public class DefaultAccessControlListTest extends DecidrDatabaseTest {
 
         dacl.init();
 
-        assertTrue(dacl.isAllowed(new SuperAdminRole(), new Permission("*")));
+        assertTrue(dacl.isAllowed(new SuperAdminRole(superAdminId), new Permission("*")));
 
         dacl.clearRules();
 
-        assertFalse(dacl.isAllowed(new SuperAdminRole(), new Permission("*")));
+        assertFalse(dacl.isAllowed(new SuperAdminRole(superAdminId), new Permission("*")));
 
     }
 
@@ -390,30 +408,30 @@ public class DefaultAccessControlListTest extends DecidrDatabaseTest {
     public void testSetRuleRolePermissionAssertModeAsserterArray() {
 
         Asserter[] asserters_single = { new UserOwnsWorkItemAsserter() };
-        Asserter[] asserters_multiple = { new UserOwnsWorkItemAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter() };
+        Asserter[] asserters_multiple = { new UserIsSuperAdminAsserter(),
+                                          new UserIsEnabledAsserter() };
 
         dacl.clearRules();
 
-        assertTrue(dacl.setRule(new SuperAdminRole(), new Permission("*"),
-                AssertMode.SatisfyAll, asserters_multiple));
-        assertTrue(dacl.setRule(new SuperAdminRole(), new Permission("*"),
-                AssertMode.SatisfyAll, asserters_single));
+        assertTrue(dacl.setRule(new SuperAdminRole(superAdminId), new Permission("*"),
+                AssertMode.SatisfyAny, asserters_multiple));
+        assertTrue(dacl.setRule(new SuperAdminRole(superAdminId), new Permission("*"),
+                AssertMode.SatisfyAny, asserters_single));
 
         dacl.clearRules();
-        assertTrue(dacl.setRule(new SuperAdminRole(), new Permission("*"),
-                AssertMode.SatisfyAll, asserters_single));
-        assertTrue(dacl.setRule(new SuperAdminRole(), new Permission("*"),
-                AssertMode.SatisfyAll, asserters_multiple));
+        assertTrue(dacl.setRule(new SuperAdminRole(superAdminId), new Permission("*"),
+                AssertMode.SatisfyAny, asserters_single));
+        assertTrue(dacl.setRule(new SuperAdminRole(superAdminId), new Permission("*"),
+                AssertMode.SatisfyAny, asserters_multiple));
 
         dacl.clearRules();
-        assertFalse(dacl.hasRule(new SuperAdminRole(), new Permission("*")));
+        assertFalse(dacl.hasRule(new SuperAdminRole(superAdminId), new Permission("*")));
 
-        assertTrue(dacl.setRule(new SuperAdminRole(), new Permission("*"),
-                AssertMode.SatisfyAll, new UserOwnsWorkItemAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter()));
+        assertTrue(dacl.setRule(new SuperAdminRole(superAdminId), new Permission("*"),
+                AssertMode.SatisfyAny, new UserIsSuperAdminAsserter(),
+                new UserIsEnabledAsserter()));
 
-        assertTrue(dacl.hasRule(new SuperAdminRole(), new Permission("*")));
+        assertTrue(dacl.hasRule(new SuperAdminRole(superAdminId), new Permission("*")));
 
     }
 
@@ -426,16 +444,16 @@ public class DefaultAccessControlListTest extends DecidrDatabaseTest {
     public void testSetRuleRolePermissionAssertModeAsserter() {
 
         dacl.clearRules();
-        assertFalse(dacl.hasRule(new SuperAdminRole(), new Permission("*")));
+        assertFalse(dacl.hasRule(new SuperAdminRole(superAdminId), new Permission("*")));
 
-        assertTrue(dacl.setRule(new SuperAdminRole(), new Permission("*"),
-                AssertMode.SatisfyAll, new UserOwnsWorkItemAsserter()));
-        assertTrue(dacl.setRule(new SuperAdminRole(), new Permission("*"),
+        assertTrue(dacl.setRule(new SuperAdminRole(superAdminId), new Permission("*"),
+                AssertMode.SatisfyAll, new UserIsSuperAdminAsserter()));
+        assertTrue(dacl.setRule(new SuperAdminRole(superAdminId), new Permission("*"),
                 AssertMode.SatisfyAll, new UserIsEnabledAsserter()));
-        assertTrue(dacl.setRule(new SuperAdminRole(), new Permission("*"),
-                AssertMode.SatisfyAll, new UserOwnsWorkItemAsserter()));
+        assertTrue(dacl.setRule(new SuperAdminRole(superAdminId), new Permission("*"),
+                AssertMode.SatisfyAll, new UserIsSuperAdminAsserter()));
 
-        assertTrue(dacl.hasRule(new SuperAdminRole(), new Permission("*")));
+        assertTrue(dacl.hasRule(new SuperAdminRole(superAdminId), new Permission("*")));
     }
 
     /**
@@ -449,13 +467,13 @@ public class DefaultAccessControlListTest extends DecidrDatabaseTest {
 
         dacl.clearRules();
 
-        assertFalse(dacl.isAllowed(new TenantAdminRole(),
+        assertFalse(dacl.isAllowed(new SuperAdminRole(superAdminId),
                 new CommandPermission(DeleteWorkflowModelCommand.class)));
 
-        dacl.allow(new TenantAdminRole(), new CommandPermission(
+        dacl.allow(new SuperAdminRole(superAdminId), new CommandPermission(
                 DeleteWorkflowModelCommand.class));
 
-        assertTrue(dacl.isAllowed(new TenantAdminRole(), new CommandPermission(
+        assertTrue(dacl.isAllowed(new SuperAdminRole(superAdminId), new CommandPermission(
                 DeleteWorkflowModelCommand.class)));
     }
 
@@ -470,12 +488,12 @@ public class DefaultAccessControlListTest extends DecidrDatabaseTest {
 
         dacl.init();
 
-        assertTrue(dacl.isAllowed(new SuperAdminRole(), new Permission("*")));
-        assertFalse(dacl.isAllowed(new TenantAdminRole(), new Permission("*")));
+        assertTrue(dacl.isAllowed(new SuperAdminRole(superAdminId), new Permission("*")));
+        assertFalse(dacl.isAllowed(new TenantAdminRole(tenantAdminId), new Permission("*")));
 
         dacl.clearRules();
 
-        assertFalse(dacl.isAllowed(new SuperAdminRole(), new Permission("*")));
+        assertFalse(dacl.isAllowed(new SuperAdminRole(superAdminId), new Permission("*")));
     }
 
     /**
