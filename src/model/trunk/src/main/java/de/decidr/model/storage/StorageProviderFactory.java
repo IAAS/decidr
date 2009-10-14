@@ -75,8 +75,11 @@ public class StorageProviderFactory {
 
     /**
      * Creates a new StorageProviderFactory using an empty configuration.
+     * 
+     * @throws InvalidPropertiesFormatException
+     *             should never happen
      */
-    public StorageProviderFactory() {
+    public StorageProviderFactory() throws InvalidPropertiesFormatException {
         this(new Properties());
     }
 
@@ -96,7 +99,7 @@ public class StorageProviderFactory {
     public StorageProviderFactory(File configFile)
             throws InvalidPropertiesFormatException, FileNotFoundException,
             IOException {
-        this(new FileInputStream(configFile));
+        this((configFile == null) ? null : new FileInputStream(configFile));
     }
 
     /**
@@ -123,8 +126,11 @@ public class StorageProviderFactory {
      * 
      * @param config
      *            configuration <code>{@link Properties}</code> to use
+     * @throws InvalidPropertiesFormatException
+     *             see {@link #configure(Properties)}
      */
-    public StorageProviderFactory(Properties config) {
+    public StorageProviderFactory(Properties config)
+            throws InvalidPropertiesFormatException {
         log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
                 + ".configure(Properties)");
         configure(config);
@@ -179,7 +185,7 @@ public class StorageProviderFactory {
                 + ".configure(InputStream)");
         if (configFile == null) {
             log.error("configFile stream was null!");
-            throw new IllegalArgumentException(
+            throw new InvalidPropertiesFormatException(
                     "The specified config file input stream mustn't be null!");
         }
 
@@ -197,10 +203,19 @@ public class StorageProviderFactory {
      * @param config
      *            configuration <code>{@link Properties}</code> to use
      * @return this object for method chaining.
+     * @throws InvalidPropertiesFormatException
+     *             if the passed {@link Properties} was <code>null</code>.
      */
-    public StorageProviderFactory configure(Properties config) {
+    public StorageProviderFactory configure(Properties config)
+            throws InvalidPropertiesFormatException {
         log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
                 + ".configure(Properties)");
+        if (config == null) {
+            log.error("Can't accept null parameter");
+            throw new InvalidPropertiesFormatException(
+                    "Properties must not be null");
+        }
+
         this.config = config;
         log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
                 + ".configure(Properties)");
@@ -299,9 +314,13 @@ public class StorageProviderFactory {
     public void setAmazonS3(Boolean amazons3) {
         log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
                 + ".setAmazonS3(Boolean)");
-        log.debug("setting amazon S3 setting");
-        config.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, amazons3
-                .toString());
+        if (amazons3 == null) {
+            unsetAmazonS3();
+        } else {
+            log.debug("setting amazon S3 setting");
+            config.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, amazons3
+                    .toString());
+        }
         log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
                 + ".setAmazonS3(Boolean)");
     }
@@ -316,8 +335,13 @@ public class StorageProviderFactory {
     public void setLocalOnly(Boolean local) {
         log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
                 + ".setLoaclOnly(Boolean)");
-        log.debug("setting local store setting");
-        config.setProperty(StorageProvider.LOCAL_CONFIG_KEY, local.toString());
+        if (local == null) {
+            unsetLocalOnly();
+        } else {
+            log.debug("setting local store setting");
+            config.setProperty(StorageProvider.LOCAL_CONFIG_KEY, local
+                    .toString());
+        }
         log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
                 + ".setLoaclOnly(Boolean)");
     }
@@ -332,9 +356,13 @@ public class StorageProviderFactory {
     public void setPersistent(Boolean persistent) {
         log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
                 + ".setPersistent(Boolean)");
-        log.debug("setting persistency setting");
-        config.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, persistent
-                .toString());
+        if (persistent == null) {
+            unsetPersistent();
+        } else {
+            log.debug("setting persistency setting");
+            config.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY,
+                    persistent.toString());
+        }
         log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
                 + ".setPersistent(Boolean)");
     }
@@ -349,8 +377,12 @@ public class StorageProviderFactory {
     public void setProtocol(String protocol) {
         log.trace("Entering " + StorageProviderFactory.class.getSimpleName()
                 + ".setProtocol(String)");
-        log.debug("setting protocol setting");
-        config.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, protocol);
+        if (protocol == null) {
+            unsetProtocol();
+        } else {
+            log.debug("setting protocol setting");
+            config.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, protocol);
+        }
         log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
                 + ".setProtocol(String)");
     }

@@ -18,14 +18,14 @@ package de.decidr.model.storage;
 
 import static org.junit.Assert.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.exceptions.IncompleteConfigurationException;
@@ -38,29 +38,100 @@ import de.decidr.model.testing.DecidrOthersTest;
  */
 public class StorageProviderFactoryTest extends DecidrOthersTest {
 
-    @BeforeClass
-    public static void disable() {
-        fail("This test class has not yet been implemented");
+    /**
+     * Test method for {@link StorageProviderFactory#getStorageProvider()},
+     * {@link StorageProviderFactory#configure(InputStream)},
+     * {@link StorageProviderFactory#configure(Properties)},
+     * {@link StorageProviderFactory#configure()},
+     * {@link StorageProviderFactory#setAmazonS3(Boolean)},
+     * {@link StorageProviderFactory#unsetAmazonS3()},
+     * {@link StorageProviderFactory#setLocalOnly(Boolean)},
+     * {@link StorageProviderFactory#unsetLocalOnly()},
+     * {@link StorageProviderFactory#setPersistent(Boolean)},
+     * {@link StorageProviderFactory#unsetPersistent()},
+     * {@link StorageProviderFactory#setProtocol(String)} and
+     * {@link StorageProviderFactory#unsetProtocol()}.
+     */
+    private static void runFactoryInstanceTests(StorageProviderFactory factory)
+            throws IncompleteConfigurationException, InstantiationException,
+            IllegalAccessException, InvalidPropertiesFormatException,
+            IOException {
+        factory.configure();
+        assertNotNull(factory.getStorageProvider());
+        assertFalse(factory.getStorageProvider() == factory
+                .getStorageProvider());
+        factory.configure();
+
+        factory.unsetAmazonS3();
+        factory.setAmazonS3(true);
+        factory.setAmazonS3(null);
+        factory.setAmazonS3(false);
+        factory.unsetAmazonS3();
+
+        factory.unsetLocalOnly();
+        factory.setLocalOnly(true);
+        factory.setLocalOnly(null);
+        factory.setLocalOnly(false);
+        factory.unsetLocalOnly();
+
+        factory.unsetPersistent();
+        factory.setPersistent(true);
+        factory.setPersistent(null);
+        factory.setPersistent(false);
+        factory.unsetPersistent();
+
+        factory.unsetProtocol();
+        factory.setProtocol("");
+        factory.setProtocol(null);
+        factory.setProtocol("file");
+        factory.setProtocol("http");
+        factory.setProtocol("ftp");
+        factory.setProtocol("asdfjhgsdfbj");
+        factory.unsetProtocol();
+
+        factory.configure();
+
+        try {
+            factory.configure((InputStream) null);
+            fail("configure accepted null input stream");
+        } catch (InvalidPropertiesFormatException e) {
+            // supposed to happen
+        }
+        try {
+            factory.configure(new ByteArrayInputStream(new byte[] {}));
+            fail("configure accepted empty input stream");
+        } catch (InvalidPropertiesFormatException e) {
+            // supposed to happen
+        }
+        try {
+            factory.configure((Properties) null);
+            fail("configure accepted null properties");
+        } catch (InvalidPropertiesFormatException e) {
+            // supposed to happen
+        }
+
+        factory.configure(new Properties());
+        Properties props = new Properties();
+        props.loadFromXML(StorageProviderFactoryTest.class
+                .getResourceAsStream("/decidr-storage.xml"));
+        factory.configure(props);
+
+        factory.configure(StorageProviderFactoryTest.class
+                .getResourceAsStream("/decidr-storage.xml"));
     }
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        // TODO implement
-    }
+    /**
+     * Test method for {@link StorageProviderFactory#getDefaultFactory()}.
+     */
+    @Test
+    public void testGetDefaultFactory()
+            throws IncompleteConfigurationException, InstantiationException,
+            IllegalAccessException, InvalidPropertiesFormatException,
+            IOException {
+        StorageProviderFactory factory = StorageProviderFactory
+                .getDefaultFactory();
 
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-        // TODO implement
-    }
-
-    @Before
-    public void setUpCase() throws Exception {
-        // TODO implement
-    }
-
-    @After
-    public void tearDownCase() throws Exception {
-        // TODO implement
+        runFactoryInstanceTests(factory);
     }
 
     /**
@@ -68,14 +139,11 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      */
     @Test
     public void testStorageProviderFactory() throws InstantiationException,
-            IllegalAccessException, IncompleteConfigurationException {
+            IllegalAccessException, IncompleteConfigurationException,
+            InvalidPropertiesFormatException, IOException {
         StorageProviderFactory factory = new StorageProviderFactory();
 
-        factory.configure();
-        assertNotNull(factory.getStorageProvider());
-        assertFalse(factory.getStorageProvider() == factory
-                .getStorageProvider());
-        factory.configure();
+        runFactoryInstanceTests(factory);
     }
 
     /**
@@ -83,8 +151,35 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      * {@link StorageProviderFactory#StorageProviderFactory(File)}.
      */
     @Test
-    public void testStorageProviderFactoryFile() {
-        fail("Not yet implemented"); // TODO StorageProviderFactory(File)
+    public void testStorageProviderFactoryFile() throws InstantiationException,
+            IllegalAccessException, IncompleteConfigurationException,
+            InvalidPropertiesFormatException, IOException {
+        File f = File.createTempFile("decidr_test", ".xml");
+
+        try {
+            new StorageProviderFactory((File) null);
+            fail("StorageProviderFactory accepted null file");
+        } catch (InvalidPropertiesFormatException e) {
+            // supposed to happen
+        }
+        try {
+            new StorageProviderFactory(f);
+            fail("StorageProviderFactory accepted empty file");
+        } catch (InvalidPropertiesFormatException e) {
+            // supposed to happen
+        }
+
+        InputStream in = StorageProviderFactoryTest.class
+                .getResourceAsStream("/decidr-storage.xml");
+        FileOutputStream out = new FileOutputStream(f);
+        int tmpByte;
+        while ((tmpByte = in.read()) != -1) {
+            out.write(tmpByte);
+        }
+
+        StorageProviderFactory factory = new StorageProviderFactory(f);
+
+        runFactoryInstanceTests(factory);
     }
 
     /**
@@ -92,8 +187,28 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      * {@link StorageProviderFactory#StorageProviderFactory(InputStream)}.
      */
     @Test
-    public void testStorageProviderFactoryInputStream() {
-        fail("Not yet implemented"); // TODO StorageProviderFactory(InputStream)
+    public void testStorageProviderFactoryInputStream()
+            throws InstantiationException, IllegalAccessException,
+            IncompleteConfigurationException, InvalidPropertiesFormatException,
+            IOException {
+        try {
+            new StorageProviderFactory((InputStream) null);
+            fail("StorageProviderFactory accepted null input stream");
+        } catch (InvalidPropertiesFormatException e) {
+            // supposed to happen
+        }
+        try {
+            new StorageProviderFactory(new ByteArrayInputStream(new byte[] {}));
+            fail("StorageProviderFactory accepted empty input stream");
+        } catch (InvalidPropertiesFormatException e) {
+            // supposed to happen
+        }
+
+        StorageProviderFactory factory = new StorageProviderFactory(
+                StorageProviderFactoryTest.class
+                        .getResourceAsStream("/decidr-storage.xml"));
+
+        runFactoryInstanceTests(factory);
     }
 
     /**
@@ -101,111 +216,22 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      * {@link StorageProviderFactory#StorageProviderFactory(Properties)}.
      */
     @Test
-    public void testStorageProviderFactoryProperties() {
-        fail("Not yet implemented"); // TODO StorageProviderFactory(Properties)
-    }
+    public void testStorageProviderFactoryProperties()
+            throws InstantiationException, IllegalAccessException,
+            IncompleteConfigurationException, InvalidPropertiesFormatException,
+            IOException {
+        try {
+            new StorageProviderFactory((Properties) null);
+            fail("StorageProviderFactory accepted null properties");
+        } catch (InvalidPropertiesFormatException e) {
+            // supposed to happen
+        }
 
-    /**
-     * Test method for {@link StorageProviderFactory#configure()}.
-     */
-    @Test
-    public void testConfigure() {
-        fail("Not yet implemented"); // TODO configure()
-    }
+        Properties props = new Properties();
+        props.loadFromXML(StorageProviderFactoryTest.class
+                .getResourceAsStream("/decidr-storage.xml"));
+        StorageProviderFactory factory = new StorageProviderFactory(props);
 
-    /**
-     * Test method for {@link StorageProviderFactory#configure(InputStream)}.
-     */
-    @Test
-    public void testConfigureInputStream() {
-        fail("Not yet implemented"); // TODO configure(InputStream)
-    }
-
-    /**
-     * Test method for {@link StorageProviderFactory#configure(Properties)}.
-     */
-    @Test
-    public void testConfigureProperties() {
-        fail("Not yet implemented"); // TODO configure(Properties)
-    }
-
-    /**
-     * Test method for {@link StorageProviderFactory#getDefaultFactory()}.
-     */
-    @Test
-    public void testGetDefaultFactory() {
-        fail("Not yet implemented"); // TODO getDefaultFactory
-    }
-
-    /**
-     * Test method for {@link StorageProviderFactory#getStorageProvider()}.
-     */
-    @Test
-    public void testGetStorageProvider() {
-        fail("Not yet implemented"); // TODO getStorageProvider
-    }
-
-    /**
-     * Test method for {@link StorageProviderFactory#setAmazonS3(Boolean)}.
-     */
-    @Test
-    public void testSetAmazonS3() {
-        fail("Not yet implemented"); // TODO setAmazonS3
-    }
-
-    /**
-     * Test method for {@link StorageProviderFactory#setLocalOnly(Boolean)}.
-     */
-    @Test
-    public void testSetLocalOnly() {
-        fail("Not yet implemented"); // TODO setLocalOnly
-    }
-
-    /**
-     * Test method for {@link StorageProviderFactory#setPersistent(Boolean)}.
-     */
-    @Test
-    public void testSetPersistent() {
-        fail("Not yet implemented"); // TODO setPersistent
-    }
-
-    /**
-     * Test method for {@link StorageProviderFactory#setProtocol(String)}.
-     */
-    @Test
-    public void testSetProtocol() {
-        fail("Not yet implemented"); // TODO setProtocol
-    }
-
-    /**
-     * Test method for {@link StorageProviderFactory#unsetAmazonS3()}.
-     */
-    @Test
-    public void testUnsetAmazonS3() {
-        fail("Not yet implemented"); // TODO unsetAmazonS3
-    }
-
-    /**
-     * Test method for {@link StorageProviderFactory#unsetLocalOnly()}.
-     */
-    @Test
-    public void testUnsetLocalOnly() {
-        fail("Not yet implemented"); // TODO unsetLocalOnly
-    }
-
-    /**
-     * Test method for {@link StorageProviderFactory#unsetPersistent()}.
-     */
-    @Test
-    public void testUnsetPersistent() {
-        fail("Not yet implemented"); // TODO unsetPersistent
-    }
-
-    /**
-     * Test method for {@link StorageProviderFactory#unsetProtocol()}.
-     */
-    @Test
-    public void testUnsetProtocol() {
-        fail("Not yet implemented"); // TODO unsetProtocol
+        runFactoryInstanceTests(factory);
     }
 }

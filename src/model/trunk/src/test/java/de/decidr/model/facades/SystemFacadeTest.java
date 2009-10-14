@@ -844,19 +844,6 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
             assertEquals((byte) -1, testServer.getLoad());
 
             updateServerLoadExceptionHelper(
-                    "updating server load with invalid value succeeded.",
-                    adminFacade, testServerID, (byte) -2);
-            updateServerLoadExceptionHelper(
-                    "updating server load with invalid value succeeded.",
-                    adminFacade, testServerID, (byte) -200);
-            updateServerLoadExceptionHelper(
-                    "updating server load with invalid value succeeded.",
-                    adminFacade, testServerID, (byte) 101);
-            updateServerLoadExceptionHelper(
-                    "updating server load with invalid value succeeded.",
-                    adminFacade, testServerID, (byte) 200);
-
-            updateServerLoadExceptionHelper(
                     "updating server load with null facade succeeded.",
                     nullFacade, testServerID, (byte) 0);
             updateServerLoadExceptionHelper(

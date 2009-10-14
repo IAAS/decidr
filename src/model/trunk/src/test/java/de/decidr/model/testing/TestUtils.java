@@ -32,7 +32,8 @@ public class TestUtils {
     public static void executeStaticMethodsWithAnnotation(
             Class<? extends TestSuite> suite, Class<? extends Annotation> ann) {
         for (Method m : suite.getMethods()) {
-            if (!Modifier.isStatic(m.getModifiers())) {
+            if (!Modifier.isStatic(m.getModifiers())
+                    && m.getParameterTypes().length == 0) {
                 continue;
             }
 
@@ -51,7 +52,8 @@ public class TestUtils {
     public static void executeMethodsWithAnnotation(TestSuite suite,
             Class<? extends Annotation> ann) {
         for (Method m : suite.getClass().getMethods()) {
-            if (Modifier.isStatic(m.getModifiers())) {
+            if (Modifier.isStatic(m.getModifiers())
+                    && m.getParameterTypes().length == 0) {
                 continue;
             }
 
