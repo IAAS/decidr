@@ -31,7 +31,7 @@ public abstract class LowLevelDatabaseTest extends DecidrDatabaseTest {
 
     @BeforeClass
     public static final void setUpClass() {
-        session = new Configuration().configure("hibernate.cfg.xml")
+        session = new Configuration().configure("/hibernate.cfg.xml")
                 .buildSessionFactory().openSession();
     }
 

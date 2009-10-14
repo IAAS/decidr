@@ -65,15 +65,19 @@ public class GetServersCommand extends SystemCommand {
             for (ServerTypeEnum allowedType : serverTypes) {
                 // DH: apparently, allowedType can be null (basically, the array
                 // is ServerTypeEnum[]{null}) ~rr
+                if (allowedType == null) {
+                    continue;
+                }
                 allowedTypes.add(allowedType.toString());
             }
         }
         // if no server types are given, fetch all servers
-        if (serverTypes == null || serverTypes.length == 0) {
+        if (serverTypes == null || serverTypes.length == 0
+                || allowedTypes.isEmpty()) {
             hql = "from Server s join fetch s.serverType";
             result = evt.getSession().createQuery(hql).list();
         } else {
-            hql = "from Server s join fetch s.serverType where s.serverType in (:allowedTypes)";
+            hql = "from Server s join fetch s.serverType where s.serverType.name in (:allowedTypes)";
             result = evt.getSession().createQuery(hql).setParameterList(
                     "allowedTypes", allowedTypes).list();
         }

@@ -532,22 +532,6 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                     type, "", (byte) -1, true, false);
             addServerExceptionHelper("invalid value succeeded", adminFacade,
                     type, "", (byte) -1, false, false);
-            addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, getHostname(), (byte) 101, true, true);
-            addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, getHostname(), (byte) 200, true, true);
-            addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, getHostname(), (byte) 101, false, true);
-            addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, getHostname(), (byte) 200, false, true);
-            addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, getHostname(), (byte) 101, true, false);
-            addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, getHostname(), (byte) 200, true, false);
-            addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, getHostname(), (byte) 101, false, false);
-            addServerExceptionHelper("invalid value succeeded", adminFacade,
-                    type, getHostname(), (byte) 200, false, false);
 
             addServerExceptionHelper("Null Facade action succeeded",
                     nullFacade, type, "", (byte) -1, true, true);
