@@ -14,46 +14,28 @@
  * under the License.
  */
 
-package de.decidr.model.workflowmodel.deployment.test;
+package de.decidr.model.workflowmodel.transformation;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
 import javax.wsdl.extensions.ExtensibilityElement;
 import javax.wsdl.extensions.UnknownExtensibilityElement;
 import javax.wsdl.factory.WSDLFactory;
-import javax.xml.bind.JAXBException;
 
 import org.jdom.input.DOMBuilder;
 import org.jdom.output.XMLOutputter;
-import org.w3c.dom.Element;
-
-import com.ibm.wsdl.extensions.schema.SchemaImpl;
-import com.ibm.wsdl.extensions.schema.SchemaImportImpl;
-
-import de.decidr.model.workflowmodel.dwdl.translator.DWDL2BPEL;
 
 /**
- * Simple deployment test class
- * 
+ * Test wsdl types extraction
+ *
  * @author Modood Alvi
  */
-public class DeploymentTest {
+public class WSDLTypesExtraction {
 
-    /**
-     * This class tests the translator component {@link DWDL2BPEL}
-     * 
-     * @param args
-     * @throws WSDLException
-     * @throws IOException 
-     * @throws JAXBException
-     * @throws FileNotFoundException
-     */
     public static void main(String[] args) throws WSDLException, IOException {
         String wsdlUri = "http://yourwsdlurl?WSDL";
         WSDLFactory wsdlFactory = WSDLFactory.newInstance();
@@ -97,5 +79,6 @@ public class DeploymentTest {
         throw new RuntimeException("Ext element with name " + name
                 + " was not found.");
     }
+
 
 }

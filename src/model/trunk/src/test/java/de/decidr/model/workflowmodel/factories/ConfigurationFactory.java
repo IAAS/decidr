@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.model.workflowmodel.deployment.test;
+package de.decidr.model.workflowmodel.factories;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
