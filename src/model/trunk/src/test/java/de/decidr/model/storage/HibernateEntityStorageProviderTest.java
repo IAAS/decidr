@@ -25,11 +25,12 @@ import java.util.Properties;
 
 import javax.activation.MimetypesFileTypeMap;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.IncompleteConfigurationException;
-import de.decidr.model.exceptions.StorageException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.storage.commands.GetFileTestCommand;
 import de.decidr.model.storage.commands.PutFileTestCommand;
@@ -47,11 +48,11 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
 public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
 
     static HibernateEntityStorageProvider storageProvider;
-    static File DataFile;
-    static java.io.File BasicFile;
+    static File dataFile;
+    static java.io.File basicFile;
 
     /*
-     * converts file into byte[]
+     * converts file into ByteArrayOutputStream
      */
     private static ByteArrayOutputStream readFile(java.io.File file)
             throws Exception {
@@ -98,36 +99,59 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
 
-        BasicFile = new java.io.File("./src/test/java/decidr.jpg");
+        basicFile = new java.io.File("./src/test/java/decidr.jpg");
+        assertTrue(basicFile.exists());
 
-        DataFile = new de.decidr.model.entities.File();
+        dataFile = new de.decidr.model.entities.File();
 
-        DataFile.setFileName("decidr.jpg");
-        DataFile.setMimeType(new MimetypesFileTypeMap()
-                .getContentType(BasicFile));
-        DataFile.setFileSizeBytes(BasicFile.length());
-        DataFile.setData(readFile(BasicFile).toByteArray());
-        DataFile.setId(123456l);
+        dataFile.setFileName("decidr.jpg");
+        dataFile.setMimeType(new MimetypesFileTypeMap()
+                .getContentType(basicFile));
+        dataFile.setFileSizeBytes(basicFile.length());
+        dataFile.setData(readFile(basicFile).toByteArray());
+        dataFile.setId(123456l);
+    }
 
+    @Before
+    public void setUpBefore() throws Exception {
         storageProvider = new HibernateEntityStorageProvider();
-
     }
 
     /**
      * Test method for
      * {@link HibernateEntityStorageProvider#putFile(InputStream, Long, Long)},
-     * {@link HibernateEntityStorageProvider#getFile(Long)}.
+     * {@link HibernateEntityStorageProvider#getFile(Long)} and
+     * {@link HibernateEntityStorageProvider#removeFile(Long)}.
      * 
      * @throws Exception
      */
     @Test
     public void testPutFileGetFile() throws Exception {
-        fail("Not yet fully implemented");// TODO finish
+        Properties props = new Properties();
+
+        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "false");
+        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "");
+        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "false");
+        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "true");
+        props.setProperty(
+                HibernateEntityStorageProvider.CONFIG_KEY_ENTITY_TYPE_NAME,
+                "File");
+        props
+                .setProperty(
+                        HibernateEntityStorageProvider.CONFIG_KEY_DELETE_ENTITY,
+                        "true");
+        props.setProperty(
+                HibernateEntityStorageProvider.CONFIG_KEY_ID_PROPERTY_NAME,
+                "id");
+        props.setProperty(
+                HibernateEntityStorageProvider.CONFIG_KEY_DATA_PROPERTY_NAME,
+                "data");
+        storageProvider.applyConfig(props);
 
         /*
          * put file
          */
-        PutFileTestCommand cmd = new PutFileTestCommand(123456l, BasicFile,
+        PutFileTestCommand cmd = new PutFileTestCommand(123456l, basicFile,
                 storageProvider);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
@@ -154,7 +178,7 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
          */
         try {
             PutFileTestFaultyCommand cmd3 = new PutFileTestFaultyCommand(
-                    123456l, BasicFile, storageProvider);
+                    123456l, basicFile, storageProvider);
             HibernateTransactionCoordinator.getInstance().runTransaction(cmd3);
 
             if (cmd3.getResult() == false) {
@@ -164,19 +188,6 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
         } catch (IllegalArgumentException e) {
             // nothing to do
         }
-    }
-
-    /**
-     * Test method for {@link HibernateEntityStorageProvider#removeFile(Long)}.
-     * 
-     * @throws TransactionException .getNewWorkItemSubject
-     *             (tenantName);
-     * 
-     * @throws StorageException
-     */
-    @Test
-    public void testRemoveFile() throws TransactionException {
-        fail("Not yet fully implemented");// TODO finish
 
         // removing test
         RemoveFileTestCommand cmd4 = new RemoveFileTestCommand(123456l,
@@ -269,7 +280,7 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
      * {@link HibernateEntityStorageProvider#applyConfig(Properties)}.
      */
     @Test
-    public void testApplyConfig() {
+    public void testApplyConfig() throws IncompleteConfigurationException {
 
         Properties props = new Properties();
 
@@ -291,11 +302,7 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
                 HibernateEntityStorageProvider.CONFIG_KEY_DATA_PROPERTY_NAME,
                 "data");
 
-        try {
-            storageProvider.applyConfig(props);
-        } catch (IncompleteConfigurationException e1) {
-            fail("This configuration should work");
-        }
+        storageProvider.applyConfig(props);
 
         props = new Properties();
 

@@ -264,7 +264,6 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
      * {@link TenantFacade#getCurrentColorScheme(Long)}.
      */
     @Test
-    // RR add some valid data to files
     public void testColorScheme() throws TransactionException, IOException {
         Set<Class<? extends FilePermission>> publicPermissions = new HashSet<Class<? extends FilePermission>>();
         publicPermissions.add(FileReadPermission.class);
@@ -486,7 +485,31 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
     public void testGetWorkflowInstances() throws TransactionException {
         assertTrue(adminFacade.getWorkflowInstances(testTenantID, null)
                 .isEmpty());
-        fail("Not yet implemented"); // RR getWorkflowInstances
+
+        try {
+            adminFacade.getWorkflowInstances(invalidTenantID, null);
+            fail("managed to get workflow instances for invalid tenant ID");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            adminFacade.getWorkflowInstances(null, null);
+            fail("managed to get workflow instances with null parameter");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            nullFacade.getWorkflowInstances(testTenantID, null);
+            fail("managed to get workflow instances with null facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
+        try {
+            userFacade.getWorkflowInstances(testTenantID, null);
+            fail("managed to get workflow instances with normal user facade");
+        } catch (TransactionException e) {
+            // supposed to happen
+        }
     }
 
     /**

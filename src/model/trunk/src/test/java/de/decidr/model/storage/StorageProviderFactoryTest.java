@@ -16,7 +16,7 @@
 
 package de.decidr.model.storage;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.InputStream;
@@ -28,12 +28,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.testing.DecidrOthersTest;
 
 /**
- * TODO: add comment
+ * Test case for <code>{@link StorageProviderFactoryTest}</code>.
  * 
- * @author Markus Fischer
+ * @author Reinhold
  */
 public class StorageProviderFactoryTest extends DecidrOthersTest {
 
@@ -66,8 +67,15 @@ public class StorageProviderFactoryTest extends DecidrOthersTest {
      * Test method for {@link StorageProviderFactory#StorageProviderFactory()}.
      */
     @Test
-    public void testStorageProviderFactory() {
-        fail("Not yet implemented"); // TODO StorageProviderFactory()
+    public void testStorageProviderFactory() throws InstantiationException,
+            IllegalAccessException, IncompleteConfigurationException {
+        StorageProviderFactory factory = new StorageProviderFactory();
+
+        factory.configure();
+        assertNotNull(factory.getStorageProvider());
+        assertFalse(factory.getStorageProvider() == factory
+                .getStorageProvider());
+        factory.configure();
     }
 
     /**

@@ -15,9 +15,6 @@ public class PutFileTestCommand extends AbstractTransactionalCommand {
 
     /**
      * Creates a new {@link PutFileTestCommand}
-     * 
-     * @param role
-     * @param fileId
      */
     public PutFileTestCommand(Long fileId, File file,
             HibernateEntityStorageProvider provider) {
@@ -32,7 +29,6 @@ public class PutFileTestCommand extends AbstractTransactionalCommand {
             throws TransactionException {
 
         try {
-            // XXX need to configure provider first
             storageProvider.putFile(new FileInputStream(basicFile
                     .getAbsolutePath()), fId, basicFile.length());
         } catch (Exception e) {
