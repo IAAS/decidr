@@ -40,6 +40,8 @@ import de.decidr.model.acl.asserters.UserIsLoggedInAsserterTest;
 import de.decidr.model.acl.asserters.UserIsSuperAdminAsserterTest;
 import de.decidr.model.acl.asserters.UserIsTenantAdminAsserterTest;
 import de.decidr.model.acl.asserters.UserIsTenantMemberAsserterTest;
+import de.decidr.model.acl.asserters.UserIsWorkflowParticipantAsserterTest;
+import de.decidr.model.acl.asserters.UserNotParticipatingInAnyWorkflowAsserterTest;
 import de.decidr.model.commands.SystemCommandsTest;
 import de.decidr.model.facades.FileFacadeTest;
 import de.decidr.model.facades.SystemFacadeTest;
@@ -72,7 +74,8 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
         UserAdministratesWorkflowModelAsserterTest.class, UserIsAvailableAsserterTest.class,
         UserIsEnabledAsserterTest.class,UserIsInvitationReceiverAsserterTest.class,
         UserIsLoggedInAsserterTest.class, UserIsSuperAdminAsserterTest.class,
-        UserIsTenantAdminAsserterTest.class, UserIsTenantMemberAsserterTest.class})
+        UserIsTenantAdminAsserterTest.class, UserIsTenantMemberAsserterTest.class,
+        UserIsWorkflowParticipantAsserterTest.class, UserNotParticipatingInAnyWorkflowAsserterTest.class})
 public class DatabaseTestSuite extends GlobalPreconditionsSuite {
 
     static Calendar nextAttempt;
