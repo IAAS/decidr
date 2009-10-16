@@ -150,6 +150,7 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
 
         /*
          * put file
+         * RR please create a corresponding file entity first because entityId = storageId ~dh
          */
         PutFileTestCommand cmd = new PutFileTestCommand(123456l, basicFile,
                 storageProvider);

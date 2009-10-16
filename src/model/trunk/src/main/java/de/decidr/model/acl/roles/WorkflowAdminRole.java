@@ -15,7 +15,6 @@
  */
 package de.decidr.model.acl.roles;
 
-
 /**
  * Represents a workflow admin.
  * 
@@ -36,8 +35,7 @@ public class WorkflowAdminRole extends UserRole {
     }
 
     /**
-     * Creates a new WorkflowAdminRole with its actor id set to unknown;
-     * 
+     * Creates a new WorkflowAdminRole with its actor id set to unknown.
      */
     public WorkflowAdminRole() {
         this(UNKNOWN_USER_ID);

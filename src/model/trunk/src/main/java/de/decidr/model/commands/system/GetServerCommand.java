@@ -59,11 +59,13 @@ public class GetServerCommand extends SystemCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
         servers = null;
-        servers = evt
-                .getSession()
-                .createQuery(
-                        "select s from Server s join fetch s.serverType where s.id in (:serverIds)")
-                .setParameterList("serverIds", serverIds).list();
+        if (serverIds != null && serverIds.length > 0) {
+            servers = evt
+                    .getSession()
+                    .createQuery(
+                            "select s from Server s join fetch s.serverType where s.id in (:serverIds)")
+                    .setParameterList("serverIds", serverIds).list();
+        }
     }
 
     /**

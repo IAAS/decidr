@@ -62,7 +62,7 @@ public class ApproveTenantsCommand extends AclEnabledCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        if (!tenantIds.isEmpty()) {
+        if (tenantIds != null && !tenantIds.isEmpty()) {
             String hql = "update Tenant set approvedSince = :now where id in (:tenantIds)";
 
             evt.getSession().createQuery(hql).setDate("now",

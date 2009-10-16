@@ -18,6 +18,9 @@ package de.decidr.model.acl.roles;
 /**
  * Represents a person, system or principal that requests access to a particular
  * permission and is identified by a numeric id.
+ * <p>
+ * <strong>Every class implementing this interface must possess a parameterless
+ * constructor</strong>.
  * 
  * @author Markus Fischer
  * @author Daniel Huss

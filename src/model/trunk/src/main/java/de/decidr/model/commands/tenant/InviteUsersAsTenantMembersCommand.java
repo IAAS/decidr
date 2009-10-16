@@ -75,7 +75,7 @@ public class InviteUsersAsTenantMembersCommand extends TenantCommand {
             throws TransactionException {
 
         UserProfile profile;
-        Invitation invi;
+        Invitation newInvitation;
 
         Tenant tenant = (Tenant) evt.getSession().load(Tenant.class,
                 getTenantId());
@@ -97,13 +97,16 @@ public class InviteUsersAsTenantMembersCommand extends TenantCommand {
             } else {
 
                 // create invitation object
-                invi = new Invitation();
-                invi.setJoinTenant(tenant);
-                invi.setReceiver(profile.getUser());
-                invi.setSender(actor);
-                evt.getSession().save(invi);
+                newInvitation = new Invitation();
+                newInvitation.setJoinTenant(tenant);
+                newInvitation.setReceiver(profile.getUser());
+                newInvitation.setSender(actor);
+                newInvitation
+                        .setCreationDate(DecidrGlobals.getTime().getTime());
+                evt.getSession().save(newInvitation);
 
-                NotificationEvents.invitedRegisteredUserAsTenantMember(invi);
+                NotificationEvents
+                        .invitedRegisteredUserAsTenantMember(newInvitation);
             }
 
         }
@@ -118,14 +121,15 @@ public class InviteUsersAsTenantMembersCommand extends TenantCommand {
                     new CreateNewUnregisteredUserCommand(role, newUser));
 
             // create invitation
-            invi = new Invitation();
-            invi.setJoinTenant(tenant);
-            invi.setReceiver(newUser);
-            invi.setSender(actor);
-            invi.setCreationDate(DecidrGlobals.getTime().getTime());
-            evt.getSession().save(invi);
+            newInvitation = new Invitation();
+            newInvitation.setJoinTenant(tenant);
+            newInvitation.setReceiver(newUser);
+            newInvitation.setSender(actor);
+            newInvitation.setCreationDate(DecidrGlobals.getTime().getTime());
+            evt.getSession().save(newInvitation);
 
-            NotificationEvents.invitedUnregisteredUserAsTenantMember(invi);
+            NotificationEvents
+                    .invitedUnregisteredUserAsTenantMember(newInvitation);
         }
     }
 }

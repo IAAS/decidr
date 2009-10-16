@@ -15,7 +15,6 @@
  */
 package de.decidr.model.acl.permissions;
 
-import de.decidr.model.entities.File;
 
 /**
  * Represents the permission to delete a file.
@@ -34,7 +33,7 @@ public class FileDeletePermission extends FilePermission {
      *            ID of file to delete.
      */
     public FileDeletePermission(Long fileId) {
-        super(File.class.getName() + "delete", fileId);
+        super("Delete", fileId);
     }
 
 }

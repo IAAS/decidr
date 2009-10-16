@@ -423,11 +423,11 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
-        setRule(new BasicRole(null), new CommandPermission(
+        setRule(new BasicRole(), new CommandPermission(
                 GetCurrentColorSchemeCommand.class), SatisfyAll,
                 alwaysTrueAsserter);
 
-        setRule(new BasicRole(null), new CommandPermission(
+        setRule(new BasicRole(), new CommandPermission(
                 GetTenantLogoCommand.class), SatisfyAll, alwaysTrueAsserter);
 
         setRule(new WorkflowAdminRole(), new CommandPermission(
@@ -475,7 +475,7 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
-        setRule(new BasicRole(null), new CommandPermission(
+        setRule(new BasicRole(), new CommandPermission(
                 GetTenantIdCommand.class), SatisfyAll, alwaysTrueAsserter);
 
         /**
@@ -485,7 +485,7 @@ public class DefaultAccessControlList implements AccessControlList {
                 new CommandPermission(RegisterUserCommand.class), SatisfyAll,
                 alwaysTrueAsserter);
 
-        setRule(new BasicRole(null), new CommandPermission(
+        setRule(new BasicRole(), new CommandPermission(
                 GetUserByLoginCommand.class), SatisfyAll, alwaysTrueAsserter);
 
         setRule(new UserRole(),
@@ -547,12 +547,12 @@ public class DefaultAccessControlList implements AccessControlList {
                 GetUserWithProfileCommand.class), SatisfyAll,
                 new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
 
-        setRule(new BasicRole(null), new CommandPermission(
+        setRule(new BasicRole(), new CommandPermission(
                 GetHighestUserRoleCommand.class), SatisfyAll,
                 new IsRoleEqualToAccessedUserAsserter(),
                 new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
 
-        setRule(new BasicRole(null), new CommandPermission(
+        setRule(new BasicRole(), new CommandPermission(
                 GetUserRoleForTenantCommand.class), SatisfyAll,
                 new IsRoleEqualToAccessedUserAsserter(),
                 new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
@@ -581,10 +581,10 @@ public class DefaultAccessControlList implements AccessControlList {
                 GetInvitationCommand.class), SatisfyAll,
                 new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
 
-        setRule(new BasicRole(null), new CommandPermission(
+        setRule(new BasicRole(), new CommandPermission(
                 IsUserRegisteredCommand.class), SatisfyAll, alwaysTrueAsserter);
 
-        setRule(new BasicRole(null), new CommandPermission(
+        setRule(new BasicRole(), new CommandPermission(
                 SetUserProfileCommand.class), SatisfyAll,
                 new IsRoleEqualToAccessedUserAsserter(),
                 new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
@@ -718,35 +718,35 @@ public class DefaultAccessControlList implements AccessControlList {
         /**
          * Command permissions FileFacade
          */
-        setRule(new BasicRole(null),
+        setRule(new BasicRole(),
                 new CommandPermission(GetFileCommand.class), SatisfyAll,
                 alwaysTrueAsserter);
 
-        setRule(new BasicRole(null), new CommandPermission(
+        setRule(new BasicRole(), new CommandPermission(
                 GetFileDataCommand.class), SatisfyAll, alwaysTrueAsserter);
 
-        setRule(new BasicRole(null), new CommandPermission(
+        setRule(new BasicRole(), new CommandPermission(
                 DeleteFileCommand.class), SatisfyAll, alwaysTrueAsserter);
 
-        setRule(new BasicRole(null), new CommandPermission(
+        setRule(new BasicRole(), new CommandPermission(
                 ReplaceFileCommand.class), SatisfyAll, alwaysTrueAsserter);
 
-        setRule(new BasicRole(null), new CommandPermission(
+        setRule(new BasicRole(), new CommandPermission(
                 CreateFileCommand.class), SatisfyAll, alwaysTrueAsserter);
 
         /**
          * file permissions
          */
         // File Delete Permissions
-        setRule(new BasicRole(null), new FileDeletePermission(null),
+        setRule(new BasicRole(), new FileDeletePermission(null),
                 SatisfyAll, new UserHasAccessToFileAsserter());
 
         // File Read Permissions
-        setRule(new BasicRole(null), new FileReadPermission(null), SatisfyAll,
+        setRule(new BasicRole(), new FileReadPermission(null), SatisfyAll,
                 new UserHasAccessToFileAsserter());
 
         // File Replace Permissions
-        setRule(new BasicRole(null), new FileReplacePermission(null),
+        setRule(new BasicRole(), new FileReplacePermission(null),
                 SatisfyAll, new UserHasAccessToFileAsserter());
     }
 

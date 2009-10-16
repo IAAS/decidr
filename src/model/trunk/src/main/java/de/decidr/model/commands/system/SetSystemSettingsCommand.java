@@ -27,7 +27,8 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Sets the system settings.
+ * Sets the system settings. The "modified date" is set to the current time,
+ * ignoring the modifiedDate property of the given SystemSettings object.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -40,6 +41,8 @@ public class SetSystemSettingsCommand extends SystemCommand {
 
     /**
      * Creates a new SetSystemSettingsCommand that updates the system settings.
+     * The "modified date" is set to the current time, ignoring the modifiedDate
+     * property of the given SystemSettings object.
      * 
      * @param actor
      *            the user/system which executes the command

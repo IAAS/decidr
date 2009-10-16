@@ -132,12 +132,23 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
      */
     @SuppressWarnings("unchecked")
     private List<User> getKnownUsers(Session session) {
+        /*
+         * Stupid workaround for Hibernate issue HHH-2045:
+         * 
+         * setParameterList() results in invalid HQL and an
+         * "unexpected end of subtree" exception if the list is empty.
+         */
+        List<String> nonExistentValue = new ArrayList<String>(1);
+        nonExistentValue.add("");
+
         String hql = "select u from User as u left join fetch u.userProfile "
                 + "where u.email in (:emails) or "
                 + "u.userProfile.username in (:usernames)";
 
-        Query q = session.createQuery(hql).setParameterList("emails", emails)
-                .setParameterList("usernames", usernames);
+        Query q = session.createQuery(hql).setParameterList("emails",
+                emails.isEmpty() ? nonExistentValue : emails)
+                .setParameterList("usernames",
+                        usernames.isEmpty() ? nonExistentValue : usernames);
 
         return q.list();
     }
@@ -155,8 +166,12 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
     private List<User> getWorkflowAdmins(List<User> knownUsers,
             WorkflowModel model, Session session) {
 
-        String hql = "from User as u "
-                + "inner join UserAdministratesWorkflow as rel "
+        if (knownUsers.isEmpty()) {
+            return new ArrayList<User>(0);
+        }
+
+        String hql = "from User u "
+                + "inner join u.userAdministratesWorkflowModels rel "
                 + "where (rel.workflowModel = :model) and "
                 + "( (rel.user = u) or (rel.workflowModel.tenant.admin = u) and "
                 + "u in (:knownUsers))";
@@ -200,9 +215,14 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
     @SuppressWarnings("unchecked")
     private List<User> getMembers(List<User> knownUsers, WorkflowModel model,
             Session session) {
-        String hql = "from User u " + "inner join UserIsMemberOfTenant as rel "
-                + "inner join WorkflowModel as w"
-                + "where (u in (:knownUsers)) and (rel.user = u) and "
+        if (knownUsers.isEmpty()) {
+            return new ArrayList<User>(0);
+        }
+
+        String hql = "select u from User u "
+                + "inner join u.userIsMemberOfTenants rel "
+                + "inner join rel.tenant t " + "inner join t.workflowModels w "
+                + "where (u in (:knownUsers)) and "
                 + "(rel.tenant = w.tenant) and " + "w.id = :modelId";
 
         Query q = session.createQuery(hql).setLong("modelId", model.getId())

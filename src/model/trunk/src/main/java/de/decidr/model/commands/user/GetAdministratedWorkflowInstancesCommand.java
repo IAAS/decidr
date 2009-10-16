@@ -57,11 +57,10 @@ public class GetAdministratedWorkflowInstancesCommand extends UserCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        String hql = "select rel.workflowInstance "
-                + "from UserAdministratesWorkflowInstance rel "
-                + "join fetch rel.workflowInstance wi "
-                + "join fetch rel.workflowInstance.deployedWorkflowModel "
-                + "where rel.user.id = :userId";
+        String hql = "select wi from WorkflowInstance wi "
+                + "join fetch wi.deployedWorkflowModel where "
+                + "exists( from UserAdministratesWorkflowInstance rel "
+                + "where rel.workflowInstance = wi and rel.user.id = :userId)";
 
         result = evt.getSession().createQuery(hql).setLong("userId",
                 getUserId()).list();

@@ -43,6 +43,13 @@ public class BasicRole implements Role {
         this.actorId = actorId;
     }
 
+    /**
+     * Creates a new BasicRole using <code>null</code> as actor ID.
+     */
+    public BasicRole() {
+        this(null);
+    }
+
     @Override
     public Long getActorId() {
         return this.actorId;

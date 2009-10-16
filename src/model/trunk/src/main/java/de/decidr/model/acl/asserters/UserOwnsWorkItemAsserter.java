@@ -47,7 +47,7 @@ public class UserOwnsWorkItemAsserter extends CommandAsserter {
 
     @Override
     public void transactionStarted(TransactionEvent evt) {
-        if (workItemIds == null) {
+        if (workItemIds == null || workItemIds.length == 0) {
             // no work items to check against
             isOwner = false;
         } else {

@@ -15,7 +15,6 @@
  */
 package de.decidr.model.acl.permissions;
 
-import de.decidr.model.entities.File;
 
 /**
  * Represents the permission to read a file.
@@ -34,7 +33,7 @@ public class FileReadPermission extends FilePermission {
      *            ID of file to read.
      */
     public FileReadPermission(Long fileId) {
-        super(File.class.getName() + "read", fileId);
+        super("Read", fileId);
     }
 
 }

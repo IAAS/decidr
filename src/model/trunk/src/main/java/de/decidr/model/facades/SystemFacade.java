@@ -144,10 +144,13 @@ public class SystemFacade extends AbstractFacade {
     }
 
     /**
-     * Sets the given system settings.
+     * Sets the given system settings. The "modified date" is set to the current
+     * time, ignoring the modifiedDate property of the given SystemSettings
+     * object.
      * 
      * @param newSettings
-     *            the full new system settings.
+     *            a transient entity containing the new system settings. The id
+     *            and modifiedDate properties of this entity will be ignored.
      * @throws TransactionException
      *             if an error occurs during the transaction
      */
@@ -157,7 +160,6 @@ public class SystemFacade extends AbstractFacade {
         SetSystemSettingsCommand command = new SetSystemSettingsCommand(actor,
                 newSettings);
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
     }
 
     /**

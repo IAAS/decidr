@@ -48,7 +48,7 @@ public class UserIsWorkflowParticipantAsserter extends CommandAsserter {
     public void transactionStarted(TransactionEvent evt) {
         // Tenant administrators do NOT implicitly participate in all workflow
         // instances!
-        if (workflowInstanceIds == null) {
+        if (workflowInstanceIds == null || workflowInstanceIds.length == 0) {
             isWorkflowParticipant = false;
         } else {
             // we can assert participation in all workflow instances with a

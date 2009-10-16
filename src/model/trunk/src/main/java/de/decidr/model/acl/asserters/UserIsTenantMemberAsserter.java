@@ -52,7 +52,7 @@ public class UserIsTenantMemberAsserter extends CommandAsserter {
                 + "(select count(*) from Tenant t where "
                 + "t.admin.id = :userId and t.id = :tenantId)";
 
-        // DH you're forgetting to set :tenantId ~rr
+        // The "tenantId" parameter is set in the for loop below
         Query q = evt.getSession().createQuery(hql).setLong("userId", userId);
 
         if (tenantIds == null) {

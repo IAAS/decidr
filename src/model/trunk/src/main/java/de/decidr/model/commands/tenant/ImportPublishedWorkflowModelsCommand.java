@@ -15,6 +15,7 @@
  */
 package de.decidr.model.commands.tenant;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,11 +52,20 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand
      *            the ID of the tenant into which the models should be imported
      * @param workflowModelIds
      *            the IDs of the models which should be imported
+     * @throws IllegalArgumentException
+     *             if workflowModelIds is null
      */
     public ImportPublishedWorkflowModelsCommand(Role role, Long tenantId,
             List<Long> workflowModelIds) {
         super(role, tenantId);
-        this.modelIdList = workflowModelIds;
+
+        if (workflowModelIds == null) {
+            throw new IllegalArgumentException(
+                    "List of workflow model IDs must not be null.");
+        }
+
+        this.modelIdList = new ArrayList<Long>();
+        this.modelIdList.addAll(workflowModelIds);
     }
 
     @SuppressWarnings("unchecked")
@@ -65,31 +75,35 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand
 
         Date now = DecidrGlobals.getTime().getTime();
 
-        Tenant t = fetchTenant(evt.getSession());
+        if (!modelIdList.isEmpty()) {
+            Tenant t = fetchTenant(evt.getSession());
 
-        modelList = evt.getSession().createQuery(
-                "from WorkflowModel m where m.id in (:modelIds)")
-                .setParameterList("modelIds", modelIdList).list();
+            modelList = evt
+                    .getSession()
+                    .createQuery(
+                            "from WorkflowModel m where m.id in (:modelIds) and m.tenant.id != :tenantId")
+                    .setParameterList("modelIds", modelIdList).setLong(
+                            "tenantId", t.getId()).list();
 
-        for (WorkflowModel model : modelList) {
-            // DH what if the published wfm belongs to the tenant t?
-            if (model.isPublished()) {
-                // create a copy of the model that belongs to tenant "t"
-                WorkflowModel newModel = new WorkflowModel();
-                newModel.setPublished(false);
-                newModel.setTenant(t);
-                newModel.setDwdl(model.getDwdl());
-                newModel.setDescription(model.getDescription());
-                newModel.setName(model.getName());
-                newModel.setModifiedByUser(t.getAdmin());
-                newModel.setModifiedDate(now);
-                newModel.setCreationDate(now);
-                newModel.setVersion(0);
-                newModel.setExecutable(false);
-                evt.getSession().save(newModel);
-            } else {
-                throw new TransactionException(
-                        "Given workflowModel is not published.");
+            for (WorkflowModel model : modelList) {
+                if (model.isPublished()) {
+                    // create a copy of the model that belongs to tenant "t"
+                    WorkflowModel newModel = new WorkflowModel();
+                    newModel.setPublished(false);
+                    newModel.setTenant(t);
+                    newModel.setDwdl(model.getDwdl());
+                    newModel.setDescription(model.getDescription());
+                    newModel.setName(model.getName());
+                    newModel.setModifiedByUser(t.getAdmin());
+                    newModel.setModifiedDate(now);
+                    newModel.setCreationDate(now);
+                    newModel.setVersion(0);
+                    newModel.setExecutable(false);
+                    evt.getSession().save(newModel);
+                } else {
+                    throw new TransactionException(
+                            "Given workflowModel is not published.");
+                }
             }
         }
     }
@@ -97,6 +111,6 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand
     @Override
     public Long[] getWorkflowModelIds() {
         Long[] res = new Long[0];
-        return modelList.toArray(res);
+        return modelIdList.toArray(res);
     }
 }

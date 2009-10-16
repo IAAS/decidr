@@ -72,7 +72,7 @@ public class GetTenantsToApproveCommand extends AclEnabledCommand {
 
         PaginatingCriteria c = new PaginatingCriteria(
                 TenantWithAdminView.class, evt.getSession());
-        c.add(Restrictions.isNotNull("approvedSince"));
+        c.add(Restrictions.isNull("approvedSince"));
 
         Filters.apply(c, filters, paginator);
 

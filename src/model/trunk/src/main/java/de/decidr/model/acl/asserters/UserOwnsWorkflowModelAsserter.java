@@ -47,7 +47,7 @@ public class UserOwnsWorkflowModelAsserter extends CommandAsserter {
 
     @Override
     public void transactionStarted(TransactionEvent evt) {
-        if (workflowModelIds == null) {
+        if (workflowModelIds == null || workflowModelIds.length == 0) {
             // no work items to check against
             isOwner = false;
         } else {

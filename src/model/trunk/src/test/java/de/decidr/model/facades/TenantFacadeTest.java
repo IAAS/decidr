@@ -47,6 +47,7 @@ import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Paginator;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
@@ -153,7 +154,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.addTenantMember(invalidTenantID, testAdminID);
             fail("managed to add a tenant member using invalid tenant ID");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
 
@@ -254,7 +255,6 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         adminFacade.approveTenants(tenantIDs);
         adminFacade.approveTenants(tenantIDs);
         adminFacade.approveTenants(new ArrayList<Long>(1));
-
         assertTrue(adminFacade.getTenantsToApprove(null, null).isEmpty());
     }
 
@@ -549,7 +549,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.setLogo(null, logoID);
             fail("managed to set tenant logo using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
         try {
@@ -799,7 +799,6 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         new WorkflowModelFacade(new SuperAdminRole(DecidrGlobals.getSettings()
                 .getSuperAdmin().getId())).publishWorkflowModels(myWFM);
         adminFacade.importPublishedWorkflowModels(testTenantID, myWFM);
-        // RR check if this and the following are correct
         assertEquals(1, adminFacade.getWorkflowModels(testTenantID, null, null)
                 .size());
 

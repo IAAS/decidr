@@ -15,6 +15,7 @@
  */
 package de.decidr.model.acl.permissions;
 
+import de.decidr.model.entities.File;
 
 /**
  * Represents the permission to read from or write to a file.
@@ -34,7 +35,10 @@ public abstract class FilePermission extends EntityPermission {
      *            the ID of the accessed file.
      */
     public FilePermission(String prefix, Long fileId) {
-        super(prefix, fileId);
+        super(
+                File.class.getName()
+                        + ((prefix != null && !prefix.isEmpty()) ? ("." + prefix)
+                                : ""), fileId);
     }
 
 }

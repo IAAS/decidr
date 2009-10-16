@@ -45,7 +45,7 @@ public class UserIsInvitationReceiverAsserter extends CommandAsserter {
     public void transactionStarted(TransactionEvent evt)
             throws TransactionException {
 
-        if (invitationIds == null) {
+        if (invitationIds == null || invitationIds.length ==0) {
             isReceiver = false;
         } else {
             String hql = "select count(*) from Invitation i where "
@@ -56,8 +56,6 @@ public class UserIsInvitationReceiverAsserter extends CommandAsserter {
                     userId).setParameterList("invitationIds", invitationIds);
 
             isReceiver = ((Number) q.uniqueResult()).intValue() == invitationIds.length;
-
         }
     }
-
 }

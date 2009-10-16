@@ -15,7 +15,6 @@
  */
 package de.decidr.model.acl.permissions;
 
-
 /**
  * Base class for permissions that refer to a database entity that has a unique
  * identifier.
@@ -35,14 +34,14 @@ public abstract class EntityPermission extends Permission {
     protected Long id;
 
     /**
-     * Creates a new permission named <prefix>.<id> if the given id is not null,
-     * <prefix>.* otherwise.
+     * Creates a new permission named prefix.id if the given id is not null,
+     * prefix.* otherwise.
      * 
      * @param prefix
      * @param id
      */
     public EntityPermission(String prefix, Long id) {
-        super(prefix + (id == null ? "*" : id.toString()));
+        super(prefix + "." + (id == null ? "*" : id.toString()));
         this.id = id;
     }
 

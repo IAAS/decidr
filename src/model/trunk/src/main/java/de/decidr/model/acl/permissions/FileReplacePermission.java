@@ -15,7 +15,6 @@
  */
 package de.decidr.model.acl.permissions;
 
-import de.decidr.model.entities.File;
 
 /**
  * Represents the permission to replace a file.
@@ -35,7 +34,7 @@ public class FileReplacePermission extends FilePermission {
      *            ID of file to replace.
      */
     public FileReplacePermission(Long fileId) {
-        super(File.class.getName() + "replace", fileId);
+        super("Replace", fileId);
     }
 
 }

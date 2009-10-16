@@ -16,7 +16,11 @@
 
 package de.decidr.model.facades;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -257,7 +261,7 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 "systemEmailAddress").getValue());
         assertEquals("Darth Vader", getterSettings
                 .getItemProperty("systemName").getValue());
-        //I don't understand what is being asserted here ~dh
+        // I don't understand what is being asserted here ~dh
         assertEquals(modDate.getTimeInMillis() - 1000000,
                 ((Date) getterSettings.getItemProperty("modifiedDate")
                         .getValue()).getTime());
