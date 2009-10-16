@@ -144,7 +144,8 @@
 		type="tns:tRoleUser" />
 	<xsd:complexType name="tAbstractUserList">
 		<xsd:sequence>
-			<xsd:element ref="tns:user" maxOccurs="unbounded" />
+<!--			<xsd:element ref="tns:user" maxOccurs="unbounded" /-->
+			<xsd:element name="user" type="tns:tAbstractUser" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
 

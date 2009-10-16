@@ -48,7 +48,7 @@ import de.decidr.model.logging.DefaultLogger;
  * <p>
  * <h1>Usage:</h1>
  * <p>
- * Roles and permissions are hierarchicallly ordered. The role hierarchy is
+ * Roles and permissions are hierarchically ordered. The role hierarchy is
  * equivalent to the class hierarchy of all classes that implement the
  * {@link Role} interface:
  * 
