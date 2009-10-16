@@ -18,22 +18,31 @@ package de.decidr.model.workflowmodel.instancemanagement;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Iterator;
 
+import javax.management.AttributeNotFoundException;
 import javax.wsdl.Definition;
 import javax.wsdl.Message;
 import javax.wsdl.Operation;
 import javax.wsdl.Part;
 import javax.wsdl.PortType;
 import javax.wsdl.Types;
+import javax.wsdl.extensions.AttributeExtensible;
+import javax.wsdl.extensions.ExtensibilityElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
+import javax.xml.soap.Name;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
+
+import org.jdom.Element;
+
+import antlr.collections.List;
 
 import com.sun.mail.imap.protocol.ENVELOPE;
 
@@ -75,65 +84,60 @@ public class SOAPGenerator {
         MessageFactory messageFactory = MessageFactory.newInstance();
         MimeHeaders headers = new MimeHeaders();
         headers.addHeader(contentType, contentValue);
+
         SOAPMessage soapMessage = messageFactory.createMessage(headers,
                 new ByteArrayInputStream(template));
-        SOAPPart soapPart = soapMessage.getSOAPPart();
-        SOAPEnvelope soapEnvelope = soapPart.getEnvelope();
 
+        
         TConfiguration startConfiguration = TransformUtil
                 .bytes2Configuration(startConfig);
-        javax.xml.soap.SOAPBody messageBody = soapEnvelope.getBody();
 
-        PortType portType = wsdl.getPortType(new QName(wsdl
-                .getTargetNamespace(), portName));
-        Operation operation = portType.getOperation(null, operationName, null);
-        Message message = operation.getInput().getMessage();
-        Part part = (Part) message.getParts().values().toArray()[0];
-        if (part.getElementName() != null) {
-            QName qName = part.getElementName();
-        } else {
-            QName qName = part.getTypeName();
-        }
-
+        
         if (startConfiguration.getRoles() != null) {
             if (!startConfiguration.getRoles().getRole().isEmpty()) {
+                SOAPElement roleElement = null;
                 for (TRole role : startConfiguration.getRoles().getRole()) {
-                    SOAPElement bodyElement = messageBody
-                            .addChildElement(soapEnvelope.createName("role",
-                                    "ns", wsdl.getTargetNamespace()));
-                    bodyElement.addAttribute(bodyElement.createQName("name",
-                            "ns"), role.getName());
+                        Iterator<?> iterator = soapMessage.getSOAPBody().getChildElements();
+                        while(iterator.hasNext()){
+                            SOAPElement element = (SOAPElement) iterator.next();
+                            if(soapMessage.getSOAPHeader().getAttribute("info").equals(element.getNodeName())){
+                                roleElement = addRole(element, role);
+                            }
+                        }
                     if (!startConfiguration.getRoles().getActor().isEmpty()) {
                         for (TActor actor : role.getActor()) {
-                            bodyElement.addChildElement(soapEnvelope
-                                    .createQName("actor", "ns"));
+                            addActor(roleElement, actor);
                         }
                     }
                 }
             }
-            if (!startConfiguration.getRoles().getActor().isEmpty()) {
-                for (TActor actor : startConfiguration.getRoles().getActor()) {
-                    SOAPElement bodyElemente = messageBody
-                            .addChildElement(soapEnvelope.createName("actor",
-                                    "ns", wsdl.getTargetNamespace()));
+        }
+        if (!startConfiguration.getRoles().getActor().isEmpty()) {
+            for (TActor actor : startConfiguration.getRoles().getActor()) {
+                
 
-                }
             }
         }
         if (!startConfiguration.getAssignment().isEmpty()) {
             for (TAssignment assignment : startConfiguration.getAssignment()) {
-                SOAPElement bodyElement = messageBody
-                        .addChildElement(soapEnvelope.createName(assignment
-                                .getKey(), "ns", wsdl.getTargetNamespace()));
-                String element = "";
-                for (String string : assignment.getValue()) {
-                    element = element + " " + string;
-                }
-                bodyElement.setValue(element);
+               
             }
         }
         // AT getSOAP aus soap template und start config soap message erstellen
         return soapMessage;
+    }
+    
+    private SOAPElement addRole(SOAPElement soapElement, TRole role) throws SOAPException{
+        SOAPElement element = soapElement.addChildElement("role");
+        element.addAttribute(new QName("name"), role.getName());       
+        return element;
+    }
+    
+    private void addActor(SOAPElement soapElement, TActor actor) throws SOAPException{
+        SOAPElement element = soapElement.addChildElement("actor");
+        element.addAttribute(new QName("email"), actor.getEmail());
+        element.addAttribute(new QName("name"), actor.getName());
+        element.addAttribute(new QName("userId"), actor.getUserId());
     }
 
 }

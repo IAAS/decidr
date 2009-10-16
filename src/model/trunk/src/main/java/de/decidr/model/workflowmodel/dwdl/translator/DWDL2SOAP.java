@@ -16,10 +16,9 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.wsdl.Definition;
 import javax.wsdl.Message;
 import javax.wsdl.Operation;
@@ -28,8 +27,18 @@ import javax.wsdl.PortType;
 import javax.wsdl.extensions.ExtensibilityElement;
 import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPElement;
+import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.SOAPPart;
+import org.jdom.Element;
+import org.jdom.Namespace;
+import org.jdom.input.DOMBuilder;
+
+import com.ibm.wsdl.extensions.schema.SchemaImpl;
 
 /**
  * This class traverses a given WSDL and returns the resulting SOAP template,
@@ -40,15 +49,23 @@ import javax.xml.soap.SOAPMessage;
  */
 public class DWDL2SOAP {
 
+    private Definition definition = null;
+
+    private static Namespace ns = Namespace.getNamespace("xsd",
+            "http://www.w3.org/2001/XMLSchema");
+
     public SOAPMessage getSOAP(Definition wsdl, String portName,
             String operationName) throws UnsupportedOperationException,
             SOAPException {
-        MessageFactory messageFactory = MessageFactory.newInstance();
-        SOAPMessage soapMessage = messageFactory.createMessage();
+        definition = wsdl;
+        SOAPMessage soapMessage = null;
         PortType port = wsdl.getPortType(new QName(wsdl.getTargetNamespace(),
                 portName));
         Operation operation = port.getOperation(null, operationName, null);
         Message message = operation.getInput().getMessage();
+
+        List<Element> soapElements = new ArrayList<Element>();
+
         Iterator<?> partIter = message.getParts().values().iterator();
         while (partIter.hasNext()) {
             Part messagePart = (Part) partIter.next();
@@ -57,24 +74,136 @@ public class DWDL2SOAP {
             QName typeName = messagePart.getElementName();
             System.out.println("Element name" + elementName);
             if (elementName != null) {
-                ExtensibilityElement extElement = findExtensibilityElement(wsdl
-                        .getTypes().getExtensibilityElements(), "schema");
-                System.out.println(extElement);
-            } else if (typeName != null) {
+                Element element = findElement(elementName.getLocalPart());
+                Iterator<?> iter = element.getChildren().iterator();
 
+                while (iter.hasNext()) {
+                    Element child = (Element) iter.next();
+                    if (isComplexType(child)) {
+                        Iterator<?> iter1 = child.getChildren().iterator();
+                        while (iter1.hasNext()) {
+                            Element complexChild = (Element) iter1.next();
+                            if (isSequence(complexChild) || isAll(complexChild)) {
+                                Iterator<?> iter2 = complexChild.getChildren()
+                                        .iterator();
+                                while (iter2.hasNext()) {
+                                    Element sequenceChild = (Element) iter2
+                                            .next();
+                                    if (sequenceChild.getName().equals(
+                                            "element")) {
+                                        soapElements.add(sequenceChild);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                soapMessage = buildMessage(soapElements, element);
+                
+            } else if (typeName != null) {
+                
             }
         }
         return soapMessage;
     }
 
-    private ExtensibilityElement findExtensibilityElement(List<?> extElements,
-            String elementName) {
-        Iterator<?> extElementIter = extElements.iterator();
+    /**
+     * TODO: add comment
+     *
+     * @param complexChild
+     * @return
+     */
+    private boolean isAll(Element complexChild) {
+        return complexChild.getName().equals("all");
+    }
+
+    private SOAPMessage buildMessage(List<Element> soapElements, Element element) throws UnsupportedOperationException, SOAPException {
+        
+        MessageFactory messageFactory = MessageFactory.newInstance();
+        SOAPMessage message = messageFactory.createMessage();
+        
+        SOAPPart soapPart = message.getSOAPPart();
+        SOAPEnvelope envelope = soapPart.getEnvelope();
+        SOAPHeader header = envelope.getHeader();
+        SOAPBody body = envelope.getBody();
+        
+        header.addAttribute(envelope.createName("info"), element.getAttributeValue("name"));
+        
+        SOAPElement bodyElement = body.addChildElement(envelope.createName(element.getAttributeValue("name"), "decidr",
+                definition.getTargetNamespace()));
+
+        for (Element soapElement : soapElements){
+            if(!soapElement.getAttributeValue("name").equals("role")){
+                bodyElement.addChildElement(soapElement.getAttributeValue("name"), "decidr").addTextNode("?");
+            }
+        }
+        
+        message.saveChanges();
+        
+        return message;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param complexChild
+     * @return
+     */
+    private boolean isSequence(Element complexChild) {
+        return complexChild.getName().equals("sequence");
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param child
+     * @return
+     */
+    private boolean isComplexType(Element child) {
+        return child.getName().equals("complexType");
+    }
+
+    private Element findElement(String name) {
+        org.w3c.dom.Element schemaElement = getSchemaElement(definition);
+
+        DOMBuilder domBuilder = new DOMBuilder();
+        org.jdom.Element jdomSchemaElement = domBuilder.build(schemaElement);
+
+        Element messageElement = retrieveElement(name, jdomSchemaElement);
+        return messageElement;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param name
+     * @param jdomSchemaElement
+     * @return
+     */
+    private Element retrieveElement(String name, Element root) {
+        Iterator<?> iterator = root.getChildren("element", ns).iterator();
+        while (iterator.hasNext()) {
+            Element element = (Element) iterator.next();
+            if (element.getAttribute("name").getValue().equals(name)) {
+                return element;
+            }
+        }
+        throw new RuntimeException("Element nicht gefunden");
+    }
+
+    private org.w3c.dom.Element getSchemaElement(Definition definition) {
+        final String schema = "schema";
+        org.w3c.dom.Element schemaElement = null;
+        Iterator<?> extElementIter = definition.getTypes()
+                .getExtensibilityElements().iterator();
         while (extElementIter.hasNext()) {
             ExtensibilityElement extElement = (ExtensibilityElement) extElementIter
                     .next();
-            if (extElement.getElementType().getLocalPart().equals(elementName)) {
-                return extElement;
+            if (extElement.getElementType().getLocalPart().equals(schema)) {
+                if ((extElement != null) && (extElement instanceof SchemaImpl)) {
+                    schemaElement = ((SchemaImpl) extElement).getElement();
+                }
+                return schemaElement;
             }
         }
         return null;
