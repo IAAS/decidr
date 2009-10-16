@@ -8,7 +8,8 @@
 	name="Email" targetNamespace="http://decidr.de/webservices/Email">
 
 	<wsdl:types>
-		<xsd:schema targetNamespace="http://decidr.de/exceptions">
+		<xsd:schema elementFormDefault="qualified"
+			targetNamespace="http://decidr.de/exceptions">
 			<xsd:element name="incompleteConfigurationException"
 				type="xsd:string" />
 			<xsd:element name="storageException" type="xsd:string" />
@@ -18,7 +19,8 @@
 			<xsd:element name="malformedURLException" type="xsd:string" />
 		</xsd:schema>
 
-		<xsd:schema targetNamespace="http://decidr.de/webservices/Email">
+		<xsd:schema elementFormDefault="qualified"
+			targetNamespace="http://decidr.de/webservices/Email">
 			<!-- own type definitions -->
 			<xsd:import schemaLocation="DecidrWSTypes.xsd"
 				namespace="http://decidr.de/schema/DecidrWSTypes" />
@@ -100,7 +102,7 @@
 		<plnk:role name="EmailProvider" portType="tns:EmailPT" />
 	</plnk:partnerLinkType>
 
-	<wsdl:binding name="EmailSOAP" type="tns:EmailPT">
+	<wsdl:binding name="EmailSOAPBinding" type="tns:EmailPT">
 		<soap:binding style="document"
 			transport="http://schemas.xmlsoap.org/soap/http" />
 		<wsdl:operation name="sendEmail">
@@ -138,7 +140,7 @@
 			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>
-	<wsdl:binding name="EmailSOAP11" type="tns:EmailPT">
+	<wsdl:binding name="EmailSOAP11Binding" type="tns:EmailPT">
 		<soap11:binding style="document"
 			transport="http://schemas.xmlsoap.org/soap/http" />
 		<wsdl:operation name="sendEmail">
@@ -180,10 +182,10 @@
 
 	<!-- needs to be adapted for deployment -->
 	<wsdl:service name="Email">
-		<wsdl:port binding="tns:EmailSOAP" name="EmailSOAP">
+		<wsdl:port binding="tns:EmailSOAPBinding" name="EmailSOAP">
 			<soap:address location="http://127.0.0.2:8080/axis2/services/Email.EmailSOAP" />
 		</wsdl:port>
-		<wsdl:port binding="tns:EmailSOAP11" name="EmailSOAP11">
+		<wsdl:port binding="tns:EmailSOAP11Binding" name="EmailSOAP11">
 			<soap11:address
 				location="http://127.0.0.2:8080/axis2/services/Email.EmailSOAP11" />
 		</wsdl:port>
