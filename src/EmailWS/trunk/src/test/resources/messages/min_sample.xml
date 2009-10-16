@@ -4,23 +4,21 @@
    <soap:Body>
       <ema:sendEmail>
          <to>
-            <!--1 or more repetitions:-->
-            <dec:emailUser><dec:email>reini@localhost</dec:email></dec:emailUser>
+            <dec:emailUser>
+               <dec:email>root@localhost</dec:email>
+            </dec:emailUser>
          </to>
          <cc xsi:nil="true"/>
          <bcc xsi:nil="true"/>
-         <!--type: string-->
-         <fromName>gero et</fromName>
-         <!--type: string-->
+         <fromName>idiot</fromName>
          <fromAddress>root@localhost</fromAddress>
-         <!--type: string-->
-         <subject>quae divum incedo</subject>
+         <subject>asd</subject>
          <headers xsi:nil="true"/>
-         <!--type: string-->
-         <bodyTXT>circum claustra</bodyTXT>
-         <!--type: string-->
+         <bodyTXT>ddddddddassdf</bodyTXT>
          <bodyHTML xsi:nil="true"/>
-         <attachments xsi:nil="true"/>
+         <attachments>
+            <dec1:id>10</dec1:id>
+         </attachments>
       </ema:sendEmail>
    </soap:Body>
 </soap:Envelope>

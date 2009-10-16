@@ -145,11 +145,11 @@
 	<xsd:complexType name="tAbstractUserList">
 		<xsd:sequence>
 			<xsd:element name="actorUser" type="tns:tActorUser"
-				minOccurs="0" maxOccurs="unbounded" />
+				minOccurs="0" maxOccurs="unbounded" nillable="true" />
 			<xsd:element name="emailUser" type="tns:tEmailUser"
-				minOccurs="0" maxOccurs="unbounded" />
+				minOccurs="0" maxOccurs="unbounded" nillable="true" />
 			<xsd:element name="roleUser" type="tns:tRoleUser"
-				minOccurs="0" maxOccurs="unbounded" />
+				minOccurs="0" maxOccurs="unbounded" nillable="true" />
 		</xsd:sequence>
 	</xsd:complexType>
 

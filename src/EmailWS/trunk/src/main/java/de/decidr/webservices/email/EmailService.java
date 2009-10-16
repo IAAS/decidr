@@ -314,9 +314,9 @@ public class EmailService implements EmailInterface {
             throw new IllegalArgumentException("There must be either an "
                     + "HTML or a text body");
         }
-        if (to.getEmailUser() == null || to.getEmailUser().isEmpty()
-                || to.getActorUser() == null || to.getActorUser().isEmpty()
-                || to.getRoleUser() == null || to.getRoleUser().isEmpty()) {
+        if ((to.getEmailUser() == null || to.getEmailUser().isEmpty())
+                && (to.getActorUser() == null || to.getActorUser().isEmpty())
+                && (to.getRoleUser() == null || to.getRoleUser().isEmpty())) {
             log.error("No recipient specified!");
             throw new IllegalArgumentException("The to list was empty");
         }
