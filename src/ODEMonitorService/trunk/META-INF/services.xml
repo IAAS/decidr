@@ -8,7 +8,7 @@
 				class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
 		</messageReceivers>
 		<parameter name="ServiceClass">
-			de.decidr.odemonitor.service.ODEMonitorService
+			de.decidr.odemonitor.service.ODEMonitorServiceImpl
 		</parameter>
 		<parameter name="useOriginalwsdl">true</parameter>
 		<parameter name="modifyUserWSDLPortAddress">true</parameter>
