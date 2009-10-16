@@ -18,11 +18,8 @@ package de.decidr.model.commands.tenant;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
 
@@ -73,11 +70,6 @@ public class GetUsersOfTenantCommand extends TenantCommand {
         PaginatingCriteria c = new PaginatingCriteria(User.class, evt
                 .getSession());
 
-        ProjectionList plist = Projections.projectionList();
-        plist.add(Projections.property("username"));
-        plist.add(Projections.property("firstName"));
-        plist.add(Projections.property("lastName"));
-
         // Create criterion "user is a member of the tenant"
         DetachedCriteria isMemberCriteria = DetachedCriteria
                 .forClass(UserIsMemberOfTenant.class);
@@ -94,9 +86,7 @@ public class GetUsersOfTenantCommand extends TenantCommand {
         c.add(Restrictions.or(isMemberRestriction, isAdminRestriction));
 
         // preload user profiles - no lazy loading desired
-        // DH fix that
-        c.createAlias("userProfile", "jerkov", Criteria.LEFT_JOIN)
-                .setProjection(plist);
+        c.createCriteria("userProfile", Criteria.LEFT_JOIN);
 
         if (paginator != null) {
             paginator.apply(c);

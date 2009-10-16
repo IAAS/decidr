@@ -134,13 +134,13 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.addTenantMember(null, testAdminID);
             fail("managed to add a tenant member using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {
             adminFacade.addTenantMember(testTenantID, null);
             fail("managed to add a tenant member using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {
@@ -235,7 +235,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.approveTenants(null);
             fail("managed to approve tenants without specifying them");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {

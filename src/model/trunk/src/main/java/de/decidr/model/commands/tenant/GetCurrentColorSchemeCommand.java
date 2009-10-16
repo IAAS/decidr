@@ -15,33 +15,32 @@
  */
 package de.decidr.model.commands.tenant;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.InvalidPropertiesFormatException;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.entities.File;
 import de.decidr.model.entities.Tenant;
-import de.decidr.model.exceptions.IncompleteConfigurationException;
-import de.decidr.model.exceptions.StorageException;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.storage.StorageProvider;
 import de.decidr.model.storage.StorageProviderFactory;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Returns the current color scheme as input stream.
+ * Returns the current color scheme as input stream using the default storage
+ * provider to fetch the file.
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  * 
  * @version 0.1
  */
 public class GetCurrentColorSchemeCommand extends TenantCommand {
 
-    private Long tenantId;
-    private InputStream schemeStream;
+    private InputStream currentColorScheme;
 
     /**
      * Creates a new GetCurrentColorSchemeCommand. This command load the current
-     * color scheme from the storage and saves it in result variable.
+     * color scheme using the default storage provider.
      * 
      * @param role
      *            the user which executes the command
@@ -49,44 +48,38 @@ public class GetCurrentColorSchemeCommand extends TenantCommand {
      *            the ID of the tenant whose color scheme should be returned
      */
     public GetCurrentColorSchemeCommand(Role role, Long tenantId) {
-        super(role, null);
-        this.tenantId = tenantId;
+        super(role, tenantId);
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        Tenant tenant = (Tenant) evt.getSession().load(Tenant.class, tenantId);
-        // DH this might be null if it hasn't previously been set; should return
-        // default color scheme/null in that case ~rr
-        Long schemeId = tenant.getCurrentColorScheme().getId();
-        StorageProviderFactory factory;
+        Tenant tenant = fetchTenant(evt.getSession());
+        File current = tenant.getCurrentColorScheme();
 
         try {
-            factory = StorageProviderFactory.getDefaultFactory();
-        } catch (InvalidPropertiesFormatException e) {
-            throw new TransactionException(e);
-        } catch (IncompleteConfigurationException e) {
-            throw new TransactionException(e);
-        } catch (IOException e) {
-            throw new TransactionException(e);
-        }
-
-        try {
-            schemeStream = factory.getStorageProvider().getFile(schemeId);
-        } catch (StorageException e) {
-            throw new TransactionException(e);
-        } catch (IncompleteConfigurationException e) {
-            throw new TransactionException(e);
-        } catch (InstantiationException e) {
-            throw new TransactionException(e);
-        } catch (IllegalAccessException e) {
-            throw new TransactionException(e);
+            if (current == null) {
+                currentColorScheme = null;
+            } else {
+                StorageProvider storage = StorageProviderFactory
+                        .getDefaultFactory().getStorageProvider();
+                currentColorScheme = storage.getFile(current.getId());
+            }
+        } catch (Exception e) {
+            if (e instanceof TransactionException) {
+                throw (TransactionException) e;
+            } else {
+                throw new TransactionException(e);
+            }
         }
     }
 
-    public InputStream getSchemeStream() {
-        return schemeStream;
+    /**
+     * @return The current color scheme. You must close this stream once you're
+     *         done reading from it.
+     */
+    public InputStream getCurrentColorScheme() {
+        return currentColorScheme;
     }
 }

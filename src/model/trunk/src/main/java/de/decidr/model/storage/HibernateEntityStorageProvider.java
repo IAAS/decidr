@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
+import org.hibernate.EntityMode;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionException;
 
@@ -75,9 +77,15 @@ public class HibernateEntityStorageProvider implements StorageProvider {
     public static final String CONFIG_KEY_ID_PROPERTY_NAME = "idPropertyName";
     /**
      * The config property that specifies whether the entire hibernate entity
-     * should be deleted when calling the deleteFile() method.
+     * should be deleted when calling the deleteFile() method. Defaults to
+     * false.
      */
     public static final String CONFIG_KEY_DELETE_ENTITY = "deleteEntity";
+    /**
+     * The config property that specifies whether the storage provider should
+     * attempt to create a new entity when "putting" a file. Defaults to false.
+     */
+    public static final String CONFIG_KEY_CREATE_ENTITY = "createEntity";
 
     private String entityTypeName = null;
     private String dataPropertyName = null;
@@ -87,6 +95,11 @@ public class HibernateEntityStorageProvider implements StorageProvider {
      * the data property is set to null when deleting a file.
      */
     private Boolean deleteEntity = false;
+    /**
+     * Whether this storage provider should attempt to create a new entity using
+     * the default parameterless constructor when "putting" files.
+     */
+    private Boolean createEntity = false;
 
     /**
      * @return the current opened HibernateSession .
@@ -122,13 +135,13 @@ public class HibernateEntityStorageProvider implements StorageProvider {
 
     /**
      * Throws an {@link IllegalArgumentException} if the given file size is
-     * <code>null</code>.
+     * <code>null</code> or less than zero.
      * 
-     * @param fileId
+     * @param fileSize
      *            file size to check
      */
-    private void checkFileSize(Long fileId) {
-        if (fileId == null) {
+    private void checkFileSize(Long fileSize) {
+        if (fileSize == null || fileSize < 0) {
             throw new IllegalArgumentException("Invalid file size.");
         }
     }
@@ -147,6 +160,8 @@ public class HibernateEntityStorageProvider implements StorageProvider {
         idPropertyName = config.getProperty(CONFIG_KEY_ID_PROPERTY_NAME, null);
         deleteEntity = Boolean.valueOf(config.getProperty(
                 CONFIG_KEY_DELETE_ENTITY, "false"));
+        createEntity = Boolean.valueOf(config.getProperty(
+                CONFIG_KEY_CREATE_ENTITY, "false"));
 
         if (entityTypeName == null || "".equals(entityTypeName)) {
             throw new IncompleteConfigurationException(
@@ -165,6 +180,7 @@ public class HibernateEntityStorageProvider implements StorageProvider {
                     CONFIG_KEY_DATA_PROPERTY_NAME
                             + " is a required configuration option.");
         }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -217,6 +233,23 @@ public class HibernateEntityStorageProvider implements StorageProvider {
                         Boolean.toString(false)));
     }
 
+    /**
+     * Creates or replaces the file that is identified by the given id on the
+     * storage backend. Please note that if the "createEntity" property is set
+     * to false, the corresponding Hibernate entity must exist before invoking
+     * this method.
+     * 
+     * @param data
+     *            the contents of the file
+     * @param fileId
+     *            the file identifier
+     * @param fileSize
+     *            the size of the file
+     * @throws StorageException
+     *             if a problem occurs while storing
+     * @throws IllegalArgumentException
+     *             if any of the parameters are <code>null</code>
+     */
     @Override
     public void putFile(InputStream data, Long fileId, Long fileSize)
             throws StorageException {
@@ -230,30 +263,49 @@ public class HibernateEntityStorageProvider implements StorageProvider {
             // reading the entire file into a byte array may not be the most
             // elegant solution, but for small files
             // this should work well.
-
             if (fileSize > Integer.MAX_VALUE) {
                 throw new StorageException("File is too large.");
             }
 
             byte[] bytes = new byte[fileSize.intValue()];
-            data.read(bytes);
+            data.read(bytes, 0, fileSize.intValue());
 
             Session session = getCurrentSession();
+
+            if (createEntity) {
+                // Does a file entity already exist?
+                Number existing = (Number) session.createQuery(
+                        "select count(*) from " + entityTypeName
+                                + " f where f." + idPropertyName + " = "
+                                + fileId.toString()).uniqueResult();
+                if (existing.intValue() < 1) {
+                    Object newEntity = session.getSessionFactory()
+                            .getClassMetadata(entityTypeName).instantiate(
+                                    fileId, EntityMode.POJO);
+                    session.save(newEntity);
+                }
+            }
+
+            // at this point we may assume that the entity identified by fileId
+            // exists.
             int updatedRows = session.createQuery(
                     "update " + entityTypeName + " f set f." + dataPropertyName
                             + "=:bytes where f." + idPropertyName + "="
                             + fileId.toString()).setBinary("bytes", bytes)
                     .executeUpdate();
 
-            // a correpsonding table row should have already been created,
-            // otherwise the caller wouldn't know the fileId.
             if (updatedRows == 0) {
+                // The user has set createEntity to false, but forgot to create
+                // an entity himself.
                 String message = String
                         .format(
-                                "Cannot put file since there is no existing table row for ID %1$s",
-                                fileId);
+                                "Cannot put file since there is no existing entity for ID %1$s.\n"
+                                        + "Please create a corresponding %2$s entity first.",
+                                fileId, entityTypeName);
                 throw new StorageException(message);
             }
+        } catch (HibernateException e) {
+            throw new StorageException(e);
         } catch (IOException e) {
             throw new StorageException(e);
         }

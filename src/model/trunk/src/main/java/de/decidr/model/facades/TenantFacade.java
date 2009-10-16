@@ -26,6 +26,7 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 
 import de.decidr.model.VaadinTools;
+import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.TenantAdminRole;
@@ -205,14 +206,14 @@ public class TenantFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the current color scheme as <code>{@link InputStream}</code>.
+     * Returns the current color scheme as an <code>{@link InputStream}</code>.
      * 
      * @param tenantId
      *            the ID of the tenant for which the color scheme is requested
-     * @return tenant logo TODO document
+     * @return The image data of the current tenant logo. You must close this
+     *         stream once you're done reading from it.
      */
-    // DH WTF ist das für 'ne rolle? ~rr
-    @AllowedRole(Role.class)
+    @AllowedRole(BasicRole.class)
     public InputStream getCurrentColorScheme(Long tenantId)
             throws TransactionException {
 
@@ -221,8 +222,7 @@ public class TenantFacade extends AbstractFacade {
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
-        return command.getSchemeStream();
-
+        return command.getCurrentColorScheme();
     }
 
     /**
@@ -232,10 +232,16 @@ public class TenantFacade extends AbstractFacade {
      *            the ID of the tenant to which the user should be added
      * @param memberId
      *            the ID of the user
+     * @throws IllegalArgumentException
+     *             if one of the parameters is <code>null</code>
      */
     @AllowedRole(TenantAdminRole.class)
     public void addTenantMember(Long tenantId, Long memberId)
             throws TransactionException {
+
+        if (tenantId == null || memberId == null) {
+            throw new IllegalArgumentException("Parameters must not be null.");
+        }
 
         AddTenantMemberCommand command = new AddTenantMemberCommand(actor,
                 tenantId, memberId);
@@ -288,14 +294,23 @@ public class TenantFacade extends AbstractFacade {
 
     /**
      * Approves the given tenants. Not existing and already approved/rejected
-     * tenants will we ignored. XXX what about an empty list
+     * tenants will we ignored. If the list is empty, the command will succeed
+     * without making any changes.
      * 
      * @param tenantIds
      *            a list of tenant IDs which should be approved
+     * @throws IllegalArgumentException
+     *             if tenantIds is null.
      */
     @AllowedRole(SuperAdminRole.class)
     public void approveTenants(List<Long> tenantIds)
             throws TransactionException {
+
+        if (tenantIds == null) {
+            throw new IllegalArgumentException(
+                    "List of tenant IDs must not be null");
+        }
+
         ApproveTenantsCommand command = new ApproveTenantsCommand(actor,
                 tenantIds);
 
@@ -554,7 +569,8 @@ public class TenantFacade extends AbstractFacade {
      * <li>creationDate: Date - date when the workflow model was created</li>
      * <li>published: Boolean - whether this workflow model is available for
      * import by other tenants.</li>
-     * </ul> XXX what about ID?
+     * </ul>
+     * XXX what about ID?
      * 
      * @param tenantId
      *            ID of the tenant whose workflow models should be requested

@@ -105,7 +105,8 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
         putResults(unknownUsers, UserWorkflowAdminState.IsUnknownUser);
         putResults(nonMembers, UserWorkflowAdminState.NeedsTenantMembership);
         putResults(members, UserWorkflowAdminState.IsTenantMember);
-        putResults(workflowAdmins, UserWorkflowAdminState.IsAlreadyWorkflowAdmin);
+        putResults(workflowAdmins,
+                UserWorkflowAdminState.IsAlreadyWorkflowAdmin);
     }
 
     /**
@@ -131,10 +132,9 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
      */
     @SuppressWarnings("unchecked")
     private List<User> getKnownUsers(Session session) {
-        String hql = "select distinct u.id, u.email "
-                + "from User as u left join fetch u.userProfile "
-                + "where (u.email in (:emails)) or "
-                + "(u.userProfile.username in (:usernames))";
+        String hql = "select u from User as u left join fetch u.userProfile "
+                + "where u.email in (:emails) or "
+                + "u.userProfile.username in (:usernames)";
 
         Query q = session.createQuery(hql).setParameterList("emails", emails)
                 .setParameterList("usernames", usernames);
@@ -155,7 +155,7 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
     private List<User> getWorkflowAdmins(List<User> knownUsers,
             WorkflowModel model, Session session) {
 
-        String hql = "selelct u.id from User as u "
+        String hql = "from User as u "
                 + "inner join UserAdministratesWorkflow as rel "
                 + "where (rel.workflowModel = :model) and "
                 + "( (rel.user = u) or (rel.workflowModel.tenant.admin = u) and "
@@ -200,8 +200,7 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
     @SuppressWarnings("unchecked")
     private List<User> getMembers(List<User> knownUsers, WorkflowModel model,
             Session session) {
-        String hql = "select u.id from User u "
-                + "inner join UserIsMemberOfTenant as rel "
+        String hql = "from User u " + "inner join UserIsMemberOfTenant as rel "
                 + "inner join WorkflowModel as w"
                 + "where (u in (:knownUsers)) and (rel.user = u) and "
                 + "(rel.tenant = w.tenant) and " + "w.id = :modelId";

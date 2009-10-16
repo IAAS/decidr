@@ -15,6 +15,7 @@
  */
 package de.decidr.model.commands.tenant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.criterion.Restrictions;
@@ -66,6 +67,8 @@ public class GetTenantsToApproveCommand extends AclEnabledCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+
+        result = new ArrayList<TenantWithAdminView>();
 
         PaginatingCriteria c = new PaginatingCriteria(
                 TenantWithAdminView.class, evt.getSession());

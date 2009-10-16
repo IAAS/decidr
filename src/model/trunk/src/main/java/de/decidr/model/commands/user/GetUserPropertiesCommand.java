@@ -25,6 +25,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.AliasToBeanResultTransformer;
 
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
@@ -54,7 +55,8 @@ public class GetUserPropertiesCommand extends AclEnabledCommand {
      * @param userIds
      *            the IDs of the users whose properties are requested
      * @param propertiesToGet
-     *            collection of names of the properties which should be requested
+     *            collection of names of the properties which should be
+     *            requested
      */
     public GetUserPropertiesCommand(Role actor, Collection<Long> userIds,
             Collection<String> propertiesToGet) {
@@ -107,6 +109,13 @@ public class GetUserPropertiesCommand extends AclEnabledCommand {
 
         crit.setProjection(projectionList);
         crit.add(Restrictions.in("in", userIds));
+        /*
+         * The AliasToBeanResultTransformer will turn the array of object
+         * returned by list() into instances of the User class. Only the the
+         * properties in projectionList will be loaded, all other properties
+         * will be null.
+         */
+        crit.setResultTransformer(new AliasToBeanResultTransformer(User.class));
 
         users = crit.list();
     }

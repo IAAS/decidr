@@ -19,8 +19,6 @@ package de.decidr.model.commands.workflowmodel;
 import java.util.List;
 
 import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
 
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
@@ -62,21 +60,16 @@ public class GetPublishedWorkflowModelsCommand extends AclEnabledCommand {
         PaginatingCriteria crit = new PaginatingCriteria(WorkflowModel.class,
                 evt.getSession());
 
+        /*
+         * We only want published workflow models. 
+         */
         new EqualsFilter(true, "published", true).apply(crit);
 
         /*
-         * only certain tenat properties are desired.
-         */
-        ProjectionList propertyList = Projections.projectionList();
-        propertyList.add(Projections.property("name")).add(
-                Projections.property("id"));
-
-        /*
-         * make the "tenant" property available even after the session has been
+         * Make the "tenant" property available even after the session has been
          * closed.
          */
-        crit.createCriteria("tenant", "tenant", CriteriaSpecification.LEFT_JOIN)
-                .setProjection(propertyList);
+        crit.createCriteria("tenant", "tenant", CriteriaSpecification.LEFT_JOIN);
 
         Filters.apply(crit, filters, paginator);
 

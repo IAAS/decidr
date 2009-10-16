@@ -19,7 +19,8 @@ import de.decidr.model.exceptions.EntityNotFoundException;
  * @author Daniel Huss
  * @version 0.1
  */
-public abstract class WorkflowModelCommand extends AclEnabledCommand implements WorkflowModelAccess{
+public abstract class WorkflowModelCommand extends AclEnabledCommand implements
+        WorkflowModelAccess {
 
     protected Long workflowModelId = null;
 
@@ -32,7 +33,7 @@ public abstract class WorkflowModelCommand extends AclEnabledCommand implements 
      *            permission is automatically created.
      */
     public WorkflowModelCommand(Role role, Long workflowModelId) {
-        super(role, (Permission)null);
+        super(role, (Permission) null);
         this.workflowModelId = workflowModelId;
     }
 
@@ -42,12 +43,12 @@ public abstract class WorkflowModelCommand extends AclEnabledCommand implements 
     public Long getWorkflowModelId() {
         return workflowModelId;
     }
-    
+
     /**
      * @return the workflowModelIds
      */
     public Long[] getWorkflowModelIds() {
-        Long[] result = {workflowModelId};
+        Long[] result = { workflowModelId };
         return result;
     }
 
@@ -94,7 +95,7 @@ public abstract class WorkflowModelCommand extends AclEnabledCommand implements 
         crit.createCriteria("originalWorkflowModel", "owm").add(
                 Restrictions.eqProperty("owm.version", "dwm.version"));
 
-        crit.add(Restrictions.eq("originalModel", model));
+        crit.add(Restrictions.eq("originalWorkflowModel", model));
 
         return (DeployedWorkflowModel) crit.uniqueResult();
     }

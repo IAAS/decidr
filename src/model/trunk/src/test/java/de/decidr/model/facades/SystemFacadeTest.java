@@ -257,6 +257,7 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 "systemEmailAddress").getValue());
         assertEquals("Darth Vader", getterSettings
                 .getItemProperty("systemName").getValue());
+        //I don't understand what is being asserted here ~dh
         assertEquals(modDate.getTimeInMillis() - 1000000,
                 ((Date) getterSettings.getItemProperty("modifiedDate")
                         .getValue()).getTime());
