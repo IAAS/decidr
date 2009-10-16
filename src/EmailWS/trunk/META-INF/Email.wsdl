@@ -88,12 +88,31 @@
 			<wsdl:input message="tns:sendEmailRequest" wsaw:Action="urn:sendEmail" />
 			<wsdl:output message="tns:sendEmailResponse" wsaw:Action="urn:sendEmailResponse" />
 			<wsdl:fault name="incompleteConfigurationException"
-				message="tns:incompleteConfigurationException" />
-			<wsdl:fault name="storageException" message="tns:storageException" />
-			<wsdl:fault name="transactionException" message="tns:transactionException" />
-			<wsdl:fault name="ioException" message="tns:ioException" />
-			<wsdl:fault name="malformedURLException" message="tns:malformedURLException" />
-			<wsdl:fault name="messagingException" message="tns:messagingException" />
+				message="tns:incompleteConfigurationException">
+				<soap:fault name="incompleteConfigurationException" use="literal" />
+				<soap11:fault name="incompleteConfigurationException"
+					use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="storageException" message="tns:storageException">
+				<soap:fault name="storageException" use="literal" />
+				<soap11:fault name="storageException" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="transactionException" message="tns:transactionException">
+				<soap:fault name="transactionException" use="literal" />
+				<soap11:fault name="transactionException" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="ioException" message="tns:ioException">
+				<soap:fault name="ioException" use="literal" />
+				<soap11:fault name="ioException" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="malformedURLException" message="tns:malformedURLException">
+				<soap:fault name="malformedURLException" use="literal" />
+				<soap11:fault name="malformedURLException" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="messagingException" message="tns:messagingException">
+				<soap:fault name="messagingException" use="literal" />
+				<soap11:fault name="messagingException" use="literal" />
+			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:portType>
 	<plnk:partnerLinkType name="EmailPLT">
@@ -114,27 +133,21 @@
 			</wsdl:output>
 			<wsdl:fault name="incompleteConfigurationException">
 				<soap:body use="literal" />
-				<soap:fault name="incompleteConfigurationException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="storageException">
 				<soap:body use="literal" />
-				<soap:fault name="storageException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="transactionException">
 				<soap:body use="literal" />
-				<soap:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="ioException">
 				<soap:body use="literal" />
-				<soap:fault name="ioException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="malformedURLException">
 				<soap:body use="literal" />
-				<soap:fault name="malformedURLException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="messagingException">
 				<soap:body use="literal" />
-				<soap:fault name="messagingException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>
@@ -152,27 +165,21 @@
 			</wsdl:output>
 			<wsdl:fault name="incompleteConfigurationException">
 				<soap11:body use="literal" />
-				<soap11:fault name="incompleteConfigurationException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="storageException">
 				<soap11:body use="literal" />
-				<soap11:fault name="storageException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="transactionException">
 				<soap11:body use="literal" />
-				<soap11:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="ioException">
 				<soap11:body use="literal" />
-				<soap11:fault name="ioException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="malformedURLException">
 				<soap11:body use="literal" />
-				<soap11:fault name="malformedURLException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="messagingException">
 				<soap11:body use="literal" />
-				<soap11:fault name="messagingException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>
@@ -180,12 +187,11 @@
 	<!-- needs to be adapted for deployment -->
 	<wsdl:service name="Email">
 		<wsdl:port binding="tns:EmailSOAP" name="EmailSOAP">
-			<soap:address
-				location="http://127.0.0.2:8080/axis2/services/Email.EmailSOAP" />
+			<soap:address location="http://127.0.0.2:8080/axis2/services/Email.EmailSOAP/" />
 		</wsdl:port>
 		<wsdl:port binding="tns:EmailSOAP11" name="EmailSOAP11">
 			<soap11:address
-				location="http://127.0.0.2:8080/axis2/services/Email.EmailSOAP11" />
+				location="http://127.0.0.2:8080/axis2/services/Email.EmailSOAP11/" />
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>
