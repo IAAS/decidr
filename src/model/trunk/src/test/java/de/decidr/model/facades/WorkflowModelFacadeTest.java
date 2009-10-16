@@ -236,7 +236,7 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
 
         Object un = adminFacade.getWorkflowAdministrators(wfmId).get(0)
                 .getItemProperty("username");
-        assertEquals((String) un, username);
+        assertEquals(un, username);
     }
 
     /**
