@@ -14,9 +14,5 @@
  * under the License.
  */
 
-/**
- * This package contains types used for communication via SOAP. The types are annotated to allow transformation via JAXB.
- */
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://decidr.de/schema/DecidrTypes", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package de.decidr.model.soap.types;
-

@@ -13,6 +13,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package de.decidr.model.soap.types;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -42,6 +43,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tBooleanItem", propOrder = { "value" })
 public class BooleanItem extends Item {
+
     protected boolean value;
 
     /**

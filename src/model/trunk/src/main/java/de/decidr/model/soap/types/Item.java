@@ -13,6 +13,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package de.decidr.model.soap.types;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -30,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
  * this class.
  * 
  * <pre>
- * &lt;complexType name=&quot;tItem&quot; abstract=&quot;true&quot;&gt;
+ * &lt;complexType name=&quot;tItem&quot;&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;attribute name=&quot;name&quot; use=&quot;required&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot; /&gt;
@@ -41,8 +42,8 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tItem")
-@XmlSeeAlso( { DateItem.class, FloatItem.class, URIItem.class,
-        IntegerItem.class, StringItem.class, BooleanItem.class })
+@XmlSeeAlso( { URIItem.class, BooleanItem.class, StringItem.class,
+        FloatItem.class, DateItem.class, IntItem.class })
 public abstract class Item {
 
     @XmlAttribute(required = true)
@@ -52,7 +53,6 @@ public abstract class Item {
      * Gets the value of the name property.
      * 
      * @return possible object is {@link String }
-     * 
      */
     public String getName() {
         return name;
@@ -63,7 +63,6 @@ public abstract class Item {
      * 
      * @param value
      *            allowed object is {@link String }
-     * 
      */
     public void setName(String value) {
         this.name = value;

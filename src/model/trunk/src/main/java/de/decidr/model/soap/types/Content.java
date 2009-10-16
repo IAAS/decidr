@@ -18,75 +18,75 @@ package de.decidr.model.soap.types;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>
- * Java class for tStringMapping complex type.
+ * Java class for tContent complex type.
  * 
  * <p>
  * The following schema fragment specifies the expected content contained within
  * this class.
  * 
  * <pre>
- * &lt;complexType name=&quot;tStringMapping&quot;&gt;
+ * &lt;complexType name=&quot;tContent&quot;&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;name&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
- *         &lt;element name=&quot;value&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
+ *         &lt;any/&gt;
  *       &lt;/sequence&gt;
+ *       &lt;attribute name=&quot;contentType&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot; /&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tStringMapping", namespace = "http://decidr.de/schema/DecidrWSTypes", propOrder = {
-        "name", "value" })
-public class StringMapping {
+@XmlType(name = "tContent", namespace = "http://decidr.de/schema/DecidrProcessTypes", propOrder = { "any" })
+public class Content {
 
-    @XmlElement(required = true)
-    protected String name;
-    @XmlElement(required = true)
-    protected String value;
+    @XmlAnyElement(lax = true)
+    protected Object any;
+    @XmlAttribute
+    protected String contentType;
 
     /**
-     * Gets the value of the name property.
+     * Gets the value of the any property.
      * 
-     * @return possible object is {@link String }
+     * @return possible object is {@link Object }
      */
-    public String getName() {
-        return name;
+    public Object getAny() {
+        return any;
     }
 
     /**
-     * Sets the value of the name property.
+     * Sets the value of the any property.
+     * 
+     * @param value
+     *            allowed object is {@link Object }
+     */
+    public void setAny(Object value) {
+        this.any = value;
+    }
+
+    /**
+     * Gets the value of the contentType property.
+     * 
+     * @return possible object is {@link String }
+     */
+    public String getContentType() {
+        return contentType;
+    }
+
+    /**
+     * Sets the value of the contentType property.
      * 
      * @param value
      *            allowed object is {@link String }
      */
-    public void setName(String value) {
-        this.name = value;
-    }
-
-    /**
-     * Gets the value of the value property.
-     * 
-     * @return possible object is {@link String }
-     */
-    public String getValue() {
-        return value;
-    }
-
-    /**
-     * Sets the value of the value property.
-     * 
-     * @param value
-     *            allowed object is {@link String }
-     */
-    public void setValue(String value) {
-        this.value = value;
+    public void setContentType(String value) {
+        this.contentType = value;
     }
 }

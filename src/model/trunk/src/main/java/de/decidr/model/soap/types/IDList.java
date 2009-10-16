@@ -13,11 +13,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package de.decidr.model.soap.types;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;id&quot; type=&quot;{http://decidr.de/schema/DecidrWSTypes}tID&quot; maxOccurs=&quot;unbounded&quot;/&gt;
+ *         &lt;element name=&quot;id&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tID&quot; maxOccurs=&quot;unbounded&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -44,8 +44,9 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tIDList", propOrder = { "id" })
+@XmlType(name = "tIDList", namespace = "http://decidr.de/schema/DecidrWSTypes", propOrder = { "id" })
 public class IDList {
+
     @XmlElement(type = Long.class)
     protected List<Long> id;
 

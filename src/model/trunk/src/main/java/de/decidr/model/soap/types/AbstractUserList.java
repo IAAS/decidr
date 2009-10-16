@@ -13,12 +13,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package de.decidr.model.soap.types;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -37,9 +36,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;actorUser&quot; type=&quot;{http://decidr.de/schema/DecidrWSTypes}tActorUser&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;/&gt;
- *         &lt;element name=&quot;emailUser&quot; type=&quot;{http://decidr.de/schema/DecidrWSTypes}tEmailUser&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;/&gt;
- *         &lt;element name=&quot;roleUser&quot; type=&quot;{http://decidr.de/schema/DecidrWSTypes}tRoleUser&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;/&gt;
+ *         &lt;element name=&quot;actorUser&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tActorUser&quot; maxOccurs=&quot;unbounded&quot; minOccurs=&quot;0&quot;/&gt;
+ *         &lt;element name=&quot;emailUser&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tEmailUser&quot; maxOccurs=&quot;unbounded&quot; minOccurs=&quot;0&quot;/&gt;
+ *         &lt;element name=&quot;roleUser&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tRoleUser&quot; maxOccurs=&quot;unbounded&quot; minOccurs=&quot;0&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -51,13 +50,11 @@ import javax.xml.bind.annotation.XmlType;
         "roleUser" })
 public class AbstractUserList {
 
-    @XmlElement(required = false)
+    @XmlElement(nillable = true)
     protected List<ActorUser> actorUser;
-
-    @XmlElement(required = false)
+    @XmlElement(nillable = true)
     protected List<EmailUser> emailUser;
-
-    @XmlElement(required = false)
+    @XmlElement(nillable = true)
     protected List<RoleUser> roleUser;
 
     /**
@@ -70,21 +67,22 @@ public class AbstractUserList {
      * <CODE>set</CODE> method for the actorUser property.
      * 
      * <p>
+     * For example, to add a new item, do as follows:
+     * 
+     * <pre>
+     * getActorUser().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link ActorUser }{@code >}
+     * {@link ActorUser }
      */
     public List<ActorUser> getActorUser() {
         if (actorUser == null) {
             actorUser = new ArrayList<ActorUser>();
         }
         return this.actorUser;
-    }
-
-    /**
-     * Sets the value of the user property.
-     */
-    public void setActorUser(List<ActorUser> actorUser) {
-        this.actorUser = actorUser;
     }
 
     /**
@@ -97,21 +95,22 @@ public class AbstractUserList {
      * <CODE>set</CODE> method for the emailUser property.
      * 
      * <p>
+     * For example, to add a new item, do as follows:
+     * 
+     * <pre>
+     * getEmailUser().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link EmailUser }{@code >}
+     * {@link EmailUser }
      */
     public List<EmailUser> getEmailUser() {
         if (emailUser == null) {
             emailUser = new ArrayList<EmailUser>();
         }
         return this.emailUser;
-    }
-
-    /**
-     * Sets the value of the user property.
-     */
-    public void setEmailUser(List<EmailUser> emailUser) {
-        this.emailUser = emailUser;
     }
 
     /**
@@ -124,20 +123,20 @@ public class AbstractUserList {
      * <CODE>set</CODE> method for the roleUser property.
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link RoleUser }{@code >}
+     * For example, to add a new item, do as follows:
+     * 
+     * <pre>
+     * getRoleUser().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list {@link RoleUser }
      */
     public List<RoleUser> getRoleUser() {
         if (roleUser == null) {
             roleUser = new ArrayList<RoleUser>();
         }
         return this.roleUser;
-    }
-
-    /**
-     * Sets the value of the user property.
-     */
-    public void setRoleUser(List<RoleUser> roleUser) {
-        this.roleUser = roleUser;
     }
 }

@@ -13,6 +13,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package de.decidr.model.soap.types;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -38,6 +39,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tFloatItem", propOrder = { "value" })
@@ -47,6 +50,7 @@ public class FloatItem extends Item {
 
     /**
      * Gets the value of the value property.
+     * 
      */
     public float getValue() {
         return value;
@@ -54,8 +58,10 @@ public class FloatItem extends Item {
 
     /**
      * Sets the value of the value property.
+     * 
      */
     public void setValue(float value) {
         this.value = value;
     }
+
 }

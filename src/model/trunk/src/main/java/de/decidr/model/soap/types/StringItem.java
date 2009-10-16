@@ -13,6 +13,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package de.decidr.model.soap.types;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -51,7 +52,6 @@ public class StringItem extends Item {
      * Gets the value of the value property.
      * 
      * @return possible object is {@link String }
-     * 
      */
     public String getValue() {
         return value;
@@ -62,7 +62,6 @@ public class StringItem extends Item {
      * 
      * @param value
      *            allowed object is {@link String }
-     * 
      */
     public void setValue(String value) {
         this.value = value;

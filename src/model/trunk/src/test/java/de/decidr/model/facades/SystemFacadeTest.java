@@ -16,11 +16,7 @@
 
 package de.decidr.model.facades;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -202,8 +198,8 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         setterSettings.setMinServerLoadForLock((byte) 10);
         setterSettings.setMinUnlockedServers(10);
         setterSettings.setMinWorkflowInstancesForLock(10);
-        setterSettings.setModifiedDate(new Date(
-                modDate.getTimeInMillis() - 1000000));
+        modDate.add(Calendar.SECOND, -1000);
+        setterSettings.setModifiedDate(modDate.getTime());
         setterSettings.setMonitorAveragingPeriodSeconds(600);
         setterSettings.setMonitorUpdateIntervalSeconds(1);
         setterSettings.setMtaPort(22);
@@ -215,7 +211,9 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         setterSettings.setSystemName("Darth Vader");
         adminFacade.setSettings(setterSettings);
 
+        Item oldSettings = getterSettings;
         getterSettings = adminFacade.getSettings();
+        assertNotSame(oldSettings, getterSettings);
         assertEquals(false, getterSettings.getItemProperty(
                 "autoAcceptNewTenants").getValue());
         assertEquals(false, getterSettings.getItemProperty("mtaUseTls")
@@ -261,10 +259,8 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 "systemEmailAddress").getValue());
         assertEquals("Darth Vader", getterSettings
                 .getItemProperty("systemName").getValue());
-        // I don't understand what is being asserted here ~dh
-        assertEquals(modDate.getTimeInMillis() - 1000000,
-                ((Date) getterSettings.getItemProperty("modifiedDate")
-                        .getValue()).getTime());
+        assertEquals(modDate.getTimeInMillis(), ((Date) getterSettings
+                .getItemProperty("modifiedDate").getValue()).getTime());
 
         setterSettings.setMtaHostname("");
         setterSettings.setMtaUsername("");

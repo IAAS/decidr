@@ -13,6 +13,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package de.decidr.model.soap.types;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -29,7 +30,7 @@ import javax.xml.bind.annotation.XmlType;
  * this class.
  * 
  * <pre>
- * &lt;complexType name=&quot;tAbstractUser&quot; abstract=&quot;true&quot;&gt;
+ * &lt;complexType name=&quot;tAbstractUser&quot;&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
@@ -41,7 +42,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tAbstractUser")
-@XmlSeeAlso( { EmailUser.class, ActorUser.class, RoleUser.class })
+@XmlSeeAlso( { ActorUser.class, RoleUser.class, EmailUser.class })
 public abstract class AbstractUser {
-    // There's nothing that can be assumed about a user, so nothing in here
+    // no assumptions are made
 }

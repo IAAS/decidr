@@ -18,39 +18,45 @@ package de.decidr.model.soap.types;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * <p>
- * Java class for tStringMapping complex type.
+ * Java class for tParameter complex type.
  * 
  * <p>
  * The following schema fragment specifies the expected content contained within
  * this class.
  * 
  * <pre>
- * &lt;complexType name=&quot;tStringMapping&quot;&gt;
+ * &lt;complexType name=&quot;tParameter&quot;&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
- *       &lt;sequence&gt;
- *         &lt;element name=&quot;name&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
- *         &lt;element name=&quot;value&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
- *       &lt;/sequence&gt;
+ *       &lt;attribute name=&quot;name&quot; use=&quot;required&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}NCName&quot; /&gt;
+ *       &lt;attribute name=&quot;type&quot; type=&quot;{http://decidr.de/schema/DecidrProcessTypes}DWDLVariableType&quot; /&gt;
+ *       &lt;attribute name=&quot;variable&quot; use=&quot;required&quot; type=&quot;{http://decidr.de/schema/DecidrProcessTypes}DWDLVariableName&quot; /&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tStringMapping", namespace = "http://decidr.de/schema/DecidrWSTypes", propOrder = {
-        "name", "value" })
-public class StringMapping {
+@XmlType(name = "tParameter", namespace = "http://decidr.de/schema/DecidrProcessTypes")
+public class Parameter {
 
-    @XmlElement(required = true)
+    @XmlAttribute(required = true)
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    @XmlSchemaType(name = "NCName")
     protected String name;
-    @XmlElement(required = true)
-    protected String value;
+    @XmlAttribute
+    protected String type;
+    @XmlAttribute(required = true)
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    protected String variable;
 
     /**
      * Gets the value of the name property.
@@ -72,21 +78,40 @@ public class StringMapping {
     }
 
     /**
-     * Gets the value of the value property.
+     * Gets the value of the type property.
      * 
      * @return possible object is {@link String }
      */
-    public String getValue() {
-        return value;
+    public String getType() {
+        return type;
     }
 
     /**
-     * Sets the value of the value property.
+     * Sets the value of the type property.
      * 
      * @param value
      *            allowed object is {@link String }
      */
-    public void setValue(String value) {
-        this.value = value;
+    public void setType(String value) {
+        this.type = value;
+    }
+
+    /**
+     * Gets the value of the variable property.
+     * 
+     * @return possible object is {@link String }
+     */
+    public String getVariable() {
+        return variable;
+    }
+
+    /**
+     * Sets the value of the variable property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     */
+    public void setVariable(String value) {
+        this.variable = value;
     }
 }

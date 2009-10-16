@@ -16,6 +16,8 @@
 
 package de.decidr.model.soap.types;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -23,19 +25,18 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>
- * Java class for tStringMapping complex type.
+ * Java class for tParameters complex type.
  * 
  * <p>
  * The following schema fragment specifies the expected content contained within
  * this class.
  * 
  * <pre>
- * &lt;complexType name=&quot;tStringMapping&quot;&gt;
+ * &lt;complexType name=&quot;tParameters&quot;&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;name&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
- *         &lt;element name=&quot;value&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
+ *         &lt;element name=&quot;parameter&quot; type=&quot;{http://decidr.de/schema/DecidrProcessTypes}tParameter&quot; maxOccurs=&quot;unbounded&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -43,50 +44,37 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tStringMapping", namespace = "http://decidr.de/schema/DecidrWSTypes", propOrder = {
-        "name", "value" })
-public class StringMapping {
+@XmlType(name = "tParameters", namespace = "http://decidr.de/schema/DecidrProcessTypes", propOrder = { "parameter" })
+public class Parameters {
 
     @XmlElement(required = true)
-    protected String name;
-    @XmlElement(required = true)
-    protected String value;
+    protected List<Parameter> parameter;
 
     /**
-     * Gets the value of the name property.
+     * Gets the value of the parameter property.
      * 
-     * @return possible object is {@link String }
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets the value of the name property.
+     * <p>
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the parameter property.
      * 
-     * @param value
-     *            allowed object is {@link String }
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
-
-    /**
-     * Gets the value of the value property.
+     * <p>
+     * For example, to add a new item, do as follows:
      * 
-     * @return possible object is {@link String }
-     */
-    public String getValue() {
-        return value;
-    }
-
-    /**
-     * Sets the value of the value property.
+     * <pre>
+     * getParameter().add(newItem);
+     * </pre>
      * 
-     * @param value
-     *            allowed object is {@link String }
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link Parameter }
      */
-    public void setValue(String value) {
-        this.value = value;
+    public List<Parameter> getParameter() {
+        if (parameter == null) {
+            parameter = new ArrayList<Parameter>();
+        }
+        return this.parameter;
     }
 }

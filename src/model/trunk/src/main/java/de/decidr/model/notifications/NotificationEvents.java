@@ -103,7 +103,7 @@ public final class NotificationEvents {
         List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(user);
 
-        to.setEmailUser(users);
+        to.getEmailUser().addAll(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -185,7 +185,7 @@ public final class NotificationEvents {
         List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(user);
 
-        to.setEmailUser(users);
+        to.getEmailUser().addAll(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -265,7 +265,7 @@ public final class NotificationEvents {
         List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(user);
 
-        to.setEmailUser(users);
+        to.getEmailUser().addAll(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -317,7 +317,7 @@ public final class NotificationEvents {
         List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setEmailUser(users);
+        to.getEmailUser().addAll(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -400,7 +400,7 @@ public final class NotificationEvents {
         List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setEmailUser(users);
+        to.getEmailUser().addAll(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -482,7 +482,7 @@ public final class NotificationEvents {
         List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setEmailUser(users);
+        to.getEmailUser().addAll(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -544,7 +544,7 @@ public final class NotificationEvents {
         List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setEmailUser(users);
+        to.getEmailUser().addAll(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -599,7 +599,7 @@ public final class NotificationEvents {
         List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setEmailUser(users);
+        to.getEmailUser().addAll(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -661,7 +661,7 @@ public final class NotificationEvents {
         List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setEmailUser(users);
+        to.getEmailUser().addAll(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -708,7 +708,7 @@ public final class NotificationEvents {
         List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setEmailUser(users);
+        to.getEmailUser().addAll(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -787,7 +787,7 @@ public final class NotificationEvents {
         List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setEmailUser(users);
+        to.getEmailUser().addAll(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -870,7 +870,7 @@ public final class NotificationEvents {
         List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setEmailUser(users);
+        to.getEmailUser().addAll(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -953,7 +953,7 @@ public final class NotificationEvents {
         List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setEmailUser(users);
+        to.getEmailUser().addAll(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -1036,7 +1036,7 @@ public final class NotificationEvents {
         List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setEmailUser(users);
+        to.getEmailUser().addAll(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -1044,6 +1044,5 @@ public final class NotificationEvents {
         } catch (Exception e) {
             throw new TransactionException(e);
         }
-
     }
 }

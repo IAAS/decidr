@@ -13,14 +13,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package de.decidr.model.soap.types;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -36,7 +37,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;item&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tItem&quot; maxOccurs=&quot;unbounded&quot;/&gt;
+ *         &lt;element ref=&quot;{http://decidr.de/schema/DecidrTypes}item&quot; maxOccurs=&quot;unbounded&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -47,8 +48,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "tItemList", propOrder = { "item" })
 public class ItemList {
 
-    @XmlElement(required = true)
-    protected List<Item> item;
+    @XmlElementRef(name = "item", namespace = "http://decidr.de/schema/DecidrTypes", type = JAXBElement.class)
+    protected List<JAXBElement<? extends Item>> item;
 
     /**
      * Gets the value of the item property.
@@ -68,11 +69,17 @@ public class ItemList {
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list {@link Item }
+     * Objects of the following type(s) are allowed in the list
+     * {@link JAXBElement }{@code <}{@link FloatItem }{@code >}
+     * {@link JAXBElement }{@code <}{@link Item }{@code >} {@link JAXBElement }
+     * {@code <}{@link BooleanItem }{@code >} {@link JAXBElement }{@code <}
+     * {@link DateItem }{@code >} {@link JAXBElement }{@code <}{@link StringItem }
+     * {@code >} {@link JAXBElement }{@code <}{@link IntItem }{@code >}
+     * {@link JAXBElement }{@code <}{@link URIItem }{@code >}
      */
-    public List<Item> getItem() {
+    public List<JAXBElement<? extends Item>> getItem() {
         if (item == null) {
-            item = new ArrayList<Item>();
+            item = new ArrayList<JAXBElement<? extends Item>>();
         }
         return this.item;
     }

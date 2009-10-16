@@ -13,6 +13,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package de.decidr.model.soap.types;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -46,14 +47,13 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tActor")
 public class Actor {
+
     @XmlAttribute
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     @XmlSchemaType(name = "NCName")
     protected String name;
-    
     @XmlAttribute(required = true)
-    protected Long userid;
-    
+    protected long userid;
     @XmlAttribute
     protected String email;
 
@@ -78,20 +78,15 @@ public class Actor {
 
     /**
      * Gets the value of the userid property.
-     * 
-     * @return possible object is {@link Long }
      */
-    public Long getUserid() {
+    public long getUserid() {
         return userid;
     }
 
     /**
      * Sets the value of the userid property.
-     * 
-     * @param value
-     *            allowed object is {@link Long }
      */
-    public void setUserid(Long value) {
+    public void setUserid(long value) {
         this.userid = value;
     }
 

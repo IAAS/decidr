@@ -13,29 +13,29 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package de.decidr.model.soap.types;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>
- * Java class for anonymous complex type.
+ * Java class for tTaskIdentifier complex type.
  * 
  * <p>
  * The following schema fragment specifies the expected content contained within
  * this class.
  * 
  * <pre>
- * &lt;complexType&gt;
+ * &lt;complexType name=&quot;tTaskIdentifier&quot;&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
  *         &lt;element name=&quot;taskID&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tID&quot;/&gt;
- *         &lt;element name=&quot;processID&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tID&quot;/&gt;
+ *         &lt;element name=&quot;processID&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
  *         &lt;element name=&quot;userID&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tID&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
@@ -44,15 +44,13 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "taskID", "processID", "userID" })
-@XmlRootElement(name = "tTaskIdentifier")
+@XmlType(name = "tTaskIdentifier", propOrder = { "taskID", "processID",
+        "userID" })
 public class TaskIdentifier {
 
-    @XmlElement(required = true)
     protected long taskID;
     @XmlElement(required = true)
     protected String processID;
-    @XmlElement(required = true)
     protected long userID;
 
     /**
@@ -74,6 +72,7 @@ public class TaskIdentifier {
 
     /**
      * Gets the value of the taskID property.
+     * 
      */
     public long getTaskID() {
         return taskID;
@@ -81,6 +80,7 @@ public class TaskIdentifier {
 
     /**
      * Sets the value of the taskID property.
+     * 
      */
     public void setTaskID(long value) {
         this.taskID = value;
@@ -88,6 +88,9 @@ public class TaskIdentifier {
 
     /**
      * Gets the value of the processID property.
+     * 
+     * @return possible object is {@link String }
+     * 
      */
     public String getProcessID() {
         return processID;
@@ -95,6 +98,10 @@ public class TaskIdentifier {
 
     /**
      * Sets the value of the processID property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     * 
      */
     public void setProcessID(String value) {
         this.processID = value;
@@ -102,6 +109,7 @@ public class TaskIdentifier {
 
     /**
      * Gets the value of the userID property.
+     * 
      */
     public long getUserID() {
         return userID;
@@ -109,8 +117,10 @@ public class TaskIdentifier {
 
     /**
      * Sets the value of the userID property.
+     * 
      */
     public void setUserID(long value) {
         this.userID = value;
     }
+
 }
