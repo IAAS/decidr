@@ -49,7 +49,7 @@ import javax.xml.bind.annotation.XmlType;
 public class AbstractUserList {
 
     @XmlElement(required = true)
-    protected List<? extends AbstractUser> user;
+    protected List<AbstractUser> user;
 
     /**
      * Gets the value of the user property.
@@ -67,7 +67,7 @@ public class AbstractUserList {
      * {@link JAXBElement }{@code <}{@link TActorUser }{@code >}
      * {@link JAXBElement }{@code <}{@link TEmailUser }{@code >}
      */
-    public List<? extends AbstractUser> getUser() {
+    public List<AbstractUser> getUser() {
         if (user == null) {
             user = new ArrayList<AbstractUser>();
         }
@@ -77,7 +77,7 @@ public class AbstractUserList {
     /**
      * Sets the value of the user property.
      */
-    public void setUser(List<? extends AbstractUser> user) {
+    public void setUser(List<AbstractUser> user) {
         this.user = user;
     }
 }

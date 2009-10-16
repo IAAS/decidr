@@ -69,8 +69,6 @@ public class ItemList {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list {@link Item }
-     * 
-     * 
      */
     public List<Item> getItem() {
         if (item == null) {
