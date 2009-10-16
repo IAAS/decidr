@@ -107,6 +107,7 @@ public class TransformUtil {
     /**
      * Unmarshalls an object from XML data stored in a byte array.
      * 
+     * @author Daniel Huss
      * @param clazz
      *            the expected class of the unmarshalled object.
      * @param bytes
@@ -116,7 +117,8 @@ public class TransformUtil {
      *             if the given class is not recognized by JAXB as a valid XML
      *             entity.
      */
-    public static Object getNode(Class<?> clazz, byte[] bytes)
+    @SuppressWarnings("unchecked")
+    public static Object getElement(Class<?> clazz, byte[] bytes)
             throws JAXBException {
         if (clazz == null) {
             throw new IllegalArgumentException("Class must not be null.");
@@ -128,9 +130,28 @@ public class TransformUtil {
 
         ByteArrayInputStream inStream = new ByteArrayInputStream(bytes);
         JAXBContext context = JAXBContext.newInstance(clazz);
-        return context.createUnmarshaller().unmarshal(inStream);
+        Object result = context.createUnmarshaller().unmarshal(inStream);
+
+        if (clazz.isAssignableFrom(result.getClass())) {
+            return result;
+        } else if (result instanceof JAXBElement) {
+            // this happens if there is no distinct root element for clazz
+            return ((JAXBElement) result).getValue();
+        } else {
+            // Fuck.
+            throw new JAXBException(
+                    "Unmarshaller unmarshalled garbage without complaining.");
+        }
+
     }
 
+    /**
+     * MA FIXME please document all methods :-) ~dh
+     * 
+     * @param file
+     * @return
+     * @throws IOException
+     */
     public static byte[] fileToBytes(File file) throws IOException {
         InputStream is = new FileInputStream(file);
 
