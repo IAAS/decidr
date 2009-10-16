@@ -47,8 +47,6 @@ import de.decidr.model.facades.FileFacadeTest;
 import de.decidr.model.facades.SystemFacadeTest;
 import de.decidr.model.facades.TenantFacadeTest;
 import de.decidr.model.facades.UserFacadeTest;
-import de.decidr.model.facades.WorkItemFacadeTest;
-import de.decidr.model.facades.WorkflowInstanceFacadeTest;
 import de.decidr.model.facades.WorkflowModelFacadeTest;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.storage.HibernateEntityStorageProviderTest;
@@ -68,14 +66,17 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
         HibernateTransactionCoordinatorTest.class, DecidrGlobalsTest.class,
         LifetimeValidatorTest.class, SystemFacadeTest.class,
         FileFacadeTest.class, TenantFacadeTest.class, UserFacadeTest.class,
-        WorkflowModelFacadeTest.class, WorkflowInstanceFacadeTest.class,
-        WorkItemFacadeTest.class, SystemCommandsTest.class,
-        DefaultAccessControlListTest.class, IsRoleEqualToAccessedUserAsserterTest.class,
-        UserAdministratesWorkflowModelAsserterTest.class, UserIsAvailableAsserterTest.class,
-        UserIsEnabledAsserterTest.class,UserIsInvitationReceiverAsserterTest.class,
+        WorkflowModelFacadeTest.class, SystemCommandsTest.class,
+        DefaultAccessControlListTest.class,
+        IsRoleEqualToAccessedUserAsserterTest.class,
+        UserAdministratesWorkflowModelAsserterTest.class,
+        UserIsAvailableAsserterTest.class, UserIsEnabledAsserterTest.class,
+        UserIsInvitationReceiverAsserterTest.class,
         UserIsLoggedInAsserterTest.class, UserIsSuperAdminAsserterTest.class,
-        UserIsTenantAdminAsserterTest.class, UserIsTenantMemberAsserterTest.class,
-        UserIsWorkflowParticipantAsserterTest.class, UserNotParticipatingInAnyWorkflowAsserterTest.class})
+        UserIsTenantAdminAsserterTest.class,
+        UserIsTenantMemberAsserterTest.class,
+        UserIsWorkflowParticipantAsserterTest.class,
+        UserNotParticipatingInAnyWorkflowAsserterTest.class })
 public class DatabaseTestSuite extends GlobalPreconditionsSuite {
 
     static Calendar nextAttempt;
