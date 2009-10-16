@@ -17,6 +17,8 @@
 package de.decidr.model.workflowmodel.dwdl.translator;
 
 import org.apache.log4j.Logger;
+import org.jdom.Element;
+
 import javax.wsdl.Definition;
 import javax.wsdl.Import;
 import javax.wsdl.Types;
@@ -25,8 +27,8 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+
+import com.ibm.wsdl.DefinitionImpl;
 import com.ibm.wsdl.ImportImpl;
 import com.ibm.wsdl.TypesImpl;
 import de.decidr.model.logging.DefaultLogger;
@@ -49,7 +51,7 @@ public class DWDL2WSDL {
     
     public Definition getWSDL(Workflow dwdl, String location,
             String tenantName) {
-        wsdl = new com.ibm.wsdl.DefinitionImpl();
+        wsdl = new DefinitionImpl();
         this.location = location;
         this.tenantName = tenantName;
         this.dwdl = dwdl;
@@ -93,24 +95,9 @@ public class DWDL2WSDL {
 
     private void setTypes() {
         Types types = new TypesImpl();
-        UnknownExtensibilityElement schema = new UnknownExtensibilityElement();
-        DocumentBuilderFactory factory =
-            DocumentBuilderFactory.newInstance();
-        Document doc = null;
-        try {
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            doc = builder.newDocument();
-        }
-        catch (ParserConfigurationException e) {
-            log.warn("creation of com.w3c.document failed for some really mysterious reasons");
-            // MA doc is null in this case and the following will result in an NPE ~rr
-        }
-        // MA create a schema element
-        // XXX potential null pointer access
-        Element schemaElement = doc.createElementNS(XMLConstants.W3C_XML_SCHEMA_NS_URI, "xs:schema");
+
+        Element schemaElement = new Element("schema", "xsd", XMLConstants.XML_NS_URI);
         
-        schema.setElement(schemaElement);
-        types.addExtensibilityElement(schema);
     }
 
 }
