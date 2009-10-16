@@ -15,7 +15,6 @@
  */
 
 package de.decidr.model.workflowmodel.transformation;
-
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -28,16 +27,17 @@ import javax.wsdl.factory.WSDLFactory;
 
 import org.jdom.input.DOMBuilder;
 import org.jdom.output.XMLOutputter;
+import org.xml.sax.InputSource;
 
 /**
  * Test wsdl types extraction
- *
+ * 
  * @author Modood Alvi
  */
 public class WSDLTypesExtraction {
 
     public static void main(String[] args) throws WSDLException, IOException {
-        String wsdlUri = "http://yourwsdlurl?WSDL";
+        String wsdlName = "/HumanTaskTest.wsdl";
         WSDLFactory wsdlFactory = WSDLFactory.newInstance();
         javax.wsdl.xml.WSDLReader wsdlReader = wsdlFactory.newWSDLReader();
 
@@ -45,7 +45,8 @@ public class WSDLTypesExtraction {
         wsdlReader.setFeature("javax.wsdl.importDocuments", true);
 
         System.out.println("getting wsdl definition...");
-        Definition definition = wsdlReader.readWSDL(wsdlUri);
+        Definition definition = wsdlReader.readWSDL(null, new InputSource(
+                WSDLTypesExtraction.class.getResourceAsStream(wsdlName)));
         System.out.println("definition got. parsing.");
         if (definition == null) {
             System.err.println("definition element is null");
@@ -79,6 +80,5 @@ public class WSDLTypesExtraction {
         throw new RuntimeException("Ext element with name " + name
                 + " was not found.");
     }
-
 
 }
