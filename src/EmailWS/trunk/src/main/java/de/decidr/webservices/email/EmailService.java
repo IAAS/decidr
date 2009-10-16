@@ -28,7 +28,6 @@ import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.mail.MessagingException;
-import javax.xml.bind.TypeConstraintException;
 
 import org.apache.log4j.Logger;
 
@@ -45,7 +44,6 @@ import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.soap.exceptions.IoExceptionWrapper;
 import de.decidr.model.soap.exceptions.MalformedURLExceptionWrapper;
 import de.decidr.model.soap.exceptions.MessagingExceptionWrapper;
-import de.decidr.model.soap.types.AbstractUser;
 import de.decidr.model.soap.types.AbstractUserList;
 import de.decidr.model.soap.types.Actor;
 import de.decidr.model.soap.types.ActorUser;
@@ -228,43 +226,36 @@ public class EmailService implements EmailInterface {
             return new HashSet<String>();
         }
 
-        Set<String> emailList = new HashSet<String>(userList.getUser().size());
+        Set<String> emailSet = new HashSet<String>(userList.getActorUser()
+                .size()
+                + userList.getEmailUser().size()
+                + userList.getRoleUser().size());
         List<Actor> actorList = new ArrayList<Actor>();
 
-        if (userList.getUser().isEmpty()) {
-            log.debug("Detected empty user list");
-        } else {
-            log.debug("extracting email addresses from AbstractUserList");
-            for (AbstractUser user : userList.getUser()) {
-                if (user instanceof EmailUser) {
-                    log.debug("found EmailUser");
-                    emailList.add(((EmailUser) user).getEmail());
-                } else if (user instanceof ActorUser) {
-                    log.debug("found ActorUser");
-                    actorList.add(((ActorUser) user).getActor());
-                } else if (user instanceof RoleUser) {
-                    log.debug("found RoleUser");
-                    for (Actor actor : ((RoleUser) user).getRole().getActor()) {
-                        actorList.add(actor);
-                    }
-                } else {
-                    log.error("The AbstractUser " + user
-                            + " was not recognised. "
-                            + "Please check the ObjectFactory and "
-                            + "update this implementation!");
-                    throw new TypeConstraintException("Invalid subclass of "
-                            + AbstractUser.class.getName());
-                }
-            }
+        log.debug("extracting EmailUsers");
+        for (EmailUser user : userList.getEmailUser()) {
+            emailSet.add(user.getEmail());
+        }
 
-            if (!actorList.isEmpty()) {
-                emailList.addAll(extractActorAddresses(actorList));
+        log.debug("extracting ActorUsers");
+        for (ActorUser user : userList.getActorUser()) {
+            actorList.add(user.getActor());
+        }
+
+        log.debug("extracting RoleUsers");
+        for (RoleUser user : userList.getRoleUser()) {
+            for (Actor actor : user.getRole().getActor()) {
+                actorList.add(actor);
             }
+        }
+
+        if (!actorList.isEmpty()) {
+            emailSet.addAll(extractActorAddresses(actorList));
         }
 
         log.trace("Leaving " + EmailService.class.getSimpleName()
                 + ".extractEmails(AbstractUserList)");
-        return emailList;
+        return emailSet;
     }
 
     /**
@@ -322,6 +313,12 @@ public class EmailService implements EmailInterface {
             log.error("Neither HTML nor text body was passed!");
             throw new IllegalArgumentException("There must be either an "
                     + "HTML or a text body");
+        }
+        if (to.getEmailUser() == null || to.getEmailUser().isEmpty()
+                || to.getActorUser() == null || to.getActorUser().isEmpty()
+                || to.getRoleUser() == null || to.getRoleUser().isEmpty()) {
+            log.error("No recipient specified!");
+            throw new IllegalArgumentException("The to list was empty");
         }
 
         log.debug("constructing e-mail");

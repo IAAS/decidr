@@ -35,7 +35,6 @@ import de.decidr.model.entities.WorkItem;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.soap.types.AbstractUser;
 import de.decidr.model.soap.types.AbstractUserList;
 import de.decidr.model.soap.types.EmailUser;
 import de.decidr.model.webservices.EmailInterface;
@@ -58,7 +57,6 @@ public final class NotificationEvents {
      * @param newWorkItem
      *            the corresponding workitem which has been created
      */
-    @SuppressWarnings("unchecked")
     public static void createdWorkItem(WorkItem newWorkItem)
             throws TransactionException {
 
@@ -102,10 +100,10 @@ public final class NotificationEvents {
         EmailUser user = new EmailUser();
         user.setEmail(newWorkItem.getUser().getEmail());
 
-        List<AbstractUser> users = new ArrayList();
+        List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(user);
 
-        to.setUser(users);
+        to.setEmailUser(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -120,11 +118,11 @@ public final class NotificationEvents {
      * 
      * @param request
      *            the change email request containing the new email address.
-     * @throws TransactionException 
+     * @throws TransactionException
      */
-    @SuppressWarnings("unchecked")
-    public static void createdChangeEmailRequest(ChangeEmailRequest request) throws TransactionException {
-        
+    public static void createdChangeEmailRequest(ChangeEmailRequest request)
+            throws TransactionException {
+
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
@@ -134,8 +132,7 @@ public final class NotificationEvents {
 
         // content creation
         String signature = "";
-        
-        
+
         // get userName
         String userName;
 
@@ -144,20 +141,20 @@ public final class NotificationEvents {
         } else {
             userName = request.getUser().getUserProfile().getUsername();
         }
-                
+
         // create url
         URLGenerator URLGenerator = new URLGenerator();
         Long userIdLong = request.getUserId();
         String userId = userIdLong.toString();
         String confirmationUrl;
-        
+
         try {
-            confirmationUrl = URLGenerator.getChangeEmailRequestURL(userId, request.getAuthKey());
+            confirmationUrl = URLGenerator.getChangeEmailRequestURL(userId,
+                    request.getAuthKey());
         } catch (UnsupportedEncodingException e1) {
             throw new TransactionException(e1);
         }
 
-        
         // calculate Date
         SystemSettings settings = DecidrGlobals.getSettings();
         int requestLifeTime = settings.getChangeEmailRequestLifetimeSeconds();
@@ -167,13 +164,14 @@ public final class NotificationEvents {
         creationDate.add(Calendar.SECOND, requestLifeTime);
 
         SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
-        String expireDate = sd.format(new Date());       
-        
-        String bodyTXT = NotificationText.getChangeEmailRequestText(userName, confirmationUrl, expireDate, signature);
-        String bodyHTML = NotificationText.getChangeEmailRequestHTML(userName, confirmationUrl, expireDate, signature);
+        String expireDate = sd.format(new Date());
+
+        String bodyTXT = NotificationText.getChangeEmailRequestText(userName,
+                confirmationUrl, expireDate, signature);
+        String bodyHTML = NotificationText.getChangeEmailRequestHTML(userName,
+                confirmationUrl, expireDate, signature);
         String subject = NotificationText.getChangeEmailRequestSubject();
 
-        
         // sender and receiver data creation
         AbstractUserList to = new AbstractUserList();
 
@@ -184,10 +182,10 @@ public final class NotificationEvents {
         EmailUser user = new EmailUser();
         user.setEmail(request.getUser().getEmail());
 
-        List<AbstractUser> users = new ArrayList();
+        List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(user);
 
-        to.setUser(users);
+        to.setEmailUser(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -203,7 +201,6 @@ public final class NotificationEvents {
      * @param request
      *            the password request which has been created
      */
-    @SuppressWarnings("unchecked")
     public static void createdPasswordResetRequest(PasswordResetRequest request)
             throws TransactionException {
 
@@ -265,10 +262,10 @@ public final class NotificationEvents {
         EmailUser user = new EmailUser();
         user.setEmail(request.getUser().getEmail());
 
-        List<AbstractUser> users = new ArrayList();
+        List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(user);
 
-        to.setUser(users);
+        to.setEmailUser(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -286,7 +283,6 @@ public final class NotificationEvents {
      * @param tenantName
      *            name of the tenant which has been rejected
      */
-    @SuppressWarnings("unchecked")
     public static void rejectedTenant(User user, String tenantName)
             throws TransactionException {
 
@@ -318,10 +314,10 @@ public final class NotificationEvents {
         EmailUser eUser = new EmailUser();
         eUser.setEmail(user.getEmail());
 
-        List<AbstractUser> users = new ArrayList();
+        List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setUser(users);
+        to.setEmailUser(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -337,7 +333,6 @@ public final class NotificationEvents {
      * @param invitation
      *            the corresponding invitation
      */
-    @SuppressWarnings("unchecked")
     public static void invitedRegisteredUserAsTenantMember(Invitation invitation)
             throws TransactionException {
 
@@ -402,10 +397,10 @@ public final class NotificationEvents {
         EmailUser eUser = new EmailUser();
         eUser.setEmail(invitation.getReceiver().getEmail());
 
-        List<AbstractUser> users = new ArrayList();
+        List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setUser(users);
+        to.setEmailUser(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -422,7 +417,6 @@ public final class NotificationEvents {
      * @param invitation
      *            the corresponding invitation
      */
-    @SuppressWarnings("unchecked")
     public static void invitedUnregisteredUserAsTenantMember(
             Invitation invitation) throws TransactionException {
 
@@ -485,10 +479,10 @@ public final class NotificationEvents {
         EmailUser eUser = new EmailUser();
         eUser.setEmail(invitation.getReceiver().getEmail());
 
-        List<AbstractUser> users = new ArrayList();
+        List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setUser(users);
+        to.setEmailUser(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -506,7 +500,6 @@ public final class NotificationEvents {
      * @param tenant
      *            the tenant from which the user has been removed
      */
-    @SuppressWarnings("unchecked")
     public static void removedFromTenant(User user, Tenant tenant)
             throws TransactionException {
 
@@ -548,10 +541,10 @@ public final class NotificationEvents {
         EmailUser eUser = new EmailUser();
         eUser.setEmail(user.getEmail());
 
-        List<AbstractUser> users = new ArrayList();
+        List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setUser(users);
+        to.setEmailUser(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -567,7 +560,6 @@ public final class NotificationEvents {
      * @param invitation
      *            corresponding invitation
      */
-    @SuppressWarnings("unchecked")
     public static void refusedInvitation(Invitation invitation)
             throws TransactionException {
 
@@ -604,10 +596,10 @@ public final class NotificationEvents {
         EmailUser eUser = new EmailUser();
         eUser.setEmail(invitation.getSender().getEmail());
 
-        List<AbstractUser> users = new ArrayList();
+        List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setUser(users);
+        to.setEmailUser(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -627,7 +619,6 @@ public final class NotificationEvents {
      * @param newPassword
      *            the new password as string
      */
-    @SuppressWarnings("unchecked")
     public static void generatedNewPassword(User user, String newPassword)
             throws TransactionException {
 
@@ -667,10 +658,10 @@ public final class NotificationEvents {
         EmailUser eUser = new EmailUser();
         eUser.setEmail(user.getEmail());
 
-        List<AbstractUser> users = new ArrayList();
+        List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setUser(users);
+        to.setEmailUser(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -685,7 +676,6 @@ public final class NotificationEvents {
      * 
      * If parameter &quot;where == null&quot; = anywhere
      */
-    @SuppressWarnings("unchecked")
     public static void requestNewODEInstance(String where)
             throws TransactionException {
 
@@ -715,10 +705,10 @@ public final class NotificationEvents {
         EmailUser eUser = new EmailUser();
         eUser.setEmail(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
 
-        List<AbstractUser> users = new ArrayList();
+        List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setUser(users);
+        to.setEmailUser(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -738,7 +728,6 @@ public final class NotificationEvents {
      * @param model
      *            workflow model [and tenant via getTenant()] to administrate
      */
-    @SuppressWarnings("unchecked")
     public static void invitedUnregisteredUserAsWorkflowAdmin(
             Invitation invitation, WorkflowModel model)
             throws TransactionException {
@@ -795,10 +784,10 @@ public final class NotificationEvents {
         EmailUser eUser = new EmailUser();
         eUser.setEmail(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
 
-        List<AbstractUser> users = new ArrayList();
+        List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setUser(users);
+        to.setEmailUser(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -819,7 +808,6 @@ public final class NotificationEvents {
      * @param model
      *            workflow model [and tenant via getTenant()] to administrate
      */
-    @SuppressWarnings("unchecked")
     public static void invitedRegisteredUserAsWorkflowAdmin(
             Invitation invitation, WorkflowModel model)
             throws TransactionException {
@@ -879,10 +867,10 @@ public final class NotificationEvents {
         EmailUser eUser = new EmailUser();
         eUser.setEmail(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
 
-        List<AbstractUser> users = new ArrayList();
+        List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setUser(users);
+        to.setEmailUser(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -902,7 +890,6 @@ public final class NotificationEvents {
      * @param createdWorkflowInstance
      *            workflow instance in which the invited user should participate
      */
-    @SuppressWarnings("unchecked")
     public static void invitedRegisteredUserAsWorkflowParticipant(
             Invitation invitation, WorkflowInstance createdWorkflowInstance)
             throws TransactionException {
@@ -963,10 +950,10 @@ public final class NotificationEvents {
         EmailUser eUser = new EmailUser();
         eUser.setEmail(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
 
-        List<AbstractUser> users = new ArrayList();
+        List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setUser(users);
+        to.setEmailUser(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,
@@ -986,7 +973,6 @@ public final class NotificationEvents {
      * @param createdWorkflowInstance
      *            workflow instance in which the invited user should participate
      */
-    @SuppressWarnings("unchecked")
     public static void invitedUnregisteredUserAsWorkflowParticipant(
             Invitation invitation, WorkflowInstance createdWorkflowInstance)
             throws TransactionException {
@@ -1047,10 +1033,10 @@ public final class NotificationEvents {
         EmailUser eUser = new EmailUser();
         eUser.setEmail(DecidrGlobals.getSettings().getSuperAdmin().getEmail());
 
-        List<AbstractUser> users = new ArrayList();
+        List<EmailUser> users = new ArrayList<EmailUser>();
         users.add(eUser);
 
-        to.setUser(users);
+        to.setEmailUser(users);
 
         try {
             client.sendEmail(to, null, null, fromName, fromAddress, subject,

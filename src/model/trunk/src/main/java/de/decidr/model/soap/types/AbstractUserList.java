@@ -37,7 +37,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;user&quot; type=&quot;{http://decidr.de/schema/DecidrWSTypes}tAbstractUser&quot; maxOccurs=&quot;unbounded&quot;/&gt;
+ *         &lt;element name=&quot;actorUser&quot; type=&quot;{http://decidr.de/schema/DecidrWSTypes}tActorUser&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;/&gt;
+ *         &lt;element name=&quot;emailUser&quot; type=&quot;{http://decidr.de/schema/DecidrWSTypes}tEmailUser&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;/&gt;
+ *         &lt;element name=&quot;roleUser&quot; type=&quot;{http://decidr.de/schema/DecidrWSTypes}tRoleUser&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -45,39 +47,97 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tAbstractUserList", propOrder = { "user" })
+@XmlType(name = "tAbstractUserList", propOrder = { "actorUser", "emailUser",
+        "roleUser" })
 public class AbstractUserList {
 
-    @XmlElement(required = true)
-    protected List<AbstractUser> user;
+    @XmlElement(required = false)
+    protected List<ActorUser> actorUser;
+
+    @XmlElement(required = false)
+    protected List<EmailUser> emailUser;
+
+    @XmlElement(required = false)
+    protected List<RoleUser> roleUser;
 
     /**
-     * Gets the value of the user property.
+     * Gets the value of the actorUser property.
      * 
      * <p>
      * This accessor method returns a reference to the live list, not a
      * snapshot. Therefore any modification you make to the returned list will
      * be present inside the JAXB object. This is why there is not a
-     * <CODE>set</CODE> method for the abstractUser property.
+     * <CODE>set</CODE> method for the actorUser property.
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link TRoleUser }{@code >}
-     * {@link JAXBElement }{@code <}{@link TAbstractUser }{@code >}
-     * {@link JAXBElement }{@code <}{@link TActorUser }{@code >}
-     * {@link JAXBElement }{@code <}{@link TEmailUser }{@code >}
+     * {@link JAXBElement }{@code <}{@link ActorUser }{@code >}
      */
-    public List<AbstractUser> getUser() {
-        if (user == null) {
-            user = new ArrayList<AbstractUser>();
+    public List<ActorUser> getActorUser() {
+        if (actorUser == null) {
+            actorUser = new ArrayList<ActorUser>();
         }
-        return this.user;
+        return this.actorUser;
     }
 
     /**
      * Sets the value of the user property.
      */
-    public void setUser(List<AbstractUser> user) {
-        this.user = user;
+    public void setActorUser(List<ActorUser> actorUser) {
+        this.actorUser = actorUser;
+    }
+
+    /**
+     * Gets the value of the emailUser property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the emailUser property.
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link JAXBElement }{@code <}{@link EmailUser }{@code >}
+     */
+    public List<EmailUser> getEmailUser() {
+        if (emailUser == null) {
+            emailUser = new ArrayList<EmailUser>();
+        }
+        return this.emailUser;
+    }
+
+    /**
+     * Sets the value of the user property.
+     */
+    public void setEmailUser(List<EmailUser> emailUser) {
+        this.emailUser = emailUser;
+    }
+
+    /**
+     * Gets the value of the roleUser property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the roleUser property.
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link JAXBElement }{@code <}{@link RoleUser }{@code >}
+     */
+    public List<RoleUser> getRoleUser() {
+        if (roleUser == null) {
+            roleUser = new ArrayList<RoleUser>();
+        }
+        return this.roleUser;
+    }
+
+    /**
+     * Sets the value of the user property.
+     */
+    public void setRoleUser(List<RoleUser> roleUser) {
+        this.roleUser = roleUser;
     }
 }

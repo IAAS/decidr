@@ -144,7 +144,12 @@
 		type="tns:tRoleUser" />
 	<xsd:complexType name="tAbstractUserList">
 		<xsd:sequence>
-			<xsd:element ref="tns:user" maxOccurs="unbounded" />
+			<xsd:element name="actorUser" type="tns:tActorUser"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="emailUser" type="tns:tEmailUser"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="roleUser" type="tns:tRoleUser"
+				minOccurs="0" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
 
