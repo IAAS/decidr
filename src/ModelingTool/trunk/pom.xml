@@ -46,7 +46,7 @@
 			<resource>
 				<directory>src/main/java</directory>
 				<includes>
-					<include>de/decidr/modelingtool/*.gwt.xml</include>
+					<include>de/decidr/modelingtool/**/*.gwt.xml</include>
 					<include>de/decidr/modelingtool/public/**</include>
 				</includes>
 			</resource>
