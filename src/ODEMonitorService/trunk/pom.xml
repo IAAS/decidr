@@ -26,6 +26,9 @@
 				<configuration>
 					<aarName>ODEMonitorService</aarName>
 					<includeDependencies>true</includeDependencies>
+					<axis2AdminConsoleURL>http://ec2-174-129-25-57.compute-1.amazonaws.com:8080/axis2/axis2-admin/</axis2AdminConsoleURL>
+					<axis2AdminUser>decidr</axis2AdminUser>
+					<axis2AdminPassword>decidr42</axis2AdminPassword>
 					<wsdlFile>META-INF/ODEMonitor.wsdl</wsdlFile>
 					<wsdlFileName>ODEMonitor.wsdl</wsdlFileName>
 					<servicesXmlFile>META-INF/services.xml</servicesXmlFile>
