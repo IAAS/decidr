@@ -134,28 +134,31 @@
 
 	<wsdl:portType name="HumanTaskPT">
 		<wsdl:operation name="createTask">
-			<wsdl:input message="tns:createTaskRequest" wsaw:Action="urn:createTask" />
-			<wsdl:output message="tns:createTaskResponse"
+			<wsdl:input name="createTaskRequest" message="tns:createTaskRequest"
+				wsaw:Action="urn:createTask" />
+			<wsdl:output name="createTaskResponse" message="tns:createTaskResponse"
 				wsaw:Action="urn:createTaskResponse" />
 			<wsdl:fault name="transactionException" message="tns:transactionException" />
 		</wsdl:operation>
 		<wsdl:operation name="taskCompleted">
-			<wsdl:input message="tns:taskCompletedRequest"
+			<wsdl:input name="taskCompletedRequest" message="tns:taskCompletedRequest"
 				wsaw:Action="urn:taskCompleted" />
-			<wsdl:output message="tns:taskCompletedResponse"
+			<wsdl:output name="taskCompletedResponse" message="tns:taskCompletedResponse"
 				wsaw:Action="urn:taskCompletedResponse" />
 			<wsdl:fault name="transactionException" message="tns:transactionException" />
 			<wsdl:fault name="reportingException" message="tns:reportingException" />
 		</wsdl:operation>
 		<wsdl:operation name="removeTasks">
-			<wsdl:input message="tns:removeTasksRequest" wsaw:Action="urn:removeTasks" />
-			<wsdl:output message="tns:removeTasksResponse"
+			<wsdl:input name="removeTasksRequest" message="tns:removeTasksRequest"
+				wsaw:Action="urn:removeTasks" />
+			<wsdl:output name="removeTasksResponse" message="tns:removeTasksResponse"
 				wsaw:Action="urn:removeTasksResponse" />
 			<wsdl:fault name="transactionException" message="tns:transactionException" />
 		</wsdl:operation>
 		<wsdl:operation name="removeTask">
-			<wsdl:input message="tns:removeTaskRequest" wsaw:Action="urn:removeTask" />
-			<wsdl:output message="tns:removeTaskResponse"
+			<wsdl:input name="removeTaskRequest" message="tns:removeTaskRequest"
+				wsaw:Action="urn:removeTask" />
+			<wsdl:output name="removeTaskResponse" message="tns:removeTaskResponse"
 				wsaw:Action="urn:removeTaskResponse" />
 			<wsdl:fault name="transactionException" message="tns:transactionException" />
 		</wsdl:operation>
@@ -171,57 +174,57 @@
 		<wsdl:operation name="createTask">
 			<soap:operation soapAction="http://decidr.de/webservices/HumanTask/createTask"
 				style="document" />
-			<wsdl:input>
+			<wsdl:input name="createTaskRequest">
 				<soap:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="createTaskResponse">
 				<soap:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
-				<soap:body use="literal" />
+				<soap:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="taskCompleted">
 			<soap:operation
 				soapAction="http://decidr.de/webservices/HumanTask/taskCompleted"
 				style="document" />
-			<wsdl:input>
+			<wsdl:input name="taskCompletedRequest">
 				<soap:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="taskCompletedResponse">
 				<soap:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
-				<soap:body use="literal" />
+				<soap:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="reportingException">
-				<soap:body use="literal" />
+				<soap:fault name="reportingException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="removeTasks">
 			<soap:operation soapAction="http://decidr.de/webservices/HumanTask/removeTasks"
 				style="document" />
-			<wsdl:input>
+			<wsdl:input name="removeTasksRequest">
 				<soap:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="removeTasksResponse">
 				<soap:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
-				<soap:body use="literal" />
+				<soap:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="removeTask">
 			<soap:operation soapAction="http://decidr.de/webservices/HumanTask/removeTask"
 				style="document" />
-			<wsdl:input>
+			<wsdl:input name="removeTaskRequest">
 				<soap:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="removeTaskResponse">
 				<soap:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
-				<soap:body use="literal" />
+				<soap:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>
@@ -231,58 +234,58 @@
 		<wsdl:operation name="createTask">
 			<soap11:operation soapAction="http://decidr.de/webservices/HumanTask/createTask"
 				style="document" />
-			<wsdl:input>
+			<wsdl:input name="createTaskRequest">
 				<soap11:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="createTaskResponse">
 				<soap11:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
-				<soap11:body use="literal" />
+				<soap11:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="taskCompleted">
 			<soap11:operation
 				soapAction="http://decidr.de/webservices/HumanTask/taskCompleted"
 				style="document" />
-			<wsdl:input>
+			<wsdl:input name="taskCompletedRequest">
 				<soap11:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="taskCompletedResponse">
 				<soap11:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
-				<soap11:body use="literal" />
+				<soap11:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="reportingException">
-				<soap11:body use="literal" />
+				<soap11:fault name="reportingException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="removeTasks">
 			<soap11:operation
 				soapAction="http://decidr.de/webservices/HumanTask/removeTasks"
 				style="document" />
-			<wsdl:input>
+			<wsdl:input name="removeTasksRequest">
 				<soap11:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="removeTasksResponse">
 				<soap11:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
-				<soap11:body use="literal" />
+				<soap11:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="removeTask">
 			<soap11:operation soapAction="http://decidr.de/webservices/HumanTask/removeTask"
 				style="document" />
-			<wsdl:input>
+			<wsdl:input name="removeTaskRequest">
 				<soap11:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="removeTaskResponse">
 				<soap11:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
-				<soap11:body use="literal" />
+				<soap11:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>

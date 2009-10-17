@@ -120,30 +120,34 @@
 
 	<wsdl:portType name="ODEMonitorPT">
 		<wsdl:operation name="updateStats">
-			<wsdl:input message="tns:updateStatsRequest" wsaw:Action="urn:updateStats" />
-			<wsdl:output message="tns:updateStatsResponse"
+			<wsdl:input name="updateStatsRequest" message="tns:updateStatsRequest"
+				wsaw:Action="urn:updateStats" />
+			<wsdl:output name="updateStatsResponse" message="tns:updateStatsResponse"
 				wsaw:Action="urn:updateStatsResponse" />
 			<wsdl:fault name="transactionException" message="tns:transactionException"
 				wsaw:Action="urn:transactionException" />
 		</wsdl:operation>
 		<wsdl:operation name="registerODE">
-			<wsdl:input message="tns:registerODERequest" wsaw:Action="urn:registerODE" />
-			<wsdl:output message="tns:registerODEResponse"
+			<wsdl:input name="registerODERequest" message="tns:registerODERequest"
+				wsaw:Action="urn:registerODE" />
+			<wsdl:output name="registerODEResponse" message="tns:registerODEResponse"
 				wsaw:Action="urn:registerODEResponse" />
 			<wsdl:fault name="transactionException" message="tns:transactionException"
 				wsaw:Action="urn:transactionException" />
 		</wsdl:operation>
 		<wsdl:operation name="unregisterODE">
-			<wsdl:input message="tns:unregisterODERequest"
+			<wsdl:input name="unregisterODERequest" message="tns:unregisterODERequest"
 				wsaw:Action="urn:unregisterODE" />
-			<wsdl:output message="tns:unregisterODEResponse"
+			<wsdl:output name="unregisterODEResponse" message="tns:unregisterODEResponse"
 				wsaw:Action="urn:unregisterODEResponse" />
 			<wsdl:fault name="transactionException" message="tns:transactionException"
 				wsaw:Action="urn:transactionException" />
 		</wsdl:operation>
 		<wsdl:operation name="getConfig">
-			<wsdl:input message="tns:getConfigRequest" wsaw:Action="urn:getConfig" />
-			<wsdl:output message="tns:getConfigResponse" wsaw:Action="urn:getConfigResponse" />
+			<wsdl:input name="getConfigRequest" message="tns:getConfigRequest"
+				wsaw:Action="urn:getConfig" />
+			<wsdl:output name="getConfigResponse" message="tns:getConfigResponse"
+				wsaw:Action="urn:getConfigResponse" />
 			<wsdl:fault name="transactionException" message="tns:transactionException"
 				wsaw:Action="urn:transactionException" />
 		</wsdl:operation>
@@ -153,51 +157,56 @@
 		<soap:binding style="document"
 			transport="http://schemas.xmlsoap.org/soap/http" />
 		<wsdl:operation name="updateStats">
-			<soap:operation soapAction="http://decidr.de/webservices/ODEMonitor/updateStats" style="document" />
-			<wsdl:input>
+			<soap:operation soapAction="http://decidr.de/webservices/ODEMonitor/updateStats"
+				style="document" />
+			<wsdl:input name="updateStatsRequest">
 				<soap:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="updateStatsResponse">
 				<soap:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
-				<soap:body use="literal" />
+				<soap:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="registerODE">
-			<soap:operation soapAction="http://decidr.de/webservices/ODEMonitor/registerODE" style="document" />
-			<wsdl:input>
+			<soap:operation soapAction="http://decidr.de/webservices/ODEMonitor/registerODE"
+				style="document" />
+			<wsdl:input name="registerODERequest">
 				<soap:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="registerODEResponse">
 				<soap:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
-				<soap:body use="literal" />
+				<soap:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="unregisterODE">
-			<soap:operation soapAction="http://decidr.de/webservices/ODEMonitor/unregisterODE" style="document" />
-			<wsdl:input>
+			<soap:operation
+				soapAction="http://decidr.de/webservices/ODEMonitor/unregisterODE"
+				style="document" />
+			<wsdl:input name="unregisterODERequest">
 				<soap:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="unregisterODEResponse">
 				<soap:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
-				<soap:body use="literal" />
+				<soap:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="getConfig">
-			<soap:operation soapAction="http://decidr.de/webservices/ODEMonitor/getConfig" style="document" />
-			<wsdl:input>
+			<soap:operation soapAction="http://decidr.de/webservices/ODEMonitor/getConfig"
+				style="document" />
+			<wsdl:input name="getConfigRequest">
 				<soap:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="getConfigResponse">
 				<soap:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
-				<soap:body use="literal" />
+				<soap:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>
@@ -205,54 +214,58 @@
 		<soap11:binding style="document"
 			transport="http://schemas.xmlsoap.org/soap/http" />
 		<wsdl:operation name="updateStats">
-			<soap11:operation soapAction="http://decidr.de/webservices/ODEMonitor/updateStats"
+			<soap11:operation
+				soapAction="http://decidr.de/webservices/ODEMonitor/updateStats"
 				style="document" />
-			<wsdl:input>
+			<wsdl:input name="updateStatsRequest">
 				<soap11:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="updateStatsResponse">
 				<soap11:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
-				<soap11:body use="literal" />
+				<soap11:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="registerODE">
-			<soap11:operation soapAction="http://decidr.de/webservices/ODEMonitor/registerODE"
+			<soap11:operation
+				soapAction="http://decidr.de/webservices/ODEMonitor/registerODE"
 				style="document" />
-			<wsdl:input>
+			<wsdl:input name="registerODERequest">
 				<soap11:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="registerODEResponse">
 				<soap11:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
-				<soap11:body use="literal" />
+				<soap11:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="unregisterODE">
-			<soap11:operation soapAction="http://decidr.de/webservices/ODEMonitor/unregisterODE"
+			<soap11:operation
+				soapAction="http://decidr.de/webservices/ODEMonitor/unregisterODE"
 				style="document" />
-			<wsdl:input>
+			<wsdl:input name="unregisterODERequest">
 				<soap11:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="unregisterODEResponse">
 				<soap11:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
-				<soap11:body use="literal" />
+				<soap11:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="getConfig">
-			<soap11:operation soapAction="http://decidr.de/webservices/ODEMonitor/getConfig" style="document" />
-			<wsdl:input>
+			<soap11:operation soapAction="http://decidr.de/webservices/ODEMonitor/getConfig"
+				style="document" />
+			<wsdl:input name="getConfigRequest">
 				<soap11:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="getConfigResponse">
 				<soap11:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
-				<soap11:body use="literal" />
+				<soap11:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>

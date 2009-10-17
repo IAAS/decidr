@@ -44,9 +44,9 @@
 	<!-- Operations -->
 	<wsdl:portType name="basicProcessPT">
 		<wsdl:operation name="taskCompleted">
-			<wsdl:input message="tns:taskCompletedRequest"
+			<wsdl:input name="taskCompletedRequest" message="tns:taskCompletedRequest"
 				wsaw:Action="urn:taskCompleted" />
-			<wsdl:output message="tns:taskCompletedResponse"
+			<wsdl:output name="taskCompletedResponse" message="tns:taskCompletedResponse"
 				wsaw:Action="urn:taskCompletedResponse" />
 		</wsdl:operation>
 	</wsdl:portType>
@@ -57,12 +57,19 @@
 		<wsdl:operation name="taskCompleted">
 			<soap:operation soapAction="http://decidr.de/wsdl/basicProcess/taskCompleted"
 				style="document" />
-			<wsdl:input>
+			<wsdl:input name="taskCompletedRequest">
 				<soap:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="taskCompletedResponse">
 				<soap:body use="literal" />
 			</wsdl:output>
 		</wsdl:operation>
 	</wsdl:binding>
+
+	<wsdl:service name="basicProcess">
+		<wsdl:port name="basicProcessSOAP12" binding="tns:basicProcessSOAP">
+			<soap:address
+				location="http://localhost:8080/axis2/services/basicProcess.basicProcessSOAP12/" />
+		</wsdl:port>
+	</wsdl:service>
 </wsdl:definitions>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12"
-	xmlns:soap11="http://schemas.xmlsoap.org/wsdl/soap" xmlns:tns="http://decidr.de/webservices/Email"
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:soap11="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://decidr.de/webservices/Email"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:dwsdl="http://decidr.de/wsdl/DecidrTypes" xmlns:basic="http://decidr.de/schema/DecidrTypes"
 	xmlns:decidr="http://decidr.de/schema/DecidrWSTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
@@ -87,8 +87,10 @@
 
 	<wsdl:portType name="EmailPT">
 		<wsdl:operation name="sendEmail">
-			<wsdl:input message="tns:sendEmailRequest" wsaw:Action="urn:sendEmail" />
-			<wsdl:output message="tns:sendEmailResponse" wsaw:Action="urn:sendEmailResponse" />
+			<wsdl:input name="sendEmailRequest" message="tns:sendEmailRequest"
+				wsaw:Action="urn:sendEmail" />
+			<wsdl:output name="sendEmailResponse" message="tns:sendEmailResponse"
+				wsaw:Action="urn:sendEmailResponse" />
 			<wsdl:fault name="incompleteConfigurationException"
 				message="tns:incompleteConfigurationException" />
 			<wsdl:fault name="storageException" message="tns:storageException" />
@@ -106,36 +108,29 @@
 		<soap:binding style="document"
 			transport="http://schemas.xmlsoap.org/soap/http" />
 		<wsdl:operation name="sendEmail">
-			<soap:operation soapAction="http://decidr.de/webservices/Email/sendEmail"
-				style="document" />
-			<wsdl:input>
+			<soap:operation soapAction="urn:sendEmail" style="document" />
+			<wsdl:input name="sendEmailRequest">
 				<soap:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="sendEmailResponse">
 				<soap:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="incompleteConfigurationException">
-				<soap:body use="literal" />
 				<soap:fault name="incompleteConfigurationException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="storageException">
-				<soap:body use="literal" />
 				<soap:fault name="storageException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="transactionException">
-				<soap:body use="literal" />
 				<soap:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="ioException">
-				<soap:body use="literal" />
 				<soap:fault name="ioException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="malformedURLException">
-				<soap:body use="literal" />
 				<soap:fault name="malformedURLException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="messagingException">
-				<soap:body use="literal" />
 				<soap:fault name="messagingException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
@@ -144,37 +139,30 @@
 		<soap11:binding style="document"
 			transport="http://schemas.xmlsoap.org/soap/http" />
 		<wsdl:operation name="sendEmail">
-			<soap11:operation soapAction="http://decidr.de/webservices/Email/sendEmail"
-				style="document" />
-			<wsdl:input>
+			<soap11:operation soapAction="urn:sendEmail" style="document" />
+			<wsdl:input name="sendEmailRequest">
 				<soap11:body use="literal" />
 			</wsdl:input>
-			<wsdl:output>
+			<wsdl:output name="sendEmailResponse">
 				<soap11:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="incompleteConfigurationException">
-				<soap11:body use="literal" />
 				<soap11:fault name="incompleteConfigurationException"
 					use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="storageException">
-				<soap11:body use="literal" />
 				<soap11:fault name="storageException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="transactionException">
-				<soap11:body use="literal" />
 				<soap11:fault name="transactionException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="ioException">
-				<soap11:body use="literal" />
 				<soap11:fault name="ioException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="malformedURLException">
-				<soap11:body use="literal" />
 				<soap11:fault name="malformedURLException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="messagingException">
-				<soap11:body use="literal" />
 				<soap11:fault name="messagingException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
@@ -183,11 +171,11 @@
 	<!-- needs to be adapted for deployment -->
 	<wsdl:service name="Email">
 		<wsdl:port binding="tns:EmailSOAPBinding" name="EmailSOAP">
-			<soap:address location="http://127.0.0.2:8080/axis2/services/Email.EmailSOAP" />
+			<soap:address location="http://localhost:8080/axis2/services/Email.EmailSOAP/" />
 		</wsdl:port>
 		<wsdl:port binding="tns:EmailSOAP11Binding" name="EmailSOAP11">
 			<soap11:address
-				location="http://127.0.0.2:8080/axis2/services/Email.EmailSOAP11" />
+				location="http://localhost:8080/axis2/services/Email.EmailSOAP11/" />
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>

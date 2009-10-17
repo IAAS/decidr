@@ -18,6 +18,7 @@ package de.decidr.model.webservices;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -45,6 +46,7 @@ import de.decidr.model.storage.StorageProvider;
  * 
  * @author Reinhold
  */
+@HandlerChain(file = "handler-chain.xml")
 @WebService(targetNamespace = EmailInterface.TARGET_NAMESPACE, name = EmailInterface.PORT_TYPE_NAME, wsdlLocation = "Email.wsdl")
 public interface EmailInterface {
 
