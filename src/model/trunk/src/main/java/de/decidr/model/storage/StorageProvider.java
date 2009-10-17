@@ -39,7 +39,7 @@ public interface StorageProvider {
     public static final String PERSISTENT_CONFIG_KEY = "persistent";
 
     /**
-     * Creates or replaces the file that is identified by the given id on the
+     * Creates or replaces the file that is identified by the given ID on the
      * storage backend.
      * 
      * @param data
@@ -57,7 +57,7 @@ public interface StorageProvider {
             throws StorageException;
 
     /**
-     * Retrieves the file that is identified by the given id from the storage
+     * Retrieves the file that is identified by the given ID from the storage
      * backend.
      * 
      * @param fileId
@@ -69,7 +69,7 @@ public interface StorageProvider {
     public InputStream getFile(Long fileId) throws StorageException;
 
     /**
-     * Permanently removes the file that is identified by the given id from the
+     * Permanently removes the file that is identified by the given ID from the
      * storage backend.
      * 
      * @param fileId
@@ -82,7 +82,8 @@ public interface StorageProvider {
     /**
      * Checks to see if a <code>{@link Properties}</code> can be applied to this
      * provider. The default properties (see below) have to be checked by every
-     * <code>{@link StorageProvider}</code>.
+     * <code>{@link StorageProvider}</code>. The default properties are
+     * available as {@link String} constants from this interface.
      * <p>
      * Default properties:<br>
      * <ul>
@@ -110,6 +111,14 @@ public interface StorageProvider {
      * sure all required settings are present.<br>
      * The method <code>{@link #isApplicable(Properties)}</code> can be used to
      * make sure that the configuration is complete.
+     * <p>
+     * Implementations of this interface may need this method to be called
+     * successfully before being able to use the
+     * <code>{@link #getFile(Long)}</code>,
+     * <code>{@link #putFile(InputStream, Long, Long)}</code> and
+     * <code>{@link #removeFile(Long)}</code> methods. The
+     * {@link StorageProviderFactory} will already do this if it is used to
+     * retrieve an instance of a {@link StorageProvider}.
      * 
      * @param config
      *            A <code>{@link Properties}</code> containing settings to be
@@ -118,11 +127,10 @@ public interface StorageProvider {
      *             thrown if vital parts of the configuration are missing (e.g.
      *             authentification data) or the configuration is not applicable
      *             to this provider.<br>
-     *             This exception is usually thrown when calling this
-     *             <code>{@link StorageProvider}</code> manually or when the
-     *             configuration of the
-     *             <code>{@link StorageProviderFactory}</code> is changed after
-     *             its instantiation or a call to
+     *             This exception is usually thrown when calling this <code>
+     *             {@link StorageProvider}</code> manually or when the
+     *             configuration of the <code>{@link StorageProviderFactory}
+     *             </code> is changed after its instantiation or a call to
      *             <code>{@link StorageProviderFactory#configure()}</code>.<br>
      * <br>
      *             The recommended course of action is to either manually choose

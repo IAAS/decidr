@@ -46,7 +46,7 @@ import de.decidr.model.logging.DefaultLogger;
 public class StorageProviderFactory {
 
     /**
-     * The default properties file's location.
+     * The default {@link Properties Properties file's} location.
      */
     private static final String DEFAULT_CONFIG_FILE_LOCATION = "/decidr-storage.xml";
 

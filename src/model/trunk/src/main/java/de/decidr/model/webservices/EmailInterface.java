@@ -23,7 +23,6 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.mail.MessagingException;
-import javax.xml.bind.TypeConstraintException;
 import javax.xml.namespace.QName;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
@@ -34,7 +33,6 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.soap.exceptions.IoExceptionWrapper;
 import de.decidr.model.soap.exceptions.MalformedURLExceptionWrapper;
 import de.decidr.model.soap.exceptions.MessagingExceptionWrapper;
-import de.decidr.model.soap.types.AbstractUser;
 import de.decidr.model.soap.types.AbstractUserList;
 import de.decidr.model.soap.types.IDList;
 import de.decidr.model.soap.types.StringMap;
@@ -103,24 +101,21 @@ public interface EmailInterface {
      * @throws StorageException
      *             Thrown if there was an exception in the storage backend (e.g.
      *             an <code>{@link IOException}</code>)
-     * @throws TypeConstraintException
-     *             If an unknown subclass of <code>{@link AbstractUser}</code>
-     *             is contained in a <code>{@link AbstractUserList}</code>.
      */
-    @WebMethod(action = TARGET_NAMESPACE + "/sendEmail", operationName = "sendEmail")
-    @RequestWrapper(localName = "sendEmail", targetNamespace = TARGET_NAMESPACE)
-    @ResponseWrapper(localName = "sendEmail", targetNamespace = TARGET_NAMESPACE)
+    @WebMethod(action = "urn:sendEmail", operationName = "sendEmail")
+    @RequestWrapper(localName = "sendEmail", targetNamespace = "http://decidr.de/webservices/Email", className = "de.decidr.model.soap.wrappers.SendEmail")
+    @ResponseWrapper(localName = "sendEmailResponse", targetNamespace = "http://decidr.de/webservices/Email", className = "de.decidr.model.soap.wrappers.SendEmailResponse")
     public void sendEmail(
-            @WebParam(name = "to", targetNamespace = "") AbstractUserList to,
-            @WebParam(name = "cc", targetNamespace = "") AbstractUserList cc,
-            @WebParam(name = "bcc", targetNamespace = "") AbstractUserList bcc,
-            @WebParam(name = "fromName", targetNamespace = "") String fromName,
-            @WebParam(name = "fromAddress", targetNamespace = "") String fromAddress,
-            @WebParam(name = "subject", targetNamespace = "") String subject,
-            @WebParam(name = "headers", targetNamespace = "") StringMap headers,
-            @WebParam(name = "bodyTXT", targetNamespace = "") String bodyTXT,
-            @WebParam(name = "bodyHTML", targetNamespace = "") String bodyHTML,
-            @WebParam(name = "attachments", targetNamespace = "") IDList attachments)
+            @WebParam(name = "to", targetNamespace = "http://decidr.de/webservices/Email") AbstractUserList to,
+            @WebParam(name = "cc", targetNamespace = "http://decidr.de/webservices/Email") AbstractUserList cc,
+            @WebParam(name = "bcc", targetNamespace = "http://decidr.de/webservices/Email") AbstractUserList bcc,
+            @WebParam(name = "fromName", targetNamespace = "http://decidr.de/webservices/Email") String fromName,
+            @WebParam(name = "fromAddress", targetNamespace = "http://decidr.de/webservices/Email") String fromAddress,
+            @WebParam(name = "subject", targetNamespace = "http://decidr.de/webservices/Email") String subject,
+            @WebParam(name = "headers", targetNamespace = "http://decidr.de/webservices/Email") StringMap headers,
+            @WebParam(name = "bodyTXT", targetNamespace = "http://decidr.de/webservices/Email") String bodyTXT,
+            @WebParam(name = "bodyHTML", targetNamespace = "http://decidr.de/webservices/Email") String bodyHTML,
+            @WebParam(name = "attachments", targetNamespace = "http://decidr.de/webservices/Email") IDList attachments)
             throws MessagingExceptionWrapper, MalformedURLExceptionWrapper,
             TransactionException, IoExceptionWrapper, IllegalArgumentException,
             StorageException, IncompleteConfigurationException;
