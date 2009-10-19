@@ -113,6 +113,7 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         setterSettings.setMinUnlockedServers(1);
         setterSettings.setMinWorkflowInstancesForLock(1);
         modDate = DecidrGlobals.getTime();
+        modDate.set(Calendar.MILLISECOND, 0);
         setterSettings.setModifiedDate(modDate.getTime());
         setterSettings.setMonitorAveragingPeriodSeconds(60);
         setterSettings.setMonitorUpdateIntervalSeconds(10);
