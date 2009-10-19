@@ -113,7 +113,6 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         setterSettings.setMinUnlockedServers(1);
         setterSettings.setMinWorkflowInstancesForLock(1);
         modDate = DecidrGlobals.getTime();
-        modDate.set(Calendar.MILLISECOND, 0);
         setterSettings.setModifiedDate(modDate.getTime());
         setterSettings.setMonitorAveragingPeriodSeconds(60);
         setterSettings.setMonitorUpdateIntervalSeconds(10);
@@ -181,8 +180,9 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 "systemEmailAddress").getValue());
         assertEquals("De Cidr", getterSettings.getItemProperty("systemName")
                 .getValue());
-        assertEquals(modDate.getTimeInMillis(), ((Date) getterSettings
-                .getItemProperty("modifiedDate").getValue()).getTime());
+        assertFalse(modDate.getTime().after(
+                (Date) getterSettings.getItemProperty("modifiedDate")
+                        .getValue()));
 
         setterSettings.setAutoAcceptNewTenants(false);
         setterSettings.setChangeEmailRequestLifetimeSeconds(150);
@@ -259,10 +259,9 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 "systemEmailAddress").getValue());
         assertEquals("Darth Vader", getterSettings
                 .getItemProperty("systemName").getValue());
-        // RR "bug" in Test case (behavior of SetSettingsCommand was
-        // undocumented) ~dh
-        assertEquals(modDate.getTimeInMillis(), ((Date) getterSettings
-                .getItemProperty("modifiedDate").getValue()).getTime());
+        assertFalse(modDate.getTime().after(
+                (Date) getterSettings.getItemProperty("modifiedDate")
+                        .getValue()));
 
         setterSettings.setMtaHostname("");
         setterSettings.setMtaUsername("");
@@ -942,6 +941,8 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
      */
     private static Server getServer(Server testServer)
             throws TransactionException {
+        // DH regarding your tag below: is this correct
+        // (ServerTypeEnum.valueOf(testServer.getServerType().getName()))? ~rr
         List<Server> servers = adminFacade.getServers(ServerTypeEnum
                 .valueOf(testServer.getServerType().getName()));
         for (Server server : servers) {
@@ -949,6 +950,8 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 return server;
             }
         }
+
+        fail("Couldn't find specified server in DB");
         return null;
     }
 

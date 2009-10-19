@@ -43,11 +43,11 @@ import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
@@ -447,7 +447,8 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testGetUsersOfTenant() throws TransactionException {
-        TenantFacade userFacade = new TenantFacade(new UserRole(testAdminID));
+        TenantFacade userFacade = new TenantFacade(new WorkflowAdminRole(
+                testAdminID));
 
         try {
             nullFacade.getUsersOfTenant(testTenantID, null);
@@ -469,8 +470,6 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         }
 
         assertEquals(1, adminFacade.getUsersOfTenant(testTenantID, null).size());
-        // RR Permission check fails because the userFacade is using a UserRole
-        // instead of the required WorkflowAdminRole
         assertEquals(1, userFacade.getUsersOfTenant(testTenantID, null).size());
 
         Item user = adminFacade.getUsersOfTenant(testTenantID, null).get(0);

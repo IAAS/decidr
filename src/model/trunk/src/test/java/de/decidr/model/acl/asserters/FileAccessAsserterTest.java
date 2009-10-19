@@ -27,7 +27,7 @@ import de.decidr.model.testing.DecidrAclTest;
  *
  * @author GH
  */
-public class UserHasAccessToFileAsserterTest extends DecidrAclTest {
+public class FileAccessAsserterTest extends DecidrAclTest {
 
     /**
      * Test method for {@link de.decidr.model.acl.asserters.FileAccessAsserter#assertRule(de.decidr.model.acl.roles.Role, de.decidr.model.acl.permissions.Permission)}.

@@ -404,8 +404,6 @@ public class SystemCommandsTest extends CommandsTest {
         setterSettings.setMinUnlockedServers(1);
         setterSettings.setMinWorkflowInstancesForLock(1);
         modDate = DecidrGlobals.getTime();
-        modDate.setLenient(true);
-        modDate.set(Calendar.MILLISECOND, 0);
         setterSettings.setModifiedDate(modDate.getTime());
         setterSettings.setMonitorAveragingPeriodSeconds(60);
         setterSettings.setMonitorUpdateIntervalSeconds(10);
@@ -454,8 +452,7 @@ public class SystemCommandsTest extends CommandsTest {
         assertEquals("decidr@decidr.biz", getterSettings
                 .getSystemEmailAddress());
         assertEquals("De Cidr", getterSettings.getSystemName());
-        assertEquals(modDate.getTimeInMillis(), getterSettings
-                .getModifiedDate().getTime());
+        assertFalse(modDate.getTime().after(getterSettings.getModifiedDate()));
 
         setterSettings.setAutoAcceptNewTenants(false);
         setterSettings.setChangeEmailRequestLifetimeSeconds(150);
@@ -510,8 +507,7 @@ public class SystemCommandsTest extends CommandsTest {
         assertEquals(1, getterSettings.getServerPoolInstances());
         assertEquals("dumbo@decidr.eu", getterSettings.getSystemEmailAddress());
         assertEquals("Darth Vader", getterSettings.getSystemName());
-        assertEquals(modDate.getTimeInMillis() - 1000000, getterSettings
-                .getModifiedDate().getTime());
+        assertFalse(modDate.getTime().after(getterSettings.getModifiedDate()));
 
         setterSettings.setMtaHostname("");
         setterSettings.setMtaUsername("");

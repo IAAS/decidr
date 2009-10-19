@@ -36,7 +36,6 @@ import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
@@ -129,6 +128,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
         publicPermissions.add(FileReadPermission.class);
         publicPermissions.add(FileDeletePermission.class);
         publicPermissions.add(FileReplacePermission.class);
+        testFile.mark(Integer.MAX_VALUE);
 
         try {
             nullFacade.createFile(testFile, streamSize, testName, testMime,
@@ -137,6 +137,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
         } catch (TransactionException e) {
             // supposed to be thrown
         }
+        testFile.reset();
         try {
             nullFacade
                     .replaceFile(0L, testFile, streamSize, testName, testMime);
@@ -167,16 +168,16 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
         File compareFile;
         InputStream compareData;
         for (FileFacade facade : new FileFacade[] { userFacade, adminFacade }) {
+            testFile.reset();
             testID = facade.createFile(testFile, streamSize, testName,
                     testMime, false, publicPermissions);
             compareFile = facade.getFileInfo(testID);
             assertEquals(testName, compareFile.getFileName());
             assertEquals(testMime, compareFile.getMimeType());
-            // DH rename? ~rr
-            // Not a requirement, but you can replace the file with itself using
-            // a different name :-) ~dh
+            // DH rename isIsTemporary? ~rr
             assertFalse(compareFile.isIsTemporary());
 
+            testFile.reset();
             facade
                     .replaceFile(testID, testFile, streamSize, testName,
                             testMime);
@@ -187,9 +188,8 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
 
             compareData = facade.getFileData(testID);
             assertEquals(streamSize, getInputStreamSize(compareData));
-            // RR the local storage provider returns an empty input stream ~dh
-            assertTrue(compareInputStreams(FileFacadeTest.class
-                    .getResourceAsStream(testName), facade.getFileData(testID)));
+            testFile.reset();
+            assertTrue(compareInputStreams(testFile, facade.getFileData(testID)));
 
             try {
                 facade.createFile(null, streamSize, testName, testMime, false,
@@ -198,6 +198,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
             } catch (TransactionException e) {
                 // supposed to happen
             }
+            testFile.reset();
             try {
                 facade.createFile(testFile, -1L, testName, testMime, false,
                         publicPermissions);
@@ -205,6 +206,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
             } catch (TransactionException e) {
                 // supposed to happen
             }
+            testFile.reset();
             try {
                 facade.createFile(testFile, null, testName, testMime, false,
                         publicPermissions);
@@ -212,6 +214,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
             } catch (TransactionException e) {
                 // supposed to happen
             }
+            testFile.reset();
             try {
                 facade.createFile(testFile, streamSize, null, testMime, false,
                         publicPermissions);
@@ -219,6 +222,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
             } catch (TransactionException e) {
                 // supposed to happen
             }
+            testFile.reset();
             try {
                 facade.createFile(testFile, streamSize, testName, null, false,
                         publicPermissions);
@@ -227,6 +231,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
                 // supposed to happen
             }
 
+            testFile.reset();
             try {
                 facade.replaceFile(null, testFile, streamSize, testName,
                         testMime);
@@ -234,6 +239,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
             } catch (TransactionException e) {
                 // supposed to happen
             }
+            testFile.reset();
             try {
                 facade.replaceFile(invalidID, testFile, streamSize, testName,
                         testMime);
@@ -249,18 +255,21 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
             } catch (TransactionException e) {
                 // supposed to happen
             }
+            testFile.reset();
             try {
                 facade.replaceFile(testID, testFile, null, testName, testMime);
                 fail("managed to replace file with null parameter");
             } catch (TransactionException e) {
                 // supposed to happen
             }
+            testFile.reset();
             try {
                 facade.replaceFile(testID, testFile, -1L, testName, testMime);
                 fail("managed to replace file with negative size");
             } catch (TransactionException e) {
                 // supposed to happen
             }
+            testFile.reset();
             try {
                 facade
                         .replaceFile(testID, testFile, streamSize, null,
@@ -269,6 +278,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
             } catch (TransactionException e) {
                 // supposed to happen
             }
+            testFile.reset();
             try {
                 facade
                         .replaceFile(testID, testFile, streamSize, testName,

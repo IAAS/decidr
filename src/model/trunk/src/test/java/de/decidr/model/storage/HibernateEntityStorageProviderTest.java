@@ -29,9 +29,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.FileFacadeTest;
 import de.decidr.model.storage.commands.GetFileTestCommand;
 import de.decidr.model.storage.commands.PutFileTestCommand;
 import de.decidr.model.storage.commands.PutFileTestFaultyCommand;
@@ -74,28 +76,6 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
         return byteArrayOutputStream;
     }
 
-    /*
-     * converts InputStream into byte[]
-     */
-    private static byte[] readInputStream(FileInputStream stream)
-            throws Exception {
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-        FileInputStream fileInputStream = stream;
-
-        byte[] buffer = new byte[16384];
-
-        for (int len = fileInputStream.read(buffer); len > 0; len = fileInputStream
-                .read(buffer)) {
-            byteArrayOutputStream.write(buffer, 0, len);
-        }
-
-        fileInputStream.close();
-
-        return byteArrayOutputStream.toByteArray();
-    }
-
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
 
@@ -110,6 +90,9 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
         dataFile.setFileSizeBytes(basicFile.length());
         dataFile.setData(readFile(basicFile).toByteArray());
         dataFile.setId(123456l);
+        dataFile.setCreationDate(DecidrGlobals.getTime().getTime());
+
+        session.save(dataFile);
     }
 
     @Before
@@ -150,10 +133,9 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
 
         /*
          * put file
-         * RR please create a corresponding file entity first because entityId = storageId ~dh
          */
-        PutFileTestCommand cmd = new PutFileTestCommand(123456l, basicFile,
-                storageProvider);
+        PutFileTestCommand cmd = new PutFileTestCommand(dataFile.getId(),
+                basicFile, storageProvider);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
         FileInputStream stream = new FileInputStream(
@@ -162,24 +144,22 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
         /*
          * get file
          */
-        GetFileTestCommand cmd2 = new GetFileTestCommand(123456l,
+        GetFileTestCommand cmd2 = new GetFileTestCommand(dataFile.getId(),
                 storageProvider);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd2);
 
         /*
          * check if equal
          */
-        byte[] In = readInputStream(stream);
-        byte[] Out = readInputStream(cmd2.getResultStrem());
-
-        assertTrue(java.util.Arrays.equals(In, Out));
+        assertTrue(FileFacadeTest.compareInputStreams(stream, cmd2
+                .getResultStrem()));
 
         /*
          * check some illegal calls
          */
         try {
             PutFileTestFaultyCommand cmd3 = new PutFileTestFaultyCommand(
-                    123456l, basicFile, storageProvider);
+                    dataFile.getId(), basicFile, storageProvider);
             HibernateTransactionCoordinator.getInstance().runTransaction(cmd3);
 
             if (cmd3.getResult() == false) {
@@ -191,12 +171,12 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
         }
 
         // removing test
-        RemoveFileTestCommand cmd4 = new RemoveFileTestCommand(123456l,
-                storageProvider);
+        RemoveFileTestCommand cmd4 = new RemoveFileTestCommand(
+                dataFile.getId(), storageProvider);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd4);
 
         // check if file is deleted
-        GetFileTestCommand cmd5 = new GetFileTestCommand(123456l,
+        GetFileTestCommand cmd5 = new GetFileTestCommand(dataFile.getId(),
                 storageProvider);
         try {
             HibernateTransactionCoordinator.getInstance().runTransaction(cmd5);
@@ -206,12 +186,12 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
         }
 
         // remove non existing file
-        cmd4 = new RemoveFileTestCommand(123456l, storageProvider);
+        cmd4 = new RemoveFileTestCommand(dataFile.getId(), storageProvider);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd4);
 
         // call with illegal params
         RemoveFileFaultyTestCommand cmd6 = new RemoveFileFaultyTestCommand(
-                123456l, storageProvider);
+                dataFile.getId(), storageProvider);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd6);
 
         if (cmd6.getResult() == false) {
