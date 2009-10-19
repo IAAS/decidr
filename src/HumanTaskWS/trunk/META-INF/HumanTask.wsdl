@@ -293,7 +293,7 @@
 	<!-- needs to be adapted for deployment -->
 	<wsdl:service name="HumanTask">
 		<wsdl:port binding="tns:HumanTaskSOAP" name="HumanTaskSOAP">
-			<soap11:address
+			<soap:address
 				location="http://127.0.0.2:8080/axis2/services/HumanTask.HumanTaskSOAP/" />
 		</wsdl:port>
 		<wsdl:port binding="tns:HumanTaskSOAP11" name="HumanTaskSOAP11">
