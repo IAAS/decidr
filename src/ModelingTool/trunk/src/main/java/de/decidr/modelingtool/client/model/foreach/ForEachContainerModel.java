@@ -51,7 +51,11 @@ public class ForEachContainerModel extends ContainerModel {
     }
 
     public Boolean isParallel() {
-        return properties.get(parallelFieldName);
+        if (properties.get(parallelFieldName) == null) {
+            return false;
+        } else {
+            return properties.get(parallelFieldName);
+        }
     }
 
     public void setIterationVariableId(Long iterationVariableId) {

@@ -577,7 +577,7 @@ public class WorkflowParserImpl implements WorkflowParser {
 
         }
 
-        if (model.isParallel() != null && model.isParallel()) {
+        if (model.isParallel()) {
             forEachElement.setAttribute(DWDLNames.parallel, DWDLNames.yes);
         } else {
             forEachElement.setAttribute(DWDLNames.parallel, DWDLNames.no);

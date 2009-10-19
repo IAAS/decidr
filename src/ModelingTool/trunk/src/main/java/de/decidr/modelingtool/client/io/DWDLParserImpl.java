@@ -82,7 +82,7 @@ public class DWDLParserImpl implements DWDLParser {
         workflow.setVariables(variables);
 
         /* Create nodes */
-        createChildNodeModels(doc.getFirstChild(), workflow, workflow);
+        createChildNodeModels((Element) doc.getFirstChild(), workflow, workflow);
 
         return workflow;
     }
@@ -271,43 +271,57 @@ public class DWDLParserImpl implements DWDLParser {
         return variableId;
     }
 
-    private Collection<NodeModel> createChildNodeModels(Node parentElement,
+    private Collection<NodeModel> createChildNodeModels(Element parentElement,
             WorkflowModel workflow, HasChildModels parentModel) {
+        /* This colletion will be returned */
         Collection<NodeModel> childNodeModels = new HashSet<NodeModel>();
-        for (Element childElement : getChildElementsAsList(getChildNodesByTagName(
-                (Element) parentElement, DWDLNames.nodes).get(0))) {
-            NodeModel nodeModel = null;
-            /*
-             * Check the name of the child nodes against the names of all know
-             * node type and call their creation method. In case the name is
-             * startnode or endnode it is safe to assume the parent element is a
-             * workflow element
-             */
-            if (childElement.getNodeName().equals(DWDLNames.startNode)) {
-                nodeModel = createStartModel(childElement, workflow);
-            } else if (childElement.getNodeName().equals(DWDLNames.endNode)) {
-                nodeModel = createEndModel(childElement, workflow);
-            } else if (childElement.getNodeName().equals(DWDLNames.flowNode)) {
-                nodeModel = createFlowModel(childElement, workflow, parentModel);
-            } else if (childElement.getNodeName().equals(DWDLNames.ifNode)) {
-                nodeModel = createIfModel(childElement, workflow, parentModel);
-            } else if (childElement.getNodeName().equals(DWDLNames.forEachNode)) {
-                nodeModel = createForEachModel(childElement, workflow,
-                        parentModel);
-            } else if (childElement.getNodeName().equals(DWDLNames.invokeNode)) {
-                if (childElement.getAttribute(DWDLNames.activity).equals(
-                        DWDLNames.decidrEmail)) {
-                    nodeModel = createEmailInvokeNode(childElement, parentModel);
-                } else if (childElement.getAttribute(DWDLNames.activity)
-                        .equals(DWDLNames.decidrHumanTask)) {
-                    nodeModel = createHumanTaskInvokeNode(childElement,
-                            parentModel);
-                }
-            }
 
-            if (nodeModel != null) {
-                parentModel.addNodeModel(nodeModel);
-                childNodeModels.add(nodeModel);
+        List<Element> children = getChildNodesByTagName(parentElement,
+                DWDLNames.nodes);
+        if (children.size() > 0) {
+            Element nodesElement = children.get(0);
+            List<Element> nodeElemens = getChildElementsAsList(nodesElement);
+            for (Element childElement : nodeElemens) {
+
+                NodeModel nodeModel = null;
+                /*
+                 * Check the name of the child nodes against the names of all
+                 * know node type and call their creation method. In case the
+                 * name is startnode or endnode it is safe to assume the parent
+                 * element is a workflow element
+                 */
+                if (childElement.getNodeName().equals(DWDLNames.startNode)) {
+                    nodeModel = createStartModel(childElement, workflow);
+                } else if (childElement.getNodeName().equals(DWDLNames.endNode)) {
+                    nodeModel = createEndModel(childElement, workflow);
+                } else if (childElement.getNodeName()
+                        .equals(DWDLNames.flowNode)) {
+                    nodeModel = createFlowModel(childElement, workflow,
+                            parentModel);
+                } else if (childElement.getNodeName().equals(DWDLNames.ifNode)) {
+                    nodeModel = createIfModel(childElement, workflow,
+                            parentModel);
+                } else if (childElement.getNodeName().equals(
+                        DWDLNames.forEachNode)) {
+                    nodeModel = createForEachModel(childElement, workflow,
+                            parentModel);
+                } else if (childElement.getNodeName().equals(
+                        DWDLNames.invokeNode)) {
+                    if (childElement.getAttribute(DWDLNames.activity).equals(
+                            DWDLNames.decidrEmail)) {
+                        nodeModel = createEmailInvokeNode(childElement,
+                                parentModel);
+                    } else if (childElement.getAttribute(DWDLNames.activity)
+                            .equals(DWDLNames.decidrHumanTask)) {
+                        nodeModel = createHumanTaskInvokeNode(childElement,
+                                parentModel);
+                    }
+                }
+
+                if (nodeModel != null) {
+                    parentModel.addNodeModel(nodeModel);
+                    childNodeModels.add(nodeModel);
+                }
             }
         }
 
@@ -328,8 +342,9 @@ public class DWDLParserImpl implements DWDLParser {
                 DWDLNames.sources).get(0);
         Element sourceElement = getChildNodesByTagName(sourcesElement,
                 DWDLNames.source).get(0);
-        startModel.setOutput(getConnectionForSourceElement(sourceElement,
-                startModel, workflow));
+        startModel.setOutput(getConnectionForSourceElement(new Long(
+                sourceElement.getAttribute(DWDLNames.arcId)), startModel,
+                workflow));
 
         return startModel;
     }
@@ -348,8 +363,8 @@ public class DWDLParserImpl implements DWDLParser {
                 DWDLNames.targets).get(0);
         Element targetElement = getChildNodesByTagName(targetsElement,
                 DWDLNames.target).get(0);
-        endModel.setInput(getConnectionForTargetElement(targetElement,
-                endModel, workflow));
+        endModel.setInput(getConnectionForTargetElement(new Long(targetElement
+                .getAttribute(DWDLNames.arcId)), endModel, workflow));
 
         return endModel;
     }
@@ -384,8 +399,9 @@ public class DWDLParserImpl implements DWDLParser {
             Element targetsElement = targets.get(0);
             Element targetElement = getChildNodesByTagName(targetsElement,
                     DWDLNames.target).get(0);
-            emailModel.setInput(getConnectionForTargetElement(targetElement,
-                    emailModel, parentModel));
+            emailModel.setInput(getConnectionForTargetElement(new Long(
+                    targetElement.getAttribute(DWDLNames.arcId)), emailModel,
+                    parentModel));
         }
         List<Element> sources = getChildNodesByTagName(emailElement,
                 DWDLNames.sources);
@@ -393,8 +409,9 @@ public class DWDLParserImpl implements DWDLParser {
             Element sourcesElement = sources.get(0);
             Element sourceElement = getChildNodesByTagName(sourcesElement,
                     DWDLNames.source).get(0);
-            emailModel.setOutput(getConnectionForSourceElement(sourceElement,
-                    emailModel, parentModel));
+            emailModel.setOutput(getConnectionForSourceElement(new Long(
+                    sourceElement.getAttribute(DWDLNames.arcId)), emailModel,
+                    parentModel));
         }
 
         return emailModel;
@@ -489,8 +506,9 @@ public class DWDLParserImpl implements DWDLParser {
             Element targetsElement = targets.get(0);
             Element targetElement = getChildNodesByTagName(targetsElement,
                     DWDLNames.target).get(0);
-            humanTaskModel.setInput(getConnectionForTargetElement(
-                    targetElement, humanTaskModel, parentModel));
+            humanTaskModel.setInput(getConnectionForTargetElement(new Long(
+                    targetElement.getAttribute(DWDLNames.arcId)),
+                    humanTaskModel, parentModel));
         }
         List<Element> sources = getChildNodesByTagName(humanTaskElement,
                 DWDLNames.sources);
@@ -498,8 +516,9 @@ public class DWDLParserImpl implements DWDLParser {
             Element sourcesElement = sources.get(0);
             Element sourceElement = getChildNodesByTagName(sourcesElement,
                     DWDLNames.source).get(0);
-            humanTaskModel.setOutput(getConnectionForSourceElement(
-                    sourceElement, humanTaskModel, parentModel));
+            humanTaskModel.setOutput(getConnectionForSourceElement(new Long(
+                    sourceElement.getAttribute(DWDLNames.arcId)),
+                    humanTaskModel, parentModel));
         }
 
         return humanTaskModel;
@@ -514,7 +533,7 @@ public class DWDLParserImpl implements DWDLParser {
         flowModel.setId(new Long(flowElement.getAttribute(DWDLNames.id)));
         setGraphics(flowElement, flowModel);
 
-        createInnerContainerConnections(flowElement, flowModel, parentModel);
+        createInnerContainerConnections(flowElement, flowModel);
 
         createChildNodeModels(flowElement, workflow, flowModel);
 
@@ -525,8 +544,9 @@ public class DWDLParserImpl implements DWDLParser {
             Element targetsElement = targets.get(0);
             Element targetElement = getChildNodesByTagName(targetsElement,
                     DWDLNames.target).get(0);
-            flowModel.setInput(getConnectionForTargetElement(targetElement,
-                    flowModel, parentModel));
+            flowModel.setInput(getConnectionForTargetElement(new Long(
+                    targetElement.getAttribute(DWDLNames.arcId)), flowModel,
+                    parentModel));
         }
         List<Element> sources = getChildNodesByTagName(flowElement,
                 DWDLNames.sources);
@@ -534,8 +554,9 @@ public class DWDLParserImpl implements DWDLParser {
             Element sourcesElement = sources.get(0);
             Element sourceElement = getChildNodesByTagName(sourcesElement,
                     DWDLNames.source).get(0);
-            flowModel.setOutput(getConnectionForSourceElement(sourceElement,
-                    flowModel, parentModel));
+            flowModel.setOutput(getConnectionForSourceElement(new Long(
+                    sourceElement.getAttribute(DWDLNames.arcId)), flowModel,
+                    parentModel));
         }
 
         return flowModel;
@@ -583,6 +604,8 @@ public class DWDLParserImpl implements DWDLParser {
             }
         }
 
+        createInnerContainerConnections(ifElement, ifModel);
+
         /* Set incoming and outgoing connections */
         List<Element> targets = getChildNodesByTagName(ifElement,
                 DWDLNames.targets);
@@ -590,8 +613,9 @@ public class DWDLParserImpl implements DWDLParser {
             Element targetsElement = targets.get(0);
             Element targetElement = getChildNodesByTagName(targetsElement,
                     DWDLNames.target).get(0);
-            ifModel.setInput(getConnectionForTargetElement(targetElement,
-                    ifModel, parentModel));
+            ifModel.setInput(getConnectionForTargetElement(new Long(
+                    targetElement.getAttribute(DWDLNames.arcId)), ifModel,
+                    parentModel));
         }
         List<Element> sources = getChildNodesByTagName(ifElement,
                 DWDLNames.sources);
@@ -599,8 +623,9 @@ public class DWDLParserImpl implements DWDLParser {
             Element sourcesElement = sources.get(0);
             Element sourceElement = getChildNodesByTagName(sourcesElement,
                     DWDLNames.source).get(0);
-            ifModel.setOutput(getConnectionForSourceElement(sourceElement,
-                    ifModel, parentModel));
+            ifModel.setOutput(getConnectionForSourceElement(new Long(
+                    sourceElement.getAttribute(DWDLNames.arcId)), ifModel,
+                    parentModel));
         }
 
         return ifModel;
@@ -616,19 +641,31 @@ public class DWDLParserImpl implements DWDLParser {
         forEachModel.setId(new Long(forEachElement.getAttribute(DWDLNames.id)));
         setGraphics(forEachElement, forEachModel);
 
+        createInnerContainerConnections(forEachElement, forEachModel);
+
         createChildNodeModels(forEachElement, workflow, forEachModel);
 
-        /* Set for each properties */
-        Element finalCounterValueElement = getChildNodesByTagName(
-                forEachElement, DWDLNames.finalCounterValue).get(0);
-        forEachModel.setIterationVariableId(VariableNameFactory
-                .createIdFromNCName(finalCounterValueElement.getFirstChild()
-                        .getNodeValue()));
-        Element completionConditionElement = getChildNodesByTagName(
-                forEachElement, DWDLNames.completionCon).get(0);
-        forEachModel.setExitCondition(ExitCondition
-                .valueOf(completionConditionElement.getFirstChild()
-                        .getNodeValue()));
+        /* Set for each properties, if there are any */
+        List<Element> finalCounterValueElement = getChildNodesByTagName(
+                forEachElement, DWDLNames.finalCounterValue);
+        if (finalCounterValueElement.size() > 0) {
+            forEachModel.setIterationVariableId(VariableNameFactory
+                    .createIdFromNCName(finalCounterValueElement.get(0)
+                            .getFirstChild().getNodeValue()));
+        }
+        List<Element> completionConditionElement = getChildNodesByTagName(
+                forEachElement, DWDLNames.completionCon);
+        if (completionConditionElement.size() > 0) {
+            forEachModel.setExitCondition(ExitCondition
+                    .valueOf(completionConditionElement.get(0).getFirstChild()
+                            .getNodeValue()));
+        }
+        if (forEachElement.getAttribute(DWDLNames.parallel).equals(
+                DWDLNames.yes)) {
+            forEachModel.setParallel(true);
+        } else {
+            forEachModel.setParallel(false);
+        }
 
         /* Set incoming and outgoing connections */
         List<Element> targets = getChildNodesByTagName(forEachElement,
@@ -637,8 +674,9 @@ public class DWDLParserImpl implements DWDLParser {
             Element targetsElement = targets.get(0);
             Element targetElement = getChildNodesByTagName(targetsElement,
                     DWDLNames.target).get(0);
-            forEachModel.setInput(getConnectionForTargetElement(targetElement,
-                    forEachModel, parentModel));
+            forEachModel.setInput(getConnectionForTargetElement(new Long(
+                    targetElement.getAttribute(DWDLNames.arcId)), forEachModel,
+                    parentModel));
         }
         List<Element> sources = getChildNodesByTagName(forEachElement,
                 DWDLNames.sources);
@@ -646,8 +684,9 @@ public class DWDLParserImpl implements DWDLParser {
             Element sourcesElement = sources.get(0);
             Element sourceElement = getChildNodesByTagName(sourcesElement,
                     DWDLNames.source).get(0);
-            forEachModel.setOutput(getConnectionForSourceElement(sourceElement,
-                    forEachModel, parentModel));
+            forEachModel.setOutput(getConnectionForSourceElement(new Long(
+                    sourceElement.getAttribute(DWDLNames.arcId)), forEachModel,
+                    parentModel));
         }
 
         return forEachModel;
@@ -673,7 +712,7 @@ public class DWDLParserImpl implements DWDLParser {
     }
 
     private void createInnerContainerConnections(Element containerElement,
-            ContainerModel containerModel, HasChildModels parentModel) {
+            ContainerModel containerModel) {
         /*
          * Parse inner arcs element of the container. Arcs, which reference the
          * container as source element, are container start connections. Arcs,
@@ -681,11 +720,31 @@ public class DWDLParserImpl implements DWDLParser {
          * connections.
          */
         // JS implement
+        List<Element> arcs = getChildNodesByTagName(containerElement,
+                DWDLNames.arcs);
+
+        if (arcs.size() > 0) {
+            Element arcsElement = arcs.get(0);
+            List<Element> arcElements = getChildElementsAsList(arcsElement);
+            for (Element arcElement : arcElements) {
+                if (arcElement.getAttribute(DWDLNames.source).equals(
+                        containerModel.getId().toString())) {
+                    getConnectionForSourceElement(new Long(arcElement
+                            .getAttribute(DWDLNames.id)), containerModel,
+                            containerModel);
+                } else if (arcElement.getAttribute(DWDLNames.target).equals(
+                        containerModel.getId().toString())) {
+                    getConnectionForTargetElement(new Long(arcElement
+                            .getAttribute(DWDLNames.id)), containerModel,
+                            containerModel);
+                }
+            }
+
+        }
     }
 
-    private ConnectionModel getConnectionForSourceElement(
-            Element sourceElement, NodeModel sourceModel,
-            HasChildModels parentModel) {
+    private ConnectionModel getConnectionForSourceElement(Long connectionId,
+            NodeModel sourceModel, HasChildModels parentModel) {
         /*
          * If this is the first connection to be got, then the hash map has to
          * be created first
@@ -695,10 +754,6 @@ public class DWDLParserImpl implements DWDLParser {
         }
 
         ConnectionModel resultConnection;
-
-        /* Create id */
-        Long connectionId = new Long(sourceElement
-                .getAttribute(DWDLNames.arcId));
 
         /* If the connection is not in the hash map, it has to be created */
         if (connectionModels.containsKey(connectionId) == false) {
@@ -729,9 +784,8 @@ public class DWDLParserImpl implements DWDLParser {
         return resultConnection;
     }
 
-    private ConnectionModel getConnectionForTargetElement(
-            Element targetElement, NodeModel targetModel,
-            HasChildModels parentModel) {
+    private ConnectionModel getConnectionForTargetElement(Long connectionId,
+            NodeModel targetModel, HasChildModels parentModel) {
         /*
          * If this is the first connection to be got, then the hash map has to
          * be created first
@@ -741,10 +795,6 @@ public class DWDLParserImpl implements DWDLParser {
         }
 
         ConnectionModel resultConnection;
-
-        /* Create id */
-        Long connectionId = new Long(targetElement
-                .getAttribute(DWDLNames.arcId));
 
         /* If the connection is not in the hash map, it has to be created */
         if (connectionModels.containsKey(connectionId) == false) {

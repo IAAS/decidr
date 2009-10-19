@@ -1,0 +1,108 @@
+<workflow name="Simple Workflow" id="1255956748515"
+	targetNamespace="namespace" xmlns="schema">
+	<description></description>
+	<variables>
+		<variable name="L123" label="Fault Message" type="string"
+			configurationVariable="no">
+			<initialValue>Workflow failed</initialValue>
+		</variable>
+		<variable name="L12" label="Success Message" type="string"
+			configurationVariable="no">
+			<initialValue>Workflow succeded</initialValue>
+		</variable>
+		<variable name="L768768" label="Text" type="string"
+			configurationVariable="yes">
+			<initialValue>Loram Ipsum</initialValue>
+		</variable>
+	</variables>
+	<roles>
+		<role configurationVariable="no" label="Recipient" name="L345">
+			<actor userId="decidradmin" />
+		</role>
+	</roles>
+	<faultHandler>
+		<setProperty name="message" variable="L123" />
+		<recipient>
+			<setProperty name="name" variable="L345" />
+		</recipient>
+	</faultHandler>
+	<nodes>
+		<startNode name="de.decidr.modelingtool.client.model.StartNodeModel"
+			id="1255956748593">
+			<description></description>
+			<graphics x="25" y="25" width="50" height="30" />
+			<sources>
+				<source arcId="1255956748640" />
+			</sources>
+		</startNode>
+		<endNode name="de.decidr.modelingtool.client.model.EndNodeModel"
+			id="1255956748656">
+			<description></description>
+			<graphics x="690" y="499" width="50" height="30" />
+			<targets>
+				<target arcId="1255956748671" />
+			</targets>
+			<notificationOfSuccess>
+				<setProperty name="successMessage" variable="L12" />
+				<setProperty name="recipient" variable="L345" />
+			</notificationOfSuccess>
+		</endNode>
+		<forEachNode
+			name="de.decidr.modelingtool.client.model.foreach.ForEachContainerModel"
+			id="1255956748687" parallel="no">
+			<description></description>
+			<graphics x="57" y="154" width="200" height="150" />
+		</forEachNode>
+		<forEachNode
+			name="de.decidr.modelingtool.client.model.foreach.ForEachContainerModel"
+			id="1255956748703" countername="L768768" parallel="yes">
+			<description></description>
+			<graphics x="367" y="126" width="312" height="279" />
+			<sources>
+				<source arcId="1255956748671" />
+			</sources>
+			<targets>
+				<target arcId="1255956748640" />
+			</targets>
+			<startCounterValue>1</startCounterValue>
+			<finalCounterValue>L768768</finalCounterValue>
+			<completionCondition>XOR</completionCondition>
+			<nodes>
+				<invokeNode
+					name="de.decidr.modelingtool.client.model.EmailInvokeNodeModel" id="1255956748750"
+					activity="Decidr-Email">
+					<description></description>
+					<graphics x="119" y="123" width="100" height="60" />
+					<sources>
+						<source arcId="1255956748765" />
+					</sources>
+					<targets>
+						<target arcId="1255956748781" />
+					</targets>
+					<setProperty name="to" />
+					<setProperty name="cc" />
+					<setProperty name="bcc" />
+					<setProperty name="subject" />
+					<setProperty name="message" />
+					<setProperty name="attachement" />
+				</invokeNode>
+			</nodes>
+			<arcs>
+				<arc
+					name="de.decidr.modelingtool.client.model.ContainerExitConnectionModel"
+					id="1255956748765" source="1255956748750" target="1255956748703" />
+				<arc
+					name="de.decidr.modelingtool.client.model.ContainerStartConnectionModel"
+					id="1255956748781" source="1255956748703" target="1255956748750" />
+			</arcs>
+		</forEachNode>
+	</nodes>
+	<arcs>
+		<arc name="de.decidr.modelingtool.client.model.ConnectionModel"
+			id="1255956748671" source="1255956748703" target="1255956748656" />
+		<arc name="de.decidr.modelingtool.client.model.ConnectionModel"
+			id="1255956748640" source="1255956748593" target="1255956748703" />
+	</arcs>
+</workflow>
+
+
