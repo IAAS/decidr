@@ -57,13 +57,13 @@ public class PaginatingCriteria implements Criteria {
     private Criteria clone;
 
     /**
-     * Constructor. Creates the "real" {@link Criteria} and a clone that is used
-     * to retrieve the row count.
+     * Creates the "real" {@link Criteria} and a clone that is used to retrieve
+     * the row count.
      * 
      * @param clazz
      *            class to which the critria should be applied
      * @param session
-     *            current hibernate session
+     *            current Hibernate session
      */
     @SuppressWarnings("unchecked")
     public PaginatingCriteria(Class clazz, Session session) {
@@ -73,11 +73,30 @@ public class PaginatingCriteria implements Criteria {
     }
 
     /**
+     * Creates the "real" {@link Criteria} using the given alias and a clone
+     * that is used to retrieve the row count.
+     * 
+     * @param clazz
+     *            class to which the critria should be applied
+     * @param alias
+     *            alias for the root criteria
+     * @param session
+     *            current Hibernate session
+     */
+    @SuppressWarnings("unchecked")
+    public PaginatingCriteria(Class clazz, String alias, Session session) {
+        this.criteria = session.createCriteria(clazz, alias);
+        this.clone = session.createCriteria(clazz, alias);
+        this.clone.setProjection(Projections.rowCount());
+    }
+
+    /**
      * Used internally to provide method chaining.
      * 
      * @param criteria
      *            class to which the critria should be applied
-     * @param clone the copy
+     * @param clone
+     *            the copy
      * 
      */
     private PaginatingCriteria(Criteria criteria, Criteria clone) {

@@ -259,7 +259,8 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 "systemEmailAddress").getValue());
         assertEquals("Darth Vader", getterSettings
                 .getItemProperty("systemName").getValue());
-        //RR "bug" in Test case (behavior of SetSettingsCommand was undocumented) ~dh
+        // RR "bug" in Test case (behavior of SetSettingsCommand was
+        // undocumented) ~dh
         assertEquals(modDate.getTimeInMillis(), ((Date) getterSettings
                 .getItemProperty("modifiedDate").getValue()).getTime());
 
@@ -831,6 +832,7 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
             Long testServerID = testServer.getId();
             adminFacade.updateServerLoad(testServerID, (byte) 20);
             testServer = getServer(testServer);
+            // DH RR testServer seems to be null... strange ~dh
             assertEquals((byte) 20, testServer.getLoad());
             adminFacade.updateServerLoad(testServerID, (byte) 82);
             testServer = getServer(testServer);
@@ -978,6 +980,8 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                     dynamicallyAdded);
             fail(failmsg);
         } catch (TransactionException e) {
+            // should be thrown
+        } catch (IllegalArgumentException e) {
             // should be thrown
         }
     }

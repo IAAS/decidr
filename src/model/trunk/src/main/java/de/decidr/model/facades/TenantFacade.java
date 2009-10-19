@@ -386,6 +386,8 @@ public class TenantFacade extends AbstractFacade {
      * @param paginator
      *            {@link Paginator}
      * @return <code>{@link List<Item>}</code> Users of the given tenant
+     * @throws IllegalArgumentException
+     *             if the given tenant ID is null.
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(WorkflowAdminRole.class)
@@ -436,6 +438,10 @@ public class TenantFacade extends AbstractFacade {
      * @param paginator
      *            {@link Paginator}
      * @return list of vaadin items described above
+     * @throws IllegalArgumentException
+     *             if the given tenant ID is null
+     * @throws EntityNotFoundException
+     *             if the given tenant does not exist.
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(WorkflowAdminRole.class)
@@ -468,7 +474,6 @@ public class TenantFacade extends AbstractFacade {
         }
 
         return outList;
-
     }
 
     /**

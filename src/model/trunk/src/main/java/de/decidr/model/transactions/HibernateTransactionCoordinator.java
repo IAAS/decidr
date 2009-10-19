@@ -114,7 +114,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     protected synchronized void beginTransaction() {
         logger.debug("Beginning transaction. New transaction depth: "
-                + transactionDepth + 1);
+                + (transactionDepth + 1));
         if (transactionDepth == 0) {
             session = sessionFactory.openSession();
             currentTransaction = session.beginTransaction();

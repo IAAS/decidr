@@ -161,13 +161,13 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             userFacade.addTenantMember(null, testAdminID);
             fail("managed to add a tenant member using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {
             userFacade.addTenantMember(testTenantID, null);
             fail("managed to add a tenant member using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {
@@ -458,17 +458,19 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.getUsersOfTenant(null, null);
             fail("managed to get users of tenant using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
         try {
             userFacade.getUsersOfTenant(null, null);
             fail("managed to get users of tenant using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
 
         assertEquals(1, adminFacade.getUsersOfTenant(testTenantID, null).size());
+        // RR Permission check fails because the userFacade is using a UserRole
+        // instead of the required WorkflowAdminRole
         assertEquals(1, userFacade.getUsersOfTenant(testTenantID, null).size());
 
         Item user = adminFacade.getUsersOfTenant(testTenantID, null).get(0);
@@ -495,7 +497,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.getWorkflowInstances(null, null);
             fail("managed to get workflow instances with null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {

@@ -18,8 +18,8 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-public class UserIsAvailableAsserter extends AbstractTransactionalCommand implements
-        Asserter {
+public class UserIsAvailableAsserter extends AbstractTransactionalCommand
+        implements Asserter {
 
     private Long userId = null;
     private Boolean userIsAvailable = false;
@@ -42,6 +42,6 @@ public class UserIsAvailableAsserter extends AbstractTransactionalCommand implem
     public void transactionStarted(TransactionEvent evt) {
         User user = (User) evt.getSession().get(User.class, userId);
         // a user is available iff no "unavailable since" date has been set
-        userIsAvailable = user.getUnavailableSince() == null;
+        userIsAvailable = user != null && user.getUnavailableSince() == null;
     }
 }

@@ -47,13 +47,14 @@ public class UserIsTenantMemberAsserter extends CommandAsserter {
     @Override
     public void transactionStarted(TransactionEvent evt) {
         // a user is a member of a tenant if he is the admin or a regular member
-        String hql = "select (select count(*) from UserIsMemberOfTenant rel where "
-                + "rel.user.id = :userId and rel.tenant.id = :tenantId) +"
-                + "(select count(*) from Tenant t where "
+        String hql = "select u.id from User u where u.id = :userId and "
+                + "exists(from UserIsMemberOfTenant rel where "
+                + "rel.user.id = :userId and rel.tenant.id = :tenantId) "
+                + " or exists(from Tenant t where "
                 + "t.admin.id = :userId and t.id = :tenantId)";
 
         // The "tenantId" parameter is set in the for loop below
-        Query q = evt.getSession().createQuery(hql).setLong("userId", userId);
+        Query q = evt.getSession().createQuery(hql).setMaxResults(1);
 
         if (tenantIds == null) {
             // no tenant ids to check against, so we're returning false
@@ -62,9 +63,10 @@ public class UserIsTenantMemberAsserter extends CommandAsserter {
             // the user must be a member of each given tenant
             userIsMember = true;
             for (Long tenantId : tenantIds) {
+                q.setLong("userId", userId);
                 q.setLong("tenantId", tenantId);
-                Number membershipCount = (Number) q.uniqueResult();
-                userIsMember = userIsMember && (membershipCount.intValue() > 0);
+                Boolean isMember = q.uniqueResult() != null;
+                userIsMember = userIsMember && isMember;
                 if (!userIsMember) {
                     break;
                 }

@@ -22,7 +22,9 @@ import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.WorkflowInstance;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.PaginatingCriteria;
 import de.decidr.model.filters.Paginator;
@@ -53,10 +55,16 @@ public class GetWorkflowInstancesCommand extends TenantCommand {
      *            be requested
      * @param paginator
      *            {@link Paginator}
+     * @throws IllegalArgumentException
+     *             if the given tenant ID is null.
      */
     public GetWorkflowInstancesCommand(Role role, Long tenantId,
             Paginator paginator) {
         super(role, tenantId);
+
+        if (tenantId == null) {
+            throw new IllegalArgumentException("Tenant ID must not be null.");
+        }
 
         this.paginator = paginator;
     }
@@ -65,6 +73,14 @@ public class GetWorkflowInstancesCommand extends TenantCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+
+        String hql = "select exists(from Tenant t where t.id  = :tenantId)";
+        Boolean tenantExists = (Boolean) evt.getSession().createQuery(hql)
+                .setLong("tenantId", getTenantId()).uniqueResult();
+
+        if (!tenantExists) {
+            throw new EntityNotFoundException(Tenant.class, getTenantId());
+        }
 
         PaginatingCriteria c = new PaginatingCriteria(WorkflowInstance.class,
                 evt.getSession());
@@ -82,6 +98,8 @@ public class GetWorkflowInstancesCommand extends TenantCommand {
         if (paginator != null) {
             paginator.apply(c);
         }
+
+        c.setResultTransformer(Criteria.ROOT_ENTITY);
 
         result = c.list();
     }

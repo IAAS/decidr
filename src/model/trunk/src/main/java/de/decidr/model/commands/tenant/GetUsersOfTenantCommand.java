@@ -18,10 +18,13 @@ package de.decidr.model.commands.tenant;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
+import org.hibernate.type.Type;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Tenant;
@@ -55,9 +58,15 @@ public class GetUsersOfTenantCommand extends TenantCommand {
      *            the ID of the tenant whose users should be requested
      * @param paginator
      *            {@link Paginator}
+     * @throws IllegalArgumentException
+     *             if the given tenant ID is null
      */
     public GetUsersOfTenantCommand(Role role, Long tenantId, Paginator paginator) {
         super(role, tenantId);
+
+        if (tenantId == null) {
+            throw new IllegalArgumentException("Tenant ID must not be null.");
+        }
 
         this.paginator = paginator;
     }
@@ -67,26 +76,44 @@ public class GetUsersOfTenantCommand extends TenantCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        PaginatingCriteria c = new PaginatingCriteria(User.class, evt
+        PaginatingCriteria c = new PaginatingCriteria(User.class, "u", evt
                 .getSession());
 
+        String rootAlias = c.getAlias();
+
         // Create criterion "user is a member of the tenant"
-        DetachedCriteria isMemberCriteria = DetachedCriteria
-                .forClass(UserIsMemberOfTenant.class);
-        isMemberCriteria.add(Restrictions.eq("tenant.id", getTenantId()));
-        Criterion isMemberRestriction = Subqueries.exists(isMemberCriteria);
+        DetachedCriteria memberRel = DetachedCriteria.forClass(
+                UserIsMemberOfTenant.class, "memberRel");
+        memberRel.add(
+                Property.forName("memberRel.user.id").eqProperty(
+                        rootAlias + ".id")).add(
+                Property.forName("memberRel.tenant.id").eq(getTenantId()));
 
         // Create criterion "user is the administrator of the tenant"
-        DetachedCriteria isAdminCriteria = DetachedCriteria
-                .forClass(Tenant.class);
-        isAdminCriteria.add(Restrictions.eq("tenant.id", getTenantId()));
-        isAdminCriteria.add(Restrictions.eq("admin.id", c.getAlias() + ".id"));
-        Criterion isAdminRestriction = Subqueries.exists(isAdminCriteria);
+        DetachedCriteria adminRel = DetachedCriteria.forClass(Tenant.class,
+                "adminTenant");
+        adminRel.add(Property.forName("adminTenant.id").eq(getTenantId())).add(
+                Property.forName("adminTenant.admin.id").eqProperty(
+                        rootAlias + ".id"));
 
-        c.add(Restrictions.or(isMemberRestriction, isAdminRestriction));
+        /*
+         * Workaround for Hibernate issue HHH-993: Criteria subquery without
+         * projection fails throwing NullPointerException.
+         * 
+         * Additionally, Mysql doesn't seem to like aliases in EXISTS
+         * subqueries, so we have to explicitly specify "*"
+         */
+        Projection existsSubqueryProjection = Projections.sqlProjection("*",
+                new String[0], new Type[0]);
+        memberRel.setProjection(existsSubqueryProjection);
+        adminRel.setProjection(existsSubqueryProjection);
+
+        c.add(Restrictions.or(Subqueries.exists(memberRel), Subqueries
+                .exists(adminRel)));
 
         // preload user profiles - no lazy loading desired
         c.createCriteria("userProfile", Criteria.LEFT_JOIN);
+        c.setResultTransformer(Criteria.ROOT_ENTITY);
 
         if (paginator != null) {
             paginator.apply(c);
