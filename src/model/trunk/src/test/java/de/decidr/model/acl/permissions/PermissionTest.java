@@ -30,44 +30,42 @@ import de.decidr.model.testing.DecidrAclTest;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author GH
  */
 public class PermissionTest extends DecidrAclTest {
     private static List<String> strings = new ArrayList<String>();
 
-    
     @BeforeClass
-    public static void setUpBeforeClass(){
+    public static void setUpBeforeClass() {
         fillStringList();
     }
 
     @AfterClass
-    public static void cleanUpAfterClass(){
+    public static void cleanUpAfterClass() {
         strings = null;
     }
-    
+
     /**
      * Test method for {@link Permission#Permission(String)}.
      */
     @Test
     public void testPermissionString() {
         Permission perm = null;
-        
-        for (String s : strings){
+
+        for (String s : strings) {
             perm = new Permission(s);
             assertNotNull(perm);
             assertTrue(perm.getName().equals(s));
         }
-        
-        try{
+
+        try {
             perm = new Permission("");
             fail("Name cannot be empty");
-        }catch (Exception e){
+        } catch (Exception e) {
             // needs to be thrown
         }
-        
-       
+
     }
 
     /**
@@ -78,7 +76,7 @@ public class PermissionTest extends DecidrAclTest {
         FileDeletePermission filePerm = new FileDeletePermission(1l);
         FileDeletePermission filePerm2 = filePerm;
         FileReadPermission filePermRead = new FileReadPermission(1l);
-        
+
         assertTrue(filePerm.equals(filePerm2));
         assertFalse(filePerm.equals(filePermRead));
         assertFalse(filePermRead.equals(filePerm));
@@ -90,19 +88,37 @@ public class PermissionTest extends DecidrAclTest {
      */
     @Test
     public void testGetNextImplyingPermission() {
+        // GH I don't think there's a lot you can test here using the existing
+        // permissions because
+        // you cannot make any assumptions about the internal naming of these
+        // permissions.
+        // A possible workaround is creating your own permissions:
+        // new Permission("Known.Permission.Identifier.*");
+        // Now you know what to expect when calling getNextImplyingPermission
+        // ~dh
+
         FileDeletePermission filePerm1 = new FileDeletePermission(1l);
-        assertTrue(filePerm1.getNextImplyingPermission().getName().endsWith("*"));
-        
+        assertTrue(filePerm1.getNextImplyingPermission().getName()
+                .endsWith("*"));
+
         FileReadPermission filePerm2 = new FileReadPermission(1l);
-        assertTrue(filePerm2.getNextImplyingPermission().getName().endsWith("*"));
-        
-        assertTrue(filePerm1.getNextImplyingPermission().getName().equals(filePerm2.getNextImplyingPermission().getName()));
-        assertTrue(filePerm1.getNextImplyingPermission().getName().equals("de.decidr.model.entities.*"));
+        assertTrue(filePerm2.getNextImplyingPermission().getName()
+                .endsWith("*"));
+
+        // GH file delete permissions vs. file read permissions :
+        // File.Delete.[ID] vs. File.Read.[ID]
+        // so the next implying permissions are File.Delete.* vs. File.Read.*
+        // ~dh
+        assertTrue(filePerm1.getNextImplyingPermission().getName().equals(
+                filePerm2.getNextImplyingPermission().getName()));
+
+        // GH this test requires knowledge about the internal naming of the
+        // permission object. ~dh
+        assertTrue(filePerm1.getNextImplyingPermission().getName().equals(
+                "de.decidr.model.entities.*"));
     }
 
-    
-
-    private static void fillStringList(){
+    private static void fillStringList() {
         strings.add("!");
         // ü
         strings.add("\u00fc");
@@ -304,5 +320,5 @@ public class PermissionTest extends DecidrAclTest {
         strings.add("фаил");
         strings.add("ФаИл");
     }
-    
+
 }

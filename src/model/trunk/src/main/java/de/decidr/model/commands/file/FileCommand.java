@@ -47,6 +47,7 @@ public abstract class FileCommand extends AclEnabledCommand {
      */
     public FileCommand(Role role, Long fileId) {
         super(role, (Permission) null);
+        this.fileId = fileId;
     }
 
     /**

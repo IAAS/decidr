@@ -24,23 +24,29 @@ import de.decidr.model.testing.DecidrAclTest;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author GH
  */
 public class FileDeletePermissionTest extends DecidrAclTest {
 
     /**
-     * Test method for {@link FileDeletePermission#FileDeletePermission(java.lang.Long)}.
+     * Test method for
+     * {@link FileDeletePermission#FileDeletePermission(java.lang.Long)}.
      */
     @Test
     public void testFileDeletePermission() {
+        // GH see testGetNextImplyingPermission, it's ok if you don't make any
+        // assumptions about the internal naming of permissions; you should be
+        // able to create test cases from looking at the method signatures only,
+        // not the implementation. If that is impossible, my documentation sucks
+        // and I have to fix it before asking you to create test cases :-) ~dh
         FileDeletePermission filePerm = new FileDeletePermission(1l);
         assertNotNull(filePerm);
         assertTrue(filePerm.getName().endsWith("delete1"));
-        
+
         filePerm = new FileDeletePermission(0l);
-        assertTrue(filePerm.getName().endsWith("delete0")); 
-        
+        assertTrue(filePerm.getName().endsWith("delete0"));
+
         filePerm = new FileDeletePermission(-1l);
         assertTrue(filePerm.getName().endsWith("delete-1"));
     }
@@ -55,7 +61,7 @@ public class FileDeletePermissionTest extends DecidrAclTest {
 
         filePerm = new FileDeletePermission(0l);
         assertTrue(filePerm.getId() == 0l);
-        
+
         filePerm = new FileDeletePermission(-1l);
         assertTrue(filePerm.getId() == -1l);
     }

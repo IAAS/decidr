@@ -51,7 +51,6 @@ public class GetFileCommand extends FileCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
         file = fetchFile(evt.getSession());
-
     }
 
     /**

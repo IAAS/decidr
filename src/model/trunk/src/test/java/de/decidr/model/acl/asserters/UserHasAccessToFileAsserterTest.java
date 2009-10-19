@@ -30,7 +30,7 @@ import de.decidr.model.testing.DecidrAclTest;
 public class UserHasAccessToFileAsserterTest extends DecidrAclTest {
 
     /**
-     * Test method for {@link de.decidr.model.acl.asserters.UserHasAccessToFileAsserter#assertRule(de.decidr.model.acl.roles.Role, de.decidr.model.acl.permissions.Permission)}.
+     * Test method for {@link de.decidr.model.acl.asserters.FileAccessAsserter#assertRule(de.decidr.model.acl.roles.Role, de.decidr.model.acl.permissions.Permission)}.
      */
     @Test
     public void testAssertRule() {
@@ -38,7 +38,7 @@ public class UserHasAccessToFileAsserterTest extends DecidrAclTest {
     }
 
     /**
-     * Test method for {@link de.decidr.model.acl.asserters.UserHasAccessToFileAsserter#transactionStarted(de.decidr.model.transactions.TransactionEvent)}.
+     * Test method for {@link de.decidr.model.acl.asserters.FileAccessAsserter#transactionStarted(de.decidr.model.transactions.TransactionEvent)}.
      */
     @Test
     public void testTransactionStarted() {

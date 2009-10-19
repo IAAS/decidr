@@ -187,6 +187,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
 
             compareData = facade.getFileData(testID);
             assertEquals(streamSize, getInputStreamSize(compareData));
+            // RR the local storage provider returns an empty input stream ~dh
             assertTrue(compareInputStreams(FileFacadeTest.class
                     .getResourceAsStream(testName), facade.getFileData(testID)));
 

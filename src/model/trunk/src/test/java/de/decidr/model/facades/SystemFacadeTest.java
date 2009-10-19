@@ -259,6 +259,7 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 "systemEmailAddress").getValue());
         assertEquals("Darth Vader", getterSettings
                 .getItemProperty("systemName").getValue());
+        //RR "bug" in Test case (behavior of SetSettingsCommand was undocumented) ~dh
         assertEquals(modDate.getTimeInMillis(), ((Date) getterSettings
                 .getItemProperty("modifiedDate").getValue()).getTime());
 

@@ -32,7 +32,7 @@ import de.decidr.model.acl.asserters.Asserter;
 import de.decidr.model.acl.asserters.IsRoleEqualToAccessedUserAsserter;
 import de.decidr.model.acl.asserters.UserAdministratesWorkflowInstanceAsserter;
 import de.decidr.model.acl.asserters.UserAdministratesWorkflowModelAsserter;
-import de.decidr.model.acl.asserters.UserHasAccessToFileAsserter;
+import de.decidr.model.acl.asserters.FileAccessAsserter;
 import de.decidr.model.acl.asserters.UserIsEnabledAsserter;
 import de.decidr.model.acl.asserters.UserIsInvitationReceiverAsserter;
 import de.decidr.model.acl.asserters.UserIsLoggedInAsserter;
@@ -739,15 +739,15 @@ public class DefaultAccessControlList implements AccessControlList {
          */
         // File Delete Permissions
         setRule(new BasicRole(), new FileDeletePermission(null),
-                SatisfyAll, new UserHasAccessToFileAsserter());
+                SatisfyAll, new FileAccessAsserter());
 
         // File Read Permissions
         setRule(new BasicRole(), new FileReadPermission(null), SatisfyAll,
-                new UserHasAccessToFileAsserter());
+                new FileAccessAsserter());
 
         // File Replace Permissions
         setRule(new BasicRole(), new FileReplacePermission(null),
-                SatisfyAll, new UserHasAccessToFileAsserter());
+                SatisfyAll, new FileAccessAsserter());
     }
 
     /**

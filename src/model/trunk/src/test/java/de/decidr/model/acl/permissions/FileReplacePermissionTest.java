@@ -24,23 +24,29 @@ import de.decidr.model.testing.DecidrAclTest;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author GH
  */
 public class FileReplacePermissionTest extends DecidrAclTest {
 
     /**
-     * Test method for {@link de.decidr.model.acl.permissions.FileReplacePermission#FileReplacePermission(java.lang.Long)}.
+     * Test method for
+     * {@link de.decidr.model.acl.permissions.FileReplacePermission#FileReplacePermission(java.lang.Long)}
+     * .
      */
     @Test
     public void testFileReplacePermission() {
+        // GH see test FileDeletePermission (btw. you found a bug here! I
+        // intended to name the permissions "File.Replace.[ID]", not
+        // "File.replace[ID]") ~dh
+
         FileReplacePermission filePerm = new FileReplacePermission(1l);
         assertNotNull(filePerm);
         assertTrue(filePerm.getName().endsWith("replace1"));
-        
+
         filePerm = new FileReplacePermission(0l);
-        assertTrue(filePerm.getName().endsWith("replace0")); 
-        
+        assertTrue(filePerm.getName().endsWith("replace0"));
+
         filePerm = new FileReplacePermission(-1l);
         assertTrue(filePerm.getName().endsWith("replace-1"));
     }
@@ -55,7 +61,7 @@ public class FileReplacePermissionTest extends DecidrAclTest {
 
         filePerm = new FileReplacePermission(0l);
         assertTrue(filePerm.getId() == 0l);
-        
+
         filePerm = new FileReplacePermission(-1l);
         assertTrue(filePerm.getId() == -1l);
     }

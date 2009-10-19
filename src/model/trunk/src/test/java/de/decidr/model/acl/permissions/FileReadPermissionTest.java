@@ -34,6 +34,8 @@ public class FileReadPermissionTest extends DecidrAclTest {
      */
     @Test
     public void testFileReadPermission() {
+        // GH see test FileDeletePermission ~dh
+        
         FileReadPermission filePerm = new FileReadPermission(1l);
         assertNotNull(filePerm);
         assertTrue(filePerm.getName().endsWith("read1"));
