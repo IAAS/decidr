@@ -9,11 +9,11 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>.</directory>
+				<directory>META-INF</directory>
 				<includes>
-					<include>META-INF/*.xsd</include>
-					<include>META-INF/handler-chain.xml</include>
-					<include>META-INF/Email.wsdl</include>
+					<include>*.xsd</include>
+					<include>handler-chain.xml</include>
+					<include>Email.wsdl</include>
 				</includes>
 			</resource>
 		</resources>
