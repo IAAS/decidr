@@ -243,7 +243,7 @@ public class WorkflowParserImpl implements WorkflowParser {
             }
         }
 
-        GWT.log("Finished creating child nodes", null);
+        GWT.log("Finished creating child nodes for " + parent.toString(), null);
         return nodes;
     }
 
@@ -464,6 +464,10 @@ public class WorkflowParserImpl implements WorkflowParser {
 
     private Element createIfElement(Document doc, WorkflowModel workflow,
             IfContainerModel model) {
+        GWT.log("Creating IfNode, children: "
+                + model.getChildNodeModels().size() + ", parent: "
+                + model.getParentModel().toString(), null);
+
         Element ifElement = doc.createElement(DWDLNames.ifNode);
         ifElement.setAttribute(DWDLNames.name, model.getName());
         ifElement.setAttribute(DWDLNames.id, model.getId().toString());
@@ -487,10 +491,13 @@ public class WorkflowParserImpl implements WorkflowParser {
          * which are conditions and store them in a hashmap with their order as
          * key. Second, "Iterate" over hashmap to create the condition elements.
          */
+        //JS check with Modood, condition element order must be arbitrary 
         HashMap<Integer, Condition> conditions = new HashMap<Integer, Condition>();
         Integer highestKey = 0;
         for (ConnectionModel connectionModel : model.getChildConnectionModels()) {
             if (connectionModel instanceof Condition) {
+                // JS remove
+                System.out.println("hier");
                 Condition condition = (Condition) connectionModel;
                 conditions.put(condition.getOrder(), condition);
                 if (condition.getOrder() > highestKey) {
@@ -501,6 +508,8 @@ public class WorkflowParserImpl implements WorkflowParser {
         for (int i = 0; i < highestKey; i++) {
             Condition conditionModel = conditions.get(i);
             Element conditionElement = doc.createElement(DWDLNames.condition);
+            conditionElement.setAttribute(DWDLNames.order, new Integer(i)
+                    .toString());
             /*
              * If order is zero, that means the condition is the default
              * condition
@@ -520,22 +529,32 @@ public class WorkflowParserImpl implements WorkflowParser {
                 conditionElement.appendChild(createTextElement(doc,
                         DWDLNames.rightOp, conditionModel.getRightOperandId()
                                 .toString()));
-                /* Create child nodes and child connections if they exist */
-                if (model.getChildNodeModels().size() > 0) {
-                    conditionElement.appendChild(createChildNodeElements(doc,
-                            workflow, model));
-                }
-                if (model.getChildConnectionModels().size() > 0) {
-                    conditionElement.appendChild(createArcElements(doc, model));
-                }
+
             }
+
+            //JS make branch specific
+            /* Create child nodes and child connections if they exist */
+            if (model.getChildNodeModels().size() > 0) {
+                conditionElement.appendChild(createChildNodeElements(doc,
+                        workflow, model));
+            }
+            if (model.getChildConnectionModels().size() > 0) {
+                conditionElement.appendChild(createArcElements(doc, model));
+            }
+
             ifElement.appendChild(conditionElement);
         }
+
+        GWT.log("Finished creating IfNode", null);
         return ifElement;
     }
 
     private Element createForEachElement(Document doc, WorkflowModel workflow,
             ForEachContainerModel model) {
+        GWT.log("Creating ForEachNode, children: "
+                + model.getChildNodeModels().size() + ", parent: "
+                + model.getParentModel().toString(), null);
+
         Element forEachElement = doc.createElement(DWDLNames.forEachNode);
         forEachElement.setAttribute(DWDLNames.name, model.getName());
         forEachElement.setAttribute(DWDLNames.id, model.getId().toString());
@@ -592,8 +611,8 @@ public class WorkflowParserImpl implements WorkflowParser {
             forEachElement.appendChild(createArcElements(doc, model));
         }
 
+        GWT.log("Finished creating ForEachNode", null);
         return forEachElement;
-
     }
 
     private Element createGraphicsElement(Document doc, NodeModel nodeModel) {

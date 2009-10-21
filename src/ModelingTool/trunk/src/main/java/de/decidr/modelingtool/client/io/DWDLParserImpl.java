@@ -719,13 +719,17 @@ public class DWDLParserImpl implements DWDLParser {
          * which reference the container as target element, are container exit
          * connections.
          */
-        // JS implement
         List<Element> arcs = getChildNodesByTagName(containerElement,
                 DWDLNames.arcs);
 
+        /* If there are any arcs, that means the container has child connections */
         if (arcs.size() > 0) {
             Element arcsElement = arcs.get(0);
             List<Element> arcElements = getChildElementsAsList(arcsElement);
+            /*
+             * check for every arc element (connection): Is the container the
+             * source or the target of the connection?
+             */
             for (Element arcElement : arcElements) {
                 if (arcElement.getAttribute(DWDLNames.source).equals(
                         containerModel.getId().toString())) {
@@ -743,6 +747,18 @@ public class DWDLParserImpl implements DWDLParser {
         }
     }
 
+    /**
+     * Returns the {@link ConnectionModel} for a given connection id. Can also
+     * be a child type of {@link ConnectionModel}.
+     * 
+     * @param connectionId
+     *            the id of the connection
+     * @param sourceModel
+     *            the source of the connection
+     * @param parentModel
+     *            the parent (container) of the connection
+     * @return the ConnectionModel
+     */
     private ConnectionModel getConnectionForSourceElement(Long connectionId,
             NodeModel sourceModel, HasChildModels parentModel) {
         /*
@@ -784,6 +800,18 @@ public class DWDLParserImpl implements DWDLParser {
         return resultConnection;
     }
 
+    /**
+     * Returns the {@link ConnectionModel} for a given connection id. Can also
+     * be a child type of {@link ConnectionModel}.
+     * 
+     * @param connectionId
+     *            the id of the connection
+     * @param targetModel
+     *            the target of the connection
+     * @param parentModel
+     *            the parent (container) of the connection
+     * @return the ConnectionModel
+     */
     private ConnectionModel getConnectionForTargetElement(Long connectionId,
             NodeModel targetModel, HasChildModels parentModel) {
         /*

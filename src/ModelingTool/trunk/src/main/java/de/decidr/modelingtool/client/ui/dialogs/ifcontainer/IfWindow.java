@@ -169,18 +169,37 @@ public class IfWindow extends ModelingToolDialog {
         return result;
     }
 
+    // JS dont throw values away when type is selected, in if field set
     private void changeWorkflowModel() {
-        IfContainerModel newModel = new IfContainerModel(node.getModel()
-                .getParentModel());
-        for (IfFieldSet fs : fieldsets) {
-            String label = fs.getLabel().getText();
-            Long operand1Id = fs.getLeftOperandField().getValue().getId();
-            Operator operator = Operator.getOperatorFromDisplayString(fs
+        IfContainerModel newModel = new IfContainerModel(model.getParentModel());
+        for (IfFieldSet fieldset : fieldsets) {
+            /*
+             * Get all the values from the inputs fields and create a new
+             * condition
+             */
+            String label = fieldset.getLabel().getText();
+            Long operand1Id = fieldset.getLeftOperandField().getValue().getId();
+            Operator operator = Operator.getOperatorFromDisplayString(fieldset
                     .getOperatorList().getSimpleValue());
-            Long operand2Id = fs.getRightOperandField().getValue().getId();
-            Integer order = fs.getOrderField().getOrder();
-            newModel.addCondition(new Condition(label, operand1Id, operator,
-                    operand2Id, order));
+            Long operand2Id = fieldset.getRightOperandField().getValue()
+                    .getId();
+            Integer order = fieldset.getOrderField().getOrder();
+            Condition newCondition = new Condition(label, operand1Id, operator,
+                    operand2Id, order);
+
+            /*
+             * Get properties from the old condition and copy them to the new
+             * condition
+             */
+            Condition oldCondition = model.getConditionById(fieldset
+                    .getConditionId());
+            newCondition.setId(oldCondition.getId());
+            newCondition.setParentModel(oldCondition.getParentModel());
+            newCondition.setSource(oldCondition.getSource());
+            newCondition.setTarget(oldCondition.getTarget());
+
+            /* Add new condition to model */
+            newModel.addCondition(newCondition);
         }
         /* only push to command stack if changes where made */
         if (newModel.getProperties().equals(model.getProperties()) == false) {

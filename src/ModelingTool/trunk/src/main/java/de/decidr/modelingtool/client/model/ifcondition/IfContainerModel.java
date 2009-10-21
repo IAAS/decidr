@@ -17,16 +17,20 @@
 package de.decidr.modelingtool.client.model.ifcondition;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import de.decidr.modelingtool.client.model.ConnectionModel;
 import de.decidr.modelingtool.client.model.ContainerModel;
 import de.decidr.modelingtool.client.model.HasChildModels;
+import de.decidr.modelingtool.client.model.NodeModel;
 import de.decidr.modelingtool.client.model.NodePropertyData;
 import de.decidr.modelingtool.client.ui.IfContainer;
 
 /**
- * This class holds all properties of a {@link IfContainer}.
+ * This class holds all properties of a {@link IfContainer}. Note that the only
+ * properties an {@link IfContainerModel} has as of now, are the
+ * {@link Condition}s.
  * 
  * @author Johannes Engelhardt, Jonas Schlaak
  */
@@ -74,12 +78,15 @@ public class IfContainerModel extends ContainerModel {
     public void setProperties(NodePropertyData properties) {
         /* if there are any, remove old objects */
         if (this.getChildConnectionModels() != null) {
+            Collection<ConnectionModel> conditions = new ArrayList<ConnectionModel>();
             for (ConnectionModel con : this.getChildConnectionModels()) {
                 if (con instanceof Condition) {
-                    getChildConnectionModels().remove(con);
+                    conditions.add(con);
                 }
             }
+            this.getChildConnectionModels().removeAll(conditions);
         }
+        /* Add the new conditions */
         for (Object value : properties.getValues()) {
             if (value instanceof Condition) {
                 getChildConnectionModels().add((Condition) value);
@@ -113,6 +120,67 @@ public class IfContainerModel extends ContainerModel {
             }
         }
         return result;
+    }
+
+    /**
+     * Returns the {@link Condition} of this model that has the given id.
+     * 
+     * @param conditionId
+     *            the id of the conditions
+     * @return the condition
+     */
+    public Condition getConditionById(Long conditionId) {
+        Condition result = null;
+        for (ConnectionModel con : this.getChildConnectionModels()) {
+            if (con.getId().equals(conditionId)) {
+                result = (Condition) con;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * This method returns all child nodes of the if container which belongs to
+     * the specified condition branch.
+     * 
+     * @param condition
+     *            the condition
+     * @return all the child nodes of the branch
+     */
+    public List<NodeModel> getChildNodesOfCondition(Condition condition) {
+        List<NodeModel> branch = new ArrayList<NodeModel>();
+
+        boolean loop = true;
+        ConnectionModel connection = condition;
+        /*
+         * This loop starts with a connections and follows it to its target, a
+         * node. The node is added to the branch. The loop follows the output of
+         * the node (a connection), and adds the target node to the branch. This
+         * is continued until the connection reaches the if container. There has
+         * to be at least one node in the branch, otherwise there would be now
+         * condition.
+         */
+        while (loop) {
+            NodeModel node = connection.getTarget();
+            branch.add(node);
+            connection = node.getOutput();
+            if (connection.getTarget().getId().equals(this.getId())) {
+                loop = false;
+            }
+        }
+        return branch;
+    }
+
+    /**
+     * This method returns all child nodes of the if container which belongs to
+     * the specified condition branch.
+     * 
+     * @param conditionId
+     *            the id of the condition
+     * @return all the child nodes of the branch
+     */
+    public List<NodeModel> getChildNodesOfCondition(Long conditionId) {
+        return getChildNodesOfCondition(getConditionById(conditionId));
     }
 
 }

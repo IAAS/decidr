@@ -168,6 +168,16 @@ public class IfFieldSet {
     }
 
     /**
+     * Returns the id of the {@link Condition} that is modeled by this
+     * IfFieldSet.
+     * 
+     * @return the id
+     */
+    public Long getConditionId() {
+        return this.condition.getId();
+    }
+
+    /**
      * Checks whether the fields of the conditional expression (right and left
      * operand, operator) are empty, that means a value has not been selected.
      * 
