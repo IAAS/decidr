@@ -49,7 +49,7 @@ import de.decidr.model.webservices.HumanTaskInterface;
  * 
  * @author Reinhold
  */
-@WebService(endpointInterface = "HumanTaskInterface")
+@WebService(endpointInterface = "de.decidr.model.webservices.HumanTaskInterface")
 @HandlerChain(file = "handler-chain.xml")
 public class HumanTask implements HumanTaskInterface {
     private static Logger log = DefaultLogger.getLogger(HumanTask.class);

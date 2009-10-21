@@ -22,6 +22,7 @@ import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 import javax.mail.MessagingException;
 import javax.xml.namespace.QName;
 import javax.xml.ws.RequestWrapper;
@@ -45,16 +46,18 @@ import de.decidr.model.storage.StorageProvider;
  * @author Reinhold
  */
 @HandlerChain(file = "handler-chain.xml")
-@WebService(targetNamespace = EmailInterface.TARGET_NAMESPACE, name = EmailInterface.PORT_TYPE_NAME, wsdlLocation = "Email.wsdl")
+@WebService(targetNamespace = EmailInterface.TARGET_NAMESPACE, portName = EmailInterface.PORT_NAME, wsdlLocation = "Email.wsdl", name = EmailInterface.SERVICE_NAME, serviceName = EmailInterface.SERVICE_NAME)
+@SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.WRAPPED, style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 public interface EmailInterface {
 
+    public static final String PORT_NAME = "EmailSOAP";
     public static final String SERVICE_NAME = "Email";
     public static final String PORT_TYPE_NAME = "EmailPT";
     public static final String TARGET_NAMESPACE = "http://decidr.de/webservices/Email";
     public final static QName SERVICE = new QName(TARGET_NAMESPACE,
             SERVICE_NAME);
     public final static QName ENDPOINT = new QName(TARGET_NAMESPACE,
-            "EmailSOAP");
+            PORT_NAME);
 
     /**
      * The web service operation used to send an e-mail.

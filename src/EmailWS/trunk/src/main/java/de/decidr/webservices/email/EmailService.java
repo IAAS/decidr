@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.jws.HandlerChain;
-import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.mail.MessagingException;
 
@@ -63,7 +62,7 @@ import de.decidr.model.webservices.EmailInterface;
  * 
  * @author Reinhold
  */
-@WebService(serviceName = "Email", portName = "EmailSOAP", targetNamespace = EmailInterface.TARGET_NAMESPACE, wsdlLocation = "Email.wsdl", endpointInterface = "de.decidr.webservices.email.EmailPT")
+@WebService(endpointInterface = "de.decidr.model.webservices.EmailInterface", targetNamespace = EmailInterface.TARGET_NAMESPACE, portName = EmailInterface.PORT_NAME, serviceName = EmailInterface.SERVICE_NAME)
 @HandlerChain(file = "handler-chain.xml")
 public class EmailService implements EmailInterface {
 
@@ -102,7 +101,6 @@ public class EmailService implements EmailInterface {
      * @throws IoExceptionWrapper
      *             see <code>{@link MailBackend#addFile(java.net.URI)}</code>
      */
-    @WebMethod(exclude = true)
     private static void addAttachments(MailBackend email, IDList attachments)
             throws MessagingException, MalformedURLException,
             TransactionException, IOException, StorageException,
@@ -141,7 +139,6 @@ public class EmailService implements EmailInterface {
      * @throws TransactionException
      *             Thrown by the <code>{@link de.decidr.model}</code>.
      */
-    @WebMethod(exclude = true)
     private static void applyConfig(MailBackend email)
             throws TransactionException {
         log.trace("Entering " + EmailService.class.getSimpleName()
@@ -170,7 +167,6 @@ public class EmailService implements EmailInterface {
      *             see
      *             <code>{@link HibernateTransactionCoordinator#runTransaction(de.decidr.model.commands.TransactionalCommand)}</code>
      */
-    @WebMethod(exclude = true)
     private static List<String> extractActorAddresses(List<Actor> users)
             throws TransactionException {
         log.trace("Entering " + EmailService.class.getSimpleName()
@@ -214,7 +210,6 @@ public class EmailService implements EmailInterface {
      * @throws TransactionException
      *             see <code>{@link #extractActorAddresses(List)}</code>
      */
-    @WebMethod(exclude = true)
     private static Set<String> extractEmails(AbstractUserList userList)
             throws TransactionException {
         log.trace("Entering " + EmailService.class.getSimpleName()
@@ -271,7 +266,6 @@ public class EmailService implements EmailInterface {
      *         <code>{@link String strings}</code> to
      *         <code>{@link String strings}</code>.
      */
-    @WebMethod(exclude = true)
     private static Map<String, String> parseStringMap(StringMap map) {
         log.trace("Entering " + EmailService.class.getSimpleName()
                 + ".parseStringMap(StringMap)");
