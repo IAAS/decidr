@@ -34,6 +34,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Logger;
+import org.jdom.JDOMException;
 import org.xml.sax.InputSource;
 
 import de.decidr.model.entities.Activity;
@@ -132,7 +133,12 @@ public class Translator {
 
     public Definition getWSDL(String location) {
         DWDL2WSDL wsdlConverter = new DWDL2WSDL();
-        wsdl = wsdlConverter.getWSDL(dwdlWorkflow, location, tenantName);
+        try {
+            wsdl = wsdlConverter.getWSDL(dwdlWorkflow, location, tenantName);
+        } catch (JDOMException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return wsdl;
     }
 
