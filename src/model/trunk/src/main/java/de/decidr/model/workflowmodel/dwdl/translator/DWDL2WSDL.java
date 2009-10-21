@@ -16,6 +16,23 @@
 
 package de.decidr.model.workflowmodel.dwdl.translator;
 
+import javax.wsdl.Binding;
+import javax.wsdl.BindingInput;
+import javax.wsdl.BindingOperation;
+import javax.wsdl.Definition;
+import javax.wsdl.Import;
+import javax.wsdl.Input;
+import javax.wsdl.Message;
+import javax.wsdl.Operation;
+import javax.wsdl.Part;
+import javax.wsdl.PortType;
+import javax.wsdl.Types;
+import javax.wsdl.extensions.UnknownExtensibilityElement;
+import javax.wsdl.extensions.soap.SOAPBinding;
+import javax.wsdl.extensions.soap.SOAPBody;
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -23,16 +40,20 @@ import org.jdom.JDOMException;
 import org.jdom.Namespace;
 import org.jdom.output.DOMOutputter;
 
-import javax.wsdl.Definition;
-import javax.wsdl.Import;
-import javax.wsdl.Types;
-import javax.wsdl.extensions.UnknownExtensibilityElement;
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-
+import com.ibm.wsdl.BindingImpl;
+import com.ibm.wsdl.BindingInputImpl;
+import com.ibm.wsdl.BindingOperationImpl;
 import com.ibm.wsdl.DefinitionImpl;
 import com.ibm.wsdl.ImportImpl;
+import com.ibm.wsdl.InputImpl;
+import com.ibm.wsdl.MessageImpl;
+import com.ibm.wsdl.OperationImpl;
+import com.ibm.wsdl.PartImpl;
+import com.ibm.wsdl.PortTypeImpl;
 import com.ibm.wsdl.TypesImpl;
+import com.ibm.wsdl.extensions.soap.SOAPBindingImpl;
+import com.ibm.wsdl.extensions.soap.SOAPBodyImpl;
+
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.dwdl.Actor;
 import de.decidr.model.workflowmodel.dwdl.Boolean;
@@ -54,6 +75,10 @@ public class DWDL2WSDL {
     private Definition wsdl = null;
     private String tenantName = null;
     private String location = null;
+    private Message startMessage = null;
+    private PortType processPortType = null;
+    private Binding processBinding = null;
+    private Operation startOperation = null;
 
     public Definition getWSDL(Workflow dwdl, String location, String tenantName) throws JDOMException {
         wsdl = new DefinitionImpl();
@@ -72,12 +97,65 @@ public class DWDL2WSDL {
 
         log.trace("setting messages");
         setMessages();
-
+        
+        log.trace("setting port types");
+        setPortTypes();
+        
+        log.trace("setting bindings");
+        setBindings();
+        
+        log.trace("setting service elements");
+        setService();
+        
+        log.trace("setting partner link types");
+        setPartnerLinkTypes();
+        
+        log.trace("setting properties");
+        setProperties();
+        
+        log.trace("setting property alias");
+        setPropertyAlias();
+        
         return wsdl;
     }
 
+    private void setBindings() {
+        processBinding = new BindingImpl();
+        processBinding.setQName(new QName(dwdl.getName()+"SOAPBinding"));
+        processBinding.setPortType(processPortType);
+        SOAPBinding soapBindingElement = new SOAPBindingImpl();
+        soapBindingElement.setStyle("document");
+        soapBindingElement.setTransportURI("http://schemas.xmlsoap.org/soap/http");
+        processBinding.addExtensibilityElement(soapBindingElement);
+        BindingOperation bindingOperation = new BindingOperationImpl();
+        bindingOperation.setName("startProcess");
+        bindingOperation.setOperation(startOperation);
+        BindingInput bindingInput = new BindingInputImpl();
+        SOAPBody soapBody = new SOAPBodyImpl();
+        soapBody.setUse("literal");
+        bindingInput.addExtensibilityElement(soapBody);
+        processBinding.addBindingOperation(bindingOperation);
+        
+        wsdl.addBinding(processBinding);
+    }
+
+    private void setImports() {
+        Import decidrTypes = new ImportImpl();
+        decidrTypes.setNamespaceURI(BPELConstants.DECIDRTYPES_NAMESPACE);
+        decidrTypes.setLocationURI(BPELConstants.DECIDRTYPES_LOCATION);
+        
+        wsdl.addImport(decidrTypes);
+    }
+
     private void setMessages() {
-        // XXX: document: why is this empty
+        startMessage = new MessageImpl();
+        startMessage.setQName(new QName("processIn"));
+        Part messagePart = new PartImpl();
+        messagePart.setName("payload");
+        messagePart.setElementName(new QName(dwdl.getTargetNamespace(), "startProcess", "tns"));
+        startMessage.addPart(messagePart);
+
+        wsdl.addMessage(startMessage);
     }
 
     private void setNamespaces() {
@@ -95,11 +173,37 @@ public class DWDL2WSDL {
         wsdl.addNamespace("decidr", BPELConstants.DECIDRTYPES_NAMESPACE);
     }
 
-    private void setImports() {
-        Import decidrTypes = new ImportImpl();
-        decidrTypes.setNamespaceURI(BPELConstants.DECIDRTYPES_NAMESPACE);
-        decidrTypes.setLocationURI(BPELConstants.DECIDRTYPES_LOCATION);
-        wsdl.addImport(decidrTypes);
+    private void setPartnerLinkTypes() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    private void setPortTypes() {
+        processPortType = new PortTypeImpl();
+        processPortType.setQName(new QName(dwdl.getName()+"PortType"));
+        startOperation = new OperationImpl();
+        Input input = new InputImpl();
+        input.setName("input");
+        input.setMessage(startMessage);
+        startOperation.setInput(input);
+        processPortType.addOperation(startOperation);
+        
+        wsdl.addPortType(processPortType);
+    }
+
+    private void setProperties() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    private void setPropertyAlias() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    private void setService() {
+        // TODO Auto-generated method stub
+        
     }
 
     private void setTypes() throws JDOMException {
@@ -166,6 +270,7 @@ public class DWDL2WSDL {
         extensibilityElement.setElementType(new QName(w3cElment.getNamespaceURI()));
         
         types.addExtensibilityElement(extensibilityElement);
-
+        
+        wsdl.setTypes(types);
     }
 }
