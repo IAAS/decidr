@@ -63,7 +63,13 @@
 				</configuration>
 				<executions>
 					<execution>
+						<id>deploy_aar</id>
 						<phase>deploy</phase>
+						<goals>
+							<goal>deployaar</goal>
+						</goals>
+					</execution>
+					<execution>
 						<goals>
 							<goal>aar</goal>
 						</goals>
