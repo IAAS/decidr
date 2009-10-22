@@ -16,7 +16,7 @@
 
 package de.decidr.modelingtool.client.io;
 
-import java.util.HashMap;
+import java.util.Collection;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.xml.client.Document;
@@ -59,33 +59,35 @@ public class WorkflowParserImpl implements WorkflowParser {
      * .client.model.WorkflowModel)
      */
     @Override
-    public String parse(WorkflowModel model) {
+    public String parse(WorkflowModel workflow) {
         Document doc = XMLParser.createDocument();
 
         /* Create workflow root element and set attributes */
         Element workflowElement = doc.createElement(DWDLNames.root);
-        workflowElement.setAttribute(DWDLNames.name, model.getName());
-        workflowElement.setAttribute(DWDLNames.id, model.getId().toString());
-        workflowElement.setAttribute(DWDLNames.namespace, model.getProperties()
-                .getNamespace());
-        workflowElement.setAttribute(DWDLNames.schema, model.getProperties()
+        workflowElement.setAttribute(DWDLNames.name, workflow.getName());
+        workflowElement.setAttribute(DWDLNames.id, workflow.getId().toString());
+        workflowElement.setAttribute(DWDLNames.namespace, workflow
+                .getProperties().getNamespace());
+        workflowElement.setAttribute(DWDLNames.schema, workflow.getProperties()
                 .getSchema());
 
         /* Create description node */
         workflowElement.appendChild(createTextElement(doc,
-                DWDLNames.description, model.getDescription()));
+                DWDLNames.description, workflow.getDescription()));
 
         /* Create variable and role nodes */
-        createVariablesAndRoles(doc, workflowElement, model);
+        createVariablesAndRoles(doc, workflowElement, workflow);
 
         /* Create fault handler node */
-        workflowElement.appendChild(createFaultHandlerElement(doc, model));
+        workflowElement.appendChild(createFaultHandlerElement(doc, workflow));
 
         /* Create container and invoke nodes */
-        workflowElement.appendChild(createChildNodeElements(doc, model, model));
+        workflowElement.appendChild(createChildNodeElements(doc, workflow,
+                workflow, workflow.getChildNodeModels()));
 
         /* Create arcs */
-        workflowElement.appendChild(createArcElements(doc, model));
+        workflowElement.appendChild(createArcElements(doc, workflow, workflow
+                .getChildConnectionModels()));
 
         /* append tree to root element */
         doc.appendChild(workflowElement);
@@ -206,24 +208,19 @@ public class WorkflowParserImpl implements WorkflowParser {
     }
 
     private Element createChildNodeElements(Document doc,
-            WorkflowModel workflow, HasChildModels parent) {
-        GWT.log("Creating " + parent.getChildNodeModels().size()
-                + " child nodes for " + parent.toString(), null);
-
-        /*
-         * Create nodes element which contains all child nodes of a workflow or
-         * a container
-         */
+            WorkflowModel workflow, HasChildModels parent,
+            Collection<NodeModel> childModels) {
         Element nodes = doc.createElement(DWDLNames.nodes);
-        for (NodeModel nodeModel : parent.getChildNodeModels()) {
-            GWT.log("Creating child node " + nodeModel.toString() + ", id: "
-                    + nodeModel.getId(), null);
+        GWT.log("Creating " + childModels.size() + " child nodes for "
+                + parent.toString(), null);
+
+        for (NodeModel nodeModel : childModels) {
             /* Find out type and call the according node */
             if (nodeModel instanceof StartNodeModel) {
                 nodes.appendChild(createStartElement(doc,
                         (StartNodeModel) nodeModel));
             } else if (nodeModel instanceof EndNodeModel) {
-                nodes.appendChild(createEndElement(doc, (WorkflowModel) parent,
+                nodes.appendChild(createEndElement(doc, workflow,
                         (EndNodeModel) nodeModel));
             } else if (nodeModel instanceof EmailInvokeNodeModel) {
                 nodes.appendChild(createEmailElement(doc,
@@ -452,10 +449,11 @@ public class WorkflowParserImpl implements WorkflowParser {
         /* Create child nodes and child connections if they exist */
         if (model.getChildNodeModels().size() > 0) {
             flowElement.appendChild(createChildNodeElements(doc, workflow,
-                    model));
+                    model, model.getChildNodeModels()));
         }
         if (model.getChildConnectionModels().size() > 0) {
-            flowElement.appendChild(createArcElements(doc, model));
+            flowElement.appendChild(createArcElements(doc, model, model
+                    .getChildConnectionModels()));
         }
 
         GWT.log("Finished creating FlowNode", null);
@@ -467,6 +465,8 @@ public class WorkflowParserImpl implements WorkflowParser {
         GWT.log("Creating IfNode, children: "
                 + model.getChildNodeModels().size() + ", parent: "
                 + model.getParentModel().toString(), null);
+        GWT.log("IfNode has " + model.getConditions().size() + " conditions.",
+                null);
 
         Element ifElement = doc.createElement(DWDLNames.ifNode);
         ifElement.setAttribute(DWDLNames.name, model.getName());
@@ -484,65 +484,74 @@ public class WorkflowParserImpl implements WorkflowParser {
             ifElement.appendChild(createTargetElement(doc, model));
         }
 
-        /*
-         * Create condition elements. The dwdl schema requires that the
-         * condition elements have to be created in the specific order in which
-         * the are later executed. To do that, first gather all connections
-         * which are conditions and store them in a hashmap with their order as
-         * key. Second, "Iterate" over hashmap to create the condition elements.
-         */
-        //JS check with Modood, condition element order must be arbitrary 
-        HashMap<Integer, Condition> conditions = new HashMap<Integer, Condition>();
-        Integer highestKey = 0;
-        for (ConnectionModel connectionModel : model.getChildConnectionModels()) {
-            if (connectionModel instanceof Condition) {
-                // JS remove
-                System.out.println("hier");
-                Condition condition = (Condition) connectionModel;
-                conditions.put(condition.getOrder(), condition);
-                if (condition.getOrder() > highestKey) {
-                    highestKey = condition.getOrder();
+        /* Create every condition element */
+        for (Condition condition : model.getConditions()) {
+            Element conditionElement = doc.createElement(DWDLNames.condition);
+
+            /*
+             * Create the condition element itself, including order and
+             * condition statement
+             */
+            if (condition.getOrder() != null) {
+                conditionElement.setAttribute(DWDLNames.order, condition
+                        .getOrder().toString());
+                /*
+                 * If order is zero, that means the condition is the default
+                 * condition
+                 */
+                if (condition.getOrder() == 0) {
+                    conditionElement.setAttribute(DWDLNames.defaultCondition,
+                            DWDLNames.yes);
+                } else {
+                    conditionElement.setAttribute(DWDLNames.defaultCondition,
+                            DWDLNames.no);
+                    conditionElement.appendChild(createTextElement(doc,
+                            DWDLNames.leftOp, condition.getLeftOperandId()
+                                    .toString()));
+                    conditionElement.appendChild(createTextElement(doc,
+                            DWDLNames.operator, condition.getOperator()
+                                    .getDisplayString()));
+                    conditionElement.appendChild(createTextElement(doc,
+                            DWDLNames.rightOp, condition.getRightOperandId()
+                                    .toString()));
                 }
             }
-        }
-        for (int i = 0; i < highestKey; i++) {
-            Condition conditionModel = conditions.get(i);
-            Element conditionElement = doc.createElement(DWDLNames.condition);
-            conditionElement.setAttribute(DWDLNames.order, new Integer(i)
-                    .toString());
+
             /*
-             * If order is zero, that means the condition is the default
-             * condition
+             * Create child nodes and child connections of the condition branch.
+             * A condition branch consists of all nodes and connection which are
+             * executed if the condition is true.
              */
-            if (i == 0) {
-                conditionElement.setAttribute(DWDLNames.defaultCondition,
-                        DWDLNames.yes);
-            } else {
-                conditionElement.setAttribute(DWDLNames.defaultCondition,
-                        DWDLNames.no);
-                conditionElement.appendChild(createTextElement(doc,
-                        DWDLNames.leftOp, conditionModel.getLeftOperandId()
-                                .toString()));
-                conditionElement.appendChild(createTextElement(doc,
-                        DWDLNames.operator, conditionModel.getOperator()
-                                .getDisplayString()));
-                conditionElement.appendChild(createTextElement(doc,
-                        DWDLNames.rightOp, conditionModel.getRightOperandId()
-                                .toString()));
-
-            }
-
-            //JS make branch specific
-            /* Create child nodes and child connections if they exist */
-            if (model.getChildNodeModels().size() > 0) {
+            Collection<NodeModel> branchNodes = model
+                    .getChildNodesOfCondition(condition);
+            if (branchNodes.size() > 0) {
                 conditionElement.appendChild(createChildNodeElements(doc,
-                        workflow, model));
+                        workflow, model, branchNodes));
             }
-            if (model.getChildConnectionModels().size() > 0) {
-                conditionElement.appendChild(createArcElements(doc, model));
+            Collection<ConnectionModel> branchConnections = model
+                    .getChildConnectionsOfCondition(condition);
+            if (branchConnections.size() > 0) {
+                conditionElement.appendChild(createArcElements(doc, model,
+                        branchConnections));
             }
 
             ifElement.appendChild(conditionElement);
+        }
+
+        /*
+         * Create child nodes and child connections which are not part of any
+         * condition branch
+         */
+        Collection<NodeModel> branchlessNodes = model.getBranchlessChildNodes();
+        if (branchlessNodes.size() > 0) {
+            ifElement.appendChild(createChildNodeElements(doc, workflow, model,
+                    branchlessNodes));
+        }
+        Collection<ConnectionModel> branchlessConnections = model
+                .getBranchlessChildConnections();
+        if (branchlessConnections.size() > 0) {
+            ifElement.appendChild(createArcElements(doc, model,
+                    branchlessConnections));
         }
 
         GWT.log("Finished creating IfNode", null);
@@ -605,10 +614,11 @@ public class WorkflowParserImpl implements WorkflowParser {
         /* Create child nodes and child connections if they exist */
         if (model.getChildNodeModels().size() > 0) {
             forEachElement.appendChild(createChildNodeElements(doc, workflow,
-                    model));
+                    model, model.getChildNodeModels()));
         }
         if (model.getChildConnectionModels().size() > 0) {
-            forEachElement.appendChild(createArcElements(doc, model));
+            forEachElement.appendChild(createArcElements(doc, model, model
+                    .getChildConnectionModels()));
         }
 
         GWT.log("Finished creating ForEachNode", null);
@@ -676,7 +686,7 @@ public class WorkflowParserImpl implements WorkflowParser {
                 + nodeModel.getOutput().getTarget(), null);
         sources.appendChild(source);
 
-        GWT.log("Finished source target element", null);
+        GWT.log("Finished creating source element", null);
         return sources;
     }
 
@@ -700,12 +710,13 @@ public class WorkflowParserImpl implements WorkflowParser {
         return targets;
     }
 
-    private Element createArcElements(Document doc, HasChildModels parent) {
-        GWT.log("Creating " + parent.getChildConnectionModels().size()
-                + " arc elements for " + parent.toString(), null);
-
+    private Element createArcElements(Document doc, HasChildModels parent,
+            Collection<ConnectionModel> connections) {
         Element arcs = doc.createElement(DWDLNames.arcs);
-        for (ConnectionModel con : parent.getChildConnectionModels()) {
+        GWT.log("Creating " + connections.size() + " arc elements for "
+                + parent.toString(), null);
+
+        for (ConnectionModel con : connections) {
             Element arc = doc.createElement(DWDLNames.arc);
             arc.setAttribute(DWDLNames.name, con.getName());
             arc.setAttribute(DWDLNames.id, con.getId().toString());

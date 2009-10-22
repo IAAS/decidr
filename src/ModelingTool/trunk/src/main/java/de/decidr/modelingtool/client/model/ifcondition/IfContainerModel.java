@@ -140,12 +140,13 @@ public class IfContainerModel extends ContainerModel {
     }
 
     /**
-     * This method returns all child nodes of the if container which belongs to
-     * the specified condition branch.
+     * This method returns all child node models of the if container which
+     * belong to the specified condition branch. A condition branch consists of
+     * all nodes and connection which are executed if the condition is true.
      * 
      * @param condition
      *            the condition
-     * @return all the child nodes of the branch
+     * @return all the child node models of the branch
      */
     public List<NodeModel> getChildNodesOfCondition(Condition condition) {
         List<NodeModel> branch = new ArrayList<NodeModel>();
@@ -156,31 +157,89 @@ public class IfContainerModel extends ContainerModel {
          * This loop starts with a connections and follows it to its target, a
          * node. The node is added to the branch. The loop follows the output of
          * the node (a connection), and adds the target node to the branch. This
-         * is continued until the connection reaches the if container. There has
-         * to be at least one node in the branch, otherwise there would be now
-         * condition.
+         * is continued until the connection reaches the if container (the end
+         * of the branch). There has to be at least one node in the branch,
+         * otherwise there would be now condition.
          */
         while (loop) {
             NodeModel node = connection.getTarget();
             branch.add(node);
             connection = node.getOutput();
-            if (connection.getTarget().getId().equals(this.getId())) {
+            if (connection == null
+                    || connection.getTarget().getId().equals(this.getId())) {
                 loop = false;
             }
         }
+
         return branch;
     }
 
     /**
-     * This method returns all child nodes of the if container which belongs to
-     * the specified condition branch.
+     * This method returns all child connection models of the if container which
+     * belong to the specified condition branch. A condition branch consists of
+     * all nodes and connection which are executed if the condition is true.
      * 
-     * @param conditionId
-     *            the id of the condition
-     * @return all the child nodes of the branch
+     * @param condition
+     *            the condition
+     * @return all the child connection models of the branch
      */
-    public List<NodeModel> getChildNodesOfCondition(Long conditionId) {
-        return getChildNodesOfCondition(getConditionById(conditionId));
+    public List<ConnectionModel> getChildConnectionsOfCondition(
+            Condition condition) {
+        List<ConnectionModel> branch = new ArrayList<ConnectionModel>();
+
+        boolean loop = true;
+        ConnectionModel connection = condition;
+        branch.add(connection);
+        /*
+         * This loop starts with a connections and follows it to its target, a
+         * node. The loop follows the output of the node (a connection), and
+         * adds it to the branch. This is continued until the connection reaches
+         * the if container (the end of the branch).
+         */
+        while (loop) {
+            NodeModel node = connection.getTarget();
+            connection = node.getOutput();
+            if (connection != null) {
+                branch.add(connection);
+            }
+            if (connection == null
+                    || connection.getTarget().getId().equals(this.getId())) {
+                loop = false;
+            }
+        }
+
+        return branch;
+    }
+
+    /**
+     * This method return all child nodes of the if container which do not
+     * belong to any condition branch.
+     * 
+     * @return the branchless nodes
+     */
+    public List<NodeModel> getBranchlessChildNodes() {
+        List<NodeModel> nodes = new ArrayList<NodeModel>();
+        nodes.addAll(this.getChildNodeModels());
+        for (Condition condition : this.getConditions()) {
+            nodes.removeAll(this.getChildNodesOfCondition(condition));
+        }
+        return nodes;
+    }
+
+    /**
+     * This method returns all child connection of the if container which o not
+     * belong to any condition branch.
+     * 
+     * @return the branchless connections
+     */
+    public List<ConnectionModel> getBranchlessChildConnections() {
+        List<ConnectionModel> connections = new ArrayList<ConnectionModel>();
+        connections.addAll(this.getChildConnectionModels());
+        for (Condition condition : this.getConditions()) {
+            connections.removeAll(this
+                    .getChildConnectionsOfCondition(condition));
+        }
+        return connections;
     }
 
 }
