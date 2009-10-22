@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.decidr.webservices</groupId>
 	<artifactId>Email</artifactId>
-	<packaging>aar</packaging>
+	<packaging>jar</packaging>
 	<name>EmailWS</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<build>
@@ -12,7 +12,6 @@
 				<directory>META-INF</directory>
 				<includes>
 					<include>*.xsd</include>
-					<include>handler-chain.xml</include>
 					<include>Email.wsdl</include>
 				</includes>
 			</resource>
@@ -28,54 +27,81 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			<!--
-				plugin> <artifactId>maven-assembly-plugin</artifactId> <executions>
-				<execution> <goals> <goal>attached</goal> </goals>
-				<phase>package</phase> <configuration> <descriptorRefs>
-				<descriptorRef>jar-with-dependencies</descriptorRef>
-				</descriptorRefs> </configuration> </execution> </executions>
-				</plugin
-			-->
 			<plugin>
-				<groupId>org.apache.axis2</groupId>
-				<artifactId>axis2-aar-maven-plugin</artifactId>
-				<extensions>true</extensions>
-				<version>1.5</version>
-				<configuration>
-					<aarName>EmailWS</aarName>
-					<axis2AdminConsoleURL>http://ec2-174-129-25-57.compute-1.amazonaws.com:8080/axis2_15/axis2-admin/</axis2AdminConsoleURL>
-					<axis2AdminUser>decidr</axis2AdminUser>
-					<axis2AdminPassword>decidr42</axis2AdminPassword>
-					<includeDependencies>true</includeDependencies>
-					<wsdlFile>META-INF/Email.wsdl</wsdlFile>
-					<wsdlFileName>Email.wsdl</wsdlFileName>
-					<servicesXmlFile>META-INF/services.xml</servicesXmlFile>
-					<fileSets>
-						<fileSet>
-							<directory>META-INF</directory>
-							<outputDirectory>META-INF</outputDirectory>
-							<includes>
-								<include>*.xsd</include>
-								<include>handler-chain.xml</include>
-							</includes>
-						</fileSet>
-					</fileSets>
-				</configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>deploy_aar</id>
-						<phase>deploy</phase>
+						<phase>package</phase>
 						<goals>
-							<goal>deployaar</goal>
+							<goal>shade</goal>
 						</goals>
-					</execution>
-					<execution>
-						<goals>
-							<goal>aar</goal>
-						</goals>
+						<configuration>
+							<artifactSet>
+								<excludes>
+									<exclude>org.apache.axis2:axis2-kernel</exclude>
+									<exclude>commons-httpclient:commons-httpclient</exclude>
+									<exclude>commons-fileupload:commons-fileupload</exclude>
+									<exclude>commons-codec:commons-codec</exclude>
+									<exclude>log4j:log4j</exclude>
+									<exclude>commons-logging:commons-logging</exclude>
+									<exclude>commons-io:commons-io</exclude>
+									<exclude>org.apache.geronimo.specs:geronimo-jms_1.1_spec</exclude>
+									<exclude>org.apache.geronimo.specs:geronimo-stax-api_1.0_spec</exclude>
+									<exclude>org.apache.geronimo.specs:geronimo-javamail_1.4_spec</exclude>
+									<exclude>org.apache.geronimo.specs:geronimo-activation_1.1_spec</exclude>
+									<exclude>xml-apis:xml-apis</exclude>
+									<exclude>javax.activation:activation</exclude>
+									<exclude>antlr:antlr</exclude>
+									<exclude>org.apache.ws.commons.axiom:axiom-dom</exclude>
+									<exclude>org.apache.ws.commons.axiom:axiom-impl</exclude>
+									<exclude>org.apache.ws.commons.axiom:axiom-api</exclude>
+									<exclude>dom4j:dom4j</exclude>
+									<exclude>org.jdom:jdom</exclude>
+									<exclude>org.apache.neethi:neethi</exclude>
+									<exclude>org.apache.woden:woden-api</exclude>
+									<exclude>org.codehaus.woodstox:wstx-asl</exclude>
+									<exclude>wsdl4j:wsdl4j</exclude>
+									<exclude>wsdl4j:wsdl4j-qname</exclude>
+									<exclude>org.apache.httpcomponents:httpcore</exclude>
+									<exclude>org.apache.ws.commons.schema:XmlSchema</exclude>
+									<exclude>jaxen:jaxen</exclude>
+									<exclude>xerces:xercesImpl</exclude>
+									<exclude>org.apache.woden:woden-impl-dom</exclude>
+									<exclude>xalan:xalan</exclude>
+									<exclude>org.slf4j:slf4j-nop</exclude>
+									
+									<!-- needed by axis2 v1.5 -->
+									
+									<!-- needed by axis2 v1.4.1 -->
+									<exclude>backport-util-concurrent:backport-util-concurrent</exclude>
+									<exclude>commons-collections:commons-collections</exclude>
+								</excludes>
+							</artifactSet>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+			<!--
+				plugin> <groupId>org.apache.axis2</groupId>
+				<artifactId>axis2-aar-maven-plugin</artifactId>
+				<extensions>true</extensions> <version>1.5</version> <configuration>
+				<aarName>EmailWS</aarName>
+				<axis2AdminConsoleURL>http://ec2-174-129-25-57.compute-1.amazonaws.com:8080/axis2_15/axis2-admin/</axis2AdminConsoleURL>
+				<axis2AdminUser>decidr</axis2AdminUser>
+				<axis2AdminPassword>decidr42</axis2AdminPassword>
+				<includeDependencies>true</includeDependencies>
+				<wsdlFile>META-INF/Email.wsdl</wsdlFile>
+				<wsdlFileName>Email.wsdl</wsdlFileName>
+				<servicesXmlFile>META-INF/services.xml</servicesXmlFile> <fileSets>
+				<fileSet> <directory>META-INF</directory>
+				<outputDirectory>META-INF</outputDirectory> <includes>
+				<include>*.xsd</include> <include>handler-chain.xml</include>
+				</includes> </fileSet> </fileSets> </configuration> <executions>
+				<execution> <id>deploy_aar</id> <phase>deploy</phase> <goals>
+				<goal>deployaar</goal> </goals> </execution> <execution> <goals>
+				<goal>aar</goal> </goals> </execution> </executions> </plugin
+			-->
 		</plugins>
 	</build>
 	<developers>

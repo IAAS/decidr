@@ -18,7 +18,6 @@ package de.decidr.model.webservices;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -45,12 +44,12 @@ import de.decidr.model.storage.StorageProvider;
  * 
  * @author Reinhold
  */
-@HandlerChain(file = "handler-chain.xml")
+//@HandlerChain(file = "handler-chain.xml")
 @WebService(targetNamespace = EmailInterface.TARGET_NAMESPACE, portName = EmailInterface.PORT_NAME, wsdlLocation = "Email.wsdl", name = EmailInterface.SERVICE_NAME, serviceName = EmailInterface.SERVICE_NAME)
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.WRAPPED, style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 public interface EmailInterface {
 
-    public static final String PORT_NAME = "EmailSOAP";
+    public static final String PORT_NAME = "EmailSOAP11";
     public static final String SERVICE_NAME = "Email";
     public static final String PORT_TYPE_NAME = "EmailPT";
     public static final String TARGET_NAMESPACE = "http://decidr.de/webservices/Email";
