@@ -338,13 +338,16 @@ public class DWDLParserImpl implements DWDLParser {
         setGraphics(startElement, startModel);
 
         /* Set outgoing connection */
-        Element sourcesElement = getChildNodesByTagName(startElement,
-                DWDLNames.sources).get(0);
-        Element sourceElement = getChildNodesByTagName(sourcesElement,
-                DWDLNames.source).get(0);
-        startModel.setOutput(getConnectionForSourceElement(new Long(
-                sourceElement.getAttribute(DWDLNames.arcId)), startModel,
-                workflow));
+        List<Element> sources = getChildNodesByTagName(startElement,
+                DWDLNames.sources);
+        if (sources.size() > 0) {
+            Element sourcesElement = sources.get(0);
+            Element sourceElement = getChildNodesByTagName(sourcesElement,
+                    DWDLNames.source).get(0);
+            startModel.setOutput(getConnectionForSourceElement(new Long(
+                    sourceElement.getAttribute(DWDLNames.arcId)), startModel,
+                    workflow));
+        }
 
         return startModel;
     }
@@ -359,12 +362,16 @@ public class DWDLParserImpl implements DWDLParser {
         setGraphics(endElement, endModel);
 
         /* Set incoming connection */
-        Element targetsElement = getChildNodesByTagName(endElement,
-                DWDLNames.targets).get(0);
-        Element targetElement = getChildNodesByTagName(targetsElement,
-                DWDLNames.target).get(0);
-        endModel.setInput(getConnectionForTargetElement(new Long(targetElement
-                .getAttribute(DWDLNames.arcId)), endModel, workflow));
+        List<Element> targets = getChildNodesByTagName(endElement,
+                DWDLNames.targets);
+        if (targets.size() > 0) {
+            Element targetsElement = targets.get(0);
+            Element targetElement = getChildNodesByTagName(targetsElement,
+                    DWDLNames.target).get(0);
+            endModel.setInput(getConnectionForTargetElement(new Long(
+                    targetElement.getAttribute(DWDLNames.arcId)), endModel,
+                    workflow));
+        }
 
         return endModel;
     }
