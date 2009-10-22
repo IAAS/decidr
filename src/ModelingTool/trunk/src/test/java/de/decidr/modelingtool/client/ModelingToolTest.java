@@ -2,8 +2,6 @@ package de.decidr.modelingtool.client;
 
 import java.util.HashMap;
 
-import org.junit.Test;
-
 import com.google.gwt.junit.client.GWTTestCase;
 
 import de.decidr.modelingtool.client.io.DWDLParser;
@@ -64,7 +62,6 @@ public class ModelingToolTest extends GWTTestCase {
     private Long humanTaskNodeId = new Long("1255088341250");
     private Long flowNodeId = new Long("1255088341296");
 
-    @Test
     public void testWorkflowProperties() {
         DWDLParser parser = new DWDLParserImpl();
         WorkflowModel model = parser.parse(dwdl_1);
@@ -87,7 +84,6 @@ public class ModelingToolTest extends GWTTestCase {
                 .getSuccessMessageVariableId());
     }
 
-    @Test
     public void testVariables() {
         DWDLParser parser = new DWDLParserImpl();
         WorkflowModel model = parser.parse(dwdl_1);
@@ -106,7 +102,6 @@ public class ModelingToolTest extends GWTTestCase {
         assertEquals("Loram Ipsum", text.getValues().get(0));
     }
 
-    @Test
     public void testRoles() {
         DWDLParser parser = new DWDLParserImpl();
         WorkflowModel model = parser.parse(dwdl_1);
@@ -124,7 +119,6 @@ public class ModelingToolTest extends GWTTestCase {
         assertEquals("113", user.getValues().get(1));
     }
 
-    @Test
     public void testStartNode() {
         DWDLParser parser = new DWDLParserImpl();
         WorkflowModel model = parser.parse(dwdl_1);
@@ -144,7 +138,6 @@ public class ModelingToolTest extends GWTTestCase {
         assertNull(startNodeModel.getInput());
     }
 
-    @Test
     public void testEndNode() {
         DWDLParser parser = new DWDLParserImpl();
         WorkflowModel model = parser.parse(dwdl_1);
@@ -162,7 +155,6 @@ public class ModelingToolTest extends GWTTestCase {
         assertNull(endNodeModel.getOutput());
     }
 
-    @Test
     public void testEmailInvokeNode() {
         DWDLParser parser = new DWDLParserImpl();
         WorkflowModel model = parser.parse(dwdl_1);
@@ -190,7 +182,6 @@ public class ModelingToolTest extends GWTTestCase {
         assertNull(emailNodeModel.getAttachmentVariableId());
     }
 
-    @Test
     public void testHumanTaskInvokeNode() {
         DWDLParser parser = new DWDLParserImpl();
         WorkflowModel model = parser.parse(dwdl_1);
@@ -233,7 +224,6 @@ public class ModelingToolTest extends GWTTestCase {
                 .getHint());
     }
 
-    @Test
     public void testFlowNode() {
         DWDLParser parser = new DWDLParserImpl();
         WorkflowModel model = parser.parse(dwdl_1);
@@ -286,7 +276,6 @@ public class ModelingToolTest extends GWTTestCase {
 
     }
 
-    @Test
     public void testForEachNode() {
         DWDLParser parser = new DWDLParserImpl();
         WorkflowModel model = parser.parse(dwdl_3);
@@ -334,7 +323,6 @@ public class ModelingToolTest extends GWTTestCase {
         assertEquals(new Boolean(true), forEachModel_2.isParallel());
     }
 
-    @Test
     public void testIfNode() {
         DWDLParser parser = new DWDLParserImpl();
         WorkflowModel model = parser.parse(dwdl_4);
