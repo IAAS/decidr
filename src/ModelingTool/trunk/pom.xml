@@ -85,14 +85,12 @@
 			<version>1.7.0</version>
 			<classifier>${platform}-libs</classifier>
 			<type>zip</type>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
 			<version>1.7.0</version>
 			<classifier>${platform}</classifier>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>de.decidr.modelingtool</groupId>
