@@ -43,11 +43,15 @@ public class IsRoleEqualToAccessedUserAsserter extends CommandAsserter {
 
         if (role instanceof UserRole) {
             userId = role.getActorId();
+            if (userId == null) {
+                return false;
+            }
+
             TransactionalCommand command = getCommandInstance(permission);
             if (command instanceof UserAccess) {
                 accessedUserIds = ((UserAccess) command).getUserIds();
                 if (accessedUserIds != null && userId != null) {
-                    // accessedUserIds must consist entirely of
+                    // accessedUserIds must consist entirely of the user id
                     result = true;
                     for (Long accessedUserId : accessedUserIds) {
                         result = result && userId.equals(accessedUserId);

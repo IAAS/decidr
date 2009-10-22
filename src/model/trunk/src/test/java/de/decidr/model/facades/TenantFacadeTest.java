@@ -554,6 +554,8 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
             // supposed to be thrown
         }
         try {
+            // RR sorry, I forgot to update the facade description after
+            // changing the setLogo functionality. ~dh
             adminFacade.setLogo(testTenantID, null);
             fail("managed to set tenant logo using null parameter");
         } catch (TransactionException e) {
@@ -815,13 +817,13 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.createWorkflowModel(null, "testWFM");
             fail("Managed to create workflow model with null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {
             adminFacade.createWorkflowModel(testTenantID, null);
             fail("Managed to create workflow model with null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {

@@ -97,6 +97,7 @@ public abstract class WorkflowModelCommand extends AclEnabledCommand implements
 
         crit.add(Restrictions.eq("originalWorkflowModel", model));
 
-        return (DeployedWorkflowModel) crit.uniqueResult();
+        return (DeployedWorkflowModel) crit.setResultTransformer(
+                Criteria.ROOT_ENTITY).uniqueResult();
     }
 }

@@ -50,6 +50,8 @@ public class ConfirmRegistrationCommand extends UserCommand {
      * @param authKey
      *            secret key which allows the user to confirm the registration
      *            (was sent via email to the user)
+     * @throws IllegalArgumentException
+     *             if the authentication key is <code>null</code>
      */
     public ConfirmRegistrationCommand(Role role, Long userId, String authKey) {
         super(role, userId);

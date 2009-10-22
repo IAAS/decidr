@@ -58,6 +58,9 @@ public class CreateWorkflowModelCommand extends TenantCommand {
      *            the id of the tenant to which the model should be added
      * @param workflowModelName
      *            the name of the model which should be created
+     * @throws IllegalArgumentException
+     *             if the tenant ID is <code>null</code> or if the workflow model name is
+     *             null or empty.
      */
     public CreateWorkflowModelCommand(Role role, Long tenantId,
             String workflowModelName) {
@@ -152,7 +155,8 @@ public class CreateWorkflowModelCommand extends TenantCommand {
         /**
          * Modify the template where necessary
          */
-        JAXBElement<Workflow> je = (JAXBElement<Workflow>) u.unmarshal(templateUrl);
+        JAXBElement<Workflow> je = (JAXBElement<Workflow>) u
+                .unmarshal(templateUrl);
         Workflow workflowModel = je.getValue();
         workflowModel.setName(name);
         workflowModel.setTargetNamespace("http://decidr.de/" + tenantName

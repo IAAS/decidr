@@ -59,7 +59,7 @@ public class GetUsersOfTenantCommand extends TenantCommand {
      * @param paginator
      *            {@link Paginator}
      * @throws IllegalArgumentException
-     *             if the given tenant ID is null
+     *             if the given tenant ID is <code>null</code>
      */
     public GetUsersOfTenantCommand(Role role, Long tenantId, Paginator paginator) {
         super(role, tenantId);

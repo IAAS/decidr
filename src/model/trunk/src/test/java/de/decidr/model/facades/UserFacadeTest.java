@@ -720,7 +720,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.confirmRegistration(testUserID, null);
             fail("confirming registration with null authkey succeeded");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
         try {

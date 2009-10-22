@@ -531,6 +531,7 @@ public class SystemCommandsTest extends CommandsTest {
         setterSettings.setDomain(null);
         assertTransactionException("null domain succeeded", setter);
         setterSettings.setDomain("");
+        //RR I'll have to create another trigger to force a non-empty domain
         assertTransactionException("empty domain succeeded", setter);
         setterSettings.setDomain("decidr.de");
 

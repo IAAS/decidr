@@ -61,7 +61,7 @@ public class AddServerCommand extends SystemCommand {
      * @param dynamicallyAdded
      *            yes if server has been added automatically, else false
      * @throws IllegalArgumentException
-     *             if the location is null or empty or if no type is given.
+     *             if the location is <code>null</code> or empty or if no type is given.
      */
     public AddServerCommand(Role actor, ServerTypeEnum type, String location,
             Byte initialLoad, Boolean locked, Boolean dynamicallyAdded) {

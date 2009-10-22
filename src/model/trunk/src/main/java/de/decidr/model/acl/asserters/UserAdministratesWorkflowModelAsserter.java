@@ -60,7 +60,7 @@ public class UserAdministratesWorkflowModelAsserter extends CommandAsserter {
                             + "rel.user.id = :userId")
                     .setLong("userId", userId);
             Query adminQuery = evt.getSession().createQuery(
-                    "select count(*) WorkflowModel wm where "
+                    "select count(*) from WorkflowModel wm where "
                             + "wm.id = :workflowModelId and "
                             + "wm.tenant.admin.id = :userId").setLong("userId",
                     userId);

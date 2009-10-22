@@ -42,12 +42,12 @@ public class UserNotParticipatingInAnyWorkflowAsserter extends
 
     @Override
     public void transactionStarted(TransactionEvent evt) {
-        Query q = evt
-                .getSession()
-                .createQuery(
-                        "select count(*) from UserParticipatesInWorkflow where user.id = :userId");
-        q.setLong("userId", userid);
+        notParticipating = false;
+        Query q = evt.getSession().createQuery(
+                "select rel.user.id from UserParticipatesInWorkflow rel "
+                        + "where rel.user.id = :userId");
+        q.setLong("userId", userid).setMaxResults(1);
 
-        notParticipating = ((Number) q.uniqueResult()).intValue() == 0;
+        notParticipating = q.uniqueResult() == null;
     }
 }

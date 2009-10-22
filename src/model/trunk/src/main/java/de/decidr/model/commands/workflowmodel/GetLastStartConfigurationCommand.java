@@ -26,7 +26,9 @@ import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Retrieves the last start configuration that was used to create a workflow
- * instance from the given workflow model.
+ * instance from the given workflow model. If the workflow model has no deployed
+ * version or has no last start configuration, getStartConfiguration() returns
+ * null.
  * 
  * @author Daniel Huss
  * @version 0.1
@@ -36,37 +38,50 @@ public class GetLastStartConfigurationCommand extends WorkflowModelCommand {
     private StartConfiguration startConfiguration;
 
     /**
-     * Constructor.
-     * <p>
-     * This command retrieves the last start configuration that was used to
-     * create a workflow instance from the given workflow model.
+     * Creates a new GetLastStartConfigurationCommand that retrieves the last
+     * start configuration that was used to create a workflow instance from the
+     * given workflow model.
      * 
      * @param role
+     *            user / system executing the command
      * @param workflowModelId
+     *            ID of workflow model whose last start configuration should be
+     *            retrieved.
+     * @throws IllegalArgumentException
+     *             if workflowModelId is <code>null</code>
      */
     public GetLastStartConfigurationCommand(Role role, Long workflowModelId) {
         super(role, workflowModelId);
+        if (workflowModelId == null) {
+            throw new IllegalArgumentException(
+                    "Workflow model ID must not be null.");
+        }
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
+        startConfiguration = null;
+
         DeployedWorkflowModel deployedModel = fetchCurrentDeployedWorkflowModel(evt
                 .getSession());
 
-        Set<StartConfiguration> configs = deployedModel
-                .getStartConfigurations();
+        if (deployedModel != null) {
 
-        // We're only expecting one start configuration at the moment.
-        for (StartConfiguration firstConfig : configs) {
-            this.startConfiguration = firstConfig;
-            break;
+            Set<StartConfiguration> configs = deployedModel
+                    .getStartConfigurations();
+
+            // We're only expecting one start configuration at the moment.
+            for (StartConfiguration firstConfig : configs) {
+                this.startConfiguration = firstConfig;
+                break;
+            }
         }
     }
 
     /**
-     * @return the startConfiguration
+     * @return the startConfiguration or null if none has been created.
      */
     public StartConfiguration getStartConfiguration() {
         return startConfiguration;

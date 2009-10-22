@@ -60,8 +60,7 @@ public class SetUserPropertyCommand extends UserCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        User user = new User();
-        user.setId(getUserId());
+        User user = fetchUser(evt.getSession());
         // use reflection to set the desired user properties
         try {
             PropertyDescriptor[] descriptors = Introspector.getBeanInfo(

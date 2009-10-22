@@ -53,7 +53,7 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand
      * @param workflowModelIds
      *            the IDs of the models which should be imported
      * @throws IllegalArgumentException
-     *             if workflowModelIds is null
+     *             if workflowModelIds is <code>null</code>
      */
     public ImportPublishedWorkflowModelsCommand(Role role, Long tenantId,
             List<Long> workflowModelIds) {

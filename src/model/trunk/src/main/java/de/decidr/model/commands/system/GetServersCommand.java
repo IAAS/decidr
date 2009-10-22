@@ -46,7 +46,7 @@ public class GetServersCommand extends SystemCommand {
      *            user or system that executes this command
      * @param serverTypes
      *            only servers that have one of the given types will be
-     *            included. If this parameter is null, all severs will be
+     *            included. If this parameter is <code>null</code>, all severs will be
      *            included.
      */
     public GetServersCommand(Role actor, ServerTypeEnum... serverTypes) {

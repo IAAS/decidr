@@ -56,7 +56,7 @@ public class GetWorkflowInstancesCommand extends TenantCommand {
      * @param paginator
      *            {@link Paginator}
      * @throws IllegalArgumentException
-     *             if the given tenant ID is null.
+     *             if the given tenant ID is <code>null</code>.
      */
     public GetWorkflowInstancesCommand(Role role, Long tenantId,
             Paginator paginator) {
@@ -74,9 +74,9 @@ public class GetWorkflowInstancesCommand extends TenantCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        String hql = "select exists(from Tenant t where t.id  = :tenantId)";
-        Boolean tenantExists = (Boolean) evt.getSession().createQuery(hql)
-                .setLong("tenantId", getTenantId()).uniqueResult();
+        String hql = "select t.id from Tenant t where t.id  = :tenantId";
+        Boolean tenantExists = evt.getSession().createQuery(hql).setLong(
+                "tenantId", getTenantId()).uniqueResult() != null;
 
         if (!tenantExists) {
             throw new EntityNotFoundException(Tenant.class, getTenantId());

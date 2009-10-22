@@ -45,94 +45,107 @@ import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author GH
  */
-public class UserNotParticipatingInAnyWorkflowAsserterTest extends LowLevelDatabaseTest {
+public class UserNotParticipatingInAnyWorkflowAsserterTest extends
+        LowLevelDatabaseTest {
 
     private static UserFacade userFacade;
     private static TenantFacade tenantFacade;
     private static WorkflowModelFacade wfmFacade;
-    
+
     private static Long superAdminId;
     private static Long tenantAdminId;
     private static Long workflowAdminId;
     private static Long userId;
-    
+
     private static Long tenantId;
     private static Long wfmId;
-        
+
     private static final String TENANT_ADMIN_EMAIL = "test1@acl.decidr.de";
     private static final String WORKFLOW_ADMIN_EMAIL = "test2@acl.decidr.de";
     private static final String USER_EMAIL = "test3@acl.decidr.de";
 
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
-        //create test users
+        // create test users
         superAdminId = DecidrGlobals.getSettings().getSuperAdmin().getId();
         userFacade = new UserFacade(new SuperAdminRole(superAdminId));
-        
+
         UserProfile userProfile = new UserProfile();
         userProfile.setFirstName("test");
         userProfile.setLastName("user");
         userProfile.setCity("testcity");
         userProfile.setStreet("test st.");
         userProfile.setPostalCode("12test");
-        
 
         userProfile.setUsername("tenantadmin17565");
-        tenantAdminId = userFacade.registerUser(TENANT_ADMIN_EMAIL, "qwertz", userProfile);
-        
+        tenantAdminId = userFacade.registerUser(TENANT_ADMIN_EMAIL, "qwertz",
+                userProfile);
+
         userProfile.setUsername("wfadmin12377");
-        workflowAdminId = userFacade.registerUser(WORKFLOW_ADMIN_EMAIL, "qwertz", userProfile);
-        
+        workflowAdminId = userFacade.registerUser(WORKFLOW_ADMIN_EMAIL,
+                "qwertz", userProfile);
+
         userProfile.setUsername("user78626");
         userId = userFacade.registerUser(USER_EMAIL, "qwertz", userProfile);
-        
-        //create test tenant
+
+        // create test tenant
         tenantFacade = new TenantFacade(new SuperAdminRole(superAdminId));
-        tenantId = tenantFacade.createTenant("acl.decidr", "mooomoo", tenantAdminId);
-        
-        
-        //create workflow admin
+        tenantId = tenantFacade.createTenant("acl.decidr", "mooomoo",
+                tenantAdminId);
+
+        // create workflow admin
         tenantFacade.addTenantMember(tenantId, workflowAdminId);
         wfmId = tenantFacade.createWorkflowModel(tenantId, "wfm.ACL");
-        
+
         wfmFacade = new WorkflowModelFacade(new SuperAdminRole(superAdminId));
         List<String> wfmAdmins = new ArrayList<String>();
         List<String> wfmAdminsEmail = new ArrayList<String>();
         wfmAdmins.add("wfadmin12377");
         wfmFacade.setWorkflowAdministrators(wfmId, wfmAdminsEmail, wfmAdmins);
-        
+
     }
 
     @AfterClass
     public static void cleanUpAfterClass() throws TransactionException {
-        
+
         List<Long> wfm = new ArrayList<Long>();
         wfm.add(wfmId);
         wfmFacade.deleteWorkflowModels(wfm);
         tenantFacade.deleteTenant(tenantId);
-        
+
         Transaction trans = session.beginTransaction();
-        session.createQuery("delete from User WHERE email LIKE 'test%@acl.decidr.de'")
+        session.createQuery(
+                "delete from User WHERE email LIKE 'test%@acl.decidr.de'")
                 .executeUpdate();
         trans.commit();
     }
 
     /**
-     * Test method for {@link UserNotParticipatingInAnyWorkflowAsserter#assertRule(Role, Permission)}.
-     * @throws TransactionException 
+     * Test method for
+     * {@link UserNotParticipatingInAnyWorkflowAsserter#assertRule(Role, Permission)}
+     * .
+     * 
+     * @throws TransactionException
      */
     @Test
     public void testAssertRule() throws TransactionException {
         UserNotParticipatingInAnyWorkflowAsserter asserter = new UserNotParticipatingInAnyWorkflowAsserter();
         assertTrue(asserter.assertRule(new TenantAdminRole(tenantAdminId),
-                                       new CommandPermission(new RemoveFromTenantCommand(new TenantAdminRole(tenantAdminId), userId, tenantId))));
+                new CommandPermission(new RemoveFromTenantCommand(
+                        new TenantAdminRole(tenantAdminId), userId, tenantId))));
         assertTrue(asserter.assertRule(new UserRole(userId),
-                new CommandPermission(new RemoveFromTenantCommand(new UserRole(userId), userId, tenantId))));
+                new CommandPermission(new RemoveFromTenantCommand(new UserRole(
+                        userId), userId, tenantId))));
+        // GH since no user can implicitly participate in a workflow, I have no
+        // idea why this assertion fails. Are you sure workflowAdminId is not
+        // participating in any workflow?
         assertFalse(asserter.assertRule(new WorkflowAdminRole(workflowAdminId),
-                new CommandPermission(new RemoveFromTenantCommand(new WorkflowAdminRole(workflowAdminId), userId, tenantId))));
+                new CommandPermission(new RemoveFromTenantCommand(
+                        new WorkflowAdminRole(workflowAdminId), userId,
+                        tenantId))));
     }
 
 }

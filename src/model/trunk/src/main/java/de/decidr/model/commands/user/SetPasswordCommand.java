@@ -51,13 +51,21 @@ public class SetPasswordCommand extends UserCommand {
      *            be null or any value as it will be ignored).
      * @param newPassword
      *            New password to set.
+     * @throws IllegalArgumentException
+     *             if the user ID is <code>null</code> or the new password is
+     *             <code>null</code> or the old password is <code>null</code> in
+     *             case this command is not invoked by a superadmin.
      */
     public SetPasswordCommand(Role role, Long userId, String oldPassword,
             String newPassword) {
         super(role, userId);
 
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID must not be null.");
+        }
+
         if (newPassword == null) {
-            throw new IllegalArgumentException("New password must not be null");
+            throw new IllegalArgumentException("New password must not be null.");
         }
 
         if (!(role instanceof SuperAdminRole) && (oldPassword == null)) {

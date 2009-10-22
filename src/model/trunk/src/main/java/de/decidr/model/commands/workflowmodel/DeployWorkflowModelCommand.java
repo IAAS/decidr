@@ -80,6 +80,7 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
 
         q.setLong("version", workflowModel.getVersion());
         q.setEntity("original", workflowModel);
+        q.setMaxResults(1);
 
         DeployedWorkflowModel existing = (DeployedWorkflowModel) q
                 .uniqueResult();

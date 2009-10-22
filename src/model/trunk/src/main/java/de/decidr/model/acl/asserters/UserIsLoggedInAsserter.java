@@ -25,6 +25,9 @@ import de.decidr.model.acl.roles.UserRole;
  * <p>
  * The {@link Permission} passed to <code>assertRule</code> is ignored.
  * 
+ * XXX the name might be slightly confusing but we have no real way of making
+ * sure that the user is actually logged in.
+ * 
  * @author Markus Fischer
  * @author Daniel Huss
  * 

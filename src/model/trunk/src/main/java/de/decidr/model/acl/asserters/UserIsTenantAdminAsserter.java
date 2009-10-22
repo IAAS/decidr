@@ -1,5 +1,7 @@
 package de.decidr.model.acl.asserters;
 
+import java.util.List;
+
 import de.decidr.model.acl.access.TenantAccess;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
@@ -35,30 +37,36 @@ public class UserIsTenantAdminAsserter extends CommandAsserter {
 
             if (command instanceof TenantAccess) {
                 tenantIds = ((TenantAccess) command).getTenantIds();
-                HibernateTransactionCoordinator.getInstance().runTransaction(
-                        this);
-                result = userIsAdmin;
+                if (tenantIds == null || tenantIds.length == 0
+                        || userId == null) {
+                    // no database query necessary
+                    result = false;
+                } else {
+                    HibernateTransactionCoordinator.getInstance()
+                            .runTransaction(this);
+                    result = userIsAdmin;
+                }
             }
         }
 
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void transactionStarted(TransactionEvent evt) {
-        if (tenantIds == null) {
-            userIsAdmin = false;
-        } else {
-            // the user must be the administrator of every given tenant
-            userIsAdmin = true;
-            for (Long tenantId : tenantIds) {
-                userIsAdmin = userIsAdmin
-                        && ((Tenant) evt.getSession().get(Tenant.class,
-                                tenantId)).getAdmin().getId().equals(userId);
-                if (!userIsAdmin) {
-                    break;
-                }
-            }
-        }
+        userIsAdmin = false;
+        // the user must be the administrator of every given tenant
+        String hql = "select distinct t.admin.id from tenant t "
+                + "where t.id in (:tenantIds)";
+
+        List<Long> result = evt.getSession().createQuery(hql).setParameterList(
+                "tenantIds", tenantIds).list();
+
+        // due to distinct selection, the user is administrator of all given
+        // tenants if the result contains exactly one match and it's equal to
+        // the user's id.
+        userIsAdmin = result != null && result.size() == 1
+                && userId.equals(result.get(0));
     }
 }

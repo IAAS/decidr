@@ -151,12 +151,14 @@ public class TenantFacade extends AbstractFacade {
 
     /**
      * Saves the given <code>{@link FileInputStream}</code> as Logo of the given
-     * tenant. XXX update description
+     * tenant. To remove the current logo including the file on the storage
+     * backend, pass <code>null</code> as the fileId.
      * 
      * @param tenantId
      *            the tenant to which the logo will be set
      * @param fileId
-     *            the id of the file that should be used as the tenant logo
+     *            the id of the file that should be used as the tenant logo. Use
+     *            <code>null</code> to remove the file.
      */
     @AllowedRole(TenantAdminRole.class)
     public void setLogo(Long tenantId, Long fileId) throws TransactionException {
@@ -260,6 +262,9 @@ public class TenantFacade extends AbstractFacade {
      * @param name
      *            the name of the workflow model which should be created
      * @return id of the new workflow model
+     * @throws IllegalArgumentException
+     *             if the tenant ID is <code>null</code> or if the workflow
+     *             model name is <code>null</code> or empty.
      */
     @AllowedRole(TenantAdminRole.class)
     public Long createWorkflowModel(Long tenantId, String name)
@@ -300,7 +305,7 @@ public class TenantFacade extends AbstractFacade {
      * @param tenantIds
      *            a list of tenant IDs which should be approved
      * @throws IllegalArgumentException
-     *             if tenantIds is null.
+     *             if tenantIds is <code>null</code>.
      */
     @AllowedRole(SuperAdminRole.class)
     public void approveTenants(List<Long> tenantIds)
@@ -387,7 +392,7 @@ public class TenantFacade extends AbstractFacade {
      *            {@link Paginator}
      * @return <code>{@link List<Item>}</code> Users of the given tenant
      * @throws IllegalArgumentException
-     *             if the given tenant ID is null.
+     *             if the given tenant ID is <code>null</code>.
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(WorkflowAdminRole.class)
@@ -439,9 +444,9 @@ public class TenantFacade extends AbstractFacade {
      *            {@link Paginator}
      * @return list of vaadin items described above
      * @throws IllegalArgumentException
-     *             if the given tenant ID is null
+     *             if the given tenant ID is <code>null</code>
      * @throws EntityNotFoundException
-     *             if the given tenant does not exist.
+     *             if the given tenant does not exist
      */
     @SuppressWarnings("unchecked")
     @AllowedRole(WorkflowAdminRole.class)

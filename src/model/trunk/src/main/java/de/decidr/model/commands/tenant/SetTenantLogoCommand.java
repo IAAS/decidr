@@ -47,8 +47,8 @@ public class SetTenantLogoCommand extends TenantCommand {
      * storage an a file entity will be created. The id of the entity and the id
      * of the file in the storage service for will be the same.
      * <p>
-     * <strong>Passing null as the file ID will remove the current tenant logo
-     * from the database and the default storage provider.</strong>
+     * <strong>Passing <code>null</code> as the file ID will remove the current
+     * tenant logo from the database and the default storage provider.</strong>
      * 
      * @param role
      *            user which executes the command
@@ -58,7 +58,7 @@ public class SetTenantLogoCommand extends TenantCommand {
      *            the id of the file that should be used as the tenant logo. Use
      *            null to remove the tenant logo.
      * @throws IllegalArgumentException
-     *             if tenantId is null.
+     *             if tenantId is <code>null</code>.
      */
     public SetTenantLogoCommand(Role role, Long tenantId, Long fileId) {
         super(role, tenantId);

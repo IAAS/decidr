@@ -265,10 +265,13 @@ public class UserFacade extends AbstractFacade {
      * @param newPassword
      *            the new password (plaintext).
      * @return true if the password was changed to newPassword, false if
-     *         oldPassword doesn't match. XXX but this throws an
-     *         IllegalArumentException if the old password is null
+     *         oldPassword doesn't match.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if the user ID is <code>null</code> or if new password is
+     *             <code>null</code> of if not invoked by a superadmin and no
+     *             old password is given.
      */
     @AllowedRole(UserRole.class)
     public Boolean setPassword(Long userId, String oldPassword,
@@ -458,6 +461,8 @@ public class UserFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             if the user does not exist or if the user has no pending
      *             registration request.
+     * @throws IllegalArgumentException
+     *             if the authentication key is null
      */
     @AllowedRole(UserRole.class)
     public void confirmRegistration(Long userId, String authKey)

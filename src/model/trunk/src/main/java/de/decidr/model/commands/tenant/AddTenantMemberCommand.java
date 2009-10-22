@@ -44,7 +44,7 @@ public class AddTenantMemberCommand extends TenantCommand {
      * @param memberId
      *            id of the user
      * @throws IllegalArgumentException
-     *             if tenant ID or member ID is null.
+     *             if tenant ID or member ID is <code>null</code>.
      */
     public AddTenantMemberCommand(Role role, Long tenantId, Long memberId) {
         super(role, tenantId);
