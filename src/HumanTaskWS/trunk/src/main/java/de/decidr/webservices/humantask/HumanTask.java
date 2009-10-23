@@ -42,6 +42,8 @@ import de.decidr.model.soap.types.ItemList;
 import de.decidr.model.soap.types.TaskIdentifier;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.webservices.HumanTaskInterface;
+import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
+import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 
 /**
  * This is an implementation of the {@link HumanTaskInterface DecidR HumanTask
@@ -55,6 +57,7 @@ public class HumanTask implements HumanTaskInterface {
     private static Logger log = DefaultLogger.getLogger(HumanTask.class);
     private static final Role HUMANTASK_ROLE = HumanTaskRole.getInstance();
 
+    @SuppressWarnings("unchecked")
     @Override
     public TaskIdentifier createTask(long wfmID, String processID, long userID,
             String taskName, boolean userNotification, String description,
@@ -62,11 +65,25 @@ public class HumanTask implements HumanTaskInterface {
         log.trace("Entering method: createTask");
 
         log.debug("creating work item in database");
+
+        JAXBElement<THumanTaskData> taskDataElement;
+        try {
+            JAXBContext context = JAXBContext.newInstance(THumanTaskData.class);
+            // XXX DH if this fails, remove .getValue() from the end of the next
+            // statement. Otherwise remove this comment ~dh
+            taskDataElement = (JAXBElement<THumanTaskData>) context
+                    .createUnmarshaller().unmarshal(new StringReader(taskData));
+        } catch (JAXBException e) {
+            throw new TransactionException(e);
+        }
+
         long taskID = new WorkItemFacade(HUMANTASK_ROLE).createWorkItem(userID,
-                wfmID, processID + "", taskName, description, taskData
-                        .getBytes(), userNotification);
+                wfmID, processID + "", taskName, description, taskDataElement
+                        .getValue(), userNotification);
 
         // id is needed by the ODE Engine to identify this task
+        // XXX I've talked to modood, he only needs the taskID to identify the
+        // work item, so theTaskIdentifier might be reduced to a Long, soon ~dh
         TaskIdentifier id = new TaskIdentifier(taskID, processID, userID);
 
         log.trace("Leaving method: createTask");
@@ -103,24 +120,24 @@ public class HumanTask implements HumanTaskInterface {
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
         WorkItem workItem = cmd.getResult();
 
-        byte[] taskData = workItem.getData();
-
+        // XXX see line 85 ~dh
         TaskIdentifier id = new TaskIdentifier(taskID, workItem
                 .getWorkflowInstance().getOdePid(), workItem.getUser().getId());
 
         try {
             log.debug("attempting to parse the data string into an Object");
-            Unmarshaller unmarshaller = JAXBContext.newInstance(ItemList.class)
-                    .createUnmarshaller();
-            JAXBElement<ItemList> list = unmarshaller.unmarshal(
-                    new StreamSource(new StringReader(taskData.toString())),
-                    ItemList.class);
+            THumanTaskData taskData = (THumanTaskData) TransformUtil
+                    .getElement(THumanTaskData.class, workItem.getData());
 
-            log.debug("calling Callback");
-            new BasicProcessClient().getBPELCallbackInterfacePort()
-                    .taskCompleted(id, list.getValue());
-        } catch (MalformedURLException e) {
-            throw new ReportingException(e.getMessage(), e);
+            /*
+             * DH RR MA Modood is going to create a new type that replaces
+             * ItemList. We have to map from THumanTaskData to this new type ~dh
+             */
+            // log.debug("calling Callback");
+            // new BasicProcessClient().getBPELCallbackInterfacePort()
+            // .taskCompleted(id, ???);
+            // } catch (MalformedURLException e) {
+            // throw new ReportingException(e.getMessage(), e);
         } catch (JAXBException e) {
             throw new ReportingException(e.getMessage(), e);
         }
