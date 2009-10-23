@@ -81,6 +81,8 @@ public class FileFacade extends AbstractFacade {
      * @return the ID of the new file.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             TODO document
      */
     @AllowedRole(BasicRole.class)
     public Long createFile(InputStream contents, Long fileSize,

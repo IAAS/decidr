@@ -13,12 +13,6 @@ public class GetFileTestCommand extends AbstractTransactionalCommand {
     HibernateEntityStorageProvider storageProvider;
     InputStream resultStream;
 
-    /**
-     * Creates a new {@link GetFileTestCommand}
-     * 
-     * @param role
-     * @param fileId
-     */
     public GetFileTestCommand(Long fileId,
             HibernateEntityStorageProvider provider) {
         fId = fileId;
@@ -32,14 +26,10 @@ public class GetFileTestCommand extends AbstractTransactionalCommand {
     @Override
     public void transactionStarted(TransactionEvent evt)
             throws TransactionException {
-
         try {
             resultStream = storageProvider.getFile(fId);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             throw new TransactionException(e);
         }
-
     }
-
 }

@@ -103,6 +103,17 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
     public void deleteDefaultTenant() {
         invalidTenantID = testTenantID;
 
+        if (invalidTenantID == null) {
+            long invalidID = Long.MIN_VALUE;
+
+            for (long l = invalidID; session.createQuery(
+                    "FROM User WHERE id = :given").setLong("given", l)
+                    .uniqueResult() != null; l++)
+                invalidID = l + 1;
+
+            invalidTenantID = invalidID;
+        }
+
         if (testTenantID != null) {
             try {
                 adminFacade.deleteTenant(testTenantID);
@@ -490,8 +501,6 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.getWorkflowInstances(invalidTenantID, null);
             fail("managed to get workflow instances for invalid tenant ID");
-        } catch (IllegalArgumentException e) {
-            // supposed to happen
         } catch (TransactionException e) {
             // supposed to happen
         }
@@ -684,6 +693,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
 
         // RR "UserIsEnabledAsserter DISAGREES" -> the user account of the actor
         // must be enabled to perform these actions. ~dh
+        // DH define "enabled" ~rr
         adminFacade.setDescription(testTenantID, TEST_DESC + " (testtttttt)");
         userFacade.setDescription(testTenantID, TEST_DESC + " (testtttttt)");
     }

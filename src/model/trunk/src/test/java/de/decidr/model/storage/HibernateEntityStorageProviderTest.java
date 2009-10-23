@@ -18,24 +18,19 @@ package de.decidr.model.storage;
 
 import static org.junit.Assert.*;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
-
-import javax.activation.MimetypesFileTypeMap;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.decidr.model.DecidrGlobals;
-import de.decidr.model.commands.AbstractTransactionalCommand;
-import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacadeTest;
+import de.decidr.model.storage.commands.BasicFileCreatorCommand;
 import de.decidr.model.storage.commands.GetFileTestCommand;
 import de.decidr.model.storage.commands.PutFileTestCommand;
 import de.decidr.model.storage.commands.PutFileTestFaultyCommand;
@@ -43,7 +38,6 @@ import de.decidr.model.storage.commands.RemoveFileFaultyTestCommand;
 import de.decidr.model.storage.commands.RemoveFileTestCommand;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Test class for the {@link HibernateEntityStorageProvider}.
@@ -56,32 +50,9 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
     static File dataFile;
     static java.io.File basicFile;
 
-    /*
-     * converts file into ByteArrayOutputStream
-     */
-    private static ByteArrayOutputStream readFile(java.io.File file)
-            throws Exception {
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-        FileInputStream fileInputStream = new FileInputStream(file
-                .getAbsolutePath());
-
-        byte[] buffer = new byte[16384];
-
-        for (int len = fileInputStream.read(buffer); len > 0; len = fileInputStream
-                .read(buffer)) {
-            byteArrayOutputStream.write(buffer, 0, len);
-        }
-
-        fileInputStream.close();
-
-        return byteArrayOutputStream;
-    }
-
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        /*
+        /*-
          * The custom session interferes with the HTC session because they run
          * in concurrent transactions. This caused the file created here to be
          * invisible to testPutFile() until the custom session commits, causing
@@ -91,33 +62,14 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
          * did not help. Could it be that Hiberntate turns off autocommit by
          * default but does not send a "commit" query upon flushing the session?
          * ~dh
+         * DH next time, just try opening and committing a transaction -
+         * helped in UserFacadeTest... ~rr
          */
-        TransactionalCommand cmd = new AbstractTransactionalCommand() {
-            @Override
-            public void transactionStarted(TransactionEvent evt)
-                    throws TransactionException {
-                basicFile = new java.io.File("./src/test/java/decidr.jpg");
-                assertTrue(basicFile.exists());
-
-                dataFile = new de.decidr.model.entities.File();
-
-                dataFile.setFileName("decidr.jpg");
-                dataFile.setMimeType(new MimetypesFileTypeMap()
-                        .getContentType(basicFile));
-                dataFile.setFileSizeBytes(basicFile.length());
-                try {
-                    dataFile.setData(readFile(basicFile).toByteArray());
-                } catch (Exception e) {
-                    throw new TransactionException(e);
-                }
-                dataFile.setId(123456l);
-                dataFile.setCreationDate(DecidrGlobals.getTime().getTime());
-
-                evt.getSession().save(dataFile);
-            }
-        };
+        BasicFileCreatorCommand cmd = new BasicFileCreatorCommand();
 
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        basicFile = cmd.getBasicFile();
+        dataFile = cmd.getDataFile();
     }
 
     @Before
@@ -187,7 +139,6 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
                     dataFile.getId(), basicFile, storageProvider);
             HibernateTransactionCoordinator.getInstance().runTransaction(cmd3);
 
-            // RR cmd3.result is never set to true. ~dh
             if (cmd3.getResult() == false) {
                 fail("IllegalArgumentExpected");
             }

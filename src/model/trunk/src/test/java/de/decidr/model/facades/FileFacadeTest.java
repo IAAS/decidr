@@ -195,6 +195,8 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
                 facade.createFile(null, streamSize, testName, testMime, false,
                         publicPermissions);
                 fail("managed to create file with null parameter");
+                // DH you aren't declaring this Exception, so the test mustn't
+                // expect it ~rr
             } catch (IllegalArgumentException e) {
                 // supposed to happen
             }

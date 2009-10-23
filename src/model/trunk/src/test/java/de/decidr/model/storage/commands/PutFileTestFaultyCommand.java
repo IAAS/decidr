@@ -25,54 +25,53 @@ public class PutFileTestFaultyCommand extends AbstractTransactionalCommand {
      */
     public PutFileTestFaultyCommand(Long fileId, File file,
             HibernateEntityStorageProvider provider) {
-        
+
         basicFile = file;
         fId = fileId;
         storageProvider = provider;
     }
 
-    public boolean getResult(){
+    public boolean getResult() {
         return result;
     }
-    
+
     @Override
     public void transactionStarted(TransactionEvent evt)
             throws TransactionException {
+        result = true;
 
         try {
-            storageProvider.putFile((FileInputStream)null, fId, basicFile.length());
-            result=false;
+            storageProvider.putFile((FileInputStream) null, fId, basicFile
+                    .length());
+            result = false;
         } catch (IllegalArgumentException e) {
-            //nothing to do
+            // nothing to do
         } catch (StorageException e) {
-            result=false;
-        }
-        
-        
-        
-        try {
-            storageProvider.putFile(new FileInputStream(basicFile.getAbsolutePath()), (Long)null, basicFile.length());
-            result=false;
-        } catch (IllegalArgumentException e) {
-            //nothing to do
-        } catch (StorageException e) {
-            result=false;
-        } catch (FileNotFoundException e) {
-            result=false;
-        }
-        
-        
-        try {
-            storageProvider.putFile(new FileInputStream(basicFile.getAbsolutePath()), fId, (Long)null);
-            result=false;
-        } catch (IllegalArgumentException e) {
-            //nothing to do
-        } catch (StorageException e) {
-            result=false;
-        } catch (FileNotFoundException e) {
-            result=false;
+            result = false;
         }
 
+        try {
+            storageProvider.putFile(new FileInputStream(basicFile
+                    .getAbsolutePath()), (Long) null, basicFile.length());
+            result = false;
+        } catch (IllegalArgumentException e) {
+            // nothing to do
+        } catch (StorageException e) {
+            result = false;
+        } catch (FileNotFoundException e) {
+            result = false;
+        }
+
+        try {
+            storageProvider.putFile(new FileInputStream(basicFile
+                    .getAbsolutePath()), fId, (Long) null);
+            result = false;
+        } catch (IllegalArgumentException e) {
+            // nothing to do
+        } catch (StorageException e) {
+            result = false;
+        } catch (FileNotFoundException e) {
+            result = false;
+        }
     }
-
 }
