@@ -584,33 +584,39 @@ public class DWDLParserImpl implements DWDLParser {
                 DWDLNames.condition);
         if (conditionElements.size() > 0) {
             for (Element conditionElement : conditionElements) {
-                Collection<NodeModel> childNodeModels = createChildNodeModels(
-                        conditionElement, workflow, ifModel);
+                createInnerContainerConnections(conditionElement, ifModel);
+                createChildNodeModels(conditionElement, workflow, ifModel);
 
                 /* Set conditions */
-                for (NodeModel nodeModel : childNodeModels) {
-                    if (nodeModel.getInput() instanceof Condition) {
-                        Condition condition = (Condition) nodeModel.getInput();
-                        Element leftOperand = getChildNodesByTagName(
-                                conditionElement, DWDLNames.leftOp).get(0);
-                        condition.setLeftOperandId(new Long(leftOperand
-                                .getNodeValue()));
-                        Element operator = getChildNodesByTagName(
-                                conditionElement, DWDLNames.operator).get(0);
-                        condition.setOperator(Operator
-                                .getOperatorFromDisplayString(operator
-                                        .getNodeValue()));
-                        Element rightOperand = getChildNodesByTagName(
-                                conditionElement, DWDLNames.rightOp).get(0);
-                        condition.setRightOperandId(new Long(rightOperand
-                                .getNodeValue()));
-                    }
+                Condition condition = ifModel.getConditionById(new Long(
+                        conditionElement.getAttribute(DWDLNames.id)));
+
+                condition.setOrder(new Integer(conditionElement
+                        .getAttribute(DWDLNames.order)));
+
+                // JS remove if branch, when workflow parser has changed
+                if (condition.getOrder() != 0) {
+                    Element leftOperand = getChildNodesByTagName(
+                            conditionElement, DWDLNames.leftOp).get(0);
+                    condition.setLeftOperandId(new Long(leftOperand
+                            .getFirstChild().getNodeValue()));
+
+                    Element operator = getChildNodesByTagName(conditionElement,
+                            DWDLNames.operator).get(0);
+                    condition.setOperator(Operator
+                            .getOperatorFromDisplayString(operator
+                                    .getFirstChild().getNodeValue()));
+
+                    Element rightOperand = getChildNodesByTagName(
+                            conditionElement, DWDLNames.rightOp).get(0);
+                    condition.setRightOperandId(new Long(rightOperand
+                            .getFirstChild().getNodeValue()));
                 }
             }
         }
 
+        /* Create branchless connections and nodes, i.e. without a condition */
         createInnerContainerConnections(ifElement, ifModel);
-
         createChildNodeModels(ifElement, workflow, ifModel);
 
         /* Set incoming and outgoing connections */
@@ -750,7 +756,6 @@ public class DWDLParserImpl implements DWDLParser {
                             containerModel);
                 }
             }
-
         }
     }
 

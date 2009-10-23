@@ -129,7 +129,7 @@
 			id="1256211693453">
 			<description></description>
 			<graphics x="29" y="148" width="282" height="326" />
-			<condition order="0" defaultCondition="yes">
+			<condition order="0" defaultCondition="yes" id="1256211684046">
 				<nodes>
 					<invokeNode
 						name="de.decidr.modelingtool.client.model.EmailInvokeNodeModel"
@@ -184,7 +184,7 @@
 						id="1256211850421" source="1256211850343" target="1256211693453" />
 				</arcs>
 			</condition>
-			<condition order="1" defaultCondition="no">
+			<condition order="1" defaultCondition="no" id="1256211684048">
 				<left-operand>12</left-operand>
 				<operator>?=</operator>
 				<right-operand>123</right-operand>

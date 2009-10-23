@@ -460,6 +460,8 @@ public class WorkflowParserImpl implements WorkflowParser {
         return flowElement;
     }
 
+    //JS consider condition statement of default condition, too
+    //JS consider id of condition
     private Element createIfElement(Document doc, WorkflowModel workflow,
             IfContainerModel model) {
         GWT.log("Creating IfNode, children: "
