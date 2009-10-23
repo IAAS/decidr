@@ -20,9 +20,13 @@
 	</distributionManagement>
 	<repositories>
 		<repository>
-			<id>default</id>
+			<id>central</id>
 			<name>default</name>
 			<url>http://repo1.maven.org/maven2</url>
+		</repository>
+		<repository>
+			<id>gwt-maven</id>
+			<url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
 		</repository>
 		<repository>
 			<id>iaassrv7-releases</id>
@@ -33,10 +37,6 @@
 			<id>iaassrv7-releases</id>
 			<name>iaassrv7-releases</name>
 			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/ibiblio</url>
-		</repository>
-		<repository>
-			<id>gwt-maven</id>
-			<url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
 		</repository>
 	</repositories>
 	<!--  include pluginRepository and repository for GWT-Maven -->

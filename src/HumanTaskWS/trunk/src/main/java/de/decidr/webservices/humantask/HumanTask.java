@@ -16,15 +16,12 @@
 package de.decidr.webservices.humantask;
 
 import java.io.StringReader;
-import java.net.MalformedURLException;
 
 import javax.jws.HandlerChain;
 import javax.jws.WebService;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Logger;
 
@@ -38,7 +35,6 @@ import de.decidr.model.facades.WorkflowInstanceFacade;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.soap.exceptions.ReportingException;
 import de.decidr.model.soap.types.IDList;
-import de.decidr.model.soap.types.ItemList;
 import de.decidr.model.soap.types.TaskIdentifier;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.webservices.HumanTaskInterface;
@@ -84,6 +80,8 @@ public class HumanTask implements HumanTaskInterface {
         // id is needed by the ODE Engine to identify this task
         // XXX I've talked to modood, he only needs the taskID to identify the
         // work item, so theTaskIdentifier might be reduced to a Long, soon ~dh
+        // DH The process ID is needed to select the correct ODE instance. The
+        // userID is needed to associate the task with a user in a foreach ~rr
         TaskIdentifier id = new TaskIdentifier(taskID, processID, userID);
 
         log.trace("Leaving method: createTask");
