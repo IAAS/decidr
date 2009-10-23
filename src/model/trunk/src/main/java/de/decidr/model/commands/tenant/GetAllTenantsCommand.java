@@ -35,10 +35,9 @@ import de.decidr.model.transactions.TransactionEvent;
  * @author Markus Fischer
  * @version 0.1
  */
-@SuppressWarnings("unchecked")
 public class GetAllTenantsCommand extends AclEnabledCommand {
 
-    private List<Filter> filters = new ArrayList();
+    private List<Filter> filters = new ArrayList<Filter>();
     private Paginator paginator;
     private List<TenantSummaryView> result;
 
@@ -61,6 +60,7 @@ public class GetAllTenantsCommand extends AclEnabledCommand {
         this.paginator = paginator;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {

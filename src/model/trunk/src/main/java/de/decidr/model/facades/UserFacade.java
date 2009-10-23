@@ -652,15 +652,15 @@ public class UserFacade extends AbstractFacade {
      * </ul>
      * 
      * @param filters
-     *            {@link Filter}
-     * 
+     *            a {@link Filter}
      * @param paginator
-     *            {@link Paginator}
+     *            a {@link Paginator}
      * @return list of vaadin items which are described above
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @see Filter
+     * @see Paginator
      */
-    @SuppressWarnings("unchecked")
     @AllowedRole(SuperAdminRole.class)
     public List<Item> getAllUsers(List<Filter> filters, Paginator paginator)
             throws TransactionException {
@@ -676,7 +676,7 @@ public class UserFacade extends AbstractFacade {
         // build the Vaadin item
         String[] properties = { "id", "email" };
 
-        List<Item> result = new ArrayList();
+        List<Item> result = new ArrayList<Item>();
         for (User user : inList) {
 
             item = new BeanItem(user, properties);
@@ -769,7 +769,6 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
-    @SuppressWarnings("unchecked")
     @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getAdministratedWorkflowInstances(Long userId)
             throws TransactionException {
@@ -784,7 +783,7 @@ public class UserFacade extends AbstractFacade {
         // build the Vaadin item
         String[] properties = { "id", "startedDate", "completedDate" };
 
-        List<Item> result = new ArrayList();
+        List<Item> result = new ArrayList<Item>();
         for (WorkflowInstance instance : inList) {
 
             Item item = new BeanItem(instance, properties);
@@ -811,7 +810,6 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
-    @SuppressWarnings("unchecked")
     @AllowedRole(UserRole.class)
     public List<Item> getJoinedTenants(Long userId) throws TransactionException {
 
@@ -825,7 +823,7 @@ public class UserFacade extends AbstractFacade {
         // build the Vaadin item
         String[] properties = { "id", "name" };
 
-        List<Item> result = new ArrayList();
+        List<Item> result = new ArrayList<Item>();
         for (Tenant tenant : tenants) {
             result.add(new BeanItem(tenant, properties));
         }
@@ -893,13 +891,12 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
-    @SuppressWarnings("unchecked")
     @AllowedRole(UserRole.class)
     public List<Item> getWorkItems(Long userId, List<Filter> filters,
             Paginator paginator) throws TransactionException {
 
         List<WorkItemSummaryView> inList;
-        List<Item> outList = new ArrayList();
+        List<Item> outList = new ArrayList<Item>();
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();

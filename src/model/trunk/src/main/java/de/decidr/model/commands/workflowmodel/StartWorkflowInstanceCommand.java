@@ -253,11 +253,10 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
      *            current Hibernate sesion
      * @return
      */
-    @SuppressWarnings("unchecked")
     private Set<Invitation> createInvitations(List<User> invitedUsers,
             Session session) {
 
-        Set<Invitation> invis = new HashSet();
+        Set<Invitation> invis = new HashSet<Invitation>();
 
         for (User invitedUser : invitedUsers) {
             Invitation invitation = new Invitation();
@@ -294,8 +293,11 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
      * @param session
      *            current Hibernate Session
      * @throws JAXBException
+     *             TODO document
      * @throws IOException
+     *             TODO document
      * @throws SOAPException
+     *             TODO document
      */
     @SuppressWarnings("unchecked")
     private void createWorkflowInstance(DeployedWorkflowModel deployedModel,

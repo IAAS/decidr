@@ -183,7 +183,6 @@ public class HibernateEntityStorageProvider implements StorageProvider {
 
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public InputStream getFile(Long fileId) throws StorageException {
         checkFileId(fileId);
@@ -192,7 +191,7 @@ public class HibernateEntityStorageProvider implements StorageProvider {
         String hql = "select f." + dataPropertyName + " from " + entityTypeName
                 + " f where f." + idPropertyName + "=" + fileId.toString();
 
-        List data = session.createQuery(hql).setMaxResults(1).list();
+        List<?> data = session.createQuery(hql).setMaxResults(1).list();
         if (data.isEmpty()) {
             throw new StorageException("File not found");
         }

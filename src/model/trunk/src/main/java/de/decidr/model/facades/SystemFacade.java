@@ -265,7 +265,6 @@ public class SystemFacade extends AbstractFacade {
      * @throws TransactionException
      *             if an error occurs during the transaction
      */
-    @SuppressWarnings("unchecked")
     @AllowedRole(SuperAdminRole.class)
     public List<Item> getLog(List<Filter> filters, Paginator paginator)
             throws TransactionException {
@@ -275,7 +274,7 @@ public class SystemFacade extends AbstractFacade {
         GetLogCommand command = new GetLogCommand(actor, filters, paginator);
 
         List<Item> outList = new ArrayList<Item>();
-        List<Log> inList = new ArrayList();
+        List<Log> inList = new ArrayList<Log>();
 
         tac.runTransaction(command);
         inList = command.getResult();
@@ -306,7 +305,6 @@ public class SystemFacade extends AbstractFacade {
      *         <code>{@link Item items}</code>
      * @throws TransactionException
      *             if an error occurs during the transaction
-     * 
      */
     @AllowedRole(SuperAdminRole.class)
     public List<Item> getServerStatistics() throws TransactionException {

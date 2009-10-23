@@ -33,10 +33,9 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-@SuppressWarnings("unchecked")
 public class GetAdministratedWorkflowInstancesCommand extends UserCommand {
 
-    List<WorkflowInstance> result = new ArrayList();
+    List<WorkflowInstance> result = new ArrayList<WorkflowInstance>();
 
     /**
      * Creates a new GetAdminstratedWorkflowInstancesCommand. This Command
@@ -53,6 +52,7 @@ public class GetAdministratedWorkflowInstancesCommand extends UserCommand {
         super(role, userId);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {

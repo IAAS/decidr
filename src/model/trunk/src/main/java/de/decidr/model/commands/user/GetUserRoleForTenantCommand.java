@@ -56,7 +56,8 @@ public class GetUserRoleForTenantCommand extends UserCommand {
      * @param role
      *            the user which executes the command
      * @param userId
-     *            the ID of the user whose role should be requested for the given tenant
+     *            the ID of the user whose role should be requested for the
+     *            given tenant
      * @param tenantId
      *            the ID of the tenant for which the role should be appointed
      */
@@ -72,7 +73,6 @@ public class GetUserRoleForTenantCommand extends UserCommand {
             throws TransactionException {
 
         // check if super admin
-
         Criteria c = evt.getSession().createCriteria(SystemSettings.class);
         List<SystemSettings> results = c.list();
         SystemSettings innerResult;
@@ -125,7 +125,6 @@ public class GetUserRoleForTenantCommand extends UserCommand {
         }
 
         // check if member
-
         Criteria c3 = evt.getSession().createCriteria(
                 UserIsMemberOfTenant.class).add(Restrictions.eq("user", user))
                 .add(Restrictions.eq("tenant", tenant));

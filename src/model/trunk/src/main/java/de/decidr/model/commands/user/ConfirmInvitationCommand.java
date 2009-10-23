@@ -174,8 +174,11 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
      * @throws EntityNotFoundException
      *             if no invitation could be found
      * @throws JAXBException
+     *             TODO document
      * @throws IOException
+     *             TODO document
      * @throws SOAPException
+     *             TODO document
      */
     @SuppressWarnings("unchecked")
     private void processWorkflowInstanceInvitation()

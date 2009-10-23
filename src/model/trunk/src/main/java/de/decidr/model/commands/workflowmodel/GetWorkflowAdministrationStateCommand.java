@@ -128,6 +128,7 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
      * usernames and emails.
      * 
      * @param session
+     *            TODO document
      * @return list of known users
      */
     @SuppressWarnings("unchecked")
@@ -158,8 +159,11 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
      * removes them from knownUsers.
      * 
      * @param knownUsers
+     *            TODO document
      * @param model
+     *            TODO document
      * @param session
+     *            TODO document
      * @return the workflow admins that were removed from knownUsers
      */
     @SuppressWarnings("unchecked")
@@ -208,9 +212,12 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
      * from knownUsers.
      * 
      * @param knownUsers
+     *            TODO document
      * @param model
+     *            TODO document
      * @param session
-     * @return
+     *            TODO document
+     * @return TODO document
      */
     @SuppressWarnings("unchecked")
     private List<User> getMembers(List<User> knownUsers, WorkflowModel model,

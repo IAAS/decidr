@@ -182,11 +182,10 @@ public class SetWorkflowAdministratorsCommand extends WorkflowModelCommand
      * @param session
      *            current Hibernate sesion
      */
-    @SuppressWarnings("unchecked")
     private Set<Invitation> inviteAsWorkflowAdmin(List<User> users, WorkflowModel model,
             Session session) {
         
-        Set<Invitation> invis= new HashSet();
+        Set<Invitation> invis= new HashSet<Invitation>();
 
         for (User invitedUser : users) {
             Invitation invitation = new Invitation();

@@ -99,7 +99,7 @@ public class GetWorkflowInstancesCommand extends TenantCommand {
             paginator.apply(c);
         }
 
-        c.setResultTransformer(Criteria.ROOT_ENTITY);
+        c.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
 
         result = c.list();
     }

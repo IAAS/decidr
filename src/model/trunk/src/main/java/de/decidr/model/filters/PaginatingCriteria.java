@@ -65,8 +65,7 @@ public class PaginatingCriteria implements Criteria {
      * @param session
      *            current Hibernate session
      */
-    @SuppressWarnings("unchecked")
-    public PaginatingCriteria(Class clazz, Session session) {
+    public PaginatingCriteria(Class<?> clazz, Session session) {
         this.criteria = session.createCriteria(clazz);
         this.clone = session.createCriteria(clazz);
         this.clone.setProjection(Projections.rowCount());
@@ -83,8 +82,7 @@ public class PaginatingCriteria implements Criteria {
      * @param session
      *            current Hibernate session
      */
-    @SuppressWarnings("unchecked")
-    public PaginatingCriteria(Class clazz, String alias, Session session) {
+    public PaginatingCriteria(Class<?> clazz, String alias, Session session) {
         this.criteria = session.createCriteria(clazz, alias);
         this.clone = session.createCriteria(clazz, alias);
         this.clone.setProjection(Projections.rowCount());

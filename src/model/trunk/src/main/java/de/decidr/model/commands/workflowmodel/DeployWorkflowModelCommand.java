@@ -126,17 +126,14 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
                         new StandardDeploymentStrategy());
 
                 // get servers on which it has been deployed
-
                 List<Long> serverId = result.getServers();
-                Set<WorkflowModelIsDeployedOnServer> dbEntry = new HashSet();
+                Set<WorkflowModelIsDeployedOnServer> dbEntry = new HashSet<WorkflowModelIsDeployedOnServer>();
 
                 for (Long sid : serverId) {
-
                     WorkflowModelIsDeployedOnServer entry = new WorkflowModelIsDeployedOnServer();
                     entry.setDeployedWorkflowModel(dwfm);
                     entry.setServer((Server) evt.getSession().load(
                             Server.class, sid));
-
                 }
 
                 dwfm.setDeployDate(result.getDoplementDate());
@@ -148,7 +145,6 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
             } catch (Exception e) {
                 throw new TransactionException(e);
             }
-
         }
     }
 

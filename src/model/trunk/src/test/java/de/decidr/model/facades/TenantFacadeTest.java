@@ -556,7 +556,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.setLogo(invalidTenantID, logoID);
             fail("managed to set tenant logo using invalid tenant ID");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
         try {

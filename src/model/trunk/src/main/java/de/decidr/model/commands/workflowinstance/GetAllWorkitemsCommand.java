@@ -33,11 +33,9 @@ import de.decidr.model.transactions.TransactionEvent;
  */
 public class GetAllWorkitemsCommand extends WorkflowInstanceCommand {
 
-    @SuppressWarnings("unchecked")
-    private Set<WorkItem> result = new HashSet();
+    private Set<WorkItem> result = new HashSet<WorkItem>();
 
     /**
-     * 
      * Creates a new GetAllWorkitemsCommand.
      * 
      * @param role
@@ -61,5 +59,4 @@ public class GetAllWorkitemsCommand extends WorkflowInstanceCommand {
     public Set<WorkItem> getResult() {
         return result;
     }
-
 }

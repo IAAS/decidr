@@ -38,7 +38,6 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * 
      * @param actor
      *            user which executes all commands of the created facade
-     * 
      */
     public WorkflowInstanceFacade(Role actor) {
         super(actor);
@@ -49,6 +48,8 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * 
      * @param workflowInstanceId
      *            the ID of the WorkflowInstance
+     * @throws TransactionException
+     *             TODO document
      */
     @AllowedRole(WorkflowAdminRole.class)
     public void stopWorkflowInstance(Long workflowInstanceId)
@@ -68,8 +69,9 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      *            the ID of the workflow instance whose participating users
      *            should be requested
      * @return List of participating Users
+     * @throws TransactionException
+     *             TODO document
      */
-    @SuppressWarnings("unchecked")
     @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getParticipatingUsers(Long workflowInstanceId)
             throws TransactionException {
@@ -80,7 +82,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
         Set<User> inSet = command.getResult();
-        List<Item> outList = new ArrayList();
+        List<Item> outList = new ArrayList<Item>();
 
         String[] properties = { "id", "email" };
 
@@ -97,6 +99,8 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * 
      * @param workflowInstanceId
      *            the ID of the WorkflowInstance
+     * @throws TransactionException
+     *             TODO document
      */
     @AllowedRole(WorkflowAdminRole.class)
     public void deleteWorkflowInstance(Long workflowInstanceId)
@@ -109,7 +113,6 @@ public class WorkflowInstanceFacade extends AbstractFacade {
 
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 new TransactionalCommand[] { command, command2 });
-
     }
 
     /**
@@ -136,7 +139,6 @@ public class WorkflowInstanceFacade extends AbstractFacade {
     }
 
     /**
-     * 
      * Returns all WorkItems of a WorkflowInstance as a Vaadin-Item with the
      * following properties:<br>
      * <ul>
@@ -146,8 +148,9 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * @param workflowInstanceId
      *            the ID of the WorkflowInstance
      * @return List<Items> list of items described above
+     * @throws TransactionException
+     *             TODO document
      */
-    @SuppressWarnings("unchecked")
     @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getAllWorkItems(Long workflowInstanceId)
             throws TransactionException {
@@ -156,7 +159,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
                 workflowInstanceId);
 
         String[] properties = { "id" };
-        List<Item> outList = new ArrayList();
+        List<Item> outList = new ArrayList<Item>();
         Set<WorkItem> inSet;
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);

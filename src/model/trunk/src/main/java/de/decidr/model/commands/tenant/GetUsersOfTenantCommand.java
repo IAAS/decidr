@@ -17,7 +17,7 @@ package de.decidr.model.commands.tenant;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
@@ -112,8 +112,8 @@ public class GetUsersOfTenantCommand extends TenantCommand {
                 .exists(adminRel)));
 
         // preload user profiles - no lazy loading desired
-        c.createCriteria("userProfile", Criteria.LEFT_JOIN);
-        c.setResultTransformer(Criteria.ROOT_ENTITY);
+        c.createCriteria("userProfile", CriteriaSpecification.LEFT_JOIN);
+        c.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
 
         if (paginator != null) {
             paginator.apply(c);

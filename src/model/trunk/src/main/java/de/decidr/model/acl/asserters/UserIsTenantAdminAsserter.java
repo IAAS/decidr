@@ -7,7 +7,6 @@ import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.TransactionalCommand;
-import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionEvent;
@@ -52,7 +51,6 @@ public class UserIsTenantAdminAsserter extends CommandAsserter {
         return result;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void transactionStarted(TransactionEvent evt) {
         userIsAdmin = false;
@@ -60,7 +58,7 @@ public class UserIsTenantAdminAsserter extends CommandAsserter {
         String hql = "select distinct t.admin.id from tenant t "
                 + "where t.id in (:tenantIds)";
 
-        List<Long> result = evt.getSession().createQuery(hql).setParameterList(
+        List<?> result = evt.getSession().createQuery(hql).setParameterList(
                 "tenantIds", tenantIds).list();
 
         // due to distinct selection, the user is administrator of all given

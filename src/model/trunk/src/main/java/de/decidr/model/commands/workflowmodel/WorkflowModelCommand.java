@@ -2,6 +2,7 @@ package de.decidr.model.commands.workflowmodel;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
 
 import de.decidr.model.acl.access.WorkflowModelAccess;
@@ -13,7 +14,6 @@ import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
 
 /**
- * 
  * Base class for commands that modify workflow models.
  * 
  * @author Daniel Huss
@@ -25,9 +25,8 @@ public abstract class WorkflowModelCommand extends AclEnabledCommand implements
     protected Long workflowModelId = null;
 
     /**
-     * Constructor
-     * 
      * @param role
+     *            TODO document
      * @param workflowModelId
      *            the workflow model that is read / modified. A corresponding
      *            permission is automatically created.
@@ -81,6 +80,7 @@ public abstract class WorkflowModelCommand extends AclEnabledCommand implements
      * Fetches the current deployed version of the workflow model.
      * 
      * @param session
+     *            TODO document
      * @return the current deployed version of the workflow model or null if
      *         there is no current deplyoed version.
      */
@@ -98,6 +98,6 @@ public abstract class WorkflowModelCommand extends AclEnabledCommand implements
         crit.add(Restrictions.eq("originalWorkflowModel", model));
 
         return (DeployedWorkflowModel) crit.setResultTransformer(
-                Criteria.ROOT_ENTITY).uniqueResult();
+                CriteriaSpecification.ROOT_ENTITY).uniqueResult();
     }
 }
