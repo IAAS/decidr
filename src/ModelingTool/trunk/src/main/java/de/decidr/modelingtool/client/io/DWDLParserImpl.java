@@ -28,7 +28,6 @@ import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.XMLParser;
 
 import de.decidr.modelingtool.client.io.resources.DWDLNames;
-import de.decidr.modelingtool.client.model.AbstractModel;
 import de.decidr.modelingtool.client.model.ConnectionModel;
 import de.decidr.modelingtool.client.model.ContainerExitConnectionModel;
 import de.decidr.modelingtool.client.model.ContainerModel;
@@ -282,9 +281,7 @@ public class DWDLParserImpl implements DWDLParser {
         if (children.size() > 0) {
             Element nodesElement = children.get(0);
             List<Element> nodeElements = getChildElementsAsList(nodesElement);
-            // JS remove
-            System.out.println("ID: " + ((AbstractModel) parentModel).getId()
-                    + ", children: " + nodeElements.size());
+
             for (Element childElement : nodeElements) {
 
                 NodeModel nodeModel = null;
@@ -322,10 +319,6 @@ public class DWDLParserImpl implements DWDLParser {
                     }
                 }
 
-                // JS remove
-                System.out.println("Child "
-                        + nodeElements.indexOf(childElement) + " is null: "
-                        + nodeModel == null);
                 if (nodeModel != null) {
                     parentModel.addNodeModel(nodeModel);
                     childNodeModels.add(nodeModel);
