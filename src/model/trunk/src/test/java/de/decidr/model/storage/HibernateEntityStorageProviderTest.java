@@ -30,6 +30,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.commands.AbstractTransactionalCommand;
+import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.TransactionException;
@@ -41,6 +43,7 @@ import de.decidr.model.storage.commands.RemoveFileFaultyTestCommand;
 import de.decidr.model.storage.commands.RemoveFileTestCommand;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
+import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Test class for the {@link HibernateEntityStorageProvider}.
@@ -78,21 +81,43 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
+        /*
+         * The custom session interferes with the HTC session because they run
+         * in concurrent transactions. This caused the file created here to be
+         * invisible to testPutFile() until the custom session commits, causing
+         * a lock wait timeout.
+         * 
+         * Strangely, flushing and/or closing the custom session in this method
+         * did not help. Could it be that Hiberntate turns off autocommit by
+         * default but does not send a "commit" query upon flushing the session?
+         * ~dh
+         */
+        TransactionalCommand cmd = new AbstractTransactionalCommand() {
+            @Override
+            public void transactionStarted(TransactionEvent evt)
+                    throws TransactionException {
+                basicFile = new java.io.File("./src/test/java/decidr.jpg");
+                assertTrue(basicFile.exists());
 
-        basicFile = new java.io.File("./src/test/java/decidr.jpg");
-        assertTrue(basicFile.exists());
+                dataFile = new de.decidr.model.entities.File();
 
-        dataFile = new de.decidr.model.entities.File();
+                dataFile.setFileName("decidr.jpg");
+                dataFile.setMimeType(new MimetypesFileTypeMap()
+                        .getContentType(basicFile));
+                dataFile.setFileSizeBytes(basicFile.length());
+                try {
+                    dataFile.setData(readFile(basicFile).toByteArray());
+                } catch (Exception e) {
+                    throw new TransactionException(e);
+                }
+                dataFile.setId(123456l);
+                dataFile.setCreationDate(DecidrGlobals.getTime().getTime());
 
-        dataFile.setFileName("decidr.jpg");
-        dataFile.setMimeType(new MimetypesFileTypeMap()
-                .getContentType(basicFile));
-        dataFile.setFileSizeBytes(basicFile.length());
-        dataFile.setData(readFile(basicFile).toByteArray());
-        dataFile.setId(123456l);
-        dataFile.setCreationDate(DecidrGlobals.getTime().getTime());
+                evt.getSession().save(dataFile);
+            }
+        };
 
-        session.save(dataFile);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
     }
 
     @Before
@@ -162,6 +187,7 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
                     dataFile.getId(), basicFile, storageProvider);
             HibernateTransactionCoordinator.getInstance().runTransaction(cmd3);
 
+            // RR cmd3.result is never set to true. ~dh
             if (cmd3.getResult() == false) {
                 fail("IllegalArgumentExpected");
             }

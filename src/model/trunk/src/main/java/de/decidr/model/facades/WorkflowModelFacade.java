@@ -435,6 +435,7 @@ public class WorkflowModelFacade extends AbstractFacade {
                     .getTenant().getId()));
             item.addItemProperty("tenantName", new ObjectProperty(model
                     .getTenant().getName()));
+            result.add(item);
         }
 
         return result;

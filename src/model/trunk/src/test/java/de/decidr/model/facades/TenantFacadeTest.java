@@ -180,7 +180,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             userFacade.addTenantMember(invalidTenantID, testAdminID);
             fail("managed to add a tenant member using invalid tenant ID");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
 
@@ -490,9 +490,12 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.getWorkflowInstances(invalidTenantID, null);
             fail("managed to get workflow instances for invalid tenant ID");
+        } catch (IllegalArgumentException e) {
+            // supposed to happen
         } catch (TransactionException e) {
             // supposed to happen
         }
+
         try {
             adminFacade.getWorkflowInstances(null, null);
             fail("managed to get workflow instances with null parameter");
@@ -679,6 +682,8 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
             // supposed to be thrown
         }
 
+        // RR "UserIsEnabledAsserter DISAGREES" -> the user account of the actor
+        // must be enabled to perform these actions. ~dh
         adminFacade.setDescription(testTenantID, TEST_DESC + " (testtttttt)");
         userFacade.setDescription(testTenantID, TEST_DESC + " (testtttttt)");
     }

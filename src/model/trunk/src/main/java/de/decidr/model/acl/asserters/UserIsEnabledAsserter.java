@@ -18,7 +18,8 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-public class UserIsEnabledAsserter extends AbstractTransactionalCommand implements Asserter {
+public class UserIsEnabledAsserter extends AbstractTransactionalCommand
+        implements Asserter {
 
     private Long userId = null;
     private Boolean userIsEnabled = false;
@@ -30,8 +31,14 @@ public class UserIsEnabledAsserter extends AbstractTransactionalCommand implemen
 
         if (role instanceof UserRole) {
             userId = role.getActorId();
-            HibernateTransactionCoordinator.getInstance().runTransaction(this);
-            result = userIsEnabled;
+
+            if (userId == null) {
+                result = false;
+            } else {
+                HibernateTransactionCoordinator.getInstance().runTransaction(
+                        this);
+                result = userIsEnabled;
+            }
         }
 
         return result;
@@ -41,6 +48,6 @@ public class UserIsEnabledAsserter extends AbstractTransactionalCommand implemen
     public void transactionStarted(TransactionEvent evt) {
         User user = (User) evt.getSession().get(User.class, userId);
         // a user is enabled iff no "diabled since" date has been set
-        userIsEnabled = user.getDisabledSince() == null;
+        userIsEnabled = user != null && user.getDisabledSince() == null;
     }
 }

@@ -214,7 +214,7 @@ public class DecidrGlobals {
         }
         // This may change if we switch from Synapse to another ESB that's not
         // based on Axis2
-        return getEsb().getLocation() + "/soap/" + webServiceName;
+        return "http://" + getEsb().getLocation() + "/soap/" + webServiceName;
     }
 
     /**
@@ -226,7 +226,7 @@ public class DecidrGlobals {
     public static String getWebServiceWsdlUrl(String webServiceName) {
         // This may change if we switch from Synapse to another ESB that's not
         // based on Axis2
-        return getEsb().getLocation() + getWebServiceUrl(webServiceName)
-                + "?wsdl";
+        return "http://" + getEsb().getLocation()
+                + getWebServiceUrl(webServiceName) + "?wsdl";
     }
 }

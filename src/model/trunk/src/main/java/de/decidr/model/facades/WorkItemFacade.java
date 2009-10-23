@@ -15,6 +15,8 @@
  */
 package de.decidr.model.facades;
 
+import java.util.Date;
+
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 
@@ -30,8 +32,10 @@ import de.decidr.model.commands.workitem.GetWorkItemCommand;
 import de.decidr.model.commands.workitem.SetDataCommand;
 import de.decidr.model.commands.workitem.SetStatusCommand;
 import de.decidr.model.enums.WorkItemStatus;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
+import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 
 /**
  * Provides an interface for retrieving and manipulating work items.
@@ -55,19 +59,21 @@ public class WorkItemFacade extends AbstractFacade {
     /**
      * Returns all properties of the given work item:
      * <ul>
-     * <li>id: Long - work item id</li>
-     * <li>creationDate: Date - date when the work item was created</li>
-     * <li>status: String - see WorkItemStatus</li>
-     * <li>data: byte[] - raw xml bytes</li>
-     * <li>name: String - work item name</li>
-     * <li>description: String -</li>
+     * <li>id: {@link Long} - work item id</li>
+     * <li>creationDate: {@link Date} - date when the work item was created</li>
+     * <li>status: {@link String} - see WorkItemStatus</li>
+     * <li>data: byte[] - raw xml bytes of a {@link THumanTaskData} instance</li>
+     * <li>name: {@link String} - work item name</li>
+     * <li>description: {@link String} -</li>
      * </ul>
      * 
      * @param workItemId
      *            the ID of the workitem which should be requested
      * @return Vaadin item described above
      * @throws TransactionException
-     *             on rollback or if the given work item doesn't exist.
+     *             if the transaction is aborted for any reason
+     * @throws IllegalArgumentException
+     *             if workItemId is null
      */
     @AllowedRole(UserRole.class)
     public Item getWorkItem(Long workItemId) throws TransactionException {
@@ -95,18 +101,21 @@ public class WorkItemFacade extends AbstractFacade {
      * @param description
      *            the description of the new work item
      * @param data
-     *            the data associated with this work item (XML)
+     *            the data associated with this work item
      * @param notifyUser
      *            whether the user should be notified by email that a new work
      *            item has been created.
      * @return the ID of the new work item.
      * @throws TransactionException
-     *             on rollback
+     *             if the transaction is aborted for any reason
+     * @throws IllegalArgumentException
+     *             if any parameter is null
      */
     @AllowedRole(HumanTaskRole.class)
     public Long createWorkItem(Long userId, Long deployedWorkflowModelId,
-            String odePid, String name, String description, byte[] data,
-            Boolean notifyUser) throws TransactionException {
+            String odePid, String name, String description,
+            THumanTaskData data, Boolean notifyUser)
+            throws TransactionException {
 
         CreateWorkItemCommand cmd = new CreateWorkItemCommand(actor, userId,
                 deployedWorkflowModelId, odePid, name, description, data,
@@ -118,17 +127,21 @@ public class WorkItemFacade extends AbstractFacade {
     }
 
     /**
-     * Overwrites the XML data of the given work item with the given raw data.
+     * Overwrites the current data of the given work item.
      * 
      * @param workItemId
      *            the work item to modify
      * @param data
-     *            the raw bytes to write to the work item
+     *            the new work item data
      * @throws TransactionException
-     *             on rollback
+     *             if the transaction is aborted for any reason
+     * @throws EntityNotFoundException
+     *             if the work item does not exist
+     * @throws IllegalArgumentException
+     *             if any parameter is null
      */
     @AllowedRole(UserRole.class)
-    public void setData(Long workItemId, byte[] data)
+    public void setData(Long workItemId, THumanTaskData data)
             throws TransactionException {
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 new SetDataCommand(actor, workItemId, data));
@@ -140,12 +153,14 @@ public class WorkItemFacade extends AbstractFacade {
      * @param workItemId
      *            the work item to modify
      * @param data
-     *            the raw bytes to write to the work item
+     *            the new work item data.
      * @throws TransactionException
-     *             on rollback
+     *             if the transaction is rolled back for any reason
+     * @throws EntityNotFoundException
+     *             if the work item does not exist
      */
     @AllowedRole(UserRole.class)
-    public void setDataAndMarkAsDone(Long workItemId, byte[] data)
+    public void setDataAndMarkAsDone(Long workItemId, THumanTaskData data)
             throws TransactionException {
         TransactionalCommand[] commands = {
                 new SetDataCommand(actor, workItemId, data),
@@ -158,7 +173,7 @@ public class WorkItemFacade extends AbstractFacade {
      * Sets the work item status of the given work item to "done".
      * 
      * @param workItemId
-     *           ID of the workitem which should be marked as done
+     *            ID of the workitem which should be marked as done
      * @throws TransactionException
      *             on rollback
      */
@@ -186,11 +201,25 @@ public class WorkItemFacade extends AbstractFacade {
      * Returns the properties of the given work item and sets the status of the
      * given work item to "in progress".
      * 
+     * Work item properties:
+     * <ul>
+     * <li>id: {@link Long} - work item id</li>
+     * <li>creationDate: {@link Date} - date when the work item was created</li>
+     * <li>status: {@link String} - see WorkItemStatus</li>
+     * <li>data: byte[] - raw xml bytes of a {@link THumanTaskData} instance</li>
+     * <li>name: {@link String} - work item name</li>
+     * <li>description: {@link String} -</li>
+     * </ul>
+     * 
      * @param workItemId
      *            the work item to retrieve
-     * @return Vaadin item containing the properties of the work item.
+     * @return Vaadin item containing the properties of the work item
      * @throws TransactionException
-     *             on rollback
+     *             if the transaction is aborted for any reason
+     * @throws EntityNotFoundException
+     *             if the work item does not exist
+     * @throws IllegalArgumentException
+     *             if workItemId is null
      */
     @AllowedRole(UserRole.class)
     public Item getWorkItemAndMarkAsInProgress(Long workItemId)
@@ -199,11 +228,11 @@ public class WorkItemFacade extends AbstractFacade {
         GetWorkItemCommand getCommand = new GetWorkItemCommand(actor,
                 workItemId);
 
-        TransactionalCommand[] commands = {
-                new SetStatusCommand(actor, workItemId,
-                        WorkItemStatus.InProgress), getCommand };
+        SetStatusCommand statusCommand = new SetStatusCommand(actor,
+                workItemId, WorkItemStatus.InProgress);
 
-        HibernateTransactionCoordinator.getInstance().runTransaction(commands);
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                getCommand, statusCommand);
 
         String[] properties = { "id", "workflowInstance", "creationDate",
                 "status", "data", "name", "description" };

@@ -1,6 +1,6 @@
 package de.decidr.model.storage.commands;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 
 import de.decidr.model.commands.AbstractTransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
@@ -11,8 +11,7 @@ public class GetFileTestCommand extends AbstractTransactionalCommand {
 
     Long fId;
     HibernateEntityStorageProvider storageProvider;
-    FileInputStream resultStream;
-    
+    InputStream resultStream;
 
     /**
      * Creates a new {@link GetFileTestCommand}
@@ -20,12 +19,13 @@ public class GetFileTestCommand extends AbstractTransactionalCommand {
      * @param role
      * @param fileId
      */
-    public GetFileTestCommand(Long fileId, HibernateEntityStorageProvider provider) {
+    public GetFileTestCommand(Long fileId,
+            HibernateEntityStorageProvider provider) {
         fId = fileId;
         storageProvider = provider;
     }
-    
-    public FileInputStream getResultStrem(){
+
+    public InputStream getResultStrem() {
         return resultStream;
     }
 
@@ -34,7 +34,7 @@ public class GetFileTestCommand extends AbstractTransactionalCommand {
             throws TransactionException {
 
         try {
-            resultStream = (FileInputStream) storageProvider.getFile(fId);
+            resultStream = storageProvider.getFile(fId);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             throw new TransactionException(e);

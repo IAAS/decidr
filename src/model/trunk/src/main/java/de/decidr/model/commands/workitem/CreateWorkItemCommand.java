@@ -16,6 +16,8 @@
 
 package de.decidr.model.commands.workitem;
 
+import javax.xml.bind.JAXBException;
+
 import org.hibernate.Query;
 
 import de.decidr.model.DecidrGlobals;
@@ -29,6 +31,8 @@ import de.decidr.model.enums.WorkItemStatus;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
+import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 
 /**
  * Creates a new work item with the given specs in the database and notifies the
@@ -44,7 +48,7 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
     private String odePid;
     private String name;
     private String description;
-    private byte[] data;
+    private THumanTaskData data;
     private Boolean notifyUser;
 
     private Long workItemId = null;
@@ -57,7 +61,7 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
      * @param userId
      *            the ID of the user which owns the new workitem
      * @param deployedWorkflowModelId
-     *            the ID of the WorkflowModel 
+     *            the ID of the WorkflowModel
      * @param odePid
      *            the Process ID of the instance at the ODE
      * @param name
@@ -65,15 +69,24 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
      * @param description
      *            the description of the workitem (what has the user to do)
      * @param data
-     *            the workitem data as byte[]
+     *            the workitem data
      * @param notifyUser
-     *            true if user should be notified that he has a new workitem, else false
-     * 
+     *            true if user should be notified that he has a new workitem,
+     *            else false
+     * @throws IllegalArgumentException
+     *             if any parameter is null.
      */
     public CreateWorkItemCommand(Role role, Long userId,
             Long deployedWorkflowModelId, String odePid, String name,
-            String description, byte[] data, Boolean notifyUser) {
+            String description, THumanTaskData data, Boolean notifyUser) {
         super(role, (Permission) null);
+
+        if (userId == null || deployedWorkflowModelId == null || odePid == null
+                || name == null || description == null || data == null
+                || notifyUser == null) {
+            throw new IllegalArgumentException("No parameter can be null.");
+        }
+
         this.userId = userId;
         this.deployedWorkflowModelId = deployedWorkflowModelId;
         this.odePid = odePid;
@@ -104,7 +117,11 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
 
         WorkItem newWorkItem = new WorkItem();
         newWorkItem.setCreationDate(DecidrGlobals.getTime().getTime());
-        newWorkItem.setData(data);
+        try {
+            newWorkItem.setData(TransformUtil.getBytes(data));
+        } catch (JAXBException e) {
+            throw new TransactionException(e);
+        }
         newWorkItem.setDescription(description);
         newWorkItem.setName(name);
         newWorkItem.setStatus(WorkItemStatus.Fresh.toString());

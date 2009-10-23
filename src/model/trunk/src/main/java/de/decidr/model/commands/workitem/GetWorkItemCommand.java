@@ -18,7 +18,6 @@ package de.decidr.model.commands.workitem;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.WorkItem;
-import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
@@ -33,29 +32,31 @@ public class GetWorkItemCommand extends WorkItemCommand {
     private WorkItem result = null;
 
     /**
-     * Creates a new instance of the GetWorkItemCommand.
+     * Creates a new GetWorkItemCommand that retrieves the properties of the
+     * given work item.
      * 
      * @param role
-     *            user which executes the command
+     *            user / system which executes the command
      * @param workItemId
      *            the ID of the workitem which should be returned
+     * @throws IllegalArgumentException
+     *             if workItemId is null.
      */
     public GetWorkItemCommand(Role role, Long workItemId) {
         super(role, workItemId);
+        if (workItemId == null) {
+            throw new IllegalArgumentException("Work item ID must not be null.");
+        }
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-        result = (WorkItem) evt.getSession().get(WorkItem.class, workItemId);
+        result = fetchWorkItem(evt.getSession());
 
-        if (result != null) {
-            // make sure the required properties are loaded.
-            result.getData();
-            result.getWorkflowInstance();
-        } else {
-            throw new EntityNotFoundException(WorkItem.class, workItemId);
-        }
+        // make sure the required properties are loaded.
+        result.getData();
+        result.getWorkflowInstance();
     }
 
     /**

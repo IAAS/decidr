@@ -55,7 +55,7 @@ public class UserIsTenantAdminAsserter extends CommandAsserter {
     public void transactionStarted(TransactionEvent evt) {
         userIsAdmin = false;
         // the user must be the administrator of every given tenant
-        String hql = "select distinct t.admin.id from tenant t "
+        String hql = "select distinct t.admin.id from Tenant t "
                 + "where t.id in (:tenantIds)";
 
         List<?> result = evt.getSession().createQuery(hql).setParameterList(
