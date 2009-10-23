@@ -134,7 +134,8 @@ public class TenantFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the tenant logo as <code>{@link InputStream}</code>.
+     * Returns the tenant logo as <code>{@link InputStream}</code>.<br>
+     * XXX what if the tenant currently doesn't have a logo? ~rr
      * 
      * @param tenantId
      *            the id of the tenant

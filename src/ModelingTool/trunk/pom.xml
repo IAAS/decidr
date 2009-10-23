@@ -71,10 +71,25 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+			<!--
+				plugin> <artifactId>maven-surefire-plugin</artifactId>
+				<configuration> <additionalClasspathElements>
+				<additionalClasspathElement>src/main/java</additionalClasspathElement>
+				<additionalClasspathElement>src/test/java</additionalClasspathElement>
+				<additionalClasspathElement>target/generated-sources/gwt</additionalClasspathElement>
+				</additionalClasspathElements>
+				<useSystemClassLoader>true</useSystemClassLoader>
+				<useManifestOnlyJar>false</useManifestOnlyJar>
+				<forkMode>always</forkMode> <systemProperties> <property>
+				<name>gwt.args</name> <value>-out target/www-test</value>
+				</property> </systemProperties> <argLine>-Xmx256M</argLine>
+				</configuration> </plugin
+			-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
 					<excludes>
 						<exclude>**/de/decidr/modelingtool/**</exclude>
 					</excludes>
@@ -108,10 +123,9 @@
 			dependency> <groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId> <version>1.7.0</version>
 			<classifier>${platform}-libs</classifier> <type>zip</type>
-			<scope>compile</scope> </dependency> <dependency>
-			<groupId>com.google.gwt</groupId> <artifactId>gwt-dev</artifactId>
-			<version>1.7.0</version> <classifier>${platform}</classifier>
-			<scope>compile</scope> </dependency
+			</dependency> <dependency> <groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId> <version>1.7.0</version>
+			<classifier>${platform}</classifier> </dependency
 		-->
 		<dependency>
 			<groupId>de.decidr.modelingtool</groupId>

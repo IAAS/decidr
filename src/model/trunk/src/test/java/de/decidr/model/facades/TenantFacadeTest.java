@@ -554,14 +554,6 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
             // supposed to be thrown
         }
         try {
-            // RR sorry, I forgot to update the facade description after
-            // changing the setLogo functionality. ~dh
-            adminFacade.setLogo(testTenantID, null);
-            fail("managed to set tenant logo using null parameter");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
             adminFacade.setLogo(invalidTenantID, logoID);
             fail("managed to set tenant logo using invalid tenant ID");
         } catch (TransactionException e) {
@@ -611,7 +603,11 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
             // supposed to be thrown
         }
 
+        assertNull(adminFacade.getLogo(testTenantID));
+
         adminFacade.setLogo(testTenantID, logoID);
+        assertNotNull(adminFacade.getLogo(testTenantID));
+
         long fileSizeBytes = fileFacade.getFileInfo(logoID).getFileSizeBytes();
         byte[] streamLogo = new byte[(int) fileSizeBytes];
         byte[] tenantLogo = new byte[(int) fileSizeBytes];
@@ -622,6 +618,9 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
 
         assertEquals(fileSizeBytes, userFacade.getLogo(logoID).read(tenantLogo));
         assertTrue(Arrays.equals(streamLogo, tenantLogo));
+
+        adminFacade.setLogo(testTenantID, null);
+        assertNull(adminFacade.getLogo(testTenantID));
 
         fileFacade.deleteFile(logoID);
     }
