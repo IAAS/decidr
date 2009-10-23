@@ -28,6 +28,7 @@ import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.XMLParser;
 
 import de.decidr.modelingtool.client.io.resources.DWDLNames;
+import de.decidr.modelingtool.client.model.AbstractModel;
 import de.decidr.modelingtool.client.model.ConnectionModel;
 import de.decidr.modelingtool.client.model.ContainerExitConnectionModel;
 import de.decidr.modelingtool.client.model.ContainerModel;
@@ -280,8 +281,11 @@ public class DWDLParserImpl implements DWDLParser {
                 DWDLNames.nodes);
         if (children.size() > 0) {
             Element nodesElement = children.get(0);
-            List<Element> nodeElemens = getChildElementsAsList(nodesElement);
-            for (Element childElement : nodeElemens) {
+            List<Element> nodeElements = getChildElementsAsList(nodesElement);
+            // JS remove
+            System.out.println("ID: " + ((AbstractModel) parentModel).getId()
+                    + ", children: " + nodeElements.size());
+            for (Element childElement : nodeElements) {
 
                 NodeModel nodeModel = null;
                 /*
@@ -318,6 +322,10 @@ public class DWDLParserImpl implements DWDLParser {
                     }
                 }
 
+                // JS remove
+                System.out.println("Child "
+                        + nodeElements.indexOf(childElement) + " is null: "
+                        + nodeModel == null);
                 if (nodeModel != null) {
                     parentModel.addNodeModel(nodeModel);
                     childNodeModels.add(nodeModel);
@@ -578,10 +586,7 @@ public class DWDLParserImpl implements DWDLParser {
         ifModel.setId(new Long(ifElement.getAttribute(DWDLNames.id)));
         setGraphics(ifElement, ifModel);
 
-        /*
-         * The child nodes of the if container are children of the condition
-         * element
-         */
+        /* Get the child nodes which are part of a condition branch */
         List<Element> conditionElements = getChildNodesByTagName(ifElement,
                 DWDLNames.condition);
         if (conditionElements.size() > 0) {
@@ -612,6 +617,8 @@ public class DWDLParserImpl implements DWDLParser {
         }
 
         createInnerContainerConnections(ifElement, ifModel);
+
+        createChildNodeModels(ifElement, workflow, ifModel);
 
         /* Set incoming and outgoing connections */
         List<Element> targets = getChildNodesByTagName(ifElement,
