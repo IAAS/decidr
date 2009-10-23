@@ -460,8 +460,6 @@ public class WorkflowParserImpl implements WorkflowParser {
         return flowElement;
     }
 
-    // JS consider condition statement of default condition, too
-    // JS consider id of condition
     private Element createIfElement(Document doc, WorkflowModel workflow,
             IfContainerModel model) {
         GWT.log("Creating IfNode, children: "
@@ -497,6 +495,9 @@ public class WorkflowParserImpl implements WorkflowParser {
             if (condition.getOrder() != null) {
                 conditionElement.setAttribute(DWDLNames.order, condition
                         .getOrder().toString());
+                conditionElement.setAttribute(DWDLNames.id, condition.getId()
+                        .toString());
+
                 /*
                  * If order is zero, that means the condition is the default
                  * condition
