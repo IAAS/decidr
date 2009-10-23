@@ -179,8 +179,12 @@ public class IfWindow extends ModelingToolDialog {
              */
             String label = fieldset.getLabel().getText();
             Long operand1Id = fieldset.getLeftOperandField().getValue().getId();
+            // JS remove
+            System.out.println(fieldset.getOperatorList().getSimpleValue());
             Operator operator = Operator.getOperatorFromDisplayString(fieldset
                     .getOperatorList().getSimpleValue());
+            // JS remove
+            System.out.println(operator.toString());
             Long operand2Id = fieldset.getRightOperandField().getValue()
                     .getId();
             Integer order = fieldset.getOrderField().getOrder();

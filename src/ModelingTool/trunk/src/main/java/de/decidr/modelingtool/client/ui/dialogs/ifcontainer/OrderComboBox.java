@@ -54,18 +54,22 @@ public class OrderComboBox extends SimpleComboBox<String> {
             this.add(i.toString());
         }
 
-        /* Set value */
-        if (condition.getOperator() != null) {
-            String order;
-            if (condition.getOrder() == 0) {
-                order = ModelingToolWidget.getMessages().defaultCondition();
-            } else {
-                order = condition.getOrder().toString();
-            }
-            this.setSimpleValue(order);
-        }
-
         this.setEditable(false);
+    }
+
+    /**
+     * Sets the order of the order fields.
+     * 
+     * @param order
+     *            the order to set
+     */
+    public void setOrder(Integer order) {
+        if (order == 0) {
+            this.setSimpleValue(ModelingToolWidget.getMessages()
+                    .defaultCondition());
+        } else {
+            this.setSimpleValue(order.toString());
+        }
     }
 
     /**

@@ -16,13 +16,12 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.ifcontainer;
 
-import com.extjs.gxt.ui.client.event.SelectionChangedEvent;
-import com.extjs.gxt.ui.client.event.SelectionChangedListener;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
 import com.google.gwt.user.client.ui.Label;
 
 import de.decidr.modelingtool.client.model.ifcondition.Condition;
+import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
 import de.decidr.modelingtool.client.model.ifcondition.Operator;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
@@ -50,13 +49,15 @@ public class IfFieldSet {
 
     private Condition condition;
 
+    // JS finish
+
     /**
      * Default constructor to create an IfFieldSet from a condition
      * 
      * @param condition
      *            the condition
      * @param count
-     *            the execution order, 0 stands for default condition
+     *            the number of conditions the {@link IfContainerModel} has
      */
     public IfFieldSet(Condition condition, int count) {
         this.condition = condition;
@@ -64,107 +65,74 @@ public class IfFieldSet {
         label = new Label(condition.getName());
 
         typeSelector = new SimpleComboBox<String>();
-        for (VariableType t : VariableType.values()) {
-            typeSelector.add(t.getLocalName());
+        for (VariableType type : VariableType.values()) {
+            typeSelector.add(type.getLocalName());
         }
         typeSelector.setEditable(false);
-        typeSelector
-                .addSelectionChangedListener(new SelectionChangedListener<Variable>() {
-                    @Override
-                    public void selectionChanged(
-                            SelectionChangedEvent<Variable> se) {
-                        /*
-                         * If type selector changes, get all variables with
-                         * selected type from workflow
-                         */
-                        leftOperandField.setEnabled(true);
-                        leftOperandField.getStore().removeAll();
-                        leftOperandField.clearSelections();
-                        leftOperandField
-                                .getStore()
-                                .add(
-                                        VariablesFilter
-                                                .getVariablesOfType(
-                                                        VariableType
-                                                                .getTypeFromLocalName(typeSelector
-                                                                        .getSimpleValue()))
-                                                .getModels());
-
-                        operatorList.setEnabled(true);
-                        updateOperatorListEntries();
-
-                        /*
-                         * If type selector changes, get all variables with
-                         * selected type from workflow
-                         */
-                        rightOperandField.setEnabled(true);
-                        rightOperandField.getStore().removeAll();
-                        rightOperandField.clearSelections();
-                        rightOperandField
-                                .getStore()
-                                .add(
-                                        VariablesFilter
-                                                .getVariablesOfType(
-                                                        VariableType
-                                                                .getTypeFromLocalName(typeSelector
-                                                                        .getSimpleValue()))
-                                                .getModels());
-                    }
-                });
+        typeSelector.addSelectionChangedListener(new TypeSelectorListener());
 
         leftOperandField = new ComboBox<Variable>();
         leftOperandField.setDisplayField(Variable.LABEL);
-        leftOperandField.setStore(VariablesFilter.getAllVariables());
-        if (condition.getLeftOperandId() != null) {
-            leftOperandField.setValue(Workflow.getInstance().getModel()
-                    .getVariable(condition.getLeftOperandId()));
-        }
         leftOperandField.setEditable(false);
         leftOperandField.setEnabled(false);
 
         operatorList = new SimpleComboBox<String>();
-        /*
-         * if the conditions already references the operands, update the
-         * operator list entires according to the type of the operands.
-         */
-        if (condition.getLeftOperandId() != null
-                && condition.getRightOperandId() != null) {
-            updateOperatorListEntries();
-        }
-        if (condition.getOperator() != null) {
-            operatorList.setSimpleValue(condition.getOperator()
-                    .getDisplayString());
-        }
         operatorList.setEditable(false);
         operatorList.setEnabled(false);
 
         rightOperandField = new ComboBox<Variable>();
         rightOperandField.setDisplayField(Variable.LABEL);
-        rightOperandField.setStore(VariablesFilter.getAllVariables());
-        if (condition.getRightOperandId() != null) {
-            rightOperandField.setValue(Workflow.getInstance().getModel()
-                    .getVariable(condition.getRightOperandId()));
-        }
         rightOperandField.setEditable(false);
         rightOperandField.setEnabled(false);
 
         orderField = new OrderComboBox(count, condition);
-    }
 
-    private void updateOperatorListEntries() {
-        operatorList.getStore().removeAll();
-        operatorList.clearSelections();
-        if (typeSelector != null && typeSelector.getValue() != null
-                && typeSelector.getValue().getValue() != null) {
-            for (Operator op : Operator.getOperatorsForType(VariableType
-                    .getTypeFromLocalName(typeSelector.getValue().getValue()))) {
-                operatorList.add(op.getDisplayString());
-            }
-        }
-        if (condition.getOperator() != null) {
+        /* If condition is complete, set the value of the input fields */
+        if (condition.isComplete()) {
+            /*
+             * Found out which type the operand variables of the condition have.
+             * (use only left operand, type of left and right operand are the
+             * same anyway). Set the type selector to the type
+             */
+            Variable leftVariable = Workflow.getInstance().getModel()
+                    .getVariable(condition.getLeftOperandId());
+            Variable rightVariable = Workflow.getInstance().getModel()
+                    .getVariable(condition.getRightOperandId());
+            typeSelector.setSimpleValue(leftVariable.getType().getLocalName());
+
+            /* Update stores according to the type */
+            updateAllStores(leftVariable.getType());
+
+            /* Set the values */
+            leftOperandField.setValue(leftVariable);
             operatorList.setSimpleValue(condition.getOperator()
                     .getDisplayString());
+            rightOperandField.setValue(rightVariable);
         }
+    }
+
+    /**
+     * This methods updates the stores of the left and right operand field and
+     * the operator field. The stores of these input fields are specific to the
+     * variable type.
+     * 
+     * @param type
+     *            the {@link VariableType} to set the stores to
+     */
+    private void updateAllStores(VariableType type) {
+        leftOperandField.clearSelections();
+        leftOperandField.getStore().removeAll();
+        leftOperandField.setStore(VariablesFilter.getVariablesOfType(type));
+
+        operatorList.clearSelections();
+        operatorList.removeAll();
+        for (Operator op : Operator.getOperatorsForType(type)) {
+            operatorList.add(op.getDisplayString());
+        }
+
+        rightOperandField.clearSelections();
+        rightOperandField.getStore().removeAll();
+        rightOperandField.setStore(VariablesFilter.getVariablesOfType(type));
     }
 
     /**

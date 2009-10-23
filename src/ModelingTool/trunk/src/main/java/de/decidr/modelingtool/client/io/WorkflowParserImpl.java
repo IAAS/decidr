@@ -460,8 +460,8 @@ public class WorkflowParserImpl implements WorkflowParser {
         return flowElement;
     }
 
-    //JS consider condition statement of default condition, too
-    //JS consider id of condition
+    // JS consider condition statement of default condition, too
+    // JS consider id of condition
     private Element createIfElement(Document doc, WorkflowModel workflow,
             IfContainerModel model) {
         GWT.log("Creating IfNode, children: "
@@ -507,16 +507,18 @@ public class WorkflowParserImpl implements WorkflowParser {
                 } else {
                     conditionElement.setAttribute(DWDLNames.defaultCondition,
                             DWDLNames.no);
-                    conditionElement.appendChild(createTextElement(doc,
-                            DWDLNames.leftOp, condition.getLeftOperandId()
-                                    .toString()));
-                    conditionElement.appendChild(createTextElement(doc,
-                            DWDLNames.operator, condition.getOperator()
-                                    .getDisplayString()));
-                    conditionElement.appendChild(createTextElement(doc,
-                            DWDLNames.rightOp, condition.getRightOperandId()
-                                    .toString()));
                 }
+
+                /* Create the condition statement */
+                conditionElement.appendChild(createTextElement(doc,
+                        DWDLNames.leftOp, condition.getLeftOperandId()
+                                .toString()));
+                conditionElement.appendChild(createTextElement(doc,
+                        DWDLNames.operator, condition.getOperator()
+                                .getDisplayString()));
+                conditionElement.appendChild(createTextElement(doc,
+                        DWDLNames.rightOp, condition.getRightOperandId()
+                                .toString()));
             }
 
             /*

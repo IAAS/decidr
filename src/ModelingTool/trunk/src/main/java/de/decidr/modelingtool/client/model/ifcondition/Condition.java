@@ -110,4 +110,15 @@ public class Condition extends ContainerStartConnectionModel {
         this.order = order;
     }
 
+    /**
+     * Returns whether this condition is complete or not. Complete means that
+     * the condition has a left and right operand, an operator and an order.
+     * 
+     * @return the result
+     */
+    public boolean isComplete() {
+        return (leftOperandId != null && operator != null
+                && rightOperandId != null && order != null);
+    }
+
 }
