@@ -25,6 +25,8 @@
             <xsd:element name="portType" type="xsd:NCName" />
             <xsd:element name="operation" type="xsd:NCName" />
             <xsd:element name="binding" type="xsd:NCName" />
+            <xsd:element name="partnerLinkTyp" type="xsd:NCName" />
+            <xsd:element name="service" type="xsd:NCName" />
             <xsd:element name="properties" type="Properties" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="propertyAliases" type="PropertyAliases" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
