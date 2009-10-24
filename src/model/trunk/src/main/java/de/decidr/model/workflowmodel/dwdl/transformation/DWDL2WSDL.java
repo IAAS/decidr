@@ -82,7 +82,7 @@ public class DWDL2WSDL {
     private Workflow dwdl = null;
     private Definition wsdl = null;
     private String location = null;
-    private Document jdomTypesSchema = null;
+    private Element schemaElement = null;
     private Message startMessage = null;
     private PortType processPortType = null;
     private Binding processBinding = null;
@@ -120,9 +120,6 @@ public class DWDL2WSDL {
 
         log.trace("setting properties");
         setProperties();
-
-        log.trace("setting property alias");
-        setPropertyAlias();
 
         return wsdl;
     }
@@ -184,7 +181,6 @@ public class DWDL2WSDL {
     }
 
     private void setPartnerLinkTypes() throws JDOMException {
-        Document doc = new Document();
         Element partnerLinkType = new Element("partnerLinkType", "plnk",
                 "http://docs.oasis-open.org/wsbpel/2.0/plnktype/");
         partnerLinkType.setAttribute("name", "ProcessPLT");
@@ -194,18 +190,10 @@ public class DWDL2WSDL {
         myRole.setAttribute("portType", processPortType.getQName()
                 .getLocalPart());
         partnerLinkType.addContent(myRole);
-        doc.setRootElement(partnerLinkType);
 
-        DOMOutputter domOut = new DOMOutputter();
-        org.w3c.dom.Document w3cDoc = domOut.output(doc);
-        org.w3c.dom.Element w3cElment = w3cDoc.getDocumentElement();
+        UnknownExtensibilityElement extElem = getUExtElem(partnerLinkType);
 
-        UnknownExtensibilityElement extensibilityElement = new UnknownExtensibilityElement();
-        extensibilityElement.setElement(w3cElment);
-        extensibilityElement.setElementType(new QName(w3cElment
-                .getNamespaceURI()));
-
-        wsdl.addExtensibilityElement(extensibilityElement);
+        wsdl.addExtensibilityElement(extElem);
     }
 
     private void setPortTypes() {
@@ -221,23 +209,35 @@ public class DWDL2WSDL {
         wsdl.addPortType(processPortType);
     }
 
-    private void setProperties() {
-        Iterator<?> iter = jdomTypesSchema.getRootElement().getChildren(
-                "complexType").iterator();
+    private void setProperties() throws JDOMException {
+        Iterator<?> iter = schemaElement.getChild("complexType").getChildren(
+                "element").iterator();
         while (iter.hasNext()) {
             Element messageElement = (Element) iter.next();
             Element propertyElement = new Element("property", "vprop",
+                    "http://docs.oasis-open.org/wsbpel/2.0/varprop/");
+            Element propertyAlias = new Element("propertyAlias", "vprop",
+                    "http://docs.oasis-open.org/wsbpel/2.0/varprop/");
+            Element propertyQuery = new Element("query", "vprop",
                     "http://docs.oasis-open.org/wsbpel/2.0/varprop/");
             propertyElement.setAttribute("name", messageElement
                     .getAttributeValue("name"));
             propertyElement.setAttribute("type", messageElement
                     .getAttributeValue("type"));
+            propertyAlias.setAttribute("propertyName", "tns:"
+                    + propertyElement.getAttributeValue("name"));
+            propertyAlias.setAttribute("messageType", "tns:"
+                    + startMessage.getQName().getLocalPart());
+            propertyAlias.setAttribute("part", startMessage.getPart("payload")
+                    .getName());
+            propertyQuery.setText("/tns:startProcess/ns:"+messageElement.getAttributeValue("name"));
+            propertyAlias.addContent(propertyQuery);
+            
+            UnknownExtensibilityElement propElement = getUExtElem(propertyElement);
+            UnknownExtensibilityElement propAlias = getUExtElem(propertyAlias);
+            wsdl.addExtensibilityElement(propElement);
+            wsdl.addExtensibilityElement(propAlias);
         }
-    }
-
-    private void setPropertyAlias() {
-        // MA Implement property alias
-
     }
 
     private void setService() {
@@ -256,8 +256,7 @@ public class DWDL2WSDL {
     private void setTypes() throws JDOMException {
         Types types = new TypesImpl();
 
-        jdomTypesSchema = new Document();
-        Element schemaElement = new Element("schema", "xsd",
+        schemaElement = new Element("schema", "xsd",
                 XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
         Element messageRoot = new Element("element", "xsd",
@@ -303,22 +302,31 @@ public class DWDL2WSDL {
                 all.addContent(actorElement);
             }
         }
-        jdomTypesSchema.setRootElement(schemaElement);
+
         schemaElement.addContent(messageRoot);
         schemaElement.addContent(messageType);
         messageType.addContent(all);
 
-        DOMOutputter domOut = new DOMOutputter();
-        org.w3c.dom.Document w3cDoc = domOut.output(jdomTypesSchema);
-        org.w3c.dom.Element w3cElment = w3cDoc.getDocumentElement();
-
-        UnknownExtensibilityElement extensibilityElement = new UnknownExtensibilityElement();
-        extensibilityElement.setElement(w3cElment);
-        extensibilityElement.setElementType(new QName(w3cElment
-                .getNamespaceURI()));
+        UnknownExtensibilityElement extensibilityElement = getUExtElem(schemaElement);
 
         types.addExtensibilityElement(extensibilityElement);
 
         wsdl.setTypes(types);
+    }
+
+    private UnknownExtensibilityElement getUExtElem(Element jdomElement)
+            throws JDOMException {
+        Document doc = new Document();
+        doc.setRootElement(jdomElement);
+        DOMOutputter domOut = new DOMOutputter();
+        org.w3c.dom.Document w3cDoc = domOut.output(doc);
+        org.w3c.dom.Element w3cElment = w3cDoc.getDocumentElement();
+
+        UnknownExtensibilityElement extElement = new UnknownExtensibilityElement();
+        extElement.setElement(w3cElment);
+        extElement.setElementType(new QName(w3cElment.getNamespaceURI()));
+
+        return extElement;
+
     }
 }
