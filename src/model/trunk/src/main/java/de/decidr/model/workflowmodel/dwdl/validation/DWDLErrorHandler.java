@@ -23,24 +23,23 @@ import org.xml.sax.SAXParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * Custom ErrorHandler for DWDL validation
- *
+ * Custom ErrorHandler for DWDL validation.
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
 public class DWDLErrorHandler implements ErrorHandler {
 
-    private List<IProblem> errorList = null;
-    
+    private List<IProblem> errorList = new ArrayList<IProblem>();
+
     @Override
     public void error(SAXParseException e) throws SAXException {
-        addProblemToList(e);        
+        addProblemToList(e);
     }
 
     @Override
     public void fatalError(SAXParseException e) throws SAXException {
-        addProblemToList(e);        
+        addProblemToList(e);
     }
 
     @Override
@@ -49,27 +48,21 @@ public class DWDLErrorHandler implements ErrorHandler {
     }
 
     /**
+     * Returns the list with all errors. If no error occurred, null is returned
      * 
-     * Returns the list with all errors.
-     * If no error occurred, null is returned
-     * 
-     * @return
+     * @return GH document
      */
     public List<IProblem> getProblemList() {
         return errorList;
     }
-    
+
     /**
-     * 
-     * Adds a new Poblem to the errorList
+     * Adds a new Problem to the errorList.
      * 
      * @param e
+     *            GH document
      */
-    private void addProblemToList(SAXParseException e){
-        if (errorList == null) {
-            errorList = new ArrayList<IProblem>();
-        }
-         
+    private void addProblemToList(SAXParseException e) {
         String msg = e.getMessage();
         String loc = "line: " + e.getLineNumber();
         Problem p = new Problem(msg, loc);

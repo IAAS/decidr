@@ -15,7 +15,7 @@
 
 	<properties>
 		<mysql_client>mysql</mysql_client>
-		<mysql_host>http://ec2-174-129-25-234.compute-1.amazonaws.com</mysql_host>
+		<mysql_host>ec2-174-129-25-234.compute-1.amazonaws.com</mysql_host>
 		<mysql_root>root</mysql_root>
 		<mysql_rtpwd>decidr42</mysql_rtpwd>
 		<mysql_user>decidr</mysql_user>
