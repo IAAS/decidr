@@ -16,6 +16,7 @@
 
 package de.decidr.ui.controller;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,9 +24,15 @@ import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.WorkItemFacade;
+import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 import de.decidr.model.workflowmodel.humantask.TTaskItem;
 import de.decidr.model.workflowmodel.humantask.dataitem.TTaskDataItem;
+import de.decidr.ui.view.Main;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action saves the entered information from the user in his work item.
@@ -37,17 +44,23 @@ public class SaveWorkItemAction implements ClickListener {
     private Form form = null;
 
     private THumanTaskData tHumanTaskData = null;
+    
+    private Long workItemId = null;
 
     private List<TTaskDataItem> taskDataItemList = new LinkedList<TTaskDataItem>();
+
+    private WorkItemFacade workItemFacade = new WorkItemFacade(new UserRole(
+            (Long) Main.getCurrent().getSession().getAttribute("userId")));
 
     /**
      * Constructor which has a form and a tHumanTaskData as parameter so the
      * entered information can be saved in the task items.
      * 
      */
-    public SaveWorkItemAction(Form form, THumanTaskData tHumanTaskData) {
+    public SaveWorkItemAction(Form form, THumanTaskData tHumanTaskData, Long workItemId) {
         this.form = form;
         this.tHumanTaskData = tHumanTaskData;
+        this.workItemId = workItemId;
     }
 
     /*
@@ -58,18 +71,28 @@ public class SaveWorkItemAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        for (int i = 0; i < this.tHumanTaskData.getTaskItemOrInformation()
-                .size(); i++) {
-            TTaskItem taskItem = (TTaskItem) this.tHumanTaskData
-                    .getTaskItemOrInformation().get(i);
-            TTaskDataItem tTaskDataItem = new TTaskDataItem();
-            tTaskDataItem.setName(taskItem.getName());
-            tTaskDataItem.setValue(taskItem.getValue().toString());
-            tTaskDataItem.setType(taskItem.getType().toString());
-            taskDataItemList.add(tTaskDataItem);
+        Iterator<?> iterator = tHumanTaskData.getTaskItemOrInformation().iterator();
+        while(iterator.hasNext()){
+            Object object = iterator.next();
+            if(object instanceof TTaskItem){
+                TTaskItem tTaskItem = (TTaskItem)object;
+                tTaskItem.setValue(form.getField(tTaskItem.getName()).getValue());
+            }
         }
-        // TODO: in datenbank abspeichern
-        new HideDialogWindowAction();
+        try{
+          //humanTaskData zu byte[]
+            if (event.getButton().getCaption().equals("OK")) {
+                 workItemFacade.setData(workItemId, null);
+             }
+             else if (event.getButton().getCaption().equals("Mark as done")){
+                 workItemFacade.setData(workItemId, null);
+             }
+             new HideDialogWindowAction();
+        }catch(TransactionException exception){
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            new HideDialogWindowAction();
+        }
+        
 
     }
 

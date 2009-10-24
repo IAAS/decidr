@@ -35,7 +35,8 @@ import de.decidr.ui.view.WorkItemComponent;
 import de.decidr.ui.view.WorkItemWindow;
 
 /**
- * TODO: add comment
+ * This action opens a window for representing the work item the user has
+ * selected to work on.
  * 
  * @author AT
  */
@@ -76,7 +77,7 @@ public class ShowWorkItemWindowAction implements ClickListener {
                     .getItemProperty("data").getValue();
             tHumanTaskData = TransformUtil.bytes2HumanTask(ht);
             Main.getCurrent().getMainWindow().addWindow(
-                    new WorkItemWindow(tHumanTaskData));
+                    new WorkItemWindow(tHumanTaskData, workItemId));
         } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent());

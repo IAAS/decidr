@@ -30,6 +30,7 @@ import com.vaadin.ui.Window;
 
 import de.decidr.model.workflowmodel.humantask.DWDLSimpleVariableType;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
+import de.decidr.model.workflowmodel.humantask.TInformation;
 import de.decidr.model.workflowmodel.humantask.TTaskItem;
 import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.SaveWorkItemAction;
@@ -54,13 +55,15 @@ public class WorkItemWindow extends Window {
 
     private Button cancelButton = null;
 
+    private Button markAsDoneButton = null;
+
     /**
      * Constructor with a given THumanTaskData object which calls the init
      * method.
      * 
      */
-    public WorkItemWindow(THumanTaskData tHumanTaskData) {
-        init(tHumanTaskData);
+    public WorkItemWindow(THumanTaskData tHumanTaskData, Long workItemId) {
+        init(tHumanTaskData, workItemId);
     }
 
     /**
@@ -74,53 +77,59 @@ public class WorkItemWindow extends Window {
      */
     private void fillForm(THumanTaskData tHumanTaskData) {
         for (int i = 0; i < tHumanTaskData.getTaskItemOrInformation().size(); i++) {
-            if (tHumanTaskData.getTaskItemOrInformation().get(i).getClass() == TTaskItem.class) {
+            if (tHumanTaskData.getTaskItemOrInformation().get(i) instanceof TTaskItem) {
                 TTaskItem taskItem = (TTaskItem) tHumanTaskData
                         .getTaskItemOrInformation().get(i);
                 if (taskItem.getType().compareTo(DWDLSimpleVariableType.STRING) == 0) {
-                    getItemForm().addField(taskItem.getLabel(),
+                    getItemForm().addField(taskItem.getName(),
                             new TextField(taskItem.getLabel()));
                     getItemForm().getField(taskItem.getLabel()).addValidator(
                             new RegexpValidator("[a-zA-Z]",
                                     "Please enter a String!"));
                 } else if (taskItem.getType().compareTo(
                         DWDLSimpleVariableType.BOOLEAN) == 0) {
-                    getItemForm().addField(taskItem.getLabel(),
+                    getItemForm().addField(taskItem.getName(),
                             new CheckBox(taskItem.getLabel()));
                 } else if (taskItem.getType().compareTo(
                         DWDLSimpleVariableType.DATE) == 0) {
-                    getItemForm().addField(taskItem.getLabel(),
+                    getItemForm().addField(taskItem.getName(),
                             new DateField(taskItem.getLabel()));
                 } else if (taskItem.getType().compareTo(
                         DWDLSimpleVariableType.FLOAT) == 0) {
-                    getItemForm().addField(taskItem.getLabel(),
+                    getItemForm().addField(taskItem.getName(),
                             new TextField(taskItem.getLabel()));
-                    getItemForm().getField(taskItem.getLabel()).addValidator(
+                    getItemForm().getField(taskItem.getName()).addValidator(
                             new RegexpValidator("[+]?[0-9]*\\p{.}?[0-9]*",
                                     "Please enter a valid float number!"));
                 } else if (taskItem.getType().compareTo(
                         DWDLSimpleVariableType.INTEGER) == 0) {
-                    getItemForm().addField(taskItem.getLabel(),
+                    getItemForm().addField(taskItem.getName(),
                             new TextField(taskItem.getLabel()));
-                    getItemForm().getField(taskItem.getLabel()).addValidator(
+                    getItemForm().getField(taskItem.getName()).addValidator(
                             new IntegerValidator("Please enter an Integer!"));
                 } else if (taskItem.getType().compareTo(
                         DWDLSimpleVariableType.ANY_URI) == 0) {
-                    getItemForm().addField(taskItem.getLabel(),
+                    getItemForm().addField(taskItem.getName(),
                             new TextField(taskItem.getLabel()));
                     getItemForm()
-                            .getField(taskItem.getLabel())
+                            .getField(taskItem.getName())
                             .addValidator(
                                     new RegexpValidator(
                                             "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?",
                                             "Please enter a valid URI!"));
                 }
-                getItemForm().getField(taskItem.getLabel()).setDescription(
+                getItemForm().getField(taskItem.getName()).setDescription(
                         taskItem.getHint());
                 if (taskItem.getValue() != null) {
-                    getItemForm().getField(taskItem.getLabel()).setValue(
+                    getItemForm().getField(taskItem.getName()).setValue(
                             taskItem.getValue());
                 }
+            }
+            else{
+                TInformation tInformation = (TInformation)tHumanTaskData
+                .getTaskItemOrInformation().get(i);
+                getItemForm().addField(tInformation.getName(), new TextField());
+                getItemForm().getField(tInformation.getName()).setValue(tInformation.getContent().getAny());
             }
         }
     }
@@ -140,7 +149,7 @@ public class WorkItemWindow extends Window {
      * 
      * @param tHumanTaskData
      */
-    private void init(THumanTaskData tHumanTaskData) {
+    private void init(THumanTaskData tHumanTaskData, Long workItemId) {
         verticalLayout = new VerticalLayout();
 
         horizontalLayout = new HorizontalLayout();
@@ -152,14 +161,19 @@ public class WorkItemWindow extends Window {
         fillForm(tHumanTaskData);
 
         okButton = new Button("OK", new SaveWorkItemAction(itemForm,
-                tHumanTaskData));
+                tHumanTaskData, workItemId));
+        okButton.focus();
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
+
+        markAsDoneButton = new Button("Mark as done", new SaveWorkItemAction(
+                itemForm, tHumanTaskData, workItemId));
 
         verticalLayout.addComponent(label);
 
         verticalLayout.addComponent(itemForm);
 
         horizontalLayout.addComponent(okButton);
+        horizontalLayout.addComponent(markAsDoneButton);
         horizontalLayout.addComponent(cancelButton);
 
         verticalLayout.addComponent(horizontalLayout);
