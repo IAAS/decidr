@@ -61,7 +61,7 @@ public class DWDL2SOAP {
         SOAPMessage soapMessage = null;
         PortType port = wsdl.getPortType(new QName(wsdl.getTargetNamespace(),
                 portName));
-        Operation operation = port.getOperation(null, operationName, null);
+        Operation operation = port.getOperation(operationName, null, null);
         Message message = operation.getInput().getMessage();
 
         List<Element> soapElements = new ArrayList<Element>();
@@ -70,9 +70,7 @@ public class DWDL2SOAP {
         while (partIter.hasNext()) {
             Part messagePart = (Part) partIter.next();
             QName elementName = messagePart.getElementName();
-            System.out.println("Element name" + elementName);
             QName typeName = messagePart.getElementName();
-            System.out.println("Element name" + elementName);
             if (elementName != null) {
                 Element element = findElement(elementName.getLocalPart());
                 Iterator<?> iter = element.getChildren().iterator();
@@ -127,7 +125,8 @@ public class DWDL2SOAP {
         SOAPHeader header = envelope.getHeader();
         SOAPBody body = envelope.getBody();
         
-        header.addAttribute(envelope.createName("info"), element.getAttributeValue("name"));
+        header.addAttribute(envelope.createName("bodyElementName"), element.getAttributeValue("name"));
+        header.addAttribute(envelope.createName("targetNamespace"), definition.getTargetNamespace());
         
         SOAPElement bodyElement = body.addChildElement(envelope.createName(element.getAttributeValue("name"), "decidr",
                 definition.getTargetNamespace()));
