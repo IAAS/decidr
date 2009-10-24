@@ -13,6 +13,15 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<properties>
+		<mysql_client>mysql</mysql_client>
+		<mysql_host>http://ec2-174-129-25-234.compute-1.amazonaws.com</mysql_host>
+		<mysql_root>root</mysql_root>
+		<mysql_rtpwd>decidr42</mysql_rtpwd>
+		<mysql_user>decidr</mysql_user>
+		<mysql_userpwd>decidr42</mysql_userpwd>
+	</properties>
+
 	<build>
 		<resources>
 			<resource>
@@ -37,12 +46,6 @@
 					<include>**/hibernate.cfg.xml</include>
 					<include>**/decidr-storage.xml</include>
 					<include>**/decidr.jpg</include>
-				</includes>
-			</testResource>
-			<testResource>
-				<directory>resources</directory>
-				<includes>
-					<include>**</include>
 				</includes>
 			</testResource>
 		</testResources>
@@ -73,7 +76,7 @@
 							<executable>${mysql_client}</executable>
 							<workingDirectory>src/test/java/sql</workingDirectory>
 							<arguments>
-								<argument>--host=localhost</argument>
+								<argument>--host=${mysql_host}</argument>
 								<argument>--user=${mysql_root}</argument>
 								<argument>--password=${mysql_rtpwd}</argument>
 								<argument>-e</argument>
@@ -92,9 +95,9 @@
 							<executable>${mysql_client}</executable>
 							<workingDirectory>src/test/java/sql</workingDirectory>
 							<arguments>
-								<argument>--host=localhost</argument>
-								<argument>--user=decidr</argument>
-								<argument>--password=decidr42</argument>
+								<argument>--host=${mysql_host}</argument>
+								<argument>--user=${mysql_user}</argument>
+								<argument>--password=${mysql_userpwd}</argument>
 								<argument>-e</argument>
 								<argument>source testdata.sql</argument>
 								<argument>decidrdb</argument>

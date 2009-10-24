@@ -209,18 +209,18 @@ public class WorkflowModelFacade extends AbstractFacade {
      * 
      * @param workflowModelId
      *            the workflow model to deploy
-     * @param excecutable
+     * @param executable
      *            TODO document
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
-    public void setExecutable(Long workflowModelId, Boolean excecutable)
+    public void setExecutable(Long workflowModelId, Boolean executable)
             throws TransactionException {
 
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 new MakeWorkflowModelExecutableCommand(actor, workflowModelId,
-                        excecutable));
+                        executable));
     }
 
     /**

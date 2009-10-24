@@ -64,5 +64,4 @@ public class MakeWorkflowModelExecutableCommand extends WorkflowModelCommand
         }
         workflowModel.setExecutable(executable);
     }
-
 }

@@ -52,6 +52,7 @@ import de.decidr.model.testing.LowLevelDatabaseTest;
  * the most important test cases are written or during the system test.
  * 
  * @author Reinhold
+ * @author Johannes
  */
 public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
 
