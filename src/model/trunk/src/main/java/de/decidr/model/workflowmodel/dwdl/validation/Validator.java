@@ -66,7 +66,7 @@ public class Validator {
                     .newInstance("http://www.w3.org/2001/XMLSchema");
             Class<Validator> resourceClass = Validator.class;
             schema = sf.newSchema(new StreamSource(resourceClass
-                    .getResourceAsStream("resources/dwdl/dwdl.xsd")));
+                    .getResourceAsStream("/dwdl/dwdl.xsd")));
 
             validator = schema.newValidator();
         } catch (SAXException e) {
