@@ -4,6 +4,7 @@
 	<groupId>de.decidr</groupId>
 	<artifactId>base</artifactId>
 	<name>base</name>
+	<packaging>pom</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<description>Base project for all the DecidR sub-projects.</description>
 	<url>http://decidr.de</url>
@@ -82,8 +83,8 @@
 
 	<repositories>
 		<repository>
-			<id>default</id>
-			<name>default</name>
+			<id>central</id>
+			<name>central</name>
 			<url>http://repo1.maven.org/maven2</url>
 		</repository>
 		<repository>
