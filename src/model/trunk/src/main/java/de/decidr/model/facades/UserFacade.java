@@ -48,7 +48,7 @@ import de.decidr.model.commands.user.GetUserByLoginCommand;
 import de.decidr.model.commands.user.GetUserPropertiesCommand;
 import de.decidr.model.commands.user.GetUserRoleForTenantCommand;
 import de.decidr.model.commands.user.GetUserWithProfileCommand;
-import de.decidr.model.commands.user.GetWorkitemsCommand;
+import de.decidr.model.commands.user.GetWorkItemsCommand;
 import de.decidr.model.commands.user.IsUserRegisteredCommand;
 import de.decidr.model.commands.user.LeaveTenantCommand;
 import de.decidr.model.commands.user.RefuseInvitationCommand;
@@ -212,14 +212,14 @@ public class UserFacade extends AbstractFacade {
      * to null.
      * 
      * @param userId
-     *            the id of the user whose disable date should be set
+     *            the id of the user whose disabled date should be set
      * @param date
      *            to re-active the user, set this parameter to null.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
-    public void setDisableSince(Long userId, Date date)
+    public void setDisabledSince(Long userId, Date date)
             throws TransactionException {
         Map<String, Date> properties = new HashMap<String, Date>();
         properties.put("disabledSince", date);
@@ -900,7 +900,7 @@ public class UserFacade extends AbstractFacade {
 
         TransactionCoordinator tac = HibernateTransactionCoordinator
                 .getInstance();
-        GetWorkitemsCommand command = new GetWorkitemsCommand(actor, userId,
+        GetWorkItemsCommand command = new GetWorkItemsCommand(actor, userId,
                 filters, paginator);
 
         tac.runTransaction(command);

@@ -54,8 +54,7 @@ public class IsRoleEqualToAccessedUserAsserter extends CommandAsserter {
                     // accessedUserIds must consist entirely of the user id
                     result = true;
                     for (Long accessedUserId : accessedUserIds) {
-                        result = result && userId.equals(accessedUserId);
-                        if (!result) {
+                        if (!(result = userId.equals(accessedUserId))) {
                             break;
                         }
                     }

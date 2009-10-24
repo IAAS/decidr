@@ -52,7 +52,7 @@ public class CancelMembershipAction implements ClickListener {
         // TODO: how to cancel membership?
 
         try {
-            userFacade.setDisableSince(userId, new Date());
+            userFacade.setDisabledSince(userId, new Date());
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent());

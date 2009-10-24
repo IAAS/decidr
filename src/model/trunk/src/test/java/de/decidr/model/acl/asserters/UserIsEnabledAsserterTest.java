@@ -87,7 +87,7 @@ public class UserIsEnabledAsserterTest extends LowLevelDatabaseTest {
         UserIsEnabledAsserter asserter = new UserIsEnabledAsserter();
         assertTrue(asserter.assertRule(new UserRole(userId), new Permission("*")));
         
-        userFacade.setDisableSince(userId, new Date());
+        userFacade.setDisabledSince(userId, new Date());
         
         assertFalse(asserter.assertRule(new UserRole(userId), new Permission("*")));
         assertFalse(asserter.assertRule(new UserRole(), new Permission("*")));

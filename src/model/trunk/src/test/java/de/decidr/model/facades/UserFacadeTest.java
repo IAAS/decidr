@@ -92,7 +92,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Needs to be run from a {@link LowLevelDatabaseTest}.
+     * Needs to be called from inside a {@link LowLevelDatabaseTest}.
      */
     static void deleteTestUsers() {
         Transaction trans = session.beginTransaction();
@@ -101,6 +101,9 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 .executeUpdate();
         session.createQuery("delete from User WHERE email LIKE 'asd%@desk.de'")
                 .executeUpdate();
+        session.createQuery(
+                "DELETE UserProfile WHERE username LIKE '" + TEST_USERNAME
+                        + "%'").executeUpdate();
         session.createQuery(
                 "DELETE UserProfile WHERE username LIKE '" + USERNAME_PREFIX
                         + "%'").executeUpdate();
@@ -294,10 +297,13 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 "invalid profile (empty username) succeeded", adminFacade,
                 getTestEmail(8), "asd", testProfile);
         testProfile.setUsername(USERNAME_PREFIX);
+
+        deleteTestUsers();
     }
 
     @Before
     public void setUpTestCase() throws TransactionException {
+        classProfile = new UserProfile();
         classProfile.setFirstName("test");
         classProfile.setLastName("user");
         classProfile.setUsername(TEST_USERNAME);
@@ -619,9 +625,14 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         workingUserID = ((WorkItem) session.createQuery("from WorkItem").list()
                 .get(0)).getUser().getId();
 
+        adminFacade.setDisabledSince(testUserID, null);
+        assertTrue(new UserFacade(new UserRole(testUserID)).getWorkItems(
+                testUserID, null, null).isEmpty());
+
         for (UserFacade facade : new UserFacade[] {
-                new UserFacade(new UserRole(testUserID)), adminFacade }) {
-            assertTrue(facade.getWorkItems(testUserID, null, null).isEmpty());
+                new UserFacade(new UserRole(workingUserID)), adminFacade }) {
+            assertFalse(facade.getWorkItems(workingUserID, null, null)
+                    .isEmpty());
             workItems = facade.getWorkItems(workingUserID, null, null);
             for (Item item : workItems) {
                 assertNotNull(item.getItemProperty("id").getValue());
@@ -667,11 +678,11 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         userProfile = getProfile(adminFacade.getUserProfile(testUserID), true);
         assertNotNull(userProfile.getKey());
         testProfile = userProfile.getValue();
-        assertEquals("", testProfile.getCity());
-        assertEquals("", testProfile.getFirstName());
-        assertEquals("", testProfile.getLastName());
-        assertEquals("", testProfile.getPostalCode());
-        assertEquals("", testProfile.getStreet());
+        assertEquals(null, testProfile.getCity());
+        assertEquals(null, testProfile.getFirstName());
+        assertEquals(null, testProfile.getLastName());
+        assertEquals(null, testProfile.getPostalCode());
+        assertEquals(null, testProfile.getStreet());
         assertEquals(TEST_USERNAME + "asd", testProfile.getUsername());
 
         try {
@@ -789,44 +800,51 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for {@link UserFacade#setDisableSince(Long, Date)}.
+     * Test method for {@link UserFacade#setDisabledSince(Long, Date)}.
      */
     @Test
-    public void testSetDisableSince() throws TransactionException {
+    public void testSetDisabledSince() throws TransactionException {
         try {
-            userFacade.setDisableSince(testUserID, new Date());
+            userFacade.setDisabledSince(testUserID, new Date());
             fail("setting user disabled with normal user facade succeeded.");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            nullFacade.setDisableSince(testUserID, new Date());
+            nullFacade.setDisabledSince(testUserID, new Date());
             fail("setting user disabled with null facade succeeded.");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.setDisabledSince(adminFacade.actor.getActorId(),
+                    DecidrGlobals.getTime().getTime());
+            fail("setting super admin disabled succeeded.");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
 
         Date testDate = new Date();
-        adminFacade.setDisableSince(testUserID, testDate);
+        adminFacade.setDisabledSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
                 .getItemProperty("disabledSince").getValue());
 
         testDate = DecidrGlobals.getTime().getTime();
-        adminFacade.setDisableSince(testUserID, testDate);
+        adminFacade.setDisabledSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
                 .getItemProperty("disabledSince").getValue());
 
         testDate = new Date(new Date().getTime() - 1000000);
-        adminFacade.setDisableSince(testUserID, testDate);
+        adminFacade.setDisabledSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
                 .getItemProperty("disabledSince").getValue());
 
         testDate = new Date(new Date().getTime() + 1000000);
-        adminFacade.setDisableSince(testUserID, testDate);
+        adminFacade.setDisabledSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
                 .getItemProperty("disabledSince").getValue());
 
-        adminFacade.setDisableSince(testUserID, null);
+        adminFacade.setDisabledSince(testUserID, null);
         assertNull(adminFacade.getUserProfile(testUserID).getItemProperty(
                 "disabledSince").getValue());
     }
@@ -978,7 +996,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
                 .getItemProperty("unavailableSince").getValue());
 
-        adminFacade.setDisableSince(testUserID, null);
+        adminFacade.setDisabledSince(testUserID, null);
         assertNull(adminFacade.getUserProfile(testUserID).getItemProperty(
                 "unavailableSince").getValue());
     }
@@ -1008,6 +1026,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 break;
             }
         }
+        assertNotNull(tenantID);
+        assertNotNull(tenantUserID);
 
         try {
             nullFacade.setCurrentTenantId(testUserID, null);

@@ -68,7 +68,7 @@ public class DeactivateAccountAction implements ClickListener {
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
                 try {
-                    userFacade.setDisableSince(
+                    userFacade.setDisabledSince(
                             (Long) table
                                     .getContainerProperty(iter.next(), "id")
                                     .getValue(), new Date());

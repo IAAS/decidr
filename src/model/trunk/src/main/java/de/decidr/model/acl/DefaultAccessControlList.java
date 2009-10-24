@@ -29,10 +29,10 @@ import org.apache.log4j.Logger;
 import de.decidr.model.acl.asserters.AlwaysTrueAsserter;
 import de.decidr.model.acl.asserters.AssertMode;
 import de.decidr.model.acl.asserters.Asserter;
+import de.decidr.model.acl.asserters.FileAccessAsserter;
 import de.decidr.model.acl.asserters.IsRoleEqualToAccessedUserAsserter;
 import de.decidr.model.acl.asserters.UserAdministratesWorkflowInstanceAsserter;
 import de.decidr.model.acl.asserters.UserAdministratesWorkflowModelAsserter;
-import de.decidr.model.acl.asserters.FileAccessAsserter;
 import de.decidr.model.acl.asserters.UserIsEnabledAsserter;
 import de.decidr.model.acl.asserters.UserIsInvitationReceiverAsserter;
 import de.decidr.model.acl.asserters.UserIsLoggedInAsserter;
@@ -89,12 +89,13 @@ import de.decidr.model.commands.user.GetJoinedTenantsCommand;
 import de.decidr.model.commands.user.GetUserByLoginCommand;
 import de.decidr.model.commands.user.GetUserRoleForTenantCommand;
 import de.decidr.model.commands.user.GetUserWithProfileCommand;
-import de.decidr.model.commands.user.GetWorkitemsCommand;
+import de.decidr.model.commands.user.GetWorkItemsCommand;
 import de.decidr.model.commands.user.IsUserRegisteredCommand;
 import de.decidr.model.commands.user.LeaveTenantCommand;
 import de.decidr.model.commands.user.RefuseInvitationCommand;
 import de.decidr.model.commands.user.RegisterUserCommand;
 import de.decidr.model.commands.user.RemoveFromTenantCommand;
+import de.decidr.model.commands.user.RequestChangeEmailCommand;
 import de.decidr.model.commands.user.RequestPasswordResetCommand;
 import de.decidr.model.commands.user.SetPasswordCommand;
 import de.decidr.model.commands.user.SetUserProfileCommand;
@@ -398,7 +399,6 @@ public class DefaultAccessControlList implements AccessControlList {
          * 
          * Nothing to do except one rule. All other commands are always allowed
          * by SuperAdmin. These commands are already covered by the first rule.
-         * 
          */
         setRule(ServerLoadUpdaterRole.getInstance(), new CommandPermission(
                 UpdateServerLoadCommand.class), SatisfyAll, alwaysTrueAsserter);
@@ -475,8 +475,9 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
-        setRule(new BasicRole(), new CommandPermission(
-                GetTenantIdCommand.class), SatisfyAll, alwaysTrueAsserter);
+        setRule(new BasicRole(),
+                new CommandPermission(GetTenantIdCommand.class), SatisfyAll,
+                alwaysTrueAsserter);
 
         /**
          * Command Permissions User Facade
@@ -572,8 +573,11 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsLoggedInAsserter());
 
         setRule(new UserRole(),
-                new CommandPermission(GetWorkitemsCommand.class), SatisfyAll,
+                new CommandPermission(GetWorkItemsCommand.class),
+                SatisfyAll,
                 new IsRoleEqualToAccessedUserAsserter(),
+                // DH why UserOwnsWorkItemAsserter? We're trying to get the ones
+                // he owns with this command! ~rr
                 new UserOwnsWorkItemAsserter(), new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
@@ -588,6 +592,11 @@ public class DefaultAccessControlList implements AccessControlList {
                 SetUserProfileCommand.class), SatisfyAll,
                 new IsRoleEqualToAccessedUserAsserter(),
                 new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+
+        // DH was missing, please complete using proper values ~rr
+        setRule(new UserRole(), new CommandPermission(
+                RequestChangeEmailCommand.class), SatisfyAll,
+                alwaysTrueAsserter);
 
         /**
          * Command Permissions WorkflowInstanceFacade
@@ -718,36 +727,39 @@ public class DefaultAccessControlList implements AccessControlList {
         /**
          * Command permissions FileFacade
          */
+        setRule(new BasicRole(), new CommandPermission(GetFileCommand.class),
+                SatisfyAll, alwaysTrueAsserter);
+
         setRule(new BasicRole(),
-                new CommandPermission(GetFileCommand.class), SatisfyAll,
+                new CommandPermission(GetFileDataCommand.class), SatisfyAll,
                 alwaysTrueAsserter);
 
-        setRule(new BasicRole(), new CommandPermission(
-                GetFileDataCommand.class), SatisfyAll, alwaysTrueAsserter);
+        setRule(new BasicRole(),
+                new CommandPermission(DeleteFileCommand.class), SatisfyAll,
+                alwaysTrueAsserter);
 
-        setRule(new BasicRole(), new CommandPermission(
-                DeleteFileCommand.class), SatisfyAll, alwaysTrueAsserter);
+        setRule(new BasicRole(),
+                new CommandPermission(ReplaceFileCommand.class), SatisfyAll,
+                alwaysTrueAsserter);
 
-        setRule(new BasicRole(), new CommandPermission(
-                ReplaceFileCommand.class), SatisfyAll, alwaysTrueAsserter);
-
-        setRule(new BasicRole(), new CommandPermission(
-                CreateFileCommand.class), SatisfyAll, alwaysTrueAsserter);
+        setRule(new BasicRole(),
+                new CommandPermission(CreateFileCommand.class), SatisfyAll,
+                alwaysTrueAsserter);
 
         /**
          * file permissions
          */
         // File Delete Permissions
-        setRule(new BasicRole(), new FileDeletePermission(null),
-                SatisfyAll, new FileAccessAsserter());
+        setRule(new BasicRole(), new FileDeletePermission(null), SatisfyAll,
+                new FileAccessAsserter());
 
         // File Read Permissions
         setRule(new BasicRole(), new FileReadPermission(null), SatisfyAll,
                 new FileAccessAsserter());
 
         // File Replace Permissions
-        setRule(new BasicRole(), new FileReplacePermission(null),
-                SatisfyAll, new FileAccessAsserter());
+        setRule(new BasicRole(), new FileReplacePermission(null), SatisfyAll,
+                new FileAccessAsserter());
     }
 
     /**

@@ -35,11 +35,16 @@ public class UserOwnsWorkItemAsserter extends CommandAsserter {
             userId = role.getActorId();
             TransactionalCommand command = getCommandInstance(permission);
 
+            // DH what if it isn't? ~rr
             if (command instanceof WorkItemAccess) {
                 workItemIds = ((WorkItemAccess) command).getWorkItemIds();
                 HibernateTransactionCoordinator.getInstance().runTransaction(
                         this);
                 result = isOwner;
+            } else {
+                // DH returning true since if this isn't about accessing work
+                // items, why should we deny access? ~rr
+                result = true;
             }
         }
         return result;

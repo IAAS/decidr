@@ -61,7 +61,6 @@ public class MailBackendTest extends DecidrOthersTest {
     public static void setUpBeforeClass() throws IOException {
         
         // testFile
-        
         testfile = File.createTempFile("decidr", ".jpg");
 
         InputStream testStream = MailBackendTest.class
@@ -74,10 +73,9 @@ public class MailBackendTest extends DecidrOthersTest {
             writer.write(content);
         }
         
-        // non existing file
-        
+        // non-existing file
         nonExistingFile = new File("meohcoewhvofehvefv");
-        
+        assertFalse(nonExistingFile.exists());
     }
 
     @AfterClass

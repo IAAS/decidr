@@ -299,10 +299,10 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         setterSettings.setChangeEmailRequestLifetimeSeconds(1);
 
         setterSettings.setDomain(null);
-        setSettingsExceptionHelper("null domain succeded", adminFacade,
+        setSettingsExceptionHelper("null domain succeeded", adminFacade,
                 setterSettings);
         setterSettings.setDomain("");
-        setSettingsExceptionHelper("empty domain succeded", adminFacade,
+        setSettingsExceptionHelper("empty domain succeeded", adminFacade,
                 setterSettings);
         setterSettings.setDomain("decidr.de");
 
@@ -813,6 +813,7 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
             }
 
             testServer = adminFacade.getServers(type).get(0);
+            assertNotNull(testServer);
 
             assertNotNull(adminFacade.getServerStatistics());
             assertFalse(adminFacade.getServerStatistics().isEmpty());

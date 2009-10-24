@@ -82,6 +82,8 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         nullFacade = new TenantFacade(null);
 
         testAdminID = DecidrGlobals.getSettings().getSuperAdmin().getId();
+        new UserFacade(new SuperAdminRole(DecidrGlobals.getSettings()
+                .getSuperAdmin().getId())).setDisabledSince(testAdminID, null);
 
         try {
             adminFacade.deleteTenant(((Tenant) session.createQuery(
@@ -97,11 +99,6 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         testTenantID = adminFacade.createTenant(TEST_NAME, TEST_DESC,
                 testAdminID);
         assertNotNull(testTenantID);
-    }
-
-    @After
-    public void deleteDefaultTenant() {
-        invalidTenantID = testTenantID;
 
         if (invalidTenantID == null) {
             long invalidID = Long.MIN_VALUE;
@@ -113,6 +110,12 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
 
             invalidTenantID = invalidID;
         }
+        assertNotNull(invalidTenantID);
+    }
+
+    @After
+    public void deleteDefaultTenant() {
+        invalidTenantID = testTenantID;
 
         if (testTenantID != null) {
             try {
@@ -165,7 +168,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.addTenantMember(invalidTenantID, testAdminID);
             fail("managed to add a tenant member using invalid tenant ID");
-        } catch (IllegalArgumentException e) {
+        } catch (TransactionException e) {
             // supposed to happen
         }
 
@@ -191,7 +194,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             userFacade.addTenantMember(invalidTenantID, testAdminID);
             fail("managed to add a tenant member using invalid tenant ID");
-        } catch (IllegalArgumentException e) {
+        } catch (TransactionException e) {
             // supposed to happen
         }
 
@@ -282,14 +285,15 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         publicPermissions.add(FileReplacePermission.class);
         FileFacade fileFacade = new FileFacade(new SuperAdminRole(DecidrGlobals
                 .getSettings().getSuperAdmin().getId()));
-        Long simpleSize = FileFacadeTest.getInputStreamSize(this.getClass()
-                .getResourceAsStream("/test_simple_cs.css"));
-        Long advSize = FileFacadeTest.getInputStreamSize(this.getClass()
+        Long simpleSize = FileFacadeTest
+                .getInputStreamSize(TenantFacadeTest.class
+                        .getResourceAsStream("/test_simple_cs.css"));
+        Long advSize = FileFacadeTest.getInputStreamSize(TenantFacadeTest.class
                 .getResourceAsStream("/test_adv_cs.css"));
-        Long simpleID = fileFacade.createFile(this.getClass()
+        Long simpleID = fileFacade.createFile(TenantFacadeTest.class
                 .getResourceAsStream("/test_simple_cs.css"), simpleSize,
                 "test_simple_cs.css", "text/plain", false, publicPermissions);
-        Long advancedID = fileFacade.createFile(this.getClass()
+        Long advancedID = fileFacade.createFile(TenantFacadeTest.class
                 .getResourceAsStream("/test_adv_cs.css"), advSize,
                 "test_adv_cs.css", "text/plain", false, publicPermissions);
 
@@ -331,24 +335,24 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         adminFacade.setCurrentColorScheme(testTenantID, true);
         assertEquals(advSize, FileFacadeTest.getInputStreamSize(adminFacade
                 .getCurrentColorScheme(testTenantID)));
-        assertTrue(FileFacadeTest.compareInputStreams(this.getClass()
+        assertTrue(FileFacadeTest.compareInputStreams(TenantFacadeTest.class
                 .getResourceAsStream("/test_adv_cs.css"), adminFacade
                 .getCurrentColorScheme(testTenantID)));
         assertEquals(advSize, FileFacadeTest.getInputStreamSize(userFacade
                 .getCurrentColorScheme(testTenantID)));
-        assertTrue(FileFacadeTest.compareInputStreams(this.getClass()
+        assertTrue(FileFacadeTest.compareInputStreams(TenantFacadeTest.class
                 .getResourceAsStream("/test_adv_cs.css"), userFacade
                 .getCurrentColorScheme(testTenantID)));
 
         adminFacade.setCurrentColorScheme(testTenantID, false);
         assertEquals(simpleSize, FileFacadeTest.getInputStreamSize(adminFacade
                 .getCurrentColorScheme(testTenantID)));
-        assertTrue(FileFacadeTest.compareInputStreams(this.getClass()
+        assertTrue(FileFacadeTest.compareInputStreams(TenantFacadeTest.class
                 .getResourceAsStream("/test_simple_cs.css"), adminFacade
                 .getCurrentColorScheme(testTenantID)));
         assertEquals(simpleSize, FileFacadeTest.getInputStreamSize(userFacade
                 .getCurrentColorScheme(testTenantID)));
-        assertTrue(FileFacadeTest.compareInputStreams(this.getClass()
+        assertTrue(FileFacadeTest.compareInputStreams(TenantFacadeTest.class
                 .getResourceAsStream("/test_simple_cs.css"), userFacade
                 .getCurrentColorScheme(testTenantID)));
     }
@@ -568,7 +572,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.setLogo(invalidTenantID, logoID);
             fail("managed to set tenant logo using invalid tenant ID");
-        } catch (IllegalArgumentException e) {
+        } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
@@ -693,7 +697,8 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
 
         // RR "UserIsEnabledAsserter DISAGREES" -> the user account of the actor
         // must be enabled to perform these actions. ~dh
-        // DH define "enabled" ~rr
+        // DH then why doesn't the super admin have to be enabled otherwise?
+        // Also, why can the super admin be disabled? ~rr
         adminFacade.setDescription(testTenantID, TEST_DESC + " (testtttttt)");
         userFacade.setDescription(testTenantID, TEST_DESC + " (testtttttt)");
     }

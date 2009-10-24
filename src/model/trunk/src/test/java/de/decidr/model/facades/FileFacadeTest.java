@@ -78,6 +78,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
      */
     public static Long getInputStreamSize(InputStream in) {
         long size;
+        assertNotNull(in);
 
         try {
             size = in.skip(Long.MAX_VALUE);

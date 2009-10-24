@@ -254,6 +254,8 @@ public class TenantFacade extends AbstractFacade {
      * @throws TransactionException
      *             TODO document
      */
+    // DH causes an Exception if called twice with the same user ID. Is this
+    // intended behaviour? if so, it should be documented ~rr
     @AllowedRole(TenantAdminRole.class)
     public void addTenantMember(Long tenantId, Long memberId)
             throws TransactionException {

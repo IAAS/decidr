@@ -216,7 +216,7 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
 
         unames.clear();
         unames.add(username);
-        adminUserFacade.setDisableSince(userId, new Date());
+        adminUserFacade.setDisabledSince(userId, new Date());
         try {
             adminFacade.setWorkflowAdministrators(wfmId, emails, unames);
             fail("Username expected to be disabled, but is not.");
@@ -224,7 +224,7 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
             // expected
         }
 
-        adminUserFacade.setDisableSince(userId, null);
+        adminUserFacade.setDisabledSince(userId, null);
         adminUserFacade.setUnavailableSince(userId, new Date());
         try {
             adminFacade.setWorkflowAdministrators(wfmId, emails, unames);

@@ -30,14 +30,14 @@ import de.decidr.model.filters.Paginator;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Saves the workitem of the given user in the result variable as
- * list<WorkItemSummaryView>.
+ * Saves the workitem of the given user in the result variable as {@link List}
+ * {@code <}{@link WorkItemSummaryView}{@code >}.
  * 
  * @author Markus Fischer
  * 
  * @version 0.1
  */
-public class GetWorkitemsCommand extends UserCommand {
+public class GetWorkItemsCommand extends UserCommand {
 
     private List<WorkItemSummaryView> result;
     private Paginator paginator;
@@ -53,7 +53,7 @@ public class GetWorkitemsCommand extends UserCommand {
      * @param userId
      *            the id of the user whose workitems should be requested
      */
-    public GetWorkitemsCommand(Role role, Long userId, List<Filter> filters,
+    public GetWorkItemsCommand(Role role, Long userId, List<Filter> filters,
             Paginator paginator) {
         super(role, userId);
 
@@ -77,7 +77,7 @@ public class GetWorkitemsCommand extends UserCommand {
     }
 
     /**
-     *  
+     * 
      * @return list of the workitems of the given user
      */
     public List<WorkItemSummaryView> getResult() {
