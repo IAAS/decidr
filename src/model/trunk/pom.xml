@@ -6,39 +6,13 @@
 	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>model</name>
-	<url>http://maven.apache.org</url>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-	<distributionManagement>
-		<repository>
-			<id>iaassrv7-releases</id>
-			<name>iaassrv7-releases</name>
-			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
-		</repository>
-		<snapshotRepository>
-			<id>iaassrv7-snapshots</id>
-			<name>iaassrv7-snapshots</name>
-			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
-		</snapshotRepository>
-	</distributionManagement>
-	<repositories>
-		<repository>
-			<id>default</id>
-			<name>default</name>
-			<url>http://repo1.maven.org/maven2</url>
-		</repository>
-		<repository>
-			<id>iaassrv7-releases</id>
-			<name>iaassrv7-releases</name>
-			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
-		</repository>
-		<repository>
-			<id>iaassrv7-releases</id>
-			<name>iaassrv7-releases</name>
-			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/ibiblio</url>
-		</repository>
-	</repositories>
+
+	<parent>
+		<groupId>de.decidr</groupId>
+		<artifactId>base</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
 	<build>
 		<resources>
 			<resource>
@@ -55,7 +29,7 @@
 				</includes>
 			</resource>
 		</resources>
-		
+
 		<testResources>
 			<testResource>
 				<directory>src/test/java</directory>
@@ -74,14 +48,6 @@
 		</testResources>
 
 		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<encoding>UTF-8</encoding>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -258,19 +224,19 @@
 			<version>1.3.2</version>
 		</dependency>
 		<dependency>
-            <groupId>org.apache.ode</groupId>
-            <artifactId>ode-axis2</artifactId>
-            <version>1.3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.ode</groupId>
-            <artifactId>ode-utils</artifactId>
-            <version>1.3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jdom</groupId>
-            <artifactId>jdom</artifactId>
-            <version>1.1</version>
-        </dependency>
+			<groupId>org.apache.ode</groupId>
+			<artifactId>ode-axis2</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ode</groupId>
+			<artifactId>ode-utils</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1</version>
+		</dependency>
 	</dependencies>
 </project>

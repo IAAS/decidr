@@ -1026,8 +1026,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 break;
             }
         }
-        assertNotNull(tenantID);
-        assertNotNull(tenantUserID);
+        assertNotNull("Incomplete test data: no tenant currently has a user", tenantID);
+        assertNotNull("Incomplete test data: no tenant currently has a user", tenantUserID);
 
         try {
             nullFacade.setCurrentTenantId(testUserID, null);
