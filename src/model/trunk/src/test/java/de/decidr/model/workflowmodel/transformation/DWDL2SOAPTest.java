@@ -20,13 +20,10 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import javax.wsdl.Definition;
-import javax.wsdl.PortType;
 import javax.wsdl.WSDLException;
-import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
 
-import de.decidr.model.workflowmodel.dwdl.translator.DWDL2SOAP;
+import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2SOAP;
 import de.decidr.model.workflowmodel.factories.WSDLFactory;
 
 /**

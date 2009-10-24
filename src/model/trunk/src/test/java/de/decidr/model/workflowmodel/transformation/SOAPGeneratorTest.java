@@ -25,8 +25,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
-import de.decidr.model.workflowmodel.dwdl.translator.DWDL2SOAP;
-import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
+import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2SOAP;
 import de.decidr.model.workflowmodel.factories.HumanTaskStartConfigurationFactory;
 import de.decidr.model.workflowmodel.factories.WSDLFactory;
 import de.decidr.model.workflowmodel.instancemanagement.SOAPGenerator;

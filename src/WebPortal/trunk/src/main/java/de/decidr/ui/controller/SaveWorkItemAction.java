@@ -27,7 +27,6 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
-import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 import de.decidr.model.workflowmodel.humantask.TTaskItem;
 import de.decidr.model.workflowmodel.humantask.dataitem.TTaskDataItem;

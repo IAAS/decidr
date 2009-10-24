@@ -38,7 +38,7 @@ import de.decidr.model.soap.types.IDList;
 import de.decidr.model.soap.types.TaskIdentifier;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.webservices.HumanTaskInterface;
-import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 
 /**
