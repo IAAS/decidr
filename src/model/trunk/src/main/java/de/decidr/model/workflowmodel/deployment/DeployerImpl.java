@@ -41,7 +41,7 @@ import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.workflowmodel.bpel.Process;
 import de.decidr.model.workflowmodel.dd.TDeployment;
-import de.decidr.model.workflowmodel.dwdl.translator.Translator;
+import de.decidr.model.workflowmodel.dwdl.transformation.Translator;
 import de.decidr.model.workflowmodel.dwdl.validation.IProblem;
 import de.decidr.model.workflowmodel.dwdl.validation.Validator;
 

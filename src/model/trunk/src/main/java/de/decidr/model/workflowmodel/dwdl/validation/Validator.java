@@ -39,8 +39,8 @@ import de.decidr.model.workflowmodel.dwdl.Actor;
 import de.decidr.model.workflowmodel.dwdl.Literal;
 import de.decidr.model.workflowmodel.dwdl.Variable;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
-import de.decidr.model.workflowmodel.dwdl.translator.DWDL2BPEL;
-import de.decidr.model.workflowmodel.dwdl.translator.TransformUtil;
+import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2BPEL;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
 /**
  * This class provides the functionality to determine whether a given DWDL is
