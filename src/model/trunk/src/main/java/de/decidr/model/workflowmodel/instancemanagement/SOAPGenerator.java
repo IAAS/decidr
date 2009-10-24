@@ -63,6 +63,10 @@ public class SOAPGenerator {
 
     private String contentType = "Content-Type";
     private String contentValue = "text/xml; charset=UTF-8";
+    
+    private String targetNamespace = "";
+
+    private SOAPMessage soapMessage = null;
 
     /**
      * The function expects a SOAP template and a start configuration. Using
@@ -78,33 +82,23 @@ public class SOAPGenerator {
      * @throws IOException
      * @throws JAXBException
      */
-    public SOAPMessage getSOAP(byte[] template, byte[] startConfig,
-            Definition wsdl, String portName, String operationName)
-            throws SOAPException, IOException, JAXBException {
-        MessageFactory messageFactory = MessageFactory.newInstance();
-        MimeHeaders headers = new MimeHeaders();
-        headers.addHeader(contentType, contentValue);
+    public SOAPMessage getSOAP(SOAPMessage template,
+            TConfiguration startConfiguration) throws SOAPException,
+            IOException, JAXBException {
 
-        SOAPMessage soapMessage = messageFactory.createMessage(headers,
-                new ByteArrayInputStream(template));
-
+        soapMessage = template;
         
-        TConfiguration startConfiguration = TransformUtil
-                .bytes2Configuration(startConfig);
+        targetNamespace = soapMessage
+        .getSOAPHeader().getAttribute("targetNamespace");
 
-        
+        SOAPElement operationElement = getOperationElement();
+
         if (startConfiguration.getRoles() != null) {
             if (!startConfiguration.getRoles().getRole().isEmpty()) {
                 SOAPElement roleElement = null;
                 for (TRole role : startConfiguration.getRoles().getRole()) {
-                        Iterator<?> iterator = soapMessage.getSOAPBody().getChildElements();
-                        while(iterator.hasNext()){
-                            SOAPElement element = (SOAPElement) iterator.next();
-                            if(soapMessage.getSOAPHeader().getAttribute("info").equals(element.getNodeName())){
-                                roleElement = addRole(element, role);
-                            }
-                        }
-                    if (!startConfiguration.getRoles().getActor().isEmpty()) {
+                    roleElement = addRole(operationElement, role);
+                    if (!role.getActor().isEmpty()) {
                         for (TActor actor : role.getActor()) {
                             addActor(roleElement, actor);
                         }
@@ -112,32 +106,74 @@ public class SOAPGenerator {
                 }
             }
         }
+
         if (!startConfiguration.getRoles().getActor().isEmpty()) {
             for (TActor actor : startConfiguration.getRoles().getActor()) {
-                
-
+                addActor(operationElement, actor);
             }
         }
         if (!startConfiguration.getAssignment().isEmpty()) {
             for (TAssignment assignment : startConfiguration.getAssignment()) {
-               
+                setAssignment(operationElement, assignment);
             }
         }
-        // AT getSOAP aus soap template und start config soap message erstellen
+        soapMessage.saveChanges();
         return soapMessage;
     }
-    
-    private SOAPElement addRole(SOAPElement soapElement, TRole role) throws SOAPException{
-        SOAPElement element = soapElement.addChildElement("role");
-        element.addAttribute(new QName("name"), role.getName());       
+
+    private SOAPElement addRole(SOAPElement soapElement, TRole role)
+            throws SOAPException {
+        SOAPElement element = soapElement.addChildElement(new QName(targetNamespace, "role",
+                "decidr"));
+        element.addAttribute(new QName("name"), role.getName());
         return element;
     }
-    
-    private void addActor(SOAPElement soapElement, TActor actor) throws SOAPException{
-        SOAPElement element = soapElement.addChildElement("actor");
-        element.addAttribute(new QName("email"), actor.getEmail());
-        element.addAttribute(new QName("name"), actor.getName());
-        element.addAttribute(new QName("userId"), actor.getUserId());
+
+    private void addActor(SOAPElement soapElement, TActor actor)
+            throws SOAPException {
+        SOAPElement element = soapElement.addChildElement(new QName(targetNamespace, "actor",
+        "decidr"));
+        element.addAttribute(new QName(targetNamespace, "email", "decidr"), actor.getEmail() == null ? ""
+                : actor.getEmail());
+        element.addAttribute(new QName(targetNamespace, "name", "decidr"), actor.getName() == null ? ""
+                : actor.getName());
+        element.addAttribute(new QName(targetNamespace, "userId", "decidr"),
+                actor.getUserId() == null ? "" : actor.getUserId());
+    }
+
+    private void setAssignment(SOAPElement bodyElement, TAssignment assignment)
+            throws SOAPException {
+        SOAPElement element = findElement(bodyElement, assignment.getKey());
+        String valuePart = "";
+        if (!assignment.getValue().isEmpty()) {
+            for (String string : assignment.getValue()) {
+                valuePart += string + " ";
+            }
+            element.setValue(valuePart.trim());
+        }
+    }
+
+    private SOAPElement getOperationElement() throws SOAPException {
+        Iterator<?> iterator = soapMessage.getSOAPBody().getChildElements();
+        while (iterator.hasNext()) {
+            SOAPElement element = (SOAPElement) iterator.next();
+            if (soapMessage.getSOAPHeader().getAttribute("bodyElementName")
+                    .equals(element.getElementName().getLocalName())) {
+                return element;
+            }
+        }
+        return null;
+    }
+
+    private SOAPElement findElement(SOAPElement parent, String elementName) {
+        Iterator<?> iterator = parent.getChildElements();
+        while (iterator.hasNext()) {
+            SOAPElement element = (SOAPElement) iterator.next();
+            if (element.getElementName().getLocalName().equals(elementName)) {
+                return element;
+            }
+        }
+        return null;
     }
 
 }
