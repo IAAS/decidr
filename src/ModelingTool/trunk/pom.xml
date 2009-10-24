@@ -6,40 +6,20 @@
 	<name>Modeling Tool</name>
 	<version>0.0.1</version>
 	<packaging>jar</packaging>
-	<distributionManagement>
-		<repository>
-			<id>iaassrv7-releases</id>
-			<name>iaassrv7-releases</name>
-			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
-		</repository>
-		<snapshotRepository>
-			<id>iaassrv7-snapshots</id>
-			<name>iaassrv7-snapshots</name>
-			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
-		</snapshotRepository>
-	</distributionManagement>
+
+	<parent>
+		<artifactId>base</artifactId>
+		<groupId>de.decidr</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<!--  include pluginRepository and repository for GWT-Maven -->
 	<repositories>
-		<repository>
-			<id>central</id>
-			<name>default</name>
-			<url>http://repo1.maven.org/maven2</url>
-		</repository>
 		<repository>
 			<id>gwt-maven</id>
 			<url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
 		</repository>
-		<repository>
-			<id>iaassrv7-releases</id>
-			<name>iaassrv7-releases</name>
-			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
-		</repository>
-		<repository>
-			<id>iaassrv7-releases</id>
-			<name>iaassrv7-releases</name>
-			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/ibiblio</url>
-		</repository>
 	</repositories>
-	<!--  include pluginRepository and repository for GWT-Maven -->
 	<pluginRepositories>
 		<pluginRepository>
 			<id>gwt-maven-plugins</id>
@@ -67,15 +47,6 @@
 		</testResources>
 
 		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.0.2</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
 			<!--
 				plugin> <artifactId>maven-surefire-plugin</artifactId>
 				<configuration> <additionalClasspathElements>
@@ -185,7 +156,4 @@
 			</activation>
 		</profile>
 	</profiles>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 </project>

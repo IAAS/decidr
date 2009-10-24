@@ -6,39 +6,13 @@
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>WebPortal Maven Webapp</name>
-	<url>http://maven.apache.org</url>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-	<distributionManagement>
-		<repository>
-			<id>iaassrv7-releases</id>
-			<name>iaassrv7-releases</name>
-			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
-		</repository>
-		<snapshotRepository>
-			<id>iaassrv7-snapshots</id>
-			<name>iaassrv7-snapshots</name>
-			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
-		</snapshotRepository>
-	</distributionManagement>
-	<repositories>
-		<repository>
-			<id>default</id>
-			<name>default</name>
-			<url>http://repo1.maven.org/maven2</url>
-		</repository>
-		<repository>
-			<id>iaassrv7-releases</id>
-			<name>iaassrv7-releases</name>
-			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
-		</repository>
-		<repository>
-			<id>iaassrv7-releases</id>
-			<name>iaassrv7-releases</name>
-			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/ibiblio</url>
-		</repository>
-	</repositories>
+
+	<parent>
+		<artifactId>base</artifactId>
+		<groupId>de.decidr</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -100,15 +74,5 @@
 	</dependencies>
 	<build>
 		<finalName>WebPortal</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-		</plugins>
 	</build>
 </project>
