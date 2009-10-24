@@ -144,7 +144,6 @@ public class Validator {
 
             errHandler = (DWDLErrorHandler) (validator.getErrorHandler());
             errList = errHandler.getProblemList();
-
             errList.addAll(checkVariables(wf));
             errList.addAll(checkUsers(wf));
         } catch (JAXBException e) {
@@ -174,21 +173,22 @@ public class Validator {
         // - Actors
         // - EMail Activity
         // - Human Task
-
-        for (Actor actor : dwdl.getRoles().getActor()) {
-            try {
-                if (!userFacade.isRegistered(actor.getUserId())) {
-                    userErr.add(new Problem("User " + actor.getName() + "("
-                            + actor.getEmail() + "" + "does not exist!", actor
-                            .getEmail()));
+        if (dwdl.isSetRoles()){
+            for (Actor actor : dwdl.getRoles().getActor()) {
+                try {
+                    if (!userFacade.isRegistered(actor.getUserId())) {
+                        userErr.add(new Problem("User " + actor.getName() + "("
+                                + actor.getEmail() + "" + "does not exist!", actor
+                                .getEmail()));
+                    }
+                } catch (TransactionException e) {
+                    userErr.add(new Problem("Connection to Database failed!",
+                            "global"));
+                    break;
                 }
-            } catch (TransactionException e) {
-                userErr.add(new Problem("Connection to Database failed!",
-                        "global"));
-                break;
             }
         }
-
+        
         return userErr;
     }
 
@@ -203,99 +203,103 @@ public class Validator {
      */
     private List<IProblem> checkVariables(Workflow dwdl) {
         List<IProblem> varErr = new ArrayList<IProblem>();
+        if (dwdl.isSetVariables()) {
+            for (Variable tVar : dwdl.getVariables().getVariable()) {
+                String type = tVar.getType();
 
-        for (Variable tVar : dwdl.getVariables().getVariable()) {
-            String type = tVar.getType();
-
-            if (tVar.getInitialValue() != null) {
-                if (type.toLowerCase().equals("integer")) {
-                    if (tVar.getInitialValues() == null) {
-                        if (!isVariableInteger(tVar.getInitialValue())) {
-                            varErr.add(new Problem("value is not integer!",
-                                    tVar.getName()));
-                        }
-                    } else {
-                        for (Literal literal : tVar.getInitialValues()
-                                .getInitialValue()) {
-                            if (!isVariableInteger(literal)) {
-                                varErr.add(new Problem("value(s) not integer!",
+                if (tVar.getInitialValue() != null) {
+                    if (type.toLowerCase().equals("integer")) {
+                        if (tVar.getInitialValues() == null) {
+                            if (!isVariableInteger(tVar.getInitialValue())) {
+                                varErr.add(new Problem("value is not integer!",
                                         tVar.getName()));
-                                break;
+                            }
+                        } else {
+                            for (Literal literal : tVar.getInitialValues()
+                                    .getInitialValue()) {
+                                if (!isVariableInteger(literal)) {
+                                    varErr.add(new Problem(
+                                            "value(s) not integer!", tVar
+                                                    .getName()));
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                } else if (type.toLowerCase().equals("float")) {
-                    if (tVar.getInitialValues() == null) {
-                        if (!isVariableFloat(tVar.getInitialValue())) {
-                            varErr.add(new Problem("value is not float!", tVar
-                                    .getName()));
-                        }
-                    } else {
-                        for (Literal literal : tVar.getInitialValues()
-                                .getInitialValue()) {
-                            if (!isVariableFloat(literal)) {
-                                varErr.add(new Problem("value(s) not float!",
+                    } else if (type.toLowerCase().equals("float")) {
+                        if (tVar.getInitialValues() == null) {
+                            if (!isVariableFloat(tVar.getInitialValue())) {
+                                varErr.add(new Problem("value is not float!",
                                         tVar.getName()));
-                                break;
+                            }
+                        } else {
+                            for (Literal literal : tVar.getInitialValues()
+                                    .getInitialValue()) {
+                                if (!isVariableFloat(literal)) {
+                                    varErr.add(new Problem(
+                                            "value(s) not float!", tVar
+                                                    .getName()));
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    // } else if (type.toLowerCase().equals("string")) {
-                    // not required
+                        // } else if (type.toLowerCase().equals("string")) {
+                        // not required
 
-                } else if (type.toLowerCase().equals("boolean")) {
-                    if (tVar.getInitialValues() == null) {
-                        if (!isVariableBoolean(tVar.getInitialValue())) {
-                            varErr.add(new Problem("value is not boolean!",
-                                    tVar.getName()));
-                        }
-                    } else {
-                        for (Literal literal : tVar.getInitialValues()
-                                .getInitialValue()) {
-                            if (!isVariableBoolean(literal)) {
-                                varErr.add(new Problem("value(s) not boolean!",
+                    } else if (type.toLowerCase().equals("boolean")) {
+                        if (tVar.getInitialValues() == null) {
+                            if (!isVariableBoolean(tVar.getInitialValue())) {
+                                varErr.add(new Problem("value is not boolean!",
                                         tVar.getName()));
-                                break;
+                            }
+                        } else {
+                            for (Literal literal : tVar.getInitialValues()
+                                    .getInitialValue()) {
+                                if (!isVariableBoolean(literal)) {
+                                    varErr.add(new Problem(
+                                            "value(s) not boolean!", tVar
+                                                    .getName()));
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                } else if (type.toLowerCase().equals("date")) {
-                    if (tVar.getInitialValues() == null) {
-                        if (!isVariableDate(tVar.getInitialValue())) {
-                            varErr.add(new Problem(
-                                    "value is not a valid date!", tVar
-                                            .getName()));
-                        }
-                    } else {
-                        for (Literal literal : tVar.getInitialValues()
-                                .getInitialValue()) {
-                            if (!isVariableDate(literal)) {
+                    } else if (type.toLowerCase().equals("date")) {
+                        if (tVar.getInitialValues() == null) {
+                            if (!isVariableDate(tVar.getInitialValue())) {
                                 varErr.add(new Problem(
-                                        "value(s) are not a valid date!", tVar
+                                        "value is not a valid date!", tVar
                                                 .getName()));
-                                break;
+                            }
+                        } else {
+                            for (Literal literal : tVar.getInitialValues()
+                                    .getInitialValue()) {
+                                if (!isVariableDate(literal)) {
+                                    varErr.add(new Problem(
+                                            "value(s) are not a valid date!",
+                                            tVar.getName()));
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                } else if (type.toLowerCase().equals("time")) {
-                    if (tVar.getInitialValues() == null) {
-                        if (!isVariableTime(tVar.getInitialValue())) {
-                            varErr.add(new Problem(
-                                    "value is not a valid time!", tVar
-                                            .getName()));
-                        }
-                    } else {
-                        for (Literal literal : tVar.getInitialValues()
-                                .getInitialValue()) {
-                            if (!isVariableTime(literal)) {
+                    } else if (type.toLowerCase().equals("time")) {
+                        if (tVar.getInitialValues() == null) {
+                            if (!isVariableTime(tVar.getInitialValue())) {
                                 varErr.add(new Problem(
-                                        "value(s) are not a valid time!", tVar
+                                        "value is not a valid time!", tVar
                                                 .getName()));
-                                break;
+                            }
+                        } else {
+                            for (Literal literal : tVar.getInitialValues()
+                                    .getInitialValue()) {
+                                if (!isVariableTime(literal)) {
+                                    varErr.add(new Problem(
+                                            "value(s) are not a valid time!",
+                                            tVar.getName()));
+                                    break;
+                                }
                             }
                         }
                     }
