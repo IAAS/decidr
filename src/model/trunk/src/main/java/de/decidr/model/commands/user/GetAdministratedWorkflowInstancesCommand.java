@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkflowInstance;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
@@ -47,9 +49,14 @@ public class GetAdministratedWorkflowInstancesCommand extends UserCommand {
      * @param userId
      *            the ID of the user whose administrated workflow instances
      *            should be retrieved
+     * @throws IllegalArgumentException
+     *             if userId is null.
      */
     public GetAdministratedWorkflowInstancesCommand(Role role, Long userId) {
         super(role, userId);
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID must not be null.");
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -57,7 +64,16 @@ public class GetAdministratedWorkflowInstancesCommand extends UserCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        String hql = "select wi from WorkflowInstance wi "
+        // does the user exist? returning an empty list might be ambigous.
+        String hql = "select u.id from User u where u.id = :userId";
+        Object id = evt.getSession().createQuery(hql).setLong("userId",
+                getUserId()).setMaxResults(1).uniqueResult();
+
+        if (id == null) {
+            throw new EntityNotFoundException(User.class, getUserId());
+        }
+
+        hql = "select wi from WorkflowInstance wi "
                 + "join fetch wi.deployedWorkflowModel where "
                 + "exists( from UserAdministratesWorkflowInstance rel "
                 + "where rel.workflowInstance = wi and rel.user.id = :userId)";

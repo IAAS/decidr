@@ -17,9 +17,11 @@
 package de.decidr.model.commands.user;
 
 import de.decidr.model.acl.Password;
+import de.decidr.model.acl.asserters.UserIsSuperAdminAsserter;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.entities.UserProfile;
+import de.decidr.model.exceptions.AccessDeniedException;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
@@ -70,7 +72,7 @@ public class SetPasswordCommand extends UserCommand {
 
         if (!(role instanceof SuperAdminRole) && (oldPassword == null)) {
             throw new IllegalArgumentException(
-                    "Must provide old password to continue.");
+                    "Must provide old password to set a new password when not invoked by a super admin.");
         }
 
         this.oldPassword = oldPassword;
@@ -97,6 +99,10 @@ public class SetPasswordCommand extends UserCommand {
             String hash = Password.getHash(oldPassword, profile
                     .getPasswordSalt());
             allowChange = hash.equals(profile.getPasswordHash());
+        } else if (!new UserIsSuperAdminAsserter().assertRule(role, null)) {
+            // Superadmins must actually be superadmins.
+            throw new AccessDeniedException(
+                    "Declared superadmin is not actually a superadmin.");
         }
 
         if (allowChange) {

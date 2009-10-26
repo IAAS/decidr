@@ -313,6 +313,7 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         setterSettings.setInvitationLifetimeSeconds(1);
 
         setterSettings.setLogLevel("INVALID");
+        //RR cost("bugfix") > cost(error) :-( ~dh
         setSettingsExceptionHelper("invalid loglevel succeeded", adminFacade,
                 setterSettings);
         setterSettings.setLogLevel("ERROR");

@@ -68,6 +68,7 @@ public class CommandPermissionTest extends DecidrAclTest {
      */
     @Test
     public void testGetCommand() {
+        //FIXME GH implement me :-) ~dh
         fail("Not yet implemented");
     }
 

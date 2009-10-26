@@ -52,19 +52,6 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        /*-
-         * The custom session interferes with the HTC session because they run
-         * in concurrent transactions. This caused the file created here to be
-         * invisible to testPutFile() until the custom session commits, causing
-         * a lock wait timeout.
-         * 
-         * Strangely, flushing and/or closing the custom session in this method
-         * did not help. Could it be that Hiberntate turns off autocommit by
-         * default but does not send a "commit" query upon flushing the session?
-         * ~dh
-         * DH next time, just try opening and committing a transaction -
-         * helped in UserFacadeTest... ~rr
-         */
         BasicFileCreatorCommand cmd = new BasicFileCreatorCommand();
 
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);

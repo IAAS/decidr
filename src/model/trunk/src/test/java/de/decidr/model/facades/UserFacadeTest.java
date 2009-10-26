@@ -335,7 +335,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             confirmChangeEmailRequestExceptionHelper(
                     "managed to confirm a nonexistent ChangeEmailRequest without an authKey",
                     facade, testUserID, "");
-
+            // RR Interaction with email WS leads to WebServiceException if no
+            // Synapse + Email WS is deployed. Is this ok? ~dh
             facade.requestChangeEmail(testUserID, "invalid@example.com");
             user = (User) session.get(User.class, testUserID);
             assertNotNull(user);
@@ -424,6 +425,9 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         }
         try {
             adminFacade.getAdministratedWorkflowModels(invalidID);
+            // RR the facade method didn't say that an exception is thrown in
+            // this case... an exception is not really a gain over an empty list...
+            // ~dh
             fail("succeeded getting administrated workflow models as admin user with invalid ID");
         } catch (TransactionException e) {
             // supposed to be thrown
@@ -689,7 +693,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             adminFacade.setProfile(testUserID, null);
             fail("managed to set null profile");
         } catch (TransactionException e) {
-            //RR IllegalArgumentException ~dh
+            // RR IllegalArgumentException ~dh
             // supposed to be thrown
         }
     }
@@ -764,7 +768,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         }
 
         user = (User) session.load(User.class, userId);
-        //RR probably another transaction isloation "problem" ~dh
+        // RR probably another transaction isloation "problem" ~dh
         request = user.getRegistrationRequest();
         authKey = request.getAuthKey();
 
@@ -921,6 +925,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 "Fuuni PWD"));
         assertFalse(checkPWD("Fuuni PWD"));
         resetPWD();
+        // RR Must provide old password to set a new password when not invoked
+        // by a super admin ~dh
         assertFalse(userFacade.setPassword(testUserID, null, "Fuuni PWD"));
         assertFalse(checkPWD("Fuuni PWD"));
         resetPWD();
@@ -1028,8 +1034,10 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 break;
             }
         }
-        assertNotNull("Incomplete test data: no tenant currently has a user", tenantID);
-        assertNotNull("Incomplete test data: no tenant currently has a user", tenantUserID);
+        assertNotNull("Incomplete test data: no tenant currently has a user",
+                tenantID);
+        assertNotNull("Incomplete test data: no tenant currently has a user",
+                tenantUserID);
 
         try {
             nullFacade.setCurrentTenantId(testUserID, null);

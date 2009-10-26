@@ -182,17 +182,6 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for {@link WorkflowModelFacade#setExecutable(Long, Boolean)}.
-     */
-    @Test
-    public void testSetExecutable() throws TransactionException {
-        // JE: how to test?
-        // impossible without a running ODE and properly configured web services
-        // and esb ~dh
-        adminFacade.setExecutable(wfmId, true);
-    }
-
-    /**
      * Test method for
      * {@link WorkflowModelFacade#setWorkflowAdministrators(Long)}.
      * {@link WorkflowModelFacade#getWorkflowAdministrators(Long)}.

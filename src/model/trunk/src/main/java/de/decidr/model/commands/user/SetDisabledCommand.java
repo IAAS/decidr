@@ -62,7 +62,7 @@ public class SetDisabledCommand extends UserCommand {
             throws TransactionException {
         String hql = "update User set disabledSince = :disabledSince "
                 + "where id = :userId and not exists("
-                + "select * from superadmin a where a.id = :userId)";
+                + "from Superadmin a where a.id = :userId)";
         evt.getSession().createQuery(hql).setDate("disabledSince",
                 disabledSince).setLong("userId", getUserId()).executeUpdate();
     }

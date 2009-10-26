@@ -254,7 +254,7 @@ public class DecidrGlobals {
     public static String getWebServiceUrl(String webServiceName) {
         if ((webServiceName == null) || (webServiceName == "")) {
             throw new IllegalArgumentException(
-                    "Web service name cannot be empty");
+                    "Web service name must not be null or empty");
         }
         // This may change if we switch from Synapse to another ESB that's not
         // based on Axis2
@@ -266,10 +266,17 @@ public class DecidrGlobals {
      *            name of the web service such as "EmailWS"
      * @return An URL which can be used to retrieve the WSDL of the web service
      *         identified by webServiceName
+     * @throws IllegalArgumentException
+     *             if webServiceName is null or empty.
+     * 
      */
     public static String getWebServiceWsdlUrl(String webServiceName) {
         // This may change if we switch from Synapse to another ESB that's not
         // based on Axis2
+        if (webServiceName == null || webServiceName.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Web service name must not be null or empty.");
+        }
         return "http://" + getEsb().getLocation() + "/soap/" + webServiceName
                 + "?wsdl";
     }

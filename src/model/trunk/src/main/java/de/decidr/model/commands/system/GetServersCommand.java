@@ -46,8 +46,8 @@ public class GetServersCommand extends SystemCommand {
      *            user or system that executes this command
      * @param serverTypes
      *            only servers that have one of the given types will be
-     *            included. If this parameter is <code>null</code>, all severs will be
-     *            included.
+     *            included. If this parameter is <code>null</code>, all severs
+     *            will be included.
      */
     public GetServersCommand(Role actor, ServerTypeEnum... serverTypes) {
         super(actor, null);
@@ -61,10 +61,8 @@ public class GetServersCommand extends SystemCommand {
         String hql;
         // convert enum names to string
         List<String> allowedTypes = new ArrayList<String>();
-        if (serverTypes != null) {
+        if (serverTypes != null && serverTypes.length > 0) {
             for (ServerTypeEnum allowedType : serverTypes) {
-                // DH: apparently, allowedType can be null (basically, the array
-                // is ServerTypeEnum[]{null}) ~rr
                 if (allowedType == null) {
                     continue;
                 }
@@ -77,7 +75,8 @@ public class GetServersCommand extends SystemCommand {
             hql = "from Server s join fetch s.serverType";
             result = evt.getSession().createQuery(hql).list();
         } else {
-            hql = "from Server s join fetch s.serverType where s.serverType.name in (:allowedTypes)";
+            hql = "from Server s join fetch s.serverType where "
+                    + "s.serverType.name in (:allowedTypes)";
             result = evt.getSession().createQuery(hql).setParameterList(
                     "allowedTypes", allowedTypes).list();
         }

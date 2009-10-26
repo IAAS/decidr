@@ -18,10 +18,10 @@ package de.decidr.model.commands.user;
 
 import java.util.List;
 
-import org.hibernate.Query;
-
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkflowModel;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
@@ -48,10 +48,14 @@ public class GetAdministratedWorkflowModelCommand extends UserCommand {
      * @param userId
      *            the ID of the user whose administrated wokflow models should
      *            be requested
+     * @throws IllegalArgumentException
+     *             if userId is null.
      */
     public GetAdministratedWorkflowModelCommand(Role role, Long userId) {
         super(role, null);
-
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID must not be null.");
+        }
         this.userId = userId;
     }
 
@@ -60,13 +64,21 @@ public class GetAdministratedWorkflowModelCommand extends UserCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        String hql = "select rel.workflowModel "
+        // does the user exist? returning an empty list might be ambigous.
+        String hql = "select u.id from User u where u.id = :userId";
+        Object id = evt.getSession().createQuery(hql).setLong("userId",
+                getUserId()).setMaxResults(1).uniqueResult();
+
+        if (id == null) {
+            throw new EntityNotFoundException(User.class, getUserId());
+        }
+
+        hql = "select rel.workflowModel "
                 + "from UserAdministratesWorkflowModel rel "
                 + "where rel.user.id = :userId";
 
-        Query q = evt.getSession().createQuery(hql).setLong("userId", userId);
-
-        result = q.list();
+        result = evt.getSession().createQuery(hql).setLong("userId", userId)
+                .list();
     }
 
     /**

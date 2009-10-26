@@ -82,7 +82,15 @@ public class FileFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws IllegalArgumentException
-     *             TODO document
+     *             if the file size is negative of if one of the following
+     *             parameters is <code>null</code>:
+     *             <ul>
+     *             <li>contents</li>
+     *             <li>fileSize</li>
+     *             <li>originalFileName</li>
+     *             <li>mimeType</li>
+     *             <li>temporary</li>
+     *             </ul>
      */
     @AllowedRole(BasicRole.class)
     public Long createFile(InputStream contents, Long fileSize,

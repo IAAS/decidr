@@ -771,9 +771,14 @@ public class UserFacade extends AbstractFacade {
      * @param userId
      *            the id of the user whose administrated workflow models should
      *            be requested
-     * @return List of workflow models which are administrated by the given user
+     * @return List of workflow models which are administrated by the given
+     *         user.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if userId is null.
+     * @throws EntityNotFoundException
+     *             if the given user does not exist.
      */
     @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getAdministratedWorkflowInstances(Long userId)
@@ -852,6 +857,10 @@ public class UserFacade extends AbstractFacade {
      * @return list of workflow models which are administrated by the given user
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if userId is null.
+     * @throws EntityNotFoundException
+     *             if the user does not exist.
      */
     @AllowedRole(TenantAdminRole.class)
     public List<Item> getAdministratedWorkflowModels(Long userId)
