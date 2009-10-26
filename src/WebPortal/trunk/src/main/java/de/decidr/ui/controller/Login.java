@@ -59,7 +59,6 @@ public class Login {
     private TenantFacade tenantFacade = new TenantFacade(new UserRole());
 
     private Long userId = null;
-    private List<Item> tenantList = null;
     private Item tenantItem = null;
     private Class<? extends Role> role = null;
     private String tenantName = null;
@@ -86,17 +85,18 @@ public class Login {
         HttpSession session = webCtx.getHttpSession();
 
         userId = userFacade.getUserIdByLogin(username, password);
-        tenantList = userFacade.getJoinedTenants(userId);
-        Item item = tenantFacade.getTenantSettings(userFacade.getCurrentTenantId(userId));
-        tenantName = item.getItemProperty("name").getValue().toString();
-        /*if (!tenantList.isEmpty()) {
-            tenantItem = tenantList.get(0);
-            tenantName = (String) tenantItem.getItemProperty("name").getValue();
-        }*/
+        
+        if(userFacade.getCurrentTenantId(userId) == null){
+        	userFacade.setCurrentTenantId(userId, 1L);
+        	//tenantId = getDefaultTenant();
+        	//userFacade.setCurrentTenantId(userId, tenantId);
+        }
+        
+        tenantItem = tenantFacade.getTenantSettings(userFacade.getCurrentTenantId(userId));
+        tenantName = tenantItem.getItemProperty("name").getValue().toString();
+        
         role = userFacade.getUserRoleForTenant(userId, (Long) tenantItem
                 .getItemProperty("id").getValue());
-        username = (String) userFacade.getUserProfile(userId).getItemProperty(
-                "username").getValue();
 
         session.setAttribute("userId", userId);
         session.setAttribute("tenant", tenantName);
