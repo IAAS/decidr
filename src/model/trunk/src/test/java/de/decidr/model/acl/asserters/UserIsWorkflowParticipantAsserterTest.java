@@ -134,12 +134,12 @@ public class UserIsWorkflowParticipantAsserterTest extends LowLevelDatabaseTest 
         assertFalse(asserter.assertRule(new TenantAdminRole(tenantAdminId),
                 new CommandPermission(new RemoveFromTenantCommand(
                         new TenantAdminRole(tenantAdminId), userId, tenantId))));
+        
         assertFalse(asserter.assertRule(new UserRole(userId),
                 new CommandPermission(new RemoveFromTenantCommand(new UserRole(
                         userId), userId, tenantId))));
         
-        //GH why assert true? ~dh 
-        assertTrue(asserter.assertRule(new WorkflowAdminRole(workflowAdminId),
+        assertFalse(asserter.assertRule(new WorkflowAdminRole(workflowAdminId),
                 new CommandPermission(new RemoveFromTenantCommand(
                         new WorkflowAdminRole(workflowAdminId), userId,
                         tenantId))));

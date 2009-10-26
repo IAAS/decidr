@@ -64,7 +64,7 @@ public class UserNotParticipatingInAnyWorkflowAsserterTest extends
     private static Long wfmId;
 
     private static final String TENANT_ADMIN_EMAIL = "test1@acl.decidr.de";
-    private static final String WORKFLOW_ADMIN_EMAIL = "test2@acl.decidr.de";
+    private static final String WORKFLOW_ADMIN_EMAIL = "test20@acl.decidr.de";
     private static final String USER_EMAIL = "test3@acl.decidr.de";
 
     @BeforeClass
@@ -84,7 +84,7 @@ public class UserNotParticipatingInAnyWorkflowAsserterTest extends
         tenantAdminId = userFacade.registerUser(TENANT_ADMIN_EMAIL, "qwertz",
                 userProfile);
 
-        userProfile.setUsername("wfadmin12377");
+        userProfile.setUsername("newwfadmin12377");
         workflowAdminId = userFacade.registerUser(WORKFLOW_ADMIN_EMAIL,
                 "qwertz", userProfile);
 
@@ -103,7 +103,7 @@ public class UserNotParticipatingInAnyWorkflowAsserterTest extends
         wfmFacade = new WorkflowModelFacade(new SuperAdminRole(superAdminId));
         List<String> wfmAdmins = new ArrayList<String>();
         List<String> wfmAdminsEmail = new ArrayList<String>();
-        wfmAdmins.add("wfadmin12377");
+        wfmAdmins.add("newwfadmin12377");
         wfmFacade.setWorkflowAdministrators(wfmId, wfmAdminsEmail, wfmAdmins);
 
     }
@@ -139,9 +139,10 @@ public class UserNotParticipatingInAnyWorkflowAsserterTest extends
         assertTrue(asserter.assertRule(new UserRole(userId),
                 new CommandPermission(new RemoveFromTenantCommand(new UserRole(
                         userId), userId, tenantId))));
-        // GH since no user can implicitly participate in a workflow, I have no
+        // gh since no user can implicitly participate in a workflow, I have no
         // idea why this assertion fails. Are you sure workflowAdminId is not
         // participating in any workflow?
+        // GH: added new wf admin, that is only used in this test case
         assertFalse(asserter.assertRule(new WorkflowAdminRole(workflowAdminId),
                 new CommandPermission(new RemoveFromTenantCommand(
                         new WorkflowAdminRole(workflowAdminId), userId,
