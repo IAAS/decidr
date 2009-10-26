@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 12.10.2009 16:53:44 by Hibernate Tools 3.2.4.GA
+// Generated 26.10.2009 11:28:11 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -23,11 +23,13 @@ public class WorkItem implements java.io.Serializable {
     private String description;
 
     public WorkItem() {
+        //default empty JavaBean constructor
     }
 
     public WorkItem(WorkflowInstance workflowInstance, User user,
             Date creationDate, String status, byte[] data, String name,
             String description) {
+        //generated full constructor
         this.workflowInstance = workflowInstance;
         this.user = user;
         this.creationDate = creationDate;

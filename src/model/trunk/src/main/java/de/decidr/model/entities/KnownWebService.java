@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 12.10.2009 16:53:44 by Hibernate Tools 3.2.4.GA
+// Generated 26.10.2009 11:28:11 by Hibernate Tools 3.2.4.GA
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,15 +20,18 @@ public class KnownWebService implements java.io.Serializable {
     private Set<Activity> activities = new HashSet<Activity>(0);
 
     public KnownWebService() {
+        //default empty JavaBean constructor
     }
 
     public KnownWebService(String namespace, byte[] wsdl) {
+        //generated minimal constructor
         this.namespace = namespace;
         this.wsdl = wsdl;
     }
 
     public KnownWebService(String namespace, byte[] wsdl,
             Set<Activity> activities) {
+        //generated full constructor
         this.namespace = namespace;
         this.wsdl = wsdl;
         this.activities = activities;

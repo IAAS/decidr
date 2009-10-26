@@ -1,18 +1,10 @@
-<#-- This is a custom reverse engineering template 
-     created by Daniel Huss. 
+<#--  /** 
+Modified Hibernate code generation template that adds dynamic-update=true and
+dynamic-insert=true to ALL generated entities.
      
-     Its purpose is to add dynamic-update=true and
-     dynamic-insert=true to ALL generated entities.
-     
-     This modified template will stop working if 
-     Hibernate-Tools team changes the default
-     templates too much.
-     
-     There is hope that our custom 
-     ReverseEngineeringStrategy will be able to
-     do the job without this hack in the future.
-     
-     -->
+@author Daniel Huss
+@version 0.1
+*/ -->
 <${c2h.getTag(clazz)} 
     name="${c2h.getClassName(clazz)}"
 <#if !c2h.getClassName(clazz).equals(clazz.entityName)>

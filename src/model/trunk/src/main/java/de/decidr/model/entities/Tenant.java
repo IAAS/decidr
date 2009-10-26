@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 12.10.2009 16:53:44 by Hibernate Tools 3.2.4.GA
+// Generated 26.10.2009 11:28:11 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -33,9 +33,11 @@ public class Tenant implements java.io.Serializable {
             0);
 
     public Tenant() {
+        //default empty JavaBean constructor
     }
 
     public Tenant(User admin, String name, String description) {
+        //generated minimal constructor
         this.admin = admin;
         this.name = name;
         this.description = description;
@@ -47,6 +49,7 @@ public class Tenant implements java.io.Serializable {
             Set<UserIsMemberOfTenant> userIsMemberOfTenants,
             Set<WorkflowModel> workflowModels, Set<Invitation> invitations,
             Set<User> users, Set<DeployedWorkflowModel> deployedWorkflowModels) {
+        //generated full constructor
         this.logo = logo;
         this.simpleColorScheme = simpleColorScheme;
         this.advancedColorScheme = advancedColorScheme;

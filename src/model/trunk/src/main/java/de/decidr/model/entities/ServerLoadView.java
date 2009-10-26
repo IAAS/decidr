@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 12.10.2009 16:53:44 by Hibernate Tools 3.2.4.GA
+// Generated 26.10.2009 11:28:11 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -24,11 +24,13 @@ public class ServerLoadView implements java.io.Serializable {
     private long numInstances;
 
     public ServerLoadView() {
+        //default empty JavaBean constructor
     }
 
     public ServerLoadView(long id, String location, byte load, boolean locked,
             boolean dynamicallyAdded, long serverTypeId, String serverType,
             long numInstances) {
+        //generated minimal constructor
         this.id = id;
         this.location = location;
         this.load = load;
@@ -42,6 +44,7 @@ public class ServerLoadView implements java.io.Serializable {
     public ServerLoadView(long id, String location, byte load, boolean locked,
             boolean dynamicallyAdded, long serverTypeId, Date lastLoadUpdate,
             String serverType, long numInstances) {
+        //generated full constructor
         this.id = id;
         this.location = location;
         this.load = load;

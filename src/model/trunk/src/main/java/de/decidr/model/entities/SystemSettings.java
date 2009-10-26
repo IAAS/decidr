@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 12.10.2009 16:53:44 by Hibernate Tools 3.2.4.GA
+// Generated 26.10.2009 11:28:11 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -44,6 +44,7 @@ public class SystemSettings implements java.io.Serializable {
     private int maxWorkflowInstancesForShutdown;
 
     public SystemSettings() {
+        //default empty JavaBean constructor
     }
 
     public SystemSettings(User superAdmin, Date modifiedDate,
@@ -61,6 +62,7 @@ public class SystemSettings implements java.io.Serializable {
             byte maxServerLoadForShutdown, int minUnlockedServers,
             int minWorkflowInstancesForLock, int maxWorkflowInstancesForUnlock,
             int maxWorkflowInstancesForShutdown) {
+        //generated full constructor
         this.superAdmin = superAdmin;
         this.modifiedDate = modifiedDate;
         this.autoAcceptNewTenants = autoAcceptNewTenants;

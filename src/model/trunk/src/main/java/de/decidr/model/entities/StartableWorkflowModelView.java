@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 12.10.2009 16:53:44 by Hibernate Tools 3.2.4.GA
+// Generated 26.10.2009 11:28:11 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -26,11 +26,13 @@ public class StartableWorkflowModelView implements java.io.Serializable {
     private Long modifiedByUserId;
 
     public StartableWorkflowModelView() {
+        //default empty JavaBean constructor
     }
 
     public StartableWorkflowModelView(long id, long tenantId, String name,
             String description, boolean published, boolean executable,
             Date creationDate, Date modifiedDate, byte[] dwdl) {
+        //generated minimal constructor
         this.id = id;
         this.tenantId = tenantId;
         this.name = name;
@@ -46,6 +48,7 @@ public class StartableWorkflowModelView implements java.io.Serializable {
             String description, boolean published, boolean executable,
             Date creationDate, Date modifiedDate, byte[] dwdl,
             Long modifiedByUserId) {
+        //generated full constructor
         this.id = id;
         this.tenantId = tenantId;
         this.name = name;

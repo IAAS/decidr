@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 12.10.2009 16:53:44 by Hibernate Tools 3.2.4.GA
+// Generated 26.10.2009 11:28:11 by Hibernate Tools 3.2.4.GA
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,13 +20,16 @@ public class Role implements java.io.Serializable {
             0);
 
     public Role() {
+        //default empty JavaBean constructor
     }
 
     public Role(String name) {
+        //generated minimal constructor
         this.name = name;
     }
 
     public Role(String name, Set<RoleHasPermission> roleHasPermissions) {
+        //generated full constructor
         this.name = name;
         this.roleHasPermissions = roleHasPermissions;
     }

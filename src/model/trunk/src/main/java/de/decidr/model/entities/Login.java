@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 12.10.2009 16:53:44 by Hibernate Tools 3.2.4.GA
+// Generated 26.10.2009 11:28:11 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -19,9 +19,11 @@ public class Login implements java.io.Serializable {
     private boolean success;
 
     public Login() {
+        //default empty JavaBean constructor
     }
 
     public Login(User user, Date loginDate, boolean success) {
+        //generated full constructor
         this.user = user;
         this.loginDate = loginDate;
         this.success = success;

@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 12.10.2009 16:53:44 by Hibernate Tools 3.2.4.GA
+// Generated 26.10.2009 11:28:11 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -47,9 +47,11 @@ public class User implements java.io.Serializable {
             0);
 
     public User() {
+        //default empty JavaBean constructor
     }
 
     public User(String email, Date creationDate) {
+        //generated minimal constructor
         this.email = email;
         this.creationDate = creationDate;
     }
@@ -77,6 +79,7 @@ public class User implements java.io.Serializable {
             Set<Tenant> administratedTenants, Set<Login> logins,
             ChangeEmailRequest changeEmailRequest,
             Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels) {
+        //generated full constructor
         this.currentTenant = currentTenant;
         this.authKey = authKey;
         this.email = email;
