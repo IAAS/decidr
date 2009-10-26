@@ -56,6 +56,7 @@ import de.decidr.model.commands.user.RegisterUserCommand;
 import de.decidr.model.commands.user.RemoveFromTenantCommand;
 import de.decidr.model.commands.user.RequestChangeEmailCommand;
 import de.decidr.model.commands.user.RequestPasswordResetCommand;
+import de.decidr.model.commands.user.SetDisabledCommand;
 import de.decidr.model.commands.user.SetPasswordCommand;
 import de.decidr.model.commands.user.SetUserProfileCommand;
 import de.decidr.model.commands.user.SetUserPropertyCommand;
@@ -207,25 +208,26 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * Sets the disabled date of the user, effectively preventing the user from
-     * logging in again. To re-activate the user account, set his disabled date
-     * to null.
+     * Sets the disabled date of the given user, effectively preventing the user
+     * from logging in. To re-activate the user account, set the disabled date
+     * to null. Disabling the super admin account has no effect.Disabling a
+     * non-existing user has no effect and does not cause an exception.
      * 
      * @param userId
-     *            the id of the user whose disabled date should be set
+     *            the id of the user whose disabled date should be set.
      * @param date
-     *            to re-active the user, set this parameter to null.
+     *            to re-active the users, set this parameter to null.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the given user does not exist.
+     * @throws IllegalArgumentException
+     *             if userId is null
      */
     @AllowedRole(TenantAdminRole.class)
     public void setDisabledSince(Long userId, Date date)
             throws TransactionException {
-        Map<String, Date> properties = new HashMap<String, Date>();
-        properties.put("disabledSince", date);
-
-        SetUserPropertyCommand cmd = new SetUserPropertyCommand(actor, userId,
-                properties);
+        SetDisabledCommand cmd = new SetDisabledCommand(actor, userId, date);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
     }
 
@@ -235,7 +237,7 @@ public class UserFacade extends AbstractFacade {
      * set his unavailable date to null.
      * 
      * @param userId
-     *            the id of the user whose unavailable date should be set
+     *            the id of the user whose unavailable date should be set.
      * @param date
      *            to flag the user as available, set this parameter to null.
      * @throws TransactionException
@@ -361,6 +363,8 @@ public class UserFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             iff the given user doesn't exist or doesn't have a user
      *             profile.
+     * @throws IllegalArgumentException
+     *             if newProfile is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public void setProfile(Long userId, UserProfile newProfile)
@@ -711,6 +715,8 @@ public class UserFacade extends AbstractFacade {
      * @return UserRole highest user role of the user
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code>.
      */
     @AllowedRole(BasicRole.class)
     public Class<? extends UserRole> getHighestUserRole(Long userId)
@@ -797,8 +803,8 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * Returns all tenants the given user is member of as item with the
-     * following properties:
+     * Returns all tenants the given user is member of (excluding the default
+     * tenant) as a Vaadin item with the following properties:
      * <ul>
      * <li>id - tenant id</li>
      * <li>name - tenant name</li>

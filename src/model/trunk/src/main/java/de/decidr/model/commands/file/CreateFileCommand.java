@@ -74,6 +74,16 @@ public class CreateFileCommand extends AclEnabledCommand {
      *            the initial global permissions of the file. If set to null,
      *            the file will have no global permissions, i.e. it will not be
      *            publicly readable/writeable.
+     * @throws IllegalArgumentException
+     *             if the file size is negative of if one of the following
+     *             parameters is <code>null</code>:
+     *             <ul>
+     *             <li>contents</li>
+     *             <li>fileSize</li>
+     *             <li>originalFileName</li>
+     *             <li>mimeType</li>
+     *             <li>temporary</li>
+     *             </ul>
      */
     public CreateFileCommand(Role role, InputStream contents, Long fileSize,
             String originalFileName, String mimeType, Boolean temporary,
@@ -90,9 +100,18 @@ public class CreateFileCommand extends AclEnabledCommand {
         if (mimeType == null) {
             throw new IllegalArgumentException("Mime type must not be null.");
         }
-        if (fileSize != 0 && fileSize == null) {
+        if (fileSize == null) {
             throw new IllegalArgumentException("File size must not be null.");
         }
+        if (fileSize < 0) {
+            throw new IllegalArgumentException("File size must be positive.");
+        }
+
+        if (temporary == null) {
+            throw new IllegalArgumentException(
+                    "Temporary flag must not be null.");
+        }
+
         if (publicPermissions == null) {
             publicPermissions = new HashSet<Class<? extends FilePermission>>(0);
         }

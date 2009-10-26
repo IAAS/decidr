@@ -16,18 +16,13 @@
 
 package de.decidr.model.commands.user;
 
-import java.util.List;
-
-import org.hibernate.Criteria;
-import org.hibernate.Query;
-
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.entities.SystemSettings;
-import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
@@ -35,6 +30,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * Saves the highest role of the given user in the result variable.
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  * @version 0.1
  */
 public class GetHighestUserRoleCommand extends UserCommand {
@@ -49,77 +45,55 @@ public class GetHighestUserRoleCommand extends UserCommand {
      *            user which executes the command
      * @param userId
      *            the ID of the user whose highest role should be requested
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code>.
      */
     public GetHighestUserRoleCommand(Role role, Long userId) {
         super(role, userId);
+        if (userId == null) {
+            throw new IllegalArgumentException("userId must not be null.");
+        }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
         // check if super admin
-        Criteria c = evt.getSession().createCriteria(SystemSettings.class);
-        List<SystemSettings> results = c.list();
-        SystemSettings innerResult;
-
-        if (results.size() > 0) {
-            throw new TransactionException(
-                    "More than one system settings found, but system settings should be unique");
-        } else if (results.size() == 0) {
-            throw new EntityNotFoundException(SystemSettings.class);
-        } else {
-            innerResult = results.get(0);
-        }
-
-        if (getUserId() == innerResult.getSuperAdmin().getId()) {
+        SystemSettings settings = DecidrGlobals.getSettings();
+        if (getUserId().equals(settings.getSuperAdmin().getId())) {
             result = SuperAdminRole.class;
             return;
         }
 
         // check if user is tenant admin
-        Query q = evt.getSession().createQuery(
-                "select count(*) from Tenant a where a.admin.id = :userId");
-        q.setLong("userId", getUserId());
+        Object id = evt.getSession().createQuery(
+                "select a.id from Tenant a where a.admin.id = :userId")
+                .setLong("userId", getUserId()).setMaxResults(1).uniqueResult();
 
-        Number count = (Number) q.uniqueResult();
-
-        if (count == null) {
-            throw new TransactionException("Query didn't return a result.");
-        } else if (count.intValue() > 0) {
+        if (id != null) {
             result = TenantAdminRole.class;
             return;
         }
 
         // check if user is workflow admin
-        Query q2 = evt
-                .getSession()
-                .createQuery(
-                        "select count(*) from UserAdministratesWorkflowInstance a where a.user.id = :userId");
-        q.setLong("userId", getUserId());
+        id = evt.getSession().createQuery(
+                "select a.user.id from UserAdministratesWorkflowInstance a "
+                        + "where a.user.id = :userId").setLong("userId",
+                getUserId()).setMaxResults(1).uniqueResult();
 
-        count = (Number) q2.uniqueResult();
-
-        if (count == null) {
-            throw new TransactionException("Query didn't return a result.");
-        } else if (count.intValue() > 0) {
+        if (id != null) {
             result = WorkflowAdminRole.class;
             return;
         }
 
-        // check if user is member
-        Query q3 = evt
-                .getSession()
-                .createQuery(
-                        "select count(*) from UserIsMemberOfTenant a where a.user.id = :userId");
-        q.setLong("userId", getUserId());
+        // check if user is member of a tenant
+        id = evt.getSession().createQuery(
+                "select a.user.id from UserIsMemberOfTenant a "
+                        + "where a.user.id = :userId").setLong("userId",
+                getUserId()).setMaxResults(1).uniqueResult();
 
-        count = (Number) q3.uniqueResult();
-
-        if (count == null) {
-            throw new TransactionException("Query didn't return a result.");
-        } else if (count.intValue() > 0) {
+        if (id != null) {
             result = UserRole.class;
             return;
         }
@@ -129,7 +103,8 @@ public class GetHighestUserRoleCommand extends UserCommand {
     }
 
     /**
-     * @return highest role of the given user
+     * @return highest role of the given user or null if the user not even a
+     *         tenant member (but can still be a registered user).
      */
     public Class<? extends UserRole> getResult() {
         return result;

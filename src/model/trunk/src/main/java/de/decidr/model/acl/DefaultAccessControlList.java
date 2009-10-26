@@ -87,6 +87,7 @@ import de.decidr.model.commands.user.GetHighestUserRoleCommand;
 import de.decidr.model.commands.user.GetInvitationCommand;
 import de.decidr.model.commands.user.GetJoinedTenantsCommand;
 import de.decidr.model.commands.user.GetUserByLoginCommand;
+import de.decidr.model.commands.user.GetUserPropertiesCommand;
 import de.decidr.model.commands.user.GetUserRoleForTenantCommand;
 import de.decidr.model.commands.user.GetUserWithProfileCommand;
 import de.decidr.model.commands.user.GetWorkItemsCommand;
@@ -512,7 +513,11 @@ public class DefaultAccessControlList implements AccessControlList {
         setRule(new UserRole(), new CommandPermission(
                 SetUserPropertyCommand.class), SatisfyAll,
                 new IsRoleEqualToAccessedUserAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+                new UserIsEnabledAsserter());
+
+        setRule(new UserRole(), new CommandPermission(
+                GetUserPropertiesCommand.class), SatisfyAll,
+                new IsRoleEqualToAccessedUserAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(
                 RemoveFromTenantCommand.class), SatisfyAll,
@@ -573,13 +578,9 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsLoggedInAsserter());
 
         setRule(new UserRole(),
-                new CommandPermission(GetWorkItemsCommand.class),
-                SatisfyAll,
+                new CommandPermission(GetWorkItemsCommand.class), SatisfyAll,
                 new IsRoleEqualToAccessedUserAsserter(),
-                // DH why UserOwnsWorkItemAsserter? We're trying to get the ones
-                // he owns with this command! ~rr
-                new UserOwnsWorkItemAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
+                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
 
         setRule(new UserRole(), new CommandPermission(
                 GetInvitationCommand.class), SatisfyAll,
@@ -593,10 +594,9 @@ public class DefaultAccessControlList implements AccessControlList {
                 new IsRoleEqualToAccessedUserAsserter(),
                 new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
 
-        // DH was missing, please complete using proper values ~rr
         setRule(new UserRole(), new CommandPermission(
                 RequestChangeEmailCommand.class), SatisfyAll,
-                alwaysTrueAsserter);
+                new UserIsLoggedInAsserter());
 
         /**
          * Command Permissions WorkflowInstanceFacade

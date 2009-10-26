@@ -19,9 +19,12 @@ package de.decidr.model;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import org.hibernate.Session;
+
 import de.decidr.model.commands.AbstractTransactionalCommand;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.SystemSettings;
+import de.decidr.model.entities.Tenant;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
@@ -76,6 +79,11 @@ public class DecidrGlobals {
     public static final String URL_PARAM_REGISTRATION_REQUIRED = "regreq";
 
     /**
+     * Hardcoded ID of the default tenant.
+     */
+    public static final Long DEFAULT_TENANT_ID = 1L;
+
+    /**
      * The last time when the ESB url was updated
      */
     private static Calendar lastEsbUrlFetch = null;
@@ -100,6 +108,40 @@ public class DecidrGlobals {
      */
     public static String getVersion() {
         return "0.0.1";
+    }
+
+    /**
+     * @return the default tenant entity. Properties that are lazily loaded are
+     *         not available outside a Hibernate {@link Session}. This includes
+     *         all properties that are enties themselves.
+     */
+    public static Tenant getDefaultTenant() {
+        FetchDefaultTenantCommand cmd = new FetchDefaultTenantCommand();
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        } catch (TransactionException e) {
+            throw new RuntimeException(e);
+        }
+        return cmd.defaultTenant;
+    }
+
+    /**
+     * Internal command that fetches the default tenant from the database.
+     */
+    static class FetchDefaultTenantCommand extends AbstractTransactionalCommand {
+
+        Tenant defaultTenant;
+
+        @Override
+        public void transactionStarted(TransactionEvent evt)
+                throws TransactionException {
+            defaultTenant = (Tenant) evt.getSession().get(Tenant.class,
+                    DEFAULT_TENANT_ID);
+            if (defaultTenant == null) {
+                throw new EntityNotFoundException(Tenant.class,
+                        DEFAULT_TENANT_ID);
+            }
+        }
     }
 
     /**
@@ -141,6 +183,8 @@ public class DecidrGlobals {
 
     /**
      * Internal command that fetches the ESB data from the database.
+     * 
+     * RR Needs unit test (?) ~dh
      */
     static class FetchEsbCommand extends AbstractTransactionalCommand {
         public Server esb = null;
@@ -226,7 +270,7 @@ public class DecidrGlobals {
     public static String getWebServiceWsdlUrl(String webServiceName) {
         // This may change if we switch from Synapse to another ESB that's not
         // based on Axis2
-        return "http://" + getEsb().getLocation()
-                + getWebServiceUrl(webServiceName) + "?wsdl";
+        return "http://" + getEsb().getLocation() + "/soap/" + webServiceName
+                + "?wsdl";
     }
 }

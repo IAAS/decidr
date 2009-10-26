@@ -42,6 +42,8 @@ public class SetUserProfileCommand extends UserCommand {
      *            the ID of the user whose profile should be updated
      * @param newProfile
      *            the new user profile
+     * @throws IllegalArgumentException
+     *             if newProfile is <code>null</code>.
      */
     public SetUserProfileCommand(Role role, Long userId, UserProfile newProfile) {
         super(role, userId);

@@ -689,6 +689,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             adminFacade.setProfile(testUserID, null);
             fail("managed to set null profile");
         } catch (TransactionException e) {
+            //RR IllegalArgumentException ~dh
             // supposed to be thrown
         }
     }
@@ -763,6 +764,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         }
 
         user = (User) session.load(User.class, userId);
+        //RR probably another transaction isloation "problem" ~dh
         request = user.getRegistrationRequest();
         authKey = request.getAuthKey();
 

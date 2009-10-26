@@ -833,7 +833,6 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
             Long testServerID = testServer.getId();
             adminFacade.updateServerLoad(testServerID, (byte) 20);
             testServer = getServer(testServer);
-            // DH RR testServer seems to be null... strange ~dh
             assertEquals((byte) 20, testServer.getLoad());
             adminFacade.updateServerLoad(testServerID, (byte) 82);
             testServer = getServer(testServer);

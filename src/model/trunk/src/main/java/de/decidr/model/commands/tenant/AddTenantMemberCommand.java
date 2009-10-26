@@ -20,6 +20,7 @@ import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserIsMemberOfTenant;
 import de.decidr.model.entities.UserIsMemberOfTenantId;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
@@ -27,6 +28,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * Create the relation is member of between the given tenant and the given user.
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  * @version 0.1
  */
 public class AddTenantMemberCommand extends TenantCommand {
@@ -64,13 +66,25 @@ public class AddTenantMemberCommand extends TenantCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        User member = (User) evt.getSession().load(User.class, memberId);
+        User member = (User) evt.getSession().get(User.class, memberId);
+        if (member == null) {
+            throw new EntityNotFoundException(User.class, memberId);
+        }
         Tenant tenant = fetchTenant(evt.getSession());
+
+        UserIsMemberOfTenantId relationId = new UserIsMemberOfTenantId(member
+                .getId(), tenant.getId());
+        Object existingRelation = evt.getSession().get(
+                UserIsMemberOfTenant.class, relationId);
+        if (existingRelation != null) {
+            // do not add same relation twice (would violate unique indices)
+            return;
+        }
 
         UserIsMemberOfTenant uimof = new UserIsMemberOfTenant();
         uimof.setTenant(tenant);
         uimof.setUser(member);
-        uimof.setId(new UserIsMemberOfTenantId(member.getId(), tenant.getId()));
+        uimof.setId(relationId);
 
         evt.getSession().save(uimof);
     }

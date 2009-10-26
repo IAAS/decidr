@@ -50,12 +50,14 @@ public class CreateNewUnregisteredUserCommand extends AclEnabledCommand {
      *            user / system executing the command
      * @param newUser
      *            must contain an email address.
+     * @throws IllegalArgumentException
+     *             if newUser is null or no email address has been set.
      */
     public CreateNewUnregisteredUserCommand(Role role, User newUser) {
         super(role, (Permission) null);
         if ((newUser == null) || (newUser.getEmail() == null)) {
             throw new IllegalArgumentException(
-                    "User object with email address is required.");
+                    "Transient user object with email address is required.");
         }
         this.newUser = newUser;
     }

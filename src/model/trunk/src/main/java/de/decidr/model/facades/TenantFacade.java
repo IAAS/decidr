@@ -244,6 +244,7 @@ public class TenantFacade extends AbstractFacade {
 
     /**
      * Adds a user as member of a tenant. Both IDs mustn't be <code>null</code>.
+     * If the user is already a member of the tenant, no exception is thrown.
      * 
      * @param tenantId
      *            the ID of the tenant to which the user should be added
@@ -252,17 +253,11 @@ public class TenantFacade extends AbstractFacade {
      * @throws IllegalArgumentException
      *             if one of the parameters is <code>null</code>
      * @throws TransactionException
-     *             TODO document
+     *             if the transaction is aborted for any reason.
      */
-    // DH causes an Exception if called twice with the same user ID. Is this
-    // intended behaviour? if so, it should be documented ~rr
     @AllowedRole(TenantAdminRole.class)
     public void addTenantMember(Long tenantId, Long memberId)
             throws TransactionException {
-
-        if (tenantId == null || memberId == null) {
-            throw new IllegalArgumentException("Parameters must not be null.");
-        }
 
         AddTenantMemberCommand command = new AddTenantMemberCommand(actor,
                 tenantId, memberId);

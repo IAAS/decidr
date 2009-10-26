@@ -37,6 +37,7 @@ public class CommandPermissionTest extends DecidrAclTest {
      */
     @Test
     public void testCommandPermissionTransactionalCommand() {
+        //GH FIXME implement / delete me :-) ~dh
         fail("Not yet implemented");
     }
 
