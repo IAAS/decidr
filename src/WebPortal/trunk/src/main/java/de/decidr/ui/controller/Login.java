@@ -83,6 +83,8 @@ public class Login {
         ApplicationContext ctx = Main.getCurrent().getContext();
         WebApplicationContext webCtx = (WebApplicationContext) ctx;
         HttpSession session = webCtx.getHttpSession();
+        
+        Main.getCurrent().setSession(session);
 
         userId = userFacade.getUserIdByLogin(username, password);
         

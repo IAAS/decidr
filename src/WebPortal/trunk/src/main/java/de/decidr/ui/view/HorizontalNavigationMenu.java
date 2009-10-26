@@ -81,7 +81,7 @@ public class HorizontalNavigationMenu extends CustomComponent {
         // btnTermsOfServiceLink.setStyleName(Button.STYLE_LINK);
         btnLogoutLink = new Button("logout", new LogoutAction());
         // btnLogoutLink.setStyleName(Button.STYLE_LINK);
-        // btnLogoutLink.setVisible(false);
+        btnLogoutLink.setVisible(false);
 
         // horizontalLayout.setWidth(800,HorizontalLayout.UNITS_PIXELS);
         horizontalLayout.setSpacing(false);

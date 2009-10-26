@@ -35,105 +35,114 @@ import de.decidr.ui.controller.UIDirector;
  */
 public class Main extends Application implements TransactionListener {
 
-    private static final long serialVersionUID = 2668887930201158755L;
+	private static final long serialVersionUID = 2668887930201158755L;
 
-    /**
-     * Returns the current application instance.
-     * 
-     * @return the current application instance
-     */
-    public static Main getCurrent() {
-        return currentApplication.get();
-    }
+	private ApplicationContext ctx = null;
 
-    /**
-     * Remove the current application instance
-     */
-    public static void removeCurrent() {
-        currentApplication.remove();
-    }
+	private WebApplicationContext webCtx = null;
 
-    /**
-     * Set the current application instance
-     */
-    public static void setCurrent(Main application) {
-        if (getCurrent() == null) {
-            currentApplication.set(application);
-        }
-    }
+	private HttpSession session = null;
 
-    private ApplicationContext ctx = null;
+	private static ThreadLocal<Main> currentApplication = new ThreadLocal<Main>();
 
-    private WebApplicationContext webCtx = null;
-    private HttpSession session = null;
-    private static ThreadLocal<Main> currentApplication = new ThreadLocal<Main>();
+	Window main = new Window();
 
-    Window main = new Window();
+	UIBuilder ui = new UnregisteredUserViewBuilder();
 
-    UIBuilder ui = new SuperAdminViewBuilder();
+	UIDirector director = UIDirector.getInstance();
 
-    UIDirector director = UIDirector.getInstance();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.Application#init()
+	 */
+	@Override
+	public void init() {
+		setMainWindow(main);
 
-    /**
-     * Returns the session from the depending DecidR instance.
-     * 
-     * @return session
-     */
-    public HttpSession getSession() {
-        return session;
-    }
+		main.addParameterHandler(new InvitationParameterHandler());
+		main.addParameterHandler(new ConfirmationParameterHandler());
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.Application#init()
-     */
-    @Override
-    public void init() {
-        setMainWindow(main);
+		setTheme("decidr");
 
-        main.addParameterHandler(new InvitationParameterHandler());
-        main.addParameterHandler(new ConfirmationParameterHandler());
+		director.setUiBuilder(ui);
+		director.createNewView();
+		director.constructView();
+		
+		main.addComponent(director.getTemplateView());
+		
+		if (getContext() != null) {
+			getContext().addTransactionListener(this);
+		}
+	}
 
-        setTheme("decidr");
+	/**
+	 * Returns the current application instance.
+	 * 
+	 * @return the current application instance
+	 */
+	public static Main getCurrent() {
+		return currentApplication.get();
+	}
 
-        director.setUiBuilder(ui);
-        director.createNewView();
-        director.constructView();
-        main.addComponent(director.getTemplateView());
-        if (getContext() != null) {
-            getContext().addTransactionListener(this);
-        }
-        ctx = getContext();
-        webCtx = (WebApplicationContext) ctx;
-        session = webCtx.getHttpSession();
+	/**
+	 * Remove the current application instance
+	 */
+	public static void removeCurrent() {
+		currentApplication.remove();
+	}
 
-    }
+	/**
+	 * Set the current application instance
+	 */
+	public static void setCurrent(Main application) {
+		if (getCurrent() == null) {
+			currentApplication.set(application);
+		}
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.vaadin.service.ApplicationContext.TransactionListener#transactionEnd
-     * (com.vaadin.Application, java.lang.Object)
-     */
-    @Override
-    public void transactionEnd(Application application, Object transactionData) {
-        Main.removeCurrent();
+	/**
+	 * Returns the session from the depending DecidR instance.
+	 * 
+	 * @return session
+	 */
+	public HttpSession getSession() {
+		return session;
+	}
+	
+	/**
+	 * Sets the session from the depending DecidR instance.
+	 *
+	 * @param session
+	 */
+	public void setSession(HttpSession session){
+		this.session = session;
+	}
 
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.vaadin.service.ApplicationContext.TransactionListener#transactionEnd
+	 * (com.vaadin.Application, java.lang.Object)
+	 */
+	@Override
+	public void transactionEnd(Application application, Object transactionData) {
+		Main.removeCurrent();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.vaadin.service.ApplicationContext.TransactionListener#transactionStart
-     * (com.vaadin.Application, java.lang.Object)
-     */
-    @Override
-    public void transactionStart(Application application, Object transactionData) {
-        Main.setCurrent(this);
+	}
 
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.vaadin.service.ApplicationContext.TransactionListener#transactionStart
+	 * (com.vaadin.Application, java.lang.Object)
+	 */
+	@Override
+	public void transactionStart(Application application, Object transactionData) {
+		Main.setCurrent(this);
+
+	}
 
 }

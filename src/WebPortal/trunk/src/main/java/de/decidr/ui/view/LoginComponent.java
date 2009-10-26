@@ -107,6 +107,7 @@ public class LoginComponent extends CustomComponent {
             loginButton = new Button("Login", new LoginWithInvitationAction(
                     invD));
         }
+        loginButton.focus();
         forgotPasswordButton = new Button("Forgot your password?",
                 new ShowResetPasswordAction());
         forgotPasswordButton.setStyleName(Button.STYLE_LINK);

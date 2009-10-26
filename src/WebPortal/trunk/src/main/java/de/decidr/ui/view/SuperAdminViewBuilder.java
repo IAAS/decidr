@@ -31,7 +31,7 @@ public class SuperAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildContent() {
-        getView().setContent(new LoginComponent());
+        getView().setContent(new WelcomePageComponent());
 
     }
 

@@ -35,56 +35,58 @@ import de.decidr.model.facades.TenantFacade;
 
 public class WelcomePageComponent extends CustomComponent {
 
-    private HttpSession session = Main.getCurrent().getSession();
+	private HttpSession session = null;
 
-    private String tenant = null;
-    private Long tenantId = null;
-    private Long userId = null;
-    private TenantFacade tenantFacade = null;
+	private String tenant = null;
+	private Long tenantId = null;
+	private Long userId = null;
+	private TenantFacade tenantFacade = null;
 
-    private String tenantDescription = null;
+	private String tenantDescription = null;
 
-    private VerticalLayout verticalLayout = null;
-    private Label labelDesc = null;
+	private VerticalLayout verticalLayout = null;
+	private Label labelDesc = null;
 
-    /**
-     * Default constructor
-     * 
-     */
-    public WelcomePageComponent() {
-        init();
-    }
+	/**
+	 * Default constructor
+	 * 
+	 */
+	public WelcomePageComponent() {
+		init();
+	}
 
-    /**
-     * This method initializes the components of the help component
-     * 
-     */
-    private void init() {
-        userId = (Long) session.getAttribute("userId");
-        tenantFacade = new TenantFacade(new UserRole(userId));
-        tenant = (String) session.getAttribute("tenant");
-        try {
-            tenantId = tenantFacade.getTenantId(tenant);
-            tenantDescription = (String) tenantFacade.getTenantSettings(
-                    tenantId).getItemProperty("description").getValue();
+	/**
+	 * This method initializes the components of the help component
+	 * 
+	 */
+	private void init() {
 
-            verticalLayout = new VerticalLayout();
-            this.setCompositionRoot(verticalLayout);
+		session = Main.getCurrent().getSession();
+		userId = (Long) session.getAttribute("userId");
+		tenantFacade = new TenantFacade(new UserRole(userId));
+		tenant = (String) session.getAttribute("tenant");
+		try {
+			tenantId = tenantFacade.getTenantId(tenant);
+			tenantDescription = (String) tenantFacade.getTenantSettings(
+					tenantId).getItemProperty("description").getValue();
 
-            Item tenant = (Item) session.getAttribute("tenant");
-            if (tenant != null) {
-                labelDesc = new Label(tenantDescription, Label.CONTENT_XHTML);
-            } else {
-                labelDesc = new Label(
-                        "<h2>Welcome</h2><br/>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-                        Label.CONTENT_XHTML);
-            }
+			verticalLayout = new VerticalLayout();
+			this.setCompositionRoot(verticalLayout);
 
-            verticalLayout.addComponent(labelDesc);
-        } catch (TransactionException exception) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
-        }
+			Item tenant = (Item) session.getAttribute("tenant");
+			if (tenant != null) {
+				labelDesc = new Label(tenantDescription, Label.CONTENT_XHTML);
+			} else {
+				labelDesc = new Label(
+						"<h2>Welcome</h2><br/>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+						Label.CONTENT_XHTML);
+			}
 
-    }
+			verticalLayout.addComponent(labelDesc);
+		} catch (TransactionException exception) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent());
+		}
+
+	}
 }

@@ -46,18 +46,17 @@ public class LoginAction implements ClickListener {
         try {
             login
                     .authenticate(((LoginComponent) uiDirector
-                            .getTemplateView().getContent())
+                            .getTemplateView().getNavigation())
                             .getUsernameTextField().getValue().toString(),
                             ((LoginComponent) uiDirector.getTemplateView()
-                                    .getContent()).getPasswordTextField()
+                                    .getNavigation()).getPasswordTextField()
                                     .getValue().toString());
             ((HorizontalNavigationMenu) uiDirector.getTemplateView()
                     .getHNavigation()).getLogoutButton().setVisible(true);
         } catch (TransactionException exception) {
-            Main.getCurrent().getMainWindow().showNotification(
-                    "Login unsuccessful");
+            Main.getCurrent().getMainWindow().showNotification("Login unsuccessfull");
+            
         }
-        System.out.println(Main.getCurrent().getUser());
 
     }
 
