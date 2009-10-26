@@ -245,7 +245,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`server` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
-  `location` VARCHAR(255) NOT NULL ,
+  `location` VARCHAR(255) NOT NULL COMMENT 'ip and port of the server' ,
   `load` TINYINT NOT NULL COMMENT 'Ranges from 0 to 100 percent' ,
   `locked` TINYINT(1) NOT NULL COMMENT 'Whether or not new workflow models may be deployed on this server.' ,
   `dynamicallyAdded` TINYINT(1) NOT NULL ,
@@ -1068,6 +1068,20 @@ FOR EACH ROW BEGIN
                  WHERE (wfm.version < NEW.version)
                  AND (wfm.id = NEW.originalWorkflowModelId)))) THEN
         CALL ERROR_DWFM_VERSION_HIGHER_THAN_ORIGINAL();
+    END IF;
+END;//
+
+
+DELIMITER ;
+
+DELIMITER //
+ 
+CREATE TRIGGER check_system_settings_update
+BEFORE UPDATE ON system_settings
+FOR EACH ROW BEGIN
+    #checks constraints 
+    IF ( "" = TRIM(NEW.domain)  ) THEN
+        CALL ERROR_EMPTY_DOMAIN();
     END IF;
 END;//
 
