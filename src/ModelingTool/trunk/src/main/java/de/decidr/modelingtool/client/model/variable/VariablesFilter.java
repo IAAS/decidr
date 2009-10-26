@@ -23,7 +23,8 @@ import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
  * This class provides some methods to filter the variables of a
- * {@link WorkflowModel}.
+ * {@link WorkflowModel}. The variables are returned in a special list format:
+ * {@link ListStore}. this class is used for the model of the gxt widgets.
  * 
  * @author Jonas Schlaak
  */
@@ -35,7 +36,7 @@ public class VariablesFilter {
      * 
      * @return the variables of the workflow model
      */
-    public static ListStore<Variable> getAllVariables() {
+    public static ListStore<Variable> getAllVariablesAsStore() {
         ListStore<Variable> result = new ListStore<Variable>();
         for (Variable var : Workflow.getInstance().getModel().getVariables()) {
             result.add(var.copy());
@@ -51,7 +52,8 @@ public class VariablesFilter {
      *            the type of variables to be return
      * @return the variables that have the given type
      */
-    public static ListStore<Variable> getVariablesOfType(VariableType type) {
+    public static ListStore<Variable> getVariablesOfTypeAsStore(
+            VariableType type) {
         ListStore<Variable> result = new ListStore<Variable>();
         for (Variable var : Workflow.getInstance().getModel().getVariables()) {
             if (var.getType() == type) {
@@ -61,21 +63,4 @@ public class VariablesFilter {
         return result;
     }
 
-    /**
-     * Returns the variable that has the given id. 
-     * 
-     * @param id
-     *            the id
-     * @return the variable
-     */
-    @Deprecated
-    public static Variable getVariableById(Long id) {
-        Variable result = null;
-        for (Variable var : Workflow.getInstance().getModel().getVariables()) {
-            if (var.getId() == id) {
-                result = var;
-            }
-        }
-        return result;
-    }
 }

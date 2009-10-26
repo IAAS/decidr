@@ -180,7 +180,7 @@ public class TaskItemWindow extends ModelingToolDialog {
         /* combobox */
         ComboBox<Variable> variableField = new ComboBox<Variable>();
         variableField.setDisplayField(Variable.LABEL);
-        variableField.setStore(VariablesFilter.getAllVariables());
+        variableField.setStore(VariablesFilter.getAllVariablesAsStore());
         if (ti.getVariableId() != null) {
             variableField.setValue(Workflow.getInstance().getModel()
                     .getVariable(ti.getVariableId()));

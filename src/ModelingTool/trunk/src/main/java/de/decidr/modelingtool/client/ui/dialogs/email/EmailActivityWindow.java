@@ -197,7 +197,7 @@ public class EmailActivityWindow extends ModelingToolDialog {
     private void addComboField(ComboBox<Variable> field, String label,
             VariableType type, Long variableId) {
         field.setDisplayField(Variable.LABEL);
-        field.setStore(VariablesFilter.getVariablesOfType(type));
+        field.setStore(VariablesFilter.getVariablesOfTypeAsStore(type));
         field.setValue(Workflow.getInstance().getModel()
                 .getVariable(variableId));
         field.setTypeAhead(true);

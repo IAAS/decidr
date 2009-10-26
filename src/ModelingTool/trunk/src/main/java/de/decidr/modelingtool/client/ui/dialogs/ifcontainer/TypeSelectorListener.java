@@ -18,8 +18,10 @@ package de.decidr.modelingtool.client.ui.dialogs.ifcontainer;
 
 import com.extjs.gxt.ui.client.event.SelectionChangedEvent;
 import com.extjs.gxt.ui.client.event.SelectionChangedListener;
+import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
 
 import de.decidr.modelingtool.client.model.variable.Variable;
+import de.decidr.modelingtool.client.model.variable.VariableType;
 
 /**
  * TODO: add comment
@@ -27,6 +29,22 @@ import de.decidr.modelingtool.client.model.variable.Variable;
  * @author Jonas Schlaak
  */
 public class TypeSelectorListener extends SelectionChangedListener<Variable> {
+
+    private IfFieldSet fieldset;
+    private SimpleComboBox<String> typeSelector;
+
+    /**
+     * 
+     * TODO: add comment
+     *
+     * @param fieldset
+     * @param typeSelector
+     */
+    public TypeSelectorListener(IfFieldSet fieldset,
+            SimpleComboBox<String> typeSelector) {
+        this.fieldset = fieldset;
+        this.typeSelector = typeSelector;
+    }
 
     /*
      * (non-Javadoc)
@@ -37,45 +55,47 @@ public class TypeSelectorListener extends SelectionChangedListener<Variable> {
      */
     @Override
     public void selectionChanged(SelectionChangedEvent<Variable> se) {
-        // TODO Auto-generated method stub
+        VariableType type = VariableType.getTypeFromLocalName(typeSelector
+                .getSimpleValue());
+        fieldset.updateAllStores(type);
     }
-//    public void selectionChanged(
-//          SelectionChangedEvent<Variable> se) {
-//      /*
-//       * If type selector changes, get all variables with
-//       * selected type from workflow
-//       */
-//      leftOperandField.setEnabled(true);
-//      leftOperandField.getStore().removeAll();
-//      leftOperandField.clearSelections();
-//      leftOperandField
-//              .getStore()
-//              .add(
-//                      VariablesFilter
-//                              .getVariablesOfType(
-//                                      VariableType
-//                                              .getTypeFromLocalName(typeSelector
-//                                                      .getSimpleValue()))
-//                              .getModels());
-//
-//      operatorList.setEnabled(true);
-//      updateOperatorListEntries();
-//
-//      /*
-//       * If type selector changes, get all variables with
-//       * selected type from workflow
-//       */
-//      rightOperandField.setEnabled(true);
-//      rightOperandField.getStore().removeAll();
-//      rightOperandField.clearSelections();
-//      rightOperandField
-//              .getStore()
-//              .add(
-//                      VariablesFilter
-//                              .getVariablesOfType(
-//                                      VariableType
-//                                              .getTypeFromLocalName(typeSelector
-//                                                      .getSimpleValue()))
-//                              .getModels());
-//  }
+    // public void selectionChanged(
+    // SelectionChangedEvent<Variable> se) {
+    // /*
+    // * If type selector changes, get all variables with
+    // * selected type from workflow
+    // */
+    // leftOperandField.setEnabled(true);
+    // leftOperandField.getStore().removeAll();
+    // leftOperandField.clearSelections();
+    // leftOperandField
+    // .getStore()
+    // .add(
+    // VariablesFilter
+    // .getVariablesOfType(
+    // VariableType
+    // .getTypeFromLocalName(typeSelector
+    // .getSimpleValue()))
+    // .getModels());
+    //
+    // operatorList.setEnabled(true);
+    // updateOperatorListEntries();
+    //
+    // /*
+    // * If type selector changes, get all variables with
+    // * selected type from workflow
+    // */
+    // rightOperandField.setEnabled(true);
+    // rightOperandField.getStore().removeAll();
+    // rightOperandField.clearSelections();
+    // rightOperandField
+    // .getStore()
+    // .add(
+    // VariablesFilter
+    // .getVariablesOfType(
+    // VariableType
+    // .getTypeFromLocalName(typeSelector
+    // .getSimpleValue()))
+    // .getModels());
+    // }
 }

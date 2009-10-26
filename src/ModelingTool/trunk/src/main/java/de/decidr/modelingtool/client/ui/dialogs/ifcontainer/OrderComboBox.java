@@ -35,12 +35,12 @@ public class OrderComboBox extends SimpleComboBox<String> {
     /**
      * Constructs a combobox with the given parameters.
      * 
-     * @param count
+     * @param numberOfConditions
      *            the number of conditions the {@link IfContainerModel} has
      * @param condition
      *            the condition which this combobox is for
      */
-    public OrderComboBox(int count, Condition condition) {
+    public OrderComboBox(int numberOfConditions, Condition condition) {
         super();
 
         /*
@@ -50,7 +50,7 @@ public class OrderComboBox extends SimpleComboBox<String> {
          * order "ranks" for n conditions.
          */
         this.add(ModelingToolWidget.getMessages().defaultCondition());
-        for (Integer i = 1; i < count; i++) {
+        for (Integer i = 1; i < numberOfConditions; i++) {
             this.add(i.toString());
         }
 
@@ -85,7 +85,6 @@ public class OrderComboBox extends SimpleComboBox<String> {
                 .defaultCondition()) {
             result = 0;
         } else {
-
             try {
                 result = new Integer(this.getSimpleValue());
             } catch (NumberFormatException e) {

@@ -56,10 +56,10 @@ public class IfFieldSet {
      * 
      * @param condition
      *            the condition
-     * @param count
+     * @param numberOfConditions
      *            the number of conditions the {@link IfContainerModel} has
      */
-    public IfFieldSet(Condition condition, int count) {
+    public IfFieldSet(Condition condition, int numberOfConditions) {
         this.condition = condition;
 
         label = new Label(condition.getName());
@@ -69,12 +69,14 @@ public class IfFieldSet {
             typeSelector.add(type.getLocalName());
         }
         typeSelector.setEditable(false);
-        typeSelector.addSelectionChangedListener(new TypeSelectorListener());
+        typeSelector.addSelectionChangedListener(new TypeSelectorListener(this,
+                typeSelector));
 
         leftOperandField = new ComboBox<Variable>();
         leftOperandField.setDisplayField(Variable.LABEL);
         leftOperandField.setEditable(false);
         leftOperandField.setEnabled(false);
+        leftOperandField.setStore(VariablesFilter.getAllVariablesAsStore());
 
         operatorList = new SimpleComboBox<String>();
         operatorList.setEditable(false);
@@ -82,15 +84,24 @@ public class IfFieldSet {
 
         rightOperandField = new ComboBox<Variable>();
         rightOperandField.setDisplayField(Variable.LABEL);
-        rightOperandField.setEditable(false);
-        rightOperandField.setEnabled(false);
+        rightOperandField.setStore(VariablesFilter.getAllVariablesAsStore());
+       
 
-        orderField = new OrderComboBox(count, condition);
+        orderField = new OrderComboBox(numberOfConditions, condition);
 
         /* If condition is complete, set the value of the input fields */
+        setValues();
+        
+        rightOperandField.setEditable(false);
+        rightOperandField.setEnabled(false);
+    }
+    
+    public void setValues(){
+     // JS remove
+        System.out.println(condition.isComplete());
         if (condition.isComplete()) {
             /*
-             * Found out which type the operand variables of the condition have.
+             * Find out which type the operand variables of the condition have.
              * (use only left operand, type of left and right operand are the
              * same anyway). Set the type selector to the type
              */
@@ -100,14 +111,19 @@ public class IfFieldSet {
                     .getVariable(condition.getRightOperandId());
             typeSelector.setSimpleValue(leftVariable.getType().getLocalName());
 
-            /* Update stores according to the type */
-            updateAllStores(leftVariable.getType());
-
             /* Set the values */
-            leftOperandField.setValue(leftVariable);
+            // JS remove
+            System.out.println("render" + leftOperandField.isRendered());
+            leftOperandField.setRawValue(leftVariable.getLabel());
             operatorList.setSimpleValue(condition.getOperator()
                     .getDisplayString());
             rightOperandField.setValue(rightVariable);
+            rightOperandField.render(rightOperandField.getElement());
+            orderField.setOrder(condition.getOrder());
+
+            /* Update stores according to the type */
+            // updateAllStores(leftVariable.getType());
+
         }
     }
 
@@ -119,20 +135,25 @@ public class IfFieldSet {
      * @param type
      *            the {@link VariableType} to set the stores to
      */
-    private void updateAllStores(VariableType type) {
+    public void updateAllStores(VariableType type) {
         leftOperandField.clearSelections();
         leftOperandField.getStore().removeAll();
-        leftOperandField.setStore(VariablesFilter.getVariablesOfType(type));
+        leftOperandField.getStore().add(
+                VariablesFilter.getVariablesOfTypeAsStore(type).getModels());
+        leftOperandField.setEnabled(true);
 
         operatorList.clearSelections();
         operatorList.removeAll();
         for (Operator op : Operator.getOperatorsForType(type)) {
             operatorList.add(op.getDisplayString());
         }
+        operatorList.setEnabled(true);
 
         rightOperandField.clearSelections();
         rightOperandField.getStore().removeAll();
-        rightOperandField.setStore(VariablesFilter.getVariablesOfType(type));
+        rightOperandField.getStore().add(
+                VariablesFilter.getVariablesOfTypeAsStore(type).getModels());
+        rightOperandField.setEnabled(true);
     }
 
     /**

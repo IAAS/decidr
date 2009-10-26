@@ -176,7 +176,7 @@ public class ForEachWindow extends ModelingToolDialog {
         /* combobox for iteration variable */
         iterableField = new ComboBox<Variable>();
         iterableField.setDisplayField(Variable.LABEL);
-        iterableField.setStore(VariablesFilter.getAllVariables());
+        iterableField.setStore(VariablesFilter.getAllVariablesAsStore());
         iterableField.setValue(Workflow.getInstance().getModel().getVariable(
                 model.getIterationVariableId()));
         iterableField.setTypeAhead(true);

@@ -217,7 +217,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         userField = new ComboBox<Variable>();
         userField.setDisplayField(Variable.LABEL);
         userField.setStore(VariablesFilter
-                .getVariablesOfType(VariableType.ROLE));
+                .getVariablesOfTypeAsStore(VariableType.ROLE));
         userField.setValue(Workflow.getInstance().getModel().getVariable(
                 model.getUserVariableId()));
 
@@ -232,7 +232,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         nameField = new ComboBox<Variable>();
         nameField.setDisplayField(Variable.LABEL);
         nameField.setStore(VariablesFilter
-                .getVariablesOfType(VariableType.STRING));
+                .getVariablesOfTypeAsStore(VariableType.STRING));
         nameField.setValue(Workflow.getInstance().getModel().getVariable(
                 model.getWorkItemNameVariableId()));
         nameField.setTypeAhead(true);
@@ -246,7 +246,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         descriptionField = new ComboBox<Variable>();
         descriptionField.setDisplayField(Variable.LABEL);
         descriptionField.setStore(VariablesFilter
-                .getVariablesOfType(VariableType.STRING));
+                .getVariablesOfTypeAsStore(VariableType.STRING));
         descriptionField.setValue(Workflow.getInstance().getModel()
                 .getVariable(model.getWorkItemNameVariableId()));
         descriptionField.setTypeAhead(true);
@@ -260,7 +260,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         formContainerField = new ComboBox<Variable>();
         formContainerField.setDisplayField(Variable.LABEL);
         formContainerField.setStore(VariablesFilter
-                .getVariablesOfType(VariableType.FORM));
+                .getVariablesOfTypeAsStore(VariableType.FORM));
         formContainerField.setValue(Workflow.getInstance().getModel()
                 .getVariable(model.getFormVariableId()));
         formContainerField.setTypeAhead(true);
