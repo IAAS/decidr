@@ -135,7 +135,7 @@ public class TenantFactory extends EntityFactory {
         result.setMayPublicRead(true);
         result.setMayPublicDelete(false);
         result.setMayPublicReplace(false);
-        result.setIsTemporary(false);
+        result.setTemporary(false);
         result.setCreationDate(DecidrGlobals.getTime().getTime());
         result.setMimeType("text/css");
         session.save(result);
@@ -155,7 +155,7 @@ public class TenantFactory extends EntityFactory {
         result.setMayPublicRead(true);
         result.setMayPublicDelete(false);
         result.setMayPublicReplace(false);
-        result.setIsTemporary(false);
+        result.setTemporary(false);
         result.setCreationDate(DecidrGlobals.getTime().getTime());
         session.save(result);
         return result;
