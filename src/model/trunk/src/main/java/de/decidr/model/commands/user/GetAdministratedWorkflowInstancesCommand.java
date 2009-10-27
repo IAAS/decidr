@@ -50,7 +50,7 @@ public class GetAdministratedWorkflowInstancesCommand extends UserCommand {
      *            the ID of the user whose administrated workflow instances
      *            should be retrieved
      * @throws IllegalArgumentException
-     *             if userId is null.
+     *             if userId is <code>null</code>.
      */
     public GetAdministratedWorkflowInstancesCommand(Role role, Long userId) {
         super(role, userId);

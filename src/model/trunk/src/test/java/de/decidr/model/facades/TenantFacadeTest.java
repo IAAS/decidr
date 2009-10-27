@@ -203,6 +203,8 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         adminFacade.addTenantMember(testTenantID, secondUserID);
         assertEquals(2, adminFacade.getUsersOfTenant(testTenantID, null).size());
 
+        // RR interacts with email web service which is not available in test
+        // environment ~dh
         adminUserFacade.removeFromTenant(secondUserID, testTenantID);
         assertEquals(1, adminFacade.getUsersOfTenant(testTenantID, null).size());
         userFacade.addTenantMember(testTenantID, secondUserID);
@@ -577,7 +579,6 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         }
         try {
             adminFacade.setLogo(testTenantID, invalidLogoID);
-            //RR null is not invalid, is invalidLogoID null? ~dh
             fail("managed to set tenant logo using invalid logo ID");
         } catch (TransactionException e) {
             // supposed to be thrown
@@ -592,7 +593,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             userFacade.setLogo(null, logoID);
             fail("managed to set tenant logo using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
         try {

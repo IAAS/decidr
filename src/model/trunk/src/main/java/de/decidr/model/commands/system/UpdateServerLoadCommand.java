@@ -20,7 +20,8 @@ import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Updates the server load of a given server in the database. If the server does
- * not exist no exeption is thrown.
+ * not exist no exeption is thrown. A server load of -1 means that the current
+ * server load is unknown.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -41,11 +42,18 @@ public class UpdateServerLoadCommand extends SystemCommand {
      * @param serverid
      *            the ID of the server to update
      * @param load
-     *            the new load
+     *            the new load as a number from 0 to 100 (percent) or -1 to
+     *            indicate that the current server load is unknown.
+     * @throws IllegalArgumentException
+     *             if the server load is out of range.
      */
     public UpdateServerLoadCommand(Role role, Long serverId, byte load) {
         super(role, null);
         this.serverId = serverId;
+        if (load < -1 || load > 100) {
+            throw new IllegalArgumentException(
+                    "Server load out of range (-1 to 100).");
+        }
         this.load = load;
     }
 

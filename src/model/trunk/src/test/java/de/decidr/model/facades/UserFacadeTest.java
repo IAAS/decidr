@@ -426,7 +426,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.getAdministratedWorkflowModels(invalidID);
             // RR the facade method didn't say that an exception is thrown in
-            // this case... an exception is not really a gain over an empty list...
+            // this case... an exception is not really a gain over an empty
+            // list...
             // ~dh
             fail("succeeded getting administrated workflow models as admin user with invalid ID");
         } catch (TransactionException e) {
@@ -692,8 +693,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.setProfile(testUserID, null);
             fail("managed to set null profile");
-        } catch (TransactionException e) {
-            // RR IllegalArgumentException ~dh
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
     }
@@ -768,7 +768,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         }
 
         user = (User) session.load(User.class, userId);
-        // RR probably another transaction isloation "problem" ~dh
+        // RR probably another transaction isloation problem ~dh
         request = user.getRegistrationRequest();
         authKey = request.getAuthKey();
 
@@ -985,6 +985,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         }
 
         Date testDate = new Date();
+        //remove milliseconds
+        testDate.setTime((testDate.getTime() / 1000) * 1000);
         adminFacade.setUnavailableSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
                 .getItemProperty("unavailableSince").getValue());
@@ -1028,9 +1030,10 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         // find first tenant with a user and get that user's ID
         for (Tenant t : (List<Tenant>) session.createQuery("FROM Tenant")
                 .list()) {
-            if (t.getUsers().iterator().hasNext()) {
+            if (t.getUserIsMemberOfTenants().iterator().hasNext()) {
                 tenantID = t.getId();
-                tenantUserID = t.getUsers().iterator().next().getId();
+                tenantUserID = t.getUserIsMemberOfTenants().iterator().next()
+                        .getUser().getId();
                 break;
             }
         }
@@ -1077,6 +1080,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         }
         try {
             adminFacade.setCurrentTenantId(testUserID, null);
+            //RR how is that a bad thing? ~dh
             fail("managed to set default current tenant ID for a newly registered user");
         } catch (TransactionException e) {
             // supposed to be thrown

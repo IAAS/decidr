@@ -1,13 +1,18 @@
 package de.decidr.model.commands.workitem;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.xml.bind.JAXBException;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.soap.types.TaskItem;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
+import de.decidr.model.workflowmodel.humantask.TTaskItem;
 
 /**
  * DH FIXME this needs to be revised: we have to examine the new properties
@@ -33,7 +38,7 @@ public class SetDataCommand extends WorkItemCommand {
      * @param data
      *            the new data
      * @throws IllegalArgumentException
-     *             if workIdId or data is null
+     *             if workIdId or data is <code>null</code>
      */
     public SetDataCommand(Role role, Long workItemId, THumanTaskData data) {
         super(role, workItemId);
@@ -49,6 +54,23 @@ public class SetDataCommand extends WorkItemCommand {
             throws TransactionException {
         WorkItem workItem = fetchWorkItem(evt.getSession());
 
+        // persist all uploaded files
+        Set<Long> fileIds = new HashSet<Long>();
+
+        for (Object o : data.getTaskItemOrInformation()) {
+            if (o instanceof TTaskItem) {
+                TTaskItem taskItem = (TTaskItem) o;
+                // DH how do I find out if this task item contains an uploaded
+                // file? ~dh
+            }
+        }
+        if (!fileIds.isEmpty()) {
+            String hql = "update File set temporary = false where id in (:fileIds)";
+            evt.getSession().createQuery(hql).setParameterList("fileIds",
+                    fileIds).executeUpdate();
+        }
+
+        // save human task data as blob
         try {
             workItem.setData(TransformUtil.getBytes(data));
         } catch (JAXBException e) {

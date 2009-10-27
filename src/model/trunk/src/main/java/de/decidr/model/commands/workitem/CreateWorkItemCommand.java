@@ -74,7 +74,7 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
      *            true if user should be notified that he has a new workitem,
      *            else false
      * @throws IllegalArgumentException
-     *             if any parameter is null.
+     *             if any parameter is <code>null</code>.
      */
     public CreateWorkItemCommand(Role role, Long userId,
             Long deployedWorkflowModelId, String odePid, String name,

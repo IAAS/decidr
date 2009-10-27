@@ -124,6 +124,16 @@ public class FileFacade extends AbstractFacade {
      *             given file.
      * @throws EntityNotFoundException
      *             iff the given file ID is unknown to the system.
+     * @throws IllegalArgumentException
+     *             if the file size is negative of if one one of the following
+     *             parameters is <code>null</code>:
+     *             <ul>
+     *             <li>fileId</li>
+     *             <li>newContents</li>
+     *             <li>fileSize</li>
+     *             <li>newFileName</li>
+     *             <li>newMimeType</li>
+     *             </ul>
      */
     @AllowedRole(BasicRole.class)
     public void replaceFile(Long fileId, InputStream newContents,
@@ -147,6 +157,8 @@ public class FileFacade extends AbstractFacade {
      *             the storage provider, this may lead to inconsistencies such
      *             as non-existing file contents but intact file
      *             metainformation.
+     * @throws IllegalArgumentException
+     *             if fileId is <code>null</code>
      */
     @AllowedRole(BasicRole.class)
     public Boolean deleteFile(Long fileId) throws TransactionException {
@@ -166,6 +178,8 @@ public class FileFacade extends AbstractFacade {
      *         reading from it.
      * @throws TransactionException
      *             iff the file contents cannot be retrieved.
+     * @throws IllegalArgumentException
+     *             if fileId is <code>null</code>.
      */
     @AllowedRole(BasicRole.class)
     public InputStream getFileData(Long fileId) throws TransactionException {
@@ -189,6 +203,8 @@ public class FileFacade extends AbstractFacade {
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
      *             iff the file does not exist.
+     * @throws IllegalArgumentException
+     *             if fileId is <code>null</code>
      */
     @AllowedRole(BasicRole.class)
     public File getFileInfo(Long fileId) throws TransactionException {

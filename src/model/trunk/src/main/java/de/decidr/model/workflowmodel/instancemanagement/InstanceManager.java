@@ -57,6 +57,15 @@ public interface InstanceManager {
             byte[] startConfiguration, List<ServerLoadView> serverStatistics)
             throws SOAPException, IOException, JAXBException;
 
+    /**
+     * MA Does this terminate the workflow instance so I can delete it from the
+     * database forever? Or does this only set the worklow instance status to
+     * "stopped"? I need your help :-) does a method exist that completely
+     * removes a process instance from the ODE? ~dh
+     * 
+     * @param instance
+     * @throws AxisFault
+     */
     public void stopInstance(WorkflowInstance instance) throws AxisFault;
 
 }

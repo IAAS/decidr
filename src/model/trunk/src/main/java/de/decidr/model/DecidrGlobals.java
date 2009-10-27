@@ -267,7 +267,7 @@ public class DecidrGlobals {
      * @return An URL which can be used to retrieve the WSDL of the web service
      *         identified by webServiceName
      * @throws IllegalArgumentException
-     *             if webServiceName is null or empty.
+     *             if webServiceName is <code>null</code> or empty.
      * 
      */
     public static String getWebServiceWsdlUrl(String webServiceName) {

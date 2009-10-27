@@ -37,6 +37,8 @@ public class RemoveFromTenantCommand extends LeaveTenantCommand {
      *            the id of the user who should be removed from tenant
      * @param tenantId
      *            id of the tenant where the user should be removed
+     * @throws IllegalArgumentException
+     *             if userId or tenantId is <code>null</code>
      */
     public RemoveFromTenantCommand(Role role, Long userId, Long tenantId) {
         super(role, userId, tenantId);
@@ -47,9 +49,7 @@ public class RemoveFromTenantCommand extends LeaveTenantCommand {
             throws TransactionException {
         super.transactionAllowed(evt);
         if (leftTenant) {
-            leftTenant = false;
             NotificationEvents.removedFromTenant(user, tenant);
-            leftTenant = true;
         }
     }
 }

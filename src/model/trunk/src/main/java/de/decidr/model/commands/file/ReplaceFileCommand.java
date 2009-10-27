@@ -55,27 +55,39 @@ public class ReplaceFileCommand extends FileCommand {
      *            new file name.
      * @param newMimeType
      *            new mime type.
+     * @throws IllegalArgumentException
+     *             if one one of the following parameters is <code>null</code>:
+     *             <ul>
+     *             <li>fileId</li>
+     *             <li>newContents</li>
+     *             <li>fileSize</li>
+     *             <li>newFileName</li>
+     *             <li>newMimeType</li>
+     *             </ul>
      */
     public ReplaceFileCommand(Role role, Long fileId, InputStream newContents,
             Long fileSize, String newFileName, String newMimeType) {
         super(role, fileId);
 
+        if (fileId == null) {
+            throw new IllegalArgumentException("File ID must not be null.");
+        }
         if (newContents == null) {
             throw new IllegalArgumentException("New contents must not be null.");
         }
-
         if (newFileName == null) {
             throw new IllegalArgumentException(
                     "New file name must not be null.");
         }
-
         if (newMimeType == null) {
             throw new IllegalArgumentException(
                     "New mime type must not be null.");
         }
-
-        if (fileSize != 0 && fileSize == null) {
+        if (fileSize == null) {
             throw new IllegalArgumentException("File size must not be null.");
+        }
+        if (fileSize < 0) {
+            throw new IllegalArgumentException("File size must be positive.");
         }
 
         this.newContents = newContents;

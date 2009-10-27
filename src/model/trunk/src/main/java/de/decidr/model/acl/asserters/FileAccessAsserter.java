@@ -73,7 +73,7 @@ public class FileAccessAsserter implements Asserter, TransactionalCommand {
         hasFileAccess = false;
 
         file = (File) session.get(File.class, permission.getId());
-        if (file == null) {
+        if (file == null || file.getId() == null) {
             // Nobody has access to non-existing files.
             return;
         }

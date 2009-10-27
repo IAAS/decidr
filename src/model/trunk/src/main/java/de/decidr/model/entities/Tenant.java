@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 26.10.2009 11:28:11 by Hibernate Tools 3.2.4.GA
+// Generated 27.10.2009 21:04:58 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -28,7 +28,7 @@ public class Tenant implements java.io.Serializable {
             0);
     private Set<WorkflowModel> workflowModels = new HashSet<WorkflowModel>(0);
     private Set<Invitation> invitations = new HashSet<Invitation>(0);
-    private Set<User> users = new HashSet<User>(0);
+    private Set<User> currentlyBustlingUsers = new HashSet<User>(0);
     private Set<DeployedWorkflowModel> deployedWorkflowModels = new HashSet<DeployedWorkflowModel>(
             0);
 
@@ -48,7 +48,8 @@ public class Tenant implements java.io.Serializable {
             String description, Date approvedSince,
             Set<UserIsMemberOfTenant> userIsMemberOfTenants,
             Set<WorkflowModel> workflowModels, Set<Invitation> invitations,
-            Set<User> users, Set<DeployedWorkflowModel> deployedWorkflowModels) {
+            Set<User> currentlyBustlingUsers,
+            Set<DeployedWorkflowModel> deployedWorkflowModels) {
         //generated full constructor
         this.logo = logo;
         this.simpleColorScheme = simpleColorScheme;
@@ -61,7 +62,7 @@ public class Tenant implements java.io.Serializable {
         this.userIsMemberOfTenants = userIsMemberOfTenants;
         this.workflowModels = workflowModels;
         this.invitations = invitations;
-        this.users = users;
+        this.currentlyBustlingUsers = currentlyBustlingUsers;
         this.deployedWorkflowModels = deployedWorkflowModels;
     }
 
@@ -162,12 +163,12 @@ public class Tenant implements java.io.Serializable {
         this.invitations = invitations;
     }
 
-    public Set<User> getUsers() {
-        return this.users;
+    public Set<User> getCurrentlyBustlingUsers() {
+        return this.currentlyBustlingUsers;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setCurrentlyBustlingUsers(Set<User> currentlyBustlingUsers) {
+        this.currentlyBustlingUsers = currentlyBustlingUsers;
     }
 
     public Set<DeployedWorkflowModel> getDeployedWorkflowModels() {

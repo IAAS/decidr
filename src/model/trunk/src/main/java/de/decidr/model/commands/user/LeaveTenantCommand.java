@@ -48,9 +48,15 @@ public class LeaveTenantCommand extends UserCommand {
      *            the ID of the user which wants to leave the tenant
      * @param tenantId
      *            tenant to leave
+     * @throws IllegalArgumentException
+     *             if userId or tenantId is <code>null</code>
      */
     public LeaveTenantCommand(Role role, Long userId, Long tenantId) {
         super(role, userId);
+        if (userId == null || tenantId == null) {
+            throw new IllegalArgumentException(
+                    "User ID and tenant ID must not be null.");
+        }
         this.tenantId = tenantId;
     }
 
@@ -75,27 +81,25 @@ public class LeaveTenantCommand extends UserCommand {
             return;
         } else {
             // dissociate from workflow models of the tenant
-            String hql = "delete from UserAdministratesWorkflowModel rel "
-                    + "where (rel.user = :user) and "
-                    + "(rel.workflowModel.tenant = :tenant)";
+            String hql = "delete from UserAdministratesWorkflowModel "
+                    + "where user = :user and workflowModel.id in "
+                    + "(select wfm.id from WorkflowModel wfm "
+                    + "where wfm.tenant = :tenant)";
             evt.getSession().createQuery(hql).setEntity("user", user)
                     .setEntity("tenant", tenant).executeUpdate();
 
             // dissociate from tenant
-            hql = "delete from UserIsMemberOfTenant rel"
-                    + "where (rel.user = :user) and "
-                    + "(rel.tenant = :tenant)";
-
-            int affectedRows = evt.getSession().createQuery(hql).setLong(
-                    "userId", getUserId()).setLong("tenantId", tenantId)
-                    .executeUpdate();
+            hql = "delete from UserIsMemberOfTenant "
+                    + "where (user = :user) and (tenant = :tenant)";
+            int affectedRows = evt.getSession().createQuery(hql).setEntity(
+                    "user", user).setEntity("tenant", tenant).executeUpdate();
 
             leftTenant = affectedRows > 0;
         }
     }
 
     /**
-     * @return true iff the tenant was left successfully.
+     * @return true iff the tenant was successfully left.
      */
     public Boolean getLeftTenant() {
         return leftTenant;

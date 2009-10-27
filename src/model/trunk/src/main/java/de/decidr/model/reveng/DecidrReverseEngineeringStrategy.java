@@ -94,8 +94,8 @@ public class DecidrReverseEngineeringStrategy extends
         String result = null;
 
         /*
-         * The following special case has been hardcoded. Should more than a few
-         * special cases occur, please consider using a configuration file.
+         * The following special cases have been hardcoded. Should more than a
+         * few special cases occur, please consider using a configuration file.
          * 
          * We have tried using a reverse engineering configuration file
          * (reveng.xml) but it only allows manual overrides on a per-table basis
@@ -103,6 +103,8 @@ public class DecidrReverseEngineeringStrategy extends
          */
         if ("fk_tenant_admin".equals(keyname)) {
             result = "administratedTenants";
+        } else if ("fk_user_tenant1".equals(keyname)) {
+            result = "currentlyBustlingUsers";
         } else {
             result = super.foreignKeyToCollectionName(keyname, fromTable,
                     fromColumns, referencedTable, referencedColumns,
@@ -170,7 +172,8 @@ public class DecidrReverseEngineeringStrategy extends
 
         /*
          * Unfortunately we cannot use this to enable dynamic-update and
-         * dynamic-insert.
+         * dynamic-insert, a modified FreeMarker template (*.ftl) has been used
+         * instead.
          */
         return metaAttributes;
     }

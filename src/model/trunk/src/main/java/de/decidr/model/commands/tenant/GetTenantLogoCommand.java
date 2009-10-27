@@ -15,15 +15,12 @@
  */
 package de.decidr.model.commands.tenant;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.InvalidPropertiesFormatException;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Tenant;
-import de.decidr.model.exceptions.IncompleteConfigurationException;
-import de.decidr.model.exceptions.StorageException;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.storage.StorageProvider;
 import de.decidr.model.storage.StorageProviderFactory;
 import de.decidr.model.transactions.TransactionEvent;
 
@@ -31,12 +28,12 @@ import de.decidr.model.transactions.TransactionEvent;
  * Used to load the logo from the storage.
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  * 
  * @version 0.1
  */
 public class GetTenantLogoCommand extends TenantCommand {
 
-    private Long tenantId;
     private InputStream logoStream;
 
     /**
@@ -49,41 +46,40 @@ public class GetTenantLogoCommand extends TenantCommand {
      *            the id of the tenant
      */
     public GetTenantLogoCommand(Role role, Long tenantId) {
-        super(role, null);
-        this.tenantId = tenantId;
+        super(role, tenantId);
+        if (tenantId == null) {
+            throw new IllegalArgumentException("Tenant ID must not be null.");
+        }
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+        logoStream = null;
 
-        Tenant tenant = (Tenant) evt.getSession().load(Tenant.class, tenantId);
-        Long logoid = tenant.getLogo().getId();
-        StorageProviderFactory factory;
-
-        try {
-            factory = StorageProviderFactory.getDefaultFactory();
-        } catch (InvalidPropertiesFormatException e) {
-            throw new TransactionException(e);
-        } catch (IncompleteConfigurationException e) {
-            throw new TransactionException(e);
-        } catch (IOException e) {
-            throw new TransactionException(e);
+        Tenant tenant = fetchTenant(evt.getSession());
+        if (tenant.getLogo() == null) {
+            return;
         }
 
         try {
-            logoStream = factory.getStorageProvider().getFile(logoid);
-        } catch (StorageException e) {
-            throw new TransactionException(e);
-        } catch (IncompleteConfigurationException e) {
-            throw new TransactionException(e);
-        } catch (InstantiationException e) {
-            throw new TransactionException(e);
-        } catch (IllegalAccessException e) {
-            throw new TransactionException(e);
+            StorageProvider storage = StorageProviderFactory
+                    .getDefaultFactory().getStorageProvider();
+
+            logoStream = storage.getFile(tenant.getLogo().getId());
+        } catch (Exception e) {
+            if (e instanceof TransactionException) {
+                throw (TransactionException) e;
+            } else {
+                throw new TransactionException(e);
+            }
         }
     }
 
+    /**
+     * @return the logo image data as an {@link InputStream} or null if the
+     *         tenant hasn't set a logo.
+     */
     public InputStream getLogoStream() {
         return logoStream;
     }

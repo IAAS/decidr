@@ -47,6 +47,9 @@ public class GetFileDataCommand extends FileCommand {
      */
     public GetFileDataCommand(Role role, Long fileId) {
         super(role, fileId);
+        if (fileId == null) {
+            throw new IllegalArgumentException("File ID must not be null.");
+        }
         this.additionalPermissions.add(new FileReadPermission(fileId));
     }
 

@@ -97,7 +97,7 @@ public class SetTenantLogoCommand extends TenantCommand {
                 }
             }
         } else {
-            File logo = (File) evt.getSession().get(File.class, fileId);
+            File logo = (File) evt.getSession().load(File.class, fileId);
             tenant.setLogo(logo);
             evt.getSession().update(tenant);
         }

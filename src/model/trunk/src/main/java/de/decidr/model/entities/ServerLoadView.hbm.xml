@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 26.10.2009 11:28:11 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 27.10.2009 21:04:58 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.ServerLoadView" table="server_load_view" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="long">
@@ -9,7 +9,9 @@
             <generator class="assigned" />
         </id>
         <property name="location" type="string">
-            <column name="`location`" not-null="true" />
+            <column name="`location`" not-null="true">
+                <comment>ip and port of the server</comment>
+            </column>
         </property>
         <property name="load" type="byte">
             <column name="`load`" not-null="true">

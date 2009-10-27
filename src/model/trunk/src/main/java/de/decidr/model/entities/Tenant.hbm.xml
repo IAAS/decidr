@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 26.10.2009 11:28:11 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 27.10.2009 21:04:58 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.Tenant" table="tenant" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="java.lang.Long">
@@ -56,7 +56,7 @@
             </key>
             <one-to-many class="de.decidr.model.entities.Invitation" />
         </set>
-        <set name="users" inverse="true" lazy="true" table="user" fetch="select">
+        <set name="currentlyBustlingUsers" inverse="true" lazy="true" table="user" fetch="select">
             <key>
                 <column name="`currentTenantId`">
                     <comment>null means that the user is currently in the default tenant</comment>

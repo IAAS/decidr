@@ -222,7 +222,7 @@ public class UserFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             if the given user does not exist.
      * @throws IllegalArgumentException
-     *             if userId is null
+     *             if userId is <code>null</code>
      */
     @AllowedRole(TenantAdminRole.class)
     public void setDisabledSince(Long userId, Date date)
@@ -411,6 +411,8 @@ public class UserFacade extends AbstractFacade {
      * @return true iff the user was successfully removed from the tenant.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if userId or tenantId is <code>null</code>
      */
     @AllowedRole(TenantAdminRole.class)
     public Boolean removeFromTenant(Long userId, Long tenantId)
@@ -776,7 +778,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws IllegalArgumentException
-     *             if userId is null.
+     *             if userId is <code>null</code>.
      * @throws EntityNotFoundException
      *             if the given user does not exist.
      */
@@ -858,7 +860,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws IllegalArgumentException
-     *             if userId is null.
+     *             if userId is <code>null</code>.
      * @throws EntityNotFoundException
      *             if the user does not exist.
      */

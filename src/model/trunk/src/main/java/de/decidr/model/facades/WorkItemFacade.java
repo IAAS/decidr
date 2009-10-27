@@ -73,7 +73,7 @@ public class WorkItemFacade extends AbstractFacade {
      * @throws TransactionException
      *             if the transaction is aborted for any reason
      * @throws IllegalArgumentException
-     *             if workItemId is null
+     *             if workItemId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public Item getWorkItem(Long workItemId) throws TransactionException {
@@ -109,7 +109,7 @@ public class WorkItemFacade extends AbstractFacade {
      * @throws TransactionException
      *             if the transaction is aborted for any reason
      * @throws IllegalArgumentException
-     *             if any parameter is null
+     *             if any parameter is <code>null</code>
      */
     @AllowedRole(HumanTaskRole.class)
     public Long createWorkItem(Long userId, Long deployedWorkflowModelId,
@@ -138,7 +138,7 @@ public class WorkItemFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             if the work item does not exist
      * @throws IllegalArgumentException
-     *             if any parameter is null
+     *             if any parameter is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public void setData(Long workItemId, THumanTaskData data)
@@ -219,7 +219,7 @@ public class WorkItemFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             if the work item does not exist
      * @throws IllegalArgumentException
-     *             if workItemId is null
+     *             if workItemId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public Item getWorkItemAndMarkAsInProgress(Long workItemId)

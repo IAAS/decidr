@@ -33,15 +33,6 @@ import de.decidr.model.testing.DecidrAclTest;
 public class CommandPermissionTest extends DecidrAclTest {
 
     /**
-     * Test method for {@link CommandPermission#CommandPermission(TransactionalCommand)}.
-     */
-    @Test
-    public void testCommandPermissionTransactionalCommand() {
-        //GH FIXME implement / delete me :-) ~dh
-        fail("Not yet implemented");
-    }
-
-    /**
      * Test method for {@link CommandPermission#CommandPermission(java.lang.Class)}.
      */
     @Test
@@ -61,15 +52,6 @@ public class CommandPermissionTest extends DecidrAclTest {
         assertNotNull(cmdPerm);
         assertEquals(cmdPerm.getCommandClass(),GetAllUsersCommand.class );
         assertFalse(cmdPerm.getCommandClass().equals(CheckAuthKeyCommand.class));
-    }
-
-    /**
-     * Test method for {@link CommandPermission#getCommand()}.
-     */
-    @Test
-    public void testGetCommand() {
-        //FIXME GH implement me :-) ~dh
-        fail("Not yet implemented");
     }
 
 }

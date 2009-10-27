@@ -16,10 +16,11 @@
 package de.decidr.model.commands.tenant;
 
 import java.util.List;
+
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
@@ -69,22 +70,20 @@ public class GetWorkflowModelsCommand extends TenantCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        Tenant t = new Tenant();
-        t.setId(getTenantId());
-
         PaginatingCriteria c = new PaginatingCriteria(WorkflowModel.class, evt
                 .getSession());
 
-        c.add(Restrictions.eq("tenant", t));
+        c.add(Restrictions.eq("tenant.id", getTenantId()));
 
         Filters.apply(c, filters, paginator);
 
-        result = c.list();
+        result = c.setResultTransformer(Criteria.ROOT_ENTITY).list();
     }
 
     /**
      * 
-     * @return list of all workflow models for the given tenant which survived the filters ;)
+     * @return list of all workflow models for the given tenant which survived
+     *         the filters ;)
      */
     public List<WorkflowModel> getResult() {
         return result;

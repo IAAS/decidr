@@ -49,10 +49,10 @@ public class GetAdministratedWorkflowModelCommand extends UserCommand {
      *            the ID of the user whose administrated wokflow models should
      *            be requested
      * @throws IllegalArgumentException
-     *             if userId is null.
+     *             if userId is <code>null</code>.
      */
     public GetAdministratedWorkflowModelCommand(Role role, Long userId) {
-        super(role, null);
+        super(role, userId);
         if (userId == null) {
             throw new IllegalArgumentException("User ID must not be null.");
         }
@@ -63,6 +63,7 @@ public class GetAdministratedWorkflowModelCommand extends UserCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+        result = null;
 
         // does the user exist? returning an empty list might be ambigous.
         String hql = "select u.id from User u where u.id = :userId";
@@ -73,9 +74,9 @@ public class GetAdministratedWorkflowModelCommand extends UserCommand {
             throw new EntityNotFoundException(User.class, getUserId());
         }
 
-        hql = "select rel.workflowModel "
-                + "from UserAdministratesWorkflowModel rel "
-                + "where rel.user.id = :userId";
+        hql = "from WorkflowModel m where "
+                + "exists(from UserAdministratesWorkflowModel rel "
+                + "where rel.model = m and rel.user.id = :userId)";
 
         result = evt.getSession().createQuery(hql).setLong("userId", userId)
                 .list();

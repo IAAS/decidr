@@ -40,7 +40,7 @@ public class GetWorkItemCommand extends WorkItemCommand {
      * @param workItemId
      *            the ID of the workitem which should be returned
      * @throws IllegalArgumentException
-     *             if workItemId is null.
+     *             if workItemId is <code>null</code>.
      */
     public GetWorkItemCommand(Role role, Long workItemId) {
         super(role, workItemId);

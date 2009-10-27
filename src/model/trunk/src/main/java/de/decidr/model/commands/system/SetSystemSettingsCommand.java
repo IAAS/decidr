@@ -18,6 +18,9 @@ package de.decidr.model.commands.system;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.log4j.Level;
+
+import com.vaadin.data.validator.EmailValidator;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
@@ -54,9 +57,34 @@ public class SetSystemSettingsCommand extends SystemCommand {
         this.newSettings = newSettings;
     }
 
+    /**
+     * @return true iff the new settings are considered valid.
+     */
+    protected Boolean validateNewSettings() {
+        Boolean result = true;
+
+        // Data consistency *should* be checked by the database, not the
+        // application, but this approach required less effort.
+        if (Level.toLevel(newSettings.getLogLevel(), null) == null) {
+            result = false;
+        }
+
+        if (newSettings.getSystemEmailAddress() == null
+                || !new EmailValidator("").isValid(newSettings
+                        .getSystemEmailAddress())) {
+            result = false;
+        }
+        return result;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+
+        if (!validateNewSettings()) {
+            throw new TransactionException("New settings are invalid.");
+        }
+
         SystemSettings currentSettings = (SystemSettings) evt.getSession()
                 .createQuery("from SystemSettings").setMaxResults(1)
                 .uniqueResult();

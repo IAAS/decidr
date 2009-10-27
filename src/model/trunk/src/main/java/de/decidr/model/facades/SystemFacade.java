@@ -134,7 +134,7 @@ public class SystemFacade extends AbstractFacade {
      * 
      * @return system settings as <code>{@link Item}</code>
      * @throws TransactionException
-     *             if an error occurs during the transaction
+     *             if the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public Item getSettings() throws TransactionException {
@@ -152,7 +152,7 @@ public class SystemFacade extends AbstractFacade {
      *            a transient entity containing the new system settings. The id
      *            and modifiedDate properties of this entity will be ignored.
      * @throws TransactionException
-     *             if an error occurs during the transaction
+     *             if the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public void setSettings(SystemSettings newSettings)
@@ -179,7 +179,7 @@ public class SystemFacade extends AbstractFacade {
      *            "dynamically added"
      * @return the new server
      * @throws TransactionException
-     *             if an error occurs during the transaction
+     *             if the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public Server addServer(ServerTypeEnum type, String location,
@@ -193,13 +193,15 @@ public class SystemFacade extends AbstractFacade {
 
     /**
      * Removes the server from the database. This command will not shut down the
-     * server. <br>
-     * If the server doesn't exist no exception is thrown.
+     * server. If the server doesn't exist no exception is thrown. <br>
+     * Please note that removing a server causes all workflow instances that
+     * have been deployed on this server to be terminated and removed. Workflow
+     * models that have been deployed on the affected server are undeployed.
      * 
      * @param serverId
      *            ID of the server which should be removed
      * @throws TransactionException
-     *             if an error occurs during the transaction
+     *             if the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public void removeServer(Long serverId) throws TransactionException {
@@ -208,30 +210,23 @@ public class SystemFacade extends AbstractFacade {
     }
 
     /**
-     * Updates the load of the representative object of the server at the
-     * database. The load must be in the range of 0 to 100. If given server does
-     * not exist no exception will be raised.
+     * Updates the load of a server entity. The load must be in the range of -1
+     * to 100. If given server does not exist no exception will be raised.
      * 
      * @param serverId
      *            id of the server to update
      * @param load
-     *            new load server load as byte [0...100]
+     *            new load server load as byte
      * @throws TransactionException
-     *             if an error occurs during the transaction
+     *             if the transaction is aborted for any reason.
      */
     @AllowedRole( { SuperAdminRole.class, ServerLoadUpdaterRole.class })
     public void updateServerLoad(Long serverId, byte load)
             throws TransactionException {
-        if ((load < 0) || (load > 100)) {
-            throw new IllegalArgumentException(
-                    "The load must be in the range from 0 to 100.");
-        } else {
-            UpdateServerLoadCommand command = new UpdateServerLoadCommand(
-                    actor, serverId, load);
+        UpdateServerLoadCommand command = new UpdateServerLoadCommand(actor,
+                serverId, load);
 
-            HibernateTransactionCoordinator.getInstance().runTransaction(
-                    command);
-        }
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
@@ -244,7 +239,7 @@ public class SystemFacade extends AbstractFacade {
      *            whether the server should be locked. If false, the server will
      *            be unlocked
      * @throws TransactionException
-     *             if an error occurs during the transaction
+     *             if the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public void setServerLock(Long serverId, Boolean lock)
@@ -263,7 +258,7 @@ public class SystemFacade extends AbstractFacade {
      *            splits the result in several pages
      * @return <code>{@link List<Item>}</code> Logs as items
      * @throws TransactionException
-     *             if an error occurs during the transaction
+     *             if the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public List<Item> getLog(List<Filter> filters, Paginator paginator)
@@ -304,22 +299,20 @@ public class SystemFacade extends AbstractFacade {
      * @return ServerStatistics as a list of Vaadin
      *         <code>{@link Item items}</code>
      * @throws TransactionException
-     *             if an error occurs during the transaction
+     *             if the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public List<Item> getServerStatistics() throws TransactionException {
         GetServerStatisticsCommand command = new GetServerStatisticsCommand(
                 actor);
 
-        List<ServerLoadView> servers = new ArrayList<ServerLoadView>();
         String[] properties = { "id", "location", "load", "numInstances",
                 "dynamicallyAdded", "serverType" };
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-        servers = command.getResult();
 
         List<Item> result = new ArrayList<Item>();
-        for (ServerLoadView server : servers) {
+        for (ServerLoadView server : command.getResult()) {
             result.add(new BeanItem(server, properties));
         }
         return result;
@@ -330,9 +323,9 @@ public class SystemFacade extends AbstractFacade {
      * types of servers the result should include.
      * 
      * @param serverTypes
-     *            server types to include. If null, all server types are
-     *            included
-     * @return list of servers that match one of the given server types
+     *            server types to include. If <code>null</code> or empty, all
+     *            server types are included
+     * @return list of servers that match one of the given server types.
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
      */

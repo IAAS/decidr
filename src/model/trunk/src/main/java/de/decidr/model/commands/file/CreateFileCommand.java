@@ -147,7 +147,7 @@ public class CreateFileCommand extends AclEnabledCommand {
             newFile.setMayPublicReplace(publicPermissions
                     .contains(FileReplacePermission.class));
             newFile.setMimeType(mimeType);
-            newFile.setIsTemporary(temporary);
+            newFile.setTemporary(temporary);
 
             evt.getSession().save(newFile);
 

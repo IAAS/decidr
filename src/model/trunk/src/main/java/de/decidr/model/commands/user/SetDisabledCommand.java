@@ -47,7 +47,7 @@ public class SetDisabledCommand extends UserCommand {
      *            set to any non-null value to disable the user account, null to
      *            enable the user account.
      * @throws IllegalArgumentException
-     *             if userId is null.
+     *             if userId is <code>null</code>.
      */
     public SetDisabledCommand(Role role, Long userId, Date disabledSince) {
         super(role, userId);
@@ -61,8 +61,12 @@ public class SetDisabledCommand extends UserCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
         String hql = "update User set disabledSince = :disabledSince "
-                + "where id = :userId and not exists("
-                + "from Superadmin a where a.id = :userId)";
+                + "where id = :userId";
+
+        if (disabledSince != null) {
+            hql += " and not exists(from SystemSettings s where s.superAdmin.id = :userId)";
+        }
+
         evt.getSession().createQuery(hql).setDate("disabledSince",
                 disabledSince).setLong("userId", getUserId()).executeUpdate();
     }

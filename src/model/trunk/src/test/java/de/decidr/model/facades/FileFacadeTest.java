@@ -176,7 +176,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
             assertEquals(testName, compareFile.getFileName());
             assertEquals(testMime, compareFile.getMimeType());
             // DH rename isIsTemporary? ~rr
-            assertFalse(compareFile.isIsTemporary());
+            assertFalse(compareFile.isTemporary());
 
             testFile.reset();
             facade
@@ -185,7 +185,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
             compareFile = facade.getFileInfo(testID);
             assertEquals(testName, compareFile.getFileName());
             assertEquals(testMime, compareFile.getMimeType());
-            assertFalse(compareFile.isIsTemporary());
+            assertFalse(compareFile.isTemporary());
 
             compareData = facade.getFileData(testID);
             assertEquals(streamSize, getInputStreamSize(compareData));
@@ -204,8 +204,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
                 facade.createFile(testFile, -1L, testName, testMime, false,
                         publicPermissions);
                 fail("managed to create file with negative size");
-            } catch (TransactionException e) {
-                // RR we can catch this early and throw IllegalArgumentException instead ~dh
+            } catch (IllegalArgumentException e) {
                 // supposed to happen
             }
             testFile.reset();
@@ -213,7 +212,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
                 facade.createFile(testFile, null, testName, testMime, false,
                         publicPermissions);
                 fail("managed to create file with null parameter");
-            } catch (TransactionException e) {
+            } catch (IllegalArgumentException e) {
                 // supposed to happen
             }
             testFile.reset();
@@ -221,7 +220,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
                 facade.createFile(testFile, streamSize, null, testMime, false,
                         publicPermissions);
                 fail("managed to create file with null parameter");
-            } catch (TransactionException e) {
+            } catch (IllegalArgumentException e) {
                 // supposed to happen
             }
             testFile.reset();
@@ -229,7 +228,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
                 facade.createFile(testFile, streamSize, testName, null, false,
                         publicPermissions);
                 fail("managed to create file with null parameter");
-            } catch (TransactionException e) {
+            } catch (IllegalArgumentException e) {
                 // supposed to happen
             }
 
@@ -238,7 +237,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
                 facade.replaceFile(null, testFile, streamSize, testName,
                         testMime);
                 fail("managed to replace file with null parameter");
-            } catch (TransactionException e) {
+            } catch (IllegalArgumentException e) {
                 // supposed to happen
             }
             testFile.reset();
@@ -254,21 +253,21 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
                         .replaceFile(testID, null, streamSize, testName,
                                 testMime);
                 fail("managed to replace file with null parameter");
-            } catch (TransactionException e) {
+            } catch (IllegalArgumentException e) {
                 // supposed to happen
             }
             testFile.reset();
             try {
                 facade.replaceFile(testID, testFile, null, testName, testMime);
                 fail("managed to replace file with null parameter");
-            } catch (TransactionException e) {
+            } catch (IllegalArgumentException e) {
                 // supposed to happen
             }
             testFile.reset();
             try {
                 facade.replaceFile(testID, testFile, -1L, testName, testMime);
                 fail("managed to replace file with negative size");
-            } catch (TransactionException e) {
+            } catch (IllegalArgumentException e) {
                 // supposed to happen
             }
             testFile.reset();
@@ -277,7 +276,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
                         .replaceFile(testID, testFile, streamSize, null,
                                 testMime);
                 fail("managed to replace file with null parameter");
-            } catch (TransactionException e) {
+            } catch (IllegalArgumentException e) {
                 // supposed to happen
             }
             testFile.reset();
@@ -286,14 +285,14 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
                         .replaceFile(testID, testFile, streamSize, testName,
                                 null);
                 fail("managed to replace file with null parameter");
-            } catch (TransactionException e) {
+            } catch (IllegalArgumentException e) {
                 // supposed to happen
             }
 
             try {
                 facade.getFileInfo(null);
                 fail("managed to get file info with null parameter");
-            } catch (TransactionException e) {
+            } catch (IllegalArgumentException e) {
                 // supposed to happen
             }
             try {
@@ -305,7 +304,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
             try {
                 facade.getFileData(null);
                 fail("managed to get file data with null parameter");
-            } catch (TransactionException e) {
+            } catch (IllegalArgumentException e) {
                 // supposed to happen
             }
             try {
@@ -317,7 +316,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
             try {
                 facade.deleteFile(null);
                 fail("managed to delete file with null parameter");
-            } catch (TransactionException e) {
+            } catch (IllegalArgumentException e) {
                 // supposed to happen
             }
             try {
