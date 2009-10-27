@@ -30,14 +30,14 @@ public class InputSuperAdmin {
 	
 	SuperAdmin sa = new SuperAdmin();
 
-	sa.setEmail(EmailRequest.getResult("Email address:"));
-	sa.setUsername(StringRequest.getResult("Username:"));
-	sa.setPassword(StringRequest.getResult("Password:"));
-	sa.setFirstName(StringRequest.getResult("First name:"));
-	sa.setLastName(StringRequest.getResult("Last name:"));
-	sa.setStreet(StringRequest.getResult("Street:"));
-	sa.setPostalCode(NumberRequest.getResult("Postal code:"));
-	sa.setCity(StringRequest.getResult("City:"));
+	sa.setEmail(EmailRequest.getResult("Email address"));
+	sa.setUsername(StringRequest.getResult("Username"));
+	sa.setPassword(StringRequest.getResult("Password"));
+	sa.setFirstName(StringRequest.getResult("First name"));
+	sa.setLastName(StringRequest.getResult("Last name"));
+	sa.setStreet(StringRequest.getResult("Street"));
+	sa.setPostalCode(NumberRequest.getResult("Postal code"));
+	sa.setCity(StringRequest.getResult("City"));
 	
 	return sa;
     }

@@ -18,6 +18,7 @@ package de.decidr.setup.input;
 
 import de.decidr.setup.helpers.BooleanRequest;
 import de.decidr.setup.helpers.EmailRequest;
+import de.decidr.setup.helpers.LoglevelRequest;
 import de.decidr.setup.helpers.NumberRequest;
 import de.decidr.setup.helpers.StringRequest;
 import de.decidr.setup.model.SystemSettings;
@@ -28,55 +29,42 @@ import de.decidr.setup.model.SystemSettings;
  * @author Johannes Engelhardt
  */
 public class InputSystemSettings {
-    
-    /*
-    private String id = "1";
-    private String modifiedDate;
-    private String autoAcceptNewTenants;
-    private String systemName;
-    private String domain;
-    private String systemEmailAddress;
-    private String logLevel;
-    private String superAdminId = "1";
-    private String passwordResetRequestLifetimeSeconds;
-    private String registrationRequestLifetimeSeconds;
-    private String changeEmailRequestLifetimeSeconds;
-    private String invitationLifetimeSeconds;
-    private String mtaHostname;
-    private String mtaPort;
-    private String mtaUseTls;
-    private String mtaUsername;
-    private String mtaPassword;
-    private String maxUploadFileSizeBytes;
-    private String maxAttachmentsPerEmail;
-    private String monitorUpdateIntervalSeconds;
-    private String monitorAveragingPeriodSeconds;
-    private String serverPoolInstances;
-    private String minServerLoadForLock;
-    private String maxServerLoadForUnlock;
-    private String maxServerLoadForShutdown;
-    private String minUnlockedServers;
-    private String minWorkflowInstancesForLock;
-    private String maxWorkflowInstancesForUnlock;
-    private String maxWorkflowInstancesForShutdown;
-    */
 
     public static SystemSettings getSystemSettings() {
         System.out.println("------------------------------------------------");
         System.out.println("Set up System Settings");
         System.out.println("------------------------------------------------");
 
-        SystemSettings ss = new SystemSettings();
+        SystemSettings sys = new SystemSettings();
 
-        ss.setAutoAcceptNewTenants(BooleanRequest.getResult("Auto accept new tenants", "yes"));
-        ss.setSystemName(StringRequest.getResult("System name", "DecidR"));
-        ss.setDomain(StringRequest.getResult("Domain", "decidr.de"));
-        ss.setSystemEmailAddress(EmailRequest.getResult("System email address"));
-        ss.setLogLevel(NumberRequest.getResult("Loglevel", "0"));
+        sys.setAutoAcceptNewTenants(BooleanRequest.getResult("Auto accept new tenants", "yes"));
+        sys.setSystemName(StringRequest.getResult("System name", "DecidR"));
+        sys.setDomain(StringRequest.getResult("Domain", "decidr.de"));
+        sys.setSystemEmailAddress(EmailRequest.getResult("System email address"));
+        sys.setLogLevel(LoglevelRequest.getResult("Loglevel", "WARN"));
+        sys.setPasswordResetRequestLifetimeSeconds(NumberRequest.getResult("Password request lifetime in seconds", "259200"));
+        sys.setRegistrationRequestLifetimeSeconds(NumberRequest.getResult("Registration request lifetime in seconds", "259200"));
+        sys.setChangeEmailRequestLifetimeSeconds(NumberRequest.getResult("Change email request lifetime in seconds", "259200"));
+        sys.setInvitationLifetimeSeconds(NumberRequest.getResult("Invitation lifetime in seconds", "259200"));
+        sys.setMtaHostname(StringRequest.getResult("MTA hostname", "localhost"));
+        sys.setMtaPort(NumberRequest.getResult("MTA port", "25"));
+        sys.setMtaUseTls(BooleanRequest.getResult("Use TLS?", "yes"));
+        sys.setMtaUsername(StringRequest.getResult("MTA username"));
+        sys.setMtaPassword(StringRequest.getResult("MTA password"));
+        sys.setMaxUploadFileSizeBytes(NumberRequest.getResult("Max. upload filesize in bytes", "10485760"));
+        sys.setMaxAttachmentsPerEmail(NumberRequest.getResult("Max. attachments per email", "10"));
+        sys.setMonitorUpdateIntervalSeconds(NumberRequest.getResult("Monitor update interval in seconds", "60"));
+        sys.setMonitorAveragingPeriodSeconds(NumberRequest.getResult("Monitor averaging period in seconds", "300"));
+        sys.setServerPoolInstances(NumberRequest.getResult("Server pool instances", "5"));
+        sys.setMinServerLoadForLock(NumberRequest.getResult("Min. server load for lock in %", "80"));
+        sys.setMaxServerLoadForUnlock(NumberRequest.getResult("Max. server load for unlock in %", "0"));
+        sys.setMaxServerLoadForShutdown(NumberRequest.getResult("Max. server load for shutdown in %", "20"));
+        sys.setMinUnlockedServers(NumberRequest.getResult("Min. unlocked servers", "1"));
+        sys.setMinWorkflowInstancesForLock(NumberRequest.getResult("Min. workflow instances for lock", "10"));
+        sys.setMaxWorkflowInstancesForUnlock(NumberRequest.getResult("Max. workflow instances for unlock", "8"));
+        sys.setMaxWorkflowInstancesForShutdown(NumberRequest.getResult("Max. workflow instances for shutdown", "1"));
         
-        
-        return ss;
+        return sys;
     }
 
-    
 }

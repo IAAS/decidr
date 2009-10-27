@@ -33,7 +33,7 @@ public class CoreRequest {
     public static String getResult(String question, String defaultVal) throws IOException {
         String msg;
         if (defaultVal.isEmpty()) {
-            msg = question + ":";
+            msg = question + ": ";
         } else {
             msg = question + " (" + defaultVal + "):";
         }

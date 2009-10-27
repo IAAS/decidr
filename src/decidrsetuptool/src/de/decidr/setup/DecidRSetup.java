@@ -16,7 +16,12 @@
 
 package de.decidr.setup;
 
+import de.decidr.setup.input.InputServer;
 import de.decidr.setup.input.InputSuperAdmin;
+import de.decidr.setup.input.InputSystemSettings;
+import de.decidr.setup.model.Server;
+import de.decidr.setup.model.SuperAdmin;
+import de.decidr.setup.model.SystemSettings;
 
 /**
  * TODO: add comment
@@ -31,7 +36,13 @@ public class DecidRSetup {
      * @param args
      */
     public static void main(String[] args) {
-	InputSuperAdmin.getSuperAdmin();
+	SuperAdmin sa = InputSuperAdmin.getSuperAdmin();
+	SystemSettings sys = InputSystemSettings.getSystemSettings();
+	
+	Server webPortal = InputServer.getServer(2, "http://localhost:8080/WebPortal");
+	Server esb = InputServer.getServer(3, "http://localhost:8280");
+	Server storage = InputServer.getServer(4, "http://localhost:8080/Storage");
+	Server ode = InputServer.getServer(1, "http://localhost:8080/ode");
 
     }
 
