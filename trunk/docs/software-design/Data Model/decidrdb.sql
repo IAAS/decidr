@@ -20,7 +20,7 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`file` (
   `fileSizeBytes` BIGINT NOT NULL ,
   `data` LONGBLOB NULL COMMENT 'optional: the actual file data.' ,
   `creationDate` DATETIME NOT NULL COMMENT 'Date when this file entry was created.' ,
-  `isTemporary` TINYINT(1) NOT NULL DEFAULT false COMMENT 'Temporary files are deleted after a certain time if they are not persisted.' ,
+  `temporary` TINYINT(1) NOT NULL DEFAULT false COMMENT 'Temporary files are deleted after a certain time if they are not persisted.' ,
   PRIMARY KEY (`id`) ,
   INDEX `name_idx` (`fileName` ASC) ,
   INDEX `mimetype_idx` (`mimeType` ASC) ,
@@ -29,7 +29,7 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`file` (
   INDEX `public_delete_idx` (`mayPublicDelete` ASC) ,
   INDEX `filesize_idx` (`fileSizeBytes` ASC) ,
   INDEX `creationdate_idx` (`creationDate` ASC) ,
-  INDEX `temporary_idx` (`isTemporary` ASC) )
+  INDEX `temporary_idx` (`temporary` ASC) )
 ENGINE = InnoDB;
 
 
@@ -78,7 +78,7 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`tenant` (
     FOREIGN KEY (`adminId` )
     REFERENCES `decidrdb`.`user` (`id` )
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -191,8 +191,8 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`workflow_model` (
   CONSTRAINT `fk_workflow_model_modifier`
     FOREIGN KEY (`modifiedByUserId` )
     REFERENCES `decidrdb`.`user` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -224,8 +224,8 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`deployed_workflow_model` (
   CONSTRAINT `fk_deployedWorkflowModel_tenant`
     FOREIGN KEY (`tenantId` )
     REFERENCES `decidrdb`.`tenant` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -288,8 +288,8 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`workflow_instance` (
   CONSTRAINT `fk_workflow_instance_server`
     FOREIGN KEY (`serverId` )
     REFERENCES `decidrdb`.`server` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -314,8 +314,8 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`work_item` (
   CONSTRAINT `fk_workItem_user`
     FOREIGN KEY (`userId` )
     REFERENCES `decidrdb`.`user` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_workItem_workflowInstance`
     FOREIGN KEY (`workflowInstanceId` )
     REFERENCES `decidrdb`.`workflow_instance` (`id` )
@@ -642,8 +642,8 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`workflow_model_is_deployed_on_server` (
   CONSTRAINT `fk_deployed_workflow_model_has_server_deployed_workflow_model`
     FOREIGN KEY (`deployedWorkflowModelId` )
     REFERENCES `decidrdb`.`deployed_workflow_model` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_deployed_workflow_model_has_server_server`
     FOREIGN KEY (`serverId` )
     REFERENCES `decidrdb`.`server` (`id` )
@@ -749,11 +749,6 @@ CREATE TABLE IF NOT EXISTS `decidrdb`.`invitation_view` (`id` INT, `senderId` IN
 CREATE TABLE IF NOT EXISTS `decidrdb`.`server_load_view` (`id` INT, `location` INT, `load` INT, `locked` INT, `dynamicallyAdded` INT, `serverTypeId` INT, `lastLoadUpdate` INT, `serverType` INT, `numInstances` INT);
 
 -- -----------------------------------------------------
--- Placeholder table for view `decidrdb`.`startable_workflow_model_view`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `decidrdb`.`startable_workflow_model_view` (`id` INT, `tenantId` INT, `name` INT, `description` INT, `published` INT, `executable` INT, `creationDate` INT, `modifiedDate` INT, `dwdl` INT, `version` INT, `modifiedByUserId` INT);
-
--- -----------------------------------------------------
 -- Placeholder table for view `decidrdb`.`tenant_summary_view`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `decidrdb`.`tenant_summary_view` (`id` INT, `tenantName` INT, `adminFirstName` INT, `adminLastName` INT, `numWorkflowModels` INT, `numDeployedWorkflowModels` INT, `numWorkflowInstances` INT, `numMembers` INT);
@@ -767,6 +762,11 @@ CREATE TABLE IF NOT EXISTS `decidrdb`.`tenant_with_admin_view` (`id` INT, `name`
 -- Placeholder table for view `decidrdb`.`work_item_summary_view`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `decidrdb`.`work_item_summary_view` (`id` INT, `workItemName` INT, `tenantName` INT, `creationDate` INT, `workItemStatus` INT, `userId` INT, `workflowInstanceId` INT);
+
+-- -----------------------------------------------------
+-- Placeholder table for view `decidrdb`.`startable_workflow_model_view`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `decidrdb`.`startable_workflow_model_view` (`id` INT, `tenantId` INT, `name` INT, `description` INT, `published` INT, `executable` INT, `creationDate` INT, `modifiedDate` INT, `dwdl` INT, `version` INT, `modifiedByUserId` INT);
 
 -- -----------------------------------------------------
 -- View `decidrdb`.`invitation_view`
@@ -802,19 +802,6 @@ FROM `server` AS s
 JOIN `server_type` AS t ON t.id = s.serverTypeId
 LEFT JOIN `workflow_instance` AS wi ON wi.serverId = s.id
 GROUP BY s.id;
-
--- -----------------------------------------------------
--- View `decidrdb`.`startable_workflow_model_view`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `decidrdb`.`startable_workflow_model_view`;
-# Only workflow models where creating a new workflow instance is allowed, 
-# i.e. a deployed workflow model exists that has the same version. 
-
-CREATE  OR REPLACE VIEW `decidrdb`.`startable_workflow_model_view` AS
-SELECT w.* FROM workflow_model AS w 
-JOIN deployed_workflow_model AS d ON 
-  ( (d.originalWorkflowModelId = w.id) AND (d.version = w.version) )
-WHERE (w.executable = true);
 
 -- -----------------------------------------------------
 -- View `decidrdb`.`tenant_summary_view`
@@ -879,6 +866,19 @@ WHERE (w.userId = u.id) AND
       (w.workflowInstanceId = wfi.id) AND 
       (wfi.deployedWorkflowModelId = dwfm.id) AND 
       (dwfm.tenantId = t.id);
+
+-- -----------------------------------------------------
+-- View `decidrdb`.`startable_workflow_model_view`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `decidrdb`.`startable_workflow_model_view`;
+# Only workflow models where creating a new workflow instance is allowed, 
+# i.e. a deployed workflow model exists that has the same version. 
+
+CREATE  OR REPLACE VIEW `decidrdb`.`startable_workflow_model_view` AS
+SELECT w.* FROM workflow_model AS w 
+JOIN deployed_workflow_model AS d ON 
+  ( (d.originalWorkflowModelId = w.id) AND (d.version = w.version) )
+WHERE (w.executable = true);
 USE `decidrdb`;
 
 DELIMITER //
