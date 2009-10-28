@@ -478,7 +478,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             // tracing simpler? e.g. if the UI calls this method with an invalid
             // ID for some users, we could search for the error on end. ~rr
             fail("succeeded getting administrated workflow models as admin user with invalid ID");
-        } catch (TransactionException e) {
+        } catch (EntityNotFoundException e) {
             // supposed to be thrown
         }
 

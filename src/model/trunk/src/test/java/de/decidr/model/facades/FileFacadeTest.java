@@ -175,7 +175,6 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
             compareFile = facade.getFileInfo(testID);
             assertEquals(testName, compareFile.getFileName());
             assertEquals(testMime, compareFile.getMimeType());
-            // DH rename isIsTemporary? ~rr
             assertFalse(compareFile.isTemporary());
 
             testFile.reset();
