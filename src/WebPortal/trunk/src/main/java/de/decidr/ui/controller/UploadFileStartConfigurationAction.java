@@ -16,40 +16,57 @@
 
 package de.decidr.ui.controller;
 
-import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.HashSet;
 
-import javax.servlet.http.HttpSession;
-
-import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.FailedEvent;
+import com.vaadin.ui.Upload.FailedListener;
+import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.Upload.SucceededEvent;
+import com.vaadin.ui.Upload.SucceededListener;
 
 import de.decidr.model.acl.permissions.FilePermission;
 import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.acl.roles.UserRole;
+
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
+import de.decidr.ui.view.DeleteUploadComponent;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.StartConfigurationWindow;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * This action handles the upload of the tenant logo
+ * This class handles the actions when the upload for a human task is started,
+ * finished and received.
  * 
- * @author Geoff
+ * @author AT
  */
-public class UploadTenantLogoAction implements Upload.SucceededListener,
-		Upload.FailedListener, Upload.Receiver {
+public class UploadFileStartConfigurationAction implements FailedListener, Receiver,
+		SucceededListener {
 
-	private HttpSession session = Main.getCurrent().getSession();
+	private StartConfigurationWindow startConfigurationWindow = new StartConfigurationWindow();
 
-	private Long userId = (Long) session.getAttribute("userId");
-	private FileFacade fileFacade = new FileFacade(new UserRole(userId));
+	private DeleteUploadComponent deleteUploadComponent = new DeleteUploadComponent();
 
-	private File file = null;
+	private java.io.File file = null;
+
+	private FileFacade fileFacade = new FileFacade(new UserRole((Long) Main
+			.getCurrent().getSession().getAttribute("userId")));
+
+	private Long fileId = null;
+
+	/**
+	 * Returns the filed Id
+	 * 
+	 * @return fileId
+	 */
+	public Long getFileId() {
+		return fileId;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -62,30 +79,32 @@ public class UploadTenantLogoAction implements Upload.SucceededListener,
 		FileOutputStream fos = null;
 		FileInputStream fis = null;
 
-		file = new File(filename);
+		file = new java.io.File(filename);
 
 		try {
 			fis = new FileInputStream(file);
 			fos = new FileOutputStream(file);
-
 			HashSet<Class<? extends FilePermission>> filePermission = new HashSet<Class<? extends FilePermission>>();
 			filePermission.add(FileReadPermission.class);
-			
-			Long fileId = fileFacade.createFile(fis, file.length(),
-					filename, MIMEType, true, filePermission);
-			
-			Main.getCurrent().getMainWindow().setData(fileId);
+			fileId = fileFacade.createFile(fis, file.length(), filename,
+					MIMEType, true, filePermission);
 			Main.getCurrent().getMainWindow().showNotification(
 					"File " + filename + "successfully temporarily saved!");
-		} catch (final java.io.FileNotFoundException e) {
-			Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+
+			deleteUploadComponent.getLabel().setValue(filename);
+			startConfigurationWindow.getUpload().setVisible(false);
+			startConfigurationWindow.getAssignmentForm().getLayout()
+					.addComponent(deleteUploadComponent);
+			
+			Main.getCurrent().getMainWindow().setData(fileId);
+		} catch (FileNotFoundException exception) {
+			Main.getCurrent().getMainWindow()
+					.showNotification("File not found");
 		} catch (TransactionException exception) {
 			Main.getCurrent().getMainWindow().addWindow(
 					new TransactionErrorDialogComponent());
 		}
-
 		return fos;
-
 	}
 
 	/*
@@ -97,8 +116,12 @@ public class UploadTenantLogoAction implements Upload.SucceededListener,
 	 */
 	@Override
 	public void uploadFailed(FailedEvent event) {
-		Main.getCurrent().getMainWindow().showNotification("Upload failed");
+		Main.getCurrent().getMainWindow().showNotification(
+				"File " + event.getFilename() + "uplaod not successful!");
+
 	}
+
+	
 
 	/*
 	 * (non-Javadoc)

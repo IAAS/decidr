@@ -37,10 +37,6 @@ public class Main extends Application implements TransactionListener {
 
 	private static final long serialVersionUID = 2668887930201158755L;
 
-	private ApplicationContext ctx = null;
-
-	private WebApplicationContext webCtx = null;
-
 	private HttpSession session = null;
 
 	private static ThreadLocal<Main> currentApplication = new ThreadLocal<Main>();
@@ -50,6 +46,8 @@ public class Main extends Application implements TransactionListener {
 	UIBuilder ui = new UnregisteredUserViewBuilder();
 
 	UIDirector director = UIDirector.getInstance();
+	
+	
 
 	/*
 	 * (non-Javadoc)
@@ -58,18 +56,25 @@ public class Main extends Application implements TransactionListener {
 	 */
 	@Override
 	public void init() {
+		ApplicationContext ctx = getContext();
+		WebApplicationContext webCtx = (WebApplicationContext) ctx;				
+		session = webCtx.getHttpSession();
+		
 		setMainWindow(main);
 
 		main.addParameterHandler(new InvitationParameterHandler());
 		main.addParameterHandler(new ConfirmationParameterHandler());
 
 		setTheme("decidr");
+		
+		
 
 		director.setUiBuilder(ui);
 		director.createNewView();
 		director.constructView();
 		
 		main.addComponent(director.getTemplateView());
+		//main.addComponent(new TenantSettingsComponent());
 		
 		if (getContext() != null) {
 			getContext().addTransactionListener(this);

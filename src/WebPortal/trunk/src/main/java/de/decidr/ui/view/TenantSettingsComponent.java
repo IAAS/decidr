@@ -16,6 +16,9 @@
 
 package de.decidr.ui.view;
 
+import com.vaadin.data.Item;
+import com.vaadin.data.Property;
+import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -23,12 +26,14 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 
+import de.decidr.model.entities.File;
 import de.decidr.ui.controller.RestoreDefaultTenantSettingsAction;
 import de.decidr.ui.controller.SaveTenantSettingsAction;
 import de.decidr.ui.controller.UploadTenantLogoAction;
@@ -41,194 +46,263 @@ import de.decidr.ui.controller.UploadTenantLogoAction;
  */
 public class TenantSettingsComponent extends CustomComponent {
 
-    /**
-     * Serial Version UID
-     */
-    private static final long serialVersionUID = -7841061147447361631L;
+	/**
+	 * Serial Version UID
+	 */
+	private static final long serialVersionUID = -7841061147447361631L;
 
-    private VerticalLayout verticalLayout = null;
-    private HorizontalLayout browseHorizontalLayout = null;
-    private HorizontalLayout buttonHorizontalLayout = null;
-    private HorizontalLayout schemeHorizontalLayout = null;
+	private VerticalLayout verticalLayout = null;
+	private HorizontalLayout browseHorizontalLayout = null;
+	private HorizontalLayout buttonHorizontalLayout = null;
+	private HorizontalLayout schemeHorizontalLayout = null;
 
-    private Panel browsePanel = null;
-    private Panel schemePanel = null;
-    private Panel buttonPanel = null;
+	private Panel browsePanel = null;
+	private Panel schemePanel = null;
+	private Panel buttonPanel = null;
 
-    private Label tenantSettingsLabel = null;
+	private Label tenantSettingsLabel = null;
 
-    private Upload logoUpload = null;
+	private Upload logoUpload = null;
 
-    private TextField textArea = null;
-    private TextField browseTextField = null;
-    private TextField cssTextField = null;
+	private TextField textArea = null;
+	private TextField browseTextField = null;
+	private TextField cssTextField = null;
 
-    private Button browseButton = null;
-    private Button saveButton = null;
-    private Button cancelButton = null;
-    private Button restoreDefaultSettingsButton = null;
-    private Button showAdvancedOptionsButton = null;
-    private Button showBasicOptionsButton = null;
-    private Button backgroundButton = null;
-    private Button foregroundButton = null;
-    private Button fontButton = null;
-    String name = "logo.png";
+	private Button saveButton = null;
+	private Button cancelButton = null;
+	private Button restoreDefaultSettingsButton = null;
+	private Button showAdvancedOptionsButton = null;
+	private Button showBasicOptionsButton = null;
+	private NativeSelect backgroundSelect = null;
+	private NativeSelect foregroundSelect = null;
+	private NativeSelect fontSelect = null;
+	String name = "logo.png";
 
-    private Embedded logoEmbedded = null;
+	private Embedded logoEmbedded = null;
 
-    /**
-     * Default constructor.
-     * 
-     */
-    public TenantSettingsComponent() {
-        init();
-    }
+	final String[] colors = new String[] { "aqua", "black", "blue", "fuchsia",
+			"gray", "green", "lime", "maroon", "navy", "olive", "purple",
+			"red", "silver", "teal", "white", "yellow" };
 
-    /**
-     * This method changes the view from basic to advanced. So the text area for
-     * the CSS is visible.
-     * 
-     */
-    private void changeToAdvanced() {
-        showBasicOptionsButton = new Button("Show basic options");
-        showBasicOptionsButton.addListener(new Button.ClickListener() {
+	/**
+	 * Default constructor.
+	 * 
+	 */
+	public TenantSettingsComponent() {
+		init();
+	}
 
-            @Override
-            public void buttonClick(ClickEvent event) {
-                changeToBasic();
-            }
+	/**
+	 * This method changes the view from basic to advanced. So the text area for
+	 * the CSS is visible.
+	 * 
+	 */
+	private void changeToAdvanced() {
+		showBasicOptionsButton = new Button("Show basic options");
+		showBasicOptionsButton.addListener(new Button.ClickListener() {
 
-        });
-        cssTextField = new TextField();
-        cssTextField.setRows(10);
-        cssTextField.setColumns(30);
-        getSchemeHorizontalLayout().removeAllComponents();
-        getSchemeHorizontalLayout().addComponent(cssTextField);
-        getSchemeHorizontalLayout().addComponent(showBasicOptionsButton);
-    }
+			@Override
+			public void buttonClick(ClickEvent event) {
+				changeToBasic();
+			}
 
-    /**
-     * This method changes the view from advanced to basic. So only the basic
-     * information are visible and the tenant can choose a given background or
-     * font.
-     * 
-     */
-    private void changeToBasic() {
-        backgroundButton = new Button("Background");
-        backgroundButton.setStyleName(Button.STYLE_LINK);
+		});
+		cssTextField = new TextField();
+		cssTextField.setRows(10);
+		cssTextField.setColumns(30);
+		getSchemeHorizontalLayout().removeAllComponents();
+		getSchemeHorizontalLayout().addComponent(cssTextField);
+		getSchemeHorizontalLayout().addComponent(showBasicOptionsButton);
+	}
 
-        foregroundButton = new Button("Foreground");
-        foregroundButton.setStyleName(Button.STYLE_LINK);
-        fontButton = new Button("Font");
-        fontButton.setStyleName(Button.STYLE_LINK);
-        showAdvancedOptionsButton = new Button("Show advanced options");
-        showAdvancedOptionsButton.addListener(new Button.ClickListener() {
+	/**
+	 * This method changes the view from advanced to basic. So only the basic
+	 * information are visible and the tenant can choose a given background or
+	 * font.
+	 * 
+	 */
+	private void changeToBasic() {
+		backgroundSelect = new NativeSelect("Background");
+		foregroundSelect = new NativeSelect("Foreground");
+		
+		fillSelects();
+		
+		backgroundSelect.addListener(new Property.ValueChangeListener(){
 
-            @Override
-            public void buttonClick(ClickEvent event) {
-                changeToAdvanced();
-            }
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				Main.getCurrent().getMainWindow().showNotification(event.getProperty().getValue().toString());
+				
+			}
+			
+		});
+		
+		foregroundSelect.addListener(new Property.ValueChangeListener(){
 
-        });
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				Main.getCurrent().getMainWindow().showNotification(getForegroundSelect().getValue().toString());
+				
+			}
+			
+		});
 
-        getSchemeHorizontalLayout().removeAllComponents();
-        getSchemeHorizontalLayout().addComponent(backgroundButton);
-        getSchemeHorizontalLayout().addComponent(foregroundButton);
-        getSchemeHorizontalLayout().addComponent(fontButton);
-        getSchemeHorizontalLayout().addComponent(showAdvancedOptionsButton);
-        getSchemeHorizontalLayout().setComponentAlignment(
-                showAdvancedOptionsButton, Alignment.BOTTOM_RIGHT);
-    }
+		
 
-    /**
-     * Returns the horizontal layout for the CSS panel.
-     * 
-     * @return schemeHorizontalLayout
-     */
-    public HorizontalLayout getSchemeHorizontalLayout() {
-        return schemeHorizontalLayout;
-    }
+		fontSelect = new NativeSelect("Font");
+		showAdvancedOptionsButton = new Button("Show advanced options");
+		showAdvancedOptionsButton.addListener(new Button.ClickListener() {
 
-    /**
-     * Returns the text area.
-     * 
-     * @return textArea
-     */
-    public TextField getTenantDescription() {
-        return textArea;
-    }
+			@Override
+			public void buttonClick(ClickEvent event) {
+				changeToAdvanced();
+			}
 
-    /**
-     * This method initializes the components for the tenant settings component.
-     * 
-     */
-    private void init() {
-        verticalLayout = new VerticalLayout();
-        browseHorizontalLayout = new HorizontalLayout();
-        buttonHorizontalLayout = new HorizontalLayout();
-        schemeHorizontalLayout = new HorizontalLayout();
+		});
 
-        browsePanel = new Panel();
-        schemePanel = new Panel();
-        schemePanel.setCaption("Color Scheme");
-        buttonPanel = new Panel();
+		getSchemeHorizontalLayout().removeAllComponents();
+		getSchemeHorizontalLayout().addComponent(backgroundSelect);
+		getSchemeHorizontalLayout().addComponent(foregroundSelect);
+		getSchemeHorizontalLayout().addComponent(fontSelect);
+		getSchemeHorizontalLayout().addComponent(showAdvancedOptionsButton);
+		getSchemeHorizontalLayout().setComponentAlignment(
+				showAdvancedOptionsButton, Alignment.BOTTOM_RIGHT);
+	}
 
-        tenantSettingsLabel = new Label("<h2>Tenant Settings</h2>");
-        tenantSettingsLabel.setContentMode(Label.CONTENT_XHTML);
+	/**
+	 * Fills the Native Select components
+	 * 
+	 */
+	private void fillSelects() {
+		for (int i = 0; i < colors.length; i++) {
+			backgroundSelect.addItem(colors[i]);
+			foregroundSelect.addItem(colors[i]);
+		}
+		backgroundSelect.setNullSelectionAllowed(false);
+		backgroundSelect.setValue("aqua");
+		backgroundSelect.setImmediate(true);
 
-        textArea = new TextField();
-        textArea.setRows(10);
-        textArea.setColumns(30);
-        textArea.setCaption("Description");
+		foregroundSelect.setNullSelectionAllowed(false);
+		foregroundSelect.setValue("aqua");
+		foregroundSelect.setImmediate(true);
+	}
 
-        logoUpload = new Upload("Upload Logo", new UploadTenantLogoAction());
-        logoUpload.setButtonCaption("Upload Logo");
+	/**
+	 * Returns the horizontal layout for the CSS panel.
+	 * 
+	 * @return schemeHorizontalLayout
+	 */
+	public HorizontalLayout getSchemeHorizontalLayout() {
+		return schemeHorizontalLayout;
+	}
 
-        browseTextField = new TextField();
-        browseTextField.setColumns(30);
-        browseTextField.setValue("img/logo.png");
+	/**
+	 * Returns the text area.
+	 * 
+	 * @return textArea
+	 */
+	public TextField getTenantDescription() {
+		return textArea;
+	}
 
-        browseButton = new Button("Browse");
+	/**
+	 * This method initializes the components for the tenant settings component.
+	 * 
+	 */
+	private void init() {
+		verticalLayout = new VerticalLayout();
+		browseHorizontalLayout = new HorizontalLayout();
+		buttonHorizontalLayout = new HorizontalLayout();
+		schemeHorizontalLayout = new HorizontalLayout();
 
-        saveButton = new Button("Save", new SaveTenantSettingsAction());
-        cancelButton = new Button("Cancel");
-        restoreDefaultSettingsButton = new Button("Restore default settings",
-                new RestoreDefaultTenantSettingsAction());
+		browsePanel = new Panel();
+		schemePanel = new Panel();
+		schemePanel.setCaption("Color Scheme");
+		buttonPanel = new Panel();
 
-        logoEmbedded = new Embedded("", new ThemeResource(browseTextField
-                .getValue().toString()));
-        logoEmbedded.setCaption("Logo");
-        logoEmbedded.setImmediate(true);
+		tenantSettingsLabel = new Label("<h2>Tenant Settings</h2>");
+		tenantSettingsLabel.setContentMode(Label.CONTENT_XHTML);
 
-        setCompositionRoot(verticalLayout);
+		textArea = new TextField();
+		textArea.setRows(10);
+		textArea.setColumns(30);
+		textArea.setCaption("Description");
 
-        verticalLayout.setSpacing(true);
-        verticalLayout.addComponent(tenantSettingsLabel);
-        verticalLayout.addComponent(textArea);
-        verticalLayout.addComponent(logoEmbedded);
-        verticalLayout.addComponent(browsePanel);
+		logoUpload = new Upload("Upload Logo", new UploadTenantLogoAction());
+		logoUpload.setButtonCaption("Upload Logo");
 
-        browsePanel.addComponent(browseHorizontalLayout);
-        browseHorizontalLayout.setSpacing(true);
-        // browseHorizontalLayout.addComponent(browseTextField);
-        // browseHorizontalLayout.addComponent(browseButton);
-        browseHorizontalLayout.addComponent(logoUpload);
 
-        verticalLayout.addComponent(schemePanel);
+		saveButton = new Button("Save", new SaveTenantSettingsAction());
+		cancelButton = new Button("Cancel");
+		restoreDefaultSettingsButton = new Button("Restore default settings",
+				new RestoreDefaultTenantSettingsAction());
 
-        schemePanel.addComponent(schemeHorizontalLayout);
-        schemeHorizontalLayout.setSpacing(true);
+		logoEmbedded = new Embedded("", new ThemeResource("img/decidrlogo.png"));
+		logoEmbedded.setCaption("Logo");
+		logoEmbedded.setImmediate(true);
 
-        changeToBasic();
+		setCompositionRoot(verticalLayout);
 
-        verticalLayout.addComponent(buttonPanel);
+		verticalLayout.setSpacing(true);
+		verticalLayout.addComponent(tenantSettingsLabel);
+		verticalLayout.addComponent(textArea);
+		verticalLayout.addComponent(logoEmbedded);
+		verticalLayout.addComponent(browsePanel);
 
-        buttonPanel.addComponent(buttonHorizontalLayout);
-        buttonHorizontalLayout.setSpacing(true);
-        buttonHorizontalLayout.addComponent(saveButton);
-        buttonHorizontalLayout.addComponent(cancelButton);
-        buttonHorizontalLayout.addComponent(restoreDefaultSettingsButton);
+		browsePanel.addComponent(browseHorizontalLayout);
+		browseHorizontalLayout.setSpacing(true);
+		browseHorizontalLayout.addComponent(logoUpload);
 
-    }
+		verticalLayout.addComponent(schemePanel);
 
+		schemePanel.addComponent(schemeHorizontalLayout);
+		schemeHorizontalLayout.setSpacing(true);
+
+		changeToBasic();
+
+		verticalLayout.addComponent(buttonPanel);
+
+		buttonPanel.addComponent(buttonHorizontalLayout);
+		buttonHorizontalLayout.setSpacing(true);
+		buttonHorizontalLayout.addComponent(saveButton);
+		buttonHorizontalLayout.addComponent(cancelButton);
+		buttonHorizontalLayout.addComponent(restoreDefaultSettingsButton);
+
+	}
+	
+	/**
+	 * Gets the background select
+	 * 
+	 * @return the backgroundSelect
+	 */
+	public NativeSelect getBackgroundSelect() {
+		return backgroundSelect;
+	}
+
+	/**
+	 * Gets the foreground select
+	 * 
+	 * @return the foregroundSelect
+	 */
+	public NativeSelect getForegroundSelect() {
+		return foregroundSelect;
+	}
+
+	/**
+	 * Gets the font select
+	 * 
+	 * @return the fontSelect
+	 */
+	public NativeSelect getFontSelect() {
+		return fontSelect;
+	}
+
+	/**
+	 * TODO: add comment
+	 *
+	 * @return
+	 */
+	public Upload getUpload(){
+		return logoUpload;
+	}
 }

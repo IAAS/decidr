@@ -22,7 +22,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Upload;
 
-import de.decidr.ui.controller.UploadFileHumanTaskAction;
+import de.decidr.ui.controller.UploadFileStartConfigurationAction;
 
 /**
  * This component represents the filename and a button to delete the uploaded
@@ -77,7 +77,7 @@ public class DeleteUploadComponent extends CustomComponent {
                         .getWindow();
                 deleteUploadComponent.setVisible(false);
                 sCWindow.getAssignmentForm().getLayout().addComponent(
-                        new Upload("Upload", new UploadFileHumanTaskAction()));
+                        new Upload("Upload", new UploadFileStartConfigurationAction()));
             }
 
         });

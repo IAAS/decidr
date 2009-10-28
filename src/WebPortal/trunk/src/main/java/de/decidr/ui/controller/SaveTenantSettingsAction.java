@@ -20,6 +20,7 @@ import java.io.File;
 
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -37,12 +38,12 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  */
 public class SaveTenantSettingsAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = null;
 
-    private Long userId = (Long) session.getAttribute("userId");
-    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+    private Long userId = null;
+    private Long fileId = null;
+    private TenantFacade tenantFacade = null;
 
-    private File file = null;
     private String tenant = null;
     private TenantSettingsComponent content = null;
 
@@ -53,15 +54,23 @@ public class SaveTenantSettingsAction implements ClickListener {
      * ClickEvent)
      */
     @Override
-    public void buttonClick(ClickEvent event) {
+    public void buttonClick(ClickEvent event) {    	
+    	session = Main.getCurrent().getSession();
+    	userId = (Long) session.getAttribute("userId");
+    	tenantFacade = new TenantFacade(new UserRole(userId));
         content = (TenantSettingsComponent) UIDirector.getInstance()
                 .getTemplateView().getContent();
         tenant = (String) session.getAttribute("tenant");
         try {
             Long tenantId = tenantFacade.getTenantId(tenant);
+            
             tenantFacade.setDescription(tenantId, content
                     .getTenantDescription().getValue().toString());
-            // TODO: css abspeichern und logo hochladen
+            
+            fileId = (Long)Main.getCurrent().getMainWindow().getData();
+            tenantFacade.setLogo(tenantId, fileId);
+            //content.getBackgroundSelect().getValue().toString();
+            // TODO: css abspeichern 
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent());
