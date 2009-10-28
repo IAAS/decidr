@@ -219,6 +219,8 @@ public class SystemFacade extends AbstractFacade {
      *            new load server load as byte
      * @throws TransactionException
      *             if the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             TODO document
      */
     @AllowedRole( { SuperAdminRole.class, ServerLoadUpdaterRole.class })
     public void updateServerLoad(Long serverId, byte load)

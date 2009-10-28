@@ -36,7 +36,6 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.UserRole;
-import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.RegistrationRequest;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
@@ -81,6 +80,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         }
     }
 
+    /*-
     private static void confirmChangeEmailRequestExceptionHelper(
             String failmsg, UserFacade facade, Long userID, String authKey) {
         try {
@@ -89,7 +89,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         } catch (TransactionException e) {
             // supposed to be thrown
         }
-    }
+    }*/
 
     /**
      * Needs to be called from inside a {@link LowLevelDatabaseTest}.
@@ -194,6 +194,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         }
     }
 
+    /*-
     private static void requestChangeEmailExceptionHelper(String failmsg,
             UserFacade facade, Long userID, String newEmail) {
         try {
@@ -202,7 +203,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         } catch (TransactionException e) {
             // supposed to be thrown
         }
-    }
+    }*/
 
     private static void resetPWD() throws TransactionException {
         adminFacade.setPassword(testUserID, null, TEST_PASSWORD);
@@ -325,126 +326,83 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      * Test method for {@link UserFacade#requestChangeEmail(Long, String)} and
      * {@link UserFacade#confirmChangeEmailRequest(Long, String)}.
      */
-    @Test
-    public void testChangeEmailRequest() throws TransactionException {
-        long invalidID = getInvalidUserID();
+    // cannot currently be tested due to incomplete testing environment
+    /*-
+     @Test
+     public void testChangeEmailRequest() throws TransactionException {
+     long invalidID = getInvalidUserID();
 
-        User user;
-        for (UserFacade facade : new UserFacade[] {
-                new UserFacade(new UserRole(testUserID)), adminFacade }) {
-            confirmChangeEmailRequestExceptionHelper(
-                    "managed to confirm a nonexistent ChangeEmailRequest without an authKey",
-                    facade, testUserID, "");
-            // RR Interaction with email WS leads to WebServiceException if no
-            // Synapse + Email WS is deployed. Is this ok? ~dh
-            facade.requestChangeEmail(testUserID, "invalid@example.com");
-            user = (User) session.get(User.class, testUserID);
-            assertNotNull(user);
-            ChangeEmailRequest request = user.getChangeEmailRequest();
-            assertNotNull(request);
-            facade.confirmChangeEmailRequest(testUserID, request.getAuthKey());
+     User user;
+     for (UserFacade facade : new UserFacade[] {
+     new UserFacade(new UserRole(testUserID)), adminFacade }) {
+     confirmChangeEmailRequestExceptionHelper(
+     "managed to confirm a nonexistent ChangeEmailRequest without an authKey",
+     facade, testUserID, "");
+     facade.requestChangeEmail(testUserID, "invalid@example.com");
+     user = (User) session.get(User.class, testUserID);
+     assertNotNull(user);
+     ChangeEmailRequest request = user.getChangeEmailRequest();
+     assertNotNull(request);
+     facade.confirmChangeEmailRequest(testUserID, request.getAuthKey());
 
-            confirmChangeEmailRequestExceptionHelper(
-                    "authenticating a ChangeEmailRequest twice succeeded",
-                    facade, testUserID, request.getAuthKey());
+     confirmChangeEmailRequestExceptionHelper(
+     "authenticating a ChangeEmailRequest twice succeeded",
+     facade, testUserID, request.getAuthKey());
 
-            confirmChangeEmailRequestExceptionHelper(
-                    "authenticating a ChangeEmailRequest with null user ID succeeded",
-                    facade, null, request.getAuthKey());
-            confirmChangeEmailRequestExceptionHelper(
-                    "authenticating a ChangeEmailRequest with invalid user ID succeeded",
-                    facade, invalidID, request.getAuthKey());
-            confirmChangeEmailRequestExceptionHelper(
-                    "authenticating a ChangeEmailRequest with null authKey",
-                    facade, testUserID, null);
-            confirmChangeEmailRequestExceptionHelper(
-                    "authenticating a ChangeEmailRequest with empty authKey",
-                    facade, testUserID, "");
-            confirmChangeEmailRequestExceptionHelper(
-                    "authenticating a ChangeEmailRequest with null user ID & authKey succeeded",
-                    facade, null, null);
+     confirmChangeEmailRequestExceptionHelper(
+     "authenticating a ChangeEmailRequest with null user ID succeeded",
+     facade, null, request.getAuthKey());
+     confirmChangeEmailRequestExceptionHelper(
+     "authenticating a ChangeEmailRequest with invalid user ID succeeded",
+     facade, invalidID, request.getAuthKey());
+     confirmChangeEmailRequestExceptionHelper(
+     "authenticating a ChangeEmailRequest with null authKey",
+     facade, testUserID, null);
+     confirmChangeEmailRequestExceptionHelper(
+     "authenticating a ChangeEmailRequest with empty authKey",
+     facade, testUserID, "");
+     confirmChangeEmailRequestExceptionHelper(
+     "authenticating a ChangeEmailRequest with null user ID & authKey succeeded",
+     facade, null, null);
 
-            requestChangeEmailExceptionHelper(
-                    "requesting email change with null user ID and email succeeded",
-                    facade, null, null);
-            requestChangeEmailExceptionHelper(
-                    "requesting email change with null email succeeded",
-                    facade, testUserID, null);
-            requestChangeEmailExceptionHelper(
-                    "requesting email change with empty email succeeded",
-                    facade, testUserID, "");
-            requestChangeEmailExceptionHelper(
-                    "requesting email change with null user ID succeeded",
-                    facade, null, getTestEmail(0));
-            requestChangeEmailExceptionHelper(
-                    "requesting email change with invalid user ID succeeded",
-                    facade, invalidID, getTestEmail(1));
+     requestChangeEmailExceptionHelper(
+     "requesting email change with null user ID and email succeeded",
+     facade, null, null);
+     requestChangeEmailExceptionHelper(
+     "requesting email change with null email succeeded",
+     facade, testUserID, null);
+     requestChangeEmailExceptionHelper(
+     "requesting email change with empty email succeeded",
+     facade, testUserID, "");
+     requestChangeEmailExceptionHelper(
+     "requesting email change with null user ID succeeded",
+     facade, null, getTestEmail(0));
+     requestChangeEmailExceptionHelper(
+     "requesting email change with invalid user ID succeeded",
+     facade, invalidID, getTestEmail(1));
 
-            deleteTestUsers();
-            setUpTestCase();
-        }
+     deleteTestUsers();
+     setUpTestCase();
+     }
 
-        confirmChangeEmailRequestExceptionHelper(
-                "managed to confirm a nonexistent ChangeEmailRequest without an authKey with null facade",
-                nullFacade, testUserID, "");
-        requestChangeEmailExceptionHelper(
-                "managed to request an email change with null facade",
-                nullFacade, testUserID, "invalid@example.com");
+     confirmChangeEmailRequestExceptionHelper(
+     "managed to confirm a nonexistent ChangeEmailRequest without an authKey with null facade",
+     nullFacade, testUserID, "");
+     requestChangeEmailExceptionHelper(
+     "managed to request an email change with null facade",
+     nullFacade, testUserID, "invalid@example.com");
 
-        adminFacade.requestChangeEmail(testUserID, "invalid@example.com");
-        user = (User) session.get(User.class, testUserID);
-        assertNotNull(user);
-        ChangeEmailRequest request = user.getChangeEmailRequest();
-        assertNotNull(request);
-        confirmChangeEmailRequestExceptionHelper(
-                "managed to confirm a ChangeEmailRequest using null facade",
-                nullFacade, testUserID, request.getAuthKey());
-        adminFacade.confirmChangeEmailRequest(testUserID, request.getAuthKey());
-    }
-
-    /**
-     * Test method for {@link UserFacade#getAdministratedWorkflowModels(Long)}.
+     adminFacade.requestChangeEmail(testUserID, "invalid@example.com");
+     user = (User) session.get(User.class, testUserID);
+     assertNotNull(user);
+     ChangeEmailRequest request = user.getChangeEmailRequest();
+     assertNotNull(request);
+     confirmChangeEmailRequestExceptionHelper(
+     "managed to confirm a ChangeEmailRequest using null facade",
+     nullFacade, testUserID, request.getAuthKey());
+     adminFacade.confirmChangeEmailRequest(testUserID, request.getAuthKey());
+     }
      */
-    @Test
-    public void testGetAdministratedWorkflowModels()
-            throws TransactionException {
-        Long invalidID = getInvalidUserID();
-
-        try {
-            userFacade.getAdministratedWorkflowModels(testUserID);
-            fail("succeeded getting administrated workflow models as normal user");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-
-        try {
-            userFacade.getAdministratedWorkflowModels(invalidID);
-            fail("succeeded getting administrated workflow models as normal user with invalid ID");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            adminFacade.getAdministratedWorkflowModels(invalidID);
-            // RR the facade method didn't say that an exception is thrown in
-            // this case... an exception is not really a gain over an empty
-            // list...
-            // ~dh
-            fail("succeeded getting administrated workflow models as admin user with invalid ID");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-
-        List<Item> WFIs = adminFacade
-                .getAdministratedWorkflowModels(testUserID);
-        assertNotNull(WFIs);
-        assertTrue(WFIs.isEmpty());
-
-        User u = ((UserAdministratesWorkflowModel) session.createQuery(
-                "from UserAdministratesWorkflowModel").list().get(0)).getUser();
-        WFIs = adminFacade.getAdministratedWorkflowModels(u.getId());
-        assertNotNull(WFIs);
-        assertFalse(WFIs.isEmpty());
-    }
 
     /**
      * Test method for
@@ -484,6 +442,54 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 "from UserAdministratesWorkflowInstance").list().get(0))
                 .getUser();
         WFIs = adminFacade.getAdministratedWorkflowInstances(u.getId());
+        assertNotNull(WFIs);
+        assertFalse(WFIs.isEmpty());
+    }
+
+    /**
+     * Test method for {@link UserFacade#getAdministratedWorkflowModels(Long)}.
+     */
+    @Test
+    public void testGetAdministratedWorkflowModels()
+            throws TransactionException {
+        Long invalidID = getInvalidUserID();
+
+        try {
+            userFacade.getAdministratedWorkflowModels(testUserID);
+            fail("succeeded getting administrated workflow models as normal user");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        try {
+            userFacade.getAdministratedWorkflowModels(invalidID);
+            fail("succeeded getting administrated workflow models as normal user with invalid ID");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+        try {
+            adminFacade.getAdministratedWorkflowModels(invalidID);
+            // RR the facade method didn't say that an exception is thrown in
+            // this case... an exception is not really a gain over an empty
+            // list...
+            // ~dh
+            // DH sure, but don't you think that requesting WfMs for a
+            // nonexistent user should return some error, if only to make bug
+            // tracing simpler? e.g. if the UI calls this method with an invalid
+            // ID for some users, we could search for the error on end. ~rr
+            fail("succeeded getting administrated workflow models as admin user with invalid ID");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
+
+        List<Item> WFIs = adminFacade
+                .getAdministratedWorkflowModels(testUserID);
+        assertNotNull(WFIs);
+        assertTrue(WFIs.isEmpty());
+
+        User u = ((UserAdministratesWorkflowModel) session.createQuery(
+                "from UserAdministratesWorkflowModel").list().get(0)).getUser();
+        WFIs = adminFacade.getAdministratedWorkflowModels(u.getId());
         assertNotNull(WFIs);
         assertFalse(WFIs.isEmpty());
     }
@@ -726,6 +732,13 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         RegistrationRequest request = user.getRegistrationRequest();
         authKey = request.getAuthKey();
 
+        user = (User) session.load(User.class, userId);
+        // RR probably another transaction isloation problem ~dh
+        // DH shouldn't be as I'm using the facade to register the user and
+        // that's wrapped in a transaction ~rr
+        request = user.getRegistrationRequest();
+        authKey = request.getAuthKey();
+
         try {
             nullFacade.isRegistered(testUserID);
             fail("checking registration with null facade succeeded");
@@ -766,11 +779,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         } catch (TransactionException e) {
             // supposed to be thrown
         }
-
-        user = (User) session.load(User.class, userId);
-        // RR probably another transaction isloation problem ~dh
-        request = user.getRegistrationRequest();
-        authKey = request.getAuthKey();
 
         userFacade.confirmRegistration(userId, authKey);
         try {
@@ -925,23 +933,14 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 "Fuuni PWD"));
         assertFalse(checkPWD("Fuuni PWD"));
         resetPWD();
-        // RR Must provide old password to set a new password when not invoked
-        // by a super admin ~dh
-        assertFalse(userFacade.setPassword(testUserID, null, "Fuuni PWD"));
-        assertFalse(checkPWD("Fuuni PWD"));
-        resetPWD();
 
-        assertTrue(nullFacade.setPassword(testUserID, TEST_PASSWORD,
-                "Fuuni PWD"));
-        assertTrue(checkPWD("Fuuni PWD"));
-        resetPWD();
-        assertFalse(nullFacade.setPassword(testUserID, TEST_PASSWORD + "wronk",
-                "Fuuni PWD"));
-        assertFalse(checkPWD("Fuuni PWD"));
-        resetPWD();
-        assertFalse(nullFacade.setPassword(testUserID, null, "Fuuni PWD"));
-        assertFalse(checkPWD("Fuuni PWD"));
-        resetPWD();
+        try {
+            userFacade.setPassword(testUserID, null, "Fuuni PWD");
+            resetPWD();
+            fail("setting null password using admin facade succeeded");
+        } catch (IllegalArgumentException e) {
+            // supposed to be thrown
+        }
 
         try {
             adminFacade.setPassword(testUserID, TEST_PASSWORD, null);
@@ -985,7 +984,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         }
 
         Date testDate = new Date();
-        //remove milliseconds
+        // remove milliseconds
         testDate.setTime((testDate.getTime() / 1000) * 1000);
         adminFacade.setUnavailableSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
@@ -1079,13 +1078,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             // supposed to be thrown
         }
         try {
-            adminFacade.setCurrentTenantId(testUserID, null);
-            //RR how is that a bad thing? ~dh
-            fail("managed to set default current tenant ID for a newly registered user");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
             adminFacade.setCurrentTenantId(invalidUserID, tenantID);
             fail("could set current tenant with invalid user ID");
         } catch (TransactionException e) {
@@ -1106,6 +1098,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         assertNull(userFacade.getCurrentTenantId(testUserID));
         assertNull(adminFacade.getCurrentTenantId(testUserID));
+
+        adminFacade.setCurrentTenantId(testUserID, null);
 
         userFacade.setCurrentTenantId(tenantUserID, tenantID);
         assertEquals(tenantID, userFacade.getCurrentTenantId(tenantUserID));

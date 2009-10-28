@@ -40,7 +40,6 @@ import de.decidr.model.commands.system.GetServerStatisticsCommand;
 import de.decidr.model.commands.system.GetServersCommand;
 import de.decidr.model.commands.system.GetSystemSettingsCommand;
 import de.decidr.model.commands.system.LockServerCommand;
-import de.decidr.model.commands.system.RemoveServerCommand;
 import de.decidr.model.commands.system.SetSystemSettingsCommand;
 import de.decidr.model.commands.system.UpdateServerLoadCommand;
 import de.decidr.model.commands.user.CreateNewUnregisteredUserCommand;
@@ -133,7 +132,7 @@ public class SystemCommandsTest extends CommandsTest {
      * {@link GetServerStatisticsCommand#GetServerStatisticsCommand(Role)},
      * {@link LockServerCommand#LockServerCommand(Role, Long, Boolean)},
      * {@link UpdateServerLoadCommand#UpdateServerLoadCommand(Role, Long, byte)}
-     * and {@link RemoveServerCommand#RemoveServerCommand(Role, Long)} .
+     * .
      */
     @Test
     public void testServerCommands() throws TransactionException {
@@ -334,15 +333,9 @@ public class SystemCommandsTest extends CommandsTest {
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 getAllServers);
 
-        Set<RemoveServerCommand> delete = new HashSet<RemoveServerCommand>();
-        for (Server server : getAllServers.getResult()) {
-            if (server.getLocation().startsWith(
-                    SystemFacadeTest.HOSTNAME_PREFIX)) {
-                delete.add(new RemoveServerCommand(superAdminRole, server
-                        .getId()));
-            }
-        }
-        HibernateTransactionCoordinator.getInstance().runTransaction(delete);
+        assertNotNull(getAllServers.getResult());
+
+        SystemFacadeTest.removeTestServers();
     }
 
     /**
@@ -588,12 +581,6 @@ public class SystemCommandsTest extends CommandsTest {
         assertTransactionException(
                 "invalid MinWorkflowInstancesForLock succeeded", setter);
         setterSettings.setMinWorkflowInstancesForLock(1);
-
-        setterSettings.setModifiedDate(new Date(DecidrGlobals.getTime()
-                .getTimeInMillis() + 10000000));
-        assertTransactionException("invalid (future) ModifiedDate succeeded",
-                setter);
-        setterSettings.setModifiedDate(DecidrGlobals.getTime().getTime());
 
         setterSettings.setMonitorAveragingPeriodSeconds(-1);
         assertTransactionException(

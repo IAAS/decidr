@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Transaction;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -39,14 +40,14 @@ import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.testing.DecidrDatabaseTest;
+import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
  * Test case for <code>{@link SystemFacade}</code>.
  * 
  * @author Reinhold
  */
-public class SystemFacadeTest extends DecidrDatabaseTest {
+public class SystemFacadeTest extends LowLevelDatabaseTest {
 
     static SystemFacade adminFacade;
     static SystemFacade userFacade;
@@ -74,11 +75,14 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                     .getSettings().getSuperAdmin().getId()));
         }
 
+        Transaction trans = session.beginTransaction();
         for (Server server : adminFacade.getServers()) {
             if (server.getLocation().startsWith(HOSTNAME_PREFIX)) {
-                adminFacade.removeServer(server.getId());
+                session.delete(server);
             }
         }
+        trans.commit();
+
         hostCounter = 0;
     }
 
@@ -366,14 +370,6 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
                 setterSettings);
         setterSettings.setMinWorkflowInstancesForLock(1);
 
-        // RR modifiedDate is ignored by the command and set to the current
-        // date/time ~dh
-        // setterSettings.setModifiedDate(new Date(DecidrGlobals.getTime()
-        // .getTimeInMillis() + 10000000));
-        // setSettingsExceptionHelper("invalid (future) ModifiedDate succeeded",
-        // adminFacade, setterSettings);
-        // setterSettings.setModifiedDate(DecidrGlobals.getTime().getTime());
-
         setterSettings.setMonitorAveragingPeriodSeconds(-1);
         setSettingsExceptionHelper(
                 "invalid MonitorAveragingPeriodSeconds succeeded", adminFacade,
@@ -438,8 +434,7 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
      * , {@link SystemFacade#getServers(ServerTypeEnum[])},
      * {@link SystemFacade#getServerStatistics()},
      * {@link SystemFacade#updateServerLoad(Long, byte)},
-     * {@link SystemFacade#setServerLock(Long, Boolean)} and
-     * {@link SystemFacade#removeServer(Long)}.
+     * {@link SystemFacade#setServerLock(Long, Boolean)}.
      */
     @Test
     public void testServer() throws TransactionException {
@@ -912,34 +907,8 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
             setServerLockExceptionHelper(
                     "unsetting server lock with normal user facade succeeded.",
                     userFacade, testServerID, false);
-
-            List<Server> servers = adminFacade.getServers(ServerTypeEnum
-                    .valueOf(testServer.getServerType().getName()));
-
-            // RR removeServer is no longer testable without running ODE / ESB
-            // because we have to undeploy any workflow instances / models that
-            // run on the removed server ~dh
-            // for (Server server : servers) {
-            // try {
-            // nullFacade.removeServer(server.getId());
-            // fail("shouldn't be able to remove server with null facade");
-            // } catch (TransactionException e) {
-            // // supposed to be thrown
-            // }
-            // try {
-            // userFacade.removeServer(server.getId());
-            // fail("shouldn't be able to remove server with normal user facade");
-            // } catch (TransactionException e) {
-            // // supposed to be thrown
-            // }
-            //
-            // adminFacade.removeServer(server.getId());
-            // }
-            // assertTrue(adminFacade.getServerStatistics().isEmpty());
-            // assertTrue(adminFacade.getServers(type).isEmpty());
-            // assertTrue(adminFacade.getServers((ServerTypeEnum)
-            // null).isEmpty());
         }
+
     }
 
     /**
@@ -949,9 +918,6 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
      */
     private static Server getServer(Server testServer)
             throws TransactionException {
-        // DH regarding your tag below: is this correct
-        // (ServerTypeEnum.valueOf(testServer.getServerType().getName()))? ~rr
-        // RR yes. ~dh
         List<Server> servers = adminFacade.getServers(ServerTypeEnum
                 .valueOf(testServer.getServerType().getName()));
         for (Server server : servers) {
@@ -982,7 +948,6 @@ public class SystemFacadeTest extends DecidrDatabaseTest {
         } catch (IllegalArgumentException e) {
             // should be thrown
         } catch (TransactionException e) {
-            // RR I had to change this in order to continue with testing. ~dh
             // should be thrown
         }
     }

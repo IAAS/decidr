@@ -203,14 +203,11 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         adminFacade.addTenantMember(testTenantID, secondUserID);
         assertEquals(2, adminFacade.getUsersOfTenant(testTenantID, null).size());
 
-        // RR interacts with email web service which is not available in test
-        // environment ~dh
-        adminUserFacade.removeFromTenant(secondUserID, testTenantID);
-        assertEquals(1, adminFacade.getUsersOfTenant(testTenantID, null).size());
-        userFacade.addTenantMember(testTenantID, secondUserID);
         assertEquals(2, adminFacade.getUsersOfTenant(testTenantID, null).size());
         userFacade.addTenantMember(testTenantID, secondUserID);
-        assertEquals(2, adminFacade.getUsersOfTenant(testTenantID, null).size());
+        assertEquals(3, adminFacade.getUsersOfTenant(testTenantID, null).size());
+        userFacade.addTenantMember(testTenantID, secondUserID);
+        assertEquals(3, adminFacade.getUsersOfTenant(testTenantID, null).size());
 
         UserFacadeTest.deleteTestUsers();
     }

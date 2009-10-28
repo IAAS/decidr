@@ -57,8 +57,6 @@ public class BasicRole implements Role {
 
     @Override
     public boolean equals(Object obj) {
-        // DH should this not compare actorIds, too? ~rr
-        // RR nope. ~dh
         return (obj != null) && this.getClass().equals(obj.getClass());
     }
 

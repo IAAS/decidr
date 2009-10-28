@@ -183,8 +183,6 @@ public class DecidrGlobals {
 
     /**
      * Internal command that fetches the ESB data from the database.
-     * 
-     * RR Needs unit test (?) ~dh
      */
     static class FetchEsbCommand extends AbstractTransactionalCommand {
         public Server esb = null;

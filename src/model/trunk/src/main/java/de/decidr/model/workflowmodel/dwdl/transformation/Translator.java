@@ -17,7 +17,6 @@
 package de.decidr.model.workflowmodel.dwdl.transformation;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +67,7 @@ public class Translator {
 
     public void load(byte[] dwdl, String tenantName,
             List<KnownWebService> knownWebservices) throws JAXBException,
-            WSDLException, IOException {
+            WSDLException {
 
         this.dwdlWorkflow = parseDWDLWorkflow(dwdl);
         this.tenantName = tenantName;
@@ -136,7 +135,7 @@ public class Translator {
         try {
             wsdl = wsdlConverter.getWSDL(dwdlWorkflow, location, tenantName);
         } catch (JDOMException e) {
-            // TODO Auto-generated catch block
+            // GH Auto-generated catch block
             e.printStackTrace();
         }
         return wsdl;
@@ -151,5 +150,4 @@ public class Translator {
     public byte[] getSOAP() {
         return soap;
     }
-
 }

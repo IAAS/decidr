@@ -98,6 +98,15 @@ public class DecidrGlobalsTest extends DecidrOthersTest {
     }
 
     /**
+     * Test method for {@link DecidrGlobals#getDefaultTenant()}.
+     */
+    @Test
+    public void testGetDefaultTenant() {
+        assertNotNull(DecidrGlobals.getDefaultTenant());
+        assertNotNull(DecidrGlobals.getDefaultTenant().getAdmin());
+    }
+
+    /**
      * Test method for {@link DecidrGlobals#getWebServiceUrl(String)}.
      */
     @Test

@@ -266,17 +266,8 @@ public class StorageProviderFactory {
     /**
      * Returns a configured storage provider.
      * 
-     * RR the "return" tag says this returns null if no storage provider is
-     * found, but the "throws" tag says {@link IncompleteConfigurationException}
-     * is thrown instead.
-     * 
-     * @return <ul>
-     *         <li value="-"><code>null</code>, if there is no
-     *         <code>{@link StorageProvider}</code> available that is compatible
-     *         with the specified configuration.</li> <li value="-">otherwise,
-     *         an instance of a <code>{@link StorageProvider}</code> conforming
-     *         to the specified configuration.</li>
-     *         </ul>
+     * @return an instance of a <code>{@link StorageProvider}</code> conforming
+     *         to the specified configuration.
      * @throws IncompleteConfigurationException
      *             see
      *             <code>{@link StorageProvider#applyConfig(Properties)}</code>;
