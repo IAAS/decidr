@@ -29,7 +29,7 @@ public class BooleanRequest {
 	    return "0";
 	}
 
-	return convertBoolean(bool) ? "1" : "0";
+	return convertBoolean(bool) ? "'1'" : "'0'";
     }
 
     private static boolean convertBoolean(String bool) {

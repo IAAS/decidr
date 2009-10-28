@@ -17,33 +17,39 @@
 package de.decidr.setup;
 
 import de.decidr.setup.input.InputServer;
+import de.decidr.setup.input.InputServerType;
 import de.decidr.setup.input.InputSuperAdmin;
 import de.decidr.setup.input.InputSystemSettings;
-import de.decidr.setup.model.Server;
-import de.decidr.setup.model.SuperAdmin;
-import de.decidr.setup.model.SystemSettings;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author Johannes Engelhardt
  */
 public class DecidRSetup {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @param args
      */
     public static void main(String[] args) {
-	SuperAdmin sa = InputSuperAdmin.getSuperAdmin();
-	SystemSettings sys = InputSystemSettings.getSystemSettings();
-	
-	Server webPortal = InputServer.getServer(2, "http://localhost:8080/WebPortal");
-	Server esb = InputServer.getServer(3, "http://localhost:8280");
-	Server storage = InputServer.getServer(4, "http://localhost:8080/Storage");
-	Server ode = InputServer.getServer(1, "http://localhost:8080/ode");
+        StringBuilder sql = new StringBuilder();
 
+        sql.append(InputSuperAdmin.getSql());
+        sql.append(InputSystemSettings.getSql());
+        sql.append(InputServerType.getSql());
+
+        // web portal
+        sql.append(InputServer.getSql(2, "http://localhost:8080/WebPortal"));
+        // esb
+        sql.append(InputServer.getSql(3, "http://localhost:8280"));
+        // storage
+        sql.append(InputServer.getSql(4, "http://localhost:8080/Storage"));
+        // ode
+        sql.append(InputServer.getSql(1, "http://localhost:8080/ode"));
+
+        System.out.println(sql.toString());
     }
 
 }

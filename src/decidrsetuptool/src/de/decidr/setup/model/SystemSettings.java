@@ -20,14 +20,14 @@ import de.decidr.setup.helpers.DateUtils;
 
 public class SystemSettings {
 
-    private String id = "1";
+    private String id = "'1'";
     private String modifiedDate;
     private String autoAcceptNewTenants;
     private String systemName;
     private String domain;
     private String systemEmailAddress;
     private String logLevel;
-    private String superAdminId = "1";
+    private String superAdminId = "'1'";
     private String passwordResetRequestLifetimeSeconds;
     private String registrationRequestLifetimeSeconds;
     private String changeEmailRequestLifetimeSeconds;

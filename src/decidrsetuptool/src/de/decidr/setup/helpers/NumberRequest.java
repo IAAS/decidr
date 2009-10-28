@@ -40,7 +40,7 @@ public class NumberRequest {
 	    }
 	}
 
-	return number;
+	return "'" + number + "'";
     }
     
     public static String getResult(String question) {

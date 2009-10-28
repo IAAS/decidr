@@ -23,24 +23,24 @@ import java.util.regex.Pattern;
 public class EmailRequest {
 
     public static String getResult(String question, String defaultVal) {
-	String mail;
-	
-	while (true) {
-	    try {
-		mail = CoreRequest.getResult(question, defaultVal);
-	    } catch (IOException e) {
-		System.out.println("An error occured. please try again.");
-		continue;
-	    }
-	    
-	    if (validateEmail(mail)) {
-		break;
-	    } else {
-		System.out.println("Please enter a valid email address.");
-	    }
-	}
-	
-	return mail;
+    	String mail;
+
+        while (true) {
+            try {
+                mail = CoreRequest.getResult(question, defaultVal);
+            } catch (IOException e) {
+                System.out.println("An error occured. please try again.");
+                continue;
+            }
+
+            if (validateEmail(mail)) {
+                break;
+            } else {
+                System.out.println("Please enter a valid email address.");
+            }
+        }
+
+        return "'" + mail + "'";
     }
     
     public static String getResult(String question) {

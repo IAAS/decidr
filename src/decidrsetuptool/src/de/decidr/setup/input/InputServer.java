@@ -27,16 +27,35 @@ import de.decidr.setup.model.Server;
 public class InputServer {
 
     public static Server getServer(int serverTypeId, String defaultVal) {
-	System.out.println("------------------------------------------------");
-	System.out.println("Set up " + idToName(serverTypeId) + " Server");
-	System.out.println("------------------------------------------------");
+        System.out.println("------------------------------------------------");
+        System.out.println("Set up " + idToName(serverTypeId) + " Server");
+        System.out.println("------------------------------------------------");
 
-	Server srv = new Server();
+        Server srv = new Server();
 
-	srv.setServerTypeId(Integer.toString(serverTypeId));
-	srv.setLocation(StringRequest.getResult("Server Location", defaultVal));
-	
-	return srv;
+        srv.setServerTypeId(Integer.toString(serverTypeId));
+        srv.setLocation(StringRequest.getResult("Server Location", defaultVal));
+
+        return srv;
+    }
+    
+    public static String getSql(int serverTypeId, String defaultVal) {
+        Server srv = getServer(serverTypeId, defaultVal);
+        return createSql(srv);
+    }
+
+    private static String createSql(Server srv) {
+        StringBuilder sql = new StringBuilder();
+
+        sql.append("INSERT INTO `server` (`location`,`load`,`locked`,"
+                + "`dynamicallyAdded`,`serverTypeId`,`lastLoadUpdate`)\n");
+
+        sql.append("VALUES (" + srv.getLocation() + "," + srv.getLoad() + ","
+                + srv.getLocked() + "," + srv.getDynamicallyAdded() + ","
+                + srv.getServerTypeId() + "," + srv.getLastLoadUpdate()
+                + ");\n\n");
+        
+        return sql.toString();
     }
 
     private static String idToName(int serverTypeId) {

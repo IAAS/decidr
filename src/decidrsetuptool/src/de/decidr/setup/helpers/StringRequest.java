@@ -21,13 +21,13 @@ import java.io.IOException;
 public class StringRequest {
 
     public static String getResult(String question, String defaultVal) {
-	try {
-	    return CoreRequest.getResult(question, defaultVal);
-	} catch (IOException e) {
-	    return "";
-	}
+        try {
+            return "'" + CoreRequest.getResult(question, defaultVal) + "'";
+        } catch (IOException e) {
+            return "''";
+        }
     }
-    
+
     public static String getResult(String question) {
         return getResult(question, "");
     }

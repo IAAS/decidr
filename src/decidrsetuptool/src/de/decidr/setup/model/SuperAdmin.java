@@ -21,7 +21,7 @@ import de.decidr.setup.helpers.DateUtils;
 public class SuperAdmin {
 
     // user fields
-    private String id = "1";
+    private String id = "'1'";
     private String authkey = "NULL";
     private String email;
     private String disabledSince = "NULL";
@@ -31,7 +31,7 @@ public class SuperAdmin {
     private String currentTenantId = "NULL";
 
     // user profile fields
-    private String userId = "1";
+    private String userId = "'1'";
     private String username;
     private String passwordHash;
     private String passwordSalt;

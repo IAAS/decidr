@@ -45,13 +45,13 @@ public class LoglevelRequest {
             }
         }
         
-        return loglevel;
+        return "'" + loglevel + "'";
     }
 
     private static boolean validateLoglevel(String loglevel) {
-        String ulog = loglevel.toUpperCase();
-        return (ulog.equals("WARN") || ulog.equals("ALL")
-                || ulog.equals("DEBUG") || ulog.equals("FATAL")
-                || ulog.equals("INFO") || ulog.equals("OFF"));
+        loglevel = loglevel.toUpperCase();
+        return (loglevel.equals("WARN") || loglevel.equals("ALL")
+                || loglevel.equals("DEBUG") || loglevel.equals("FATAL")
+                || loglevel.equals("INFO") || loglevel.equals("OFF"));
     }
 }

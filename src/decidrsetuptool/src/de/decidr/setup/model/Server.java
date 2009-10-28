@@ -18,11 +18,11 @@ package de.decidr.setup.model;
 
 public class Server {
 
-    private String id = "";
+    private String id = "''";
     private String location;
-    private String load = "0";
-    private String locked = "0";
-    private String dynamicallyAdded = "0";
+    private String load = "'0'";
+    private String locked = "'0'";
+    private String dynamicallyAdded = "'0'";
     private String serverTypeId;
     private String lastLoadUpdate = "NULL";
 
