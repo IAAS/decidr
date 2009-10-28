@@ -24,11 +24,13 @@ import de.decidr.modelingtool.client.ui.Workflow;
 /**
  * This class provides some methods to filter the variables of a
  * {@link WorkflowModel}. The variables are returned in a special list format:
- * {@link ListStore}. this class is used for the model of the gxt widgets.
+ * {@link ListStore}. The class is used for the model of the gxt widgets.
  * 
  * @author Jonas Schlaak
  */
 public class VariablesFilter {
+
+    // JS make variables filter obsolete
 
     /**
      * Return a {@link ListStore} of all variables of the {@link WorkflowModel}.
@@ -49,7 +51,7 @@ public class VariablesFilter {
      * copies, not references.
      * 
      * @param type
-     *            the type of variables to be return
+     *            the type of variables to be returned
      * @return the variables that have the given type
      */
     public static ListStore<Variable> getVariablesOfTypeAsStore(

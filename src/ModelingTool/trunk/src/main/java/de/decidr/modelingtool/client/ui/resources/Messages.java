@@ -28,7 +28,7 @@ public interface Messages extends Constants {
 
     /* Menu */
     String confirmClearWorkflow();
-    
+
     String variablesMenuItem();
 
     String propertiesMenuItem();
@@ -125,7 +125,11 @@ public interface Messages extends Constants {
 
     String defaultCondition();
 
-    String conditionWarning();
+    String conditionFieldsEmpty();
+
+    String conditionTypeMismatch();
+
+    String conditionWrongOperator();
 
     String conditionOrderWarning();
 

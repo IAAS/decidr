@@ -36,7 +36,7 @@ public class TypeSelectorListener extends SelectionChangedListener<Variable> {
     /**
      * 
      * TODO: add comment
-     *
+     * 
      * @param fieldset
      * @param typeSelector
      */
@@ -59,43 +59,4 @@ public class TypeSelectorListener extends SelectionChangedListener<Variable> {
                 .getSimpleValue());
         fieldset.updateAllStores(type);
     }
-    // public void selectionChanged(
-    // SelectionChangedEvent<Variable> se) {
-    // /*
-    // * If type selector changes, get all variables with
-    // * selected type from workflow
-    // */
-    // leftOperandField.setEnabled(true);
-    // leftOperandField.getStore().removeAll();
-    // leftOperandField.clearSelections();
-    // leftOperandField
-    // .getStore()
-    // .add(
-    // VariablesFilter
-    // .getVariablesOfType(
-    // VariableType
-    // .getTypeFromLocalName(typeSelector
-    // .getSimpleValue()))
-    // .getModels());
-    //
-    // operatorList.setEnabled(true);
-    // updateOperatorListEntries();
-    //
-    // /*
-    // * If type selector changes, get all variables with
-    // * selected type from workflow
-    // */
-    // rightOperandField.setEnabled(true);
-    // rightOperandField.getStore().removeAll();
-    // rightOperandField.clearSelections();
-    // rightOperandField
-    // .getStore()
-    // .add(
-    // VariablesFilter
-    // .getVariablesOfType(
-    // VariableType
-    // .getTypeFromLocalName(typeSelector
-    // .getSimpleValue()))
-    // .getModels());
-    // }
 }

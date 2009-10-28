@@ -50,7 +50,7 @@ import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 /**
  * The property window for a {@link HumanTaskInvokeNode}. It consists of
  * comboboxes for selecting the role, the task name and description, the form
- * caontainer and a checkbox to determine whether the users should be notified
+ * container and a checkbox to determine whether the users should be notified
  * when they receive the work item or not. With the tool bar, the user can add
  * or remove a {@link TaskItemFieldSet}.
  * 
@@ -58,6 +58,7 @@ import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
  */
 public class HumanTaskActivityWindow extends ModelingToolDialog {
 
+    // JS catch exception if form container is empty
     private HumanTaskInvokeNode node;
     private HumanTaskInvokeNodeModel model;
 

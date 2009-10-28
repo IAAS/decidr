@@ -127,7 +127,7 @@ public class ValueEditor extends ModelingToolDialog {
                             newValues.add(field.getValue());
                         }
                         ValueValidatorCallback call = new ValueValidatorCallback();
-                        ValueValidator validator = new ValueValidator(
+                        ValueTypeChecker validator = new ValueTypeChecker(
                                 newValues, variable.getType());
                         if (validator.validate(call)) {
                             changeWorkflowModel(newValues);
@@ -182,7 +182,7 @@ public class ValueEditor extends ModelingToolDialog {
         final TextField<String> text = new TextField<String>();
         text.setValue(fieldContent);
         text.setAutoWidth(true);
-        text.setValidator(new FieldValidator(variable.getType()));
+        text.setValidator(new ValueTextFieldValidator(variable.getType()));
 
         /* Add key listener to start the validator whenever a key is pressed */
         text.addKeyListener(new KeyListener() {

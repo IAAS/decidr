@@ -16,10 +16,13 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.ifcontainer;
 
+import java.util.List;
+
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
 import com.google.gwt.user.client.ui.Label;
 
+import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.model.ifcondition.Condition;
 import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
 import de.decidr.modelingtool.client.model.ifcondition.Operator;
@@ -52,7 +55,7 @@ public class IfFieldSet {
     // JS finish
 
     /**
-     * Default constructor to create an IfFieldSet from a condition
+     * Default constructor to create an IfFieldSet from a condition.
      * 
      * @param condition
      *            the condition
@@ -69,90 +72,76 @@ public class IfFieldSet {
             typeSelector.add(type.getLocalName());
         }
         typeSelector.setEditable(false);
+        if (condition.isComplete()) {
+            typeSelector.setSimpleValue(condition.getType().getLocalName());
+        }
         typeSelector.addSelectionChangedListener(new TypeSelectorListener(this,
                 typeSelector));
 
         leftOperandField = new ComboBox<Variable>();
         leftOperandField.setDisplayField(Variable.LABEL);
-        leftOperandField.setEditable(false);
-        leftOperandField.setEnabled(false);
         leftOperandField.setStore(VariablesFilter.getAllVariablesAsStore());
+        leftOperandField.setEnabled(false);
 
         operatorList = new SimpleComboBox<String>();
-        operatorList.setEditable(false);
+        for (Operator operator : Operator.values()) {
+            operatorList.add(operator.getDisplayString());
+        }
         operatorList.setEnabled(false);
 
         rightOperandField = new ComboBox<Variable>();
         rightOperandField.setDisplayField(Variable.LABEL);
         rightOperandField.setStore(VariablesFilter.getAllVariablesAsStore());
-       
+        rightOperandField.setEnabled(false);
+        rightOperandField.setTypeAhead(true);
 
         orderField = new OrderComboBox(numberOfConditions, condition);
 
         /* If condition is complete, set the value of the input fields */
-        setValues();
-        
-        rightOperandField.setEditable(false);
-        rightOperandField.setEnabled(false);
-    }
-    
-    public void setValues(){
-     // JS remove
-        System.out.println(condition.isComplete());
         if (condition.isComplete()) {
-            /*
-             * Find out which type the operand variables of the condition have.
-             * (use only left operand, type of left and right operand are the
-             * same anyway). Set the type selector to the type
-             */
             Variable leftVariable = Workflow.getInstance().getModel()
                     .getVariable(condition.getLeftOperandId());
-            Variable rightVariable = Workflow.getInstance().getModel()
-                    .getVariable(condition.getRightOperandId());
-            typeSelector.setSimpleValue(leftVariable.getType().getLocalName());
+            leftOperandField.setValue(leftVariable);
 
-            /* Set the values */
-            // JS remove
-            System.out.println("render" + leftOperandField.isRendered());
-            leftOperandField.setRawValue(leftVariable.getLabel());
             operatorList.setSimpleValue(condition.getOperator()
                     .getDisplayString());
+
+            Variable rightVariable = Workflow.getInstance().getModel()
+                    .getVariable(condition.getRightOperandId());
             rightOperandField.setValue(rightVariable);
-            rightOperandField.render(rightOperandField.getElement());
+
             orderField.setOrder(condition.getOrder());
-
-            /* Update stores according to the type */
-            // updateAllStores(leftVariable.getType());
-
         }
     }
 
     /**
-     * This methods updates the stores of the left and right operand field and
-     * the operator field. The stores of these input fields are specific to the
-     * variable type.
+     * This methods updates the stores (that means the set of values that is
+     * available for selection in the combxbox) of the left and right operand
+     * field and the operator field. The stores of these input fields depends on
+     * the variable type.
      * 
      * @param type
      *            the {@link VariableType} to set the stores to
      */
     public void updateAllStores(VariableType type) {
-        leftOperandField.clearSelections();
         leftOperandField.getStore().removeAll();
-        leftOperandField.getStore().add(
-                VariablesFilter.getVariablesOfTypeAsStore(type).getModels());
+        for (Variable variable : Workflow.getInstance().getModel()
+                .getVariablesOfType(type)) {
+            leftOperandField.getStore().add(variable);
+        }
         leftOperandField.setEnabled(true);
 
-        operatorList.clearSelections();
-        operatorList.removeAll();
-        for (Operator op : Operator.getOperatorsForType(type)) {
-            operatorList.add(op.getDisplayString());
+        operatorList.getStore().removeAll();
+        for (Operator operator : Operator.getOperatorsForType(type)) {
+            operatorList.add(operator.getDisplayString());
         }
         operatorList.setEnabled(true);
 
-        rightOperandField.clearSelections();
         rightOperandField.getStore().removeAll();
-        rightOperandField.getStore().add(
-                VariablesFilter.getVariablesOfTypeAsStore(type).getModels());
+        for (Variable variable : Workflow.getInstance().getModel()
+                .getVariablesOfType(type)) {
+            rightOperandField.getStore().add(variable);
+        }
         rightOperandField.setEnabled(true);
     }
 
@@ -167,16 +156,66 @@ public class IfFieldSet {
     }
 
     /**
-     * Checks whether the fields of the conditional expression (right and left
-     * operand, operator) are empty, that means a value has not been selected.
+     * Checks whether the inputs of the fields of the {@link IfFieldSet} (right
+     * and left operand, operator) form a valid condition expression. The input
+     * fields may not be empty. Left and right operand have to be of the same
+     * type. The operator must be available for the type.
      * 
-     * @return true, if in all comboboxes a value has been selected
+     * @param callback
+     *            Callback string for error messages
+     * 
+     * @return true, if valid
      */
-    public Boolean areConditionFieldsOK() {
-        /* all three fields must be filled with a value */
-        return (leftOperandField.getValue() != null
-                && operatorList.getSimpleValue() != null && rightOperandField
-                .getValue() != null);
+    public Boolean isConditionValid(String callback) {
+        Boolean validationResult = true;
+
+        /* Check if fields are empty */
+        if (leftOperandField.getValue() == null
+                || operatorList.getSimpleValue() == null
+                || rightOperandField.getValue() == null) {
+            validationResult = false;
+            callback = callback + condition.getName() + ": "
+                    + ModelingToolWidget.getMessages().conditionFieldsEmpty()
+                    + "\n";
+        }
+
+        /*
+         * Check if left and right operand are of the same type, only if
+         * previous check ran through
+         */
+        if (validationResult == true) {
+            VariableType leftType = leftOperandField.getValue().getType();
+            VariableType rightType = rightOperandField.getValue().getType();
+            if (leftType != rightType) {
+                validationResult = false;
+                callback = callback
+                        + condition.getName()
+                        + ": "
+                        + ModelingToolWidget.getMessages()
+                                .conditionTypeMismatch() + "\n";
+            }
+        }
+
+        /*
+         * Check if the operator is applicable to the selected type, only if
+         * previous check ran through
+         */
+        if (validationResult == true) {
+            VariableType type = leftOperandField.getValue().getType();
+            List<Operator> applicableOperators = Operator
+                    .getOperatorsForType(type);
+            Operator operator = Operator
+                    .getOperatorFromDisplayString(operatorList.getSimpleValue());
+            if (applicableOperators.contains(operator) == false) {
+                validationResult = false;
+                callback = callback
+                        + condition.getName()
+                        + ": "
+                        + ModelingToolWidget.getMessages()
+                                .conditionWrongOperator() + "\n";
+            }
+        }
+        return validationResult;
     }
 
     public Label getLabel() {

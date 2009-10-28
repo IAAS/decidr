@@ -101,10 +101,10 @@ public class IfWindow extends ModelingToolDialog {
                          * check if the inputs are valid. If not, display a
                          * warning message, else change the workflow model.
                          */
-                        if (validateConditions() == false) {
+                        String callback = new String();
+                        if (validateConditions(callback) == false) {
                             MessageBox.alert(ModelingToolWidget.getMessages()
-                                    .warningTitle(), ModelingToolWidget
-                                    .getMessages().conditionWarning(), null);
+                                    .warningTitle(), callback, null);
                         } else if (validateOrder() == false) {
                             MessageBox.alert(ModelingToolWidget.getMessages()
                                     .warningTitle(), ModelingToolWidget
@@ -139,10 +139,10 @@ public class IfWindow extends ModelingToolDialog {
         this.model = (IfContainerModel) node.getModel();
     }
 
-    private boolean validateConditions() {
+    private boolean validateConditions(String callback) {
         boolean result = true;
         for (IfFieldSet fieldset : fieldsets) {
-            if (fieldset.areConditionFieldsOK() == false) {
+            if (fieldset.isConditionValid(callback) == false) {
                 result = false;
             }
         }
@@ -169,7 +169,6 @@ public class IfWindow extends ModelingToolDialog {
         return result;
     }
 
-    // JS dont throw values away when type is selected, in if field set
     private void changeWorkflowModel() {
         IfContainerModel newModel = new IfContainerModel(model.getParentModel());
         for (IfFieldSet fieldset : fieldsets) {
@@ -227,10 +226,6 @@ public class IfWindow extends ModelingToolDialog {
                     .getRightOperandField());
             table.setWidget(table.getRowCount() - 1, 5, fieldset
                     .getOrderField());
-            // JS remove
-            System.out.println("Render in creation"
-                    + fieldset.getRightOperandField().isRendered());
-            fieldset.setValues();
         }
     }
 

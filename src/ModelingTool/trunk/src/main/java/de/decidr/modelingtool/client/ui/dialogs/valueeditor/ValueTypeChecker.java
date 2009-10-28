@@ -27,7 +27,7 @@ import de.decidr.modelingtool.client.ui.resources.DateFormatter;
  * 
  * @author Jonas Schlaak
  */
-public class ValueValidator {
+public class ValueTypeChecker {
 
     private List<String> values;
     private VariableType type;
@@ -42,7 +42,7 @@ public class ValueValidator {
      * @param type
      *            the type
      */
-    public ValueValidator(List<String> values, VariableType type) {
+    public ValueTypeChecker(List<String> values, VariableType type) {
         this.values = values;
         this.type = type;
     }

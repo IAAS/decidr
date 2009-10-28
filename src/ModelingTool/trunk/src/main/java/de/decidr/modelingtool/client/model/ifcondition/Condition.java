@@ -18,6 +18,8 @@ package de.decidr.modelingtool.client.model.ifcondition;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.model.ContainerStartConnectionModel;
+import de.decidr.modelingtool.client.model.variable.VariableType;
+import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
  * This class is the model for a condition of an {@link IfContainerModel}. A
@@ -108,6 +110,17 @@ public class Condition extends ContainerStartConnectionModel {
 
     public void setOrder(Integer order) {
         this.order = order;
+    }
+
+    /**
+     * 
+     * TODO: add comment
+     * JS exception?
+     * @return
+     */
+    public VariableType getType() {
+        return Workflow.getInstance().getModel().getVariable(leftOperandId)
+                .getType();
     }
 
     /**

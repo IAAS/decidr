@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import de.decidr.modelingtool.client.model.variable.Variable;
+import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.ui.HasChildren;
 import de.decidr.modelingtool.client.ui.Workflow;
 
@@ -94,12 +95,29 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
     }
 
     /**
-     * Return a list of all variables of this workflow model.
+     * Returns a list of all variables of this workflow model.
      * 
      * @return the variables
      */
     public List<Variable> getVariables() {
         return variables;
+    }
+
+    /**
+     * Returns a list of all variables of a certain type
+     * 
+     * @param type
+     *            the type of variables that shall be returned
+     * @return the list of variables
+     */
+    public List<Variable> getVariablesOfType(VariableType type) {
+        List<Variable> list = new ArrayList<Variable>();
+        for (Variable variable : variables) {
+            if (variable.getType() == type) {
+                list.add(variable);
+            }
+        }
+        return list;
     }
 
     /**

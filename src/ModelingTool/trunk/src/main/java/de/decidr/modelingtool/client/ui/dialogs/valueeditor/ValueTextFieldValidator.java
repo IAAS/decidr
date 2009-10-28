@@ -31,7 +31,7 @@ import de.decidr.modelingtool.client.model.variable.VariableType;
  * 
  * @author Jonas Schlaak
  */
-public class FieldValidator implements Validator<String, TextField<String>> {
+public class ValueTextFieldValidator implements Validator<String, TextField<String>> {
 
     private VariableType type = null;
 
@@ -41,7 +41,7 @@ public class FieldValidator implements Validator<String, TextField<String>> {
      * @param type
      *            the variable type to check against
      */
-    public FieldValidator(VariableType type) {
+    public ValueTextFieldValidator(VariableType type) {
         this.type = type;
     }
 
@@ -56,7 +56,7 @@ public class FieldValidator implements Validator<String, TextField<String>> {
     public String validate(TextField<String> field, String value) {
         List<String> values = new ArrayList<String>();
         values.add(value);
-        ValueValidator validator = new ValueValidator(values, type);
+        ValueTypeChecker validator = new ValueTypeChecker(values, type);
         if (validator.validate(new ValueValidatorCallback())) {
             return null;
         } else {
