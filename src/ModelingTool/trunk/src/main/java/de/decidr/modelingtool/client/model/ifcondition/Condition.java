@@ -113,10 +113,11 @@ public class Condition extends ContainerStartConnectionModel {
     }
 
     /**
+     * Returns the {@link VariableType} of the operands of this condition.
+     * Actually it returns the type of the left operand, but is is assumed that
+     * the types of the operands are always the same.
      * 
-     * TODO: add comment
-     * JS exception?
-     * @return
+     * @return the type
      */
     public VariableType getType() {
         return Workflow.getInstance().getModel().getVariable(leftOperandId)

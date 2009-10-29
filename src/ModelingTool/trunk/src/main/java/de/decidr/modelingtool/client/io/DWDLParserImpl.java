@@ -594,24 +594,25 @@ public class DWDLParserImpl implements DWDLParser {
                 condition.setOrder(new Integer(conditionElement
                         .getAttribute(DWDLNames.order)));
 
-                // JS remove if branch, when workflow parser has changed
-                if (condition.getOrder() != 0) {
-                    Element leftOperand = getChildNodesByTagName(
-                            conditionElement, DWDLNames.leftOp).get(0);
-                    condition.setLeftOperandId(new Long(leftOperand
-                            .getFirstChild().getNodeValue()));
+                /* Parse the conditional statement */
+                Element leftOperand = getChildNodesByTagName(conditionElement,
+                        DWDLNames.leftOp).get(0);
+                condition.setLeftOperandId(VariableNameFactory
+                        .createIdFromNCName(leftOperand.getFirstChild()
+                                .getNodeValue()));
 
-                    Element operator = getChildNodesByTagName(conditionElement,
-                            DWDLNames.operator).get(0);
-                    condition.setOperator(Operator
-                            .getOperatorFromDisplayString(operator
-                                    .getFirstChild().getNodeValue()));
+                Element operator = getChildNodesByTagName(conditionElement,
+                        DWDLNames.operator).get(0);
+                condition.setOperator(Operator
+                        .getOperatorFromDisplayString(operator.getFirstChild()
+                                .getNodeValue()));
 
-                    Element rightOperand = getChildNodesByTagName(
-                            conditionElement, DWDLNames.rightOp).get(0);
-                    condition.setRightOperandId(new Long(rightOperand
-                            .getFirstChild().getNodeValue()));
-                }
+                Element rightOperand = getChildNodesByTagName(conditionElement,
+                        DWDLNames.rightOp).get(0);
+                condition.setRightOperandId(VariableNameFactory
+                        .createIdFromNCName(rightOperand.getFirstChild()
+                                .getNodeValue()));
+
             }
         }
 

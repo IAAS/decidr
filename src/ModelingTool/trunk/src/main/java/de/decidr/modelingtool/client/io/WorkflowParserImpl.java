@@ -512,14 +512,16 @@ public class WorkflowParserImpl implements WorkflowParser {
 
                 /* Create the condition statement */
                 conditionElement.appendChild(createTextElement(doc,
-                        DWDLNames.leftOp, condition.getLeftOperandId()
-                                .toString()));
+                        DWDLNames.leftOp, VariableNameFactory
+                                .createNCNameFromId(condition
+                                        .getLeftOperandId())));
                 conditionElement.appendChild(createTextElement(doc,
                         DWDLNames.operator, condition.getOperator()
                                 .getDisplayString()));
                 conditionElement.appendChild(createTextElement(doc,
-                        DWDLNames.rightOp, condition.getRightOperandId()
-                                .toString()));
+                        DWDLNames.rightOp, VariableNameFactory
+                                .createNCNameFromId(condition
+                                        .getRightOperandId())));
             }
 
             /*

@@ -52,8 +52,6 @@ public class IfFieldSet {
 
     private Condition condition;
 
-    // JS finish
-
     /**
      * Default constructor to create an IfFieldSet from a condition.
      * 

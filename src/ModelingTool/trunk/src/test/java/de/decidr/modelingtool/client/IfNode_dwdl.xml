@@ -130,6 +130,9 @@
 			<description></description>
 			<graphics x="29" y="148" width="282" height="326" />
 			<condition order="0" defaultCondition="yes" id="1256211684046">
+				<left-operand>L12</left-operand>
+				<operator>!=</operator>
+				<right-operand>L768768</right-operand>
 				<nodes>
 					<invokeNode
 						name="de.decidr.modelingtool.client.model.EmailInvokeNodeModel"
@@ -185,9 +188,9 @@
 				</arcs>
 			</condition>
 			<condition order="1" defaultCondition="no" id="1256211684048">
-				<left-operand>12</left-operand>
+				<left-operand>L12</left-operand>
 				<operator>?=</operator>
-				<right-operand>123</right-operand>
+				<right-operand>L123</right-operand>
 				<nodes>
 					<invokeNode
 						name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
