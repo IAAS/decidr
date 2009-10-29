@@ -29,7 +29,6 @@ import de.decidr.model.transactions.TransactionEvent;
  */
 public class DeleteFileCommand extends FileCommand {
 
-    protected Boolean deleted = false;
     protected Integer deletedEntities = 0;
 
     /**
@@ -52,14 +51,12 @@ public class DeleteFileCommand extends FileCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-        deleted = false;
         deletedEntities = 0;
 
         String hql = "delete File f where f.id = :fileId";
 
         deletedEntities = evt.getSession().createQuery(hql).setLong("fileId",
                 getFileId()).executeUpdate();
-        deleted = true;
     }
 
     /**
@@ -69,11 +66,4 @@ public class DeleteFileCommand extends FileCommand {
         return deletedEntities;
     }
 
-    /**
-     * @return whether the file has been deleted. Does not indicate whether the
-     *         file actually existed.
-     */
-    public Boolean isDeleted() {
-        return deleted;
-    }
 }

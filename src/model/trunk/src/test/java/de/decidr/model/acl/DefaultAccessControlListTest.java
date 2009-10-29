@@ -133,13 +133,14 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
         dacl.init();
         dacl = null;
 
-        if (wfmId != null) {
-            List<Long> wfm = new ArrayList<Long>();
-            wfm.add(wfmId);
-            wfmFacade.deleteWorkflowModels(wfm);
-        }
+        // GH can't interact with web services during unit test, sorry :-( ~dh
+        // if (wfmId != null) {
+        // List<Long> wfm = new ArrayList<Long>();
+        // wfm.add(wfmId);
+        // wfmFacade.deleteWorkflowModels(wfm);
+        // }
 
-        tenantFacade.deleteTenant(tenantId);
+        // tenantFacade.deleteTenant(tenantId);
 
         Transaction trans = session.beginTransaction();
         session.createQuery(

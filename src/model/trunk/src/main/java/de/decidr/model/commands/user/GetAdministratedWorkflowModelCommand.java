@@ -76,7 +76,7 @@ public class GetAdministratedWorkflowModelCommand extends UserCommand {
 
         hql = "from WorkflowModel m where "
                 + "exists(from UserAdministratesWorkflowModel rel "
-                + "where rel.model = m and rel.user.id = :userId)";
+                + "where rel.workflowModel = m and rel.user.id = :userId)";
 
         result = evt.getSession().createQuery(hql).setLong("userId", userId)
                 .list();

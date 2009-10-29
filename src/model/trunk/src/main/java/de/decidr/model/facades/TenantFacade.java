@@ -100,7 +100,7 @@ public class TenantFacade extends AbstractFacade {
      *            the id of the tenant admin user
      * @return id of the new tenant
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(UserRole.class)
     public Long createTenant(String name, String description, Long adminId)
@@ -123,7 +123,7 @@ public class TenantFacade extends AbstractFacade {
      * @param description
      *            the new description
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
     public void setDescription(Long tenantId, String description)
@@ -142,7 +142,7 @@ public class TenantFacade extends AbstractFacade {
      *            the id of the tenant
      * @return the logo image data or null if no logo has been set, yet.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      * @throws IllegalArgumentException
      *             if tenantId is null.
      */
@@ -166,7 +166,7 @@ public class TenantFacade extends AbstractFacade {
      *            the id of the file that should be used as the tenant logo. Use
      *            <code>null</code> to remove the file.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      * @throws IllegalArgumentException
      *             if tenantId is <code>null</code>
      */
@@ -188,7 +188,7 @@ public class TenantFacade extends AbstractFacade {
      * @param advanced
      *            whether to set the advanced or the simple color scheme
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
     public void setColorScheme(Long tenantId, Long fileId, Boolean advanced)
@@ -209,7 +209,7 @@ public class TenantFacade extends AbstractFacade {
      *            whether to use the advanced color scheme. If set to false the
      *            simple color scheme is used instead.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
     public void setCurrentColorScheme(Long tenantId,
@@ -229,7 +229,7 @@ public class TenantFacade extends AbstractFacade {
      * @return The image data of the current tenant logo. You must close this
      *         stream once you're done reading from it.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(BasicRole.class)
     public InputStream getCurrentColorScheme(Long tenantId)
@@ -254,7 +254,7 @@ public class TenantFacade extends AbstractFacade {
      * @throws IllegalArgumentException
      *             if one of the parameters is <code>null</code>
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
     public void addTenantMember(Long tenantId, Long memberId)
@@ -281,7 +281,7 @@ public class TenantFacade extends AbstractFacade {
      *             if the tenant ID is <code>null</code> or if the workflow
      *             model name is <code>null</code> or empty.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
     public Long createWorkflowModel(Long tenantId, String name)
@@ -304,7 +304,7 @@ public class TenantFacade extends AbstractFacade {
      * @param workflowModelId
      *            the id of the model which should be removed
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
     public void removeWorkflowModel(Long workflowModelId)
@@ -326,7 +326,7 @@ public class TenantFacade extends AbstractFacade {
      * @throws IllegalArgumentException
      *             if tenantIds is <code>null</code>.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public void approveTenants(List<Long> tenantIds)
@@ -350,7 +350,7 @@ public class TenantFacade extends AbstractFacade {
      * @param tenantIds
      *            a list of IDs of tenants which should be rejected
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public void rejectTenants(List<Long> tenantIds) throws TransactionException {
@@ -366,7 +366,7 @@ public class TenantFacade extends AbstractFacade {
      * @param tenantIds
      *            a list of IDs of tenants which should be deleted
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public void deleteTenant(Long tenantId) throws TransactionException {
@@ -383,7 +383,7 @@ public class TenantFacade extends AbstractFacade {
      *            the name of the tenant
      * @return tenandId, if tenant doesn't exist, an exception is thrown
      * @throws TransactionException
-     *             if the transaction is aborted for any reason
+     *             iff the transaction is aborted for any reason
      * @throws EntityNotFoundException
      *             iff no tenant with the given name exists.
      */
@@ -419,7 +419,7 @@ public class TenantFacade extends AbstractFacade {
      * @throws IllegalArgumentException
      *             if the given tenant ID is <code>null</code>.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getUsersOfTenant(Long tenantId, Paginator paginator)
@@ -474,7 +474,7 @@ public class TenantFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             if the given tenant does not exist
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getWorkflowInstances(Long tenantId, Paginator paginator)
@@ -526,7 +526,7 @@ public class TenantFacade extends AbstractFacade {
      *            {@link Paginator}
      * @return list of vaadin items described above
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public List<Item> getTenantsToApprove(List<Filter> filters,
@@ -576,7 +576,7 @@ public class TenantFacade extends AbstractFacade {
      *            {@link Paginator}
      * @return list of vaadin items described above
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public List<Item> getAllTenants(List<Filter> filters, Paginator paginator)
@@ -619,7 +619,9 @@ public class TenantFacade extends AbstractFacade {
      *            {@link Paginator}
      * @return list of vaadin items described above
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if tenantId is <code>null</code>
      */
     @AllowedRole(TenantAdminRole.class)
     public List<Item> getWorkflowModels(Long tenantId, List<Filter> filters,
@@ -652,7 +654,7 @@ public class TenantFacade extends AbstractFacade {
      *            a list of strings which includes email addresses and usernames
      *            which should be invited
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(WorkflowAdminRole.class)
     public void inviteUsersAsMembers(Long tenantId, List<String> emails,
@@ -673,7 +675,7 @@ public class TenantFacade extends AbstractFacade {
      * @param workflowModelIds
      *            a list of the IDs of the models which should be imported
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
     // DH how do I get the IDs of the newly created WFMs? ~rr
@@ -710,7 +712,7 @@ public class TenantFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             iff the given tenant does not exist
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
     public Item getTenantSettings(Long tenantId) throws TransactionException {

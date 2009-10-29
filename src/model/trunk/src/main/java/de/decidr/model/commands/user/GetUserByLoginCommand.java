@@ -57,6 +57,8 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
      *            the users username or email address
      * @param passwordPlaintext
      *            the users password input in plain text
+     * @throws IllegalArgumentException
+     *             if emailOrUsername or passwordPlaintext is <code>null</code>
      */
     public GetUserByLoginCommand(Role role, String emailOrUsername,
             String passwordPlaintext) {

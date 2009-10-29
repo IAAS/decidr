@@ -150,8 +150,7 @@ public class FileFacade extends AbstractFacade {
      * 
      * @param fileId
      *            the ID of the file that should be deleted.
-     * @return true iff the file was deleted (does not indicate whether the file
-     *         previously existed).
+     * @return true iff a file was deleted (false means the file didn't exist).
      * @throws TransactionException
      *             iff the transaction is aborted for any reason. Depending on
      *             the storage provider, this may lead to inconsistencies such
@@ -164,7 +163,7 @@ public class FileFacade extends AbstractFacade {
     public Boolean deleteFile(Long fileId) throws TransactionException {
         DeleteFileCommand cmd = new DeleteFileCommand(actor, fileId);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-        return cmd.isDeleted();
+        return cmd.getDeletedEntities() > 0;
     }
 
     /**

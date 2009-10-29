@@ -71,7 +71,7 @@ public class WorkItemFacade extends AbstractFacade {
      *            the ID of the workitem which should be requested
      * @return Vaadin item described above
      * @throws TransactionException
-     *             if the transaction is aborted for any reason
+     *             iff the transaction is aborted for any reason
      * @throws IllegalArgumentException
      *             if workItemId is <code>null</code>
      */
@@ -107,7 +107,7 @@ public class WorkItemFacade extends AbstractFacade {
      *            item has been created.
      * @return the ID of the new work item.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason
+     *             iff the transaction is aborted for any reason
      * @throws IllegalArgumentException
      *             if any parameter is <code>null</code>
      */
@@ -134,7 +134,7 @@ public class WorkItemFacade extends AbstractFacade {
      * @param data
      *            the new work item data
      * @throws TransactionException
-     *             if the transaction is aborted for any reason
+     *             iff the transaction is aborted for any reason
      * @throws EntityNotFoundException
      *             if the work item does not exist
      * @throws IllegalArgumentException
@@ -215,7 +215,7 @@ public class WorkItemFacade extends AbstractFacade {
      *            the work item to retrieve
      * @return Vaadin item containing the properties of the work item
      * @throws TransactionException
-     *             if the transaction is aborted for any reason
+     *             iff the transaction is aborted for any reason
      * @throws EntityNotFoundException
      *             if the work item does not exist
      * @throws IllegalArgumentException

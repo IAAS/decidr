@@ -108,7 +108,7 @@ public class UserFacade extends AbstractFacade {
      *            and password salt as they will be generated.
      * @return The ID of the user that has been registered
      * @throws TransactionException
-     *             if the transaction is aborted for any reason
+     *             iff the transaction is aborted for any reason
      * @throws IllegalArgumentException
      *             if email, passwordPlaintext or userProfile are either null or
      *             empty
@@ -138,14 +138,12 @@ public class UserFacade extends AbstractFacade {
      *            the account password as plain text (no hash).
      * @return user ID
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
      *             iff no such account exists or the password doesn't match.
      * @throws IllegalArgumentException
-     *             TODO document
+     *             if emailOrUsername or passwordPlaintext is <code>null</code>
      */
-    // DH either wrap the thrown IllegalArgumentException or add it to the
-    // javadoc; goes for every method in this class AFAICT ~rr
     @AllowedRole(BasicRole.class)
     public Long getUserIdByLogin(String emailOrUsername,
             String passwordPlaintext) throws TransactionException,
@@ -722,7 +720,7 @@ public class UserFacade extends AbstractFacade {
      * @throws IllegalArgumentException
      *             if userId is <code>null</code>.
      */
-    @AllowedRole(BasicRole.class)
+    @AllowedRole(UserRole.class)
     public Class<? extends UserRole> getHighestUserRole(Long userId)
             throws TransactionException {
 
@@ -748,7 +746,7 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
-    @AllowedRole(BasicRole.class)
+    @AllowedRole(UserRole.class)
     public Class<? extends UserRole> getUserRoleForTenant(Long userId,
             Long tenantId) throws TransactionException {
 
@@ -974,6 +972,8 @@ public class UserFacade extends AbstractFacade {
      *         <code>false</code>.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the user does not exist.
      */
     @AllowedRole(BasicRole.class)
     public Boolean isRegistered(Long userId) throws TransactionException {

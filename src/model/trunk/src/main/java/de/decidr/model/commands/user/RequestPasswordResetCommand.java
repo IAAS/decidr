@@ -70,7 +70,7 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
 
         if (user != null) {
             PasswordResetRequest request = new PasswordResetRequest();
-            request.setUserId(user.getId());
+            request.setId(user.getId());
             request.setUser(user);
             request.setAuthKey(Password.getRandomAuthKey());
             request.setCreationDate(DecidrGlobals.getTime().getTime());

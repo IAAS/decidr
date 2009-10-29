@@ -47,7 +47,7 @@ public class GetUserPropertiesCommand extends AclEnabledCommand implements
 
     private Collection<Long> userIds;
 
-    private List<User> users = null;
+    private List<User> users = new ArrayList<User>(0);
 
     /**
      * Creates a new GetUserPropertiesCommand
@@ -102,6 +102,12 @@ public class GetUserPropertiesCommand extends AclEnabledCommand implements
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+
+        users = new ArrayList<User>(0);
+        if (userIds == null || userIds.isEmpty()) {
+            return;
+        }
+
         Criteria crit = evt.getSession().createCriteria(User.class);
         ProjectionList projectionList = Projections.projectionList();
 
@@ -110,7 +116,7 @@ public class GetUserPropertiesCommand extends AclEnabledCommand implements
         }
 
         crit.setProjection(projectionList);
-        crit.add(Restrictions.in("in", userIds));
+        crit.add(Restrictions.in("id", userIds));
         /*
          * The AliasToBeanResultTransformer will turn the array of object
          * returned by list() into instances of the User class. Only the the
@@ -133,10 +139,9 @@ public class GetUserPropertiesCommand extends AclEnabledCommand implements
      * @return the first user
      */
     public User getFirstUser() {
-        return users.get(0);
+        return users.isEmpty() ? null : users.get(0);
     }
 
-    // DH: had to add this for IsRoleEqualToAccessedUser; please check ~rr
     @Override
     public Long[] getUserIds() {
         return userIds.toArray(new Long[userIds.size()]);

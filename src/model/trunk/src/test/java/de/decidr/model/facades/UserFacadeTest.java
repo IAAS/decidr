@@ -16,7 +16,12 @@
 
 package de.decidr.model.facades;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +38,7 @@ import org.junit.Test;
 import com.vaadin.data.Item;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.asserters.UserIsEnabledAsserter;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.UserRole;
@@ -232,7 +238,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         adminID = DecidrGlobals.getSettings().getSuperAdmin().getId();
         adminFacade = new UserFacade(new SuperAdminRole(adminID));
-        userFacade = new UserFacade(new BasicRole(0L));
+        userFacade = new UserFacade(new UserRole(0L));
         nullFacade = new UserFacade(null);
 
         UserProfile testProfile = new UserProfile();
@@ -317,11 +323,11 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         testUserID = adminFacade.registerUser(TEST_EMAIL, TEST_PASSWORD,
                 classProfile);
         assertNotNull(testUserID);
-        
+
         adminFacade.setDisabledSince(testUserID, null);
         adminFacade.setDisabledSince(adminID, null);
 
-        userFacade = new UserFacade(new BasicRole(testUserID));
+        userFacade = new UserFacade(new UserRole(testUserID));
     }
 
     @After
@@ -476,15 +482,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         }
         try {
             adminFacade.getAdministratedWorkflowModels(invalidID);
-            // RR the facade method didn't say that an exception is thrown in
-            // this case... an exception is not really a gain over an empty
-            // list...
-            // ~dh
-            // DH sure, but don't you think that requesting WfMs for a
-            // nonexistent user should return some error, if only to make bug
-            // tracing simpler? e.g. if the UI calls this method with an invalid
-            // ID for some users, we could search for the error on end. ~rr
-            fail("succeeded getting administrated workflow models as admin user with invalid ID");
         } catch (EntityNotFoundException e) {
             // supposed to be thrown
         }
@@ -578,6 +575,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testGetHighestUserRole() throws TransactionException {
+        // RR UserRole required ~dh
         assertEquals(adminFacade.actor.getClass(), adminFacade
                 .getHighestUserRole(adminID));
         assertEquals(adminFacade.actor.getClass(), userFacade
@@ -735,15 +733,9 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         assertFalse(adminFacade.isRegistered(testUserID));
         assertFalse(userFacade.isRegistered(testUserID));
 
-        User user = (User) session.load(User.class, testUserID);
+        User user = (User) session.get(User.class, testUserID);
+        assertNotNull(user);
         RegistrationRequest request = user.getRegistrationRequest();
-        authKey = request.getAuthKey();
-
-        user = (User) session.load(User.class, userId);
-        // RR probably another transaction isloation problem ~dh
-        // DH shouldn't be as I'm using the facade to register the user and
-        // that's wrapped in a transaction ~rr
-        request = user.getRegistrationRequest();
         authKey = request.getAuthKey();
 
         try {
@@ -787,6 +779,20 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             // supposed to be thrown
         }
 
+        /*
+         * synchronizes the session - otherwise session.get(User.class, userId)
+         * returns null due to transaction isolation.
+         */
+        session.beginTransaction().commit();
+
+        user = (User) session.get(User.class, userId);
+        assertNotNull(user);
+        request = user.getRegistrationRequest();
+        authKey = request.getAuthKey();
+
+        // RR Facade actor id must be equal to confirmed user id. See below for
+        // hack ~dh
+        userFacade = new UserFacade(new UserRole(userId));
         userFacade.confirmRegistration(userId, authKey);
         try {
             userFacade.confirmRegistration(userId, authKey);
@@ -837,13 +843,12 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         } catch (TransactionException e) {
             // supposed to be thrown
         }
-        try {
-            adminFacade.setDisabledSince(adminFacade.actor.getActorId(),
-                    DecidrGlobals.getTime().getTime());
-            fail("setting super admin disabled succeeded.");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
+
+        // Disabling the superadmin user account must not have any effect.
+        adminFacade.setDisabledSince(adminFacade.actor.getActorId(),
+                DecidrGlobals.getTime().getTime());
+        assertTrue(new UserIsEnabledAsserter().assertRule(adminFacade.actor,
+                null));
 
         Date testDate = new Date();
         adminFacade.setDisabledSince(testUserID, testDate);

@@ -143,6 +143,8 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         // usersThatNeedInvitations and usersThatAreAlreadyTenantMembers are now
         // filled.
 
+        persistUploadedFiles();
+        
         // create the new workflow instance in the database
         try {
             createWorkflowInstance(deployedWorkflowModel, evt.getSession());
@@ -293,11 +295,11 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
      * @param session
      *            current Hibernate Session
      * @throws JAXBException
-     *             TODO document
+     *             on jaxb error
      * @throws IOException
-     *             TODO document
+     *             on i/o error
      * @throws SOAPException
-     *             TODO document
+     *             on web service communication error
      */
     @SuppressWarnings("unchecked")
     private void createWorkflowInstance(DeployedWorkflowModel deployedModel,
@@ -524,6 +526,14 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
                 }
             }
         }
+    }
+
+    /**
+     * Persists all uploaded files in the start configuration by setting the
+     * temporary flag to false.
+     */
+    private void persistUploadedFiles() {
+        // DH need a way to find out which values are uploaded files.
     }
 
     @Override

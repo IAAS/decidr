@@ -16,8 +16,6 @@
 
 package de.decidr.model.commands.user;
 
-import java.util.Date;
-
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
@@ -51,14 +49,9 @@ public class IsUserRegisteredCommand extends UserCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-
+        // set to false in case fetchUser throws an exception.
         result = false;
-
-        Date registeredSince = (Date) evt.getSession().createQuery(
-                "select u.registeredSince from User u where u.id = :userId")
-                .setLong("userId", getUserId()).uniqueResult();
-
-        result = registeredSince != null;
+        result = fetchUser(evt.getSession()).getRegisteredSince() != null;
     }
 
     /**

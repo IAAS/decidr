@@ -134,7 +134,7 @@ public class SystemFacade extends AbstractFacade {
      * 
      * @return system settings as <code>{@link Item}</code>
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public Item getSettings() throws TransactionException {
@@ -152,7 +152,7 @@ public class SystemFacade extends AbstractFacade {
      *            a transient entity containing the new system settings. The id
      *            and modifiedDate properties of this entity will be ignored.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public void setSettings(SystemSettings newSettings)
@@ -179,7 +179,7 @@ public class SystemFacade extends AbstractFacade {
      *            "dynamically added"
      * @return the new server
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public Server addServer(ServerTypeEnum type, String location,
@@ -201,7 +201,7 @@ public class SystemFacade extends AbstractFacade {
      * @param serverId
      *            ID of the server which should be removed
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public void removeServer(Long serverId) throws TransactionException {
@@ -218,7 +218,7 @@ public class SystemFacade extends AbstractFacade {
      * @param load
      *            new load server load as byte
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      * @throws IllegalArgumentException
      *             TODO document
      */
@@ -241,7 +241,7 @@ public class SystemFacade extends AbstractFacade {
      *            whether the server should be locked. If false, the server will
      *            be unlocked
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public void setServerLock(Long serverId, Boolean lock)
@@ -260,7 +260,7 @@ public class SystemFacade extends AbstractFacade {
      *            splits the result in several pages
      * @return <code>{@link List<Item>}</code> Logs as items
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public List<Item> getLog(List<Filter> filters, Paginator paginator)
@@ -301,7 +301,7 @@ public class SystemFacade extends AbstractFacade {
      * @return ServerStatistics as a list of Vaadin
      *         <code>{@link Item items}</code>
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
     public List<Item> getServerStatistics() throws TransactionException {
@@ -329,7 +329,7 @@ public class SystemFacade extends AbstractFacade {
      *            server types are included
      * @return list of servers that match one of the given server types.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(ServerLoadUpdaterRole.class)
     public List<Server> getServers(ServerTypeEnum... serverTypes)

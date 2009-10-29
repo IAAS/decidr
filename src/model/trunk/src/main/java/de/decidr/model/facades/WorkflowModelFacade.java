@@ -79,7 +79,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * Saves the given properties as workflow model.
      * 
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
     public void saveWorkflowModel(Long workflowModelId, String name,
@@ -113,7 +113,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      *            the id of the workflow model which should be returned
      * @return Vaadin item
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
     public Item getWorkflowModel(Long workflowModelId)
@@ -167,7 +167,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @param workflowModelIds
      *            the workflow models to publish.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
     public void publishWorkflowModels(List<Long> workflowModelIds)
@@ -187,7 +187,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @param workflowModelIds
      *            the workflow models to publish.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
     public void unpublishWorkflowModels(List<Long> workflowModelIds)
@@ -212,7 +212,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @param executable
      *            TODO document
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
     public void setExecutable(Long workflowModelId, Boolean executable)
@@ -232,7 +232,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      *            workflow model of which the administrators should be retrieved
      * @return List of administrators as Vaadin items.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
     public List<Item> getWorkflowAdministrators(Long workflowModelId)
@@ -289,7 +289,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @param newAdminUsernames
      *            usernames of new tenant administrators
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      * @throws UsernameNotFoundException
      *             if a username is unknown to the system
      * @throws UserUnavailableException
@@ -314,7 +314,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @param workflowModelIds
      *            list of ids of the workflow models to delete
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
     public void deleteWorkflowModels(List<Long> workflowModelIds)
@@ -360,7 +360,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @return Vaadin items representing the workflow instances that are
      *         associated swith this model.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getWorkflowInstances(Long workflowModelId,
@@ -411,7 +411,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      *            an optional paginator to split the query into several pages
      * @return Vaadin items representing the published workflow models.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
     public List<Item> getAllPublishedWorkflowModels(List<Filter> filters,
@@ -471,7 +471,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      *            on the ODE until all users have confirmed their invitations.
      * @return the id of the created workflow instance.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      * @throws WorkflowModelNotStartableException
      *             if the workflow model to start is not really startable.
      * @throws UserUnavailableException
@@ -508,7 +508,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      *            configuration should be requested
      * @return the raw XML data of the last used start configuration or null.
      * @throws TransactionException
-     *             if the transaction is aborted for any reason.
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(WorkflowAdminRole.class)
     public byte[] getLastStartConfiguration(Long workflowModelId)

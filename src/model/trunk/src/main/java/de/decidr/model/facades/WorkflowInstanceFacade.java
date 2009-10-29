@@ -49,7 +49,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * @param workflowInstanceId
      *            the ID of the WorkflowInstance
      * @throws TransactionException
-     *             TODO document
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(WorkflowAdminRole.class)
     public void stopWorkflowInstance(Long workflowInstanceId)
@@ -62,15 +62,20 @@ public class WorkflowInstanceFacade extends AbstractFacade {
     }
 
     /**
-     * Returns all participants of the given {@link WorkflowInstance}.<br>
-     * TODO complete comment
+     * Returns all participants of the given {@link WorkflowInstance} as Vaadin
+     * {@link Item}s with the following properties:
+     * 
+     * <ul>
+     * <li>id: Long - user ID</li>
+     * <li>email: String - user email address</li>
+     * </ul>
      * 
      * @param workflowInstanceId
      *            the ID of the workflow instance whose participating users
      *            should be requested
      * @return List of participating Users
      * @throws TransactionException
-     *             TODO document
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getParticipatingUsers(Long workflowInstanceId)
@@ -100,7 +105,7 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * @param workflowInstanceId
      *            the ID of the WorkflowInstance
      * @throws TransactionException
-     *             TODO document
+     *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(WorkflowAdminRole.class)
     public void deleteWorkflowInstance(Long workflowInstanceId)

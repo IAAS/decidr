@@ -19,9 +19,6 @@ package de.decidr.model.commands.user;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.Restrictions;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.Password;
@@ -101,27 +98,27 @@ public class RegisterUserCommand extends AclEnabledCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+        registeredUser = null;
         /*
          * Does a user who has the given email or username already exist?
-         */
-        Criteria crit = evt.getSession().createCriteria(User.class, "u");
-        crit.createAlias("userProfile", "p", CriteriaSpecification.LEFT_JOIN);
-        /*
+         * 
          * The DecidR username criteria prevent that two users user1 and user2
          * exist where user1.email = user2.username. Should the database be
          * inconsistent, uniqueResult will throw a runtime exception.
          */
-        crit.add(Restrictions.or(Restrictions.eq("u.email", email),
-                Restrictions.eq("p.username", profile.getUsername())));
+        String hql = "from User u "
+                + "where (u.userProfile.username = :username) "
+                + "or (u.email = :email)";
 
-        User existingUser = (User) crit.uniqueResult();
+        User existingUser = (User) evt.getSession().createQuery(hql).setString(
+                "username", profile.getUsername()).setString("email", email)
+                .uniqueResult();
 
         if (existingUser == null) {
             /*
              * There is no such user - create one!
              */
-            existingUser = new User();
-            existingUser.setEmail(email);
+            existingUser = new User(email, DecidrGlobals.getTime().getTime());
             HibernateTransactionCoordinator.getInstance().runTransaction(
                     new CreateNewUnregisteredUserCommand(role, existingUser));
         } else {
@@ -146,18 +143,15 @@ public class RegisterUserCommand extends AclEnabledCommand {
         profile.setPasswordSalt(Password.getRandomSalt());
         profile.setPasswordHash(Password.getHash(passwordPlaintext, profile
                 .getPasswordSalt()));
-        profile.setUserId(existingUser.getId());
+        profile.setId(existingUser.getId());
         profile.setUser(existingUser);
         existingUser.setUserProfile(profile);
         existingUser.setRegisteredSince(null);
         evt.getSession().save(profile);
         evt.getSession().update(existingUser);
 
-        RegistrationRequest request = new RegistrationRequest();
-
-        request.setAuthKey(Password.getRandomAuthKey());
-        request.setCreationDate(DecidrGlobals.getTime().getTime());
-        request.setUser(existingUser);
+        RegistrationRequest request = new RegistrationRequest(existingUser,
+                DecidrGlobals.getTime().getTime(), Password.getRandomAuthKey());
         evt.getSession().saveOrUpdate(request);
         existingUser.setRegistrationRequest(request);
 

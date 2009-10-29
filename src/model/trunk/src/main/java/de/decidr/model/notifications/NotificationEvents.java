@@ -144,7 +144,7 @@ public final class NotificationEvents {
 
         // create url
         URLGenerator URLGenerator = new URLGenerator();
-        Long userIdLong = request.getUserId();
+        Long userIdLong = request.getId();
         String userId = userIdLong.toString();
         String confirmationUrl;
 

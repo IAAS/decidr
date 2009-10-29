@@ -44,7 +44,6 @@ public class UserIsLoggedInAsserter implements Asserter {
             result = UserRole.MIN_VALID_USER_ID
                     .compareTo(userRole.getActorId()) < 0;
         }
-        // DH: so, BasicRole can't be logged in? ~rr
         return result;
     }
 }

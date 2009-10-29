@@ -52,14 +52,18 @@ public class GetWorkflowModelsCommand extends TenantCommand {
      * @param tenantId
      *            the ID of the tenant whose workflow models should be returned
      * @param filters
-     *            {@link Filter}
+     *            {@link Filter} to apply to the query.
      * @param paginator
-     *            {@link Paginator}
+     *            {@link Paginator} to apply to the query.
+     * @throws IllegalArgumentException
+     *             if tenantId is <code>null</code>
      */
     public GetWorkflowModelsCommand(Role role, Long tenantId,
             List<Filter> filters, Paginator paginator) {
         super(role, tenantId);
-
+        if (tenantId == null) {
+            throw new IllegalArgumentException("Tenant ID must not be null.");
+        }
         this.filters = filters;
         this.paginator = paginator;
 

@@ -70,12 +70,12 @@ public class RequestChangeEmailCommand extends UserCommand {
         newRequest.setCreationDate(DecidrGlobals.getTime().getTime());
         newRequest.setNewEmail(newEmail);
         newRequest.setUser(user);
-        newRequest.setUserId(user.getId());
+        newRequest.setId(user.getId());
         evt.getSession().save(newRequest);
 
         user.setChangeEmailRequest(newRequest);
         // no need to update the user entity.
-        
+
         NotificationEvents.createdChangeEmailRequest(newRequest);
     }
 

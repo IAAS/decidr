@@ -630,11 +630,12 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         byte[] streamLogo = new byte[(int) fileSizeBytes];
         byte[] tenantLogo = new byte[(int) fileSizeBytes];
         assertEquals(fileSizeBytes, logoStream.read(streamLogo));
-        assertEquals(fileSizeBytes, adminFacade.getLogo(testTenantID)
-                .read(tenantLogo));
+        assertEquals(fileSizeBytes, adminFacade.getLogo(testTenantID).read(
+                tenantLogo));
         assertTrue(Arrays.equals(streamLogo, tenantLogo));
 
-        assertEquals(fileSizeBytes, userFacade.getLogo(testTenantID).read(tenantLogo));
+        assertEquals(fileSizeBytes, userFacade.getLogo(testTenantID).read(
+                tenantLogo));
         assertTrue(Arrays.equals(streamLogo, tenantLogo));
 
         adminFacade.setLogo(testTenantID, null);
@@ -697,10 +698,6 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
             // supposed to be thrown
         }
 
-        // RR "UserIsEnabledAsserter DISAGREES" -> the user account of the actor
-        // must be enabled to perform these actions. ~dh
-        // DH then why doesn't the super admin have to be enabled otherwise?
-        // Also, why can the super admin be disabled? ~rr
         adminFacade.setDescription(testTenantID, TEST_DESC + " (testtttttt)");
         userFacade.setDescription(testTenantID, TEST_DESC + " (testtttttt)");
     }
@@ -869,7 +866,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.getWorkflowModels(null, null, null);
             fail("Managed to get workflow models with null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {
