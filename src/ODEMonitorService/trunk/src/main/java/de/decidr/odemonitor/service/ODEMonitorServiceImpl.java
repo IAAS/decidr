@@ -52,7 +52,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
  * 
  * @author Reinhold
  */
-@WebService(endpointInterface = "de.decidr.odemonitor.service.ODEMonitorService")
+@WebService(endpointInterface = "de.decidr.odemonitor.service.ODEMonitorService", targetNamespace = ODEMonitorService.TARGET_NAMESPACE, portName = ODEMonitorService.PORT_NAME, serviceName = ODEMonitorService.SERVICE_NAME)
 public class ODEMonitorServiceImpl implements ODEMonitorService {
 
     private static final Role ODE_ROLE = ODERole.getInstance();

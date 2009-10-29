@@ -69,8 +69,6 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
      * {@link HibernateEntityStorageProvider#putFile(InputStream, Long, Long)},
      * {@link HibernateEntityStorageProvider#getFile(Long)} and
      * {@link HibernateEntityStorageProvider#removeFile(Long)}.
-     * 
-     * @throws Exception
      */
     @Test
     public void testPutFileGetFile() throws Exception {

@@ -47,7 +47,7 @@ import de.decidr.model.workflowmodel.humantask.THumanTaskData;
  * 
  * @author Reinhold
  */
-@WebService(endpointInterface = "de.decidr.model.webservices.HumanTaskInterface")
+@WebService(endpointInterface = "de.decidr.model.webservices.HumanTaskInterface", targetNamespace = HumanTaskInterface.TARGET_NAMESPACE, portName = HumanTaskInterface.PORT_NAME, serviceName = HumanTaskInterface.SERVICE_NAME)
 @HandlerChain(file = "handler-chain.xml")
 public class HumanTask implements HumanTaskInterface {
     private static Logger log = DefaultLogger.getLogger(HumanTask.class);

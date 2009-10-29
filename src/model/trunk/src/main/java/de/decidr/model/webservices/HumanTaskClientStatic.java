@@ -32,7 +32,7 @@ import de.decidr.model.DecidrGlobals;
  * 
  * @author Reinhold
  */
-@WebServiceClient(name = "HumanTask", targetNamespace = HumanTaskInterface.TARGET_NAMESPACE)
+@WebServiceClient(name = HumanTaskInterface.SERVICE_NAME, targetNamespace = HumanTaskInterface.TARGET_NAMESPACE)
 public class HumanTaskClientStatic extends Service {
 
     public HumanTaskClientStatic() throws MalformedURLException {
@@ -50,10 +50,10 @@ public class HumanTaskClientStatic extends Service {
     }
 
     /**
-     * @return returns an implementation using SOAP 1.2 to access the
+     * @return returns an implementation using SOAP 1.1 to access the
      *         <code>{@link HumanTaskInterface}</code>.
      */
-    @WebEndpoint(name = "HumanTaskSOAP")
+    @WebEndpoint(name = HumanTaskInterface.PORT_NAME)
     public HumanTaskInterface getEmailSOAP() {
         return super.getPort(HumanTaskInterface.ENDPOINT,
                 HumanTaskInterface.class);
@@ -65,10 +65,10 @@ public class HumanTaskClientStatic extends Service {
      *            on the proxy. Supported features not in the
      *            <code>features</code> parameter will have their default
      *            values.
-     * @return returns an implementation using SOAP 1.2 to access the
+     * @return returns an implementation using SOAP 1.1 to access the
      *         <code>{@link HumanTaskInterface}</code>.
      */
-    @WebEndpoint(name = "HumanTaskSOAP")
+    @WebEndpoint(name = HumanTaskInterface.PORT_NAME)
     public HumanTaskInterface getEmailSOAP(WebServiceFeature... features) {
         return super.getPort(HumanTaskInterface.ENDPOINT,
                 HumanTaskInterface.class, features);

@@ -135,7 +135,6 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}
      * {@link AbstractUserList }{@code >}
-     * 
      */
     @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "cc", scope = SendEmail.class)
     public JAXBElement<AbstractUserList> createSendEmailCc(

@@ -50,7 +50,7 @@ public class EmailClientStatic extends Service {
     }
 
     /**
-     * @return returns an implementation using SOAP 1.2 to access the
+     * @return returns an implementation using SOAP 1.1 to access the
      *         <code>{@link EmailInterface}</code>.
      */
     @WebEndpoint(name = "EmailSOAP")
@@ -65,7 +65,7 @@ public class EmailClientStatic extends Service {
      *            on the proxy. Supported features not in the
      *            <code>features</code> parameter will have their default
      *            values.
-     * @return returns an implementation using SOAP 1.2 to access the
+     * @return returns an implementation using SOAP 1.1 to access the
      *         <code>{@link EmailInterface}</code>.
      */
     @WebEndpoint(name = "EmailSOAP")

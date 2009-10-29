@@ -19,6 +19,7 @@ package de.decidr.odemonitor.service;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
@@ -32,16 +33,18 @@ import de.decidr.model.exceptions.TransactionException;
  * The web service part of the ODE monitor. Interacts with the database and
  * makes decisions on which server gets locked.
  */
-@WebService(name = "ODEMonitorPT", targetNamespace = ODEMonitorService.TARGET_NAMESPACE, wsdlLocation = "ODEMonitor.wsdl")
+@WebService(name = ODEMonitorService.SERVICE_NAME, serviceName = ODEMonitorService.SERVICE_NAME, targetNamespace = ODEMonitorService.TARGET_NAMESPACE, wsdlLocation = "ODEMonitor.wsdl", portName = ODEMonitorService.PORT_NAME)
 @XmlSeeAlso( { ObjectFactory.class })
+@SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.WRAPPED, style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 public interface ODEMonitorService {
 
     public static final String TARGET_NAMESPACE = "http://decidr.de/webservices/ODEMonitor";
     public static final String SERVICE_NAME = "ODEMonitor";
+    public static final String PORT_TYPE_NAME = "ODEMonitorPT";
+    public static final String PORT_NAME = "ODEMonitorSOAP11Endpoint";
     public static final QName SERVICE = new QName(
             "http://decidr.de/webservices/ODEMonitor", SERVICE_NAME);
-    public static final QName ENDPOINT = new QName(TARGET_NAMESPACE,
-            "ODEMonitorSOAP12Endpoint");
+    public static final QName ENDPOINT = new QName(TARGET_NAMESPACE, PORT_NAME);
 
     /**
      * Returns the current configuration.
