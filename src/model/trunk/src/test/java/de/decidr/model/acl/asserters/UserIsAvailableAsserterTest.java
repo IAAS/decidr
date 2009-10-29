@@ -16,8 +16,7 @@
 
 package de.decidr.model.acl.asserters;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.Date;
 
@@ -34,7 +33,6 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.model.testing.DecidrAclTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**

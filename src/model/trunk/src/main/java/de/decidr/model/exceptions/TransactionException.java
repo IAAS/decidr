@@ -10,7 +10,7 @@ import javax.xml.ws.WebFault;
  * @author Daniel Huss
  * @version 0.1
  */
-@WebFault(targetNamespace = "http://decidr.de/exceptions", name = "transactionException")
+@WebFault(targetNamespace = "http://decidr.de/model/exceptions", name = "transactionException")
 public class TransactionException extends Exception {
 
     private static final long serialVersionUID = 1L;

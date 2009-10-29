@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ema="http://decidr.de/webservices/Email" xmlns:dec="http://decidr.de/schema/DecidrTypes" xmlns:dec1="http://decidr.de/schema/DecidrWSTypes">
-   <soap:Header/>
-   <soap:Body>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ema="http://decidr.de/webservices/Email" xmlns:dec="http://decidr.de/schema/DecidrTypes" xmlns:dec1="http://decidr.de/schema/DecidrWSTypes">
+   <soapenv:Header/>
+   <soapenv:Body>
       <ema:sendEmail>
-         <to>
+         <ema:to>
             <!--1 or more repetitions:-->
             <dec:emailUser>
                <dec:email>rumberrd@studi.informatik.uni-stuttgart.de</dec:email>
             </dec:emailUser>
-         </to>
-         <cc xsi:nil="true"/>
-         <bcc xsi:nil="true"/>
+         </ema:to>
+         <ema:cc xsi:nil="true"/>
+         <ema:bcc xsi:nil="true"/>
          <!--type: string-->
-         <fromName>gero et</fromName>
+         <ema:fromName>gero et</ema:fromName>
          <!--type: string-->
-         <fromAddress>root@localhost</fromAddress>
+         <ema:fromAddress>root@localhost</ema:fromAddress>
          <!--type: string-->
-         <subject>quae divum incedo</subject>
-         <headers xsi:nil="true"/>
+         <ema:subject>quae divum incedo</ema:subject>
+         <ema:headers xsi:nil="true"/>
          <!--type: string-->
-         <bodyTXT>circum claustra</bodyTXT>
+         <ema:bodyTXT>circum claustra</ema:bodyTXT>
          <!--type: string-->
-         <bodyHTML xsi:nil="true"/>
-         <attachments xsi:nil="true"/>
+         <ema:bodyHTML xsi:nil="true"/>
+         <ema:attachments xsi:nil="true"/>
       </ema:sendEmail>
-   </soap:Body>
-</soap:Envelope>
+   </soapenv:Body>
+</soapenv:Envelope>

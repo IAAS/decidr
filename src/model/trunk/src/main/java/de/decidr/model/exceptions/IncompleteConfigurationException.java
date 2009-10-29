@@ -24,7 +24,7 @@ import javax.xml.ws.WebFault;
  * 
  * @author Reinhold
  */
-@WebFault(targetNamespace = "http://decidr.de/exceptions", name = "incompleteConfigurationException")
+@WebFault(targetNamespace = "http://decidr.de/model/exceptions", name = "incompleteConfigurationException")
 public class IncompleteConfigurationException extends Exception {
     private String serviceDetail = "";
 

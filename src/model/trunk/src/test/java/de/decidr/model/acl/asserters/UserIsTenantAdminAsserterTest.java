@@ -18,9 +18,6 @@ package de.decidr.model.acl.asserters;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.hibernate.Transaction;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -29,17 +26,16 @@ import org.junit.Test;
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.permissions.CommandPermission;
 import de.decidr.model.acl.permissions.Permission;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
-import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.commands.tenant.AddTenantMemberCommand;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.facades.WorkflowModelFacade;
-import de.decidr.model.testing.DecidrAclTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**

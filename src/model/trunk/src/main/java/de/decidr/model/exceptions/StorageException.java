@@ -24,7 +24,7 @@ import javax.xml.ws.WebFault;
  * @author Markus Fischer
  * @version 0.1
  */
-@WebFault(targetNamespace = "http://decidr.de/exceptions", name = "storageException")
+@WebFault(targetNamespace = "http://decidr.de/model/exceptions", name = "storageException")
 public class StorageException extends Exception {
 
     private String serviceDetail = "";

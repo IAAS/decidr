@@ -38,8 +38,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 
 import com.sun.mail.smtp.SMTPTransport;
 
@@ -865,10 +865,10 @@ public class MailBackend {
         }
         Session session = Session.getInstance(sysProps, null);
 
-        if (log.getLevel().toInt() <= Priority.DEBUG_INT) {
-            session.setDebug(true);
-        } else {
+        if (log.getEffectiveLevel().isGreaterOrEqual(Level.INFO)) {
             session.setDebug(false);
+        } else {
+            session.setDebug(true);
         }
 
         MimeMessage message = new MimeMessage(session);

@@ -28,7 +28,7 @@ import javax.xml.ws.WebFault;
  * 
  * @author Reinhold
  */
-@WebFault(name = "messagingException", targetNamespace = "http://decidr.de/exceptions")
+@WebFault(name = "messagingException", targetNamespace = "http://decidr.de/model/soap/exceptions")
 public class MessagingExceptionWrapper extends MessagingException {
     public static final long serialVersionUID = 20090612164657L;
 
@@ -42,13 +42,12 @@ public class MessagingExceptionWrapper extends MessagingException {
         super(message);
     }
 
-    public MessagingExceptionWrapper(String message,
-            java.lang.String messagingException) {
+    public MessagingExceptionWrapper(String message, String messagingException) {
         super(message);
         this.messagingException = messagingException;
     }
 
-    public java.lang.String getFaultInfo() {
+    public String getFaultInfo() {
         return this.messagingException;
     }
 }

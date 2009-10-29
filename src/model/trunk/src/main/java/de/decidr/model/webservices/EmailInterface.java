@@ -30,6 +30,7 @@ import javax.xml.ws.ResponseWrapper;
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.soap.exceptions.IllegalArgumentExceptionWrapper;
 import de.decidr.model.soap.exceptions.IoExceptionWrapper;
 import de.decidr.model.soap.exceptions.MalformedURLExceptionWrapper;
 import de.decidr.model.soap.exceptions.MessagingExceptionWrapper;
@@ -119,6 +120,6 @@ public interface EmailInterface {
             @WebParam(name = "bodyHTML", targetNamespace = "http://decidr.de/webservices/Email") String bodyHTML,
             @WebParam(name = "attachments", targetNamespace = "http://decidr.de/webservices/Email") IDList attachments)
             throws MessagingExceptionWrapper, MalformedURLExceptionWrapper,
-            TransactionException, IoExceptionWrapper, IllegalArgumentException,
+            TransactionException, IoExceptionWrapper, IllegalArgumentExceptionWrapper,
             StorageException, IncompleteConfigurationException;
 }

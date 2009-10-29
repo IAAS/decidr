@@ -76,17 +76,13 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
      * 
      * @see InputStream#skip(long)
      */
-    public static Long getInputStreamSize(InputStream in) {
-        long size;
+    public static Long getInputStreamSize(InputStream in) throws IOException {
+        long size = 0;
         assertNotNull(in);
 
-        try {
-            size = in.skip(Long.MAX_VALUE);
-        } catch (IOException e) {
-            size = -1;
-        }
-
-        return (size < 0) ? 0 : size;
+        while (in.read() != -1)
+            size++;
+        return size;
     }
 
     public static boolean compareInputStreams(InputStream a, InputStream b)

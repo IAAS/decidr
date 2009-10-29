@@ -4,18 +4,23 @@
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:dwsdl="http://decidr.de/wsdl/DecidrTypes" xmlns:basic="http://decidr.de/schema/DecidrTypes"
 	xmlns:decidr="http://decidr.de/schema/DecidrWSTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
-	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:ex="http://decidr.de/exceptions"
-	name="Email" targetNamespace="http://decidr.de/webservices/Email">
+	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:mex="http://decidr.de/model/exceptions"
+	xmlns:sex="http://decidr.de/model/soap/exceptions" name="Email"
+	targetNamespace="http://decidr.de/webservices/Email">
 
 	<wsdl:types>
 		<xsd:schema elementFormDefault="qualified"
-			targetNamespace="http://decidr.de/exceptions">
+			targetNamespace="http://decidr.de/model/exceptions">
 			<xsd:element name="incompleteConfigurationException"
 				type="xsd:string" />
 			<xsd:element name="storageException" type="xsd:string" />
 			<xsd:element name="transactionException" type="xsd:string" />
+		</xsd:schema>
+		<xsd:schema elementFormDefault="qualified"
+			targetNamespace="http://decidr.de/model/soap/exceptions">
 			<xsd:element name="messagingException" type="xsd:string" />
 			<xsd:element name="ioException" type="xsd:string" />
+			<xsd:element name="illegalArgumentException" type="xsd:string" />
 			<xsd:element name="malformedURLException" type="xsd:string" />
 		</xsd:schema>
 
@@ -66,23 +71,23 @@
 		<wsdl:part element="tns:sendEmailResponse" name="parameters" />
 	</wsdl:message>
 	<wsdl:message name="incompleteConfigurationException">
-		<wsdl:part element="ex:incompleteConfigurationException"
+		<wsdl:part element="mex:incompleteConfigurationException"
 			name="fault" />
 	</wsdl:message>
 	<wsdl:message name="storageException">
-		<wsdl:part element="ex:storageException" name="fault" />
+		<wsdl:part element="mex:storageException" name="fault" />
 	</wsdl:message>
 	<wsdl:message name="transactionException">
-		<wsdl:part element="ex:transactionException" name="fault" />
+		<wsdl:part element="mex:transactionException" name="fault" />
 	</wsdl:message>
 	<wsdl:message name="ioException">
-		<wsdl:part element="ex:ioException" name="fault" />
+		<wsdl:part element="sex:ioException" name="fault" />
 	</wsdl:message>
 	<wsdl:message name="malformedURLException">
-		<wsdl:part element="ex:malformedURLException" name="fault" />
+		<wsdl:part element="sex:malformedURLException" name="fault" />
 	</wsdl:message>
 	<wsdl:message name="messagingException">
-		<wsdl:part element="ex:messagingException" name="fault" />
+		<wsdl:part element="sex:messagingException" name="fault" />
 	</wsdl:message>
 
 	<wsdl:portType name="EmailPT">

@@ -27,11 +27,11 @@ import javax.xml.ws.WebFault;
  * 
  * @author Reinhold
  */
-@WebFault(name = "ioException", targetNamespace = "http://decidr.de/exceptions")
+@WebFault(name = "ioException", targetNamespace = "http://decidr.de/model/soap/exceptions")
 public class IoExceptionWrapper extends IOException {
     public static final long serialVersionUID = 20090612164657L;
 
-    private java.lang.String ioException;
+    private String ioException;
 
     public IoExceptionWrapper() {
         super();
@@ -45,18 +45,18 @@ public class IoExceptionWrapper extends IOException {
         super(message, cause);
     }
 
-    public IoExceptionWrapper(String message, java.lang.String ioException) {
+    public IoExceptionWrapper(String message, String ioException) {
         super(message);
         this.ioException = ioException;
     }
 
-    public IoExceptionWrapper(String message, java.lang.String ioException,
+    public IoExceptionWrapper(String message, String ioException,
             Throwable cause) {
         super(message, cause);
         this.ioException = ioException;
     }
 
-    public java.lang.String getFaultInfo() {
+    public String getFaultInfo() {
         return this.ioException;
     }
 }

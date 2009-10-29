@@ -28,7 +28,7 @@ import javax.xml.ws.WebFault;
  * 
  * @author Reinhold
  */
-@WebFault(name = "malformedURLException", targetNamespace = "http://decidr.de/exceptions")
+@WebFault(name = "malformedURLException", targetNamespace = "http://decidr.de/model/soap/exceptions")
 public class MalformedURLExceptionWrapper extends MalformedURLException {
     public static final long serialVersionUID = 20090612164657L;
 

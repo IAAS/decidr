@@ -22,7 +22,7 @@ import javax.xml.ws.WebFault;
  * 
  * @author Reinhold
  */
-@WebFault(name = "reportingException", targetNamespace = "http://decidr.de/exceptions")
+@WebFault(name = "reportingException", targetNamespace = "http://decidr.de/model/soap/exceptions")
 public class ReportingException extends Exception {
     public static final long serialVersionUID = 20090710155853L;
 

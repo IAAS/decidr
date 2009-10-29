@@ -33,14 +33,17 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
+    private static final String EXCEPTION_NAMESPACE = "http://decidr.de/model/soap/exceptions";
     private final static QName _IoException_QNAME = new QName(
-            "http://decidr.de/exceptions", "ioException");
+            EXCEPTION_NAMESPACE, "ioException");
     private final static QName _MalformedURLException_QNAME = new QName(
-            "http://decidr.de/exceptions", "malformedURLException");
+            EXCEPTION_NAMESPACE, "malformedURLException");
     private final static QName _MessagingException_QNAME = new QName(
-            "http://decidr.de/exceptions", "messagingException");
+            EXCEPTION_NAMESPACE, "messagingException");
     private final static QName _ReportingException_QNAME = new QName(
-            "http://decidr.de/exceptions", "reportingException");
+            EXCEPTION_NAMESPACE, "reportingException");
+    private final static QName _IllegalArgumentException_QNAME = new QName(
+            EXCEPTION_NAMESPACE, "illegalArgumentException");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of
@@ -53,7 +56,7 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
      */
-    @XmlElementDecl(namespace = "http://decidr.de/exceptions", name = "ioException")
+    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "ioException")
     public JAXBElement<String> createIoExceptionWrapper(String value) {
         return new JAXBElement<String>(_IoException_QNAME, String.class, null,
                 value);
@@ -62,7 +65,7 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
      */
-    @XmlElementDecl(namespace = "http://decidr.de/exceptions", name = "malformedURLException")
+    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "malformedURLException")
     public JAXBElement<String> createMalformedURLExceptionWrapper(String value) {
         return new JAXBElement<String>(_MalformedURLException_QNAME,
                 String.class, null, value);
@@ -71,7 +74,7 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
      */
-    @XmlElementDecl(namespace = "http://decidr.de/exceptions", name = "messagingException")
+    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "messagingException")
     public JAXBElement<String> createMessagingExceptionWrapper(String value) {
         return new JAXBElement<String>(_MessagingException_QNAME, String.class,
                 null, value);
@@ -80,9 +83,19 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
      */
-    @XmlElementDecl(namespace = "http://decidr.de/exceptions", name = "reportingException")
+    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "reportingException")
     public JAXBElement<String> createReportingExceptionWrapper(String value) {
         return new JAXBElement<String>(_ReportingException_QNAME, String.class,
                 null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "illegalArgumentException")
+    public JAXBElement<String> createIllegalArgumentExceptionWrapper(
+            String value) {
+        return new JAXBElement<String>(_IllegalArgumentException_QNAME,
+                String.class, null, value);
     }
 }
