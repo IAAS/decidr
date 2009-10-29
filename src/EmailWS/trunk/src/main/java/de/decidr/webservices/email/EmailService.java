@@ -39,6 +39,7 @@ import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.DefaultLogger;
+import de.decidr.model.soap.exceptions.IllegalArgumentExceptionWrapper;
 import de.decidr.model.soap.exceptions.IoExceptionWrapper;
 import de.decidr.model.soap.exceptions.MalformedURLExceptionWrapper;
 import de.decidr.model.soap.exceptions.MessagingExceptionWrapper;
@@ -62,7 +63,7 @@ import de.decidr.model.webservices.EmailInterface;
  * @author Reinhold
  */
 @WebService(endpointInterface = "de.decidr.model.webservices.EmailInterface", targetNamespace = EmailInterface.TARGET_NAMESPACE, portName = EmailInterface.PORT_NAME, serviceName = EmailInterface.SERVICE_NAME)
-//@HandlerChain(file = "handler-chain.xml")
+// @HandlerChain(file = "handler-chain.xml")
 public class EmailService implements EmailInterface {
 
     private static final String VERSION = "0.1";
@@ -117,7 +118,7 @@ public class EmailService implements EmailInterface {
 
         log.debug("checking that there aren't too many attachments");
         if (attachments.getId().toArray().length > maxAtts) {
-            throw new IllegalArgumentException("too many attachments");
+            throw new IllegalArgumentExceptionWrapper("too many attachments");
         }
 
         log.debug("attaching files");
@@ -126,7 +127,6 @@ public class EmailService implements EmailInterface {
         }
         log.trace("Leaving " + EmailService.class.getSimpleName()
                 + ".addAttachments(MailBackend, IDList)");
-        throw new UnsupportedOperationException("Wants implementation");
     }
 
     /**
@@ -286,8 +286,8 @@ public class EmailService implements EmailInterface {
             String subject, StringMap headers, String bodyTXT, String bodyHTML,
             IDList attachments) throws MessagingExceptionWrapper,
             MalformedURLExceptionWrapper, TransactionException,
-            IoExceptionWrapper, IllegalArgumentException, StorageException,
-            IncompleteConfigurationException {
+            IoExceptionWrapper, IllegalArgumentExceptionWrapper,
+            StorageException, IncompleteConfigurationException {
         log.trace("Entering " + EmailService.class.getSimpleName()
                 + ".sendEmail(...)");
         log.debug("to: " + to + ", cc: " + cc + ", bcc: " + bcc
@@ -295,87 +295,96 @@ public class EmailService implements EmailInterface {
                 + ", subject: " + subject + ", headers: " + headers
                 + ", bodyTXT: " + bodyTXT + ", bodyHTML: " + bodyHTML
                 + ", attachments: " + attachments);
-
-        log.debug("checking parameters for nulls");
-        if ((to == null) || (fromAddress == null) || (subject == null)) {
-            log.error("A main parameter (to, fromAddress, subject) is null!");
-            throw new IllegalArgumentException("The main parameters (to, "
-                    + "fromAddress, subject) must not be null!");
-        }
-        if ((bodyHTML == null) && (bodyTXT == null)) {
-            log.error("Neither HTML nor text body was passed!");
-            throw new IllegalArgumentException("There must be either an "
-                    + "HTML or a text body");
-        }
-        if ((to.getEmailUser() == null || to.getEmailUser().isEmpty())
-                && (to.getActorUser() == null || to.getActorUser().isEmpty())
-                && (to.getRoleUser() == null || to.getRoleUser().isEmpty())) {
-            log.error("No recipient specified!");
-            throw new IllegalArgumentException("The to list was empty");
-        }
-
-        log.debug("constructing e-mail");
-        MailBackend email = new MailBackend(extractEmails(to), fromName,
-                fromAddress, subject);
-
-        if (cc != null) {
-            log.debug("adding CC");
-            email.setCC(extractEmails(cc));
-        }
-        if (bcc != null) {
-            log.debug("adding BCC");
-            email.setBCC(extractEmails(bcc));
-        }
-        if (headers != null) {
-            log.debug("adding additional headers");
-            email.addHeaders(parseStringMap(headers));
-        }
-
-        if (bodyHTML != null) {
-            log.debug("adding HTML body");
-            try {
-                email.setBodyHTML(bodyHTML);
-            } catch (MessagingException e) {
-                throw new MessagingExceptionWrapper(e.getMessage());
+        try {
+            log.debug("checking parameters for nulls");
+            if ((to == null) || (fromAddress == null) || (subject == null)) {
+                log
+                        .error("A main parameter (to, fromAddress, subject) is null!");
+                throw new IllegalArgumentExceptionWrapper(
+                        "The main parameters (to, "
+                                + "fromAddress, subject) must not be null!");
             }
-        }
-
-        if (bodyTXT != null) {
-            log.debug("adding text body");
-            try {
-                email.setBodyText(bodyTXT);
-            } catch (MessagingException e) {
-                throw new MessagingExceptionWrapper(e.getMessage());
+            if ((bodyHTML == null) && (bodyTXT == null)) {
+                log.error("Neither HTML nor text body was passed!");
+                throw new IllegalArgumentExceptionWrapper(
+                        "There must be either an " + "HTML or a text body");
             }
-        }
+            if ((to.getEmailUser() == null || to.getEmailUser().isEmpty())
+                    && (to.getActorUser() == null || to.getActorUser()
+                            .isEmpty())
+                    && (to.getRoleUser() == null || to.getRoleUser().isEmpty())) {
+                log.error("No recipient specified!");
+                throw new IllegalArgumentExceptionWrapper(
+                        "The to list was empty");
+            }
 
-        if (attachments != null) {
-            log.debug("adding attachments - this might take a while");
+            log.debug("constructing e-mail");
+            MailBackend email = new MailBackend(extractEmails(to), fromName,
+                    fromAddress, subject);
+
+            if (cc != null) {
+                log.debug("adding CC");
+                email.setCC(extractEmails(cc));
+            }
+            if (bcc != null) {
+                log.debug("adding BCC");
+                email.setBCC(extractEmails(bcc));
+            }
+            if (headers != null) {
+                log.debug("adding additional headers");
+                email.addHeaders(parseStringMap(headers));
+            }
+
+            if (bodyHTML != null) {
+                log.debug("adding HTML body");
+                try {
+                    email.setBodyHTML(bodyHTML);
+                } catch (MessagingException e) {
+                    throw new MessagingExceptionWrapper(e.getMessage());
+                }
+            }
+
+            if (bodyTXT != null) {
+                log.debug("adding text body");
+                try {
+                    email.setBodyText(bodyTXT);
+                } catch (MessagingException e) {
+                    throw new MessagingExceptionWrapper(e.getMessage());
+                }
+            }
+
+            if (attachments != null) {
+                log.debug("adding attachments - this might take a while");
+                try {
+                    addAttachments(email, attachments);
+                } catch (MalformedURLException e) {
+                    throw new MalformedURLExceptionWrapper(e.getMessage());
+                } catch (MessagingException e) {
+                    throw new MessagingExceptionWrapper(e.getMessage());
+                } catch (IOException e) {
+                    throw new IoExceptionWrapper(e.getMessage(), e.getCause());
+                } catch (InstantiationException e) {
+                    throw new RuntimeException(e);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            log.debug("setting info from config");
+            applyConfig(email);
+
+            log.debug("sending e-mail");
             try {
-                addAttachments(email, attachments);
-            } catch (MalformedURLException e) {
-                throw new MalformedURLExceptionWrapper(e.getMessage());
+                email.sendMessage();
             } catch (MessagingException e) {
                 throw new MessagingExceptionWrapper(e.getMessage());
             } catch (IOException e) {
                 throw new IoExceptionWrapper(e.getMessage(), e.getCause());
-            } catch (InstantiationException e) {
-                throw new RuntimeException(e);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
             }
-        }
-
-        log.debug("setting info from config");
-        applyConfig(email);
-
-        log.debug("sending e-mail");
-        try {
-            email.sendMessage();
-        } catch (MessagingException e) {
-            throw new MessagingExceptionWrapper(e.getMessage());
-        } catch (IOException e) {
-            throw new IoExceptionWrapper(e.getMessage(), e.getCause());
+        } catch (IllegalArgumentExceptionWrapper e) {
+            throw e;
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(e.getMessage(), e.getCause());
         }
 
         log.trace("Leaving " + EmailService.class.getSimpleName()

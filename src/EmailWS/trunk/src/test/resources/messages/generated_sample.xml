@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ema="http://decidr.de/webservices/Email" xmlns:dec="http://decidr.de/schema/DecidrTypes" xmlns:dec1="http://decidr.de/schema/DecidrWSTypes">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ema:sendEmail>
+         <ema:to>
+            <!--Zero or more repetitions:-->
+            <dec:emailUser>
+               <dec:email>rrumberger@web.de</dec:email>
+            </dec:emailUser>
+         </ema:to>
+         <!--Optional:-->
+         <ema:cc xsi:nil="true"/>
+         <!--Optional:-->
+         <ema:bcc xsi:nil="true"/>
+         <!--Optional:-->
+         <ema:fromName>a sole</ema:fromName>
+         <ema:fromAddress>akljsdh</ema:fromAddress>
+         <ema:subject>dectest</ema:subject>
+         <!--Optional:-->
+         <ema:headers xsi:nil="true"/>
+         <!--Optional:-->
+         <ema:bodyTXT>testbody</ema:bodyTXT>
+         <!--Optional:-->
+         <ema:bodyHTML xsi:nil="true"/>
+         <!--Optional:-->
+         <ema:attachments xsi:nil="true"/>
+      </ema:sendEmail>
+   </soapenv:Body>
+</soapenv:Envelope>
