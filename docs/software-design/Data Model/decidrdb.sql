@@ -113,7 +113,7 @@ COMMENT = 'Stores user related data.';
 -- Table `decidrdb`.`user_profile`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_profile` (
-  `userId` BIGINT NOT NULL ,
+  `id` BIGINT NOT NULL COMMENT 'pk must have the same name as referenced entity pk to work with hibernate.' ,
   `username` VARCHAR(20) NOT NULL ,
   `passwordHash` CHAR(128) NOT NULL COMMENT 'The system does not store the password in plain text, but uses an iterated hash and a salt to make attacks on the hashed password much harder.' ,
   `passwordSalt` CHAR(128) NOT NULL COMMENT 'The salt in hexit representation.' ,
@@ -122,8 +122,8 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_profile` (
   `street` VARCHAR(100) NULL ,
   `postalCode` VARCHAR(15) NULL ,
   `city` VARCHAR(50) NULL ,
-  PRIMARY KEY (`userId`) ,
-  INDEX `fk_profile_user` (`userId` ASC) ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_profile_user` (`id` ASC) ,
   UNIQUE INDEX `unique_username` (`username` ASC) ,
   INDEX `index_firstName` (`firstName` ASC) ,
   INDEX `index_lastName` (`lastName` ASC) ,
@@ -131,7 +131,7 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`user_profile` (
   INDEX `index_postalCode` (`postalCode` ASC) ,
   INDEX `index_city` (`city` ASC) ,
   CONSTRAINT `fk_profile_user`
-    FOREIGN KEY (`userId` )
+    FOREIGN KEY (`id` )
     REFERENCES `decidrdb`.`user` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
@@ -372,14 +372,14 @@ ENGINE = InnoDB;
 -- Table `decidrdb`.`change_email_request`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`change_email_request` (
-  `userId` BIGINT NOT NULL ,
+  `id` BIGINT NOT NULL ,
   `newEmail` VARCHAR(255) NOT NULL ,
   `creationDate` DATETIME NOT NULL COMMENT 'Request issue date and time.' ,
   `authKey` CHAR(64) NOT NULL COMMENT 'Used to authenticate the email address change within the application. The user must know this key in order to perform the email address change.' ,
-  PRIMARY KEY (`userId`) ,
-  INDEX `fk_changeEmailRequest_user` (`userId` ASC) ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_changeEmailRequest_user` (`id` ASC) ,
   CONSTRAINT `fk_changeEmailRequest_user`
-    FOREIGN KEY (`userId` )
+    FOREIGN KEY (`id` )
     REFERENCES `decidrdb`.`user` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
@@ -390,13 +390,13 @@ ENGINE = InnoDB;
 -- Table `decidrdb`.`registration_request`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`registration_request` (
-  `userId` BIGINT NOT NULL ,
+  `id` BIGINT NOT NULL ,
   `creationDate` DATETIME NOT NULL ,
   `authKey` CHAR(64) NOT NULL COMMENT 'Used to authenticate the email address during registration. The user must know this key in order to complete his registration with the system.' ,
-  PRIMARY KEY (`userId`) ,
-  INDEX `fk_registrationRequest_user` (`userId` ASC) ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_registrationRequest_user` (`id` ASC) ,
   CONSTRAINT `fk_registrationRequest_user`
-    FOREIGN KEY (`userId` )
+    FOREIGN KEY (`id` )
     REFERENCES `decidrdb`.`user` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
@@ -687,13 +687,13 @@ ENGINE = MyISAM;
 -- Table `decidrdb`.`password_reset_request`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`password_reset_request` (
-  `userId` BIGINT NOT NULL ,
+  `id` BIGINT NOT NULL ,
   `creationDate` DATETIME NOT NULL ,
   `authKey` CHAR(64) NOT NULL ,
-  PRIMARY KEY (`userId`) ,
-  INDEX `fk_password_reset_request_user` (`userId` ASC) ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_password_reset_request_user` (`id` ASC) ,
   CONSTRAINT `fk_password_reset_request_user`
-    FOREIGN KEY (`userId` )
+    FOREIGN KEY (`id` )
     REFERENCES `decidrdb`.`user` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -782,8 +782,8 @@ SELECT i.*, snd.firstName AS senderFirstName, snd.lastName AS senderLastName,
        t2.name AS workflowModelOwningTenantName,
        t3.name AS participateTenantName
 FROM invitation AS i
-LEFT JOIN user_profile AS snd ON (snd.userId = i.senderId)
-LEFT JOIN user_profile AS rcv ON (rcv.userId = i.receiverId)
+LEFT JOIN user_profile AS snd ON (snd.id = i.senderId)
+LEFT JOIN user_profile AS rcv ON (rcv.id = i.receiverId)
 LEFT JOIN tenant AS t1 ON (t1.id = i.joinTenantId)
 LEFT JOIN workflow_model AS wfm ON (wfm.id = i.administrateWorkflowModelId)
 LEFT JOIN tenant AS t2 ON (t2.id = wfm.tenantId)
@@ -824,7 +824,7 @@ FROM `tenant` AS t,
      `deployed_workflow_model` AS dwfm,
      `workflow_instance` AS wfi,
      `user_is_member_of_tenant` AS member
-WHERE (t.adminId = a.userId) AND 
+WHERE (t.adminId = a.id) AND 
       (member.userId = u.id) AND (member.tenantId = t.id) AND
       (wfm.tenantId = t.id) AND
       (dwfm.tenantId = t.id) AND
@@ -842,7 +842,7 @@ u.username AS adminUsername,
 u.firstName AS adminFirstName, 
 u.lastName AS adminLastName 
 FROM tenant AS t 
-LEFT JOIN user_profile AS u ON t.adminId = u.userId;
+LEFT JOIN user_profile AS u ON t.adminId = u.id;
 
 -- -----------------------------------------------------
 -- View `decidrdb`.`work_item_summary_view`
