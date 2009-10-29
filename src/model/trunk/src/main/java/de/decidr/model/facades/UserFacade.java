@@ -141,6 +141,8 @@ public class UserFacade extends AbstractFacade {
      *             if the transaction is aborted for any reason.
      * @throws EntityNotFoundException
      *             iff no such account exists or the password doesn't match.
+     * @throws IllegalArgumentException
+     *             TODO document
      */
     // DH either wrap the thrown IllegalArgumentException or add it to the
     // javadoc; goes for every method in this class AFAICT ~rr

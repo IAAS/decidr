@@ -553,7 +553,9 @@ public class DefaultAccessControlList implements AccessControlList {
                 GetUserWithProfileCommand.class), SatisfyAll,
                 new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
 
-        setRule(new UserRole(), new CommandPermission(
+        // DH according to annotation, this should be a BasicRole (was UserRole)
+        // ~rr
+        setRule(new BasicRole(), new CommandPermission(
                 GetHighestUserRoleCommand.class), SatisfyAll,
                 new IsRoleEqualToAccessedUserAsserter(),
                 new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());

@@ -116,14 +116,16 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
         tenantFacade.addTenantMember(tenantId, workflowAdminId);
         wfmId = tenantFacade.createWorkflowModel(tenantId, "wfm.ACL");
 
-//        wfmFacade = new WorkflowModelFacade(new SuperAdminRole(superAdminId));
-//        List<String> wfmAdmins = new ArrayList<String>();
-//        List<String> wfmAdminsEmail = new ArrayList<String>();
-//        wfmAdmins.add("wfadmin12377");
+        // wfmFacade = new WorkflowModelFacade(new
+        // SuperAdminRole(superAdminId));
+        // List<String> wfmAdmins = new ArrayList<String>();
+        // List<String> wfmAdminsEmail = new ArrayList<String>();
+        // wfmAdmins.add("wfadmin12377");
         // gh could you try to test without this? It attempts to connect to a
         // web service to notify the admins, which obviously fails since hudson
         // doesn't have a working integration environment ~rr
-//        wfmFacade.setWorkflowAdministrators(wfmId, wfmAdminsEmail, wfmAdmins);
+        // wfmFacade.setWorkflowAdministrators(wfmId, wfmAdminsEmail,
+        // wfmAdmins);
     }
 
     @AfterClass
@@ -131,9 +133,12 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
         dacl.init();
         dacl = null;
 
-        List<Long> wfm = new ArrayList<Long>();
-        wfm.add(wfmId);
-        wfmFacade.deleteWorkflowModels(wfm);
+        if (wfmId != null) {
+            List<Long> wfm = new ArrayList<Long>();
+            wfm.add(wfmId);
+            wfmFacade.deleteWorkflowModels(wfm);
+        }
+
         tenantFacade.deleteTenant(tenantId);
 
         Transaction trans = session.beginTransaction();

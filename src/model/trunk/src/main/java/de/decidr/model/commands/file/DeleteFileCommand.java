@@ -55,7 +55,7 @@ public class DeleteFileCommand extends FileCommand {
         deleted = false;
         deletedEntities = 0;
 
-        String hql = "delete f from File f where f.id = :fileId";
+        String hql = "delete File f where f.id = :fileId";
 
         deletedEntities = evt.getSession().createQuery(hql).setLong("fileId",
                 getFileId()).executeUpdate();

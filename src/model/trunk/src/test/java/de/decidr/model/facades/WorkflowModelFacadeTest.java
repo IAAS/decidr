@@ -224,6 +224,8 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
         }
 
         adminUserFacade.setUnavailableSince(userId, null);
+        // JE: doesn't work due to no WS being available in the test environment
+        // ~rr
         adminFacade.setWorkflowAdministrators(wfmId, emails, unames);
 
         Object un = adminFacade.getWorkflowAdministrators(wfmId).get(0)

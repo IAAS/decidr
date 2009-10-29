@@ -27,6 +27,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.AliasToBeanResultTransformer;
 
+import de.decidr.model.acl.access.UserAccess;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
@@ -40,7 +41,8 @@ import de.decidr.model.transactions.TransactionEvent;
  * @author Daniel Huss
  * @version 0.1
  */
-public class GetUserPropertiesCommand extends AclEnabledCommand {
+public class GetUserPropertiesCommand extends AclEnabledCommand implements
+        UserAccess {
     private Collection<String> propertiesToGet;
 
     private Collection<Long> userIds;
@@ -132,5 +134,11 @@ public class GetUserPropertiesCommand extends AclEnabledCommand {
      */
     public User getFirstUser() {
         return users.get(0);
+    }
+
+    // DH: had to add this for IsRoleEqualToAccessedUser; please check ~rr
+    @Override
+    public Long[] getUserIds() {
+        return userIds.toArray(new Long[userIds.size()]);
     }
 }

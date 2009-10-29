@@ -33,6 +33,7 @@ import de.decidr.model.acl.roles.UserRole;
  * 
  * @version 0.1
  */
+// DH regarding above: how about UserHasValidIDAsserter? ~rr
 public class UserIsLoggedInAsserter implements Asserter {
 
     @Override
@@ -43,7 +44,7 @@ public class UserIsLoggedInAsserter implements Asserter {
             result = UserRole.MIN_VALID_USER_ID
                     .compareTo(userRole.getActorId()) < 0;
         }
+        // DH: so, BasicRole can't be logged in? ~rr
         return result;
     }
-
 }

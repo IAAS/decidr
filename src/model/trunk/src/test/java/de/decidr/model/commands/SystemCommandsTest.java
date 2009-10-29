@@ -309,15 +309,13 @@ public class SystemCommandsTest extends CommandsTest {
         assertFalse(getServer(serverID).isLocked());
 
         UpdateServerLoadCommand loader;
-        byte[] goodLoads = new byte[] { -2, -100, 0, -1, 100, 50 };
+        byte[] goodLoads = new byte[] { 0, -1, 100, 50 };
         for (byte b : goodLoads) {
             loader = new UpdateServerLoadCommand(superAdminRole, serverID, b);
             HibernateTransactionCoordinator.getInstance()
                     .runTransaction(loader);
             assertEquals(b, getServer(serverID).getLoad());
-        }
 
-        for (byte b : goodLoads) {
             loader = new UpdateServerLoadCommand(new BasicRole(0L), serverID, b);
             assertTransactionException(
                     "BasicRole shouldn't be able to update server load.",
@@ -326,6 +324,17 @@ public class SystemCommandsTest extends CommandsTest {
             assertTransactionException(
                     "Null role shouldn't be able to update server load.",
                     loader);
+        }
+
+        byte[] badLoads = new byte[] { -2, -100, 127, 101 };
+        for (byte b : badLoads) {
+            try {
+                loader = new UpdateServerLoadCommand(superAdminRole, serverID,
+                        b);
+                fail("Shouldn't be able to update with invalid server load.");
+            } catch (IllegalArgumentException e) {
+                // supposed to happen
+            }
         }
 
         GetServersCommand getAllServers = new GetServersCommand(superAdminRole,

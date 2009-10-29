@@ -140,6 +140,9 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         Long secondUserID = adminUserFacade.registerUser(UserFacadeTest
                 .getTestEmail(0), "ads", userProfile);
 
+        TenantFacade userFacade = new TenantFacade(new TenantAdminRole(
+                testAdminID));
+
         try {
             nullFacade.addTenantMember(testTenantID, testAdminID);
             fail("managed to add a tenant member using null facade");
@@ -205,9 +208,9 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
 
         assertEquals(2, adminFacade.getUsersOfTenant(testTenantID, null).size());
         userFacade.addTenantMember(testTenantID, secondUserID);
-        assertEquals(3, adminFacade.getUsersOfTenant(testTenantID, null).size());
+        assertEquals(2, adminFacade.getUsersOfTenant(testTenantID, null).size());
         userFacade.addTenantMember(testTenantID, secondUserID);
-        assertEquals(3, adminFacade.getUsersOfTenant(testTenantID, null).size());
+        assertEquals(2, adminFacade.getUsersOfTenant(testTenantID, null).size());
 
         UserFacadeTest.deleteTestUsers();
     }
@@ -583,7 +586,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.getLogo(null);
             fail("managed to get tenant logo using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
 
@@ -614,7 +617,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             userFacade.getLogo(null);
             fail("managed to get tenant logo using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
 
@@ -627,11 +630,11 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         byte[] streamLogo = new byte[(int) fileSizeBytes];
         byte[] tenantLogo = new byte[(int) fileSizeBytes];
         assertEquals(fileSizeBytes, logoStream.read(streamLogo));
-        assertEquals(fileSizeBytes, adminFacade.getLogo(logoID)
+        assertEquals(fileSizeBytes, adminFacade.getLogo(testTenantID)
                 .read(tenantLogo));
         assertTrue(Arrays.equals(streamLogo, tenantLogo));
 
-        assertEquals(fileSizeBytes, userFacade.getLogo(logoID).read(tenantLogo));
+        assertEquals(fileSizeBytes, userFacade.getLogo(testTenantID).read(tenantLogo));
         assertTrue(Arrays.equals(streamLogo, tenantLogo));
 
         adminFacade.setLogo(testTenantID, null);

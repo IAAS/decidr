@@ -179,6 +179,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             fail(failmsg);
         } catch (TransactionException e) {
             // supposed to be thrown
+        } catch (IllegalArgumentException e) {
+            // supposed to be thrown
         }
     }
 
@@ -315,6 +317,11 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         testUserID = adminFacade.registerUser(TEST_EMAIL, TEST_PASSWORD,
                 classProfile);
         assertNotNull(testUserID);
+        
+        adminFacade.setDisabledSince(testUserID, null);
+        adminFacade.setDisabledSince(adminID, null);
+
+        userFacade = new UserFacade(new BasicRole(testUserID));
     }
 
     @After
@@ -946,21 +953,21 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             adminFacade.setPassword(testUserID, TEST_PASSWORD, null);
             resetPWD();
             fail("setting null password using admin facade succeeded");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
         try {
             userFacade.setPassword(testUserID, TEST_PASSWORD, null);
             resetPWD();
-            fail("setting null password using admin facade succeeded");
-        } catch (TransactionException e) {
+            fail("setting null password using normal user facade succeeded");
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
         try {
             nullFacade.setPassword(testUserID, TEST_PASSWORD, null);
             resetPWD();
-            fail("setting null password using admin facade succeeded");
-        } catch (TransactionException e) {
+            fail("setting null password using null facade succeeded");
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
     }
@@ -991,23 +998,24 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 .getItemProperty("unavailableSince").getValue());
 
         testDate = DecidrGlobals.getTime().getTime();
+        testDate.setTime(testDate.getTime() / 1000 * 1000);
         adminFacade.setUnavailableSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
                 .getItemProperty("unavailableSince").getValue());
 
-        testDate = new Date(new Date().getTime() - 1000000);
+        testDate = new Date(testDate.getTime() - 1000000);
         adminFacade.setUnavailableSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
                 .getItemProperty("unavailableSince").getValue());
 
-        testDate = new Date(new Date().getTime() + 1000000);
+        testDate = new Date(testDate.getTime() + 2000000);
         adminFacade.setUnavailableSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
                 .getItemProperty("unavailableSince").getValue());
 
         adminFacade.setDisabledSince(testUserID, null);
         assertNull(adminFacade.getUserProfile(testUserID).getItemProperty(
-                "unavailableSince").getValue());
+                "disabledSince").getValue());
     }
 
     /**
