@@ -28,7 +28,7 @@ import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * TODO: add comment
+ * GH: add comment
  *
  * @author GH
  */
@@ -43,5 +43,4 @@ public class UserIsLoggedInAsserterTest extends DecidrAclTest {
         assertTrue(asserter.assertRule(new SuperAdminRole(DecidrGlobals.getSettings().getSuperAdmin().getId()), new Permission("*")));
         assertFalse(asserter.assertRule(new SuperAdminRole(), new Permission("*")));
     }
-
 }

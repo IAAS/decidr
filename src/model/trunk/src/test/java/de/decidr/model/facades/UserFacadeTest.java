@@ -233,7 +233,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         adminID = DecidrGlobals.getSettings().getSuperAdmin().getId();
         adminFacade = new UserFacade(new SuperAdminRole(adminID));
-        userFacade = new UserFacade(new UserRole(0L));
+        userFacade = new UserFacade(new UserRole(adminID));
         nullFacade = new UserFacade(null);
 
         UserProfile testProfile = new UserProfile();
@@ -572,8 +572,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     public void testGetHighestUserRole() throws TransactionException {
         assertEquals(adminFacade.actor.getClass(), adminFacade
                 .getHighestUserRole(adminID));
-        assertEquals(adminFacade.actor.getClass(), userFacade
-                .getHighestUserRole(adminID));
+        assertEquals(userFacade.actor.getClass(), userFacade
+                .getHighestUserRole(testUserID));
     }
 
     /**
@@ -784,9 +784,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         request = user.getRegistrationRequest();
         authKey = request.getAuthKey();
 
-        // RR Facade actor id must be equal to confirmed user id. See below for
-        // hack ~dh
-        userFacade = new UserFacade(new UserRole(userId));
+        UserFacade userFacade = new UserFacade(new UserRole(userId));
         userFacade.confirmRegistration(userId, authKey);
         try {
             userFacade.confirmRegistration(userId, authKey);

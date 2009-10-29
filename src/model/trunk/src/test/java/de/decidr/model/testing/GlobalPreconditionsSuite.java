@@ -23,6 +23,6 @@ import junit.framework.TestSuite;
  * 
  * @author Reinhold
  */
-public class GlobalPreconditionsSuite extends TestSuite {
+public abstract class GlobalPreconditionsSuite extends TestSuite {
     // nothing yet
 }

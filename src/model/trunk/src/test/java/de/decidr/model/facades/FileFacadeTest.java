@@ -73,10 +73,8 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
      * can express.
      * <p>
      * <em>Note: This might destroy the data contained in the stream. It should probably be re-opened!</em>
-     * 
-     * @see InputStream#skip(long)
      */
-    public static Long getInputStreamSize(InputStream in) throws IOException {
+    public static long getInputStreamSize(InputStream in) throws IOException {
         long size = 0;
         assertNotNull(in);
 
@@ -183,7 +181,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
             assertFalse(compareFile.isTemporary());
 
             compareData = facade.getFileData(testID);
-            assertEquals(streamSize, getInputStreamSize(compareData));
+            assertEquals(streamSize, (Long) getInputStreamSize(compareData));
             testFile.reset();
             assertTrue(compareInputStreams(testFile, facade.getFileData(testID)));
 

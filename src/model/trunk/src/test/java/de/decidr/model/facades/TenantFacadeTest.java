@@ -335,25 +335,29 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         adminFacade.setColorScheme(testTenantID, advancedID, true);
 
         adminFacade.setCurrentColorScheme(testTenantID, true);
-        assertEquals(advSize, FileFacadeTest.getInputStreamSize(adminFacade
-                .getCurrentColorScheme(testTenantID)));
+        assertEquals(advSize, (Long) FileFacadeTest
+                .getInputStreamSize(adminFacade
+                        .getCurrentColorScheme(testTenantID)));
         assertTrue(FileFacadeTest.compareInputStreams(TenantFacadeTest.class
                 .getResourceAsStream("/test_adv_cs.css"), adminFacade
                 .getCurrentColorScheme(testTenantID)));
-        assertEquals(advSize, FileFacadeTest.getInputStreamSize(userFacade
-                .getCurrentColorScheme(testTenantID)));
+        assertEquals(advSize, (Long) FileFacadeTest
+                .getInputStreamSize(userFacade
+                        .getCurrentColorScheme(testTenantID)));
         assertTrue(FileFacadeTest.compareInputStreams(TenantFacadeTest.class
                 .getResourceAsStream("/test_adv_cs.css"), userFacade
                 .getCurrentColorScheme(testTenantID)));
 
         adminFacade.setCurrentColorScheme(testTenantID, false);
-        assertEquals(simpleSize, FileFacadeTest.getInputStreamSize(adminFacade
-                .getCurrentColorScheme(testTenantID)));
+        assertEquals(simpleSize, (Long) FileFacadeTest
+                .getInputStreamSize(adminFacade
+                        .getCurrentColorScheme(testTenantID)));
         assertTrue(FileFacadeTest.compareInputStreams(TenantFacadeTest.class
                 .getResourceAsStream("/test_simple_cs.css"), adminFacade
                 .getCurrentColorScheme(testTenantID)));
-        assertEquals(simpleSize, FileFacadeTest.getInputStreamSize(userFacade
-                .getCurrentColorScheme(testTenantID)));
+        assertEquals(simpleSize, (Long) FileFacadeTest
+                .getInputStreamSize(userFacade
+                        .getCurrentColorScheme(testTenantID)));
         assertTrue(FileFacadeTest.compareInputStreams(TenantFacadeTest.class
                 .getResourceAsStream("/test_simple_cs.css"), userFacade
                 .getCurrentColorScheme(testTenantID)));
@@ -629,7 +633,8 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         long fileSizeBytes = fileFacade.getFileInfo(logoID).getFileSizeBytes();
         byte[] streamLogo = new byte[(int) fileSizeBytes];
         byte[] tenantLogo = new byte[(int) fileSizeBytes];
-        assertEquals(fileSizeBytes, logoStream.read(streamLogo));
+        assertEquals(fileSizeBytes, TenantFacadeTest.class.getResourceAsStream(
+                "/decidr.jpg").read(streamLogo));
         assertEquals(fileSizeBytes, adminFacade.getLogo(testTenantID).read(
                 tenantLogo));
         assertTrue(Arrays.equals(streamLogo, tenantLogo));

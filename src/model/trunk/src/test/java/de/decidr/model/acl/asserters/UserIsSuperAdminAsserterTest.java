@@ -28,7 +28,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * TODO: add comment
+ * GH: add comment
  *
  * @author GH
  */
