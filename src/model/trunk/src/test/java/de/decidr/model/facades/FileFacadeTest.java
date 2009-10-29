@@ -314,13 +314,7 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
             } catch (IllegalArgumentException e) {
                 // supposed to happen
             }
-            try {
-                facade.deleteFile(invalidID);
-                // RR "If the file does not exist, no exception is thrown."
-                fail("managed to delete file with invalid file ID");
-            } catch (TransactionException e) {
-                // supposed to happen
-            }
+            facade.deleteFile(invalidID);
 
             assertTrue(facade.deleteFile(testID));
             assertFalse(facade.deleteFile(testID));

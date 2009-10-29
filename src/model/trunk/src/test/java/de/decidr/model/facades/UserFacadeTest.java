@@ -16,12 +16,7 @@
 
 package de.decidr.model.facades;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -575,7 +570,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testGetHighestUserRole() throws TransactionException {
-        // RR UserRole required ~dh
         assertEquals(adminFacade.actor.getClass(), adminFacade
                 .getHighestUserRole(adminID));
         assertEquals(adminFacade.actor.getClass(), userFacade
@@ -982,6 +976,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testSetUnavailableSince() throws TransactionException {
+        UserFacade userFacade = new UserFacade(new BasicRole(0L));
+
         try {
             userFacade.setUnavailableSince(testUserID, new Date());
             fail("setting user disabled with normal user facade succeeded.");
