@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ema="http://decidr.de/webservices/Email" xmlns:dec="http://decidr.de/schema/DecidrTypes" xmlns:dec1="http://decidr.de/schema/DecidrWSTypes">
+   <soap:Header/>
+   <soap:Body>
+      <ema:sendEmail>
+         <to>
+            <dec:emailUser>
+               <dec:email>root@localhost</dec:email>
+            </dec:emailUser>
+         </to>
+         <cc xsi:nil="true"/>
+         <bcc xsi:nil="true"/>
+         <fromName>idiot</fromName>
+         <fromAddress>root@localhost</fromAddress>
+         <subject>asd</subject>
+         <headers xsi:nil="true"/>
+         <bodyTXT>ddddddddassdf</bodyTXT>
+         <bodyHTML xsi:nil="true"/>
+         <attachments>
+            <dec1:id>10</dec1:id>
+         </attachments>
+      </ema:sendEmail>
+   </soap:Body>
+</soap:Envelope>

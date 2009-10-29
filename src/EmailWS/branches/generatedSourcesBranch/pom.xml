@@ -1,0 +1,146 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.decidr.webservices</groupId>
+	<artifactId>Email</artifactId>
+	<packaging>jar</packaging>
+	<name>EmailWS</name>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<parent>
+		<artifactId>base</artifactId>
+		<groupId>de.decidr</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>META-INF</directory>
+				<includes>
+					<include>Decidr*Types.xsd</include>
+					<include>Email.wsdl</include>
+					<include>handler-chain.xml</include>
+				</includes>
+			</resource>
+		</resources>
+
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>**</include>
+				</includes>
+			</testResource>
+		</testResources>
+
+		<plugins>
+			<!--
+				plugin> <groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId> <executions> <execution>
+				<phase>package</phase> <goals> <goal>shade</goal> </goals>
+				<configuration> <artifactSet> <excludes>
+				<exclude>org.apache.axis2:axis2-kernel</exclude>
+				<exclude>commons-httpclient:commons-httpclient</exclude>
+				<exclude>commons-fileupload:commons-fileupload</exclude>
+				<exclude>commons-codec:commons-codec</exclude>
+				<exclude>log4j:log4j</exclude>
+				<exclude>commons-logging:commons-logging</exclude>
+				<exclude>commons-io:commons-io</exclude>
+				<exclude>org.apache.geronimo.specs:geronimo-jms_1.1_spec</exclude>
+				<exclude>org.apache.geronimo.specs:geronimo-stax-api_1.0_spec</exclude>
+				<exclude>org.apache.geronimo.specs:geronimo-javamail_1.4_spec</exclude>
+				<exclude>org.apache.geronimo.specs:geronimo-activation_1.1_spec</exclude>
+				<exclude>xml-apis:xml-apis</exclude>
+				<exclude>javax.activation:activation</exclude>
+				<exclude>antlr:antlr</exclude>
+				<exclude>org.apache.ws.commons.axiom:axiom-dom</exclude>
+				<exclude>org.apache.ws.commons.axiom:axiom-impl</exclude>
+				<exclude>org.apache.ws.commons.axiom:axiom-api</exclude>
+				<exclude>dom4j:dom4j</exclude> <exclude>org.jdom:jdom</exclude>
+				<exclude>org.apache.neethi:neethi</exclude>
+				<exclude>org.apache.woden:woden-api</exclude>
+				<exclude>org.codehaus.woodstox:wstx-asl</exclude>
+				<exclude>wsdl4j:wsdl4j</exclude>
+				<exclude>wsdl4j:wsdl4j-qname</exclude>
+				<exclude>org.apache.httpcomponents:httpcore</exclude>
+				<exclude>org.apache.ws.commons.schema:XmlSchema</exclude>
+				<exclude>jaxen:jaxen</exclude> <exclude>xerces:xercesImpl</exclude>
+				<exclude>org.apache.woden:woden-impl-dom</exclude>
+				<exclude>xalan:xalan</exclude>
+				<exclude>org.slf4j:slf4j-nop</exclude> <!- needed by axis2 v1.5 ->
+
+				<!- needed by axis2 v1.4.1 ->
+				<exclude>backport-util-concurrent:backport-util-concurrent</exclude>
+				<exclude>commons-collections:commons-collections</exclude>
+				</excludes> </artifactSet> </configuration> </execution>
+				</executions> </plugin
+			-->
+			<!--
+				plugin> <groupId>org.apache.axis2</groupId>
+				<artifactId>axis2-aar-maven-plugin</artifactId>
+				<extensions>true</extensions> <version>1.5</version> <configuration>
+				<aarName>EmailWS</aarName> <!-
+				axis2AdminConsoleURL>http://ec2-174-129-25-57.compute-1.amazonaws.com:8080/axis2_15/axis2-admin/</axis2AdminConsoleURL>
+				<axis2AdminUser>decidr</axis2AdminUser>
+				<axis2AdminPassword>decidr42</axis2AdminPassword ->
+				<includeDependencies>true</includeDependencies>
+				<wsdlFile>META-INF/Email.wsdl</wsdlFile>
+				<wsdlFileName>Email.wsdl</wsdlFileName>
+				<servicesXmlFile>META-INF/services.xml</servicesXmlFile> <fileSets>
+				<fileSet> <directory>META-INF</directory>
+				<outputDirectory>META-INF</outputDirectory> <includes>
+				<include>*.xsd</include> <include>handler-chain.xml</include>
+				</includes> </fileSet> </fileSets> </configuration> <executions> <!-
+				execution> <id>deploy_aar</id> <phase>deploy</phase> <goals>
+				<goal>deployaar</goal> </goals> </execution -> <execution> <goals>
+				<goal>aar</goal> </goals> </execution> </executions> </plugin
+			-->
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.6</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.decidr</groupId>
+			<artifactId>model</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate</artifactId>
+			<version>3.2.6.ga</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.15</version>
+			<type>jar</type>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.jms</groupId>
+					<artifactId>jms</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.1</version>
+		</dependency>
+	</dependencies>
+</project>
