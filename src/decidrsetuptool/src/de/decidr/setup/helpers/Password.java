@@ -166,9 +166,9 @@ public class Password {
      * 
      * @return Salt in lowercase hex string representation.
      * @throws NoSuchAlgorithmException
-     *             iff the hashing algorithm SHA-512 is not available
+     *             if the hashing algorithm SHA-512 is not available
      * @throws UnsupportedEncodingException
-     *             iff the encodings UTF-8 or ASCII are not supported
+     *             if the encodings UTF-8 or ASCII are not supported
      */
     public static String getRandomSalt() throws NoSuchAlgorithmException,
 	    UnsupportedEncodingException {

@@ -51,235 +51,235 @@ public class SystemSettings {
     private String maxWorkflowInstancesForShutdown;
 
     public SystemSettings() {
-	String now = DateUtils.now();
-	modifiedDate = now;
+        String now = DateUtils.now();
+        modifiedDate = now;
     }
 
     public String getAutoAcceptNewTenants() {
-	return autoAcceptNewTenants;
+        return autoAcceptNewTenants;
     }
 
     public void setAutoAcceptNewTenants(String autoAcceptNewTenants) {
-	this.autoAcceptNewTenants = autoAcceptNewTenants;
+        this.autoAcceptNewTenants = autoAcceptNewTenants;
     }
 
     public String getSystemName() {
-	return systemName;
+        return systemName;
     }
 
     public void setSystemName(String systemName) {
-	this.systemName = systemName;
+        this.systemName = systemName;
     }
 
     public String getDomain() {
-	return domain;
+        return domain;
     }
 
     public void setDomain(String domain) {
-	this.domain = domain;
+        this.domain = domain;
     }
 
     public String getSystemEmailAddress() {
-	return systemEmailAddress;
+        return systemEmailAddress;
     }
 
     public void setSystemEmailAddress(String systemEmailAddress) {
-	this.systemEmailAddress = systemEmailAddress;
+        this.systemEmailAddress = systemEmailAddress;
     }
 
     public String getLogLevel() {
-	return logLevel;
+        return logLevel;
     }
 
     public void setLogLevel(String logLevel) {
-	this.logLevel = logLevel;
+        this.logLevel = logLevel;
     }
 
     public String getPasswordResetRequestLifetimeSeconds() {
-	return passwordResetRequestLifetimeSeconds;
+        return passwordResetRequestLifetimeSeconds;
     }
 
     public void setPasswordResetRequestLifetimeSeconds(
-	    String passwordResetRequestLifetimeSeconds) {
-	this.passwordResetRequestLifetimeSeconds = passwordResetRequestLifetimeSeconds;
+            String passwordResetRequestLifetimeSeconds) {
+        this.passwordResetRequestLifetimeSeconds = passwordResetRequestLifetimeSeconds;
     }
 
     public String getRegistrationRequestLifetimeSeconds() {
-	return registrationRequestLifetimeSeconds;
+        return registrationRequestLifetimeSeconds;
     }
 
     public void setRegistrationRequestLifetimeSeconds(
-	    String registrationRequestLifetimeSeconds) {
-	this.registrationRequestLifetimeSeconds = registrationRequestLifetimeSeconds;
+            String registrationRequestLifetimeSeconds) {
+        this.registrationRequestLifetimeSeconds = registrationRequestLifetimeSeconds;
     }
 
     public String getChangeEmailRequestLifetimeSeconds() {
-	return changeEmailRequestLifetimeSeconds;
+        return changeEmailRequestLifetimeSeconds;
     }
 
     public void setChangeEmailRequestLifetimeSeconds(
-	    String changeEmailRequestLifetimeSeconds) {
-	this.changeEmailRequestLifetimeSeconds = changeEmailRequestLifetimeSeconds;
+            String changeEmailRequestLifetimeSeconds) {
+        this.changeEmailRequestLifetimeSeconds = changeEmailRequestLifetimeSeconds;
     }
 
     public String getInvitationLifetimeSeconds() {
-	return invitationLifetimeSeconds;
+        return invitationLifetimeSeconds;
     }
 
     public void setInvitationLifetimeSeconds(String invitationLifetimeSeconds) {
-	this.invitationLifetimeSeconds = invitationLifetimeSeconds;
+        this.invitationLifetimeSeconds = invitationLifetimeSeconds;
     }
 
     public String getMtaHostname() {
-	return mtaHostname;
+        return mtaHostname;
     }
 
     public void setMtaHostname(String mtaHostname) {
-	this.mtaHostname = mtaHostname;
+        this.mtaHostname = mtaHostname;
     }
 
     public String getMtaPort() {
-	return mtaPort;
+        return mtaPort;
     }
 
     public void setMtaPort(String mtaPort) {
-	this.mtaPort = mtaPort;
+        this.mtaPort = mtaPort;
     }
 
     public String getMtaUseTls() {
-	return mtaUseTls;
+        return mtaUseTls;
     }
 
     public void setMtaUseTls(String mtaUseTls) {
-	this.mtaUseTls = mtaUseTls;
+        this.mtaUseTls = mtaUseTls;
     }
 
     public String getMtaUsername() {
-	return mtaUsername;
+        return mtaUsername;
     }
 
     public void setMtaUsername(String mtaUsername) {
-	this.mtaUsername = mtaUsername;
+        this.mtaUsername = mtaUsername;
     }
 
     public String getMtaPassword() {
-	return mtaPassword;
+        return mtaPassword;
     }
 
     public void setMtaPassword(String mtaPassword) {
-	this.mtaPassword = mtaPassword;
+        this.mtaPassword = mtaPassword;
     }
 
     public String getMaxUploadFileSizeBytes() {
-	return maxUploadFileSizeBytes;
+        return maxUploadFileSizeBytes;
     }
 
     public void setMaxUploadFileSizeBytes(String maxUploadFileSizeBytes) {
-	this.maxUploadFileSizeBytes = maxUploadFileSizeBytes;
+        this.maxUploadFileSizeBytes = maxUploadFileSizeBytes;
     }
 
     public String getMaxAttachmentsPerEmail() {
-	return maxAttachmentsPerEmail;
+        return maxAttachmentsPerEmail;
     }
 
     public void setMaxAttachmentsPerEmail(String maxAttachmentsPerEmail) {
-	this.maxAttachmentsPerEmail = maxAttachmentsPerEmail;
+        this.maxAttachmentsPerEmail = maxAttachmentsPerEmail;
     }
 
     public String getMonitorUpdateIntervalSeconds() {
-	return monitorUpdateIntervalSeconds;
+        return monitorUpdateIntervalSeconds;
     }
 
     public void setMonitorUpdateIntervalSeconds(
-	    String monitorUpdateIntervalSeconds) {
-	this.monitorUpdateIntervalSeconds = monitorUpdateIntervalSeconds;
+            String monitorUpdateIntervalSeconds) {
+        this.monitorUpdateIntervalSeconds = monitorUpdateIntervalSeconds;
     }
 
     public String getMonitorAveragingPeriodSeconds() {
-	return monitorAveragingPeriodSeconds;
+        return monitorAveragingPeriodSeconds;
     }
 
     public void setMonitorAveragingPeriodSeconds(
-	    String monitorAveragingPeriodSeconds) {
-	this.monitorAveragingPeriodSeconds = monitorAveragingPeriodSeconds;
+            String monitorAveragingPeriodSeconds) {
+        this.monitorAveragingPeriodSeconds = monitorAveragingPeriodSeconds;
     }
 
     public String getServerPoolInstances() {
-	return serverPoolInstances;
+        return serverPoolInstances;
     }
 
     public void setServerPoolInstances(String serverPoolInstances) {
-	this.serverPoolInstances = serverPoolInstances;
+        this.serverPoolInstances = serverPoolInstances;
     }
 
     public String getMinServerLoadForLock() {
-	return minServerLoadForLock;
+        return minServerLoadForLock;
     }
 
     public void setMinServerLoadForLock(String minServerLoadForLock) {
-	this.minServerLoadForLock = minServerLoadForLock;
+        this.minServerLoadForLock = minServerLoadForLock;
     }
 
     public String getMaxServerLoadForUnlock() {
-	return maxServerLoadForUnlock;
+        return maxServerLoadForUnlock;
     }
 
     public void setMaxServerLoadForUnlock(String maxServerLoadForUnlock) {
-	this.maxServerLoadForUnlock = maxServerLoadForUnlock;
+        this.maxServerLoadForUnlock = maxServerLoadForUnlock;
     }
 
     public String getMaxServerLoadForShutdown() {
-	return maxServerLoadForShutdown;
+        return maxServerLoadForShutdown;
     }
 
     public void setMaxServerLoadForShutdown(String maxServerLoadForShutdown) {
-	this.maxServerLoadForShutdown = maxServerLoadForShutdown;
+        this.maxServerLoadForShutdown = maxServerLoadForShutdown;
     }
 
     public String getMinUnlockedServers() {
-	return minUnlockedServers;
+        return minUnlockedServers;
     }
 
     public void setMinUnlockedServers(String minUnlockedServers) {
-	this.minUnlockedServers = minUnlockedServers;
+        this.minUnlockedServers = minUnlockedServers;
     }
 
     public String getMinWorkflowInstancesForLock() {
-	return minWorkflowInstancesForLock;
+        return minWorkflowInstancesForLock;
     }
 
     public void setMinWorkflowInstancesForLock(
-	    String minWorkflowInstancesForLock) {
-	this.minWorkflowInstancesForLock = minWorkflowInstancesForLock;
+            String minWorkflowInstancesForLock) {
+        this.minWorkflowInstancesForLock = minWorkflowInstancesForLock;
     }
 
     public String getMaxWorkflowInstancesForUnlock() {
-	return maxWorkflowInstancesForUnlock;
+        return maxWorkflowInstancesForUnlock;
     }
 
     public void setMaxWorkflowInstancesForUnlock(
-	    String maxWorkflowInstancesForUnlock) {
-	this.maxWorkflowInstancesForUnlock = maxWorkflowInstancesForUnlock;
+            String maxWorkflowInstancesForUnlock) {
+        this.maxWorkflowInstancesForUnlock = maxWorkflowInstancesForUnlock;
     }
 
     public String getMaxWorkflowInstancesForShutdown() {
-	return maxWorkflowInstancesForShutdown;
+        return maxWorkflowInstancesForShutdown;
     }
 
     public void setMaxWorkflowInstancesForShutdown(
-	    String maxWorkflowInstancesForShutdown) {
-	this.maxWorkflowInstancesForShutdown = maxWorkflowInstancesForShutdown;
+            String maxWorkflowInstancesForShutdown) {
+        this.maxWorkflowInstancesForShutdown = maxWorkflowInstancesForShutdown;
     }
 
     public String getId() {
-	return id;
+        return id;
     }
 
     public String getModifiedDate() {
-	return modifiedDate;
+        return modifiedDate;
     }
 
     public String getSuperAdminId() {
-	return superAdminId;
+        return superAdminId;
     }
 }

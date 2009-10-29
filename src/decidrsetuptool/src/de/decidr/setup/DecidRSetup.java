@@ -16,6 +16,7 @@
 
 package de.decidr.setup;
 
+import de.decidr.setup.input.FileIO;
 import de.decidr.setup.input.InputServer;
 import de.decidr.setup.input.InputServerType;
 import de.decidr.setup.input.InputSuperAdmin;
@@ -49,7 +50,8 @@ public class DecidRSetup {
         // ode
         sql.append(InputServer.getSql(1, "http://localhost:8080/ode"));
 
-        System.out.println(sql.toString());
+        FileIO.writeToFile(sql.toString());
+
     }
 
 }

@@ -17,6 +17,7 @@
 package de.decidr.setup.model;
 
 import de.decidr.setup.helpers.DateUtils;
+import de.decidr.setup.helpers.Password;
 
 public class SuperAdmin {
 
@@ -42,109 +43,116 @@ public class SuperAdmin {
     private String city;
 
     public SuperAdmin() {
-	String now = DateUtils.now();
-	registeredSince = now;
-	creationDate = now;
+        String now = DateUtils.now();
+        registeredSince = now;
+        creationDate = now;
     }
 
     public String getAuthkey() {
-	return authkey;
+        return authkey;
     }
 
     public String getCity() {
-	return city;
+        return city;
     }
 
     public String getCreationDate() {
-	return creationDate;
+        return creationDate;
     }
 
     public String getCurrentTenantId() {
-	return currentTenantId;
+        return currentTenantId;
     }
 
     public String getDisabledSince() {
-	return disabledSince;
+        return disabledSince;
     }
 
     public String getEmail() {
-	return email;
+        return email;
     }
 
     public String getFirstName() {
-	return firstName;
+        return firstName;
     }
 
     public String getId() {
-	return id;
+        return id;
     }
 
     public String getLastName() {
-	return lastName;
+        return lastName;
     }
 
     public String getPasswordHash() {
-	return passwordHash;
+        return passwordHash;
     }
 
     public String getPasswordSalt() {
-	return passwordSalt;
+        return passwordSalt;
     }
 
     public String getPostalCode() {
-	return postalCode;
+        return postalCode;
     }
 
     public String getRegisteredSince() {
-	return registeredSince;
+        return registeredSince;
     }
 
     public String getStreet() {
-	return street;
+        return street;
     }
 
     public String getUnavailableSince() {
-	return unavailableSince;
+        return unavailableSince;
     }
 
     public String getUserId() {
-	return userId;
+        return userId;
     }
 
     public String getUsername() {
-	return username;
+        return username;
     }
 
     public void setCity(String city) {
-	this.city = city;
+        this.city = city;
     }
 
     public void setEmail(String email) {
-	this.email = email;
+        this.email = email;
     }
 
     public void setFirstName(String firstName) {
-	this.firstName = firstName;
+        this.firstName = firstName;
     }
 
     public void setLastName(String lastName) {
-	this.lastName = lastName;
+        this.lastName = lastName;
     }
 
     public void setPassword(String password) {
-	// TODO
+        try {
+            this.passwordSalt = "'" + Password.getRandomSalt() + "'";
+            this.passwordHash = "'" + Password.getHash(password, passwordSalt)
+                    + "'";
+        } catch (Exception e) {
+            this.passwordSalt = "";
+            this.passwordHash = "";
+        }
     }
 
     public void setPostalCode(String postalCode) {
-	this.postalCode = postalCode;
+        this.postalCode = postalCode;
     }
 
     public void setStreet(String street) {
-	this.street = street;
+        this.street = street;
     }
 
     public void setUsername(String username) {
-	this.username = username;
+        this.username = username;
     }
 
 }

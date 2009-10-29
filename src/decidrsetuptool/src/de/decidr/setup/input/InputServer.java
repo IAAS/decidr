@@ -33,7 +33,7 @@ public class InputServer {
 
         Server srv = new Server();
 
-        srv.setServerTypeId(Integer.toString(serverTypeId));
+        srv.setServerTypeId("'" + Integer.toString(serverTypeId) + "'");
         srv.setLocation(StringRequest.getResult("Server Location", defaultVal));
 
         return srv;

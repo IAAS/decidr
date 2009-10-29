@@ -32,7 +32,7 @@ public class InputSuperAdmin {
 
         sa.setEmail(EmailRequest.getResult("Email address"));
         sa.setUsername(StringRequest.getResult("Username"));
-        sa.setPassword(StringRequest.getResult("Password"));
+        sa.setPassword(StringRequest.getString("Password"));
         sa.setFirstName(StringRequest.getResult("First name"));
         sa.setLastName(StringRequest.getResult("Last name"));
         sa.setStreet(StringRequest.getResult("Street"));
@@ -63,7 +63,7 @@ public class InputSuperAdmin {
                 + "`passwordHash`,`passwordSalt`,`firstName`,`lastName`,"
                 + "`street`,`postalCode`,`city`)\n");
 
-        sql.append("VALUES (" + "," + sa.getUserId() + "," + sa.getUsername()
+        sql.append("VALUES (" + sa.getUserId() + "," + sa.getUsername()
                 + "," + sa.getPasswordHash() + "," + sa.getPasswordSalt() + ","
                 + sa.getFirstName() + "," + sa.getLastName() + ","
                 + sa.getStreet() + "," + sa.getPostalCode() + ","
