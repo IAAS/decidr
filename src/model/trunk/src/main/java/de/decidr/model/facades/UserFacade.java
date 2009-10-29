@@ -995,6 +995,8 @@ public class UserFacade extends AbstractFacade {
      *         never switched to a tenant or the tenant has been deleted.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason
+     * @throws EntityNotFoundException
+     *             if the user does not exist.
      */
     @AllowedRole(UserRole.class)
     public Long getCurrentTenantId(Long userId) throws TransactionException {
@@ -1004,7 +1006,10 @@ public class UserFacade extends AbstractFacade {
 
         Long result = null;
         User user = cmd.getFirstUser();
-        if (user != null && user.getCurrentTenant() != null) {
+
+        if (user == null) {
+            throw new EntityNotFoundException(User.class, userId);
+        } else if (user.getCurrentTenant() != null) {
             result = user.getCurrentTenant().getId();
         }
 
@@ -1021,6 +1026,8 @@ public class UserFacade extends AbstractFacade {
      *            is the default tenant.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason
+     * @throws EntityNotFoundException
+     *             if the user does not exist.
      */
     @AllowedRole(UserRole.class)
     public void setCurrentTenantId(Long userId, Long currentTenantId)
