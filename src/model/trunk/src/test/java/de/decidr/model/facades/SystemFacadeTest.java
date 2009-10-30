@@ -779,6 +779,8 @@ public class SystemFacadeTest extends LowLevelDatabaseTest {
             adminFacade.addServer(type, hostname, (byte) 50, true, true);
             // RR I had to drop the unique index on location due to trouble with
             // the setup tool, does that cause any new problems? ~dh
+            // DH how can that cause trouble for the setup tool when it doesn't
+            // for me??? ~rr
             adminFacade.addServer(type, hostname, (byte) 50, true, true);
 
             assertNotNull(adminFacade.getServers(type));

@@ -572,10 +572,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     public void testGetHighestUserRole() throws TransactionException {
         assertEquals(adminFacade.actor.getClass(), adminFacade
                 .getHighestUserRole(adminID));
-        // RR False positive. Returns null if testUserID is not a member of any
-        // tenant.
-        assertEquals(userFacade.actor.getClass(), userFacade
-                .getHighestUserRole(testUserID));
+        assertNull(userFacade.getHighestUserRole(testUserID));
     }
 
     /**
@@ -1104,10 +1101,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             // supposed to be thrown
         }
 
-        // RR why assertNull? ~dh
-        // assertNull(userFacade.getCurrentTenantId(tenantUserID));
-        // assertNull(adminFacade.getCurrentTenantId(tenantUserID));
-
         adminFacade.setCurrentTenantId(testUserID, null);
 
         userFacade.setCurrentTenantId(tenantUserID, tenantID);
@@ -1121,30 +1114,15 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         adminFacade.setCurrentTenantId(tenantUserID, null);
         assertNull(userFacade.getCurrentTenantId(tenantUserID));
 
-        try {
-            adminFacade.setCurrentTenantId(testUserID, tenantID);
-            // RR what's so bad about that? :-) ~dh
-            // fail("managed to set current tenant ID for a newly registered user");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
+        adminFacade.setCurrentTenantId(testUserID, tenantID);
 
         joinedTenants = userFacade.getJoinedTenants(tenantUserID);
         assertFalse(joinedTenants.isEmpty());
-        boolean skipflag = false;
         for (Item item : joinedTenants) {
             assertNotNull(item.getItemProperty("id").getValue());
             assertNotNull(item.getItemProperty("name").getValue());
             assertNotNull(userFacade.getUserRoleForTenant(tenantUserID,
                     (Long) item.getItemProperty("id").getValue()));
-
-            // skip every other item - the first one is not skipped
-            if ((skipflag = !skipflag) == true) {
-                // RR to forcefully remove a user from his tenant, the actor
-                // must be the admin of that tenant. ~dh
-                // assertTrue(userFacade.removeFromTenant(tenantUserID,
-                // (Long) item.getItemProperty("id").getValue()));
-            }
         }
 
         joinedTenants = adminFacade.getJoinedTenants(tenantUserID);
@@ -1154,22 +1132,22 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             assertNotNull(item.getItemProperty("name").getValue());
             assertNotNull(adminFacade.getUserRoleForTenant(tenantUserID,
                     (Long) item.getItemProperty("id").getValue()));
-            // RR interaction with email WS ~dh
-            // assertTrue(adminFacade.removeFromTenant(tenantUserID, (Long) item
-            // .getItemProperty("id").getValue()));
         }
 
-        // RR each user can only get his own joined tenants (actor id =
-        // testUserID) ~dh
         userFacade = new UserFacade(new UserRole(testUserID));
         assertTrue(userFacade.getJoinedTenants(testUserID).isEmpty());
         assertTrue(adminFacade.getJoinedTenants(testUserID).isEmpty());
         assertNull(userFacade.getUserRoleForTenant(testUserID, tenantID));
         assertNull(adminFacade.getUserRoleForTenant(testUserID, tenantID));
-        // RR must be tenant admin role to remove ~dh
-        // assertFalse(userFacade.removeFromTenant(testUserID, tenantID));
         assertFalse(adminFacade.removeFromTenant(testUserID, tenantID));
 
+        try {
+            // DH so users can't leave tenants? ~rr
+            assertFalse(userFacade.removeFromTenant(testUserID, tenantID));
+            fail("Managed to remove user from tenant using normal user facade");
+        } catch (TransactionException e) {
+            // supposed to be thrown
+        }
         try {
             nullFacade.getJoinedTenants(testUserID);
             fail("Managed to get joined tenants with null facade");

@@ -124,8 +124,8 @@ public class HumanTask implements HumanTaskInterface {
 
         try {
             log.debug("attempting to parse the data string into an Object");
-            THumanTaskData taskData = (THumanTaskData) TransformUtil
-                    .getElement(THumanTaskData.class, workItem.getData());
+            THumanTaskData taskData = TransformUtil.bytes2HumanTask(workItem
+                    .getData());
 
             /*
              * DH RR MA Modood is going to create a new type that replaces

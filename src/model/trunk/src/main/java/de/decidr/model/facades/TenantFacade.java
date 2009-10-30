@@ -686,9 +686,6 @@ public class TenantFacade extends AbstractFacade {
      *             if tenantId or workflowModelIds is <code>null</code>.
      */
     @AllowedRole(TenantAdminRole.class)
-    // DH how do I get the IDs of the newly created WFMs? ~rr
-    // RR you don't because the web portal doesn't need them. Just compare the
-    // entire list of workflow models before / after importing ~dh
     public void importPublishedWorkflowModels(Long tenantId,
             List<Long> workflowModelIds) throws TransactionException {
 

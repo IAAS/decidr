@@ -718,9 +718,9 @@ public class UserFacade extends AbstractFacade {
      * the first role that matches):
      * <ul>
      * <li>Is the user a superadmin? -> {@link SuperAdminRole}</li>
-     * <li>Does the user administer <strong>any</strong> tenant?? ->
+     * <li>Does the user administrate <strong>any</strong> tenant?? ->
      * {@link TenantAdminRole}</li>
-     * <li>Does the user administer <strong>any</strong> workflow model within
+     * <li>Does the user administrate <strong>any</strong> workflow model within
      * <strong>any</strong> tenant? -> {@link WorkflowAdminRole}</li>
      * <li>Is the user member of any tenant? -> {@link UserRole}</li>
      * <li>If none of the above match, <code>null</code> is returned</li>
