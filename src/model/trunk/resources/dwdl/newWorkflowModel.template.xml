@@ -1,3 +1,29 @@
 <workflow name="NCName" id="0"
 	targetNamespace="http://decidr.de/tenantName/processes/NCName" xmlns="http://decidr.de/schema/dwdl">
+	<description></description>
+	<variables />
+	<roles />
+	<faultHandler>
+		<setProperty name="message" />
+		<recipient>
+			<setProperty name="name" />
+		</recipient>
+	</faultHandler>
+	<nodes>
+		<startNode name="de.decidr.modelingtool.client.model.StartNodeModel"
+			id="4815162342">
+			<description></description>
+			<graphics x="20" y="20" width="50" height="30" />
+		</startNode>
+		<endNode name="de.decidr.modelingtool.client.model.EndNodeModel"
+			id="108">
+			<description></description>
+			<graphics x="200" y="200" width="50" height="30" />
+			<notificationOfSuccess>
+				<setProperty name="successMessage" />
+				<setProperty name="recipient" />
+			</notificationOfSuccess>
+		</endNode>
+	</nodes>
+	<arcs />
 </workflow>
