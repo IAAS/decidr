@@ -17,7 +17,7 @@ import de.decidr.model.workflowmodel.factories.DWDLFactory;
 import de.decidr.model.workflowmodel.factories.KnownWebserviceFactory;
 import de.decidr.model.workflowmodel.factories.ServerLoadViewFactory;
 
-public class Deployment {
+public class DeployerTest {
     
     static List<KnownWebService> knownWebservices;
     static DeploymentStrategy strategy;
@@ -36,7 +36,9 @@ public class Deployment {
     public void testDeploy() {
         Deployer deployer = new DeployerImpl();
         try {
-            deployer.deploy(dwdl, knownWebservices, "Hugo", serverStatistics, strategy);
+            DeploymentResult result = deployer.deploy(dwdl, knownWebservices, "Hugo", serverStatistics, strategy);
+            long serverId = result.getServers().get(0);
+            assertEquals(3l, serverId);
         } catch (DWDLValidationException e) {
             // Upsa
             e.printStackTrace();

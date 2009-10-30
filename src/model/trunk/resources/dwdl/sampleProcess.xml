@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 	<workflow id="1544" name="PartyOrganization" 
 	 targetNamespace="http://decidr.de/decidr/party"
 	 xmlns="http://decidr.de/schema/dwdl">

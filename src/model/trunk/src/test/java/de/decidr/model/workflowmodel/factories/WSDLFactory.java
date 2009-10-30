@@ -36,8 +36,8 @@ import com.ibm.wsdl.xml.WSDLReaderImpl;
  */
 public class WSDLFactory {
 
-    static String humanTaskWSDLName = "/src/test/java/HumanTaskTest.wsdl";
-    static String emailWSDLName = "/src/test/java/Email.wsdl";
+    static String humanTaskWSDLName = "/test/HumanTaskTest.wsdl";
+    static String emailWSDLName = "/test/EmailTest.wsdl";
 
     public static Definition getHumanTaskDefintion() throws WSDLException {
 
