@@ -264,6 +264,7 @@
             <xsd:element ref="arcs" minOccurs="1" maxOccurs="1" />
         </xsd:sequence>
         <xsd:attribute name="order" type="xsd:positiveInteger" />
+        <xsd:attribute name="id" type="xsd:long" use="required" />
         <xsd:attribute name="defaultCondition" type="tBoolean"
 			default="no" />
     </xsd:complexType>
