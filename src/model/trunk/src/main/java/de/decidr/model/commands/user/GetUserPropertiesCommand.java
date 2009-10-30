@@ -19,13 +19,13 @@ package de.decidr.model.commands.user;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Criteria;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
+import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.AliasToBeanResultTransformer;
 
 import de.decidr.model.acl.access.UserAccess;
 import de.decidr.model.acl.permissions.Permission;
@@ -43,10 +43,9 @@ import de.decidr.model.transactions.TransactionEvent;
  */
 public class GetUserPropertiesCommand extends AclEnabledCommand implements
         UserAccess {
-    private Collection<String> propertiesToGet;
 
-    private Collection<Long> userIds;
-
+    private Set<String> propertiesToGet;
+    private Set<Long> userIds;
     private List<User> users = new ArrayList<User>(0);
 
     /**
@@ -63,8 +62,10 @@ public class GetUserPropertiesCommand extends AclEnabledCommand implements
     public GetUserPropertiesCommand(Role actor, Collection<Long> userIds,
             Collection<String> propertiesToGet) {
         super(actor, (Permission) null);
-        this.propertiesToGet = propertiesToGet;
-        this.userIds = userIds;
+        this.propertiesToGet = new HashSet<String>();
+        this.propertiesToGet.addAll(propertiesToGet);
+        this.userIds = new HashSet<Long>();
+        this.userIds.addAll(userIds);
     }
 
     /**
@@ -109,21 +110,12 @@ public class GetUserPropertiesCommand extends AclEnabledCommand implements
         }
 
         Criteria crit = evt.getSession().createCriteria(User.class);
-        ProjectionList projectionList = Projections.projectionList();
 
         for (String propertyToGet : propertiesToGet) {
-            projectionList.add(Projections.property(propertyToGet));
+            crit.setFetchMode(propertyToGet, FetchMode.JOIN);
         }
 
-        crit.setProjection(projectionList);
         crit.add(Restrictions.in("id", userIds));
-        /*
-         * The AliasToBeanResultTransformer will turn the array of object
-         * returned by list() into instances of the User class. Only the the
-         * properties in projectionList will be loaded, all other properties
-         * will be null.
-         */
-        crit.setResultTransformer(new AliasToBeanResultTransformer(User.class));
 
         users = crit.list();
     }

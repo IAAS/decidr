@@ -777,8 +777,9 @@ public class SystemFacadeTest extends LowLevelDatabaseTest {
 
             String hostname = getHostname();
             adminFacade.addServer(type, hostname, (byte) 50, true, true);
-            addServerExceptionHelper("duplicate location succeeded",
-                    adminFacade, type, hostname, (byte) 50, true, true);
+            // RR I had to drop the unique index on location due to trouble with
+            // the setup tool, does that cause any new problems? ~dh
+            adminFacade.addServer(type, hostname, (byte) 50, true, true);
 
             assertNotNull(adminFacade.getServers(type));
             assertFalse(adminFacade.getServers(type).isEmpty());

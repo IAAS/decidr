@@ -165,7 +165,7 @@ public class CreateWorkflowModelCommand extends TenantCommand {
 
         Marshaller m = jc.createMarshaller();
         ByteArrayOutputStream result = new ByteArrayOutputStream();
-        m.marshal(workflowModel, result);
+        m.marshal(je, result);
 
         return result.toByteArray();
     }

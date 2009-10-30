@@ -25,6 +25,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
 
 import de.decidr.model.workflowmodel.humantask.DWDLSimpleVariableType;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
@@ -90,11 +91,11 @@ public class XmlTools {
             throw new IllegalArgumentException(
                     "Source byte array must not be null or empty.");
         }
-    
+
         ByteArrayInputStream inStream = new ByteArrayInputStream(bytes);
         JAXBContext context = JAXBContext.newInstance(clazz);
         Object result = context.createUnmarshaller().unmarshal(inStream);
-    
+
         if (clazz.isAssignableFrom(result.getClass())) {
             return result;
         } else if (result instanceof JAXBElement) {
@@ -105,7 +106,7 @@ public class XmlTools {
             throw new JAXBException(
                     "Unmarshaller unmarshalled garbage without complaining.");
         }
-    
+
     }
 
     /**
@@ -122,13 +123,15 @@ public class XmlTools {
         if (node == null) {
             throw new IllegalArgumentException("Node must not be null.");
         }
-    
+
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-    
-        Class<?> clazz = node.getClass();
-        JAXBContext context = JAXBContext.newInstance(clazz);
+
+        JAXBContext context = JAXBContext.newInstance(node.getClass());
         Marshaller marshaller = context.createMarshaller();
-        marshaller.marshal(node, outStream);
+        JAXBElement<Object> element = new JAXBElement<Object>(new QName("uri",
+                "local"), Object.class, node);
+
+        marshaller.marshal(element, outStream);
         return outStream.toByteArray();
     }
 

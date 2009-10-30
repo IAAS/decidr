@@ -56,6 +56,7 @@ import de.decidr.model.commands.user.RegisterUserCommand;
 import de.decidr.model.commands.user.RemoveFromTenantCommand;
 import de.decidr.model.commands.user.RequestChangeEmailCommand;
 import de.decidr.model.commands.user.RequestPasswordResetCommand;
+import de.decidr.model.commands.user.SetCurrentTenantCommand;
 import de.decidr.model.commands.user.SetDisabledCommand;
 import de.decidr.model.commands.user.SetPasswordCommand;
 import de.decidr.model.commands.user.SetUserProfileCommand;
@@ -759,6 +760,10 @@ public class UserFacade extends AbstractFacade {
      *         user is not a tenant member.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the user or the tenant does not exist.
+     * @throws IllegalArgumentException
+     *             if userId or tenantId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public Class<? extends UserRole> getUserRoleForTenant(Long userId,
@@ -836,6 +841,10 @@ public class UserFacade extends AbstractFacade {
      * @return Vaadin items representing the joined tenants.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the user does not exist.
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public List<Item> getJoinedTenants(Long userId) throws TransactionException {
@@ -1041,27 +1050,16 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason
      * @throws EntityNotFoundException
-     *             if the user does not exist.
+     *             if the user or the new current tenant does not exist (unless
+     *             you pass null as currentTenantId).
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public void setCurrentTenantId(Long userId, Long currentTenantId)
             throws TransactionException {
-        // since the tenant property is an entity we create one with the given
-        // ID
-        Tenant currentTenant;
-
-        if (currentTenantId != null) {
-            currentTenant = new Tenant();
-            currentTenant.setId(currentTenantId);
-        } else {
-            currentTenant = null;
-        }
-
-        Map<String, Tenant> newProperties = new HashMap<String, Tenant>();
-        newProperties.put("currentTenant", currentTenant);
-
-        SetUserPropertyCommand cmd = new SetUserPropertyCommand(actor, userId,
-                newProperties);
+        SetCurrentTenantCommand cmd = new SetCurrentTenantCommand(actor,
+                userId, currentTenantId);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
     }

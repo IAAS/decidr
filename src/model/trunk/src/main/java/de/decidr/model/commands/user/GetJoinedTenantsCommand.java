@@ -22,6 +22,8 @@ import org.hibernate.Query;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Tenant;
+import de.decidr.model.entities.User;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
@@ -48,6 +50,9 @@ public class GetJoinedTenantsCommand extends UserCommand {
      */
     public GetJoinedTenantsCommand(Role role, Long userId) {
         super(role, userId);
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID must not be null.");
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -55,11 +60,20 @@ public class GetJoinedTenantsCommand extends UserCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        String hql = "select rel.tenant from UserIsMemberOfTenant as rel "
+        String hql = "select u.id from User u where u.id = :userId";
+
+        Object found = evt.getSession().createQuery(hql).setLong("userId",
+                getUserId()).setMaxResults(1).uniqueResult();
+
+        if (found == null) {
+            throw new EntityNotFoundException(User.class, getUserId());
+        }
+
+        hql = "select rel.tenant from UserIsMemberOfTenant as rel "
                 + "where (rel.user.id = :userId) and "
                 + "(rel.tenant.approvedSince is not null)";
 
-        Query q = evt.getSession().createQuery(hql).setLong("useId",
+        Query q = evt.getSession().createQuery(hql).setLong("userId",
                 getUserId());
 
         result = q.list();

@@ -100,6 +100,7 @@ import de.decidr.model.commands.user.RegisterUserCommand;
 import de.decidr.model.commands.user.RemoveFromTenantCommand;
 import de.decidr.model.commands.user.RequestChangeEmailCommand;
 import de.decidr.model.commands.user.RequestPasswordResetCommand;
+import de.decidr.model.commands.user.SetCurrentTenantCommand;
 import de.decidr.model.commands.user.SetPasswordCommand;
 import de.decidr.model.commands.user.SetUserProfileCommand;
 import de.decidr.model.commands.user.SetUserPropertyCommand;
@@ -523,6 +524,11 @@ public class DefaultAccessControlList implements AccessControlList {
         setRule(new UserRole(), new CommandPermission(
                 GetUserPropertiesCommand.class), SatisfyAll,
                 new IsRoleEqualToAccessedUserAsserter());
+
+        setRule(new UserRole(), new CommandPermission(
+                SetCurrentTenantCommand.class), SatisfyAll,
+                new IsRoleEqualToAccessedUserAsserter(),
+                new UserIsEnabledAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(
                 RemoveFromTenantCommand.class), SatisfyAll,

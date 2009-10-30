@@ -916,13 +916,13 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
             adminFacade.importPublishedWorkflowModels(null,
                     new ArrayList<Long>(1));
             fail("Managed to import workflow models with null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {
             adminFacade.importPublishedWorkflowModels(testTenantID, null);
             fail("Managed to import workflow models with null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {

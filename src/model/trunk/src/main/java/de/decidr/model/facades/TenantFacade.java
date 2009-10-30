@@ -670,7 +670,8 @@ public class TenantFacade extends AbstractFacade {
 
     /**
      * Imports the given workflow models to the given tenant. If one or more of
-     * the given models are not public an exception will be thrown.
+     * the given models are not public a {@link TransactionException} is thrown.
+     * Any workflow models that already belong to the target tenant are ignored.
      * 
      * @param tenantId
      *            id of the tenant where the models should be imported
@@ -678,9 +679,16 @@ public class TenantFacade extends AbstractFacade {
      *            a list of the IDs of the models which should be imported
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the tenant does not exist or if one of the imported
+     *             workflow models does not exist.
+     * @throws IllegalArgumentException
+     *             if tenantId or workflowModelIds is <code>null</code>.
      */
     @AllowedRole(TenantAdminRole.class)
     // DH how do I get the IDs of the newly created WFMs? ~rr
+    // RR you don't because the web portal doesn't need them. Just compare the
+    // entire list of workflow models before / after importing ~dh
     public void importPublishedWorkflowModels(Long tenantId,
             List<Long> workflowModelIds) throws TransactionException {
 

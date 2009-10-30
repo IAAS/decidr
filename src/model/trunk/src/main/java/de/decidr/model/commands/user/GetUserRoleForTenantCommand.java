@@ -16,12 +16,7 @@
 
 package de.decidr.model.commands.user;
 
-import java.util.List;
-
-import org.hibernate.Criteria;
-import org.hibernate.Query;
-import org.hibernate.criterion.Restrictions;
-
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.TenantAdminRole;
@@ -30,7 +25,6 @@ import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
-import de.decidr.model.entities.UserIsMemberOfTenant;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
@@ -40,6 +34,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * variable. If the user is not even a tenant member the result will be null.
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  * 
  * @version 0.1
  */
@@ -60,81 +55,82 @@ public class GetUserRoleForTenantCommand extends UserCommand {
      *            given tenant
      * @param tenantId
      *            the ID of the tenant for which the role should be appointed
+     * @throws IllegalArgumentException
+     *             if userId or tenantId is <code>null</code>
      */
     public GetUserRoleForTenantCommand(Role role, Long userId, Long tenantId) {
         super(role, userId);
-
+        if (userId == null || tenantId == null) {
+            throw new IllegalArgumentException(
+                    "User ID and tenant ID must not be null.");
+        }
         this.tenantId = tenantId;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+        result = null;
 
-        // check if super admin
-        Criteria c = evt.getSession().createCriteria(SystemSettings.class);
-        List<SystemSettings> results = c.list();
-        SystemSettings innerResult;
+        // does the user exist?
+        String hql = "select u.id from User u where u.id = :userId";
+        Object found = evt.getSession().createQuery(hql).setLong("userId",
+                getUserId()).setMaxResults(1).uniqueResult();
 
-        if (results.size() > 0) {
-            throw new TransactionException(
-                    "More than one system settings found, but system settings should be unique");
-        } else if (results.size() == 0) {
-            throw new EntityNotFoundException(SystemSettings.class);
-        } else {
-            innerResult = results.get(0);
+        if (found == null) {
+            throw new EntityNotFoundException(User.class, getUserId());
         }
 
-        if (getUserId() == innerResult.getSuperAdmin().getId()) {
+        // check if super admin
+        SystemSettings settings = DecidrGlobals.getSettings();
+
+        if (getUserId() == settings.getSuperAdmin().getId()) {
             result = SuperAdminRole.class;
             return;
         }
 
         // check if tenant admin
+        Tenant tenant = (Tenant) evt.getSession().get(Tenant.class, tenantId);
+        if (tenant == null) {
+            throw new EntityNotFoundException(Tenant.class, tenantId);
+        }
 
-        Tenant tenant = (Tenant) evt.getSession().load(Tenant.class, tenantId);
-
-        if (tenant.getAdmin().getId() == getUserId()) {
+        if (getUserId().equals(tenant.getAdmin().getId())) {
             result = TenantAdminRole.class;
             return;
         }
 
         // check if workflow admin
+        hql = "select u.id from User u "
+                + "where u.id = :userId and "
+                + "exists(from UserAdministratesWorkflowInstance relWi "
+                + "where relWi.user = u and "
+                + "relWi.workflowInstance.deployedWorkflowModel.tenant.id = :tenantId) or "
+                + "exists(from UserAdministratesWorkflowModel relWm "
+                + "where relWm.user = u and relWm.workflowModel.tenant.id = :tenantId)";
 
-        User user = new User();
-        user.setId(getUserId());
+        found = evt.getSession().createQuery(hql).setLong("tenantId", tenantId)
+                .setLong("userId", getUserId()).setMaxResults(1).uniqueResult();
 
-        Criteria c2 = evt.getSession().createCriteria(
-                "UserAdministratesWorkflowInstance");
-        c2.add(Restrictions.eq("user", user));
-
-        Query q = evt
-                .getSession()
-                .createQuery(
-                        "select count(*) from UserAdministratesWorkflowInstance a where a.deployedWorkflowModel.tenant.id = :tenantId");
-        q.setLong("tenantId", tenantId);
-
-        Number count = (Number) q.uniqueResult();
-
-        if (count == null) {
-            throw new TransactionException("Query didn't return a result.");
-        } else if (count.intValue() > 0) {
+        if (found != null) {
             result = WorkflowAdminRole.class;
             return;
         }
 
         // check if member
-        Criteria c3 = evt.getSession().createCriteria(
-                UserIsMemberOfTenant.class).add(Restrictions.eq("user", user))
-                .add(Restrictions.eq("tenant", tenant));
+        hql = "select rel.user.id from UserIsMemberOfTenant rel where "
+                + "rel.user.id = :userId and rel.tenant.id = :tenantId";
 
-        if (!(c3.list().isEmpty())) {
+        found = evt.getSession().createQuery(hql)
+                .setLong("userId", getUserId()).setLong("tenantId", tenantId)
+                .setMaxResults(1).uniqueResult();
+
+        if (found != null) {
             result = UserRole.class;
             return;
         }
 
-        // if user has no role
+        // user is not a tenant member
         result = null;
     }
 

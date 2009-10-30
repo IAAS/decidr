@@ -15,31 +15,35 @@
  */
 package de.decidr.model.commands.tenant;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.access.WorkflowModelAccess;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.WorkflowModel;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Imports the given workflow models to the given tenant. If one or more of the
- * given models are not public an exception will be thrown.
+ * given models are not public an exception will be thrown. Any workflow models
+ * that already belong to the target tenant are ignored.
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  * 
  * @version 0.1
  */
 public class ImportPublishedWorkflowModelsCommand extends TenantCommand
         implements WorkflowModelAccess {
 
-    private List<Long> modelIdList;
-    private List<WorkflowModel> modelList;
+    private Set<Long> modelIdSet;
+    private List<WorkflowModel> modelSet;
 
     /**
      * Creates a new ImportPublishedWorkflowModelsCommand. This command imports
@@ -59,13 +63,14 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand
             List<Long> workflowModelIds) {
         super(role, tenantId);
 
-        if (workflowModelIds == null) {
+        if (workflowModelIds == null || tenantId == null) {
             throw new IllegalArgumentException(
-                    "List of workflow model IDs must not be null.");
+                    "Tenant ID and list of workflow model IDs must not be null.");
         }
 
-        this.modelIdList = new ArrayList<Long>();
-        this.modelIdList.addAll(workflowModelIds);
+        this.modelIdSet = new HashSet<Long>();
+        this.modelIdSet.remove(null);
+        this.modelIdSet.addAll(workflowModelIds);
     }
 
     @SuppressWarnings("unchecked")
@@ -75,35 +80,51 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand
 
         Date now = DecidrGlobals.getTime().getTime();
 
-        if (!modelIdList.isEmpty()) {
-            Tenant t = fetchTenant(evt.getSession());
+        Tenant t = fetchTenant(evt.getSession());
 
-            modelList = evt
-                    .getSession()
-                    .createQuery(
-                            "from WorkflowModel m where m.id in (:modelIds) and m.tenant.id != :tenantId")
-                    .setParameterList("modelIds", modelIdList).setLong(
-                            "tenantId", t.getId()).list();
+        if (modelIdSet.isEmpty()) {
+            return;
+        }
+        // remove models that already belong to the target tenant.
+        List<Long> alreadyOwned = (List<Long>) evt.getSession().createQuery(
+                "select m.id from WorkflowModel m "
+                        + "where m.tenant.id = :tenantId").setLong("tenantId",
+                t.getId()).list();
+        modelIdSet.removeAll(alreadyOwned);
 
-            for (WorkflowModel model : modelList) {
-                if (model.isPublished()) {
-                    // create a copy of the model that belongs to tenant "t"
-                    WorkflowModel newModel = new WorkflowModel();
-                    newModel.setPublished(false);
-                    newModel.setTenant(t);
-                    newModel.setDwdl(model.getDwdl());
-                    newModel.setDescription(model.getDescription());
-                    newModel.setName(model.getName());
-                    newModel.setModifiedByUser(t.getAdmin());
-                    newModel.setModifiedDate(now);
-                    newModel.setCreationDate(now);
-                    newModel.setVersion(0);
-                    newModel.setExecutable(false);
-                    evt.getSession().save(newModel);
-                } else {
-                    throw new TransactionException(
-                            "Given workflowModel is not published.");
-                }
+        if (modelIdSet.isEmpty()) {
+            return;
+        }
+
+        // fech all remaining models
+        modelSet = evt.getSession().createQuery(
+                "select distinct m from WorkflowModel m "
+                        + "where m.id in (:modelIds) "
+                        + "and m.tenant.id != :tenantId").setParameterList(
+                "modelIds", modelIdSet).setLong("tenantId", t.getId()).list();
+
+        if (modelIdSet.size() != modelSet.size()) {
+            throw new EntityNotFoundException(WorkflowModel.class);
+        }
+
+        for (WorkflowModel model : modelSet) {
+            if (model.isPublished()) {
+                // create a copy of the model that belongs to tenant "t"
+                WorkflowModel newModel = new WorkflowModel();
+                newModel.setPublished(false);
+                newModel.setTenant(t);
+                newModel.setDwdl(model.getDwdl());
+                newModel.setDescription(model.getDescription());
+                newModel.setName(model.getName());
+                newModel.setModifiedByUser(t.getAdmin());
+                newModel.setModifiedDate(now);
+                newModel.setCreationDate(now);
+                newModel.setVersion(0);
+                newModel.setExecutable(false);
+                evt.getSession().save(newModel);
+            } else {
+                throw new TransactionException(
+                        "Given workflow model is not published.");
             }
         }
     }
@@ -111,6 +132,6 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand
     @Override
     public Long[] getWorkflowModelIds() {
         Long[] res = new Long[0];
-        return modelIdList.toArray(res);
+        return modelIdSet.toArray(res);
     }
 }
