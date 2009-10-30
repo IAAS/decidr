@@ -2,40 +2,58 @@ package de.decidr.model.workflowmodel.deployment;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
-import org.junit.Before;
+import javax.wsdl.WSDLException;
+import javax.xml.bind.JAXBException;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.entities.ServerLoadView;
-import de.decidr.model.workflowmodel.factories.WSDLFactory;
+import de.decidr.model.workflowmodel.factories.DWDLFactory;
+import de.decidr.model.workflowmodel.factories.KnownWebserviceFactory;
+import de.decidr.model.workflowmodel.factories.ServerLoadViewFactory;
 
 public class Deployment {
     
-    List<KnownWebService> knownWebservices;
-    DeploymentStrategy strategy;
-    List<ServerLoadView> serverStatistics;
+    static List<KnownWebService> knownWebservices;
+    static DeploymentStrategy strategy;
+    static List<ServerLoadView> serverStatistics;
+    static byte[] dwdl;
 
-    @Before
-    public void setUp() throws Exception {
-        knownWebservices = new ArrayList<KnownWebService>();
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        knownWebservices = KnownWebserviceFactory.getKnownWebservice();
         strategy = new StandardDeploymentStrategy();
-        serverStatistics = new ArrayList<ServerLoadView>();
-        KnownWebService humanTaskWS= new KnownWebService();
-        humanTaskWS.setWsdl(WSDLFactory.getHumanTaskDefinitionByteArray());
-        KnownWebService emailWS = new KnownWebService();
-        emailWS.setWsdl(WSDLFactory.getEmailDefinitionByteArray());
-        knownWebservices.add(humanTaskWS);
-        knownWebservices.add(emailWS);
+        serverStatistics = ServerLoadViewFactory.getServerStatistics();
+        dwdl = DWDLFactory.getDWDLWorkflowByteArray();
     }
 
     @Test
     public void testDeploy() {
         Deployer deployer = new DeployerImpl();
-        deployer.deploy(dwdl, knownWebservices, "Hugo", serverStatistics, strategy);
-        fail("Not yet implemented");
+        try {
+            deployer.deploy(dwdl, knownWebservices, "Hugo", serverStatistics, strategy);
+        } catch (DWDLValidationException e) {
+            // Upsa
+            e.printStackTrace();
+        } catch (ODESelectorException e) {
+            // Upsa
+            e.printStackTrace();
+        } catch (IOException e) {
+            // Upsa
+            e.printStackTrace();
+        } catch (JAXBException e) {
+            // Upsa
+            e.printStackTrace();
+        } catch (WSDLException e) {
+            // Upsa
+            e.printStackTrace();
+        }
+        
     }
 
     @Test

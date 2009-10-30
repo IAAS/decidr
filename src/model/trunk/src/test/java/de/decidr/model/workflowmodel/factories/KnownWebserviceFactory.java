@@ -16,33 +16,28 @@
 
 package de.decidr.model.workflowmodel.factories;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.decidr.model.entities.ServerLoadView;
+import de.decidr.model.entities.KnownWebService;
 
 /**
- * This class returns a list with an single {@link ServerLoadView} element
- *
+ * This class returns a list with HumanTask web service and EmailWS web service
+ * 
  * @author Modood Alvi
  */
-public class ServerLoadViewFactory {
-   
-    public static List<ServerLoadView> getServerStatistics(){
-        
-        List<ServerLoadView> statistics = new ArrayList<ServerLoadView>();
-        ServerLoadView server = new ServerLoadView();
-        server.setId(3l);
-        server.setLoad((byte) 10);
-        server.setLocation("http://ec2-174-129-24-232.compute-1.amazonaws.com:8080/ode/");
-        server.setServerTypeId(1l);
-        statistics.add(server);
-        
-        return statistics;
-        
+public class KnownWebserviceFactory {
+
+    public static List<KnownWebService> getKnownWebservice() throws IOException {
+        List<KnownWebService> knownWebServices = new ArrayList<KnownWebService>();
+        KnownWebService humanTaskWS = new KnownWebService();
+        humanTaskWS.setWsdl(WSDLFactory.getHumanTaskDefinitionByteArray());
+        KnownWebService emailWS = new KnownWebService();
+        emailWS.setWsdl(WSDLFactory.getEmailDefinitionByteArray());
+        knownWebServices.add(humanTaskWS);
+        knownWebServices.add(emailWS);
+        return knownWebServices;
     }
-    
-    
-    
 
 }
