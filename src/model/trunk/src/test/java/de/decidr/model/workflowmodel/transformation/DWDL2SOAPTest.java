@@ -40,15 +40,13 @@ public class DWDL2SOAPTest {
      */
     public static void main(String[] args) {
         try {
-            Definition definition = WSDLFactory.getDefintion();
+            Definition definition = WSDLFactory.getHumanTaskDefinition();
             DWDL2SOAP dwdl2Soap = new DWDL2SOAP();
             dwdl2Soap.getSOAP(definition, "HumanTaskPT", "createTask")
                     .writeTo(System.out);
 
         } catch (WSDLException exception) {
             System.out.println("WSDLException");
-        } catch (URISyntaxException exception) {
-            System.out.println("URISyntaxException");
         } catch (SOAPException exception) {
             System.out.println("SOAPException");
         } catch (IOException exception) {
