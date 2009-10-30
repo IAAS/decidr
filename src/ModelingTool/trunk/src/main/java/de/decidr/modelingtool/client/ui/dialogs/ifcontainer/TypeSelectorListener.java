@@ -24,7 +24,8 @@ import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 
 /**
- * TODO: add comment
+ * This class is a listener for any changes made in the variable type selection
+ * combobox of the {@link IfFieldSet}.
  * 
  * @author Jonas Schlaak
  */
@@ -34,11 +35,12 @@ public class TypeSelectorListener extends SelectionChangedListener<Variable> {
     private SimpleComboBox<String> typeSelector;
 
     /**
-     * 
-     * TODO: add comment
+     * Default constructor.
      * 
      * @param fieldset
+     *            the {@link IfFieldSet} which contains the combobox
      * @param typeSelector
+     *            the combobox for which the listener is for
      */
     public TypeSelectorListener(IfFieldSet fieldset,
             SimpleComboBox<String> typeSelector) {

@@ -21,6 +21,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import com.extjs.gxt.ui.client.store.ListStore;
+
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.ui.HasChildren;
@@ -132,6 +134,39 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
         for (Variable var : variables) {
             if (var.getId().equals(id)) {
                 result = var;
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * Return a {@link ListStore} of all variables of the {@link WorkflowModel}.
+     * The returned variables are copies, not references.
+     * 
+     * @return the variables of the workflow model
+     */
+    public ListStore<Variable> getAllVariablesAsStore() {
+        ListStore<Variable> result = new ListStore<Variable>();
+        for (Variable var : Workflow.getInstance().getModel().getVariables()) {
+            result.add(var.copy());
+        }
+        return result;
+    }
+
+    /**
+     * Returns all variables of the given type. The returned variables are
+     * copies, not references.
+     * 
+     * @param type
+     *            the type of variables to be returned
+     * @return the variables that have the given type
+     */
+    public ListStore<Variable> getVariablesOfTypeAsStore(
+            VariableType type) {
+        ListStore<Variable> result = new ListStore<Variable>();
+        for (Variable var : Workflow.getInstance().getModel().getVariables()) {
+            if (var.getType() == type) {
+                result.add(var.copy());
             }
         }
         return result;

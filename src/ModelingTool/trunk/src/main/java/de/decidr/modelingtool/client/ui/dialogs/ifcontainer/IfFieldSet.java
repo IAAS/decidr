@@ -28,7 +28,6 @@ import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
 import de.decidr.modelingtool.client.model.ifcondition.Operator;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
-import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**
@@ -78,7 +77,8 @@ public class IfFieldSet {
 
         leftOperandField = new ComboBox<Variable>();
         leftOperandField.setDisplayField(Variable.LABEL);
-        leftOperandField.setStore(VariablesFilter.getAllVariablesAsStore());
+        leftOperandField.setStore(Workflow.getInstance().getModel()
+                .getAllVariablesAsStore());
         leftOperandField.setEnabled(false);
 
         operatorList = new SimpleComboBox<String>();
@@ -89,7 +89,8 @@ public class IfFieldSet {
 
         rightOperandField = new ComboBox<Variable>();
         rightOperandField.setDisplayField(Variable.LABEL);
-        rightOperandField.setStore(VariablesFilter.getAllVariablesAsStore());
+        rightOperandField.setStore(Workflow.getInstance().getModel()
+                .getAllVariablesAsStore());
         rightOperandField.setEnabled(false);
         rightOperandField.setTypeAhead(true);
 

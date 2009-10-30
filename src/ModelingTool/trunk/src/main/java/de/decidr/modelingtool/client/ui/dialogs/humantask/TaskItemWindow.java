@@ -38,7 +38,6 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.model.humantask.TaskItem;
 import de.decidr.modelingtool.client.model.variable.Variable;
-import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
@@ -180,7 +179,8 @@ public class TaskItemWindow extends ModelingToolDialog {
         /* combobox */
         ComboBox<Variable> variableField = new ComboBox<Variable>();
         variableField.setDisplayField(Variable.LABEL);
-        variableField.setStore(VariablesFilter.getAllVariablesAsStore());
+        variableField.setStore(Workflow.getInstance().getModel()
+                .getAllVariablesAsStore());
         if (ti.getVariableId() != null) {
             variableField.setValue(Workflow.getInstance().getModel()
                     .getVariable(ti.getVariableId()));

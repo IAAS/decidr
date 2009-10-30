@@ -34,7 +34,6 @@ import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
-import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 import de.decidr.modelingtool.client.ui.EmailInvokeNode;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
@@ -197,7 +196,8 @@ public class EmailActivityWindow extends ModelingToolDialog {
     private void addComboField(ComboBox<Variable> field, String label,
             VariableType type, Long variableId) {
         field.setDisplayField(Variable.LABEL);
-        field.setStore(VariablesFilter.getVariablesOfTypeAsStore(type));
+        field.setStore(Workflow.getInstance().getModel()
+                .getVariablesOfTypeAsStore(type));
         field.setValue(Workflow.getInstance().getModel()
                 .getVariable(variableId));
         field.setTypeAhead(true);

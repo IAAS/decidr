@@ -41,7 +41,6 @@ import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.model.humantask.TaskItem;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
-import de.decidr.modelingtool.client.model.variable.VariablesFilter;
 import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
@@ -217,7 +216,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         /* combobox for role variable */
         userField = new ComboBox<Variable>();
         userField.setDisplayField(Variable.LABEL);
-        userField.setStore(VariablesFilter
+        userField.setStore(Workflow.getInstance().getModel()
                 .getVariablesOfTypeAsStore(VariableType.ROLE));
         userField.setValue(Workflow.getInstance().getModel().getVariable(
                 model.getUserVariableId()));
@@ -232,7 +231,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         /* combobox for task name */
         nameField = new ComboBox<Variable>();
         nameField.setDisplayField(Variable.LABEL);
-        nameField.setStore(VariablesFilter
+        nameField.setStore(Workflow.getInstance().getModel()
                 .getVariablesOfTypeAsStore(VariableType.STRING));
         nameField.setValue(Workflow.getInstance().getModel().getVariable(
                 model.getWorkItemNameVariableId()));
@@ -246,7 +245,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         /* combobox for task description */
         descriptionField = new ComboBox<Variable>();
         descriptionField.setDisplayField(Variable.LABEL);
-        descriptionField.setStore(VariablesFilter
+        descriptionField.setStore(Workflow.getInstance().getModel()
                 .getVariablesOfTypeAsStore(VariableType.STRING));
         descriptionField.setValue(Workflow.getInstance().getModel()
                 .getVariable(model.getWorkItemNameVariableId()));
@@ -260,7 +259,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         /* combobox for form container */
         formContainerField = new ComboBox<Variable>();
         formContainerField.setDisplayField(Variable.LABEL);
-        formContainerField.setStore(VariablesFilter
+        formContainerField.setStore(Workflow.getInstance().getModel()
                 .getVariablesOfTypeAsStore(VariableType.FORM));
         formContainerField.setValue(Workflow.getInstance().getModel()
                 .getVariable(model.getFormVariableId()));
