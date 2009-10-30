@@ -27,6 +27,9 @@ public class FlowContainer extends Container {
 
     public FlowContainer(HasChildren parentPanel) {
         super(parentPanel);
+
+        getGraphic().addStyleName("flow-container-std");
+
         getContainerStartPort().setMultipleConnectionsAllowed(true);
         getContainerExitPort().setMultipleConnectionsAllowed(true);
     }

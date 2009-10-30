@@ -28,6 +28,8 @@ public class IfContainer extends Container {
     public IfContainer(HasChildren parentPanel) {
         super(parentPanel);
 
+        getGraphic().addStyleName("if-container-std");
+
         getContainerStartPort().setMultipleConnectionsAllowed(true);
         getContainerExitPort().setMultipleConnectionsAllowed(true);
     }

@@ -28,6 +28,8 @@ public class ForEachContainer extends Container {
     public ForEachContainer(HasChildren parentPanel) {
         super(parentPanel);
 
+        getGraphic().addStyleName("foreach-container-std");
+
         getContainerStartPort().setMultipleConnectionsAllowed(true);
         getContainerExitPort().setMultipleConnectionsAllowed(true);
     }
