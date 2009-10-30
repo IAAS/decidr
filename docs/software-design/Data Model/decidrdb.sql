@@ -30,7 +30,8 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`file` (
   INDEX `filesize_idx` (`fileSizeBytes` ASC) ,
   INDEX `creationdate_idx` (`creationDate` ASC) ,
   INDEX `temporary_idx` (`temporary` ASC) )
-ENGINE = InnoDB;
+ENGINE = InnoDB
+COMMENT = 'Represents a file that has been uploaded by a user.';
 
 
 -- -----------------------------------------------------
@@ -252,7 +253,6 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`server` (
   `serverTypeId` BIGINT NOT NULL ,
   `lastLoadUpdate` DATETIME NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `unique_location` (`location` ASC) ,
   INDEX `fk_server_server_type` (`serverTypeId` ASC) ,
   CONSTRAINT `fk_server_server_type`
     FOREIGN KEY (`serverTypeId` )
@@ -735,6 +735,28 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`activity` (
     REFERENCES `decidrdb`.`known_web_service` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `decidrdb`.`work_item_contains_file`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `decidrdb`.`work_item_contains_file` (
+  `workItemId` BIGINT NOT NULL ,
+  `fileId` BIGINT NOT NULL ,
+  PRIMARY KEY (`workItemId`, `fileId`) ,
+  INDEX `fk_work_item_has_file_work_item1` (`workItemId` ASC) ,
+  INDEX `fk_work_item_has_file_file1` (`fileId` ASC) ,
+  CONSTRAINT `fk_work_item_has_file_work_item1`
+    FOREIGN KEY (`workItemId` )
+    REFERENCES `decidrdb`.`work_item` (`id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_work_item_has_file_file1`
+    FOREIGN KEY (`fileId` )
+    REFERENCES `decidrdb`.`file` (`id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
