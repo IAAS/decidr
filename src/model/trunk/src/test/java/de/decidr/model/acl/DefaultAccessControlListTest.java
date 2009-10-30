@@ -101,7 +101,7 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
         tenantAdminId = userFacade.registerUser(UserFacadeTest.getTestEmail(1), "qwertz",
                 userProfile);
 
-        userProfile.setUsername(USERNAME_PREFIX + "WorkflowAdmin");
+        userProfile.setUsername(USERNAME_PREFIX + "WFAdmin");
         workflowAdminId = userFacade.registerUser(UserFacadeTest.getTestEmail(2),
                 "qwertz", userProfile);
 
