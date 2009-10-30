@@ -905,9 +905,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         setEmailAddressExceptionHelper(
                 "setting email with null facade succeeded", nullFacade,
                 testUserID, TEST_EMAIL);
-        setEmailAddressExceptionHelper(
-                "setting email with normal user facade succeeded", userFacade,
-                testUserID, TEST_EMAIL);
+        userFacade.setEmailAddress(testUserID, TEST_EMAIL);
     }
 
     /**
