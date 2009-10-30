@@ -24,7 +24,8 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
 
 /**
  * A callback class which serves as a container to hold the message, which
- * inputs of which textfields of the {@link ValueEditor} have a wrong format.
+ * inputs of which textfields of the {@link ValueEditorWindow} have a wrong
+ * format.
  * 
  * @author Jonas Schlaak
  */

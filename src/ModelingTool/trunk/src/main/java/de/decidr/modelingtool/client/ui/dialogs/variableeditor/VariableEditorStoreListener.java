@@ -22,7 +22,8 @@ import com.extjs.gxt.ui.client.store.StoreListener;
 import de.decidr.modelingtool.client.model.variable.Variable;
 
 /**
- * Listens for changes made to the variables in the {@link VariableEditor}.
+ * Listens for changes made to the variables in the {@link VariableEditorWindow}
+ * .
  * 
  * @author Jonas Schlaak
  */

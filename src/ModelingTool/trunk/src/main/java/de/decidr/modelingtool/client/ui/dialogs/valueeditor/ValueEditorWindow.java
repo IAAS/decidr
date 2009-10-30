@@ -45,7 +45,7 @@ import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
-import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
+import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditorWindow;
 
 /**
  * A dialog that is for editing the values of a {@link Variable} of all types,
@@ -53,7 +53,7 @@ import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
  * 
  * @author Jonas Schlaak
  */
-public class ValueEditor extends ModelingToolDialog {
+public class ValueEditorWindow extends ModelingToolDialog {
 
     private ContentPanel contentPanel;
     private FlexTable table;
@@ -65,7 +65,7 @@ public class ValueEditor extends ModelingToolDialog {
     /**
      * Default constructor that sets the layout.
      */
-    public ValueEditor() {
+    public ValueEditorWindow() {
         super();
         this.setLayout(new FitLayout());
         this.setSize(500, 300);
@@ -135,11 +135,12 @@ public class ValueEditor extends ModelingToolDialog {
                              * Refresh of the variable editor needed so that the
                              * displayed values are updated
                              */
-                            ((VariableEditor) DialogRegistry.getInstance()
-                                    .getDialog(VariableEditor.class.getName()))
-                                    .refresh();
+                            ((VariableEditorWindow) DialogRegistry
+                                    .getInstance().getDialog(
+                                            VariableEditorWindow.class
+                                                    .getName())).refresh();
                             DialogRegistry.getInstance().hideDialog(
-                                    ValueEditor.class.getName());
+                                    ValueEditorWindow.class.getName());
                         } else {
                             MessageBox.alert(ModelingToolWidget.getMessages()
                                     .warningTitle(), call.getMessage(), null);
@@ -152,7 +153,7 @@ public class ValueEditor extends ModelingToolDialog {
                     @Override
                     public void componentSelected(ButtonEvent ce) {
                         DialogRegistry.getInstance().hideDialog(
-                                ValueEditor.class.getName());
+                                ValueEditorWindow.class.getName());
                     }
                 }));
     }

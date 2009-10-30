@@ -6,11 +6,11 @@ import com.google.gwt.user.client.Command;
 
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.ui.Workflow;
-import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
-import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditorInvoker;
+import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditorWindow;
+import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditorWindowInvoker;
 
 /**
- * Displays the {@link VariableEditor}.
+ * Displays the {@link VariableEditorWindow}.
  * 
  * @author Jonas Schlaak
  */
@@ -19,6 +19,6 @@ public class VariablesMenuItem implements Command {
     public void execute() {
         List<Variable> variables = Workflow.getInstance().getModel()
                 .getVariables();
-        VariableEditorInvoker.invoke(variables);
+        VariableEditorWindowInvoker.invoke(variables);
     }
 }

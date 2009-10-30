@@ -45,7 +45,7 @@ import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
-import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
+import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditorWindow;
 
 /**
  * A dialog for selecting users for a {@link Variable} of the type
@@ -130,8 +130,9 @@ public class RoleEditor extends ModelingToolDialog {
                          * Refresh of the variable editor needed so that the
                          * displayed values are updated
                          */
-                        ((VariableEditor) DialogRegistry.getInstance()
-                                .getDialog(VariableEditor.class.getName()))
+                        ((VariableEditorWindow) DialogRegistry
+                                .getInstance()
+                                .getDialog(VariableEditorWindow.class.getName()))
                                 .refresh();
                         DialogRegistry.getInstance().hideDialog(
                                 RoleEditor.class.getName());

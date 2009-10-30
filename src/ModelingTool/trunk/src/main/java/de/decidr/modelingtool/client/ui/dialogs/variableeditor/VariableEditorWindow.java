@@ -41,7 +41,7 @@ import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
-import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorInvoker;
+import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorWindowInvoker;
 
 /**
  * Editor for {@link Variables}. Variables can be added, edited and deleted. The
@@ -50,7 +50,7 @@ import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorInvoker;
  * 
  * @author Jonas Schlaak
  */
-public class VariableEditor extends ModelingToolDialog {
+public class VariableEditorWindow extends ModelingToolDialog {
 
     private ContentPanel editorPanel;
     private ToolBar toolBar;
@@ -62,7 +62,7 @@ public class VariableEditor extends ModelingToolDialog {
     private CellSelectionModel<Variable> csm;
     private EditorGrid<Variable> grid;
 
-    public VariableEditor() {
+    public VariableEditorWindow() {
         super();
         this.setLayout(new FitLayout());
         this.setSize(500, 500);
@@ -118,9 +118,11 @@ public class VariableEditor extends ModelingToolDialog {
         addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
+                //JS cleanup
                 Variable var = new Variable(ModelingToolWidget.getMessages()
                         .newStringValue());
                 grid.stopEditing();
+                NewVariableWindowInvoker.invoke(variables);
                 variables.insert(var, 0);
                 grid.startEditing(0, 0);
             }
@@ -145,7 +147,7 @@ public class VariableEditor extends ModelingToolDialog {
             public void componentSelected(ToolBarEvent ce) {
                 grid.stopEditing();
                 Variable variable = csm.getSelectCell().model;
-                ValueEditorInvoker.invoke(variable);
+                ValueEditorWindowInvoker.invoke(variable);
             }
         });
         toolBar.add(editVar);
@@ -167,7 +169,7 @@ public class VariableEditor extends ModelingToolDialog {
                             changeWorkflowModel();
                         }
                         DialogRegistry.getInstance().hideDialog(
-                                VariableEditor.class.getName());
+                                VariableEditorWindow.class.getName());
                     }
                 }));
         addButton(new Button(ModelingToolWidget.getMessages().cancelButton(),
@@ -176,7 +178,7 @@ public class VariableEditor extends ModelingToolDialog {
                     public void componentSelected(ButtonEvent ce) {
                         variables.rejectChanges();
                         DialogRegistry.getInstance().hideDialog(
-                                VariableEditor.class.getName());
+                                VariableEditorWindow.class.getName());
                     }
                 }));
     }

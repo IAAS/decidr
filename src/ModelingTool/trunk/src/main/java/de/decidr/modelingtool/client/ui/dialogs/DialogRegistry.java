@@ -25,8 +25,9 @@ import de.decidr.modelingtool.client.ui.dialogs.humantask.HumanTaskActivityWindo
 import de.decidr.modelingtool.client.ui.dialogs.humantask.TaskItemWindow;
 import de.decidr.modelingtool.client.ui.dialogs.ifcontainer.IfWindow;
 import de.decidr.modelingtool.client.ui.dialogs.valueeditor.RoleEditor;
-import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditor;
-import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditor;
+import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorWindow;
+import de.decidr.modelingtool.client.ui.dialogs.variableeditor.NewVariableWindow;
+import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditorWindow;
 import de.decidr.modelingtool.client.ui.dialogs.workflow.WorkflowPropertyWindow;
 
 /**
@@ -60,8 +61,9 @@ public class DialogRegistry {
      */
     private DialogRegistry() {
         register(new WorkflowPropertyWindow());
-        register(new VariableEditor());
-        register(new ValueEditor());
+        register(new VariableEditorWindow());
+        register(new NewVariableWindow());
+        register(new ValueEditorWindow());
         register(new RoleEditor());
         register(new EmailActivityWindow());
         register(new HumanTaskActivityWindow());

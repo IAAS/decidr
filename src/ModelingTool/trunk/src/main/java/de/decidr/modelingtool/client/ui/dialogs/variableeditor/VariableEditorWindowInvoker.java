@@ -28,7 +28,7 @@ import de.decidr.modelingtool.client.ui.dialogs.foreachcontainer.ForEachWindow;
  * 
  * @author Jonas Schlaak
  */
-public class VariableEditorInvoker {
+public class VariableEditorWindowInvoker {
 
     /**
      * Invokes the window.
@@ -37,9 +37,10 @@ public class VariableEditorInvoker {
      *            the node which properties are to be displayed by the window
      */
     public static void invoke(List<Variable> variables) {
-        ((VariableEditor) DialogRegistry.getInstance().getDialog(
-                VariableEditor.class.getName())).setVariables(variables);
-        DialogRegistry.getInstance().showDialog(VariableEditor.class.getName());
+        ((VariableEditorWindow) DialogRegistry.getInstance().getDialog(
+                VariableEditorWindow.class.getName())).setVariables(variables);
+        DialogRegistry.getInstance().showDialog(
+                VariableEditorWindow.class.getName());
     }
 
 }

@@ -21,13 +21,13 @@ import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 
 import de.decidr.modelingtool.client.model.variable.Variable;
-import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditor;
-import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorInvoker;
+import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorWindow;
+import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorWindowInvoker;
 
 /**
  * Listener class for the "change value" button in the
  * {@link EmailActivityWindow}. When the button is pressed, the
- * {@link ValueEditor} is invoked.
+ * {@link ValueEditorWindow} is invoked.
  * 
  * @author Jonas Schlaak
  */
@@ -56,6 +56,6 @@ public class ChangeValueButtonListener extends SelectionListener<ButtonEvent> {
      * .extjs.gxt.ui.client.event.ComponentEvent)
      */
     public void componentSelected(ButtonEvent ce) {
-        ValueEditorInvoker.invoke(field.getValue().getId());
+        ValueEditorWindowInvoker.invoke(field.getValue().getId());
     }
 }

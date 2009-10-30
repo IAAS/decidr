@@ -22,12 +22,12 @@ import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
- * Invoker for the {@link ValueEditor}. The invoker first calls the window to
- * set the node and then calls the {@link DialogRegistry} to show the window.
+ * Invoker for the {@link ValueEditorWindow}. The invoker first calls the window
+ * to set the node and then calls the {@link DialogRegistry} to show the window.
  * 
  * @author Jonas Schlaak
  */
-public class ValueEditorInvoker {
+public class ValueEditorWindowInvoker {
 
     /**
      * 
@@ -44,10 +44,10 @@ public class ValueEditorInvoker {
                     RoleEditor.class.getName())).setVariable(variable);
             DialogRegistry.getInstance().showDialog(RoleEditor.class.getName());
         } else {
-            ((ValueEditor) DialogRegistry.getInstance().getDialog(
-                    ValueEditor.class.getName())).setVariable(variable);
-            DialogRegistry.getInstance()
-                    .showDialog(ValueEditor.class.getName());
+            ((ValueEditorWindow) DialogRegistry.getInstance().getDialog(
+                    ValueEditorWindow.class.getName())).setVariable(variable);
+            DialogRegistry.getInstance().showDialog(
+                    ValueEditorWindow.class.getName());
         }
     }
 
@@ -68,10 +68,10 @@ public class ValueEditorInvoker {
                     RoleEditor.class.getName())).setVariable(variable);
             DialogRegistry.getInstance().showDialog(RoleEditor.class.getName());
         } else {
-            ((ValueEditor) DialogRegistry.getInstance().getDialog(
-                    ValueEditor.class.getName())).setVariable(variable);
-            DialogRegistry.getInstance()
-                    .showDialog(ValueEditor.class.getName());
+            ((ValueEditorWindow) DialogRegistry.getInstance().getDialog(
+                    ValueEditorWindow.class.getName())).setVariable(variable);
+            DialogRegistry.getInstance().showDialog(
+                    ValueEditorWindow.class.getName());
         }
 
     }
