@@ -1,3 +1,4 @@
+
 	<!--
 		This is the xml file which is used for testing in a more readable
 		format
@@ -34,6 +35,14 @@
 		<variable name="L768768" label="Text" type="string"
 			configurationVariable="yes">
 			<initialValue>Loram Ipsum</initialValue>
+		</variable>
+		<variable name="L1256904131562" label="Dates" type="list-date"
+			configurationVariable="yes">
+			<initialValues>
+				<initialValue>2009-10-30</initialValue>
+				<initialValue>2013-09-11</initialValue>
+				<initialValue>2014-03-11</initialValue>
+			</initialValues>
 		</variable>
 	</variables>
 	<roles>
@@ -163,15 +172,17 @@
 				<arc name="" id="1255088341328" source="1255088341296" target="1255088341360" />
 			</arcs>
 		</flowNode>
-      <forEachNode name="de.decidr.modelingtool.client.model.foreach.ForEachContainerModel" id="1255341672812" countername="L345" parallel="yes">
-         <description></description>
-         <graphics x="316" y="67" width="127" height="163" />
-         <startCounterValue>1</startCounterValue>
-         <finalCounterValue>L345</finalCounterValue>
-         <completionCondition>XOR</completionCondition>
-         <nodes />
-         <arcs />
-      </forEachNode>
+		<forEachNode
+			name="de.decidr.modelingtool.client.model.foreach.ForEachContainerModel"
+			id="1255341672812" countername="L345" parallel="yes">
+			<description></description>
+			<graphics x="316" y="67" width="127" height="163" />
+			<startCounterValue>1</startCounterValue>
+			<finalCounterValue>L345</finalCounterValue>
+			<completionCondition>XOR</completionCondition>
+			<nodes />
+			<arcs />
+		</forEachNode>
 		<endNode name="EndNode" id="1255087539312">
 			<description></description>
 			<graphics x="495" y="325" width="50" height="30" />
