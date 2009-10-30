@@ -16,26 +16,19 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.variableeditor;
 
-import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.store.ListStore;
-import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
-import com.extjs.gxt.ui.client.widget.grid.CellEditor;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
 
 import de.decidr.modelingtool.client.model.variable.Variable;
-import de.decidr.modelingtool.client.model.variable.VariableType;
 
 /**
- * TColumn where the type of a variable can be set.
+ * Type column which displays the type of the variable.
  * 
  * @author Jonas Schlaak
  */
 public class TypeColumn extends ColumnConfig {
-
-    private SimpleComboBox<String> typeComboBox = new SimpleComboBox<String>();
-    private CellEditor comboBoxCellEditor;
 
     public TypeColumn(String columnId, String header) {
         this.setId(columnId);
@@ -52,46 +45,6 @@ public class TypeColumn extends ColumnConfig {
             }
         };
         this.setRenderer(cellRenderer);
-
-        for (VariableType type : VariableType.values()) {
-            typeComboBox.add(type.getLocalName());
-        }
-        typeComboBox.setEditable(false);
-
-        comboBoxCellEditor = new CellEditor(typeComboBox) {
-            /*
-             * (non-Javadoc)
-             * 
-             * @see
-             * com.extjs.gxt.ui.client.widget.Editor#preProcessValue(java.lang
-             * .Object)
-             */
-            @Override
-            public Object preProcessValue(Object value) {
-                return typeComboBox.findModel(value.toString());
-            }
-
-            /*
-             * (non-Javadoc)
-             * 
-             * @see
-             * com.extjs.gxt.ui.client.widget.Editor#postProcessValue(java.lang
-             * .Object)
-             */
-            @Override
-            public Object postProcessValue(Object value) {
-                Object result;
-                if (value == null) {
-                    result = VariableType.STRING;
-                } else {
-                    result = VariableType
-                            .getTypeFromLocalName((String) ((ModelData) value)
-                                    .get("value"));
-                }
-                return result;
-            }
-        };
-        this.setEditor(comboBoxCellEditor);
     }
 
 }

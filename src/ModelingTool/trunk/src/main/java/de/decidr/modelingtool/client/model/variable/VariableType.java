@@ -32,9 +32,9 @@ public enum VariableType {
     STRING(DWDLNames.variableTypes.STRING, ModelingToolWidget.getMessages()
             .typeString(), ModelingToolWidget.getMessages().newStringValue()),
     INTEGER(DWDLNames.variableTypes.INTEGER, ModelingToolWidget.getMessages()
-            .typeInteger(), "1"),
+            .typeInteger(), "0"),
     FLOAT(DWDLNames.variableTypes.FLOAT, ModelingToolWidget.getMessages()
-            .typeFloat(), "1.0"),
+            .typeFloat(), "0.0"),
     BOOLEAN(DWDLNames.variableTypes.BOOLEAN, ModelingToolWidget.getMessages()
             .typeBoolean(), "false"),
     FILE(DWDLNames.variableTypes.FILE, ModelingToolWidget.getMessages()
