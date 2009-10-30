@@ -44,11 +44,8 @@ import com.google.gwt.xml.client.XMLParser;
 
 import de.decidr.modelingtool.client.command.CreateWorkflowCommand;
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
-import de.decidr.modelingtool.client.exception.LoadDWDLException;
 import de.decidr.modelingtool.client.io.DWDLParser;
 import de.decidr.modelingtool.client.io.DWDLParserImpl;
-import de.decidr.modelingtool.client.io.WorkflowIO;
-import de.decidr.modelingtool.client.io.WorkflowIOStub;
 import de.decidr.modelingtool.client.menu.Menu;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.Workflow;
@@ -136,21 +133,9 @@ public class ModelingToolWidget extends Composite implements
         return addDomHandler(handler, MouseUpEvent.getType());
     }
 
+    @Deprecated
     public void init() {
-        // Load Workflow Model
-        // TODO: substitute stub by real implementation
-        // This code maybe obsolete, except for testin purposes
-        WorkflowIO io = new WorkflowIOStub();
-        // WorkflowIO io = new WorkflowIOImpl(dataExchanger);
-        try {
-            WorkflowModel workflowModel = io.loadWorkflow();
-            Command createWorkflowCmd = new CreateWorkflowCommand(workflowModel);
-            createWorkflowCmd.execute();
-        } catch (LoadDWDLException e) {
-            Window.alert(e.getMessage());
-        } catch (IncompleteModelDataException e) {
-            Window.alert(e.getMessage());
-        }
+
     }
 
     /**
@@ -208,7 +193,8 @@ public class ModelingToolWidget extends Composite implements
          * This method is intentionally left emtpy. The implementation is done
          * by the child class in the WebPortal.
          */
-        System.out.print(dwdl);
+        GWT.log("DWDL output", null);
+        GWT.log(dwdl, null);
     }
 
 }

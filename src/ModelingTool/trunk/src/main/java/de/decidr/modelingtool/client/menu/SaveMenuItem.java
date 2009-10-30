@@ -38,14 +38,7 @@ public class SaveMenuItem implements Command {
      */
     @Override
     public void execute() {
-        // JS replace with real implementation
-        // WorkflowIO io = new WorkflowIOStub();
-        // try {
-        // io.saveWorkflow(Workflow.getInstance().getModel());
-        // } catch (SaveDWDLException e) {
-        // e.printStackTrace();
-        // }
-
+        /* Invoke parser and send resulting dwdl document to server */
         WorkflowParser parser = new WorkflowParserImpl();
         String dwdl = parser.parse(Workflow.getInstance().getModel());
         ModelingToolWidget.getInstance().sendDWDLtoServer(dwdl);

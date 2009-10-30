@@ -28,10 +28,25 @@
 }
 
 .container-std {
-	background-color: #6666FF;
+	background-color: #666666;
 	border: solid 1px;
 }
 
+.if-container-std{
+	background-color: #0000CC;
+    border: solid 1px;
+}
+
+.foreach-container-std{
+	background-color: #00CC00;
+    border: solid 1px;
+}
+
+.flow-container-std{
+	background-color: #CC0000;
+    border: solid 1px;
+} 
+    
 .port-inputport {
 	width: 8px;
 	height: 8px;
