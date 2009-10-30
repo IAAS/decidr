@@ -239,7 +239,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         nameField.setWidth("200px");
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
-                ModelingToolWidget.getMessages().nameLabel()));
+                ModelingToolWidget.getMessages().taskNameLabel()));
         table.setWidget(table.getRowCount() - 1, 1, nameField);
 
         /* combobox for task description */

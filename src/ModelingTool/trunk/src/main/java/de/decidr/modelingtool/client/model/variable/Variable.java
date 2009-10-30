@@ -22,8 +22,6 @@ import java.util.List;
 
 import com.extjs.gxt.ui.client.data.BaseModelData;
 
-import de.decidr.modelingtool.client.ModelingToolWidget;
-
 /**
  * This is the model of variable for a workflow.
  * 
@@ -44,8 +42,9 @@ public class Variable extends BaseModelData {
     public static final String CONFIGVAR = "config";
 
     /**
-     * Creates a new non-configuration variable. The type is string. The new
-     * variable has one empty string has single value.
+     * Creates a new non-configuration variable and sets the id. The new
+     * variable has one empty string array as values. Note that regardless of
+     * the variable type, the values are stored internally always as strings.
      */
     public Variable() {
         super();
@@ -63,18 +62,18 @@ public class Variable extends BaseModelData {
 
         }
 
-        set(LABEL, ModelingToolWidget.getMessages().enterVariableName());
+        ArrayList<String> values = new ArrayList<String>();
         set(TYPE, VariableType.STRING);
         set(TYPELOCALNAME, VariableType.STRING.getLocalName());
-        ArrayList<String> values = new ArrayList<String>();
         set(VALUE, values);
-        setArray();
         set(CONFIGVAR, false);
     }
 
-    public Variable(String initialValue) {
+    public Variable(String label, VariableType type, Boolean config) {
         this();
-        this.getValues().add(initialValue);
+        this.setLabel(label);
+        this.setType(type);
+        this.setConfig(config);
     }
 
     /**
@@ -91,7 +90,6 @@ public class Variable extends BaseModelData {
         copy.setLabel(this.getLabel());
         copy.setType(this.getType());
         copy.setValues(this.getValues());
-        copy.setArray();
         copy.setConfig(this.isConfig());
         return copy;
     }
@@ -176,7 +174,6 @@ public class Variable extends BaseModelData {
      */
     public void setValues(List<String> values) {
         set(VALUE, values);
-        setArray();
     }
 
     /**
@@ -194,20 +191,7 @@ public class Variable extends BaseModelData {
     }
 
     /**
-     * Sets the internal property field to whether the variable is an array or
-     * not. The values of the internal property fields are used by the grid of
-     * the variable editor. The method is private because is only needs to be
-     * called when the values of the variable are updated.
-     * 
-     * @param array
-     *            the array to set
-     */
-    private void setArray() {
-        set(ARRAYVAR, isArray());
-    }
-
-    /**
-     * Returns whether the variable is a configurations variable or not.
+     * Returns whether the variable is a configuration variable or not.
      * 
      * @return the config boolean
      */

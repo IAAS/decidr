@@ -77,7 +77,7 @@ public interface Messages extends Constants {
 
     String userLabel();
 
-    String nameLabel();
+    String taskNameLabel();
 
     String descriptionLabel();
 
@@ -157,6 +157,13 @@ public interface Messages extends Constants {
     String valueColumn();
 
     String configVarColumn();
+
+    /* New Variable Window */
+    String nameLabel();
+
+    String typeLabel();
+
+    String configLabel();
 
     /* ValueEditor */
     String valueSingular();

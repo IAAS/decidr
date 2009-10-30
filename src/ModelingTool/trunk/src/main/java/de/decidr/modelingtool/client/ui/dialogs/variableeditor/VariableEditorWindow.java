@@ -118,13 +118,8 @@ public class VariableEditorWindow extends ModelingToolDialog {
         addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
-                //JS cleanup
-                Variable var = new Variable(ModelingToolWidget.getMessages()
-                        .newStringValue());
                 grid.stopEditing();
                 NewVariableWindowInvoker.invoke(variables);
-                variables.insert(var, 0);
-                grid.startEditing(0, 0);
             }
         });
         toolBar.add(addVar);

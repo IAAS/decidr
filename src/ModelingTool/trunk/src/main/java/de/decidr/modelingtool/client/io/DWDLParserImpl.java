@@ -188,6 +188,7 @@ public class DWDLParserImpl implements DWDLParser {
                         .substring(DWDLNames.listprefix.length());
                 isArray = true;
             }
+            variable.setType(VariableType.getTypeFromDWDLName(typeString));
 
             /*
              * Set the values, if the variable has multiple values (determined
