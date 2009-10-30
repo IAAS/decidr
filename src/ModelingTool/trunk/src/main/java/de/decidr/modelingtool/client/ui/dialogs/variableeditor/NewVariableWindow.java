@@ -126,6 +126,8 @@ public class NewVariableWindow extends ModelingToolDialog {
         labelField.setAllowBlank(false);
         labelField.setWidth("200px");
         labelField.setAutoValidate(false);
+        labelField.setValue(ModelingToolWidget.getMessages()
+                .enterVariableName());
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
                 ModelingToolWidget.getMessages().nameLabel()));
@@ -137,6 +139,7 @@ public class NewVariableWindow extends ModelingToolDialog {
             typeField.add(type.getLocalName());
         }
         typeField.setEditable(false);
+        typeField.setSimpleValue(VariableType.STRING.getLocalName());
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
                 ModelingToolWidget.getMessages().typeLabel()));
