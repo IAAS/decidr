@@ -1025,7 +1025,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testTenant() throws TransactionException {
-        UserFacade userFacade = new UserFacade(new UserRole(testUserID));
         Long invalidUserID = getInvalidUserID();
         Long tenantUserID = null;
         Long tenantID = null;
@@ -1045,6 +1044,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 tenantID);
         assertNotNull("Incomplete test data: no tenant currently has a user",
                 tenantUserID);
+        
+        UserFacade userFacade= new UserFacade(new UserRole(tenantUserID));
 
         try {
             nullFacade.setCurrentTenantId(testUserID, null);
@@ -1101,8 +1102,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             // supposed to be thrown
         }
 
-        assertNull(userFacade.getCurrentTenantId(testUserID));
-        assertNull(adminFacade.getCurrentTenantId(testUserID));
+        assertNull(userFacade.getCurrentTenantId(tenantUserID));
+        assertNull(adminFacade.getCurrentTenantId(tenantUserID));
 
         adminFacade.setCurrentTenantId(testUserID, null);
 
