@@ -1,0 +1,76 @@
+<!-- 
+  The DecidR Development Team licenses this file to you under
+  the Apache License, Version 2.0 (the "License"); you may
+  not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+  http://www.apache.org/licenses/LICENSE-2.0
+ 
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied. See the License for the
+  specific language governing permissions and limitations
+  under the License.
+-->
+<definitions xmlns="http://ws.apache.org/ns/synapse">
+
+    <sequence name="defaultFaultHandler">
+        <!-- Logs and discards the message. -->
+        <log level="full"/>    
+        <drop/>
+    </sequence>
+    
+    <proxy name="EmailProxy" transports="http,https" faultSequence="defaultFaultHandler">
+        <target>
+            <endpoint>
+                <address uri="http://localhost:8080/axis2/services/Email"/>
+            </endpoint>
+            <outSequence>
+                <send/>
+            </outSequence>
+        </target>
+        <publishWSDL uri="http://localhost:8080/axis2/services/Email?wsdl"/>
+    </proxy>
+    
+    <proxy name="HumanTaskProxy" transports="http,https" faultSequence="defaultFaultHandler">
+        <target>
+            <endpoint>
+                <address uri="http://localhost:8080/axis2/services/HumanTask"/>
+            </endpoint>
+            <outSequence>
+                <send/>
+            </outSequence>
+        </target>
+        <publishWSDL uri="http://localhost:8080/axis2/services/HumanTask?wsdl"/>
+    </proxy>
+    
+    <proxy name="ODEMonitorProxy" transports="http,https" faultSequence="defaultFaultHandler">
+        <target>
+            <endpoint>
+                <address uri="http://localhost:8080/axis2/services/ODEMonitor"/>
+            </endpoint>
+            <outSequence>
+                <send/>
+            </outSequence>
+        </target>
+        <publishWSDL uri="http://localhost:8080/axis2/services/ODEMonitor?wsdl"/>
+    </proxy>
+    
+    <proxy name="ODEManagementProxy" transports="http,https" faultSequence="defaultFaultHandler">
+        <target>
+            <endpoint>
+                <address uri="http://localhost:8080/ode/processes/ProcessManagement"/>
+            </endpoint>
+            <outSequence>
+                <send/>
+            </outSequence>
+        </target>
+        <publishWSDL uri="http://localhost:8080/ode/processes/ProcessManagement?wsdl"/>
+    </proxy>
+    
+    <!-- For securtiy reasons we reject all unexpected messages -->
+    <sequence name="main">
+        <drop/>
+    </sequence>
+</definitions>
