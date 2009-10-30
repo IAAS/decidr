@@ -57,7 +57,6 @@ import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
  */
 public class HumanTaskActivityWindow extends ModelingToolDialog {
 
-    // JS catch exception if form container is empty
     private HumanTaskInvokeNode node;
     private HumanTaskInvokeNodeModel model;
 
@@ -158,8 +157,9 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
 
     private boolean validateInputs() {
         boolean result = false;
-        if (userField.getValue() != null && nameField != null
-                && descriptionField != null && formContainerField != null) {
+        if (userField.getValue() != null && nameField.getValue() != null
+                && descriptionField.getValue() != null
+                && formContainerField.getValue() != null) {
             result = true;
         }
         return result;
