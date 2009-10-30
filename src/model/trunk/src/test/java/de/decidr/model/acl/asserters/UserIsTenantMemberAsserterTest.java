@@ -37,6 +37,7 @@ import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
+import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
@@ -59,12 +60,12 @@ public class UserIsTenantMemberAsserterTest extends LowLevelDatabaseTest {
     private static Long tenantId;
     private static Long wfmId;
 
-    private static final String TENANT_ADMIN_EMAIL = "test1@acl.decidr.de";
-    private static final String WORKFLOW_ADMIN_EMAIL = "test2@acl.decidr.de";
-    private static final String USER_EMAIL = "test3@acl.decidr.de";
+    private static final String USERNAME_PREFIX = "testuser";
 
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
+        UserFacadeTest.deleteTestUsers();
+        
         // create test users
         superAdminId = DecidrGlobals.getSettings().getSuperAdmin().getId();
         userFacade = new UserFacade(new SuperAdminRole(superAdminId));
@@ -76,24 +77,24 @@ public class UserIsTenantMemberAsserterTest extends LowLevelDatabaseTest {
         userProfile.setStreet("test st.");
         userProfile.setPostalCode("12test");
 
-        userProfile.setUsername("tenantadmin17565");
-        tenantAdminId = userFacade.registerUser(TENANT_ADMIN_EMAIL, "qwertz",
+        userProfile.setUsername(USERNAME_PREFIX + "TenantAdmin");
+        tenantAdminId = userFacade.registerUser(UserFacadeTest.getTestEmail(1), "qwertz",
                 userProfile);
 
-        userProfile.setUsername("wfadmin12377");
-        workflowAdminId = userFacade.registerUser(WORKFLOW_ADMIN_EMAIL,
+        userProfile.setUsername(USERNAME_PREFIX + "WFAdmin");
+        workflowAdminId = userFacade.registerUser(UserFacadeTest.getTestEmail(2),
                 "qwertz", userProfile);
 
-        userProfile.setUsername("user78626");
-        userId = userFacade.registerUser(USER_EMAIL, "qwertz", userProfile);
+        userProfile.setUsername(USERNAME_PREFIX + "User");
+        userId = userFacade.registerUser(UserFacadeTest.getTestEmail(3), "qwertz", userProfile);
 
-        // create test tenant
-        tenantFacade = new TenantFacade(new SuperAdminRole(superAdminId));
-        tenantId = tenantFacade.createTenant("acl.decidr", "mooomoo",
-                tenantAdminId);
-
-        // create workflow admin
-        tenantFacade.addTenantMember(tenantId, workflowAdminId);
+//        // create test tenant
+//        tenantFacade = new TenantFacade(new SuperAdminRole(superAdminId));
+//        tenantId = tenantFacade.createTenant("acl.decidr", "mooomoo",
+//                tenantAdminId);
+//
+//        // add tenant member
+//        tenantFacade.addTenantMember(tenantId, workflowAdminId);
 
     }
 

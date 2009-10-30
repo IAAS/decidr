@@ -33,6 +33,7 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
+import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
@@ -46,11 +47,13 @@ public class UserIsAvailableAsserterTest extends LowLevelDatabaseTest {
     
     private static Long superAdminId;
     private static Long userId;
-    
-    private static final String USER_EMAIL = "test3@acl.decidr.de";
+
+    private static final String USERNAME_PREFIX = "testuser";
 
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
+        UserFacadeTest.deleteTestUsers();
+        
         //create test users
         superAdminId = DecidrGlobals.getSettings().getSuperAdmin().getId();
         userFacade = new UserFacade(new SuperAdminRole(superAdminId));
@@ -62,18 +65,15 @@ public class UserIsAvailableAsserterTest extends LowLevelDatabaseTest {
         userProfile.setStreet("test st.");
         userProfile.setPostalCode("12test");
         
-        userProfile.setUsername("user78626");
-        userId = userFacade.registerUser(USER_EMAIL, "qwertz", userProfile);
+        userProfile.setUsername(USERNAME_PREFIX + "User");
+        userId = userFacade.registerUser(UserFacadeTest.getTestEmail(1), "qwertz", userProfile);
         
     }
 
     @AfterClass
     public static void cleanUpAfterClass() throws TransactionException {
         
-        Transaction trans = session.beginTransaction();
-        session.createQuery("delete from User WHERE email LIKE 'test%@acl.decidr.de'")
-                .executeUpdate();
-        trans.commit();
+        UserFacadeTest.deleteTestUsers();
     }
     
     /**
