@@ -37,13 +37,13 @@ public class DecidRSetup {
         sql.append(InputServerType.getSql());
 
         // web portal
-        sql.append(InputServer.getSql(2, "http://localhost:8080/WebPortal"));
+        sql.append(InputServer.getSql(2, "localhost:8080"));
         // esb
-        sql.append(InputServer.getSql(3, "http://localhost:8280"));
+        sql.append(InputServer.getSql(3, "localhost:8280"));
         // storage
-        sql.append(InputServer.getSql(4, "http://localhost:8080/Storage"));
+        sql.append(InputServer.getSql(4, "localhost:8080"));
         // ode
-        sql.append(InputServer.getSql(1, "http://localhost:8080/ode"));
+        sql.append(InputServer.getSql(1, "localhost:8080"));
 
         FileIO.writeToFile(sql.toString());
     }
