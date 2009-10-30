@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * TODO: add comment
+ * A core request to the console without checking the input.
  *
  * @author Johannes Engelhardt
  */

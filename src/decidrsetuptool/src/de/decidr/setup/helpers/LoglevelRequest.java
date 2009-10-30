@@ -18,11 +18,6 @@ package de.decidr.setup.helpers;
 
 import java.io.IOException;
 
-/**
- * TODO: add comment
- * 
- * @author Johannes Engelhardt
- */
 public class LoglevelRequest {
 
     public static String getResult(String question, String defaultVal) {

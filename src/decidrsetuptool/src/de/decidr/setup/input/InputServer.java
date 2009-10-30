@@ -20,7 +20,8 @@ import de.decidr.setup.helpers.StringRequest;
 import de.decidr.setup.model.Server;
 
 /**
- * TODO: add comment
+ * Retrieves information about a server from the user and generates an
+ * SQL script.
  * 
  * @author Johannes Engelhardt
  */

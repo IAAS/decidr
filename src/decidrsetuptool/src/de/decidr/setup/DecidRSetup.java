@@ -23,17 +23,12 @@ import de.decidr.setup.input.InputSuperAdmin;
 import de.decidr.setup.input.InputSystemSettings;
 
 /**
- * TODO: add comment
+ * The main class.
  * 
  * @author Johannes Engelhardt
  */
 public class DecidRSetup {
 
-    /**
-     * TODO: add comment
-     * 
-     * @param args
-     */
     public static void main(String[] args) {
         StringBuilder sql = new StringBuilder();
 
@@ -51,7 +46,6 @@ public class DecidRSetup {
         sql.append(InputServer.getSql(1, "http://localhost:8080/ode"));
 
         FileIO.writeToFile(sql.toString());
-
     }
 
 }

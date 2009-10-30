@@ -24,7 +24,7 @@ import de.decidr.setup.helpers.BooleanRequest;
 import de.decidr.setup.helpers.StringRequest;
 
 /**
- * TODO: add comment
+ * Provides a function to write a string to a file.
  * 
  * @author Johannes Engelhardt
  */

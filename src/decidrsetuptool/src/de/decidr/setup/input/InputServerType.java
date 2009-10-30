@@ -18,7 +18,7 @@ package de.decidr.setup.input;
 
 
 /**
- * TODO: add comment
+ * Returns the SQL script of the server_type table.
  *
  * @author Johannes Engelhardt
  */

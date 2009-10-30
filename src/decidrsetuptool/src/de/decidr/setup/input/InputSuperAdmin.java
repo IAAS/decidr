@@ -21,6 +21,13 @@ import de.decidr.setup.helpers.NumberRequest;
 import de.decidr.setup.helpers.StringRequest;
 import de.decidr.setup.model.SuperAdmin;
 
+/**
+ * Retrieves information about te super admin from the user and genterates an
+ * SQL script.
+ * 
+ * @author Johannes Engelhardt
+ * 
+ */
 public class InputSuperAdmin {
 
     public static SuperAdmin getSuperAdmin() {
