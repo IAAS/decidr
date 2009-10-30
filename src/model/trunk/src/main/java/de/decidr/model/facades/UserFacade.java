@@ -710,11 +710,25 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the highest user role of the given system.
+     * Returns the most priviledged role that the given user takes within the
+     * system.
+     * <p>
+     * The roles are checked in the following order (from top to bottom, returns
+     * the first role that matches):
+     * <ul>
+     * <li>Is the user a superadmin? -> {@link SuperAdminRole}</li>
+     * <li>Does the user administer <strong>any</strong> tenant?? ->
+     * {@link TenantAdminRole}</li>
+     * <li>Does the user administer <strong>any</strong> workflow model within
+     * <strong>any</strong> tenant? -> {@link WorkflowAdminRole}</li>
+     * <li>Is the user member of any tenant? -> {@link UserRole}</li>
+     * <li>If none of the above match, <code>null</code> is returned</li>
+     * </ul>
      * 
      * @param userId
      *            the ID of the user whose highest role should be requested
-     * @return UserRole highest user role of the user
+     * @return UserRole highest user role of the user or null if the user is not
+     *         even a tenant member.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws IllegalArgumentException
@@ -733,16 +747,16 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the highest role of the user in the given tenant in the result
-     * variable. If the user is not even a tenant member the result will be
-     * <code>null</code>.
+     * Returns the highest role of the user in the given tenant. If the user is
+     * not even a tenant member the result will be <code>null</code>.
      * 
      * @param userId
      *            the ID of the user whose role should be requested for the
      *            given tenant
      * @param tenantId
      *            the ID of the tenant where the role should be appointed
-     * @return highest user role of the user for the given tenant
+     * @return highest user role of the user for the given tenant or null if the
+     *         user is not a tenant member.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */

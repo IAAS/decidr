@@ -30,6 +30,7 @@ import de.decidr.model.acl.asserters.AlwaysTrueAsserter;
 import de.decidr.model.acl.asserters.AssertMode;
 import de.decidr.model.acl.asserters.Asserter;
 import de.decidr.model.acl.asserters.FileAccessAsserter;
+import de.decidr.model.acl.asserters.ImplicitFileAccessAsserter;
 import de.decidr.model.acl.asserters.IsRoleEqualToAccessedUserAsserter;
 import de.decidr.model.acl.asserters.UserAdministratesWorkflowInstanceAsserter;
 import de.decidr.model.acl.asserters.UserAdministratesWorkflowModelAsserter;
@@ -54,6 +55,7 @@ import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.acl.roles.WorkflowAdminRole;
+import de.decidr.model.commands.file.AssociateFileWithWorkItemCommand;
 import de.decidr.model.commands.file.CreateFileCommand;
 import de.decidr.model.commands.file.DeleteFileCommand;
 import de.decidr.model.commands.file.GetFileCommand;
@@ -207,6 +209,9 @@ import de.decidr.model.logging.DefaultLogger;
  * to rule #5</li>
  * <li>TODO: if you can think of a good example, put it here :-) ~dh</li>
  * </ul>
+ * <p>
+ * XXX Extension case: separate source of rules from rest ("RulesetProvider",
+ * "HardcodedRulesetProvider", "DatabaseRulesetProvider", ...?) ~dh
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -724,6 +729,10 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserOwnsWorkItemAsserter(), new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
+        setRule(new BasicRole(), new CommandPermission(
+                AssociateFileWithWorkItemCommand.class), SatisfyAny,
+                alwaysTrueAsserter);
+
         /**
          * Command permissions FileFacade
          */
@@ -749,17 +758,20 @@ public class DefaultAccessControlList implements AccessControlList {
         /**
          * file permissions
          */
+        Asserter[] fileAsserters = { new FileAccessAsserter(),
+                new ImplicitFileAccessAsserter() };
+
         // File Delete Permissions
-        setRule(new BasicRole(), new FileDeletePermission(null), SatisfyAll,
-                new FileAccessAsserter());
+        setRule(new BasicRole(), new FileDeletePermission(null), SatisfyAny,
+                fileAsserters);
 
         // File Read Permissions
-        setRule(new BasicRole(), new FileReadPermission(null), SatisfyAll,
-                new FileAccessAsserter());
+        setRule(new BasicRole(), new FileReadPermission(null), SatisfyAny,
+                fileAsserters);
 
         // File Replace Permissions
-        setRule(new BasicRole(), new FileReplacePermission(null), SatisfyAll,
-                new FileAccessAsserter());
+        setRule(new BasicRole(), new FileReplacePermission(null), SatisfyAny,
+                fileAsserters);
     }
 
     /**

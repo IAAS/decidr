@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 29.10.2009 17:08:04 by Hibernate Tools 3.2.4.GA
+// Generated 30.10.2009 13:07:36 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -29,6 +29,8 @@ public class File implements java.io.Serializable {
     private Set<Tenant> tenantsForSimpleColorSchemeId = new HashSet<Tenant>(0);
     private Set<Tenant> tenantsForLogoId = new HashSet<Tenant>(0);
     private Set<Tenant> tenantsForCurrentColorSchemeId = new HashSet<Tenant>(0);
+    private Set<WorkItemContainsFile> workItemContainsFiles = new HashSet<WorkItemContainsFile>(
+            0);
     private Set<UserHasFileAccess> userHasFileAccess = new HashSet<UserHasFileAccess>(
             0);
 
@@ -57,6 +59,7 @@ public class File implements java.io.Serializable {
             Set<Tenant> tenantsForSimpleColorSchemeId,
             Set<Tenant> tenantsForLogoId,
             Set<Tenant> tenantsForCurrentColorSchemeId,
+            Set<WorkItemContainsFile> workItemContainsFiles,
             Set<UserHasFileAccess> userHasFileAccess) {
         //generated full constructor
         this.fileName = fileName;
@@ -72,6 +75,7 @@ public class File implements java.io.Serializable {
         this.tenantsForSimpleColorSchemeId = tenantsForSimpleColorSchemeId;
         this.tenantsForLogoId = tenantsForLogoId;
         this.tenantsForCurrentColorSchemeId = tenantsForCurrentColorSchemeId;
+        this.workItemContainsFiles = workItemContainsFiles;
         this.userHasFileAccess = userHasFileAccess;
     }
 
@@ -188,6 +192,15 @@ public class File implements java.io.Serializable {
     public void setTenantsForCurrentColorSchemeId(
             Set<Tenant> tenantsForCurrentColorSchemeId) {
         this.tenantsForCurrentColorSchemeId = tenantsForCurrentColorSchemeId;
+    }
+
+    public Set<WorkItemContainsFile> getWorkItemContainsFiles() {
+        return this.workItemContainsFiles;
+    }
+
+    public void setWorkItemContainsFiles(
+            Set<WorkItemContainsFile> workItemContainsFiles) {
+        this.workItemContainsFiles = workItemContainsFiles;
     }
 
     public Set<UserHasFileAccess> getUserHasFileAccess() {

@@ -1,24 +1,22 @@
 package de.decidr.model.commands.workitem;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.bind.JAXBException;
 
+import de.decidr.model.XmlTools;
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.commands.file.AssociateFileWithWorkItemCommand;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.soap.types.TaskItem;
+import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionEvent;
-import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
-import de.decidr.model.workflowmodel.humantask.TTaskItem;
 
 /**
- * DH FIXME this needs to be revised: we have to examine the new properties
- * (from XML) and persist any files that have been uploaded. ~dh
- * 
- * Overwrites the data of an <strong>existing</strong> work item.
+ * Overwrites the data of an <strong>existing</strong> work item. Any files that
+ * have been uploaded in the context of the work item are persisted and
+ * associated with the work item.
  * 
  * @author Daniel Huss
  * @version 0.1
@@ -54,28 +52,21 @@ public class SetDataCommand extends WorkItemCommand {
             throws TransactionException {
         WorkItem workItem = fetchWorkItem(evt.getSession());
 
-        // persist all uploaded files
-        Set<Long> fileIds = new HashSet<Long>();
-
-        for (Object o : data.getTaskItemOrInformation()) {
-            if (o instanceof TTaskItem) {
-                TTaskItem taskItem = (TTaskItem) o;
-                // DH how do I find out if this task item contains an uploaded
-                // file? ~dh
-            }
-        }
-        if (!fileIds.isEmpty()) {
-            String hql = "update File set temporary = false where id in (:fileIds)";
-            evt.getSession().createQuery(hql).setParameterList("fileIds",
-                    fileIds).executeUpdate();
+        // persist all uploaded files and associate with work item.
+        Set<Long> fileIds = XmlTools.getFileIds(data);
+        for (Long fileId : fileIds) {
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    new AssociateFileWithWorkItemCommand(role, fileId, workItem
+                            .getId()));
         }
 
         // save human task data as blob
         try {
-            workItem.setData(TransformUtil.getBytes(data));
+            workItem.setData(XmlTools.getBytes(data));
         } catch (JAXBException e) {
             throw new TransactionException(e);
         }
         evt.getSession().update(workItem);
     }
+
 }

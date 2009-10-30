@@ -97,10 +97,28 @@ public class DecidrGlobals {
      * For scalability, the entire application should use the same time zone
      * (UTC).
      * 
+     * @param removeMilliseconds
+     *            whether the milliseconds field should be set to zero (useful
+     *            when working with Hibernate dates where milliseconds get
+     *            truncated anyway)
+     * @return the current system time (UTC)
+     */
+    public static Calendar getTime(boolean removeMilliseconds) {
+        Calendar result = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        if (removeMilliseconds) {
+            result.set(Calendar.MILLISECOND, 0);
+        }
+        return result;
+    }
+
+    /**
+     * For scalability, the entire application should use the same time zone
+     * (UTC).
+     * 
      * @return the current system time (UTC)
      */
     public static Calendar getTime() {
-        return Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        return getTime(false);
     }
 
     /**

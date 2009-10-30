@@ -622,6 +622,8 @@ public class TenantFacade extends AbstractFacade {
      *             iff the transaction is aborted for any reason.
      * @throws IllegalArgumentException
      *             if tenantId is <code>null</code>
+     * @throws EntityNotFoundException
+     *             if the tenant does not exist.
      */
     @AllowedRole(TenantAdminRole.class)
     public List<Item> getWorkflowModels(Long tenantId, List<Filter> filters,

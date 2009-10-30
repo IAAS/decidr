@@ -16,22 +16,26 @@
 
 package de.decidr.model.commands.workitem;
 
+import java.util.Set;
+
 import javax.xml.bind.JAXBException;
 
 import org.hibernate.Query;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.XmlTools;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
+import de.decidr.model.commands.file.AssociateFileWithWorkItemCommand;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.enums.WorkItemStatus;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.notifications.NotificationEvents;
+import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionEvent;
-import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 
 /**
@@ -118,7 +122,7 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
         WorkItem newWorkItem = new WorkItem();
         newWorkItem.setCreationDate(DecidrGlobals.getTime().getTime());
         try {
-            newWorkItem.setData(TransformUtil.getBytes(data));
+            newWorkItem.setData(XmlTools.getBytes(data));
         } catch (JAXBException e) {
             throw new TransactionException(e);
         }
@@ -130,10 +134,30 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
 
         evt.getSession().save(newWorkItem);
 
+        // Now that we have saved the work item, we must persist and associate
+        // any files that the HumanTaskData references.
+        persistAndAssociateFiles(newWorkItem);
+
         workItemId = newWorkItem.getId();
 
         if (notifyUser) {
             NotificationEvents.createdWorkItem(newWorkItem);
+        }
+    }
+
+    /**
+     * @param newWorkItem
+     *            newly created workitem to associate files with.
+     * @throws TransactionException
+     *             if the transaction is aborted for any reason.
+     */
+    private void persistAndAssociateFiles(WorkItem newWorkItem)
+            throws TransactionException {
+        Set<Long> fileIds = XmlTools.getFileIds(data);
+        for (Long fileId : fileIds) {
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    new AssociateFileWithWorkItemCommand(role, fileId,
+                            newWorkItem.getId()));
         }
     }
 

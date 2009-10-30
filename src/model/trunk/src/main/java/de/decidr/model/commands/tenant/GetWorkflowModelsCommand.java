@@ -21,7 +21,9 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.WorkflowModel;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Filters;
@@ -73,6 +75,14 @@ public class GetWorkflowModelsCommand extends TenantCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+
+        Object id = evt.getSession().createQuery(
+                "select t.id from Tenant t where t.id = :id").setLong("id",
+                getTenantId()).uniqueResult();
+
+        if (id == null) {
+            throw new EntityNotFoundException(Tenant.class, getTenantId());
+        }
 
         PaginatingCriteria c = new PaginatingCriteria(WorkflowModel.class, evt
                 .getSession());

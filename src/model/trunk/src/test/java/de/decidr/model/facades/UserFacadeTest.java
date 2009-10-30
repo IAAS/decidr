@@ -572,6 +572,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     public void testGetHighestUserRole() throws TransactionException {
         assertEquals(adminFacade.actor.getClass(), adminFacade
                 .getHighestUserRole(adminID));
+        // RR False positive? Returns null if testUserID is not a member of any
+        // tenant.
         assertEquals(userFacade.actor.getClass(), userFacade
                 .getHighestUserRole(testUserID));
     }
@@ -842,7 +844,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         assertTrue(new UserIsEnabledAsserter().assertRule(adminFacade.actor,
                 null));
 
-        Date testDate = new Date();
+        Date testDate = DecidrGlobals.getTime(true).getTime();
         adminFacade.setDisabledSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
                 .getItemProperty("disabledSince").getValue());
@@ -1107,6 +1109,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         adminFacade.setCurrentTenantId(testUserID, null);
 
+        // RR False positive: user id must be equal to actor id.
         userFacade.setCurrentTenantId(tenantUserID, tenantID);
         assertEquals(tenantID, userFacade.getCurrentTenantId(tenantUserID));
         adminFacade.setCurrentTenantId(tenantUserID, tenantID);

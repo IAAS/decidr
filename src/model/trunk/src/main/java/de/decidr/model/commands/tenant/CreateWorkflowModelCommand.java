@@ -38,6 +38,7 @@ import de.decidr.model.workflowmodel.dwdl.Workflow;
  * an exception will be thrown.
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  * 
  * @version 0.1
  */
@@ -109,7 +110,6 @@ public class CreateWorkflowModelCommand extends TenantCommand {
         evt.getSession().update(model);
 
         workflowModelId = model.getId();
-
     }
 
     /**
