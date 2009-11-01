@@ -163,7 +163,7 @@ public class SystemCommandsTest extends CommandsTest {
             String hostname = SystemFacadeTest.getHostname();
             goodCommands.add(new AddServerCommand(superAdminRole, serverType,
                     hostname, (byte) 10, true, true));
-            badCommands.add(new AddServerCommand(superAdminRole, serverType,
+            goodCommands.add(new AddServerCommand(superAdminRole, serverType,
                     hostname, (byte) 10, true, true));
 
             badCommands.add(new AddServerCommand(new BasicRole(0L), serverType,

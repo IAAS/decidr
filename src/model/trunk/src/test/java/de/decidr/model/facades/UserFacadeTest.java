@@ -842,11 +842,13 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 null));
 
         Date testDate = DecidrGlobals.getTime(true).getTime();
+        // DH for some reason, hours, minutes & seconds also get set to zero
+        // now! ~rr
         adminFacade.setDisabledSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
                 .getItemProperty("disabledSince").getValue());
 
-        testDate = DecidrGlobals.getTime().getTime();
+        testDate = DecidrGlobals.getTime(true).getTime();
         adminFacade.setDisabledSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
                 .getItemProperty("disabledSince").getValue());
