@@ -37,88 +37,94 @@ import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author GH
  */
-public class UserAdministratesWorkflowInstanceAsserterTest extends LowLevelDatabaseTest {
+public class UserAdministratesWorkflowInstanceAsserterTest extends
+        LowLevelDatabaseTest {
 
     private static UserFacade userFacade;
     private static TenantFacade tenantFacade;
     private static WorkflowModelFacade wfmFacade;
-    
+
     private static Long superAdminId;
     private static Long tenantAdminId;
     private static Long workflowAdminId;
-    private static Long userId;
-    
+    // private static Long userId;
+
     private static Long tenantId;
     private static Long wfmId;
-        
+
     private static final String TENANT_ADMIN_EMAIL = "test1@acl.decidr.de";
     private static final String WORKFLOW_ADMIN_EMAIL = "test2@acl.decidr.de";
     private static final String USER_EMAIL = "test3@acl.decidr.de";
 
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
-        //create test users
+        // create test users
         superAdminId = DecidrGlobals.getSettings().getSuperAdmin().getId();
         userFacade = new UserFacade(new SuperAdminRole(superAdminId));
-        
+
         UserProfile userProfile = new UserProfile();
         userProfile.setFirstName("test");
         userProfile.setLastName("user");
         userProfile.setCity("testcity");
         userProfile.setStreet("test st.");
         userProfile.setPostalCode("12test");
-        
 
         userProfile.setUsername("tenantadmin17565");
-        tenantAdminId = userFacade.registerUser(TENANT_ADMIN_EMAIL, "qwertz", userProfile);
-        
+        tenantAdminId = userFacade.registerUser(TENANT_ADMIN_EMAIL, "qwertz",
+                userProfile);
+
         userProfile.setUsername("wfadmin12377");
-        workflowAdminId = userFacade.registerUser(WORKFLOW_ADMIN_EMAIL, "qwertz", userProfile);
-        
+        workflowAdminId = userFacade.registerUser(WORKFLOW_ADMIN_EMAIL,
+                "qwertz", userProfile);
+
         userProfile.setUsername("user78626");
-        userId = userFacade.registerUser(USER_EMAIL, "qwertz", userProfile);
-        
-        //create test tenant
+        // userId =
+        userFacade.registerUser(USER_EMAIL, "qwertz", userProfile);
+
+        // create test tenant
         tenantFacade = new TenantFacade(new SuperAdminRole(superAdminId));
-        tenantId = tenantFacade.createTenant("acl.decidr", "mooomoo", tenantAdminId);
-        
-        
-        //create workflow admin
+        tenantId = tenantFacade.createTenant("acl.decidr", "mooomoo",
+                tenantAdminId);
+
+        // create workflow admin
         tenantFacade.addTenantMember(tenantId, workflowAdminId);
         wfmId = tenantFacade.createWorkflowModel(tenantId, "wfm.ACL");
-        
+
         wfmFacade = new WorkflowModelFacade(new SuperAdminRole(superAdminId));
         List<String> wfmAdmins = new ArrayList<String>();
         List<String> wfmAdminsEmail = new ArrayList<String>();
         wfmAdmins.add("wfadmin12377");
         wfmFacade.setWorkflowAdministrators(wfmId, wfmAdminsEmail, wfmAdmins);
-        
+
     }
 
     @AfterClass
     public static void cleanUpAfterClass() throws TransactionException {
-        
+
         List<Long> wfm = new ArrayList<Long>();
         wfm.add(wfmId);
         wfmFacade.deleteWorkflowModels(wfm);
         tenantFacade.deleteTenant(tenantId);
-        
+
         Transaction trans = session.beginTransaction();
-        session.createQuery("delete from User WHERE email LIKE 'test%@acl.decidr.de'")
+        session.createQuery(
+                "delete from User WHERE email LIKE 'test%@acl.decidr.de'")
                 .executeUpdate();
         trans.commit();
     }
 
-    
     /**
-     * Test method for {@link UserAdministratesWorkflowInstanceAsserter#assertRule(Role, Permission)}.
+     * Test method for
+     * {@link UserAdministratesWorkflowInstanceAsserter#assertRule(Role, Permission)}
+     * .
      */
     @Test
     public void testAssertRule() {
-        UserAdministratesWorkflowInstanceAsserter asserter = new UserAdministratesWorkflowInstanceAsserter();
+        // UserAdministratesWorkflowInstanceAsserter asserter =
+        new UserAdministratesWorkflowInstanceAsserter();
     }
 
 }

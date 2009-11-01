@@ -25,7 +25,7 @@ import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import javax.xml.transform.TransformerException;
 
-import org.apache.axis2.Constants;
+import org.apache.axis2.namespace.Constants;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
 

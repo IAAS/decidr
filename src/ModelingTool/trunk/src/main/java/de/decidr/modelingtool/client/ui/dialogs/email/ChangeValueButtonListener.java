@@ -55,6 +55,7 @@ public class ChangeValueButtonListener extends SelectionListener<ButtonEvent> {
      * com.extjs.gxt.ui.client.event.SelectionListener#componentSelected(com
      * .extjs.gxt.ui.client.event.ComponentEvent)
      */
+    @Override
     public void componentSelected(ButtonEvent ce) {
         ValueEditorWindowInvoker.invoke(field.getValue().getId());
     }

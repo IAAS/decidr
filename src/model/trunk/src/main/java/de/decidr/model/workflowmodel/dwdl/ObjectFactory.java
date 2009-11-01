@@ -67,6 +67,7 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
+        // MA document empty block
     }
 
     /**

@@ -99,7 +99,7 @@ public class DWDL2SOAP {
                 soapMessage = buildMessage(soapElements, element);
                 
             } else if (typeName != null) {
-                
+                // TODO document empty block
             }
         }
         return soapMessage;
@@ -199,7 +199,7 @@ public class DWDL2SOAP {
             ExtensibilityElement extElement = (ExtensibilityElement) extElementIter
                     .next();
             if (extElement.getElementType().getLocalPart().equals(schema)) {
-                if ((extElement != null) && (extElement instanceof SchemaImpl)) {
+                if (extElement instanceof SchemaImpl) {
                     schemaElement = ((SchemaImpl) extElement).getElement();
                 }
                 return schemaElement;

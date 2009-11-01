@@ -86,7 +86,7 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand
             return;
         }
         // remove models that already belong to the target tenant.
-        List<Long> alreadyOwned = (List<Long>) evt.getSession().createQuery(
+        List<Long> alreadyOwned = evt.getSession().createQuery(
                 "select m.id from WorkflowModel m "
                         + "where m.tenant.id = :tenantId").setLong("tenantId",
                 t.getId()).list();

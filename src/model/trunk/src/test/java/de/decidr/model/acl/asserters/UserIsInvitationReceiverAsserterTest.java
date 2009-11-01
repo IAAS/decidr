@@ -33,92 +33,99 @@ import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.commands.user.ConfirmInvitationCommand;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author GH
  */
 public class UserIsInvitationReceiverAsserterTest extends LowLevelDatabaseTest {
 
     private static UserFacade userFacade;
-    private static TenantFacade tenantFacade;
-    
+    // private static TenantFacade tenantFacade;
+
     private static Long superAdminId;
     private static Long tenantAdminId;
     private static Long workflowAdminId;
     private static Long userId;
-    
-    private static Long tenantId;
+
+    // private static Long tenantId;
 
     private static final String USERNAME_PREFIX = "testuser";
 
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
         UserFacadeTest.deleteTestUsers();
-        
-        //create test users
+
+        // create test users
         superAdminId = DecidrGlobals.getSettings().getSuperAdmin().getId();
         userFacade = new UserFacade(new SuperAdminRole(superAdminId));
-        
+
         UserProfile userProfile = new UserProfile();
         userProfile.setFirstName("test");
         userProfile.setLastName("user");
         userProfile.setCity("testcity");
         userProfile.setStreet("test st.");
         userProfile.setPostalCode("12test");
-        
 
         userProfile.setUsername(USERNAME_PREFIX + "TenantAdmin");
-        tenantAdminId = userFacade.registerUser(UserFacadeTest.getTestEmail(1), "qwertz", userProfile);
-        
+        tenantAdminId = userFacade.registerUser(UserFacadeTest.getTestEmail(1),
+                "qwertz", userProfile);
+
         userProfile.setUsername(USERNAME_PREFIX + "WFAdmin");
-        workflowAdminId = userFacade.registerUser(UserFacadeTest.getTestEmail(2), "qwertz", userProfile);
-        
+        workflowAdminId = userFacade.registerUser(UserFacadeTest
+                .getTestEmail(2), "qwertz", userProfile);
+
         userProfile.setUsername(USERNAME_PREFIX + "User");
-        userId = userFacade.registerUser(UserFacadeTest.getTestEmail(3), "qwertz", userProfile);
-        
-//        //create test tenant
-//        tenantFacade = new TenantFacade(new SuperAdminRole(superAdminId));
-//        tenantId = tenantFacade.createTenant("acl.decidr", "mooomoo", tenantAdminId);
-//        
-//        
-//        //create workflow admin
-//        tenantFacade.addTenantMember(tenantId, workflowAdminId);
-//        
-//        
-//        //invite user to tenant
-//        List<String> userNames = new ArrayList<String>();
-//        List<String> userMails = new ArrayList<String>();
-//        userNames.add("user78626");
-//        tenantFacade.inviteUsersAsMembers(tenantId, userMails, userNames);
-        
+        userId = userFacade.registerUser(UserFacadeTest.getTestEmail(3),
+                "qwertz", userProfile);
+
+        // //create test tenant
+        // tenantFacade = new TenantFacade(new SuperAdminRole(superAdminId));
+        // tenantId = tenantFacade.createTenant("acl.decidr", "mooomoo",
+        // tenantAdminId);
+        //        
+        //        
+        // //create workflow admin
+        // tenantFacade.addTenantMember(tenantId, workflowAdminId);
+        //        
+        //        
+        // //invite user to tenant
+        // List<String> userNames = new ArrayList<String>();
+        // List<String> userMails = new ArrayList<String>();
+        // userNames.add("user78626");
+        // tenantFacade.inviteUsersAsMembers(tenantId, userMails, userNames);
+
     }
 
     @AfterClass
-    public static void cleanUpAfterClass() throws TransactionException {
-        
-//        tenantFacade.deleteTenant(tenantId);
-        
+    public static void cleanUpAfterClass() {
+
+        // tenantFacade.deleteTenant(tenantId);
+
         UserFacadeTest.deleteTestUsers();
     }
 
     /**
-     * Test method for {@link UserIsInvitationReceiverAsserter#assertRule(Role, Permission)}.
-     * @throws TransactionException 
+     * Test method for
+     * {@link UserIsInvitationReceiverAsserter#assertRule(Role, Permission)}.
+     * 
+     * @throws TransactionException
      */
     @Test
     public void testAssertRule() throws TransactionException {
         UserIsInvitationReceiverAsserter asserter = new UserIsInvitationReceiverAsserter();
-        assertTrue(asserter.assertRule(new UserRole(userId), 
-                                       new CommandPermission( new ConfirmInvitationCommand(new UserRole(userId), 0l))));
+        assertTrue(asserter.assertRule(new UserRole(userId),
+                new CommandPermission(new ConfirmInvitationCommand(
+                        new UserRole(userId), 0l))));
         assertFalse(asserter.assertRule(new WorkflowAdminRole(workflowAdminId),
-                                       new CommandPermission( new ConfirmInvitationCommand(new WorkflowAdminRole(workflowAdminId), 0l))));
-        assertFalse(asserter.assertRule(new TenantAdminRole(tenantAdminId), new Permission("*")));
+                new CommandPermission(new ConfirmInvitationCommand(
+                        new WorkflowAdminRole(workflowAdminId), 0l))));
+        assertFalse(asserter.assertRule(new TenantAdminRole(tenantAdminId),
+                new Permission("*")));
     }
 
 }

@@ -32,82 +32,86 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.tenant.AddTenantMemberCommand;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.facades.UserFacadeTest;
-import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author GH
  */
 public class UserIsTenantAdminAsserterTest extends LowLevelDatabaseTest {
 
     private static UserFacade userFacade;
-    private static TenantFacade tenantFacade;
-    private static WorkflowModelFacade wfmFacade;
-    
+    // private static TenantFacade tenantFacade;
+    // private static WorkflowModelFacade wfmFacade;
+
     private static Long superAdminId;
     private static Long tenantAdminId;
     private static Long userId;
-    
+
     private static Long tenantId;
-    private static Long wfmId;
+    // private static Long wfmId;
 
     private static final String USERNAME_PREFIX = "testuser";
 
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
         UserFacadeTest.deleteTestUsers();
-        
-        //create test users
+
+        // create test users
         superAdminId = DecidrGlobals.getSettings().getSuperAdmin().getId();
         userFacade = new UserFacade(new SuperAdminRole(superAdminId));
-        
+
         UserProfile userProfile = new UserProfile();
         userProfile.setFirstName("test");
         userProfile.setLastName("user");
         userProfile.setCity("testcity");
         userProfile.setStreet("test st.");
         userProfile.setPostalCode("12test");
-        
 
         userProfile.setUsername(USERNAME_PREFIX + "TenantAdmin");
-        tenantAdminId = userFacade.registerUser(UserFacadeTest.getTestEmail(1), "qwertz", userProfile);
-                
+        tenantAdminId = userFacade.registerUser(UserFacadeTest.getTestEmail(1),
+                "qwertz", userProfile);
+
         userProfile.setUsername(USERNAME_PREFIX + "User");
-        userId = userFacade.registerUser(UserFacadeTest.getTestEmail(2), "qwertz", userProfile);
-        
-//        //create test tenant
-//        tenantFacade = new TenantFacade(new SuperAdminRole(superAdminId));
-//        tenantId = tenantFacade.createTenant("acl.decidr", "mooomoo", tenantAdminId);
-        
-        
+        userId = userFacade.registerUser(UserFacadeTest.getTestEmail(2),
+                "qwertz", userProfile);
+
+        // //create test tenant
+        // tenantFacade = new TenantFacade(new SuperAdminRole(superAdminId));
+        // tenantId = tenantFacade.createTenant("acl.decidr", "mooomoo",
+        // tenantAdminId);
+
     }
 
     @AfterClass
-    public static void cleanUpAfterClass() throws TransactionException {
-        
-//        tenantFacade.deleteTenant(tenantId);
-        
+    public static void cleanUpAfterClass() {
+
+        // tenantFacade.deleteTenant(tenantId);
+
         UserFacadeTest.deleteTestUsers();
     }
 
     /**
-     * Test method for {@link UserIsTenantAdminAsserter#assertRule(Role, Permission)}.
-     * @throws TransactionException 
+     * Test method for
+     * {@link UserIsTenantAdminAsserter#assertRule(Role, Permission)}.
+     * 
+     * @throws TransactionException
      */
     @Test
     public void testAssertRule() throws TransactionException {
         UserIsTenantAdminAsserter asserter = new UserIsTenantAdminAsserter();
         assertTrue(asserter.assertRule(new TenantAdminRole(tenantAdminId),
-                new CommandPermission(new AddTenantMemberCommand(new TenantAdminRole(tenantAdminId), tenantId, userId))));
+                new CommandPermission(new AddTenantMemberCommand(
+                        new TenantAdminRole(tenantAdminId), tenantId, userId))));
         assertFalse(asserter.assertRule(new TenantAdminRole(userId),
-                new CommandPermission(new AddTenantMemberCommand(new TenantAdminRole(userId), tenantId, userId))));
+                new CommandPermission(new AddTenantMemberCommand(
+                        new TenantAdminRole(userId), tenantId, userId))));
         assertFalse(asserter.assertRule(new UserRole(userId),
-                new CommandPermission(new AddTenantMemberCommand(new UserRole(userId), tenantId, userId))));
+                new CommandPermission(new AddTenantMemberCommand(new UserRole(
+                        userId), tenantId, userId))));
     }
 
 }

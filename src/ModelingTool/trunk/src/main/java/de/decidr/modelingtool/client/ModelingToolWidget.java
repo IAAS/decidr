@@ -135,7 +135,7 @@ public class ModelingToolWidget extends Composite implements
 
     @Deprecated
     public void init() {
-
+        // TODO document empty block
     }
 
     /**

@@ -53,7 +53,11 @@ public class WSDLTypesExtraction {
         System.out.println("definition got. parsing.");
         if (definition == null) {
             System.err.println("definition element is null");
-            System.exit(1);
+            // MA WTF is that supposed to do??? The proper way of doing this is
+            // throwing some Exception (even if this is just a test - it's good
+            // practice) ~rr
+            // System.exit(1);
+            throw new IllegalStateException("didn't manage to get the WSDL");
         }
 
         org.w3c.dom.Element schemaElement = null;
@@ -77,8 +81,8 @@ public class WSDLTypesExtraction {
     }
 
     private static ExtensibilityElement findExtensibilityElement(
-            List extensibilityElements, String name) {
-        Iterator itt = extensibilityElements.iterator();
+            List<?> extensibilityElements, String name) {
+        Iterator<?> itt = extensibilityElements.iterator();
         while (itt.hasNext()) {
             ExtensibilityElement ext = (ExtensibilityElement) itt.next();
             if (ext.getElementType().getLocalPart().equals(name)) {
@@ -88,5 +92,4 @@ public class WSDLTypesExtraction {
         throw new RuntimeException("Ext element with name " + name
                 + " was not found.");
     }
-
 }

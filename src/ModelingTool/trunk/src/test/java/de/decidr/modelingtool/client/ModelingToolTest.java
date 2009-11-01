@@ -33,6 +33,7 @@ public class ModelingToolTest extends GWTTestCase {
     /**
      * Must refer to a valid module that sources this class.
      */
+    @Override
     public String getModuleName() {
         return "de.decidr.modelingtool.ModelingToolWidget";
     }
@@ -144,6 +145,12 @@ public class ModelingToolTest extends GWTTestCase {
                 startNodeModel = (StartNodeModel) nodeModel;
             }
         }
+        if (startNodeModel == null) {
+            fail("Couldn't find a StartNodeModel - please check sample DWDL");
+            // returning despite fail since the java compiler doesn't know about
+            // the unchecked Exception thrown
+            return;
+        }
 
         assertEquals(startNodeId, startNodeModel.getId());
         assertEquals(25, startNodeModel.getChangeListenerLeft());
@@ -163,6 +170,13 @@ public class ModelingToolTest extends GWTTestCase {
                 endNodeModel = (EndNodeModel) nodeModel;
             }
         }
+        if (endNodeModel == null) {
+            fail("Couldn't find a EndNodeModel - please check sample DWDL");
+            // returning despite fail since the java compiler doesn't know about
+            // the unchecked Exception thrown
+            return;
+        }
+
         assertEquals(endNodeId, endNodeModel.getId());
         assertEquals(495, endNodeModel.getChangeListenerLeft());
         assertEquals(325, endNodeModel.getChangeListenerTop());
@@ -180,6 +194,12 @@ public class ModelingToolTest extends GWTTestCase {
                     && nodeModel.getId().equals(emailNodeId)) {
                 emailNodeModel = (EmailInvokeNodeModel) nodeModel;
             }
+        }
+        if (emailNodeModel == null) {
+            fail("Couldn't find a EmailInvokeNodeModel - please check sample DWDL");
+            // returning despite fail since the java compiler doesn't know about
+            // the unchecked Exception thrown
+            return;
         }
 
         assertEquals(emailNodeId, emailNodeModel.getId());
@@ -207,6 +227,12 @@ public class ModelingToolTest extends GWTTestCase {
                     && nodeModel.getId().equals(humanTaskNodeId)) {
                 humanTaskNodeModel = (HumanTaskInvokeNodeModel) nodeModel;
             }
+        }
+        if (humanTaskNodeModel == null) {
+            fail("Couldn't find a HumanTaskInvokeNodeModel - please check sample DWDL");
+            // returning despite fail since the java compiler doesn't know about
+            // the unchecked Exception thrown
+            return;
         }
 
         assertEquals(humanTaskNodeId, humanTaskNodeModel.getId());
@@ -265,6 +291,12 @@ public class ModelingToolTest extends GWTTestCase {
                     && nodeModel.getId().equals(flowNode3Id)) {
                 flowNode3 = (FlowContainerModel) nodeModel;
             }
+        }
+        if (flowNode1 == null || flowNode2 == null || flowNode3 == null) {
+            fail("Couldn't find a FlowContainerModel - please check sample DWDL");
+            // returning despite fail since the java compiler doesn't know about
+            // the unchecked Exception thrown
+            return;
         }
 
         /* Test first flow node */
@@ -350,6 +382,18 @@ public class ModelingToolTest extends GWTTestCase {
                     && nodeModel.getId() == 1255956748703L) {
                 forEachModel_2 = (ForEachContainerModel) nodeModel;
             }
+        }
+        if (forEachModel_1 == null) {
+            fail("Couldn't find a ForEachContainerModel - please check sample DWDL");
+            // returning despite fail since the java compiler doesn't know about
+            // the unchecked Exception thrown
+            return;
+        }
+        if (forEachModel_2 == null) {
+            fail("Couldn't find a ForEachContainerModel - please check sample DWDL");
+            // returning despite fail since the java compiler doesn't know about
+            // the unchecked Exception thrown
+            return;
         }
 
         assertEquals(0, forEachModel_1.getChildConnectionModels().size());
@@ -475,6 +519,13 @@ public class ModelingToolTest extends GWTTestCase {
                 flowModel = (FlowContainerModel) nodeModel;
             }
         }
+        if (flowModel == null) {
+            fail("Couldn't find a FlowContainerModel - please check sample DWDL");
+            // returning despite fail since the java compiler doesn't know about
+            // the unchecked Exception thrown
+            return;
+        }
+
         connections.clear();
         for (ConnectionModel con : flowModel.getChildConnectionModels()) {
             connections.put(con.getId(), con);

@@ -70,7 +70,7 @@ public class UserIsAvailableAsserterTest extends LowLevelDatabaseTest {
     }
 
     @AfterClass
-    public static void cleanUpAfterClass() throws TransactionException {
+    public static void cleanUpAfterClass() {
         
         UserFacadeTest.deleteTestUsers();
     }

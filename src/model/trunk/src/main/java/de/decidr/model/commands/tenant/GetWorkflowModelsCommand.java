@@ -17,7 +17,7 @@ package de.decidr.model.commands.tenant;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
 
 import de.decidr.model.acl.roles.Role;
@@ -91,7 +91,7 @@ public class GetWorkflowModelsCommand extends TenantCommand {
 
         Filters.apply(c, filters, paginator);
 
-        result = c.setResultTransformer(Criteria.ROOT_ENTITY).list();
+        result = c.setResultTransformer(CriteriaSpecification.ROOT_ENTITY).list();
     }
 
     /**

@@ -34,10 +34,12 @@ public class PortConnectionIndicator extends FocusPanel {
         setVisible(visible);
     }
 
+    @Override
     public boolean isVisible() {
         return visible;
     }
 
+    @Override
     public void setVisible(boolean visible) {
         this.visible = visible;
         

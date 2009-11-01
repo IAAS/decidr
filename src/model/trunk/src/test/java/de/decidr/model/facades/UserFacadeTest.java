@@ -100,6 +100,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         session.createQuery(
                 "delete from User WHERE email LIKE '" + TEST_EMAIL + "'")
                 .executeUpdate();
+        session.createQuery("delete from User WHERE email LIKE ''")
+                .executeUpdate();
         session.createQuery("delete from User WHERE email LIKE 'asd%@desk.de'")
                 .executeUpdate();
         session.createQuery(
