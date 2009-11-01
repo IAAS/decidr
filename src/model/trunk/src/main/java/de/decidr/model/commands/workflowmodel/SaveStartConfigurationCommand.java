@@ -70,7 +70,7 @@ public class SaveStartConfigurationCommand extends WorkflowModelCommand {
         lastStartConfiguration.setDeployedWorkflowModel(deployedModel);
         try {
             lastStartConfiguration.setStartConfiguration(TransformUtil
-                    .configuration2Bytes(startConfiguration));
+                    .configurationToBytes(startConfiguration));
         } catch (JAXBException e) {
             throw new TransactionException(e);
         }

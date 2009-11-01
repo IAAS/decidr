@@ -40,7 +40,7 @@ public class DWDL2WSDLTest {
         InputStream in = DWDL2WSDLTest.class.getResourceAsStream("/dwdl/sampleProcess.xml");
         byte[] bytesDWDL = new byte[in.available()];
         in.read(bytesDWDL, 0, in.available());
-        Workflow dwdl = TransformUtil.bytes2Workflow(bytesDWDL);
+        Workflow dwdl = TransformUtil.bytesToWorkflow(bytesDWDL);
         JAXBContext jc = JAXBContext.newInstance(Workflow.class);
         //Create marshaller
         Marshaller m = jc.createMarshaller();

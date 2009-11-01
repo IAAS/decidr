@@ -96,7 +96,7 @@ public class Validator {
         validator.setErrorHandler(new DWDLErrorHandler());
 
         try {
-            wf_bytes = TransformUtil.workflow2Bytes(dwdl);
+            wf_bytes = TransformUtil.workflowToBytes(dwdl);
             src = new StreamSource(new ByteArrayInputStream(wf_bytes));
             validator.setErrorHandler(new DWDLErrorHandler());
             validator.validate(src);
@@ -137,7 +137,7 @@ public class Validator {
         List<IProblem> errList = null;
 
         try {
-            wf = TransformUtil.bytes2Workflow(dwdl);
+            wf = TransformUtil.bytesToWorkflow(dwdl);
             src = new StreamSource(new ByteArrayInputStream(dwdl));
             validator.setErrorHandler(new DWDLErrorHandler());
             validator.validate(src);

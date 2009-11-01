@@ -306,7 +306,7 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
             Session session) throws JAXBException, SOAPException, IOException {
 
         byte[] binaryStartConfig = TransformUtil
-                .configuration2Bytes(startConfiguration);
+                .configurationToBytes(startConfiguration);
 
         createdWorkflowInstance = new WorkflowInstance();
         if ((usersThatNeedInvitations.size() == 0) || (startImmediately)) {

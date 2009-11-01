@@ -154,50 +154,12 @@ public class DWDL2BPEL {
         assign.getCopyOrExtensionAssignOperation().add(copy);
     }
 
-    private Element createActorElement(Actor actor) {
-        org.w3c.dom.Element actorElement = TransformUtil.createDOMElement(
-                BPELConstants.DECIDRTYPES_NAMESPACE, DECIDRTYPES_PREFIX
-                        + ":actor");
-        if (actor.isSetName()) {
-            org.w3c.dom.Attr nameAttr = TransformUtil.createAttributeNode(
-                    BPELConstants.DECIDRTYPES_NAMESPACE, DECIDRTYPES_PREFIX
-                            + ":name");
-            nameAttr.setNodeValue(actor.getName());
-            actorElement.setAttributeNode(nameAttr);
-        } else if (actor.isSetUserId()) {
-            org.w3c.dom.Attr userIdAttr = TransformUtil.createAttributeNode(
-                    BPELConstants.DECIDRTYPES_NAMESPACE, DECIDRTYPES_PREFIX
-                            + ":userId");
-            userIdAttr.setNodeValue(String.valueOf(actor.getUserId()));
-            actorElement.setAttributeNode(userIdAttr);
-        } else if (actor.isSetEmail()) {
-            org.w3c.dom.Attr emailAttr = TransformUtil.createAttributeNode(
-                    BPELConstants.DECIDRTYPES_NAMESPACE, DECIDRTYPES_PREFIX
-                            + ":email");
-            emailAttr.setNodeValue(actor.getEmail());
-            actorElement.setAttributeNode(emailAttr);
-        }
-
-        return actorElement;
+    private org.jdom.Element createActorElement(Actor actor) {
+        return null;
     }
 
-    private Element createRoleElement(Role role) {
-        org.w3c.dom.Element roleElement = TransformUtil.createDOMElement(
-                BPELConstants.DECIDRTYPES_NAMESPACE, DECIDRTYPES_PREFIX
-                        + ":role");
-        if (role.isSetName()) {
-            org.w3c.dom.Attr nameAttr = TransformUtil.createAttributeNode(
-                    BPELConstants.DECIDRTYPES_NAMESPACE, DECIDRTYPES_PREFIX
-                            + ":name");
-            nameAttr.setNodeValue(role.getName());
-            roleElement.setAttributeNode(nameAttr);
-        } else if (role.isSetActor()) {
-            for (Actor actor : role.getActor()) {
-                org.w3c.dom.Element actorElement = createActorElement(actor);
-                roleElement.appendChild(actorElement);
-            }
-        }
-        return roleElement;
+    private org.jdom.Element createRoleElement(Role role) {
+        return null;
     }
 
     public Process getBPEL(Workflow dwdl, String tenant,
@@ -413,7 +375,7 @@ public class DWDL2BPEL {
                     From from = factory.createFrom();
                     To to = factory.createTo();
                     Literal literal = factory.createLiteral();
-                    org.w3c.dom.Element roleElement = createRoleElement(role);
+                    org.jdom.Element roleElement = createRoleElement(role);
                     literal.getContent().add(
                             (TransformUtil.element2XML(roleElement)));
                     from.getContent().add(literal);
@@ -434,7 +396,7 @@ public class DWDL2BPEL {
                         From from = factory.createFrom();
                         To to = factory.createTo();
                         Literal literal = factory.createLiteral();
-                        org.w3c.dom.Node actorElement = createActorElement(actor);
+                        org.jdom.Element actorElement = createActorElement(actor);
                         literal.getContent().add(
                                 TransformUtil.element2XML(actorElement));
                         from.getContent().add(literal);

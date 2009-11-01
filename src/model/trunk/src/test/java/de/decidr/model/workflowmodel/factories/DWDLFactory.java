@@ -35,7 +35,7 @@ import de.decidr.model.workflowmodel.dwdl.Workflow;
  */
 public class DWDLFactory {
 
-    static String dwdlName = "/dwdl/sampleProcess.xml";
+    static String dwdlName = "/dwdl/verySimpleProcess.xml";
 
     public static byte[] getDWDLWorkflowByteArray() throws IOException {
         InputStream in = WSDLFactory.class.getResourceAsStream(dwdlName);
