@@ -18,7 +18,6 @@ package de.decidr.model.acl.asserters;
 
 import static org.junit.Assert.*;
 
-import org.hibernate.Transaction;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

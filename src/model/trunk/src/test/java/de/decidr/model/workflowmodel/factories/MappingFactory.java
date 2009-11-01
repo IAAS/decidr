@@ -19,7 +19,12 @@ package de.decidr.model.workflowmodel.factories;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
-import de.decidr.model.workflowmodel.webservices.*;
+import de.decidr.model.workflowmodel.webservices.ObjectFactory;
+import de.decidr.model.workflowmodel.webservices.Properties;
+import de.decidr.model.workflowmodel.webservices.Property;
+import de.decidr.model.workflowmodel.webservices.PropertyAlias;
+import de.decidr.model.workflowmodel.webservices.PropertyAliases;
+import de.decidr.model.workflowmodel.webservices.WebserviceMapping;
 
 /**
  * This class creates the HumanTask and the Email mapping

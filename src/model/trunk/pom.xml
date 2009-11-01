@@ -46,6 +46,7 @@
 					<include>**/hibernate.cfg.xml</include>
 					<include>**/decidr-storage.xml</include>
 					<include>**/decidr.jpg</include>
+					<include>**/test_*_cs.css</include>
 				</includes>
 			</testResource>
 		</testResources>

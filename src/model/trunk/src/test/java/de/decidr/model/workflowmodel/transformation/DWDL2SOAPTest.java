@@ -17,7 +17,6 @@
 package de.decidr.model.workflowmodel.transformation;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;

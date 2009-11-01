@@ -20,7 +20,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.user.CheckAuthKeyCommand;
 import de.decidr.model.commands.user.GetAllUsersCommand;
 import de.decidr.model.testing.DecidrAclTest;
