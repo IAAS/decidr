@@ -75,7 +75,7 @@ public class ShowWorkItemWindowAction implements ClickListener {
         try {
             ht = (byte[]) workItemFacade.getWorkItem(workItemId)
                     .getItemProperty("data").getValue();
-            tHumanTaskData = TransformUtil.bytes2HumanTask(ht);
+            tHumanTaskData = TransformUtil.bytesToHumanTask(ht);
             Main.getCurrent().getMainWindow().addWindow(
                     new WorkItemWindow(tHumanTaskData, workItemId));
         } catch (TransactionException exception) {

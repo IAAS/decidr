@@ -78,7 +78,7 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
         try {
             wsc = workflowModelFacade
                     .getLastStartConfiguration(workflowModelId);
-            tConfiguration = TransformUtil.bytes2Configuration(wsc);
+            tConfiguration = TransformUtil.bytesToConfiguration(wsc);
             Main.getCurrent().getMainWindow().addWindow(
                     new StartConfigurationWindow(tConfiguration,
                             workflowModelId));
