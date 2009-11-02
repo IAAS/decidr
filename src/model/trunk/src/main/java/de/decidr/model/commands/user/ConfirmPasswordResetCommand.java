@@ -49,11 +49,16 @@ public class ConfirmPasswordResetCommand extends UserCommand {
      * @param userId
      *            the id of the user whose password reset request should be
      *            confirmed
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code> or if authKey is
+     *             <code>null</code> or empty
      */
     public ConfirmPasswordResetCommand(Role role, Long userId, String authKey) {
         super(role, userId);
-        if (authKey == null) {
-            throw new NullPointerException("authKey must not be null.");
+        requireUserId();
+        if (authKey == null || authKey.isEmpty()) {
+            throw new NullPointerException(
+                    "Authentication key must not be null or empty.");
         }
         this.authKey = authKey;
     }

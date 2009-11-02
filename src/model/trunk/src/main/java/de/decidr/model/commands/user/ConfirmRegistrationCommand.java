@@ -51,14 +51,16 @@ public class ConfirmRegistrationCommand extends UserCommand {
      *            secret key which allows the user to confirm the registration
      *            (was sent via email to the user)
      * @throws IllegalArgumentException
-     *             if the authentication key is <code>null</code>
+     *             if the authentication key is <code>null</code> or empty or if
+     *             userId is <code>null</code>
      */
     public ConfirmRegistrationCommand(Role role, Long userId, String authKey) {
         super(role, userId);
 
-        if (authKey == null) {
+        requireUserId();
+        if (authKey == null || authKey.isEmpty()) {
             throw new IllegalArgumentException(
-                    "Authentication key must not be null.");
+                    "Authentication key must not be null or empty.");
         }
 
         this.authKey = authKey;

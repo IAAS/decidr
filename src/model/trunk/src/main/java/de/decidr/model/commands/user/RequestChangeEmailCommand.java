@@ -46,9 +46,14 @@ public class RequestChangeEmailCommand extends UserCommand {
      *            user whose email address should be changed
      * @param newEmail
      *            new email address
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code> or if newEmail is
+     *             <code>null</code> or empty.
      */
     public RequestChangeEmailCommand(Role role, Long userId, String newEmail) {
         super(role, userId);
+        requireUserId();
+
         if (newEmail == null || newEmail.isEmpty()) {
             throw new IllegalArgumentException(
                     "New email address cannot be null or empty.");

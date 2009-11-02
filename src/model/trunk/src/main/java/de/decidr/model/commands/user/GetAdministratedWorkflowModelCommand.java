@@ -53,9 +53,7 @@ public class GetAdministratedWorkflowModelCommand extends UserCommand {
      */
     public GetAdministratedWorkflowModelCommand(Role role, Long userId) {
         super(role, userId);
-        if (userId == null) {
-            throw new IllegalArgumentException("User ID must not be null.");
-        }
+        requireUserId();
         this.userId = userId;
     }
 

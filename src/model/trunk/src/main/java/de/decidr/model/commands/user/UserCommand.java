@@ -51,6 +51,18 @@ public abstract class UserCommand extends AclEnabledCommand implements
     }
 
     /**
+     * Throws an {@link IllegalArgumentException} if the user ID hasn't been set
+     * to a non-<code>null</code> value.
+     * 
+     * @throws IllegalArgumentException
+     */
+    protected void requireUserId() {
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID must not be null.");
+        }
+    }
+
+    /**
      * Fetches the user from the database.
      * 
      * @param session

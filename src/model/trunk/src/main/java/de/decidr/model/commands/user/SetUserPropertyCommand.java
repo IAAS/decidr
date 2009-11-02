@@ -46,12 +46,15 @@ public class SetUserPropertyCommand extends UserCommand {
      *            ID of the user whose property should be set
      * @param properties
      *            maps property names to the new Values.
+     * @throws IllegalArgumentException
+     *             if userId or properties is <code>null</code>
      */
     public SetUserPropertyCommand(Role role, Long userId,
             Map<String, ? extends Serializable> properties) {
         super(role, userId);
-        if (properties == null) {
-            throw new NullPointerException();
+        if (properties == null || userId == null) {
+            throw new IllegalArgumentException(
+                    "User ID and properties must not be null.");
         }
         this.properties = properties;
     }

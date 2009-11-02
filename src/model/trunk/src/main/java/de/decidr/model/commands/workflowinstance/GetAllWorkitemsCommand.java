@@ -21,13 +21,15 @@ import java.util.Set;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.entities.WorkflowInstance;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * 
- * Writes all Workitems of the given WorkflowInstance in the result variable
+ * Writes all work items of the given workflow instance in the result variable.
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  * 
  * @version 0.1
  */
@@ -48,11 +50,10 @@ public class GetAllWorkitemsCommand extends WorkflowInstanceCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt) {
+    public void transactionAllowed(TransactionEvent evt)
+            throws EntityNotFoundException {
 
-        WorkflowInstance instance = (WorkflowInstance) evt.getSession().load(
-                WorkflowInstance.class, this.getWorkflowInstanceIds()[0]);
-
+        WorkflowInstance instance = fetchWorkflowInstance(evt.getSession());
         result = instance.getWorkItems();
     }
 

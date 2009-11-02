@@ -60,9 +60,9 @@ public class GetUserRoleForTenantCommand extends UserCommand {
      */
     public GetUserRoleForTenantCommand(Role role, Long userId, Long tenantId) {
         super(role, userId);
-        if (userId == null || tenantId == null) {
-            throw new IllegalArgumentException(
-                    "User ID and tenant ID must not be null.");
+        requireUserId();
+        if (tenantId == null) {
+            throw new IllegalArgumentException("Tenant ID must not be null.");
         }
         this.tenantId = tenantId;
     }

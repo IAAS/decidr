@@ -18,6 +18,7 @@ package de.decidr.model.commands.tenant;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.File;
 import de.decidr.model.entities.Tenant;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.storage.StorageProvider;
 import de.decidr.model.storage.StorageProviderFactory;
@@ -76,7 +77,6 @@ public class SetTenantLogoCommand extends TenantCommand {
         Tenant tenant = fetchTenant(evt.getSession());
 
         if (fileId == null) {
-
             File currentLogo = tenant.getLogo();
             if (currentLogo != null) {
                 StorageProvider storage;
@@ -97,7 +97,10 @@ public class SetTenantLogoCommand extends TenantCommand {
                 }
             }
         } else {
-            File logo = (File) evt.getSession().load(File.class, fileId);
+            File logo = (File) evt.getSession().get(File.class, fileId);
+            if (logo == null) {
+                throw new EntityNotFoundException(File.class, fileId);
+            }
             logo.setTemporary(false);
             tenant.setLogo(logo);
             evt.getSession().update(tenant);

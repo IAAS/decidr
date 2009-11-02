@@ -26,7 +26,7 @@ public abstract class WorkflowModelCommand extends AclEnabledCommand implements
 
     /**
      * @param role
-     *            TODO document
+     *            user / system executing the command
      * @param workflowModelId
      *            the workflow model that is read / modified. A corresponding
      *            permission is automatically created.
@@ -77,10 +77,33 @@ public abstract class WorkflowModelCommand extends AclEnabledCommand implements
     }
 
     /**
+     * Fetches a deployed workflow model from the database, assuming that
+     * {@link #workflowModelId} is the ID of a deployed workflow model.
+     * 
+     * @param session
+     *            current Hibernate session.
+     * @return the deployed workflow model
+     * @throws EntityNotFoundException
+     *             if the deployed workflow model does not exist.
+     */
+    public DeployedWorkflowModel fetchDeployedWorkflowModel(Session session)
+            throws EntityNotFoundException {
+        DeployedWorkflowModel result = (DeployedWorkflowModel) session.get(
+                DeployedWorkflowModel.class, workflowModelId);
+
+        if (result == null) {
+            throw new EntityNotFoundException(DeployedWorkflowModel.class,
+                    workflowModelId);
+        }
+
+        return result;
+    }
+
+    /**
      * Fetches the current deployed version of the workflow model.
      * 
      * @param session
-     *            TODO document
+     *            current Hibernate Session
      * @return the current deployed version of the workflow model or null if
      *         there is no current deplyoed version.
      */

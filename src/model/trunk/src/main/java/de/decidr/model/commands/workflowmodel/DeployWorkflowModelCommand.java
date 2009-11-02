@@ -102,7 +102,7 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
             dwfm.setDescription(workflowModel.getDescription());
             dwfm.setDwdl(workflowModel.getDwdl());
             dwfm.setVersion(workflowModel.getVersion());
-            // XXX why does a workflow model have a WSDL? ~rr
+            // XXX workflow model wsdl is not used yet.
             dwfm.setWsdl(new byte[] {});
             dwfm.setSoapTemplate(new byte[] {});
             dwfm.setDeployDate(DecidrGlobals.getTime().getTime());
@@ -132,8 +132,8 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
                 for (Long sid : serverId) {
                     WorkflowModelIsDeployedOnServer entry = new WorkflowModelIsDeployedOnServer();
                     entry.setDeployedWorkflowModel(dwfm);
-                    entry.setServer((Server) evt.getSession().load(
-                            Server.class, sid));
+                    entry.setServer((Server) evt.getSession().get(Server.class,
+                            sid));
                 }
 
                 dwfm.setDeployDate(result.getDoplementDate());
@@ -158,7 +158,7 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
 
             try {
                 dManager.undeploy(newDeployedWorkflowModel, (Server) evt
-                        .getSession().load(Server.class, serverId));
+                        .getSession().get(Server.class, serverId));
             } catch (Exception e) {
                 throw new TransactionException(e);
             }

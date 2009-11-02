@@ -16,10 +16,8 @@
 package de.decidr.model.commands.workflowinstance;
 
 import org.apache.axis2.AxisFault;
-import org.hibernate.HibernateException;
 
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
@@ -27,34 +25,39 @@ import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
 
 /**
  * 
- * Stops the workflow instance which corresponds to the given id.
+ * Stops a given workflow instance
  * 
  * @author Markus Fischer
- * 
+ * @author Daniel Huss
  * @version 0.1
  */
 public class StopWorkflowInstanceCommand extends WorkflowInstanceCommand {
 
+    /**
+     * Creates a new StopWorkflowInstanceCommand that stops the given workflow
+     * instance.
+     * 
+     * @param role
+     *            user / system executing the command
+     * @param workflowInstanceId
+     *            workflow instance to stop.
+     */
     public StopWorkflowInstanceCommand(Role role, Long workflowInstanceId) {
         super(role, null, workflowInstanceId);
-
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        InstanceManager iManager = new InstanceManagerImpl();
+        InstanceManager instanceManager = new InstanceManagerImpl();
 
         try {
-            iManager.stopInstance((WorkflowInstance) evt.getSession().load(
-                    WorkflowInstance.class, this.getWorkflowInstanceIds()[0]));
+            instanceManager
+                    .stopInstance(fetchWorkflowInstance(evt.getSession()));
         } catch (AxisFault e) {
             throw new TransactionException(e);
-        } catch (HibernateException e) {
-            throw new TransactionException(e);
         }
-
     }
 
 }

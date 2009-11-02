@@ -19,6 +19,7 @@ package de.decidr.model.commands.user;
 import de.decidr.model.acl.access.InvitationAccess;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Invitation;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.transactions.TransactionEvent;
@@ -28,7 +29,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * user.
  * 
  * @author Markus Fischer
- * 
+ * @author Daniel Huss
  * @version 0.1
  */
 public class RefuseInvitationCommand extends UserCommand implements
@@ -55,12 +56,16 @@ public class RefuseInvitationCommand extends UserCommand implements
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        Invitation invitation = (Invitation) evt.getSession().load(
+        Invitation invitation = (Invitation) evt.getSession().get(
                 Invitation.class, invitationId);
+
+        if (invitation == null) {
+            throw new EntityNotFoundException(Invitation.class, invitationId);
+        }
+
         evt.getSession().delete(invitationId);
 
         NotificationEvents.refusedInvitation(invitation);
-
     }
 
     @Override

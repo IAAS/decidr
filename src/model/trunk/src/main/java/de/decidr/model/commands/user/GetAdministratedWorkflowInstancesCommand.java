@@ -54,9 +54,7 @@ public class GetAdministratedWorkflowInstancesCommand extends UserCommand {
      */
     public GetAdministratedWorkflowInstancesCommand(Role role, Long userId) {
         super(role, userId);
-        if (userId == null) {
-            throw new IllegalArgumentException("User ID must not be null.");
-        }
+        requireUserId();
     }
 
     @SuppressWarnings("unchecked")

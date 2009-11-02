@@ -52,10 +52,13 @@ public class GetWorkItemsCommand extends UserCommand {
      *            the user which executes the command
      * @param userId
      *            the id of the user whose workitems should be requested
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code>
      */
     public GetWorkItemsCommand(Role role, Long userId, List<Filter> filters,
             Paginator paginator) {
         super(role, userId);
+        requireUserId();
 
         this.paginator = paginator;
         this.filters = filters;

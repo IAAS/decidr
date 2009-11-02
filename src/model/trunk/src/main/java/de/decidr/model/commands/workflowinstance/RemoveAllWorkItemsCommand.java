@@ -26,6 +26,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * Deletes all work items of the given workflow instance.
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  * 
  * @version 0.1
  */
@@ -59,13 +60,14 @@ public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand
         Query q = evt
                 .getSession()
                 .createQuery(
-                        "DELETE from WorkItem item WHERE item.workflowinstance.odePid = :pid AND item.workflowinstance.deployedWorkflowModel.id = :wid");
+                        "delete from WorkItem item "
+                                + "where item.workflowinstance.odePid = :pid "
+                                + "and item.workflowinstance.deployedWorkflowModel.id = :wid");
 
         q.setString("pid", odePid);
         q.setLong("wid", deployedWorkflowModelId);
 
         q.executeUpdate();
-
     }
 
     @Override

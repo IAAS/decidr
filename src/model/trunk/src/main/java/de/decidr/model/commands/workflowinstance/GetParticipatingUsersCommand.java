@@ -22,35 +22,42 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserParticipatesInWorkflow;
 import de.decidr.model.entities.WorkflowInstance;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * 
- * Saves all participants of the given WorkflowInstance at the result variable.
+ * Saves all participants of the given workflow instance in the result variable.
  * 
  * @author Markus Fischer
- * 
+ * @author Daniel Huss
  * @version 0.1
  */
 public class GetParticipatingUsersCommand extends WorkflowInstanceCommand {
 
-    private Long workflowInstanceId;
     private Set<User> result;
 
-    public GetParticipatingUsersCommand(Role role, Long WorkflowInstanceId) {
-        super(role, null, WorkflowInstanceId);
-        this.workflowInstanceId = WorkflowInstanceId;
+    /**
+     * Creates a new GetParticipatingUsersCommand
+     * 
+     * @param role
+     *            user / system executing the command
+     * @param workflowInstanceId
+     *            ID of workflow instance whose participating users should be
+     *            fetched.
+     */
+    public GetParticipatingUsersCommand(Role role, Long workflowInstanceId) {
+        super(role, null, workflowInstanceId);
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt) {
+    public void transactionAllowed(TransactionEvent evt)
+            throws EntityNotFoundException {
 
         Set<UserParticipatesInWorkflow> partUsers = new HashSet<UserParticipatesInWorkflow>();
         result = new HashSet<User>();
 
-        WorkflowInstance instance = (WorkflowInstance) evt.getSession().load(
-                WorkflowInstance.class, workflowInstanceId);
-
+        WorkflowInstance instance = fetchWorkflowInstance(evt.getSession());
         partUsers = instance.getUserParticipatesInWorkflows();
 
         for (UserParticipatesInWorkflow partuser : partUsers) {

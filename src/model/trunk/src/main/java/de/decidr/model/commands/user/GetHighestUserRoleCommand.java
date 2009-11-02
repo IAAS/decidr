@@ -50,9 +50,7 @@ public class GetHighestUserRoleCommand extends UserCommand {
      */
     public GetHighestUserRoleCommand(Role role, Long userId) {
         super(role, userId);
-        if (userId == null) {
-            throw new IllegalArgumentException("userId must not be null.");
-        }
+        requireUserId();
     }
 
     @Override

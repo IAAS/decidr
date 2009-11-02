@@ -47,11 +47,12 @@ public class ConfirmChangeEmailRequestCommand extends UserCommand {
      * @param actor
      * @param userId
      * @param requestAuthKey
+     * @throws IllegalArgumentException if userId is <code>null</code>
      */
     public ConfirmChangeEmailRequestCommand(Role actor, Long userId,
             String requestAuthKey) {
         super(actor, userId);
-
+        requireUserId();
         this.requestAuthKey = requestAuthKey;
 
     }
@@ -77,7 +78,7 @@ public class ConfirmChangeEmailRequestCommand extends UserCommand {
             evt.getSession().delete(request);
 
         } else {
-            throw new AuthKeyException("AuthKey does not match");
+            throw new AuthKeyException();
         }
 
     }

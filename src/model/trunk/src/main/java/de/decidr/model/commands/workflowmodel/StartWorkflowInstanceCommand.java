@@ -271,7 +271,7 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
 
             User sender;
             if (role instanceof UserRole) {
-                sender = (User) session.load(User.class, role.getActorId());
+                sender = (User) session.get(User.class, role.getActorId());
             } else {
                 sender = DecidrGlobals.getSettings().getSuperAdmin();
             }

@@ -42,11 +42,15 @@ public class CheckAuthKeyCommand extends UserCommand {
      *            the id of the user
      * @param authKey
      *            the given auth key
+     * @throws IllegalArgumentException
+     *             if userId or authKey is <code>null</code>
      */
     public CheckAuthKeyCommand(Role role, Long userId, String authKey) {
         super(role, userId);
-        if (null == authKey) {
-            throw new NullPointerException();
+        requireUserId();
+        if (authKey == null) {
+            throw new IllegalArgumentException(
+                    "Authentication key must not be null.");
         }
         this.authKey = authKey;
     }

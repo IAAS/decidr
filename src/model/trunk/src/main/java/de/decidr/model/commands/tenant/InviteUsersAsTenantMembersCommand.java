@@ -26,6 +26,7 @@ import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
@@ -37,7 +38,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * created too. If a username does not exist an exception will be thrown.
  * 
  * @author Markus Fischer
- * 
+ * @author Daniel Huss
  * @version 0.1
  */
 public class InviteUsersAsTenantMembersCommand extends TenantCommand {
@@ -77,37 +78,34 @@ public class InviteUsersAsTenantMembersCommand extends TenantCommand {
         UserProfile profile;
         Invitation newInvitation;
 
-        Tenant tenant = (Tenant) evt.getSession().load(Tenant.class,
-                getTenantId());
-        User actor = (User) evt.getSession()
-                .load(User.class, role.getActorId());
+        Tenant tenant = fetchTenant(evt.getSession());
+
+        User actor = (User) evt.getSession().get(User.class, role.getActorId());
+        if (actor == null) {
+            throw new EntityNotFoundException(User.class, role.getActorId());
+        }
 
         // go through usernames
         for (String uname : usernames) {
 
-            Query q = evt.getSession().createQuery(
-                    "from UserProfile where username = :uname");
-            q.setString("uname", uname);
-
-            profile = (UserProfile) q.uniqueResult();
+            profile = (UserProfile) evt.getSession().createQuery(
+                    "from UserProfile where username = :uname").setString(
+                    "uname", uname).uniqueResult();
 
             if (profile == null) {
-                throw new TransactionException("User " + uname
-                        + " does not exists");
-            } else {
-
-                // create invitation object
-                newInvitation = new Invitation();
-                newInvitation.setJoinTenant(tenant);
-                newInvitation.setReceiver(profile.getUser());
-                newInvitation.setSender(actor);
-                newInvitation
-                        .setCreationDate(DecidrGlobals.getTime().getTime());
-                evt.getSession().save(newInvitation);
-
-                NotificationEvents
-                        .invitedRegisteredUserAsTenantMember(newInvitation);
+                throw new EntityNotFoundException(UserProfile.class);
             }
+
+            // create invitation object
+            newInvitation = new Invitation();
+            newInvitation.setJoinTenant(tenant);
+            newInvitation.setReceiver(profile.getUser());
+            newInvitation.setSender(actor);
+            newInvitation.setCreationDate(DecidrGlobals.getTime().getTime());
+            evt.getSession().save(newInvitation);
+
+            NotificationEvents
+                    .invitedRegisteredUserAsTenantMember(newInvitation);
 
         }
 

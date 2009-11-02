@@ -176,6 +176,8 @@ public class UserFacade extends AbstractFacade {
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
      *             iff the given user does not exist.
+     * @throws IllegalArgumentException
+     *             if userId or authKey is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public Boolean authKeyMatches(Long userId, String authKey)
@@ -196,10 +198,19 @@ public class UserFacade extends AbstractFacade {
      *            the new email address
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if the email address is <code>null</code> or empty or if
+     *             userId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public void setEmailAddress(Long userId, String newEmail)
             throws TransactionException {
+
+        if (newEmail == null || newEmail.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Email address must not be null or empty.");
+        }
+
         Map<String, String> properties = new HashMap<String, String>();
         properties.put("email", newEmail);
 
@@ -243,6 +254,8 @@ public class UserFacade extends AbstractFacade {
      *            to flag the user as available, set this parameter to null.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public void setUnavailableSince(Long userId, Date date)
@@ -297,6 +310,8 @@ public class UserFacade extends AbstractFacade {
      *         if no user with the given username or email exists.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if emailOrUsername is <code>null</code> or empty.
      */
     @AllowedRole(UserRole.class)
     public Boolean requestPasswordReset(String emailOrUsername)
@@ -330,6 +345,9 @@ public class UserFacade extends AbstractFacade {
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
      *             iff the given user does not exist.
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code> or if newEmail is
+     *             <code>null</code> or empty.
      */
     @AllowedRole(UserRole.class)
     public void requestChangeEmail(Long userId, String newEmail)
@@ -365,7 +383,7 @@ public class UserFacade extends AbstractFacade {
      *             iff the given user doesn't exist or doesn't have a user
      *             profile.
      * @throws IllegalArgumentException
-     *             if newProfile is <code>null</code>
+     *             if userId or newProfile is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public void setProfile(Long userId, UserProfile newProfile)
@@ -393,6 +411,10 @@ public class UserFacade extends AbstractFacade {
      * @return true iff the tenant was successfully left.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the user or the tenant doesn't exist.
+     * @throws IllegalArgumentException
+     *             if userId or tenantId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public Boolean leaveTenant(Long userId, Long tenantId)
@@ -440,6 +462,9 @@ public class UserFacade extends AbstractFacade {
      *             iff the user doesn't exist or has no user profile or has no
      *             password reset request or the authentication key doesn't
      *             match or the request has expired.
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code> or if authKey is
+     *             <code>null</code> or empty.
      */
     @AllowedRole(UserRole.class)
     public void confirmPasswordReset(Long userId, String authKey)
@@ -469,7 +494,8 @@ public class UserFacade extends AbstractFacade {
      *             if the user does not exist or if the user has no pending
      *             registration request.
      * @throws IllegalArgumentException
-     *             if the authentication key is null
+     *             if authKey is <code>null</code> or empty or if userId is
+     *             <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public void confirmRegistration(Long userId, String authKey)

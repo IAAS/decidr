@@ -48,9 +48,17 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
      * @param emailOrUsername
      *            the username or email address of the user whose password
      *            should be reset
+     * @throws IllegalArgumentException
+     *             if emailOrUsername is <code>null</code> or empty.
      */
     public RequestPasswordResetCommand(Role role, String emailOrUsername) {
         super(role, (Permission) null);
+
+        if (emailOrUsername == null || emailOrUsername.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Email / username must not be null or empty.");
+        }
+
         this.emailOrUsername = emailOrUsername;
     }
 
@@ -60,8 +68,7 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
 
         requestWasCreated = false;
 
-        String hql = "select distinct u.id, u.email, p.username, p.firstName, p.LastName "
-                + "from User u left join fetch u.userProfile p "
+        String hql = "select u from User u left join fetch u.userProfile p "
                 + "where (u.email = :emailOrUsername) or "
                 + "(p.username = :emailOrUsername)";
 

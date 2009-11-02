@@ -26,6 +26,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * variable.
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  * 
  * @version 0.1
  */
@@ -52,7 +53,7 @@ public class GetInvitationCommand extends UserCommand implements
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-        result = (InvitationView) evt.getSession().load(InvitationView.class,
+        result = (InvitationView) evt.getSession().get(InvitationView.class,
                 invitationId);
     }
 

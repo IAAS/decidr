@@ -42,9 +42,12 @@ public class GetUserWithProfileCommand extends UserCommand {
      *            user which executes the command
      * @param userId
      *            the ID of the user whose profile schould be requested
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code>
      */
     public GetUserWithProfileCommand(Role role, Long userId) {
         super(role, userId);
+        requireUserId();
     }
 
     @Override

@@ -40,10 +40,12 @@ public class IsUserRegisteredCommand extends UserCommand {
      *            the user which executes the command
      * @param userId
      *            the id of the user which should be checked
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code>
      */
     public IsUserRegisteredCommand(Role role, Long userId) {
         super(role, userId);
-        // nothing to do
+        requireUserId();
     }
 
     @Override

@@ -215,11 +215,12 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     }
 
     private static void setEmailAddressExceptionHelper(String failmsg,
-            UserFacade facade, Long userID, String newEmail) {
+            UserFacade facade, Long userID, String newEmail)
+            throws TransactionException {
         try {
             facade.setEmailAddress(userID, newEmail);
             fail(failmsg);
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
     }
