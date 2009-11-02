@@ -23,11 +23,11 @@ import com.vaadin.data.Item;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.BaseFieldFactory;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.DefaultFieldFactory;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.GridLayout;
@@ -59,7 +59,7 @@ public class ProfileSettingsComponent extends CustomComponent {
      * 
      * @author Geoffrey-Alexeij Heinze
      */
-    private class SettingsFieldFactory extends BaseFieldFactory {
+    private class SettingsFieldFactory extends DefaultFieldFactory {
 
         @Override
         public Field createField(Item item, Object propertyId,
@@ -191,7 +191,7 @@ public class ProfileSettingsComponent extends CustomComponent {
             Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
         }
         settingsForm.setWriteThrough(false);
-        settingsForm.setFieldFactory(new SettingsFieldFactory());
+        settingsForm.setFormFieldFactory(new SettingsFieldFactory());
         settingsForm.setItemDataSource(settingsItem);
         settingsForm.setVisibleItemProperties(Arrays.asList(new String[] {
                 "firstName", "lastName", "street", "postalCode", "city" }));
