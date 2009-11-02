@@ -19,12 +19,12 @@ public class Session implements java.io.Serializable {
     private boolean valid;
 
     public Session() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public Session(String sessionId, long lastAccessed, int maxInactive,
             boolean valid) {
-        //generated minimal constructor
+        // generated minimal constructor
         this.sessionId = sessionId;
         this.lastAccessed = lastAccessed;
         this.maxInactive = maxInactive;
@@ -33,7 +33,7 @@ public class Session implements java.io.Serializable {
 
     public Session(String sessionId, String app, byte[] data,
             long lastAccessed, int maxInactive, boolean valid) {
-        //generated full constructor
+        // generated full constructor
         this.sessionId = sessionId;
         this.app = app;
         this.data = data;

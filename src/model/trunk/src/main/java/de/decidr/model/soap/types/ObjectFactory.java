@@ -286,8 +286,8 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/DecidrTypes", name = "dateItem", substitutionHeadNamespace = "http://decidr.de/schema/DecidrTypes", substitutionHeadName = "item")
     public JAXBElement<DateItem> createDateItem(DateItem value) {
-        return new JAXBElement<DateItem>(_DateItem_QNAME, DateItem.class,
-                null, value);
+        return new JAXBElement<DateItem>(_DateItem_QNAME, DateItem.class, null,
+                value);
     }
 
     /**
@@ -296,8 +296,8 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/DecidrTypes", name = "stringItem", substitutionHeadNamespace = "http://decidr.de/schema/DecidrTypes", substitutionHeadName = "item")
     public JAXBElement<StringItem> createStringItem(StringItem value) {
-        return new JAXBElement<StringItem>(_StringItem_QNAME,
-                StringItem.class, null, value);
+        return new JAXBElement<StringItem>(_StringItem_QNAME, StringItem.class,
+                null, value);
     }
 
     /**
@@ -364,8 +364,8 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://decidr.de/schema/DecidrTypes", name = "roleUser", substitutionHeadNamespace = "http://decidr.de/schema/DecidrTypes", substitutionHeadName = "user")
     public JAXBElement<RoleUser> createRoleUser(RoleUser value) {
-        return new JAXBElement<RoleUser>(_RoleUser_QNAME, RoleUser.class,
-                null, value);
+        return new JAXBElement<RoleUser>(_RoleUser_QNAME, RoleUser.class, null,
+                value);
     }
 
     /**

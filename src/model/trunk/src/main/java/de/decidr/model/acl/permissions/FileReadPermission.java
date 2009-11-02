@@ -15,7 +15,6 @@
  */
 package de.decidr.model.acl.permissions;
 
-
 /**
  * Represents the permission to read a file.
  * 

@@ -23,8 +23,8 @@ import org.junit.Test;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * TODO: add comment
- *
+ * GH: add comment
+ * 
  * @author GH
  */
 public class SuperAdminRoleTest extends DecidrAclTest {
@@ -35,10 +35,10 @@ public class SuperAdminRoleTest extends DecidrAclTest {
     @Test
     public void testSuperAdminRoleLong() {
         SuperAdminRole role = new SuperAdminRole(1l);
-        
+
         assertNotNull(role);
         assertTrue(role.getActorId() == 1l);
-        
+
         role = new SuperAdminRole(0l);
         assertTrue(role.getActorId() == 0l);
 
@@ -52,9 +52,8 @@ public class SuperAdminRoleTest extends DecidrAclTest {
     @Test
     public void testSuperAdminRole() {
         SuperAdminRole role = new SuperAdminRole();
-        
-        assertNotNull(role);
-        assertTrue(role.getActorId() == UserRole.UNKNOWN_USER_ID );
-    }
 
+        assertNotNull(role);
+        assertTrue(role.getActorId() == UserRole.UNKNOWN_USER_ID);
+    }
 }

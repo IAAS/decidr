@@ -23,24 +23,24 @@ import org.junit.Test;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * TODO: add comment
- *
+ * GH: add comment
+ * 
  * @author GH
  */
 public class EmailRoleTest extends DecidrAclTest {
 
     /**
-     * Test method for {@link de.decidr.model.acl.roles.EmailRole#getInstance()}.
+     * Test method for {@link de.decidr.model.acl.roles.EmailRole#getInstance()}
+     * .
      */
     @Test
     public void testGetInstance() {
         Role role = EmailRole.getInstance();
         Role role2 = null;
-        
+
         assertNotNull(role);
-        
+
         role2 = EmailRole.getInstance();
         assertEquals(role, role2);
     }
-
 }

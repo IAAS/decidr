@@ -30,12 +30,12 @@ public class WorkflowInstance implements java.io.Serializable {
             0);
 
     public WorkflowInstance() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public WorkflowInstance(DeployedWorkflowModel deployedWorkflowModel,
             Server server, String odePid, byte[] startConfiguration) {
-        //generated minimal constructor
+        // generated minimal constructor
         this.deployedWorkflowModel = deployedWorkflowModel;
         this.server = server;
         this.odePid = odePid;
@@ -53,7 +53,7 @@ public class WorkflowInstance implements java.io.Serializable {
             Set<UserAdministratesWorkflowInstance> userAdministratesWorkflowInstances,
             Set<Invitation> invitations,
             Set<UserParticipatesInWorkflow> userParticipatesInWorkflows) {
-        //generated full constructor
+        // generated full constructor
         this.deployedWorkflowModel = deployedWorkflowModel;
         this.server = server;
         this.odePid = odePid;

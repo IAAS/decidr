@@ -14,7 +14,6 @@
  * under the License.
  */
 
-
 package de.decidr.model.acl.asserters;
 
 import static org.junit.Assert.assertTrue;
@@ -24,9 +23,8 @@ import org.junit.Test;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
+ * GH: add comment
  * 
- * TODO: add comment
- *
  * @author GH
  */
 public class AlwaysTrueAsserterTest extends DecidrAclTest {
@@ -36,5 +34,4 @@ public class AlwaysTrueAsserterTest extends DecidrAclTest {
         AlwaysTrueAsserter atassert = new AlwaysTrueAsserter();
         assertTrue(atassert.assertRule(null, null));
     }
-
 }

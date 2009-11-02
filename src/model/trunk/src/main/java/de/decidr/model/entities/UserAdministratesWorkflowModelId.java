@@ -15,11 +15,11 @@ public class UserAdministratesWorkflowModelId implements java.io.Serializable {
     private long workflowModelId;
 
     public UserAdministratesWorkflowModelId() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public UserAdministratesWorkflowModelId(long userId, long workflowModelId) {
-        //generated full constructor
+        // generated full constructor
         this.userId = userId;
         this.workflowModelId = workflowModelId;
     }

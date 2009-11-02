@@ -50,8 +50,9 @@ import com.ibm.wsdl.extensions.schema.SchemaImpl;
  */
 public class HumanTaskSOAPTest {
 
-    private static Namespace ns = Namespace.getNamespace("xsd", "http://www.w3.org/2001/XMLSchema");
-    
+    private static Namespace ns = Namespace.getNamespace("xsd",
+            "http://www.w3.org/2001/XMLSchema");
+
     public static void main(String[] args)
             throws UnsupportedOperationException, SOAPException, IOException,
             WSDLException, URISyntaxException {
@@ -88,35 +89,36 @@ public class HumanTaskSOAPTest {
         org.jdom.Element jdomSchemaElement = domBuilder.build(schemaElement);
 
         List<Element> soapElements = new ArrayList<Element>();
-        
+
         Element removeTask = findElement("removeTasks", jdomSchemaElement);
-        
+
         Iterator<?> iter = removeTask.getChildren().iterator();
-        
-        while(iter.hasNext()){
+
+        while (iter.hasNext()) {
             Element child = (Element) iter.next();
-            if (isComplexType(child)){
+            if (isComplexType(child)) {
                 // System.out.println(child);
                 Iterator<?> iter1 = child.getChildren().iterator();
-                while (iter1.hasNext()){
+                while (iter1.hasNext()) {
                     Element complexChild = (Element) iter1.next();
-                    if(isSequence(complexChild)){
+                    if (isSequence(complexChild)) {
                         // System.out.println(complexChild);
-                        Iterator<?> iter2 = complexChild.getChildren().iterator();
-                        while(iter2.hasNext()){
+                        Iterator<?> iter2 = complexChild.getChildren()
+                                .iterator();
+                        while (iter2.hasNext()) {
                             Element sequenceChild = (Element) iter2.next();
-                            if (sequenceChild.getName().equals("element")){
+                            if (sequenceChild.getName().equals("element")) {
                                 soapElements.add(sequenceChild);
                             }
-                            
+
                         }
                     }
                 }
             }
         }
-        
+
         XMLOutputter out = new XMLOutputter();
-        //out.output(removeTask.getChildren(), System.out);
+        // out.output(removeTask.getChildren(), System.out);
 
         SOAPConnectionFactory soapConnFactory = SOAPConnectionFactory
                 .newInstance();
@@ -129,18 +131,20 @@ public class HumanTaskSOAPTest {
         SOAPEnvelope envelope = soapPart.getEnvelope();
         SOAPBody body = envelope.getBody();
 
-        SOAPElement bodyElement = body.addChildElement(envelope.createName(removeTask.getAttributeValue("name"), "hum",
-                definition.getTargetNamespace()));
+        SOAPElement bodyElement = body.addChildElement(envelope.createName(
+                removeTask.getAttributeValue("name"), "hum", definition
+                        .getTargetNamespace()));
 
-        for (Element element : soapElements){
-            bodyElement.addChildElement(element.getAttributeValue("name"), "hum").addTextNode("?");
+        for (Element element : soapElements) {
+            bodyElement.addChildElement(element.getAttributeValue("name"),
+                    "hum").addTextNode("?");
         }
-        
+
         String destination = "http://localhost:18181/InsuranceProcessService/InsuranceProcessPort";
 
         message.saveChanges();
         message.writeTo(System.out);
-        //SOAPMessage reply = connection.call(message, destination);
+        // SOAPMessage reply = connection.call(message, destination);
 
         connection.close();
 
@@ -166,13 +170,13 @@ public class HumanTaskSOAPTest {
         throw new RuntimeException("Ext element with name " + name
                 + " was not found.");
     }
-    
-    private static Element findElement(String name, Element root){
-        
+
+    private static Element findElement(String name, Element root) {
+
         Iterator<?> iterator = root.getChildren("element", ns).iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             Element element = (Element) iterator.next();
-            if (element.getAttribute("name").getValue().equals(name)){
+            if (element.getAttribute("name").getValue().equals(name)) {
                 return element;
             }
         }

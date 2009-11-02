@@ -20,12 +20,12 @@ public class ChangeEmailRequest implements java.io.Serializable {
     private String authKey;
 
     public ChangeEmailRequest() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public ChangeEmailRequest(User user, String newEmail, Date creationDate,
             String authKey) {
-        //generated full constructor
+        // generated full constructor
         this.user = user;
         this.newEmail = newEmail;
         this.creationDate = creationDate;

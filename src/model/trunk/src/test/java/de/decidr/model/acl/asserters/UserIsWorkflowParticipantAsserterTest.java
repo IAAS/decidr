@@ -38,7 +38,7 @@ import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * TODO: add comment
+ * GH: add comment
  * 
  * @author GH
  */
@@ -118,8 +118,6 @@ public class UserIsWorkflowParticipantAsserterTest extends LowLevelDatabaseTest 
     /**
      * Test method for
      * {@link UserIsWorkflowParticipantAsserter#assertRule(Role, Permission)}.
-     * 
-     * @throws TransactionException
      */
     @Test
     public void testAssertRule() throws TransactionException {
@@ -137,5 +135,4 @@ public class UserIsWorkflowParticipantAsserterTest extends LowLevelDatabaseTest 
                         new WorkflowAdminRole(workflowAdminId), userId,
                         tenantId))));
     }
-
 }

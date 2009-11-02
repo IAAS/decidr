@@ -40,60 +40,60 @@ import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * TODO: add comment
- *
+ * GH: add comment
+ * 
  * @author GH
  */
 public class IsRoleEqualToAccessedUserAsserterTest extends LowLevelDatabaseTest {
 
     private static UserFacade userFacade;
-    
+
     private static Long superAdminId;
     private static Long userId;
-    
+
     private static final String USERNAME_PREFIX = "testuser";
 
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
-        
         UserFacadeTest.deleteTestUsers();
-        
-        //create test users
+
+        // create test users
         superAdminId = DecidrGlobals.getSettings().getSuperAdmin().getId();
         userFacade = new UserFacade(new SuperAdminRole(superAdminId));
-        
+
         UserProfile userProfile = new UserProfile();
         userProfile.setFirstName("test");
         userProfile.setLastName("user");
         userProfile.setCity("testcity");
         userProfile.setStreet("test st.");
         userProfile.setPostalCode("12test");
-        
+
         userProfile.setUsername(USERNAME_PREFIX + "User");
-        userId = userFacade.registerUser(UserFacadeTest.getTestEmail(1), "qwertz", userProfile);
-        
+        userId = userFacade.registerUser(UserFacadeTest.getTestEmail(1),
+                "qwertz", userProfile);
     }
 
     @AfterClass
     public static void cleanUpAfterClass() {
-        
         UserFacadeTest.deleteTestUsers();
-        
     }
 
-    
     /**
-     * Test method for {@link IsRoleEqualToAccessedUserAsserter#assertRule(Role, Permission)}.
-     * @throws TransactionException 
+     * Test method for
+     * {@link IsRoleEqualToAccessedUserAsserter#assertRule(Role, Permission)}.
+     * 
+     * @throws TransactionException
      */
     @Test
     public void testAssertRule() throws TransactionException {
         Map<String, Date> properties = new HashMap<String, Date>();
         properties.put("moo", new Date());
         IsRoleEqualToAccessedUserAsserter asserter = new IsRoleEqualToAccessedUserAsserter();
-        assertTrue(asserter.assertRule(new UserRole(userId), new CommandPermission(new SetUserPropertyCommand(new UserRole(userId), userId,
-            properties))));
-        assertFalse(asserter.assertRule(new UserRole(), new CommandPermission(new SetUserPropertyCommand(new UserRole(userId), userId,
-                properties))));
+        assertTrue(asserter.assertRule(new UserRole(userId),
+                new CommandPermission(new SetUserPropertyCommand(new UserRole(
+                        userId), userId, properties))));
+        assertFalse(asserter.assertRule(new UserRole(), new CommandPermission(
+                new SetUserPropertyCommand(new UserRole(userId), userId,
+                        properties))));
     }
 }

@@ -28,12 +28,12 @@ public class Server implements java.io.Serializable {
             0);
 
     public Server() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public Server(ServerType serverType, String location, byte load,
             boolean locked, boolean dynamicallyAdded) {
-        //generated minimal constructor
+        // generated minimal constructor
         this.serverType = serverType;
         this.location = location;
         this.load = load;
@@ -50,7 +50,7 @@ public class Server implements java.io.Serializable {
             Date lastLoadUpdate,
             Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers,
             Set<WorkflowInstance> workflowInstances) {
-        //generated full constructor
+        // generated full constructor
         this.serverType = serverType;
         this.location = location;
         this.load = load;

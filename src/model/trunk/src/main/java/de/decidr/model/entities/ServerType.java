@@ -19,16 +19,16 @@ public class ServerType implements java.io.Serializable {
     private Set<Server> servers = new HashSet<Server>(0);
 
     public ServerType() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public ServerType(String name) {
-        //generated minimal constructor
+        // generated minimal constructor
         this.name = name;
     }
 
     public ServerType(String name, Set<Server> servers) {
-        //generated full constructor
+        // generated full constructor
         this.name = name;
         this.servers = servers;
     }

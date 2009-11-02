@@ -21,13 +21,13 @@ public class TenantSummaryView implements java.io.Serializable {
     private long numMembers;
 
     public TenantSummaryView() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public TenantSummaryView(long id, String tenantName,
             long numWorkflowModels, long numDeployedWorkflowModels,
             long numWorkflowInstances, long numMembers) {
-        //generated minimal constructor
+        // generated minimal constructor
         this.id = id;
         this.tenantName = tenantName;
         this.numWorkflowModels = numWorkflowModels;
@@ -40,7 +40,7 @@ public class TenantSummaryView implements java.io.Serializable {
             String adminLastName, long numWorkflowModels,
             long numDeployedWorkflowModels, long numWorkflowInstances,
             long numMembers) {
-        //generated full constructor
+        // generated full constructor
         this.id = id;
         this.tenantName = tenantName;
         this.adminFirstName = adminFirstName;

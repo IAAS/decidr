@@ -23,8 +23,8 @@ import org.junit.Test;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * TODO: add comment
- *
+ * GH: add comment
+ * 
  * @author GH
  */
 public class ServerLoadUpdaterRoleTest extends DecidrAclTest {
@@ -36,11 +36,10 @@ public class ServerLoadUpdaterRoleTest extends DecidrAclTest {
     public void testGetInstance() {
         Role role = ServerLoadUpdaterRole.getInstance();
         Role role2 = null;
-        
+
         assertNotNull(role);
-        
+
         role2 = ServerLoadUpdaterRole.getInstance();
         assertEquals(role, role2);
     }
-
 }

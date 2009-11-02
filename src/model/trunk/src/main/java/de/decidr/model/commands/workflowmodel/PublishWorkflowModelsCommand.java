@@ -36,7 +36,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * @version 0.1
  */
 public class PublishWorkflowModelsCommand extends AclEnabledCommand implements
-        TransactionalCommand, WorkflowModelAccess{
+        TransactionalCommand, WorkflowModelAccess {
 
     private List<Long> workflowModelIds = null;
     private Boolean publish;
@@ -76,7 +76,5 @@ public class PublishWorkflowModelsCommand extends AclEnabledCommand implements
         Long[] result = new Long[0];
         return workflowModelIds.toArray(result);
     }
-    
-    
 
 }

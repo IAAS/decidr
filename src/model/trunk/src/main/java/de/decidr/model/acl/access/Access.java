@@ -20,7 +20,7 @@ package de.decidr.model.acl.access;
  * All types of access flags extend this interface.
  * 
  * @author Markus Fischer
- *
+ * 
  * @version 0.1
  */
 public interface Access {

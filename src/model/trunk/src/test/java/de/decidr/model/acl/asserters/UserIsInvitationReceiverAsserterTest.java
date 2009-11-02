@@ -38,7 +38,7 @@ import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * TODO: add comment
+ * GH: add comment
  * 
  * @author GH
  */
@@ -98,12 +98,10 @@ public class UserIsInvitationReceiverAsserterTest extends LowLevelDatabaseTest {
         // List<String> userMails = new ArrayList<String>();
         // userNames.add("user78626");
         // tenantFacade.inviteUsersAsMembers(tenantId, userMails, userNames);
-
     }
 
     @AfterClass
     public static void cleanUpAfterClass() {
-
         // tenantFacade.deleteTenant(tenantId);
 
         UserFacadeTest.deleteTestUsers();
@@ -112,8 +110,6 @@ public class UserIsInvitationReceiverAsserterTest extends LowLevelDatabaseTest {
     /**
      * Test method for
      * {@link UserIsInvitationReceiverAsserter#assertRule(Role, Permission)}.
-     * 
-     * @throws TransactionException
      */
     @Test
     public void testAssertRule() throws TransactionException {
@@ -127,5 +123,4 @@ public class UserIsInvitationReceiverAsserterTest extends LowLevelDatabaseTest {
         assertFalse(asserter.assertRule(new TenantAdminRole(tenantAdminId),
                 new Permission("*")));
     }
-
 }

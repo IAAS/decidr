@@ -35,13 +35,13 @@ public class File implements java.io.Serializable {
             0);
 
     public File() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public File(String fileName, String mimeType, boolean mayPublicRead,
             boolean mayPublicReplace, boolean mayPublicDelete,
             long fileSizeBytes, Date creationDate, boolean temporary) {
-        //generated minimal constructor
+        // generated minimal constructor
         this.fileName = fileName;
         this.mimeType = mimeType;
         this.mayPublicRead = mayPublicRead;
@@ -61,7 +61,7 @@ public class File implements java.io.Serializable {
             Set<Tenant> tenantsForCurrentColorSchemeId,
             Set<WorkItemContainsFile> workItemContainsFiles,
             Set<UserHasFileAccess> userHasFileAccess) {
-        //generated full constructor
+        // generated full constructor
         this.fileName = fileName;
         this.mimeType = mimeType;
         this.mayPublicRead = mayPublicRead;

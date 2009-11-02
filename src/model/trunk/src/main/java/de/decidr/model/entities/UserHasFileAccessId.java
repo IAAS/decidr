@@ -15,11 +15,11 @@ public class UserHasFileAccessId implements java.io.Serializable {
     private long fileId;
 
     public UserHasFileAccessId() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public UserHasFileAccessId(long userId, long fileId) {
-        //generated full constructor
+        // generated full constructor
         this.userId = userId;
         this.fileId = fileId;
     }

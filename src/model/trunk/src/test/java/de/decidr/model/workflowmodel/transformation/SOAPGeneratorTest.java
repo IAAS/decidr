@@ -37,31 +37,33 @@ import de.decidr.model.workflowmodel.wsc.TConfiguration;
  * @author AT
  */
 public class SOAPGeneratorTest {
-    
+
     /**
      * TODO: add comment
      * 
      * @param args
-     * @throws URISyntaxException 
-     * @throws WSDLException 
-     * @throws SOAPException 
-     * @throws UnsupportedOperationException 
-     * @throws JAXBException 
-     * @throws IOException 
+     * @throws URISyntaxException
+     * @throws WSDLException
+     * @throws SOAPException
+     * @throws UnsupportedOperationException
+     * @throws JAXBException
+     * @throws IOException
      */
-    public static void main(String[] args) throws WSDLException, URISyntaxException, UnsupportedOperationException, SOAPException, IOException, JAXBException {
+    public static void main(String[] args) throws WSDLException,
+            URISyntaxException, UnsupportedOperationException, SOAPException,
+            IOException, JAXBException {
         TConfiguration tConfiguration = HumanTaskStartConfigurationFactory
-        .getHumanTaskStartConfiguration();
+                .getHumanTaskStartConfiguration();
         SOAPGenerator soapGenerator = new SOAPGenerator();
         Definition definition = WSDLFactory.getHumanTaskDefinition();
         DWDL2SOAP dwdl2Soap = new DWDL2SOAP();
-        SOAPMessage template =  dwdl2Soap.getSOAP(definition, "HumanTaskPT", "createTask");
-        
-        //template.writeTo(System.out);
-     
+        SOAPMessage template = dwdl2Soap.getSOAP(definition, "HumanTaskPT",
+                "createTask");
+
+        // template.writeTo(System.out);
+
         soapGenerator.getSOAP(template, tConfiguration).writeTo(System.out);
 
-        
     }
 
 }

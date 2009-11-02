@@ -16,12 +16,12 @@ public class UserIsMemberOfTenant implements java.io.Serializable {
     private User user;
 
     public UserIsMemberOfTenant() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public UserIsMemberOfTenant(UserIsMemberOfTenantId id, Tenant tenant,
             User user) {
-        //generated full constructor
+        // generated full constructor
         this.id = id;
         this.tenant = tenant;
         this.user = user;

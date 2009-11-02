@@ -37,7 +37,7 @@ import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * TODO: add comment
+ * GH: add comment
  * 
  * @author GH
  */
@@ -83,12 +83,10 @@ public class UserIsTenantAdminAsserterTest extends LowLevelDatabaseTest {
         // tenantFacade = new TenantFacade(new SuperAdminRole(superAdminId));
         // tenantId = tenantFacade.createTenant("acl.decidr", "mooomoo",
         // tenantAdminId);
-
     }
 
     @AfterClass
     public static void cleanUpAfterClass() {
-
         // tenantFacade.deleteTenant(tenantId);
 
         UserFacadeTest.deleteTestUsers();
@@ -97,8 +95,6 @@ public class UserIsTenantAdminAsserterTest extends LowLevelDatabaseTest {
     /**
      * Test method for
      * {@link UserIsTenantAdminAsserter#assertRule(Role, Permission)}.
-     * 
-     * @throws TransactionException
      */
     @Test
     public void testAssertRule() throws TransactionException {
@@ -113,5 +109,4 @@ public class UserIsTenantAdminAsserterTest extends LowLevelDatabaseTest {
                 new CommandPermission(new AddTenantMemberCommand(new UserRole(
                         userId), tenantId, userId))));
     }
-
 }

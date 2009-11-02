@@ -37,7 +37,7 @@ import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * TODO: add comment
+ * GH: add comment
  * 
  * @author GH
  */
@@ -103,12 +103,10 @@ public class UserAdministratesWorkflowModelAsserterTest extends
         // wfmAdmins.add("wfadmin12377");
         // wfmFacade.setWorkflowAdministrators(wfmId, wfmAdminsEmail,
         // wfmAdmins);
-
     }
 
     @AfterClass
     public static void cleanUpAfterClass() {
-
         // List<Long> wfm = new ArrayList<Long>();
         // wfm.add(wfmId);
         // wfmFacade.deleteWorkflowModels(wfm);
@@ -121,8 +119,6 @@ public class UserAdministratesWorkflowModelAsserterTest extends
      * Test method for
      * {@link UserAdministratesWorkflowModelAsserter#assertRule(Role, Permission)}
      * .
-     * 
-     * @throws TransactionException
      */
     @Test
     public void testAssertRule() throws TransactionException {
@@ -134,5 +130,4 @@ public class UserAdministratesWorkflowModelAsserterTest extends
         assertFalse(asserter.assertRule(new TenantAdminRole(tenantAdminId),
                 new Permission("*")));
     }
-
 }

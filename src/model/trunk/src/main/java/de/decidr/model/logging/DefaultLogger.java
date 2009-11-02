@@ -24,7 +24,7 @@ import org.apache.log4j.PatternLayout;
 
 /**
  * Provides a common logging configuration for the DecidR components and
- * subsystems. 
+ * subsystems.
  * <p>
  * XXX use JDBC appender instead of or in addition to console appender, add
  * support for remotely triggered log level changes. See
@@ -37,7 +37,8 @@ public class DefaultLogger {
     private static final String HIBERNATE_LOGGER = "org.hibernate";
 
     private static Appender defaultAppender = new ConsoleAppender(
-            new PatternLayout("[%-5p: %d{dd.MM. HH:mm:ss}] %m%n"), ConsoleAppender.SYSTEM_OUT);
+            new PatternLayout("[%-5p: %d{dd.MM. HH:mm:ss}] %m%n"),
+            ConsoleAppender.SYSTEM_OUT);
 
     static {
         // run configurator - every new logger will inherit the defaultAppender

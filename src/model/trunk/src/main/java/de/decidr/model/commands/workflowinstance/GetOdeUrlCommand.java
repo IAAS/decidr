@@ -32,18 +32,19 @@ import de.decidr.model.transactions.TransactionEvent;
 public class GetOdeUrlCommand extends WorkflowInstanceCommand {
 
     private String result;
-    
+
     public GetOdeUrlCommand(Role role, Long workflowInstanceId) {
         super(role, null, workflowInstanceId);
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt) {
-        
-        WorkflowInstance instance = (WorkflowInstance)evt.getSession().load(WorkflowInstance.class, this.getWorkflowInstanceIds()[0]);
-        
+
+        WorkflowInstance instance = (WorkflowInstance) evt.getSession().load(
+                WorkflowInstance.class, this.getWorkflowInstanceIds()[0]);
+
         result = instance.getServer().getLocation();
-        
+
     }
 
     public String getResult() {

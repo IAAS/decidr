@@ -36,7 +36,7 @@ import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * TODO: add comment
+ * GH: add comment
  * 
  * @author GH
  */
@@ -98,7 +98,6 @@ public class UserAdministratesWorkflowInstanceAsserterTest extends
         List<String> wfmAdminsEmail = new ArrayList<String>();
         wfmAdmins.add("wfadmin12377");
         wfmFacade.setWorkflowAdministrators(wfmId, wfmAdminsEmail, wfmAdmins);
-
     }
 
     @AfterClass
@@ -126,5 +125,4 @@ public class UserAdministratesWorkflowInstanceAsserterTest extends
         // UserAdministratesWorkflowInstanceAsserter asserter =
         new UserAdministratesWorkflowInstanceAsserter();
     }
-
 }

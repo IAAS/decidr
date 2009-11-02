@@ -36,8 +36,8 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-public class UserIsSuperAdminAsserter extends AbstractTransactionalCommand implements
-        Asserter {
+public class UserIsSuperAdminAsserter extends AbstractTransactionalCommand
+        implements Asserter {
 
     private Long userid = null;
     private Boolean isSuperAdmin = false;

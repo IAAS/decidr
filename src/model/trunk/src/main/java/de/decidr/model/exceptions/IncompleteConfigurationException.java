@@ -32,7 +32,8 @@ public class IncompleteConfigurationException extends Exception {
      * Implementation of {@link #TransactionException(String, Throwable)} needed
      * for {@link WebFault} annotation.
      */
-    public IncompleteConfigurationException(String message, String detail, Throwable cause) {
+    public IncompleteConfigurationException(String message, String detail,
+            Throwable cause) {
         this(message, cause);
         serviceDetail = detail;
     }

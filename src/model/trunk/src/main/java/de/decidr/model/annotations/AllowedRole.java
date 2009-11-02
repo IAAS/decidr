@@ -23,15 +23,13 @@ import java.lang.annotation.Target;
 
 import de.decidr.model.acl.roles.Role;
 
-
 /**
- * Shows the roles which are allowed to execute a command.
- * This annotation is has no semantic value. It should only
- * inform the invoking developer.
+ * Shows the roles which are allowed to execute a command. This annotation is
+ * has no semantic value. It should only inform the invoking developer.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
- *
+ * 
  * @version 0.1
  */
 @Documented

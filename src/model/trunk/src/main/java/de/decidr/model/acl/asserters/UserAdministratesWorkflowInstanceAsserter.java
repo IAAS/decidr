@@ -71,15 +71,16 @@ public class UserAdministratesWorkflowInstanceAsserter extends CommandAsserter {
                     .setLong("userId", userId);
 
             isWorkflowAdmin = true;
-            //assume the user is a workflow admin until proven false
+            // assume the user is a workflow admin until proven false
             for (Long workflowInstanceId : workflowInstanceIds) {
                 relationQuery.setLong("workflowInstanceId", workflowInstanceId);
                 Number relationCount = (Number) relationQuery.uniqueResult();
-                
+
                 if (relationCount.intValue() == 0) {
-                    isWorkflowAdmin = ((Number) adminQuery.uniqueResult()).intValue() > 0;
+                    isWorkflowAdmin = ((Number) adminQuery.uniqueResult())
+                            .intValue() > 0;
                 }
-                
+
                 if (!isWorkflowAdmin) {
                     break;
                 }

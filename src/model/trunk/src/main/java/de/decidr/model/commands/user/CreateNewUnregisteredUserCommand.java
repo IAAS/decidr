@@ -51,7 +51,8 @@ public class CreateNewUnregisteredUserCommand extends AclEnabledCommand {
      * @param newUser
      *            must contain an email address.
      * @throws IllegalArgumentException
-     *             if newUser is <code>null</code> or no email address has been set.
+     *             if newUser is <code>null</code> or no email address has been
+     *             set.
      */
     public CreateNewUnregisteredUserCommand(Role role, User newUser) {
         super(role, (Permission) null);

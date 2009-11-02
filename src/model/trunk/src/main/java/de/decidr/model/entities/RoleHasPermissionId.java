@@ -15,11 +15,11 @@ public class RoleHasPermissionId implements java.io.Serializable {
     private long permissionId;
 
     public RoleHasPermissionId() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public RoleHasPermissionId(long roleId, long permissionId) {
-        //generated full constructor
+        // generated full constructor
         this.roleId = roleId;
         this.permissionId = permissionId;
     }

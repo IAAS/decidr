@@ -14,31 +14,33 @@
  * under the License.
  */
 
-
 package de.decidr.model.soap.types;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for DWDLSimpleVariableType.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
+ * Java class for DWDLSimpleVariableType.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ * <p>
+ * 
  * <pre>
- * &lt;simpleType name="DWDLSimpleVariableType">
- *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="integer"/>
- *     &lt;enumeration value="float"/>
- *     &lt;enumeration value="string"/>
- *     &lt;enumeration value="boolean"/>
- *     &lt;enumeration value="date"/>
- *     &lt;enumeration value="anyURI"/>
- *     &lt;enumeration value="time"/>
- *   &lt;/restriction>
- * &lt;/simpleType>
+ * &lt;simpleType name=&quot;DWDLSimpleVariableType&quot;&gt;
+ *   &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;&gt;
+ *     &lt;enumeration value=&quot;integer&quot;/&gt;
+ *     &lt;enumeration value=&quot;float&quot;/&gt;
+ *     &lt;enumeration value=&quot;string&quot;/&gt;
+ *     &lt;enumeration value=&quot;boolean&quot;/&gt;
+ *     &lt;enumeration value=&quot;date&quot;/&gt;
+ *     &lt;enumeration value=&quot;anyURI&quot;/&gt;
+ *     &lt;enumeration value=&quot;time&quot;/&gt;
+ *   &lt;/restriction&gt;
+ * &lt;/simpleType&gt;
  * </pre>
  * 
  */
@@ -47,18 +49,12 @@ import javax.xml.bind.annotation.XmlType;
 public enum DWDLSimpleVariableType {
 
     @XmlEnumValue("integer")
-    INTEGER("integer"),
-    @XmlEnumValue("float")
-    FLOAT("float"),
-    @XmlEnumValue("string")
-    STRING("string"),
-    @XmlEnumValue("boolean")
-    BOOLEAN("boolean"),
-    @XmlEnumValue("date")
-    DATE("date"),
-    @XmlEnumValue("anyURI")
-    ANY_URI("anyURI"),
-    @XmlEnumValue("time")
+    INTEGER("integer"), @XmlEnumValue("float")
+    FLOAT("float"), @XmlEnumValue("string")
+    STRING("string"), @XmlEnumValue("boolean")
+    BOOLEAN("boolean"), @XmlEnumValue("date")
+    DATE("date"), @XmlEnumValue("anyURI")
+    ANY_URI("anyURI"), @XmlEnumValue("time")
     TIME("time");
     private final String value;
 
@@ -71,7 +67,7 @@ public enum DWDLSimpleVariableType {
     }
 
     public static DWDLSimpleVariableType fromValue(String v) {
-        for (DWDLSimpleVariableType c: DWDLSimpleVariableType.values()) {
+        for (DWDLSimpleVariableType c : DWDLSimpleVariableType.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

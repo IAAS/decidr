@@ -17,12 +17,12 @@ package de.decidr.model.commands.tenant;
 
 import java.util.List;
 
-import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
@@ -38,8 +38,8 @@ public class RejectTenantsCommand extends AclEnabledCommand {
     private List<Long> tenantIds;
 
     /**
-     * Creates a new RejectTenantsCommand. This Command will reject all
-     * tenants which corresponds to the given IDs (tenants will be deleted).
+     * Creates a new RejectTenantsCommand. This Command will reject all tenants
+     * which corresponds to the given IDs (tenants will be deleted).
      * 
      * @param role
      *            the user which executes the command
@@ -61,8 +61,8 @@ public class RejectTenantsCommand extends AclEnabledCommand {
                     tenantid);
             if (tenant != null) {
                 if (tenant.getApprovedSince() == null) {
-                    NotificationEvents.rejectedTenant(tenant.getAdmin(),
-                            tenant.getName());
+                    NotificationEvents.rejectedTenant(tenant.getAdmin(), tenant
+                            .getName());
                     evt.getSession().delete(tenant);
                 }
             }

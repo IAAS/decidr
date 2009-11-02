@@ -23,26 +23,24 @@ import de.decidr.model.entities.ServerLoadView;
 
 /**
  * This class returns a list with an single {@link ServerLoadView} element
- *
+ * 
  * @author Modood Alvi
  */
 public class ServerLoadViewFactory {
-   
-    public static List<ServerLoadView> getServerStatistics(){
-        
+
+    public static List<ServerLoadView> getServerStatistics() {
+
         List<ServerLoadView> statistics = new ArrayList<ServerLoadView>();
         ServerLoadView server = new ServerLoadView();
         server.setId(3l);
         server.setLoad((byte) 10);
-        server.setLocation("http://ec2-174-129-24-232.compute-1.amazonaws.com:8080/ode/");
+        server
+                .setLocation("http://ec2-174-129-24-232.compute-1.amazonaws.com:8080/ode/");
         server.setServerTypeId(1l);
         statistics.add(server);
-        
+
         return statistics;
-        
+
     }
-    
-    
-    
 
 }

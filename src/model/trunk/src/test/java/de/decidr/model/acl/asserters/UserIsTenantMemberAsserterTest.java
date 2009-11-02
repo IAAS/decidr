@@ -40,7 +40,7 @@ import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * TODO: add comment
+ * GH: add comment
  * 
  * @author GH
  */
@@ -94,12 +94,10 @@ public class UserIsTenantMemberAsserterTest extends LowLevelDatabaseTest {
         //
         // // add tenant member
         // tenantFacade.addTenantMember(tenantId, workflowAdminId);
-
     }
 
     @AfterClass
     public static void cleanUpAfterClass() throws TransactionException {
-
         tenantFacade.deleteTenant(tenantId);
 
         Transaction trans = session.beginTransaction();
@@ -112,8 +110,6 @@ public class UserIsTenantMemberAsserterTest extends LowLevelDatabaseTest {
     /**
      * Test method for
      * {@link UserIsTenantMemberAsserter#assertRule(Role, Permission)}.
-     * 
-     * @throws TransactionException
      */
     @Test
     public void testAssertRule() throws TransactionException {
@@ -131,5 +127,4 @@ public class UserIsTenantMemberAsserterTest extends LowLevelDatabaseTest {
                         new WorkflowAdminRole(workflowAdminId), tenantId,
                         userId))));
     }
-
 }

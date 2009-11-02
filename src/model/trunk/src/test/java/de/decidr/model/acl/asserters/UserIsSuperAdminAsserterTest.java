@@ -29,20 +29,21 @@ import de.decidr.model.testing.DecidrAclTest;
 
 /**
  * GH: add comment
- *
+ * 
  * @author GH
  */
 public class UserIsSuperAdminAsserterTest extends DecidrAclTest {
 
     /**
-     * Test method for {@link UserIsSuperAdminAsserter#assertRule(Role, Permission)}.
-     * @throws TransactionException 
+     * Test method for
+     * {@link UserIsSuperAdminAsserter#assertRule(Role, Permission)}.
      */
     @Test
     public void testAssertRule() throws TransactionException {
         UserIsSuperAdminAsserter asserter = new UserIsSuperAdminAsserter();
-        assertTrue(asserter.assertRule((new SuperAdminRole(DecidrGlobals.getSettings().getSuperAdmin().getId())), new Permission("*")));
-        assertFalse(asserter.assertRule((new SuperAdminRole()), new Permission("*")));
+        assertTrue(asserter.assertRule((new SuperAdminRole(DecidrGlobals
+                .getSettings().getSuperAdmin().getId())), new Permission("*")));
+        assertFalse(asserter.assertRule((new SuperAdminRole()), new Permission(
+                "*")));
     }
-
 }

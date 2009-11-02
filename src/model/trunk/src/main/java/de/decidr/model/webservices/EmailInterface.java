@@ -45,7 +45,7 @@ import de.decidr.model.storage.StorageProvider;
  * 
  * @author Reinhold
  */
-//@HandlerChain(file = "handler-chain.xml")
+// @HandlerChain(file = "handler-chain.xml")
 @WebService(targetNamespace = EmailInterface.TARGET_NAMESPACE, portName = EmailInterface.PORT_NAME, wsdlLocation = "Email.wsdl", name = EmailInterface.SERVICE_NAME, serviceName = EmailInterface.SERVICE_NAME)
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.WRAPPED, style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 public interface EmailInterface {
@@ -56,8 +56,7 @@ public interface EmailInterface {
     public static final String TARGET_NAMESPACE = "http://decidr.de/webservices/Email";
     public final static QName SERVICE = new QName(TARGET_NAMESPACE,
             SERVICE_NAME);
-    public final static QName ENDPOINT = new QName(TARGET_NAMESPACE,
-            PORT_NAME);
+    public final static QName ENDPOINT = new QName(TARGET_NAMESPACE, PORT_NAME);
 
     /**
      * The web service operation used to send an e-mail.
@@ -120,6 +119,7 @@ public interface EmailInterface {
             @WebParam(name = "bodyHTML", targetNamespace = "http://decidr.de/webservices/Email") String bodyHTML,
             @WebParam(name = "attachments", targetNamespace = "http://decidr.de/webservices/Email") IDList attachments)
             throws MessagingExceptionWrapper, MalformedURLExceptionWrapper,
-            TransactionException, IoExceptionWrapper, IllegalArgumentExceptionWrapper,
-            StorageException, IncompleteConfigurationException;
+            TransactionException, IoExceptionWrapper,
+            IllegalArgumentExceptionWrapper, StorageException,
+            IncompleteConfigurationException;
 }

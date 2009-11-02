@@ -33,13 +33,13 @@ public class DeployedWorkflowModel implements java.io.Serializable {
             0);
 
     public DeployedWorkflowModel() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public DeployedWorkflowModel(Tenant tenant, String name,
             String description, byte[] dwdl, byte[] wsdl, byte[] soapTemplate,
             Date deployDate) {
-        //generated minimal constructor
+        // generated minimal constructor
         this.tenant = tenant;
         this.name = name;
         this.description = description;
@@ -61,7 +61,7 @@ public class DeployedWorkflowModel implements java.io.Serializable {
             Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers,
             Set<StartConfiguration> startConfigurations,
             Set<WorkflowInstance> workflowInstances) {
-        //generated full constructor
+        // generated full constructor
         this.originalWorkflowModel = originalWorkflowModel;
         this.tenant = tenant;
         this.name = name;

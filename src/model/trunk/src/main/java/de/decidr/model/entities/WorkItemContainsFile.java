@@ -16,12 +16,12 @@ public class WorkItemContainsFile implements java.io.Serializable {
     private File file;
 
     public WorkItemContainsFile() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public WorkItemContainsFile(WorkItemContainsFileId id, WorkItem workItem,
             File file) {
-        //generated full constructor
+        // generated full constructor
         this.id = id;
         this.workItem = workItem;
         this.file = file;

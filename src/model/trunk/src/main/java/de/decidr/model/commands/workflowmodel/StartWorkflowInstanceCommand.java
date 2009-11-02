@@ -144,7 +144,7 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         // filled.
 
         persistUploadedFiles();
-        
+
         // create the new workflow instance in the database
         try {
             createWorkflowInstance(deployedWorkflowModel, evt.getSession());

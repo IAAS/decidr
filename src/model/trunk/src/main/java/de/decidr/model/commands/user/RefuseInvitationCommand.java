@@ -16,11 +16,11 @@
 
 package de.decidr.model.commands.user;
 
-import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.acl.access.InvitationAccess;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Invitation;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
@@ -31,7 +31,8 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-public class RefuseInvitationCommand extends UserCommand implements InvitationAccess{
+public class RefuseInvitationCommand extends UserCommand implements
+        InvitationAccess {
 
     private Long invitationId;
 
@@ -64,7 +65,7 @@ public class RefuseInvitationCommand extends UserCommand implements InvitationAc
 
     @Override
     public Long[] getInvitationIds() {
-        Long[] res={invitationId};
+        Long[] res = { invitationId };
         return res;
     }
 }

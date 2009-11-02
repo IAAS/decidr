@@ -150,12 +150,9 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
 
     /**
      * Test method for {@link DefaultAccessControlList#init()}.
-     * 
-     * @throws TransactionException
      */
     @Test
     public void testInit() throws TransactionException {
-
         dacl.init();
 
         // super admin
@@ -420,17 +417,13 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
                 "*")));
         assertFalse(dacl.isAllowed(ServerLoadUpdaterRole.getInstance(),
                 new Permission("*")));
-
     }
 
     /**
      * Test method for {@link DefaultAccessControlList#clearRules()}.
-     * 
-     * @throws TransactionException
      */
     @Test
     public void testClearRules() throws TransactionException {
-
         dacl.init();
 
         assertTrue(dacl.isAllowed(new SuperAdminRole(superAdminId),
@@ -440,7 +433,6 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
 
         assertFalse(dacl.isAllowed(new SuperAdminRole(superAdminId),
                 new Permission("*")));
-
     }
 
     /**
@@ -450,7 +442,6 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testSetRuleRolePermissionAssertModeAsserterArray() {
-
         Asserter[] asserters_single = { new UserOwnsWorkItemAsserter() };
         Asserter[] asserters_multiple = { new UserIsSuperAdminAsserter(),
                 new UserIsEnabledAsserter() };
@@ -478,7 +469,6 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
 
         assertTrue(dacl.hasRule(new SuperAdminRole(superAdminId),
                 new Permission("*")));
-
     }
 
     /**
@@ -488,7 +478,6 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testSetRuleRolePermissionAssertModeAsserter() {
-
         dacl.clearRules();
         assertFalse(dacl.hasRule(new SuperAdminRole(superAdminId),
                 new Permission("*")));
@@ -510,12 +499,9 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
     /**
      * Test method for {@link DefaultAccessControlList#allow(Role, Permission)}
      * .
-     * 
-     * @throws TransactionException
      */
     @Test
     public void testAllow() throws TransactionException {
-
         dacl.clearRules();
 
         assertFalse(dacl.isAllowed(new SuperAdminRole(superAdminId),
@@ -531,12 +517,9 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
     /**
      * Test method for
      * {@link DefaultAccessControlList#isAllowed(Role, Permission)} .
-     * 
-     * @throws TransactionException
      */
     @Test
     public void testIsAllowed() throws TransactionException {
-
         dacl.init();
 
         assertTrue(dacl.isAllowed(new SuperAdminRole(superAdminId),
@@ -557,7 +540,6 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testFindRule() {
-
         dacl.init();
 
         assertNull(dacl.findRule(dacl.new RuleKey(new TenantAdminRole(),
@@ -580,7 +562,6 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testHasRule() {
-
         dacl.init();
 
         assertTrue(dacl.hasRule(new SuperAdminRole(), new Permission("*")));

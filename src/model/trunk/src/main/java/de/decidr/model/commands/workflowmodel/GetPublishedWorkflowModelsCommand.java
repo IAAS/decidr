@@ -61,7 +61,7 @@ public class GetPublishedWorkflowModelsCommand extends AclEnabledCommand {
                 evt.getSession());
 
         /*
-         * We only want published workflow models. 
+         * We only want published workflow models.
          */
         new EqualsFilter(true, "published", true).apply(crit);
 
@@ -69,7 +69,9 @@ public class GetPublishedWorkflowModelsCommand extends AclEnabledCommand {
          * Make the "tenant" property available even after the session has been
          * closed.
          */
-        crit.createCriteria("tenant", "tenant", CriteriaSpecification.LEFT_JOIN);
+        crit
+                .createCriteria("tenant", "tenant",
+                        CriteriaSpecification.LEFT_JOIN);
 
         Filters.apply(crit, filters, paginator);
 

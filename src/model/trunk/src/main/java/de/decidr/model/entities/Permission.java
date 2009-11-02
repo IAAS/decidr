@@ -20,16 +20,16 @@ public class Permission implements java.io.Serializable {
             0);
 
     public Permission() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public Permission(String name) {
-        //generated minimal constructor
+        // generated minimal constructor
         this.name = name;
     }
 
     public Permission(String name, Set<RoleHasPermission> roleHasPermissions) {
-        //generated full constructor
+        // generated full constructor
         this.name = name;
         this.roleHasPermissions = roleHasPermissions;
     }

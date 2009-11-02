@@ -22,13 +22,13 @@ public class WorkItemSummaryView implements java.io.Serializable {
     private long workflowInstanceId;
 
     public WorkItemSummaryView() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public WorkItemSummaryView(long id, String workItemName, String tenantName,
             Date creationDate, String workItemStatus, long userId,
             long workflowInstanceId) {
-        //generated full constructor
+        // generated full constructor
         this.id = id;
         this.workItemName = workItemName;
         this.tenantName = tenantName;

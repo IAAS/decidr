@@ -29,7 +29,8 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-public class GetInvitationCommand extends UserCommand implements InvitationAccess{
+public class GetInvitationCommand extends UserCommand implements
+        InvitationAccess {
 
     private InvitationView result;
     private Long invitationId;
@@ -64,7 +65,7 @@ public class GetInvitationCommand extends UserCommand implements InvitationAcces
 
     @Override
     public Long[] getInvitationIds() {
-        Long[] res = {invitationId};
+        Long[] res = { invitationId };
         return res;
     }
 }

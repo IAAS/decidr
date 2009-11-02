@@ -41,7 +41,8 @@ public class UserOwnsWorkItemAsserter extends CommandAsserter {
                         this);
                 result = isOwner;
             } else {
-                // the user is not accessing any work items, so we're not denying access.
+                // the user is not accessing any work items, so we're not
+                // denying access.
                 result = true;
             }
         }

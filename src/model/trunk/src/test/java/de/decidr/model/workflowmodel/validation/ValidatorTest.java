@@ -16,7 +16,7 @@ public class ValidatorTest {
     static byte[] dwdlWorkflow;
     static Validator validator;
     static List<IProblem> problems;
-    
+
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         dwdlWorkflow = DWDLFactory.getDWDLWorkflowByteArray();

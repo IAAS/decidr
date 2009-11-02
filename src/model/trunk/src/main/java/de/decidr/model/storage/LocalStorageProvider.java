@@ -181,9 +181,7 @@ public class LocalStorageProvider implements StorageProvider {
             }
 
             log.debug("checking other default settings compliance");
-            if (!(configAmazon == amazonS3 &&
-                    configLocal == local &&
-                    configPersistent == persistent)) {
+            if (!(configAmazon == amazonS3 && configLocal == local && configPersistent == persistent)) {
                 applicable = false;
             }
         }

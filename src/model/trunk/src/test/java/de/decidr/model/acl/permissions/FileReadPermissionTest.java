@@ -23,28 +23,30 @@ import org.junit.Test;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * TODO: add comment
- *
+ * GH: add comment
+ * 
  * @author GH
  */
 public class FileReadPermissionTest extends DecidrAclTest {
 
     /**
-     * Test method for {@link de.decidr.model.acl.permissions.FileReadPermission#FileReadPermission(java.lang.Long)}.
+     * Test method for
+     * {@link de.decidr.model.acl.permissions.FileReadPermission#FileReadPermission(java.lang.Long)}
+     * .
      */
     @Test
     public void testFileReadPermission() {
-//        // gh see test FileDeletePermission ~dh
-//        
-//        FileReadPermission filePerm = new FileReadPermission(1l);
-//        assertNotNull(filePerm);
-//        assertTrue(filePerm.getName().endsWith("read1"));
-//        
-//        filePerm = new FileReadPermission(0l);
-//        assertTrue(filePerm.getName().endsWith("read0")); 
-//        
-//        filePerm = new FileReadPermission(-1l);
-//        assertTrue(filePerm.getName().endsWith("read-1"));
+        // // gh see test FileDeletePermission ~dh
+        //        
+        // FileReadPermission filePerm = new FileReadPermission(1l);
+        // assertNotNull(filePerm);
+        // assertTrue(filePerm.getName().endsWith("read1"));
+        //        
+        // filePerm = new FileReadPermission(0l);
+        // assertTrue(filePerm.getName().endsWith("read0"));
+        //        
+        // filePerm = new FileReadPermission(-1l);
+        // assertTrue(filePerm.getName().endsWith("read-1"));
     }
 
     /**
@@ -57,9 +59,8 @@ public class FileReadPermissionTest extends DecidrAclTest {
 
         filePerm = new FileReadPermission(0l);
         assertTrue(filePerm.getId() == 0l);
-        
+
         filePerm = new FileReadPermission(-1l);
         assertTrue(filePerm.getId() == -1l);
     }
-
 }

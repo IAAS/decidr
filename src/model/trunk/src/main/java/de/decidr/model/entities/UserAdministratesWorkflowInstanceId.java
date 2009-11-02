@@ -16,12 +16,12 @@ public class UserAdministratesWorkflowInstanceId implements
     private long workflowInstanceId;
 
     public UserAdministratesWorkflowInstanceId() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public UserAdministratesWorkflowInstanceId(long userId,
             long workflowInstanceId) {
-        //generated full constructor
+        // generated full constructor
         this.userId = userId;
         this.workflowInstanceId = workflowInstanceId;
     }

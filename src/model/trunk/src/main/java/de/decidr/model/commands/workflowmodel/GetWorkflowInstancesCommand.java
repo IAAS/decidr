@@ -64,9 +64,10 @@ public class GetWorkflowInstancesCommand extends WorkflowModelCommand {
         PaginatingCriteria crit = new PaginatingCriteria(
                 WorkflowInstance.class, evt.getSession());
 
-        crit.createCriteria("deployedWorkflowModel", "dwm", CriteriaSpecification.LEFT_JOIN)
-                .add(Restrictions.eq("dwm.originalWorkflowModel", model));
-        
+        crit.createCriteria("deployedWorkflowModel", "dwm",
+                CriteriaSpecification.LEFT_JOIN).add(
+                Restrictions.eq("dwm.originalWorkflowModel", model));
+
         if (paginator != null) {
             paginator.apply(crit);
         }
@@ -93,7 +94,5 @@ public class GetWorkflowInstancesCommand extends WorkflowModelCommand {
     public List<WorkflowInstance> getResult() {
         return result;
     }
-    
-    
 
 }

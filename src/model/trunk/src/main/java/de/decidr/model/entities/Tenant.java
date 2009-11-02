@@ -33,11 +33,11 @@ public class Tenant implements java.io.Serializable {
             0);
 
     public Tenant() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public Tenant(User admin, String name, String description) {
-        //generated minimal constructor
+        // generated minimal constructor
         this.admin = admin;
         this.name = name;
         this.description = description;
@@ -50,7 +50,7 @@ public class Tenant implements java.io.Serializable {
             Set<WorkflowModel> workflowModels, Set<Invitation> invitations,
             Set<User> currentlyBustlingUsers,
             Set<DeployedWorkflowModel> deployedWorkflowModels) {
-        //generated full constructor
+        // generated full constructor
         this.logo = logo;
         this.simpleColorScheme = simpleColorScheme;
         this.advancedColorScheme = advancedColorScheme;

@@ -13,7 +13,6 @@ public class RemoveFileTestCommand extends AbstractTransactionalCommand {
     Long fId;
     HibernateEntityStorageProvider storageProvider;
     FileInputStream resultStream;
-    
 
     /**
      * Creates a new {@link RemoveFileTestCommand}
@@ -21,11 +20,12 @@ public class RemoveFileTestCommand extends AbstractTransactionalCommand {
      * @param role
      * @param fileId
      */
-    public RemoveFileTestCommand(Long fileId, HibernateEntityStorageProvider provider) {
+    public RemoveFileTestCommand(Long fileId,
+            HibernateEntityStorageProvider provider) {
         fId = fileId;
         storageProvider = provider;
     }
-    
+
     @Override
     public void transactionStarted(TransactionEvent evt)
             throws TransactionException {
@@ -33,9 +33,9 @@ public class RemoveFileTestCommand extends AbstractTransactionalCommand {
         try {
             storageProvider.removeFile(fId);
         } catch (StorageException e) {
-            throw new TransactionException("failure occurred by deleting a file");
+            throw new TransactionException(
+                    "failure occurred by deleting a file");
         }
-        
 
     }
 

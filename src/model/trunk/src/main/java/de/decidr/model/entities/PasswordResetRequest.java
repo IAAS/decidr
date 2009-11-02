@@ -19,11 +19,11 @@ public class PasswordResetRequest implements java.io.Serializable {
     private String authKey;
 
     public PasswordResetRequest() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public PasswordResetRequest(User user, Date creationDate, String authKey) {
-        //generated full constructor
+        // generated full constructor
         this.user = user;
         this.creationDate = creationDate;
         this.authKey = authKey;

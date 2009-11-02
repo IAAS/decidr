@@ -23,14 +23,15 @@ import org.junit.Test;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * TODO: add comment
- *
+ * GH: add comment
+ * 
  * @author GH
  */
 public class UserOwnsWorkItemAsserterTest extends DecidrAclTest {
 
     /**
-     * Test method for {@link de.decidr.model.acl.asserters.UserOwnsWorkItemAsserter#transactionStarted(de.decidr.model.transactions.TransactionEvent)}.
+     * Test method for
+     * {@link UserOwnsWorkItemAsserter#transactionStarted(TransactionEvent)}.
      */
     @Test
     public void testTransactionStarted() {
@@ -38,11 +39,11 @@ public class UserOwnsWorkItemAsserterTest extends DecidrAclTest {
     }
 
     /**
-     * Test method for {@link de.decidr.model.acl.asserters.UserOwnsWorkItemAsserter#assertRule(de.decidr.model.acl.roles.Role, de.decidr.model.acl.permissions.Permission)}.
+     * Test method for
+     * {@link UserOwnsWorkItemAsserter#assertRule(Role, Permission)}.
      */
     @Test
     public void testAssertRule() {
         fail("Not yet implemented");
     }
-
 }

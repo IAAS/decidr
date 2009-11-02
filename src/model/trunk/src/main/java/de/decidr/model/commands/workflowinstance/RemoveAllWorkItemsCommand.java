@@ -29,7 +29,8 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @version 0.1
  */
-public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand implements DeployedworkflowModelAccess{
+public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand
+        implements DeployedworkflowModelAccess {
 
     private String odePid;
     private Long deployedWorkflowModelId;
@@ -45,7 +46,7 @@ public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand implement
      */
     public RemoveAllWorkItemsCommand(Role role, String odePid,
             Long deployedWorkflowModelId) {
-        super(role, null,null);
+        super(role, null, null);
 
         this.odePid = odePid;
         this.deployedWorkflowModelId = deployedWorkflowModelId;
@@ -74,7 +75,7 @@ public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand implement
 
     @Override
     public Long[] getDeployedWorkflowModelIds() {
-        Long[] result = {deployedWorkflowModelId};
+        Long[] result = { deployedWorkflowModelId };
         return result;
     }
 }

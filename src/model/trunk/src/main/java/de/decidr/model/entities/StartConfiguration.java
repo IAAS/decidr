@@ -16,13 +16,13 @@ public class StartConfiguration implements java.io.Serializable {
     private byte[] startConfiguration;
 
     public StartConfiguration() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public StartConfiguration(long id,
             DeployedWorkflowModel deployedWorkflowModel,
             byte[] startConfiguration) {
-        //generated full constructor
+        // generated full constructor
         this.id = id;
         this.deployedWorkflowModel = deployedWorkflowModel;
         this.startConfiguration = startConfiguration;

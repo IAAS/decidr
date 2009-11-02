@@ -15,11 +15,11 @@ public class UserParticipatesInWorkflowId implements java.io.Serializable {
     private long workflowInstanceId;
 
     public UserParticipatesInWorkflowId() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public UserParticipatesInWorkflowId(long userId, long workflowInstanceId) {
-        //generated full constructor
+        // generated full constructor
         this.userId = userId;
         this.workflowInstanceId = workflowInstanceId;
     }

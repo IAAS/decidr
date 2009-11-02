@@ -23,8 +23,8 @@ import org.junit.Test;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * TODO: add comment
- *
+ * GH: add comment
+ * 
  * @author GH
  */
 public class BasicRoleTest extends DecidrAclTest {
@@ -35,9 +35,9 @@ public class BasicRoleTest extends DecidrAclTest {
     @Test
     public void testBasicRole() {
         BasicRole role = new BasicRole(1l);
-        
+
         assertNotNull(role);
-        
+
         role = new BasicRole(null);
         assertNotNull(role);
     }
@@ -68,12 +68,10 @@ public class BasicRoleTest extends DecidrAclTest {
         BasicRole role1 = new BasicRole(1l);
         BasicRole role2 = new BasicRole(0l);
         UserRole role3 = new UserRole();
-        
+
         assertTrue(role1.equals(new BasicRole(1l)));
         assertTrue(role1.equals(role2));
         assertFalse(role1.equals(role3));
         assertFalse(role3.equals(role1));
-        
     }
-
 }

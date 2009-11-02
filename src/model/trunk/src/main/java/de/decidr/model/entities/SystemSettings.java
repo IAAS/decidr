@@ -44,7 +44,7 @@ public class SystemSettings implements java.io.Serializable {
     private int maxWorkflowInstancesForShutdown;
 
     public SystemSettings() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public SystemSettings(User superAdmin, Date modifiedDate,
@@ -62,7 +62,7 @@ public class SystemSettings implements java.io.Serializable {
             byte maxServerLoadForShutdown, int minUnlockedServers,
             int minWorkflowInstancesForLock, int maxWorkflowInstancesForUnlock,
             int maxWorkflowInstancesForShutdown) {
-        //generated full constructor
+        // generated full constructor
         this.superAdmin = superAdmin;
         this.modifiedDate = modifiedDate;
         this.autoAcceptNewTenants = autoAcceptNewTenants;

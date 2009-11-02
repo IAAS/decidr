@@ -40,13 +40,14 @@ public class ReportingException extends Exception {
         super(message, cause);
     }
 
-    public ReportingException(String message, java.lang.String reportingException) {
+    public ReportingException(String message,
+            java.lang.String reportingException) {
         super(message);
         this.reportingException = reportingException;
     }
 
-    public ReportingException(String message, java.lang.String reportingException,
-            Throwable cause) {
+    public ReportingException(String message,
+            java.lang.String reportingException, Throwable cause) {
         super(message, cause);
         this.reportingException = reportingException;
     }

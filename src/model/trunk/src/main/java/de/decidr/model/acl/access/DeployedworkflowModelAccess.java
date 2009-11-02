@@ -16,13 +16,14 @@
 package de.decidr.model.acl.access;
 
 /**
- *  
- * This interface is usually used to flag commands.
- * Commands flagged with DeployedWorkflowModelAccess are expected to access deployed workflow models. 
- * The methods allows the ACL to determine which deployed workflow models are accessed.
+ * 
+ * This interface is usually used to flag commands. Commands flagged with
+ * DeployedWorkflowModelAccess are expected to access deployed workflow models.
+ * The methods allows the ACL to determine which deployed workflow models are
+ * accessed.
  * 
  * @author Markus Fischer
- *
+ * 
  * @version 0.1
  */
 public interface DeployedworkflowModelAccess extends Access {
@@ -32,11 +33,11 @@ public interface DeployedworkflowModelAccess extends Access {
      * @return the id of the accessed DeployedWorkflowModel
      */
     public Long getDeployedWorkflowModelId();
-    
+
     /**
      * 
      * @return the ids of the accessed DeployedWorkflowModels
      */
     public Long[] getDeployedWorkflowModelIds();
-    
+
 }

@@ -15,12 +15,12 @@ public class WorkflowModelIsDeployedOnServerId implements java.io.Serializable {
     private long serverId;
 
     public WorkflowModelIsDeployedOnServerId() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public WorkflowModelIsDeployedOnServerId(long deployedWorkflowModelId,
             long serverId) {
-        //generated full constructor
+        // generated full constructor
         this.deployedWorkflowModelId = deployedWorkflowModelId;
         this.serverId = serverId;
     }

@@ -59,7 +59,7 @@ public class MailBackendTest extends DecidrOthersTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws IOException {
-        
+
         // testFile
         testfile = File.createTempFile("decidr", ".jpg");
 
@@ -72,7 +72,7 @@ public class MailBackendTest extends DecidrOthersTest {
         while ((content = testStream.read()) != -1) {
             writer.write(content);
         }
-        
+
         // non-existing file
         nonExistingFile = new File("meohcoewhvofehvefv");
         assertFalse(nonExistingFile.exists());
@@ -93,14 +93,13 @@ public class MailBackendTest extends DecidrOthersTest {
     @Test
     public void testAddFileFile() throws IOException, MessagingException {
 
-        
-        try {testMail.addFile(nonExistingFile);
+        try {
+            testMail.addFile(nonExistingFile);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
-        
-        
+
         try {
             testMail.addFile((File) null);
             fail("IllegalArgumentException expected");

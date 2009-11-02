@@ -20,18 +20,18 @@ public class KnownWebService implements java.io.Serializable {
     private Set<Activity> activities = new HashSet<Activity>(0);
 
     public KnownWebService() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public KnownWebService(String namespace, byte[] wsdl) {
-        //generated minimal constructor
+        // generated minimal constructor
         this.namespace = namespace;
         this.wsdl = wsdl;
     }
 
     public KnownWebService(String namespace, byte[] wsdl,
             Set<Activity> activities) {
-        //generated full constructor
+        // generated full constructor
         this.namespace = namespace;
         this.wsdl = wsdl;
         this.activities = activities;

@@ -19,12 +19,12 @@ public class UserHasFileAccess implements java.io.Serializable {
     private boolean mayReplace;
 
     public UserHasFileAccess() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public UserHasFileAccess(UserHasFileAccessId id, User user, File file,
             boolean mayRead, boolean mayDelete, boolean mayReplace) {
-        //generated full constructor
+        // generated full constructor
         this.id = id;
         this.user = user;
         this.file = file;

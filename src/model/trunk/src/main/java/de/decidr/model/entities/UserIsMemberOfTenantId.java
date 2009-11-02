@@ -15,11 +15,11 @@ public class UserIsMemberOfTenantId implements java.io.Serializable {
     private long tenantId;
 
     public UserIsMemberOfTenantId() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public UserIsMemberOfTenantId(long userId, long tenantId) {
-        //generated full constructor
+        // generated full constructor
         this.userId = userId;
         this.tenantId = tenantId;
     }

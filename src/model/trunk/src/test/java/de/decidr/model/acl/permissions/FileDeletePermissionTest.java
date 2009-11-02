@@ -23,7 +23,7 @@ import org.junit.Test;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * TODO: add comment
+ * GH: add comment
  * 
  * @author GH
  */
@@ -35,20 +35,25 @@ public class FileDeletePermissionTest extends DecidrAclTest {
      */
     @Test
     public void testFileDeletePermission() {
-//        // gh see testGetNextImplyingPermission, it's ok if you don't make any
-//        // assumptions about the internal naming of permissions; you should be
-//        // able to create test cases from looking at the method signatures only,
-//        // not the implementation. If that is impossible, my documentation sucks
-//        // and I have to fix it before asking you to create test cases :-) ~dh
-//        FileDeletePermission filePerm = new FileDeletePermission(1l);
-//        assertNotNull(filePerm);
-//        assertTrue(filePerm.getName().endsWith("delete1"));
-//
-//        filePerm = new FileDeletePermission(0l);
-//        assertTrue(filePerm.getName().endsWith("delete0"));
-//
-//        filePerm = new FileDeletePermission(-1l);
-//        assertTrue(filePerm.getName().endsWith("delete-1"));
+        // // gh see testGetNextImplyingPermission, it's ok if you don't make
+        // any
+        // // assumptions about the internal naming of permissions; you should
+        // be
+        // // able to create test cases from looking at the method signatures
+        // only,
+        // // not the implementation. If that is impossible, my documentation
+        // sucks
+        // // and I have to fix it before asking you to create test cases :-)
+        // ~dh
+        // FileDeletePermission filePerm = new FileDeletePermission(1l);
+        // assertNotNull(filePerm);
+        // assertTrue(filePerm.getName().endsWith("delete1"));
+        //
+        // filePerm = new FileDeletePermission(0l);
+        // assertTrue(filePerm.getName().endsWith("delete0"));
+        //
+        // filePerm = new FileDeletePermission(-1l);
+        // assertTrue(filePerm.getName().endsWith("delete-1"));
     }
 
     /**
@@ -65,5 +70,4 @@ public class FileDeletePermissionTest extends DecidrAclTest {
         filePerm = new FileDeletePermission(-1l);
         assertTrue(filePerm.getId() == -1l);
     }
-
 }

@@ -19,7 +19,7 @@ public class PutFileTestCommand extends AbstractTransactionalCommand {
      */
     public PutFileTestCommand(Long fileId, File file,
             HibernateEntityStorageProvider provider) {
-        
+
         basicFile = file;
         fId = fileId;
         storageProvider = provider;

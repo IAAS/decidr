@@ -24,14 +24,14 @@ import de.decidr.model.workflowmodel.wsc.TRoles;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author AT
  */
 public class HumanTaskStartConfigurationFactory {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @param args
      */
     public static TConfiguration getHumanTaskStartConfiguration() {
@@ -40,19 +40,19 @@ public class HumanTaskStartConfigurationFactory {
         TRole role = new TRole();
         TActor actor = new TActor();
         role.setName("Student");
-        
+
         actor.setEmail("test@gmx.de");
         actor.setName("Aleks");
         actor.setUserId("002");
         role.getActor().add(actor);
         roles.getRole().add(role);
         tConfiguration.setRoles(roles);
-        
+
         TAssignment tAssignment = new TAssignment();
         tAssignment.setKey("wfmID");
         tAssignment.getValue().add("001");
         tConfiguration.getAssignment().add(tAssignment);
-        
+
         return tConfiguration;
 
     }

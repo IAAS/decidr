@@ -38,6 +38,7 @@ public interface Asserter {
      * @param permission
      * @return true if access is granted, otherwise false
      */
-    public Boolean assertRule(Role role, Permission permission) throws TransactionException;
+    public Boolean assertRule(Role role, Permission permission)
+            throws TransactionException;
 
 }

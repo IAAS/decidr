@@ -129,7 +129,7 @@ public class MappingFactory {
         humanTaskPropertyAliases.getPropertyAlias().add(userNotification_Alias);
         humanTaskPropertyAliases.getPropertyAlias().add(taskDescription_Alias);
         humanTaskPropertyAliases.getPropertyAlias().add(taskResult_Alias);
-        
+
         humanTask.getProperties().add(humanTaskProperties);
         humanTask.getPropertyAliases().add(humanTaskPropertyAliases);
 

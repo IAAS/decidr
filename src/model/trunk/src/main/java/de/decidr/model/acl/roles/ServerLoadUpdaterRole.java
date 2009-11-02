@@ -15,7 +15,6 @@
  */
 package de.decidr.model.acl.roles;
 
-
 /**
  * The role representing the DecidR Human Task Web service.
  * 

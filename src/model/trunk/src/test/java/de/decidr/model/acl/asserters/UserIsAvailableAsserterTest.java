@@ -36,14 +36,14 @@ import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * TODO: add comment
- *
+ * GH: add comment
+ * 
  * @author GH
  */
 public class UserIsAvailableAsserterTest extends LowLevelDatabaseTest {
 
     private static UserFacade userFacade;
-    
+
     private static Long superAdminId;
     private static Long userId;
 
@@ -52,42 +52,42 @@ public class UserIsAvailableAsserterTest extends LowLevelDatabaseTest {
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
         UserFacadeTest.deleteTestUsers();
-        
-        //create test users
+
+        // create test users
         superAdminId = DecidrGlobals.getSettings().getSuperAdmin().getId();
         userFacade = new UserFacade(new SuperAdminRole(superAdminId));
-        
+
         UserProfile userProfile = new UserProfile();
         userProfile.setFirstName("test");
         userProfile.setLastName("user");
         userProfile.setCity("testcity");
         userProfile.setStreet("test st.");
         userProfile.setPostalCode("12test");
-        
+
         userProfile.setUsername(USERNAME_PREFIX + "User");
-        userId = userFacade.registerUser(UserFacadeTest.getTestEmail(1), "qwertz", userProfile);
-        
+        userId = userFacade.registerUser(UserFacadeTest.getTestEmail(1),
+                "qwertz", userProfile);
     }
 
     @AfterClass
     public static void cleanUpAfterClass() {
-        
         UserFacadeTest.deleteTestUsers();
     }
-    
+
     /**
-     * Test method for {@link UserIsAvailableAsserter#assertRule(Role, Permission)}.
-     * @throws TransactionException 
+     * Test method for
+     * {@link UserIsAvailableAsserter#assertRule(Role, Permission)}.
      */
     @Test
     public void testAssertRule() throws TransactionException {
         UserIsAvailableAsserter asserter = new UserIsAvailableAsserter();
-        assertTrue(asserter.assertRule(new UserRole(userId), new Permission("*")));
-        
+        assertTrue(asserter.assertRule(new UserRole(userId),
+                new Permission("*")));
+
         userFacade.setUnavailableSince(userId, new Date());
-        
-        assertFalse(asserter.assertRule(new UserRole(userId), new Permission("*")));
+
+        assertFalse(asserter.assertRule(new UserRole(userId), new Permission(
+                "*")));
         assertFalse(asserter.assertRule(new UserRole(), new Permission("*")));
     }
-
 }

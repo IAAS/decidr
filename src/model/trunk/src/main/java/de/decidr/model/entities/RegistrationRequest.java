@@ -19,11 +19,11 @@ public class RegistrationRequest implements java.io.Serializable {
     private String authKey;
 
     public RegistrationRequest() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public RegistrationRequest(User user, Date creationDate, String authKey) {
-        //generated full constructor
+        // generated full constructor
         this.user = user;
         this.creationDate = creationDate;
         this.authKey = authKey;

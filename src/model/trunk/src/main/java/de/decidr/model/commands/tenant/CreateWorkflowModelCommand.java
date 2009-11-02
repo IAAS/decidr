@@ -60,8 +60,8 @@ public class CreateWorkflowModelCommand extends TenantCommand {
      * @param workflowModelName
      *            the name of the model which should be created
      * @throws IllegalArgumentException
-     *             if the tenant ID is <code>null</code> or if the workflow model name is
-     *             null or empty.
+     *             if the tenant ID is <code>null</code> or if the workflow
+     *             model name is null or empty.
      */
     public CreateWorkflowModelCommand(Role role, Long tenantId,
             String workflowModelName) {

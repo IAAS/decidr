@@ -25,19 +25,20 @@ import de.decidr.model.commands.user.GetAllUsersCommand;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * TODO: add comment
- *
+ * GH: add comment
+ * 
  * @author GH
  */
 public class CommandPermissionTest extends DecidrAclTest {
 
     /**
-     * Test method for {@link CommandPermission#CommandPermission(java.lang.Class)}.
+     * Test method for
+     * {@link CommandPermission#CommandPermission(java.lang.Class)}.
      */
     @Test
     public void testCommandPermissionClassOfQextendsTransactionalCommand() {
-
-        CommandPermission cmdPerm = new CommandPermission(GetAllUsersCommand.class);
+        CommandPermission cmdPerm = new CommandPermission(
+                GetAllUsersCommand.class);
         assertNotNull(cmdPerm);
     }
 
@@ -46,11 +47,10 @@ public class CommandPermissionTest extends DecidrAclTest {
      */
     @Test
     public void testGetCommandClass() {
-
-        CommandPermission cmdPerm = new CommandPermission(GetAllUsersCommand.class);
+        CommandPermission cmdPerm = new CommandPermission(
+                GetAllUsersCommand.class);
         assertNotNull(cmdPerm);
-        assertEquals(cmdPerm.getCommandClass(),GetAllUsersCommand.class );
+        assertEquals(cmdPerm.getCommandClass(), GetAllUsersCommand.class);
         assertFalse(cmdPerm.getCommandClass().equals(CheckAuthKeyCommand.class));
     }
-
 }

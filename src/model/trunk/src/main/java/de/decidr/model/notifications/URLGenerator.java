@@ -29,57 +29,55 @@ import de.decidr.model.entities.SystemSettings;
  */
 public class URLGenerator {
 
-
     // registered vs. unregistered user: unreg. gets authkey, reg. has
     // to login, authkey is empty -> portal
     private SystemSettings settings = null;
     private String encoding = "UTF-8";
 
-    public URLGenerator()
-    {
+    public URLGenerator() {
         settings = DecidrGlobals.getSettings();
     }
-    
+
     /**
      * Returns the URL for invitations, where it is not required that the user
      * is registered
      * 
      * @param userId
-     *          ID of the recipient of the invitation
+     *            ID of the recipient of the invitation
      * @param invitationId
-     *          ID of the invitation
+     *            ID of the invitation
      * @param authKey
-     *          authentication Key. If the user is registered, the key is empty,
-     *          for unregistered users the key allows confirm the invitation.
+     *            authentication Key. If the user is registered, the key is
+     *            empty, for unregistered users the key allows confirm the
+     *            invitation.
      * @return complete url with required parameters
      * @throws UnsupportedEncodingException
      */
     public String getInvitationURL(String userId, String invitationId,
-            String authKey)
-            throws UnsupportedEncodingException {
+            String authKey) throws UnsupportedEncodingException {
         String url = "http://" + settings.getDomain() + "/";
         url += "?" + DecidrGlobals.URL_PARAM_USER_ID + "="
                 + URLEncoder.encode(userId, encoding);
         url += "&" + DecidrGlobals.URL_PARAM_INVITATION_ID + "="
                 + URLEncoder.encode(invitationId, encoding);
-        url += "&" + DecidrGlobals.URL_PARAM_AUTHENTICATION_KEY  + "="
+        url += "&" + DecidrGlobals.URL_PARAM_AUTHENTICATION_KEY + "="
                 + URLEncoder.encode(authKey, encoding);
         return url;
     }
 
     /**
-     * Returns the URL for invitations, where it is required that the user
-     * is registered
+     * Returns the URL for invitations, where it is required that the user is
+     * registered
      * 
      * @param userId
-     *          ID of the recipient of the invitation
+     *            ID of the recipient of the invitation
      * @param invitationId
-     *          ID of the invitation
+     *            ID of the invitation
      * @return complete url with required parameters
      * @throws UnsupportedEncodingException
      */
-    public String getInvitationRegistrationRequiredURL(String userId, String invitationId)
-            throws UnsupportedEncodingException {
+    public String getInvitationRegistrationRequiredURL(String userId,
+            String invitationId) throws UnsupportedEncodingException {
         String url = "http://" + settings.getDomain() + "/";
         url += "?" + DecidrGlobals.URL_PARAM_USER_ID + "="
                 + URLEncoder.encode(userId, encoding);
@@ -93,9 +91,9 @@ public class URLGenerator {
      * Returns the URL to confirm a change email request
      * 
      * @param userId
-     *          ID of the user who wants to change his email address
+     *            ID of the user who wants to change his email address
      * @param authKey
-     *          authentication key that allows the user to change his email
+     *            authentication key that allows the user to change his email
      * @return complete url with required parameters
      * @throws UnsupportedEncodingException
      */
@@ -113,9 +111,9 @@ public class URLGenerator {
      * Returns the URL to confirm a registration
      * 
      * @param userId
-     *          ID of the user to be confirmed
+     *            ID of the user to be confirmed
      * @param authKey
-     *          authentication key that allows the confirmation
+     *            authentication key that allows the confirmation
      * @return complete url with required parameters
      * @throws UnsupportedEncodingException
      */
@@ -133,10 +131,9 @@ public class URLGenerator {
      * Returns the URL for a password reset request
      * 
      * @param userId
-     *          ID of the user who requested the reset
+     *            ID of the user who requested the reset
      * @param authKey
-     *          authentication key that allows the user to
-     *          reset the password 
+     *            authentication key that allows the user to reset the password
      * @return complete url with required parameters
      * @throws UnsupportedEncodingException
      */
@@ -149,17 +146,17 @@ public class URLGenerator {
                 + URLEncoder.encode(authKey, encoding);
         return url;
     }
-    
+
     /**
      * Returns the URL to a tenant welcome page
      * 
      * @param tenantName
-     *          name of the tenant
+     *            name of the tenant
      * @return complete url
      * @throws UnsupportedEncodingException
      */
     public String getTenantURL(String tenantName)
-           throws UnsupportedEncodingException {
+            throws UnsupportedEncodingException {
         String url = "http://" + settings.getDomain() + "/";
         url += URLEncoder.encode(tenantName, encoding) + "/";
         return url;

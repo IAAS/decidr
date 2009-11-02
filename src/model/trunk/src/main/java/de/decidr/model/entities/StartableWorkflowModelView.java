@@ -26,13 +26,13 @@ public class StartableWorkflowModelView implements java.io.Serializable {
     private Long modifiedByUserId;
 
     public StartableWorkflowModelView() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public StartableWorkflowModelView(long id, long tenantId, String name,
             String description, boolean published, boolean executable,
             Date creationDate, Date modifiedDate, byte[] dwdl) {
-        //generated minimal constructor
+        // generated minimal constructor
         this.id = id;
         this.tenantId = tenantId;
         this.name = name;
@@ -48,7 +48,7 @@ public class StartableWorkflowModelView implements java.io.Serializable {
             String description, boolean published, boolean executable,
             Date creationDate, Date modifiedDate, byte[] dwdl,
             Long modifiedByUserId) {
-        //generated full constructor
+        // generated full constructor
         this.id = id;
         this.tenantId = tenantId;
         this.name = name;

@@ -57,7 +57,8 @@ public class UserOwnsWorkflowModelAsserter extends CommandAsserter {
                     + "w.tenant.admin.id = :userId and "
                     + "w.id in (:workflowModelIds)";
             Query q = evt.getSession().createQuery(hql).setLong("userId",
-                    userId).setParameterList("workflowModelIds", workflowModelIds);
+                    userId).setParameterList("workflowModelIds",
+                    workflowModelIds);
 
             isOwner = ((Number) q.uniqueResult()).intValue() == workflowModelIds.length;
         }

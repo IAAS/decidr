@@ -41,8 +41,8 @@ public class DWDL2SOAPTest {
         try {
             Definition definition = WSDLFactory.getHumanTaskDefinition();
             DWDL2SOAP dwdl2Soap = new DWDL2SOAP();
-            dwdl2Soap.getSOAP(definition, "HumanTaskPT", "createTask")
-                    .writeTo(System.out);
+            dwdl2Soap.getSOAP(definition, "HumanTaskPT", "createTask").writeTo(
+                    System.out);
 
         } catch (WSDLException exception) {
             System.out.println("WSDLException");

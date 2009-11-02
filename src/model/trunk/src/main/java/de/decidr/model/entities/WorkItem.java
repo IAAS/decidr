@@ -27,13 +27,13 @@ public class WorkItem implements java.io.Serializable {
             0);
 
     public WorkItem() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public WorkItem(WorkflowInstance workflowInstance, User user,
             Date creationDate, String status, byte[] data, String name,
             String description) {
-        //generated minimal constructor
+        // generated minimal constructor
         this.workflowInstance = workflowInstance;
         this.user = user;
         this.creationDate = creationDate;
@@ -46,7 +46,7 @@ public class WorkItem implements java.io.Serializable {
     public WorkItem(WorkflowInstance workflowInstance, User user,
             Date creationDate, String status, byte[] data, String name,
             String description, Set<WorkItemContainsFile> workItemContainsFiles) {
-        //generated full constructor
+        // generated full constructor
         this.workflowInstance = workflowInstance;
         this.user = user;
         this.creationDate = creationDate;

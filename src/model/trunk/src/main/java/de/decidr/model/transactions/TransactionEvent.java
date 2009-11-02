@@ -27,7 +27,7 @@ public class TransactionEvent {
      * The current hibernate session.
      */
     protected Session session;
-    
+
     /**
      * Is the current transaction an inner transaction?
      */
@@ -35,8 +35,9 @@ public class TransactionEvent {
 
     /**
      * Constructor.
-     *
-     * @param session the current hibernate session.
+     * 
+     * @param session
+     *            the current hibernate session.
      */
     public TransactionEvent(Session session, Boolean innertransaction) {
         this.session = session;

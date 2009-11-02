@@ -16,12 +16,12 @@ public class UserAdministratesWorkflowModel implements java.io.Serializable {
     private User user;
 
     public UserAdministratesWorkflowModel() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public UserAdministratesWorkflowModel(UserAdministratesWorkflowModelId id,
             WorkflowModel workflowModel, User user) {
-        //generated full constructor
+        // generated full constructor
         this.id = id;
         this.workflowModel = workflowModel;
         this.user = user;

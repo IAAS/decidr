@@ -16,6 +16,8 @@
 
 package de.decidr.model.commands;
 
+import java.awt.event.ActionListener;
+
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;

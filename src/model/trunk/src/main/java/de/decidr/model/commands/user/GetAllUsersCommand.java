@@ -77,7 +77,8 @@ public class GetAllUsersCommand extends UserCommand {
     }
 
     /**
-     * @return List of all users of the system expect of them which has been rejected
+     * @return List of all users of the system expect of them which has been
+     *         rejected
      */
     public List<User> getResult() {
         return result;

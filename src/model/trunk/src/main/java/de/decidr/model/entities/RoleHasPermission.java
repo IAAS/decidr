@@ -16,12 +16,12 @@ public class RoleHasPermission implements java.io.Serializable {
     private Permission permission;
 
     public RoleHasPermission() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public RoleHasPermission(RoleHasPermissionId id, Role role,
             Permission permission) {
-        //generated full constructor
+        // generated full constructor
         this.id = id;
         this.role = role;
         this.permission = permission;

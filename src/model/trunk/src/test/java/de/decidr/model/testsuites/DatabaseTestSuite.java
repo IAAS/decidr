@@ -63,14 +63,14 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
         WorkflowModelFacadeTest.class, SystemCommandsTest.class,
         DefaultAccessControlListTest.class,
         IsRoleEqualToAccessedUserAsserterTest.class,
-        //UserAdministratesWorkflowModelAsserterTest.class,
+        // UserAdministratesWorkflowModelAsserterTest.class,
         UserIsAvailableAsserterTest.class, UserIsEnabledAsserterTest.class,
-        //UserIsInvitationReceiverAsserterTest.class,
-        UserIsLoggedInAsserterTest.class, UserIsSuperAdminAsserterTest.class})
-        //UserIsTenantAdminAsserterTest.class,
-        //UserIsTenantMemberAsserterTest.class,
-        //UserIsWorkflowParticipantAsserterTest.class,
-        //UserNotParticipatingInAnyWorkflowAsserterTest.class})
+        // UserIsInvitationReceiverAsserterTest.class,
+        UserIsLoggedInAsserterTest.class, UserIsSuperAdminAsserterTest.class })
+// UserIsTenantAdminAsserterTest.class,
+// UserIsTenantMemberAsserterTest.class,
+// UserIsWorkflowParticipantAsserterTest.class,
+// UserNotParticipatingInAnyWorkflowAsserterTest.class})
 public class DatabaseTestSuite extends GlobalPreconditionsSuite {
 
     static Calendar nextAttempt;

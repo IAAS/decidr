@@ -15,7 +15,6 @@
  */
 package de.decidr.model.acl.roles;
 
-
 /**
  * Represents a user that is requesting access to a permission.
  * 

@@ -23,8 +23,8 @@ import org.junit.Test;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * TODO: add comment
- *
+ * GH: add comment
+ * 
  * @author GH
  */
 public class WorkflowAdminRoleTest extends DecidrAclTest {
@@ -35,10 +35,10 @@ public class WorkflowAdminRoleTest extends DecidrAclTest {
     @Test
     public void testWorkflowAdminRoleLong() {
         WorkflowAdminRole role = new WorkflowAdminRole(1l);
-        
+
         assertNotNull(role);
         assertTrue(role.getActorId() == 1l);
-        
+
         role = new WorkflowAdminRole(0l);
         assertTrue(role.getActorId() == 0l);
 
@@ -52,9 +52,8 @@ public class WorkflowAdminRoleTest extends DecidrAclTest {
     @Test
     public void testWorkflowAdminRole() {
         WorkflowAdminRole role = new WorkflowAdminRole();
-        
-        assertNotNull(role);
-        assertTrue(role.getActorId() == UserRole.UNKNOWN_USER_ID );
-    }
 
+        assertNotNull(role);
+        assertTrue(role.getActorId() == UserRole.UNKNOWN_USER_ID);
+    }
 }

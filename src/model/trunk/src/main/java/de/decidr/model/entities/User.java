@@ -47,11 +47,11 @@ public class User implements java.io.Serializable {
             0);
 
     public User() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public User(String email, Date creationDate) {
-        //generated minimal constructor
+        // generated minimal constructor
         this.email = email;
         this.creationDate = creationDate;
     }
@@ -79,7 +79,7 @@ public class User implements java.io.Serializable {
             Set<Tenant> administratedTenants, Set<Login> logins,
             ChangeEmailRequest changeEmailRequest,
             Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels) {
-        //generated full constructor
+        // generated full constructor
         this.currentTenant = currentTenant;
         this.authKey = authKey;
         this.email = email;

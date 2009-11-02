@@ -46,7 +46,8 @@ public class SetStatusCommand extends WorkItemCommand {
      * @param newStatus
      *            the new status as {@link WorkItemStatus}
      * @throws IllegalArgumentException
-     *             if the new status is <code>null</code> or if the work item ID is <code>null</code>
+     *             if the new status is <code>null</code> or if the work item ID
+     *             is <code>null</code>
      */
     public SetStatusCommand(Role role, Long workItemId, WorkItemStatus newStatus) {
         super(role, workItemId);

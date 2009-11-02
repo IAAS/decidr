@@ -28,7 +28,7 @@ import org.junit.Test;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * TODO: add comment
+ * GH: add comment
  * 
  * @author GH
  */
@@ -64,7 +64,6 @@ public class PermissionTest extends DecidrAclTest {
         } catch (Exception e) {
             // needs to be thrown
         }
-
     }
 
     /**
@@ -87,34 +86,35 @@ public class PermissionTest extends DecidrAclTest {
      */
     @Test
     public void testGetNextImplyingPermission() {
-//        // gh I don't think there's a lot you can test here using the existing
-//        // permissions because
-//        // you cannot make any assumptions about the internal naming of these
-//        // permissions.
-//        // A possible workaround is creating your own permissions:
-//        // new Permission("Known.Permission.Identifier.*");
-//        // Now you know what to expect when calling getNextImplyingPermission
-//        // ~dh
-//
-//        FileDeletePermission filePerm1 = new FileDeletePermission(1l);
-//        assertTrue(filePerm1.getNextImplyingPermission().getName()
-//                .endsWith("*"));
-//
-//        FileReadPermission filePerm2 = new FileReadPermission(1l);
-//        assertTrue(filePerm2.getNextImplyingPermission().getName()
-//                .endsWith("*"));
-//
-//        // gh file delete permissions vs. file read permissions :
-//        // File.Delete.[ID] vs. File.Read.[ID]
-//        // so the next implying permissions are File.Delete.* vs. File.Read.*
-//        // ~dh
-//        assertTrue(filePerm1.getNextImplyingPermission().getName().equals(
-//                filePerm2.getNextImplyingPermission().getName()));
-//
-//        // gh this test requires knowledge about the internal naming of the
-//        // permission object. ~dh
-//        assertTrue(filePerm1.getNextImplyingPermission().getName().equals(
-//                "de.decidr.model.entities.*"));
+        // // gh I don't think there's a lot you can test here using the
+        // existing
+        // // permissions because
+        // // you cannot make any assumptions about the internal naming of these
+        // // permissions.
+        // // A possible workaround is creating your own permissions:
+        // // new Permission("Known.Permission.Identifier.*");
+        // // Now you know what to expect when calling getNextImplyingPermission
+        // // ~dh
+        //
+        // FileDeletePermission filePerm1 = new FileDeletePermission(1l);
+        // assertTrue(filePerm1.getNextImplyingPermission().getName()
+        // .endsWith("*"));
+        //
+        // FileReadPermission filePerm2 = new FileReadPermission(1l);
+        // assertTrue(filePerm2.getNextImplyingPermission().getName()
+        // .endsWith("*"));
+        //
+        // // gh file delete permissions vs. file read permissions :
+        // // File.Delete.[ID] vs. File.Read.[ID]
+        // // so the next implying permissions are File.Delete.* vs. File.Read.*
+        // // ~dh
+        // assertTrue(filePerm1.getNextImplyingPermission().getName().equals(
+        // filePerm2.getNextImplyingPermission().getName()));
+        //
+        // // gh this test requires knowledge about the internal naming of the
+        // // permission object. ~dh
+        // assertTrue(filePerm1.getNextImplyingPermission().getName().equals(
+        // "de.decidr.model.entities.*"));
     }
 
     private static void fillStringList() {
@@ -319,5 +319,4 @@ public class PermissionTest extends DecidrAclTest {
         strings.add("фаил");
         strings.add("ФаИл");
     }
-
 }

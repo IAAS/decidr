@@ -17,11 +17,11 @@ public class Activity implements java.io.Serializable {
     private String name;
 
     public Activity() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public Activity(KnownWebService knownWebService, byte[] mapping, String name) {
-        //generated full constructor
+        // generated full constructor
         this.knownWebService = knownWebService;
         this.mapping = mapping;
         this.name = name;

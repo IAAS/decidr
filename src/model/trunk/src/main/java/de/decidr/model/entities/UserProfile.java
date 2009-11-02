@@ -23,12 +23,12 @@ public class UserProfile implements java.io.Serializable {
     private String city;
 
     public UserProfile() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public UserProfile(User user, String username, String passwordHash,
             String passwordSalt) {
-        //generated minimal constructor
+        // generated minimal constructor
         this.user = user;
         this.username = username;
         this.passwordHash = passwordHash;
@@ -38,7 +38,7 @@ public class UserProfile implements java.io.Serializable {
     public UserProfile(User user, String username, String passwordHash,
             String passwordSalt, String firstName, String lastName,
             String street, String postalCode, String city) {
-        //generated full constructor
+        // generated full constructor
         this.user = user;
         this.username = username;
         this.passwordHash = passwordHash;

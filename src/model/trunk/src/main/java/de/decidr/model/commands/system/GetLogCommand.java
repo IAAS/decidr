@@ -13,7 +13,7 @@ import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Returns the logs saved in the database.
- *
+ * 
  * @author Daniel Huss
  */
 public class GetLogCommand extends SystemCommand {

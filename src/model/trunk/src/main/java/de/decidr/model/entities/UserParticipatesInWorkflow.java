@@ -16,12 +16,12 @@ public class UserParticipatesInWorkflow implements java.io.Serializable {
     private User user;
 
     public UserParticipatesInWorkflow() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public UserParticipatesInWorkflow(UserParticipatesInWorkflowId id,
             WorkflowInstance workflowInstance, User user) {
-        //generated full constructor
+        // generated full constructor
         this.id = id;
         this.workflowInstance = workflowInstance;
         this.user = user;

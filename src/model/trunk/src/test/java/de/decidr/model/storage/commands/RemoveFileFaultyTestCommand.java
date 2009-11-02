@@ -14,7 +14,6 @@ public class RemoveFileFaultyTestCommand extends AbstractTransactionalCommand {
     HibernateEntityStorageProvider storageProvider;
     FileInputStream resultStream;
     boolean error;
-    
 
     /**
      * Creates a new {@link RemoveFileFaultyTestCommand}
@@ -22,25 +21,26 @@ public class RemoveFileFaultyTestCommand extends AbstractTransactionalCommand {
      * @param role
      * @param fileId
      */
-    public RemoveFileFaultyTestCommand(Long fileId, HibernateEntityStorageProvider provider) {
+    public RemoveFileFaultyTestCommand(Long fileId,
+            HibernateEntityStorageProvider provider) {
         fId = fileId;
         storageProvider = provider;
-        error=true;
+        error = true;
     }
-    
-    public boolean getResult(){
+
+    public boolean getResult() {
         return error;
     }
-    
+
     @Override
     public void transactionStarted(TransactionEvent evt)
             throws TransactionException {
 
         try {
-            storageProvider.removeFile((Long)null);
+            storageProvider.removeFile((Long) null);
             error = false;
         } catch (IllegalArgumentException e) {
-            //nothing to do
+            // nothing to do
         } catch (StorageException e) {
             error = false;
         }

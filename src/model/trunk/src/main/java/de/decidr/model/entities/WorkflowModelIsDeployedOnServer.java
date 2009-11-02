@@ -16,13 +16,13 @@ public class WorkflowModelIsDeployedOnServer implements java.io.Serializable {
     private Server server;
 
     public WorkflowModelIsDeployedOnServer() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public WorkflowModelIsDeployedOnServer(
             WorkflowModelIsDeployedOnServerId id,
             DeployedWorkflowModel deployedWorkflowModel, Server server) {
-        //generated full constructor
+        // generated full constructor
         this.id = id;
         this.deployedWorkflowModel = deployedWorkflowModel;
         this.server = server;

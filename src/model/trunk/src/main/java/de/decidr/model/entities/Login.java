@@ -19,11 +19,11 @@ public class Login implements java.io.Serializable {
     private boolean success;
 
     public Login() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public Login(User user, Date loginDate, boolean success) {
-        //generated full constructor
+        // generated full constructor
         this.user = user;
         this.loginDate = loginDate;
         this.success = success;

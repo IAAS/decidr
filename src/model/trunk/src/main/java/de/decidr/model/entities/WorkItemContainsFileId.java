@@ -15,11 +15,11 @@ public class WorkItemContainsFileId implements java.io.Serializable {
     private long fileId;
 
     public WorkItemContainsFileId() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public WorkItemContainsFileId(long workItemId, long fileId) {
-        //generated full constructor
+        // generated full constructor
         this.workItemId = workItemId;
         this.fileId = fileId;
     }

@@ -27,12 +27,12 @@ public class TenantWithAdminView implements java.io.Serializable {
     private String adminLastName;
 
     public TenantWithAdminView() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public TenantWithAdminView(long id, String name, String description,
             long adminId) {
-        //generated minimal constructor
+        // generated minimal constructor
         this.id = id;
         this.name = name;
         this.description = description;
@@ -43,7 +43,7 @@ public class TenantWithAdminView implements java.io.Serializable {
             Long logoId, Long simpleColorSchemeId, Long advancedColorSchemeId,
             Long currentColorSchemeId, Date approvedSince, long adminId,
             String adminUsername, String adminFirstName, String adminLastName) {
-        //generated full constructor
+        // generated full constructor
         this.id = id;
         this.name = name;
         this.description = description;

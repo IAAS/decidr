@@ -124,7 +124,7 @@ public class HumanTask implements HumanTaskInterface {
 
         try {
             log.debug("attempting to parse the data string into an Object");
-            THumanTaskData taskData = TransformUtil.bytes2HumanTask(workItem
+            THumanTaskData taskData = TransformUtil.bytesToHumanTask(workItem
                     .getData());
 
             /*

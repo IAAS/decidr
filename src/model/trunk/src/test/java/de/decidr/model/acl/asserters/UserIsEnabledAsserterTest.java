@@ -36,15 +36,14 @@ import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * TODO: add comment
- *
+ * GH: add comment
+ * 
  * @author GH
  */
 public class UserIsEnabledAsserterTest extends LowLevelDatabaseTest {
 
-
     private static UserFacade userFacade;
-    
+
     private static Long superAdminId;
     private static Long userId;
 
@@ -53,43 +52,42 @@ public class UserIsEnabledAsserterTest extends LowLevelDatabaseTest {
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
         UserFacadeTest.deleteTestUsers();
-        
-        //create test users
+
+        // create test users
         superAdminId = DecidrGlobals.getSettings().getSuperAdmin().getId();
         userFacade = new UserFacade(new SuperAdminRole(superAdminId));
-        
+
         UserProfile userProfile = new UserProfile();
         userProfile.setFirstName("test");
         userProfile.setLastName("user");
         userProfile.setCity("testcity");
         userProfile.setStreet("test st.");
         userProfile.setPostalCode("12test");
-        
+
         userProfile.setUsername(USERNAME_PREFIX + "User");
-        userId = userFacade.registerUser(UserFacadeTest.getTestEmail(1), "qwertz", userProfile);
-        
+        userId = userFacade.registerUser(UserFacadeTest.getTestEmail(1),
+                "qwertz", userProfile);
     }
 
     @AfterClass
     public static void cleanUpAfterClass() {
-        
         UserFacadeTest.deleteTestUsers();
-
     }
 
     /**
-     * Test method for {@link UserIsEnabledAsserter#assertRule(Role, Permission)}.
-     * @throws TransactionException 
+     * Test method for
+     * {@link UserIsEnabledAsserter#assertRule(Role, Permission)}.
      */
     @Test
     public void testAssertRule() throws TransactionException {
         UserIsEnabledAsserter asserter = new UserIsEnabledAsserter();
-        assertTrue(asserter.assertRule(new UserRole(userId), new Permission("*")));
-        
+        assertTrue(asserter.assertRule(new UserRole(userId),
+                new Permission("*")));
+
         userFacade.setDisabledSince(userId, new Date());
-        
-        assertFalse(asserter.assertRule(new UserRole(userId), new Permission("*")));
+
+        assertFalse(asserter.assertRule(new UserRole(userId), new Permission(
+                "*")));
         assertFalse(asserter.assertRule(new UserRole(), new Permission("*")));
     }
-
 }

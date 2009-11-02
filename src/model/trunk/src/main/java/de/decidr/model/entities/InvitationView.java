@@ -31,12 +31,12 @@ public class InvitationView implements java.io.Serializable {
     private String participateTenantName;
 
     public InvitationView() {
-        //default empty JavaBean constructor
+        // default empty JavaBean constructor
     }
 
     public InvitationView(long id, long senderId, long receiverId,
             Date creationDate) {
-        //generated minimal constructor
+        // generated minimal constructor
         this.id = id;
         this.senderId = senderId;
         this.receiverId = receiverId;
@@ -51,7 +51,7 @@ public class InvitationView implements java.io.Serializable {
             String administratedWorkflowModelName,
             String participateWorfkwlowModelName, String joinTenantName,
             String workflowModelOwningTenantName, String participateTenantName) {
-        //generated full constructor
+        // generated full constructor
         this.id = id;
         this.senderId = senderId;
         this.receiverId = receiverId;

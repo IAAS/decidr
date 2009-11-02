@@ -16,8 +16,8 @@
 package de.decidr.model.exceptions;
 
 /**
- * This class contains all exceptions which can be thrown if the
- * database coudn't be reached.
+ * This class contains all exceptions which can be thrown if the database
+ * coudn't be reached.
  * 
  * @author Daniel Huss
  */

@@ -32,8 +32,9 @@ public class OrderByFilter implements Filter {
     /**
      * Creates a new instance of the OrderByFilter.
      * 
-     * @param orders {@link org.hibernate.criterion.Order}
-     *            
+     * @param orders
+     *            {@link org.hibernate.criterion.Order}
+     * 
      */
     public OrderByFilter(Order... orders) {
         this.orders = orders;

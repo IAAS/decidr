@@ -83,9 +83,9 @@ public class TransformUtil {
     public static WebserviceMapping bytesToMapping(byte[] mapping)
             throws JAXBException {
         Unmarshaller unmarshaller = mappingCntxt.createUnmarshaller();
-        JAXBElement<WebserviceMapping> dwdlElement = unmarshaller
-                .unmarshal(new StreamSource(new ByteArrayInputStream(mapping)),
-                        WebserviceMapping.class);
+        JAXBElement<WebserviceMapping> dwdlElement = unmarshaller.unmarshal(
+                new StreamSource(new ByteArrayInputStream(mapping)),
+                WebserviceMapping.class);
         return dwdlElement.getValue();
     }
 
@@ -97,7 +97,8 @@ public class TransformUtil {
                 TConfiguration.class);
         return dwdlElement.getValue();
     }
-    
+
+    // MA *all* numbers, if you please ~rr
     public static Definition bytes2Definition(byte[] wsdl) throws WSDLException {
         WSDLReader reader = new com.ibm.wsdl.xml.WSDLReaderImpl();
         InputSource in = new InputSource(new ByteArrayInputStream(wsdl));
@@ -106,7 +107,6 @@ public class TransformUtil {
     }
 
     public static byte[] workflowToBytes(Workflow dwdl) throws JAXBException {
-
         Marshaller dwdlMarshaller = dwdlCntxt.createMarshaller();
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         dwdlMarshaller.marshal(dwdl, os);
@@ -123,9 +123,8 @@ public class TransformUtil {
         return os.toByteArray();
     }
 
+    // MA *all* numbers, if you please ~rr
     public static String element2XML(org.jdom.Element roleElement) {
-        
         return null;
     }
-
 }

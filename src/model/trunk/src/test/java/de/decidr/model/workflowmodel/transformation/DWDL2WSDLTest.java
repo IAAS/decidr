@@ -29,25 +29,24 @@ import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
 /**
  * DWDL2WSDL Test
- *
+ * 
  * @author Modood Alvi
  */
 public class DWDL2WSDLTest {
 
-    
     public static void main(String[] args) throws IOException, JAXBException {
         System.out.println(new File(".").getCanonicalPath());
-        InputStream in = DWDL2WSDLTest.class.getResourceAsStream("/dwdl/sampleProcess.xml");
+        InputStream in = DWDL2WSDLTest.class
+                .getResourceAsStream("/dwdl/sampleProcess.xml");
         byte[] bytesDWDL = new byte[in.available()];
         in.read(bytesDWDL, 0, in.available());
         Workflow dwdl = TransformUtil.bytesToWorkflow(bytesDWDL);
         JAXBContext jc = JAXBContext.newInstance(Workflow.class);
-        //Create marshaller
+        // Create marshaller
         Marshaller m = jc.createMarshaller();
-        m.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE );
-        //Marshal object into file.
+        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        // Marshal object into file.
         m.marshal(dwdl, System.out);
     }
-    
 
 }
