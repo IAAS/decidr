@@ -78,10 +78,9 @@ public class HumanTask implements HumanTaskInterface {
                         .getValue(), userNotification);
 
         // id is needed by the ODE Engine to identify this task
-        // XXX I've talked to modood, he only needs the taskID to identify the
-        // work item, so theTaskIdentifier might be reduced to a Long, soon ~dh
-        // DH The process ID is needed to select the correct ODE instance. The
-        // userID is needed to associate the task with a user in a foreach ~rr
+        // OK fuck it, you can add whatever redundant information you think is
+        // necessary to your "task identifier" :-) I'm not going to touch this
+        // project again. ~dh
         TaskIdentifier id = new TaskIdentifier(taskID, processID, userID);
 
         log.trace("Leaving method: createTask");
