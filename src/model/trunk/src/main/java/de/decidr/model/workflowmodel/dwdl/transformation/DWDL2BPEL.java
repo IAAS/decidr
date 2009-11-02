@@ -27,7 +27,6 @@ import javax.xml.transform.TransformerException;
 
 import org.apache.axis2.namespace.Constants;
 import org.apache.log4j.Logger;
-import org.w3c.dom.Element;
 
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.bpel.Activity;
@@ -87,7 +86,7 @@ import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
 
 /**
- * This class converts a given DWDL object and returns the resulting BPEL.
+ * This class transforms a given {@link Workflow} object into {@link Process} object.
  * 
  * @author Modood Alvi
  * @version 0.1
@@ -509,7 +508,7 @@ public class DWDL2BPEL {
         process.setCorrelationSets(correlationSets);
         CorrelationSet correlation = factory.createCorrelationSet();
         correlation.setName("standard-correlation");
-        for (String propertyName : BPELConstants.CORRELATION_PROPERTIES) {
+        for (String propertyName : TransformationConstants.CORRELATION_PROPERTIES) {
             correlation.getProperties().add(
                     new QName(process.getTargetNamespace(), propertyName,
                             PROCESS_PREFIX));
@@ -578,12 +577,12 @@ public class DWDL2BPEL {
         }
 
         // setting import for DecidrTypes
-        dtImport.setNamespace(BPELConstants.DECIDRTYPES_NAMESPACE);
+        dtImport.setNamespace(TransformationConstants.DECIDRTYPES_NAMESPACE);
         dtImport.setImportType(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        dtImport.setLocation(BPELConstants.DECIDRTYPES_LOCATION);
+        dtImport.setLocation(TransformationConstants.DECIDRTYPES_LOCATION);
 
         // setting import for Ode extension
-        odeImport.setNamespace(BPELConstants.ODE_NAMESPACE);
+        odeImport.setNamespace(TransformationConstants.ODE_NAMESPACE);
         odeImport.setImportType(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
         // setting import for process WSDL
@@ -654,7 +653,7 @@ public class DWDL2BPEL {
 
         // add id attribute to process element
         process.getOtherAttributes().put(
-                new QName(BPELConstants.DECIDRTYPES_NAMESPACE, "id",
+                new QName(TransformationConstants.DECIDRTYPES_NAMESPACE, "id",
                         DECIDRTYPES_PREFIX), String.valueOf(dwdl.getId()));
     }
 
@@ -790,7 +789,7 @@ public class DWDL2BPEL {
                                     .getType(), "xsd"));
                 } else if (ComplexType.fromValue(dwdlVariable.getType()) == null) {
                     bpelVariable.setType(new QName(
-                            BPELConstants.DECIDRTYPES_NAMESPACE, dwdlVariable
+                            TransformationConstants.DECIDRTYPES_NAMESPACE, dwdlVariable
                                     .getType(), DECIDRTYPES_PREFIX));
 
                 } else {
@@ -812,7 +811,7 @@ public class DWDL2BPEL {
                             .createVariable();
                     role.setName(r.getName());
                     role.setElement(new QName(
-                            BPELConstants.DECIDRTYPES_NAMESPACE, "role",
+                            TransformationConstants.DECIDRTYPES_NAMESPACE, "role",
                             DECIDRTYPES_PREFIX));
                     process.getVariables().getVariable().add(role);
                 }
@@ -823,7 +822,7 @@ public class DWDL2BPEL {
                             .createVariable();
                     actor.setName(a.getName());
                     actor.setElement(new QName(
-                            BPELConstants.DECIDRTYPES_NAMESPACE, "actor",
+                            TransformationConstants.DECIDRTYPES_NAMESPACE, "actor",
                             DECIDRTYPES_PREFIX));
                     process.getVariables().getVariable().add(actor);
                 }

@@ -17,8 +17,10 @@
 package de.decidr.model.workflowmodel.factories;
 
 import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
 
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.webservices.ObjectFactory;
 import de.decidr.model.workflowmodel.webservices.Properties;
 import de.decidr.model.workflowmodel.webservices.Property;
@@ -33,6 +35,104 @@ import de.decidr.model.workflowmodel.webservices.WebserviceMapping;
  */
 public class MappingFactory {
 
+    public static WebserviceMapping getEmailMapping() {
+
+        ObjectFactory factory = new ObjectFactory();
+        WebserviceMapping email = factory.createWebserviceMapping();
+
+        // setting email mappings
+
+        email.setActivity("Decidr-Email");
+        email.setPortType("EmailPT");
+        email.setOperation("sendEmail");
+        email.setBinding("EmailSOAP");
+        Property to = factory.createProperty();
+        to.setName("to");
+        to.setType(new QName("http://decidr.de/schema/DecidrTypes",
+                "tAbstractUserList"));
+
+        Property cc = factory.createProperty();
+        cc.setName("cc");
+        cc.setType(new QName("http://decidr.de/schema/DecidrTypes",
+                "tAbstractUserList"));
+
+        Property bcc = factory.createProperty();
+        bcc.setName("bcc");
+        bcc.setType(new QName("http://decidr.de/schema/DecidrTypes",
+                "tAbstractUserList"));
+
+        Property subject = factory.createProperty();
+        subject.setName("subject");
+        subject
+                .setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"));
+
+        Property message = factory.createProperty();
+        message.setName("message");
+        message
+                .setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"));
+
+        Property attachement = factory.createProperty();
+        attachement.setName("attachement");
+        attachement.setType(new QName("http://decidr.de/schema/DecidrTypes",
+                "tIDList"));
+
+        PropertyAlias to_Alias = factory.createPropertyAlias();
+        to_Alias.setPropertyName(new QName(to.getName()));
+        to_Alias.setMessageType(new QName("sendEmailRequest"));
+        to_Alias.setType(to.getType());
+
+        PropertyAlias cc_Alias = factory.createPropertyAlias();
+        cc_Alias.setPropertyName(new QName(cc.getName()));
+        cc_Alias.setMessageType(new QName("sendEmailRequest"));
+        cc_Alias.setType(cc.getType());
+
+        PropertyAlias bcc_Alias = factory.createPropertyAlias();
+        bcc_Alias.setPropertyName(new QName(bcc.getName()));
+        bcc_Alias.setMessageType(new QName("sendEmailRequest"));
+        bcc_Alias.setType(bcc.getType());
+
+        PropertyAlias subject_Alias = factory.createPropertyAlias();
+        subject_Alias.setPropertyName(new QName(subject.getName()));
+        subject_Alias.setMessageType(new QName("sendEmailRequest"));
+        subject_Alias.setType(subject.getType());
+
+        PropertyAlias message_Alias = factory.createPropertyAlias();
+        message_Alias.setPropertyName(new QName(message.getName()));
+        message_Alias.setMessageType(new QName("sendEmailRequest"));
+        message_Alias.setType(message.getType());
+
+        PropertyAlias attachement_Alias = factory.createPropertyAlias();
+        attachement_Alias.setPropertyName(new QName(attachement.getName()));
+        attachement_Alias.setMessageType(new QName("sendEmailRequest"));
+        attachement_Alias.setType(attachement.getType());
+
+        Properties emailProperties = factory.createProperties();
+        emailProperties.getProperty().add(to);
+        emailProperties.getProperty().add(cc);
+        emailProperties.getProperty().add(bcc);
+        emailProperties.getProperty().add(subject);
+        emailProperties.getProperty().add(message);
+        emailProperties.getProperty().add(attachement);
+
+        PropertyAliases emailPropertyAliases = factory.createPropertyAliases();
+        emailPropertyAliases.getPropertyAlias().add(to_Alias);
+        emailPropertyAliases.getPropertyAlias().add(cc_Alias);
+        emailPropertyAliases.getPropertyAlias().add(bcc_Alias);
+        emailPropertyAliases.getPropertyAlias().add(subject_Alias);
+        emailPropertyAliases.getPropertyAlias().add(message_Alias);
+        emailPropertyAliases.getPropertyAlias().add(attachement_Alias);
+
+        email.getProperties().add(emailProperties);
+        email.getPropertyAliases().add(emailPropertyAliases);
+        
+        return email;
+    }
+
+    public static byte[] getEmailMappingBytes() throws JAXBException{
+        WebserviceMapping mapping = getHumanTaskMapping();
+        return TransformUtil.mappingToBytes(mapping);
+    }
+    
     public static WebserviceMapping getHumanTaskMapping() {
         ObjectFactory factory = new ObjectFactory();
         WebserviceMapping humanTask = factory.createWebserviceMapping();
@@ -136,97 +236,9 @@ public class MappingFactory {
         return humanTask;
 
     }
-
-    public static WebserviceMapping getEmailMapping() {
-
-        ObjectFactory factory = new ObjectFactory();
-        WebserviceMapping email = factory.createWebserviceMapping();
-
-        // setting email mappings
-
-        email.setActivity("Decidr-Email");
-        email.setPortType("EmailPT");
-        email.setOperation("sendEmail");
-        email.setBinding("EmailSOAP");
-        Property to = factory.createProperty();
-        to.setName("to");
-        to.setType(new QName("http://decidr.de/schema/DecidrTypes",
-                "tAbstractUserList"));
-
-        Property cc = factory.createProperty();
-        cc.setName("cc");
-        cc.setType(new QName("http://decidr.de/schema/DecidrTypes",
-                "tAbstractUserList"));
-
-        Property bcc = factory.createProperty();
-        bcc.setName("bcc");
-        bcc.setType(new QName("http://decidr.de/schema/DecidrTypes",
-                "tAbstractUserList"));
-
-        Property subject = factory.createProperty();
-        subject.setName("subject");
-        subject
-                .setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"));
-
-        Property message = factory.createProperty();
-        message.setName("message");
-        message
-                .setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"));
-
-        Property attachement = factory.createProperty();
-        attachement.setName("attachement");
-        attachement.setType(new QName("http://decidr.de/schema/DecidrTypes",
-                "tIDList"));
-
-        PropertyAlias to_Alias = factory.createPropertyAlias();
-        to_Alias.setPropertyName(new QName(to.getName()));
-        to_Alias.setMessageType(new QName("sendEmailRequest"));
-        to_Alias.setType(to.getType());
-
-        PropertyAlias cc_Alias = factory.createPropertyAlias();
-        cc_Alias.setPropertyName(new QName(cc.getName()));
-        cc_Alias.setMessageType(new QName("sendEmailRequest"));
-        cc_Alias.setType(cc.getType());
-
-        PropertyAlias bcc_Alias = factory.createPropertyAlias();
-        bcc_Alias.setPropertyName(new QName(bcc.getName()));
-        bcc_Alias.setMessageType(new QName("sendEmailRequest"));
-        bcc_Alias.setType(bcc.getType());
-
-        PropertyAlias subject_Alias = factory.createPropertyAlias();
-        subject_Alias.setPropertyName(new QName(subject.getName()));
-        subject_Alias.setMessageType(new QName("sendEmailRequest"));
-        subject_Alias.setType(subject.getType());
-
-        PropertyAlias message_Alias = factory.createPropertyAlias();
-        message_Alias.setPropertyName(new QName(message.getName()));
-        message_Alias.setMessageType(new QName("sendEmailRequest"));
-        message_Alias.setType(message.getType());
-
-        PropertyAlias attachement_Alias = factory.createPropertyAlias();
-        attachement_Alias.setPropertyName(new QName(attachement.getName()));
-        attachement_Alias.setMessageType(new QName("sendEmailRequest"));
-        attachement_Alias.setType(attachement.getType());
-
-        Properties emailProperties = factory.createProperties();
-        emailProperties.getProperty().add(to);
-        emailProperties.getProperty().add(cc);
-        emailProperties.getProperty().add(bcc);
-        emailProperties.getProperty().add(subject);
-        emailProperties.getProperty().add(message);
-        emailProperties.getProperty().add(attachement);
-
-        PropertyAliases emailPropertyAliases = factory.createPropertyAliases();
-        emailPropertyAliases.getPropertyAlias().add(to_Alias);
-        emailPropertyAliases.getPropertyAlias().add(cc_Alias);
-        emailPropertyAliases.getPropertyAlias().add(bcc_Alias);
-        emailPropertyAliases.getPropertyAlias().add(subject_Alias);
-        emailPropertyAliases.getPropertyAlias().add(message_Alias);
-        emailPropertyAliases.getPropertyAlias().add(attachement_Alias);
-
-        email.getProperties().add(emailProperties);
-        email.getPropertyAliases().add(emailPropertyAliases);
-        return email;
-
+    
+    public static byte[] getHumanTaskMappingBytes() throws JAXBException{
+        WebserviceMapping mapping = getHumanTaskMapping();
+        return TransformUtil.mappingToBytes(mapping);
     }
 }

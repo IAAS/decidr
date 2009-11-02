@@ -16,7 +16,6 @@
 
 package de.decidr.model.workflowmodel.factories;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -67,24 +66,18 @@ public class WSDLFactory {
     public static byte[] getHumanTaskDefinitionByteArray() throws IOException {
         InputStream in = WSDLFactory.class
                 .getResourceAsStream(humanTaskWSDLName);
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
         byte[] data = new byte[in.available()];
-        out.write(data, 0, in.available());
+        in.read(data, 0, in.available());
         in.close();
-        out.close();
-        return out.toByteArray();
+        return data;
     }
 
     public static byte[] getEmailDefinitionByteArray() throws IOException {
         InputStream in = WSDLFactory.class.getResourceAsStream(emailWSDLName);
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
         byte[] data = new byte[in.available()];
-        out.write(data, 0, in.available());
+        in.read(data, 0, in.available());
         in.close();
-        out.close();
-        return out.toByteArray();
+        return data;
     }
 
 }

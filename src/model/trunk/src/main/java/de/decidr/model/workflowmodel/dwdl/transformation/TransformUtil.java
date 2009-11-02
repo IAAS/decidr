@@ -27,6 +27,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.namespace.QName;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Logger;
@@ -63,12 +64,21 @@ public class TransformUtil {
         }
     }
 
-    public static Workflow bytesToWorkflow(byte[] dwdl) throws JAXBException {
-        Unmarshaller unmarshaller = dwdlCntxt.createUnmarshaller();
-        JAXBElement<Workflow> dwdlElement = unmarshaller.unmarshal(
-                new StreamSource(new ByteArrayInputStream(dwdl)),
-                Workflow.class);
+    public static TConfiguration bytesToConfiguration(byte[] wsc)
+            throws JAXBException {
+        Unmarshaller wscUnmarshaller = wscCntxt.createUnmarshaller();
+        JAXBElement<TConfiguration> dwdlElement = wscUnmarshaller.unmarshal(
+                new StreamSource(new ByteArrayInputStream(wsc)),
+                TConfiguration.class);
         return dwdlElement.getValue();
+    }
+
+    public static Definition bytesToDefinition(byte[] wsdl)
+            throws WSDLException {
+        WSDLReader reader = new com.ibm.wsdl.xml.WSDLReaderImpl();
+        InputSource in = new InputSource(new ByteArrayInputStream(wsdl));
+        Definition def = reader.readWSDL(null, in);
+        return def;
     }
 
     public static THumanTaskData bytesToHumanTask(byte[] humanTaskData)
@@ -89,29 +99,12 @@ public class TransformUtil {
         return dwdlElement.getValue();
     }
 
-    public static TConfiguration bytesToConfiguration(byte[] wsc)
-            throws JAXBException {
-        Unmarshaller wscUnmarshaller = wscCntxt.createUnmarshaller();
-        JAXBElement<TConfiguration> dwdlElement = wscUnmarshaller.unmarshal(
-                new StreamSource(new ByteArrayInputStream(wsc)),
-                TConfiguration.class);
+    public static Workflow bytesToWorkflow(byte[] dwdl) throws JAXBException {
+        Unmarshaller unmarshaller = dwdlCntxt.createUnmarshaller();
+        JAXBElement<Workflow> dwdlElement = unmarshaller.unmarshal(
+                new StreamSource(new ByteArrayInputStream(dwdl)),
+                Workflow.class);
         return dwdlElement.getValue();
-    }
-
-    // MA *all* numbers, if you please ~rr
-    public static Definition bytes2Definition(byte[] wsdl) throws WSDLException {
-        WSDLReader reader = new com.ibm.wsdl.xml.WSDLReaderImpl();
-        InputSource in = new InputSource(new ByteArrayInputStream(wsdl));
-        Definition def = reader.readWSDL(null, in);
-        return def;
-    }
-
-    public static byte[] workflowToBytes(Workflow dwdl) throws JAXBException {
-        Marshaller dwdlMarshaller = dwdlCntxt.createMarshaller();
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        dwdlMarshaller.marshal(dwdl, os);
-
-        return os.toByteArray();
     }
 
     public static byte[] configurationToBytes(TConfiguration con)
@@ -123,8 +116,30 @@ public class TransformUtil {
         return os.toByteArray();
     }
 
-    // MA *all* numbers, if you please ~rr
     public static String element2XML(org.jdom.Element roleElement) {
+
         return null;
     }
+
+    public static byte[] mappingToBytes(WebserviceMapping mapping)
+            throws JAXBException {
+        Marshaller marshaller = mappingCntxt.createMarshaller();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        JAXBElement<WebserviceMapping> mappingElement = new JAXBElement<WebserviceMapping>(
+                new QName(TransformationConstants.MAPPING_NAMESPACE,
+                        "mapping"), WebserviceMapping.class, mapping);
+        marshaller.marshal(mappingElement, os);
+
+        return os.toByteArray();
+    }
+
+    public static byte[] workflowToBytes(Workflow dwdl) throws JAXBException {
+
+        Marshaller dwdlMarshaller = dwdlCntxt.createMarshaller();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        dwdlMarshaller.marshal(dwdl, os);
+
+        return os.toByteArray();
+    }
+
 }

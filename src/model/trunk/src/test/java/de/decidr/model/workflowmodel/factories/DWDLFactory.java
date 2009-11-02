@@ -16,7 +16,6 @@
 
 package de.decidr.model.workflowmodel.factories;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -39,13 +38,10 @@ public class DWDLFactory {
 
     public static byte[] getDWDLWorkflowByteArray() throws IOException {
         InputStream in = WSDLFactory.class.getResourceAsStream(dwdlName);
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        byte[] data = new byte[in.available()];
-        out.write(data, 0, in.available());
+        byte[] bytesDWDL = new byte[in.available()];
+        in.read(bytesDWDL, 0, in.available());
         in.close();
-        out.close();
-        return out.toByteArray();
+        return bytesDWDL;
     }
 
     public static Workflow getDWDLWorkflow() throws JAXBException {

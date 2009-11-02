@@ -23,15 +23,16 @@ package de.decidr.model.workflowmodel.dwdl.transformation;
  * @author Modood Alvi
  * @version 0.1
  */
-public final class BPELConstants {
+public final class TransformationConstants {
 
     public static final String BPEL_NAMESPACE = "http://docs.oasis-pen.org/wsbpel/2.0/process/executable";
     public static final String DWDL_NAMESPACE = "http://decidr.de/schema/dwdl";
     public static final String DECIDRTYPES_NAMESPACE = "http://decidr.de/schema/DecidrTypes";
     public static final String ODE_NAMESPACE = "http://www.apache.org/ode/type/extension";
+    public static final String MAPPING_NAMESPACE = "http://decidr.de/schema/wsmapping";
     public static final String DECIDRTYPES_LOCATION = "DecidrTypes.xsd";
     public static final String[] CORRELATION_PROPERTIES = {"processID", "userID", "taskID"};
-    private BPELConstants() {
+    private TransformationConstants() {
         // do nothing
     }
 }

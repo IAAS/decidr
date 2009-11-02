@@ -25,13 +25,8 @@ import java.util.Map;
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
 import javax.wsdl.xml.WSDLReader;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.stream.StreamSource;
-
 import org.apache.log4j.Logger;
 import org.jdom.JDOMException;
 import org.xml.sax.InputSource;
@@ -65,15 +60,6 @@ public class Translator {
     private Map<String, DecidrWebserviceAdapter> webserviceAdapters = null;
     private String tenantName = null;
 
-    public void load(byte[] dwdl, String tenantName,
-            List<KnownWebService> knownWebservices) throws JAXBException,
-            WSDLException {
-
-        this.dwdlWorkflow = parseDWDLWorkflow(dwdl);
-        this.tenantName = tenantName;
-        this.webserviceAdapters = createAdapters(knownWebservices);
-    }
-
     private Map<String, DecidrWebserviceAdapter> createAdapters(
             List<KnownWebService> knownWebservices) throws JAXBException,
             WSDLException {
@@ -92,33 +78,6 @@ public class Translator {
         return adapters;
     }
 
-    private WebserviceMapping parseMapping(byte[] mapping) throws JAXBException {
-        JAXBContext dwdlCntxt = JAXBContext.newInstance(Workflow.class);
-        Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
-        JAXBElement<WebserviceMapping> dwdlElement = dwdlUnmarshaller
-                .unmarshal(new StreamSource(new ByteArrayInputStream(mapping)),
-                        WebserviceMapping.class);
-        return dwdlElement.getValue();
-    }
-
-    private Workflow parseDWDLWorkflow(byte[] dwdl) throws JAXBException {
-        JAXBContext dwdlCntxt = JAXBContext.newInstance(Workflow.class);
-        Unmarshaller dwdlUnmarshaller = dwdlCntxt.createUnmarshaller();
-        JAXBElement<Workflow> dwdlElement = dwdlUnmarshaller.unmarshal(
-                new StreamSource(new ByteArrayInputStream(dwdl)),
-                Workflow.class);
-        return dwdlElement.getValue();
-    }
-
-    private Definition parseDefinition(KnownWebService knownWebservice)
-            throws WSDLException {
-        WSDLReader reader = new com.ibm.wsdl.xml.WSDLReaderImpl();
-        InputSource in = new InputSource(new ByteArrayInputStream(
-                knownWebservice.getWsdl()));
-        Definition def = reader.readWSDL(null, in);
-        return def;
-    }
-
     public Process getBPEL() {
         DWDL2BPEL bpelConverter = new DWDL2BPEL();
         try {
@@ -128,6 +87,16 @@ public class Translator {
             log.error("Can't transform dwdl to bpel", e);
         }
         return bpelProcess;
+    }
+
+    public TDeployment getDD() {
+        DWDL2DD ddConverter = new DWDL2DD();
+        dd = ddConverter.getDD(bpelProcess, webserviceAdapters);
+        return dd;
+    }
+
+    public byte[] getSOAP() {
+        return soap;
     }
 
     public Definition getWSDL(String location) {
@@ -141,13 +110,30 @@ public class Translator {
         return wsdl;
     }
 
-    public TDeployment getDD() {
-        DWDL2DD ddConverter = new DWDL2DD();
-        dd = ddConverter.getDD(bpelProcess, webserviceAdapters);
-        return dd;
+    public void load(byte[] dwdl, String tenantName,
+            List<KnownWebService> knownWebservices) throws JAXBException,
+            WSDLException {
+
+        this.dwdlWorkflow = parseDWDLWorkflow(dwdl);
+        this.tenantName = tenantName;
+        this.webserviceAdapters = createAdapters(knownWebservices);
     }
 
-    public byte[] getSOAP() {
-        return soap;
+    private Definition parseDefinition(KnownWebService knownWebservice)
+            throws WSDLException {
+        WSDLReader reader = new com.ibm.wsdl.xml.WSDLReaderImpl();
+        InputSource in = new InputSource(new ByteArrayInputStream(
+                knownWebservice.getWsdl()));
+        reader.setFeature("javax.wsdl.importDocuments", false);
+        Definition def = reader.readWSDL("/bla", in);
+        return def;
+    }
+
+    private Workflow parseDWDLWorkflow(byte[] dwdl) throws JAXBException {
+        return TransformUtil.bytesToWorkflow(dwdl);
+    }
+
+    private WebserviceMapping parseMapping(byte[] mapping) throws JAXBException {
+        return TransformUtil.bytesToMapping(mapping);
     }
 }

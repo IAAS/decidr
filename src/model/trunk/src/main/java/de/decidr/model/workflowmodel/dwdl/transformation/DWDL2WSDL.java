@@ -147,8 +147,8 @@ public class DWDL2WSDL {
 
     private void setImports() {
         Import decidrTypes = new ImportImpl();
-        decidrTypes.setNamespaceURI(BPELConstants.DECIDRTYPES_NAMESPACE);
-        decidrTypes.setLocationURI(BPELConstants.DECIDRTYPES_LOCATION);
+        decidrTypes.setNamespaceURI(TransformationConstants.DECIDRTYPES_NAMESPACE);
+        decidrTypes.setLocationURI(TransformationConstants.DECIDRTYPES_LOCATION);
 
         wsdl.addImport(decidrTypes);
     }
@@ -177,7 +177,7 @@ public class DWDL2WSDL {
         wsdl.addNamespace("vprop",
                 "http://docs.oasis-open.org/wsbpel/2.0/varprop/");
         wsdl.addNamespace("xsd", XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        wsdl.addNamespace("decidr", BPELConstants.DECIDRTYPES_NAMESPACE);
+        wsdl.addNamespace("decidr", TransformationConstants.DECIDRTYPES_NAMESPACE);
     }
 
     private void setPartnerLinkTypes() throws JDOMException {
@@ -286,7 +286,7 @@ public class DWDL2WSDL {
                 roleElement.setAttribute("name", "role");
                 roleElement.setAttribute("type", "tRole", Namespace
                         .getNamespace("decidr",
-                                BPELConstants.DECIDRTYPES_NAMESPACE));
+                                TransformationConstants.DECIDRTYPES_NAMESPACE));
                 all.addContent(roleElement);
             }
         }
@@ -298,7 +298,7 @@ public class DWDL2WSDL {
                 actorElement.setAttribute("name", "actor");
                 actorElement.setAttribute("type", "tActor", Namespace
                         .getNamespace("decidr",
-                                BPELConstants.DECIDRTYPES_NAMESPACE));
+                                TransformationConstants.DECIDRTYPES_NAMESPACE));
                 all.addContent(actorElement);
             }
         }

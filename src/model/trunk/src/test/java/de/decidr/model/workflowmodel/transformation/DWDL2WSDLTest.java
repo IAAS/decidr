@@ -16,15 +16,17 @@
 
 package de.decidr.model.workflowmodel.transformation;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
 
 import de.decidr.model.workflowmodel.dwdl.Workflow;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformationConstants;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
 /**
@@ -35,7 +37,7 @@ import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 public class DWDL2WSDLTest {
 
     public static void main(String[] args) throws IOException, JAXBException {
-        System.out.println(new File(".").getCanonicalPath());
+        
         InputStream in = DWDL2WSDLTest.class
                 .getResourceAsStream("/dwdl/sampleProcess.xml");
         byte[] bytesDWDL = new byte[in.available()];
@@ -46,7 +48,8 @@ public class DWDL2WSDLTest {
         Marshaller m = jc.createMarshaller();
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         // Marshal object into file.
-        m.marshal(dwdl, System.out);
+        JAXBElement<Workflow> workflowElement = new JAXBElement<Workflow>(new QName(TransformationConstants.DWDL_NAMESPACE,"workflow"), Workflow.class, dwdl);
+        m.marshal(workflowElement, System.out);
     }
 
 }

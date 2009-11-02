@@ -18,8 +18,13 @@ package de.decidr.model.workflowmodel.factories;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.xml.bind.JAXBException;
+
+import de.decidr.model.entities.Activity;
 import de.decidr.model.entities.KnownWebService;
 
 /**
@@ -29,12 +34,23 @@ import de.decidr.model.entities.KnownWebService;
  */
 public class KnownWebserviceFactory {
 
-    public static List<KnownWebService> getKnownWebservice() throws IOException {
+    public static List<KnownWebService> getKnownWebservice()
+            throws IOException, JAXBException {
         List<KnownWebService> knownWebServices = new ArrayList<KnownWebService>();
         KnownWebService humanTaskWS = new KnownWebService();
         humanTaskWS.setWsdl(WSDLFactory.getHumanTaskDefinitionByteArray());
+        Set<Activity> htasactivities = new HashSet<Activity>();
+        Activity htactiviy = new Activity();
+        htactiviy.setMapping(MappingFactory.getEmailMappingBytes());
+        htasactivities.add(htactiviy);
+        humanTaskWS.setActivities(htasactivities);
         KnownWebService emailWS = new KnownWebService();
         emailWS.setWsdl(WSDLFactory.getEmailDefinitionByteArray());
+        Set<Activity> emailactivities = new HashSet<Activity>();
+        Activity eactivity = new Activity();
+        eactivity.setMapping(MappingFactory.getEmailMappingBytes());
+        emailactivities.add(eactivity);
+        emailWS.setActivities(emailactivities);
         knownWebServices.add(humanTaskWS);
         knownWebServices.add(emailWS);
         return knownWebServices;
