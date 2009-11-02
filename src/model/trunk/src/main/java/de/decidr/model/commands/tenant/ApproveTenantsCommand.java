@@ -65,7 +65,7 @@ public class ApproveTenantsCommand extends AclEnabledCommand {
         if (tenantIds != null && !tenantIds.isEmpty()) {
             String hql = "update Tenant set approvedSince = :now where id in (:tenantIds)";
 
-            evt.getSession().createQuery(hql).setDate("now",
+            evt.getSession().createQuery(hql).setTimestamp("now",
                     DecidrGlobals.getTime().getTime()).setParameterList(
                     "tenantIds", tenantIds).executeUpdate();
         }

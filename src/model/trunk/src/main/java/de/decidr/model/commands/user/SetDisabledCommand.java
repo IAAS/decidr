@@ -67,7 +67,7 @@ public class SetDisabledCommand extends UserCommand {
             hql += " and not exists(from SystemSettings s where s.superAdmin.id = :userId)";
         }
 
-        evt.getSession().createQuery(hql).setDate("disabledSince",
+        evt.getSession().createQuery(hql).setTimestamp("disabledSince",
                 disabledSince).setLong("userId", getUserId()).executeUpdate();
     }
 }

@@ -51,7 +51,7 @@ public class GetUserWithProfileCommand extends UserCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        String hql = "from User u join fetch u.userProfile where u.id = :userId";
+        String hql = "select u from User u join fetch u.userProfile where u.id = :userId";
         result = (User) evt.getSession().createQuery(hql).setLong("userId",
                 getUserId()).uniqueResult();
         if (result != null) {

@@ -855,12 +855,12 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
                 .getItemProperty("disabledSince").getValue());
 
-        testDate = new Date(new Date().getTime() - 1000000);
+        testDate = new Date((new Date().getTime() - 1000000) / 1000 * 1000);
         adminFacade.setDisabledSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
                 .getItemProperty("disabledSince").getValue());
 
-        testDate = new Date(new Date().getTime() + 1000000);
+        testDate = new Date((new Date().getTime() + 1000000) / 1000 * 1000);
         adminFacade.setDisabledSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
                 .getItemProperty("disabledSince").getValue());

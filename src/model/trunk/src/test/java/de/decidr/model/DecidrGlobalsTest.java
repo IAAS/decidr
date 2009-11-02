@@ -45,6 +45,53 @@ public class DecidrGlobalsTest extends DecidrOthersTest {
         assertTrue(Math.abs(Calendar.getInstance(TimeZone.getTimeZone("UTC"))
                 .getTimeInMillis()
                 - DecidrGlobals.getTime().getTimeInMillis()) < 10000);
+
+        // truncating the milliseconds shouldn't affect any other field
+        Calendar timeWithMillis;
+        Calendar timeWithoutMillis;
+        int millis;
+        int safety = 100000;
+        // heuristically assumes that the time between the two calls to
+        // DecidrGlobals.getTime() cannot be greater than 99 milliseconds
+        do {
+            safety--;
+            timeWithMillis = DecidrGlobals.getTime(false);
+            timeWithoutMillis = DecidrGlobals.getTime(true);
+            millis = timeWithMillis.get(Calendar.MILLISECOND);
+        } while ((millis == 1 || millis > 900) && safety > 0);
+
+        if (safety <= 0) {
+            fail("Couldn't get a time that has more than zero "
+                    + "and less than 900 milliseconds within 100000 iterations.");
+        }
+
+        // everything except the milliseconds must be the same and the
+        // milliseconds must be zero for timeWithoutMillis.
+        assertEquals(timeWithMillis.get(Calendar.YEAR), timeWithoutMillis
+                .get(Calendar.YEAR));
+        assertEquals(timeWithMillis.get(Calendar.MONTH), timeWithoutMillis
+                .get(Calendar.MONTH));
+        assertEquals(timeWithMillis.get(Calendar.DAY_OF_MONTH),
+                timeWithoutMillis.get(Calendar.DAY_OF_MONTH));
+        assertEquals(timeWithMillis.get(Calendar.HOUR_OF_DAY),
+                timeWithoutMillis.get(Calendar.HOUR_OF_DAY));
+        assertEquals(timeWithMillis.get(Calendar.MINUTE), timeWithoutMillis
+                .get(Calendar.MINUTE));
+        assertEquals(timeWithMillis.get(Calendar.SECOND), timeWithoutMillis
+                .get(Calendar.SECOND));
+        if (timeWithMillis.get(Calendar.MILLISECOND) == timeWithoutMillis
+                .get(Calendar.MILLISECOND)) {
+            fail("Milliseconds are equal.");
+        }
+        assertEquals(timeWithoutMillis.get(Calendar.MILLISECOND), 0);
+
+        // since only the milliseconds are removed, the timestamp distance
+        // cannot be greater than 1000
+        long distance = Math.abs(timeWithMillis.getTime().getTime()
+                - timeWithoutMillis.getTime().getTime());
+        if (distance > 1000) {
+            fail("Distance was more than a second.");
+        }
     }
 
     /**
