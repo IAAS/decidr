@@ -20,6 +20,8 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.namespace.QName;
+import javax.xml.ws.RequestWrapper;
+import javax.xml.ws.ResponseWrapper;
 
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.soap.exceptions.ReportingException;
@@ -74,6 +76,8 @@ public interface HumanTaskInterface {
      *             by the facade.
      */
     @WebMethod(operationName = "createTask", action = "urn:createTask")
+    @RequestWrapper(localName = "createTask", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.soap.wrappers.CreateTask")
+    @ResponseWrapper(localName = "createTaskResponse", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.soap.wrappers.CreateTaskResponse")
     public TaskIdentifier createTask(@WebParam(name = "wfmID") long wfmID,
             @WebParam(name = "processID") String processID,
             @WebParam(name = "userID") long userID,
@@ -93,6 +97,8 @@ public interface HumanTaskInterface {
      *             by the facade.
      */
     @WebMethod(operationName = "removeTask", action = "urn:removeTask")
+    @RequestWrapper(localName = "removeTask", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.soap.wrappers.RemoveTask")
+    @ResponseWrapper(localName = "removeTaskResponse", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.soap.wrappers.RemoveTaskResponse")
     public void removeTask(@WebParam(name = "taskIDList") IDList taskIDList)
             throws TransactionException;
 
@@ -110,6 +116,8 @@ public interface HumanTaskInterface {
      *             by the facade.
      */
     @WebMethod(operationName = "removeTasks", action = "urn:removeTasks")
+    @RequestWrapper(localName = "removeTasks", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.soap.wrappers.RemoveTasks")
+    @ResponseWrapper(localName = "removeTasksResponse", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.soap.wrappers.RemoveTasksResponse")
     public void removeTasks(@WebParam(name = "wfmID") long wfmID,
             @WebParam(name = "processID") String processID)
             throws TransactionException;
@@ -125,6 +133,8 @@ public interface HumanTaskInterface {
      *             by the facade.
      */
     @WebMethod(operationName = "taskCompleted", action = "urn:taskCompleted")
+    @RequestWrapper(localName = "taskCompleted", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.soap.wrappers.TaskCompleted")
+    @ResponseWrapper(localName = "taskCompletedResponse", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.soap.wrappers.TaskCompletedResponse")
     public void taskCompleted(@WebParam(name = "taskID") long taskID)
             throws TransactionException, ReportingException;
 }

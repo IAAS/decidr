@@ -16,6 +16,8 @@
 package de.decidr.webservices.humantask;
 
 import java.io.StringReader;
+import java.util.List;
+import java.util.Vector;
 
 import javax.jws.HandlerChain;
 import javax.jws.WebService;
@@ -40,6 +42,8 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.webservices.HumanTaskInterface;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
+import de.decidr.model.workflowmodel.humantask.TInformation;
+import de.decidr.model.workflowmodel.humantask.TTaskItem;
 
 /**
  * This is an implementation of the {@link HumanTaskInterface DecidR HumanTask
@@ -65,8 +69,6 @@ public class HumanTask implements HumanTaskInterface {
         JAXBElement<THumanTaskData> taskDataElement;
         try {
             JAXBContext context = JAXBContext.newInstance(THumanTaskData.class);
-            // XXX DH if this fails, remove .getValue() from the end of the next
-            // statement. Otherwise remove this comment ~dh
             taskDataElement = (JAXBElement<THumanTaskData>) context
                     .createUnmarshaller().unmarshal(new StringReader(taskData));
         } catch (JAXBException e) {
@@ -78,9 +80,6 @@ public class HumanTask implements HumanTaskInterface {
                         .getValue(), userNotification);
 
         // id is needed by the ODE Engine to identify this task
-        // OK fuck it, you can add whatever redundant information you think is
-        // necessary to your "task identifier" :-) I'm not going to touch this
-        // project again. ~dh
         TaskIdentifier id = new TaskIdentifier(taskID, processID, userID);
 
         log.trace("Leaving method: createTask");
@@ -125,17 +124,25 @@ public class HumanTask implements HumanTaskInterface {
             log.debug("attempting to parse the data string into an Object");
             THumanTaskData taskData = TransformUtil.bytesToHumanTask(workItem
                     .getData());
+            
+            // RR adapt to whatever Modood needs
+            List<Object> dataList = new Vector<Object>();
+            for (Object object : taskData.getTaskItemOrInformation()) {
+                if (object instanceof TInformation) {
+                    continue;
+                }
+
+                dataList.add(((TTaskItem) object).getValue());
+            }
 
             /*
              * DH RR MA Modood is going to create a new type that replaces
              * ItemList. We have to map from THumanTaskData to this new type ~dh
              */
-            // log.debug("calling Callback");
-            // new BasicProcessClient().getBPELCallbackInterfacePort()
-            // .taskCompleted(id, ???);
-            // } catch (MalformedURLException e) {
-            // throw new ReportingException(e.getMessage(), e);
-        } catch (JAXBException e) {
+            log.debug("calling Callback");
+            new BasicProcessClient().getBPELCallbackInterfacePort()
+                    .taskCompleted(id, dataList);
+        } catch (Exception e) {
             throw new ReportingException(e.getMessage(), e);
         }
 

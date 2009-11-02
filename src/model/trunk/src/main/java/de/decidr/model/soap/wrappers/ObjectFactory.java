@@ -142,4 +142,61 @@ public class ObjectFactory {
         return new JAXBElement<AbstractUserList>(_SendEmailCc_QNAME,
                 AbstractUserList.class, SendEmail.class, value);
     }
+
+    /**
+     * Create an instance of {@link TaskCompleted }
+     */
+    public TaskCompleted createTaskCompleted() {
+        return new TaskCompleted();
+    }
+
+
+    /**
+     * Create an instance of {@link RemoveTask }
+     */
+    public RemoveTask createRemoveTask() {
+        return new RemoveTask();
+    }
+
+    /**
+     * Create an instance of {@link TaskCompletedResponse }
+     */
+    public TaskCompletedResponse createTaskCompletedResponse() {
+        return new TaskCompletedResponse();
+    }
+
+    /**
+     * Create an instance of {@link CreateTaskResponse }
+     */
+    public CreateTaskResponse createCreateTaskResponse() {
+        return new CreateTaskResponse();
+    }
+
+    /**
+     * Create an instance of {@link RemoveTaskResponse }
+     */
+    public RemoveTaskResponse createRemoveTaskResponse() {
+        return new RemoveTaskResponse();
+    }
+
+    /**
+     * Create an instance of {@link CreateTask }
+     */
+    public CreateTask createCreateTask() {
+        return new CreateTask();
+    }
+
+    /**
+     * Create an instance of {@link RemoveTasks }
+     */
+    public RemoveTasks createRemoveTasks() {
+        return new RemoveTasks();
+    }
+
+    /**
+     * Create an instance of {@link RemoveTasksResponse }
+     */
+    public RemoveTasksResponse createRemoveTasksResponse() {
+        return new RemoveTasksResponse();
+    }
 }

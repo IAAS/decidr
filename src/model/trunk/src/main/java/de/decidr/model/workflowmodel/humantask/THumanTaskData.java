@@ -108,5 +108,4 @@ public class THumanTaskData {
         }
         return this.taskItemOrInformation;
     }
-
 }

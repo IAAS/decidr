@@ -15,13 +15,15 @@
  */
 package de.decidr.webservices.humantask;
 
+import java.util.List;
+
 import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 import javax.xml.namespace.QName;
 
-import de.decidr.model.soap.types.ItemList;
 import de.decidr.model.soap.types.TaskIdentifier;
 
 /**
@@ -32,6 +34,7 @@ import de.decidr.model.soap.types.TaskIdentifier;
  * @author Reinhold
  */
 @WebService(targetNamespace = BasicProcessInterface.TARGET_NAMESPACE, name = BasicProcessInterface.PORT_TYPE_NAME)
+@SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.WRAPPED, style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 public interface BasicProcessInterface {
 
     public static final String SERVICE_NAME = "basicProcess";
@@ -54,5 +57,5 @@ public interface BasicProcessInterface {
     @Oneway
     @WebMethod(action = TARGET_NAMESPACE + "/taskCompleted", operationName = "taskCompleted")
     public void taskCompleted(@WebParam(name = "taskID") TaskIdentifier taskID,
-            @WebParam(name = "dataList") ItemList dataList);
+            @WebParam(name = "dataList") List<Object> dataList);
 }
