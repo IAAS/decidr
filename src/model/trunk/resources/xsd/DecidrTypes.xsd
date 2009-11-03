@@ -162,4 +162,23 @@
 				maxOccurs="1" nillable="false" />
 		</xsd:sequence>
 	</xsd:complexType>
+
+	<xsd:element name="humanTaskData" type="tns:tHumanTaskData" />
+	<xsd:complexType name="tHumanTaskData">
+		<xsd:sequence>
+			<xsd:element name="taskID" type="tns:tID" minOccurs="1"
+				maxOccurs="1" nillable="false" />
+			<xsd:element name="dataItem" type="tns:tTaskDataItem"
+				minOccurs="1" maxOccurs="unbounded" nillable="false" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="tTaskDataItem">
+		<xsd:sequence>
+			<xsd:element name="value" type="xsd:anySimpleType"
+				minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:NCName" use="required" />
+		<xsd:attribute name="type" type="xsd:string" use="required" />
+	</xsd:complexType>
 </xsd:schema>
