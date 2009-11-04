@@ -172,8 +172,8 @@ public class UserListComponent extends CustomComponent {
     }
 
 	/**
-	 * TODO: add comment
-	 *
+	 * Gets the userlist table
+	 * 
 	 * @return the userListTable
 	 */
 	public UserListTable getUserListTable() {

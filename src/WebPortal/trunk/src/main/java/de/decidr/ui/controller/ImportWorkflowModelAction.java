@@ -80,6 +80,12 @@ public class ImportWorkflowModelAction implements ClickListener {
         try {
             tenantFacade.importPublishedWorkflowModels((Long) tenant
                     .getItemProperty("id").getValue(), wfms);
+            Set<?> values = (Set<?>) table.getValue();
+            if ((values != null) && (values.size() != 0)) {
+                for (Iterator<?> iter = values.iterator(); iter.hasNext();) {
+                    table.removeItem(iter.next());
+                }
+            }
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent());

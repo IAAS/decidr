@@ -16,12 +16,23 @@
 
 package de.decidr.ui.view;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.servlet.http.HttpSession;
+
 import com.vaadin.data.Container;
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 
+import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.filters.Filter;
+import de.decidr.model.filters.KeywordFilter;
+import de.decidr.model.filters.Paginator;
 import de.decidr.ui.data.TenantContainer;
 
 /**
@@ -38,6 +49,20 @@ public class TenantTable extends Table implements Observer {
 
     private Observable observable = null;
     private Container tenantContainer = null;
+    
+    private HttpSession session = Main.getCurrent().getSession();
+
+    private Long userId = (Long) session.getAttribute("userId");
+
+    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+
+    List<Item> tenantList = null;
+    
+    private KeywordFilter filter = new KeywordFilter();
+
+    private List<Filter> filterList = new LinkedList<Filter>();
+
+    private Paginator paginator = new Paginator();
 
     /**
      * Default constructor. The table is added as an observer to the container
@@ -76,8 +101,17 @@ public class TenantTable extends Table implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof TenantContainer) {
-            this.requestRepaint();
-            refreshCurrentPage();
+        	filterList.add(filter);
+            try {
+                tenantList = tenantFacade.getAllTenants(filterList, paginator);
+                for (Item item : tenantList) {
+                    addItem(item);
+                }
+                this.requestRepaint();
+            } catch (TransactionException exception) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent());
+            }
         }
 
     }

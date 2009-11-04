@@ -18,6 +18,7 @@ package de.decidr.ui.controller;
 
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -44,12 +45,15 @@ public class CreateWorkflowModelAction implements ClickListener {
     private Long tenantId = null;
 
     private String name = null;
+    
+    private Table table = null;
 
     /**
      * Constructor with a given workflow model name.
      * 
      */
-    public CreateWorkflowModelAction(String name) {
+    public CreateWorkflowModelAction(String name, Table table) {
+    	this.table = table;
         this.name = name;
     }
 
@@ -66,6 +70,7 @@ public class CreateWorkflowModelAction implements ClickListener {
         try {
             tenantId = tenantFacade.getTenantId(tenant);
             tenantFacade.createWorkflowModel(tenantId, name);
+            table.removeItem(table.getValue());
             new ShowModelingToolAction();
         } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().addWindow(

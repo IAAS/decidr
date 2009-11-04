@@ -16,13 +16,20 @@
 
 package de.decidr.ui.view;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.servlet.http.HttpSession;
+
 import com.vaadin.data.Container;
+import com.vaadin.data.Item;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 
+import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.data.WorkflowInstanceContainer;
 
 /**
@@ -40,6 +47,14 @@ public class WorkflowInstanceTable extends Table implements Observer {
 
     private Observable observable = null;
     private Container workflowInstanceContainer = null;
+    
+    private HttpSession session = Main.getCurrent().getSession();
+
+    private Long userId = (Long) session.getAttribute("userId");
+
+    UserFacade userFacade = new UserFacade(new UserRole(userId));
+
+    List<Item> workflowInstanceList = null;
 
     /**
      * Default constructor.
@@ -71,8 +86,17 @@ public class WorkflowInstanceTable extends Table implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof WorkflowInstanceContainer) {
-            this.requestRepaint();
-            refreshCurrentPage();
+        	try {
+                workflowInstanceList = userFacade
+                        .getAdministratedWorkflowInstances(userId);
+                for (Item item : workflowInstanceList) {
+                    addItem(item);
+                }
+                this.requestRepaint();
+            } catch (TransactionException exception) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent());
+            }
         }
 
     }

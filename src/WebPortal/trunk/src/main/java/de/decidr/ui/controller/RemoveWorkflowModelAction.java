@@ -70,8 +70,10 @@ public class RemoveWorkflowModelAction implements ClickListener {
         Set<?> value = (Set<?>) table.getValue();
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                wfms.add((Long) table.getContainerProperty(iter.next(), "id")
+            	Object itemId = iter.next();
+                wfms.add((Long) table.getContainerProperty(itemId, "id")
                         .getValue());
+                table.removeItem(itemId);
             }
         }
         try {

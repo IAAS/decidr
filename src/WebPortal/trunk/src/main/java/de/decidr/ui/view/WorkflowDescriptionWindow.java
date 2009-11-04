@@ -19,6 +19,7 @@ package de.decidr.ui.view;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -45,12 +46,15 @@ public class WorkflowDescriptionWindow extends Window {
 
     private TextField nameTextField = null;
     private TextField descriptionTextField = null;
+    
+    private Table table = null;
 
     /**
      * Default constructor which calls the init method
      * 
      */
-    public WorkflowDescriptionWindow() {
+    public WorkflowDescriptionWindow(Table table) {
+    	this.table = table;
         init();
     }
 
@@ -69,7 +73,7 @@ public class WorkflowDescriptionWindow extends Window {
         buttonPanel = new Panel();
 
         okButton = new Button("OK", new CreateWorkflowModelAction(
-                getNameTextField().getValue().toString()));
+                getNameTextField().getValue().toString(), table));
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
         nameTextField = new TextField("Name");

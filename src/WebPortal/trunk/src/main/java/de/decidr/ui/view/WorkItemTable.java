@@ -15,12 +15,23 @@
  */
 package de.decidr.ui.view;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.servlet.http.HttpSession;
+
 import com.vaadin.data.Container;
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 
+import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.UserFacade;
+import de.decidr.model.filters.Filter;
+import de.decidr.model.filters.KeywordFilter;
+import de.decidr.model.filters.Paginator;
 import de.decidr.ui.data.WorkItemContainer;
 
 public class WorkItemTable extends Table implements Observer {
@@ -34,6 +45,20 @@ public class WorkItemTable extends Table implements Observer {
 
     private Container workItemContainer = null;
     private Observable observable = null;
+    
+    private HttpSession session = Main.getCurrent().getSession();
+
+    private Long userId = (Long) session.getAttribute("userId");
+
+    private UserFacade userFacade = new UserFacade(new UserRole(userId));
+
+    private List<Item> workItemList = null;
+    
+    private KeywordFilter filter = new KeywordFilter();
+
+    private List<Filter> filterList = new LinkedList<Filter>();
+
+    private Paginator paginator = new Paginator();
 
     /**
      * Default constructor. The table is added as an observer to the container
@@ -77,9 +102,18 @@ public class WorkItemTable extends Table implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof WorkItemContainer) {
-            // TODO: daten aus der fassade holen
-            this.requestRepaint();
-            refreshCurrentPage();
+        	filterList.add(filter);
+            try {
+                workItemList = userFacade.getWorkItems(userId, filterList,
+                        paginator);
+                for (Item item : workItemList) {
+                    addItem(item);
+                }
+                this.requestRepaint();
+            } catch (TransactionException exception) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent());
+            }
         }
 
     }

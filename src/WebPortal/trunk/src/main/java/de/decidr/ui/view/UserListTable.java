@@ -16,13 +16,24 @@
 
 package de.decidr.ui.view;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.servlet.http.HttpSession;
+
 import com.vaadin.data.Container;
+import com.vaadin.data.Item;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 
+import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.UserFacade;
+import de.decidr.model.filters.Filter;
+import de.decidr.model.filters.KeywordFilter;
+import de.decidr.model.filters.Paginator;
 import de.decidr.ui.data.UserListContainer;
 
 /**
@@ -40,6 +51,20 @@ public class UserListTable extends Table implements Observer {
 
     private Observable observable = null;
     private Container userListContainer = null;
+    
+    private HttpSession session = Main.getCurrent().getSession();
+
+    private Long userId = (Long) session.getAttribute("userId");
+
+    UserFacade userFacade = new UserFacade(new UserRole(userId));
+
+    List<Item> userList = null;
+    
+    private KeywordFilter filter = new KeywordFilter();
+
+    private List<Filter> filterList = new LinkedList<Filter>();
+
+    private Paginator paginator = new Paginator();
 
     /**
      * Default constructor
@@ -73,8 +98,17 @@ public class UserListTable extends Table implements Observer {
     @Override
     public void update(Observable arg0, Object arg1) {
         if (arg0 instanceof UserListContainer) {
-            this.requestRepaint();
-            refreshCurrentPage();
+        	filterList.add(filter);
+            try {
+                userList = userFacade.getAllUsers(filterList, paginator);
+                for (Item item : userList) {
+                    addItem(item);
+                }
+                this.requestRepaint();
+            } catch (TransactionException exception) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent());
+            }
         }
 
     }

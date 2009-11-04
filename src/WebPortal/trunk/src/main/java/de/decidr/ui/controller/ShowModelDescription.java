@@ -16,6 +16,7 @@
 
 package de.decidr.ui.controller;
 
+import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -29,6 +30,16 @@ import de.decidr.ui.view.WorkflowDescriptionWindow;
  * @author AT
  */
 public class ShowModelDescription implements ClickListener {
+	
+	private Table table = null;
+	
+	/**
+	 * Default constructor which gets the container 
+	 *
+	 */
+	public ShowModelDescription(Table table) {
+		this.table = table;
+	}
 
     /*
      * (non-Javadoc)
@@ -39,7 +50,7 @@ public class ShowModelDescription implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         Main.getCurrent().getMainWindow().addWindow(
-                new WorkflowDescriptionWindow());
+                new WorkflowDescriptionWindow(table));
     }
 
 }

@@ -39,90 +39,100 @@ import de.decidr.ui.view.StartConfigurationWindow;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * TODO: add comment
+ * This actions saves the start configuration. It goes through the window and
+ * set the entered value in the start configuration object
  * 
  * @author AT
  */
 public class SaveStartConfigurationAction implements ClickListener {
 
-    private Form form = null;
+	private Form form = null;
 
-    private Tree tree = null;
+	private Tree tree = null;
 
-    private TConfiguration tConfiguration = null;
+	private TConfiguration tConfiguration = null;
 
-    private Long workflowModelId = null;
+	private Long workflowModelId = null;
 
-    private boolean checked = false;
+	private boolean checked = false;
 
-    private WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
-            new UserRole((Long) Main.getCurrent().getSession().getAttribute(
-                    "userId")));
+	private WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
+			new UserRole((Long) Main.getCurrent().getSession().getAttribute(
+					"userId")));
 
-    /**
-     * TODO: add comment
-     * 
-     */
-    public SaveStartConfigurationAction(Tree tree, Form form,
-            TConfiguration tConfiguation, Long workflowModelId, boolean checked) {
-        this.tree = tree;
-        this.form = form;
-        this.tConfiguration = tConfiguation;
-        this.workflowModelId = workflowModelId;
-        this.checked = checked;
-    }
+	/**
+	 * Constructor which saves the role tree, the form of the start
+	 * configuration window. Also the start configuration object,
+	 * tConfiguration, is saved with the given workflow model id. And a boolean
+	 * value is saved if the user wants to start the workflow instance
+	 * immediately or not.
+	 * 
+	 * @param tree
+	 * @param form
+	 * @param tConfiguation
+	 * @param workflowModelId
+	 * @param checked
+	 */
+	public SaveStartConfigurationAction(Tree tree, Form form,
+			TConfiguration tConfiguation, Long workflowModelId, boolean checked) {
+		this.tree = tree;
+		this.form = form;
+		this.tConfiguration = tConfiguation;
+		this.workflowModelId = workflowModelId;
+		this.checked = checked;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public void buttonClick(ClickEvent event) {
-        StartConfigurationWindow stWindow = (StartConfigurationWindow) event
-                .getSource();
-        for (TRole role : tConfiguration.getRoles().getRole()) {
-            Collection<TActor> collect = tree.getChildren(role.getName());
-            if (collect.size() > 0) {
-                for (TActor tActor : collect) {
-                    role.getActor().add(tActor);
-                }
-            }
-        }
-        for (TAssignment assignment : tConfiguration.getAssignment()) {
-            if (assignment.getValueType().equals("File")) {
-                assignment.getValue().add(
-                        String.valueOf(Main.getCurrent().getMainWindow()
-                                .getData()));
-            } else {
-                assignment.getValue().add(
-                        form.getField(assignment.getKey()).getValue()
-                                .toString());
-            }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public void buttonClick(ClickEvent event) {
+		StartConfigurationWindow stWindow = (StartConfigurationWindow) event
+				.getSource();
+		for (TRole role : tConfiguration.getRoles().getRole()) {
+			Collection<TActor> collect = tree.getChildren(role.getName());
+			if (collect.size() > 0) {
+				for (TActor tActor : collect) {
+					role.getActor().add(tActor);
+				}
+			}
+		}
+		for (TAssignment assignment : tConfiguration.getAssignment()) {
+			if (assignment.getValueType().equals("File")) {
+				assignment.getValue().add(
+						String.valueOf(Main.getCurrent().getMainWindow()
+								.getData()));
+			} else {
+				assignment.getValue().add(
+						form.getField(assignment.getKey()).getValue()
+								.toString());
+			}
 
-        }
-        try {
-            workflowModelFacade.startWorkflowInstance(workflowModelId,
-                    tConfiguration, checked);
-        } catch (UsernameNotFoundException expception) {
-            Main.getCurrent().getMainWindow().showNotification(
-                    "Username not found!");
-        } catch (UserDisabledException expception) {
-            Main.getCurrent().getMainWindow().showNotification(
-                    "Username disabled!");
-        } catch (UserUnavailableException exceptions) {
-            Main.getCurrent().getMainWindow().showNotification(
-                    "User unavailable!");
-        } catch (WorkflowModelNotStartableException exception) {
-            Main.getCurrent().getMainWindow().showNotification(
-                    "Workflow model is not startable!");
-        } catch (TransactionException exception) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
-        }
-        new HideDialogWindowAction();
-    }
+		}
+		try {
+			workflowModelFacade.startWorkflowInstance(workflowModelId,
+					tConfiguration, checked);
+		} catch (UsernameNotFoundException expception) {
+			Main.getCurrent().getMainWindow().showNotification(
+					"Username not found!");
+		} catch (UserDisabledException expception) {
+			Main.getCurrent().getMainWindow().showNotification(
+					"Username disabled!");
+		} catch (UserUnavailableException exceptions) {
+			Main.getCurrent().getMainWindow().showNotification(
+					"User unavailable!");
+		} catch (WorkflowModelNotStartableException exception) {
+			Main.getCurrent().getMainWindow().showNotification(
+					"Workflow model is not startable!");
+		} catch (TransactionException exception) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent());
+		}
+		new HideDialogWindowAction();
+	}
 
 }

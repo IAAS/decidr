@@ -16,13 +16,20 @@
 
 package de.decidr.ui.view;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.servlet.http.HttpSession;
+
 import com.vaadin.data.Container;
+import com.vaadin.data.Item;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 
+import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.data.CurrentTenantContainer;
 
 /**
@@ -38,6 +45,14 @@ public class CurrentTenantModelTable extends Table implements Observer {
     private static final long serialVersionUID = -3378507042364075268L;
     private Observable observable = null;
     private Container currentTenantContainer = null;
+    
+    private HttpSession session = Main.getCurrent().getSession();
+
+    private Long userId = (Long) session.getAttribute("userId");
+
+    UserFacade userFacade = new UserFacade(new UserRole(userId));
+
+    List<Item> currentTenantList = null;
 
     /**
      * Default Constructor. Adds this table as an observer to the depending
@@ -72,8 +87,15 @@ public class CurrentTenantModelTable extends Table implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof CurrentTenantContainer) {
-            this.requestRepaint();
-            refreshCurrentPage();
+        	try {
+                currentTenantList = userFacade.getJoinedTenants(userId);
+                for (Item item : currentTenantList) {
+                    addItem(item);
+                }
+                this.requestRepaint();
+            } catch (TransactionException exception) {
+                Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+            } 
         }
 
     }

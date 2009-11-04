@@ -201,7 +201,7 @@ public class WorkflowModelsComponent extends CustomComponent {
         });
 
         createNewModelButton = new Button("Create new model",
-                new ShowModelDescription());
+                new ShowModelDescription(publicModelTable));
         editWorkflowModelButton = new Button("Edit model",
                 new ShowModelingToolAction());
         removeModelButton = new Button("Remove", new RemoveWorkflowModelAction(
@@ -211,9 +211,9 @@ public class WorkflowModelsComponent extends CustomComponent {
         unlockModelButton = new Button("Unlock", new UnlockWorkflowModelAction(
                 currentTenantTable));
         publishModelButton = new Button("Publish",
-                new PublishWorkflowModelAction(currentTenantTable));
+                new PublishWorkflowModelAction(currentTenantTable, publicModelTable));
         unpublishModelButton = new Button("Un-publish",
-                new UnpublishWorkflowModelAction(currentTenantTable));
+                new UnpublishWorkflowModelAction(currentTenantTable, publicModelTable));
         appointWorkflowAdminButton = new Button("Appoint workflow admin",
                 new ShowAppointWorkflowAdminAction(currentTenantTable));
 

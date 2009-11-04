@@ -46,7 +46,8 @@ public class UnpublishWorkflowModelAction implements ClickListener {
     private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(
             new UserRole(userId));
 
-    private Table table = null;
+    private Table currentTenantTable = null;
+    private Table publicModelTable = null;
 
     /**
      * Constructor, requires the table which contains the data
@@ -54,8 +55,9 @@ public class UnpublishWorkflowModelAction implements ClickListener {
      * @param table
      *            : requires Table with data
      */
-    public UnpublishWorkflowModelAction(Table table) {
-        this.table = table;
+    public UnpublishWorkflowModelAction(Table table, Table table2) {
+        this.currentTenantTable = table;
+        this.publicModelTable = table2;
     }
 
     /*
@@ -67,15 +69,21 @@ public class UnpublishWorkflowModelAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         List<Long> wfms = new ArrayList<Long>();
-        Set<?> value = (Set<?>) table.getValue();
+        Set<?> value = (Set<?>) currentTenantTable.getValue();
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                wfms.add((Long) table.getContainerProperty(iter.next(), "id")
+                wfms.add((Long) currentTenantTable.getContainerProperty(iter.next(), "id")
                         .getValue());
             }
         }
         try {
             wfmFacade.unpublishWorkflowModels(wfms);
+            Set<?> values = (Set<?>) currentTenantTable.getValue();
+            if ((values != null) && (values.size() != 0)) {
+                for (Iterator<?> iter = values.iterator(); iter.hasNext();) {
+                	publicModelTable.removeItem(iter.next());
+                }
+            }
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent());
