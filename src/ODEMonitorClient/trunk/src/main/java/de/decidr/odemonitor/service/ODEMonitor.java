@@ -34,7 +34,8 @@ import de.decidr.model.DecidrGlobals;
 public class ODEMonitor extends Service {
     public ODEMonitor() throws MalformedURLException {
         this(new URL(DecidrGlobals
-                .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME)),
+                .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME + "."
+                        + ODEMonitorService.PORT_NAME)),
                 ODEMonitorService.SERVICE);
     }
 

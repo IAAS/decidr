@@ -37,8 +37,8 @@ public class EmailClientStatic extends Service {
 
     public EmailClientStatic() throws MalformedURLException {
         this(new URL(DecidrGlobals
-                .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME)),
-                EmailInterface.SERVICE);
+                .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME + "."
+                        + EmailInterface.PORT_NAME)), EmailInterface.SERVICE);
     }
 
     public EmailClientStatic(URL wsdlLocation) {
@@ -53,7 +53,7 @@ public class EmailClientStatic extends Service {
      * @return returns an implementation using SOAP 1.1 to access the
      *         <code>{@link EmailInterface}</code>.
      */
-    @WebEndpoint(name = "EmailSOAP")
+    @WebEndpoint(name = EmailInterface.PORT_NAME)
     public EmailInterface getEmailSOAP() {
         return super.getPort(EmailInterface.ENDPOINT, EmailInterface.class);
     }
@@ -68,7 +68,7 @@ public class EmailClientStatic extends Service {
      * @return returns an implementation using SOAP 1.1 to access the
      *         <code>{@link EmailInterface}</code>.
      */
-    @WebEndpoint(name = "EmailSOAP")
+    @WebEndpoint(name = EmailInterface.PORT_NAME)
     public EmailInterface getEmailSOAP(WebServiceFeature... features) {
         return super.getPort(EmailInterface.ENDPOINT, EmailInterface.class,
                 features);
