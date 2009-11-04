@@ -636,8 +636,7 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
 
         setRule(HumanTaskRole.getInstance(), new CommandPermission(
-                RemoveAllWorkItemsCommand.class), SatisfyAll,
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+                RemoveAllWorkItemsCommand.class), SatisfyAll, alwaysTrueAsserter);
 
         setRule(new WorkflowAdminRole(), new CommandPermission(
                 GetAllWorkitemsCommand.class), SatisfyAll,
@@ -727,8 +726,7 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsLoggedInAsserter());
 
         setRule(HumanTaskRole.getInstance(), new CommandPermission(
-                CreateWorkItemCommand.class), SatisfyAll,
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+                CreateWorkItemCommand.class), SatisfyAll, alwaysTrueAsserter);
 
         setRule(new UserRole(), new CommandPermission(SetDataCommand.class),
                 SatisfyAll, new UserOwnsWorkItemAsserter(),
