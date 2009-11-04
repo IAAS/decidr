@@ -47,7 +47,7 @@ public class UserIsEnabledAsserter extends AbstractTransactionalCommand
     @Override
     public void transactionStarted(TransactionEvent evt) {
         User user = (User) evt.getSession().get(User.class, userId);
-        // a user is enabled iff no "diabled since" date has been set
+        // a user is enabled iff no "disabled since" date has been set
         userIsEnabled = user != null && user.getDisabledSince() == null;
     }
 }

@@ -19,7 +19,6 @@ import java.io.StringReader;
 import java.util.List;
 import java.util.Vector;
 
-import javax.jws.HandlerChain;
 import javax.jws.WebService;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -52,7 +51,7 @@ import de.decidr.model.workflowmodel.humantask.TTaskItem;
  * @author Reinhold
  */
 @WebService(endpointInterface = "de.decidr.model.webservices.HumanTaskInterface", targetNamespace = HumanTaskInterface.TARGET_NAMESPACE, portName = HumanTaskInterface.PORT_NAME, serviceName = HumanTaskInterface.SERVICE_NAME)
-@HandlerChain(file = "handler-chain.xml")
+// @HandlerChain(file = "handler-chain.xml")
 public class HumanTask implements HumanTaskInterface {
     private static Logger log = DefaultLogger.getLogger(HumanTask.class);
     private static final Role HUMANTASK_ROLE = HumanTaskRole.getInstance();
@@ -65,7 +64,6 @@ public class HumanTask implements HumanTaskInterface {
         log.trace("Entering method: createTask");
 
         log.debug("creating work item in database");
-
         JAXBElement<THumanTaskData> taskDataElement;
         try {
             JAXBContext context = JAXBContext.newInstance(THumanTaskData.class);
@@ -76,7 +74,7 @@ public class HumanTask implements HumanTaskInterface {
         }
 
         long taskID = new WorkItemFacade(HUMANTASK_ROLE).createWorkItem(userID,
-                wfmID, processID + "", taskName, description, taskDataElement
+                wfmID, processID, taskName, description, taskDataElement
                         .getValue(), userNotification);
 
         // id is needed by the ODE Engine to identify this task
@@ -124,7 +122,7 @@ public class HumanTask implements HumanTaskInterface {
             log.debug("attempting to parse the data string into an Object");
             THumanTaskData taskData = TransformUtil.bytesToHumanTask(workItem
                     .getData());
-            
+
             // RR adapt to whatever Modood needs
             List<Object> dataList = new Vector<Object>();
             for (Object object : taskData.getTaskItemOrInformation()) {
