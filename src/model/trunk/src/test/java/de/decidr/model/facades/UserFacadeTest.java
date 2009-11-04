@@ -750,7 +750,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.confirmRegistration(testUserID, "");
             fail("confirming registration with empty authkey succeeded");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
         try {
@@ -1070,7 +1070,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         try {
             userFacade.getCurrentTenantId(null);
             fail("could get current tenant with null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
         try {

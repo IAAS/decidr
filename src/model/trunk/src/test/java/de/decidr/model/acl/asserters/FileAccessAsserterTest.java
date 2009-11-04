@@ -96,7 +96,10 @@ public class FileAccessAsserterTest extends LowLevelDatabaseTest {
 
     @AfterClass
     public static void cleanUpAfterClass() throws TransactionException {
-        fileFacade.deleteFile(fileId);
+        // RR it seems that fileId is null, is my workaround ok? ~dh
+        if (fileId != null) {
+            fileFacade.deleteFile(fileId);
+        }
         UserFacadeTest.deleteTestUsers();
     }
 

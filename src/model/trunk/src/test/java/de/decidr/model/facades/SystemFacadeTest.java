@@ -284,6 +284,7 @@ public class SystemFacadeTest extends LowLevelDatabaseTest {
         assertEquals("", getterSettings.getItemProperty("systemName")
                 .getValue());
 
+        //RR new FP ~dh
         setSettingsExceptionHelper("managed to set null settings", adminFacade,
                 null);
         setSettingsExceptionHelper("managed to set null settings", adminFacade,

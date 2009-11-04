@@ -427,7 +427,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.getTenantId(null);
             fail("managed to get tenant ID with null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {
@@ -667,7 +667,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.setDescription(null, TEST_DESC + " (testtttttt)");
             fail("managed to change description of tenant using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
         try {
@@ -729,7 +729,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.createTenant(null, TEST_DESC, testAdminID);
             fail("Managed to create tenant using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
         try {
