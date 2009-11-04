@@ -75,7 +75,7 @@ public class DecidrWebserviceAdapter {
         // MA change mapping schema for callback port
         partnerPortType.setName(new QName(definition.getTargetNamespace(),
                 "think about it"));
-        return null;
+        return partnerLinkType;
     }
 
     public String getTargetNamespace() {
@@ -83,7 +83,8 @@ public class DecidrWebserviceAdapter {
     }
 
     public String getLocation() {
-        return null;
+        // MA how to get location?
+        return "location";
     }
 
     public PortType getPortType() {

@@ -60,6 +60,8 @@ public class Translator {
     private List<Definition> definitions = null;
     private Map<String, DecidrWebserviceAdapter> webserviceAdapters = null;
     private String tenantName = null;
+    
+    private String documentBaseURI = "resources/xsd/";
 
     private Map<String, DecidrWebserviceAdapter> createAdapters(
             List<KnownWebService> knownWebservices) throws JAXBException,
@@ -125,8 +127,9 @@ public class Translator {
         WSDLReader reader = new com.ibm.wsdl.xml.WSDLReaderImpl();
         InputSource in = new InputSource(new ByteArrayInputStream(
                 knownWebservice.getWsdl()));
+        in.setSystemId(documentBaseURI);
         reader.setFeature("javax.wsdl.importDocuments", false);
-        Definition def = reader.readWSDL("/bla", in);
+        Definition def = reader.readWSDL(documentBaseURI, in);
         return def;
     }
 

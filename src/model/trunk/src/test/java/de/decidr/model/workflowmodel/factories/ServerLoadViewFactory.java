@@ -27,6 +27,8 @@ import de.decidr.model.entities.ServerLoadView;
  * @author Modood Alvi
  */
 public class ServerLoadViewFactory {
+    
+    private static String AMAZON_EC2 = "http://ec2-174-129-24-232.compute-1.amazonaws.com:8080/ode/";
 
     public static List<ServerLoadView> getServerStatistics() {
 
@@ -35,7 +37,7 @@ public class ServerLoadViewFactory {
         server.setId(3l);
         server.setLoad((byte) 10);
         server
-                .setLocation("http://ec2-174-129-24-232.compute-1.amazonaws.com:8080/ode/");
+                .setLocation(AMAZON_EC2);
         server.setServerTypeId(1l);
         statistics.add(server);
 

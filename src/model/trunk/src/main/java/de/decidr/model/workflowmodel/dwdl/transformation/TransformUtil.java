@@ -93,10 +93,10 @@ public class TransformUtil {
     public static WebserviceMapping bytesToMapping(byte[] mapping)
             throws JAXBException {
         Unmarshaller unmarshaller = mappingCntxt.createUnmarshaller();
-        JAXBElement<WebserviceMapping> dwdlElement = unmarshaller.unmarshal(
+        JAXBElement<WebserviceMapping> element = unmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(mapping)),
                 WebserviceMapping.class);
-        return dwdlElement.getValue();
+        return element.getValue();
     }
 
     public static Workflow bytesToWorkflow(byte[] dwdl) throws JAXBException {

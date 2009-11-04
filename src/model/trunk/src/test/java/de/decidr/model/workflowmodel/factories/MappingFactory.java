@@ -46,6 +46,7 @@ public class MappingFactory {
         email.setPortType("EmailPT");
         email.setOperation("sendEmail");
         email.setBinding("EmailSOAP");
+        email.setPartnerLinkTyp("EmailPLT");
         Property to = factory.createProperty();
         to.setName("to");
         to.setType(new QName("http://decidr.de/schema/DecidrTypes",
@@ -129,7 +130,7 @@ public class MappingFactory {
     }
 
     public static byte[] getEmailMappingBytes() throws JAXBException{
-        WebserviceMapping mapping = getHumanTaskMapping();
+        WebserviceMapping mapping = getEmailMapping();
         return TransformUtil.mappingToBytes(mapping);
     }
     
@@ -143,6 +144,7 @@ public class MappingFactory {
         humanTask.setPortType("HumanTaskPT");
         humanTask.setOperation("createTask");
         humanTask.setBinding("HumanTaskSOAP");
+        humanTask.setPartnerLinkTyp("HumanTaskPLT");
 
         Property wfmID = factory.createProperty();
         wfmID.setName("wfmID");

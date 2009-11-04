@@ -23,6 +23,7 @@ public class DeployerTest {
     static DeploymentStrategy strategy;
     static List<ServerLoadView> serverStatistics;
     static byte[] dwdl;
+    static String tenantName = "Hugo";
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
@@ -37,7 +38,7 @@ public class DeployerTest {
         Deployer deployer = new DeployerImpl();
         try {
             DeploymentResult result = deployer.deploy(dwdl, knownWebservices,
-                    "Hugo", serverStatistics, strategy);
+                    tenantName, serverStatistics, strategy);
             long serverId = result.getServers().get(0);
             assertEquals(3l, serverId);
         } catch (DWDLValidationException e) {

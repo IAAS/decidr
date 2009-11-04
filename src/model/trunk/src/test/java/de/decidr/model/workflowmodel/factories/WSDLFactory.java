@@ -37,13 +37,14 @@ public class WSDLFactory {
 
     static String humanTaskWSDLName = "/test/HumanTaskTest.wsdl";
     static String emailWSDLName = "/test/EmailTest.wsdl";
+    private static String documentBaseURI = "resources/xsd/";
 
     public static Definition getHumanTaskDefintion() throws WSDLException {
 
         WSDLReader reader = new WSDLReaderImpl();
         InputSource source = new InputSource(WSDLFactory.class
                 .getResourceAsStream(humanTaskWSDLName));
-        return reader.readWSDL(null, source);
+        return reader.readWSDL(documentBaseURI, source);
 
     }
 
@@ -52,15 +53,7 @@ public class WSDLFactory {
         WSDLReader reader = new WSDLReaderImpl();
         InputSource source = new InputSource(WSDLFactory.class
                 .getResourceAsStream(emailWSDLName));
-        return reader.readWSDL(null, source);
-    }
-
-    public static Definition getHumanTaskDefinition() throws WSDLException {
-
-        WSDLReader reader = new WSDLReaderImpl();
-        InputSource source = new InputSource(WSDLFactory.class
-                .getResourceAsStream(humanTaskWSDLName));
-        return reader.readWSDL(null, source);
+        return reader.readWSDL(documentBaseURI, source);
     }
 
     public static byte[] getHumanTaskDefinitionByteArray() throws IOException {

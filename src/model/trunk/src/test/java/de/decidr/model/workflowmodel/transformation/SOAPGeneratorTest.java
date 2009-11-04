@@ -55,7 +55,7 @@ public class SOAPGeneratorTest {
         TConfiguration tConfiguration = HumanTaskStartConfigurationFactory
                 .getHumanTaskStartConfiguration();
         SOAPGenerator soapGenerator = new SOAPGenerator();
-        Definition definition = WSDLFactory.getHumanTaskDefinition();
+        Definition definition = WSDLFactory.getHumanTaskDefintion();
         DWDL2SOAP dwdl2Soap = new DWDL2SOAP();
         SOAPMessage template = dwdl2Soap.getSOAP(definition, "HumanTaskPT",
                 "createTask");

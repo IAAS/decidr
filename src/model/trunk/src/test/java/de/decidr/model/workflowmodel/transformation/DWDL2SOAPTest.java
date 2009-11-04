@@ -39,7 +39,7 @@ public class DWDL2SOAPTest {
      */
     public static void main(String[] args) {
         try {
-            Definition definition = WSDLFactory.getHumanTaskDefinition();
+            Definition definition = WSDLFactory.getHumanTaskDefintion();
             DWDL2SOAP dwdl2Soap = new DWDL2SOAP();
             dwdl2Soap.getSOAP(definition, "HumanTaskPT", "createTask").writeTo(
                     System.out);
