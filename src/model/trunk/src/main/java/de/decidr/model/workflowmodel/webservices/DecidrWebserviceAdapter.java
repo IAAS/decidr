@@ -88,13 +88,11 @@ public class DecidrWebserviceAdapter {
     }
 
     public PortType getPortType() {
-        return definition.getPortType(new QName(mapping.portType));
+        return definition.getPortType(new QName(definition.getTargetNamespace(),mapping.portType));
     }
 
     public Operation getOpertation() {
-        return definition.getPortType(
-                new QName(definition.getTargetNamespace(), mapping.portType))
-                .getOperation(null, mapping.operation, null);
+        return getPortType().getOperation(mapping.operation,null , null);
     }
 
     public Definition getDefinition() {
