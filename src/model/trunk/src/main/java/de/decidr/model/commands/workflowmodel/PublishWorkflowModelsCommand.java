@@ -22,7 +22,6 @@ import de.decidr.model.acl.access.WorkflowModelAccess;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
-import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
@@ -36,21 +35,27 @@ import de.decidr.model.transactions.TransactionEvent;
  * @version 0.1
  */
 public class PublishWorkflowModelsCommand extends AclEnabledCommand implements
-        TransactionalCommand, WorkflowModelAccess {
+        WorkflowModelAccess {
 
     private List<Long> workflowModelIds = null;
-    private Boolean publish;
+    private boolean publish;
 
     /**
-     * Constructor.
+     * Creates a new {@link PublishWorkflowModelsCommand} that makes one or more
+     * workflow models available to the public or not public.
      * 
      * @param role
+     *            user / system executing the command
      * @param workflowModelIds
+     *            IDs of workflow models to publish
      */
     public PublishWorkflowModelsCommand(Role role, List<Long> workflowModelIds,
-            Boolean publish) {
+            boolean publish) {
         super(role, (Permission) null);
-
+        if (workflowModelIds == null) {
+            throw new IllegalArgumentException(
+                    "List of workflow model IDs must not be null.");
+        }
         this.workflowModelIds = workflowModelIds;
         this.publish = publish;
     }

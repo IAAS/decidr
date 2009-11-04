@@ -20,6 +20,7 @@ import de.decidr.model.commands.workflowinstance.StopWorkflowInstanceCommand;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.entities.WorkflowInstance;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 
@@ -50,6 +51,10 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      *            the ID of the WorkflowInstance
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the workflow instance does not exist.
+     * @throws IllegalArgumentException
+     *             if workflowInstanceId is <code>null</code>
      */
     @AllowedRole(WorkflowAdminRole.class)
     public void stopWorkflowInstance(Long workflowInstanceId)
@@ -76,6 +81,10 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      * @return List of participating Users
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the workflow instance does not exist.
+     * @throws IllegalArgumentException
+     *             if workflowInstanceId is <code>null</code>
      */
     @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getParticipatingUsers(Long workflowInstanceId)
@@ -106,6 +115,10 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      *            the ID of the WorkflowInstance
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the workflow instance does not exist.
+     * @throws IllegalArgumentException
+     *             if workflowInstanceId is <code>null</code>
      */
     @AllowedRole(WorkflowAdminRole.class)
     public void deleteWorkflowInstance(Long workflowInstanceId)
@@ -132,6 +145,8 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      *            removed
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if odePid or deployedWorkflowModelId is <code>null</code>
      */
     @AllowedRole(HumanTaskRole.class)
     public void removeAllWorkItems(String odePid, Long deployedWorkflowModelId)
@@ -144,17 +159,23 @@ public class WorkflowInstanceFacade extends AbstractFacade {
     }
 
     /**
-     * Returns all WorkItems of a WorkflowInstance as a Vaadin-Item with the
+     * Returns all work items of a workflow instance as a Vaadin item with the
      * following properties:<br>
+     * DH this can't be right, only returning the IDs doesn't make a lot of
+     * sense ~dh
      * <ul>
-     * <li>id</li>
+     * <li>id: Long - the work item ID</li>
      * </ul>
      * 
      * @param workflowInstanceId
      *            the ID of the WorkflowInstance
      * @return List<Items> list of items described above
      * @throws TransactionException
-     *             TODO document
+     *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the workflow instance does not exist.
+     * @throws IllegalArgumentException
+     *             if workflowInstanceId is <code>null</code>
      */
     @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getAllWorkItems(Long workflowInstanceId)
@@ -164,17 +185,17 @@ public class WorkflowInstanceFacade extends AbstractFacade {
                 workflowInstanceId);
 
         String[] properties = { "id" };
-        List<Item> outList = new ArrayList<Item>();
-        Set<WorkItem> inSet;
+        List<Item> items = new ArrayList<Item>();
+        Set<WorkItem> workItems;
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
-        inSet = command.getResult();
+        workItems = command.getResult();
 
-        for (WorkItem item : inSet) {
-            outList.add(new BeanItem(item, properties));
+        for (WorkItem item : workItems) {
+            items.add(new BeanItem(item, properties));
         }
 
-        return outList;
+        return items;
     }
 }

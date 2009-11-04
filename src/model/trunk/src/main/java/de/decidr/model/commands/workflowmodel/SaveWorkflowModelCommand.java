@@ -16,8 +16,6 @@
 
 package de.decidr.model.commands.workflowmodel;
 
-import org.hibernate.Query;
-
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.User;
@@ -39,14 +37,24 @@ public class SaveWorkflowModelCommand extends WorkflowModelCommand {
     private byte[] dwdl;
 
     /**
-     * Constructor
+     * Creates a new SaveWorkflowModelCommand that saves a workflow model and
+     * increments its version number by one.
      * 
      * @param role
+     *            user / system executing the command
      * @param workflowModelId
+     * @throws IllegalArgumentException
+     *             if workflowModelId is <code>null</code> or if name is
+     *             <code>null</code> or empty.
      */
     public SaveWorkflowModelCommand(Role role, Long workflowModelId,
             String name, String description, byte[] dwdl) {
         super(role, workflowModelId);
+        requireWorkflowModelId();
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Name must not be null or empty.");
+        }
         this.name = name;
         this.description = description;
         this.dwdl = dwdl;
@@ -60,17 +68,13 @@ public class SaveWorkflowModelCommand extends WorkflowModelCommand {
         /*
          * The model to save exists. Does the actor exist?
          */
-
-        Query q = evt.getSession().createQuery(
-                "select count(*) from User u where u.id = :userId");
-        q.setLong("userId", role.getActorId());
-
-        Boolean userExists = Long.valueOf(1).equals(q.uniqueResult());
+        boolean userExists = evt.getSession().createQuery(
+                "select u.id from User u where u.id = :userId").setLong(
+                "userId", role.getActorId()).setMaxResults(1).uniqueResult() != null;
 
         if (!userExists) {
             throw new EntityNotFoundException(User.class, role.getActorId());
         } else {
-
             /*
              * There is a user with the given actor id, we're going to use him
              * to fill out the "modified by" field of the saved workflow model.

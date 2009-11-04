@@ -15,8 +15,6 @@
  */
 package de.decidr.model.commands.workflowinstance;
 
-import org.hibernate.Query;
-
 import de.decidr.model.acl.access.DeployedworkflowModelAccess;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
@@ -42,12 +40,20 @@ public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand
      * items of the given workflow instance.
      * 
      * @param role
+     *            user / system executing the command
      * @param odePid
+     *            workflow instance process ID.
      * @param deployedWorkflowModelId
+     *            ID of corresponding deployed workflow model.
      */
     public RemoveAllWorkItemsCommand(Role role, String odePid,
             Long deployedWorkflowModelId) {
         super(role, null, null);
+
+        if (odePid == null || deployedWorkflowModelId == null) {
+            throw new IllegalArgumentException(
+                    "ODE PID and deployed workflow model ID must not be null.");
+        }
 
         this.odePid = odePid;
         this.deployedWorkflowModelId = deployedWorkflowModelId;
@@ -56,18 +62,14 @@ public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-
-        Query q = evt
+        evt
                 .getSession()
                 .createQuery(
                         "delete from WorkItem item "
                                 + "where item.workflowinstance.odePid = :pid "
-                                + "and item.workflowinstance.deployedWorkflowModel.id = :wid");
-
-        q.setString("pid", odePid);
-        q.setLong("wid", deployedWorkflowModelId);
-
-        q.executeUpdate();
+                                + "and item.workflowinstance.deployedWorkflowModel.id = :wid")
+                .setString("pid", odePid).setLong("wid",
+                        deployedWorkflowModelId).executeUpdate();
     }
 
     @Override

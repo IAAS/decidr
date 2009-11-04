@@ -18,7 +18,8 @@ package de.decidr.model.commands.workflowmodel;
 
 import java.util.List;
 
-import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
@@ -69,13 +70,11 @@ public class GetPublishedWorkflowModelsCommand extends AclEnabledCommand {
          * Make the "tenant" property available even after the session has been
          * closed.
          */
-        crit
-                .createCriteria("tenant", "tenant",
-                        CriteriaSpecification.LEFT_JOIN);
+        crit.setFetchMode("tenant", FetchMode.JOIN);
 
         Filters.apply(crit, filters, paginator);
 
-        result = crit.list();
+        result = crit.setResultTransformer(Criteria.ROOT_ENTITY).list();
     }
 
     /**

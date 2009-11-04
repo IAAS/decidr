@@ -36,14 +36,20 @@ public class MakeWorkflowModelExecutableCommand extends WorkflowModelCommand
     private Boolean executable;
 
     /**
-     * Constructor.
+     * Creates a new {@link MakeWorkflowModelExecutableCommand} that marks
+     * workflow models as executable or not executable.
      * 
      * @param role
+     *            user / system executing the command.
      * @param workflowModelId
+     *            ID of workflow model to modify.
+     * @throws IllegalArgumentException
+     *             if workflowModelId is <code>null</code>.
      */
     public MakeWorkflowModelExecutableCommand(Role role, Long workflowModelId,
             Boolean executable) {
         super(role, workflowModelId);
+        requireWorkflowModelId();
         this.executable = executable;
     }
 

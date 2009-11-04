@@ -35,6 +35,18 @@ public abstract class WorkItemCommand extends AclEnabledCommand implements
     }
 
     /**
+     * Throws an {@link IllegalArgumentException} if the current work item ID is
+     * <code>null</code>.
+     * 
+     * @throws IllegalArgumentException
+     */
+    protected void requireWorkItemId() {
+        if (workItemId == null) {
+            throw new IllegalArgumentException("Work item ID must not be null.");
+        }
+    }
+
+    /**
      * @return the workItemId
      */
     public Long getWorkItemId() {

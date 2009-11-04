@@ -45,9 +45,12 @@ public class GetParticipatingUsersCommand extends WorkflowInstanceCommand {
      * @param workflowInstanceId
      *            ID of workflow instance whose participating users should be
      *            fetched.
+     * @throws IllegalArgumentException
+     *             if workflowInstanceId is <code>null</code>
      */
     public GetParticipatingUsersCommand(Role role, Long workflowInstanceId) {
         super(role, null, workflowInstanceId);
+        requireWorkflowInstance();
     }
 
     @Override

@@ -89,9 +89,8 @@ public class XmlTools {
         }
         HashSet<Long> result = new HashSet<Long>();
         for (TAssignment assignment : startConfiguration.getAssignment()) {
-            // DH find out which value type indicates an uploaded file - remove
-            // magic string
-            if ("File".equals(assignment.getValueType())) {
+            if (DWDLSimpleVariableType.ANY_URI.toString().equals(
+                    assignment.getValueType())) {
                 result.add(Long.parseLong(assignment.getValue().get(0)));
             }
         }

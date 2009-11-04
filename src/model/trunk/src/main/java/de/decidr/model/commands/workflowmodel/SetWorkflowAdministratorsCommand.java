@@ -82,10 +82,13 @@ public class SetWorkflowAdministratorsCommand extends WorkflowModelCommand
      *            usernames of the new workflow administrators.
      * @param newAdminEmails
      *            email addresses of the new workflow administrators.
+     * @throws IllegalArgumentException
+     *             if workflowModelId is <code>null</code>.
      */
     public SetWorkflowAdministratorsCommand(Role role, Long workflowModelId,
             List<String> newAdminUsernames, List<String> newAdminEmails) {
         super(role, workflowModelId);
+        requireWorkflowModelId();
         this.newAdminEmails = newAdminEmails;
         this.newAdminUsernames = newAdminUsernames;
     }

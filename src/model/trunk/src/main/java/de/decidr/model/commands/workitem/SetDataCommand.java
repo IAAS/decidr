@@ -40,9 +40,10 @@ public class SetDataCommand extends WorkItemCommand {
      */
     public SetDataCommand(Role role, Long workItemId, THumanTaskData data) {
         super(role, workItemId);
-        if (workItemId == null || data == null) {
+        requireWorkItemId();
+        if ( data == null) {
             throw new IllegalArgumentException(
-                    "Work item ID and data must not be null.");
+                    "Work item data must not be null.");
         }
         this.data = data;
     }

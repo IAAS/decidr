@@ -39,13 +39,20 @@ public class GetWorkflowAdministratorsCommand extends WorkflowModelCommand {
     private ArrayList<User> workflowAdmins = null;
 
     /**
-     * Constructor.
+     * Creates a new {@link GetWorkflowAdministratorsCommand} that retrieves all
+     * workflow administrators of the given workflow model excluding the tenant
+     * admin.
      * 
      * @param role
+     *            user / system executing the command
      * @param workflowModelId
+     *            ID of workflow model whose administrators should be retrieved.
+     * @throws IllegalArgumentException
+     *             if workflowModelId is <code>null</code>.
      */
     public GetWorkflowAdministratorsCommand(Role role, Long workflowModelId) {
         super(role, workflowModelId);
+        requireWorkflowModelId();
     }
 
     @SuppressWarnings("unchecked")
@@ -57,7 +64,8 @@ public class GetWorkflowAdministratorsCommand extends WorkflowModelCommand {
         WorkflowModel model = fetchWorkflowModel(evt.getSession());
 
         Query q = evt.getSession().createQuery(
-                "select rel.user from UserAdministratesWorkflowModel "
+                "select rel.user from UserAdministratesWorkflowModel rel "
+                        + "join fetch rel.user.userProfile "
                         + "where rel.workflowModel = :model");
 
         q.setEntity("model", model);

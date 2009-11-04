@@ -17,7 +17,9 @@ package de.decidr.model.commands.workflowinstance;
 
 import org.apache.axis2.AxisFault;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
@@ -25,7 +27,7 @@ import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
 
 /**
  * 
- * Stops a given workflow instance
+ * Stops a given workflow instance.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -41,9 +43,12 @@ public class StopWorkflowInstanceCommand extends WorkflowInstanceCommand {
      *            user / system executing the command
      * @param workflowInstanceId
      *            workflow instance to stop.
+     * @throws IllegalArgumentException
+     *             if workflowInstanceId is <code>null</code>
      */
     public StopWorkflowInstanceCommand(Role role, Long workflowInstanceId) {
         super(role, null, workflowInstanceId);
+        requireWorkflowInstance();
     }
 
     @Override
@@ -53,8 +58,12 @@ public class StopWorkflowInstanceCommand extends WorkflowInstanceCommand {
         InstanceManager instanceManager = new InstanceManagerImpl();
 
         try {
+            WorkflowInstance instance = fetchWorkflowInstance(evt.getSession());
+            instance.setCompletedDate(DecidrGlobals.getTime().getTime());
+            evt.getSession().update(instance);
             instanceManager
                     .stopInstance(fetchWorkflowInstance(evt.getSession()));
+
         } catch (AxisFault e) {
             throw new TransactionException(e);
         }

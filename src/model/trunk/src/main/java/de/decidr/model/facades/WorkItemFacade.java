@@ -72,6 +72,8 @@ public class WorkItemFacade extends AbstractFacade {
      * @return Vaadin item described above
      * @throws TransactionException
      *             iff the transaction is aborted for any reason
+     * @throws EntityNotFoundException
+     *             if the work item does not exist.
      * @throws IllegalArgumentException
      *             if workItemId is <code>null</code>
      */
@@ -155,9 +157,11 @@ public class WorkItemFacade extends AbstractFacade {
      * @param data
      *            the new work item data.
      * @throws TransactionException
-     *             if the transaction is rolled back for any reason
+     *             iff the transaction is aborted for any reason
      * @throws EntityNotFoundException
      *             if the work item does not exist
+     * @throws IllegalArgumentException
+     *             if workItemId is or data is <code>null</code>.
      */
     @AllowedRole(UserRole.class)
     public void setDataAndMarkAsDone(Long workItemId, THumanTaskData data)
@@ -175,7 +179,11 @@ public class WorkItemFacade extends AbstractFacade {
      * @param workItemId
      *            ID of the workitem which should be marked as done
      * @throws TransactionException
-     *             on rollback
+     *             iff the transaction is aborted for any reason
+     * @throws EntityNotFoundException
+     *             if the work item does not exist.
+     * @throws IllegalArgumentException
+     *             if workItemId is <code>null</code>.
      */
     @AllowedRole(UserRole.class)
     public void markWorkItemAsDone(Long workItemId) throws TransactionException {
@@ -189,7 +197,9 @@ public class WorkItemFacade extends AbstractFacade {
      * @param workItemId
      *            ID of the workitem which should be deleted
      * @throws TransactionException
-     *             on rollback
+     *             iff the transaction is aborted for any reason
+     * @throws IllegalArgumentException
+     *             if workItemId is <code>null</code>.
      */
     @AllowedRole( { WorkflowAdminRole.class, HumanTaskRole.class })
     public void deleteWorkItem(Long workItemId) throws TransactionException {

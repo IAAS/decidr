@@ -32,15 +32,17 @@ import de.decidr.model.transactions.TransactionEvent;
 public class DeleteWorkItemCommand extends WorkItemCommand {
 
     /**
-     * Creates a new instance of the DeleteWorkItemCommand
+     * Creates a new DeleteWorkItemCommand that deletes the given work item from
+     * the database
      * 
      * @param role
-     *            the user which executes the command
+     *            user / system executing the command
      * @param workItemId
      *            the ID of the workitem which should be deleted
      */
     public DeleteWorkItemCommand(Role role, Long workItemId) {
         super(role, workItemId);
+        requireWorkItemId();
     }
 
     @Override

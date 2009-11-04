@@ -45,6 +45,7 @@ import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.exceptions.UserDisabledException;
 import de.decidr.model.exceptions.UserUnavailableException;
@@ -80,6 +81,11 @@ public class WorkflowModelFacade extends AbstractFacade {
      * 
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the workflow model does not exist.
+     * @throws IllegalArgumentException
+     *             if workflowModelId is <code>null</code> or if name is
+     *             <code>null</code> or empty.
      */
     @AllowedRole(TenantAdminRole.class)
     public void saveWorkflowModel(Long workflowModelId, String name,
@@ -114,6 +120,10 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @return Vaadin item
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the workflow model does not exist.
+     * @throws IllegalArgumentException
+     *             if workflowModelId is <code>null</code>.
      */
     @AllowedRole(TenantAdminRole.class)
     public Item getWorkflowModel(Long workflowModelId)
@@ -168,6 +178,8 @@ public class WorkflowModelFacade extends AbstractFacade {
      *            the workflow models to publish.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if workflowModelIds is <code>null</code>.
      */
     @AllowedRole(TenantAdminRole.class)
     public void publishWorkflowModels(List<Long> workflowModelIds)
@@ -188,6 +200,8 @@ public class WorkflowModelFacade extends AbstractFacade {
      *            the workflow models to publish.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if workflowModelIds is <code>null</code>.
      */
     @AllowedRole(TenantAdminRole.class)
     public void unpublishWorkflowModels(List<Long> workflowModelIds)
@@ -210,12 +224,17 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @param workflowModelId
      *            the workflow model to deploy
      * @param executable
-     *            TODO document
+     *            whether to make the workflow model executable or
+     *            non-executable (true means executable).
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the workflow model does not exist.
+     * @throws IllegalArgumentException
+     *             if workflowModelId is <code>null</code>.
      */
     @AllowedRole(TenantAdminRole.class)
-    public void setExecutable(Long workflowModelId, Boolean executable)
+    public void setExecutable(Long workflowModelId, boolean executable)
             throws TransactionException {
 
         HibernateTransactionCoordinator.getInstance().runTransaction(
@@ -233,6 +252,10 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @return List of administrators as Vaadin items.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the workflow model does not exist.
+     * @throws IllegalArgumentException
+     *             if workflowModelId is <code>null</code>.
      */
     @AllowedRole(TenantAdminRole.class)
     public List<Item> getWorkflowAdministrators(Long workflowModelId)
@@ -296,12 +319,17 @@ public class WorkflowModelFacade extends AbstractFacade {
      *             if a user has set his status to unavailable
      * @throws UserDisabledException
      *             if a user has been disabled by the super admin
+     * @throws EntityNotFoundException
+     *             if the workflow model does not exist.
+     * @throws IllegalArgumentException
+     *             if workflowModelId is <code>null</code>.
      */
     @AllowedRole(TenantAdminRole.class)
     public void setWorkflowAdministrators(Long workflowModelId,
             List<String> newAdminEmails, List<String> newAdminUsernames)
             throws TransactionException, UsernameNotFoundException,
             UserUnavailableException, UserDisabledException {
+
         SetWorkflowAdministratorsCommand cmd = new SetWorkflowAdministratorsCommand(
                 actor, workflowModelId, newAdminUsernames, newAdminEmails);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
@@ -315,6 +343,8 @@ public class WorkflowModelFacade extends AbstractFacade {
      *            list of ids of the workflow models to delete
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if workflowModelIds is <code>null</code>.
      */
     @AllowedRole(TenantAdminRole.class)
     public void deleteWorkflowModels(List<Long> workflowModelIds)
@@ -361,6 +391,10 @@ public class WorkflowModelFacade extends AbstractFacade {
      *         associated swith this model.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the workflow model does not exist.
+     * @throws IllegalArgumentException
+     *             if workflowModelId is <code>null</code>.
      */
     @AllowedRole(WorkflowAdminRole.class)
     public List<Item> getWorkflowInstances(Long workflowModelId,
@@ -478,10 +512,14 @@ public class WorkflowModelFacade extends AbstractFacade {
      *             if a user has set his status to unavailable
      * @throws UserDisabledException
      *             if a user account has been deactivated by the superadmin.
+     * @throws EntityNotFoundException
+     *             if the workflow model does not exist.
+     * @throws IllegalArgumentException
+     *             if workflowModelId or startConfiguration is <code>null</code>
      */
     @AllowedRole(WorkflowAdminRole.class)
     public Long startWorkflowInstance(Long workflowModelId,
-            TConfiguration startConfiguration, Boolean startImmediately)
+            TConfiguration startConfiguration, boolean startImmediately)
             throws TransactionException, WorkflowModelNotStartableException,
             UserUnavailableException, UserDisabledException,
             UsernameNotFoundException {
@@ -509,6 +547,10 @@ public class WorkflowModelFacade extends AbstractFacade {
      * @return the raw XML data of the last used start configuration or null.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the workflow model does not exist.
+     * @throws IllegalArgumentException
+     *             if workflowModelId is <code>null</code>.
      */
     @AllowedRole(WorkflowAdminRole.class)
     public byte[] getLastStartConfiguration(Long workflowModelId)

@@ -52,10 +52,7 @@ public class GetLastStartConfigurationCommand extends WorkflowModelCommand {
      */
     public GetLastStartConfigurationCommand(Role role, Long workflowModelId) {
         super(role, workflowModelId);
-        if (workflowModelId == null) {
-            throw new IllegalArgumentException(
-                    "Workflow model ID must not be null.");
-        }
+        requireWorkflowModelId();
     }
 
     @Override

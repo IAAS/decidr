@@ -44,9 +44,12 @@ public class GetAllWorkitemsCommand extends WorkflowInstanceCommand {
      *            the user which want to execute the command
      * @param WorkflowInstanceId
      *            the id of the corresponding WorkflowInstance
+     * @throws IllegalArgumentException
+     *             if workflowInstanceId is <code>null</code>
      */
     public GetAllWorkitemsCommand(Role role, Long WorkflowInstanceId) {
         super(role, null, WorkflowInstanceId);
+        requireWorkflowInstance();
     }
 
     @Override

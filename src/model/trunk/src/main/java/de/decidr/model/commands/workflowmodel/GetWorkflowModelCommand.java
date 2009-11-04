@@ -32,18 +32,26 @@ public class GetWorkflowModelCommand extends WorkflowModelCommand {
     protected WorkflowModel result = null;
 
     /**
-     * Constructor.
+     * Creates a new GetWorkflowModelCommand that retrieves a single workflow
+     * model from the database.
      * 
      * @param role
+     *            user / system executing the command
      * @param workflowModelId
+     *            ID of workflow model to fetch
+     * @throws IllegalArgumentException
+     *             if workflowModelId is <code>null</code>.
      */
     public GetWorkflowModelCommand(Role role, Long workflowModelId) {
         super(role, workflowModelId);
+        requireWorkflowModelId();
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+        // in case the next statement fails
+        result = null;
         result = fetchWorkflowModel(evt.getSession());
         // make sure Hibernate loads the required properties.
         result.getDwdl();
@@ -52,7 +60,6 @@ public class GetWorkflowModelCommand extends WorkflowModelCommand {
         if (result.getModifiedByUser() != null) {
             result.getModifiedByUser().getUserProfile();
         }
-
     }
 
     /**

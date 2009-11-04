@@ -40,9 +40,27 @@ public class SaveStartConfigurationCommand extends WorkflowModelCommand {
 
     private TConfiguration startConfiguration;
 
+    /**
+     * Creates a new SaveStartConfigurationCommand that saves the given start
+     * configuration as the last used start configuration of the given model.
+     * 
+     * @param role
+     *            user / system executing the command
+     * @param workflowModelId
+     *            ID of workflow model whose start configuration should be saved
+     * @param startConfiguration
+     *            start configuration to save
+     * @throws IllegalArgumentException
+     *             if workflowModelId or startConfiguration is <code>null</code>
+     */
     public SaveStartConfigurationCommand(Role role, Long workflowModelId,
             TConfiguration startConfiguration) {
         super(role, workflowModelId);
+        requireWorkflowModelId();
+        if (startConfiguration == null) {
+            throw new IllegalArgumentException(
+                    "Start configuration must not be null.");
+        }
         this.startConfiguration = startConfiguration;
     }
 

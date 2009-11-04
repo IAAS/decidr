@@ -44,9 +44,7 @@ public class GetWorkItemCommand extends WorkItemCommand {
      */
     public GetWorkItemCommand(Role role, Long workItemId) {
         super(role, workItemId);
-        if (workItemId == null) {
-            throw new IllegalArgumentException("Work item ID must not be null.");
-        }
+        requireWorkItemId();
     }
 
     @Override

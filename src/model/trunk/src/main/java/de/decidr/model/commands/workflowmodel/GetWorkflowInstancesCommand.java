@@ -42,15 +42,20 @@ public class GetWorkflowInstancesCommand extends WorkflowModelCommand {
     private Paginator paginator;
 
     /**
-     * Constructor
+     * Creates a new GetWorkflowInstancesCommand that retrieves the workflow
+     * instances that belong to the given workflow model.
      * 
      * @param role
+     *            user / system executing the command
      * @param workflowModelId
+     *            ID of workflow model
      * @param paginator
+     *            optional paginator to reduce the number of results
      */
     public GetWorkflowInstancesCommand(Role role, Long workflowModelId,
             Paginator paginator) {
         super(role, workflowModelId);
+        requireWorkflowModelId();
         this.paginator = paginator;
     }
 
@@ -58,6 +63,7 @@ public class GetWorkflowInstancesCommand extends WorkflowModelCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+        result = null;
 
         WorkflowModel model = fetchWorkflowModel(evt.getSession());
 

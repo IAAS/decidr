@@ -51,9 +51,10 @@ public class SetStatusCommand extends WorkItemCommand {
      */
     public SetStatusCommand(Role role, Long workItemId, WorkItemStatus newStatus) {
         super(role, workItemId);
-        if (workItemId == null || newStatus == null) {
+        requireWorkItemId();
+        if (newStatus == null) {
             throw new IllegalArgumentException(
-                    "Work item ID and status must not be null.");
+                    "Work item status must not be null.");
         }
         this.newStatus = newStatus;
     }
