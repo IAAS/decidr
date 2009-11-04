@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.model.soap.wrappers;
+package de.decidr.model.webservices;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import de.decidr.model.soap.types.TaskIdentifier;
+import de.decidr.model.soap.types.IDList;
 
 /**
  * <p>
@@ -37,7 +37,7 @@ import de.decidr.model.soap.types.TaskIdentifier;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;taskID&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tTaskIdentifier&quot;/&gt;
+ *         &lt;element name=&quot;taskIDList&quot; type=&quot;{http://decidr.de/schema/DecidrWSTypes}tIDList&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -45,29 +45,29 @@ import de.decidr.model.soap.types.TaskIdentifier;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "taskID" })
-@XmlRootElement(name = "createTaskResponse", namespace = "http://decidr.de/webservices/HumanTask")
-public class CreateTaskResponse {
+@XmlType(name = "", propOrder = { "taskIDList" })
+@XmlRootElement(name = "removeTask", namespace = "http://decidr.de/webservices/HumanTask")
+public class RemoveTask {
 
     @XmlElement(namespace = "", required = true)
-    protected TaskIdentifier taskID;
+    protected IDList taskIDList;
 
     /**
-     * Gets the value of the taskID property.
+     * Gets the value of the taskIDList property.
      * 
-     * @return possible object is {@link TaskIdentifier }
+     * @return possible object is {@link IDList }
      */
-    public TaskIdentifier getTaskID() {
-        return taskID;
+    public IDList getTaskIDList() {
+        return taskIDList;
     }
 
     /**
-     * Sets the value of the taskID property.
+     * Sets the value of the taskIDList property.
      * 
      * @param value
-     *            allowed object is {@link TTaskIdentifier }
+     *            allowed object is {@link IDList }
      */
-    public void setTaskID(TaskIdentifier value) {
-        this.taskID = value;
+    public void setTaskIDList(IDList value) {
+        this.taskIDList = value;
     }
 }

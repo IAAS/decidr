@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.model.soap.wrappers;
+package de.decidr.model.webservices;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-@XmlRootElement(name = "removeTaskResponse", namespace = "http://decidr.de/webservices/HumanTask")
-public class RemoveTaskResponse {
-    // empty response
+@XmlRootElement(name = "taskCompletedResponse", namespace = "http://decidr.de/webservices/HumanTask")
+public class TaskCompletedResponse {
+    // no items in this response
 }

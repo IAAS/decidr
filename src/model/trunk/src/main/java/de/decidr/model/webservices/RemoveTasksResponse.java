@@ -14,11 +14,10 @@
  * under the License.
  */
 
-package de.decidr.model.soap.wrappers;
+package de.decidr.model.webservices;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -35,8 +34,6 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;wfmID&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tID&quot;/&gt;
- *         &lt;element name=&quot;processID&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -44,45 +41,8 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "wfmID", "processID" })
-@XmlRootElement(name = "removeTasks", namespace = "http://decidr.de/webservices/HumanTask")
-public class RemoveTasks {
-
-    @XmlElement(namespace = "")
-    protected long wfmID;
-    @XmlElement(namespace = "", required = true)
-    protected String processID;
-
-    /**
-     * Gets the value of the wfmID property.
-     */
-    public long getWfmID() {
-        return wfmID;
-    }
-
-    /**
-     * Sets the value of the wfmID property.
-     */
-    public void setWfmID(long value) {
-        this.wfmID = value;
-    }
-
-    /**
-     * Gets the value of the processID property.
-     * 
-     * @return possible object is {@link String }
-     */
-    public String getProcessID() {
-        return processID;
-    }
-
-    /**
-     * Sets the value of the processID property.
-     * 
-     * @param value
-     *            allowed object is {@link String }
-     */
-    public void setProcessID(String value) {
-        this.processID = value;
-    }
+@XmlType(name = "")
+@XmlRootElement(name = "removeTasksResponse", namespace = "http://decidr.de/webservices/HumanTask")
+public class RemoveTasksResponse {
+    // empty response
 }

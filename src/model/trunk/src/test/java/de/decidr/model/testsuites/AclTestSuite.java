@@ -33,7 +33,6 @@ import de.decidr.model.acl.permissions.PermissionTest;
 import de.decidr.model.acl.roles.BasicRoleTest;
 import de.decidr.model.acl.roles.EmailRoleTest;
 import de.decidr.model.acl.roles.HumanTaskRoleTest;
-import de.decidr.model.acl.roles.ODERoleTest;
 import de.decidr.model.acl.roles.ServerLoadUpdaterRoleTest;
 import de.decidr.model.acl.roles.TenantAdminRoleTest;
 import de.decidr.model.acl.roles.UserRoleTest;
@@ -45,9 +44,9 @@ import de.decidr.model.testing.GlobalPreconditionsSuite;
         CommandPermissionTest.class, FileDeletePermissionTest.class,
         FileReadPermissionTest.class, FileReplacePermissionTest.class,
         BasicRoleTest.class, EmailRoleTest.class, HumanTaskRoleTest.class,
-        ODERoleTest.class, ServerLoadUpdaterRoleTest.class,
-        TenantAdminRoleTest.class, UserRoleTest.class,
-        WorkflowAdminRoleTest.class, UserOwnsWorkItemAsserterTest.class,
+        ServerLoadUpdaterRoleTest.class, TenantAdminRoleTest.class,
+        UserRoleTest.class, WorkflowAdminRoleTest.class,
+        UserOwnsWorkItemAsserterTest.class,
         UserOwnsWorkflowModelAsserterTest.class })
 public class AclTestSuite extends GlobalPreconditionsSuite {
     private static boolean inSuite;

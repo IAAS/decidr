@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.model.soap.wrappers;
+package de.decidr.model.webservices;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

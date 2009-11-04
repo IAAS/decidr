@@ -25,6 +25,7 @@ import javax.jws.soap.SOAPBinding;
 import javax.mail.MessagingException;
 import javax.xml.namespace.QName;
 import javax.xml.ws.RequestWrapper;
+import javax.xml.ws.ResponseWrapper;
 
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
@@ -104,8 +105,8 @@ public interface EmailInterface {
      *             an <code>{@link IOException}</code>)
      */
     @WebMethod(action = "urn:sendEmail", operationName = "sendEmail")
-    @RequestWrapper(localName = "sendEmail", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.soap.wrappers.SendEmail")
-    //@ResponseWrapper(localName = "sendEmailResponse", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.soap.wrappers.SendEmailResponse")
+    @RequestWrapper(localName = "sendEmail", targetNamespace = TARGET_NAMESPACE, className = "SendEmail")
+    @ResponseWrapper(localName = "sendEmailResponse", targetNamespace = TARGET_NAMESPACE, className = "SendEmailResponse")
     public void sendEmail(
             @WebParam(name = "to", targetNamespace = "http://decidr.de/webservices/Email") AbstractUserList to,
             @WebParam(name = "cc", targetNamespace = "http://decidr.de/webservices/Email") AbstractUserList cc,

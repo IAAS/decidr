@@ -30,8 +30,8 @@ import javax.xml.ws.Holder;
 import org.apache.log4j.Logger;
 
 import de.decidr.model.DecidrGlobals;
-import de.decidr.model.acl.roles.ODERole;
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.ServerLoadUpdaterRole;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.system.GetServerCommand;
 import de.decidr.model.commands.system.GetServersCommand;
@@ -55,7 +55,7 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
 @WebService(endpointInterface = "de.decidr.odemonitor.service.ODEMonitorService", targetNamespace = ODEMonitorService.TARGET_NAMESPACE, portName = ODEMonitorService.PORT_NAME, serviceName = ODEMonitorService.SERVICE_NAME)
 public class ODEMonitorServiceImpl implements ODEMonitorService {
 
-    private static final Role ODE_ROLE = ODERole.getInstance();
+    private static final Role ODE_ROLE = ServerLoadUpdaterRole.getInstance();
     private static final Logger log = DefaultLogger
             .getLogger(ODEMonitorServiceImpl.class);
 
@@ -128,7 +128,7 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
                 + ".unregisterODE(String)");
         log.debug("attempting to remove the server corresponding"
                 + " to the passed ODE ID...");
-        new SystemFacade(ODERole.getInstance()).removeServer(odeID);
+        new SystemFacade(ODE_ROLE).removeServer(odeID);
         log.debug("...success");
         log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".unregisterODE(String)");
@@ -169,8 +169,7 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
             // remove servers that don't update
             if (serv.getLastLoadUpdate().before(deadTime)) {
                 try {
-                    new SystemFacade(ODERole.getInstance()).removeServer(serv
-                            .getId());
+                    new SystemFacade(ODE_ROLE).removeServer(serv.getId());
                 } catch (Exception e) {
                     log.warn("Couldn't remove a dead server!", e);
                 }

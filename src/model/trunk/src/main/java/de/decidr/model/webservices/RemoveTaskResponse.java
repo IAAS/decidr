@@ -14,15 +14,12 @@
  * under the License.
  */
 
-package de.decidr.model.soap.wrappers;
+package de.decidr.model.webservices;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-
-import de.decidr.model.soap.types.IDList;
 
 /**
  * <p>
@@ -37,7 +34,6 @@ import de.decidr.model.soap.types.IDList;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;taskIDList&quot; type=&quot;{http://decidr.de/schema/DecidrWSTypes}tIDList&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -45,29 +41,8 @@ import de.decidr.model.soap.types.IDList;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "taskIDList" })
-@XmlRootElement(name = "removeTask", namespace = "http://decidr.de/webservices/HumanTask")
-public class RemoveTask {
-
-    @XmlElement(namespace = "", required = true)
-    protected IDList taskIDList;
-
-    /**
-     * Gets the value of the taskIDList property.
-     * 
-     * @return possible object is {@link IDList }
-     */
-    public IDList getTaskIDList() {
-        return taskIDList;
-    }
-
-    /**
-     * Sets the value of the taskIDList property.
-     * 
-     * @param value
-     *            allowed object is {@link IDList }
-     */
-    public void setTaskIDList(IDList value) {
-        this.taskIDList = value;
-    }
+@XmlType(name = "")
+@XmlRootElement(name = "removeTaskResponse", namespace = "http://decidr.de/webservices/HumanTask")
+public class RemoveTaskResponse {
+    // empty response
 }

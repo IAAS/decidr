@@ -14,12 +14,15 @@
  * under the License.
  */
 
-package de.decidr.model.soap.wrappers;
+package de.decidr.model.webservices;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import de.decidr.model.soap.types.TaskIdentifier;
 
 /**
  * <p>
@@ -34,6 +37,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
+ *         &lt;element name=&quot;taskID&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tTaskIdentifier&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -41,8 +45,29 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "removeTasksResponse", namespace = "http://decidr.de/webservices/HumanTask")
-public class RemoveTasksResponse {
-    // empty response
+@XmlType(name = "", propOrder = { "taskID" })
+@XmlRootElement(name = "createTaskResponse", namespace = "http://decidr.de/webservices/HumanTask")
+public class CreateTaskResponse {
+
+    @XmlElement(namespace = "", required = true)
+    protected TaskIdentifier taskID;
+
+    /**
+     * Gets the value of the taskID property.
+     * 
+     * @return possible object is {@link TaskIdentifier }
+     */
+    public TaskIdentifier getTaskID() {
+        return taskID;
+    }
+
+    /**
+     * Sets the value of the taskID property.
+     * 
+     * @param value
+     *            allowed object is {@link TTaskIdentifier }
+     */
+    public void setTaskID(TaskIdentifier value) {
+        this.taskID = value;
+    }
 }

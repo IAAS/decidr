@@ -14,11 +14,10 @@
  * under the License.
  */
 
-package de.decidr.model.soap.wrappers;
+package de.decidr.model.webservices;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -35,7 +34,6 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;sequence&gt;
- *         &lt;element name=&quot;taskID&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tID&quot;/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -43,24 +41,8 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "taskID" })
-@XmlRootElement(name = "taskCompleted", namespace = "http://decidr.de/webservices/HumanTask")
-public class TaskCompleted {
-
-    @XmlElement(namespace = "")
-    protected long taskID;
-
-    /**
-     * Gets the value of the taskID property.
-     */
-    public long getTaskID() {
-        return taskID;
-    }
-
-    /**
-     * Sets the value of the taskID property.
-     */
-    public void setTaskID(long value) {
-        this.taskID = value;
-    }
+@XmlType(name = "")
+@XmlRootElement(name = "sendEmailResponse", namespace = "http://decidr.de/webservices/Email")
+public class SendEmailResponse {
+    // There is no response
 }
