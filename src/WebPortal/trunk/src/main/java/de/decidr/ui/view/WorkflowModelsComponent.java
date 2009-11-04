@@ -28,7 +28,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.LockWorkflowModelAction;
 import de.decidr.ui.controller.PublishWorkflowModelAction;
-import de.decidr.ui.controller.RemoveWorkflowModelAction;
+import de.decidr.ui.controller.RemoveWorkflowModelsAction;
 import de.decidr.ui.controller.ShowAppointWorkflowAdminAction;
 import de.decidr.ui.controller.ShowModelDescription;
 import de.decidr.ui.controller.ShowModelingToolAction;
@@ -204,7 +204,7 @@ public class WorkflowModelsComponent extends CustomComponent {
                 new ShowModelDescription(publicModelTable));
         editWorkflowModelButton = new Button("Edit model",
                 new ShowModelingToolAction());
-        removeModelButton = new Button("Remove", new RemoveWorkflowModelAction(
+        removeModelButton = new Button("Remove", new RemoveWorkflowModelsAction(
                 currentTenantTable));
         lockModelButton = new Button("Lock", new LockWorkflowModelAction(
                 currentTenantTable));
