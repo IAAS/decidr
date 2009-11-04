@@ -44,6 +44,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.SystemFacade;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.notifications.NotificationEvents;
+import de.decidr.model.soap.exceptions.IllegalArgumentExceptionWrapper;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 
 /**
@@ -106,8 +107,19 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
         if (cmd.getServer() == null) {
-            throw new IllegalArgumentException(
-                    "Couldn't find the ODE server with the specified ID!");
+            log.error("Couldn't find a server with the specified ID!");
+            throw new IllegalArgumentExceptionWrapper(
+                    "Couldn't find a server with the specified ID!");
+        }
+        if (!cmd.getServer().getServerType().getName().equalsIgnoreCase(
+                ServerTypeEnum.Ode.name())) {
+            log.error("Expected an " + ServerTypeEnum.Ode.name()
+                    + " server with the specified ID, not a "
+                    + cmd.getServer().getServerType().getName() + " server");
+            throw new IllegalArgumentExceptionWrapper("Expected an "
+                    + ServerTypeEnum.Ode.name()
+                    + " server with the specified ID, not a "
+                    + cmd.getServer().getServerType().getName() + " server");
         }
 
         poolInstance.value = !cmd.getServer().isDynamicallyAdded();
@@ -126,10 +138,16 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
     public void unregisterODE(long odeID) throws TransactionException {
         log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".unregisterODE(String)");
-        log.debug("attempting to remove the server corresponding"
-                + " to the passed ODE ID...");
-        new SystemFacade(ODE_ROLE).removeServer(odeID);
-        log.debug("...success");
+
+        // since we don't handle this anymore, just do nothing...
+        // log.debug("attempting to remove the server corresponding"
+        // + " to the passed ODE ID...");
+        //        
+        // new SystemFacade(ODE_ROLE).removeServer(odeID);
+        // log.debug("...success");
+
+        log.info("This ODEMonitorService implementation doesn't"
+                + " add/remove servers");
         log.trace("Leaving " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".unregisterODE(String)");
     }
@@ -149,6 +167,7 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".updateStats()");
         SystemSettings config = DecidrGlobals.getSettings();
+        SystemFacade systemFacade = new SystemFacade(ODE_ROLE);
         List<TransactionalCommand> commands = new ArrayList<TransactionalCommand>(
                 5);
         GetServersCommand cmd1 = new GetServersCommand(ODE_ROLE,
@@ -167,9 +186,10 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
             }
 
             // remove servers that don't update
-            if (serv.getLastLoadUpdate().before(deadTime)) {
+            if (serv.getLastLoadUpdate() != null
+                    && serv.getLastLoadUpdate().before(deadTime)) {
                 try {
-                    new SystemFacade(ODE_ROLE).removeServer(serv.getId());
+                    systemFacade.removeServer(serv.getId());
                 } catch (Exception e) {
                     log.warn("Couldn't remove a dead server!", e);
                 }
@@ -181,7 +201,7 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         }
         if (server == null) {
             log.error("Coudn't find server with ID " + odeID);
-            throw new IllegalArgumentException("unknown ODE server ID");
+            throw new IllegalArgumentExceptionWrapper("unknown ODE server ID");
         }
         int maxSysLoad = config.getMinServerLoadForLock();
         int minHighSysLoad = config.getMaxServerLoadForUnlock();
@@ -220,6 +240,8 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
             }
         }
 
+        // Can't use facade here as server load update and locking need to
+        // happen in one transaction.
         commands.add(new UpdateServerLoadCommand(ODE_ROLE, odeID,
                 (byte) avgLoad));
         HibernateTransactionCoordinator.getInstance().runTransaction(commands);

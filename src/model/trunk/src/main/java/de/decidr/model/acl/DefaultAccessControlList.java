@@ -61,7 +61,9 @@ import de.decidr.model.commands.file.DeleteFileCommand;
 import de.decidr.model.commands.file.GetFileCommand;
 import de.decidr.model.commands.file.GetFileDataCommand;
 import de.decidr.model.commands.file.ReplaceFileCommand;
+import de.decidr.model.commands.system.GetServerCommand;
 import de.decidr.model.commands.system.GetServersCommand;
+import de.decidr.model.commands.system.LockServerCommand;
 import de.decidr.model.commands.system.UpdateServerLoadCommand;
 import de.decidr.model.commands.tenant.AddTenantMemberCommand;
 import de.decidr.model.commands.tenant.CreateTenantCommand;
@@ -412,6 +414,12 @@ public class DefaultAccessControlList implements AccessControlList {
 
         setRule(ServerLoadUpdaterRole.getInstance(), new CommandPermission(
                 GetServersCommand.class), SatisfyAll, alwaysTrueAsserter);
+
+        setRule(ServerLoadUpdaterRole.getInstance(), new CommandPermission(
+                GetServerCommand.class), SatisfyAll, alwaysTrueAsserter);
+
+        setRule(ServerLoadUpdaterRole.getInstance(), new CommandPermission(
+                LockServerCommand.class), SatisfyAll, alwaysTrueAsserter);
 
         /**
          * Command Permissions Tenant Facade

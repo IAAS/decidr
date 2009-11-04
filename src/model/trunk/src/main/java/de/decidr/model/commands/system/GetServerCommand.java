@@ -69,20 +69,20 @@ public class GetServerCommand extends SystemCommand {
     }
 
     /**
-     * @return the first found server. Returns null if no server has been
-     *         retrieved.
+     * @return the first found server. Returns <code>null</code> if no server
+     *         has been retrieved.
      */
     public Server getServer() {
         Server result = null;
-        if (servers != null && servers.isEmpty()) {
+        if (servers != null && !servers.isEmpty()) {
             result = servers.get(0);
         }
         return result;
     }
 
     /**
-     * @return the list of found servers. Returns null if no server has been
-     *         retrieved.
+     * @return the list of found servers. Returns <code>null</code> if no server
+     *         has been retrieved.
      */
     public List<Server> getServers() {
         return servers;
