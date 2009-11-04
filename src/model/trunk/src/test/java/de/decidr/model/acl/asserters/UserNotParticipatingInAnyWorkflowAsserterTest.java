@@ -23,6 +23,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.DefaultAccessControlListTest;
 import de.decidr.model.acl.permissions.CommandPermission;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
@@ -38,9 +39,10 @@ import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * GH: add comment
+ * Test case for <code>{@link UserNotParticipatingInAnyWorkflowAsserter}</code>.
+ * NOTE: see <code>{@link DefaultAccessControlListTest}</code>
  * 
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class UserNotParticipatingInAnyWorkflowAsserterTest extends
         LowLevelDatabaseTest {
@@ -130,10 +132,7 @@ public class UserNotParticipatingInAnyWorkflowAsserterTest extends
         assertTrue(asserter.assertRule(new UserRole(userId),
                 new CommandPermission(new RemoveFromTenantCommand(new UserRole(
                         userId), userId, tenantId))));
-        // gh since no user can implicitly participate in a workflow, I have no
-        // idea why this assertion fails. Are you sure workflowAdminId is not
-        // participating in any workflow?
-        // GH: added new wf admin, that is only used in this test case
+       
         assertFalse(asserter.assertRule(new WorkflowAdminRole(workflowAdminId),
                 new CommandPermission(new RemoveFromTenantCommand(
                         new WorkflowAdminRole(workflowAdminId), userId,

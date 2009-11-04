@@ -22,12 +22,13 @@ import org.junit.Test;
 
 import de.decidr.model.commands.user.CheckAuthKeyCommand;
 import de.decidr.model.commands.user.GetAllUsersCommand;
+import de.decidr.model.facades.FileFacade;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * GH: add comment
+ * Test case for <code>{@link CommandPermission}</code>.
  * 
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class CommandPermissionTest extends DecidrAclTest {
 

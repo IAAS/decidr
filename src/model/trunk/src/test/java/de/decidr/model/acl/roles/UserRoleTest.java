@@ -20,12 +20,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import de.decidr.model.acl.DefaultAccessControlListTest;
+import de.decidr.model.acl.asserters.UserAdministratesWorkflowInstanceAsserter;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * GH: add comment
+ * Test case for <code>{@link UserRole}</code>.
  * 
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class UserRoleTest extends DecidrAclTest {
 

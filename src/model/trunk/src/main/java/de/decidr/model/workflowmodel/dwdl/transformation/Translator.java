@@ -104,7 +104,7 @@ public class Translator {
         try {
             wsdl = wsdlConverter.getWSDL(dwdlWorkflow, location, tenantName);
         } catch (JDOMException e) {
-            // GH Auto-generated catch block
+            // MA Auto-generated catch block
             e.printStackTrace();
         }
         return wsdl;

@@ -24,7 +24,8 @@ import org.junit.BeforeClass;
 import de.decidr.model.testsuites.AclTestSuite;
 
 /**
- * GH: comment
+ * Base class for ACL test cases that do not require 
+ * databse interaction
  * 
  * @author Geoffrey-Alexeij Heinze
  * 

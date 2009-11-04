@@ -20,34 +20,16 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import de.decidr.model.facades.FileFacade;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * GH: add comment
+ * Test case for <code>{@link FileReadPermission}</code>.
  * 
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class FileReadPermissionTest extends DecidrAclTest {
 
-    /**
-     * Test method for
-     * {@link de.decidr.model.acl.permissions.FileReadPermission#FileReadPermission(java.lang.Long)}
-     * .
-     */
-    @Test
-    public void testFileReadPermission() {
-        // // gh see test FileDeletePermission ~dh
-        //        
-        // FileReadPermission filePerm = new FileReadPermission(1l);
-        // assertNotNull(filePerm);
-        // assertTrue(filePerm.getName().endsWith("read1"));
-        //        
-        // filePerm = new FileReadPermission(0l);
-        // assertTrue(filePerm.getName().endsWith("read0"));
-        //        
-        // filePerm = new FileReadPermission(-1l);
-        // assertTrue(filePerm.getName().endsWith("read-1"));
-    }
 
     /**
      * Test method for {@link EntityPermission#getId()}.

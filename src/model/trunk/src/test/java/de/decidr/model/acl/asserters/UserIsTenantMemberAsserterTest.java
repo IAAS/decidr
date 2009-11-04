@@ -24,6 +24,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.DefaultAccessControlListTest;
 import de.decidr.model.acl.permissions.CommandPermission;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
@@ -40,9 +41,10 @@ import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * GH: add comment
+ * Test case for <code>{@link UserIsTenantMemberAsserter}</code>.
+ * NOTE: see <code>{@link DefaultAccessControlListTest}</code>
  * 
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class UserIsTenantMemberAsserterTest extends LowLevelDatabaseTest {
 

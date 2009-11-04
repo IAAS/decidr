@@ -20,12 +20,13 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import de.decidr.model.facades.FileFacade;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * GH: add comment
+ * Test case for <code>{@link ODERole}</code>.
  * 
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class ODERoleTest extends DecidrAclTest {
 

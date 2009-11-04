@@ -46,9 +46,9 @@ import de.decidr.model.testing.DecidrAclTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * GH: add comment
+ * Test case for <code>{@link FileAccessAsserter}</code>.
  * 
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class FileAccessAsserterTest extends LowLevelDatabaseTest {
 

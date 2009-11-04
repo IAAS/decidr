@@ -43,12 +43,15 @@ import de.decidr.model.commands.workflowmodel.GetWorkflowAdministratorsCommand;
 import de.decidr.model.commands.workflowmodel.SaveStartConfigurationCommand;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * GH: add comment
+ * Test case for <code>{@link DefaulAccessControlList}</code>.
+ * NOTE: Large parts are commented out due to the fact that 
+ *       there is no web service support in our test environment.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
@@ -113,9 +116,6 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
         // List<String> wfmAdmins = new ArrayList<String>();
         // List<String> wfmAdminsEmail = new ArrayList<String>();
         // wfmAdmins.add("wfadmin12377");
-        // gh could you try to test without this? It attempts to connect to a
-        // web service to notify the admins, which obviously fails since hudson
-        // doesn't have a working integration environment ~rr
         // wfmFacade.setWorkflowAdministrators(wfmId, wfmAdminsEmail,
         // wfmAdmins);
     }
@@ -125,7 +125,6 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
         dacl.init();
         dacl = null;
 
-        // GH can't interact with web services during unit test, sorry :-( ~dh
         // if (wfmId != null) {
         // List<Long> wfm = new ArrayList<Long>();
         // wfm.add(wfmId);

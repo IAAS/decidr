@@ -21,15 +21,16 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.DefaultAccessControlListTest;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * GH: add comment
+ * Test case for <code>{@link UserIsLoggedInAsserter}</code>.
  * 
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class UserIsLoggedInAsserterTest extends DecidrAclTest {
 

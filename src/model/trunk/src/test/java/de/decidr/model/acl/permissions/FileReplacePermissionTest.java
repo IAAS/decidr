@@ -20,36 +20,15 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import de.decidr.model.facades.FileFacade;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**
- * GH: add comment
+ * Test case for <code>{@link FileReplacePermission}</code>.
  * 
- * @author GH
+ * @author Geoffrey-Alexeij Heinze
  */
 public class FileReplacePermissionTest extends DecidrAclTest {
-
-    /**
-     * Test method for
-     * {@link de.decidr.model.acl.permissions.FileReplacePermission#FileReplacePermission(java.lang.Long)}
-     * .
-     */
-    @Test
-    public void testFileReplacePermission() {
-        // // gh see test FileDeletePermission (btw. you found a bug here! I
-        // // intended to name the permissions "File.Replace.[ID]", not
-        // // "File.replace[ID]") ~dh
-        //
-        // FileReplacePermission filePerm = new FileReplacePermission(1l);
-        // assertNotNull(filePerm);
-        // assertTrue(filePerm.getName().endsWith("replace1"));
-        //
-        // filePerm = new FileReplacePermission(0l);
-        // assertTrue(filePerm.getName().endsWith("replace0"));
-        //
-        // filePerm = new FileReplacePermission(-1l);
-        // assertTrue(filePerm.getName().endsWith("replace-1"));
-    }
 
     /**
      * Test method for {@link EntityPermission#getId()}.

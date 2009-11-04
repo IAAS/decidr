@@ -50,7 +50,8 @@ public class DWDLErrorHandler implements ErrorHandler {
     /**
      * Returns the list with all errors. If no error occurred, null is returned
      * 
-     * @return GH document
+     * @return 
+     *          List<IProblem>: List of all found problems
      */
     public List<IProblem> getProblemList() {
         return errorList;
@@ -60,7 +61,7 @@ public class DWDLErrorHandler implements ErrorHandler {
      * Adds a new Problem to the errorList.
      * 
      * @param e
-     *            GH document
+     *          The exception object
      */
     private void addProblemToList(SAXParseException e) {
         String msg = e.getMessage();
