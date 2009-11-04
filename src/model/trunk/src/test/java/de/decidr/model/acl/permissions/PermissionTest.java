@@ -25,7 +25,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.decidr.model.facades.FileFacade;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**

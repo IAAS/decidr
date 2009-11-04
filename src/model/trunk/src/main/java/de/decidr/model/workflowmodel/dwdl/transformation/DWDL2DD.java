@@ -22,7 +22,6 @@ import javax.xml.namespace.QName;
 
 import de.decidr.model.workflowmodel.bpel.PartnerLink;
 import de.decidr.model.workflowmodel.bpel.Process;
-
 import de.decidr.model.workflowmodel.dd.ObjectFactory;
 import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dd.TInvoke;

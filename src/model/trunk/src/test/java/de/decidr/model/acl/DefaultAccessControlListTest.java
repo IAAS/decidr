@@ -43,7 +43,6 @@ import de.decidr.model.commands.workflowmodel.GetWorkflowAdministratorsCommand;
 import de.decidr.model.commands.workflowmodel.SaveStartConfigurationCommand;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;

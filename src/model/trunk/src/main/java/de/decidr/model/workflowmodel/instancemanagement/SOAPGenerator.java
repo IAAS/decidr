@@ -16,37 +16,15 @@
 
 package de.decidr.model.workflowmodel.instancemanagement;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
-import javax.management.AttributeNotFoundException;
-import javax.wsdl.Definition;
-import javax.wsdl.Message;
-import javax.wsdl.Operation;
-import javax.wsdl.Part;
-import javax.wsdl.PortType;
-import javax.wsdl.Types;
-import javax.wsdl.extensions.AttributeExtensible;
-import javax.wsdl.extensions.ExtensibilityElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.MimeHeaders;
-import javax.xml.soap.Name;
 import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPPart;
 
-import org.jdom.Element;
-
-import antlr.collections.List;
-
-import com.sun.mail.imap.protocol.ENVELOPE;
-
-import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.wsc.TActor;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;

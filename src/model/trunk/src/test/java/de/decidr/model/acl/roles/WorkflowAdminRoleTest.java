@@ -20,8 +20,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import de.decidr.model.acl.DefaultAccessControlListTest;
-import de.decidr.model.acl.asserters.UserAdministratesWorkflowInstanceAsserter;
 import de.decidr.model.testing.DecidrAclTest;
 
 /**

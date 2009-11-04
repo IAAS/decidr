@@ -24,17 +24,18 @@ import org.junit.Test;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.DefaultAccessControlListTest;
+import de.decidr.model.acl.permissions.Permission;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.facades.UserFacadeTest;
-import de.decidr.model.testing.DecidrAclTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * Test case for <code>{@link UserOwnsWorkItemAsserter}</code>.
- * NOTE: see <code>{@link DefaultAccessControlListTest}</code>
+ * Test case for <code>{@link UserOwnsWorkItemAsserter}</code>. NOTE: see
+ * <code>{@link DefaultAccessControlListTest}</code>
  * 
  * @author Geoffrey-Alexeij Heinze
  */
@@ -45,11 +46,11 @@ public class UserOwnsWorkItemAsserterTest extends LowLevelDatabaseTest {
     // private static WorkflowModelFacade wfmFacade;
 
     private static Long superAdminId;
-    private static Long tenantAdminId;
-    private static Long workflowAdminId;
-    private static Long userId;
-
-    private static Long tenantId;
+    // private static Long tenantAdminId;
+    // private static Long workflowAdminId;
+    // private static Long userId;
+    //
+    // private static Long tenantId;
     // private static Long wfmId;
 
     private static final String USERNAME_PREFIX = "testuser";
@@ -70,16 +71,19 @@ public class UserOwnsWorkItemAsserterTest extends LowLevelDatabaseTest {
         userProfile.setPostalCode("12test");
 
         userProfile.setUsername(USERNAME_PREFIX + "TenantAdmin");
-        tenantAdminId = userFacade.registerUser(UserFacadeTest.getTestEmail(1),
-                "qwertz", userProfile);
+        // tenantAdminId =
+        userFacade.registerUser(UserFacadeTest.getTestEmail(1), "qwertz",
+                userProfile);
 
         userProfile.setUsername(USERNAME_PREFIX + "WFAdmin");
-        workflowAdminId = userFacade.registerUser(UserFacadeTest
-                .getTestEmail(2), "qwertz", userProfile);
+        // workflowAdminId =
+        userFacade.registerUser(UserFacadeTest.getTestEmail(2), "qwertz",
+                userProfile);
 
         userProfile.setUsername(USERNAME_PREFIX + "User");
-        userId = userFacade.registerUser(UserFacadeTest.getTestEmail(3),
-                "qwertz", userProfile);
+        // userId =
+        userFacade.registerUser(UserFacadeTest.getTestEmail(3), "qwertz",
+                userProfile);
 
         // // create test tenant
         // tenantFacade = new TenantFacade(new SuperAdminRole(superAdminId));

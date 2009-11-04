@@ -17,11 +17,11 @@
 package de.decidr.model.acl.asserters;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -35,6 +35,7 @@ import de.decidr.model.acl.permissions.FileDeletePermission;
 import de.decidr.model.acl.permissions.FilePermission;
 import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.acl.permissions.Permission;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.entities.UserProfile;
@@ -42,7 +43,6 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.facades.UserFacadeTest;
-import de.decidr.model.testing.DecidrAclTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
@@ -62,7 +62,8 @@ public class FileAccessAsserterTest extends LowLevelDatabaseTest {
     private static final String USERNAME_PREFIX = "testuser";
 
     @BeforeClass
-    public static void setUpBeforeClass() throws TransactionException, FileNotFoundException {
+    public static void setUpBeforeClass() throws TransactionException,
+            FileNotFoundException {
         UserFacadeTest.deleteTestUsers();
 
         // create test users
@@ -79,16 +80,18 @@ public class FileAccessAsserterTest extends LowLevelDatabaseTest {
         userProfile.setUsername(USERNAME_PREFIX + "User");
         userId = userFacade.registerUser(UserFacadeTest.getTestEmail(1),
                 "qwertz", userProfile);
-        
+
         fileFacade = new FileFacade(new SuperAdminRole(superAdminId));
-        
+
         File file = new File("decidr.jpg");
         FileInputStream fileStream = new FileInputStream("decidr.jpg");
-        Set<Class<? extends FilePermission>> permissions = null;
-        
-        permissions.add(FileReadPermission.class );
-        permissions.add(FileDeletePermission.class );
-        fileId = fileFacade.createFile(fileStream, file.length(), "decidr.jpg", new MimetypesFileTypeMap().getContentType(file), true, permissions );
+        Set<Class<? extends FilePermission>> permissions = new HashSet<Class<? extends FilePermission>>();
+
+        permissions.add(FileReadPermission.class);
+        permissions.add(FileDeletePermission.class);
+        fileId = fileFacade.createFile(fileStream, file.length(), "decidr.jpg",
+                new MimetypesFileTypeMap().getContentType(file), true,
+                permissions);
     }
 
     @AfterClass
@@ -96,16 +99,19 @@ public class FileAccessAsserterTest extends LowLevelDatabaseTest {
         fileFacade.deleteFile(fileId);
         UserFacadeTest.deleteTestUsers();
     }
-    
+
     /**
      * Test method for {@link FileAccessAsserter#assertRule(Role, Permission)}.
-     * @throws TransactionException 
+     * 
+     * @throws TransactionException
      */
     @Test
     public void testAssertRule() throws TransactionException {
         FileAccessAsserter asserter = new FileAccessAsserter();
-        assertTrue(asserter.assertRule(new SuperAdminRole(superAdminId), new Permission("*")));
-        assertFalse(asserter.assertRule(new UserRole(userId), new Permission("*")));
+        assertTrue(asserter.assertRule(new SuperAdminRole(superAdminId),
+                new Permission("*")));
+        assertFalse(asserter.assertRule(new UserRole(userId), new Permission(
+                "*")));
     }
 
 }

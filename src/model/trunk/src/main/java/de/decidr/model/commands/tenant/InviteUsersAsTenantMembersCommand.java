@@ -17,8 +17,6 @@ package de.decidr.model.commands.tenant;
 
 import java.util.List;
 
-import org.hibernate.Query;
-
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.user.CreateNewUnregisteredUserCommand;

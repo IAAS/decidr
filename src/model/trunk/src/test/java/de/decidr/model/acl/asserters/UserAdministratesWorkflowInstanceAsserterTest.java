@@ -31,7 +31,6 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.facades.WorkflowModelFacade;

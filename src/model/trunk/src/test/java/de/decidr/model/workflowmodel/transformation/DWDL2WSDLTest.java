@@ -26,8 +26,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 
 import de.decidr.model.workflowmodel.dwdl.Workflow;
-import de.decidr.model.workflowmodel.dwdl.transformation.TransformationConstants;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformationConstants;
 
 /**
  * DWDL2WSDL Test

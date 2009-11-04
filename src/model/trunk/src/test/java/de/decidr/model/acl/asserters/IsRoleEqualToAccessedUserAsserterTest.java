@@ -35,7 +35,6 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.user.SetUserPropertyCommand;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;

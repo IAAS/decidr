@@ -23,7 +23,6 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import de.decidr.model.acl.PasswordTest;
-import de.decidr.model.acl.asserters.FileAccessAsserterTest;
 import de.decidr.model.acl.asserters.UserOwnsWorkItemAsserterTest;
 import de.decidr.model.acl.asserters.UserOwnsWorkflowModelAsserterTest;
 import de.decidr.model.acl.permissions.CommandPermissionTest;
