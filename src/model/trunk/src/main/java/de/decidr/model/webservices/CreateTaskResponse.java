@@ -22,8 +22,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import de.decidr.model.soap.types.TaskIdentifier;
-
 /**
  * <p>
  * Java class for anonymous complex type.
@@ -50,14 +48,14 @@ import de.decidr.model.soap.types.TaskIdentifier;
 public class CreateTaskResponse {
 
     @XmlElement(namespace = "", required = true)
-    protected TaskIdentifier taskID;
+    protected Long taskID;
 
     /**
      * Gets the value of the taskID property.
      * 
-     * @return possible object is {@link TaskIdentifier }
+     * @return possible object is {@link Long }
      */
-    public TaskIdentifier getTaskID() {
+    public Long getTaskID() {
         return taskID;
     }
 
@@ -65,9 +63,9 @@ public class CreateTaskResponse {
      * Sets the value of the taskID property.
      * 
      * @param value
-     *            allowed object is {@link TTaskIdentifier }
+     *            allowed object is {@link Long }
      */
-    public void setTaskID(TaskIdentifier value) {
+    public void setTaskID(Long value) {
         this.taskID = value;
     }
 }

@@ -15,14 +15,9 @@
  */
 package de.decidr.webservices.humantask;
 
-import java.io.StringReader;
 import java.util.List;
-import java.util.Vector;
 
 import javax.jws.WebService;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 
 import org.apache.log4j.Logger;
 
@@ -36,6 +31,8 @@ import de.decidr.model.facades.WorkflowInstanceFacade;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.soap.exceptions.ReportingException;
 import de.decidr.model.soap.types.IDList;
+import de.decidr.model.soap.types.ReducedHumanTaskData;
+import de.decidr.model.soap.types.TaskDataItem;
 import de.decidr.model.soap.types.TaskIdentifier;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.webservices.HumanTaskInterface;
@@ -56,32 +53,19 @@ public class HumanTask implements HumanTaskInterface {
     private static Logger log = DefaultLogger.getLogger(HumanTask.class);
     private static final Role HUMANTASK_ROLE = HumanTaskRole.getInstance();
 
-    @SuppressWarnings("unchecked")
     @Override
-    public TaskIdentifier createTask(long wfmID, String processID, long userID,
+    public Long createTask(long wfmID, String processID, long userID,
             String taskName, boolean userNotification, String description,
-            String taskData) throws TransactionException {
+            THumanTaskData taskData) throws TransactionException {
         log.trace("Entering method: createTask");
 
         log.debug("creating work item in database");
-        JAXBElement<THumanTaskData> taskDataElement;
-        try {
-            JAXBContext context = JAXBContext.newInstance(THumanTaskData.class);
-            taskDataElement = (JAXBElement<THumanTaskData>) context
-                    .createUnmarshaller().unmarshal(new StringReader(taskData));
-        } catch (JAXBException e) {
-            throw new TransactionException(e);
-        }
-
         long taskID = new WorkItemFacade(HUMANTASK_ROLE).createWorkItem(userID,
-                wfmID, processID, taskName, description, taskDataElement
-                        .getValue(), userNotification);
-
-        // id is needed by the ODE Engine to identify this task
-        TaskIdentifier id = new TaskIdentifier(taskID, processID, userID);
+                wfmID, processID, taskName, description, taskData,
+                userNotification);
 
         log.trace("Leaving method: createTask");
-        return id;
+        return taskID;
     }
 
     @Override
@@ -114,32 +98,33 @@ public class HumanTask implements HumanTaskInterface {
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
         WorkItem workItem = cmd.getResult();
 
-        // XXX see line 85 ~dh
         TaskIdentifier id = new TaskIdentifier(taskID, workItem
-                .getWorkflowInstance().getOdePid(), workItem.getUser().getId());
+                .getWorkflowInstance().getOdePid());
 
         try {
             log.debug("attempting to parse the data string into an Object");
             THumanTaskData taskData = TransformUtil.bytesToHumanTask(workItem
                     .getData());
 
-            // RR adapt to whatever Modood needs
-            List<Object> dataList = new Vector<Object>();
+            ReducedHumanTaskData data = new ReducedHumanTaskData();
+            List<TaskDataItem> dataList = data.getDataItem();
             for (Object object : taskData.getTaskItemOrInformation()) {
                 if (object instanceof TInformation) {
                     continue;
                 }
+                TTaskItem task = (TTaskItem)object;
+                
+                TaskDataItem item = new TaskDataItem();
+                item.setName(task.getName());
+                item.setType(task.getType().name());
+                item.setValue(task.getValue());
 
-                dataList.add(((TTaskItem) object).getValue());
+                dataList.add(item);
             }
 
-            /*
-             * DH RR MA Modood is going to create a new type that replaces
-             * ItemList. We have to map from THumanTaskData to this new type ~dh
-             */
             log.debug("calling Callback");
             new BasicProcessClient().getBPELCallbackInterfacePort()
-                    .taskCompleted(id, dataList);
+                    .taskCompleted(id, data);
         } catch (Exception e) {
             throw new ReportingException(e.getMessage(), e);
         }

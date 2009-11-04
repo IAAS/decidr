@@ -44,14 +44,13 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tTaskIdentifier", propOrder = { "taskID", "processID",
-        "userID" })
+@XmlType(name = "tTaskIdentifier", propOrder = { "taskID", "pid" })
 public class TaskIdentifier {
 
+    @XmlElement(required = true)
     protected long taskID;
     @XmlElement(required = true)
-    protected String processID;
-    protected long userID;
+    protected String pid;
 
     /**
      * Default constructor needed by JAXB.
@@ -64,10 +63,9 @@ public class TaskIdentifier {
      * Convenience constructor which can be used to ensure that all values have
      * been set.
      */
-    public TaskIdentifier(long taskID, String processID, long userID) {
+    public TaskIdentifier(long taskID, String pid) {
         this.taskID = taskID;
-        this.processID = processID;
-        this.userID = userID;
+        this.pid = pid;
     }
 
     /**
@@ -93,7 +91,7 @@ public class TaskIdentifier {
      * 
      */
     public String getProcessID() {
-        return processID;
+        return pid;
     }
 
     /**
@@ -104,23 +102,6 @@ public class TaskIdentifier {
      * 
      */
     public void setProcessID(String value) {
-        this.processID = value;
+        this.pid = value;
     }
-
-    /**
-     * Gets the value of the userID property.
-     * 
-     */
-    public long getUserID() {
-        return userID;
-    }
-
-    /**
-     * Sets the value of the userID property.
-     * 
-     */
-    public void setUserID(long value) {
-        this.userID = value;
-    }
-
 }

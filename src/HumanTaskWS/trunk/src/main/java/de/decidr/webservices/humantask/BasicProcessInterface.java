@@ -15,8 +15,6 @@
  */
 package de.decidr.webservices.humantask;
 
-import java.util.List;
-
 import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -24,6 +22,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.namespace.QName;
 
+import de.decidr.model.soap.types.ReducedHumanTaskData;
 import de.decidr.model.soap.types.TaskIdentifier;
 
 /**
@@ -57,5 +56,5 @@ public interface BasicProcessInterface {
     @Oneway
     @WebMethod(action = TARGET_NAMESPACE + "/taskCompleted", operationName = "taskCompleted")
     public void taskCompleted(@WebParam(name = "taskID") TaskIdentifier taskID,
-            @WebParam(name = "dataList") List<Object> dataList);
+            @WebParam(name = "dataList") ReducedHumanTaskData dataList);
 }

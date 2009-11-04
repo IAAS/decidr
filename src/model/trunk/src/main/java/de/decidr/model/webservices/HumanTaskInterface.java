@@ -26,7 +26,7 @@ import javax.xml.ws.ResponseWrapper;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.soap.exceptions.ReportingException;
 import de.decidr.model.soap.types.IDList;
-import de.decidr.model.soap.types.TaskIdentifier;
+import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 
 /**
  * This is the DecidR HumanTask interface, a java representation of the
@@ -70,7 +70,7 @@ public interface HumanTaskInterface {
      * @param taskData
      *            A list of fields and default values associated with the work
      *            item needed by the UI to properly render it.
-     * @return A {@link TaskIdentifier} as required by the BEPL process.
+     * @return The new task's ID.
      * @throws TransactionException
      *             Should a <code>{@link TransactionException}</code> be thrown
      *             by the facade.
@@ -78,13 +78,13 @@ public interface HumanTaskInterface {
     @WebMethod(operationName = "createTask", action = "urn:createTask")
     @RequestWrapper(localName = "createTask", targetNamespace = TARGET_NAMESPACE, className = "CreateTask")
     @ResponseWrapper(localName = "createTaskResponse", targetNamespace = TARGET_NAMESPACE, className = "CreateTaskResponse")
-    public TaskIdentifier createTask(@WebParam(name = "wfmID") long wfmID,
+    public Long createTask(@WebParam(name = "wfmID") long wfmID,
             @WebParam(name = "processID") String processID,
             @WebParam(name = "userID") long userID,
             @WebParam(name = "taskName") String taskName,
             @WebParam(name = "userNotification") boolean userNotification,
             @WebParam(name = "description") String description,
-            @WebParam(name = "taskData") String taskData)
+            @WebParam(name = "taskData") THumanTaskData taskData)
             throws TransactionException;
 
     /**

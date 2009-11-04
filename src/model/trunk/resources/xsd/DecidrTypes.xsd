@@ -156,18 +156,14 @@
 	<xsd:complexType name="tTaskIdentifier">
 		<xsd:sequence>
 			<xsd:element name="taskID" type="tns:tID" />
-			<xsd:element name="processID" type="xsd:string"
-				minOccurs="1" maxOccurs="1" nillable="false" />
-			<xsd:element name="userID" type="tns:tID" minOccurs="1"
+			<xsd:element name="pid" type="xsd:string" minOccurs="1"
 				maxOccurs="1" nillable="false" />
 		</xsd:sequence>
 	</xsd:complexType>
 
-	<xsd:element name="humanTaskData" type="tns:tHumanTaskData" />
-	<xsd:complexType name="tHumanTaskData">
+	<xsd:element name="reducedHumanTaskData" type="tns:tReducedHumanTaskData" />
+	<xsd:complexType name="tReducedHumanTaskData">
 		<xsd:sequence>
-			<xsd:element name="taskID" type="tns:tID" minOccurs="1"
-				maxOccurs="1" nillable="false" />
 			<xsd:element name="dataItem" type="tns:tTaskDataItem"
 				minOccurs="1" maxOccurs="unbounded" nillable="false" />
 		</xsd:sequence>

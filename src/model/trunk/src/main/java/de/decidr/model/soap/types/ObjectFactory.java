@@ -34,6 +34,8 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _ReducedHumanTaskData_QNAME = new QName(
+            "http://decidr.de/schema/DecidrTypes", "reducedHumanTaskData");
     private final static QName _Content_QNAME = new QName(
             "http://decidr.de/schema/DecidrProcessTypes", "content");
     private final static QName _User_QNAME = new QName(
@@ -375,6 +377,32 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://decidr.de/schema/DecidrTypes", name = "uriItem", substitutionHeadNamespace = "http://decidr.de/schema/DecidrTypes", substitutionHeadName = "item")
     public JAXBElement<URIItem> createUriItem(URIItem value) {
         return new JAXBElement<URIItem>(_UriItem_QNAME, URIItem.class, null,
+                value);
+    }
+
+    /**
+     * Create an instance of {@link TaskDataItem }
+     */
+    public TaskDataItem createTTaskDataItem() {
+        return new TaskDataItem();
+    }
+
+    /**
+     * Create an instance of {@link ReducedHumanTaskData }
+     */
+    public ReducedHumanTaskData createTReducedHumanTaskData() {
+        return new ReducedHumanTaskData();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}
+     * {@link ReducedHumanTaskData }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://decidr.de/schema/DecidrTypes", name = "reducedHumanTaskData")
+    public JAXBElement<ReducedHumanTaskData> createReducedHumanTaskData(
+            ReducedHumanTaskData value) {
+        return new JAXBElement<ReducedHumanTaskData>(
+                _ReducedHumanTaskData_QNAME, ReducedHumanTaskData.class, null,
                 value);
     }
 }
