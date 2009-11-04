@@ -78,6 +78,9 @@ import de.decidr.model.workflowmodel.dwdl.Workflow;
 public class DWDL2WSDL {
 
     private static Logger log = DefaultLogger.getLogger(DWDL2WSDL.class);
+    
+    private static Namespace ns = Namespace.getNamespace("xsd",
+    "http://www.w3.org/2001/XMLSchema");
 
     private Workflow dwdl = null;
     private Definition wsdl = null;
@@ -91,6 +94,7 @@ public class DWDL2WSDL {
     public Definition getWSDL(Workflow dwdl, String location, String tenantName)
             throws JDOMException {
         wsdl = new DefinitionImpl();
+        wsdl.setQName(new QName(dwdl.getTargetNamespace(), dwdl.getName()));
         this.location = location;
         this.dwdl = dwdl;
 
@@ -147,8 +151,10 @@ public class DWDL2WSDL {
 
     private void setImports() {
         Import decidrTypes = new ImportImpl();
-        decidrTypes.setNamespaceURI(TransformationConstants.DECIDRTYPES_NAMESPACE);
-        decidrTypes.setLocationURI(TransformationConstants.DECIDRTYPES_LOCATION);
+        decidrTypes
+                .setNamespaceURI(TransformationConstants.DECIDRTYPES_NAMESPACE);
+        decidrTypes
+                .setLocationURI(TransformationConstants.DECIDRTYPES_LOCATION);
 
         wsdl.addImport(decidrTypes);
     }
@@ -177,7 +183,8 @@ public class DWDL2WSDL {
         wsdl.addNamespace("vprop",
                 "http://docs.oasis-open.org/wsbpel/2.0/varprop/");
         wsdl.addNamespace("xsd", XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        wsdl.addNamespace("decidr", TransformationConstants.DECIDRTYPES_NAMESPACE);
+        wsdl.addNamespace("decidr",
+                TransformationConstants.DECIDRTYPES_NAMESPACE);
     }
 
     private void setPartnerLinkTypes() throws JDOMException {
@@ -210,7 +217,7 @@ public class DWDL2WSDL {
     }
 
     private void setProperties() throws JDOMException {
-        Iterator<?> iter = schemaElement.getChild("complexType").getChildren(
+        Iterator<?> iter = schemaElement.getChild("complexType", ns).getChildren(
                 "element").iterator();
         while (iter.hasNext()) {
             Element messageElement = (Element) iter.next();
@@ -230,9 +237,10 @@ public class DWDL2WSDL {
                     + startMessage.getQName().getLocalPart());
             propertyAlias.setAttribute("part", startMessage.getPart("payload")
                     .getName());
-            propertyQuery.setText("/tns:startProcess/ns:"+messageElement.getAttributeValue("name"));
+            propertyQuery.setText("/tns:startProcess/ns:"
+                    + messageElement.getAttributeValue("name"));
             propertyAlias.addContent(propertyQuery);
-            
+
             UnknownExtensibilityElement propElement = getUExtElem(propertyElement);
             UnknownExtensibilityElement propAlias = getUExtElem(propertyAlias);
             wsdl.addExtensibilityElement(propElement);
@@ -249,7 +257,7 @@ public class DWDL2WSDL {
         SOAPAddress soapLocation = new SOAPAddressImpl();
         soapLocation.setLocationURI(location);
         servicePort.addExtensibilityElement(soapLocation);
-
+        processService.addPort(servicePort);
         wsdl.addService(processService);
     }
 
@@ -268,41 +276,55 @@ public class DWDL2WSDL {
                 XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Element all = new Element("all", "xsd",
                 XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        for (Variable variable : dwdl.getVariables().getVariable()) {
-            if (variable.isSetConfigurationVariable()
-                    && variable.getConfigurationVariable().equals(Boolean.YES)) {
-                Element variableElement = new Element("element", "xsd",
-                        XMLConstants.W3C_XML_SCHEMA_NS_URI);
-                variableElement.setAttribute("name", variable.getName());
-                variableElement.setAttribute("type", variable.getType());
-                all.addContent(variableElement);
+        if (dwdl.isSetVariables()) {
+            for (Variable variable : dwdl.getVariables().getVariable()) {
+                if (variable.isSetConfigurationVariable()
+                        && variable.getConfigurationVariable().equals(
+                                Boolean.YES)) {
+                    Element variableElement = new Element("element", "xsd",
+                            XMLConstants.W3C_XML_SCHEMA_NS_URI);
+                    variableElement.setAttribute("name", variable.getName());
+                    variableElement.setAttribute("type", variable.getType());
+                    all.addContent(variableElement);
+                }
             }
         }
-        for (Role role : dwdl.getRoles().getRole()) {
-            if (role.isSetConfigurationVariable()
-                    && role.getConfigurationVariable().equals(Boolean.YES)) {
-                Element roleElement = new Element("element", "xsd",
-                        XMLConstants.W3C_XML_SCHEMA_NS_URI);
-                roleElement.setAttribute("name", "role");
-                roleElement.setAttribute("type", "tRole", Namespace
-                        .getNamespace("decidr",
-                                TransformationConstants.DECIDRTYPES_NAMESPACE));
-                all.addContent(roleElement);
+        if (dwdl.isSetRoles()) {
+            for (Role role : dwdl.getRoles().getRole()) {
+                if (role.isSetConfigurationVariable()
+                        && role.getConfigurationVariable().equals(Boolean.YES)) {
+                    Element roleElement = new Element("element", "xsd",
+                            XMLConstants.W3C_XML_SCHEMA_NS_URI);
+                    roleElement.setAttribute("name", "role");
+                    roleElement
+                            .setAttribute(
+                                    "type",
+                                    "tRole",
+                                    Namespace
+                                            .getNamespace(
+                                                    "decidr",
+                                                    TransformationConstants.DECIDRTYPES_NAMESPACE));
+                    all.addContent(roleElement);
+                }
+            }
+            for (Actor actor : dwdl.getRoles().getActor()) {
+                if (actor.isSetConfigurationVariable()
+                        && actor.getConfigurationVariable().equals(Boolean.YES)) {
+                    Element actorElement = new Element("element", "xsd",
+                            XMLConstants.W3C_XML_SCHEMA_NS_URI);
+                    actorElement.setAttribute("name", "actor");
+                    actorElement
+                            .setAttribute(
+                                    "type",
+                                    "tActor",
+                                    Namespace
+                                            .getNamespace(
+                                                    "decidr",
+                                                    TransformationConstants.DECIDRTYPES_NAMESPACE));
+                    all.addContent(actorElement);
+                }
             }
         }
-        for (Actor actor : dwdl.getRoles().getActor()) {
-            if (actor.isSetConfigurationVariable()
-                    && actor.getConfigurationVariable().equals(Boolean.YES)) {
-                Element actorElement = new Element("element", "xsd",
-                        XMLConstants.W3C_XML_SCHEMA_NS_URI);
-                actorElement.setAttribute("name", "actor");
-                actorElement.setAttribute("type", "tActor", Namespace
-                        .getNamespace("decidr",
-                                TransformationConstants.DECIDRTYPES_NAMESPACE));
-                all.addContent(actorElement);
-            }
-        }
-
         schemaElement.addContent(messageRoot);
         schemaElement.addContent(messageType);
         messageType.addContent(all);

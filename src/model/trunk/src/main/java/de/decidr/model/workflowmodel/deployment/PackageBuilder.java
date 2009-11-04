@@ -42,6 +42,7 @@ import com.ibm.wsdl.xml.WSDLWriterImpl;
 import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.workflowmodel.bpel.Process;
 import de.decidr.model.workflowmodel.dd.TDeployment;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
 /**
  * This class builds the package, i.e. the zip file needed for deployment
@@ -51,45 +52,29 @@ import de.decidr.model.workflowmodel.dd.TDeployment;
  */
 public class PackageBuilder {
     
-    private Class<PackageBuilder> resourceClass = PackageBuilder.class;
-    private final String DECIDRTYPES_LOCATION = "resources/xsd/DecidrProcessTypes.xsd";
+    private final String DECIDRTYPES_LOCATION = "/xsd/DecidrProcessTypes.xsd";
     private final String DECIDRTYPES_NAME = "DecidrProcessTypes";
 
     public byte[] getPackage(String name, Process bpel, Definition wsdl,
             TDeployment dd, List<KnownWebService> knownWebservices)
             throws JAXBException, WSDLException, IOException {
-        
-        JAXBContext bpelCntxt = JAXBContext.newInstance(Process.class);
-        JAXBContext ddCntxt = JAXBContext.newInstance(TDeployment.class);
-        Marshaller bpelMarshaller = bpelCntxt.createMarshaller();
-        Marshaller ddMarshaller = ddCntxt.createMarshaller();
-
-        ByteArrayOutputStream bpelOut = new ByteArrayOutputStream();
-        ByteArrayOutputStream ddOut = new ByteArrayOutputStream();
-        ByteArrayOutputStream wsdlOut = new ByteArrayOutputStream();
 
         ByteArrayOutputStream zipOut = new ByteArrayOutputStream();
-
-        WSDLWriter wsdlWriter = new WSDLWriterImpl();
 
         String bpelFilename = name + ".bpel";
         String wsdlFilename = name + ".wsdl";
         String ddFilename = "deploy.xml";
         String decidrTypesFilename = DECIDRTYPES_NAME + ".xsd";
 
-        bpelMarshaller.marshal(bpel, bpelOut);
-        ddMarshaller.marshal(dd, ddOut);
-        wsdlWriter.writeWSDL(wsdl, wsdlOut);
-
         ZipOutputStream zip_out_stream = new ZipOutputStream(zipOut);
         zip_out_stream.putNextEntry(new ZipEntry(bpelFilename));
-        zip_out_stream.write(bpelOut.toByteArray());
+        zip_out_stream.write(TransformUtil.bpelToBytes(bpel));
         zip_out_stream.closeEntry();
         zip_out_stream.putNextEntry(new ZipEntry(wsdlFilename));
-        zip_out_stream.write(wsdlOut.toByteArray());
+        zip_out_stream.write(TransformUtil.definitionToBytes(wsdl));
         zip_out_stream.closeEntry();
         zip_out_stream.putNextEntry(new ZipEntry(ddFilename));
-        zip_out_stream.write(ddOut.toByteArray());
+        zip_out_stream.write(TransformUtil.ddToBytes(dd));
         zip_out_stream.closeEntry();
         zip_out_stream.putNextEntry(new ZipEntry(decidrTypesFilename));
         zip_out_stream.write(getTypes());
@@ -124,19 +109,11 @@ public class PackageBuilder {
     }
     
     private byte[] getTypes() throws IOException {
-        InputStream in = resourceClass.getResourceAsStream(DECIDRTYPES_LOCATION);
-        ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
-        byte[] buffer = new byte[512];
-        int readBytes;
-        while ((readBytes = in.read(buffer)) > 0) {
-            out.write(buffer, 0, readBytes);
-        }
-        byte[] byteData = out.toByteArray();
-
-        in.close();
-        out.close();
+        InputStream in = PackageBuilder.class.getResourceAsStream(DECIDRTYPES_LOCATION);
+        byte[] data = new byte[in.available()];
+        in.read(data, 0, in.available());
      
-        return byteData;
+        return data;
     }
 
 }

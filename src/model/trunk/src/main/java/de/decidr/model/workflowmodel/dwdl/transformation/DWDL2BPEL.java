@@ -460,9 +460,12 @@ public class DWDL2BPEL {
         Links links = factory.createLinks();
         mainFlow.setName("mainFlow");
         mainFlow.setLinks(links);
-        setArcs(dwdl.getArcs().getArc(), mainFlow.getLinks().getLink());
-        setActivityNode(mainFlow.getActivity(), dwdl.getNodes().getAllNodes());
-
+        if (dwdl.isSetArcs()){
+            setArcs(dwdl.getArcs().getArc(), mainFlow.getLinks().getLink());
+        }
+        if (dwdl.isSetNodes()){
+            setActivityNode(mainFlow.getActivity(), dwdl.getNodes().getAllNodes());
+        }
         mainSequence.getActivity().add(mainFlow);
         process.setSequence(mainSequence);
     }

@@ -22,6 +22,7 @@ import java.io.ByteArrayOutputStream;
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
 import javax.wsdl.xml.WSDLReader;
+import javax.wsdl.xml.WSDLWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -33,7 +34,11 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.log4j.Logger;
 import org.xml.sax.InputSource;
 
+import com.ibm.wsdl.xml.WSDLWriterImpl;
+
 import de.decidr.model.logging.DefaultLogger;
+import de.decidr.model.workflowmodel.bpel.Process;
+import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 import de.decidr.model.workflowmodel.webservices.WebserviceMapping;
@@ -48,9 +53,11 @@ import de.decidr.model.workflowmodel.wsc.TConfiguration;
 public class TransformUtil {
 
     private static JAXBContext dwdlCntxt = null;
+    private static JAXBContext bpelCntxt = null;
     private static JAXBContext wscCntxt = null;
     private static JAXBContext mappingCntxt = null;
     private static JAXBContext htaskCntxt = null;
+    private static JAXBContext ddCntxt = null;
     private static Logger log = DefaultLogger.getLogger(TransformUtil.class);
 
     static {
@@ -59,6 +66,8 @@ public class TransformUtil {
             wscCntxt = JAXBContext.newInstance(TConfiguration.class);
             mappingCntxt = JAXBContext.newInstance(WebserviceMapping.class);
             htaskCntxt = JAXBContext.newInstance(THumanTaskData.class);
+            bpelCntxt = JAXBContext.newInstance(Process.class);
+            ddCntxt = JAXBContext.newInstance(TDeployment.class);
         } catch (JAXBException e) {
             log.error("Couldn't create JAXBContext", e);
         }
@@ -109,13 +118,42 @@ public class TransformUtil {
 
     public static byte[] configurationToBytes(TConfiguration con)
             throws JAXBException {
-        Marshaller dwdlMarshaller = wscCntxt.createMarshaller();
+        Marshaller marshaller = wscCntxt.createMarshaller();
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        dwdlMarshaller.marshal(con, os);
+        marshaller.marshal(con, os);
+
+        return os.toByteArray();
+    }
+    
+    public static byte[] bpelToBytes(Process bpel) throws JAXBException{
+        Marshaller marshaller = bpelCntxt.createMarshaller();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        JAXBElement<Process> element = new JAXBElement<Process>(
+                new QName(TransformationConstants.BPEL_NAMESPACE,
+                        "process"), Process.class, bpel);
+        marshaller.marshal(element, os);
 
         return os.toByteArray();
     }
 
+    public static byte[] definitionToBytes(Definition def) throws WSDLException{
+        WSDLWriter writer = new WSDLWriterImpl();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        writer.writeWSDL(def, os);
+        return os.toByteArray();
+    }
+    
+    public static byte[] ddToBytes(TDeployment deployment) throws JAXBException{
+        Marshaller marshaller = ddCntxt.createMarshaller();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        JAXBElement<TDeployment> element = new JAXBElement<TDeployment>(
+                new QName(TransformationConstants.DD_NAMESPACE,
+                        "deploy"), TDeployment.class, deployment);
+        marshaller.marshal(element, os);
+
+        return os.toByteArray();
+    }
+    
     public static String element2XML(org.jdom.Element roleElement) {
 
         return null;
@@ -135,9 +173,12 @@ public class TransformUtil {
 
     public static byte[] workflowToBytes(Workflow dwdl) throws JAXBException {
 
-        Marshaller dwdlMarshaller = dwdlCntxt.createMarshaller();
+        Marshaller marshaller = dwdlCntxt.createMarshaller();
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        dwdlMarshaller.marshal(dwdl, os);
+        JAXBElement<Workflow> mappingElement = new JAXBElement<Workflow>(
+                new QName(TransformationConstants.DWDL_NAMESPACE,
+                        "workflow"), Workflow.class, dwdl);
+        marshaller.marshal(mappingElement, os);
 
         return os.toByteArray();
     }

@@ -37,44 +37,61 @@ import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
  * @version 0.1
  */
 public class DWDL2DD {
-    
+
     TDeployment deployment = null;
-    
-    public TDeployment getDD(Process bpel, Map<String, DecidrWebserviceAdapter> webservices) {
+    Process bpel = null;
+    Map<String, DecidrWebserviceAdapter> webservices = null;
+
+    public TDeployment getDD(Process bpel,
+            Map<String, DecidrWebserviceAdapter> webservices) {
+        this.bpel = bpel;
+        this.webservices = webservices;
         ObjectFactory factory = new ObjectFactory();
         deployment = factory.createTDeployment();
-        de.decidr.model.workflowmodel.dd.TDeployment.Process process = factory.createTDeploymentProcess();
-        process.setName(new QName(bpel.getTargetNamespace(),bpel.getName(),"pns"));
-        for (PartnerLink partnerLink : bpel.getPartnerLinks().getPartnerLink()){
-            if (partnerLink.isSetMyRole() || partnerLink.isSetPartnerRole()){
-                if (partnerLink.isSetMyRole()){
+        de.decidr.model.workflowmodel.dd.TDeployment.Process process = factory
+                .createTDeploymentProcess();
+        process.setName(new QName(bpel.getTargetNamespace(), bpel.getName(),
+                "pns"));
+        for (PartnerLink partnerLink : bpel.getPartnerLinks().getPartnerLink()) {
+            if (partnerLink.isSetMyRole() || partnerLink.isSetPartnerRole()) {
+                if (partnerLink.isSetMyRole()) {
                     TProvide provide = factory.createTProvide();
                     provide.setPartnerLink(partnerLink.getName());
                     TService service = factory.createTService();
-                    DecidrWebserviceAdapter webservice = findWebserviceAdapter(partnerLink, webservices);
-                    service.setName(webservice.getService().getQName());
-                    provide.setService(service);
-                    process.getProvide().add(provide);
+                    DecidrWebserviceAdapter webservice = findWebserviceAdapter(
+                            partnerLink, webservices);
+                    if (webservice != null && webservice.getService() != null){
+                        service.setName(webservice.getService().getQName());
+                        provide.setService(service);
+                        process.getProvide().add(provide);
+                    }
+                    
                 }
-                if (partnerLink.isSetPartnerRole()){
+                if (partnerLink.isSetPartnerRole()) {
                     TInvoke invoke = factory.createTInvoke();
                     invoke.setPartnerLink(partnerLink.getName());
                     TService service = factory.createTService();
-                    DecidrWebserviceAdapter webservice = findWebserviceAdapter(partnerLink, webservices);
-                    service.setName(webservice.getService().getQName());
-                    invoke.setService(service);
-                    process.getInvoke().add(invoke);
+                    DecidrWebserviceAdapter webservice = findWebserviceAdapter(
+                            partnerLink, webservices);
+                    if (webservice != null && webservice.getService() != null){
+                        service.setName(webservice.getService().getQName());
+                        invoke.setService(service);
+                        process.getInvoke().add(invoke);
+                    }
+                    
                 }
             }
         }
         deployment.getProcess().add(process);
         return deployment;
     }
-    
-    private DecidrWebserviceAdapter findWebserviceAdapter(PartnerLink partnerLink,
+
+    private DecidrWebserviceAdapter findWebserviceAdapter(
+            PartnerLink partnerLink,
             Map<String, DecidrWebserviceAdapter> webservices) {
-        for (DecidrWebserviceAdapter adapter: webservices.values()){
-            if (adapter.getPartnerLink().getName().equals(partnerLink.getName())){
+        for (DecidrWebserviceAdapter adapter : webservices.values()) {
+            if (adapter.getPartnerLink().getName()
+                    .equals(partnerLink.getName())) {
                 return adapter;
             }
         }
