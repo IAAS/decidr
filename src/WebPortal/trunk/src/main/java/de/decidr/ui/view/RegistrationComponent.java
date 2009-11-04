@@ -62,11 +62,11 @@ public class RegistrationComponent extends CustomComponent {
 
         registerTenant = new Button("create new tenant",
                 new ShowRegisterTenantAction());
-        registerTenant.setStyle(Button.STYLE_LINK);
+        registerTenant.setStyleName(Button.STYLE_LINK);
 
         registerUser = new Button("create new user",
                 new ShowRegisterUserAction());
-        registerUser.setStyle(Button.STYLE_LINK);
+        registerUser.setStyleName(Button.STYLE_LINK);
 
         horizontalLayout = new HorizontalLayout();
         horizontalLayout.setSpacing(true);

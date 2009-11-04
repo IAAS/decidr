@@ -29,8 +29,6 @@ import javax.activation.MimetypesFileTypeMap;
 
 import org.apache.commons.io.FileUtils;
 
-import com.steadystate.css.parser.CSSOMParser;
-import com.steadystate.css.parser.SACParserCSS2;
 import com.vaadin.data.Item;
 
 import de.decidr.model.acl.permissions.FilePermission;

@@ -16,11 +16,10 @@
 
 package de.decidr.ui.controller;
 
-import java.io.File;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
+
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
