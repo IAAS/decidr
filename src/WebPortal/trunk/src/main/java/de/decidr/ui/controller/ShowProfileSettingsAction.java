@@ -16,11 +16,17 @@
 
 package de.decidr.ui.controller;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.UserFacade;
+import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
 import de.decidr.ui.view.SiteFrame;
+import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
  * This action shows the ProfileSettingsComponent in the content area
@@ -29,24 +35,34 @@ import de.decidr.ui.view.SiteFrame;
  */
 public class ShowProfileSettingsAction implements ClickListener {
 
-    /**
-     * Serial Version UID
-     */
-    private static final long serialVersionUID = 33661750285092369L;
+	/**
+	 * Serial Version UID
+	 */
+	private static final long serialVersionUID = 33661750285092369L;
 
-    private UIDirector uiDirector = UIDirector.getInstance();
-    private SiteFrame siteFrame = uiDirector.getTemplateView();
+	private UIDirector uiDirector = UIDirector.getInstance();
+	private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(new ProfileSettingsComponent());
+	private UserFacade userFacade = new UserFacade(new UserRole((Long) Main
+			.getCurrent().getSession().getAttribute("userId")));
 
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		try {
+			Item item = userFacade.getUserProfile((Long) Main.getCurrent()
+					.getSession().getAttribute("userId"));
+			siteFrame.setContent(new ProfileSettingsComponent(item));
+		} catch (TransactionException e) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent());
+		}
+
+	}
 
 }

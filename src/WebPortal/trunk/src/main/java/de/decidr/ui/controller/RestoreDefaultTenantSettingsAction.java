@@ -16,8 +16,15 @@
 
 package de.decidr.ui.controller;
 
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+
+import de.decidr.ui.view.Main;
+import de.decidr.ui.view.SiteFrame;
+import de.decidr.ui.view.TenantSettingsComponent;
 
 /**
  * Restores the default settings from the the tenant settings. The css settings
@@ -26,6 +33,9 @@ import com.vaadin.ui.Button.ClickListener;
  * @author AT
  */
 public class RestoreDefaultTenantSettingsAction implements ClickListener {
+	
+	UIDirector uiDirector = UIDirector.getInstance();
+	SiteFrame siteFrame = uiDirector.getTemplateView();
 
     /*
      * (non-Javadoc)
@@ -35,7 +45,12 @@ public class RestoreDefaultTenantSettingsAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        // TODO: Klärung von default settings
+        TenantSettingsComponent content = (TenantSettingsComponent)siteFrame.getContent();
+        content.changeToBasic();
+        content.getBackgroundSelect().setValue("aqua");
+        content.getForegroundSelect().setValue("aqua");
+        content.getFontSelect().setValue("Arial");
+        content.getFontSizeSelect().setValue("12");
 
     }
 

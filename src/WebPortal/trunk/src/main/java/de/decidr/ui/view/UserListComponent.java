@@ -171,4 +171,15 @@ public class UserListComponent extends CustomComponent {
         buttonHorizontalLayout.setSpacing(true);
     }
 
+	/**
+	 * TODO: add comment
+	 *
+	 * @return the userListTable
+	 */
+	public UserListTable getUserListTable() {
+		return userListTable;
+	}
+    
+    
+
 }

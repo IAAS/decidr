@@ -69,12 +69,12 @@ public class Main extends Application implements TransactionListener {
 		
 		
 
-		director.setUiBuilder(ui);
-		director.createNewView();
-		director.constructView();
+		//director.setUiBuilder(ui);
+		//director.createNewView();
+		//director.constructView();
 		
-		main.addComponent(director.getTemplateView());
-		//main.addComponent(new TenantSettingsComponent());
+		//main.addComponent(director.getTemplateView());
+		main.addComponent(new TenantSettingsComponent());
 		
 		if (getContext() != null) {
 			getContext().addTransactionListener(this);

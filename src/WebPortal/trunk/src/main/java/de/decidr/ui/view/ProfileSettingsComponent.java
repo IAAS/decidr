@@ -17,7 +17,6 @@ package de.decidr.ui.view;
 
 import java.util.Arrays;
 
-import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.validator.RegexpValidator;
@@ -36,10 +35,6 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-
-import de.decidr.model.acl.roles.UserRole;
-import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.ChangeStatusAction;
 import de.decidr.ui.controller.SaveProfileAction;
 import de.decidr.ui.controller.ShowCancelMembershipAction;
@@ -60,7 +55,7 @@ public class ProfileSettingsComponent extends CustomComponent {
      * @author Geoffrey-Alexeij Heinze
      */
     private class SettingsFieldFactory extends DefaultFieldFactory {
-
+    	//TODO: Werden die Felder automatische mit den Werten gefüllt
         @Override
         public Field createField(Item item, Object propertyId,
                 Component uiContext) {
@@ -106,12 +101,6 @@ public class ProfileSettingsComponent extends CustomComponent {
 
     private Item settingsItem = null;
 
-    private HttpSession session = null;
-
-    private Long userId = null;
-
-    private UserFacade userFacade = null;
-
     private Form settingsForm = new Form();
 
     /**
@@ -154,7 +143,8 @@ public class ProfileSettingsComponent extends CustomComponent {
      * Default constructor
      * 
      */
-    public ProfileSettingsComponent() {
+    public ProfileSettingsComponent(Item item) {
+    	this.settingsItem = item;
         init();
     }
 
@@ -182,14 +172,6 @@ public class ProfileSettingsComponent extends CustomComponent {
      * 
      */
     private void init() {
-        session = Main.getCurrent().getSession();
-        userId = (Long) session.getAttribute("userId");
-        userFacade = new UserFacade(new UserRole(userId));
-        try {
-            settingsItem = userFacade.getUserProfile(userId);
-        } catch (TransactionException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
-        }
         settingsForm.setWriteThrough(false);
         settingsForm.setFormFieldFactory(new SettingsFieldFactory());
         settingsForm.setItemDataSource(settingsItem);
@@ -302,5 +284,16 @@ public class ProfileSettingsComponent extends CustomComponent {
         }
 
     }
+
+	/**
+	 * Gets the settings form
+	 *
+	 * @return the settingsForm
+	 */
+	public Form getSettingsForm() {
+		return settingsForm;
+	}
+    
+    
 
 }

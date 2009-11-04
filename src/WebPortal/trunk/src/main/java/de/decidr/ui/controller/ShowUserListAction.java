@@ -37,51 +37,54 @@ import de.decidr.ui.view.UserListComponent;
  */
 public class ShowUserListAction implements ClickListener {
 
-    /**
-     * Serial Version UID
-     */
-    private static final long serialVersionUID = 8622917418547074320L;
+	/**
+	 * Serial Version UID
+	 */
+	private static final long serialVersionUID = 8622917418547074320L;
 
-    private UIDirector uiDirector = UIDirector.getInstance();
-    private SiteFrame siteFrame = uiDirector.getTemplateView();
+	private UIDirector uiDirector = UIDirector.getInstance();
+	private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-    private UserFacade userFacade = null;
-    private TenantFacade tenantFacade = null;
-    private Long tenantId = null;
+	private UserFacade userFacade = null;
+	private TenantFacade tenantFacade = null;
+	private Long tenantId = null;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        userFacade = new UserFacade(new UserRole((Long) Main.getCurrent()
-                .getSession().getAttribute("userId")));
-        tenantFacade = new TenantFacade(new UserRole((Long) Main.getCurrent()
-                .getSession().getAttribute("userId")));
-        try {
-            tenantId = tenantFacade.getTenantId((String) Main.getCurrent()
-                    .getSession().getAttribute("tenant"));
-            siteFrame.setContent(new UserListComponent());
-            if (userFacade.getUserRoleForTenant(
-                    (Long) Main.getCurrent().getSession()
-                            .getAttribute("userId"), tenantId).equals(
-                    SuperAdminRole.class)) {
-                ((UserListComponent) siteFrame.getContent())
-                        .changeToSuperAdmin();
-            } else if (userFacade.getUserRoleForTenant(
-                    (Long) Main.getCurrent().getSession()
-                            .getAttribute("userId"), tenantId).equals(
-                    TenantAdminRole.class)) {
-                ((UserListComponent) siteFrame.getContent())
-                        .changeToTenantAdmin();
-            }
-        } catch (TransactionException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
-        }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		userFacade = new UserFacade(new UserRole((Long) Main.getCurrent()
+				.getSession().getAttribute("userId")));
+		tenantFacade = new TenantFacade(new UserRole((Long) Main.getCurrent()
+				.getSession().getAttribute("userId")));
+		try {
+			tenantId = tenantFacade.getTenantId((String) Main.getCurrent()
+					.getSession().getAttribute("tenant"));
+			siteFrame.setContent(new UserListComponent());
+			if (userFacade.getUserRoleForTenant(
+					(Long) Main.getCurrent().getSession()
+							.getAttribute("userId"), tenantId).equals(
+					SuperAdminRole.class)) {
+				((UserListComponent) siteFrame.getContent())
+						.changeToSuperAdmin();
+			} else if (userFacade.getUserRoleForTenant(
+					(Long) Main.getCurrent().getSession()
+							.getAttribute("userId"), tenantId).equals(
+					TenantAdminRole.class)) {
+				((UserListComponent) siteFrame.getContent())
+						.changeToTenantAdmin();
+			} else {
+				((UserListComponent) siteFrame.getContent()).getUserListTable()
+						.removeContainerProperty("Edit");
+			}
+		} catch (TransactionException exception) {
+			Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+		}
 
-    }
+	}
 
 }

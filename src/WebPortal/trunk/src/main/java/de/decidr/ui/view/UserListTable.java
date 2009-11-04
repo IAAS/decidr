@@ -57,7 +57,6 @@ public class UserListTable extends Table implements Observer {
      * 
      */
     private void init(Container container) {
-        // TODO: unterschiedliche Anzeige der Tabelle je nach Rolle
         setSizeFull();
         setContainerDataSource(container);
         addContainerProperty("Username", String.class, null);
