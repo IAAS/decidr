@@ -31,6 +31,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import de.decidr.model.DecidrGlobalsTest;
 import de.decidr.model.LifetimeValidatorTest;
 import de.decidr.model.acl.DefaultAccessControlListTest;
+import de.decidr.model.acl.asserters.FileAccessAsserterTest;
 import de.decidr.model.acl.asserters.IsRoleEqualToAccessedUserAsserterTest;
 import de.decidr.model.acl.asserters.UserIsAvailableAsserterTest;
 import de.decidr.model.acl.asserters.UserIsEnabledAsserterTest;
@@ -66,7 +67,8 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
         // UserAdministratesWorkflowModelAsserterTest.class,
         UserIsAvailableAsserterTest.class, UserIsEnabledAsserterTest.class,
         // UserIsInvitationReceiverAsserterTest.class,
-        UserIsLoggedInAsserterTest.class, UserIsSuperAdminAsserterTest.class })
+        UserIsLoggedInAsserterTest.class, UserIsSuperAdminAsserterTest.class,
+        FileAccessAsserterTest.class })
 // UserIsTenantAdminAsserterTest.class,
 // UserIsTenantMemberAsserterTest.class,
 // UserIsWorkflowParticipantAsserterTest.class,

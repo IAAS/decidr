@@ -49,7 +49,7 @@ import de.decidr.model.testing.GlobalPreconditionsSuite;
         ODERoleTest.class, ServerLoadUpdaterRoleTest.class,
         TenantAdminRoleTest.class, UserRoleTest.class,
         WorkflowAdminRoleTest.class, UserOwnsWorkItemAsserterTest.class,
-        UserOwnsWorkflowModelAsserterTest.class, FileAccessAsserterTest.class })
+        UserOwnsWorkflowModelAsserterTest.class })
 public class AclTestSuite extends GlobalPreconditionsSuite {
     private static boolean inSuite;
 
