@@ -43,6 +43,9 @@ public class WebserviceAdapterTest {
     static DecidrWebserviceAdapter humanTaskAdapter = null;
     static DecidrWebserviceAdapter emailAdapter = null;
     
+    static String HumanTaskURL = "http://127.0.0.2:8080/axis2/services/HumanTask.HumanTaskSOAP/";
+    static String EmailURL = "http://localhost:8080/axis2/services/Email.EmailSOAP/";
+    
 
     /**
      * Read HumanTask WSDL and Email WSDL and retrieve generated mapping
@@ -101,8 +104,8 @@ public class WebserviceAdapterTest {
      */
     @Test
     public void testGetLocation() {
-        assertEquals(humanTaskAdapter.getLocation(), "location!");
-        assertEquals(emailAdapter.getLocation(), "location!");
+        assertEquals(humanTaskAdapter.getLocation(), HumanTaskURL);
+        assertEquals(emailAdapter.getLocation(), EmailURL);
     }
 
     /**

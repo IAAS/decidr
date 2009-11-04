@@ -16,10 +16,14 @@
 
 package de.decidr.model.workflowmodel.webservices;
 
+import java.util.Iterator;
+
 import javax.wsdl.Definition;
 import javax.wsdl.Operation;
 import javax.wsdl.PortType;
 import javax.wsdl.Service;
+import javax.wsdl.extensions.ExtensibilityElement;
+import javax.wsdl.extensions.soap12.SOAP12Address;
 import javax.xml.namespace.QName;
 
 import de.decidr.model.workflowmodel.bpel.PartnerLink;
@@ -83,16 +87,26 @@ public class DecidrWebserviceAdapter {
     }
 
     public String getLocation() {
-        // MA how to get location?
-        return "location";
+        Iterator<?> iter = getService().getPort(mapping.getServicePort())
+                .getExtensibilityElements().iterator();
+        while (iter.hasNext()) {
+            ExtensibilityElement element = (ExtensibilityElement) iter.next();
+            if (element instanceof SOAP12Address){
+                SOAP12Address adress = (SOAP12Address) element;
+                return adress.getLocationURI();
+            }
+        }
+        return null;
+
     }
 
     public PortType getPortType() {
-        return definition.getPortType(new QName(definition.getTargetNamespace(),mapping.portType));
+        return definition.getPortType(new QName(
+                definition.getTargetNamespace(), mapping.portType));
     }
 
     public Operation getOpertation() {
-        return getPortType().getOperation(mapping.operation,null , null);
+        return getPortType().getOperation(mapping.operation, null, null);
     }
 
     public Definition getDefinition() {

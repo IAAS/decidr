@@ -48,6 +48,7 @@ public class MappingFactory {
         email.setBinding("EmailSOAP");
         email.setPartnerLinkTyp("EmailPLT");
         email.setService("Email");
+        email.setServicePort("EmailSOAP");
         Property to = factory.createProperty();
         to.setName("to");
         to.setType(new QName("http://decidr.de/schema/DecidrTypes",
@@ -147,6 +148,7 @@ public class MappingFactory {
         humanTask.setBinding("HumanTaskSOAP");
         humanTask.setPartnerLinkTyp("HumanTaskPLT");
         humanTask.setService("HumanTask");
+        humanTask.setServicePort("HumanTaskSOAP");
 
         Property wfmID = factory.createProperty();
         wfmID.setName("wfmID");
