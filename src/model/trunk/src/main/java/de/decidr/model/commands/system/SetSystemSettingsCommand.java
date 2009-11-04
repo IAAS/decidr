@@ -54,36 +54,38 @@ public class SetSystemSettingsCommand extends SystemCommand {
      */
     public SetSystemSettingsCommand(Role actor, SystemSettings newSettings) {
         super(actor, null);
+        if (newSettings == null) {
+            throw new IllegalArgumentException(
+                    "New system settings must not be null.");
+        }
         this.newSettings = newSettings;
     }
 
     /**
-     * @return true iff the new settings are considered valid.
+     * @throws TransactionException
+     *             if the settings are invalid.
      */
-    protected Boolean validateNewSettings() {
-        Boolean result = true;
+    protected void validateNewSettings() throws TransactionException {
 
         // Data consistency *should* be checked by the database, not the
         // application, but this approach required less effort.
         if (Level.toLevel(newSettings.getLogLevel(), null) == null) {
-            result = false;
+            throw new TransactionException("Invalid log level.");
         }
 
         if (newSettings.getSystemEmailAddress() == null
                 || !new EmailValidator("").isValid(newSettings
                         .getSystemEmailAddress())) {
-            result = false;
+            throw new TransactionException(
+                    "System email address must not be null or empty.");
         }
-        return result;
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        if (!validateNewSettings()) {
-            throw new TransactionException("New settings are invalid.");
-        }
+        validateNewSettings();
 
         SystemSettings currentSettings = (SystemSettings) evt.getSession()
                 .createQuery("from SystemSettings").setMaxResults(1)

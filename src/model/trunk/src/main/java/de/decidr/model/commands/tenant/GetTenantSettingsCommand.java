@@ -39,9 +39,12 @@ public class GetTenantSettingsCommand extends TenantCommand {
      *            user /system executing the command.
      * @param tenantId
      *            id of tenant whose settings should be retrieved.
+     * @throws IllegalArgumentException
+     *             if tenantId is <code>null</code>
      */
     public GetTenantSettingsCommand(Role role, Long tenantId) {
         super(role, tenantId);
+        requireTenantId();
     }
 
     @Override

@@ -28,6 +28,7 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.WorkflowModel;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
@@ -51,7 +52,7 @@ public class CreateWorkflowModelCommand extends TenantCommand {
      * Creates a new CreateWorkflowModelCommand. This command creates a new
      * Workflow model with the given property Name. Furthermore the model will
      * be added to the given tenant. If the given tenant does not exist an
-     * exception will be thrown.
+     * {@link EntityNotFoundException} exception will be thrown.
      * 
      * @param role
      *            the user/system which executes the command
@@ -66,14 +67,11 @@ public class CreateWorkflowModelCommand extends TenantCommand {
     public CreateWorkflowModelCommand(Role role, Long tenantId,
             String workflowModelName) {
         super(role, tenantId);
-
-        if (tenantId == null) {
-            throw new IllegalArgumentException("tenantId cannot be null");
-        }
+        requireTenantId();
 
         if (workflowModelName == null || workflowModelName.isEmpty()) {
             throw new IllegalArgumentException(
-                    "workflow model name cannot be empty");
+                    "Workflow model name must not be null or empty.");
         }
 
         this.workflowModelName = workflowModelName;

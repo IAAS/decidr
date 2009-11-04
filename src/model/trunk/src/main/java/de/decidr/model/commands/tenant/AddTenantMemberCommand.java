@@ -50,10 +50,7 @@ public class AddTenantMemberCommand extends TenantCommand {
      */
     public AddTenantMemberCommand(Role role, Long tenantId, Long memberId) {
         super(role, tenantId);
-
-        if (tenantId == null) {
-            throw new IllegalArgumentException("tenantId cannot not be null");
-        }
+        requireTenantId();
 
         if (memberId == null) {
             throw new IllegalArgumentException("memberId cannot not be null");

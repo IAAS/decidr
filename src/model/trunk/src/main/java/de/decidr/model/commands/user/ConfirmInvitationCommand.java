@@ -87,6 +87,10 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
      */
     public ConfirmInvitationCommand(Role role, Long invitationId) {
         super(role, (Permission) null);
+        if (invitationId == null) {
+            throw new IllegalArgumentException(
+                    "Invitation ID must not be null.");
+        }
         this.invitationId = invitationId;
     }
 
@@ -171,19 +175,13 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
      * workflow instance and starts the instance if the receiver was the last
      * user who had to confirm his invitation.
      * 
-     * @throws EntityNotFoundException
-     *             if no invitation could be found
-     * @throws JAXBException
-     *             TODO document
-     * @throws IOException
-     *             TODO document
-     * @throws SOAPException
-     *             TODO document
+     * @throws TransactionException
+     *             if the instance manager cannot start the new workflow
+     *             instance.
      */
     @SuppressWarnings("unchecked")
     private void processWorkflowInstanceInvitation()
-            throws EntityNotFoundException, SOAPException, IOException,
-            JAXBException {
+            throws TransactionException {
         User user = invitation.getReceiver();
         Tenant tenant = invitation.getParticipateInWorkflowInstance()
                 .getDeployedWorkflowModel().getTenant();
@@ -191,13 +189,15 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
         makeMemberOfTenant(user, tenant);
 
         // Add as WorkflowParticipant if not already a participant
-        Query q = session
-                .createQuery("select count(*) from UserParticipatesInWorkflow rel "
-                        + "where rel.user = :user and rel.workflowInstance = :workflowInstance");
-        q.setEntity("user", user).setEntity("workflowInstance",
-                invitation.getParticipateInWorkflowInstance());
+        boolean found = session.createQuery(
+                "select rel.user.id from UserParticipatesInWorkflow rel "
+                        + "where rel.user = :user "
+                        + "and rel.workflowInstance = :workflowInstance")
+                .setEntity("user", user).setEntity("workflowInstance",
+                        invitation.getParticipateInWorkflowInstance())
+                .setMaxResults(1).uniqueResult() != null;
 
-        if (((Number) q.uniqueResult()).intValue() < 1) {
+        if (found) {
             // the user is currently not participating in the workflow
             UserParticipatesInWorkflow relation = new UserParticipatesInWorkflow();
             relation.setUser(user);
@@ -225,16 +225,25 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
         if (remainingInvitations.intValue() == 1) {
             // this is the last invitation
             InstanceManager manager = new InstanceManagerImpl();
-            q = session
+            Query q = session
                     .createQuery("from ServerLoadView s where s.serverType.name = :serverType");
             List<ServerLoadView> serverStatistics = q.setString("serverType",
                     ServerTypeEnum.Ode.toString()).list();
 
             // instance only needed to get the OdePid and Server from the
             // instance manager
-            StartInstanceResult startInstanceResult = manager.startInstance(
-                    instance.getDeployedWorkflowModel(), instance
-                            .getStartConfiguration(), serverStatistics);
+            StartInstanceResult startInstanceResult;
+            try {
+                startInstanceResult = manager.startInstance(instance
+                        .getDeployedWorkflowModel(), instance
+                        .getStartConfiguration(), serverStatistics);
+            } catch (SOAPException e) {
+                throw new TransactionException(e);
+            } catch (IOException e) {
+                throw new TransactionException(e);
+            } catch (JAXBException e) {
+                throw new TransactionException(e);
+            }
 
             instance.setOdePid(startInstanceResult.getODEPid());
             instance.setStartedDate(DecidrGlobals.getTime().getTime());

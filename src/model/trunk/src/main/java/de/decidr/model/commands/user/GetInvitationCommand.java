@@ -47,6 +47,10 @@ public class GetInvitationCommand extends UserCommand implements
      */
     public GetInvitationCommand(Role role, Long invitationId) {
         super(role, null);
+        if (invitationId == null) {
+            throw new IllegalArgumentException(
+                    "Invitation ID must not be null.");
+        }
         this.invitationId = invitationId;
     }
 

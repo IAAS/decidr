@@ -63,12 +63,9 @@ public class GetWorkflowModelsCommand extends TenantCommand {
     public GetWorkflowModelsCommand(Role role, Long tenantId,
             List<Filter> filters, Paginator paginator) {
         super(role, tenantId);
-        if (tenantId == null) {
-            throw new IllegalArgumentException("Tenant ID must not be null.");
-        }
+        requireTenantId();
         this.filters = filters;
         this.paginator = paginator;
-
     }
 
     @SuppressWarnings("unchecked")

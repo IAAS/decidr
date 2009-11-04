@@ -45,11 +45,16 @@ public class UpdateServerLoadCommand extends SystemCommand {
      *            the new load as a number from 0 to 100 (percent) or -1 to
      *            indicate that the current server load is unknown.
      * @throws IllegalArgumentException
-     *             if the server load is out of range.
+     *             if serverId is <code>null</code> or if the server load is out
+     *             of range.
      */
     public UpdateServerLoadCommand(Role role, Long serverId, byte load) {
         super(role, null);
+        if (serverId == null) {
+            throw new IllegalArgumentException("Server ID must not be null.");
+        }
         this.serverId = serverId;
+
         if (load < -1 || load > 100) {
             throw new IllegalArgumentException(
                     "Server load out of range (-1 to 100).");

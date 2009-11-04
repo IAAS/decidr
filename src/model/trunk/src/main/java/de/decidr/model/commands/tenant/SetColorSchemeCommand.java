@@ -32,7 +32,7 @@ import de.decidr.model.transactions.TransactionEvent;
 public class SetColorSchemeCommand extends TenantCommand {
 
     Long fileId;
-    Boolean advanced;
+    boolean advanced;
 
     /**
      * Creates a new SetAdvancedColorSchemeCommand. This command sets the
@@ -47,10 +47,13 @@ public class SetColorSchemeCommand extends TenantCommand {
      *            (can be null if the default theme should be used).
      * @param advanced
      *            whether to set the advanced or the simple color scheme
+     * @throws IllegalArgumentException
+     *             if tenantId is <code>null</code>
      */
     public SetColorSchemeCommand(Role role, Long tenantId, Long fileId,
-            Boolean advanced) {
+            boolean advanced) {
         super(role, tenantId);
+        requireTenantId();
         this.fileId = fileId;
         this.advanced = advanced;
     }

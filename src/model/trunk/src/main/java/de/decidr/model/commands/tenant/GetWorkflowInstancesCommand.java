@@ -61,11 +61,7 @@ public class GetWorkflowInstancesCommand extends TenantCommand {
     public GetWorkflowInstancesCommand(Role role, Long tenantId,
             Paginator paginator) {
         super(role, tenantId);
-
-        if (tenantId == null) {
-            throw new IllegalArgumentException("Tenant ID must not be null.");
-        }
-
+        requireTenantId();
         this.paginator = paginator;
     }
 

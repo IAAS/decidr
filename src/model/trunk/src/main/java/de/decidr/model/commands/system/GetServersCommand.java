@@ -16,7 +16,9 @@
 package de.decidr.model.commands.system;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Server;
@@ -33,8 +35,7 @@ import de.decidr.model.transactions.TransactionEvent;
  */
 public class GetServersCommand extends SystemCommand {
 
-    private ServerTypeEnum[] serverTypes = null;
-
+    private Set<ServerTypeEnum> serverTypes = null;
     private List<Server> result = null;
 
     /**
@@ -51,7 +52,13 @@ public class GetServersCommand extends SystemCommand {
      */
     public GetServersCommand(Role actor, ServerTypeEnum... serverTypes) {
         super(actor, null);
-        this.serverTypes = serverTypes;
+        this.serverTypes = new HashSet<ServerTypeEnum>();
+        if (serverTypes != null) {
+            for (ServerTypeEnum serverType : serverTypes) {
+                this.serverTypes.add(serverType);
+            }
+        }
+        this.serverTypes.remove(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -61,21 +68,17 @@ public class GetServersCommand extends SystemCommand {
         String hql;
         // convert enum names to string
         List<String> allowedTypes = new ArrayList<String>();
-        if (serverTypes != null && serverTypes.length > 0) {
+        if (serverTypes.size() > 0) {
             for (ServerTypeEnum allowedType : serverTypes) {
-                if (allowedType == null) {
-                    continue;
-                }
                 allowedTypes.add(allowedType.toString());
             }
         }
         // if no server types are given, fetch all servers
-        if (serverTypes == null || serverTypes.length == 0
-                || allowedTypes.isEmpty()) {
-            hql = "from Server s join fetch s.serverType";
+        if (allowedTypes.isEmpty()) {
+            hql = "select s from Server s join fetch s.serverType";
             result = evt.getSession().createQuery(hql).list();
         } else {
-            hql = "from Server s join fetch s.serverType where "
+            hql = "select s from Server s join fetch s.serverType where "
                     + "s.serverType.name in (:allowedTypes)";
             result = evt.getSession().createQuery(hql).setParameterList(
                     "allowedTypes", allowedTypes).list();

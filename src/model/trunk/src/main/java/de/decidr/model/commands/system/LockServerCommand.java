@@ -28,7 +28,7 @@ import de.decidr.model.transactions.TransactionEvent;
  */
 public class LockServerCommand extends SystemCommand {
 
-    private Boolean lock = false;
+    private boolean lock = false;
     private Long serverId = null;
 
     /**
@@ -43,8 +43,11 @@ public class LockServerCommand extends SystemCommand {
      *            whether the server should be locked. If false, the server is
      *            unlocked.
      */
-    public LockServerCommand(Role role, Long serverId, Boolean lock) {
+    public LockServerCommand(Role role, Long serverId, boolean lock) {
         super(role, null);
+        if (serverId == null) {
+            throw new IllegalArgumentException("Server ID must not be null.");
+        }
         this.serverId = serverId;
         this.lock = lock;
     }

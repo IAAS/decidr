@@ -30,6 +30,8 @@ import javax.xml.namespace.QName;
 import de.decidr.model.workflowmodel.humantask.DWDLSimpleVariableType;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 import de.decidr.model.workflowmodel.humantask.TTaskItem;
+import de.decidr.model.workflowmodel.wsc.TAssignment;
+import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
 /**
  * Contains static utility methods for dealing with XML entities.
@@ -44,7 +46,7 @@ public class XmlTools {
      * remains unchanged).
      * 
      * @param data
-     *            human task data JAXB element.
+     *            human task data pojo.
      * @return all file IDs found in the given human task data.
      * @throws IllegalArgumentException
      *             if data is <code>null</code>
@@ -63,6 +65,34 @@ public class XmlTools {
                 if (DWDLSimpleVariableType.ANY_URI.equals(taskItem.getType())) {
                     result.add(Long.parseLong(taskItem.getValue().toString()));
                 }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Extracts all file IDs from the given start configuration element (which
+     * remains unchanged).
+     * 
+     * @param startConfiguration
+     *            start configuration pojo
+     * @return all file IDs found in the given human task data.
+     * @throws IllegalArgumentException
+     *             if startConfiguration is <code>null</code>
+     * @throws NumberFormatException
+     *             if the start configuration contains an unparsable file ID.
+     */
+    public static Set<Long> getFileIds(TConfiguration startConfiguration) {
+        if (startConfiguration == null) {
+            throw new IllegalArgumentException(
+                    "Start configuration must not be null.");
+        }
+        HashSet<Long> result = new HashSet<Long>();
+        for (TAssignment assignment : startConfiguration.getAssignment()) {
+            // DH find out which value type indicates an uploaded file - remove
+            // magic string
+            if ("File".equals(assignment.getValueType())) {
+                result.add(Long.parseLong(assignment.getValue().get(0)));
             }
         }
         return result;

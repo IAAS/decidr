@@ -47,6 +47,9 @@ public class GetTenantIdCommand extends AclEnabledCommand {
      */
     public GetTenantIdCommand(Role role, String tenantName) {
         super(role, (Permission) null);
+        if (tenantName == null) {
+            throw new IllegalArgumentException("Tenant name must not be null.");
+        }
         this.tenantName = tenantName;
     }
 

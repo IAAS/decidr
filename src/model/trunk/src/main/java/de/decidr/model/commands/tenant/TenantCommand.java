@@ -52,6 +52,18 @@ public abstract class TenantCommand extends AclEnabledCommand implements
     }
 
     /**
+     * Throws an {@link IllegalArgumentException} if the current tenant ID is
+     * <code>null</code>.
+     * 
+     * @throws IllegalArgumentException
+     */
+    protected void requireTenantId() {
+        if (tenantId == null) {
+            throw new IllegalArgumentException("Tenant ID must not be null.");
+        }
+    }
+
+    /**
      * @return the ID of the tenant that is being accessed by this command.
      */
     public Long getTenantId() {

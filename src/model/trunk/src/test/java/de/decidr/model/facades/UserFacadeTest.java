@@ -845,8 +845,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                 null));
 
         Date testDate = DecidrGlobals.getTime(true).getTime();
-        // DH for some reason, hours, minutes & seconds also get set to zero
-        // now! ~rr
         adminFacade.setDisabledSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
                 .getItemProperty("disabledSince").getValue());
@@ -1148,6 +1146,9 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         try {
             // DH so users can't leave tenants? ~rr
+            // RR users can leave their tenant -> LeaveTenantCommand. Tenant
+            // admins can remove users from their tenant ->
+            // RemoveFromTenantCommand.
             assertFalse(userFacade.removeFromTenant(testUserID, tenantID));
             fail("Managed to remove user from tenant using normal user facade");
         } catch (TransactionException e) {

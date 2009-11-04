@@ -525,6 +525,9 @@ public class UserFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             iff the user does not exist or has no pending change email
      *             request.
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code> or if requestAuthKey is
+     *             <code>null</code> or empty.
      */
     @AllowedRole(UserRole.class)
     public void confirmChangeEmailRequest(Long userId, String requestAuthKey)
@@ -547,6 +550,8 @@ public class UserFacade extends AbstractFacade {
      *             iff the invitation has expired.
      * @throws EntityNotFoundException
      *             iff the invitation does not exist.
+     * @throws IllegalArgumentException
+     *             if invitationId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public void confirmInvitation(Long invitationId)
@@ -565,6 +570,8 @@ public class UserFacade extends AbstractFacade {
      *            invitation to refuse
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if invitationId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public void refuseInviation(Long invitationId) throws TransactionException {
@@ -608,9 +615,11 @@ public class UserFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             iff the user does not exist or if he does not have a profile
      *             and requireProfile is set to true.
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
-    public Item getUserProfile(Long userId, Boolean requireProfile)
+    public Item getUserProfile(Long userId, boolean requireProfile)
             throws TransactionException {
 
         String[] userProperties = { "id", "authKey", "email", "disabledSince",
@@ -668,6 +677,8 @@ public class UserFacade extends AbstractFacade {
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
      *             iff the user does not exist or if he does not have a profile
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code>
      */
     public Item getUserProfile(Long userId) throws TransactionException {
         return getUserProfile(userId, true);
@@ -956,6 +967,8 @@ public class UserFacade extends AbstractFacade {
      * @return list ob vaadin item described above
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public List<Item> getWorkItems(Long userId, List<Filter> filters,
@@ -999,6 +1012,8 @@ public class UserFacade extends AbstractFacade {
      * @return Vaadin item described above
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if invitationId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public Item getInvitation(Long invitationId) throws TransactionException {
@@ -1023,6 +1038,8 @@ public class UserFacade extends AbstractFacade {
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
      *             if the user does not exist.
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code>
      */
     @AllowedRole(BasicRole.class)
     public Boolean isRegistered(Long userId) throws TransactionException {
@@ -1046,6 +1063,8 @@ public class UserFacade extends AbstractFacade {
      *             iff the transaction is aborted for any reason
      * @throws EntityNotFoundException
      *             if the user does not exist.
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public Long getCurrentTenantId(Long userId) throws TransactionException {

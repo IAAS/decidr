@@ -46,8 +46,8 @@ public class SetCurrentColorSchemeCommand extends TenantCommand {
      */
     public SetCurrentColorSchemeCommand(Role role, Long tenantId,
             Boolean useAdvancedColorScheme) {
-
         super(role, tenantId);
+        requireTenantId();
         this.useAdvancedColorScheme = useAdvancedColorScheme;
     }
 

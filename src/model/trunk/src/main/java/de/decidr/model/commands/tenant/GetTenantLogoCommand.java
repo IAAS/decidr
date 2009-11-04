@@ -47,9 +47,7 @@ public class GetTenantLogoCommand extends TenantCommand {
      */
     public GetTenantLogoCommand(Role role, Long tenantId) {
         super(role, tenantId);
-        if (tenantId == null) {
-            throw new IllegalArgumentException("Tenant ID must not be null.");
-        }
+        requireTenantId();
     }
 
     @Override

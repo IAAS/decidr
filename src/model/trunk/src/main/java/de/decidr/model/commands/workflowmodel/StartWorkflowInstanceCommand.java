@@ -34,6 +34,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.XmlTools;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.user.CreateNewUnregisteredUserCommand;
@@ -85,7 +86,7 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
 
     private TConfiguration startConfiguration;
     private WorkflowInstance createdWorkflowInstance = null;
-    private Boolean startImmediately;
+    private boolean startImmediately;
 
     /**
      * Lists of participants depending on which field is known: id, username or
@@ -112,10 +113,17 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
      *            invitations must be sent. Otherwise the system delays the
      *            start of the workflow instance until the last user confirms
      *            his invitation.
+     * @throws IllegalArgumentException
+     *             if workflowModelId or startConfiguration is <code>null</code>
      */
     public StartWorkflowInstanceCommand(Role role, Long workflowModelId,
-            TConfiguration startConfiguration, Boolean startImmediately) {
+            TConfiguration startConfiguration, boolean startImmediately) {
         super(role, workflowModelId);
+        requireWorkflowModelId();
+        if (startConfiguration == null) {
+            throw new IllegalArgumentException(
+                    "Start configuration must not be null.");
+        }
         this.startConfiguration = startConfiguration;
         this.startImmediately = startImmediately;
     }
@@ -143,7 +151,7 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         // usersThatNeedInvitations and usersThatAreAlreadyTenantMembers are now
         // filled.
 
-        persistUploadedFiles();
+        persistUploadedFiles(evt.getSession());
 
         // create the new workflow instance in the database
         try {
@@ -531,9 +539,18 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
     /**
      * Persists all uploaded files in the start configuration by setting the
      * temporary flag to false.
+     * 
+     * @param session
+     *            current Hibernate session.
      */
-    private void persistUploadedFiles() {
-        // DH need a way to find out which values are uploaded files.
+    private void persistUploadedFiles(Session session) {
+        Set<Long> fileIds = XmlTools.getFileIds(startConfiguration);
+        if (!fileIds.isEmpty()) {
+            String hql = "update File set temporary = false "
+                    + "where id in (:fileIds)";
+            session.createQuery(hql).setParameterList("fileIds", fileIds)
+                    .executeUpdate();
+        }
     }
 
     @Override

@@ -63,10 +63,7 @@ public class SetTenantLogoCommand extends TenantCommand {
      */
     public SetTenantLogoCommand(Role role, Long tenantId, Long fileId) {
         super(role, tenantId);
-
-        if (tenantId == null) {
-            throw new IllegalArgumentException("Tenant ID must not be null.");
-        }
+        requireTenantId();
 
         this.fileId = fileId;
     }

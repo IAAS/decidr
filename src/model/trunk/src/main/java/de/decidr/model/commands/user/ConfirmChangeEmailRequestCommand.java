@@ -47,12 +47,18 @@ public class ConfirmChangeEmailRequestCommand extends UserCommand {
      * @param actor
      * @param userId
      * @param requestAuthKey
-     * @throws IllegalArgumentException if userId is <code>null</code>
+     * @throws IllegalArgumentException
+     *             if userId is <code>null</code> or if requestAuthKey is
+     *             <code>null</code> or empty.
      */
     public ConfirmChangeEmailRequestCommand(Role actor, Long userId,
             String requestAuthKey) {
         super(actor, userId);
         requireUserId();
+        if (requestAuthKey == null || requestAuthKey.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Authentication key must not be null or empty.");
+        }
         this.requestAuthKey = requestAuthKey;
 
     }
@@ -76,11 +82,8 @@ public class ConfirmChangeEmailRequestCommand extends UserCommand {
             user.setEmail(request.getNewEmail());
             evt.getSession().update(user);
             evt.getSession().delete(request);
-
         } else {
             throw new AuthKeyException();
         }
-
     }
-
 }

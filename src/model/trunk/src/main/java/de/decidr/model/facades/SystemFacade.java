@@ -153,6 +153,8 @@ public class SystemFacade extends AbstractFacade {
      *            and modifiedDate properties of this entity will be ignored.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if newSettings is <code>null</code>
      */
     @AllowedRole(SuperAdminRole.class)
     public void setSettings(SystemSettings newSettings)
@@ -180,10 +182,13 @@ public class SystemFacade extends AbstractFacade {
      * @return the new server
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if type or location is <code>null</code> or if location is
+     *             empty.
      */
     @AllowedRole(SuperAdminRole.class)
     public Server addServer(ServerTypeEnum type, String location,
-            Byte initialLoad, Boolean locked, Boolean dynamicallyAdded)
+            byte initialLoad, boolean locked, boolean dynamicallyAdded)
             throws TransactionException {
         AddServerCommand cmd = new AddServerCommand(actor, type, location,
                 initialLoad, locked, dynamicallyAdded);
@@ -202,6 +207,8 @@ public class SystemFacade extends AbstractFacade {
      *            ID of the server which should be removed
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if serverId is <code>null</code>
      */
     @AllowedRole(SuperAdminRole.class)
     public void removeServer(Long serverId) throws TransactionException {
@@ -220,7 +227,7 @@ public class SystemFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws IllegalArgumentException
-     *             TODO document
+     *             if serverId is null or if the load is out of range.
      */
     @AllowedRole( { SuperAdminRole.class, ServerLoadUpdaterRole.class })
     public void updateServerLoad(Long serverId, byte load)
@@ -242,9 +249,11 @@ public class SystemFacade extends AbstractFacade {
      *            be unlocked
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if serverId is <code>null</code>
      */
     @AllowedRole(SuperAdminRole.class)
-    public void setServerLock(Long serverId, Boolean lock)
+    public void setServerLock(Long serverId, boolean lock)
             throws TransactionException {
         LockServerCommand command = new LockServerCommand(actor, serverId, lock);
         HibernateTransactionCoordinator.getInstance().runTransaction(command);

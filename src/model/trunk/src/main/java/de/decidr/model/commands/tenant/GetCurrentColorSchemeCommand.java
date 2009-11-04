@@ -46,9 +46,12 @@ public class GetCurrentColorSchemeCommand extends TenantCommand {
      *            the user which executes the command
      * @param tenantId
      *            the ID of the tenant whose color scheme should be returned
+     * @throws IllegalArgumentException
+     *             if tenantId is <code>null</code>
      */
     public GetCurrentColorSchemeCommand(Role role, Long tenantId) {
         super(role, tenantId);
+        requireTenantId();
     }
 
     @Override

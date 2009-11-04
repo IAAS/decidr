@@ -16,8 +16,6 @@
 
 package de.decidr.model.commands.workflowmodel;
 
-import org.hibernate.Query;
-
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
@@ -40,9 +38,12 @@ public class DeleteWorkflowModelCommand extends WorkflowModelCommand {
      * @param role
      * @param workflowModelId
      *            id of the workflow model to delete.
+     * @throws IllegalArgumentException
+     *             if workflowModelId is <code>null</code>
      */
     public DeleteWorkflowModelCommand(Role role, Long workflowModelId) {
         super(role, workflowModelId);
+        requireWorkflowModelId();
     }
 
     @Override
@@ -52,28 +53,21 @@ public class DeleteWorkflowModelCommand extends WorkflowModelCommand {
          * Make sure the workflow model has been undeployed from the ODE. There
          * should be no deployed versions of this workflow model.
          */
-        String hql = "select count(*) from DeployedWorkflowModel "
-                + "where (originalWorkflowModel.id = :workflowModelId)";
+        String hql = "select dwm.id from DeployedWorkflowModel dwm "
+                + "where (dwm.originalWorkflowModel.id = :workflowModelId)";
 
-        Query q = evt.getSession().createQuery(hql).setLong("workflowModelId",
-                getWorkflowModelId());
+        boolean deployedModelFound = evt.getSession().createQuery(hql).setLong(
+                "workflowModelId", getWorkflowModelId()).setMaxResults(1)
+                .uniqueResult() != null;
 
-        Number count = (Number) q.uniqueResult();
-
-        if (count == null) {
-            throw new TransactionException(
-                    "Could not retrieve number of deployed workflow"
-                            + " models that still have running instances.");
-        } else if (count.longValue() > 0L) {
+        if (deployedModelFound) {
             throw new TransactionException(
                     "You must undeploy a workflow model before deleting it.");
         }
 
         hql = "delete from WorkflowModel where id = :workflowModelId";
 
-        q = evt.getSession().createQuery(hql).setLong("workflowModelId",
-                getWorkflowModelId());
-
-        q.executeUpdate();
+        evt.getSession().createQuery(hql).setLong("workflowModelId",
+                getWorkflowModelId()).executeUpdate();
     }
 }

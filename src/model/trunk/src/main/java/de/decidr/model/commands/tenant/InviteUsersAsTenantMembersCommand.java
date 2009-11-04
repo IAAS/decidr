@@ -64,6 +64,12 @@ public class InviteUsersAsTenantMembersCommand extends TenantCommand {
     public InviteUsersAsTenantMembersCommand(Role role, Long tenantId,
             List<String> emails, List<String> usernames) {
         super(role, tenantId);
+        requireTenantId();
+
+        if (emails == null && usernames == null) {
+            throw new IllegalArgumentException(
+                    "Either email address list or username list must not be null.");
+        }
 
         this.emails = emails;
         this.usernames = usernames;

@@ -828,14 +828,19 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         assertEquals(1, adminFacade.getWorkflowModels(testTenantID, null, null)
                 .size());
 
-        adminFacade.removeWorkflowModel(wfmID);
-        assertTrue(adminFacade.getWorkflowModels(testTenantID, null, null)
-                .isEmpty());
-        adminFacade.removeWorkflowModel(wfmID);
-        adminFacade.importPublishedWorkflowModels(testTenantID,
-                new ArrayList<Long>(1));
-        assertTrue(adminFacade.getWorkflowModels(testTenantID, null, null)
-                .isEmpty());
+        // RR TenantFacade.removeWorkflowModel isn't used anywhere and has been
+        // removed ~dh
+        session.beginTransaction().commit();
+        session.createQuery("delete from WorkflowModel where id = :id")
+                .setLong("id", wfmID).executeUpdate();
+        // adminFacade.re moveWorkflowModel(wfmID);
+        // assertTrue(adminFacade.getWorkflowModels(testTenantID, null, null)
+        // .isEmpty());
+        // adminFacade.removeWorkflowModel(wfmID);
+        // adminFacade.importPublishedWorkflowModels(testTenantID,
+        // new ArrayList<Long>(1));
+        // assertTrue(adminFacade.getWorkflowModels(testTenantID, null, null)
+        // .isEmpty());
 
         try {
             adminFacade.createWorkflowModel(null, "testWFM");
@@ -893,24 +898,26 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
             // supposed to happen
         }
 
-        try {
-            adminFacade.removeWorkflowModel(null);
-            fail("Managed to remove a workflow model with null parameter");
-        } catch (TransactionException e) {
-            // supposed to happen
-        }
-        try {
-            nullFacade.removeWorkflowModel(wfmID);
-            fail("Managed to remove a workflow model with null facade");
-        } catch (TransactionException e) {
-            // supposed to happen
-        }
-        try {
-            userFacade.removeWorkflowModel(wfmID);
-            fail("Managed to remove a workflow model with normal user facade");
-        } catch (TransactionException e) {
-            // supposed to happen
-        }
+        // RR method TenantFacade.removeWorkflowModel isn't used anywhere and
+        // has been removed
+        // try {
+        // adminFacade.removeWorkflowModel(null);
+        // fail("Managed to remove a workflow model with null parameter");
+        // } catch (TransactionException e) {
+        // // supposed to happen
+        // }
+        // try {
+        // nullFacade.removeWorkflowModel(wfmID);
+        // fail("Managed to remove a workflow model with null facade");
+        // } catch (TransactionException e) {
+        // // supposed to happen
+        // }
+        // try {
+        // userFacade.removeWorkflowModel(wfmID);
+        // fail("Managed to remove a workflow model with normal user facade");
+        // } catch (TransactionException e) {
+        // // supposed to happen
+        // }
 
         try {
             adminFacade.importPublishedWorkflowModels(null,

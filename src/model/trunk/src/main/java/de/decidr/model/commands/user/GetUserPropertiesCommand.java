@@ -66,6 +66,7 @@ public class GetUserPropertiesCommand extends AclEnabledCommand implements
         this.propertiesToGet.addAll(propertiesToGet);
         this.userIds = new HashSet<Long>();
         this.userIds.addAll(userIds);
+        this.userIds.remove(null);
     }
 
     /**
@@ -96,6 +97,9 @@ public class GetUserPropertiesCommand extends AclEnabledCommand implements
     public GetUserPropertiesCommand(Role role, Long userId,
             String... propertiesToGet) {
         this(role, new ArrayList<Long>(), propertiesToGet);
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID must not be null.");
+        }
         this.userIds.add(userId);
     }
 

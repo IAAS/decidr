@@ -26,10 +26,13 @@ public class SetTenantDescriptionCommand extends TenantCommand {
      *            the id of the tenant which should be updated
      * @param description
      *            the new description
+     * @throws IllegalArgumentException
+     *             if tenantId is <code>null</code>
      */
     public SetTenantDescriptionCommand(Role role, Long tenantId,
             String description) {
         super(role, tenantId);
+        requireTenantId();
         this.description = description;
     }
 

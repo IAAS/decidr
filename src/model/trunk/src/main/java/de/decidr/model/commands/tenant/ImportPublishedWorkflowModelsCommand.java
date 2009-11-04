@@ -62,10 +62,10 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand
     public ImportPublishedWorkflowModelsCommand(Role role, Long tenantId,
             List<Long> workflowModelIds) {
         super(role, tenantId);
-
-        if (workflowModelIds == null || tenantId == null) {
+        requireTenantId();
+        if (workflowModelIds == null) {
             throw new IllegalArgumentException(
-                    "Tenant ID and list of workflow model IDs must not be null.");
+                    "List of workflow model IDs must not be null.");
         }
 
         this.modelIdSet = new HashSet<Long>();
@@ -77,7 +77,8 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-
+        modelSet = null;
+        
         Date now = DecidrGlobals.getTime().getTime();
 
         Tenant t = fetchTenant(evt.getSession());

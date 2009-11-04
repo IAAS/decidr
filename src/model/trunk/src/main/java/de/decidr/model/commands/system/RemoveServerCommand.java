@@ -63,6 +63,9 @@ public class RemoveServerCommand extends SystemCommand {
      */
     public RemoveServerCommand(Role role, Long serverId) {
         super(role, null);
+        if (serverId == null) {
+            throw new IllegalArgumentException("Server ID must not be null.");
+        }
         this.serverId = serverId;
     }
 

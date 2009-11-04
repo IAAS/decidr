@@ -28,6 +28,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * Creates a new tenant with the given properties.
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  * @version 0.1
  */
 public class CreateTenantCommand extends AclEnabledCommand {
@@ -49,10 +50,22 @@ public class CreateTenantCommand extends AclEnabledCommand {
      *            tenant description
      * @param adminId
      *            ID of the tenant admin
+     * @throws IllegalArgumentException
+     *             if name is <code>null</code> or empty or if adminId is
+     *             <code>null</code>.
      */
     public CreateTenantCommand(Role role, String name, String description,
             Long adminId) {
         super(role, (Permission) null);
+
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Tenant name must not be null or empty.");
+        }
+
+        if (adminId == null) {
+            throw new IllegalArgumentException("Admin ID must not be null.");
+        }
 
         this.adminId = adminId;
         this.name = name;
@@ -65,23 +78,18 @@ public class CreateTenantCommand extends AclEnabledCommand {
 
         tenantId = null;
 
+        // does the tenant admin exist?
         User admin = (User) evt.getSession().get(User.class, adminId);
-
         if (admin == null) {
             throw new EntityNotFoundException(User.class, adminId);
         }
 
         // Does a tenant with the chosen name already exist?
-        String hql = "select count(*) from Tenant t where t.name = :tenantName";
-        Number numExistingTenants = (Number) evt.getSession().createQuery(hql)
-                .setString("tenantName", name).uniqueResult();
+        String hql = "select t.id from Tenant t where t.name = :tenantName";
+        boolean tenantAlreadyExists = evt.getSession().createQuery(hql)
+                .setString("tenantName", name).setMaxResults(1).uniqueResult() != null;
 
-        if (numExistingTenants == null) {
-            throw new NullPointerException(
-                    "A query that was supposed to return a number returned null.");
-        }
-
-        if (numExistingTenants.intValue() == 0) {
+        if (!tenantAlreadyExists) {
             // there is no existing tenant with the chosen name, so we may
             // create the new tenant
             Tenant tenant = new Tenant();

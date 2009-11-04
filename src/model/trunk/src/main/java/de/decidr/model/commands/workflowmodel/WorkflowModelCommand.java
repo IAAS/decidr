@@ -37,6 +37,19 @@ public abstract class WorkflowModelCommand extends AclEnabledCommand implements
     }
 
     /**
+     * Throws an {@link IllegalArgumentException} if the current workflow model
+     * ID is <code>null</code>
+     * 
+     * @throws IllegalArgumentException
+     */
+    protected void requireWorkflowModelId() {
+        if (workflowModelId == null) {
+            throw new IllegalArgumentException(
+                    "Workflow model ID must not be null.");
+        }
+    }
+
+    /**
      * @return the workflowModelId
      */
     public Long getWorkflowModelId() {

@@ -54,7 +54,6 @@ import de.decidr.model.commands.tenant.SetColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetCurrentColorSchemeCommand;
 import de.decidr.model.commands.tenant.SetTenantDescriptionCommand;
 import de.decidr.model.commands.tenant.SetTenantLogoCommand;
-import de.decidr.model.commands.workflowmodel.DeleteWorkflowModelCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.TenantSummaryView;
 import de.decidr.model.entities.TenantWithAdminView;
@@ -101,6 +100,9 @@ public class TenantFacade extends AbstractFacade {
      * @return id of the new tenant
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if name is <code>null</code> or empty or if adminId is
+     *             <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public Long createTenant(String name, String description, Long adminId)
@@ -124,6 +126,10 @@ public class TenantFacade extends AbstractFacade {
      *            the new description
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the tenant doesn't exist.
+     * @throws IllegalArgumentException
+     *             if tenantId is <code>null</code>
      */
     @AllowedRole(TenantAdminRole.class)
     public void setDescription(Long tenantId, String description)
@@ -143,6 +149,8 @@ public class TenantFacade extends AbstractFacade {
      * @return the logo image data or null if no logo has been set, yet.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the tenant doesn't exist.
      * @throws IllegalArgumentException
      *             if tenantId is null.
      */
@@ -167,6 +175,8 @@ public class TenantFacade extends AbstractFacade {
      *            <code>null</code> to remove the file.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the tenant doesn't exist.
      * @throws IllegalArgumentException
      *             if tenantId is <code>null</code>
      */
@@ -189,9 +199,13 @@ public class TenantFacade extends AbstractFacade {
      *            whether to set the advanced or the simple color scheme
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the tenant doesn't exist.
+     * @throws IllegalArgumentException
+     *             if tenantId is <code>null</code>
      */
     @AllowedRole(TenantAdminRole.class)
-    public void setColorScheme(Long tenantId, Long fileId, Boolean advanced)
+    public void setColorScheme(Long tenantId, Long fileId, boolean advanced)
             throws TransactionException {
 
         SetColorSchemeCommand command = new SetColorSchemeCommand(actor,
@@ -210,10 +224,14 @@ public class TenantFacade extends AbstractFacade {
      *            simple color scheme is used instead.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the tenant doesn't exist
+     * @throws IllegalArgumentException
+     *             if tenantId is <code>null</code>
      */
     @AllowedRole(TenantAdminRole.class)
     public void setCurrentColorScheme(Long tenantId,
-            Boolean useAdvancedColorScheme) throws TransactionException {
+            boolean useAdvancedColorScheme) throws TransactionException {
 
         SetCurrentColorSchemeCommand command = new SetCurrentColorSchemeCommand(
                 actor, tenantId, useAdvancedColorScheme);
@@ -230,6 +248,10 @@ public class TenantFacade extends AbstractFacade {
      *         stream once you're done reading from it.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the tenant doesn't exist.
+     * @throws IllegalArgumentException
+     *             if tenantId is <code>null</code>
      */
     @AllowedRole(BasicRole.class)
     public InputStream getCurrentColorScheme(Long tenantId)
@@ -255,6 +277,8 @@ public class TenantFacade extends AbstractFacade {
      *             if one of the parameters is <code>null</code>
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the tenant doesn't exist.
      */
     @AllowedRole(TenantAdminRole.class)
     public void addTenantMember(Long tenantId, Long memberId)
@@ -280,6 +304,8 @@ public class TenantFacade extends AbstractFacade {
      * @throws IllegalArgumentException
      *             if the tenant ID is <code>null</code> or if the workflow
      *             model name is <code>null</code> or empty.
+     * @throws EntityNotFoundException
+     *             if the tenant doesn't exist.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -293,27 +319,6 @@ public class TenantFacade extends AbstractFacade {
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
         return command.getWorkflowModelId();
-    }
-
-    /**
-     * Removes the relation between the given workflow model and the tenant. If
-     * the given workflow model doesn't exist nothing will happen.
-     * 
-     * @param tenantId
-     *            the id of the tenant from which the model should be removed
-     * @param workflowModelId
-     *            the id of the model which should be removed
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason.
-     */
-    @AllowedRole(TenantAdminRole.class)
-    public void removeWorkflowModel(Long workflowModelId)
-            throws TransactionException {
-
-        DeleteWorkflowModelCommand command = new DeleteWorkflowModelCommand(
-                actor, workflowModelId);
-
-        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
     /**
@@ -331,12 +336,6 @@ public class TenantFacade extends AbstractFacade {
     @AllowedRole(SuperAdminRole.class)
     public void approveTenants(List<Long> tenantIds)
             throws TransactionException {
-
-        if (tenantIds == null) {
-            throw new IllegalArgumentException(
-                    "List of tenant IDs must not be null");
-        }
-
         ApproveTenantsCommand command = new ApproveTenantsCommand(actor,
                 tenantIds);
 
@@ -349,6 +348,8 @@ public class TenantFacade extends AbstractFacade {
      * 
      * @param tenantIds
      *            a list of IDs of tenants which should be rejected
+     * @throws IllegalArgumentException
+     *             if tenantIds is <code>null</code>.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
@@ -367,6 +368,8 @@ public class TenantFacade extends AbstractFacade {
      *            a list of IDs of tenants which should be deleted
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if tenantId is <code>null</code>
      */
     @AllowedRole(SuperAdminRole.class)
     public void deleteTenant(Long tenantId) throws TransactionException {
@@ -376,8 +379,9 @@ public class TenantFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the tenantId of the tenant which corresponds to the given name.
-     * If the tenantName doesn't exist, an exception will be thrown.
+     * Returns the tenant ID of the tenant which corresponds to the given name.
+     * If the tenantName doesn't exist, an {@link EntityNotFoundException} will
+     * be thrown.
      * 
      * @param tenantName
      *            the name of the tenant
@@ -386,6 +390,8 @@ public class TenantFacade extends AbstractFacade {
      *             iff the transaction is aborted for any reason
      * @throws EntityNotFoundException
      *             iff no tenant with the given name exists.
+     * @throws IllegalArgumentException
+     *             if tenantName is <code>null</code>
      */
     @AllowedRole(UserRole.class)
     public Long getTenantId(String tenantName) throws TransactionException {
@@ -400,7 +406,7 @@ public class TenantFacade extends AbstractFacade {
      * Returns a list of all members of the given tenant including the tenant
      * admin.<br>
      * <br>
-     * The returned Items contain the following properties:<br>
+     * The returned items contain the following properties:<br>
      * <ul>
      * <li>id: {@link Long} - user id</li>
      * <li>username {@link String} - username (only if the user is registered)</li>
@@ -428,15 +434,15 @@ public class TenantFacade extends AbstractFacade {
         GetUsersOfTenantCommand command = new GetUsersOfTenantCommand(actor,
                 tenantId, paginator);
 
-        List<Item> outList = new ArrayList<Item>();
-        List<User> inList = new ArrayList<User>();
+        List<Item> items = new ArrayList<Item>();
+        List<User> users = new ArrayList<User>();
         String[] userProperties = { "id", "email" };
         String[] profileProperties = { "username", "firstName", "lastName" };
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-        inList = command.getResult();
+        users = command.getResult();
 
-        for (User user : inList) {
+        for (User user : users) {
 
             BeanItem currentItem = new BeanItem(user, userProperties);
 
@@ -445,10 +451,10 @@ public class TenantFacade extends AbstractFacade {
                         currentItem, profileProperties);
             }
 
-            outList.add(currentItem);
+            items.add(currentItem);
         }
 
-        return outList;
+        return items;
     }
 
     /**
@@ -483,15 +489,15 @@ public class TenantFacade extends AbstractFacade {
         GetWorkflowInstancesCommand command = new GetWorkflowInstancesCommand(
                 actor, tenantId, paginator);
 
-        List<Item> outList = new ArrayList<Item>();
-        List<WorkflowInstance> inList = new ArrayList<WorkflowInstance>();
+        List<Item> items = new ArrayList<Item>();
+        List<WorkflowInstance> instances = new ArrayList<WorkflowInstance>();
         String[] properties = { "id", "startDate" };
         Item currentItem = null;
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-        inList = command.getResult();
+        instances = command.getResult();
 
-        for (WorkflowInstance instance : inList) {
+        for (WorkflowInstance instance : instances) {
 
             currentItem = new BeanItem(instance, properties);
 
@@ -502,16 +508,15 @@ public class TenantFacade extends AbstractFacade {
                     instance.getDeployedWorkflowModel().getTenant().getName(),
                     String.class));
 
-            outList.add(currentItem);
+            items.add(currentItem);
         }
 
-        return outList;
+        return items;
     }
 
     /**
-     * Returns a list of all tenants which have to be approved as {@link List}
-     * {@code <}{@link Item}{@code >}. Each {@link Item} has the following
-     * properties:<br>
+     * Returns a list of all tenants which have to be approved as a list of
+     * Vaadin items. Each item has the following properties:<br>
      * <ul>
      * <li>id: Long - tenant ID</li>
      * <li>name: String - tenant name</li>
@@ -535,26 +540,26 @@ public class TenantFacade extends AbstractFacade {
         GetTenantsToApproveCommand command = new GetTenantsToApproveCommand(
                 actor, filters, paginator);
 
-        List<Item> outList = new ArrayList<Item>();
-        List<TenantWithAdminView> inList = new ArrayList<TenantWithAdminView>();
+        List<Item> items = new ArrayList<Item>();
+        List<TenantWithAdminView> tenants = new ArrayList<TenantWithAdminView>();
 
         String[] properties = { "id", "name", "adminFirstName",
                 "adminLastName", "adminId" };
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-        inList = command.getResult();
+        tenants = command.getResult();
 
-        for (TenantWithAdminView item : inList) {
-            outList.add(new BeanItem(item, properties));
+        for (TenantWithAdminView tenant : tenants) {
+            items.add(new BeanItem(tenant, properties));
         }
 
-        return outList;
+        return items;
     }
 
     /**
-     * Returns a list of all Tenants as <code>{@link List<Item>}</code>. The
-     * result can be filtered by using filters and split in several pages by
-     * using a paginator. Each item has the following properties:<br>
+     * Returns a list of all tenants as a list of Vaadin items. The result can
+     * be filtered by using filters and split in several pages by using a
+     * paginator. Each item has the following properties:<br>
      * <ul>
      * <li>adminFirstName: String - the first name of the tenant admin</li>
      * <li>adminLastName: String - the last name of the tenant admin</li>
@@ -585,24 +590,22 @@ public class TenantFacade extends AbstractFacade {
         GetAllTenantsCommand command = new GetAllTenantsCommand(actor, filters,
                 paginator);
 
-        List<Item> outList = new ArrayList<Item>();
-        List<TenantSummaryView> inList = new ArrayList<TenantSummaryView>();
+        List<Item> items = new ArrayList<Item>();
+        List<TenantSummaryView> tenants = new ArrayList<TenantSummaryView>();
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-        inList = command.getResult();
+        tenants = command.getResult();
 
-        for (TenantSummaryView tenant : inList) {
-
-            outList.add(new BeanItem(tenant));
-
+        for (TenantSummaryView tenant : tenants) {
+            items.add(new BeanItem(tenant));
         }
 
-        return outList;
+        return items;
     }
 
     /**
-     * Returns the WorkflowModels of the given tenant as List<Item>. Each Item
-     * has the following properties<br>
+     * Returns the WorkflowModels of the given tenant as a list of Vaadin items.
+     * Each item has the following properties<br>
      * <ul>
      * <li>id: Long - workflow model ID</li>
      * <li>name: String - name of the workflow model</li>
@@ -647,8 +650,8 @@ public class TenantFacade extends AbstractFacade {
     }
 
     /**
-     * Invites the given Users. If a given username does not exist an exception
-     * will be thrown.
+     * Invites the given users to become members of the tenant. If a given
+     * username does not exist an exception will be thrown.
      * 
      * @param tenantId
      *            the id of the tenant where the users should be invited to
@@ -657,6 +660,10 @@ public class TenantFacade extends AbstractFacade {
      *            which should be invited
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if tenantId is <code>null</code> or if emails and userNames
+     *             are both <code>null</code>.
+     * 
      */
     @AllowedRole(WorkflowAdminRole.class)
     public void inviteUsersAsMembers(Long tenantId, List<String> emails,
@@ -720,6 +727,8 @@ public class TenantFacade extends AbstractFacade {
      *             iff the given tenant does not exist
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if tenantId is <code>null</code>
      */
     @AllowedRole(TenantAdminRole.class)
     public Item getTenantSettings(Long tenantId) throws TransactionException {

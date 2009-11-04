@@ -65,7 +65,7 @@ public class AddServerCommand extends SystemCommand {
      *             is given.
      */
     public AddServerCommand(Role actor, ServerTypeEnum type, String location,
-            Byte initialLoad, Boolean locked, Boolean dynamicallyAdded) {
+            byte initialLoad, boolean locked, boolean dynamicallyAdded) {
         super(actor, null);
 
         if (type == null || location == null || location.isEmpty()) {

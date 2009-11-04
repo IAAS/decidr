@@ -63,10 +63,7 @@ public class GetUsersOfTenantCommand extends TenantCommand {
      */
     public GetUsersOfTenantCommand(Role role, Long tenantId, Paginator paginator) {
         super(role, tenantId);
-
-        if (tenantId == null) {
-            throw new IllegalArgumentException("Tenant ID must not be null.");
-        }
+        requireTenantId();
 
         this.paginator = paginator;
     }

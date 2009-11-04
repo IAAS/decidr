@@ -46,13 +46,15 @@ public class ApproveTenantsCommand extends AclEnabledCommand {
      *            the user/system which executes the command
      * @param tenantIds
      *            list of IDs of tenants which should be approved
+     * @throws IllegalArgumentException
+     *             if tenantIds is <code>null</code>
      */
     public ApproveTenantsCommand(Role role, List<Long> tenantIds) {
         super(role, (Permission) null);
 
         if (tenantIds == null) {
             throw new IllegalArgumentException(
-                    "List of tenant ids cannot be null");
+                    "List of tenant ids must not be null");
         }
 
         this.tenantIds = tenantIds;

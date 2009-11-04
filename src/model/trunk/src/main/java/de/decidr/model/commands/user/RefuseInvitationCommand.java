@@ -48,7 +48,10 @@ public class RefuseInvitationCommand extends UserCommand implements
      */
     public RefuseInvitationCommand(Role role, Long invitationId) {
         super(role, null);
-
+        if (invitationId == null) {
+            throw new IllegalArgumentException(
+                    "Invitation ID must not be null.");
+        }
         this.invitationId = invitationId;
     }
 

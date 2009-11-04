@@ -46,9 +46,12 @@ public class DeleteTenantCommand extends TenantCommand {
      *            the user which executes the command
      * @param tenantId
      *            the id of the tenant which should be deleted
+     * @throws IllegalArgumentException
+     *             if tenantId is <code>null</code>
      */
     public DeleteTenantCommand(Role role, Long tenantId) {
         super(role, tenantId);
+        requireTenantId();
     }
 
     @Override

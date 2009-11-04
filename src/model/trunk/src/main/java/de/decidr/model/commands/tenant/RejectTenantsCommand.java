@@ -45,10 +45,15 @@ public class RejectTenantsCommand extends AclEnabledCommand {
      *            the user which executes the command
      * @param tenantIds
      *            list of tenantIds which should be rejected
+     * @throws IllegalArgumentException
+     *             if tenantIds is <code>null</code>
      */
     public RejectTenantsCommand(Role role, List<Long> tenantIds) {
         super(role, (Permission) null);
-
+        if (tenantIds == null) {
+            throw new IllegalArgumentException(
+                    "List of tenant IDs must not be null");
+        }
         this.tenantIds = tenantIds;
     }
 
