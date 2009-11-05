@@ -326,7 +326,7 @@ public class DWDL2BPEL {
         if (node.getActivity().equals(HUMANTASK_ACTIVITY_NAME)) {
             SetProperty prop = new SetProperty();
             de.decidr.model.workflowmodel.dwdl.Literal lit = new de.decidr.model.workflowmodel.dwdl.Literal();
-            lit.getContent().add(node.getParameter().getAny());
+            lit.getContent().add(node.getParameter().getContent());
             prop.setName(node.getParameter().getSetProperty());
             prop.setPropertyValue(lit);
             addCopyStatement(assign, prop, webserviceInputVariables.get(

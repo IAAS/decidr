@@ -1,198 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<workflow id="1544" name="PartyOrganization" 
-	 targetNamespace="http://decidr.de/decidr/party"
-	 xmlns="http://decidr.de/schema/dwdl">
-		<variables>
-			<variable name="partydate" type="date"
-		     configurationVariable="yes" >
-		    </variable>
-		    <variable name="faultMessage" type="string"
-		     configurationVariable="yes" >
-		    </variable>
-		    <variable name="successOrganizationMessage" type="string">
-		      <initialValue>Party organization successfully finished</initialValue>
-		    </variable>
-			<variable name="invitationFormResult" type="form" />
-		</variables>
-		<roles>
-			<role name="guests"
-		     configurationVariable="yes" />
-		    <role name="vip-guests">
-				<actor email="vip1@example.com" name="VIP1-Guest" userId="123456789"/>
-				<actor email="vip2@example.com" name="VIP2-Guest" userId="123456790"/>
-		    </role>
-			<actor name="host" email="host@example.com" userId="1234567891"/>
-		</roles>
-		<faultHandler>
-			<setProperty
-		     name="message"
-		     variable="faultMessage">
-		    </setProperty>
-		    <recipient>
-		      <setProperty
-		       name="name">
-		        <propertyValue> 
-		          Boss
+<workflow id="1544" name="PartyOrganization" targetNamespace="http://decidr.de/decidr/party"
+	xmlns="http://decidr.de/schema/dwdl">
+	<variables>
+		<variable name="partydate" type="date" configurationVariable="yes"
+			label="partydate">
+		</variable>
+		<variable name="faultMessage" type="string"
+			configurationVariable="yes" label="faultMessage">
+		</variable>
+		<variable name="successOrganizationMessage" type="string"
+			label="successOrganizationMessage">
+			<initialValue>Party organization successfully finished</initialValue>
+		</variable>
+		<variable name="invitationFormResult" type="form"
+			label="invitationFormResult" />
+	</variables>
+	<roles>
+		<role name="guests" configurationVariable="yes" label="guests" />
+		<role name="vip-guests" label="vip-guests">
+			<actor email="vip1@example.com" name="VIP1-Guest" userId="123456789" />
+			<actor email="vip2@example.com" name="VIP2-Guest" userId="123456790" />
+		</role>
+		<actor name="host" email="host@example.com" userId="1234567891" />
+	</roles>
+	<faultHandler>
+		<setProperty name="message" variable="faultMessage">
+		</setProperty>
+		<recipient>
+			<setProperty name="name">
+				<propertyValue>
+					Boss
 		        </propertyValue>
-		      </setProperty>
-		      <setProperty
-		       name="email">
-		        <propertyValue>
-		          boss@example.com
+			</setProperty>
+			<setProperty name="email">
+				<propertyValue>
+					boss@example.com
 		        </propertyValue>
-		       </setProperty>
-		    </recipient>
-		</faultHandler>
-		<nodes>
-		    <startNode id="238479283">
-				<graphics x="20" y="30"/>
-				<sources>
-					<source arcID="32487"/>
-				</sources>
-			</startNode>
-			<invokeNode id="459230485"
-		     activity="Decidr-Email">
-				<description>
-					Sends all guest an invitation
+			</setProperty>
+		</recipient>
+	</faultHandler>
+	<nodes>
+		<startNode id="238479283">
+			<graphics x="20" y="30" />
+			<sources>
+				<source arcId="32487" />
+			</sources>
+		</startNode>
+		<invokeNode id="459230485" activity="Decidr-Email">
+			<description>
+				Sends all guest an invitation
 				</description>
-				<graphics x="20" y="30"/>
-				<targets>
-					<target arcID="32487" />
-				</targets>
-				<sources>
-					<source arcID="3485328"/>
-				</sources>
-				<setProperty 
-				 name="to"
-				 variable="guests" />
-				<setProperty 
-				 name="cc"
-				 variable="host"/>
-				<setProperty 
-				 name="subject">
-					<propertyValue>
-						Party invitation
+			<graphics x="20" y="30" />
+			<targets>
+				<target arcId="32487" />
+			</targets>
+			<sources>
+				<source arcId="3485328" />
+			</sources>
+			<setProperty name="to" variable="guests" />
+			<setProperty name="cc" variable="host" />
+			<setProperty name="subject">
+				<propertyValue>
+					Party invitation
 					</propertyValue>
-				</setProperty>
-				<setProperty 
-				 name="message">
-					<propertyValue>
-						Dear friend, i would like to invite you to my party. 
-						You soon will be prompted to fill out a form.
-						Regards,
-						Mr. X
+			</setProperty>
+			<setProperty name="message">
+				<propertyValue>
+					Dear friend, i would like to invite you to my party.
+					You soon will be prompted to fill out a form.
+					Regards,
+					Mr. X
 					</propertyValue>
-				</setProperty>
-			</invokeNode>
-			<forEachNode id="23419328749"
-		     counterName="g"
-		     parallel="yes">
-				<graphics x="20" y="30"/>
-				<targets>
-					<target arcID="3485328"/>
-				</targets>
-				<sources>
-					<source arcID="238746123985"/>
-				</sources>
-				<startCounterValue>
-					1
+			</setProperty>
+		</invokeNode>
+		<forEachNode id="23419328749" counterName="g" parallel="yes">
+			<graphics x="20" y="30" />
+			<targets>
+				<target arcId="3485328" />
+			</targets>
+			<sources>
+				<source arcId="238746123985" />
+			</sources>
+			<startCounterValue>
+				1
 				</startCounterValue>
-				<finalCounterValue>
-					$guests
+			<finalCounterValue>
+				$guests
 				</finalCounterValue>
-				<completionCondition>
-					AND
+			<completionCondition>
+				AND
 				</completionCondition>
-				<nodes>
-					<invokeNode id="8934759"
-					 activity="Decidr-HumanTask">
-						<description>
-							Task to figure out who will attend the party
-							and what he is going to bring.
+			<nodes>
+				<invokeNode id="8934759" activity="Decidr-HumanTask">
+					<description>
+						Task to figure out who will attend the party
+						and what he is going to bring.
 						</description>
-						<graphics height="20" width="30"/>
-						<setProperty 
-						 name="wfmID">
-							<propertyValue>
-								544
+					<graphics x="20" y="30" />
+					<setProperty name="wfmID">
+						<propertyValue>
+							544
 							</propertyValue>
-						</setProperty>
-						<setProperty 
-						 name="user">
-							<propertyValue>
-								$g
+					</setProperty>
+					<setProperty name="user">
+						<propertyValue>
+							$g
 							</propertyValue>
-						</setProperty>
-						<setProperty 
-						 name="name">
-							<propertyValue>
-								Invitation form
+					</setProperty>
+					<setProperty name="name">
+						<propertyValue>
+							Invitation form
 							</propertyValue>
-						</setProperty>
-						<setProperty 
-						 name="description">
-							<propertyValue>
-								Please fill in the form. It would be nice if somebody
-								can bring a cake and a barbecue. I'm looking forward
-								to meet you.
+					</setProperty>
+					<setProperty name="description">
+						<propertyValue>
+							Please fill in the form. It would be nice if somebody
+							can bring a cake and a barbecue. I'm looking forward
+							to meet you.
 							</propertyValue>
-						</setProperty>
-						<setProperty 
-						 name="userNotification">
-							<propertyValue>
-								yes 
+					</setProperty>
+					<setProperty name="userNotification">
+						<propertyValue>
+							yes 
 							</propertyValue>
-						</setProperty>
-						<getProperty
-						 name="taskResult"
-						 variable = "invitationFormResult" />
-						<humanTaskData>
+					</setProperty>
+					<getProperty name="taskResult" variable="invitationFormResult" />
+					<parameter>
+						<humanTaskData xmlns="other">
 							<parameters>
-								<parameter name="p_date" 
-								 type="date" 
-								 variable="partydate" />
+								<parameter name="p_date" type="date" variable="partydate" />
 							</parameters>
 							<information name="NCName">
 								<content contentType="text/plain">
 									The party will be on $p_date.
-								</content> 
+								</content>
 							</information>
-							<taskItem name="attendance"
-							 type="boolean">
+							<taskItem name="attendance" type="boolean">
 								<label>Will you participate?</label>
-								<hint>Please type yes or no</hint> ?
+								<hint>Please type yes or no</hint>
 								<value>your choice ...</value>
 							</taskItem>
-							<taskItem name="food"
-							 type="string">
+							<taskItem name="food" type="string">
 								<label>Which finger food are you going to make?</label>
 								<hint>Don't forget the cake and the barbecue</hint>
 								<value>your choice ...</value>
 							</taskItem>
 						</humanTaskData>
-					</invokeNode>
-				</nodes>
-		    </forEachNode>
-		    <endNode id="93287434556">
-		      <graphics x="20" y="30"/>
-		      <targets>
-		        <target arcID="238746123985" />
-		      </targets>
-		      <notificationOfSuccess>
-		        <setProperty
-		         name="successMessage"
-		         variable="successOrganizationMessage">
-		        </setProperty>
-				<setProperty
-		         name="to"
-		         variable="host">
-		        </setProperty>
-		      </notificationOfSuccess>
-		    </endNode>
-		  </nodes>
-		  <arcs>
-		    <arc id="32487" sourceNode="238479283" targetNode="459230485"/>
-			<arc id="3485328" sourceNode="459230485" targetNode="23419328749"/>
-			<arc id="238746123985" sourceNode="23419328749" targetNode="93287434556"/>
-		  </arcs>
-		</workflow>
+					</parameter>
+				</invokeNode>
+			</nodes>
+		</forEachNode>
+		<endNode id="93287434556">
+			<graphics x="20" y="30" />
+			<targets>
+				<target arcId="238746123985" />
+			</targets>
+			<notificationOfSuccess>
+				<setProperty name="successMessage" variable="successOrganizationMessage">
+				</setProperty>
+				<setProperty name="to" variable="host">
+				</setProperty>
+			</notificationOfSuccess>
+		</endNode>
+	</nodes>
+	<arcs>
+		<arc id="32487" sourceNode="238479283" targetNode="459230485" />
+		<arc id="3485328" sourceNode="459230485" targetNode="23419328749" />
+		<arc id="238746123985" sourceNode="23419328749" targetNode="93287434556" />
+	</arcs>
+</workflow>

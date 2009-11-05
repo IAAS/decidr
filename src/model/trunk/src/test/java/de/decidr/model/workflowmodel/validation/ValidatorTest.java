@@ -1,5 +1,6 @@
 package de.decidr.model.workflowmodel.validation;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -26,6 +27,11 @@ public class ValidatorTest {
     @Test
     public void testValidateByteArray() {
         problems = validator.validate(dwdlWorkflow);
+        assertNotNull(problems);
+        for (IProblem problem : problems){
+            System.out.println("Error Description: "+problem.getErrorDescription());
+            System.out.println("Error Posision: "+ problem.getErrorPosition());
+        }
         assertTrue(problems.isEmpty());
     }
 
