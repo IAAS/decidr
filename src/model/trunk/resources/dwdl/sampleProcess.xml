@@ -18,10 +18,10 @@
 	<roles>
 		<role name="guests" configurationVariable="yes" label="guests" />
 		<role name="vip-guests" label="vip-guests">
-			<actor email="vip1@example.com" name="VIP1-Guest" userId="123456789" />
-			<actor email="vip2@example.com" name="VIP2-Guest" userId="123456790" />
+			<actor email="vip1@example.com" name="VIP1-Guest" userId="12" />
+			<actor email="vip2@example.com" name="VIP2-Guest" userId="123" />
 		</role>
-		<actor name="host" email="host@example.com" userId="1234567891" />
+		<actor name="host" email="host@example.com" userId="1" />
 	</roles>
 	<faultHandler>
 		<setProperty name="message" variable="faultMessage">

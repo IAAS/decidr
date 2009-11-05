@@ -324,13 +324,12 @@ public class DWDL2BPEL {
                     webservices.get(node.getActivity())).getName());
         }
         if (node.getActivity().equals(HUMANTASK_ACTIVITY_NAME)) {
-            SetProperty prop = new SetProperty();
             de.decidr.model.workflowmodel.dwdl.Literal lit = new de.decidr.model.workflowmodel.dwdl.Literal();
             lit.getContent().add(node.getParameter().getContent());
-            prop.setName(node.getParameter().getSetProperty());
-            prop.setPropertyValue(lit);
-            addCopyStatement(assign, prop, webserviceInputVariables.get(
-                    webservices.get(node.getActivity())).getName());
+            for (SetProperty prop : node.getSetProperty()){
+                addCopyStatement(assign, prop, webserviceInputVariables.get(
+                        webservices.get(node.getActivity())).getName());
+            }
         }
         sequence.getActivity().add(assign);
         invoke.setPartnerLink(webservices.get(node.getActivity())
@@ -785,12 +784,11 @@ public class DWDL2BPEL {
                 de.decidr.model.workflowmodel.bpel.Variable bpelVariable = factory
                         .createVariable();
                 bpelVariable.setName(dwdlVariable.getName());
-                if (Arrays.asList(SimpleType.values()).contains(
-                        SimpleType.fromValue(dwdlVariable.getType()))) {
+                if (Arrays.asList(SimpleType.values()).contains(dwdlVariable.getType())) {
                     bpelVariable.setType(new QName(
                             XMLConstants.W3C_XML_SCHEMA_NS_URI, dwdlVariable
                                     .getType(), "xsd"));
-                } else if (ComplexType.fromValue(dwdlVariable.getType()) == null) {
+                } else if (Arrays.asList(ComplexType.values()).contains(dwdlVariable.getType())) {
                     bpelVariable.setType(new QName(
                             TransformationConstants.DECIDRTYPES_NAMESPACE, dwdlVariable
                                     .getType(), DECIDRTYPES_PREFIX));
