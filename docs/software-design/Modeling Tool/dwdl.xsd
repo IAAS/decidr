@@ -18,6 +18,7 @@
                         2009-07-31: MA: Id type changed to long
                         2009-08-06: MA: Description type changed to string.
                                         Invoke node accepts now any parameter.
+                        2009-11-05: MA: Parameter in InvokeNode has now 'lax' content
         </xsd:documentation>
     </xsd:annotation>
 
@@ -61,7 +62,7 @@
                 <xsd:element name="initialValues" type="tInitialValues" />
             </xsd:choice>
         </xsd:sequence>
-        <xsd:attribute name="label" type="xsd:string" use="required" />
+        <xsd:attribute name="label" type="xsd:string" use="optional" />
         <xsd:attribute name="name" type="xsd:NCName" use="required" />
         <xsd:attribute name="type" type="DWDLVariableType" use="required" />
         <xsd:attribute name="configurationVariable" type="tBoolean"
@@ -102,7 +103,7 @@
         <xsd:sequence>
             <xsd:element ref="actor" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
-        <xsd:attribute name="label" type="xsd:string" use="required" />
+        <xsd:attribute name="label" type="xsd:string" use="optional" />
         <xsd:attribute name="name" type="DWDLVariableName" use="required" />
         <xsd:attribute name="configurationVariable" type="tBoolean"
 			default="no" />
@@ -303,9 +304,9 @@
     </xsd:complexType>
    
     <xsd:element name="parameter" type="tParameter" />
-    <xsd:complexType name="tParameter">
+    <xsd:complexType name="tParameter" mixed="true">
        <xsd:sequence>
-          <xsd:any minOccurs="0" maxOccurs="1" />
+          <xsd:any processContents="lax" minOccurs="0" maxOccurs="1" />
        </xsd:sequence>
        <xsd:attribute name="setProperty" type="xsd:NCName" use="optional" />
     </xsd:complexType> 
