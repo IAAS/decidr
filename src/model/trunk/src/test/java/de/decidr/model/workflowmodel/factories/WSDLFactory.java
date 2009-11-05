@@ -18,7 +18,6 @@ package de.decidr.model.workflowmodel.factories;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;

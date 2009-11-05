@@ -16,6 +16,9 @@
 
 package de.decidr.model.workflowmodel.deployment;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -117,6 +120,20 @@ public class DeployerImpl implements Deployer {
 
         factory = OMAbstractFactory.getOMFactory();
         client = new ServiceClientUtil();
+        
+        // output zip file for test purpose
+        
+        try {
+            FileOutputStream out = new FileOutputStream(new File("test.zip"));
+            out.write(zip);
+            
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         // use the factory to create three elements
         OMNamespace depns = factory.createOMNamespace(
@@ -135,13 +152,16 @@ public class DeployerImpl implements Deployer {
         String base64Enc = Base64.encode(zip);
         OMText zipContent = factory.createOMText(base64Enc,
                 "application/zip", true);
+        
+        
+        zipElmt.addChild(zipContent);
+        zipPart.addChild(zipElmt);
+        
         root.addChild(namePart);
         root.addChild(zipPart);
-        zipPart.addChild(zipElmt);
-        zipElmt.addChild(zipContent);
 
         // deploy
-        client.send(root, location + "/ode/processes/DeploymentService");
+        client.send(root, location + "/processes/DeploymentService");
     }
 
     /*
@@ -164,6 +184,6 @@ public class DeployerImpl implements Deployer {
         root.addChild(part);
 
         // undeploy
-        client.send(root, server.getLocation() + "/ode/processes/DeploymentService");
+        client.send(root, server.getLocation() + "/processes/DeploymentService");
     }
 }

@@ -34,7 +34,10 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.log4j.Logger;
 import org.xml.sax.InputSource;
 
+import com.ibm.wsdl.extensions.PopulatedExtensionRegistry;
 import com.ibm.wsdl.xml.WSDLWriterImpl;
+
+import javax.wsdl.extensions.ExtensionRegistry;
 
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.bpel.Process;
@@ -119,6 +122,7 @@ public class TransformUtil {
     public static byte[] configurationToBytes(TConfiguration con)
             throws JAXBException {
         Marshaller marshaller = wscCntxt.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         marshaller.marshal(con, os);
 
@@ -127,6 +131,7 @@ public class TransformUtil {
     
     public static byte[] bpelToBytes(Process bpel) throws JAXBException{
         Marshaller marshaller = bpelCntxt.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         JAXBElement<Process> element = new JAXBElement<Process>(
                 new QName(TransformationConstants.BPEL_NAMESPACE,
@@ -138,13 +143,17 @@ public class TransformUtil {
 
     public static byte[] definitionToBytes(Definition def) throws WSDLException{
         WSDLWriter writer = new WSDLWriterImpl();
+        ExtensionRegistry extensionRegistry = new PopulatedExtensionRegistry();
+        def.setExtensionRegistry(extensionRegistry);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
+        
         writer.writeWSDL(def, os);
         return os.toByteArray();
     }
     
     public static byte[] ddToBytes(TDeployment deployment) throws JAXBException{
         Marshaller marshaller = ddCntxt.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         JAXBElement<TDeployment> element = new JAXBElement<TDeployment>(
                 new QName(TransformationConstants.DD_NAMESPACE,
@@ -162,6 +171,7 @@ public class TransformUtil {
     public static byte[] mappingToBytes(WebserviceMapping mapping)
             throws JAXBException {
         Marshaller marshaller = mappingCntxt.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         JAXBElement<WebserviceMapping> mappingElement = new JAXBElement<WebserviceMapping>(
                 new QName(TransformationConstants.MAPPING_NAMESPACE,
@@ -174,6 +184,7 @@ public class TransformUtil {
     public static byte[] workflowToBytes(Workflow dwdl) throws JAXBException {
 
         Marshaller marshaller = dwdlCntxt.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         JAXBElement<Workflow> mappingElement = new JAXBElement<Workflow>(
                 new QName(TransformationConstants.DWDL_NAMESPACE,

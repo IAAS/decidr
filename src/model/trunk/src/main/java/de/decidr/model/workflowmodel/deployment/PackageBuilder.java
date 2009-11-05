@@ -29,15 +29,11 @@ import java.util.zip.ZipOutputStream;
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
 import javax.wsdl.xml.WSDLReader;
-import javax.wsdl.xml.WSDLWriter;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 
 import org.xml.sax.InputSource;
 
 import com.ibm.wsdl.xml.WSDLReaderImpl;
-import com.ibm.wsdl.xml.WSDLWriterImpl;
 
 import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.workflowmodel.bpel.Process;
@@ -54,6 +50,8 @@ public class PackageBuilder {
     
     private final String DECIDRTYPES_LOCATION = "/xsd/DecidrProcessTypes.xsd";
     private final String DECIDRTYPES_NAME = "DecidrProcessTypes";
+    
+    private static String documentBaseURI = "resources/xsd/";
 
     public byte[] getPackage(String name, Process bpel, Definition wsdl,
             TDeployment dd, List<KnownWebService> knownWebservices)
@@ -83,7 +81,7 @@ public class PackageBuilder {
         for (KnownWebService webservice : knownWebservices) {
             zip_out_stream.putNextEntry(new ZipEntry(definitions
                     .get(webservice).getQName().getLocalPart()
-                    + "wsdl"));
+                    + ".wsdl"));
             zip_out_stream.write(webservice.getWsdl());
             zip_out_stream.closeEntry();
         }
@@ -102,7 +100,7 @@ public class PackageBuilder {
         for (KnownWebService webservice : webservices) {
             inStream = new ByteArrayInputStream(webservice.getWsdl());
             in = new InputSource(inStream);
-            Definition webserviceDefinition = wsdlReader.readWSDL(null, in);
+            Definition webserviceDefinition = wsdlReader.readWSDL(documentBaseURI, in);
             definitions.put(webservice, webserviceDefinition);
         }
         return definitions;
