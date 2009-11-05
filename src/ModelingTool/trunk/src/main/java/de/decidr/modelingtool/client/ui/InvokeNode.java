@@ -18,7 +18,7 @@ package de.decidr.modelingtool.client.ui;
 
 /**
  * Superclass for all invoke nodes (activities). Invoke nodes are not resizable.
- *
+ * 
  * @author Johannes Engelhardt
  */
 public abstract class InvokeNode extends Node {
@@ -26,10 +26,10 @@ public abstract class InvokeNode extends Node {
     public InvokeNode(HasChildren parentPanel) {
         super(parentPanel);
     }
-    
+
     @Override
     public boolean isResizable() {
         return false;
     }
-    
+
 }

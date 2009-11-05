@@ -153,10 +153,8 @@ public class CreateConnectionCommand implements UndoableCommand {
         // check if connection is a exit container connection
         if (model instanceof ContainerExitConnectionModel) {
             // get container exit port
-            // targetPort = ((Container) model.getTarget().getChangeListener())
-            // .getContainerExitPort();
-            targetPort = ((Node) model.getTarget().getChangeListener())
-                    .getInputPort();
+            targetPort = ((Container) model.getTarget().getChangeListener())
+                    .getContainerExitPort();
         } else {
             // get targetPort
             targetPort = ((Node) model.getTarget().getChangeListener())

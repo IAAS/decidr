@@ -17,10 +17,10 @@
 package de.decidr.modelingtool.client.exception;
 
 /**
- * This exception is thrown when an operation on an object is not supüported
- * by the object, e.g. an delete operation is performed on a node which has the
+ * This exception is thrown when an operation on an object is not supüported by
+ * the object, e.g. an delete operation is performed on a node which has the
  * deletable flag set to false.
- *
+ * 
  * @author Johannes Engelhardt
  */
 @SuppressWarnings("serial")

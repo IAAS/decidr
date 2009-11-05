@@ -77,7 +77,7 @@ public abstract class Connection implements Selectable, ModelChangeListener {
     public ConnectionModel getModel() {
         return model;
     }
-    
+
     public ConnectionDragBox getOtherDragBox(ConnectionDragBox dragBox) {
         if (dragBox == startDragBox) {
             return endDragBox;

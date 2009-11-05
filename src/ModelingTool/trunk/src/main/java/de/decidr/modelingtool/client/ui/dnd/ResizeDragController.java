@@ -100,59 +100,63 @@ public class ResizeDragController extends AbstractDragController {
 
             // move and resize node
             switch (dragBox.getDirection()) {
-            case NORTH:
-                if (deltaY != 0) {
-                    node.setPosition(left, top + deltaY);
-                    node.setGraphicPixelSize(width, height - deltaY);
-                }
-                break;
+                case NORTH:
+                    if (deltaY != 0) {
+                        node.setPosition(left, top + deltaY);
+                        node.setGraphicPixelSize(width, height - deltaY);
+                    }
+                    break;
 
-            case NORTHEAST:
-                if (deltaX != 0 || deltaY != 0) {
-                    node.setPosition(left, top + deltaY);
-                    node.setGraphicPixelSize(width + deltaX, height - deltaY);
-                }
-                break;
+                case NORTHEAST:
+                    if (deltaX != 0 || deltaY != 0) {
+                        node.setPosition(left, top + deltaY);
+                        node.setGraphicPixelSize(width + deltaX, height
+                                - deltaY);
+                    }
+                    break;
 
-            case EAST:
-                if (deltaX != 0) {
-                    node.setGraphicPixelSize(width + deltaX, height);
-                }
-                break;
+                case EAST:
+                    if (deltaX != 0) {
+                        node.setGraphicPixelSize(width + deltaX, height);
+                    }
+                    break;
 
-            case SOUTHEAST:
-                if (deltaX != 0 || deltaY != 0) {
-                    node.setGraphicPixelSize(width + deltaX, height + deltaY);
-                }
-                break;
+                case SOUTHEAST:
+                    if (deltaX != 0 || deltaY != 0) {
+                        node.setGraphicPixelSize(width + deltaX, height
+                                + deltaY);
+                    }
+                    break;
 
-            case SOUTH:
-                if (deltaY != 0) {
-                    node.setGraphicPixelSize(width, height + deltaY);
-                }
-                break;
+                case SOUTH:
+                    if (deltaY != 0) {
+                        node.setGraphicPixelSize(width, height + deltaY);
+                    }
+                    break;
 
-            case SOUTHWEST:
-                if (deltaX != 0 || deltaY != 0) {
-                    // node.setPosition(left + deltaX, top);
-                    node.setPosition(left + deltaX, top);
-                    node.setGraphicPixelSize(width - deltaX, height + deltaY);
-                }
-                break;
+                case SOUTHWEST:
+                    if (deltaX != 0 || deltaY != 0) {
+                        // node.setPosition(left + deltaX, top);
+                        node.setPosition(left + deltaX, top);
+                        node.setGraphicPixelSize(width - deltaX, height
+                                + deltaY);
+                    }
+                    break;
 
-            case WEST:
-                if (deltaX != 0) {
-                    node.setPosition(left + deltaX, top);
-                    node.setGraphicPixelSize(width - deltaX, height);
-                }
-                break;
+                case WEST:
+                    if (deltaX != 0) {
+                        node.setPosition(left + deltaX, top);
+                        node.setGraphicPixelSize(width - deltaX, height);
+                    }
+                    break;
 
-            case NORTHWEST:
-                if (deltaX != 0 || deltaY != 0) {
-                    node.setPosition(left + deltaX, top + deltaY);
-                    node.setGraphicPixelSize(width - deltaX, height - deltaY);
-                }
-                break;
+                case NORTHWEST:
+                    if (deltaX != 0 || deltaY != 0) {
+                        node.setPosition(left + deltaX, top + deltaY);
+                        node.setGraphicPixelSize(width - deltaX, height
+                                - deltaY);
+                    }
+                    break;
             }
 
             // refresh selection

@@ -24,7 +24,7 @@ import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 /**
  * This command removes a node from the workflow and all connections connected
  * to it.
- *
+ * 
  * @author Johannes Engelhardt
  */
 public class RemoveNodeCommand implements UndoableCommand {
@@ -48,15 +48,16 @@ public class RemoveNodeCommand implements UndoableCommand {
 
     /**
      * Constructor for removing the node.
-     *
-     * @param node The node to remove.
+     * 
+     * @param node
+     *            The node to remove.
      */
     public RemoveNodeCommand(Node node) throws NodeNotDeletableException {
         // check if the node is deletable.
         if (!node.isDeletable()) {
             throw new NodeNotDeletableException("Node is not deletable.");
         }
-        
+
         this.node = node;
         this.model = node.getModel();
 

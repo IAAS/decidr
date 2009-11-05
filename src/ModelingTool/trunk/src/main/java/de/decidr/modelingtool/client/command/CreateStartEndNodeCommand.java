@@ -62,8 +62,8 @@ public class CreateStartEndNodeCommand implements UndoableCommand {
     }
 
     /**
-     * Constructor for creating a end node from an existing and linked end
-     * node model. The node is drawn from the data of the model.
+     * Constructor for creating a end node from an existing and linked end node
+     * model. The node is drawn from the data of the model.
      * 
      * @param model
      *            The linked node model.

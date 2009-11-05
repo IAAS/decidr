@@ -19,14 +19,14 @@ package de.decidr.modelingtool.client.exception;
 /**
  * The super exception for the modeling tool. All exceptions in the modeling
  * tool extend this class.
- *
+ * 
  * @author Johannes Engelhardt
  */
 @SuppressWarnings("serial")
 public class ModelingToolException extends Exception {
-    
+
     public ModelingToolException(String msg) {
         super(msg);
     }
-    
+
 }

@@ -45,7 +45,15 @@ public class DragBox extends AbsolutePanel implements HasMouseDownHandlers,
      * position.
      */
     public static enum DragDirection {
-        NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST, ALL
+        NORTH,
+        NORTHEAST,
+        EAST,
+        SOUTHEAST,
+        SOUTH,
+        SOUTHWEST,
+        WEST,
+        NORTHWEST,
+        ALL
     }
 
     /** the drag direction of the drag box. */
@@ -53,8 +61,9 @@ public class DragBox extends AbsolutePanel implements HasMouseDownHandlers,
 
     /**
      * The constructor.
-     *
-     * @param direction The drag direction of the drag box.
+     * 
+     * @param direction
+     *            The drag direction of the drag box.
      */
     public DragBox(DragDirection direction) {
         super();

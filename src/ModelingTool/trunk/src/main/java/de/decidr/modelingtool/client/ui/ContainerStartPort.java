@@ -38,7 +38,6 @@ public class ContainerStartPort extends Port {
         this.addStyleName("port-container-startport");
     }
 
-    
     @Override
     public boolean isContainerPort() {
         return true;
@@ -48,12 +47,12 @@ public class ContainerStartPort extends Port {
     public boolean isInputPort() {
         return false;
     }
-    
+
     @Override
     public boolean isOutputPort() {
         return true;
     }
-    
+
     @Override
     public void registerDropController() {
         PickupDragController ipdc = DndRegistry.getInstance()
@@ -69,5 +68,5 @@ public class ContainerStartPort extends Port {
         ipdc.unregisterDropController(getDropController());
         dropControllerRegistered = false;
     }
-    
+
 }

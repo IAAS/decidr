@@ -44,7 +44,7 @@ public class DeleteMenuItem implements Command {
         Selectable selectedItem = SelectionHandler.getInstance()
                 .getSelectedItem();
         UndoableCommand removeCmd = null;
-        
+
         Messages msgs = GWT.create(Messages.class);
 
         if (selectedItem != null) {

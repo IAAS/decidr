@@ -19,17 +19,17 @@ package de.decidr.modelingtool.client.ui;
 import com.google.gwt.user.client.ui.FocusPanel;
 
 /**
- * Each port has assigned a PortConnectionIndicator. This is made visible when
- * a connection is dragged over a port and it would be legal to drop it on the
+ * Each port has assigned a PortConnectionIndicator. This is made visible when a
+ * connection is dragged over a port and it would be legal to drop it on the
  * port.
- *
+ * 
  * @author Johannes Engelhardt
  */
 public class PortConnectionIndicator extends FocusPanel {
 
     /** The visibility state. */
     private boolean visible;
-    
+
     public PortConnectionIndicator(boolean visible) {
         setVisible(visible);
     }
@@ -42,12 +42,12 @@ public class PortConnectionIndicator extends FocusPanel {
     @Override
     public void setVisible(boolean visible) {
         this.visible = visible;
-        
+
         if (visible) {
             setStyleName("port-indicator-visible");
         } else {
             setStyleName("port-indicator-invisible");
         }
     }
-    
+
 }

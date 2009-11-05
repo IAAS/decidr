@@ -487,6 +487,8 @@ public class WorkflowParserImpl implements WorkflowParser {
         /* Create every condition element */
         for (Condition condition : model.getConditions()) {
             Element conditionElement = doc.createElement(DWDLNames.condition);
+            conditionElement.setAttribute(DWDLNames.id, condition.getId()
+                    .toString());
 
             /*
              * Create the condition element itself, including order and
@@ -495,8 +497,6 @@ public class WorkflowParserImpl implements WorkflowParser {
             if (condition.getOrder() != null) {
                 conditionElement.setAttribute(DWDLNames.order, condition
                         .getOrder().toString());
-                conditionElement.setAttribute(DWDLNames.id, condition.getId()
-                        .toString());
 
                 /*
                  * If order is zero, that means the condition is the default

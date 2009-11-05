@@ -60,21 +60,22 @@ public class MoveConnectionCommand implements UndoableCommand {
     }
 
     @Override
-    public void undo() {       
+    public void undo() {
         if (oldStartPort != newStartPort) {
             // move start drag box
             ConnectionDragBox startDragBox = connection.getStartDragBox();
-            startDragBox.getGluedPort().removeConnectionDragBox(startDragBox, true);
-            
+            startDragBox.getGluedPort().removeConnectionDragBox(startDragBox,
+                    true);
+
             oldStartPort.addConnectionDragBox(startDragBox);
             startDragBox.setGluedPort(oldStartPort);
         }
 
-        if (oldEndPort != newEndPort)  {
+        if (oldEndPort != newEndPort) {
             // move end drag box
             ConnectionDragBox endDragBox = connection.getEndDragBox();
             endDragBox.getGluedPort().removeConnectionDragBox(endDragBox, true);
-            
+
             oldEndPort.addConnectionDragBox(endDragBox);
             endDragBox.setGluedPort(oldEndPort);
         }
@@ -83,10 +84,10 @@ public class MoveConnectionCommand implements UndoableCommand {
         connection.getParentPanel().addConnection(connection);
         connection.draw();
 
-        // link model       
+        // link model
         model.setSource(oldStartPort.getParentNode().getModel());
         model.setTarget(oldEndPort.getParentNode().getModel());
-        
+
         model.getSource().setOutput(model);
         model.getTarget().setInput(model);
     }
@@ -96,28 +97,29 @@ public class MoveConnectionCommand implements UndoableCommand {
         if (oldStartPort != newStartPort) {
             // move start drag box
             ConnectionDragBox startDragBox = connection.getStartDragBox();
-            startDragBox.getGluedPort().removeConnectionDragBox(startDragBox, true);
-            
+            startDragBox.getGluedPort().removeConnectionDragBox(startDragBox,
+                    true);
+
             startDragBox.setGluedPort(newStartPort);
             newStartPort.addConnectionDragBox(startDragBox);
-            
+
             // link model
             model.setSource(newStartPort.getParentNode().getModel());
             model.getSource().setOutput(model);
         }
-        
-        if (oldEndPort != newEndPort)  {
+
+        if (oldEndPort != newEndPort) {
             // move end drag box
             ConnectionDragBox endDragBox = connection.getEndDragBox();
             endDragBox.getGluedPort().removeConnectionDragBox(endDragBox, true);
-            
+
             endDragBox.setGluedPort(newEndPort);
             newEndPort.addConnectionDragBox(endDragBox);
-            
+
             // link model
             model.setTarget(newEndPort.getParentNode().getModel());
             model.getTarget().setInput(model);
-        }    
+        }
 
         // draw connection
         connection.getParentPanel().addConnection(connection);

@@ -19,7 +19,7 @@ package de.decidr.modelingtool.client.exception;
 /**
  * This exception is thrown if a property window (eg. of a node), that is not
  * present, is tried to open.
- *
+ * 
  * @author Johannes Engelhardt
  */
 @SuppressWarnings("serial")

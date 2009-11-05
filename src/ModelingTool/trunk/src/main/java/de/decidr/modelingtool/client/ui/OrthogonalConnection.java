@@ -77,8 +77,7 @@ public class OrthogonalConnection extends Connection {
 
     @Override
     public void draw() {
-        assert (parentPanel instanceof AbsolutePanel && startDragBox != null
-                && endDragBox != null);
+        assert (parentPanel instanceof AbsolutePanel && startDragBox != null && endDragBox != null);
         AbsolutePanel absPanel = (AbsolutePanel) parentPanel;
 
         int startX = startDragBox.getMiddleLeft() - parentPanel.getLeft()

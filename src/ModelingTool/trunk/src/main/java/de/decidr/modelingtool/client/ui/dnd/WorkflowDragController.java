@@ -58,20 +58,20 @@ public class WorkflowDragController extends PickupDragController {
     @Override
     public void dragEnd() {
         super.dragEnd();
-        
+
         // if node is dropped on a legal position
         if (context.finalDropController != null) {
             // create move command
             if (node != null) {
                 CommandStack.getInstance().executeCommand(
-                        new MoveResizeNodeCommand(node, oldParentPanel, oldNodeLeft,
-                                oldNodeTop));
+                        new MoveResizeNodeCommand(node, oldParentPanel,
+                                oldNodeLeft, oldNodeTop));
             }
-    
+
             // remove the drag boxes assiged to the drag context.
-            this.context.selectedWidgets.removeAll(SelectionHandler.getInstance()
-                    .getDragBoxes());
-    
+            this.context.selectedWidgets.removeAll(SelectionHandler
+                    .getInstance().getDragBoxes());
+
             // reset the drag boxes
             SelectionHandler.getInstance().refreshSelection();
         }

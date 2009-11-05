@@ -32,10 +32,10 @@ import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
  * @author Johannes Engelhardt
  */
 public class NodeSelectionBox {
-    
+
     /** This value indicates the space between the drag boxes and the node. */
     private final int BORDER_OFFSET = 2;
-    
+
     /** The List of the drag boxes. */
     private List<DragBox> dragBoxes = new Vector<DragBox>();
 
@@ -116,38 +116,38 @@ public class NodeSelectionBox {
             height = dragBox.getOffsetHeight();
 
             switch (dragBox.getDirection()) {
-            case NORTH:
-                top = nodeTop - height;
-                left = nodeLeft + nodeWidth / 2 - width / 2;
-                break;
-            case NORTHEAST:
-                top = nodeTop - height;
-                left = nodeLeft + nodeWidth;
-                break;
-            case EAST:
-                top = nodeTop + nodeHeight / 2 - height / 2;
-                left = nodeLeft + nodeWidth;
-                break;
-            case SOUTHEAST:
-                top = nodeTop + nodeHeight;
-                left = nodeLeft + nodeWidth;
-                break;
-            case SOUTH:
-                top = nodeTop + nodeHeight;
-                left = nodeLeft + nodeWidth / 2 - width / 2;
-                break;
-            case SOUTHWEST:
-                top = nodeTop + nodeHeight;
-                left = nodeLeft - width;
-                break;
-            case WEST:
-                top = nodeTop + nodeHeight / 2 - height / 2;
-                left = nodeLeft - width;
-                break;
-            case NORTHWEST:
-                top = nodeTop - height;
-                left = nodeLeft - width;
-                break;
+                case NORTH:
+                    top = nodeTop - height;
+                    left = nodeLeft + nodeWidth / 2 - width / 2;
+                    break;
+                case NORTHEAST:
+                    top = nodeTop - height;
+                    left = nodeLeft + nodeWidth;
+                    break;
+                case EAST:
+                    top = nodeTop + nodeHeight / 2 - height / 2;
+                    left = nodeLeft + nodeWidth;
+                    break;
+                case SOUTHEAST:
+                    top = nodeTop + nodeHeight;
+                    left = nodeLeft + nodeWidth;
+                    break;
+                case SOUTH:
+                    top = nodeTop + nodeHeight;
+                    left = nodeLeft + nodeWidth / 2 - width / 2;
+                    break;
+                case SOUTHWEST:
+                    top = nodeTop + nodeHeight;
+                    left = nodeLeft - width;
+                    break;
+                case WEST:
+                    top = nodeTop + nodeHeight / 2 - height / 2;
+                    left = nodeLeft - width;
+                    break;
+                case NORTHWEST:
+                    top = nodeTop - height;
+                    left = nodeLeft - width;
+                    break;
             }
 
             AbsolutePanel parentPanel = (AbsolutePanel) assignedNode

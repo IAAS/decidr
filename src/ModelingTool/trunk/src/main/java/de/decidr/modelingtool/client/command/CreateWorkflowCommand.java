@@ -16,6 +16,7 @@
 
 package de.decidr.modelingtool.client.command;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
@@ -51,27 +52,34 @@ public class CreateWorkflowCommand implements Command {
      */
     public CreateWorkflowCommand(WorkflowModel workflowModel)
             throws IncompleteModelDataException {
+        GWT.log("Creating UI data for workflow", null);
         this.workflowModel = workflowModel;
 
         // connect workflow to model
         workflowModel.setChangeListener(Workflow.getInstance());
+        GWT.log("Connecting workflow to model", null);
 
         // iterate over all child nodes
         for (NodeModel model : workflowModel.getChildNodeModels()) {
             if (model instanceof ContainerModel) {
                 // create child nodes and connections of container
+                GWT.log("Creating child nodes and connections of container",
+                        null);
                 cmdList.addCommand(createContainer((ContainerModel) model));
 
             } else if (model instanceof InvokeNodeModel) {
                 // create invoke node
+                GWT.log("Creating invoke node", null);
                 cmdList.addCommand(new CreateInvokeNodeCommand(
                         (InvokeNodeModel) model));
             } else if (model instanceof StartNodeModel) {
                 // create start node
+                GWT.log("Creating start node", null);
                 cmdList.addCommand(new CreateStartEndNodeCommand(
                         (StartNodeModel) model));
             } else if (model instanceof EndNodeModel) {
                 // create end node
+                GWT.log("Creating end node", null);
                 cmdList.addCommand(new CreateStartEndNodeCommand(
                         (EndNodeModel) model));
             }
@@ -79,9 +87,11 @@ public class CreateWorkflowCommand implements Command {
 
         // iterate over all child connections
         for (ConnectionModel model : workflowModel.getChildConnectionModels()) {
+            GWT.log("Creating child connection", null);
             cmdList.addCommand(new CreateConnectionCommand(model));
         }
 
+        GWT.log("Finished creating UI data", null);
     }
 
     @Override
@@ -90,7 +100,7 @@ public class CreateWorkflowCommand implements Command {
         Workflow.getInstance().setModel(workflowModel);
         // create child nodes and connections
         cmdList.execute();
-        
+
         // flush command stack
         CommandStack.getInstance().flush();
     }
@@ -108,15 +118,18 @@ public class CreateWorkflowCommand implements Command {
         CommandList cmdList = new CommandList();
 
         // create container
+        GWT.log("Creating container", null);
         cmdList.addCommand(new CreateContainerCommand(containerModel));
 
         // iterate over all child nodes
         for (NodeModel model : containerModel.getChildNodeModels()) {
             if (model instanceof ContainerModel) {
                 // create container with its children
+                GWT.log("Creating child container", null);
                 cmdList.addCommand(createContainer((ContainerModel) model));
             } else if (model instanceof InvokeNodeModel) {
                 // create invoke node
+                GWT.log("Creating child invoke node", null);
                 cmdList.addCommand(new CreateInvokeNodeCommand(
                         (InvokeNodeModel) model));
             }
@@ -124,9 +137,11 @@ public class CreateWorkflowCommand implements Command {
 
         // iterate over all child connections
         for (ConnectionModel model : containerModel.getChildConnectionModels()) {
+            GWT.log("Creating child connection for container", null);
             cmdList.addCommand(new CreateConnectionCommand(model));
         }
 
+        GWT.log("Finished creating container", null);
         return cmdList;
     }
 

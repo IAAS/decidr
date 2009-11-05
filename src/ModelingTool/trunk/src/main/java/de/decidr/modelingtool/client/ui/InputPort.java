@@ -33,7 +33,7 @@ public class InputPort extends Port {
         // set properties
         this.addStyleName("port-inputport");
     }
-    
+
     @Override
     public boolean isContainerPort() {
         return false;
@@ -56,7 +56,7 @@ public class InputPort extends Port {
         opdc.registerDropController(getDropController());
         dropControllerRegistered = true;
     }
-    
+
     @Override
     public void unregisterDropController() {
         PickupDragController opdc = DndRegistry.getInstance()

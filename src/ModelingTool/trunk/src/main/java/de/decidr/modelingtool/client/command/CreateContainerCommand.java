@@ -39,12 +39,13 @@ public class CreateContainerCommand implements UndoableCommand {
 
     /** The model of the container node. */
     ContainerModel model = null;
-    
+
     /**
-     * Contructor for creating a container model from an already added
-     * container node. The model is created from the data of the node.
-     *
-     * @param node The container node that has been added
+     * Contructor for creating a container model from an already added container
+     * node. The model is created from the data of the node.
+     * 
+     * @param node
+     *            The container node that has been added
      */
     public CreateContainerCommand(Container node) {
         this.node = node;
@@ -80,8 +81,9 @@ public class CreateContainerCommand implements UndoableCommand {
     /**
      * Contructor for creating a container node from an existing and linked
      * container model. The container is drawn from the data of the model.
-     *
-     * @param model The linked container model.
+     * 
+     * @param model
+     *            The linked container model.
      */
     public CreateContainerCommand(ContainerModel model)
             throws IncompleteModelDataException {
@@ -131,11 +133,12 @@ public class CreateContainerCommand implements UndoableCommand {
     }
 
     /**
-     * Checks the container model if it consists all required data for
-     * drawing the container: its parent model.
-     *
+     * Checks the container model if it consists all required data for drawing
+     * the container: its parent model.
+     * 
      * @return True, if all required data is not null.
-     * @throws IncompleteModelDataException if any relevant data is null.
+     * @throws IncompleteModelDataException
+     *             if any relevant data is null.
      */
     private boolean checkModelData() throws IncompleteModelDataException {
         if (model.getParentModel() == null) {

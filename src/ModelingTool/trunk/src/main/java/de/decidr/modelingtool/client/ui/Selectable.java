@@ -22,32 +22,33 @@ import de.decidr.modelingtool.client.model.Model;
 /**
  * Classes which implement this interface are selectable and can be selected
  * through the selection handler.
- *
+ * 
  * @author Johannes Engelhardt
  */
 public interface Selectable {
 
     /**
      * Returns the selected state.
-     *
+     * 
      * @return True, if selected.
      */
     public boolean isSelected();
-    
+
     /**
      * Sets the selected state.
-     *
-     * @param selected The selected state.
+     * 
+     * @param selected
+     *            The selected state.
      */
     public void setSelected(boolean selected);
-    
+
     /**
      * Returns the model of the implementing element.
-     *
+     * 
      * @return The model of the element.
      */
     public Model getModel();
-    
+
     public void showPropertyWindow() throws NoPropertyWindowException;
-    
+
 }

@@ -31,7 +31,8 @@ import de.decidr.modelingtool.client.model.variable.VariableType;
  * 
  * @author Jonas Schlaak
  */
-public class ValueTextFieldValidator implements Validator<String, TextField<String>> {
+public class ValueTextFieldValidator implements
+        Validator<String, TextField<String>> {
 
     private VariableType type = null;
 

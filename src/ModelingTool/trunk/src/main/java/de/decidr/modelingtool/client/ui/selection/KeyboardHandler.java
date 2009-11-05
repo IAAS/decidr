@@ -58,53 +58,54 @@ public class KeyboardHandler implements KeyDownHandler {
     public void onKeyDown(KeyDownEvent event) {
         // stop propagation of the event
         event.stopPropagation();
-        
+
         // get selected item
         Selectable selectedItem = SelectionHandler.getInstance()
                 .getSelectedItem();
-        
+
         // create message resource
         Messages msgs = GWT.create(Messages.class);
 
         // switch key codes
         switch (event.getNativeKeyCode()) {
 
-        // DELETE key: delete selected item
-        case (KeyCodes.KEY_DELETE):
-            UndoableCommand removeCmd = null;
+            // DELETE key: delete selected item
+            case (KeyCodes.KEY_DELETE):
+                UndoableCommand removeCmd = null;
 
-            if (selectedItem != null) {
-                try {
-                    // create command according to item type
-                    if (selectedItem instanceof Node) {
-                        removeCmd = new RemoveNodeCommand((Node) selectedItem);
-                    } else if (selectedItem instanceof Connection) {
-                        removeCmd = new RemoveConnectionCommand(
-                                (Connection) selectedItem);
+                if (selectedItem != null) {
+                    try {
+                        // create command according to item type
+                        if (selectedItem instanceof Node) {
+                            removeCmd = new RemoveNodeCommand(
+                                    (Node) selectedItem);
+                        } else if (selectedItem instanceof Connection) {
+                            removeCmd = new RemoveConnectionCommand(
+                                    (Connection) selectedItem);
+                        }
+
+                        CommandStack.getInstance().executeCommand(removeCmd);
+
+                    } catch (NodeNotDeletableException e) {
+                        Window.alert(msgs.notDeletableMessage());
                     }
-
-                    CommandStack.getInstance().executeCommand(removeCmd);
-
-                } catch (NodeNotDeletableException e) {
-                    Window.alert(msgs.notDeletableMessage());
                 }
-            }
-            break;
-            
-        // ENTER key: show property window
-        case (KeyCodes.KEY_ENTER):
-            if (selectedItem != null) {
-                try {
-                    selectedItem.showPropertyWindow();
-                } catch (NoPropertyWindowException e) {
-                    // display error message
-                    Window.alert(msgs.noPropertyWindowMessage());
+                break;
+
+            // ENTER key: show property window
+            case (KeyCodes.KEY_ENTER):
+                if (selectedItem != null) {
+                    try {
+                        selectedItem.showPropertyWindow();
+                    } catch (NoPropertyWindowException e) {
+                        // display error message
+                        Window.alert(msgs.noPropertyWindowMessage());
+                    }
+                } else {
+                    Workflow.getInstance().showPropertyWindow();
                 }
-            } else {
-                Workflow.getInstance().showPropertyWindow();
-            }
-            break;
-        
+                break;
+
         }
     }
 

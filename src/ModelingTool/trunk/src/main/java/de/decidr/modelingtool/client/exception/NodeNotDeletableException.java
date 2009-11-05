@@ -18,7 +18,7 @@ package de.decidr.modelingtool.client.exception;
 
 /**
  * This exception is thrown if an undeletable node is tried to be deleted.
- *
+ * 
  * @author Johannes Engelhardt
  */
 @SuppressWarnings("serial")

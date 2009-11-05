@@ -44,7 +44,7 @@ public class DndRegistry {
 
     /**
      * Creates a new instance, if not done before, and returns it.
-     *
+     * 
      * @return The instance.
      */
     public static DndRegistry getInstance() {
@@ -56,9 +56,11 @@ public class DndRegistry {
 
     /**
      * Registers a new drag controller-
-     *
-     * @param name The name of the drag controller
-     * @param dragController The drag controller object
+     * 
+     * @param name
+     *            The name of the drag controller
+     * @param dragController
+     *            The drag controller object
      */
     public void register(String name, DragController dragController) {
         dragControllers.put(name, dragController);
@@ -67,8 +69,9 @@ public class DndRegistry {
     /**
      * Returns the drag controller associated with the given name as a
      * PickupDragController, if it is an instance of this class.
-     *
-     * @param name The name of the drag controller
+     * 
+     * @param name
+     *            The name of the drag controller
      * @return The PickupDragController object if it is one, else null
      */
     public PickupDragController getPickupDragController(String name) {
@@ -83,8 +86,9 @@ public class DndRegistry {
 
     /**
      * Returns the drag controller associated with the given name.
-     *
-     * @param name The name of the drag controller
+     * 
+     * @param name
+     *            The name of the drag controller
      * @return The crag controller object
      */
     public DragController getDragController(String name) {

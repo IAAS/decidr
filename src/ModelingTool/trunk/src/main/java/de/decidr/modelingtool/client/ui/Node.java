@@ -370,7 +370,7 @@ public abstract class Node extends AbsolutePanel implements
                 - ci.getOffsetWidth() / 2, getWidgetTop(port)
                 + port.getOffsetHeight() / 2 - ci.getOffsetHeight() / 2);
         ci.setVisible(false);
-        
+
         // set port to front
         add(port, getWidgetLeft(port), getWidgetTop(port));
 

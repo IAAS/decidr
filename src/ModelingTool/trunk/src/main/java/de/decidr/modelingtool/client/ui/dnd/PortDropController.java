@@ -77,7 +77,7 @@ public class PortDropController extends AbstractDropController {
         try {
             onPreviewDrop(context);
             if (getDropTarget() instanceof Port) {
-                Port port = (Port)getDropTarget();
+                Port port = (Port) getDropTarget();
                 port.getConnectionIndicator().setVisible(true);
             }
         } catch (VetoDragException e) {
@@ -90,7 +90,7 @@ public class PortDropController extends AbstractDropController {
         super.onLeave(context);
 
         if (getDropTarget() instanceof Port) {
-            Port port = (Port)getDropTarget();
+            Port port = (Port) getDropTarget();
             port.getConnectionIndicator().setVisible(false);
         }
     }
@@ -114,8 +114,9 @@ public class PortDropController extends AbstractDropController {
                 throw new VetoDragException();
             }
 
-            // JE potential null pointer access: what if port==null? (whole rest of loop)
-            
+            // JE potential null pointer access: what if port==null? (whole rest
+            // of loop)
+
             // cancel drop operation if both ports belong to the same node
             if (context.draggable instanceof ConnectionDragBox) {
                 ConnectionDragBox draggedDragBox = (ConnectionDragBox) context.draggable;

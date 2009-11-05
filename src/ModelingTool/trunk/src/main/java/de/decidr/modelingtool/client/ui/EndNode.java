@@ -22,18 +22,18 @@ import de.decidr.modelingtool.client.exception.NoPropertyWindowException;
 
 /**
  * End node of every workflow. This is neither deletable nor resizable.
- *
+ * 
  * @author Johannes Engelhardt
  */
 public class EndNode extends Node implements ModelChangeListener {
-    
+
     public EndNode(HasChildren parentPanel) {
         super(parentPanel);
-        
-        graphic = new FocusPanel();       
+
+        graphic = new FocusPanel();
         graphic.setStyleName("node-graphic-endnode");
         setGraphic(graphic);
-        
+
         this.setInputPort(new InputPort());
     }
 
@@ -51,5 +51,5 @@ public class EndNode extends Node implements ModelChangeListener {
     public void showPropertyWindow() throws NoPropertyWindowException {
         throw new NoPropertyWindowException("This node has no properties.");
     }
-    
+
 }

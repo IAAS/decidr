@@ -19,14 +19,14 @@ package de.decidr.modelingtool.client.exception;
 /**
  * This exception is used to indicate that any necessary data in a model is not
  * present.
- *
+ * 
  * @author Johannes Engelhardt
  */
 @SuppressWarnings("serial")
 public class IncompleteModelDataException extends ModelingToolException {
-    
+
     public IncompleteModelDataException(String msg) {
         super(msg);
     }
-    
+
 }

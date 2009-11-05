@@ -52,7 +52,7 @@ public class SelectionHandler implements MouseDownHandler {
      */
     private SelectionHandler() {
         nodeSelectionBox = new NodeSelectionBox();
-        
+
         // register boxes to selection handler
         for (DragBox box : nodeSelectionBox.getDragBoxes()) {
             box.addMouseDownHandler(this);
@@ -95,7 +95,7 @@ public class SelectionHandler implements MouseDownHandler {
         event.stopPropagation();
 
         Object source = event.getSource();
-        //System.out.println(source.getClass());
+        // System.out.println(source.getClass());
 
         // select the clicked node or connection
         Widget w = (Widget) source;
@@ -106,7 +106,7 @@ public class SelectionHandler implements MouseDownHandler {
         } else if (source instanceof ConnectionLine) {
             Connection connection = ((ConnectionLine) source).getConnection();
             select(connection);
-            
+
         } else if (source instanceof ConnectionDragBox) {
             Connection connection = ((ConnectionDragBox) source)
                     .getConnection();

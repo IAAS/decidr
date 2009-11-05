@@ -18,7 +18,7 @@ package de.decidr.modelingtool.client.model;
 
 /**
  * This is the parent model of all invoke node models.
- *
+ * 
  * @author Johannes Engelhardt
  */
 public class InvokeNodeModel extends NodeModel {

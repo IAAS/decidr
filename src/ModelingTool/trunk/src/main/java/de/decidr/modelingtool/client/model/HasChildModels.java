@@ -23,30 +23,30 @@ import de.decidr.modelingtool.client.ui.HasChildren;
 /**
  * This interface provides operations to add child models to the implementing
  * class. This interface is implemented by workflow and container models.
- *
+ * 
  * @author Johannes Engelhardt
  */
 public interface HasChildModels {
 
     public void addConnectionModel(ConnectionModel model);
-    
+
     public void addNodeModel(NodeModel model);
-    
+
     public Collection<ConnectionModel> getChildConnectionModels();
-    
+
     public Collection<NodeModel> getChildNodeModels();
-    
+
     /**
      * Returns the change listener of the implementing class as type
      * HasChildren.
-     *
+     * 
      * @return The change listener as type HasChildren. Null, if the change
-     * listener is not of type HasChildren.
+     *         listener is not of type HasChildren.
      */
     public HasChildren getHasChildrenChangeListener();
-    
+
     public void removeConnectionModel(ConnectionModel model);
-    
+
     public void removeNodeModel(NodeModel model);
-    
+
 }

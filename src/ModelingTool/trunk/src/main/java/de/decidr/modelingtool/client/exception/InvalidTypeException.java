@@ -19,7 +19,7 @@ package de.decidr.modelingtool.client.exception;
 /**
  * This exception is thrown if an object is to be cast to another type but is
  * not an instance of it.
- *
+ * 
  * @author Johannes Engelhardt
  */
 @SuppressWarnings("serial")
@@ -28,5 +28,5 @@ public class InvalidTypeException extends ModelingToolException {
     public InvalidTypeException(String msg) {
         super(msg);
     }
-    
+
 }

@@ -126,6 +126,64 @@
 		</ifNode>
 		<ifNode
 			name="de.decidr.modelingtool.client.model.ifcondition.IfContainerModel"
+			id="1257415091656">
+			<description></description>
+			<graphics x="140" y="126" width="389" height="286" />
+			<condition id="1257415091671">
+				<nodes>
+					<invokeNode
+						name="de.decidr.modelingtool.client.model.EmailInvokeNodeModel"
+						id="1257415091672" activity="Decidr-Email">
+						<description></description>
+						<graphics x="221" y="100" width="100" height="60" />
+						<targets>
+							<target arcId="1257415091671" />
+						</targets>
+						<setProperty name="to" />
+						<setProperty name="cc" />
+						<setProperty name="bcc" />
+						<setProperty name="subject" />
+						<setProperty name="message" />
+						<setProperty name="attachement" />
+					</invokeNode>
+				</nodes>
+				<arcs>
+					<arc name="Condition 4" id="1257415091671" source="1257415091656"
+						target="1257415091672" />
+				</arcs>
+			</condition>
+			<condition id="1257415091718">
+				<nodes>
+					<invokeNode
+						name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
+						id="1257415091719" activity="Decidr-HumanTask">
+						<description></description>
+						<graphics x="43" y="97" width="100" height="60" />
+						<targets>
+							<target arcId="1257415091718" />
+						</targets>
+						<setProperty name="wfmID" variable="L1256211693359" />
+						<setProperty name="user" />
+						<setProperty name="name" />
+						<setProperty name="description" />
+						<setProperty name="userNotification">
+							<propertyValue>no</propertyValue>
+						</setProperty>
+						<getProperty name="taskResult" variable="Lnull">
+							<parameters>
+								<humanTaskData />
+							</parameters>
+						</getProperty>
+					</invokeNode>
+				</nodes>
+				<arcs>
+					<arc name="Condition 3" id="1257415091718" source="1257415091656"
+						target="1257415091719" />
+				</arcs>
+			</condition>
+		</ifNode>
+		<ifNode
+			name="de.decidr.modelingtool.client.model.ifcondition.IfContainerModel"
 			id="1256211693453">
 			<description></description>
 			<graphics x="29" y="148" width="282" height="326" />
@@ -246,14 +304,3 @@
 	</nodes>
 	<arcs />
 </workflow>
-
-
-
-
-
-
-
-
-
-
-

@@ -35,7 +35,7 @@ public class EmailInvokeNode extends InvokeNode {
 
         FocusPanel graphic = new FocusPanel();
         graphic.addStyleName("node-graphic-std");
-        
+
         MenuImageBundle imgBundle = GWT.create(MenuImageBundle.class);
         String html = imgBundle.email().getHTML() + "<br/>Email";
         graphic.setWidget(new HTML(html));

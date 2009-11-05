@@ -20,7 +20,7 @@ package de.decidr.modelingtool.client.browserspecific;
  * Class for browser specific tools. If any browser needs other values than the
  * standard values, a new sub class of this has to be created for the browser
  * with the corrected values.
- *
+ * 
  * @author Johannes Engelhardt
  */
 public class BrowserSpecificTools {
@@ -28,8 +28,9 @@ public class BrowserSpecificTools {
     /**
      * Method to correct the border offset at setting the size of a bordered
      * object with 1px border.
-     *
-     * @param value The original value.
+     * 
+     * @param value
+     *            The original value.
      * @return The corrected value.
      */
     public int correctBorderOffset(int value) {

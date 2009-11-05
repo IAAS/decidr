@@ -102,7 +102,7 @@ public class CommandStack {
             command.execute();
         }
     }
-    
+
     /**
      * Performs the undo method of the top command on the undo stack, if
      * present. The undone command is pushed on the redo stack.

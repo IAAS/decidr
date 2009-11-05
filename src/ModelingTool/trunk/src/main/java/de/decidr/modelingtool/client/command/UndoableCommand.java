@@ -22,11 +22,11 @@ import com.google.gwt.user.client.Command;
  * This interface extends the command interface by an undo operation, so
  * commands which implement this can be undone, which is necessary for the
  * command stack.
- *
+ * 
  * @author Johannes Engelhardt
  */
 public interface UndoableCommand extends Command {
 
     public void undo();
-    
+
 }

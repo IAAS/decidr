@@ -22,18 +22,18 @@ import de.decidr.modelingtool.client.exception.NoPropertyWindowException;
 
 /**
  * Start node of every workflow. This is neither deletable nor resizable.
- *
+ * 
  * @author Johanes Engelhardt
  */
 public class StartNode extends Node implements ModelChangeListener {
-    
+
     public StartNode(HasChildren parentPanel) {
         super(parentPanel);
-        
-        graphic = new FocusPanel();       
+
+        graphic = new FocusPanel();
         graphic.addStyleName("node-graphic-startnode");
         setGraphic(graphic);
-        
+
         this.setOutputPort(new OutputPort());
     }
 
@@ -51,5 +51,5 @@ public class StartNode extends Node implements ModelChangeListener {
     public void showPropertyWindow() throws NoPropertyWindowException {
         throw new NoPropertyWindowException("This node has no properties.");
     }
-    
+
 }

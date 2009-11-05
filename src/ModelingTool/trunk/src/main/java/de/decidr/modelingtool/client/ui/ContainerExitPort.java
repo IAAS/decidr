@@ -33,7 +33,7 @@ public class ContainerExitPort extends Port {
 
     public ContainerExitPort() {
         super(Port.Position.BOTTOM, 0, Y_OFFSET);
-        
+
         // set properties
         this.addStyleName("port-container-exitport");
     }
@@ -42,7 +42,7 @@ public class ContainerExitPort extends Port {
     public boolean isContainerPort() {
         return true;
     }
-    
+
     @Override
     public boolean isInputPort() {
         return true;
@@ -60,7 +60,7 @@ public class ContainerExitPort extends Port {
         opdc.registerDropController(getDropController());
         dropControllerRegistered = true;
     }
-    
+
     @Override
     public void unregisterDropController() {
         PickupDragController opdc = DndRegistry.getInstance()

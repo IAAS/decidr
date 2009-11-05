@@ -41,8 +41,9 @@ public class CreateInvokeNodeCommand implements UndoableCommand {
     /**
      * Constructor for creating a node model from an already added node. The
      * model is created from the data of the node.
-     *
-     * @param node The node that has been added
+     * 
+     * @param node
+     *            The node that has been added
      */
     public CreateInvokeNodeCommand(InvokeNode node) {
         this.node = node;
@@ -59,7 +60,7 @@ public class CreateInvokeNodeCommand implements UndoableCommand {
         } catch (InvalidTypeException e) {
             e.printStackTrace();
         }
-        
+
         // set position in model
         model.setChangeListenerPosition(node.getLeft(), node.getTop());
 
@@ -74,11 +75,12 @@ public class CreateInvokeNodeCommand implements UndoableCommand {
     /**
      * Constructor for creating a node from an existing and linked node model.
      * The invoke node is drawn from the data of the model.
-     *
-     * @param model The linked node model.
+     * 
+     * @param model
+     *            The linked node model.
      */
     public CreateInvokeNodeCommand(InvokeNodeModel model)
-            throws IncompleteModelDataException { 
+            throws IncompleteModelDataException {
         this.model = model;
 
         // check if model contains all needed information. if not, and
@@ -121,9 +123,10 @@ public class CreateInvokeNodeCommand implements UndoableCommand {
     /**
      * Checks the node model if it consists all required data for drawing the
      * container: its parent model.
-     *
+     * 
      * @return True, if all required data is not null.
-     * @throws IncompleteModelDataException if any relevant data is null.
+     * @throws IncompleteModelDataException
+     *             if any relevant data is null.
      */
     private boolean checkModelData() throws IncompleteModelDataException {
         if (model.getParentModel() == null) {

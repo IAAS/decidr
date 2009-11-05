@@ -20,8 +20,9 @@ import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
- * Invoker for the {@link WorkflowPropertyWindow}. The invoker first calls the window to
- * set the node and then calls the {@link DialogRegistry} to show the window.
+ * Invoker for the {@link WorkflowPropertyWindow}. The invoker first calls the
+ * window to set the node and then calls the {@link DialogRegistry} to show the
+ * window.
  * 
  * @author Jonas Schlaak
  */

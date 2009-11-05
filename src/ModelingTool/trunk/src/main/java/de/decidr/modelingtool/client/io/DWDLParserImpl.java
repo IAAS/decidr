@@ -592,27 +592,36 @@ public class DWDLParserImpl implements DWDLParser {
                 Condition condition = ifModel.getConditionById(new Long(
                         conditionElement.getAttribute(DWDLNames.id)));
 
-                condition.setOrder(new Integer(conditionElement
-                        .getAttribute(DWDLNames.order)));
+                /* Set order, if it is defined */
+                String order = conditionElement.getAttribute(DWDLNames.order);
+                if (order != null) {
+                    condition.setOrder(new Integer(order));
+                }
 
-                /* Parse the conditional statement */
-                Element leftOperand = getChildNodesByTagName(conditionElement,
-                        DWDLNames.leftOp).get(0);
-                condition.setLeftOperandId(VariableNameFactory
-                        .createIdFromNCName(leftOperand.getFirstChild()
-                                .getNodeValue()));
+                /* Parse the conditional statement, if there is one */
+                List<Element> leftOperandList = getChildNodesByTagName(
+                        conditionElement, DWDLNames.leftOp);
+                if (leftOperandList.isEmpty() == false) {
+                    condition.setLeftOperandId(VariableNameFactory
+                            .createIdFromNCName(leftOperandList.get(0)
+                                    .getFirstChild().getNodeValue()));
+                }
 
-                Element operator = getChildNodesByTagName(conditionElement,
-                        DWDLNames.operator).get(0);
-                condition.setOperator(Operator
-                        .getOperatorFromDisplayString(operator.getFirstChild()
-                                .getNodeValue()));
+                List<Element> operatorList = getChildNodesByTagName(
+                        conditionElement, DWDLNames.operator);
+                if (operatorList.isEmpty() == false) {
+                    condition.setOperator(Operator
+                            .getOperatorFromDisplayString(operatorList.get(0)
+                                    .getFirstChild().getNodeValue()));
+                }
 
-                Element rightOperand = getChildNodesByTagName(conditionElement,
-                        DWDLNames.rightOp).get(0);
-                condition.setRightOperandId(VariableNameFactory
-                        .createIdFromNCName(rightOperand.getFirstChild()
-                                .getNodeValue()));
+                List<Element> rightOperandList = getChildNodesByTagName(
+                        conditionElement, DWDLNames.rightOp);
+                if (rightOperandList.isEmpty() == false) {
+                    condition.setRightOperandId(VariableNameFactory
+                            .createIdFromNCName(rightOperandList.get(0)
+                                    .getFirstChild().getNodeValue()));
+                }
 
             }
         }
@@ -863,6 +872,16 @@ public class DWDLParserImpl implements DWDLParser {
         return resultConnection;
     }
 
+    /**
+     * Returns a list of all child elements of a given element that have a
+     * certain tag name.
+     * 
+     * @param parent
+     *            the parent element
+     * @param tagName
+     *            the tag name to search for
+     * @return the list
+     */
     private List<Element> getChildNodesByTagName(Element parent, String tagName) {
         List<Element> result = new ArrayList<Element>();
 
@@ -876,11 +895,20 @@ public class DWDLParserImpl implements DWDLParser {
         return result;
     }
 
-    private List<Element> getChildElementsAsList(Node parentElement) {
+    /**
+     * Returns a {@link List} of all child elements of a given element.
+     * 
+     * @param parent
+     *            the parent element
+     * @return the list of all children
+     */
+    private List<Element> getChildElementsAsList(Element parent) {
         List<Element> list = new ArrayList<Element>();
-        for (int i = 0; i < parentElement.getChildNodes().getLength(); i++) {
-            list.add((Element) parentElement.getChildNodes().item(i));
+
+        for (int i = 0; i < parent.getChildNodes().getLength(); i++) {
+            list.add((Element) parent.getChildNodes().item(i));
         }
+
         return list;
     }
 

@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Vector;
 
 /**
- * Commands added to this command list can be executed / redone in one step.
- * The executing happens in add order, undoing in reverse add order.
- *
+ * Commands added to this command list can be executed / redone in one step. The
+ * executing happens in add order, undoing in reverse add order.
+ * 
  * @author Johannes Engelhardt
  */
 public class CommandList implements UndoableCommand {

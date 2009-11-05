@@ -35,8 +35,9 @@ public class RemoveConnectionCommand implements UndoableCommand {
 
     /**
      * Constructor for removing the connection.
-     *
-     * @param connection The connection to remove
+     * 
+     * @param connection
+     *            The connection to remove
      */
     public RemoveConnectionCommand(Connection connection) {
         this.connection = connection;

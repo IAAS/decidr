@@ -17,10 +17,10 @@
 package de.decidr.modelingtool.client.ui;
 
 /**
- * Listener interface which provides a callback method which can be called by
- * a model class registered to the implementing class to indicate that any model
+ * Listener interface which provides a callback method which can be called by a
+ * model class registered to the implementing class to indicate that any model
  * data has changed.
- *
+ * 
  * @author Johannes Engelhardt
  */
 public interface ModelChangeListener {
@@ -30,5 +30,5 @@ public interface ModelChangeListener {
      * any model data has changed.
      */
     public void onModelChange();
-    
+
 }

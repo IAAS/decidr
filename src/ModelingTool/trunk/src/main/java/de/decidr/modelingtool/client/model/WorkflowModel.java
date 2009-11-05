@@ -138,7 +138,7 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
         }
         return result;
     }
-    
+
     /**
      * Return a {@link ListStore} of all variables of the {@link WorkflowModel}.
      * The returned variables are copies, not references.
@@ -161,8 +161,7 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
      *            the type of variables to be returned
      * @return the variables that have the given type
      */
-    public ListStore<Variable> getVariablesOfTypeAsStore(
-            VariableType type) {
+    public ListStore<Variable> getVariablesOfTypeAsStore(VariableType type) {
         ListStore<Variable> result = new ListStore<Variable>();
         for (Variable var : Workflow.getInstance().getModel().getVariables()) {
             if (var.getType() == type) {
