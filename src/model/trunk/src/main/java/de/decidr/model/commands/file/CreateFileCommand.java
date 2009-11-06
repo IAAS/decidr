@@ -27,8 +27,11 @@ import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.acl.permissions.FileReplacePermission;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.File;
+import de.decidr.model.entities.UserHasFileAccess;
+import de.decidr.model.entities.UserHasFileAccessId;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.storage.StorageProvider;
 import de.decidr.model.storage.StorageProviderFactory;
@@ -45,7 +48,7 @@ public class CreateFileCommand extends AclEnabledCommand {
     private InputStream contents;
     private String originalFileName;
     private String mimeType;
-    private Boolean temporary;
+    private boolean temporary;
     private Long fileSize;
     private Set<Class<? extends FilePermission>> publicPermissions;
 
@@ -86,7 +89,7 @@ public class CreateFileCommand extends AclEnabledCommand {
      *             </ul>
      */
     public CreateFileCommand(Role role, InputStream contents, Long fileSize,
-            String originalFileName, String mimeType, Boolean temporary,
+            String originalFileName, String mimeType, boolean temporary,
             Set<Class<? extends FilePermission>> publicPermissions) {
         super(role, (Permission) null);
 
@@ -105,11 +108,6 @@ public class CreateFileCommand extends AclEnabledCommand {
         }
         if (fileSize < 0) {
             throw new IllegalArgumentException("File size must be positive.");
-        }
-
-        if (temporary == null) {
-            throw new IllegalArgumentException(
-                    "Temporary flag must not be null.");
         }
 
         if (publicPermissions == null) {
@@ -150,6 +148,20 @@ public class CreateFileCommand extends AclEnabledCommand {
             newFile.setTemporary(temporary);
 
             evt.getSession().save(newFile);
+
+            /*
+             * If the commmand is invoked by a user, he is granted all file
+             * rights.
+             */
+            if (role instanceof UserRole) {
+                UserHasFileAccess fileRights = new UserHasFileAccess();
+                fileRights.setMayDelete(true);
+                fileRights.setMayRead(true);
+                fileRights.setMayReplace(true);
+                fileRights.setId(new UserHasFileAccessId(role.getActorId(),
+                        newFile.getId()));
+                evt.getSession().saveOrUpdate(fileRights);
+            }
 
             StorageProvider storage = StorageProviderFactory
                     .getDefaultFactory().getStorageProvider();

@@ -891,6 +891,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
 
+        // RR false positive: users can only set their own user properties
+        // (actor = modified user) ~dhh
         for (UserFacade facade : new UserFacade[] { userFacade, adminFacade,
                 nullFacade }) {
             setEmailAddressExceptionHelper("setting same email succeeded",
@@ -1082,7 +1084,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.getCurrentTenantId(null);
             fail("could get current tenant with null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
         try {

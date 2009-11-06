@@ -110,7 +110,7 @@ public class FileAccessAsserter implements Asserter, TransactionalCommand {
      */
     protected void assertUserHasAccess() {
         UserHasFileAccess access = (UserHasFileAccess) session.get(
-                FileAccessAsserter.class, new UserHasFileAccessId(role
+                UserHasFileAccess.class, new UserHasFileAccessId(role
                         .getActorId(), file.getId()));
 
         if (permission instanceof FileReadPermission) {

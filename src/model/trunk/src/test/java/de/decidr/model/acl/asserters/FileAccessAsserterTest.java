@@ -16,15 +16,14 @@
 
 package de.decidr.model.acl.asserters;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.activation.MimetypesFileTypeMap;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -34,6 +33,7 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.permissions.FileDeletePermission;
 import de.decidr.model.acl.permissions.FilePermission;
 import de.decidr.model.acl.permissions.FileReadPermission;
+import de.decidr.model.acl.permissions.FileReplacePermission;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
@@ -83,20 +83,25 @@ public class FileAccessAsserterTest extends LowLevelDatabaseTest {
 
         fileFacade = new FileFacade(new SuperAdminRole(superAdminId));
 
-        File file = new File("decidr.jpg");
-        FileInputStream fileStream = new FileInputStream("decidr.jpg");
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream(1337);
+        for (int i = 0; i < 3000; i++) {
+            outStream.write(i % Byte.MAX_VALUE);
+        }
+
+        ByteArrayInputStream inStream = new ByteArrayInputStream(outStream
+                .toByteArray());
+
         Set<Class<? extends FilePermission>> permissions = new HashSet<Class<? extends FilePermission>>();
 
         permissions.add(FileReadPermission.class);
         permissions.add(FileDeletePermission.class);
-        fileId = fileFacade.createFile(fileStream, file.length(), "decidr.jpg",
-                new MimetypesFileTypeMap().getContentType(file), true,
-                permissions);
+        fileId = fileFacade.createFile(inStream, new Long(outStream.size()),
+                "decidr.jpg", "application/octet-stream", true, permissions);
     }
 
     @AfterClass
     public static void cleanUpAfterClass() throws TransactionException {
-        // RR it seems that fileId is null, is my workaround ok? ~dh
+        // GH it seems that fileId is null, is my workaround ok? ~dh
         if (fileId != null) {
             fileFacade.deleteFile(fileId);
         }
@@ -112,7 +117,11 @@ public class FileAccessAsserterTest extends LowLevelDatabaseTest {
     public void testAssertRule() throws TransactionException {
         FileAccessAsserter asserter = new FileAccessAsserter();
         assertTrue(asserter.assertRule(new SuperAdminRole(superAdminId),
-                new Permission("*")));
+                new FileReadPermission(fileId)));
+        assertTrue(asserter.assertRule(new SuperAdminRole(superAdminId),
+                new FileReplacePermission(fileId)));
+        assertTrue(asserter.assertRule(new SuperAdminRole(superAdminId),
+                new FileDeletePermission(fileId)));
         assertFalse(asserter.assertRule(new UserRole(userId), new Permission(
                 "*")));
     }

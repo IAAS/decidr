@@ -58,7 +58,8 @@ public class FileFacade extends AbstractFacade {
 
     /***
      * Stores a new file and returns the ID of the new file. It is the caller's
-     * responsibility to close the given file stream.
+     * responsibility to close the given input stream. The actor invoking this
+     * action is automatically given all file rights.
      * 
      * @param contents
      *            the file contents to store. This method will read fileSize
@@ -89,12 +90,11 @@ public class FileFacade extends AbstractFacade {
      *             <li>fileSize</li>
      *             <li>originalFileName</li>
      *             <li>mimeType</li>
-     *             <li>temporary</li>
      *             </ul>
      */
     @AllowedRole(BasicRole.class)
     public Long createFile(InputStream contents, Long fileSize,
-            String originalFileName, String mimeType, Boolean temporary,
+            String originalFileName, String mimeType, boolean temporary,
             Set<Class<? extends FilePermission>> publicPermissions)
             throws TransactionException {
         CreateFileCommand cmd = new CreateFileCommand(actor, contents,

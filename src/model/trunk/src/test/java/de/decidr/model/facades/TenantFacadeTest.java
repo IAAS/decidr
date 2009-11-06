@@ -446,7 +446,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             userFacade.getTenantId(null);
             fail("managed to get tenant ID with null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {
@@ -686,7 +686,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             userFacade.setDescription(null, TEST_DESC + " (testtttttt)");
             fail("managed to change description of tenant using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
         try {
@@ -741,7 +741,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.createTenant(TEST_NAME + "foo", TEST_DESC, null);
             fail("Managed to create tenant using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
         try {
@@ -761,7 +761,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             userFacade.createTenant(null, TEST_DESC, testAdminID);
             fail("Managed to create tenant using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
         try {
@@ -773,20 +773,20 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             userFacade.createTenant(TEST_NAME + "foo", TEST_DESC, null);
             fail("Managed to create tenant using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
 
         try {
             adminFacade.deleteTenant(null);
             fail("Managed to delete tenant using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
         try {
             userFacade.deleteTenant(null);
             fail("Managed to delete tenant using null parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
 
