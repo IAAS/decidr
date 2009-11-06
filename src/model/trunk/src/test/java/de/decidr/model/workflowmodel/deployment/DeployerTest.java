@@ -19,23 +19,26 @@ import de.decidr.model.workflowmodel.factories.ServerLoadViewFactory;
 
 public class DeployerTest {
 
-    static List<KnownWebService> knownWebservices;
-    static DeploymentStrategy strategy;
-    static List<ServerLoadView> serverStatistics;
-    static byte[] dwdl;
-    static String tenantName = "Hugo";
+    static Deployer deployer = null;
+    static List<KnownWebService> knownWebservices = null;
+    static DeploymentStrategy strategy = null;
+    static List<ServerLoadView> serverStatistics = null;
+    static byte[] dwdl = null;
+    static String tenantName = null;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
+        deployer = new DeployerImpl();
         knownWebservices = KnownWebserviceFactory.getKnownWebservice();
         strategy = new StandardDeploymentStrategy();
         serverStatistics = ServerLoadViewFactory.getServerStatistics();
         dwdl = DWDLFactory.getDWDLWorkflowByteArray();
+        tenantName = "Hugo";
     }
 
     @Test
     public void testDeploy() throws DWDLValidationException, ODESelectorException, IOException, JAXBException, WSDLException {
-        Deployer deployer = new DeployerImpl();
+        
 
             DeploymentResult result = deployer.deploy(dwdl, knownWebservices,
                     tenantName, serverStatistics, strategy);
