@@ -46,8 +46,6 @@ public class RegisterUserAction implements ClickListener {
         content = (RegisterUserComponent) UIDirector.getInstance()
                 .getTemplateView().getContent();
         content.saveRegistrationForm();
-        userProfile.setFirstName(content.getRegistrationForm().getItemProperty(
-                "userName").getValue().toString());
 
         try {
             userFacade.registerUser(content.getRegistrationForm()

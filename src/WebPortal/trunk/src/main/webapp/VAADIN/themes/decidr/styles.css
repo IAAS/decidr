@@ -16,7 +16,7 @@
 	}
 
 .v-generated-body{
-	background: #FFFFFF;
+	background: white;
 	}
 
 div > .v-button .v-button-caption, .v-ie7 .v-button .v-button-caption, div > .v-button.v-disabled .v-button-caption, .v-ie7 .v-button.v-disabled .v-button-caption{
@@ -123,7 +123,83 @@ div > .v-button .v-button-caption, .v-ie7 .v-button .v-button-caption, div > .v-
 .dcdr_vnav .v-button{
 	margin-left: 15px;
 	}
+
+/* buttons */
+.dcdr_vnav .v-button,
+.dcdr_vnav .v-button:focus,
+.dcdr_vnav .v-button:active,
+.v-ie7 .dcdr_vnav .v-button,
+.v-ie7 .dcdr_vnav .v-button:focus,
+.v-ie7 .dcdr_vnav .v-button:active {
+	border: 0px;
+	padding: 1px 0px 0px 0px;
+	height: 25px;
+	background-position: 0px left;
+	background: transparent url(img/button/button1/right.png) no-repeat center right;
+	display: inline-block;
+	}
 	
+.dcdr_vnav .v-button:hover,
+.v-ie7 .dcdr_vnav .v-button:hover{
+	border: 0px;
+	background-position: 0px left;
+	background: transparent url(img/button/button1/right_hl.png) no-repeat center right;
+	}
+
+.dcdr_vnav .v-button span,
+.dcdr_vnav .v-button:focus span,
+.dcdr_vnav .v-button:active span,
+.dcdr_vnav .v-button.v-pressed span,
+.v-ie7 .dcdr_vnav .v-button span,
+.v-ie7 .dcdr_vnav .v-button:focus span,
+.v-ie7 .dcdr_vnav .v-button:active span,
+.v-ie7 .dcdr_vnav .v-button.v-pressed span{
+	border: 0px;
+	margin: -2px 9px 0px 0px;
+	padding: 5px 5px 0px 14px;
+	background-position: 0px left;
+	background: transparent url(img/button/button1/left.png) no-repeat center left;
+	}
+	
+.dcdr_vnav .v-button:hover span,
+.dcdr_vnav .v-button:hover .v-button-caption,
+.v-ie7 .dcdr_vnav .v-button:hover span,
+.v-ie7 .dcdr_vnav .v-button:hover .v-button-caption{
+	border: 0px;
+	background-position: 0px left;
+	background: transparent url(img/button/button1/left_hl.png) no-repeat center left;
+	}
+	
+.dcdr_vnav .gwt-Button{
+	border: 0px;
+	width: 104px;
+	background: transparent url(img/button/button1/full_104.png) no-repeat center;
+	}
+	
+.dcdr_vnav .gwt-Button:hover{
+	border: 0px;
+	width: 104px;
+	background: transparent url(img/button/button1/full_104_hl.png) no-repeat center;
+	}
+
+.v-ie7 .dcdr_vnav .v-button,
+.v-ie7 .dcdr_vnav .v-button:focus,
+.v-ie7 .dcdr_vnav .v-button:active {
+	border: 0px;
+	padding: 0px 0px 0px 0px;
+	}
+	
+.v-ie7 .dcdr_vnav .v-button span,
+.v-ie7 .dcdr_vnav .v-button:focus span,
+.v-ie7 .dcdr_vnav .v-button:active span,
+.v-ie7 .dcdr_vnav .v-button.v-pressed span{
+	border: 0px;
+	margin: -4px 9px 0px 0px;
+	padding: 6px 5px 0px 14px;
+	height: 25px;
+	}
+
+
 /* buttons with link-style */
 div > .dcdr_vnav .v-button.v-button-link .v-button-caption,
 div > .dcdr_vnav .v-button.v-button-link:focus .v-button-caption,
