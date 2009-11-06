@@ -42,10 +42,12 @@ public class Main extends Application implements TransactionListener {
 	private static ThreadLocal<Main> currentApplication = new ThreadLocal<Main>();
 
 	Window main = new Window();
-
-	UIBuilder ui = new UnregisteredUserViewBuilder();
-
+	
 	UIDirector director = UIDirector.getInstance();
+
+	UIBuilder ui = null;
+
+	
 	
 	
 
@@ -56,9 +58,9 @@ public class Main extends Application implements TransactionListener {
 	 */
 	@Override
 	public void init() {
-		ApplicationContext ctx = getContext();
+		/*ApplicationContext ctx = getContext();
 		WebApplicationContext webCtx = (WebApplicationContext) ctx;				
-		session = webCtx.getHttpSession();
+		session = webCtx.getHttpSession();*/
 		
 		setMainWindow(main);
 
@@ -67,10 +69,9 @@ public class Main extends Application implements TransactionListener {
 
 		setTheme("decidr");
 		
-		
-
-		director.setUiBuilder(ui);
 		director.createNewView();
+		ui = new UnregisteredUserViewBuilder();
+		director.setUiBuilder(ui);
 		director.constructView();
 		
 		main.addComponent(director.getTemplateView());

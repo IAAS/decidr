@@ -39,8 +39,8 @@ public class ResetPasswordAction implements ClickListener {
 
     private HttpSession session = Main.getCurrent().getSession();
 
-    private Long userId = (Long) session.getAttribute("userId");
-    private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    //private Long userId = (Long) session.getAttribute("userId");
+    private UserFacade userFacade = new UserFacade(new UserRole());
 
     private Item request = null;
 

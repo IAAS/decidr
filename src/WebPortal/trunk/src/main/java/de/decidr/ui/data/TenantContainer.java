@@ -32,6 +32,7 @@ import com.vaadin.data.Property;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.facades.UserFacade;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.KeywordFilter;
 import de.decidr.model.filters.Paginator;
@@ -45,24 +46,18 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  * @author AT
  */
 public class TenantContainer extends Observable implements Container,
-        Container.Filterable, Container.Ordered {
+         Container.Ordered {
 
     private HttpSession session = Main.getCurrent().getSession();
 
     private Long userId = (Long) session.getAttribute("userId");
 
-    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+    private UserFacade userFacade = new UserFacade(new UserRole(userId));
 
     List<Item> tenantList = null;
 
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
-
-    private KeywordFilter filter = new KeywordFilter();
-
-    private List<Filter> filterList = new LinkedList<Filter>();
-
-    private Paginator paginator = new Paginator();
 
     /**
      * Default constructor. The tenant items are added to the container.
@@ -71,9 +66,8 @@ public class TenantContainer extends Observable implements Container,
     public TenantContainer() {
         setChanged();
         notifyObservers();
-        filterList.add(filter);
         try {
-            tenantList = tenantFacade.getAllTenants(filterList, paginator);
+            tenantList = userFacade.getJoinedTenants(userId);
             for (Item item : tenantList) {
                 addItem(item);
             }
@@ -84,19 +78,6 @@ public class TenantContainer extends Observable implements Container,
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.vaadin.data.Container.Filterable#addContainerFilter(java.lang.Object,
-     * java.lang.String, boolean, boolean)
-     */
-    @Override
-    public void addContainerFilter(Object propertyId, String filterString,
-            boolean ignoreCase, boolean onlyMatchPrefix) {
-        filter.setKeyword(filterString);
-        filter.getProperties().add((String) propertyId);
-    }
 
     /*
      * (non-Javadoc)
@@ -313,17 +294,7 @@ public class TenantContainer extends Observable implements Container,
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container.Filterable#removeAllContainerFilters()
-     */
-    @Override
-    public void removeAllContainerFilters() {
-        filter.setKeyword("");
-
-    }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -335,20 +306,7 @@ public class TenantContainer extends Observable implements Container,
         return true;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.vaadin.data.Container.Filterable#removeContainerFilters(java.lang
-     * .Object)
-     */
-    @Override
-    public void removeContainerFilters(Object propertyId) {
-        if (filter.getProperties().contains(propertyId)) {
-            filter.setKeyword("");
-        }
-
-    }
+    
 
     /*
      * (non-Javadoc)

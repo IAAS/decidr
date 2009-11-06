@@ -29,7 +29,7 @@ public class UnregisteredUserViewBuilder extends UIBuilder {
 	 */
 	@Override
 	public void buildContent() {
-		getView().setContent(new DefaultWelcomeComponent());
+		siteFrame.setContent(new DefaultWelcomeComponent());
 
 	}
 
@@ -38,8 +38,8 @@ public class UnregisteredUserViewBuilder extends UIBuilder {
 	 */
 	@Override
 	public void buildHeader() {
-		getView().setHeader(new Header());
-		getView().setHorizontalNavigation(new HorizontalNavigationMenu());
+		siteFrame.setHeader(new Header());
+		siteFrame.setHorizontalNavigation(new HorizontalNavigationMenu());
 
 	}
 
@@ -48,7 +48,7 @@ public class UnregisteredUserViewBuilder extends UIBuilder {
 	 */
 	@Override
 	public void buildNavigation() {
-		getView().setVerticalNavigation(new LoginComponent());
+		siteFrame.setVerticalNavigation(new LoginComponent());
 
 	}
 

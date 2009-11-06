@@ -48,6 +48,8 @@ public class UIDirector {
     private UIBuilder uiBuilder = null;
 
     private static UIDirector uiDirector = null;
+    
+    private SiteFrame siteFrame = null;
 
     /**
      * The default constructor
@@ -69,20 +71,6 @@ public class UIDirector {
         uiBuilder.buildNavigation();
     }
 
-    public void createNewView() {
-        uiBuilder.createNewView();
-    }
-
-    /**
-     * Returns the template view, which is the basic of all sites generated in
-     * the DecidR application.
-     * 
-     * @return
-     */
-    public SiteFrame getTemplateView() {
-        return uiBuilder.getView();
-    }
-
     /**
      * Sets the ui builder which determines how the user interface is built.
      * 
@@ -90,6 +78,24 @@ public class UIDirector {
      */
     public void setUiBuilder(UIBuilder uiBuilder) {
         this.uiBuilder = uiBuilder;
+    }
+    
+    /**
+     * This method creates a new SiteFrame object, where the header, content and
+     * navigation is set.
+     * 
+     */
+    public void createNewView() {
+        siteFrame = new SiteFrame();
+    }
+
+    /**
+     * This method returns the SiteFrame object.
+     * 
+     * @return templateView
+     */
+    public SiteFrame getTemplateView() {
+        return siteFrame;
     }
 
 }

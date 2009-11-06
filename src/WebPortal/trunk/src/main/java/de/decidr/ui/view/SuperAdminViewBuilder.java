@@ -31,7 +31,7 @@ public class SuperAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildContent() {
-        getView().setContent(new WelcomePageComponent());
+        siteFrame.setContent(new WelcomePageComponent());
 
     }
 
@@ -42,8 +42,8 @@ public class SuperAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildHeader() {
-        getView().setHeader(new Header());
-        getView().setHorizontalNavigation(new HorizontalNavigationMenu());
+        siteFrame.setHeader(new Header());
+        siteFrame.setHorizontalNavigation(new HorizontalNavigationMenu());
     }
 
     /*
@@ -53,7 +53,7 @@ public class SuperAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildNavigation() {
-        getView().setVerticalNavigation(new SuperAdminNavigationMenu());
+        siteFrame.setVerticalNavigation(new SuperAdminNavigationMenu());
 
     }
 

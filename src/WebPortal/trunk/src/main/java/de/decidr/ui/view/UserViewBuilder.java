@@ -31,7 +31,7 @@ public class UserViewBuilder extends UIBuilder {
      */
     @Override
     public void buildContent() {
-        getView().setContent(new WorkItemComponent());
+        siteFrame.setContent(new WorkItemComponent());
 
     }
 
@@ -42,8 +42,8 @@ public class UserViewBuilder extends UIBuilder {
      */
     @Override
     public void buildHeader() {
-        getView().setHeader(new Header());
-        getView().setHorizontalNavigation(new HorizontalNavigationMenu());
+        siteFrame.setHeader(new Header());
+        siteFrame.setHorizontalNavigation(new HorizontalNavigationMenu());
     }
 
     /*
@@ -53,7 +53,7 @@ public class UserViewBuilder extends UIBuilder {
      */
     @Override
     public void buildNavigation() {
-        getView().setVerticalNavigation(new UserNavigationMenu());
+        siteFrame.setVerticalNavigation(new UserNavigationMenu());
 
     }
 

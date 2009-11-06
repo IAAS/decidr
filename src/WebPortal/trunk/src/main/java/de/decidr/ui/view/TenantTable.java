@@ -30,6 +30,7 @@ import com.vaadin.ui.Table;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.facades.UserFacade;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.KeywordFilter;
 import de.decidr.model.filters.Paginator;
@@ -54,15 +55,9 @@ public class TenantTable extends Table implements Observer {
 
     private Long userId = (Long) session.getAttribute("userId");
 
-    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+    private UserFacade userFacade = new UserFacade(new UserRole(userId));
 
     List<Item> tenantList = null;
-    
-    private KeywordFilter filter = new KeywordFilter();
-
-    private List<Filter> filterList = new LinkedList<Filter>();
-
-    private Paginator paginator = new Paginator();
 
     /**
      * Default constructor. The table is added as an observer to the container
@@ -101,9 +96,9 @@ public class TenantTable extends Table implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof TenantContainer) {
-        	filterList.add(filter);
+
             try {
-                tenantList = tenantFacade.getAllTenants(filterList, paginator);
+                tenantList = userFacade.getJoinedTenants(userId);
                 for (Item item : tenantList) {
                     addItem(item);
                 }

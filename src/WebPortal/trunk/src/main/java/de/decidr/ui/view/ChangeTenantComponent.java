@@ -65,7 +65,7 @@ public class ChangeTenantComponent extends CustomComponent {
         waitingForApprovalLabel.setContentMode(Label.CONTENT_XHTML);
 
         tenantTable = new TenantTable(tenantContainer, tenantContainer);
-        tenantTable.setVisibleColumns(new Object[] { "Tenant", "Status" });
+        //tenantTable.setVisibleColumns(new Object[] { "Tenant", "Status" });
         approvalTable = new Table();
         approvalTable.addContainerProperty("Tenant", String.class, null);
 

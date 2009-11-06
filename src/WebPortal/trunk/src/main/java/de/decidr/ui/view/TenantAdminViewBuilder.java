@@ -31,8 +31,8 @@ public class TenantAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildContent() {
-        getView().setContent(new WorkItemComponent());
-        getView().setHorizontalNavigation(new HorizontalNavigationMenu());
+        siteFrame.setContent(new WorkItemComponent());
+        siteFrame.setHorizontalNavigation(new HorizontalNavigationMenu());
     }
 
     /*
@@ -42,7 +42,7 @@ public class TenantAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildHeader() {
-        getView().setHeader(new Header());
+        siteFrame.setHeader(new Header());
 
     }
 
@@ -53,7 +53,7 @@ public class TenantAdminViewBuilder extends UIBuilder {
      */
     @Override
     public void buildNavigation() {
-        getView().setVerticalNavigation(new TenantAdminNavigationMenu());
+        siteFrame.setVerticalNavigation(new TenantAdminNavigationMenu());
 
     }
 

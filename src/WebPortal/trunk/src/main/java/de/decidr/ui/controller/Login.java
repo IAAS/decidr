@@ -28,10 +28,12 @@ import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.acl.roles.WorkflowAdminRole;
+import de.decidr.model.commands.tenant.GetTenantSettingsCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
+import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SuperAdminViewBuilder;
 import de.decidr.ui.view.TenantAdminViewBuilder;
@@ -56,11 +58,9 @@ public class Login {
 	private UIBuilder uiBuilder = null;
 
 	private UserFacade userFacade = new UserFacade(new UserRole());
-	private TenantFacade tenantFacade = new TenantFacade(new UserRole());
 
 	private Long userId = null;
 	private Long tenantId = null;
-	private Item tenantItem = null;
 	private Class<? extends Role> role = null;
 	private String tenantName = null;
 	private Tenant tenant = null;
@@ -90,18 +90,27 @@ public class Login {
 
 		userId = userFacade.getUserIdByLogin(username, password);
 
-		if (userFacade.getCurrentTenantId(userId) == null) {
+		userFacade = new UserFacade(new UserRole(userId));
+
+		tenantId = userFacade.getCurrentTenantId(userId);
+
+		if (tenantId == null) {
 			tenant = DecidrGlobals.getDefaultTenant();
 			tenantId = tenant.getId();
 			userFacade.setCurrentTenantId(userId, tenantId);
 		}
 
-		tenantItem = tenantFacade.getTenantSettings(userFacade
-				.getCurrentTenantId(userId));
-		tenantName = tenantItem.getItemProperty("name").getValue().toString();
+		GetTenantSettingsCommand cmd = new GetTenantSettingsCommand(
+				new SuperAdminRole(DecidrGlobals.getSettings().getSuperAdmin()
+						.getId()), tenantId);
+		HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+		Tenant tenant = cmd.getTenantSettings();
+		tenantName = tenant.getName();
+		// tenantItem = tenantFacade.getTenantSettings(tenantId);
+		// tenantName =
+		// tenantItem.getItemProperty("name").getValue().toString();
 
-		role = userFacade.getUserRoleForTenant(userId, (Long) tenantItem
-				.getItemProperty("id").getValue());
+		role = userFacade.getUserRoleForTenant(userId, tenantId);
 
 		session.setAttribute("userId", userId);
 		session.setAttribute("tenant", tenantName);
@@ -117,23 +126,24 @@ public class Login {
 	 * 
 	 */
 	private void loadProtectedResources() {
-		if (role.getClass().equals(UserRole.class)) {
+		if (UserRole.class.equals(role) || role == null) {
 			uiBuilder = new UserViewBuilder();
 			uiDirector.setUiBuilder(uiBuilder);
-			uiDirector.constructView();
-		} else if (role.getClass().equals(WorkflowAdminRole.class)) {
+		} else if (WorkflowAdminRole.class.equals(role)) {
 			uiBuilder = new WorkflowAdminViewBuilder();
 			uiDirector.setUiBuilder(uiBuilder);
-			uiDirector.constructView();
-		} else if (role.getClass().equals(TenantAdminRole.class)) {
+		} else if (TenantAdminRole.class.equals(role)) {
 			uiBuilder = new TenantAdminViewBuilder();
 			uiDirector.setUiBuilder(uiBuilder);
-			uiDirector.constructView();
-		} else if (role.getClass().equals(SuperAdminRole.class)) {
+		} else if (SuperAdminRole.class.equals(role)) {
 			uiBuilder = new SuperAdminViewBuilder();
 			uiDirector.setUiBuilder(uiBuilder);
-			uiDirector.constructView();
+		} else {
+			Main.getCurrent().getMainWindow().showNotification(
+					"Role class not found");
 		}
+		uiDirector.getTemplateView();
+		uiDirector.constructView();
 
 		tenantView = new TenantView();
 		tenantView.synchronize();

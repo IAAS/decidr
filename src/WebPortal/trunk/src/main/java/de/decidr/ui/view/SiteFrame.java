@@ -135,6 +135,7 @@ public class SiteFrame extends CustomComponent {
      * @param header
      */
     public void setHeader(Component header) {
+    	init();
         gridFrame.addComponent(header, 1, 1);
         this.header = header;
         this.header.addStyleName("dcdr_header");
