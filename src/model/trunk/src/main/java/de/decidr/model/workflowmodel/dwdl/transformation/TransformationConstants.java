@@ -30,6 +30,7 @@ public final class TransformationConstants {
     public static final String DECIDRTYPES_NAMESPACE = "http://decidr.de/schema/DecidrTypes";
     public static final String ODE_NAMESPACE = "http://www.apache.org/ode/type/extension";
     public static final String MAPPING_NAMESPACE = "http://decidr.de/schema/wsmapping";
+    public static final String CONFIGURATION_NAMESPACE = "http://decidr.de/schema/wsc";
     public static final String DECIDRTYPES_LOCATION = "DecidrTypes.xsd";
     public static final String DD_NAMESPACE = "http://www.apache.org/ode/schemas/dd/2007/03";
     public static final String[] CORRELATION_PROPERTIES = {"processID", "userID", "taskID"};

@@ -76,6 +76,18 @@ public class TransformUtil {
         }
     }
 
+    public static byte[] bpelToBytes(Process bpel) throws JAXBException{
+        Marshaller marshaller = bpelCntxt.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        JAXBElement<Process> element = new JAXBElement<Process>(
+                new QName(TransformationConstants.BPEL_NAMESPACE,
+                        "process"), Process.class, bpel);
+        marshaller.marshal(element, os);
+
+        return os.toByteArray();
+    }
+
     public static TConfiguration bytesToConfiguration(byte[] wsc)
             throws JAXBException {
         Unmarshaller wscUnmarshaller = wscCntxt.createUnmarshaller();
@@ -118,39 +130,20 @@ public class TransformUtil {
                 Workflow.class);
         return dwdlElement.getValue();
     }
-
-    public static byte[] configurationToBytes(TConfiguration con)
+    
+    public static byte[] configurationToBytes(TConfiguration conf)
             throws JAXBException {
         Marshaller marshaller = wscCntxt.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        marshaller.marshal(con, os);
-
-        return os.toByteArray();
-    }
-    
-    public static byte[] bpelToBytes(Process bpel) throws JAXBException{
-        Marshaller marshaller = bpelCntxt.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        JAXBElement<Process> element = new JAXBElement<Process>(
-                new QName(TransformationConstants.BPEL_NAMESPACE,
-                        "process"), Process.class, bpel);
+        JAXBElement<TConfiguration> element = new JAXBElement<TConfiguration>(
+                new QName(TransformationConstants.CONFIGURATION_NAMESPACE,
+                        "configurations"), TConfiguration.class, conf);
         marshaller.marshal(element, os);
 
         return os.toByteArray();
     }
 
-    public static byte[] definitionToBytes(Definition def) throws WSDLException{
-        WSDLWriter writer = new WSDLWriterImpl();
-        ExtensionRegistry extensionRegistry = new PopulatedExtensionRegistry();
-        def.setExtensionRegistry(extensionRegistry);
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        
-        writer.writeWSDL(def, os);
-        return os.toByteArray();
-    }
-    
     public static byte[] ddToBytes(TDeployment deployment) throws JAXBException{
         Marshaller marshaller = ddCntxt.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -160,6 +153,16 @@ public class TransformUtil {
                         "deploy"), TDeployment.class, deployment);
         marshaller.marshal(element, os);
 
+        return os.toByteArray();
+    }
+    
+    public static byte[] definitionToBytes(Definition def) throws WSDLException{
+        WSDLWriter writer = new WSDLWriterImpl();
+        ExtensionRegistry extensionRegistry = new PopulatedExtensionRegistry();
+        def.setExtensionRegistry(extensionRegistry);
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        
+        writer.writeWSDL(def, os);
         return os.toByteArray();
     }
     
