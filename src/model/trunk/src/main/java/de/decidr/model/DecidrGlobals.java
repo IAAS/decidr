@@ -80,8 +80,11 @@ public class DecidrGlobals {
 
     /**
      * Hardcoded ID of the default tenant.
+     * 
+     * DH HUGE todo!! The current model doesn't really care about any special
+     * cases if the default tenant is involved (especially asserters!)
      */
-    public static final Long DEFAULT_TENANT_ID = 1L;
+    public static final long DEFAULT_TENANT_ID = 1L;
 
     /**
      * The last time when the ESB url was updated

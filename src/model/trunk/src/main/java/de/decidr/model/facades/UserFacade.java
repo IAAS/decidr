@@ -749,7 +749,8 @@ public class UserFacade extends AbstractFacade {
 
     /**
      * Returns the most priviledged role that the given user takes within the
-     * system.
+     * system (ignoring the fact that any user is a workflow admin in the
+     * default tenant).
      * <p>
      * The roles are checked in the following order (from top to bottom, returns
      * the first role that matches):
@@ -787,6 +788,12 @@ public class UserFacade extends AbstractFacade {
     /**
      * Returns the highest role of the user in the given tenant. If the user is
      * not even a tenant member the result will be <code>null</code>.
+     * <p>
+     * <b>Special case:</b>
+     * <p>
+     * If tenantId references the default tenant, this method returns
+     * <code>WorkflowAdminRole.class</code> unless userId references the
+     * superadmin: in this case <code>SuperAdminRole.class</code> is returned.
      * 
      * @param userId
      *            the ID of the user whose role should be requested for the

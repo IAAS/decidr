@@ -32,6 +32,12 @@ import de.decidr.model.transactions.TransactionEvent;
 /**
  * Saves the highest role of the user in the given tenant in the result
  * variable. If the user is not even a tenant member the result will be null.
+ * <p>
+ * <b>Special case:</b>
+ * <p>
+ * If tenantId references the default tenant, this method returns
+ * <code>WorkflowAdminRole.class</code> unless userId references the superadmin:
+ * in this case <code>SuperAdminRole.class</code> is returned.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -47,6 +53,12 @@ public class GetUserRoleForTenantCommand extends UserCommand {
      * Creates a new GetUserRoleForTenantCommand. This command saves the highest
      * role of the user in the given tenant in the result variable. If the user
      * is not even a tenant member the result will be null.
+     * <p>
+     * <b>Special case:</b>
+     * <p>
+     * If tenantId references the default tenant, this method returns
+     * <code>WorkflowAdminRole.class</code> unless userId references the
+     * superadmin: in this case <code>SuperAdminRole.class</code> is returned.
      * 
      * @param role
      *            the user which executes the command
@@ -86,6 +98,13 @@ public class GetUserRoleForTenantCommand extends UserCommand {
 
         if (getUserId() == settings.getSuperAdmin().getId()) {
             result = SuperAdminRole.class;
+            return;
+        }
+
+        // Everybody is a workflow admin in the default tenant (except the super
+        // admin)
+        if (tenantId == DecidrGlobals.DEFAULT_TENANT_ID) {
+            result = WorkflowAdminRole.class;
             return;
         }
 
