@@ -87,6 +87,7 @@ import de.decidr.model.commands.user.ConfirmChangeEmailRequestCommand;
 import de.decidr.model.commands.user.ConfirmInvitationCommand;
 import de.decidr.model.commands.user.ConfirmPasswordResetCommand;
 import de.decidr.model.commands.user.ConfirmRegistrationCommand;
+import de.decidr.model.commands.user.CreateNewUnregisteredUserCommand;
 import de.decidr.model.commands.user.GetAdministratedWorkflowInstancesCommand;
 import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
 import de.decidr.model.commands.user.GetHighestUserRoleCommand;
@@ -508,6 +509,10 @@ public class DefaultAccessControlList implements AccessControlList {
         /**
          * Command Permissions User Facade
          */
+        setRule(new BasicRole(), new CommandPermission(
+                CreateNewUnregisteredUserCommand.class), SatisfyAll,
+                alwaysTrueAsserter);
+
         setRule(new UserRole(),
                 new CommandPermission(RegisterUserCommand.class), SatisfyAll,
                 alwaysTrueAsserter);
@@ -526,8 +531,7 @@ public class DefaultAccessControlList implements AccessControlList {
 
         setRule(new UserRole(), new CommandPermission(
                 RequestPasswordResetCommand.class), SatisfyAll,
-                new IsRoleEqualToAccessedUserAsserter(),
-                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
+                alwaysTrueAsserter);
 
         setRule(new UserRole(),
                 new CommandPermission(LeaveTenantCommand.class), SatisfyAll,
