@@ -120,13 +120,28 @@ public class DeployerImpl implements Deployer {
 
         factory = OMAbstractFactory.getOMFactory();
         client = new ServiceClientUtil();
+
+     // Use the factory to create three elements
+        OMNamespace depns = factory.createOMNamespace(Namespaces.ODE_DEPLOYAPI_NS, "deployapi");
+        OMElement root = factory.createOMElement("deploy", depns);
+        OMElement namePart = factory.createOMElement("name", null);
+        namePart.setText(packageName);
+        OMElement zipPart = factory.createOMElement("package", null);
+        OMElement zipElmt = factory.createOMElement("zip", depns);
+
+        // Add the zip to deploy
+        String base64Enc = Base64.encode(zip);
+        OMText zipContent = factory.createOMText(base64Enc, "application/zip", true);
+        root.addChild(namePart);
+        root.addChild(zipPart);
+        zipPart.addChild(zipElmt);
+        zipElmt.addChild(zipContent);
         
-        // output zip file for test purpose
+        // test file output
         
         try {
             FileOutputStream out = new FileOutputStream(new File("test.zip"));
             out.write(zip);
-            
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -135,33 +150,8 @@ public class DeployerImpl implements Deployer {
             e.printStackTrace();
         }
 
-        // use the factory to create three elements
-        OMNamespace depns = factory.createOMNamespace(
-                Namespaces.ODE_DEPLOYAPI_NS, "deployapi");
-        OMElement root = factory
-                .createOMElement("deploy", depns);
-        OMElement namePart = factory.createOMElement("name",
-                null);
-        namePart.setText(packageName);
-        OMElement zipPart = factory.createOMElement("package",
-                null);
-        OMElement zipElmt = factory
-                .createOMElement("zip", depns);
-
-        // add the zip to deploy
-        String base64Enc = Base64.encode(zip);
-        OMText zipContent = factory.createOMText(base64Enc,
-                "application/zip", true);
-        
-        
-        zipElmt.addChild(zipContent);
-        zipPart.addChild(zipElmt);
-        
-        root.addChild(namePart);
-        root.addChild(zipPart);
-
         // deploy
-        client.send(root, location + "/processes/DeploymentService");
+        client.send(root, location + "/ode/processes/DeploymentService");
     }
 
     /*
@@ -174,13 +164,12 @@ public class DeployerImpl implements Deployer {
     @Override
     public void undeploy(DeployedWorkflowModel dwfm, Server server)
             throws AxisFault {
-        OMNamespace depns = factory.createOMNamespace(
-                Namespaces.ODE_DEPLOYAPI_NS, "deployapi");
-        OMElement root = factory.createOMElement("undeploy",
-                depns);
-        OMElement part = factory.createOMElement("packageName",
-                null);
-        part.setText(dwfm.getTenant().getName());
+        
+        // Prepare undeploy message
+        OMNamespace depns = factory.createOMNamespace(Namespaces.ODE_DEPLOYAPI_NS, "deployapi");
+        OMElement root = factory.createOMElement("undeploy", depns);
+        OMElement part = factory.createOMElement("packageName", null);
+        part.setText(dwfm.getName());
         root.addChild(part);
 
         // undeploy

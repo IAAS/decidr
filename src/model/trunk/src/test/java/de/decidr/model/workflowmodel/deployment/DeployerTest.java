@@ -34,29 +34,12 @@ public class DeployerTest {
     }
 
     @Test
-    public void testDeploy() {
+    public void testDeploy() throws DWDLValidationException, ODESelectorException, IOException, JAXBException, WSDLException {
         Deployer deployer = new DeployerImpl();
-        try {
+
             DeploymentResult result = deployer.deploy(dwdl, knownWebservices,
                     tenantName, serverStatistics, strategy);
             assertNotNull(result);
-        } catch (DWDLValidationException e) {
-            // Upsa
-            e.printStackTrace();
-        } catch (ODESelectorException e) {
-            // Upsa
-            e.printStackTrace();
-        } catch (IOException e) {
-            // Upsa
-            e.printStackTrace();
-        } catch (JAXBException e) {
-            // Upsa
-            e.printStackTrace();
-        } catch (WSDLException e) {
-            // Upsa
-            e.printStackTrace();
-        }
-
     }
 
     @Test
