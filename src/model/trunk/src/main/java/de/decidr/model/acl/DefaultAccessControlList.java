@@ -71,6 +71,7 @@ import de.decidr.model.commands.tenant.CreateWorkflowModelCommand;
 import de.decidr.model.commands.tenant.GetCurrentColorSchemeCommand;
 import de.decidr.model.commands.tenant.GetTenantIdCommand;
 import de.decidr.model.commands.tenant.GetTenantLogoCommand;
+import de.decidr.model.commands.tenant.GetTenantSettingsCommand;
 import de.decidr.model.commands.tenant.GetUsersOfTenantCommand;
 import de.decidr.model.commands.tenant.GetWorkflowInstancesCommand;
 import de.decidr.model.commands.tenant.GetWorkflowModelsCommand;
@@ -432,6 +433,11 @@ public class DefaultAccessControlList implements AccessControlList {
         setRule(new UserRole(),
                 new CommandPermission(CreateTenantCommand.class), SatisfyAll,
                 alwaysTrueAsserter);
+        
+        setRule(new TenantAdminRole(),
+                new CommandPermission(GetTenantSettingsCommand.class), SatisfyAll,
+                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+                new UserIsLoggedInAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(
                 CreateWorkflowModelCommand.class), SatisfyAll,
