@@ -133,11 +133,6 @@ public class ModelingToolWidget extends Composite implements
         return addDomHandler(handler, MouseUpEvent.getType());
     }
 
-    @Deprecated
-    public void init() {
-        // TODO document empty block
-    }
-
     /**
      * Sets the dwdl document for the modeling tool. The modeling tool parses
      * the dwdl and creates the (graphical) workflow.

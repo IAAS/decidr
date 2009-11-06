@@ -49,7 +49,6 @@ import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
  */
 public class ForEachWindow extends ModelingToolDialog {
 
-    // JS todo: visibility of iteration variable
     private ForEachContainer node;
     private ForEachContainerModel model;
 

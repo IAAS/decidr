@@ -17,7 +17,7 @@
 package de.decidr.modelingtool.client.browserspecific;
 
 /**
- * Class for browser specific tools andjuset to Mozilla.
+ * Class for browser specific tools adjusted to Mozilla.
  * 
  * @author Johannes Engelhardt
  */

@@ -89,11 +89,9 @@ public class DialogRegistry {
      *            the class name of the dialog to be displayed
      */
     public void showDialog(String dialogName) {
-        // JS modality
         ModelingToolDialog dialog = getDialog(dialogName);
         if (dialog.initialize()) {
             dialog.setModal(true);
-            // ModelingToolWidget.view.mask();
             dialog.show();
         }
     }
@@ -108,7 +106,6 @@ public class DialogRegistry {
         ModelingToolDialog dialog = getDialog(dialogName);
         dialog.hide();
         dialog.setModal(false);
-        // ModelingToolWidget.view.unmask();
         dialog.reset();
     }
 
