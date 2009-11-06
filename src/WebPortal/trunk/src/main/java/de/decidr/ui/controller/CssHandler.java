@@ -18,6 +18,7 @@ package de.decidr.ui.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -27,8 +28,12 @@ import java.util.HashSet;
 
 import javax.activation.MimetypesFileTypeMap;
 
-import org.apache.commons.io.FileUtils;
+import org.w3c.css.sac.InputSource;
+import org.w3c.dom.css.CSSRule;
+import org.w3c.dom.css.CSSRuleList;
+import org.w3c.dom.css.CSSStyleSheet;
 
+import com.steadystate.css.parser.CSSOMParser;
 import com.vaadin.data.Item;
 
 import de.decidr.model.acl.permissions.FilePermission;
@@ -48,32 +53,24 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
 public class CssHandler {
 
 	private TenantSettingsComponent component = null;
-	
-	private File file = null;
 
 	private Long fileId = null;
 
 	private Long tenantId = null;
 
 	private String tenant = "";
-	
-	private String cssFile = "";
+
+	private String cssFilePath = "";
 
 	/**
 	 * The default constructor stores the given parameter.
 	 * 
 	 */
 	public CssHandler(TenantSettingsComponent component) {
-		tenant = (String) Main.getCurrent()
-		.getSession().getAttribute("tenant");
+		tenant = (String) Main.getCurrent().getSession().getAttribute("tenant");
 		this.component = component;
-		file = new File("../../../../webapp/VAADIN/themes/" + tenant + "/styles.css");
-		
-		try {
-			cssFile = FileUtils.readFileToString(file);
-		} catch (IOException e) {
-			Main.getCurrent().getMainWindow().showNotification("File not found");
-		}
+		cssFilePath = "../../../../webapp/VAADIN/themes/" + tenant
+				+ "/styles.css";
 	}
 
 	/**
@@ -86,27 +83,51 @@ public class CssHandler {
 			FileFacade fileFacade) throws TransactionException {
 		try {
 			tenantId = tenantFacade.getTenantId(tenant);
-			InputStream in = getInputStream();
-			if ((tenantFacade.getTenantSettings(tenantId).getItemProperty(
-					"advancedColorSchemeId") != null) && advanced) {
-				Item settings = tenantFacade.getTenantSettings(tenantId);
-				Long colorSchemeId = (Long) settings.getItemProperty(
+			Item settings = tenantFacade.getTenantSettings(tenantId);
+			Long colorSchemeId;
+			File f;
+			InputStream in;
+			// Checkt ob advanced color scheme oder simple color scheme
+			// ausgewählt ist und erzeugt dementsprechend
+			// einen input stream. Entweder, dass was der User eingibt im
+			// Advanced Modus oder das was er auswählt beim
+			// simple.
+			if (advanced) {
+				in = getInputStream(component.getCssTextField().getValue()
+						.toString());
+			} else {
+				String cssValue = saveSimpleCss();
+				in = getInputStream(cssValue);
+			}
+			// Checkt ob die advancedColorSchemeId gesetzt ist und ob der User
+			// eine Advanced CSS speichern möchte. Wenn ja,
+			// dann holt er sich die Id, das dazugehörige File aus der
+			// FileFacade, um die file Id zu bekommen. Als letztes wird
+			// das vorhanden CSS file ersetzt mit der gleichen file id und dem
+			// neuen input. Das gleiche auch für simple CSS.
+			if ((settings.getItemProperty("advancedColorSchemeId") != null)
+					&& advanced) {
+				colorSchemeId = (Long) settings.getItemProperty(
 						"advancedColorSchemeId").getValue();
 
-				de.decidr.model.entities.File file = fileFacade
-						.getFileInfo(colorSchemeId);
+				f = getFileFromInputStream(in);
 
-				File f = getFileFromInputStream(in);
-				fileFacade.replaceFile(file.getId(), in, f.length(), f
+				fileFacade.replaceFile(colorSchemeId, in, f.length(), f
 						.getAbsolutePath(), new MimetypesFileTypeMap()
 						.getContentType(f));
 				tenantFacade.setCurrentColorScheme(tenantId, advanced);
-			}else if(tenantFacade.getTenantSettings(tenantId).getItemProperty(
-					"simpleColorSchemeId") != null) {
-				
-			}
-			else {
-				File f = getFileFromInputStream(in);
+			} else if (settings.getItemProperty("simpleColorSchemeId") != null) {
+				colorSchemeId = (Long) settings.getItemProperty(
+						"simpleColorSchemeId").getValue();
+
+				f = getFileFromInputStream(in);
+
+				fileFacade.replaceFile(colorSchemeId, in, f.length(), f
+						.getAbsolutePath(), new MimetypesFileTypeMap()
+						.getContentType(f));
+				tenantFacade.setCurrentColorScheme(tenantId, advanced);
+			} else {
+				f = getFileFromInputStream(in);
 				HashSet<Class<? extends FilePermission>> filePermission = new HashSet<Class<? extends FilePermission>>();
 				filePermission.add(FileReadPermission.class);
 				fileId = fileFacade.createFile(in, f.length(), f
@@ -120,11 +141,76 @@ public class CssHandler {
 					new TransactionErrorDialogComponent());
 		}
 	}
-	
-	private void saveSimpleCss(){
-		
-	}
 
+	/**
+	 * Saves the simple CSS and returns the string representation
+	 * 
+	 * @return css - The string representation of the simple CSS file
+	 */
+	private String saveSimpleCss() {
+		InputSource source = new InputSource();
+		String css = "";
+		try {
+			InputStream stream = new FileInputStream(new File(cssFilePath));
+			source.setByteStream(stream);
+
+			CSSOMParser p = new CSSOMParser();
+
+			CSSStyleSheet sheet = p.parseStyleSheet(source, null, "");
+
+			CSSRuleList list = sheet.getCssRules();
+
+			for (int i = 0; i < list.getLength(); i++) {
+				CSSRule cssRule = list.item(i);
+				String rule = cssRule.getCssText();
+				String substring;
+				int index;
+				if (cssRule.getCssText()
+						.contains("*.v-generated-body, *.v-app")) {
+					// Foreground setzen
+					rule = rule.replace("}", "; color: "
+							+ component.getForegroundSelect().getValue()
+									.toString() + " }");
+
+					// Font-family setzen
+					index = rule.indexOf("font-family:");
+					substring = rule.substring(index);
+					index = substring.indexOf(";");
+					substring = substring.substring(13, index);
+					rule = rule.replace(substring, component.getFontSelect()
+							.getValue().toString());
+
+					// Font-size setzen
+					index = rule.indexOf("font-size:");
+					substring = rule.substring(index);
+					index = substring.indexOf(";");
+					substring = substring.substring(11, index);
+					rule = rule.replace(substring, component
+							.getFontSizeSelect().getValue().toString()
+							+ "px");
+				} else if (cssRule.getCssText().contains("*.v-generated-body")) {
+					// Background setzen
+					index = rule.indexOf("background:");
+					substring = rule.substring(index);
+					index = substring.indexOf("}");
+					substring = substring.substring(12, index);
+					rule = rule.replace(substring, component
+							.getBackgroundSelect().getValue().toString()
+							+ ";");
+				}
+				css += rule;
+			}
+			stream.close();
+			return css;
+		} catch (FileNotFoundException e) {
+			Main.getCurrent().getMainWindow()
+					.showNotification("File not found");
+			return "";
+		} catch (IOException e) {
+			Main.getCurrent().getMainWindow().showNotification("IO failure");
+			return "";
+		}
+	}
 
 	/**
 	 * Gets the input stream from the css string the user has entered in the
@@ -132,10 +218,9 @@ public class CssHandler {
 	 * 
 	 * @return input
 	 */
-	private InputStream getInputStream() {
+	private InputStream getInputStream(String cssValue) {
 		InputStream input;
 
-		String cssValue = component.getCssTextField().getValue().toString();
 		byte[] cssValueBytes = cssValue.getBytes();
 		input = new ByteArrayInputStream(cssValueBytes);
 
@@ -149,8 +234,7 @@ public class CssHandler {
 	 * @return File f
 	 */
 	private File getFileFromInputStream(InputStream in) {
-		File f = new File("../../../../webapp/VAADIN/themes/" + tenant
-				+ "/styles.css");
+		File f = new File(cssFilePath);
 		InputStream input = in;
 		try {
 			OutputStream output = new FileOutputStream(f);
@@ -158,7 +242,6 @@ public class CssHandler {
 			int len;
 			while ((len = input.read(buf)) > 0) {
 				output.write(buf, 0, len);
-
 			}
 			output.close();
 			input.close();

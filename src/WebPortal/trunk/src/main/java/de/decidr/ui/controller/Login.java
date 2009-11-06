@@ -18,7 +18,6 @@ package de.decidr.ui.controller;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
 import com.vaadin.service.ApplicationContext;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 
@@ -31,7 +30,6 @@ import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.commands.tenant.GetTenantSettingsCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.ui.view.Main;
@@ -106,9 +104,6 @@ public class Login {
 		HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 		Tenant tenant = cmd.getTenantSettings();
 		tenantName = tenant.getName();
-		// tenantItem = tenantFacade.getTenantSettings(tenantId);
-		// tenantName =
-		// tenantItem.getItemProperty("name").getValue().toString();
 
 		role = userFacade.getUserRoleForTenant(userId, tenantId);
 
@@ -142,7 +137,6 @@ public class Login {
 			Main.getCurrent().getMainWindow().showNotification(
 					"Role class not found");
 		}
-		uiDirector.getTemplateView();
 		uiDirector.constructView();
 
 		tenantView = new TenantView();

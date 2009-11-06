@@ -18,9 +18,7 @@ package de.decidr.ui.view;
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.Application;
-import com.vaadin.service.ApplicationContext;
 import com.vaadin.service.ApplicationContext.TransactionListener;
-import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Window;
 
 import de.decidr.ui.controller.ConfirmationParameterHandler;
@@ -57,11 +55,7 @@ public class Main extends Application implements TransactionListener {
 	 * @see com.vaadin.Application#init()
 	 */
 	@Override
-	public void init() {
-		/*ApplicationContext ctx = getContext();
-		WebApplicationContext webCtx = (WebApplicationContext) ctx;				
-		session = webCtx.getHttpSession();*/
-		
+	public void init() {		
 		setMainWindow(main);
 
 		main.addParameterHandler(new InvitationParameterHandler());
@@ -75,7 +69,6 @@ public class Main extends Application implements TransactionListener {
 		director.constructView();
 		
 		main.addComponent(director.getTemplateView());
-		//main.addComponent(new TenantSettingsComponent());
 		
 		if (getContext() != null) {
 			getContext().addTransactionListener(this);

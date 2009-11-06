@@ -31,6 +31,9 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 
 import de.decidr.ui.controller.CssHandler;
+import de.decidr.ui.controller.RestoreDefaultTenantSettingsAction;
+import de.decidr.ui.controller.SaveTenantSettingsAction;
+import de.decidr.ui.controller.UploadTenantLogoAction;
 
 /**
  * The tenant can change his settings. He change his theme by choosing a given
@@ -78,10 +81,12 @@ public class TenantSettingsComponent extends CustomComponent {
 	final String[] colors = new String[] { "aqua", "black", "blue", "fuchsia",
 			"gray", "green", "lime", "maroon", "navy", "olive", "purple",
 			"red", "silver", "teal", "white", "yellow" };
-	
-	final String[] fontSizes = new String[]{"9", "10", "11","12", "13", "14", "15", "16"};
-	
-	final String[] fonts = new String[]{"Times New Roman", "Arial", "Courier New", "Verdana"};
+
+	final String[] fontSizes = new String[] { "9", "10", "11", "12", "13",
+			"14", "15", "16" };
+
+	final String[] fonts = new String[] { "Times New Roman", "Arial",
+			"Courier New", "Verdana" };
 
 	/**
 	 * Default constructor.
@@ -90,7 +95,7 @@ public class TenantSettingsComponent extends CustomComponent {
 	public TenantSettingsComponent() {
 		init();
 	}
-	
+
 	/**
 	 * This method initializes the components for the tenant settings component.
 	 * 
@@ -114,14 +119,13 @@ public class TenantSettingsComponent extends CustomComponent {
 		textArea.setColumns(30);
 		textArea.setCaption("Description");
 
-		//logoUpload = new Upload("Upload Logo", new UploadTenantLogoAction());
-		//logoUpload.setButtonCaption("Upload Logo");
+		logoUpload = new Upload("Upload Logo", new UploadTenantLogoAction());
+		logoUpload.setButtonCaption("Upload Logo");
 
-
-		//saveButton = new Button("Save", new SaveTenantSettingsAction());
+		saveButton = new Button("Save", new SaveTenantSettingsAction());
 		cancelButton = new Button("Cancel");
-		//restoreDefaultSettingsButton = new Button("Restore default settings",
-			//	new RestoreDefaultTenantSettingsAction());
+		restoreDefaultSettingsButton = new Button("Restore default settings",
+				new RestoreDefaultTenantSettingsAction());
 
 		logoEmbedded = new Embedded("", new ThemeResource("img/decidrlogo.png"));
 		logoEmbedded.setCaption("Logo");
@@ -137,7 +141,7 @@ public class TenantSettingsComponent extends CustomComponent {
 
 		browsePanel.addComponent(browseHorizontalLayout);
 		browseHorizontalLayout.setSpacing(true);
-		//browseHorizontalLayout.addComponent(logoUpload);
+		browseHorizontalLayout.addComponent(logoUpload);
 
 		verticalLayout.addComponent(schemePanel);
 
@@ -150,9 +154,9 @@ public class TenantSettingsComponent extends CustomComponent {
 
 		buttonPanel.addComponent(buttonHorizontalLayout);
 		buttonHorizontalLayout.setSpacing(true);
-		//buttonHorizontalLayout.addComponent(saveButton);
+		buttonHorizontalLayout.addComponent(saveButton);
 		buttonHorizontalLayout.addComponent(cancelButton);
-		//buttonHorizontalLayout.addComponent(restoreDefaultSettingsButton);
+		buttonHorizontalLayout.addComponent(restoreDefaultSettingsButton);
 
 	}
 
@@ -190,9 +194,9 @@ public class TenantSettingsComponent extends CustomComponent {
 		foregroundSelect = new NativeSelect("Foreground");
 		fontSelect = new NativeSelect("Font");
 		fontSizeSelect = new NativeSelect("Font size");
-		
+
 		fillSelects();
-		
+
 		showAdvancedOptionsButton = new Button("Show advanced options");
 		showAdvancedOptionsButton.setSwitchMode(true);
 		showAdvancedOptionsButton.addListener(new Button.ClickListener() {
@@ -223,12 +227,12 @@ public class TenantSettingsComponent extends CustomComponent {
 			backgroundSelect.addItem(colors[i]);
 			foregroundSelect.addItem(colors[i]);
 		}
-		
-		for (int i = 0; i < fonts.length; i++){
+
+		for (int i = 0; i < fonts.length; i++) {
 			fontSelect.addItem(fonts[i]);
 		}
-		
-		for (int i = 0; i < fontSizes.length; i++){
+
+		for (int i = 0; i < fontSizes.length; i++) {
 			fontSizeSelect.addItem(fontSizes[i]);
 		}
 		backgroundSelect.setNullSelectionAllowed(false);
@@ -238,11 +242,11 @@ public class TenantSettingsComponent extends CustomComponent {
 		foregroundSelect.setNullSelectionAllowed(false);
 		foregroundSelect.setValue("aqua");
 		foregroundSelect.setImmediate(true);
-		
+
 		fontSelect.setNullSelectionAllowed(false);
 		fontSelect.setValue("Arial");
 		fontSelect.setImmediate(true);
-		
+
 		fontSizeSelect.setNullSelectionAllowed(false);
 		fontSizeSelect.setValue("12");
 		fontSizeSelect.setImmediate(true);
@@ -266,8 +270,6 @@ public class TenantSettingsComponent extends CustomComponent {
 		return textArea;
 	}
 
-	
-	
 	/**
 	 * Gets the background select
 	 * 
@@ -297,16 +299,16 @@ public class TenantSettingsComponent extends CustomComponent {
 
 	/**
 	 * Returns the upload
-	 *
+	 * 
 	 * @return logoUpload
 	 */
-	public Upload getUpload(){
+	public Upload getUpload() {
 		return logoUpload;
 	}
-	
+
 	/**
 	 * Returns the css text field
-	 *
+	 * 
 	 * @return the cssTextField
 	 */
 	public TextField getCssTextField() {
@@ -315,7 +317,7 @@ public class TenantSettingsComponent extends CustomComponent {
 
 	/**
 	 * Gets the scheme panel
-	 *
+	 * 
 	 * @return the schemePanel
 	 */
 	public Panel getSchemePanel() {
@@ -324,16 +326,16 @@ public class TenantSettingsComponent extends CustomComponent {
 
 	/**
 	 * Gets the font size select
-	 *
+	 * 
 	 * @return the fontSizeSelect
 	 */
 	public NativeSelect getFontSizeSelect() {
 		return fontSizeSelect;
 	}
-	
+
 	/**
 	 * Gets the show advanced options button
-	 *
+	 * 
 	 * @return the showAdvancedOptionsButton
 	 */
 	public Button getShowAdvancedOptionsButton() {

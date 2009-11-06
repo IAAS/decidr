@@ -75,9 +75,6 @@ public class SaveTenantSettingsAction implements ClickListener {
 			CssHandler cssHandler = new CssHandler(content);
 			cssHandler.saveCss(tenantFacade, content
 					.getShowAdvancedOptionsButton().booleanValue(), fileFacade);
-
-			// content.getBackgroundSelect().getValue().toString();
-			// TODO: css abspeichern
 		} catch (TransactionException e) {
 			Main.getCurrent().getMainWindow().addWindow(
 					new TransactionErrorDialogComponent());
