@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tItem")
+@XmlType(name = "tItem", namespace = "http://decidr.de/schema/DecidrTypes")
 @XmlSeeAlso( { URIItem.class, BooleanItem.class, StringItem.class,
         FloatItem.class, DateItem.class, IntItem.class })
 public abstract class Item {

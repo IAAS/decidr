@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tIntItem", propOrder = { "value" })
+@XmlType(name = "tIntItem", namespace = "http://decidr.de/schema/DecidrTypes", propOrder = { "value" })
 public class IntItem extends Item {
 
     protected int value;

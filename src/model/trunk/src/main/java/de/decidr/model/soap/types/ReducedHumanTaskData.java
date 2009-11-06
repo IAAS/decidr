@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tReducedHumanTaskData", propOrder = { "dataItem" })
+@XmlType(name = "tReducedHumanTaskData", namespace = "http://decidr.de/schema/DecidrTypes", propOrder = { "dataItem" })
 public class ReducedHumanTaskData {
 
     @XmlElement(required = true)

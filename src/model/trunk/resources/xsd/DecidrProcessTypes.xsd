@@ -39,7 +39,7 @@
 	<xsd:complexType name="tHumanTaskData">
 		<xsd:sequence>
 			<xsd:element name="parameters" type="tns:tParameters"
-				minOccurs="1" maxOccurs="1" />
+				minOccurs="0" maxOccurs="1" />
 			<xsd:choice minOccurs="1" maxOccurs="unbounded">
 				<xsd:element name="taskItem" type="tns:tTaskItem" />
 				<xsd:element name="information" type="tns:tInformation" />

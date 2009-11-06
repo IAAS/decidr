@@ -50,7 +50,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tRole", propOrder = { "actor" })
+@XmlType(name = "tRole", namespace = "http://decidr.de/schema/DecidrTypes", propOrder = { "actor" })
 public class Role {
 
     @XmlElement(required = true)

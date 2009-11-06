@@ -22,6 +22,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import de.decidr.model.workflowmodel.humantask.THumanTaskData;
+
 /**
  * <p>
  * Java class for anonymous complex type.
@@ -67,7 +69,7 @@ public class CreateTask {
     @XmlElement(namespace = "", required = true)
     protected String description;
     @XmlElement(namespace = "")
-    protected String taskData;
+    protected THumanTaskData taskData;
 
     /**
      * Gets the value of the wfmID property.
@@ -176,9 +178,9 @@ public class CreateTask {
     /**
      * Gets the value of the taskData property.
      * 
-     * @return possible object is {@link String }
+     * @return possible object is {@link THumanTaskData }
      */
-    public String getTaskData() {
+    public THumanTaskData getTaskData() {
         return taskData;
     }
 
@@ -186,9 +188,9 @@ public class CreateTask {
      * Sets the value of the taskData property.
      * 
      * @param value
-     *            allowed object is {@link String }
+     *            allowed object is {@link THumanTaskData }
      */
-    public void setTaskData(String value) {
+    public void setTaskData(THumanTaskData value) {
         this.taskData = value;
     }
 }

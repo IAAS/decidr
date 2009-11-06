@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tRoleUser", propOrder = { "role" })
+@XmlType(name = "tRoleUser", namespace = "http://decidr.de/schema/DecidrTypes", propOrder = { "role" })
 public class RoleUser extends AbstractUser {
 
     @XmlElement(required = true)

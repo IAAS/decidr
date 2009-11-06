@@ -23,6 +23,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.mail.MessagingException;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.namespace.QName;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
@@ -48,6 +49,10 @@ import de.decidr.model.storage.StorageProvider;
 // @HandlerChain(file = "handler-chain.xml")
 @WebService(targetNamespace = EmailInterface.TARGET_NAMESPACE, portName = EmailInterface.PORT_NAME, wsdlLocation = "Email.wsdl", name = EmailInterface.SERVICE_NAME, serviceName = EmailInterface.SERVICE_NAME)
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.WRAPPED, style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
+@XmlSeeAlso( { ObjectFactory.class,
+        de.decidr.model.exceptions.ObjectFactory.class,
+        de.decidr.model.soap.exceptions.ObjectFactory.class,
+        de.decidr.model.soap.types.ObjectFactory.class })
 public interface EmailInterface {
 
     public static final String PORT_NAME = "EmailSOAP11";
@@ -105,8 +110,8 @@ public interface EmailInterface {
      *             an <code>{@link IOException}</code>)
      */
     @WebMethod(action = "urn:sendEmail", operationName = "sendEmail")
-    @RequestWrapper(localName = "sendEmail", targetNamespace = TARGET_NAMESPACE, className = "SendEmail")
-    @ResponseWrapper(localName = "sendEmailResponse", targetNamespace = TARGET_NAMESPACE, className = "SendEmailResponse")
+    @RequestWrapper(localName = "sendEmail", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.webservices.SendEmail")
+    @ResponseWrapper(localName = "sendEmailResponse", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.webservices.SendEmailResponse")
     public void sendEmail(
             @WebParam(name = "to", targetNamespace = "http://decidr.de/webservices/Email") AbstractUserList to,
             @WebParam(name = "cc", targetNamespace = "http://decidr.de/webservices/Email") AbstractUserList cc,

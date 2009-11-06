@@ -46,7 +46,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tItemList", propOrder = { "item" })
+@XmlType(name = "tItemList", namespace = "http://decidr.de/schema/DecidrTypes", propOrder = { "item" })
 public class ItemList {
 
     @XmlElementRef(name = "item", namespace = "http://decidr.de/schema/DecidrTypes", type = JAXBElement.class)

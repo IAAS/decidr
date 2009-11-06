@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tStringItem", propOrder = { "value" })
+@XmlType(name = "tStringItem", namespace = "http://decidr.de/schema/DecidrTypes", propOrder = { "value" })
 public class StringItem extends Item {
 
     @XmlElement(required = true)

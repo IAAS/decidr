@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tFloatItem", propOrder = { "value" })
+@XmlType(name = "tFloatItem", namespace = "http://decidr.de/schema/DecidrTypes", propOrder = { "value" })
 public class FloatItem extends Item {
 
     protected float value;

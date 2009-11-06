@@ -44,7 +44,8 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tTaskIdentifier", propOrder = { "taskID", "pid" })
+@XmlType(name = "tTaskIdentifier", namespace = "http://decidr.de/schema/DecidrTypes", propOrder = {
+        "taskID", "pid" })
 public class TaskIdentifier {
 
     @XmlElement(required = true)

@@ -47,8 +47,8 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tAbstractUserList", propOrder = { "actorUser", "emailUser",
-        "roleUser" })
+@XmlType(name = "tAbstractUserList", namespace = "http://decidr.de/schema/DecidrTypes", propOrder = {
+        "actorUser", "emailUser", "roleUser" })
 public class AbstractUserList {
 
     @XmlElement(nillable = true)

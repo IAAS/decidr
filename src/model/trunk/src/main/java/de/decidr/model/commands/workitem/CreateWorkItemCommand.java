@@ -112,8 +112,8 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
                 + "and w.deployedWorkflowModel.id = :deployedWorkflowModelId";
 
         Query q = evt.getSession().createQuery(hql);
-        q.setString("odePid", odePid).setLong(":deployedWorkflowModelId",
-                deployedWorkflowModelId);
+        q.setString("odePid", odePid);
+        q.setLong("deployedWorkflowModelId", deployedWorkflowModelId);
 
         WorkflowInstance owningInstance = (WorkflowInstance) q.uniqueResult();
         User owningUser = new User();

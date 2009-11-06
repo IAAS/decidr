@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tBooleanItem", propOrder = { "value" })
+@XmlType(name = "tBooleanItem", namespace = "http://decidr.de/schema/DecidrTypes", propOrder = { "value" })
 public class BooleanItem extends Item {
 
     protected boolean value;

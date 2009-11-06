@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tURIItem", propOrder = { "value" })
+@XmlType(name = "tURIItem", namespace = "http://decidr.de/schema/DecidrTypes", propOrder = { "value" })
 public class URIItem extends Item {
 
     @XmlElement(required = true)

@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tActor")
+@XmlType(name = "tActor", namespace = "http://decidr.de/schema/DecidrTypes")
 public class Actor {
 
     @XmlAttribute

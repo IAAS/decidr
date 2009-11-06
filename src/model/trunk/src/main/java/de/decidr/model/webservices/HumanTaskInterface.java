@@ -19,6 +19,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.namespace.QName;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
@@ -37,6 +38,11 @@ import de.decidr.model.workflowmodel.humantask.THumanTaskData;
  */
 @WebService(name = HumanTaskInterface.SERVICE_NAME, portName = HumanTaskInterface.PORT_NAME, serviceName = HumanTaskInterface.SERVICE_NAME, targetNamespace = HumanTaskInterface.TARGET_NAMESPACE, wsdlLocation = "HumanTask.wsdl")
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.WRAPPED, style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
+@XmlSeeAlso( { ObjectFactory.class,
+        de.decidr.model.exceptions.ObjectFactory.class,
+        de.decidr.model.soap.exceptions.ObjectFactory.class,
+        de.decidr.model.soap.types.ObjectFactory.class,
+        de.decidr.model.workflowmodel.humantask.ObjectFactory.class })
 public interface HumanTaskInterface {
 
     public static final String SERVICE_NAME = "HumanTask";
@@ -76,8 +82,8 @@ public interface HumanTaskInterface {
      *             by the facade.
      */
     @WebMethod(operationName = "createTask", action = "urn:createTask")
-    @RequestWrapper(localName = "createTask", targetNamespace = TARGET_NAMESPACE, className = "CreateTask")
-    @ResponseWrapper(localName = "createTaskResponse", targetNamespace = TARGET_NAMESPACE, className = "CreateTaskResponse")
+    @RequestWrapper(localName = "createTask", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.webservices.CreateTask")
+    @ResponseWrapper(localName = "createTaskResponse", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.webservices.CreateTaskResponse")
     public Long createTask(@WebParam(name = "wfmID") long wfmID,
             @WebParam(name = "processID") String processID,
             @WebParam(name = "userID") long userID,
@@ -97,8 +103,8 @@ public interface HumanTaskInterface {
      *             by the facade.
      */
     @WebMethod(operationName = "removeTask", action = "urn:removeTask")
-    @RequestWrapper(localName = "removeTask", targetNamespace = TARGET_NAMESPACE, className = "RemoveTask")
-    @ResponseWrapper(localName = "removeTaskResponse", targetNamespace = TARGET_NAMESPACE, className = "RemoveTaskResponse")
+    @RequestWrapper(localName = "removeTask", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.webservices.RemoveTask")
+    @ResponseWrapper(localName = "removeTaskResponse", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.webservices.RemoveTaskResponse")
     public void removeTask(@WebParam(name = "taskIDList") IDList taskIDList)
             throws TransactionException;
 
@@ -116,8 +122,8 @@ public interface HumanTaskInterface {
      *             by the facade.
      */
     @WebMethod(operationName = "removeTasks", action = "urn:removeTasks")
-    @RequestWrapper(localName = "removeTasks", targetNamespace = TARGET_NAMESPACE, className = "RemoveTasks")
-    @ResponseWrapper(localName = "removeTasksResponse", targetNamespace = TARGET_NAMESPACE, className = "RemoveTasksResponse")
+    @RequestWrapper(localName = "removeTasks", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.webservices.RemoveTasks")
+    @ResponseWrapper(localName = "removeTasksResponse", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.webservices.RemoveTasksResponse")
     public void removeTasks(@WebParam(name = "wfmID") long wfmID,
             @WebParam(name = "processID") String processID)
             throws TransactionException;
@@ -133,8 +139,8 @@ public interface HumanTaskInterface {
      *             by the facade.
      */
     @WebMethod(operationName = "taskCompleted", action = "urn:taskCompleted")
-    @RequestWrapper(localName = "taskCompleted", targetNamespace = TARGET_NAMESPACE, className = "TaskCompleted")
-    @ResponseWrapper(localName = "taskCompletedResponse", targetNamespace = TARGET_NAMESPACE, className = "TaskCompletedResponse")
+    @RequestWrapper(localName = "taskCompleted", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.webservices.TaskCompleted")
+    @ResponseWrapper(localName = "taskCompletedResponse", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.webservices.TaskCompletedResponse")
     public void taskCompleted(@WebParam(name = "taskID") long taskID)
             throws TransactionException, ReportingException;
 }

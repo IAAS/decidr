@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tAbstractUser")
+@XmlType(name = "tAbstractUser", namespace = "http://decidr.de/schema/DecidrTypes")
 @XmlSeeAlso( { ActorUser.class, RoleUser.class, EmailUser.class })
 public abstract class AbstractUser {
     // no assumptions are made

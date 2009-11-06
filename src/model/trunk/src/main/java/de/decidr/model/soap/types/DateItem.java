@@ -44,7 +44,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tDateItem", propOrder = { "value" })
+@XmlType(name = "tDateItem", namespace = "http://decidr.de/schema/DecidrTypes", propOrder = { "value" })
 public class DateItem extends Item {
 
     @XmlElement(required = true)

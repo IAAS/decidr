@@ -18,8 +18,8 @@ package de.decidr.model.commands.workflowmodel;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.criterion.CriteriaSpecification;
 
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
@@ -74,7 +74,7 @@ public class GetPublishedWorkflowModelsCommand extends AclEnabledCommand {
 
         Filters.apply(crit, filters, paginator);
 
-        result = crit.setResultTransformer(Criteria.ROOT_ENTITY).list();
+        result = crit.setResultTransformer(CriteriaSpecification.ROOT_ENTITY).list();
     }
 
     /**
