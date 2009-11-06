@@ -39,7 +39,7 @@ import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 /**
  * This command adds a connection between to existing nodes to the workflow.
  * 
- * @author Johannes Engelhardt
+ * @author Johannes Engelhardt, Jonas Schlaak
  */
 public class CreateConnectionCommand implements UndoableCommand {
 
@@ -82,6 +82,8 @@ public class CreateConnectionCommand implements UndoableCommand {
                         .getParentNode() instanceof IfContainer)) {
             // create condition
             model = new Condition();
+            // set the label
+            connection.setLabel(model.getName());
 
             // check if connection is another container start connection
         } else if (startPort instanceof ContainerStartPort
@@ -170,8 +172,8 @@ public class CreateConnectionCommand implements UndoableCommand {
         model.setChangeListener(connection);
 
         // set parent panel of connection
-        // connection.setParentPanel(model.getParentModel()
-        // .getHasChildrenChangeListener());
+        connection.setParentPanel(model.getParentModel()
+                .getHasChildrenChangeListener());
 
         // create and link start drag box
         ConnectionDragBox startDragBox = new ConnectionDragBox();
@@ -194,6 +196,12 @@ public class CreateConnectionCommand implements UndoableCommand {
         // link connection
         connection.setStartDragBox(startDragBox);
         connection.setEndDragBox(endDragBox);
+        
+        //set label, if model is condition
+        if (model instanceof Condition){
+            connection.setLabel(model.getName());
+        }
+        
     }
 
     @Override

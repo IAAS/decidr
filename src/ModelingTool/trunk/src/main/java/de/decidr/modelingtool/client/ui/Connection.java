@@ -26,7 +26,7 @@ import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
  * An abstract connection without graphical representation. Subclasses have to
  * implement the draw() and delete() operations.
  * 
- * @author Johannes Engelhardt
+ * @author Johannes Engelhardt, Jonas Schlaak
  */
 public abstract class Connection implements Selectable, ModelChangeListener {
 
@@ -59,9 +59,6 @@ public abstract class Connection implements Selectable, ModelChangeListener {
      */
     public Connection(HasChildren parentPanel) {
         this.parentPanel = parentPanel;
-
-        // debug
-        // label.setText("ConnectionLabel");
     }
 
     /**
@@ -161,6 +158,16 @@ public abstract class Connection implements Selectable, ModelChangeListener {
     @Override
     public void showPropertyWindow() {
         Window.alert("This connection has no properties.");
+    }
+
+    /**
+     * Sets the label of the connection that will we displayed to the user.
+     * 
+     * @param label
+     *            the text to display
+     */
+    public void setLabel(String label) {
+        this.label.setText(label);
     }
 
 }
