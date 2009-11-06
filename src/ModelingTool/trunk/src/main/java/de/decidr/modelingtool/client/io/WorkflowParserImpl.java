@@ -147,21 +147,26 @@ public class WorkflowParserImpl implements WorkflowParser {
         } else {
             variableElement.setAttribute(DWDLNames.configVar, DWDLNames.no);
         }
+
         /*
          * Values of the variable, if the variable has multiple values an
          * additional node is created which has the values as children
          */
-        if (variable.isArray()) {
-            Element values = doc.createElement(DWDLNames.initValues);
-            for (String value : variable.getValues()) {
-                values.appendChild(createTextElement(doc, DWDLNames.initValue,
-                        value));
+        if (variable.getValues().isEmpty() == false) {
+
+            if (variable.isArray()) {
+                Element values = doc.createElement(DWDLNames.initValues);
+                for (String value : variable.getValues()) {
+                    values.appendChild(createTextElement(doc,
+                            DWDLNames.initValue, value));
+                }
+                variableElement.appendChild(values);
+            } else {
+                variableElement.appendChild(createTextElement(doc,
+                        DWDLNames.initValue, variable.getValues().get(0)));
             }
-            variableElement.appendChild(values);
-        } else {
-            variableElement.appendChild(createTextElement(doc,
-                    DWDLNames.initValue, variable.getValues().get(0)));
         }
+        
         return variableElement;
     }
 

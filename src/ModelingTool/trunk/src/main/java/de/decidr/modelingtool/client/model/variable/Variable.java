@@ -63,10 +63,11 @@ public class Variable extends BaseModelData {
         }
 
         ArrayList<String> values = new ArrayList<String>();
-        set(TYPE, VariableType.STRING);
-        set(TYPELOCALNAME, VariableType.STRING.getLocalName());
-        set(VALUE, values);
-        set(CONFIGVAR, false);
+        setValues(values);
+
+        setType(VariableType.STRING);
+
+        setConfig(false);
     }
 
     public Variable(String label, VariableType type, Boolean config) {
