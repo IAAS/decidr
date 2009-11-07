@@ -39,8 +39,6 @@ public class ClearWorkflowCommand implements Command {
                     cmdList.addCommand(new RemoveNodeCommand(node));
                 } catch (OperationNotAllowedException e) {
                     // do nothing, node can not be deleted
-                    // JE: debug:
-                    e.printStackTrace();
                 }
             }
         }
@@ -50,5 +48,4 @@ public class ClearWorkflowCommand implements Command {
         // flush command stack
         CommandStack.getInstance().flush();
     }
-
 }

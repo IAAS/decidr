@@ -114,7 +114,7 @@ public class PortDropController extends AbstractDropController {
                 throw new VetoDragException();
             }
 
-            // JE potential null pointer access: what if port==null? (whole rest
+            // JS potential null pointer access: what if port==null? (whole rest
             // of loop)
 
             // cancel drop operation if both ports belong to the same node

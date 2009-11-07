@@ -163,7 +163,7 @@ public abstract class Container extends Node implements HasChildren {
             try {
                 cmdList.addCommand(new RemoveNodeCommand(node));
             } catch (OperationNotAllowedException e) {
-                // JE: node is not deletable: fix it!
+                // JS: node is not deletable: fix it!
             }
         }
 

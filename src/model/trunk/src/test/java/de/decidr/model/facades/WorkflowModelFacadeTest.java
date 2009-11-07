@@ -233,7 +233,6 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testGetWorkflowInstances() throws TransactionException {
-        // JE: how to test with existing items?
         List<Item> items = adminFacade.getWorkflowInstances(wfmId, null);
         assertTrue(items.isEmpty());
     }
@@ -244,7 +243,6 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testGetLastStartConfiguration() throws TransactionException {
-        // JE: how to test?
         adminFacade.getLastStartConfiguration(wfmId);
     }
 

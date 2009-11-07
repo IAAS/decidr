@@ -257,7 +257,7 @@ public abstract class Node extends AbsolutePanel implements
                     new MoveResizeNodeCommand(this, parentPanel, left, top));
         }
 
-        // JE: add resizing
+        // JS: add resizing
 
     }
 

@@ -122,5 +122,4 @@ public class FileAccessAsserterTest extends LowLevelDatabaseTest {
         assertFalse(asserter.assertRule(new UserRole(userId), new Permission(
                 "*")));
     }
-
 }
