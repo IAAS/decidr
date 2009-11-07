@@ -23,7 +23,6 @@ import java.util.Map;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2BPEL;
 import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2DD;
 import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
 
@@ -31,7 +30,7 @@ import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
 public class DWDL2DDTest {
     
     static DWDL2DD translater = null;
-    static Process bpel = null;
+    static de.decidr.model.workflowmodel.bpel.Process bpel = null;
     Map<String, DecidrWebserviceAdapter> webservices = null;
 
 

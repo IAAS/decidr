@@ -90,10 +90,8 @@ public class DWDL2BPELTest {
         } catch (TransformerException e) {
             e.printStackTrace();
         } catch (PropertyException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (JAXBException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
