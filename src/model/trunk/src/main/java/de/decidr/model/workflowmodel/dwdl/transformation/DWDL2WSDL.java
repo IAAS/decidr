@@ -78,9 +78,6 @@ import de.decidr.model.workflowmodel.dwdl.Workflow;
 public class DWDL2WSDL {
 
     private static Logger log = DefaultLogger.getLogger(DWDL2WSDL.class);
-    
-    private static Namespace ns = Namespace.getNamespace("xsd",
-    "http://www.w3.org/2001/XMLSchema");
 
     private Workflow dwdl = null;
     private Definition wsdl = null;
@@ -152,20 +149,20 @@ public class DWDL2WSDL {
     private void setImports() {
         Import decidrTypes = new ImportImpl();
         decidrTypes
-                .setNamespaceURI(TransformationConstants.DECIDRTYPES_NAMESPACE);
+                .setNamespaceURI(Constants.DECIDRTYPES_NAMESPACE);
         decidrTypes
-                .setLocationURI(TransformationConstants.DECIDRTYPES_LOCATION);
+                .setLocationURI(Constants.DECIDRTYPES_LOCATION);
 
         wsdl.addImport(decidrTypes);
     }
 
     private void setMessages() {
         startMessage = new MessageImpl();
-        startMessage.setQName(new QName("processIn"));
+        startMessage.setQName(new QName(dwdl.getTargetNamespace(),WSDLConstants.PROCESS_INPUT_MESSAGETYPE));
         Part messagePart = new PartImpl();
         messagePart.setName("payload");
         messagePart.setElementName(new QName(dwdl.getTargetNamespace(),
-                "startProcess", "tns"));
+                WSDLConstants.PROCESS_MESSAGE_ELEMENT, "tns"));
         startMessage.addPart(messagePart);
 
         wsdl.addMessage(startMessage);
@@ -183,14 +180,14 @@ public class DWDL2WSDL {
         wsdl.addNamespace("vprop",
                 "http://docs.oasis-open.org/wsbpel/2.0/varprop/");
         wsdl.addNamespace("xsd", XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        wsdl.addNamespace("decidr",
-                TransformationConstants.DECIDRTYPES_NAMESPACE);
+        wsdl.addNamespace(BPELConstants.DECIDRTYPES_PREFIX,
+                Constants.DECIDRTYPES_NAMESPACE);
     }
 
     private void setPartnerLinkTypes() throws JDOMException {
         Element partnerLinkType = new Element("partnerLinkType", "plnk",
                 "http://docs.oasis-open.org/wsbpel/2.0/plnktype/");
-        partnerLinkType.setAttribute("name", "ProcessPLT");
+        partnerLinkType.setAttribute("name", WSDLConstants.PROCESS_PARTNERLINKTYPE);
         Element myRole = new Element("role", "plnk",
                 "http://docs.oasis-open.org/wsbpel/2.0/plnktype/");
         myRole.setAttribute("name", dwdl.getName() + "Provider");
@@ -217,7 +214,7 @@ public class DWDL2WSDL {
     }
 
     private void setProperties() throws JDOMException {
-        Iterator<?> iter = schemaElement.getChild("complexType", ns).getChildren(
+        Iterator<?> iter = schemaElement.getChild("complexType", Constants.XML_SCHEMA_NS).getChildren(
                 "element").iterator();
         while (iter.hasNext()) {
             Element messageElement = (Element) iter.next();
@@ -237,7 +234,7 @@ public class DWDL2WSDL {
                     + startMessage.getQName().getLocalPart());
             propertyAlias.setAttribute("part", startMessage.getPart("payload")
                     .getName());
-            propertyQuery.setText("/tns:startProcess/ns:"
+            propertyQuery.setText("/tns:"+WSDLConstants.PROCESS_MESSAGE_ELEMENT+"/ns:"
                     + messageElement.getAttributeValue("name"));
             propertyAlias.addContent(propertyQuery);
 
@@ -250,7 +247,7 @@ public class DWDL2WSDL {
 
     private void setService() {
         Service processService = new ServiceImpl();
-        processService.setQName(new QName(dwdl.getName()));
+        processService.setQName(new QName(dwdl.getTargetNamespace(),dwdl.getName()));
         Port servicePort = new PortImpl();
         servicePort.setBinding(processBinding);
         servicePort.setName(processBinding.getQName().getLocalPart());
@@ -302,8 +299,8 @@ public class DWDL2WSDL {
                                     "tRole",
                                     Namespace
                                             .getNamespace(
-                                                    "decidr",
-                                                    TransformationConstants.DECIDRTYPES_NAMESPACE));
+                                                    BPELConstants.DECIDRTYPES_PREFIX,
+                                                    Constants.DECIDRTYPES_NAMESPACE));
                     all.addContent(roleElement);
                 }
             }
@@ -320,7 +317,7 @@ public class DWDL2WSDL {
                                     Namespace
                                             .getNamespace(
                                                     "decidr",
-                                                    TransformationConstants.DECIDRTYPES_NAMESPACE));
+                                                    Constants.DECIDRTYPES_NAMESPACE));
                     all.addContent(actorElement);
                 }
             }

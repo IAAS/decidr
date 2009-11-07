@@ -30,6 +30,7 @@ import org.apache.ode.axis2.service.ServiceClientUtil;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.WorkflowInstance;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
 /**
  * This class provides the functionality to start and stop instances of deployed
@@ -42,7 +43,6 @@ import de.decidr.model.entities.WorkflowInstance;
 public class InstanceManagerImpl implements InstanceManager {
 
     private ServiceClientUtil client;
-    private final String AMAZON_EC2 = "http://ec2-174-129-24-232.compute-1.amazonaws.com:8080";
 
     /*
      * (non-Javadoc)
@@ -58,15 +58,15 @@ public class InstanceManagerImpl implements InstanceManager {
         ServerSelector selector = new ServerSelector();
         ServerLoadView selectedServer = selector.selectServer(serverStatistics);
         SOAPGenerator generator = new SOAPGenerator();
-// MA commented out to allow compilation
-//        SOAPMessage soapMessage = generator.getSOAP(dwfm.getSoapTemplate(),
-//                startConfiguration);
+        SOAPMessage soapMessage = generator.getSOAP(TransformUtil
+                .bytesToSOAPMessage(dwfm.getSoapTemplate()), TransformUtil
+                .bytesToConfiguration(startConfiguration));
         SOAPExecution execution = new SOAPExecution();
-//        SOAPMessage replySOAPMessage = execution.invoke(selectedServer,
-//                soapMessage);
+        SOAPMessage replySOAPMessage = execution.invoke(selectedServer,
+                soapMessage);
         StartInstanceResult result = new StartInstanceResultImpl();
         result.setServer(selectedServer.getId());
-//        result.setODEPid(getODEPid(replySOAPMessage));
+        result.setODEPid(getODEPid(replySOAPMessage));
         return result;
     }
 
@@ -84,9 +84,23 @@ public class InstanceManagerImpl implements InstanceManager {
     @Override
     public void stopInstance(WorkflowInstance instance) throws AxisFault {
         client = new ServiceClientUtil();
-        OMElement msg = client.buildMessage("terminate",
-                new String[] { "iid" }, new String[] { instance.getOdePid() });
-        OMElement result = client.send(msg, instance.getServer().getLocation()
+        // create the terminate message
+        OMElement terminateMsg = client.buildMessage("terminate",
+                new String[] { "filter" }, new String[] { "iid="
+                        + instance.getOdePid() });
+        // send the message
+        // returns a OMElement that is not used
+        client.send(terminateMsg, instance
+                .getServer().getLocation()
+                + "/ode/processes/InstanceManagement");
+        // create the delete message
+        OMElement deleteMsg = client.buildMessage("delete",
+                new String[] { "filter" }, new String[] { "iid="
+                        + instance.getOdePid() });
+        // send the message
+        // returns a OMElement that is not used
+        client.send(deleteMsg, instance.getServer()
+                .getLocation()
                 + "/ode/processes/InstanceManagement");
     }
 }

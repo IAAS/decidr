@@ -27,8 +27,8 @@ import javax.wsdl.extensions.soap12.SOAP12Address;
 import javax.xml.namespace.QName;
 
 import de.decidr.model.workflowmodel.bpel.PartnerLink;
-import de.decidr.model.workflowmodel.bpel.PartnerLinkType;
-import de.decidr.model.workflowmodel.bpel.TRole;
+import de.decidr.model.workflowmodel.bpel.partnerlinktype.PartnerLinkType;
+import de.decidr.model.workflowmodel.bpel.partnerlinktype.Role;
 
 /**
  * This class supplies methods for the conversion components. All web service
@@ -67,18 +67,13 @@ public class DecidrWebserviceAdapter {
     public PartnerLinkType getPartnerLinkType() {
         PartnerLinkType partnerLinkType = new PartnerLinkType();
         partnerLinkType.setName(definition.getQName().getLocalPart() + "PLT");
-        TRole myRole = new TRole();
-        myRole.setName(mapping.getActivity() + "Requestor");
-        de.decidr.model.workflowmodel.bpel.TRole.PortType myPortType = new TRole.PortType();
-        myPortType.setName(new QName(definition.getTargetNamespace(), mapping
-                .getPortType()));
-        myRole.setPortType(myPortType);
-        TRole partnerRole = new TRole();
-        partnerRole.setName(mapping.getActivity() + "Provider");
-        de.decidr.model.workflowmodel.bpel.TRole.PortType partnerPortType = new TRole.PortType();
-        // MA change mapping schema for callback port
-        partnerPortType.setName(new QName(definition.getTargetNamespace(),
-                "think about it"));
+        Role myRole = new Role();
+        myRole.setName(mapping.getActivity() + "Provider");
+        myRole.setPortType(new QName(definition.getTargetNamespace(), mapping.getPortType()));
+        Role partnerRole = new Role();
+        partnerRole.setName(mapping.getActivity() + "Client");
+        // MA what about callback port type?
+        partnerRole.setPortType(new QName(definition.getTargetNamespace(),"clientPortType"));
         return partnerLinkType;
     }
 

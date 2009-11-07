@@ -19,7 +19,7 @@ package de.decidr.model.workflowmodel.instancemanagement;
 import java.util.Date;
 
 /**
- * Holds all relevant created during invocation of the workflow model
+ * Holds all relevant data created during invocation of the workflow model
  *
  * @author Modood Alvi
  * @version 0.1

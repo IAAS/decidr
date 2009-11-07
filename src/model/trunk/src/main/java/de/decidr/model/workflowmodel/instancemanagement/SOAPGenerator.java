@@ -39,10 +39,7 @@ import de.decidr.model.workflowmodel.wsc.TRole;
  */
 public class SOAPGenerator {
 
-    private String contentType = "Content-Type";
-    private String contentValue = "text/xml; charset=UTF-8";
-    
-    private String targetNamespace = "";
+    private String targetNamespace = null;
 
     private SOAPMessage soapMessage = null;
 
@@ -65,9 +62,9 @@ public class SOAPGenerator {
             IOException, JAXBException {
 
         soapMessage = template;
-        
-        targetNamespace = soapMessage
-        .getSOAPHeader().getAttribute("targetNamespace");
+
+        targetNamespace = soapMessage.getSOAPHeader().getAttribute(
+                "targetNamespace");
 
         SOAPElement operationElement = getOperationElement();
 
@@ -101,20 +98,20 @@ public class SOAPGenerator {
 
     private SOAPElement addRole(SOAPElement soapElement, TRole role)
             throws SOAPException {
-        SOAPElement element = soapElement.addChildElement(new QName(targetNamespace, "role",
-                "decidr"));
+        SOAPElement element = soapElement.addChildElement(new QName(
+                targetNamespace, "role", "decidr"));
         element.addAttribute(new QName("name"), role.getName());
         return element;
     }
 
     private void addActor(SOAPElement soapElement, TActor actor)
             throws SOAPException {
-        SOAPElement element = soapElement.addChildElement(new QName(targetNamespace, "actor",
-        "decidr"));
-        element.addAttribute(new QName(targetNamespace, "email", "decidr"), actor.getEmail() == null ? ""
-                : actor.getEmail());
-        element.addAttribute(new QName(targetNamespace, "name", "decidr"), actor.getName() == null ? ""
-                : actor.getName());
+        SOAPElement element = soapElement.addChildElement(new QName(
+                targetNamespace, "actor", "decidr"));
+        element.addAttribute(new QName(targetNamespace, "email", "decidr"),
+                actor.getEmail() == null ? "" : actor.getEmail());
+        element.addAttribute(new QName(targetNamespace, "name", "decidr"),
+                actor.getName() == null ? "" : actor.getName());
         element.addAttribute(new QName(targetNamespace, "userId", "decidr"),
                 actor.getUserId() == null ? "" : actor.getUserId());
     }

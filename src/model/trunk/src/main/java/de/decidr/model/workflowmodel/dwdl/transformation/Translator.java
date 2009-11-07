@@ -26,7 +26,6 @@ import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
 import javax.wsdl.xml.WSDLReader;
 import javax.xml.bind.JAXBException;
-import javax.xml.namespace.QName;
 import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
@@ -40,7 +39,6 @@ import de.decidr.model.workflowmodel.bpel.Process;
 import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
-import de.decidr.model.workflowmodel.webservices.ObjectFactory;
 import de.decidr.model.workflowmodel.webservices.WebserviceMapping;
 
 /**
@@ -96,7 +94,6 @@ public class Translator {
 
     public TDeployment getDD() {
         DWDL2DD ddConverter = new DWDL2DD();
-        webserviceAdapters.put("BPEL-Process", createProcessAdapter(wsdl));
         dd = ddConverter.getDD(bpelProcess, webserviceAdapters);
         return dd;
     }
@@ -141,29 +138,5 @@ public class Translator {
 
     private WebserviceMapping parseMapping(byte[] mapping) throws JAXBException {
         return TransformUtil.bytesToMapping(mapping);
-    }
-    
-    private DecidrWebserviceAdapter createProcessAdapter(Definition processWSDL){
-        Definition tmp = processWSDL;
-        tmp.setQName(new QName("Process"));
-        
-        return new DecidrWebserviceAdapter(createProcessMapping(), tmp);
-    }
-    
-    private WebserviceMapping createProcessMapping (){
-        ObjectFactory factory = new ObjectFactory();
-        WebserviceMapping process = factory.createWebserviceMapping();
-
-        // setting process mappings
-
-        process.setActivity("Decidr-Email");
-        process.setPortType("EmailPT");
-        process.setOperation("sendEmail");
-        process.setBinding("EmailSOAP");
-        process.setPartnerLinkTyp("ProcessPLT");
-        process.setService("SimpleProcess");
-        process.setServicePort("EmailSOAP");
-        
-        return process;
     }
 }

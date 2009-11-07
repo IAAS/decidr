@@ -25,14 +25,17 @@ import java.util.Date;
  * @version 0.1
  */
 public class StartInstanceResultImpl implements StartInstanceResult {
+    
+    private long serverId = 0l;
+    private Date startDate = null;
+    private String pid = null;
 
     /* (non-Javadoc)
      * @see de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult#getServer()
      */
     @Override
     public long getServer() {
-        // TODO Auto-generated method stub
-        return 0;
+        return serverId;
     }
 
     /* (non-Javadoc)
@@ -40,8 +43,7 @@ public class StartInstanceResultImpl implements StartInstanceResult {
      */
     @Override
     public Date getStartDate() {
-        // TODO Auto-generated method stub
-        return null;
+        return startDate;
     }
 
     /* (non-Javadoc)
@@ -49,8 +51,7 @@ public class StartInstanceResultImpl implements StartInstanceResult {
      */
     @Override
     public void setServer(long server) {
-        // TODO Auto-generated method stub
-
+        serverId = server;
     }
 
     /* (non-Javadoc)
@@ -58,20 +59,17 @@ public class StartInstanceResultImpl implements StartInstanceResult {
      */
     @Override
     public void setStartDate(Date startDate) {
-        // TODO Auto-generated method stub
-
+        this.startDate = startDate;
     }
 
     @Override
     public String getODEPid() {
-        // TODO Auto-generated method stub
-        return null;
+        return pid;
     }
 
     @Override
     public void setODEPid(String pid) {
-        // TODO Auto-generated method stub
-        
+        this.pid = pid;
     }
 
 }

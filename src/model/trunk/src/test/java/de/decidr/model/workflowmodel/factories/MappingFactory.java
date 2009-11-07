@@ -23,8 +23,8 @@ import javax.xml.namespace.QName;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.webservices.ObjectFactory;
 import de.decidr.model.workflowmodel.webservices.Properties;
-import de.decidr.model.workflowmodel.webservices.Property;
-import de.decidr.model.workflowmodel.webservices.PropertyAlias;
+import de.decidr.model.workflowmodel.bpel.varprop.Property;
+import de.decidr.model.workflowmodel.bpel.varprop.PropertyAlias;
 import de.decidr.model.workflowmodel.webservices.PropertyAliases;
 import de.decidr.model.workflowmodel.webservices.WebserviceMapping;
 
@@ -49,62 +49,62 @@ public class MappingFactory {
         email.setPartnerLinkTyp("EmailPLT");
         email.setService("Email");
         email.setServicePort("EmailSOAP");
-        Property to = factory.createProperty();
+        Property to = new Property();
         to.setName("to");
         to.setType(new QName("http://decidr.de/schema/DecidrTypes",
                 "tAbstractUserList"));
 
-        Property cc = factory.createProperty();
+        Property cc = new Property();
         cc.setName("cc");
         cc.setType(new QName("http://decidr.de/schema/DecidrTypes",
                 "tAbstractUserList"));
 
-        Property bcc = factory.createProperty();
+        Property bcc = new Property();
         bcc.setName("bcc");
         bcc.setType(new QName("http://decidr.de/schema/DecidrTypes",
                 "tAbstractUserList"));
 
-        Property subject = factory.createProperty();
+        Property subject = new Property();
         subject.setName("subject");
         subject
                 .setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"));
 
-        Property message = factory.createProperty();
+        Property message = new Property();
         message.setName("message");
         message
                 .setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"));
 
-        Property attachement = factory.createProperty();
+        Property attachement = new Property();
         attachement.setName("attachement");
         attachement.setType(new QName("http://decidr.de/schema/DecidrTypes",
                 "tIDList"));
 
-        PropertyAlias to_Alias = factory.createPropertyAlias();
+        PropertyAlias to_Alias = new PropertyAlias();
         to_Alias.setPropertyName(new QName(to.getName()));
         to_Alias.setMessageType(new QName("sendEmailRequest"));
         to_Alias.setType(to.getType());
 
-        PropertyAlias cc_Alias = factory.createPropertyAlias();
+        PropertyAlias cc_Alias = new PropertyAlias();
         cc_Alias.setPropertyName(new QName(cc.getName()));
         cc_Alias.setMessageType(new QName("sendEmailRequest"));
         cc_Alias.setType(cc.getType());
 
-        PropertyAlias bcc_Alias = factory.createPropertyAlias();
+        PropertyAlias bcc_Alias = new PropertyAlias();
         bcc_Alias.setPropertyName(new QName(bcc.getName()));
         bcc_Alias.setMessageType(new QName("sendEmailRequest"));
         bcc_Alias.setType(bcc.getType());
 
-        PropertyAlias subject_Alias = factory.createPropertyAlias();
+        PropertyAlias subject_Alias = new PropertyAlias();
         subject_Alias.setPropertyName(new QName(subject.getName()));
         subject_Alias.setMessageType(new QName("sendEmailRequest"));
         subject_Alias.setType(subject.getType());
 
-        PropertyAlias message_Alias = factory.createPropertyAlias();
+        PropertyAlias message_Alias = new PropertyAlias();
         message_Alias.setPropertyName(new QName(message.getName()));
         message_Alias.setMessageType(new QName("sendEmailRequest"));
         message_Alias.setType(message.getType());
 
-        PropertyAlias attachement_Alias = factory.createPropertyAlias();
+        PropertyAlias attachement_Alias = new PropertyAlias();
         attachement_Alias.setPropertyName(new QName(attachement.getName()));
         attachement_Alias.setMessageType(new QName("sendEmailRequest"));
         attachement_Alias.setType(attachement.getType());
@@ -150,69 +150,69 @@ public class MappingFactory {
         humanTask.setService("HumanTask");
         humanTask.setServicePort("HumanTaskSOAP");
 
-        Property wfmID = factory.createProperty();
+        Property wfmID = new Property();
         wfmID.setName("wfmID");
         wfmID.setType(new QName("http://decidr.de/schema/DecidrTypes", "tID"));
 
-        Property user = factory.createProperty();
+        Property user = new Property();
         user.setName("user");
         user.setType(new QName("http://decidr.de/schema/DecidrTypes", "tID"));
 
-        Property name = factory.createProperty();
+        Property name = new Property();
         name.setName("name");
         name.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"));
 
-        Property description = factory.createProperty();
+        Property description = new Property();
         description.setName("description");
         description.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI,
                 "string"));
 
-        Property userNotification = factory.createProperty();
+        Property userNotification = new Property();
         userNotification.setName("userNotification");
         userNotification.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI,
                 "boolean"));
 
-        Property taskDescription = factory.createProperty();
+        Property taskDescription = new Property();
         taskDescription.setName("taskDescription");
         taskDescription.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI,
                 "string"));
 
-        Property taskResult = factory.createProperty();
+        Property taskResult = new Property();
         taskResult.setName("taskResult");
         taskResult.setType(new QName("nochtnichtdefiniert"));
 
-        PropertyAlias wfmID_Alias = factory.createPropertyAlias();
+        PropertyAlias wfmID_Alias = new PropertyAlias();
         wfmID_Alias.setPropertyName(new QName(wfmID.getName()));
         wfmID_Alias.setMessageType(new QName("createTaskRequest"));
         wfmID_Alias.setType(wfmID.getType());
 
-        PropertyAlias user_Alias = factory.createPropertyAlias();
+        PropertyAlias user_Alias = new PropertyAlias();
         user_Alias.setPropertyName(new QName(user.getName()));
         user_Alias.setMessageType(new QName("createTaskRequest"));
         user_Alias.setType(wfmID.getType());
 
-        PropertyAlias name_Alias = factory.createPropertyAlias();
+        PropertyAlias name_Alias = new PropertyAlias();
         name_Alias.setPropertyName(new QName(name.getName()));
         name_Alias.setMessageType(new QName("createTaskRequest"));
         name_Alias.setType(name.getType());
 
-        PropertyAlias description_Alias = factory.createPropertyAlias();
+        PropertyAlias description_Alias = new PropertyAlias();
         description_Alias.setPropertyName(new QName(description.getName()));
         description_Alias.setMessageType(new QName("createTaskRequest"));
         description_Alias.setType(description.getType());
 
-        PropertyAlias userNotification_Alias = factory.createPropertyAlias();
+        PropertyAlias userNotification_Alias = new PropertyAlias();
         userNotification_Alias.setPropertyName(new QName(user.getName()));
         userNotification_Alias.setMessageType(new QName("createTaskRequest"));
         userNotification_Alias.setType(userNotification.getType());
 
-        PropertyAlias taskDescription_Alias = factory.createPropertyAlias();
+        PropertyAlias taskDescription_Alias = new PropertyAlias();
         taskDescription_Alias.setPropertyName(new QName(taskDescription
                 .getName()));
         taskDescription_Alias.setMessageType(new QName("createTaskRequest"));
         taskDescription_Alias.setType(taskDescription.getType());
 
-        PropertyAlias taskResult_Alias = factory.createPropertyAlias();
+        PropertyAlias taskResult_Alias = new PropertyAlias();
         taskResult_Alias.setPropertyName(new QName(taskResult.getName()));
         taskResult_Alias.setMessageType(new QName("createTaskRequest"));
         taskResult_Alias.setType(taskResult.getType());

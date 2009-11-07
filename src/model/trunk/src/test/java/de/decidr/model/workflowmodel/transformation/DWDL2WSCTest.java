@@ -29,7 +29,7 @@ import org.junit.Test;
 
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSC;
-import de.decidr.model.workflowmodel.dwdl.transformation.TransformationConstants;
+import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
 import de.decidr.model.workflowmodel.factories.DWDLFactory;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
@@ -66,7 +66,7 @@ public class DWDL2WSCTest {
             Marshaller m = JAXBContext.newInstance(TConfiguration.class).createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             m.marshal(new JAXBElement<TConfiguration>(
-                    new QName(TransformationConstants.CONFIGURATION_NAMESPACE,
+                    new QName(Constants.CONFIGURATION_NAMESPACE,
                     "configurations"), TConfiguration.class, config), System.out);
         }
         assertNotNull(config);

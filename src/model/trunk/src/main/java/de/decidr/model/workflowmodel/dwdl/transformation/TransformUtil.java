@@ -29,6 +29,10 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.SOAPPart;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Logger;
@@ -81,7 +85,7 @@ public class TransformUtil {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         JAXBElement<Process> element = new JAXBElement<Process>(
-                new QName(TransformationConstants.BPEL_NAMESPACE,
+                new QName(Constants.BPEL_NAMESPACE,
                         "process"), Process.class, bpel);
         marshaller.marshal(element, os);
 
@@ -137,7 +141,7 @@ public class TransformUtil {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         JAXBElement<TConfiguration> element = new JAXBElement<TConfiguration>(
-                new QName(TransformationConstants.CONFIGURATION_NAMESPACE,
+                new QName(Constants.CONFIGURATION_NAMESPACE,
                         "configurations"), TConfiguration.class, conf);
         marshaller.marshal(element, os);
 
@@ -149,7 +153,7 @@ public class TransformUtil {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         JAXBElement<TDeployment> element = new JAXBElement<TDeployment>(
-                new QName(TransformationConstants.DD_NAMESPACE,
+                new QName(Constants.DD_NAMESPACE,
                         "deploy"), TDeployment.class, deployment);
         marshaller.marshal(element, os);
 
@@ -177,7 +181,7 @@ public class TransformUtil {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         JAXBElement<WebserviceMapping> mappingElement = new JAXBElement<WebserviceMapping>(
-                new QName(TransformationConstants.MAPPING_NAMESPACE,
+                new QName(Constants.MAPPING_NAMESPACE,
                         "mapping"), WebserviceMapping.class, mapping);
         marshaller.marshal(mappingElement, os);
 
@@ -190,11 +194,27 @@ public class TransformUtil {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         JAXBElement<Workflow> mappingElement = new JAXBElement<Workflow>(
-                new QName(TransformationConstants.DWDL_NAMESPACE,
+                new QName(Constants.DWDL_NAMESPACE,
                         "workflow"), Workflow.class, dwdl);
         marshaller.marshal(mappingElement, os);
 
         return os.toByteArray();
+    }
+    
+    public static SOAPMessage bytesToSOAPMessage(byte[] message) throws SOAPException{
+        
+        MessageFactory messageFactory = MessageFactory.newInstance();
+        SOAPMessage msg = messageFactory.createMessage();
+
+        SOAPPart soapPart =     msg.getSOAPPart();
+
+       StreamSource preppedMsgSrc = new StreamSource( 
+                new ByteArrayInputStream(message));
+       soapPart.setContent(preppedMsgSrc);
+
+        msg.saveChanges();
+        
+        return msg; 
     }
 
 }

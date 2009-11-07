@@ -45,6 +45,8 @@ public interface InstanceManager {
      * the start configuration. If successful the instance returns the newly
      * created WorkflowInstance, containing all relevant data.
      * 
+     * For this a SOAP Message is build and send to the process.
+     * 
      * @param dwfm
      *            The deployed workflow model
      * @param startConfiguration
@@ -58,12 +60,29 @@ public interface InstanceManager {
             throws SOAPException, IOException, JAXBException;
 
     /**
-     * MA Does this terminate the workflow instance so I can delete it from the
-     * database forever? Or does this only set the worklow instance status to
-     * "stopped"? I need your help :-) does a method exist that completely
-     * removes a process instance from the ODE? ~dh
+     * This operation first terminates a given {@link WorkflowInstance} and then
+     * deletes it. For this the InstanceManagement API of Apache ODE is used.
+     * 
+     * The terminate operation causes the process instance to terminate
+     * immediately, without a chance to perform any fault handling or
+     * compensation. The process transitions to the terminated state. It only
+     * affects process instances that are in the active, suspended or error
+     * states.
+     * 
+     * The delete operation delete all, or some completed process instances.
+     * 
+     * The request identifies the process instances using a filter that can
+     * select instances with a given name, status, property values, etc.
+     * Alternatively, the instance element can be used to specify a particular
+     * process instance to delete. A process instance that is in the active,
+     * suspended or error state cannot be deleted. Similarly, specifying a
+     * process instance has no affect if that instance is not in the completed,
+     * terminated or faulted state.
+     * 
+     * 
      * 
      * @param instance
+     *            {@link WorkflowInstance} to stop
      * @throws AxisFault
      */
     public void stopInstance(WorkflowInstance instance) throws AxisFault;

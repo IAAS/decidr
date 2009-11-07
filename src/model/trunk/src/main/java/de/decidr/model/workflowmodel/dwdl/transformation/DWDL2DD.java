@@ -52,8 +52,9 @@ public class DWDL2DD {
                 .createTDeploymentProcess();
         process.setName(new QName(bpel.getTargetNamespace(), bpel.getName(),
                 "pns"));
+        
+        // create for all partner links the corresponding provide and invoke tag
         for (PartnerLink partnerLink : bpel.getPartnerLinks().getPartnerLink()) {
-            if (partnerLink.isSetMyRole() || partnerLink.isSetPartnerRole()) {
                 if (partnerLink.isSetMyRole()) {
                     TProvide provide = factory.createTProvide();
                     provide.setPartnerLink(partnerLink.getName());
@@ -63,6 +64,7 @@ public class DWDL2DD {
                     if (webservice != null && webservice.getService() != null){
                         service.setName(webservice.getService().getQName());
                         provide.setService(service);
+                        provide.setPartnerLink(partnerLink.getName());
                         process.getProvide().add(provide);
                     }
                     
@@ -76,10 +78,29 @@ public class DWDL2DD {
                     if (webservice != null && webservice.getService() != null){
                         service.setName(webservice.getService().getQName());
                         invoke.setService(service);
+                        invoke.setPartnerLink(partnerLink.getName());
                         process.getInvoke().add(invoke);
                     }
-                    
-                }
+            }
+            // consider special case for the process partner link
+            PartnerLink processPartnerLink = getProcessPartnerLink(bpel);
+            if (processPartnerLink.isSetMyRole()) {
+                TProvide provide = factory.createTProvide();
+                provide.setPartnerLink(processPartnerLink.getName());
+                TService service = factory.createTService();
+                service.setName(new QName(bpel.getTargetNamespace(),bpel.getName()));
+                provide.setService(service);
+                provide.setPartnerLink(processPartnerLink.getName());
+                process.getProvide().add(provide);
+            }
+            if (processPartnerLink.isSetPartnerRole()) {
+                TInvoke invoke = factory.createTInvoke();
+                invoke.setPartnerLink(partnerLink.getName());
+                TService service = factory.createTService();
+                service.setName(new QName(bpel.getTargetNamespace(),bpel.getName()));
+                invoke.setService(service);
+                invoke.setPartnerLink(processPartnerLink.getName());
+                process.getInvoke().add(invoke);
             }
         }
         deployment.getProcess().add(process);
@@ -93,6 +114,17 @@ public class DWDL2DD {
             if (adapter.getPartnerLink().getName()
                     .equals(partnerLink.getName())) {
                 return adapter;
+            }
+        }
+        return null;
+    }
+    
+    private PartnerLink getProcessPartnerLink(Process bpel){
+        if (bpel.isSetPartnerLinks()){
+            for (PartnerLink partnerLink : bpel.getPartnerLinks().getPartnerLink()){
+                if(partnerLink.getName().equals(BPELConstants.PROCESS_PARTNERLINK)){
+                    return partnerLink;
+                }
             }
         }
         return null;
