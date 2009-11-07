@@ -21,7 +21,7 @@ package de.decidr.ui.data;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-// XXX deprecated; remove ASAP
+// Aleks, GH deprecated; remove ASAP
 @Deprecated
 public class ProfileSettingsContainer {
     private static ProfileSettingsContainer cont = null;

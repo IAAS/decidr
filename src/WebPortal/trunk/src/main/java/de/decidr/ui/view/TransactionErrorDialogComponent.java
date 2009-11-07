@@ -21,7 +21,7 @@ package de.decidr.ui.view;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-// XXX This thing is way too generic and doesn't provide any useful info!
+// Aleks, GH This thing is way too generic and doesn't provide any useful info!
 public class TransactionErrorDialogComponent extends InformationDialogComponent {
 
     /**

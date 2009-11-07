@@ -56,7 +56,7 @@ public class UIDirector {
      * 
      */
     private UIDirector() {
-        // XXX: document: why is this empty
+        // Aleks, GH: document: why is this empty
     }
 
     /**

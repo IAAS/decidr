@@ -280,7 +280,7 @@ public class CompletedInstancesContainer extends Observable implements
      */
     @Override
     public Object nextItemId(Object itemId) {
-        // TODO Auto-generated method stub
+        // Aleks, GH Auto-generated method stub
         return null;
     }
 
@@ -291,7 +291,7 @@ public class CompletedInstancesContainer extends Observable implements
      */
     @Override
     public Object prevItemId(Object itemId) {
-        // TODO Auto-generated method stub
+        // Aleks, GH Auto-generated method stub
         return null;
     }
 
@@ -339,5 +339,4 @@ public class CompletedInstancesContainer extends Observable implements
     public int size() {
         return items.size();
     }
-
 }

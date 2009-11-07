@@ -17,7 +17,6 @@ package de.decidr.ui.view;
 
 import java.util.Arrays;
 
-
 import com.vaadin.data.Item;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.data.validator.StringLengthValidator;
@@ -55,7 +54,7 @@ public class ProfileSettingsComponent extends CustomComponent {
      * @author Geoffrey-Alexeij Heinze
      */
     private class SettingsFieldFactory extends DefaultFieldFactory {
-    	//TODO: Werden die Felder automatische mit den Werten gefüllt
+        // Aleks, GH: Werden die Felder automatische mit den Werten gefüllt
         @Override
         public Field createField(Item item, Object propertyId,
                 Component uiContext) {
@@ -144,7 +143,7 @@ public class ProfileSettingsComponent extends CustomComponent {
      * 
      */
     public ProfileSettingsComponent(Item item) {
-    	this.settingsItem = item;
+        this.settingsItem = item;
         init();
     }
 
@@ -274,7 +273,7 @@ public class ProfileSettingsComponent extends CustomComponent {
         buttonHorizontalLayout.addComponent(cancelMembershipLink);
     }
 
-    // TODO: make private when no longer needed for testing
+    // Aleks, GH: make private when no longer needed for testing
     public void saveSettingsItem() {
         try {
             settingsForm.commit();
@@ -282,18 +281,15 @@ public class ProfileSettingsComponent extends CustomComponent {
         } catch (Exception e) {
             Main.getCurrent().getMainWindow().showNotification(e.getMessage());
         }
-
     }
 
-	/**
-	 * Gets the settings form
-	 *
-	 * @return the settingsForm
-	 */
-	public Form getSettingsForm() {
-		return settingsForm;
-	}
-    
-    
+    /**
+     * Gets the settings form
+     * 
+     * @return the settingsForm
+     */
+    public Form getSettingsForm() {
+        return settingsForm;
+    }
 
 }

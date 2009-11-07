@@ -49,7 +49,7 @@ public class CancelMembershipAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
 
-        // TODO: how to cancel membership?
+        // Aleks, GH: how to cancel membership?
 
         try {
             userFacade.setDisabledSince(userId, new Date());

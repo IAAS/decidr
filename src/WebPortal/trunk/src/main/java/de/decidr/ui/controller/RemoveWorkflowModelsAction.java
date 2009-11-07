@@ -33,7 +33,7 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 /**
- * TODO: add comment
+ * Aleks: add comment
  * 
  * @author AT
  */
@@ -46,7 +46,7 @@ public class RemoveWorkflowModelsAction implements ClickListener {
 	private Table table = null;
 	
 	/**
-	 * TODO: add comment
+	 * Aleks: add comment
 	 *
 	 */
 	public RemoveWorkflowModelsAction(Table table) {
@@ -82,7 +82,5 @@ public class RemoveWorkflowModelsAction implements ClickListener {
 			Main.getCurrent().getMainWindow().addWindow(
 					new TransactionErrorDialogComponent());
 		}
-
 	}
-
 }

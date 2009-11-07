@@ -46,7 +46,7 @@ public class SystemSettingsItem implements Item {
     public SystemSettingsItem() {
         try {
             item = systemFacade.getSettings();
-            // TODO: remove later
+            // Aleks, GH: remove later
             // item = new BeanItem(ProfileSettingsContainer.getInstance());
         } catch (Exception e) {
             Main.getCurrent().addWindow(new TransactionErrorDialogComponent());

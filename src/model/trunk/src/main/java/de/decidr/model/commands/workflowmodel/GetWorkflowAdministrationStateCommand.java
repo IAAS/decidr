@@ -58,12 +58,16 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
     private Map<User, UserWorkflowAdminState> result;
 
     /**
-     * Constructor
+     * Constructor DH document
      * 
      * @param role
+     *            DH document
      * @param workflowModelId
+     *            DH document
      * @param usernames
+     *            DH document
      * @param emails
+     *            DH document
      */
     public GetWorkflowAdministrationStateCommand(Role role,
             Long workflowModelId, List<String> usernames, List<String> emails) {
@@ -128,7 +132,7 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
      * usernames and emails.
      * 
      * @param session
-     *            TODO document
+     *            DH document
      * @return list of known users
      */
     @SuppressWarnings("unchecked")
@@ -159,11 +163,11 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
      * removes them from knownUsers.
      * 
      * @param knownUsers
-     *            TODO document
+     *            DH document
      * @param model
-     *            TODO document
+     *            DH document
      * @param session
-     *            TODO document
+     *            DH document
      * @return the workflow admins that were removed from knownUsers
      */
     @SuppressWarnings("unchecked")
@@ -212,12 +216,12 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
      * from knownUsers.
      * 
      * @param knownUsers
-     *            TODO document
+     *            DH document
      * @param model
-     *            TODO document
+     *            DH document
      * @param session
-     *            TODO document
-     * @return TODO document
+     *            DH document
+     * @return DH document
      */
     @SuppressWarnings("unchecked")
     private List<User> getMembers(List<User> knownUsers, WorkflowModel model,

@@ -71,5 +71,4 @@ public class StartInstanceResultImpl implements StartInstanceResult {
     public void setODEPid(String pid) {
         this.pid = pid;
     }
-
 }

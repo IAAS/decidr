@@ -71,7 +71,7 @@ public class SystemSettingComponent extends CustomComponent {
     private Slider changeEmailSlider = null;
     private Slider invitationSlider = null;
     private Slider maxAttachmentSlider = null;
-    // TODO: weitere settings hinzufügen
+    // Aleks, GH: weitere settings hinzufügen
     private Button saveButton = null;
 
     /**

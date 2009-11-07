@@ -23,14 +23,14 @@ import de.decidr.model.workflowmodel.wsc.TRole;
 import de.decidr.model.workflowmodel.wsc.TRoles;
 
 /**
- * TODO: add comment
+ * Aleks: add comment
  * 
  * @author AT
  */
 public class HumanTaskStartConfigurationFactory {
 
     /**
-     * TODO: add comment
+     * Aleks: add comment
      * 
      * @param args
      */

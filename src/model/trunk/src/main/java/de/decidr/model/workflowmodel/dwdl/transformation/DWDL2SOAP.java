@@ -101,14 +101,14 @@ public class DWDL2SOAP {
                 soapMessage = buildMessage(soapElements, element);
                 
             } else if (typeName != null) {
-                // TODO document empty block
+                // MA document empty block
             }
         }
         return soapMessage;
     }
 
     /**
-     * TODO: add comment
+     * MA: add comment
      *
      * @param complexChild
      * @return
@@ -145,7 +145,7 @@ public class DWDL2SOAP {
     }
 
     /**
-     * TODO: add comment
+     * MA: add comment
      * 
      * @param complexChild
      * @return
@@ -155,7 +155,7 @@ public class DWDL2SOAP {
     }
 
     /**
-     * TODO: add comment
+     * MA: add comment
      * 
      * @param child
      * @return
@@ -175,7 +175,7 @@ public class DWDL2SOAP {
     }
 
     /**
-     * TODO: add comment
+     * MA: add comment
      * 
      * @param name
      * @param jdomSchemaElement

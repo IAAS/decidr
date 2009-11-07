@@ -33,7 +33,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * <ul>
  * <li>Workflow administrators have implicit access to files associated with
  * administered work items.</li>
- * <li>XXX extension case</li>
+ * <li>XXX DH extension case</li>
  * </ul>
  * 
  * @author Daniel Huss

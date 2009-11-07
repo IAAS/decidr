@@ -73,9 +73,8 @@ public class DWDL2WSDLTest {
         } catch (JDOMException e) {
             e.printStackTrace();
         } catch (WSDLException e) {
-            // TODO Auto-generated catch block
+            // MA Auto-generated catch block
             e.printStackTrace();
         }
     }
-
 }

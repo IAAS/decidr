@@ -22,7 +22,7 @@ import java.util.Map;
 import com.vaadin.terminal.ParameterHandler;
 
 /**
- * TODO: add comment
+ * Aleks: add comment
  * 
  * @author AT
  */
@@ -32,7 +32,7 @@ public class MyParamterHandler implements ParameterHandler {
     String value = null;
 
     /**
-     * TODO: add comment
+     * Aleks: add comment
      * 
      * @return
      */
@@ -53,5 +53,4 @@ public class MyParamterHandler implements ParameterHandler {
             value = ((String[]) parameters.get(key))[0];
         }
     }
-
 }

@@ -97,14 +97,12 @@ public class SaveSystemSettingsAction implements ClickListener {
         settings.setRegistrationRequestLifetimeSeconds(Integer.parseInt(item
                 .getItemProperty("registrationRequestLifetimeSecond")
                 .getValue().toString()));
-        // TODO: weitere settings speichern
+        // Aleks, GH: weitere settings speichern
         try {
             systemFacade.setSettings(settings);
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent());
         }
-
     }
-
 }
