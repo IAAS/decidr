@@ -215,12 +215,13 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     }
 
     private static void setEmailAddressExceptionHelper(String failmsg,
-            UserFacade facade, Long userID, String newEmail)
-            throws TransactionException {
+            UserFacade facade, Long userID, String newEmail) {
         try {
             facade.setEmailAddress(userID, newEmail);
             fail(failmsg);
         } catch (IllegalArgumentException e) {
+            // supposed to be thrown
+        } catch (TransactionException e) {
             // supposed to be thrown
         }
     }
@@ -250,9 +251,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         registerUserExceptionHelper(
                 "registering user with null facade succeeded", nullFacade,
                 getTestEmail(0), "asd", testProfile);
-        registerUserExceptionHelper(
-                "registering user with normal user facade succeeded",
-                userFacade, getTestEmail(0), "asd", testProfile);
+
+        userFacade.registerUser(getTestEmail(0), "asd", testProfile);
 
         testProfile.setUsername(USERNAME_PREFIX + "1");
         adminFacade.registerUser(getTestEmail(1), "asd", testProfile);
@@ -891,12 +891,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
 
-        // RR false positive: users can only set their own user properties
-        // (actor = modified user) ~dhh
         for (UserFacade facade : new UserFacade[] { userFacade, adminFacade,
                 nullFacade }) {
-            setEmailAddressExceptionHelper("setting same email succeeded",
-                    facade, secondUserID, TEST_EMAIL);
             setEmailAddressExceptionHelper("setting null email succeeded",
                     facade, testUserID, null);
             setEmailAddressExceptionHelper("setting empty email succeeded",
@@ -906,6 +902,9 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                     getTestEmail(4));
         }
 
+        setEmailAddressExceptionHelper("setting same email succeeded",
+                new UserFacade(new UserRole(secondUserID)), secondUserID,
+                TEST_EMAIL);
         setEmailAddressExceptionHelper(
                 "setting email with null facade succeeded", nullFacade,
                 testUserID, TEST_EMAIL);
@@ -1106,8 +1105,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             // supposed to be thrown
         }
 
-        adminFacade.setCurrentTenantId(testUserID, null);
-
         userFacade.setCurrentTenantId(tenantUserID, tenantID);
         assertEquals(tenantID, userFacade.getCurrentTenantId(tenantUserID));
         adminFacade.setCurrentTenantId(tenantUserID, tenantID);
@@ -1119,6 +1116,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         adminFacade.setCurrentTenantId(tenantUserID, null);
         assertNull(userFacade.getCurrentTenantId(tenantUserID));
 
+        adminFacade.setCurrentTenantId(testUserID, null);
         adminFacade.setCurrentTenantId(testUserID, tenantID);
 
         joinedTenants = userFacade.getJoinedTenants(tenantUserID);
@@ -1130,6 +1128,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                     (Long) item.getItemProperty("id").getValue()));
         }
 
+        userFacade = new UserFacade(new UserRole(testUserID));
         joinedTenants = adminFacade.getJoinedTenants(tenantUserID);
         assertFalse(joinedTenants.isEmpty());
         for (Item item : joinedTenants) {
@@ -1139,18 +1138,13 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
                     (Long) item.getItemProperty("id").getValue()));
         }
 
-        userFacade = new UserFacade(new UserRole(testUserID));
         assertTrue(userFacade.getJoinedTenants(testUserID).isEmpty());
         assertTrue(adminFacade.getJoinedTenants(testUserID).isEmpty());
-        assertNull(userFacade.getUserRoleForTenant(testUserID, tenantID));
-        assertNull(adminFacade.getUserRoleForTenant(testUserID, tenantID));
+        assertNotNull(userFacade.getUserRoleForTenant(testUserID, tenantID));
+        assertNotNull(adminFacade.getUserRoleForTenant(testUserID, tenantID));
         assertFalse(adminFacade.removeFromTenant(testUserID, tenantID));
 
         try {
-            // DH so users can't leave tenants? ~rr
-            // RR users can leave their tenant -> LeaveTenantCommand. Tenant
-            // admins can remove users from their tenant ->
-            // RemoveFromTenantCommand.
             assertFalse(userFacade.removeFromTenant(testUserID, tenantID));
             fail("Managed to remove user from tenant using normal user facade");
         } catch (TransactionException e) {

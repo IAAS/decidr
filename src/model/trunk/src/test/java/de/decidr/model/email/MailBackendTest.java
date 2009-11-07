@@ -896,11 +896,11 @@ public class MailBackendTest extends DecidrOthersTest {
     @Test
     public void testSetBodyHTML() throws MessagingException, IOException {
         testMail.setBodyHTML("<html>Testbody</html>");
-        assertEquals("text/html", testMail.getHtmlPart().getContentType());
+        assertEquals("text/html; charset=UTF-8", testMail.getHtmlPart().getContentType());
         assertEquals("<html>Testbody</html>", testMail.getHtmlPart()
                 .getContent());
         testMail.setBodyHTML("<html></html>");
-        assertEquals("text/html", testMail.getHtmlPart().getContentType());
+        assertEquals("text/html; charset=UTF-8", testMail.getHtmlPart().getContentType());
         assertEquals("<html></html>", testMail.getHtmlPart().getContent());
 
         testMail.setBodyHTML(null);

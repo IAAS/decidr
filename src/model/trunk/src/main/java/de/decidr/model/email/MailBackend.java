@@ -1059,7 +1059,7 @@ public class MailBackend {
         } else {
             log.debug("setting body text");
             textPart = new MimeBodyPart();
-            textPart.setContent(message, "text/plain");
+            textPart.setContent(message, "text/plain; charset=UTF-8");
         }
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".setBodyText(String)");
@@ -1083,7 +1083,7 @@ public class MailBackend {
             log.debug("setting body HTML");
             htmlPart = new MimeBodyPart();
             htmlPart.setContent(message, "text/html");
-            htmlPart.setHeader("Content-Type", "text/html");
+            htmlPart.setHeader("Content-Type", "text/html; charset=UTF-8");
         }
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".setBodyHTML(String)");

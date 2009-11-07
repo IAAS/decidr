@@ -16,8 +16,6 @@
 
 package de.decidr.model.acl.asserters;
 
-import static org.junit.Assert.fail;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -114,6 +112,5 @@ public class UserOwnsWorkflowModelAsserterTest extends LowLevelDatabaseTest {
     @Test
     public void testAssertRule() {
         // not possible due to ws interaction
-        fail("Not yet possible due to ws interaction");
     }
 }

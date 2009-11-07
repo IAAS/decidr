@@ -16,12 +16,10 @@
 
 package de.decidr.model.acl.asserters;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -62,8 +60,7 @@ public class FileAccessAsserterTest extends LowLevelDatabaseTest {
     private static final String USERNAME_PREFIX = "testuser";
 
     @BeforeClass
-    public static void setUpBeforeClass() throws TransactionException,
-            FileNotFoundException {
+    public static void setUpBeforeClass() throws TransactionException {
         UserFacadeTest.deleteTestUsers();
 
         // create test users

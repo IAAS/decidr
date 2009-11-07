@@ -16,6 +16,5 @@
 /**
  * This package contains classes related to the Email Web service.
  */
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://decidr.de/webservices/Email")
 package de.decidr.webservices.email;
 

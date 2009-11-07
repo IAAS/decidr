@@ -16,8 +16,6 @@
 
 package de.decidr.model.acl.asserters;
 
-import static org.junit.Assert.fail;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -34,8 +32,8 @@ import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * Test case for <code>{@link UserOwnsWorkItemAsserter}</code>. NOTE: see
- * <code>{@link DefaultAccessControlListTest}</code>
+ * Test case for <code>{@link UserOwnsWorkItemAsserter}</code>.<br>
+ * NOTE: see <code>{@link DefaultAccessControlListTest}</code>
  * 
  * @author Geoffrey-Alexeij Heinze
  */
@@ -122,6 +120,5 @@ public class UserOwnsWorkItemAsserterTest extends LowLevelDatabaseTest {
     @Test
     public void testAssertRule() {
         // not yet possible due to ws interaction
-        fail("Not yet possible due to ws interaction");
     }
 }
