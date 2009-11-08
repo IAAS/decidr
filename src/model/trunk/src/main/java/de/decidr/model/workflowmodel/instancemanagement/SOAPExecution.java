@@ -21,7 +21,10 @@ import javax.xml.soap.SOAPConnectionFactory;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
+import org.apache.log4j.Logger;
+
 import de.decidr.model.entities.ServerLoadView;
+import de.decidr.model.logging.DefaultLogger;
 
 /**
  * This class invokes a web service with a given SOAP message.
@@ -30,6 +33,8 @@ import de.decidr.model.entities.ServerLoadView;
  * @version 0.1
  */
 public class SOAPExecution {
+    
+    private static Logger log = DefaultLogger.getLogger(SOAPExecution.class);
 
     /**
      * The function expects the address of a Web service and a matching SOAP

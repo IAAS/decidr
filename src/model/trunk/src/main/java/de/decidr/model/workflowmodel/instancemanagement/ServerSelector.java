@@ -18,7 +18,10 @@ package de.decidr.model.workflowmodel.instancemanagement;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import de.decidr.model.entities.ServerLoadView;
+import de.decidr.model.logging.DefaultLogger;
 
 /**
  * This class uses a passed list of servers, on which a specific workflow model
@@ -29,6 +32,8 @@ import de.decidr.model.entities.ServerLoadView;
  * @version 0.1
  */
 public class ServerSelector {
+    
+    private static Logger log = DefaultLogger.getLogger(ServerSelector.class);
 
     /**
      * The function expects a ServerLoadView and selects the server with the

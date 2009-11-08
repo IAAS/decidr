@@ -60,6 +60,8 @@ import de.decidr.model.workflowmodel.wsc.TConfiguration;
  * @version 0.1
  */
 public class TransformUtil {
+    
+    private static Logger log = DefaultLogger.getLogger(TransformUtil.class);
 
     private static JAXBContext dwdlCntxt = null;
     private static JAXBContext bpelCntxt = null;
@@ -67,8 +69,7 @@ public class TransformUtil {
     private static JAXBContext mappingCntxt = null;
     private static JAXBContext htaskCntxt = null;
     private static JAXBContext ddCntxt = null;
-    private static Logger log = DefaultLogger.getLogger(TransformUtil.class);
-    private static String documentBaseURI = "resources/xsd/";
+    private static final String DOCUMENT_BASE_URI = "resources/xsd/";
 
     static {
         try {
@@ -118,7 +119,7 @@ public class TransformUtil {
                 PartnerLinkType.class);
         reader.setExtensionRegistry(extensionRegistry);
         InputSource in = new InputSource(new ByteArrayInputStream(wsdl));
-        Definition def = reader.readWSDL(documentBaseURI, in);
+        Definition def = reader.readWSDL(DOCUMENT_BASE_URI, in);
         return def;
     }
 

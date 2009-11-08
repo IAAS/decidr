@@ -16,9 +16,6 @@
 
 package de.decidr.model.workflowmodel.deployment;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +31,7 @@ import org.apache.axiom.om.OMNamespace;
 import org.apache.axiom.om.OMText;
 import org.apache.axiom.om.util.Base64;
 import org.apache.axis2.AxisFault;
+import org.apache.log4j.Logger;
 import org.apache.ode.axis2.service.ServiceClientUtil;
 import org.apache.ode.utils.Namespaces;
 
@@ -42,6 +40,7 @@ import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.bpel.Process;
 import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dwdl.transformation.Translator;
@@ -56,6 +55,8 @@ import de.decidr.model.workflowmodel.dwdl.validation.Validator;
  * @version 0.1
  */
 public class DeployerImpl implements Deployer {
+    
+    private static Logger log = DefaultLogger.getLogger(DeployerImpl.class);
 
     private List<ServerLoadView> prefferedServers = null;
     private List<Long> serverList = new ArrayList<Long>();
@@ -85,11 +86,13 @@ public class DeployerImpl implements Deployer {
         validator = new Validator();
         problems = validator.validate(dwdl);
         if (!problems.isEmpty()) {
+            log.error("The DWDL file is not valid");
             throw new DWDLValidationException(problems);
         }
         // select the server according deployment strategy
         prefferedServers = strategy.selectServer(serverStatistics);
         if (prefferedServers.isEmpty()) {
+            log.error("Could't find a server for deployment");
             throw new ODESelectorException(serverStatistics);
         }
         // get BPEL, WSDL, SOAP, and DD files
@@ -136,19 +139,6 @@ public class DeployerImpl implements Deployer {
         root.addChild(zipPart);
         zipPart.addChild(zipElmt);
         zipElmt.addChild(zipContent);
-        
-        // test file output
-        
-        try {
-            FileOutputStream out = new FileOutputStream(new File("test.zip"));
-            out.write(zip);
-        } catch (FileNotFoundException e) {
-            // MA Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // MA Auto-generated catch block
-            e.printStackTrace();
-        }
 
         // deploy
         client.send(root, location + "/ode/processes/DeploymentService");

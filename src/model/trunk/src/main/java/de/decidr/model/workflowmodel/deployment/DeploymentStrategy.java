@@ -27,14 +27,15 @@ import de.decidr.model.entities.ServerLoadView;
  * @version 0.1
  */
 public interface DeploymentStrategy {
-    
-    
+
     /**
-     * Selection of servers for deployment
-     *
-     * @param serverStatistics
-     * @return List of server on which deployment can be done
+     * This interface defines a simple deployment strategy. It provides a method
+     * how a to select servers for deployment.
+     * 
+     * @param serverStatistics A {@link List} of {@link ServerLoadView}
+     * @return {@link List} of {@link ServerLoadView} on which deployment can be done
      */
-    public List<ServerLoadView> selectServer(List<ServerLoadView> serverStatistics);
-    
+    public List<ServerLoadView> selectServer(
+            List<ServerLoadView> serverStatistics);
+
 }

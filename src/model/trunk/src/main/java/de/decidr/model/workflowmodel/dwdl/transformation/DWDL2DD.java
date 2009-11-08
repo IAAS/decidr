@@ -20,6 +20,9 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.apache.log4j.Logger;
+
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.bpel.PartnerLink;
 import de.decidr.model.workflowmodel.bpel.Process;
 import de.decidr.model.workflowmodel.dd.ObjectFactory;
@@ -37,6 +40,8 @@ import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
  * @version 0.1
  */
 public class DWDL2DD {
+    
+    private static Logger log = DefaultLogger.getLogger(DWDL2DD.class);
 
     TDeployment deployment = null;
     Process bpel = null;
@@ -116,6 +121,7 @@ public class DWDL2DD {
                 return adapter;
             }
         }
+        log.warn("Couldn't find "+partnerLink.getName()+" in DecidrWebserviceAdapter list");
         return null;
     }
     
@@ -127,6 +133,7 @@ public class DWDL2DD {
                 }
             }
         }
+        log.warn("Couldn't find partner link "+bpel.getTargetNamespace());
         return null;
     }
 

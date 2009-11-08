@@ -36,11 +36,14 @@ import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 
+import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import org.jdom.input.DOMBuilder;
 
 import com.ibm.wsdl.extensions.schema.SchemaImpl;
+
+import de.decidr.model.logging.DefaultLogger;
 
 /**
  * This class traverses a given WSDL and returns the resulting SOAP template,
@@ -50,6 +53,8 @@ import com.ibm.wsdl.extensions.schema.SchemaImpl;
  * @version 0.1
  */
 public class DWDL2SOAP {
+    
+    private static Logger log = DefaultLogger.getLogger(DWDL2SOAP.class);
 
     private Definition definition = null;
 

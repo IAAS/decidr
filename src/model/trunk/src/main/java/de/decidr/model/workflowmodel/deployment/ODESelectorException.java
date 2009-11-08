@@ -21,18 +21,24 @@ import java.util.List;
 import de.decidr.model.entities.ServerLoadView;
 
 /**
- * This exception is thrown by {@link Deployer}.<br>
- * MA: and why? What does this exception indicate?
+ * This exception is thrown by {@link DeployerImpl}.<br>
+ * It indicates that no server is found for deployment. 
  * 
  * @author Modood Alvi
  * @version 0.1
  */
 public class ODESelectorException extends Exception {
 
-    public ODESelectorException(@SuppressWarnings("unused") List<ServerLoadView> serverStatistics) {
-        // for further development
-    }
-
     private static final long serialVersionUID = 1L;
+    
+    private List<ServerLoadView> serverStatistics = null;
+    
+    public ODESelectorException(List<ServerLoadView> serverStatistics) {
+        this.serverStatistics = serverStatistics;
+    }
+    
+    public List<ServerLoadView> getServerStatistics(){
+        return serverStatistics;
+    }
 
 }

@@ -39,7 +39,6 @@ import de.decidr.model.workflowmodel.dwdl.Actor;
 import de.decidr.model.workflowmodel.dwdl.Literal;
 import de.decidr.model.workflowmodel.dwdl.Variable;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
-import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2BPEL;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
 /**
@@ -52,7 +51,7 @@ import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
 public class Validator {
 
-    private static Logger log = DefaultLogger.getLogger(DWDL2BPEL.class);
+    private static Logger log = DefaultLogger.getLogger(Validator.class);
 
     private javax.xml.validation.Validator validator = null;
     private Schema schema = null;

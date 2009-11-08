@@ -19,7 +19,10 @@ package de.decidr.model.workflowmodel.deployment;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import de.decidr.model.entities.ServerLoadView;
+import de.decidr.model.logging.DefaultLogger;
 
 /**
  * This is the standard deployment strategy. The server with min. load is selected.
@@ -29,12 +32,15 @@ import de.decidr.model.entities.ServerLoadView;
  */
 public class StandardDeploymentStrategy implements DeploymentStrategy {
 
+    private static Logger log = DefaultLogger.getLogger(StandardDeploymentStrategy.class);
+    
     /* (non-Javadoc)
      * @see de.decidr.model.workflowmodel.deployment.DeploymentStrategy#selectServer(java.util.List)
      */
     @Override
     public List<ServerLoadView> selectServer(List<ServerLoadView> serverStatistics) {
         if (serverStatistics.isEmpty()){
+            log.error("Server list for process deployment is empty");
             throw new IllegalArgumentException("Server list for process deployment is empty");
         }
         List<ServerLoadView> resultList = new ArrayList<ServerLoadView>();

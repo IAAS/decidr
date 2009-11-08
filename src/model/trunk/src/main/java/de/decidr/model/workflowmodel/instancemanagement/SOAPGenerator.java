@@ -25,6 +25,9 @@ import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
+import org.apache.log4j.Logger;
+
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.wsc.TActor;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
@@ -38,6 +41,8 @@ import de.decidr.model.workflowmodel.wsc.TRole;
  * @version 0.1
  */
 public class SOAPGenerator {
+    
+    private static Logger log = DefaultLogger.getLogger(SOAPGenerator.class);
 
     private String targetNamespace = null;
 

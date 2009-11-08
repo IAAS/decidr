@@ -22,8 +22,9 @@ import de.decidr.model.workflowmodel.dwdl.validation.IProblem;
 import de.decidr.model.workflowmodel.dwdl.validation.Validator;
 
 /**
- * Exception thrown by {@link Validator} if a given DWDL is not valid. The
- * exception contains a list of {@link IProblem} which substantiates the fault.
+ * Exception thrown by {@link DeployerImpl} if a given DWDL is not valid, i.e.
+ * the error list is not empty. The exception contains a list of
+ * {@link IProblem} which substantiates the fault.
  * 
  * @author Modood Alvi
  * @version 0.1
@@ -31,13 +32,14 @@ import de.decidr.model.workflowmodel.dwdl.validation.Validator;
 public class DWDLValidationException extends Exception {
 
     private static final long serialVersionUID = 1L;
-    
+
     private List<IProblem> problems = null;
 
     /**
      * This exception is thrown by {@link Deployer}
      * 
-     * @param problems List of problems found by the {@link Validator}
+     * @param problems
+     *            List of problems found by the {@link Validator}
      */
     public DWDLValidationException(List<IProblem> problems) {
         this.problems = problems;
@@ -46,9 +48,5 @@ public class DWDLValidationException extends Exception {
     public List<IProblem> getProblems() {
         return problems;
     }
-    
-    
-    
-    
 
 }

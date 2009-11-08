@@ -16,6 +16,9 @@
 
 package de.decidr.model.workflowmodel.dwdl.transformation;
 
+import org.apache.log4j.Logger;
+
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.dwdl.Actor;
 import de.decidr.model.workflowmodel.dwdl.Boolean;
 import de.decidr.model.workflowmodel.dwdl.Role;
@@ -35,6 +38,8 @@ import de.decidr.model.workflowmodel.wsc.TRoles;
  * @version 0.1
  */
 public class DWDL2WSC {
+    
+    private static Logger log = DefaultLogger.getLogger(DWDL2WSC.class);
 
     private ObjectFactory factory = new ObjectFactory();
 
