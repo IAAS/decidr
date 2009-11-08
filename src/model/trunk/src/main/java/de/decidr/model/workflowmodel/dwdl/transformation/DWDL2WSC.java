@@ -16,9 +16,6 @@
 
 package de.decidr.model.workflowmodel.dwdl.transformation;
 
-import org.apache.log4j.Logger;
-
-import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.dwdl.Actor;
 import de.decidr.model.workflowmodel.dwdl.Boolean;
 import de.decidr.model.workflowmodel.dwdl.Role;
@@ -38,8 +35,6 @@ import de.decidr.model.workflowmodel.wsc.TRoles;
  * @version 0.1
  */
 public class DWDL2WSC {
-    
-    private static Logger log = DefaultLogger.getLogger(DWDL2WSC.class);
 
     private ObjectFactory factory = new ObjectFactory();
 
@@ -64,18 +59,21 @@ public class DWDL2WSC {
                 }
             }
             startConfiguration.setRoles(roles);
-            for (Variable variable : dwdl.getVariables().getVariable()) {
-                if (variable.isSetConfigurationVariable()
-                        && variable.getConfigurationVariable().equals(
-                                Boolean.YES)) {
-                    TAssignment assignment = factory.createTAssignment();
-                    assignment.setKey(variable.getName());
-                    assignment.setValueType(variable.getType());
-                    startConfiguration.getAssignment().add(assignment);
+            if (dwdl.isSetVariables()) {
+                for (Variable variable : dwdl.getVariables().getVariable()) {
+                    if (variable.isSetConfigurationVariable()
+                            && variable.getConfigurationVariable().equals(
+                                    Boolean.YES)) {
+                        TAssignment assignment = factory.createTAssignment();
+                        assignment.setKey(variable.getName());
+                        assignment.setValueType(variable.getType());
+                        startConfiguration.getAssignment().add(assignment);
+                    }
                 }
             }
-        }
 
+        }
+        
         return startConfiguration;
     }
 }

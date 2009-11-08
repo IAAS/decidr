@@ -23,6 +23,8 @@ import java.util.List;
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
 import javax.xml.bind.JAXBException;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
 
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
@@ -43,6 +45,7 @@ import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.bpel.Process;
 import de.decidr.model.workflowmodel.dd.TDeployment;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.dwdl.transformation.Translator;
 import de.decidr.model.workflowmodel.dwdl.validation.IProblem;
 import de.decidr.model.workflowmodel.dwdl.validation.Validator;
@@ -55,7 +58,7 @@ import de.decidr.model.workflowmodel.dwdl.validation.Validator;
  * @version 0.1
  */
 public class DeployerImpl implements Deployer {
-    
+
     private static Logger log = DefaultLogger.getLogger(DeployerImpl.class);
 
     private List<ServerLoadView> prefferedServers = null;
@@ -66,7 +69,6 @@ public class DeployerImpl implements Deployer {
     private DeploymentResult result = null;
     private OMFactory factory = null;
     private ServiceClientUtil client = null;
-    
 
     /*
      * (non-Javadoc)
@@ -89,30 +91,42 @@ public class DeployerImpl implements Deployer {
             log.error("The DWDL file is not valid");
             throw new DWDLValidationException(problems);
         }
+        log.info("DWDL validaion successful");
+
         // select the server according deployment strategy
         prefferedServers = strategy.selectServer(serverStatistics);
         if (prefferedServers.isEmpty()) {
             log.error("Could't find a server for deployment");
             throw new ODESelectorException(serverStatistics);
         }
+        log.info("Server selection successful");
+
         // get BPEL, WSDL, SOAP, and DD files
         translator = new Translator();
         translator.load(dwdl, tenantName, knownWebservices);
         Process bpel = translator.getBPEL();
-        byte[] soap = translator.getSOAP();
+        SOAPMessage soap = translator.getSOAPTemplate();
         PackageBuilder builder = new PackageBuilder();
+
         // deploy on each selected server
         for (ServerLoadView server : prefferedServers) {
             Definition wsdl = translator.getWSDL(server.getLocation());
             TDeployment dd = translator.getDD();
-            byte[] zipFile = builder.getPackage(tenantName, bpel, wsdl, dd, knownWebservices);
+            byte[] zipFile = builder.getPackage(tenantName, bpel, wsdl, dd,
+                    knownWebservices);
             deploy(tenantName, zipFile, server.getLocation());
             serverList.add(server.getId());
         }
-        // create a deployment result 
+        log.info("Deployment successful");
+
+        // create a deployment result
         result = new DeploymentResultImpl();
         result.setDoplementDate(DecidrGlobals.getTime().getTime());
-        result.setSOAPTemplate(soap);
+        try {
+            result.setSOAPTemplate(TransformUtil.SOAPMessagetoBytes(soap));
+        } catch (SOAPException e) {
+            log.error("Can't transform soap to byte array",e);
+        }
         result.setServers(serverList);
 
         return result;
@@ -124,8 +138,9 @@ public class DeployerImpl implements Deployer {
         factory = OMAbstractFactory.getOMFactory();
         client = new ServiceClientUtil();
 
-     // Use the factory to create three elements
-        OMNamespace depns = factory.createOMNamespace(Namespaces.ODE_DEPLOYAPI_NS, "deployapi");
+        // Use the factory to create three elements
+        OMNamespace depns = factory.createOMNamespace(
+                Namespaces.ODE_DEPLOYAPI_NS, "deployapi");
         OMElement root = factory.createOMElement("deploy", depns);
         OMElement namePart = factory.createOMElement("name", null);
         namePart.setText(packageName);
@@ -134,7 +149,8 @@ public class DeployerImpl implements Deployer {
 
         // Add the zip to deploy
         String base64Enc = Base64.encode(zip);
-        OMText zipContent = factory.createOMText(base64Enc, "application/zip", true);
+        OMText zipContent = factory.createOMText(base64Enc, "application/zip",
+                true);
         root.addChild(namePart);
         root.addChild(zipPart);
         zipPart.addChild(zipElmt);
@@ -154,15 +170,18 @@ public class DeployerImpl implements Deployer {
     @Override
     public void undeploy(DeployedWorkflowModel dwfm, Server server)
             throws AxisFault {
-        
+
         // Prepare undeploy message
-        OMNamespace depns = factory.createOMNamespace(Namespaces.ODE_DEPLOYAPI_NS, "deployapi");
+        OMNamespace depns = factory.createOMNamespace(
+                Namespaces.ODE_DEPLOYAPI_NS, "deployapi");
         OMElement root = factory.createOMElement("undeploy", depns);
         OMElement part = factory.createOMElement("packageName", null);
         part.setText(dwfm.getName());
         root.addChild(part);
 
         // undeploy
-        client.send(root, server.getLocation() + "/processes/DeploymentService");
+        client
+                .send(root, server.getLocation()
+                        + "/processes/DeploymentService");
     }
 }

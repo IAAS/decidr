@@ -16,21 +16,19 @@
 
 package de.decidr.model.workflowmodel.dwdl.transformation;
 
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
-import javax.wsdl.xml.WSDLReader;
 import javax.xml.bind.JAXBException;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
 import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
 import org.jdom.JDOMException;
-import org.xml.sax.InputSource;
 
 import de.decidr.model.entities.Activity;
 import de.decidr.model.entities.KnownWebService;
@@ -55,26 +53,20 @@ public class Translator {
     private Workflow dwdlWorkflow = null;
     private Process bpelProcess = null;
     private TDeployment dd = null;
-    private byte[] soap = null;
+    private SOAPMessage soap = null;
     private Definition wsdl = null;
-    private List<Definition> definitions = null;
     private Map<String, DecidrWebserviceAdapter> webserviceAdapters = null;
     private String tenantName = null;
-    
-    private String documentBaseURI = "resources/xsd/";
 
     private Map<String, DecidrWebserviceAdapter> createAdapters(
             List<KnownWebService> knownWebservices) throws JAXBException,
             WSDLException {
         HashMap<String, DecidrWebserviceAdapter> adapters = new HashMap<String, DecidrWebserviceAdapter>();
-        definitions = new ArrayList<Definition>();
         for (KnownWebService webservice : knownWebservices) {
             for (Activity activity : webservice.getActivities()) {
-                WebserviceMapping mapping = parseMapping(activity.getMapping());
-                Definition definition = parseDefinition(webservice);
-                definitions.add(definition);
                 DecidrWebserviceAdapter adapter = new DecidrWebserviceAdapter(
-                        mapping, definition);
+                        parseMapping(activity.getMapping()),
+                        parseDefinition(webservice));
                 adapters.put(activity.getName(), adapter);
             }
         }
@@ -87,8 +79,9 @@ public class Translator {
             bpelProcess = bpelConverter.getBPEL(dwdlWorkflow, tenantName,
                     webserviceAdapters);
         } catch (TransformerException e) {
-            log.error("Can't transform dwdl to bpel", e);
+            log.error("Can't translate dwdl to bpel", e);
         }
+
         return bpelProcess;
     }
 
@@ -98,7 +91,17 @@ public class Translator {
         return dd;
     }
 
-    public byte[] getSOAP() {
+    public SOAPMessage getSOAPTemplate() {
+        DWDL2SOAP soapConverter = new DWDL2SOAP();
+        try {
+            soap = soapConverter.getSOAP(wsdl, wsdl.getQName().getLocalPart()
+                    + "PT", WSDLConstants.PROCESS_OPERATION);
+        } catch (UnsupportedOperationException e) {
+            log.error("Can't find operation "+ WSDLConstants.PROCESS_OPERATION+" for dwdl to soap translation", e);
+            e.printStackTrace();
+        } catch (SOAPException e) {
+            log.error("Can't translate dwdl to soap", e);
+        }
         return soap;
     }
 
@@ -107,7 +110,7 @@ public class Translator {
         try {
             wsdl = wsdlConverter.getWSDL(dwdlWorkflow, location, tenantName);
         } catch (JDOMException e) {
-            e.printStackTrace();
+            log.error("Can't translate dwdl to wsdl", e);
         }
         return wsdl;
     }
@@ -123,13 +126,7 @@ public class Translator {
 
     private Definition parseDefinition(KnownWebService knownWebservice)
             throws WSDLException {
-        WSDLReader reader = new com.ibm.wsdl.xml.WSDLReaderImpl();
-        InputSource in = new InputSource(new ByteArrayInputStream(
-                knownWebservice.getWsdl()));
-        in.setSystemId(documentBaseURI);
-        reader.setFeature("javax.wsdl.importDocuments", false);
-        Definition def = reader.readWSDL(documentBaseURI, in);
-        return def;
+        return TransformUtil.bytesToDefinition(knownWebservice.getWsdl());
     }
 
     private Workflow parseDWDLWorkflow(byte[] dwdl) throws JAXBException {

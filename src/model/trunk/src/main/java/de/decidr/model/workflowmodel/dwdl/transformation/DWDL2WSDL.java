@@ -202,7 +202,7 @@ public class DWDL2WSDL {
 
     private void setPortTypes() {
         processPortType = new PortTypeImpl();
-        processPortType.setQName(new QName(dwdl.getName() + "PortType"));
+        processPortType.setQName(new QName(dwdl.getTargetNamespace(),dwdl.getName() + "PT"));
         startOperation = new OperationImpl();
         Input input = new InputImpl();
         input.setName("input");

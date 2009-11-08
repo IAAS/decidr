@@ -36,7 +36,6 @@ public final class BPELConstants {
     public static final String PROCESS_PREFIX = "tns";
 
     // process message types and operations
-    public static final String PROCESS_OPERATION = "startProcess";
     public static final String PROCESS_REQUEST_MESSAGE = "startMessage";
     public static final String PROCESS_HUMANTASK_REQUEST_MESSAGE = "taskCompletedRequest";
 

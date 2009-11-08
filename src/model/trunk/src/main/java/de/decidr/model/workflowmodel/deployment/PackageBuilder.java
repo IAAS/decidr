@@ -16,7 +16,6 @@
 
 package de.decidr.model.workflowmodel.deployment;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,16 +27,12 @@ import java.util.zip.ZipOutputStream;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
-import javax.wsdl.xml.WSDLReader;
 import javax.xml.bind.JAXBException;
-
-import org.xml.sax.InputSource;
-
-import com.ibm.wsdl.xml.WSDLReaderImpl;
 
 import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.workflowmodel.bpel.Process;
 import de.decidr.model.workflowmodel.dd.TDeployment;
+import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
 /**
@@ -48,10 +43,9 @@ import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
  */
 public class PackageBuilder {
     
-    private final String DECIDRTYPES_LOCATION = "/xsd/DecidrProcessTypes.xsd";
-    private final String DECIDRTYPES_NAME = "DecidrProcessTypes";
-    
-    private static String documentBaseURI = "resources/xsd/";
+    private final String DECIDRTYPES_URI = Constants.DOCUMENT_BASE_URI+Constants.DECIDRTYPES_LOCATION;
+    private final String DECIDRWSTYPES_URI = Constants.DOCUMENT_BASE_URI+Constants.DECIDRWSTYPES_LOCATION;
+    private final String DECIDRPROCESSTYPES_URI = Constants.DOCUMENT_BASE_URI+Constants.DECIDRPROCESSTYPES_LOCATION;
 
     public byte[] getPackage(String name, Process bpel, Definition wsdl,
             TDeployment dd, List<KnownWebService> knownWebservices)
@@ -62,7 +56,6 @@ public class PackageBuilder {
         String bpelFilename = name + ".bpel";
         String wsdlFilename = name + ".wsdl";
         String ddFilename = "deploy.xml";
-        String decidrTypesFilename = DECIDRTYPES_NAME + ".xsd";
 
         ZipOutputStream zip_out_stream = new ZipOutputStream(zipOut);
         zip_out_stream.putNextEntry(new ZipEntry(bpelFilename));
@@ -74,8 +67,14 @@ public class PackageBuilder {
         zip_out_stream.putNextEntry(new ZipEntry(ddFilename));
         zip_out_stream.write(TransformUtil.ddToBytes(dd));
         zip_out_stream.closeEntry();
-        zip_out_stream.putNextEntry(new ZipEntry(decidrTypesFilename));
-        zip_out_stream.write(getTypes());
+        zip_out_stream.putNextEntry(new ZipEntry(Constants.DECIDRTYPES_LOCATION));
+        zip_out_stream.write(loadSchema(DECIDRTYPES_URI));
+        zip_out_stream.closeEntry();
+        zip_out_stream.putNextEntry(new ZipEntry(Constants.DECIDRWSTYPES_LOCATION));
+        zip_out_stream.write(loadSchema(DECIDRWSTYPES_URI));
+        zip_out_stream.closeEntry();
+        zip_out_stream.putNextEntry(new ZipEntry(Constants.DECIDRPROCESSTYPES_LOCATION));
+        zip_out_stream.write(loadSchema(DECIDRPROCESSTYPES_URI));
         zip_out_stream.closeEntry();
         Map<KnownWebService, Definition> definitions = retrieveWSDLs(knownWebservices);
         for (KnownWebService webservice : knownWebservices) {
@@ -94,20 +93,15 @@ public class PackageBuilder {
     private Map<KnownWebService, Definition> retrieveWSDLs(
             List<KnownWebService> webservices) throws WSDLException {
         Map<KnownWebService, Definition> definitions = new HashMap<KnownWebService, Definition>();
-        WSDLReader wsdlReader = new WSDLReaderImpl();
-        ByteArrayInputStream inStream = null;
-        InputSource in = null;
         for (KnownWebService webservice : webservices) {
-            inStream = new ByteArrayInputStream(webservice.getWsdl());
-            in = new InputSource(inStream);
-            Definition webserviceDefinition = wsdlReader.readWSDL(documentBaseURI, in);
+            Definition webserviceDefinition = TransformUtil.bytesToDefinition(webservice.getWsdl());
             definitions.put(webservice, webserviceDefinition);
         }
         return definitions;
     }
     
-    private byte[] getTypes() throws IOException {
-        InputStream in = PackageBuilder.class.getResourceAsStream(DECIDRTYPES_LOCATION);
+    private byte[] loadSchema(String location) throws IOException {
+        InputStream in = PackageBuilder.class.getResourceAsStream(location);
         byte[] data = new byte[in.available()];
         in.read(data, 0, in.available());
      

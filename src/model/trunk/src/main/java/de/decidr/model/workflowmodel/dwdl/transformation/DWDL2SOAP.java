@@ -38,7 +38,6 @@ import javax.xml.soap.SOAPPart;
 
 import org.apache.log4j.Logger;
 import org.jdom.Element;
-import org.jdom.Namespace;
 import org.jdom.input.DOMBuilder;
 
 import com.ibm.wsdl.extensions.schema.SchemaImpl;
@@ -46,57 +45,80 @@ import com.ibm.wsdl.extensions.schema.SchemaImpl;
 import de.decidr.model.logging.DefaultLogger;
 
 /**
- * This class traverses a given WSDL and returns the resulting SOAP template,
- * i.e. a SOAP message that holds wildcard characters for tag values.
+ * This class transforms a given WSDL and returns the resulting SOAP template,
+ * i.e. a SOAP message that holds wildcard characters for tag values. Please
+ * note that the construction of the soap message is highly correlated to the
+ * construction of a wsdl done in {@link DWDL2WSDL}
  * 
  * @author Modood Alvi
  * @version 0.1
  */
 public class DWDL2SOAP {
-    
+
     private static Logger log = DefaultLogger.getLogger(DWDL2SOAP.class);
 
     private Definition definition = null;
-
-    private static Namespace ns = Namespace.getNamespace("xsd",
-            "http://www.w3.org/2001/XMLSchema");
 
     public SOAPMessage getSOAP(Definition wsdl, String portName,
             String operationName) throws UnsupportedOperationException,
             SOAPException {
         definition = wsdl;
         SOAPMessage soapMessage = null;
+
+        // Find the message element for the corresponding port name
         PortType port = wsdl.getPortType(new QName(wsdl.getTargetNamespace(),
                 portName));
-        Operation operation = port.getOperation(operationName, null, null);
+        Operation operation = port.getOperation(wsdl.getTargetNamespace(),
+                operationName, null);
         Message message = operation.getInput().getMessage();
 
+        // Create the list of elements that build the soap message
         List<Element> soapElements = new ArrayList<Element>();
 
+        // Iterate over all parts of the message element
         Iterator<?> partIter = message.getParts().values().iterator();
         while (partIter.hasNext()) {
             Part messagePart = (Part) partIter.next();
+
+            // Get the value of the element attribute
             QName elementName = messagePart.getElementName();
-            QName typeName = messagePart.getElementName();
             if (elementName != null) {
-                Element element = findElement(elementName.getLocalPart());
+
+                // Find the element in the schema declaration in types
+                Element element = findElement(elementName.getLocalPart(),
+                        getSchemaElement(definition));
+
+                // Iterate over all children of the element for further
+                // construction of the soap message
                 Iterator<?> iter = element.getChildren().iterator();
 
                 while (iter.hasNext()) {
                     Element child = (Element) iter.next();
+
+                    // Only if the child is a complex type go ahead
                     if (isComplexType(child)) {
-                        Iterator<?> iter1 = child.getChildren().iterator();
-                        while (iter1.hasNext()) {
-                            Element complexChild = (Element) iter1.next();
+
+                        // Iterate over all children of the complex type
+                        Iterator<?> childIter = child.getChildren().iterator();
+                        while (childIter.hasNext()) {
+                            Element complexChild = (Element) childIter.next();
+
+                            // Only if the complex type contains a sequence or
+                            // all element go ahead
                             if (isSequence(complexChild) || isAll(complexChild)) {
-                                Iterator<?> iter2 = complexChild.getChildren()
-                                        .iterator();
-                                while (iter2.hasNext()) {
-                                    Element sequenceChild = (Element) iter2
+
+                                // Iterate over all children of the sequence or
+                                // all element
+                                Iterator<?> lastIter = complexChild
+                                        .getChildren().iterator();
+                                while (lastIter.hasNext()) {
+                                    Element sequenceOrAllChild = (Element) lastIter
                                             .next();
-                                    if (sequenceChild.getName().equals(
+
+                                    // Only add elements
+                                    if (sequenceOrAllChild.getName().equals(
                                             "element")) {
-                                        soapElements.add(sequenceChild);
+                                        soapElements.add(sequenceOrAllChild);
                                     }
                                 }
                             }
@@ -104,100 +126,72 @@ public class DWDL2SOAP {
                     }
                 }
                 soapMessage = buildMessage(soapElements, element);
-                
-            } else if (typeName != null) {
-                // MA document empty block
+
             }
         }
         return soapMessage;
     }
 
-    /**
-     * MA: add comment
-     *
-     * @param complexChild
-     * @return
-     */
     private boolean isAll(Element complexChild) {
         return complexChild.getName().equals("all");
     }
 
-    private SOAPMessage buildMessage(List<Element> soapElements, Element element) throws UnsupportedOperationException, SOAPException {
-        
+    private SOAPMessage buildMessage(List<Element> soapElements, Element element)
+            throws UnsupportedOperationException, SOAPException {
+
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage message = messageFactory.createMessage();
-        
+
         SOAPPart soapPart = message.getSOAPPart();
         SOAPEnvelope envelope = soapPart.getEnvelope();
         SOAPHeader header = envelope.getHeader();
         SOAPBody body = envelope.getBody();
-        
-        header.addAttribute(envelope.createName("bodyElementName"), element.getAttributeValue("name"));
-        header.addAttribute(envelope.createName("targetNamespace"), definition.getTargetNamespace());
-        
-        SOAPElement bodyElement = body.addChildElement(envelope.createName(element.getAttributeValue("name"), "decidr",
-                definition.getTargetNamespace()));
 
-        for (Element soapElement : soapElements){
-            if(!soapElement.getAttributeValue("name").equals("role")){
-                bodyElement.addChildElement(soapElement.getAttributeValue("name"), "decidr").addTextNode("?");
+        header.addAttribute(envelope.createName("bodyElementName"), element
+                .getAttributeValue("name"));
+        header.addAttribute(envelope.createName("targetNamespace"), definition
+                .getTargetNamespace());
+
+        SOAPElement bodyElement = body.addChildElement(envelope.createName(
+                element.getAttributeValue("name"), "decidr", definition
+                        .getTargetNamespace()));
+
+        for (Element soapElement : soapElements) {
+            if (!soapElement.getAttributeValue("name").equals("role")) {
+                bodyElement.addChildElement(
+                        soapElement.getAttributeValue("name"), "decidr")
+                        .addTextNode("?");
             }
         }
-        
+
         message.saveChanges();
-        
+
         return message;
     }
 
-    /**
-     * MA: add comment
-     * 
-     * @param complexChild
-     * @return
-     */
     private boolean isSequence(Element complexChild) {
         return complexChild.getName().equals("sequence");
     }
 
-    /**
-     * MA: add comment
-     * 
-     * @param child
-     * @return
-     */
     private boolean isComplexType(Element child) {
         return child.getName().equals("complexType");
     }
 
-    private Element findElement(String name) {
-        org.w3c.dom.Element schemaElement = getSchemaElement(definition);
-
-        DOMBuilder domBuilder = new DOMBuilder();
-        org.jdom.Element jdomSchemaElement = domBuilder.build(schemaElement);
-
-        Element messageElement = retrieveElement(name, jdomSchemaElement);
-        return messageElement;
-    }
-
-    /**
-     * MA: add comment
-     * 
-     * @param name
-     * @param jdomSchemaElement
-     * @return
-     */
-    private Element retrieveElement(String name, Element root) {
-        Iterator<?> iterator = root.getChildren("element", ns).iterator();
+    private Element findElement(String elementName, Element parentElement) {
+        Iterator<?> iterator = parentElement.getChildren("element",
+                Constants.XML_SCHEMA_NS).iterator();
         while (iterator.hasNext()) {
             Element element = (Element) iterator.next();
-            if (element.getAttribute("name").getValue().equals(name)) {
+            if (element.getAttribute("name").getValue().equals(elementName)) {
                 return element;
             }
         }
-        throw new RuntimeException("Element nicht gefunden");
+        log.warn("Element " + elementName + " nicht gefunden in "
+                + parentElement.getName());
+        return null;
     }
 
-    private org.w3c.dom.Element getSchemaElement(Definition definition) {
+    private org.jdom.Element getSchemaElement(Definition definition) {
         final String schema = "schema";
         org.w3c.dom.Element schemaElement = null;
         Iterator<?> extElementIter = definition.getTypes()
@@ -209,9 +203,12 @@ public class DWDL2SOAP {
                 if (extElement instanceof SchemaImpl) {
                     schemaElement = ((SchemaImpl) extElement).getElement();
                 }
-                return schemaElement;
+                return new DOMBuilder().build(schemaElement);
             }
         }
+        log
+                .warn("Schema element in null in "
+                        + definition.getTargetNamespace());
         return null;
     }
 

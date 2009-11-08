@@ -18,6 +18,7 @@ package de.decidr.model.workflowmodel.dwdl.transformation;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
@@ -60,7 +61,7 @@ import de.decidr.model.workflowmodel.wsc.TConfiguration;
  * @version 0.1
  */
 public class TransformUtil {
-    
+
     private static Logger log = DefaultLogger.getLogger(TransformUtil.class);
 
     private static JAXBContext dwdlCntxt = null;
@@ -69,7 +70,6 @@ public class TransformUtil {
     private static JAXBContext mappingCntxt = null;
     private static JAXBContext htaskCntxt = null;
     private static JAXBContext ddCntxt = null;
-    private static final String DOCUMENT_BASE_URI = "resources/xsd/";
 
     static {
         try {
@@ -111,15 +111,14 @@ public class TransformUtil {
         PartnerLinkTypeSerializer ser = new PartnerLinkTypeSerializer();
         extensionRegistry.registerSerializer(Definition.class, new QName(
                 Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"), ser);
-        extensionRegistry.registerDeserializer(Definition.class,
-                new QName(Constants.PARTNERLINKTYPE_NAMESPACE,
-                        "partnerLinkType"), ser);
+        extensionRegistry.registerDeserializer(Definition.class, new QName(
+                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"), ser);
         extensionRegistry.mapExtensionTypes(Definition.class, new QName(
                 Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"),
                 PartnerLinkType.class);
         reader.setExtensionRegistry(extensionRegistry);
         InputSource in = new InputSource(new ByteArrayInputStream(wsdl));
-        Definition def = reader.readWSDL(DOCUMENT_BASE_URI, in);
+        Definition def = reader.readWSDL(Constants.DOCUMENT_BASE_URI, in);
         return def;
     }
 
@@ -180,9 +179,8 @@ public class TransformUtil {
         PartnerLinkTypeSerializer ser = new PartnerLinkTypeSerializer();
         extensionRegistry.registerSerializer(Definition.class, new QName(
                 Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"), ser);
-        extensionRegistry.registerDeserializer(Definition.class,
-                new QName(Constants.PARTNERLINKTYPE_NAMESPACE,
-                        "partnerLinkType"), ser);
+        extensionRegistry.registerDeserializer(Definition.class, new QName(
+                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"), ser);
         extensionRegistry.mapExtensionTypes(Definition.class, new QName(
                 Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"),
                 PartnerLinkType.class);
@@ -239,6 +237,13 @@ public class TransformUtil {
         msg.saveChanges();
 
         return msg;
+    }
+
+    public static byte[] SOAPMessagetoBytes(SOAPMessage msg)
+            throws SOAPException, IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        msg.writeTo(out);
+        return out.toByteArray();
     }
 
 }

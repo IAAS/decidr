@@ -323,7 +323,7 @@ public class DWDL2BPEL {
         Receive receive = factory.createReceive();
         setNameAndDocumentation(node, receive);
         receive.setPartnerLink(tenantName);
-        receive.setOperation(BPELConstants.PROCESS_OPERATION);
+        receive.setOperation(WSDLConstants.PROCESS_OPERATION);
         receive.setVariable(BPELConstants.PROCESS_INPUT_VARIABLE);
         receive
                 .setCreateInstance(de.decidr.model.workflowmodel.bpel.Boolean.YES);
