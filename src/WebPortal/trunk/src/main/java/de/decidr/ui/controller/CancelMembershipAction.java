@@ -55,7 +55,7 @@ public class CancelMembershipAction implements ClickListener {
             userFacade.setDisabledSince(userId, new Date());
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
         Main.getCurrent().getMainWindow().showNotification(
                 "you are no longer a member of decidr");

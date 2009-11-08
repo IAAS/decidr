@@ -66,7 +66,7 @@ public class ChangePasswordAction implements ClickListener {
                         "oldPassword").getValue().toString(), passwd);
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
-                        new TransactionErrorDialogComponent());
+                        new TransactionErrorDialogComponent(e));
             }
             Main.getCurrent().getMainWindow().showNotification(
                     "new password: " + passwd);

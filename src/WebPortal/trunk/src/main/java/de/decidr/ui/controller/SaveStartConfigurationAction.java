@@ -130,7 +130,7 @@ public class SaveStartConfigurationAction implements ClickListener {
 					"Workflow model is not startable!");
 		} catch (TransactionException exception) {
 			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent());
+					new TransactionErrorDialogComponent(exception));
 		}
 		new HideDialogWindowAction();
 	}

@@ -343,7 +343,7 @@ public class StartConfigurationWindow extends Window {
                 comboBox.addItem(item.getItemProperty("username").getValue());
             }
         } catch (TransactionException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent(exception));
         }
 
     }

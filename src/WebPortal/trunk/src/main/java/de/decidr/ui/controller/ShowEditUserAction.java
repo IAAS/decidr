@@ -66,7 +66,7 @@ public class ShowEditUserAction implements ClickListener {
 			siteFrame.setContent(new ProfileSettingsComponent(profileItem));
 		} catch (TransactionException e) {
 			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent());
+					new TransactionErrorDialogComponent(e));
 		}
 	}
 }

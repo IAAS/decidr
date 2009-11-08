@@ -82,7 +82,7 @@ public class ShowUserListAction implements ClickListener {
 						.removeContainerProperty("Edit");
 			}
 		} catch (TransactionException exception) {
-			Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+			Main.getCurrent().addWindow(new TransactionErrorDialogComponent(exception));
 		}
 
 	}

@@ -81,7 +81,7 @@ public class RemoveUserFromTenantAction implements ClickListener {
                     table.removeItem(itemId);
                 } catch (TransactionException e) {
                     Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent());
+                            new TransactionErrorDialogComponent(e));
                 }
             }
         }

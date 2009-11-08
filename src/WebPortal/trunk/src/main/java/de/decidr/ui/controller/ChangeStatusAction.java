@@ -61,14 +61,14 @@ public class ChangeStatusAction implements ValueChangeListener {
                 userFacade.setUnavailableSince(userId, new Date());
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
-                        new TransactionErrorDialogComponent());
+                        new TransactionErrorDialogComponent(e));
             }
         } else {
             try {
                 userFacade.setUnavailableSince(userId, null);
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
-                        new TransactionErrorDialogComponent());
+                        new TransactionErrorDialogComponent(e));
             }
         }
 

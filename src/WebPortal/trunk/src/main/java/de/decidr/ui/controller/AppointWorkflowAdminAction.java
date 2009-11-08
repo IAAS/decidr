@@ -70,7 +70,7 @@ public class AppointWorkflowAdminAction implements ClickListener {
             wfmFacade.setWorkflowAdministrators(wfmId, null, userNames);
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
     }
 }

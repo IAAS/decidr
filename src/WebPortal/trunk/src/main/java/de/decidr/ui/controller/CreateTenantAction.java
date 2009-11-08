@@ -82,12 +82,12 @@ public class CreateTenantAction implements ClickListener {
                             .toString(), userId);
                 } catch (TransactionException e) {
                     Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent());
+                            new TransactionErrorDialogComponent(e));
                 }
             }
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
     }
 }

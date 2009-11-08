@@ -79,7 +79,7 @@ public class SwitchTenantAction implements ClickListener {
             session.setAttribute("role", role);
         } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(exception));
         }
     }
 }

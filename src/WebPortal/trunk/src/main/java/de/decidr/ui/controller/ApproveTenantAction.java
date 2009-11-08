@@ -77,7 +77,7 @@ public class ApproveTenantAction implements ClickListener {
             tenantFacade.approveTenants(tenants);
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
     }
 }

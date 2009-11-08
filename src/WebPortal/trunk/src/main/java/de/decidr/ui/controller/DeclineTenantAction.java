@@ -77,7 +77,7 @@ public class DeclineTenantAction implements ClickListener {
             tenantFacade.rejectTenants(tenants);
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
     }
 }

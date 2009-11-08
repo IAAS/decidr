@@ -94,7 +94,7 @@ public class CurrentTenantModelTable extends Table implements Observer {
                 }
                 this.requestRepaint();
             } catch (TransactionException exception) {
-                Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+                Main.getCurrent().addWindow(new TransactionErrorDialogComponent(exception));
             } 
         }
 

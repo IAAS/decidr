@@ -93,7 +93,7 @@ public class ModelingTool extends AbstractComponent {
                         dwdl);
             } catch (TransactionException e) {
                 Main.getCurrent().addWindow(
-                        new TransactionErrorDialogComponent());
+                        new TransactionErrorDialogComponent(e));
             }
         }
     }
@@ -125,7 +125,7 @@ public class ModelingTool extends AbstractComponent {
                     .getValue());
 
         } catch (TransactionException e) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent(e));
             return null;
         }
     }
@@ -162,7 +162,7 @@ public class ModelingTool extends AbstractComponent {
             }
             return convertUserHashMapToString(userList);
         } catch (TransactionException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent(exception));
             return null;
         }
     }

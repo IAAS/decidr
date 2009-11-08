@@ -60,7 +60,7 @@ public class ShowProfileSettingsAction implements ClickListener {
 			siteFrame.setContent(new ProfileSettingsComponent(item));
 		} catch (TransactionException e) {
 			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent());
+					new TransactionErrorDialogComponent(e));
 		}
 
 	}

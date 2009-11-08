@@ -70,7 +70,7 @@ public class TenantView {
             logo = tenantFacade.getLogo(tenantId);
         } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(exception));
         }
 
         cssFile = new File(webInf + tenantName + File.separator + "styles.css");
@@ -100,7 +100,7 @@ public class TenantView {
                 logo.close();
             } catch (IOException exception) {
                 Main.getCurrent().getMainWindow().addWindow(
-                        new TransactionErrorDialogComponent());
+                        new TransactionErrorDialogComponent(exception));
             }
         }
     }

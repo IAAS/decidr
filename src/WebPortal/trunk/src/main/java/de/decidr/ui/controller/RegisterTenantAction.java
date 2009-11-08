@@ -61,11 +61,11 @@ public class RegisterTenantAction implements ClickListener {
                     .getValue().toString(), fillUserProfile());
         } catch (NullPointerException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
             e.printStackTrace();
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
         try {
             tenantFacade.createTenant(content.getRegistrationForm()
@@ -73,7 +73,7 @@ public class RegisterTenantAction implements ClickListener {
                     userId);
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
     }
 

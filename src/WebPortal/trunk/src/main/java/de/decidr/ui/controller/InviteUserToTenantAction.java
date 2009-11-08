@@ -82,7 +82,7 @@ public class InviteUserToTenantAction implements ClickListener {
                     "id").getValue(), emails, userNames);
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
     }
 

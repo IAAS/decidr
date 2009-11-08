@@ -60,11 +60,11 @@ public class RegisterUserWithInvitationAction implements ClickListener {
                     fillUserProfile());
         } catch (NullPointerException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
             e.printStackTrace();
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
 
         if (userId != null) {
@@ -126,7 +126,7 @@ public class RegisterUserWithInvitationAction implements ClickListener {
 
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
-                        new TransactionErrorDialogComponent());
+                        new TransactionErrorDialogComponent(e));
             }
         }
     }

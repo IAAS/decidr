@@ -73,7 +73,7 @@ public class RunningInstanceContainer extends Observable implements Container,
             }
         } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(exception));
         }
     }
 

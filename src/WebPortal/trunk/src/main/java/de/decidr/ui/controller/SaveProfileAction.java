@@ -62,15 +62,15 @@ public class SaveProfileAction implements ClickListener {
             userFacade.setProfile(userId, fillUserProfile());
         } catch (EntityNotFoundException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
             e.printStackTrace();
         } catch (NullPointerException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
             e.printStackTrace();
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
 
     }

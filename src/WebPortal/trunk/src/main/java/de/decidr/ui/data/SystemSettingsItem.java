@@ -49,7 +49,7 @@ public class SystemSettingsItem implements Item {
             // Aleks, GH: remove later
             // item = new BeanItem(ProfileSettingsContainer.getInstance());
         } catch (Exception e) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent(e));
         }
     }
 

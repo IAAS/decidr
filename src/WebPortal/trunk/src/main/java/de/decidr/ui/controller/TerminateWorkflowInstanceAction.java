@@ -64,7 +64,7 @@ public class TerminateWorkflowInstanceAction implements ClickListener {
             wfiFacade.stopWorkflowInstance(instanceId);
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
     }
 }

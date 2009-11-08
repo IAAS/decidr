@@ -74,7 +74,7 @@ public class CreateWorkflowModelAction implements ClickListener {
             new ShowModelingToolAction();
         } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(exception));
         }
 
     }

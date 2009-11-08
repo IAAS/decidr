@@ -125,7 +125,7 @@ public class WorkItemComponent extends CustomComponent {
                                 .getContainerDataSource()).applyFilter(filter);
                     } catch (TransactionException exception) {
                         Main.getCurrent().addWindow(
-                                new TransactionErrorDialogComponent());
+                                new TransactionErrorDialogComponent(exception));
 
                     }
 

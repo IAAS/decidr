@@ -95,7 +95,7 @@ public class WorkflowInstanceTable extends Table implements Observer {
                 this.requestRepaint();
             } catch (TransactionException exception) {
                 Main.getCurrent().getMainWindow().addWindow(
-                        new TransactionErrorDialogComponent());
+                        new TransactionErrorDialogComponent(exception));
             }
         }
 

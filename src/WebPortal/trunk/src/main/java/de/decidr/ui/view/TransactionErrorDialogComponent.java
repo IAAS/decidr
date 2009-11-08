@@ -16,22 +16,25 @@
 
 package de.decidr.ui.view;
 
+import de.decidr.model.exceptions.TransactionException;
+
 /**
  * This component displays an error message. Should be used if an Action failed.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-// Aleks, GH This thing is way too generic and doesn't provide any useful info!
 public class TransactionErrorDialogComponent extends InformationDialogComponent {
 
     /**
      * Calls the super constructor with the given text and shows a notification
      * to the user.
      */
-    public TransactionErrorDialogComponent() {
+    public TransactionErrorDialogComponent(Exception e) {
         super(
                 "An error occured while performing your request."
-                        + "<br/>Please check your internet connection and try again later.",
+                        + "<br/>Please check your internet connection and try again later."
+                        + "<br/>Error descrition:<br/>"
+                        + e.getMessage(),
                 "Transaction Error");
     }
 }

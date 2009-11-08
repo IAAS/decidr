@@ -68,7 +68,7 @@ public class RefuseInvitationAction implements ClickListener {
                     event.getButton().getWindow());
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
 
     }

@@ -80,7 +80,7 @@ public class ShowWorkItemWindowAction implements ClickListener {
                     new WorkItemWindow(tHumanTaskData, workItemId));
         } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(exception));
         } catch (JAXBException exception) {
             Main.getCurrent().getMainWindow().showNotification("JAXB error!");
         }

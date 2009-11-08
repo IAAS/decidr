@@ -77,7 +77,7 @@ public class SaveTenantSettingsAction implements ClickListener {
 					.getShowAdvancedOptionsButton().booleanValue(), fileFacade);
 		} catch (TransactionException e) {
 			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent());
+					new TransactionErrorDialogComponent(e));
 		}
 	}
 }

@@ -102,7 +102,7 @@ public class UploadFileStartConfigurationAction implements FailedListener, Recei
 					.showNotification("File not found");
 		} catch (TransactionException exception) {
 			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent());
+					new TransactionErrorDialogComponent(exception));
 		}
 		return fos;
 	}

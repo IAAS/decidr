@@ -62,7 +62,7 @@ public class MarkWorkItemAsDoneAction implements ClickListener {
         try {
             workItemFacade.markWorkItemAsDone(workItemId);
         } catch (TransactionException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent(exception));
         }
 
     }

@@ -83,9 +83,9 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
                     new StartConfigurationWindow(tConfiguration,
                             workflowModelId));
         } catch (JAXBException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent(exception));
         } catch (TransactionException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent(exception));
         }
 
     }

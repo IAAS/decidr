@@ -78,10 +78,10 @@ public class UploadTenantLogoAction implements Upload.SucceededListener,
 			Main.getCurrent().getMainWindow().showNotification(
 					"File " + filename + "successfully temporarily saved!");
 		} catch (final java.io.FileNotFoundException e) {
-			Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+			Main.getCurrent().addWindow(new TransactionErrorDialogComponent(e));
 		} catch (TransactionException exception) {
 			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent());
+					new TransactionErrorDialogComponent(exception));
 		}
 
 		return fos;

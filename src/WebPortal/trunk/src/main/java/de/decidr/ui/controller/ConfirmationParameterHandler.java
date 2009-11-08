@@ -99,10 +99,10 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                                             "Email Changed!"));
                 } catch (NumberFormatException e) {
                     Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent());
+                            new TransactionErrorDialogComponent(e));
                 } catch (TransactionException e) {
                     Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent());
+                            new TransactionErrorDialogComponent(e));
                 }
             } else if (action.equals("pass")) {
                 try {
@@ -117,11 +117,11 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                                             "Password Reset Confirmed!"));
                 } catch (NumberFormatException e) {
                     Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent());
+                            new TransactionErrorDialogComponent(e));
                     e.printStackTrace();
                 } catch (TransactionException e) {
                     Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent());
+                            new TransactionErrorDialogComponent(e));
                 }
             } else if (action.equals("reg")) {
                 try {
@@ -136,11 +136,11 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                                             "Registration Complete!"));
                 } catch (NumberFormatException e) {
                     Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent());
+                            new TransactionErrorDialogComponent(e));
                     e.printStackTrace();
                 } catch (TransactionException e) {
                     Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent());
+                            new TransactionErrorDialogComponent(e));
                 }
             }
         }

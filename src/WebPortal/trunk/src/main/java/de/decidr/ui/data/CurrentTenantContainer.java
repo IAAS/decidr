@@ -67,7 +67,7 @@ public class CurrentTenantContainer extends Observable implements Container,
                 addItem(item);
             }
         } catch (TransactionException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent(exception));
         }
     }
 

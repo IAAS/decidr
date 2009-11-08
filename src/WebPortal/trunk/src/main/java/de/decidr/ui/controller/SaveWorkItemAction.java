@@ -88,7 +88,7 @@ public class SaveWorkItemAction implements ClickListener {
              }
              new HideDialogWindowAction();
         }catch(TransactionException exception){
-            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent(exception));
             new HideDialogWindowAction();
         }
         

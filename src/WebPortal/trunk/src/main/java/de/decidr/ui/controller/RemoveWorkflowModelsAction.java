@@ -80,7 +80,7 @@ public class RemoveWorkflowModelsAction implements ClickListener {
 			}
 		} catch (TransactionException e) {
 			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent());
+					new TransactionErrorDialogComponent(e));
 		}
 	}
 }

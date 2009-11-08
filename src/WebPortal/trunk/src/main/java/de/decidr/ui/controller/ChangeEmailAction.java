@@ -62,7 +62,7 @@ public class ChangeEmailAction implements ClickListener {
                     .getItemProperty("newEmail").getValue().toString());
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
 
     }

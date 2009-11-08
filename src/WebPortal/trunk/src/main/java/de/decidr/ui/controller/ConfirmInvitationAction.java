@@ -66,7 +66,7 @@ public class ConfirmInvitationAction implements ClickListener {
             userFacade.confirmInvitation(invitationId);
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
 
     }

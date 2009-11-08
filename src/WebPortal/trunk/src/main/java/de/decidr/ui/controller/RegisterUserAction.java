@@ -54,11 +54,11 @@ public class RegisterUserAction implements ClickListener {
                     .getValue().toString(), fillUserProfile());
         } catch (NullPointerException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
             e.printStackTrace();
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
 
     }

@@ -73,7 +73,7 @@ public class CompletedInstancesContainer extends Observable implements
             }
         } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(exception));
         }
 
     }

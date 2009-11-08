@@ -138,7 +138,7 @@ public class CssHandler {
 			}
 		} catch (TransactionException exception) {
 			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent());
+					new TransactionErrorDialogComponent(exception));
 		}
 	}
 

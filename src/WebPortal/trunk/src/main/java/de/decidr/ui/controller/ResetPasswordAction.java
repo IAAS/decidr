@@ -60,7 +60,7 @@ public class ResetPasswordAction implements ClickListener {
                     .getValue().toString());
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
         Main.getCurrent().getMainWindow().showNotification(
                 "new password sent to: "

@@ -72,7 +72,7 @@ public class UnlockWorkflowModelAction implements ClickListener {
                             iter.next(), "id").getValue(), true);
                 } catch (TransactionException e) {
                     Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent());
+                            new TransactionErrorDialogComponent(e));
                 }
             }
         }

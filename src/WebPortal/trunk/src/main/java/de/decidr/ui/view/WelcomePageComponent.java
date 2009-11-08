@@ -85,7 +85,7 @@ public class WelcomePageComponent extends CustomComponent {
 			verticalLayout.addComponent(labelDesc);
 		} catch (TransactionException exception) {
 			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent());
+					new TransactionErrorDialogComponent(exception));
 		}
 
 	}

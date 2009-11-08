@@ -64,7 +64,7 @@ public class LeaveTenantAction implements ClickListener {
             userFacade.leaveTenant(userId, tenantId);
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent());
+                    new TransactionErrorDialogComponent(e));
         }
         Main.getCurrent().getMainWindow().removeWindow(
                 event.getButton().getWindow());
