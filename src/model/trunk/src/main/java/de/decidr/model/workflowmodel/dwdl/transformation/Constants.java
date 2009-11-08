@@ -28,12 +28,14 @@ import org.jdom.Namespace;
 public final class Constants {
 
     public static final String BPEL_NAMESPACE = "http://docs.oasis-pen.org/wsbpel/2.0/process/executable";
+    public static final String PARTNERLINKTYPE_NAMESPACE = "http://docs.oasis-open.org/wsbpel/2.0/plnktype";
+    public static final String VARPROP_NAMESPACE = "http://docs.oasis-open.org/wsbpel/2.0/varprop";
     public static final String DWDL_NAMESPACE = "http://decidr.de/schema/dwdl";
     public static final String DECIDRTYPES_NAMESPACE = "http://decidr.de/schema/DecidrTypes";
     public static final String ODE_NAMESPACE = "http://www.apache.org/ode/type/extension";
     public static final String MAPPING_NAMESPACE = "http://decidr.de/schema/wsmapping";
     public static final String CONFIGURATION_NAMESPACE = "http://decidr.de/schema/wsc";
-    public static Namespace XML_SCHEMA_NS = Namespace.getNamespace("xsd",
+    public static final Namespace XML_SCHEMA_NS = Namespace.getNamespace("xsd",
     "http://www.w3.org/2001/XMLSchema");
     public static final String DECIDRTYPES_LOCATION = "DecidrTypes.xsd";
     public static final String DECIDRWSTYPES_LOCATION = "DecidrWSTypes.xsd";

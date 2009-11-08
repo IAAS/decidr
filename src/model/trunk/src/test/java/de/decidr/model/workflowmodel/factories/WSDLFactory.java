@@ -18,6 +18,7 @@ package de.decidr.model.workflowmodel.factories;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
@@ -29,6 +30,8 @@ import org.xml.sax.InputSource;
 import com.ibm.wsdl.xml.WSDLReaderImpl;
 import com.ibm.wsdl.xml.WSDLWriterImpl;
 
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
+
 /**
  * Reads the HumanTask WSDL and the Email WSDL and returns {@link Definiton}
  * objects
@@ -39,26 +42,30 @@ public class WSDLFactory {
 
     static String humanTaskWSDLName = "/test/HumanTaskTest.wsdl";
     static String emailWSDLName = "/test/EmailTest.wsdl";
-    private static String documentBaseURI = "resources/xsd/";
 
-    public static Definition getHumanTaskDefintion() throws WSDLException {
+    public static Definition getHumanTaskDefintion() throws WSDLException,
+            IOException {
 
-        WSDLReader reader = new WSDLReaderImpl();
-        InputSource source = new InputSource(WSDLFactory.class
-                .getResourceAsStream(humanTaskWSDLName));
-        return reader.readWSDL(documentBaseURI, source);
+        InputStream in = WSDLFactory.class
+                .getResourceAsStream(humanTaskWSDLName);
+        byte[] data = new byte[in.available()];
+        in.read(data, 0, in.available());
+
+        return TransformUtil.bytesToDefinition(data);
 
     }
 
-    public static Definition getEmailDefinition() throws WSDLException {
+    public static Definition getEmailDefinition() throws WSDLException, IOException {
 
-        WSDLReader reader = new WSDLReaderImpl();
-        InputSource source = new InputSource(WSDLFactory.class
-                .getResourceAsStream(emailWSDLName));
-        return reader.readWSDL(documentBaseURI, source);
+        InputStream in = WSDLFactory.class.getResourceAsStream(emailWSDLName);
+        byte[] data = new byte[in.available()];
+        in.read(data, 0, in.available());
+
+        return TransformUtil.bytesToDefinition(data);
     }
 
-    public static byte[] getHumanTaskDefinitionByteArray() throws IOException, WSDLException {
+    public static byte[] getHumanTaskDefinitionByteArray() throws IOException,
+            WSDLException {
         WSDLWriter writer = new WSDLWriterImpl();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         writer.writeWSDL(getHumanTaskDefintion(), out);
@@ -66,7 +73,8 @@ public class WSDLFactory {
         return out.toByteArray();
     }
 
-    public static byte[] getEmailDefinitionByteArray() throws IOException, WSDLException {
+    public static byte[] getEmailDefinitionByteArray() throws IOException,
+            WSDLException {
         WSDLWriter writer = new WSDLWriterImpl();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         writer.writeWSDL(getEmailDefinition(), out);

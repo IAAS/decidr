@@ -16,8 +16,6 @@
 
 package de.decidr.model.workflowmodel.transformation;
 
-import static org.junit.Assert.*;
-
 import java.util.Map;
 
 import org.junit.BeforeClass;

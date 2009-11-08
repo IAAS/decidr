@@ -10,6 +10,8 @@ package de.decidr.model.workflowmodel.bpel.partnerlinktype;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.wsdl.extensions.ExtensibilityElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -18,6 +20,9 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.namespace.QName;
+
+import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
 
 
 /**
@@ -46,7 +51,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "role"
 })
 public class PartnerLinkType
-    extends ExtensibleElements
+    extends ExtensibleElements implements ExtensibilityElement
 {
 
     @XmlElement(required = true)
@@ -119,6 +124,24 @@ public class PartnerLinkType
 
     public boolean isSetName() {
         return (this.name!= null);
+    }
+
+    @Override
+    public QName getElementType() {
+        return new QName(Constants.PARTNERLINKTYPE_NAMESPACE,"partnerLinkType");
+    }
+
+    @Override
+    public Boolean getRequired() {
+        return null;
+    }
+
+    @Override
+    public void setElementType(QName elementType) {
+    }
+
+    @Override
+    public void setRequired(Boolean required) {
     }
 
 }

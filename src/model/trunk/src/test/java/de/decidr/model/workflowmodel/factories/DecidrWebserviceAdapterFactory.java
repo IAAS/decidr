@@ -16,6 +16,8 @@
 
 package de.decidr.model.workflowmodel.factories;
 
+import java.io.IOException;
+
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
 
@@ -41,7 +43,7 @@ public class DecidrWebserviceAdapterFactory {
     static String EmailURL = "http://localhost:8080/axis2/services/Email.EmailSOAP/";
 
     public static DecidrWebserviceAdapter getHumanTaskWebserviceAdapter()
-            throws WSDLException {
+            throws WSDLException, IOException {
         humanTask = WSDLFactory.getHumanTaskDefintion();
         humanTaskMapping = MappingFactory.getHumanTaskMapping();
         humanTaskAdapter = new DecidrWebserviceAdapter(humanTaskMapping,
@@ -51,7 +53,7 @@ public class DecidrWebserviceAdapterFactory {
     }
 
     public static DecidrWebserviceAdapter getEmailWebserviceAdapter()
-            throws WSDLException {
+            throws WSDLException, IOException {
         email = WSDLFactory.getEmailDefinition();
         emailMapping = MappingFactory.getEmailMapping();
         emailAdapter = new DecidrWebserviceAdapter(emailMapping, email);

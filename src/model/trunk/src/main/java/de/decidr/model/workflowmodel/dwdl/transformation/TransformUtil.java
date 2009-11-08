@@ -45,9 +45,11 @@ import javax.wsdl.extensions.ExtensionRegistry;
 
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.bpel.Process;
+import de.decidr.model.workflowmodel.bpel.partnerlinktype.PartnerLinkType;
 import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
+import de.decidr.model.workflowmodel.webservices.PartnerLinkTypeSerializer;
 import de.decidr.model.workflowmodel.webservices.WebserviceMapping;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
@@ -66,6 +68,7 @@ public class TransformUtil {
     private static JAXBContext htaskCntxt = null;
     private static JAXBContext ddCntxt = null;
     private static Logger log = DefaultLogger.getLogger(TransformUtil.class);
+    private static String documentBaseURI = "resources/xsd/";
 
     static {
         try {
@@ -80,13 +83,12 @@ public class TransformUtil {
         }
     }
 
-    public static byte[] bpelToBytes(Process bpel) throws JAXBException{
+    public static byte[] bpelToBytes(Process bpel) throws JAXBException {
         Marshaller marshaller = bpelCntxt.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        JAXBElement<Process> element = new JAXBElement<Process>(
-                new QName(Constants.BPEL_NAMESPACE,
-                        "process"), Process.class, bpel);
+        JAXBElement<Process> element = new JAXBElement<Process>(new QName(
+                Constants.BPEL_NAMESPACE, "process"), Process.class, bpel);
         marshaller.marshal(element, os);
 
         return os.toByteArray();
@@ -104,8 +106,19 @@ public class TransformUtil {
     public static Definition bytesToDefinition(byte[] wsdl)
             throws WSDLException {
         WSDLReader reader = new com.ibm.wsdl.xml.WSDLReaderImpl();
+        ExtensionRegistry extensionRegistry = new PopulatedExtensionRegistry();
+        PartnerLinkTypeSerializer ser = new PartnerLinkTypeSerializer();
+        extensionRegistry.registerSerializer(Definition.class, new QName(
+                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"), ser);
+        extensionRegistry.registerDeserializer(Definition.class,
+                new QName(Constants.PARTNERLINKTYPE_NAMESPACE,
+                        "partnerLinkType"), ser);
+        extensionRegistry.mapExtensionTypes(Definition.class, new QName(
+                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"),
+                PartnerLinkType.class);
+        reader.setExtensionRegistry(extensionRegistry);
         InputSource in = new InputSource(new ByteArrayInputStream(wsdl));
-        Definition def = reader.readWSDL(null, in);
+        Definition def = reader.readWSDL(documentBaseURI, in);
         return def;
     }
 
@@ -134,42 +147,51 @@ public class TransformUtil {
                 Workflow.class);
         return dwdlElement.getValue();
     }
-    
+
     public static byte[] configurationToBytes(TConfiguration conf)
             throws JAXBException {
         Marshaller marshaller = wscCntxt.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         JAXBElement<TConfiguration> element = new JAXBElement<TConfiguration>(
-                new QName(Constants.CONFIGURATION_NAMESPACE,
-                        "configurations"), TConfiguration.class, conf);
+                new QName(Constants.CONFIGURATION_NAMESPACE, "configurations"),
+                TConfiguration.class, conf);
         marshaller.marshal(element, os);
 
         return os.toByteArray();
     }
 
-    public static byte[] ddToBytes(TDeployment deployment) throws JAXBException{
+    public static byte[] ddToBytes(TDeployment deployment) throws JAXBException {
         Marshaller marshaller = ddCntxt.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         JAXBElement<TDeployment> element = new JAXBElement<TDeployment>(
-                new QName(Constants.DD_NAMESPACE,
-                        "deploy"), TDeployment.class, deployment);
+                new QName(Constants.DD_NAMESPACE, "deploy"), TDeployment.class,
+                deployment);
         marshaller.marshal(element, os);
 
         return os.toByteArray();
     }
-    
-    public static byte[] definitionToBytes(Definition def) throws WSDLException{
+
+    public static byte[] definitionToBytes(Definition def) throws WSDLException {
         WSDLWriter writer = new WSDLWriterImpl();
         ExtensionRegistry extensionRegistry = new PopulatedExtensionRegistry();
+        PartnerLinkTypeSerializer ser = new PartnerLinkTypeSerializer();
+        extensionRegistry.registerSerializer(Definition.class, new QName(
+                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"), ser);
+        extensionRegistry.registerDeserializer(Definition.class,
+                new QName(Constants.PARTNERLINKTYPE_NAMESPACE,
+                        "partnerLinkType"), ser);
+        extensionRegistry.mapExtensionTypes(Definition.class, new QName(
+                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"),
+                PartnerLinkType.class);
         def.setExtensionRegistry(extensionRegistry);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        
+
         writer.writeWSDL(def, os);
         return os.toByteArray();
     }
-    
+
     public static String element2XML(org.jdom.Element roleElement) {
 
         return null;
@@ -181,8 +203,8 @@ public class TransformUtil {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         JAXBElement<WebserviceMapping> mappingElement = new JAXBElement<WebserviceMapping>(
-                new QName(Constants.MAPPING_NAMESPACE,
-                        "mapping"), WebserviceMapping.class, mapping);
+                new QName(Constants.MAPPING_NAMESPACE, "mapping"),
+                WebserviceMapping.class, mapping);
         marshaller.marshal(mappingElement, os);
 
         return os.toByteArray();
@@ -194,27 +216,28 @@ public class TransformUtil {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         JAXBElement<Workflow> mappingElement = new JAXBElement<Workflow>(
-                new QName(Constants.DWDL_NAMESPACE,
-                        "workflow"), Workflow.class, dwdl);
+                new QName(Constants.DWDL_NAMESPACE, "workflow"),
+                Workflow.class, dwdl);
         marshaller.marshal(mappingElement, os);
 
         return os.toByteArray();
     }
-    
-    public static SOAPMessage bytesToSOAPMessage(byte[] message) throws SOAPException{
-        
+
+    public static SOAPMessage bytesToSOAPMessage(byte[] message)
+            throws SOAPException {
+
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage msg = messageFactory.createMessage();
 
-        SOAPPart soapPart =     msg.getSOAPPart();
+        SOAPPart soapPart = msg.getSOAPPart();
 
-       StreamSource preppedMsgSrc = new StreamSource( 
-                new ByteArrayInputStream(message));
-       soapPart.setContent(preppedMsgSrc);
+        StreamSource preppedMsgSrc = new StreamSource(new ByteArrayInputStream(
+                message));
+        soapPart.setContent(preppedMsgSrc);
 
         msg.saveChanges();
-        
-        return msg; 
+
+        return msg;
     }
 
 }

@@ -16,7 +16,9 @@
 
 package de.decidr.model.workflowmodel.webservices;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.wsdl.Definition;
 import javax.wsdl.Operation;
@@ -26,6 +28,9 @@ import javax.wsdl.extensions.ExtensibilityElement;
 import javax.wsdl.extensions.soap12.SOAP12Address;
 import javax.xml.namespace.QName;
 
+import org.apache.log4j.Logger;
+
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.bpel.PartnerLink;
 import de.decidr.model.workflowmodel.bpel.partnerlinktype.PartnerLinkType;
 import de.decidr.model.workflowmodel.bpel.partnerlinktype.Role;
@@ -39,6 +44,8 @@ import de.decidr.model.workflowmodel.bpel.partnerlinktype.Role;
  * @version 0.1
  */
 public class DecidrWebserviceAdapter {
+    
+    private static Logger log = DefaultLogger.getLogger(DecidrWebserviceAdapter.class);
 
     WebserviceMapping mapping = null;
     Definition definition = null;
@@ -65,16 +72,26 @@ public class DecidrWebserviceAdapter {
     }
 
     public PartnerLinkType getPartnerLinkType() {
-        PartnerLinkType partnerLinkType = new PartnerLinkType();
-        partnerLinkType.setName(definition.getQName().getLocalPart() + "PLT");
-        Role myRole = new Role();
-        myRole.setName(mapping.getActivity() + "Provider");
-        myRole.setPortType(new QName(definition.getTargetNamespace(), mapping.getPortType()));
-        Role partnerRole = new Role();
-        partnerRole.setName(mapping.getActivity() + "Client");
-        // MA what about callback port type?
-        partnerRole.setPortType(new QName(definition.getTargetNamespace(),"clientPortType"));
-        return partnerLinkType;
+        
+        // get all partner link elements in the wsdl definition
+        List<PartnerLinkType> partnerLinkTypes = getPartnerLinksElements(definition);
+        
+        // return only the partner link type that contains a role element
+        // that itself references to the port type specified in the mapping
+        for (PartnerLinkType plnk : partnerLinkTypes){
+            if(plnk.isSetRole()){
+                for (Role role : plnk.getRole()){
+                    if (role.isSetPortType()){
+                        if (role.getPortType().getLocalPart().equals(mapping.getPortType())){
+                            return plnk;
+                        }
+                    }
+                }
+            }
+        }
+        // otherwise return null
+        log.warn("Partner link type in "+definition.getTargetNamespace()+" DecidrWebserviceAdapter is null");
+        return null;
     }
 
     public String getTargetNamespace() {
@@ -91,6 +108,7 @@ public class DecidrWebserviceAdapter {
                 return adress.getLocationURI();
             }
         }
+        log.warn("Location in "+definition.getTargetNamespace()+" DecidrWebserviceAdapter is null");
         return null;
 
     }
@@ -119,6 +137,19 @@ public class DecidrWebserviceAdapter {
     public Service getService() {
         return definition.getService(new QName(definition.getTargetNamespace(),
                 mapping.getService()));
+    }
+    
+    private List<PartnerLinkType> getPartnerLinksElements(Definition def){
+        List<PartnerLinkType> list = new ArrayList<PartnerLinkType>();
+        Iterator<?> extElementIter = def.getExtensibilityElements().iterator();
+        while (extElementIter.hasNext()){
+            ExtensibilityElement extElement = (ExtensibilityElement) extElementIter
+            .next();
+            if (extElement instanceof PartnerLinkType){
+                list.add((PartnerLinkType) extElement);
+            }
+        }
+        return list;
     }
 
 }
