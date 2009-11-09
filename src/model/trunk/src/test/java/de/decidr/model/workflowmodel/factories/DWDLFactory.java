@@ -19,13 +19,10 @@ package de.decidr.model.workflowmodel.factories;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
 
 import de.decidr.model.workflowmodel.dwdl.Workflow;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
 /**
  * This class returns the SampleProcess DWDL workflow
@@ -37,20 +34,15 @@ public class DWDLFactory {
     static String dwdlName = "/dwdl/sampleProcess.xml";
 
     public static byte[] getDWDLWorkflowByteArray() throws IOException {
-        InputStream in = WSDLFactory.class.getResourceAsStream(dwdlName);
+        InputStream in = DWDLFactory.class.getResourceAsStream(dwdlName);
         byte[] bytesDWDL = new byte[in.available()];
         in.read(bytesDWDL, 0, in.available());
         in.close();
         return bytesDWDL;
     }
 
-    public static Workflow getDWDLWorkflow() throws JAXBException {
-        JAXBContext context = JAXBContext.newInstance(Workflow.class);
-        Unmarshaller unmarshaller = context.createUnmarshaller();
-        JAXBElement<Workflow> dwdl = unmarshaller.unmarshal(new StreamSource(
-                WSDLFactory.class.getResourceAsStream(dwdlName)),
-                Workflow.class);
-        return dwdl.getValue();
+    public static Workflow getDWDLWorkflow() throws JAXBException, IOException {
+        return TransformUtil.bytesToWorkflow(getDWDLWorkflowByteArray());
     }
 
 }

@@ -16,19 +16,11 @@
 
 package de.decidr.model.workflowmodel.factories;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
-import javax.wsdl.xml.WSDLReader;
-import javax.wsdl.xml.WSDLWriter;
-
-import org.xml.sax.InputSource;
-
-import com.ibm.wsdl.xml.WSDLReaderImpl;
-import com.ibm.wsdl.xml.WSDLWriterImpl;
 
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
@@ -45,41 +37,33 @@ public class WSDLFactory {
 
     public static Definition getHumanTaskDefintion() throws WSDLException,
             IOException {
+        return TransformUtil.bytesToDefinition(getHumanTaskDefinitionByteArray());
 
+    }
+
+    public static Definition getEmailDefinition() throws WSDLException,
+            IOException {
+        return TransformUtil.bytesToDefinition(getEmailDefinitionByteArray());
+    }
+
+    public static byte[] getHumanTaskDefinitionByteArray() throws IOException,
+            WSDLException {
         InputStream in = WSDLFactory.class
                 .getResourceAsStream(humanTaskWSDLName);
         byte[] data = new byte[in.available()];
         in.read(data, 0, in.available());
 
-        return TransformUtil.bytesToDefinition(data);
-
-    }
-
-    public static Definition getEmailDefinition() throws WSDLException, IOException {
-
-        InputStream in = WSDLFactory.class.getResourceAsStream(emailWSDLName);
-        byte[] data = new byte[in.available()];
-        in.read(data, 0, in.available());
-
-        return TransformUtil.bytesToDefinition(data);
-    }
-
-    public static byte[] getHumanTaskDefinitionByteArray() throws IOException,
-            WSDLException {
-        WSDLWriter writer = new WSDLWriterImpl();
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        writer.writeWSDL(getHumanTaskDefintion(), out);
-
-        return out.toByteArray();
+        return data;
     }
 
     public static byte[] getEmailDefinitionByteArray() throws IOException,
             WSDLException {
-        WSDLWriter writer = new WSDLWriterImpl();
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        writer.writeWSDL(getEmailDefinition(), out);
+        InputStream in = WSDLFactory.class
+                .getResourceAsStream(emailWSDLName);
+        byte[] data = new byte[in.available()];
+        in.read(data, 0, in.available());
 
-        return out.toByteArray();
+        return data;
     }
 
 }

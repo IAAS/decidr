@@ -32,6 +32,7 @@ import javax.wsdl.PortType;
 import javax.wsdl.Service;
 import javax.wsdl.Types;
 import javax.wsdl.extensions.UnknownExtensibilityElement;
+import javax.wsdl.extensions.schema.Schema;
 import javax.wsdl.extensions.soap.SOAPAddress;
 import javax.wsdl.extensions.soap.SOAPBinding;
 import javax.wsdl.extensions.soap.SOAPBody;
@@ -58,6 +59,8 @@ import com.ibm.wsdl.PortImpl;
 import com.ibm.wsdl.PortTypeImpl;
 import com.ibm.wsdl.ServiceImpl;
 import com.ibm.wsdl.TypesImpl;
+import com.ibm.wsdl.extensions.schema.SchemaConstants;
+import com.ibm.wsdl.extensions.schema.SchemaImpl;
 import com.ibm.wsdl.extensions.soap.SOAPAddressImpl;
 import com.ibm.wsdl.extensions.soap.SOAPBindingImpl;
 import com.ibm.wsdl.extensions.soap.SOAPBodyImpl;
@@ -148,17 +151,16 @@ public class DWDL2WSDL {
 
     private void setImports() {
         Import decidrTypes = new ImportImpl();
-        decidrTypes
-                .setNamespaceURI(Constants.DECIDRTYPES_NAMESPACE);
-        decidrTypes
-                .setLocationURI(Constants.DECIDRTYPES_LOCATION);
+        decidrTypes.setNamespaceURI(Constants.DECIDRTYPES_NAMESPACE);
+        decidrTypes.setLocationURI(Constants.DECIDRTYPES_LOCATION);
 
         wsdl.addImport(decidrTypes);
     }
 
     private void setMessages() {
         startMessage = new MessageImpl();
-        startMessage.setQName(new QName(dwdl.getTargetNamespace(),WSDLConstants.PROCESS_INPUT_MESSAGETYPE));
+        startMessage.setQName(new QName(dwdl.getTargetNamespace(),
+                WSDLConstants.PROCESS_INPUT_MESSAGETYPE));
         Part messagePart = new PartImpl();
         messagePart.setName("payload");
         messagePart.setElementName(new QName(dwdl.getTargetNamespace(),
@@ -187,7 +189,8 @@ public class DWDL2WSDL {
     private void setPartnerLinkTypes() throws JDOMException {
         Element partnerLinkType = new Element("partnerLinkType", "plnk",
                 "http://docs.oasis-open.org/wsbpel/2.0/plnktype/");
-        partnerLinkType.setAttribute("name", WSDLConstants.PROCESS_PARTNERLINKTYPE);
+        partnerLinkType.setAttribute("name",
+                WSDLConstants.PROCESS_PARTNERLINKTYPE);
         Element myRole = new Element("role", "plnk",
                 "http://docs.oasis-open.org/wsbpel/2.0/plnktype/");
         myRole.setAttribute("name", dwdl.getName() + "Provider");
@@ -202,8 +205,11 @@ public class DWDL2WSDL {
 
     private void setPortTypes() {
         processPortType = new PortTypeImpl();
-        processPortType.setQName(new QName(dwdl.getTargetNamespace(),dwdl.getName() + "PT"));
+        processPortType.setQName(new QName(dwdl.getTargetNamespace(), dwdl
+                .getName()
+                + "PT"));
         startOperation = new OperationImpl();
+        startOperation.setName(WSDLConstants.PROCESS_OPERATION);
         Input input = new InputImpl();
         input.setName("input");
         input.setMessage(startMessage);
@@ -214,8 +220,8 @@ public class DWDL2WSDL {
     }
 
     private void setProperties() throws JDOMException {
-        Iterator<?> iter = schemaElement.getChild("complexType", Constants.XML_SCHEMA_NS).getChildren(
-                "element").iterator();
+        Iterator<?> iter = schemaElement.getChild("complexType",
+                Constants.XML_SCHEMA_NS).getChildren("element").iterator();
         while (iter.hasNext()) {
             Element messageElement = (Element) iter.next();
             Element propertyElement = new Element("property", "vprop",
@@ -234,7 +240,8 @@ public class DWDL2WSDL {
                     + startMessage.getQName().getLocalPart());
             propertyAlias.setAttribute("part", startMessage.getPart("payload")
                     .getName());
-            propertyQuery.setText("/tns:"+WSDLConstants.PROCESS_MESSAGE_ELEMENT+"/ns:"
+            propertyQuery.setText("/tns:"
+                    + WSDLConstants.PROCESS_MESSAGE_ELEMENT + "/ns:"
                     + messageElement.getAttributeValue("name"));
             propertyAlias.addContent(propertyQuery);
 
@@ -247,7 +254,8 @@ public class DWDL2WSDL {
 
     private void setService() {
         Service processService = new ServiceImpl();
-        processService.setQName(new QName(dwdl.getTargetNamespace(),dwdl.getName()));
+        processService.setQName(new QName(dwdl.getTargetNamespace(), dwdl
+                .getName()));
         Port servicePort = new PortImpl();
         servicePort.setBinding(processBinding);
         servicePort.setName(processBinding.getQName().getLocalPart());
@@ -293,14 +301,9 @@ public class DWDL2WSDL {
                     Element roleElement = new Element("element", "xsd",
                             XMLConstants.W3C_XML_SCHEMA_NS_URI);
                     roleElement.setAttribute("name", "role");
-                    roleElement
-                            .setAttribute(
-                                    "type",
-                                    "tRole",
-                                    Namespace
-                                            .getNamespace(
-                                                    BPELConstants.DECIDRTYPES_PREFIX,
-                                                    Constants.DECIDRTYPES_NAMESPACE));
+                    roleElement.setAttribute("type", "tRole", Namespace
+                            .getNamespace(BPELConstants.DECIDRTYPES_PREFIX,
+                                    Constants.DECIDRTYPES_NAMESPACE));
                     all.addContent(roleElement);
                 }
             }
@@ -310,14 +313,9 @@ public class DWDL2WSDL {
                     Element actorElement = new Element("element", "xsd",
                             XMLConstants.W3C_XML_SCHEMA_NS_URI);
                     actorElement.setAttribute("name", "actor");
-                    actorElement
-                            .setAttribute(
-                                    "type",
-                                    "tActor",
-                                    Namespace
-                                            .getNamespace(
-                                                    "decidr",
-                                                    Constants.DECIDRTYPES_NAMESPACE));
+                    actorElement.setAttribute("type", "tActor", Namespace
+                            .getNamespace("decidr",
+                                    Constants.DECIDRTYPES_NAMESPACE));
                     all.addContent(actorElement);
                 }
             }
@@ -326,9 +324,12 @@ public class DWDL2WSDL {
         schemaElement.addContent(messageType);
         messageType.addContent(all);
 
-        UnknownExtensibilityElement extensibilityElement = getUExtElem(schemaElement);
+        Schema schema = new SchemaImpl();
+        schema.setElement(jdomToW3c(schemaElement));
+        schema.setElementType(new QName(SchemaConstants.NS_URI_XSD_2001,
+                "schema"));
 
-        types.addExtensibilityElement(extensibilityElement);
+        types.addExtensibilityElement(schema);
 
         wsdl.setTypes(types);
     }
@@ -347,5 +348,15 @@ public class DWDL2WSDL {
 
         return extElement;
 
+    }
+
+    private org.w3c.dom.Element jdomToW3c(org.jdom.Element jdomElement)
+            throws JDOMException {
+        Document doc = new Document();
+        doc.setRootElement(jdomElement);
+        DOMOutputter domOut = new DOMOutputter();
+        org.w3c.dom.Document w3cDoc = domOut.output(doc);
+        org.w3c.dom.Element w3cElment = w3cDoc.getDocumentElement();
+        return w3cElment;
     }
 }

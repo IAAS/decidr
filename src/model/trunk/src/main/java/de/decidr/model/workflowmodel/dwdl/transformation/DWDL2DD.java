@@ -121,7 +121,7 @@ public class DWDL2DD {
                 return adapter;
             }
         }
-        log.warn("Couldn't find "+partnerLink.getName()+" in DecidrWebserviceAdapter list");
+        log.warn("Can't find "+partnerLink.getName()+" in DecidrWebserviceAdapter list");
         return null;
     }
     
@@ -133,7 +133,7 @@ public class DWDL2DD {
                 }
             }
         }
-        log.warn("Couldn't find partner link "+bpel.getTargetNamespace());
+        log.warn("Can't find process partner link "+bpel.getTargetNamespace());
         return null;
     }
 

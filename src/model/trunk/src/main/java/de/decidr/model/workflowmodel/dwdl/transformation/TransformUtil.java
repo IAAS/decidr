@@ -107,6 +107,8 @@ public class TransformUtil {
     public static Definition bytesToDefinition(byte[] wsdl)
             throws WSDLException {
         WSDLReader reader = new com.ibm.wsdl.xml.WSDLReaderImpl();
+        reader.setFeature("javax.wsdl.importDocuments", false);
+        reader.setFeature("javax.wsdl.verbose", false);
         ExtensionRegistry extensionRegistry = new PopulatedExtensionRegistry();
         PartnerLinkTypeSerializer ser = new PartnerLinkTypeSerializer();
         extensionRegistry.registerSerializer(Definition.class, new QName(

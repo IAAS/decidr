@@ -68,8 +68,7 @@ public class DWDL2SOAP {
         // Find the message element for the corresponding port name
         PortType port = wsdl.getPortType(new QName(wsdl.getTargetNamespace(),
                 portName));
-        Operation operation = port.getOperation(wsdl.getTargetNamespace(),
-                operationName, null);
+        Operation operation = port.getOperation(operationName, null, null);
         Message message = operation.getInput().getMessage();
 
         // Create the list of elements that build the soap message

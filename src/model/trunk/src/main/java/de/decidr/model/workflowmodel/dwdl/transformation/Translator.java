@@ -98,7 +98,6 @@ public class Translator {
                     + "PT", WSDLConstants.PROCESS_OPERATION);
         } catch (UnsupportedOperationException e) {
             log.error("Can't find operation "+ WSDLConstants.PROCESS_OPERATION+" for dwdl to soap translation", e);
-            e.printStackTrace();
         } catch (SOAPException e) {
             log.error("Can't translate dwdl to soap", e);
         }

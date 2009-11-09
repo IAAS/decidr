@@ -18,15 +18,20 @@ package de.decidr.model.workflowmodel.transformation;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import javax.wsdl.Definition;
 import javax.xml.soap.SOAPMessage;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.workflowmodel.bpel.Process;
 import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dwdl.transformation.Translator;
+import de.decidr.model.workflowmodel.factories.DWDLFactory;
+import de.decidr.model.workflowmodel.factories.KnownWebserviceFactory;
 
 /**
  * This JUnit test tests the correct transformation of all deployment relevant
@@ -35,19 +40,26 @@ import de.decidr.model.workflowmodel.dwdl.transformation.Translator;
  * @author Modood Alvi
  */
 public class TranslaterTest {
-    
+
     static Translator translater = null;
     static String location = null;
+    static byte[] dwdl = null;
+    static String tenantName = null;
+    static List<KnownWebService> knownWebservices = null;
 
     /**
-     * Load all relevatn data for transformation process
+     * Load all relevant data for transformation process
      * 
      * @throws java.lang.Exception
      */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        
+
         translater = new Translator();
+        dwdl = DWDLFactory.getDWDLWorkflowByteArray();
+        tenantName = "Hugo";
+        knownWebservices = KnownWebserviceFactory.getKnownWebservice();
+        translater.load(dwdl, tenantName, knownWebservices);
     }
 
     /**
@@ -74,17 +86,6 @@ public class TranslaterTest {
 
     /**
      * Test method for
-     * {@link de.decidr.model.workflowmodel.dwdl.transformation.Translator#getSOAPTemplate()}
-     * .
-     */
-    @Test
-    public void testGetSOAPTemplate() {
-        SOAPMessage msg = translater.getSOAPTemplate();
-        assertNotNull(msg);
-    }
-
-    /**
-     * Test method for
      * {@link de.decidr.model.workflowmodel.dwdl.transformation.Translator#getWSDL(java.lang.String)}
      * .
      */
@@ -92,6 +93,17 @@ public class TranslaterTest {
     public void testGetWSDL() {
         Definition def = translater.getWSDL(location);
         assertNotNull(def);
+    }
+
+    /**
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.dwdl.transformation.Translator#getSOAPTemplate()}
+     * .
+     */
+    @Test
+    public void testGetSOAPTemplate() {
+        SOAPMessage msg = translater.getSOAPTemplate();
+        assertNotNull(msg);
     }
 
 }
