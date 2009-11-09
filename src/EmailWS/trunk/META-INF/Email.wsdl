@@ -1,3 +1,17 @@
+<!-- The DecidR Development Team licenses this file to you under -->
+<!-- the Apache License, Version 2.0 (the "License"); you may -->
+<!-- not use this file except in compliance with the License. -->
+<!-- You may obtain a copy of the License at -->
+<!-- -->
+<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+<!-- -->
+<!-- Unless required by applicable law or agreed to in writing, -->
+<!-- software distributed under the License is distributed on an -->
+<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY -->
+<!-- KIND, either express or implied. See the License for the -->
+<!-- specific language governing permissions and limitations -->
+<!-- under the License. -->
+
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
 	xmlns:soap11="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://decidr.de/webservices/Email"
@@ -6,18 +20,21 @@
 	xmlns:decidr="http://decidr.de/schema/DecidrWSTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
 	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:mex="http://decidr.de/model/exceptions"
 	xmlns:sex="http://decidr.de/model/soap/exceptions" name="Email"
-	targetNamespace="http://decidr.de/webservices/Email">
+	targetNamespace="http://decidr.de/webservices/Email"
+>
 
 	<wsdl:types>
 		<xsd:schema elementFormDefault="qualified"
-			targetNamespace="http://decidr.de/model/exceptions">
+			targetNamespace="http://decidr.de/model/exceptions"
+		>
 			<xsd:element name="incompleteConfigurationException"
 				type="xsd:string" />
 			<xsd:element name="storageException" type="xsd:string" />
 			<xsd:element name="transactionException" type="xsd:string" />
 		</xsd:schema>
 		<xsd:schema elementFormDefault="qualified"
-			targetNamespace="http://decidr.de/model/soap/exceptions">
+			targetNamespace="http://decidr.de/model/soap/exceptions"
+		>
 			<xsd:element name="messagingException" type="xsd:string" />
 			<xsd:element name="ioException" type="xsd:string" />
 			<xsd:element name="illegalArgumentException" type="xsd:string" />
@@ -25,7 +42,8 @@
 		</xsd:schema>
 
 		<xsd:schema elementFormDefault="qualified"
-			targetNamespace="http://decidr.de/webservices/Email">
+			targetNamespace="http://decidr.de/webservices/Email"
+		>
 			<!-- own type definitions -->
 			<xsd:import schemaLocation="DecidrWSTypes.xsd"
 				namespace="http://decidr.de/schema/DecidrWSTypes" />
