@@ -126,7 +126,7 @@ public class RegisterUserCommand extends AclEnabledCommand {
              * there is a user with the given email address. Has the user
              * already registered?
              */
-            if (existingUser.getRegisteredSince() == null) {
+            if (existingUser.getUserProfile() == null) {
                 /*
                  * The user has not yet registered - nothing needs to be done.
                  */

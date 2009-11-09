@@ -437,8 +437,6 @@ public class DefaultAccessControlList implements AccessControlList {
                 GetAllTenantsCommand.class), SatisfyAll,
                 new UserIsSuperAdminAsserter());
 
-        
-        
         setRule(new UserRole(),
                 new CommandPermission(CreateTenantCommand.class), SatisfyAll,
                 alwaysTrueAsserter);
