@@ -111,7 +111,7 @@ public class XmlTools {
      *             entity.
      */
     @SuppressWarnings("unchecked")
-    public static Object getElement(Class<?> clazz, byte[] bytes)
+    public static <T> T getElement(Class<? extends T> clazz, byte[] bytes)
             throws JAXBException {
         if (clazz == null) {
             throw new IllegalArgumentException("Class must not be null.");
@@ -126,16 +126,15 @@ public class XmlTools {
         Object result = context.createUnmarshaller().unmarshal(inStream);
 
         if (clazz.isAssignableFrom(result.getClass())) {
-            return result;
+            return (T) result;
         } else if (result instanceof JAXBElement) {
             // this happens if there is no distinct root element for clazz
-            return ((JAXBElement) result).getValue();
+            return (T) ((JAXBElement) result).getValue();
         } else {
-            // Fuck.
+            // Fuck. We don't have a clue what unmarshal() returned.
             throw new JAXBException(
                     "Unmarshaller unmarshalled garbage without complaining.");
         }
-
     }
 
     /**
