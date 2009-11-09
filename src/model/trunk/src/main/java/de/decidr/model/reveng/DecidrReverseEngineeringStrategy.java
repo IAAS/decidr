@@ -180,6 +180,25 @@ public class DecidrReverseEngineeringStrategy extends
 
     @SuppressWarnings("unchecked")
     @Override
+    public Map columnToMetaAttributes(TableIdentifier identifier, String column) {
+        /*
+         * All primary key columns must be tagged with use-in-equals
+         */
+        Map attribs = super.columnToMetaAttributes(identifier, column);
+        if (attribs == null) {
+            attribs = new HashMap();
+        }
+        
+        MetaAttribute attrib = new  MetaAttribute("use-in-equals");
+        attrib.addValue("true");
+        
+        attribs.put("use-in-equals", attrib);
+        
+        return attribs;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
     public List getPrimaryKeyColumnNames(TableIdentifier identifier) {
         ArrayList<String> columns = new ArrayList<String>();
 

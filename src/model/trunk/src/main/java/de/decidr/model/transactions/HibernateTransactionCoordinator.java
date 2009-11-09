@@ -260,8 +260,9 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             commitCurrentTransaction();
 
         } catch (Exception e) {
-
             try {
+                logger.info("Exception in transactionStarted: ", e);
+
                 if (currentTransaction != null) {
                     rollbackCurrentTransaction();
 
