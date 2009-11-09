@@ -88,23 +88,29 @@ public class InstanceManagerImpl implements InstanceManager {
     @Override
     public void stopInstance(WorkflowInstance instance) throws AxisFault {
         client = new ServiceClientUtil();
+        
         // create the terminate message
         OMElement terminateMsg = client.buildMessage("terminate",
                 new String[] { "filter" }, new String[] { "iid="
                         + instance.getOdePid() });
+        
         // send the message
         // returns a OMElement that is not used
         client.send(terminateMsg, instance
                 .getServer().getLocation()
                 + "/ode/processes/InstanceManagement");
+        log.info("Pid "+instance.getOdePid()+ "stopped");
+        
         // create the delete message
         OMElement deleteMsg = client.buildMessage("delete",
                 new String[] { "filter" }, new String[] { "iid="
                         + instance.getOdePid() });
+        
         // send the message
         // returns a OMElement that is not used
         client.send(deleteMsg, instance.getServer()
                 .getLocation()
                 + "/ode/processes/InstanceManagement");
+        log.info("Pid "+instance.getOdePid()+" terminated");
     }
 }

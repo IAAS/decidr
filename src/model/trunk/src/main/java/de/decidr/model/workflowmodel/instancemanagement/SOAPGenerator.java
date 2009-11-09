@@ -41,7 +41,7 @@ import de.decidr.model.workflowmodel.wsc.TRole;
  * @version 0.1
  */
 public class SOAPGenerator {
-    
+
     private static Logger log = DefaultLogger.getLogger(SOAPGenerator.class);
 
     private String targetNamespace = null;
@@ -142,6 +142,9 @@ public class SOAPGenerator {
                 return element;
             }
         }
+        log.warn("Can't find operation "
+                + soapMessage.getSOAPHeader().getAttribute("bodyElementName")
+                + " element in SOAP message");
         return null;
     }
 
@@ -153,7 +156,7 @@ public class SOAPGenerator {
                 return element;
             }
         }
+        log.warn("Can't find " +elementName+ "elment in "+parent.getNodeName());
         return null;
     }
-
 }

@@ -45,11 +45,12 @@ public class ServerSelector {
     public ServerLoadView selectServer(List<ServerLoadView> serverStatistics) {
         
         if (serverStatistics.isEmpty()){
+            log.warn("Server list for process invocation is empty");
             throw new IllegalArgumentException("Server list for process invocation is empty");
         }
         
         ServerLoadView minServer = serverStatistics.get(0);
-        
+        // find the server with the least load
         for (ServerLoadView server : serverStatistics){
             if (server.getLoad()<minServer.getLoad()){
                 minServer = server;

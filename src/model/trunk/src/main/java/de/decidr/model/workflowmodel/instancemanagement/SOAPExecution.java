@@ -38,7 +38,7 @@ public class SOAPExecution {
 
     /**
      * The function expects the address of a Web service and a matching SOAP
-     * message. If the function is called, the specified Web service is invoked
+     * message. If the function is called, the specified web service is invoked
      * using the provided SOAP message.
      * 
      * @param server
@@ -52,6 +52,7 @@ public class SOAPExecution {
         SOAPConnection connection = soapConnFactory.createConnection();
         SOAPMessage reply = connection.call(soapMessage, server.getLocation());
         connection.close();
+        log.info("SOAP message sent");
         return reply;
     }
 
