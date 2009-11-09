@@ -252,13 +252,10 @@ public abstract class Node extends AbsolutePanel implements
             setParentPanel(model.getParentModel()
                     .getHasChildrenChangeListener());
 
-            // create move command
+            // create move and resize command
             CommandStack.getInstance().executeCommand(
                     new MoveResizeNodeCommand(this, parentPanel, left, top));
         }
-
-        // JS: add resizing
-
     }
 
     /**
