@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.wsdl.WSDLException;
 import javax.xml.bind.JAXBException;
+import javax.xml.soap.SOAPException;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,19 +26,22 @@ public class DeployerTest {
     static List<ServerLoadView> serverStatistics = null;
     static byte[] dwdl = null;
     static String tenantName = null;
+    static String location = "http://localhost:8080";
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         deployer = new DeployerImpl();
         knownWebservices = KnownWebserviceFactory.getKnownWebservice();
         strategy = new StandardDeploymentStrategy();
+        
+        ServerLoadViewFactory.setLocation(location);
         serverStatistics = ServerLoadViewFactory.getServerStatistics();
         dwdl = DWDLFactory.getDWDLWorkflowByteArray();
         tenantName = "Hugo";
     }
 
     @Test
-    public void testDeploy() throws DWDLValidationException, ODESelectorException, IOException, JAXBException, WSDLException {
+    public void testDeploy() throws DWDLValidationException, ODESelectorException, IOException, JAXBException, WSDLException, SOAPException {
         
 
             DeploymentResult result = deployer.deploy(dwdl, knownWebservices,

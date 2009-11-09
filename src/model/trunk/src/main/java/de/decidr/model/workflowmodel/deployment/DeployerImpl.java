@@ -82,7 +82,7 @@ public class DeployerImpl implements Deployer {
             List<KnownWebService> knownWebservices, String tenantName,
             List<ServerLoadView> serverStatistics, DeploymentStrategy strategy)
             throws DWDLValidationException, ODESelectorException, IOException,
-            JAXBException, WSDLException {
+            JAXBException, WSDLException, SOAPException {
 
         // validate the given DWDL workflow
         validator = new Validator();
@@ -125,7 +125,8 @@ public class DeployerImpl implements Deployer {
         try {
             result.setSOAPTemplate(TransformUtil.SOAPMessagetoBytes(soap));
         } catch (SOAPException e) {
-            log.error("Can't transform soap to byte array",e);
+            log.error("Can't transform soap to byte array", e);
+            throw e;
         }
         result.setServers(serverList);
 

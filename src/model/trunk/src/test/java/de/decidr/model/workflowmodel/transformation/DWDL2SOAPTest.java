@@ -16,13 +16,20 @@
 
 package de.decidr.model.workflowmodel.transformation;
 
+import static org.junit.Assert.*;
+
 import javax.wsdl.Definition;
 import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2SOAP;
+import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSDL;
+import de.decidr.model.workflowmodel.dwdl.transformation.WSDLConstants;
+import de.decidr.model.workflowmodel.factories.DWDLFactory;
 
 /**
  * This class tests the DWDL to SOAP transformation
@@ -35,6 +42,9 @@ public class DWDL2SOAPTest {
     static Definition wsdl = null;
     static String portName = null;
     static String operationName = null;
+    static Workflow dwdl = null;
+    static String location = "";
+    static String tenantName = "";
 
     /**
      * Generate all relevant data
@@ -44,6 +54,11 @@ public class DWDL2SOAPTest {
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         translater = new DWDL2SOAP();
+        DWDL2WSDL wsdlconv = new DWDL2WSDL();
+        dwdl = DWDLFactory.getDWDLWorkflow();
+        wsdl = wsdlconv.getWSDL(dwdl, location, tenantName);
+        portName = dwdl.getName()+"PT";
+        operationName = WSDLConstants.PROCESS_OPERATION;
     }
 
     /**
@@ -54,7 +69,8 @@ public class DWDL2SOAPTest {
     @Test
     public void testGetSOAP() throws UnsupportedOperationException, SOAPException {
         
-        translater.getSOAP(wsdl, portName, operationName);
+        SOAPMessage msg = translater.getSOAP(wsdl, portName, operationName);
+        assertNotNull(msg);
     }
 
 }

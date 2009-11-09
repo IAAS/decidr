@@ -99,7 +99,7 @@ public class DWDL2BPEL {
     private Workflow dwdl = null;
     private ObjectFactory factory = null;
     private String tenantName = null;
-    private Map<String, DecidrWebserviceAdapter> webservices = null;
+    private Map<String, DecidrWebserviceAdapter> adapters = null;
     // will be initialized in setProcessVariables()
     private Map<DecidrWebserviceAdapter, Variable> webserviceInputVariables = null;
     private Map<DecidrWebserviceAdapter, Variable> webserviceOutputVariables = null;
@@ -135,15 +135,15 @@ public class DWDL2BPEL {
         return null;
     }
 
-    public Process getBPEL(Workflow dwdl, String tenant,
+    public Process getBPEL(Workflow dwdl, String tenantName,
             Map<String, DecidrWebserviceAdapter> adapters)
             throws TransformerException {
 
         this.dwdl = dwdl;
         factory = new ObjectFactory();
         process = factory.createProcess();
-        this.tenantName = tenant;
-        this.webservices = adapters;
+        this.tenantName = tenantName;
+        this.adapters = adapters;
 
         log.trace("setting process attributes");
         setProcessAttributes();
@@ -196,9 +196,9 @@ public class DWDL2BPEL {
                 }
             }
         }
-        emailInvoke.setPartnerLink(webservices.get(BPELConstants.EMAIL_ACTIVITY_NAME)
+        emailInvoke.setPartnerLink(adapters.get(BPELConstants.EMAIL_ACTIVITY_NAME)
                 .getPartnerLink().getName());
-        emailInvoke.setOperation(webservices.get(BPELConstants.EMAIL_ACTIVITY_NAME)
+        emailInvoke.setOperation(adapters.get(BPELConstants.EMAIL_ACTIVITY_NAME)
                 .getOpertation().getName());
         emailInvoke.setInputVariable(BPELConstants.SUCCESS_MESSAGE_REQUEST);
         emailInvoke.setOutputVariable(BPELConstants.SUCCESS_MESSAGE_RESPONSE);
@@ -295,25 +295,25 @@ public class DWDL2BPEL {
         Assign assign = factory.createAssign();
         for (SetProperty property : node.getSetProperty()) {
             addCopyStatement(assign, property, webserviceInputVariables.get(
-                    webservices.get(node.getActivity())).getName());
+                    adapters.get(node.getActivity())).getName());
         }
         if (node.getActivity().equals(BPELConstants.HUMANTASK_ACTIVITY_NAME)) {
             de.decidr.model.workflowmodel.dwdl.Literal lit = new de.decidr.model.workflowmodel.dwdl.Literal();
             lit.getContent().add(node.getParameter().getContent());
             for (SetProperty prop : node.getSetProperty()){
                 addCopyStatement(assign, prop, webserviceInputVariables.get(
-                        webservices.get(node.getActivity())).getName());
+                        adapters.get(node.getActivity())).getName());
             }
         }
         sequence.getActivity().add(assign);
-        invoke.setPartnerLink(webservices.get(node.getActivity())
+        invoke.setPartnerLink(adapters.get(node.getActivity())
                 .getPartnerLink().getName());
-        invoke.setOperation(webservices.get(node.getActivity()).getOpertation()
+        invoke.setOperation(adapters.get(node.getActivity()).getOpertation()
                 .getName());
         invoke.setInputVariable(webserviceInputVariables.get(
-                webservices.get(node.getActivity())).getName());
+                adapters.get(node.getActivity())).getName());
         invoke.setOutputVariable(webserviceOutputVariables.get(
-                webservices.get(node.getActivity())).getName());
+                adapters.get(node.getActivity())).getName());
         setNameAndDocumentation(node, invoke);
         sequence.getActivity().add(invoke);
         return sequence;
@@ -519,9 +519,9 @@ public class DWDL2BPEL {
                     }
                 }
             }
-            emailInvoke.setPartnerLink(webservices.get(BPELConstants.EMAIL_ACTIVITY_NAME)
+            emailInvoke.setPartnerLink(adapters.get(BPELConstants.EMAIL_ACTIVITY_NAME)
                     .getPartnerLink().getName());
-            emailInvoke.setOperation(webservices.get(BPELConstants.EMAIL_ACTIVITY_NAME)
+            emailInvoke.setOperation(adapters.get(BPELConstants.EMAIL_ACTIVITY_NAME)
                     .getOpertation().getName());
             emailInvoke.setInputVariable(BPELConstants.FAULT_MESSAGE_REQUEST);
             emailInvoke.setOutputVariable(BPELConstants.FAULT_MESSAGE_RESPONSE);
@@ -541,7 +541,7 @@ public class DWDL2BPEL {
         webservicePrefixes = new HashMap<DecidrWebserviceAdapter, String>();
         // import all known web services
         byte wsPrefixNumber = 1;
-        for (DecidrWebserviceAdapter adapter : webservices.values()) {
+        for (DecidrWebserviceAdapter adapter : adapters.values()) {
             Import wsImport = factory.createImport();
             wsImport.setNamespace(adapter.getTargetNamespace());
             wsImport.setLocation(adapter.getLocation());
@@ -588,7 +588,7 @@ public class DWDL2BPEL {
         process.setPartnerLinks(pls);
 
         // create partner links for all known web services
-        for (DecidrWebserviceAdapter adapter : webservices.values()) {
+        for (DecidrWebserviceAdapter adapter : adapters.values()) {
             PartnerLink wsPL = factory.createPartnerLink();
             wsPL.setName(adapter.getPartnerLink().getName());
 
@@ -596,7 +596,7 @@ public class DWDL2BPEL {
                     adapter.getPartnerLinkType().getName(), webservicePrefixes
                             .get(adapter)));
             wsPL.setPartnerRole(adapter.getName().getLocalPart() + "Provider");
-            // MA How to integrate callback-potential webservices?
+            // MA How to integrate callback-potential adapters?
 
             process.getPartnerLinks().getPartnerLink().add(wsPL);
         }
@@ -604,10 +604,10 @@ public class DWDL2BPEL {
         // Decidr HumanTask web service callback
         // MA Think about it!
         PartnerLink humanTaskPL = factory.createPartnerLink();
-        humanTaskPL.setName(webservices.get(BPELConstants.HUMANTASK_ACTIVITY_NAME).getName().getLocalPart()+"Callback");
-        humanTaskPL.setPartnerLinkType(new QName(webservices.get(BPELConstants.HUMANTASK_ACTIVITY_NAME).getTargetNamespace(),
-                webservices.get(BPELConstants.HUMANTASK_ACTIVITY_NAME).getPartnerLinkType().getName(), webservicePrefixes
-                .get(webservices.get(BPELConstants.HUMANTASK_ACTIVITY_NAME))));
+        humanTaskPL.setName(adapters.get(BPELConstants.HUMANTASK_ACTIVITY_NAME).getName().getLocalPart()+"Callback");
+        humanTaskPL.setPartnerLinkType(new QName(adapters.get(BPELConstants.HUMANTASK_ACTIVITY_NAME).getTargetNamespace(),
+                adapters.get(BPELConstants.HUMANTASK_ACTIVITY_NAME).getPartnerLinkType().getName(), webservicePrefixes
+                .get(adapters.get(BPELConstants.HUMANTASK_ACTIVITY_NAME))));
         humanTaskPL.setMyRole(BPELConstants.PROCESS_MYROLE);
 
         // create process client partner link
@@ -657,7 +657,7 @@ public class DWDL2BPEL {
         Variable taskDataMessage = factory.createVariable();
 
         // create web service invocation standard variables
-        for (DecidrWebserviceAdapter adapter : webservices.values()) {
+        for (DecidrWebserviceAdapter adapter : adapters.values()) {
             Variable inputVariable = factory.createVariable();
             Variable outputVariable = factory.createVariable();
             inputVariable.setName(webservicePrefixes.get(adapter)
@@ -689,27 +689,27 @@ public class DWDL2BPEL {
 
         // setting fault handler variables
         faultMessage.setName(BPELConstants.FAULT_MESSAGE_REQUEST);
-        faultMessage.setMessageType(new QName(webservices.get(
-                BPELConstants.EMAIL_ACTIVITY_NAME).getTargetNamespace(), webservices.get(
+        faultMessage.setMessageType(new QName(adapters.get(
+                BPELConstants.EMAIL_ACTIVITY_NAME).getTargetNamespace(), adapters.get(
                         BPELConstants.EMAIL_ACTIVITY_NAME).getInputMessageType().getLocalPart(), webservicePrefixes
-                .get(webservices.get(BPELConstants.EMAIL_ACTIVITY_NAME))));
+                .get(adapters.get(BPELConstants.EMAIL_ACTIVITY_NAME))));
         faultMessageResponse.setName(BPELConstants.FAULT_MESSAGE_RESPONSE);
-        faultMessageResponse.setMessageType(new QName(webservices.get(
-                BPELConstants.EMAIL_ACTIVITY_NAME).getTargetNamespace(), webservices.get(
+        faultMessageResponse.setMessageType(new QName(adapters.get(
+                BPELConstants.EMAIL_ACTIVITY_NAME).getTargetNamespace(), adapters.get(
                         BPELConstants.EMAIL_ACTIVITY_NAME).getOutputMessageType().getLocalPart(), webservicePrefixes
-                .get(webservices.get(BPELConstants.EMAIL_ACTIVITY_NAME))));
+                .get(adapters.get(BPELConstants.EMAIL_ACTIVITY_NAME))));
 
         // setting success notification variables
         successMessage.setName(BPELConstants.SUCCESS_MESSAGE_REQUEST);
-        successMessage.setMessageType(new QName(webservices.get(
-                BPELConstants.EMAIL_ACTIVITY_NAME).getTargetNamespace(), webservices.get(
+        successMessage.setMessageType(new QName(adapters.get(
+                BPELConstants.EMAIL_ACTIVITY_NAME).getTargetNamespace(), adapters.get(
                         BPELConstants.EMAIL_ACTIVITY_NAME).getInputMessageType().getLocalPart(), webservicePrefixes
-                .get(webservices.get(BPELConstants.EMAIL_ACTIVITY_NAME))));
+                .get(adapters.get(BPELConstants.EMAIL_ACTIVITY_NAME))));
         successMessageResponse.setName(BPELConstants.SUCCESS_MESSAGE_RESPONSE);
-        successMessageResponse.setMessageType(new QName(webservices.get(
-                BPELConstants.EMAIL_ACTIVITY_NAME).getTargetNamespace(), webservices.get(
+        successMessageResponse.setMessageType(new QName(adapters.get(
+                BPELConstants.EMAIL_ACTIVITY_NAME).getTargetNamespace(), adapters.get(
                         BPELConstants.EMAIL_ACTIVITY_NAME).getOutputMessageType().getLocalPart(), webservicePrefixes
-                .get(webservices.get(BPELConstants.EMAIL_ACTIVITY_NAME))));
+                .get(adapters.get(BPELConstants.EMAIL_ACTIVITY_NAME))));
 
         // setting process human task data receiving variable
         taskDataMessage.setName(BPELConstants.PROCESS_HUMANTASK_INPUT_VARIABLE);

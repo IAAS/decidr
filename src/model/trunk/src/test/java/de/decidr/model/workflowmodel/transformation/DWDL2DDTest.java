@@ -16,37 +16,58 @@
 
 package de.decidr.model.workflowmodel.transformation;
 
+import static org.junit.Assert.*;
+
+import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.workflowmodel.dd.TDeployment;
+import de.decidr.model.workflowmodel.dwdl.Workflow;
+import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2BPEL;
 import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2DD;
+import de.decidr.model.workflowmodel.factories.DWDLFactory;
+import de.decidr.model.workflowmodel.factories.DecidrWebserviceAdapterFactory;
 import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
 
-
 public class DWDL2DDTest {
-    
-    static DWDL2DD translater = null;
-    static de.decidr.model.workflowmodel.bpel.Process bpel = null;
-    Map<String, DecidrWebserviceAdapter> webservices = null;
 
+    static DWDL2DD translater = null;
+    static Workflow dwdl = null;
+    static String tenant = null;
+    static DecidrWebserviceAdapter humanTask = null;
+    static DecidrWebserviceAdapter email = null;
+    static Map<String, DecidrWebserviceAdapter> adapters = null;
+    static de.decidr.model.workflowmodel.bpel.Process bpel = null;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        
+        adapters = new HashMap<String, DecidrWebserviceAdapter>();
         translater = new DWDL2DD();
-        
-        
+        dwdl = DWDLFactory.getDWDLWorkflow();
+        tenant = "Hugo";
+        humanTask = DecidrWebserviceAdapterFactory
+                .getHumanTaskWebserviceAdapter();
+        email = DecidrWebserviceAdapterFactory.getEmailWebserviceAdapter();
+        adapters.put("Decidr-HumanTask", humanTask);
+        adapters.put("Decidr-Email", email);
+        DWDL2BPEL bpelConverter = new DWDL2BPEL();
+        bpel = bpelConverter.getBPEL(dwdl, tenant, adapters);
+
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.dwdl.transformation.DWDL2DD#getDD(de.decidr.model.workflowmodel.bpel.Process, java.util.Map)}.
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.dwdl.transformation.DWDL2DD#getDD(de.decidr.model.workflowmodel.bpel.Process, java.util.Map)}
+     * .
      */
     @Test
     public void testGetDD() {
-        
-        translater.getDD(bpel, webservices);
+
+        TDeployment dd = translater.getDD(bpel, adapters);
+        assertNotNull(dd);
     }
 
 }

@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.wsdl.WSDLException;
 import javax.xml.bind.JAXBException;
+import javax.xml.soap.SOAPException;
 
 import org.apache.axis2.AxisFault;
 
@@ -72,7 +73,7 @@ public interface Deployer {
             List<KnownWebService> webservices, String tenantName,
             List<ServerLoadView> serverStatistics, DeploymentStrategy strategy)
             throws DWDLValidationException, ODESelectorException, IOException,
-            JAXBException, WSDLException;
+            JAXBException, WSDLException, SOAPException;
 
     /**
      * This method undeploys a given workflow model. The files in the ODE
