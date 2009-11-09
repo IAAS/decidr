@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.entities.User;
 import de.decidr.test.database.main.ProgressListener;
@@ -47,9 +48,36 @@ public class SystemSettingsFactory extends EntityFactory {
         SystemSettings settings = new SystemSettings();
 
         // get super admin
-        Query q = getSession().createQuery("from User");
+        Query q = getSession().createQuery(
+                "from User u where userProfile is not null");
 
         User superAdmin = (User) q.setMaxResults(1).uniqueResult();
+
+        if (superAdmin == null) {
+            throw new RuntimeException(
+                    "Cannot find a suitable super admin user.");
+        }
+
+        superAdmin.setRegisteredSince(DecidrGlobals.getTime().getTime());
+        superAdmin.setDisabledSince(null);
+        superAdmin.setUnavailableSince(null);
+        
+        Object toDelete = superAdmin.getPasswordResetRequest();
+        if (toDelete != null) {
+            session.delete(toDelete);
+        }
+        
+        toDelete = superAdmin.getChangeEmailRequest();
+        if (toDelete != null) {
+            session.delete(toDelete);
+        }
+        
+        toDelete = superAdmin.getRegistrationRequest();
+        if (toDelete != null) {
+            session.delete(toDelete);
+        }
+        
+        session.update(superAdmin);
 
         // get log level
         String logLevel = "WARN";
@@ -68,10 +96,10 @@ public class SystemSettingsFactory extends EntityFactory {
         settings.setModifiedDate(modifiedDate);
         settings.setMonitorAveragingPeriodSeconds(300);
         settings.setMonitorUpdateIntervalSeconds(60);
-        settings.setMtaHostname("localhost");
-        settings.setMtaPassword("gn!le42");
-        settings.setMtaPort(25);
-        settings.setMtaUsername("decidr");
+        settings.setMtaHostname("smtp.googlemail.com");
+        settings.setMtaPassword("DecidR0809");
+        settings.setMtaPort(0);
+        settings.setMtaUsername("decidr.iaas@googlemail.com");
         settings.setMtaUseTls(true);
         settings.setPasswordResetRequestLifetimeSeconds(259200);
         settings.setRegistrationRequestLifetimeSeconds(259200);
@@ -92,7 +120,7 @@ public class SystemSettingsFactory extends EntityFactory {
 
         session.save(settings);
         fireProgressEvent(1, 1);
-        
+
         return settings;
     }
 

@@ -8,6 +8,7 @@ import org.hibernate.Session;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.File;
+import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserIsMemberOfTenant;
@@ -62,18 +63,30 @@ public class TenantFactory extends EntityFactory {
 
         ArrayList<Tenant> result = new ArrayList<Tenant>(numTenants);
 
+        SystemSettings settings = DecidrGlobals.getSettings();
+
         Date now = DecidrGlobals.getTime().getTime();
 
+        // Important: i must become DecidrGlobals.DEFAULT_TENANT_ID at least
+        // once!
         for (int i = 0; i < numTenants; i++) {
             Tenant tenant = new Tenant();
 
-            tenant.setAdmin(getRandomAdmin());
-            String tenantName = getRandomTenantName(i);
+            User admin = i == DecidrGlobals.DEFAULT_TENANT_ID ? settings
+                    .getSuperAdmin() : getRandomAdmin();
+                    
+            tenant.setAdmin(admin);
+            String tenantName = i == DecidrGlobals.DEFAULT_TENANT_ID ? "Default Tenant"
+                    : getRandomTenantName(i);
             tenant.setName(tenantName);
             tenant.setDescription(tenantName);
 
             // every 5th tenant hasn't been approved yet
-            tenant.setApprovedSince(i % 5 == 0 ? null : now);
+            if (i == DecidrGlobals.DEFAULT_TENANT_ID) {
+                tenant.setApprovedSince(now);
+            } else {
+                tenant.setApprovedSince(i % 5 == 0 ? null : now);
+            }
 
             // 50 % use the simple color scheme
             File advancedColorScheme = createDefaultColorScheme();
@@ -87,10 +100,16 @@ public class TenantFactory extends EntityFactory {
 
             tenant.setLogo(createDefaultLogo());
             session.save(tenant);
+            
+            admin.setCurrentTenant(tenant);
+            session.update(admin);
+            
             result.add(tenant);
 
             int numTenantMembers = rnd.nextInt(maxMembersPerTenant) + 1;
-            associateUsersWithTenant(tenant, numTenantMembers);
+            if (i != DecidrGlobals.DEFAULT_TENANT_ID) {
+                associateUsersWithTenant(tenant, numTenantMembers);
+            }
 
             fireProgressEvent(numTenants, i + 1);
         }
@@ -131,13 +150,14 @@ public class TenantFactory extends EntityFactory {
      */
     public File createDefaultColorScheme() {
         File result = new File();
-        result.setFileName("uploaded.css");
+        result.setFileName("styles1.css");
         result.setMayPublicRead(true);
         result.setMayPublicDelete(false);
         result.setMayPublicReplace(false);
         result.setTemporary(false);
         result.setCreationDate(DecidrGlobals.getTime().getTime());
         result.setMimeType("text/css");
+        result.setData(getFileBytes("files/styles1.css"));
         session.save(result);
         return result;
     }
@@ -150,13 +170,15 @@ public class TenantFactory extends EntityFactory {
      */
     public File createDefaultLogo() {
         File result = new File();
-        result.setFileName("logo.jpeg");
-        result.setMimeType("image/jpeg");
+        result.setFileName("logo.png");
+        result.setMimeType("image/png");
         result.setMayPublicRead(true);
         result.setMayPublicDelete(false);
         result.setMayPublicReplace(false);
         result.setTemporary(false);
         result.setCreationDate(DecidrGlobals.getTime().getTime());
+        result.setData(getFileBytes("files/logo"
+                + Integer.toString(rnd.nextInt(2) + 1) + ".png"));
         session.save(result);
         return result;
     }

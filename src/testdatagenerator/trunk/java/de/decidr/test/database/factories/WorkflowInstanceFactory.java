@@ -138,11 +138,6 @@ public class WorkflowInstanceFactory extends EntityFactory {
                 "tenant", instance.getDeployedWorkflowModel().getTenant())
                 .setMaxResults(numAdmins).list();
 
-        if (workflowAdmins.isEmpty()) {
-            throw new RuntimeException(
-                    "Could not find a user to become workflow instance admin.");
-        }
-
         for (User admin : workflowAdmins) {
             UserAdministratesWorkflowInstance rel = new UserAdministratesWorkflowInstance();
             rel.setUser(admin);

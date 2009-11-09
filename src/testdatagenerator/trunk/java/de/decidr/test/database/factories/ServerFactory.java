@@ -1,16 +1,15 @@
 package de.decidr.test.database.factories;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.hibernate.Session;
 
-import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerType;
-import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.test.database.main.ProgressListener;
 
@@ -47,94 +46,61 @@ public class ServerFactory extends EntityFactory {
     public List<Server> createRandomServers() {
         ArrayList<Server> result = new ArrayList<Server>();
 
-        SystemSettings settings = DecidrGlobals.getSettings();
+        // Server types and locations
+        Map<ServerTypeEnum, List<String>> servers = new HashMap<ServerTypeEnum, List<String>>();
 
-        int numServerTypes = ServerTypeEnum.values().length;
-        int doneServerTypes = 0;
+        // ODE
+        List<String> odeServers = new ArrayList<String>();
+        odeServers.add("174.129.24.232:8080");
+        servers.put(ServerTypeEnum.Ode, odeServers);
+
+        // ESB
+        List<String> esbServers = new ArrayList<String>();
+        esbServers.add("174.129.25.57:8280");
+        servers.put(ServerTypeEnum.Esb, esbServers);
+
+        // Web Portal
+        List<String> portalServers = new ArrayList<String>();
+        portalServers.add("174.129.25.24:8080");
+        servers.put(ServerTypeEnum.WebPortal, portalServers);
+
+        // Storage
+        List<String> storageServers = new ArrayList<String>();
+        storageServers.add("localhost");
+        servers.put(ServerTypeEnum.Storage, storageServers);
 
         // create at least one server for each server type
-        for (ServerTypeEnum type : ServerTypeEnum.values()) {
-            doneServerTypes++;
+        int doneServers = 0;
+        int totalSize = odeServers.size() + esbServers.size()
+                + portalServers.size() + storageServers.size();
+        for (Entry<ServerTypeEnum, List<String>> entry : servers.entrySet()) {
+            for (String location : entry.getValue()) {
+                doneServers++;
 
-            int numServers;
-            if (type.equals(ServerTypeEnum.Esb)) {
-                numServers = 1;
-            } else {
-                numServers = rnd.nextInt(16) + 1;
-            }
+                ServerType serverType = (ServerType) session.createQuery(
+                        "from ServerType s where s.name = :serverType")
+                        .setString("serverType", entry.getKey().toString())
+                        .setMaxResults(1).uniqueResult();
 
-            ServerType serverType = (ServerType) session.createQuery(
-                    "from ServerType s where s.name = :serverType").setString(
-                    "serverType", type.toString()).setMaxResults(1)
-                    .uniqueResult();
-
-            // create the server type if necessary
-            if (serverType == null) {
-                serverType = new ServerType(type.toString());
-                session.save(serverType);
-            }
-
-            Set<Integer> randomIps = new HashSet<Integer>();
-            Integer randomIp;
-            for (int i = 0; i < numServers; i++) {
-                do {
-                    randomIp = rnd.nextInt();
-                } while (!isValidIp(randomIp) || randomIps.contains(randomIp));
-
-                randomIps.add(randomIp);
-
-                Integer randomPort = rnd.nextInt(65535) + 1;
+                // create the server type if necessary
+                if (serverType == null) {
+                    serverType = new ServerType(entry.getKey().toString());
+                    session.save(serverType);
+                }
 
                 Server server = new Server();
-                server.setDynamicallyAdded(i + 1 > settings
-                        .getServerPoolInstances());
-                server.setLoad((byte) rnd.nextInt(101));
-                server.setLastLoadUpdate(rnd.nextBoolean() ? null
-                        : getRandomDate(false, true, 30000));
-                server.setLocation(intToIp(randomIp) + ":" + randomPort);
-                // at least one server remains unlocked
-                server.setLocked(i == 0 ? false : server.isDynamicallyAdded()
-                        && rnd.nextBoolean());
+                server.setDynamicallyAdded(false);
+                server.setLastLoadUpdate(getRandomDate(false, true, SPAN_WEEK));
+                server.setLoad((byte) rnd.nextInt(100));
+                server.setLocation(location);
+                server.setLocked(false);
                 server.setServerType(serverType);
+
                 session.save(server);
-                result.add(server);
+
+                fireProgressEvent(totalSize, doneServers);
             }
-
-            fireProgressEvent(numServerTypes, doneServerTypes);
         }
-
         return result;
-    }
-
-    /**
-     * Converts an integer to an IPv4 string.
-     * 
-     * @param ip
-     *            address to convert
-     * @return dot-separated string representation of the ip address.
-     */
-    private String intToIp(int ip) {
-        return ((ip >> 24) & 0xFF) + "." + ((ip >> 16) & 0xFF) + "."
-                + ((ip >> 8) & 0xFF) + "." + (ip & 0xFF);
-    }
-
-    /**
-     * Performs pseudo validation on the given ipv4 address.
-     * 
-     * @param ip
-     *            address to validate
-     * @return true if the given ip contains no 0 or 255 parts.
-     */
-    private Boolean isValidIp(int ip) {
-        int[] parts = { (ip >> 24) & 0xFF, (ip >> 16) & 0xFF, (ip >> 8) & 0xFF,
-                ip & 0xFF };
-
-        for (int part : parts) {
-            if (part == 0 || part == 255) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

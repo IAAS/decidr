@@ -16,6 +16,9 @@
 
 package de.decidr.test.database.factories;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.io.IOUtils;
 import org.hibernate.Session;
 
 import de.decidr.model.DecidrGlobals;
@@ -118,6 +122,37 @@ public class EntityFactory {
 
         result.add(Calendar.SECOND, multiplicator * rnd.nextInt(spanSeconds));
         return result.getTime();
+    }
+
+    /**
+     * Returns the contents of a file that resides in "resources/"
+     * 
+     * @param fileName
+     *            file name without path
+     * @return raw bytes of file
+     */
+    public byte[] getFileBytes(String fileName) {
+        if (!fileName.startsWith("/")) {
+            fileName = "/" + fileName;
+        }
+
+        InputStream inStream = getClass().getClassLoader().getResourceAsStream(
+                "de/decidr/test/database/resources" + fileName);
+
+        if (inStream == null) {
+            throw new RuntimeException("Cannot open file " + fileName);
+        }
+
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+
+        try {
+            IOUtils.copy(inStream, outStream);
+            inStream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return outStream.toByteArray();
     }
 
     /**

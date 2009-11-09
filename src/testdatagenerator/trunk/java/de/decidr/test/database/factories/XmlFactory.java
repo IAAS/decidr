@@ -16,11 +16,6 @@
 
 package de.decidr.test.database.factories;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.apache.commons.io.IOUtils;
 import org.hibernate.Session;
 
 /**
@@ -52,7 +47,7 @@ public class XmlFactory extends EntityFactory {
      * @return the DWDL of a sample process as raw xml data
      */
     public byte[] getDwdl() {
-        return getRawData("processes/sampleProcess.xml");
+        return getFileBytes("processes/sampleProcess.xml");
     }
 
     /**
@@ -63,7 +58,7 @@ public class XmlFactory extends EntityFactory {
     public byte[] getActivityMapping(String activityName) {
         // convention: all activity mapping files have to be named
         // <activityname>.xml
-        return getRawData("mappings/" + activityName + ".xml");
+        return getFileBytes("mappings/" + activityName + ".xml");
     }
 
     /**
@@ -73,41 +68,6 @@ public class XmlFactory extends EntityFactory {
      */
     public byte[] getWsdl(String webServiceName) {
         // convention: all wsdl files have to be named <webservicename>.wsdl
-        return getRawData("wsdl/" + webServiceName + ".wsdl");
+        return getFileBytes("wsdl/" + webServiceName + ".wsdl");
     }
-
-    /**
-     * Returns the raw bytes of the resource identified by the given resource
-     * path.
-     * 
-     * @param relativePath
-     *            file path relative to "de.decidr.test.database.resources"
-     *            Example: "processes.sampleProcess.xml"
-     * @return raw resource bytes
-     */
-    private byte[] getRawData(String relativePath) {
-        if (!relativePath.startsWith("/")) {
-            relativePath = "/" + relativePath;
-        }
-
-        InputStream inStream = getClass().getClassLoader().getResourceAsStream(
-                "de/decidr/test/database/resources" + relativePath);
-
-        if (inStream == null) {
-            throw new IllegalArgumentException("Cannot find resource "
-                    + relativePath);
-        }
-
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-
-        try {
-            IOUtils.copy(inStream, outStream);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Resource " + relativePath
-                    + " is unreadable");
-        }
-
-        return outStream.toByteArray();
-    }
-
 }
