@@ -13,12 +13,10 @@ import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.annotations.AllowedRole;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.workflowinstance.DeleteWorkflowInstanceCommand;
-import de.decidr.model.commands.workflowinstance.GetAllWorkitemsCommand;
 import de.decidr.model.commands.workflowinstance.GetParticipatingUsersCommand;
 import de.decidr.model.commands.workflowinstance.RemoveAllWorkItemsCommand;
 import de.decidr.model.commands.workflowinstance.StopWorkflowInstanceCommand;
 import de.decidr.model.entities.User;
-import de.decidr.model.entities.WorkItem;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
@@ -156,46 +154,5 @@ public class WorkflowInstanceFacade extends AbstractFacade {
                 actor, odePid, deployedWorkflowModelId);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-    }
-
-    /**
-     * Returns all work items of a workflow instance as a Vaadin item with the
-     * following properties:<br>
-     * DH this can't be right, only returning the IDs doesn't make a lot of
-     * sense ~dh
-     * <ul>
-     * <li>id: Long - the work item ID</li>
-     * </ul>
-     * 
-     * @param workflowInstanceId
-     *            the ID of the WorkflowInstance
-     * @return List<Items> list of items described above
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason.
-     * @throws EntityNotFoundException
-     *             if the workflow instance does not exist.
-     * @throws IllegalArgumentException
-     *             if workflowInstanceId is <code>null</code>
-     */
-    @AllowedRole(WorkflowAdminRole.class)
-    public List<Item> getAllWorkItems(Long workflowInstanceId)
-            throws TransactionException {
-
-        GetAllWorkitemsCommand command = new GetAllWorkitemsCommand(actor,
-                workflowInstanceId);
-
-        String[] properties = { "id" };
-        List<Item> items = new ArrayList<Item>();
-        Set<WorkItem> workItems;
-
-        HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
-        workItems = command.getResult();
-
-        for (WorkItem item : workItems) {
-            items.add(new BeanItem(item, properties));
-        }
-
-        return items;
     }
 }

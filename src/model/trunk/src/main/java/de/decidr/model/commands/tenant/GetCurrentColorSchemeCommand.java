@@ -57,7 +57,8 @@ public class GetCurrentColorSchemeCommand extends TenantCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-
+        currentColorScheme = null;
+        
         Tenant tenant = fetchTenant(evt.getSession());
         File current = tenant.getCurrentColorScheme();
 

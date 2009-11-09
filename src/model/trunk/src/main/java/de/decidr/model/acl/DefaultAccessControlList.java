@@ -15,7 +15,8 @@
  */
 package de.decidr.model.acl;
 
-import static de.decidr.model.acl.asserters.AssertMode.*;
+import static de.decidr.model.acl.asserters.AssertMode.SatisfyAll;
+import static de.decidr.model.acl.asserters.AssertMode.SatisfyAny;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -89,7 +90,7 @@ import de.decidr.model.commands.user.ConfirmPasswordResetCommand;
 import de.decidr.model.commands.user.ConfirmRegistrationCommand;
 import de.decidr.model.commands.user.CreateNewUnregisteredUserCommand;
 import de.decidr.model.commands.user.GetAdministratedWorkflowInstancesCommand;
-import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
+import de.decidr.model.commands.user.GetAdministratedWorkflowModelsCommand;
 import de.decidr.model.commands.user.GetHighestUserRoleCommand;
 import de.decidr.model.commands.user.GetInvitationCommand;
 import de.decidr.model.commands.user.GetJoinedTenantsCommand;
@@ -436,6 +437,8 @@ public class DefaultAccessControlList implements AccessControlList {
                 GetAllTenantsCommand.class), SatisfyAll,
                 new UserIsSuperAdminAsserter());
 
+        
+        
         setRule(new UserRole(),
                 new CommandPermission(CreateTenantCommand.class), SatisfyAll,
                 alwaysTrueAsserter);
@@ -607,7 +610,7 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(
-                GetAdministratedWorkflowModelCommand.class), SatisfyAll,
+                GetAdministratedWorkflowModelsCommand.class), SatisfyAll,
                 new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 

@@ -33,7 +33,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * @author Daniel Huss
  * @version 0.1
  */
-public class GetAdministratedWorkflowModelCommand extends UserCommand {
+public class GetAdministratedWorkflowModelsCommand extends UserCommand {
 
     private Long userId;
     private List<WorkflowModel> result;
@@ -51,7 +51,7 @@ public class GetAdministratedWorkflowModelCommand extends UserCommand {
      * @throws IllegalArgumentException
      *             if userId is <code>null</code>.
      */
-    public GetAdministratedWorkflowModelCommand(Role role, Long userId) {
+    public GetAdministratedWorkflowModelsCommand(Role role, Long userId) {
         super(role, userId);
         requireUserId();
         this.userId = userId;

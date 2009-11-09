@@ -39,7 +39,7 @@ import de.decidr.model.commands.user.ConfirmInvitationCommand;
 import de.decidr.model.commands.user.ConfirmPasswordResetCommand;
 import de.decidr.model.commands.user.ConfirmRegistrationCommand;
 import de.decidr.model.commands.user.GetAdministratedWorkflowInstancesCommand;
-import de.decidr.model.commands.user.GetAdministratedWorkflowModelCommand;
+import de.decidr.model.commands.user.GetAdministratedWorkflowModelsCommand;
 import de.decidr.model.commands.user.GetAllUsersCommand;
 import de.decidr.model.commands.user.GetHighestUserRoleCommand;
 import de.decidr.model.commands.user.GetInvitationCommand;
@@ -935,7 +935,7 @@ public class UserFacade extends AbstractFacade {
     public List<Item> getAdministratedWorkflowModels(Long userId)
             throws TransactionException {
 
-        GetAdministratedWorkflowModelCommand command = new GetAdministratedWorkflowModelCommand(
+        GetAdministratedWorkflowModelsCommand command = new GetAdministratedWorkflowModelsCommand(
                 actor, userId);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
