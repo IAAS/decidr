@@ -20,6 +20,11 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.TenantFacade;
+
 /**
  * This component represents the default welcome page of the DecidR application
  * 
@@ -30,6 +35,8 @@ public class DefaultWelcomeComponent extends CustomComponent {
 	private VerticalLayout verticalLayout = null;
 	private Label labelDesc = null;
 
+	private TenantFacade tenantFacade = new TenantFacade(new UserRole());
+
 	public DefaultWelcomeComponent() {
 		init();
 	}
@@ -37,13 +44,21 @@ public class DefaultWelcomeComponent extends CustomComponent {
 	private void init() {
 		verticalLayout = new VerticalLayout();
 
-		labelDesc = new Label(
-				"<h2>Welcome</h2><br/>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-				Label.CONTENT_XHTML);
+		try {
+			String description = tenantFacade.getTenantSettings(
+					DecidrGlobals.DEFAULT_TENANT_ID).getItemProperty(
+					"description").getValue().toString();
 
-		this.setCompositionRoot(verticalLayout);
+			labelDesc = new Label("<h2>Welcome</h2><br/>" + description,
+					Label.CONTENT_XHTML);
 
-		verticalLayout.addComponent(labelDesc);
+			this.setCompositionRoot(verticalLayout);
+
+			verticalLayout.addComponent(labelDesc);
+		} catch (TransactionException e) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent(e));
+		}
 	}
 
 }

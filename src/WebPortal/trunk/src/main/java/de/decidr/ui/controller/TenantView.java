@@ -24,6 +24,7 @@ import java.io.OutputStream;
 
 import javax.servlet.http.HttpSession;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
@@ -38,71 +39,73 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  */
 public class TenantView {
 
-    private HttpSession session = Main.getCurrent().getSession();
+	private HttpSession session = Main.getCurrent().getSession();
 
-    private Long userId = (Long) session.getAttribute("userId");
-    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+	private Long userId = (Long) session.getAttribute("userId");
+	private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
 
-    private String tenantName = (String) session.getAttribute("tenant");
-    private Long tenantId = null;
+	private String tenantName = (String) session.getAttribute("tenant");
+	private Long tenantId = null;
 
-    private String webInf = ".." + File.separator + ".." + File.separator
-            + ".." + File.separator + ".." + File.separator + ".."
-            + File.separator + "webapp" + File.separator + "VAADIN"
-            + File.separator + "themes" + File.separator + "";
+	private InputStream css = null;
+	private InputStream logo = null;
 
-    private InputStream css = null;
-    private InputStream logo = null;
+	private File cssFile = null;
+	private File logoFile = null;
 
-    private File cssFile = null;
-    private File logoFile = null;
+	/**
+	 * This method gets the css and the logo and stores it in variables. If css
+	 * or logo files exist already they will be deleted and new css and logo
+	 * files are genereated with the data from the database.
+	 * 
+	 */
+	public void synchronize() {
+		cssFile = new File("themes" + File.separator + tenantName
+				+ File.separator + "styles.css");
+		logoFile = new File("themes" + File.separator + tenantName
+				+ File.separator + "img" + File.separator + "logo.png");
+		try {
+			tenantId = tenantFacade.getTenantId(tenantName);
 
-    /**
-     * This method gets the css and the logo and stores it in variables. If css
-     * or logo files exist already they will be deleted and new css and logo
-     * files are genereated with the data from the database.
-     * 
-     */
-    public void synchronize() {
-        try {
-            tenantId = tenantFacade.getTenantId(tenantName);
-            css = tenantFacade.getCurrentColorScheme(tenantId);
-            logo = tenantFacade.getLogo(tenantId);
-        } catch (TransactionException exception) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(exception));
-        }
+			css = tenantFacade.getCurrentColorScheme(tenantId);
+			if (css == null) {
+				css = tenantFacade
+						.getCurrentColorScheme(DecidrGlobals.DEFAULT_TENANT_ID);
+			}
+			logo = tenantFacade.getLogo(tenantId);
+			if (logo == null) {
+				logo = tenantFacade.getLogo(DecidrGlobals.DEFAULT_TENANT_ID);
+			}
 
-        cssFile = new File(webInf + tenantName + File.separator + "styles.css");
-        logoFile = new File(webInf + tenantName + File.separator + "img"
-                + File.separator + "logo.png");
+			if (cssFile.exists()) {
+				cssFile.delete();
+			}
+			if (logoFile.exists()) {
+				logoFile.delete();
+			}
 
-        if (cssFile.exists() || logoFile.exists()) {
-            cssFile.delete();
-            logoFile.delete();
-        } else {
-            try {
-                OutputStream cssOut = new FileOutputStream(cssFile);
-                OutputStream logoOut = new FileOutputStream(logoFile);
-                byte cssbuf[] = new byte[102400];
-                byte logobuf[] = new byte[10485760];
-                int csslen;
-                int logolen;
-                while ((csslen = css.read(cssbuf)) > 0) {
-                    cssOut.write(cssbuf, 0, csslen);
-                }
-                cssOut.close();
-                css.close();
-                while ((logolen = logo.read(logobuf)) > 0) {
-                    logoOut.write(logobuf, 0, logolen);
-                }
-                logoOut.close();
-                logo.close();
-            } catch (IOException exception) {
-                Main.getCurrent().getMainWindow().addWindow(
-                        new TransactionErrorDialogComponent(exception));
-            }
-        }
-    }
-
+			OutputStream cssOut = new FileOutputStream(cssFile);
+			OutputStream logoOut = new FileOutputStream(logoFile);
+			byte cssbuf[] = new byte[102400];
+			byte logobuf[] = new byte[10485760];
+			int csslen;
+			int logolen;
+			while ((csslen = css.read(cssbuf)) > 0) {
+				cssOut.write(cssbuf, 0, csslen);
+			}
+			cssOut.close();
+			css.close();
+			while ((logolen = logo.read(logobuf)) > 0) {
+				logoOut.write(logobuf, 0, logolen);
+			}
+			logoOut.close();
+			logo.close();
+		} catch (IOException exception) {
+			Main.getCurrent().getMainWindow().showNotification("IOException");
+		} catch (TransactionException e) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent(e));
+			e.printStackTrace();
+		}
+	}
 }
