@@ -29,7 +29,6 @@ import de.decidr.model.testing.DecidrAclTest;
  */
 public class FileReadPermissionTest extends DecidrAclTest {
 
-
     /**
      * Test method for {@link EntityPermission#getId()}.
      */

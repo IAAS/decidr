@@ -81,7 +81,6 @@ public class PermissionTest extends DecidrAclTest {
         assertFalse(filePerm.equals(null));
     }
 
-
     private static void fillStringList() {
         strings.add("!");
         // ü

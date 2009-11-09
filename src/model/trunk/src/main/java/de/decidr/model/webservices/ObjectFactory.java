@@ -150,7 +150,6 @@ public class ObjectFactory {
         return new TaskCompleted();
     }
 
-
     /**
      * Create an instance of {@link RemoveTask }
      */

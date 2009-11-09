@@ -35,18 +35,17 @@ import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
 /**
  * This class tests the correct translation of a DWDL to a WSC object
- *
+ * 
  * @author Modood Alvi
  */
 public class DWDL2WSCTest {
-    
+
     static DWDL2WSC translater = null;
     static Workflow dwdl = null;
-    
 
     /**
      * Initialize all relevant data
-     *
+     * 
      * @throws java.lang.Exception
      */
     @BeforeClass
@@ -56,18 +55,22 @@ public class DWDL2WSCTest {
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSC#getStartConfiguration(de.decidr.model.workflowmodel.dwdl.Workflow)}.
-     * @throws JAXBException 
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSC#getStartConfiguration(de.decidr.model.workflowmodel.dwdl.Workflow)}
+     * .
+     * 
+     * @throws JAXBException
      */
     @Test
     public void testGetStartConfiguration() throws JAXBException {
         TConfiguration config = translater.getStartConfiguration(dwdl);
-        if(config !=  null){
-            Marshaller m = JAXBContext.newInstance(TConfiguration.class).createMarshaller();
+        if (config != null) {
+            Marshaller m = JAXBContext.newInstance(TConfiguration.class)
+                    .createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            m.marshal(new JAXBElement<TConfiguration>(
-                    new QName(Constants.CONFIGURATION_NAMESPACE,
-                    "configurations"), TConfiguration.class, config), System.out);
+            m.marshal(new JAXBElement<TConfiguration>(new QName(
+                    Constants.CONFIGURATION_NAMESPACE, "configurations"),
+                    TConfiguration.class, config), System.out);
         }
         assertNotNull(config);
     }

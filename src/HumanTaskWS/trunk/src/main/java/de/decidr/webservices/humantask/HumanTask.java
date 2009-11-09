@@ -112,8 +112,8 @@ public class HumanTask implements HumanTaskInterface {
                 if (object instanceof TInformation) {
                     continue;
                 }
-                TTaskItem task = (TTaskItem)object;
-                
+                TTaskItem task = (TTaskItem) object;
+
                 TaskDataItem item = new TaskDataItem();
                 item.setName(task.getName());
                 item.setType(task.getType().name());

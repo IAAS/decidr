@@ -42,7 +42,7 @@ import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
 
 /**
  * This JUnit testcase tests the correct transformation of an DWDL
- *
+ * 
  * @author Modood Alvi
  */
 public class DWDL2BPELTest {
@@ -52,11 +52,11 @@ public class DWDL2BPELTest {
     static String tenant = null;
     static DecidrWebserviceAdapter humanTask = null;
     static DecidrWebserviceAdapter email = null;
-    static  Map<String, DecidrWebserviceAdapter> adapters;
-    
+    static Map<String, DecidrWebserviceAdapter> adapters;
+
     /**
      * Initialize all relevant input objects
-     *
+     * 
      * @throws java.lang.Exception
      */
     @BeforeClass
@@ -65,14 +65,17 @@ public class DWDL2BPELTest {
         translater = new DWDL2BPEL();
         dwdl = DWDLFactory.getDWDLWorkflow();
         tenant = "Hugo";
-        humanTask = DecidrWebserviceAdapterFactory.getHumanTaskWebserviceAdapter();
+        humanTask = DecidrWebserviceAdapterFactory
+                .getHumanTaskWebserviceAdapter();
         email = DecidrWebserviceAdapterFactory.getEmailWebserviceAdapter();
         adapters.put("Decidr-HumanTask", humanTask);
         adapters.put("Decidr-Email", email);
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.dwdl.transformation.DWDL2BPEL#getBPEL(de.decidr.model.workflowmodel.dwdl.Workflow, java.lang.String, java.util.Map)}.
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.dwdl.transformation.DWDL2BPEL#getBPEL(de.decidr.model.workflowmodel.dwdl.Workflow, java.lang.String, java.util.Map)}
+     * .
      */
     @Test
     public void testGetBPEL() {
@@ -83,9 +86,9 @@ public class DWDL2BPELTest {
             JAXBContext cntx = JAXBContext.newInstance(Process.class);
             Marshaller m = cntx.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            JAXBElement<Process> element = new JAXBElement<Process>(
-                    new QName(Constants.BPEL_NAMESPACE,
-                            "process"), Process.class, process);
+            JAXBElement<Process> element = new JAXBElement<Process>(new QName(
+                    Constants.BPEL_NAMESPACE, "process"), Process.class,
+                    process);
             m.marshal(element, System.out);
         } catch (TransformerException e) {
             e.printStackTrace();
@@ -94,7 +97,7 @@ public class DWDL2BPELTest {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
-        
+
     }
 
 }

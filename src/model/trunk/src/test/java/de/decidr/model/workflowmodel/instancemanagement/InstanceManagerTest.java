@@ -22,15 +22,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * This class JUnit test the instance management for all deployed processes 
- *
+ * This class JUnit test the instance management for all deployed processes
+ * 
  * @author Modood Alvi
  */
 public class InstanceManagerTest {
 
     /**
      * Generate all relevant data
-     *
+     * 
      * @throws java.lang.Exception
      */
     @BeforeClass
@@ -38,7 +38,9 @@ public class InstanceManagerTest {
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl#startInstance(de.decidr.model.entities.DeployedWorkflowModel, byte[], java.util.List)}.
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl#startInstance(de.decidr.model.entities.DeployedWorkflowModel, byte[], java.util.List)}
+     * .
      */
     @Test
     public void testStartInstance() {
@@ -46,7 +48,9 @@ public class InstanceManagerTest {
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl#stopInstance(de.decidr.model.entities.WorkflowInstance)}.
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl#stopInstance(de.decidr.model.entities.WorkflowInstance)}
+     * .
      */
     @Test
     public void testStopInstance() {

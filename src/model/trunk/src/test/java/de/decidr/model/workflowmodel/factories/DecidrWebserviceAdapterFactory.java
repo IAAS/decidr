@@ -54,7 +54,7 @@ public class DecidrWebserviceAdapterFactory {
         email = WSDLFactory.getEmailDefinition();
         emailMapping = MappingFactory.getEmailMapping();
         emailAdapter = new DecidrWebserviceAdapter(emailMapping, email);
-        
+
         return emailAdapter;
 
     }

@@ -62,6 +62,7 @@
 					<include>**/decidr-storage.xml</include>
 					<include>**/decidr.jpg</include>
 					<include>**/test_*_cs.css</include>
+					<include>test/**</include>
 				</includes>
 			</testResource>
 		</testResources>

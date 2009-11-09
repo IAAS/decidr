@@ -27,10 +27,10 @@ import de.decidr.model.entities.ServerLoadView;
  * @author Modood Alvi
  */
 public class ServerLoadViewFactory {
-    
+
     private static String location;
-    
-    public static void setLocation(String loc){
+
+    public static void setLocation(String loc) {
         location = loc;
     }
 
@@ -40,8 +40,7 @@ public class ServerLoadViewFactory {
         ServerLoadView server = new ServerLoadView();
         server.setId(3l);
         server.setLoad((byte) 10);
-        server
-                .setLocation(location);
+        server.setLocation(location);
         server.setServerTypeId(1l);
         statistics.add(server);
 

@@ -29,27 +29,27 @@ import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
 import de.decidr.model.workflowmodel.webservices.WebserviceMapping;
 
 /**
- * This JUnitTest tests the right implementation of the <code>DecidrWebserviceAdpater</code>
- *
+ * This JUnitTest tests the right implementation of the
+ * <code>DecidrWebserviceAdpater</code>
+ * 
  * @author Modood Alvi
  */
 public class WebserviceAdapterTest {
-    
+
     static Definition humanTask = null;
     static Definition email = null;
     static WebserviceMapping emailMapping = null;
     static WebserviceMapping humanTaskMapping = null;
-    
+
     static DecidrWebserviceAdapter humanTaskAdapter = null;
     static DecidrWebserviceAdapter emailAdapter = null;
-    
+
     static String HumanTaskURL = "http://127.0.0.2:8080/axis2/services/HumanTask.HumanTaskSOAP/";
     static String EmailURL = "http://localhost:8080/axis2/services/Email.EmailSOAP/";
-    
 
     /**
      * Read HumanTask WSDL and Email WSDL and retrieve generated mapping
-     *
+     * 
      * @throws java.lang.Exception
      */
     @BeforeClass
@@ -58,13 +58,16 @@ public class WebserviceAdapterTest {
         email = WSDLFactory.getEmailDefinition();
         emailMapping = MappingFactory.getEmailMapping();
         humanTaskMapping = MappingFactory.getHumanTaskMapping();
-        
-        humanTaskAdapter = new DecidrWebserviceAdapter(humanTaskMapping, humanTask);
+
+        humanTaskAdapter = new DecidrWebserviceAdapter(humanTaskMapping,
+                humanTask);
         emailAdapter = new DecidrWebserviceAdapter(emailMapping, email);
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getName()}.
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getName()}
+     * .
      */
     @Test
     public void testGetName() {
@@ -73,34 +76,52 @@ public class WebserviceAdapterTest {
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getPartnerLink()}.
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getPartnerLink()}
+     * .
      */
     @Test
     public void testGetPartnerLink() {
-        assertEquals(humanTaskAdapter.getPartnerLink().getName(),humanTask.getQName().getLocalPart() + "PL");
-        assertEquals(emailAdapter.getPartnerLink().getName(),email.getQName().getLocalPart() + "PL");
+        assertEquals(humanTaskAdapter.getPartnerLink().getName(), humanTask
+                .getQName().getLocalPart()
+                + "PL");
+        assertEquals(emailAdapter.getPartnerLink().getName(), email.getQName()
+                .getLocalPart()
+                + "PL");
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getPartnerLinkType()}.
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getPartnerLinkType()}
+     * .
      */
     @Test
     public void testGetPartnerLinkType() {
-        assertEquals(humanTaskAdapter.getPartnerLinkType().getName(), humanTask.getQName().getLocalPart() + "PLT");
-        assertEquals(emailAdapter.getPartnerLinkType().getName(), email.getQName().getLocalPart()+ "PLT");
+        assertEquals(humanTaskAdapter.getPartnerLinkType().getName(), humanTask
+                .getQName().getLocalPart()
+                + "PLT");
+        assertEquals(emailAdapter.getPartnerLinkType().getName(), email
+                .getQName().getLocalPart()
+                + "PLT");
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getTargetNamespace()}.
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getTargetNamespace()}
+     * .
      */
     @Test
     public void testGetTargetNamespace() {
-        assertEquals(humanTaskAdapter.getTargetNamespace(), humanTask.getTargetNamespace());
-        assertEquals(emailAdapter.getTargetNamespace(), email.getTargetNamespace());
+        assertEquals(humanTaskAdapter.getTargetNamespace(), humanTask
+                .getTargetNamespace());
+        assertEquals(emailAdapter.getTargetNamespace(), email
+                .getTargetNamespace());
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getLocation()}.
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getLocation()}
+     * .
      */
     @Test
     public void testGetLocation() {
@@ -109,7 +130,9 @@ public class WebserviceAdapterTest {
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getPortType()}.
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getPortType()}
+     * .
      */
     @Test
     public void testGetPortType() {
@@ -118,7 +141,9 @@ public class WebserviceAdapterTest {
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getOpertation()}.
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getOpertation()}
+     * .
      */
     @Test
     public void testGetOpertation() {
@@ -127,7 +152,9 @@ public class WebserviceAdapterTest {
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getDefinition()}.
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getDefinition()}
+     * .
      */
     @Test
     public void testGetDefinition() {
@@ -136,7 +163,9 @@ public class WebserviceAdapterTest {
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getInputMessageType()}.
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getInputMessageType()}
+     * .
      */
     @Test
     public void testGetInputMessageType() {
@@ -145,7 +174,9 @@ public class WebserviceAdapterTest {
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getOutputMessageType()}.
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getOutputMessageType()}
+     * .
      */
     @Test
     public void testGetOutputMessageType() {
@@ -154,7 +185,9 @@ public class WebserviceAdapterTest {
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getService()}.
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getService()}
+     * .
      */
     @Test
     public void testGetService() {

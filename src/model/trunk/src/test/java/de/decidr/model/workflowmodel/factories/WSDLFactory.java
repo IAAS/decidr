@@ -37,7 +37,8 @@ public class WSDLFactory {
 
     public static Definition getHumanTaskDefintion() throws WSDLException,
             IOException {
-        return TransformUtil.bytesToDefinition(getHumanTaskDefinitionByteArray());
+        return TransformUtil
+                .bytesToDefinition(getHumanTaskDefinitionByteArray());
 
     }
 
@@ -58,8 +59,7 @@ public class WSDLFactory {
 
     public static byte[] getEmailDefinitionByteArray() throws IOException,
             WSDLException {
-        InputStream in = WSDLFactory.class
-                .getResourceAsStream(emailWSDLName);
+        InputStream in = WSDLFactory.class.getResourceAsStream(emailWSDLName);
         byte[] data = new byte[in.available()];
         in.read(data, 0, in.available());
 

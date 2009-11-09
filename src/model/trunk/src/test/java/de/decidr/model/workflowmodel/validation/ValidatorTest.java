@@ -28,9 +28,10 @@ public class ValidatorTest {
     public void testValidateByteArray() {
         problems = validator.validate(dwdlWorkflow);
         assertNotNull(problems);
-        for (IProblem problem : problems){
-            System.out.println("Error Description: "+problem.getErrorDescription());
-            System.out.println("Error Posision: "+ problem.getErrorPosition());
+        for (IProblem problem : problems) {
+            System.out.println("Error Description: "
+                    + problem.getErrorDescription());
+            System.out.println("Error Posision: " + problem.getErrorPosition());
         }
         assertTrue(problems.isEmpty());
     }

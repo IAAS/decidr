@@ -127,15 +127,15 @@ public class MappingFactory {
 
         email.getProperties().add(emailProperties);
         email.getPropertyAliases().add(emailPropertyAliases);
-        
+
         return email;
     }
 
-    public static byte[] getEmailMappingBytes() throws JAXBException{
+    public static byte[] getEmailMappingBytes() throws JAXBException {
         WebserviceMapping mapping = getEmailMapping();
         return TransformUtil.mappingToBytes(mapping);
     }
-    
+
     public static WebserviceMapping getHumanTaskMapping() {
         ObjectFactory factory = new ObjectFactory();
         WebserviceMapping humanTask = factory.createWebserviceMapping();
@@ -242,8 +242,8 @@ public class MappingFactory {
         return humanTask;
 
     }
-    
-    public static byte[] getHumanTaskMappingBytes() throws JAXBException{
+
+    public static byte[] getHumanTaskMappingBytes() throws JAXBException {
         WebserviceMapping mapping = getHumanTaskMapping();
         return TransformUtil.mappingToBytes(mapping);
     }

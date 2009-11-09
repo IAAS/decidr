@@ -132,7 +132,7 @@ public class UserNotParticipatingInAnyWorkflowAsserterTest extends
         assertTrue(asserter.assertRule(new UserRole(userId),
                 new CommandPermission(new RemoveFromTenantCommand(new UserRole(
                         userId), userId, tenantId))));
-       
+
         assertFalse(asserter.assertRule(new WorkflowAdminRole(workflowAdminId),
                 new CommandPermission(new RemoveFromTenantCommand(
                         new WorkflowAdminRole(workflowAdminId), userId,

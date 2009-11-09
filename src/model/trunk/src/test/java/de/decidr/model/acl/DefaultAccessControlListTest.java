@@ -48,9 +48,9 @@ import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * Test case for <code>{@link DefaulAccessControlList}</code>.
- * NOTE: Large parts are commented out due to the fact that 
- *       there is no web service support in our test environment.
+ * Test case for <code>{@link DefaulAccessControlList}</code>. NOTE: Large parts
+ * are commented out due to the fact that there is no web service support in our
+ * test environment.
  * 
  * @author Geoffrey-Alexeij Heinze
  */

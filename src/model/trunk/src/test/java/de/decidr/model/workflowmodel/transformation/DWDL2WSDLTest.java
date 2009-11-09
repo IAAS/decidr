@@ -40,19 +40,19 @@ import de.decidr.model.workflowmodel.webservices.PartnerLinkTypeSerializer;
 
 /**
  * This JUnit test case tests the DWDL to WSDL translation
- *
+ * 
  * @author Modood Alvi
  */
 public class DWDL2WSDLTest {
-    
+
     static DWDL2WSDL translater = null;
     static Workflow dwdl = null;
     static String location = null;
     static String tenantName = null;
-    
+
     /**
      * Retrieve all relevant objects
-     *
+     * 
      * @throws java.lang.Exception
      */
     @BeforeClass
@@ -64,28 +64,31 @@ public class DWDL2WSDLTest {
     }
 
     /**
-     * Test method for {@link de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSDL#getWSDL(de.decidr.model.workflowmodel.dwdl.Workflow, java.lang.String, java.lang.String)}.
-     * @throws JDOMException 
-     * @throws WSDLException 
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSDL#getWSDL(de.decidr.model.workflowmodel.dwdl.Workflow, java.lang.String, java.lang.String)}
+     * .
+     * 
+     * @throws JDOMException
+     * @throws WSDLException
      */
     @Test
     public void testGetWSDL() throws JDOMException, WSDLException {
-            Definition wsdl = translater.getWSDL(dwdl, location, tenantName);
-            assertNotNull(wsdl);
-            ExtensionRegistry extensionRegistry = new PopulatedExtensionRegistry();
-            PartnerLinkTypeSerializer ser = new PartnerLinkTypeSerializer();
-            extensionRegistry.registerSerializer(PartnerLinkType.class, new QName(
-                    Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"), ser);
-            extensionRegistry.registerDeserializer(PartnerLinkType.class,
-                    new QName(Constants.PARTNERLINKTYPE_NAMESPACE,
-                            "partnerLinkType"), ser);
-            extensionRegistry.mapExtensionTypes(PartnerLinkType.class, new QName(
-                    Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"),
-                    PartnerLinkType.class);
-            wsdl.setExtensionRegistry(extensionRegistry);
-            WSDLWriter writer = new WSDLWriterImpl();
-            writer.writeWSDL(wsdl, System.out);
-            assertEquals(wsdl.getTargetNamespace(), dwdl.getTargetNamespace());
+        Definition wsdl = translater.getWSDL(dwdl, location, tenantName);
+        assertNotNull(wsdl);
+        ExtensionRegistry extensionRegistry = new PopulatedExtensionRegistry();
+        PartnerLinkTypeSerializer ser = new PartnerLinkTypeSerializer();
+        extensionRegistry.registerSerializer(PartnerLinkType.class, new QName(
+                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"), ser);
+        extensionRegistry.registerDeserializer(PartnerLinkType.class,
+                new QName(Constants.PARTNERLINKTYPE_NAMESPACE,
+                        "partnerLinkType"), ser);
+        extensionRegistry.mapExtensionTypes(PartnerLinkType.class, new QName(
+                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"),
+                PartnerLinkType.class);
+        wsdl.setExtensionRegistry(extensionRegistry);
+        WSDLWriter writer = new WSDLWriterImpl();
+        writer.writeWSDL(wsdl, System.out);
+        assertEquals(wsdl.getTargetNamespace(), dwdl.getTargetNamespace());
     }
 
 }

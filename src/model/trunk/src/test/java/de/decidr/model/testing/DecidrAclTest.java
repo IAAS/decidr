@@ -24,11 +24,9 @@ import org.junit.BeforeClass;
 import de.decidr.model.testsuites.AclTestSuite;
 
 /**
- * Base class for ACL test cases that do not require 
- * databse interaction
+ * Base class for ACL test cases that do not require databse interaction
  * 
  * @author Geoffrey-Alexeij Heinze
- * 
  */
 public class DecidrAclTest {
     private static AclTestSuite testSuite = new AclTestSuite();

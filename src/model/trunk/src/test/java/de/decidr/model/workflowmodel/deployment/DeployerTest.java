@@ -33,7 +33,7 @@ public class DeployerTest {
         deployer = new DeployerImpl();
         knownWebservices = KnownWebserviceFactory.getKnownWebservice();
         strategy = new StandardDeploymentStrategy();
-        
+
         ServerLoadViewFactory.setLocation(location);
         serverStatistics = ServerLoadViewFactory.getServerStatistics();
         dwdl = DWDLFactory.getDWDLWorkflowByteArray();
@@ -41,12 +41,13 @@ public class DeployerTest {
     }
 
     @Test
-    public void testDeploy() throws DWDLValidationException, ODESelectorException, IOException, JAXBException, WSDLException, SOAPException {
-        
+    public void testDeploy() throws DWDLValidationException,
+            ODESelectorException, IOException, JAXBException, WSDLException,
+            SOAPException {
 
-            DeploymentResult result = deployer.deploy(dwdl, knownWebservices,
-                    tenantName, serverStatistics, strategy);
-            assertNotNull(result);
+        DeploymentResult result = deployer.deploy(dwdl, knownWebservices,
+                tenantName, serverStatistics, strategy);
+        assertNotNull(result);
     }
 
     @Test

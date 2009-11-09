@@ -41,8 +41,8 @@ import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 
 /**
- * Test case for <code>{@link UserIsTenantMemberAsserter}</code>.
- * NOTE: see <code>{@link DefaultAccessControlListTest}</code>
+ * Test case for <code>{@link UserIsTenantMemberAsserter}</code>. NOTE: see
+ * <code>{@link DefaultAccessControlListTest}</code>
  * 
  * @author Geoffrey-Alexeij Heinze
  */
