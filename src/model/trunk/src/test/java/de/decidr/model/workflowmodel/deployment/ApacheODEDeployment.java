@@ -25,24 +25,30 @@ import org.junit.Test;
 public class ApacheODEDeployment {
 
     static DeployerImpl deployer = null;
-    static byte[] simpleHello = null;
-    static String location_amazon = null;
-    static String location_localhost = null;
+    static byte[] simpleHelloLocal = null;
+    static byte[] simpleHelloRemote = null;
+    static String location_remote = null;
+    static String location_local = null;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        location_amazon = "http://ec2-174-129-24-232.compute-1.amazonaws.com:8080";
-        location_localhost = "http://localhost:8080";
+        location_remote = "http://ec2-174-129-24-232.compute-1.amazonaws.com:8080";
+        location_local = "http://localhost:8080";
         deployer = new DeployerImpl();
-        InputStream in = ApacheODEDeployment.class
-                .getResourceAsStream("/test/HelloWorld2.zip");
-        simpleHello = new byte[in.available()];
-        in.read(simpleHello, 0, in.available());
+        InputStream inLocal = ApacheODEDeployment.class
+                .getResourceAsStream("/test/HelloWorld2Local.zip");
+        simpleHelloLocal = new byte[inLocal.available()];
+        inLocal.read(simpleHelloLocal, 0, inLocal.available());
+        InputStream inRemote = ApacheODEDeployment.class
+                .getResourceAsStream("/test/HelloWorld2Remote.zip");
+        simpleHelloRemote = new byte[inRemote.available()];
+        inRemote.read(simpleHelloRemote, 0, inRemote.available());
     }
 
     @Test
     public void testDeployStringByteArrayString() throws AxisFault {
-        deployer.deploy("HelloWorld2", simpleHello, location_localhost);
+        //deployer.deploy("HelloWorld2", simpleHelloLocal, location_local);
+        deployer.deploy("HelloWorld2", simpleHelloRemote, location_remote);
     }
 
 }

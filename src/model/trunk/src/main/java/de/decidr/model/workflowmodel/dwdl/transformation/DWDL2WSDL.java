@@ -130,7 +130,7 @@ public class DWDL2WSDL {
 
     private void setBindings() {
         processBinding = new BindingImpl();
-        processBinding.setQName(new QName(dwdl.getName() + "SOAPBinding"));
+        processBinding.setQName(new QName(dwdl.getTargetNamespace(), dwdl.getName() + "SOAPBinding"));
         processBinding.setPortType(processPortType);
         SOAPBinding soapBindingElement = new SOAPBindingImpl();
         soapBindingElement.setStyle("document");
