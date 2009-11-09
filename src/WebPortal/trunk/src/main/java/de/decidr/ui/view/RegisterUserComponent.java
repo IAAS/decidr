@@ -18,6 +18,7 @@ package de.decidr.ui.view;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.data.validator.NullValidator;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.Button;
@@ -82,7 +83,7 @@ public class RegisterUserComponent extends CustomComponent {
 	 * 
 	 * @return registrationForm
 	 */
-	public Item getRegistrationForm() {
+	public Form getRegistrationForm() {
 		return registrationForm;
 	}
 
@@ -92,7 +93,8 @@ public class RegisterUserComponent extends CustomComponent {
 	 */
 	private void init() {
 		registrationForm = new Form();
-		registrationForm.setWriteThrough(false);
+		registrationForm.setWriteThrough(true);
+		registrationForm.setImmediate(true);
 
 		descriptionLabel = new Label(
 				"Please fill out all fields to register as a new user:",
@@ -167,7 +169,21 @@ public class RegisterUserComponent extends CustomComponent {
 	 * 
 	 */
 	public void saveRegistrationForm() {
-		registrationForm.commit();
+		boolean notEmpty = true;
+		for (Object propertyId : registrationForm.getItemPropertyIds()) {
+			if (registrationForm.getField(propertyId).getValue().equals(null)) {
+				notEmpty = false;
+			}
+		}
+		if (notEmpty) {
+			registrationForm.commit();
+		} else {
+			Main.getCurrent().getMainWindow().addWindow(
+					new InformationDialogComponent(
+							"Please enter the required information",
+							"Empty fields"));
+		}
+
 	}
 
 	/**

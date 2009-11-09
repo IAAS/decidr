@@ -17,8 +17,6 @@
 package de.decidr.ui.controller;
 
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
@@ -29,7 +27,6 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 import de.decidr.model.workflowmodel.humantask.TTaskItem;
-import de.decidr.model.workflowmodel.humantask.dataitem.TTaskDataItem;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
@@ -45,8 +42,6 @@ public class SaveWorkItemAction implements ClickListener {
     private THumanTaskData tHumanTaskData = null;
     
     private Long workItemId = null;
-
-    private List<TTaskDataItem> taskDataItemList = new LinkedList<TTaskDataItem>();
 
     private WorkItemFacade workItemFacade = new WorkItemFacade(new UserRole(
             (Long) Main.getCurrent().getSession().getAttribute("userId")));
@@ -79,12 +74,11 @@ public class SaveWorkItemAction implements ClickListener {
             }
         }
         try{
-          //humanTaskData zu byte[]
             if (event.getButton().getCaption().equals("OK")) {
-                 workItemFacade.setData(workItemId, null);
+                 workItemFacade.setData(workItemId, tHumanTaskData);
              }
              else if (event.getButton().getCaption().equals("Mark as done")){
-                 workItemFacade.setData(workItemId, null);
+                 workItemFacade.setData(workItemId, tHumanTaskData);
              }
              new HideDialogWindowAction();
         }catch(TransactionException exception){

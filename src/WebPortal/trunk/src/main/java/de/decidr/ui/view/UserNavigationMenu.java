@@ -21,6 +21,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.ShowChangeTenantAction;
+import de.decidr.ui.controller.ShowCreateTenantAction;
 import de.decidr.ui.controller.ShowMyWorkitemsAction;
 import de.decidr.ui.controller.ShowProfileSettingsAction;
 
@@ -41,9 +42,11 @@ public class UserNavigationMenu extends CustomComponent {
 
     private Button myWorkItemLink = null;
     private Button changeTenantLink = null;
+    private Button createTenantLink = null;
     private Button profileSettingsLink = null;
 
     private Label workflowParticipationLabel = null;
+    private Label tenantsLabel = null;
     private Label settingsLabel = null;
 
     /**
@@ -70,16 +73,26 @@ public class UserNavigationMenu extends CustomComponent {
         changeTenantLink.setStyleName(Button.STYLE_LINK);
         profileSettingsLink = new Button("Profile Settings",
                 new ShowProfileSettingsAction());
+        createTenantLink = new Button("Create Tenant",
+                new ShowCreateTenantAction());
+        createTenantLink.setStyleName(Button.STYLE_LINK);
         profileSettingsLink.setStyleName(Button.STYLE_LINK);
 
-        workflowParticipationLabel = new Label("Workflow participation");
-        settingsLabel = new Label("Settings");
+        workflowParticipationLabel = new Label("<h5>Workflow participation</h5>");
+        workflowParticipationLabel.setContentMode(Label.CONTENT_XHTML);
+        tenantsLabel = new Label("<h5>Tenants</h5>");
+        tenantsLabel.setContentMode(Label.CONTENT_XHTML);
+        settingsLabel = new Label("<h5>Settings</h5>");
+        settingsLabel.setContentMode(Label.CONTENT_XHTML);
 
         verticalLayout.setSpacing(true);
 
         verticalLayout.addComponent(workflowParticipationLabel);
         verticalLayout.addComponent(myWorkItemLink);
         verticalLayout.addComponent(changeTenantLink);
+        
+        verticalLayout.addComponent(tenantsLabel);
+        verticalLayout.addComponent(createTenantLink);
 
         verticalLayout.addComponent(settingsLabel);
         verticalLayout.addComponent(profileSettingsLink);

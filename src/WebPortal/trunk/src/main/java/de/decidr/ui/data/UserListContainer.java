@@ -31,7 +31,7 @@ import com.vaadin.data.Property;
 import com.vaadin.service.ApplicationContext;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.filters.Filter;
@@ -55,7 +55,7 @@ public class UserListContainer extends Observable implements Container,
 
     private Long userId = (Long) session.getAttribute("userId");
 
-    UserFacade userFacade = new UserFacade(new UserRole(userId));
+    UserFacade userFacade = new UserFacade(new WorkflowAdminRole(userId));
 
     List<Item> userList = null;
 

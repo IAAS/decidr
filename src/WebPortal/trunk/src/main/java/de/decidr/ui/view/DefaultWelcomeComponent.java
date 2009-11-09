@@ -35,7 +35,7 @@ public class DefaultWelcomeComponent extends CustomComponent {
 	private VerticalLayout verticalLayout = null;
 	private Label labelDesc = null;
 
-	private TenantFacade tenantFacade = new TenantFacade(new UserRole());
+	//private TenantFacade tenantFacade = new TenantFacade(new UserRole());
 
 	public DefaultWelcomeComponent() {
 		init();
@@ -44,12 +44,12 @@ public class DefaultWelcomeComponent extends CustomComponent {
 	private void init() {
 		verticalLayout = new VerticalLayout();
 
-		try {
+		/*try {
 			String description = tenantFacade.getTenantSettings(
 					DecidrGlobals.DEFAULT_TENANT_ID).getItemProperty(
 					"description").getValue().toString();
 
-			labelDesc = new Label("<h2>Welcome</h2><br/>" + description,
+			labelDesc = new Label("<h2>Welcome</h2><br/>test",
 					Label.CONTENT_XHTML);
 
 			this.setCompositionRoot(verticalLayout);
@@ -58,7 +58,13 @@ public class DefaultWelcomeComponent extends CustomComponent {
 		} catch (TransactionException e) {
 			Main.getCurrent().getMainWindow().addWindow(
 					new TransactionErrorDialogComponent(e));
-		}
+		}*/
+		labelDesc = new Label("<h2>Welcome</h2><br/>test",
+				Label.CONTENT_XHTML);
+
+		this.setCompositionRoot(verticalLayout);
+
+		verticalLayout.addComponent(labelDesc);
 	}
 
 }

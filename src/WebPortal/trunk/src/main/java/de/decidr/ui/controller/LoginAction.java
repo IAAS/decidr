@@ -21,6 +21,7 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.ui.view.HorizontalNavigationMenu;
+import de.decidr.ui.view.InformationDialogComponent;
 import de.decidr.ui.view.LoginComponent;
 import de.decidr.ui.view.Main;
 
@@ -54,8 +55,8 @@ public class LoginAction implements ClickListener {
             ((HorizontalNavigationMenu) uiDirector.getTemplateView()
                     .getHNavigation()).getLogoutButton().setVisible(true);
         } catch (TransactionException exception) {
-            Main.getCurrent().getMainWindow().showNotification("Login unsuccessfull");
-            
+        	Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent("Password and/or Username mismatch!", "Login failed"));
         }
 
     }

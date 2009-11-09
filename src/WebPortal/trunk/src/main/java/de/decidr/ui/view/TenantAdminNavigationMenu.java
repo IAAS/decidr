@@ -21,12 +21,12 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.ShowChangeTenantAction;
+import de.decidr.ui.controller.ShowCreateTenantAction;
 import de.decidr.ui.controller.ShowCreateWorkflowInstanceAction;
 import de.decidr.ui.controller.ShowCreateWorkflowModelAction;
 import de.decidr.ui.controller.ShowMyWorkitemsAction;
 import de.decidr.ui.controller.ShowProfileSettingsAction;
 import de.decidr.ui.controller.ShowTenantSettingsAction;
-import de.decidr.ui.controller.ShowUserListAction;
 import de.decidr.ui.controller.ShowWorkflowInstancesAction;
 
 public class TenantAdminNavigationMenu extends CustomComponent {
@@ -46,7 +46,7 @@ public class TenantAdminNavigationMenu extends CustomComponent {
     private Button createWorkflowModelLink = null;
     private Button createWorkflowInstanceLink = null;
     private Button showWorkflowInstancesLink = null;
-    private Button showUserListLink = null;
+    private Button createTenantLink = null;
     private Button profileSettingsLink = null;
     private Button tenantSettingsLink = null;
 
@@ -54,6 +54,7 @@ public class TenantAdminNavigationMenu extends CustomComponent {
     private Label workflowModelLabel = null;
     private Label workflowInstancesLabel = null;
     private Label usersLabel = null;
+    private Label tenantsLabel = null;
     private Label settingsLabel = null;
 
     /**
@@ -87,9 +88,9 @@ public class TenantAdminNavigationMenu extends CustomComponent {
         showWorkflowInstancesLink = new Button("Show Workflow Instances",
                 new ShowWorkflowInstancesAction());
         showWorkflowInstancesLink.setStyleName(Button.STYLE_LINK);
-        showUserListLink = new Button("Show/Edit User List",
-                new ShowUserListAction());
-        showUserListLink.setStyleName(Button.STYLE_LINK);
+        createTenantLink = new Button("Create Tenant",
+                new ShowCreateTenantAction());
+        createTenantLink.setStyleName(Button.STYLE_LINK);
         profileSettingsLink = new Button("Profile Settings",
                 new ShowProfileSettingsAction());
         profileSettingsLink.setStyleName(Button.STYLE_LINK);
@@ -97,11 +98,18 @@ public class TenantAdminNavigationMenu extends CustomComponent {
                 new ShowTenantSettingsAction());
         tenantSettingsLink.setStyleName(Button.STYLE_LINK);
 
-        workflowParticipationLabel = new Label("Workflow participation");
-        workflowModelLabel = new Label("Workflow model");
-        workflowInstancesLabel = new Label("Workflow Instances");
-        usersLabel = new Label("Users");
-        settingsLabel = new Label("Settings");
+        workflowParticipationLabel = new Label("<h5>Workflow participation</h5>");
+        workflowParticipationLabel.setContentMode(Label.CONTENT_XHTML);
+        workflowModelLabel = new Label("<h5>Workflow model</h5>");
+        workflowModelLabel.setContentMode(Label.CONTENT_XHTML);
+        workflowInstancesLabel = new Label("<h5>Workflow Instances</h5>");
+        workflowInstancesLabel.setContentMode(Label.CONTENT_XHTML);
+        usersLabel = new Label("<h5>Users</h5>");
+        usersLabel.setContentMode(Label.CONTENT_XHTML);
+        tenantsLabel = new Label("<h5>Tenants</h5>");
+        tenantsLabel.setContentMode(Label.CONTENT_XHTML);
+        settingsLabel = new Label("<h5>Settings</h5>");
+        settingsLabel.setContentMode(Label.CONTENT_XHTML);
 
         verticalLayout.setSpacing(true);
 
@@ -116,8 +124,8 @@ public class TenantAdminNavigationMenu extends CustomComponent {
         verticalLayout.addComponent(createWorkflowInstanceLink);
         verticalLayout.addComponent(showWorkflowInstancesLink);
 
-        verticalLayout.addComponent(usersLabel);
-        verticalLayout.addComponent(showUserListLink);
+        verticalLayout.addComponent(tenantsLabel);
+        verticalLayout.addComponent(createTenantLink);
 
         verticalLayout.addComponent(settingsLabel);
         verticalLayout.addComponent(profileSettingsLink);

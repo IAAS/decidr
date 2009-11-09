@@ -29,7 +29,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
@@ -49,7 +49,7 @@ public class RunningInstanceContainer extends Observable implements Container,
 
     private Long userId = (Long) session.getAttribute("userId");
 
-    UserFacade userFacade = new UserFacade(new UserRole(userId));
+    UserFacade userFacade = new UserFacade(new WorkflowAdminRole(userId));
 
     List<Item> runningInstanceList = null;
 

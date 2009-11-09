@@ -27,11 +27,14 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.commands.user.GetUserWithProfileCommand;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
+import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
@@ -59,7 +62,8 @@ public class SaveProfileAction implements ClickListener {
                 .getTemplateView().getContent();
         content.saveSettingsItem();
         try {
-            userFacade.setProfile(userId, fillUserProfile());
+        	UserProfile uP = fillUserProfile();
+            userFacade.setProfile(userId, uP);
         } catch (EntityNotFoundException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));
@@ -76,17 +80,26 @@ public class SaveProfileAction implements ClickListener {
     }
 
     private UserProfile fillUserProfile() {
-        userProfile = new UserProfile();
-        userProfile.setFirstName(content.getSettingsItem().getItemProperty(
-                "firstName").getValue().toString());
-        userProfile.setLastName(content.getSettingsItem().getItemProperty(
-                "lastName").getValue().toString());
-        userProfile.setCity(content.getSettingsItem().getItemProperty("city")
-                .getValue().toString());
-        userProfile.setPostalCode(content.getSettingsItem().getItemProperty(
-                "postalCode").getValue().toString());
-        userProfile.setStreet(content.getSettingsItem().getItemProperty(
-                "street").getValue().toString());
-        return userProfile;
+    	UserRole role = new UserRole(userId);
+    	GetUserWithProfileCommand cmd = new GetUserWithProfileCommand(role, userId);
+    	try {
+			HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+			userProfile = cmd.getResult().getUserProfile();
+	        userProfile.setFirstName(content.getSettingsItem().getItemProperty(
+	                "firstName").getValue().toString());
+	        userProfile.setLastName(content.getSettingsItem().getItemProperty(
+	                "lastName").getValue().toString());
+	        userProfile.setCity(content.getSettingsItem().getItemProperty("city")
+	                .getValue().toString());
+	        userProfile.setPostalCode(content.getSettingsItem().getItemProperty(
+	                "postalCode").getValue().toString());
+	        userProfile.setStreet(content.getSettingsItem().getItemProperty(
+	                "street").getValue().toString());
+	        return userProfile;
+		} catch (TransactionException e) {
+			Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent(e));
+			return null;
+		}
+        
     }
 }

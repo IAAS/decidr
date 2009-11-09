@@ -71,7 +71,7 @@ public class RegisterTenantComponent extends CustomComponent {
 	 * 
 	 * @return registrationForm
 	 */
-	public Item getRegistrationForm() {
+	public Form getRegistrationForm() {
 		return registrationForm;
 	}
 
@@ -81,7 +81,8 @@ public class RegisterTenantComponent extends CustomComponent {
 	 */
 	private void init() {
 		registrationForm = new Form();
-		registrationForm.setWriteThrough(false);
+		registrationForm.setWriteThrough(true);
+		registrationForm.setImmediate(true);
 
 		descriptionLabel = new Label(
 				"Please fill out all fields to register as a new tenant:",

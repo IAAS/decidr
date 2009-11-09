@@ -23,6 +23,7 @@ import com.vaadin.ui.Window;
 
 import de.decidr.ui.controller.ConfirmationParameterHandler;
 import de.decidr.ui.controller.InvitationParameterHandler;
+import de.decidr.ui.controller.TenantParameterHandler;
 import de.decidr.ui.controller.UIDirector;
 
 /**
@@ -60,6 +61,7 @@ public class Main extends Application implements TransactionListener {
 
 		main.addParameterHandler(new InvitationParameterHandler());
 		main.addParameterHandler(new ConfirmationParameterHandler());
+		main.addParameterHandler(new TenantParameterHandler());
 
 		setTheme("decidr");
 		
