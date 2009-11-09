@@ -69,8 +69,8 @@ public class CssHandler {
 	public CssHandler(TenantSettingsComponent component) {
 		tenant = (String) Main.getCurrent().getSession().getAttribute("tenant");
 		this.component = component;
-		cssFilePath = "../../../../webapp/VAADIN/themes/" + tenant
-				+ "/styles.css";
+		cssFilePath = +File.separatorChar + "themes" + File.separator + tenant
+				+ File.separator + "styles.css";
 	}
 
 	/**
