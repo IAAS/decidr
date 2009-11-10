@@ -8,7 +8,6 @@ import org.hibernate.Session;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.File;
-import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserIsMemberOfTenant;
@@ -52,6 +51,27 @@ public class TenantFactory extends EntityFactory {
     }
 
     /**
+     * Creates the default tenant
+     * 
+     * @return the default tenant
+     */
+    public Tenant createDefaultTenant() {
+        Tenant result = new Tenant();
+        result.setId(DecidrGlobals.DEFAULT_TENANT_ID);
+        result.setAdmin(DecidrGlobals.getSettings().getSuperAdmin());
+        result.setName("Default Tenant");
+        result.setDescription("This is the default tenant description");
+        result.setAdvancedColorScheme(createDefaultColorScheme());
+        result.setSimpleColorScheme(createDefaultColorScheme());
+        result.setApprovedSince(DecidrGlobals.getTime().getTime());
+        result.setLogo(createDefaultLogo());
+
+        session.save(result);
+
+        return result;
+    }
+
+    /**
      * Creates numTenants random persisted tenants.
      * 
      * @param numTenants
@@ -63,30 +83,22 @@ public class TenantFactory extends EntityFactory {
 
         ArrayList<Tenant> result = new ArrayList<Tenant>(numTenants);
 
-        SystemSettings settings = DecidrGlobals.getSettings();
-
         Date now = DecidrGlobals.getTime().getTime();
 
-        // Important: i must become DecidrGlobals.DEFAULT_TENANT_ID at least
-        // once!
+        createDefaultTenant();
+
         for (int i = 0; i < numTenants; i++) {
             Tenant tenant = new Tenant();
 
-            User admin = i == DecidrGlobals.DEFAULT_TENANT_ID ? settings
-                    .getSuperAdmin() : getRandomAdmin();
-                    
+            User admin = getRandomAdmin();
+
             tenant.setAdmin(admin);
-            String tenantName = i == DecidrGlobals.DEFAULT_TENANT_ID ? "Default Tenant"
-                    : getRandomTenantName(i);
+            String tenantName = getRandomTenantName(i);
             tenant.setName(tenantName);
             tenant.setDescription(tenantName);
 
             // every 5th tenant hasn't been approved yet
-            if (i == DecidrGlobals.DEFAULT_TENANT_ID) {
-                tenant.setApprovedSince(now);
-            } else {
-                tenant.setApprovedSince(i % 5 == 0 ? null : now);
-            }
+            tenant.setApprovedSince(i % 5 == 0 ? null : now);
 
             // 50 % use the simple color scheme
             File advancedColorScheme = createDefaultColorScheme();
@@ -100,16 +112,14 @@ public class TenantFactory extends EntityFactory {
 
             tenant.setLogo(createDefaultLogo());
             session.save(tenant);
-            
+
             admin.setCurrentTenant(tenant);
             session.update(admin);
-            
+
             result.add(tenant);
 
             int numTenantMembers = rnd.nextInt(maxMembersPerTenant) + 1;
-            if (i != DecidrGlobals.DEFAULT_TENANT_ID) {
-                associateUsersWithTenant(tenant, numTenantMembers);
-            }
+            associateUsersWithTenant(tenant, numTenantMembers);
 
             fireProgressEvent(numTenants, i + 1);
         }
