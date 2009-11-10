@@ -30,6 +30,7 @@ import org.junit.Test;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2SOAP;
 import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSDL;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.dwdl.transformation.WSDLConstants;
 import de.decidr.model.workflowmodel.factories.DWDLFactory;
 
@@ -61,6 +62,8 @@ public class DWDL2SOAPTest {
         wsdl = wsdlconv.getWSDL(dwdl, location, tenantName);
         portName = dwdl.getName() + "PT";
         operationName = WSDLConstants.PROCESS_OPERATION;
+        System.out.println(new String(TransformUtil.definitionToBytes(wsdl)));
+        System.out.println();
     }
 
     /**
@@ -75,7 +78,6 @@ public class DWDL2SOAPTest {
     @Test
     public void testGetSOAP() throws UnsupportedOperationException,
             SOAPException, IOException {
-
         SOAPMessage msg = translater.getSOAP(wsdl, portName, operationName);
         assertNotNull(msg);
         msg.writeTo(System.out);

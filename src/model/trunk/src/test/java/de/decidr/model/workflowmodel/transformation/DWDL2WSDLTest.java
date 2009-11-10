@@ -51,7 +51,7 @@ public class DWDL2WSDLTest {
     public static void setUpBeforeClass() throws Exception {
         translater = new DWDL2WSDL();
         dwdl = DWDLFactory.getDWDLWorkflow();
-        location = "http://ec2-174-129-24-232.compute-1.amazonaws.com:8080/ode/";
+        location = "http://ec2-174-129-24-232.compute-1.amazonaws.com:8080";
         tenantName = "Hugo";
     }
 
@@ -70,7 +70,8 @@ public class DWDL2WSDLTest {
         byte [] byteWSDL = TransformUtil.definitionToBytes(wsdl);
         String wsdlString = new String(byteWSDL);
         System.out.println(wsdlString);
-        assertEquals(wsdl.getTargetNamespace(), dwdl.getTargetNamespace());
+        Definition readWSDL = TransformUtil.bytesToDefinition(byteWSDL);
+        assertNotNull(readWSDL);
     }
 
 }

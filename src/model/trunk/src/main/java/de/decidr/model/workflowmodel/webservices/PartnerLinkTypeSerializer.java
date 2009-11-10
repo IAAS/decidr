@@ -113,6 +113,12 @@ public class PartnerLinkTypeSerializer implements ExtensionSerializer,
             if (tmpPartnerLinkType.isSetRole()){
                 extpartnerLinkType.getRole().addAll(tmpPartnerLinkType.getRole());
             }
+            if (tmpPartnerLinkType.isSetDocumentation()){
+                extpartnerLinkType.getDocumentation().addAll(tmpPartnerLinkType.getDocumentation());
+            }
+            if (tmpPartnerLinkType.isSetAny()){
+                extpartnerLinkType.getAny().addAll(tmpPartnerLinkType.getAny());
+            }
         }
         else {
             log.warn("Partner link in type is null in "+def.getTargetNamespace());

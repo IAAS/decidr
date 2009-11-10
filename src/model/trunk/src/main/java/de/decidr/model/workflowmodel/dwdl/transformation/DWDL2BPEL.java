@@ -348,8 +348,7 @@ public class DWDL2BPEL {
                     To to = factory.createTo();
                     Literal literal = factory.createLiteral();
                     org.jdom.Element roleElement = createRoleElement(role);
-                    literal.getContent().add(
-                            (TransformUtil.element2XML(roleElement)));
+                    literal.getContent().add(roleElement);
                     from.getContent().add(literal);
                     to.setVariable(role.getName());
                     copyRole.setFrom(from);
@@ -369,8 +368,7 @@ public class DWDL2BPEL {
                         To to = factory.createTo();
                         Literal literal = factory.createLiteral();
                         org.jdom.Element actorElement = createActorElement(actor);
-                        literal.getContent().add(
-                                TransformUtil.element2XML(actorElement));
+                        literal.getContent().add(actorElement);
                         from.getContent().add(literal);
                         to.setVariable(actor.getName());
                         copyActor.setFrom(from);

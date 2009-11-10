@@ -133,7 +133,7 @@ public class DeployerImpl implements Deployer {
         return result;
     }
 
-    public void deploy(String packageName, byte[] zip, String location)
+    public void deploy(String packageName, byte[] zip, String serverLocation)
             throws AxisFault {
 
         factory = OMAbstractFactory.getOMFactory();
@@ -158,7 +158,7 @@ public class DeployerImpl implements Deployer {
         zipElmt.addChild(zipContent);
 
         // deploy
-        client.send(root, location + "/ode/processes/DeploymentService");
+        client.send(root, serverLocation + "/ode/processes/DeploymentService");
     }
 
     /*

@@ -28,6 +28,7 @@ import org.jdom.Namespace;
 public final class Constants {
 
     public static final String BPEL_NAMESPACE = "http://docs.oasis-pen.org/wsbpel/2.0/process/executable";
+    public static final String WSDL_NAMESPACE = "http://schemas.xmlsoap.org/wsdl/";
     public static final String PARTNERLINKTYPE_NAMESPACE = "http://docs.oasis-open.org/wsbpel/2.0/plnktype";
     public static final String VARPROP_NAMESPACE = "http://docs.oasis-open.org/wsbpel/2.0/varprop";
     public static final String DWDL_NAMESPACE = "http://decidr.de/schema/dwdl";

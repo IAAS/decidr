@@ -26,6 +26,7 @@ public final class WSDLConstants {
     public static String PROCESS_MESSAGE_NAME = "processIn";
     public static final String PROCESS_PARTNERLINKTYPE = "ProcessPLT";
     public static final String PROCESS_MESSAGE_ELEMENT = "startProcess";
+    public static final String PROCESS_MESSAGE_TYPE = "startMessage";
     public static final String PROCESS_OPERATION = "startProcess";
     
     private WSDLConstants(){

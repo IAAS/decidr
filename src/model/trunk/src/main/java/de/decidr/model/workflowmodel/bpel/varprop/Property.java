@@ -8,6 +8,7 @@
 
 package de.decidr.model.workflowmodel.bpel.varprop;
 
+import javax.wsdl.extensions.ExtensibilityElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -17,6 +18,8 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
+
+import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
 
 
 /**
@@ -43,7 +46,7 @@ import javax.xml.namespace.QName;
 @XmlType(name = "")
 @XmlRootElement(name = "property")
 public class Property
-    extends ExtensibleElements
+    extends ExtensibleElements implements ExtensibilityElement
 {
 
     @XmlAttribute(required = true)
@@ -137,6 +140,24 @@ public class Property
 
     public boolean isSetElement() {
         return (this.element!= null);
+    }
+
+    @Override
+    public QName getElementType() {
+        return new QName(Constants.VARPROP_NAMESPACE, "property");
+    }
+
+    @Override
+    public Boolean getRequired() {
+        return null;
+    }
+
+    @Override
+    public void setElementType(QName elementType) {
+    }
+
+    @Override
+    public void setRequired(Boolean required) {
     }
 
 }

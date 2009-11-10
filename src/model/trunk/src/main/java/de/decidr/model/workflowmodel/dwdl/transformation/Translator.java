@@ -104,10 +104,10 @@ public class Translator {
         return soap;
     }
 
-    public Definition getWSDL(String location) {
+    public Definition getWSDL(String serverLocation) {
         DWDL2WSDL wsdlConverter = new DWDL2WSDL();
         try {
-            wsdl = wsdlConverter.getWSDL(dwdlWorkflow, location, tenantName);
+            wsdl = wsdlConverter.getWSDL(dwdlWorkflow, serverLocation, tenantName);
         } catch (JDOMException e) {
             log.error("Can't translate dwdl to wsdl", e);
         }

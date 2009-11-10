@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:49:05 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel.partnerlinktype;
 
 import java.util.ArrayList;
@@ -24,11 +23,13 @@ import javax.xml.namespace.QName;
 
 import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
 
-
 /**
- * <p>Java class for tPartnerLinkType complex type.
+ * <p>
+ * Java class for tPartnerLinkType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tPartnerLinkType">
@@ -47,12 +48,9 @@ import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tPartnerLinkType", propOrder = {
-    "role"
-})
-public class PartnerLinkType
-    extends ExtensibleElements implements ExtensibilityElement
-{
+@XmlType(name = "tPartnerLinkType", propOrder = { "role" })
+public class PartnerLinkType extends ExtensibleElements implements
+        ExtensibilityElement {
 
     @XmlElement(required = true)
     protected List<Role> role;
@@ -65,21 +63,21 @@ public class PartnerLinkType
      * Gets the value of the role property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the role property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the role property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getRole().add(newItem);
+     * getRole().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Role }
+     * Objects of the following type(s) are allowed in the list {@link Role }
      * 
      * 
      */
@@ -91,7 +89,7 @@ public class PartnerLinkType
     }
 
     public boolean isSetRole() {
-        return ((this.role!= null)&&(!this.role.isEmpty()));
+        return ((this.role != null) && (!this.role.isEmpty()));
     }
 
     public void unsetRole() {
@@ -101,10 +99,8 @@ public class PartnerLinkType
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getName() {
         return name;
@@ -114,21 +110,20 @@ public class PartnerLinkType
      * Sets the value of the name property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setName(String value) {
         this.name = value;
     }
 
     public boolean isSetName() {
-        return (this.name!= null);
+        return (this.name != null);
     }
 
     @Override
     public QName getElementType() {
-        return new QName(Constants.PARTNERLINKTYPE_NAMESPACE,"partnerLinkType");
+        return new QName(Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType");
     }
 
     @Override

@@ -37,20 +37,20 @@ import javax.xml.soap.SOAPPart;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Logger;
+import org.jdom.Document;
+import org.jdom.JDOMException;
+import org.jdom.output.DOMOutputter;
 import org.xml.sax.InputSource;
 
-import com.ibm.wsdl.extensions.PopulatedExtensionRegistry;
 import com.ibm.wsdl.xml.WSDLWriterImpl;
 
 import javax.wsdl.extensions.ExtensionRegistry;
 
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.bpel.Process;
-import de.decidr.model.workflowmodel.bpel.partnerlinktype.PartnerLinkType;
 import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
-import de.decidr.model.workflowmodel.webservices.PartnerLinkTypeSerializer;
 import de.decidr.model.workflowmodel.webservices.WebserviceMapping;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
@@ -109,15 +109,7 @@ public class TransformUtil {
         WSDLReader reader = new com.ibm.wsdl.xml.WSDLReaderImpl();
         reader.setFeature("javax.wsdl.importDocuments", false);
         reader.setFeature("javax.wsdl.verbose", false);
-        ExtensionRegistry extensionRegistry = new PopulatedExtensionRegistry();
-        PartnerLinkTypeSerializer ser = new PartnerLinkTypeSerializer();
-        extensionRegistry.registerSerializer(Definition.class, new QName(
-                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"), ser);
-        extensionRegistry.registerDeserializer(Definition.class, new QName(
-                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"), ser);
-        extensionRegistry.mapExtensionTypes(Definition.class, new QName(
-                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"),
-                PartnerLinkType.class);
+        ExtensionRegistry extensionRegistry = new DecidrExtensionRegistry();
         reader.setExtensionRegistry(extensionRegistry);
         InputSource in = new InputSource(new ByteArrayInputStream(wsdl));
         Definition def = reader.readWSDL(Constants.DOCUMENT_BASE_URI, in);
@@ -177,15 +169,7 @@ public class TransformUtil {
 
     public static byte[] definitionToBytes(Definition def) throws WSDLException {
         WSDLWriter writer = new WSDLWriterImpl();
-        ExtensionRegistry extensionRegistry = new PopulatedExtensionRegistry();
-        PartnerLinkTypeSerializer ser = new PartnerLinkTypeSerializer();
-        extensionRegistry.registerSerializer(Definition.class, new QName(
-                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"), ser);
-        extensionRegistry.registerDeserializer(Definition.class, new QName(
-                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"), ser);
-        extensionRegistry.mapExtensionTypes(Definition.class, new QName(
-                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"),
-                PartnerLinkType.class);
+        ExtensionRegistry extensionRegistry = new DecidrExtensionRegistry();
         def.setExtensionRegistry(extensionRegistry);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
 
@@ -193,9 +177,14 @@ public class TransformUtil {
         return os.toByteArray();
     }
 
-    public static String element2XML(org.jdom.Element roleElement) {
-
-        return null;
+    public static org.w3c.dom.Element jdomToW3c(org.jdom.Element jdomElement)
+            throws JDOMException {
+        Document doc = new Document();
+        doc.setRootElement(jdomElement);
+        DOMOutputter domOut = new DOMOutputter();
+        org.w3c.dom.Document w3cDoc = domOut.output(doc);
+        org.w3c.dom.Element w3cElment = w3cDoc.getDocumentElement();
+        return w3cElment;
     }
 
     public static byte[] mappingToBytes(WebserviceMapping mapping)
