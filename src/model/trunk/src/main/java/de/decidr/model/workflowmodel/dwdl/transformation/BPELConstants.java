@@ -33,6 +33,7 @@ public final class BPELConstants {
 
     // namespace prefixes
     public static final String DECIDRTYPES_PREFIX = "decidr";
+    public static final String DECIDRPROCESSTYPES_PREFIX = "pdecidr";
     public static final String PROCESS_PREFIX = "tns";
 
     // process message types and operations

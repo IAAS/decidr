@@ -27,6 +27,8 @@ import javax.xml.ws.WebFault;
 @WebFault(name = "illegalArgumentException", targetNamespace = "http://decidr.de/model/soap/exceptions")
 public class IllegalArgumentExceptionWrapper extends IllegalArgumentException {
 
+    private static final long serialVersionUID = 1L;
+    
     private String illegalArgumentException;
 
     public IllegalArgumentExceptionWrapper() {

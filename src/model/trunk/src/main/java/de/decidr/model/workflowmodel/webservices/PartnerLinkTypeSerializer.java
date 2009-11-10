@@ -62,6 +62,7 @@ public class PartnerLinkTypeSerializer implements ExtensionSerializer,
      * java.io.PrintWriter, javax.wsdl.Definition,
      * javax.wsdl.extensions.ExtensionRegistry)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void marshall(Class parentType, QName elementType,
             ExtensibilityElement extension, PrintWriter pw, Definition def,
@@ -89,6 +90,7 @@ public class PartnerLinkTypeSerializer implements ExtensionSerializer,
      * javax.xml.namespace.QName, org.w3c.dom.Element, javax.wsdl.Definition,
      * javax.wsdl.extensions.ExtensionRegistry)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public ExtensibilityElement unmarshall(Class parentType, QName elementType,
             Element el, Definition def, ExtensionRegistry extReg)

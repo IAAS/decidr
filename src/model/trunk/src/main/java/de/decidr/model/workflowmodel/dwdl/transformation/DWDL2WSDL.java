@@ -38,6 +38,9 @@ import javax.wsdl.extensions.soap.SOAPBinding;
 import javax.wsdl.extensions.soap.SOAPBody;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
@@ -65,7 +68,9 @@ import com.ibm.wsdl.extensions.soap.SOAPAddressImpl;
 import com.ibm.wsdl.extensions.soap.SOAPBindingImpl;
 import com.ibm.wsdl.extensions.soap.SOAPBodyImpl;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.logging.DefaultLogger;
+import de.decidr.model.workflowmodel.bpel.partnerlinktype.PartnerLinkType;
 import de.decidr.model.workflowmodel.dwdl.Actor;
 import de.decidr.model.workflowmodel.dwdl.Boolean;
 import de.decidr.model.workflowmodel.dwdl.Role;
@@ -73,7 +78,11 @@ import de.decidr.model.workflowmodel.dwdl.Variable;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 
 /**
- * This class converts a given DWDL object and returns the resulting WSDL.
+ * This class converts a given DWDL object and returns the resulting WSDL.<br>
+ * Following naming conventions are used: <br>
+ * <li>Binding name = DWDL workflow name + "SOAPBinding"</li> <li>Message part
+ * name = "payload"</li> <li>Role name in partner link type = DWDL workflow name
+ * + "Provider"</li> <li>Port type = DWDL workflow name + "PT" </li>
  * 
  * @author Modood Alvi
  * @version 0.1
@@ -97,6 +106,9 @@ public class DWDL2WSDL {
         wsdl.setQName(new QName(dwdl.getTargetNamespace(), dwdl.getName()));
         this.location = location;
         this.dwdl = dwdl;
+
+        log.trace("setting disclaimer");
+        setDisclaimer();
 
         log.trace("setting namespaces");
         setNamespaces();
@@ -128,9 +140,27 @@ public class DWDL2WSDL {
         return wsdl;
     }
 
+    private void setDisclaimer() {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder;
+        try {
+            builder = factory.newDocumentBuilder();
+            org.w3c.dom.Document doc = builder.newDocument();
+            org.w3c.dom.Element documenationElement = doc.createElement("documentation");
+            documenationElement.appendChild(doc.createTextNode(DecidrGlobals.DISCLAIMER));
+            wsdl.setDocumentationElement(documenationElement);
+            doc.createTextNode(DecidrGlobals.DISCLAIMER);
+        } catch (ParserConfigurationException e) {
+            log.error("Can't build documentation element", e);
+        }
+
+    }
+
     private void setBindings() {
         processBinding = new BindingImpl();
-        processBinding.setQName(new QName(dwdl.getTargetNamespace(), dwdl.getName() + "SOAPBinding"));
+        processBinding.setQName(new QName(dwdl.getTargetNamespace(), dwdl
+                .getName()
+                + "SOAPBinding"));
         processBinding.setPortType(processPortType);
         SOAPBinding soapBindingElement = new SOAPBindingImpl();
         soapBindingElement.setStyle("document");
@@ -138,12 +168,13 @@ public class DWDL2WSDL {
                 .setTransportURI("http://schemas.xmlsoap.org/soap/http");
         processBinding.addExtensibilityElement(soapBindingElement);
         BindingOperation bindingOperation = new BindingOperationImpl();
-        bindingOperation.setName("startProcess");
+        bindingOperation.setName(WSDLConstants.PROCESS_OPERATION);
         bindingOperation.setOperation(startOperation);
         BindingInput bindingInput = new BindingInputImpl();
         SOAPBody soapBody = new SOAPBodyImpl();
         soapBody.setUse("literal");
         bindingInput.addExtensibilityElement(soapBody);
+        bindingOperation.setBindingInput(bindingInput);
         processBinding.addBindingOperation(bindingOperation);
 
         wsdl.addBinding(processBinding);
@@ -151,16 +182,22 @@ public class DWDL2WSDL {
 
     private void setImports() {
         Import decidrTypes = new ImportImpl();
+        Import decidrProcessTypes = new ImportImpl();
         decidrTypes.setNamespaceURI(Constants.DECIDRTYPES_NAMESPACE);
         decidrTypes.setLocationURI(Constants.DECIDRTYPES_LOCATION);
+        decidrProcessTypes
+                .setNamespaceURI(Constants.DECIDRPROCESSTYPES_NAMESPACE);
+        decidrProcessTypes
+                .setLocationURI(Constants.DECIDRPROCESSTYPES_LOCATION);
 
         wsdl.addImport(decidrTypes);
+        wsdl.addImport(decidrProcessTypes);
     }
 
     private void setMessages() {
         startMessage = new MessageImpl();
         startMessage.setQName(new QName(dwdl.getTargetNamespace(),
-                WSDLConstants.PROCESS_INPUT_MESSAGETYPE));
+                WSDLConstants.PROCESS_MESSAGE_NAME));
         Part messagePart = new PartImpl();
         messagePart.setName("payload");
         messagePart.setElementName(new QName(dwdl.getTargetNamespace(),
@@ -184,23 +221,20 @@ public class DWDL2WSDL {
         wsdl.addNamespace("xsd", XMLConstants.W3C_XML_SCHEMA_NS_URI);
         wsdl.addNamespace(BPELConstants.DECIDRTYPES_PREFIX,
                 Constants.DECIDRTYPES_NAMESPACE);
+        wsdl.addNamespace(BPELConstants.DECIDRPROCESSTYPES_PREFIX,
+                Constants.DECIDRPROCESSTYPES_NAMESPACE);
     }
 
     private void setPartnerLinkTypes() throws JDOMException {
-        Element partnerLinkType = new Element("partnerLinkType", "plnk",
-                "http://docs.oasis-open.org/wsbpel/2.0/plnktype/");
-        partnerLinkType.setAttribute("name",
-                WSDLConstants.PROCESS_PARTNERLINKTYPE);
-        Element myRole = new Element("role", "plnk",
-                "http://docs.oasis-open.org/wsbpel/2.0/plnktype/");
-        myRole.setAttribute("name", dwdl.getName() + "Provider");
-        myRole.setAttribute("portType", processPortType.getQName()
-                .getLocalPart());
-        partnerLinkType.addContent(myRole);
+        PartnerLinkType partnerLinkType = new PartnerLinkType();
+        partnerLinkType.setName(WSDLConstants.PROCESS_PARTNERLINKTYPE);
+        de.decidr.model.workflowmodel.bpel.partnerlinktype.Role myRole = 
+            new de.decidr.model.workflowmodel.bpel.partnerlinktype.Role();
+        myRole.setName(dwdl.getName() + "Provider");
+        myRole.setPortType(processPortType.getQName());
+        partnerLinkType.getRole().add(myRole);
 
-        UnknownExtensibilityElement extElem = getUExtElem(partnerLinkType);
-
-        wsdl.addExtensibilityElement(extElem);
+        wsdl.addExtensibilityElement(partnerLinkType);
     }
 
     private void setPortTypes() {
