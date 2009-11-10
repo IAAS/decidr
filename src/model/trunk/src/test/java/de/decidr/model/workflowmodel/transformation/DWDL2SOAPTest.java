@@ -18,6 +18,8 @@ package de.decidr.model.workflowmodel.transformation;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
 import javax.wsdl.Definition;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
@@ -68,13 +70,15 @@ public class DWDL2SOAPTest {
      * 
      * @throws SOAPException
      * @throws UnsupportedOperationException
+     * @throws IOException 
      */
     @Test
     public void testGetSOAP() throws UnsupportedOperationException,
-            SOAPException {
+            SOAPException, IOException {
 
         SOAPMessage msg = translater.getSOAP(wsdl, portName, operationName);
         assertNotNull(msg);
+        msg.writeTo(System.out);
     }
 
 }

@@ -74,6 +74,7 @@ public class PartnerLinkTypeSerializer implements ExtensionSerializer,
                     new QName(Constants.PARTNERLINKTYPE_NAMESPACE,
                             "partnerLinkType"), PartnerLinkType.class, partnerLinkType);
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            m.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
             m.marshal(jaxbElement, pw);
             pw.println();
         } catch (JAXBException e) {

@@ -20,23 +20,15 @@ import static org.junit.Assert.*;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
-import javax.wsdl.extensions.ExtensionRegistry;
-import javax.wsdl.xml.WSDLWriter;
-import javax.xml.namespace.QName;
 
 import org.jdom.JDOMException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.ibm.wsdl.extensions.PopulatedExtensionRegistry;
-import com.ibm.wsdl.xml.WSDLWriterImpl;
-
-import de.decidr.model.workflowmodel.bpel.partnerlinktype.PartnerLinkType;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
-import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
 import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSDL;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.factories.DWDLFactory;
-import de.decidr.model.workflowmodel.webservices.PartnerLinkTypeSerializer;
 
 /**
  * This JUnit test case tests the DWDL to WSDL translation
@@ -75,19 +67,9 @@ public class DWDL2WSDLTest {
     public void testGetWSDL() throws JDOMException, WSDLException {
         Definition wsdl = translater.getWSDL(dwdl, location, tenantName);
         assertNotNull(wsdl);
-        ExtensionRegistry extensionRegistry = new PopulatedExtensionRegistry();
-        PartnerLinkTypeSerializer ser = new PartnerLinkTypeSerializer();
-        extensionRegistry.registerSerializer(PartnerLinkType.class, new QName(
-                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"), ser);
-        extensionRegistry.registerDeserializer(PartnerLinkType.class,
-                new QName(Constants.PARTNERLINKTYPE_NAMESPACE,
-                        "partnerLinkType"), ser);
-        extensionRegistry.mapExtensionTypes(PartnerLinkType.class, new QName(
-                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"),
-                PartnerLinkType.class);
-        wsdl.setExtensionRegistry(extensionRegistry);
-        WSDLWriter writer = new WSDLWriterImpl();
-        writer.writeWSDL(wsdl, System.out);
+        byte [] byteWSDL = TransformUtil.definitionToBytes(wsdl);
+        String wsdlString = new String(byteWSDL);
+        System.out.println(wsdlString);
         assertEquals(wsdl.getTargetNamespace(), dwdl.getTargetNamespace());
     }
 
