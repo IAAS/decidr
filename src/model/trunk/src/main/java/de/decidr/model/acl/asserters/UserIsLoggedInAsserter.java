@@ -23,17 +23,16 @@ import de.decidr.model.acl.roles.UserRole;
  * Checks whether a {@link UserRole} is logged in by looking at its actor id.
  * The role is considered to have logged in if its actor id is a valid user id.
  * <p>
+ * Please note that the actor ID is determined by whoever creates the
+ * {@link UserRole} instance.
+ * <p>
  * The {@link Permission} passed to <code>assertRule</code> is ignored.
- * 
- * XXX the name might be slightly confusing but we have no real way of making
- * sure that the user is actually logged in.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
  * 
  * @version 0.1
  */
-// DH regarding above: how about UserHasValidIDAsserter? ~rr
 public class UserIsLoggedInAsserter implements Asserter {
 
     @Override

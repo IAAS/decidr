@@ -57,7 +57,7 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
 
     /**
      * @param role
-     *            DH document
+     *            user / system executing the command
      * @param workflowModelId
      *            the workflow model to deploy.
      */

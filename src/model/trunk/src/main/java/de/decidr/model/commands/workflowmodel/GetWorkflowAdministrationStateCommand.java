@@ -58,16 +58,20 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
     private Map<User, UserWorkflowAdminState> result;
 
     /**
-     * Constructor DH document
+     * Creates a new GetWorkflowAdministrationStateCommand that fetches a map of
+     * users that can be used to tell whether the given usernames or emails
+     * belong to.
      * 
      * @param role
-     *            DH document
+     *            user / system executing the command
      * @param workflowModelId
-     *            DH document
+     *            administrated workflow model
      * @param usernames
-     *            DH document
+     *            list of usernames of users whose administration state should
+     *            be determined
      * @param emails
-     *            DH document
+     *            list of email addresses of users whose administration state
+     *            should be determined
      */
     public GetWorkflowAdministrationStateCommand(Role role,
             Long workflowModelId, List<String> usernames, List<String> emails) {
@@ -132,7 +136,7 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
      * usernames and emails.
      * 
      * @param session
-     *            DH document
+     *            current Hibernate Session
      * @return list of known users
      */
     @SuppressWarnings("unchecked")
@@ -163,11 +167,11 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
      * removes them from knownUsers.
      * 
      * @param knownUsers
-     *            DH document
+     *            list of known users to modify
      * @param model
-     *            DH document
+     *            administrated workflow model
      * @param session
-     *            DH document
+     *            current Hibernate session
      * @return the workflow admins that were removed from knownUsers
      */
     @SuppressWarnings("unchecked")
@@ -216,12 +220,12 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
      * from knownUsers.
      * 
      * @param knownUsers
-     *            DH document
+     *            list of known users
      * @param model
-     *            DH document
+     *            administrated workflow model
      * @param session
-     *            DH document
-     * @return DH document
+     *            current Hibernate session
+     * @return users that have been removed from knownUsers
      */
     @SuppressWarnings("unchecked")
     private List<User> getMembers(List<User> knownUsers, WorkflowModel model,

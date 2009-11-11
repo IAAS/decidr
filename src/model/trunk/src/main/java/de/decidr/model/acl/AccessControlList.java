@@ -112,7 +112,7 @@ public interface AccessControlList {
      *            the permission to which access is requested
      * @return true if access is granted, false otherwise.
      * @throws TransactionException
-     *             DH document
+     *             if an asserter that accesses the database fails
      */
     public Boolean isAllowed(Role role, Permission permission)
             throws TransactionException;

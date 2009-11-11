@@ -217,7 +217,7 @@ import de.decidr.model.logging.DefaultLogger;
  * <li>TODO: if you can think of a good example, put it here :-) ~dh</li>
  * </ul>
  * <p>
- * XXX Extension case: separate source of rules from rest ("RulesetProvider",
+ * XXX Future extension case: separate source of rules from rest ("RulesetProvider",
  * "HardcodedRulesetProvider", "DatabaseRulesetProvider", ...?) ~dh
  * 
  * @author Markus Fischer
