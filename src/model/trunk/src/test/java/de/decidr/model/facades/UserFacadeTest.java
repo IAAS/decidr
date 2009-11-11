@@ -1036,6 +1036,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         // find first tenant with a user and get that user's ID
         for (Tenant t : (List<Tenant>) session.createQuery("FROM Tenant")
                 .list()) {
+            // DH how do I make sure I don't select the default tenant?
             if (t.getUserIsMemberOfTenants().iterator().hasNext()) {
                 tenantID = t.getId();
                 tenantUserID = t.getUserIsMemberOfTenants().iterator().next()
@@ -1140,8 +1141,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         assertTrue(userFacade.getJoinedTenants(testUserID).isEmpty());
         assertTrue(adminFacade.getJoinedTenants(testUserID).isEmpty());
-        assertNotNull(userFacade.getUserRoleForTenant(testUserID, tenantID));
-        assertNotNull(adminFacade.getUserRoleForTenant(testUserID, tenantID));
+        assertNull(userFacade.getUserRoleForTenant(testUserID, tenantID));
+        assertNull(adminFacade.getUserRoleForTenant(testUserID, tenantID));
         assertFalse(adminFacade.removeFromTenant(testUserID, tenantID));
 
         try {
