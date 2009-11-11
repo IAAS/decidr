@@ -37,7 +37,7 @@
 		<url-pattern>/VAADIN/*</url-pattern>
 	</servlet-mapping>
 	<session-config>
-		<session-timeout>10000</session-timeout>
+		<session-timeout>300</session-timeout>
 	</session-config>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
