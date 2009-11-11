@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Observable;
 
 import javax.servlet.http.HttpSession;
 
@@ -46,7 +45,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  * 
  * @author AT
  */
-public class PublicModelContainer extends Observable implements Container,
+public class PublicModelContainer implements Container,
         Filterable, Container.Ordered {
 
     private HttpSession session = Main.getCurrent().getSession();
@@ -72,8 +71,6 @@ public class PublicModelContainer extends Observable implements Container,
      * 
      */
     public PublicModelContainer() {
-        setChanged();
-        notifyObservers();
         filterList.add(filter);
         try {
             publishedModelList = workflowModelFacade

@@ -80,7 +80,7 @@ public class EditTenantComponent extends CustomComponent {
 
         buttonPanel = new Panel();
 
-        tenantTable = new TenantTable(tenantContainer, tenantContainer);
+        tenantTable = new TenantTable(tenantContainer);
 
         searchPanel = new SearchPanel(tenantTable);
 

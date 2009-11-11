@@ -15,10 +15,15 @@
  */
 package de.decidr.ui.view;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
+
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeSelect;
@@ -29,133 +34,154 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.filters.EqualsFilter;
+import de.decidr.ui.controller.MarkWorkItemAsDoneAction;
 import de.decidr.ui.data.WorkItemContainer;
 
 public class WorkItemComponent extends CustomComponent {
 
-    /**
-     * This component represents the work items in a table. The user can choose
-     * if he wants to see the work items of all tenants or just from the current
-     * tenant.
-     * 
-     * @author AT
-     */
-    private static final long serialVersionUID = -2110748321898265548L;
+	/**
+	 * This component represents the work items in a table. The user can choose
+	 * if he wants to see the work items of all tenants or just from the current
+	 * tenant.
+	 * 
+	 * @author AT
+	 */
+	private static final long serialVersionUID = -2110748321898265548L;
 
-    private WorkItemContainer workItemContainer = null;
+	private WorkItemContainer workItemContainer = null;
 
-    private VerticalLayout verticalLayout = null;
+	private VerticalLayout verticalLayout = null;
 
-    private SearchPanel searchPanel = null;
-    private Panel tablePanel = null;
+	private SearchPanel searchPanel = null;
+	private Panel tablePanel = null;
 
-    private Label headerLabel = null;
-    private Label showWorkItemLabel = null;
+	private Label headerLabel = null;
+	private Label showWorkItemLabel = null;
 
-    private NativeSelect tenantNativeSelect = null;
+	private NativeSelect tenantNativeSelect = null;
 
-    private static final String[] tenants = new String[] { "All tenants",
-            "Current tenant" };
+	private static final String[] tenants = new String[] { "All tenants",
+			"Current tenant" };
 
-    private WorkItemTable workItemTable = null;
+	private WorkItemTable workItemTable = null;
 
-    private HttpSession session = null;
+	private HttpSession session = null;
 
-    private Long userId = null;
+	private Long userId = null;
 
-    private String tenant = null;
+	private String tenant = null;
 
-    private TenantFacade tenantFacade = null;
+	private TenantFacade tenantFacade = null;
 
-    private Long tenantId = null;
+	private Long tenantId = null;
 
-    /**
-     * Default constructor
-     * 
-     */
-    public WorkItemComponent() {
-        init();
-    }
+	private Button markAsDoneButton = null;
 
-    /**
-     * Returns the work item table
-     * 
-     * @return workItemTable
-     */
-    public WorkItemTable getWorkItemTable() {
-        return workItemTable;
-    }
+	private ButtonPanel buttonPanel = null;
+	
+	private List<Button> buttonList = new LinkedList<Button>();
 
-    /**
-     * This method initializes the components of the work item component
-     * 
-     */
-    private void init() {
-        session = Main.getCurrent().getSession();
-        userId = (Long) session.getAttribute("userId");
-        tenant = (String) session.getAttribute("tenant");
-        tenantFacade = new TenantFacade(new UserRole(userId));
+	/**
+	 * Default constructor
+	 * 
+	 */
+	public WorkItemComponent() {
+		init();
+	}
 
-        workItemContainer = new WorkItemContainer();
+	/**
+	 * Returns the work item table
+	 * 
+	 * @return workItemTable
+	 */
+	public WorkItemTable getWorkItemTable() {
+		return workItemTable;
+	}
 
-        verticalLayout = new VerticalLayout();
+	/**
+	 * This method initializes the components of the work item component
+	 * 
+	 */
+	private void init() {
+		session = Main.getCurrent().getSession();
+		userId = (Long) session.getAttribute("userId");
+		tenant = (String) session.getAttribute("tenant");
+		tenantFacade = new TenantFacade(new UserRole(userId));
 
-        tablePanel = new Panel();
+		workItemContainer = new WorkItemContainer();
 
-        headerLabel = new Label("<h2>My work items </h2>");
-        headerLabel.setContentMode(Label.CONTENT_XHTML);
-        showWorkItemLabel = new Label("Show work items from: ");
+		verticalLayout = new VerticalLayout();
 
-        tenantNativeSelect = new NativeSelect();
-        for (int i = 0; i < tenants.length; i++) {
-            tenantNativeSelect.addItem(tenants[i]);
-        }
-        tenantNativeSelect.addListener(new Property.ValueChangeListener() {
+		tablePanel = new Panel();
 
-            @Override
-            public void valueChange(ValueChangeEvent event) {
-                if (tenantNativeSelect.isSelected("Current tenant")) {
-                    try {
-                        tenantId = tenantFacade.getTenantId(tenant);
-                        EqualsFilter filter = new EqualsFilter(
-                                true,
-                                "workflowInstance.deployedWorkflowModel.tenant.id",
-                                tenantId);
-                        ((WorkItemContainer) workItemTable
-                                .getContainerDataSource()).applyFilter(filter);
-                    } catch (TransactionException exception) {
-                        Main.getCurrent().addWindow(
-                                new TransactionErrorDialogComponent(exception));
+		headerLabel = new Label("<h2>My work items </h2>");
+		headerLabel.setContentMode(Label.CONTENT_XHTML);
+		showWorkItemLabel = new Label("Show work items from: ");
 
-                    }
+		tenantNativeSelect = new NativeSelect();
+		tenantNativeSelect.setImmediate(true);
+		for (int i = 0; i < tenants.length; i++) {
+			tenantNativeSelect.addItem(tenants[i]);
+		}
+		tenantNativeSelect.addListener(new Property.ValueChangeListener() {
 
-                } else {
-                    EqualsFilter filter = new EqualsFilter(true, "", "");
-                    ((WorkItemContainer) workItemTable.getContainerDataSource())
-                            .applyFilter(filter);
-                }
+			@Override
+			public void valueChange(ValueChangeEvent event) {
 
-            }
+				if (tenantNativeSelect.isSelected("Current tenant")) {
+					try {
+						tenantId = tenantFacade.getTenantId(tenant);
+						EqualsFilter filter = new EqualsFilter(
+								true,
+								"workflowInstance.deployedWorkflowModel.tenant.id",
+								tenantId);
+						((WorkItemContainer) workItemTable
+								.getContainerDataSource()).applyFilter(filter);
+					} catch (TransactionException exception) {
+						Main.getCurrent().addWindow(
+								new TransactionErrorDialogComponent(exception));
 
-        });
+					}
 
-        workItemTable = new WorkItemTable(workItemContainer, workItemContainer);
+				} else {
+					EqualsFilter filter = new EqualsFilter(true, "", "");
+					((WorkItemContainer) workItemTable.getContainerDataSource())
+							.applyFilter(filter);
+				}
 
-        searchPanel = new SearchPanel(workItemTable);
+			}
 
-        setCompositionRoot(verticalLayout);
+		});
 
-        verticalLayout.addComponent(headerLabel);
-        verticalLayout.addComponent(searchPanel);
-        verticalLayout.setSpacing(true);
+		workItemTable = new WorkItemTable(workItemContainer);
 
-        searchPanel.getSearchHorizontalLayout().addComponent(showWorkItemLabel);
-        searchPanel.getSearchHorizontalLayout()
-                .addComponent(tenantNativeSelect);
+		searchPanel = new SearchPanel(workItemTable);
+		
+		initButtonList();
+		
+		buttonPanel = new ButtonPanel(buttonList);
 
-        verticalLayout.addComponent(tablePanel);
-        tablePanel.addComponent(workItemTable);
+		setCompositionRoot(verticalLayout);
 
-    }
+		verticalLayout.addComponent(headerLabel);
+		verticalLayout.addComponent(searchPanel);
+		verticalLayout.setSpacing(true);
+
+		searchPanel.getSearchHorizontalLayout().addComponent(showWorkItemLabel);
+		searchPanel.getSearchHorizontalLayout()
+				.addComponent(tenantNativeSelect);
+
+		verticalLayout.addComponent(tablePanel);
+		tablePanel.addComponent(workItemTable);
+		
+		verticalLayout.addComponent(buttonPanel);
+
+	}
+	
+	private void initButtonList(){
+		markAsDoneButton = new Button("Mark as done", new MarkWorkItemAsDoneAction(workItemTable));
+		
+		buttonList.add(markAsDoneButton);
+	}
 
 }

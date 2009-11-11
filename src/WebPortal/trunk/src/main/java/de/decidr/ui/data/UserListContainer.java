@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Observable;
 
 import javax.servlet.http.HttpSession;
 
@@ -46,7 +45,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  * 
  * @author AT
  */
-public class UserListContainer extends Observable implements Container,
+public class UserListContainer implements Container,
         Container.Filterable, Container.Ordered {
 
     private ApplicationContext ctx = Main.getCurrent().getContext();
@@ -73,8 +72,6 @@ public class UserListContainer extends Observable implements Container,
      * 
      */
     public UserListContainer() {
-        setChanged();
-        notifyObservers();
         filterList.add(filter);
         try {
             userList = userFacade.getAllUsers(filterList, paginator);

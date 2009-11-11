@@ -16,14 +16,20 @@
 
 package de.decidr.ui.controller;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.data.Item;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
+import de.decidr.ui.view.InformationDialogComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
@@ -34,37 +40,57 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  */
 public class MarkWorkItemAsDoneAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+	private HttpSession session = Main.getCurrent().getSession();
 
-    private Long userId = (Long) session.getAttribute("userId");
-    private WorkItemFacade workItemFacade = new WorkItemFacade(new UserRole(
-            userId));
+	private Long userId = (Long) session.getAttribute("userId");
+	private WorkItemFacade workItemFacade = new WorkItemFacade(new UserRole(
+			userId));
 
-    private Long workItemId = null;
+	private Table table = null;
 
-    /**
-     * Constructor which gets a work item id as a parameter to know which work
-     * item is to be marked done.
-     * 
-     */
-    public MarkWorkItemAsDoneAction(Long workItemId) {
-        this.workItemId = workItemId;
-    }
+	/**
+	 * Constructor which gets a work item id as a parameter to know which work
+	 * item is to be marked done.
+	 * 
+	 */
+	public MarkWorkItemAsDoneAction(Table table) {
+		this.table = table;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        try {
-            workItemFacade.markWorkItemAsDone(workItemId);
-        } catch (TransactionException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent(exception));
-        }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		Set<?> value = (Set<?>) table.getValue();
+		if ((value != null) && (value.size() != 0)) {
+			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
+				Item item = (Item) iter.next();
+				Long workItemId = (Long) table.getContainerProperty(item, "id")
+						.getValue();
+				try {
+					workItemFacade.markWorkItemAsDone(workItemId);
+					item.getItemProperty("workItemStatus").setValue(
+							workItemFacade.getWorkItem(workItemId)
+									.getItemProperty("status")
+									.getValue());
+					table.requestRepaint();
+					Main.getCurrent().getMainWindow().showNotification(
+							"Marked as done");
+				} catch (TransactionException e) {
+					Main.getCurrent().getMainWindow().addWindow(
+							new TransactionErrorDialogComponent(e));
+				}
+			}
+		} else {
+			Main.getCurrent().getMainWindow().addWindow(
+					new InformationDialogComponent("Please select an item",
+							"Information"));
+		}
 
-    }
+	}
 
 }

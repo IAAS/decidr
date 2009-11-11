@@ -15,107 +15,54 @@
  */
 package de.decidr.ui.view;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-
-import javax.servlet.http.HttpSession;
-
 import com.vaadin.data.Container;
-import com.vaadin.data.Item;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 
-import de.decidr.model.acl.roles.UserRole;
-import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.UserFacade;
-import de.decidr.model.filters.Filter;
-import de.decidr.model.filters.KeywordFilter;
-import de.decidr.model.filters.Paginator;
-import de.decidr.ui.data.WorkItemContainer;
+public class WorkItemTable extends Table {
 
-public class WorkItemTable extends Table implements Observer {
+	/**
+	 * The table represents the work items as items.
+	 * 
+	 * @author AT
+	 */
+	private static final long serialVersionUID = 24861377458898625L;
 
-    /**
-     * The table represents the work items as items.
-     * 
-     * @author AT
-     */
-    private static final long serialVersionUID = 24861377458898625L;
+	private Container workItemContainer = null;
 
-    private Container workItemContainer = null;
-    private Observable observable = null;
-    
-    private HttpSession session = Main.getCurrent().getSession();
+	public static final Object[] NAT_COL_ORDER = new Object[] { "workItemName",
+			"workflowInstanceId", "creationDate", "workItemStatus" };
 
-    private Long userId = (Long) session.getAttribute("userId");
+	public static final String[] COL_HEADERS = new String[] { "Name", "WfI#",
+			"Creation date", "Status" };
 
-    private UserFacade userFacade = new UserFacade(new UserRole(userId));
+	/**
+	 * Default constructor.
+	 * 
+	 * @param container
+	 */
+	public WorkItemTable( Container container) {
+		this.workItemContainer = container;
+		init();
+	}
 
-    private List<Item> workItemList = null;
-    
-    private KeywordFilter filter = new KeywordFilter();
+	/**
+	 * Initializes the table and sets the container data source.
+	 */
+	private void init() {
+		setSizeFull();
+		setContainerDataSource(workItemContainer);
 
-    private List<Filter> filterList = new LinkedList<Filter>();
+		addContainerProperty("workItemName", String.class, null);
+		addContainerProperty("workflowInstanceId", Long.class, null);
+		addContainerProperty("creationDate", String.class, null);
+		addContainerProperty("workItemStatus", Button.class, null);
+		
+		setVisibleColumns(NAT_COL_ORDER);
+		setColumnHeaders(COL_HEADERS);
+		setSelectable(true);
+		setMultiSelect(true);
+	}
 
-    private Paginator paginator = new Paginator();
-
-    /**
-     * Default constructor. The table is added as an observer to the container
-     * which notifies the table if the data has changed.
-     * 
-     * @param observable
-     * @param container
-     */
-    public WorkItemTable(Observable observable, Container container) {
-        this.workItemContainer = container;
-        this.observable = observable;
-        observable.addObserver(this);
-        init(container);
-    }
-
-    /**
-     * Initializes the table and sets the container data source.
-     * 
-     * @param observable
-     * @param container
-     */
-    private void init(Container container) {
-
-        // workItemContainer = new WorkItemContainer();
-        setSizeFull();
-        setContainerDataSource(container);
-
-        addContainerProperty("Name", String.class, null);
-        addContainerProperty("Tenant", String.class, null);
-        addContainerProperty("Data received", String.class, null);
-        addContainerProperty("Status", String.class, null);
-        // setVisibleColumns(workItemContainer.getContainerPropertyIds().toArray());
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof WorkItemContainer) {
-        	filterList.add(filter);
-            try {
-                workItemList = userFacade.getWorkItems(userId, filterList,
-                        paginator);
-                for (Item item : workItemList) {
-                    addItem(item);
-                }
-                this.requestRepaint();
-            } catch (TransactionException exception) {
-                Main.getCurrent().getMainWindow().addWindow(
-                        new TransactionErrorDialogComponent(exception));
-            }
-        }
-
-    }
-
+	
 }

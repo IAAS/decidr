@@ -74,8 +74,7 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
                 "<h2> Create Workflow Instance </h2>");
         createWorkflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
 
-        instanceTable = new WorkflowInstanceTable(workflowInstanceContainer,
-                workflowInstanceContainer);
+        instanceTable = new WorkflowInstanceTable(workflowInstanceContainer);
 
         searchPanel = new SearchPanel(instanceTable);
 

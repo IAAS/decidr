@@ -16,101 +16,58 @@
 
 package de.decidr.ui.view;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-
-import javax.servlet.http.HttpSession;
-
 import com.vaadin.data.Container;
-import com.vaadin.data.Item;
+
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
-
-import de.decidr.model.acl.roles.UserRole;
-import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.UserFacade;
-import de.decidr.model.filters.Filter;
-import de.decidr.model.filters.KeywordFilter;
-import de.decidr.model.filters.Paginator;
-import de.decidr.ui.data.UserListContainer;
-
 /**
  * This class represents the user list's ui component. It will be connected with
  * data from the database.
  * 
  * @author AT
  */
-public class UserListTable extends Table implements Observer {
+public class UserListTable extends Table {
 
-    /**
-     * Serial Version UID
-     */
-    private static final long serialVersionUID = -4772118786130924736L;
+	/**
+	 * Serial Version UID
+	 */
+	private static final long serialVersionUID = -4772118786130924736L;
 
-    private Observable observable = null;
-    private Container userListContainer = null;
-    
-    private HttpSession session = Main.getCurrent().getSession();
+	private Container userListContainer = null;
 
-    private Long userId = (Long) session.getAttribute("userId");
+	public static final Object[] NAT_COL_ORDER = new Object[] { "username",
+			"firstName", "email"};
 
-    UserFacade userFacade = new UserFacade(new UserRole(userId));
+	public static final String[] COL_HEADERS = new String[] { "Username", "Read name",
+			"Email"};
 
-    List<Item> userList = null;
-    
-    private KeywordFilter filter = new KeywordFilter();
+	/**
+	 * Default constructor
+	 * 
+	 */
+	public UserListTable(Container container) {
+		userListContainer = container;
+		init();
+	}
 
-    private List<Filter> filterList = new LinkedList<Filter>();
+	/**
+	 * This method initializes the components for the user list table
+	 * 
+	 */
+	private void init() {
+		setSizeFull();
+		setContainerDataSource(userListContainer);
 
-    private Paginator paginator = new Paginator();
+		addContainerProperty("username", String.class, null);
+		addContainerProperty("firstName", String.class, null);
+		addContainerProperty("email", String.class, null);
+		addContainerProperty("Edit", Button.class, null); //Add button to component
+		
+		setVisibleColumns(NAT_COL_ORDER);
+		setColumnHeaders(COL_HEADERS);
+		setSelectable(true);
+		setMultiSelect(true);
 
-    /**
-     * Default constructor
-     * 
-     */
-    public UserListTable(Observable observable, Container container) {
-        this.observable = observable;
-        userListContainer = container;
-        observable.addObserver(this);
-        init(container);
-    }
-
-    /**
-     * This method initializes the components for the user list table
-     * 
-     */
-    private void init(Container container) {
-        setSizeFull();
-        setContainerDataSource(container);
-        addContainerProperty("Username", String.class, null);
-        addContainerProperty("Read Name", String.class, null);
-        addContainerProperty("E-Mail address", String.class, null);
-        addContainerProperty("Edit", Button.class, null);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-     */
-    @Override
-    public void update(Observable arg0, Object arg1) {
-        if (arg0 instanceof UserListContainer) {
-        	filterList.add(filter);
-            try {
-                userList = userFacade.getAllUsers(filterList, paginator);
-                for (Item item : userList) {
-                    addItem(item);
-                }
-                this.requestRepaint();
-            } catch (TransactionException exception) {
-                Main.getCurrent().getMainWindow().addWindow(
-                        new TransactionErrorDialogComponent(exception));
-            }
-        }
-
-    }
+	}
 
 }

@@ -16,99 +16,58 @@
 
 package de.decidr.ui.view;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-
-import javax.servlet.http.HttpSession;
-
 import com.vaadin.data.Container;
-import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
-
-import de.decidr.model.acl.roles.UserRole;
-import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.TenantFacade;
-import de.decidr.model.facades.UserFacade;
-import de.decidr.model.filters.Filter;
-import de.decidr.model.filters.KeywordFilter;
-import de.decidr.model.filters.Paginator;
-import de.decidr.ui.data.TenantContainer;
 
 /**
  * This table holds the tenants as items.
  * 
  * @author AT
  */
-public class TenantTable extends Table implements Observer {
+public class TenantTable extends Table {
 
-    /**
-     * Serial Version UID
-     */
-    private static final long serialVersionUID = -4777680020350752428L;
+	/**
+	 * Serial Version UID
+	 */
+	private static final long serialVersionUID = -4777680020350752428L;
 
-    private Observable observable = null;
-    private Container tenantContainer = null;
-    
-    private HttpSession session = Main.getCurrent().getSession();
+	private Container tenantContainer = null;
 
-    private Long userId = (Long) session.getAttribute("userId");
+	public static final Object[] NAT_COL_ORDER = new Object[] { "tenantName",
+			"adminFirstName", "numWorkflowModels", "numWorkflowInstances", "numMembers" };
 
-    private UserFacade userFacade = new UserFacade(new UserRole(userId));
+	public static final String[] COL_HEADERS = new String[] { "Tenant name", "Admin name",
+			"Workflow models #", "Workflow instances #", "Members #" };
 
-    List<Item> tenantList = null;
+	/**
+	 * Default constructor.
+	 * 
+	 */
+	public TenantTable(Container container) {
+		tenantContainer = container;
+		init();
 
-    /**
-     * Default constructor. The table is added as an observer to the container
-     * so he can notify the table if the data has changed.
-     * 
-     */
-    public TenantTable(Observable observable, Container container) {
-        this.observable = observable;
-        tenantContainer = container;
-        observable.addObserver(this);
-        init(container);
+	}
 
-    }
+	/**
+	 * Initializes the table and sets the container data source.
+	 * 
+	 * 
+	 */
+	private void init() {
+		setSizeFull();
+		setContainerDataSource(tenantContainer);
 
-    /**
-     * Initializes the table and sets the container data source.
-     * 
-     * @param observable
-     * @param container
-     */
-    private void init(Container container) {
-        setSizeFull();
-        setContainerDataSource(container);
-        addContainerProperty("Name", String.class, null);
-        addContainerProperty("Admin", String.class, null);
-        addContainerProperty("#WF Models", String.class, null);
-        addContainerProperty("#WF Instances", String.class, null);
-        addContainerProperty("Users", String.class, null);
-    }
+		addContainerProperty("tenantName", String.class, null);
+		addContainerProperty("adminFirstName", String.class, null);
+		addContainerProperty("numWorkflowModels", Long.class, null);
+		addContainerProperty("numWorkflowInstances", Long.class, null);
+		addContainerProperty("numMembers", Long.class, null);
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof TenantContainer) {
-
-            try {
-                tenantList = userFacade.getJoinedTenants(userId);
-                for (Item item : tenantList) {
-                    addItem(item);
-                }
-                this.requestRepaint();
-            } catch (TransactionException exception) {
-                Main.getCurrent().getMainWindow().addWindow(
-                        new TransactionErrorDialogComponent(exception));
-            }
-        }
-
-    }
+		setVisibleColumns(NAT_COL_ORDER);
+		setColumnHeaders(COL_HEADERS);
+		setSelectable(true);
+		setMultiSelect(true);
+	}
 
 }

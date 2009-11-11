@@ -80,13 +80,11 @@ public class WorkflowInstanceComponent extends CustomComponent {
                 "<h3> Completed workflow instances </h3>");
         completedWorkflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
 
-        runningInstanceTable = new RunningInstanceTable(
-                runningInstanceContainer, runningInstanceContainer);
+        runningInstanceTable = new RunningInstanceTable(runningInstanceContainer);
 
         searchPanel = new SearchPanel(runningInstanceTable);
 
-        completedInstanceTable = new CompletedInstanceTable(
-                completedInstanceContainer, completedInstanceContainer);
+        completedInstanceTable = new CompletedInstanceTable(completedInstanceContainer);
 
         setCompositionRoot(verticalLayout);
 

@@ -152,7 +152,7 @@ public class UserListComponent extends CustomComponent {
 
         buttonPanel = new Panel();
 
-        userListTable = new UserListTable(userListContainer, userListContainer);
+        userListTable = new UserListTable(userListContainer);
 
         searchPanel = new SearchPanel(userListTable);
 

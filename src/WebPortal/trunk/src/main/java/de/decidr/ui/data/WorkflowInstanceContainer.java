@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Observable;
 
 import javax.servlet.http.HttpSession;
 
@@ -42,7 +41,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  * 
  * @author AT
  */
-public class WorkflowInstanceContainer extends Observable implements Container,
+public class WorkflowInstanceContainer implements Container,
         Container.Ordered {
 
     private HttpSession session = Main.getCurrent().getSession();
@@ -61,8 +60,6 @@ public class WorkflowInstanceContainer extends Observable implements Container,
      * 
      */
     public WorkflowInstanceContainer() {
-        setChanged();
-        notifyObservers();
         try {
             workflowInstanceList = userFacade
                     .getAdministratedWorkflowInstances(userId);

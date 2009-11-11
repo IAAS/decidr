@@ -16,89 +16,54 @@
 
 package de.decidr.ui.view;
 
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-
-import javax.servlet.http.HttpSession;
-
 import com.vaadin.data.Container;
-import com.vaadin.data.Item;
+
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
-
-import de.decidr.model.acl.roles.UserRole;
-import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.UserFacade;
-import de.decidr.ui.data.WorkflowInstanceContainer;
-
 /**
  * This class represents the workflow instance ui component. It will be
  * connected with data from the database.
  * 
  * @author AT
  */
-public class WorkflowInstanceTable extends Table implements Observer {
+public class WorkflowInstanceTable extends Table {
 
-    /**
-     * Serial Version UID
-     */
-    private static final long serialVersionUID = -4395559171091884350L;
+	/**
+	 * Serial Version UID
+	 */
+	private static final long serialVersionUID = -4395559171091884350L;
 
-    private Observable observable = null;
-    private Container workflowInstanceContainer = null;
-    
-    private HttpSession session = Main.getCurrent().getSession();
+	private Container workflowInstanceContainer = null;
 
-    private Long userId = (Long) session.getAttribute("userId");
+	public static final Object[] NAT_COL_ORDER = new Object[] { "name" };
 
-    UserFacade userFacade = new UserFacade(new UserRole(userId));
+	public static final String[] COL_HEADERS = new String[] { "Name" };
 
-    List<Item> workflowInstanceList = null;
+	/**
+	 * Default constructor.
+	 * 
+	 */
+	public WorkflowInstanceTable(Container container) {
+		workflowInstanceContainer = container;
+		init();
+	}
 
-    /**
-     * Default constructor.
-     * 
-     */
-    public WorkflowInstanceTable(Observable observable, Container container) {
-        this.observable = observable;
-        workflowInstanceContainer = container;
-        observable.addObserver(this);
-        init(container);
-    }
+	/**
+	 * This method initializes the components for the workflow instance table.
+	 * 
+	 */
+	private void init() {
+		setSizeFull();
+		setContainerDataSource(workflowInstanceContainer);
 
-    /**
-     * This method initializes the components for the workflow instance table.
-     * 
-     */
-    private void init(Container container) {
-        setSizeFull();
-        setContainerDataSource(container);
-        addContainerProperty("Name", String.class, null);
-        addContainerProperty("Create", Button.class, null);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof WorkflowInstanceContainer) {
-        	try {
-                workflowInstanceList = userFacade
-                        .getAdministratedWorkflowInstances(userId);
-                for (Item item : workflowInstanceList) {
-                    addItem(item);
-                }
-                this.requestRepaint();
-            } catch (TransactionException exception) {
-                Main.getCurrent().getMainWindow().addWindow(
-                        new TransactionErrorDialogComponent(exception));
-            }
-        }
-
-    }
+		addContainerProperty("name", String.class, null);
+		addContainerProperty("Create", Button.class, null); // Add button to the
+		// component
+		
+		setVisibleColumns(NAT_COL_ORDER);
+		setColumnHeaders(COL_HEADERS);
+		setSelectable(true);
+		setMultiSelect(true);
+	}
 
 }

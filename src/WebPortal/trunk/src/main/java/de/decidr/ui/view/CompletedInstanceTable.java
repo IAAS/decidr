@@ -15,20 +15,14 @@
  */
 package de.decidr.ui.view;
 
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+
+import java.util.Date;
 
 import com.vaadin.data.Container;
-import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
-
-import de.decidr.model.acl.roles.UserRole;
-import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.data.CompletedInstancesContainer;
 
-public class CompletedInstanceTable extends Table implements Observer {
+public class CompletedInstanceTable extends Table {
 
 	/**
 	 * This table represents the completed workflow instances. The instances are
@@ -39,13 +33,14 @@ public class CompletedInstanceTable extends Table implements Observer {
 	 */
 	private static final long serialVersionUID = -4341477724807479177L;
 
-	private Observable observable = null;
 	private Container workflowInstanceContainer = null;
-
-	private UserFacade userFacade = new UserFacade(new UserRole((Long) Main
-			.getCurrent().getSession().getAttribute("userId")));
 	
-	private List<Item> workflowInstanceList = null;
+	public static final Object[] NAT_COL_ORDER = new Object[] { "name",
+		"model", "startedDate", "completedDate" };
+	
+	public static final String[] COL_HEADERS = new String[] { "Name", "Model",
+		"Creation date", "Completed date" };
+
 
 	/**
 	 * The table is added as an observer to the container.
@@ -53,11 +48,9 @@ public class CompletedInstanceTable extends Table implements Observer {
 	 * @param observable
 	 * @param container
 	 */
-	public CompletedInstanceTable(Observable observable, Container container) {
-		this.observable = observable;
+	public CompletedInstanceTable(Container container) {
 		workflowInstanceContainer = container;
-		observable.addObserver(this);
-		init(container);
+		init();
 	}
 
 	/**
@@ -67,39 +60,19 @@ public class CompletedInstanceTable extends Table implements Observer {
 	 * @param observable
 	 * @param container
 	 */
-	private void init(Container container) {
+	private void init() {
 		setSizeFull();
-		setContainerDataSource(container);
+		setContainerDataSource(workflowInstanceContainer);
 		addContainerProperty("Name", String.class, null);
-		addContainerProperty("Model", String.class, null);
-		addContainerProperty("Start date", String.class, null);
-		addContainerProperty("Completion date", String.class, null);
+		addContainerProperty("model", String.class, null);
+		addContainerProperty("startedDate", Date.class, null);
+		addContainerProperty("completedDate", Date.class, null);
+		setVisibleColumns(NAT_COL_ORDER);
+		setColumnHeaders(COL_HEADERS);
+		setSelectable(true);
+		setMultiSelect(true);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-	 */
-	@Override
-	public void update(Observable o, Object arg) {
-		if (o instanceof CompletedInstancesContainer) {
-			try {
-	            workflowInstanceList = userFacade
-	                    .getAdministratedWorkflowInstances((Long) Main
-	                			.getCurrent().getSession().getAttribute("userId"));
-	            for (Item item : workflowInstanceList) {
-	                if (item.getItemProperty("completedDate") != null) {
-	                    addItem(item);
-	                }
-	            }
-	            this.requestRepaint();
-	        } catch (TransactionException exception) {
-	            Main.getCurrent().getMainWindow().addWindow(
-	                    new TransactionErrorDialogComponent(exception));
-	        }
-		}
-
-	}
+	
 
 }

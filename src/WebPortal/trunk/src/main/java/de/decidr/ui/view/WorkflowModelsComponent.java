@@ -97,8 +97,7 @@ public class WorkflowModelsComponent extends CustomComponent {
      */
     private void changeToPublic() {
         publicModelContainer = new PublicModelContainer();
-        publicModelTable = new PublicModelTable(publicModelContainer,
-                publicModelContainer);
+        publicModelTable = new PublicModelTable(publicModelContainer);
         importModelButton = new Button("Import");
         if (!getNativeSelect().isSelected("Public models")) {
             init();
@@ -178,8 +177,7 @@ public class WorkflowModelsComponent extends CustomComponent {
 
         buttonPanel = new Panel();
 
-        currentTenantTable = new CurrentTenantModelTable(
-                currentTenantContainer, currentTenantContainer);
+        currentTenantTable = new CurrentTenantModelTable(currentTenantContainer);
 
         searchPanel = new SearchPanel(currentTenantTable);
 

@@ -19,9 +19,9 @@ package de.decidr.ui.data;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
+
 import java.util.List;
-import java.util.Observable;
+
 
 import javax.servlet.http.HttpSession;
 
@@ -32,10 +32,6 @@ import com.vaadin.data.Property;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
-import de.decidr.model.facades.UserFacade;
-import de.decidr.model.filters.Filter;
-import de.decidr.model.filters.KeywordFilter;
-import de.decidr.model.filters.Paginator;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
@@ -45,14 +41,14 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  * 
  * @author AT
  */
-public class TenantContainer extends Observable implements Container,
+public class TenantContainer implements Container,
          Container.Ordered {
 
     private HttpSession session = Main.getCurrent().getSession();
 
     private Long userId = (Long) session.getAttribute("userId");
 
-    private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
 
     List<Item> tenantList = null;
 
@@ -64,10 +60,8 @@ public class TenantContainer extends Observable implements Container,
      * 
      */
     public TenantContainer() {
-        setChanged();
-        notifyObservers();
         try {
-            tenantList = userFacade.getJoinedTenants(userId);
+            tenantList = tenantFacade.getAllTenants(null, null);
             for (Item item : tenantList) {
                 addItem(item);
             }

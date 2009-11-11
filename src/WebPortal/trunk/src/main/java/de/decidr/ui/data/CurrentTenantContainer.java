@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Observable;
 
 import javax.servlet.http.HttpSession;
 
@@ -40,7 +39,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  * 
  * @author AT
  */
-public class CurrentTenantContainer extends Observable implements Container,
+public class CurrentTenantContainer implements Container,
         Container.Ordered {
 
     private HttpSession session = Main.getCurrent().getSession();
@@ -59,8 +58,6 @@ public class CurrentTenantContainer extends Observable implements Container,
      * 
      */
     public CurrentTenantContainer() {
-        setChanged();
-        notifyObservers();
         try {
             currentTenantList = userFacade.getJoinedTenants(userId);
             for (Item item : currentTenantList) {
