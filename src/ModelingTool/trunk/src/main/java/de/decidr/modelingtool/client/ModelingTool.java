@@ -13,6 +13,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package de.decidr.modelingtool.client;
 
 import com.google.gwt.core.client.EntryPoint;
