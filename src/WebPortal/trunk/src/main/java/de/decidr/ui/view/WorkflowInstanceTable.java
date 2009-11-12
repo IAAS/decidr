@@ -16,9 +16,9 @@
 
 package de.decidr.ui.view;
 
-import com.vaadin.data.Container;
+import java.util.Date;
 
-import com.vaadin.ui.Button;
+import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 /**
  * This class represents the workflow instance ui component. It will be
@@ -35,9 +35,9 @@ public class WorkflowInstanceTable extends Table {
 
 	private Container workflowInstanceContainer = null;
 
-	public static final Object[] NAT_COL_ORDER = new Object[] { "name" };
+	public static final Object[] NAT_COL_ORDER = new Object[] { "id", "startedDate", "completedDate", "model" };
 
-	public static final String[] COL_HEADERS = new String[] { "Name" };
+	public static final String[] COL_HEADERS = new String[] {  "ID", "Started date", "Completed date", "Model" };
 
 	/**
 	 * Default constructor.
@@ -56,9 +56,10 @@ public class WorkflowInstanceTable extends Table {
 		setSizeFull();
 		setContainerDataSource(workflowInstanceContainer);
 
-		addContainerProperty("name", String.class, null);
-		addContainerProperty("Create", Button.class, null); // Add button to the
-		// component
+		addContainerProperty("id", Long.class, null);
+		addContainerProperty("startedDate", Date.class, null);
+		addContainerProperty("completedDate", Date.class, null);
+		addContainerProperty("model", String.class, null);
 		
 		setVisibleColumns(NAT_COL_ORDER);
 		setColumnHeaders(COL_HEADERS);

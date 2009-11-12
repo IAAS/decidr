@@ -78,7 +78,7 @@ public class WorkItemComponent extends CustomComponent {
 	private Button markAsDoneButton = null;
 
 	private ButtonPanel buttonPanel = null;
-	
+
 	private List<Button> buttonList = new LinkedList<Button>();
 
 	/**
@@ -156,9 +156,9 @@ public class WorkItemComponent extends CustomComponent {
 		workItemTable = new WorkItemTable(workItemContainer);
 
 		searchPanel = new SearchPanel(workItemTable);
-		
+
 		initButtonList();
-		
+
 		buttonPanel = new ButtonPanel(buttonList);
 
 		setCompositionRoot(verticalLayout);
@@ -173,14 +173,15 @@ public class WorkItemComponent extends CustomComponent {
 
 		verticalLayout.addComponent(tablePanel);
 		tablePanel.addComponent(workItemTable);
-		
+
 		verticalLayout.addComponent(buttonPanel);
 
 	}
-	
-	private void initButtonList(){
-		markAsDoneButton = new Button("Mark as done", new MarkWorkItemAsDoneAction(workItemTable));
-		
+
+	private void initButtonList() {
+		markAsDoneButton = new Button("Mark as done",
+				new MarkWorkItemAsDoneAction(workItemTable));
+
 		buttonList.add(markAsDoneButton);
 	}
 

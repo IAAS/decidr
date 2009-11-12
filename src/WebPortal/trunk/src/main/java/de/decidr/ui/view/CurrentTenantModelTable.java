@@ -17,7 +17,6 @@
 package de.decidr.ui.view;
 
 import com.vaadin.data.Container;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 
 /**
@@ -33,9 +32,9 @@ public class CurrentTenantModelTable extends Table {
 	private static final long serialVersionUID = -3378507042364075268L;
 	private Container currentTenantContainer = null;
 
-	public static final Object[] NAT_COL_ORDER = new Object[] { "name" };
+	public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name"};
 
-	public static final String[] COL_HEADERS = new String[] { "Name" };
+	public static final String[] COL_HEADERS = new String[] { "ID", "Name" };
 
 	/**
 	 * Default Constructor. Adds this table as an observer to the depending
@@ -55,13 +54,14 @@ public class CurrentTenantModelTable extends Table {
 		setSizeFull();
 		setContainerDataSource(currentTenantContainer);
 
+		addContainerProperty("id", Long.class, null);
 		addContainerProperty("name", String.class, null);
-		addContainerProperty("Edit", Button.class, null);
 
 		setVisibleColumns(NAT_COL_ORDER);
 		setColumnHeaders(COL_HEADERS);
 		setSelectable(true);
 		setMultiSelect(true);
+		setPageLength(8);
 	}
 
 }

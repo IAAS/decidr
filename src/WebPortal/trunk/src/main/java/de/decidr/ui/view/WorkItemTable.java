@@ -19,6 +19,8 @@ import com.vaadin.data.Container;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 
+import de.decidr.ui.controller.MarkWorkItemAsDoneAction;
+
 public class WorkItemTable extends Table {
 
 	/**
@@ -41,8 +43,12 @@ public class WorkItemTable extends Table {
 	 * 
 	 * @param container
 	 */
-	public WorkItemTable( Container container) {
+	public WorkItemTable(Container container) {
 		this.workItemContainer = container;
+		init();
+	}
+	
+	public WorkItemTable(){
 		init();
 	}
 
@@ -56,13 +62,11 @@ public class WorkItemTable extends Table {
 		addContainerProperty("workItemName", String.class, null);
 		addContainerProperty("workflowInstanceId", Long.class, null);
 		addContainerProperty("creationDate", String.class, null);
-		addContainerProperty("workItemStatus", Button.class, null);
-		
+		addContainerProperty("workItemStatus", String.class, null);
+
 		setVisibleColumns(NAT_COL_ORDER);
 		setColumnHeaders(COL_HEADERS);
 		setSelectable(true);
 		setMultiSelect(true);
 	}
-
-	
 }

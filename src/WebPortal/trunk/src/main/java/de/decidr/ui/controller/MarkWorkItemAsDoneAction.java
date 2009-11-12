@@ -69,20 +69,26 @@ public class MarkWorkItemAsDoneAction implements ClickListener {
 		if ((value != null) && (value.size() != 0)) {
 			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
 				Item item = (Item) iter.next();
-				Long workItemId = (Long) table.getContainerProperty(item, "id")
-						.getValue();
-				try {
-					workItemFacade.markWorkItemAsDone(workItemId);
-					item.getItemProperty("workItemStatus").setValue(
-							workItemFacade.getWorkItem(workItemId)
-									.getItemProperty("status")
-									.getValue());
-					table.requestRepaint();
-					Main.getCurrent().getMainWindow().showNotification(
-							"Marked as done");
-				} catch (TransactionException e) {
+				Long workItemId = (Long) item.getItemProperty("id").getValue();
+				if (item.getItemProperty("workItemStatus").getValue()
+						.toString().equals("Done")) {
 					Main.getCurrent().getMainWindow().addWindow(
-							new TransactionErrorDialogComponent(e));
+							new InformationDialogComponent(
+									"The selected work item is already done",
+									"Information"));
+				} else {
+					try {
+						workItemFacade.markWorkItemAsDone(workItemId);
+						item.getItemProperty("workItemStatus").setValue(
+								workItemFacade.getWorkItem(workItemId)
+										.getItemProperty("status").getValue());
+						table.requestRepaint();
+						Main.getCurrent().getMainWindow().showNotification(
+								"Marked as done");
+					} catch (TransactionException e) {
+						Main.getCurrent().getMainWindow().addWindow(
+								new TransactionErrorDialogComponent(e));
+					}
 				}
 			}
 		} else {
@@ -90,7 +96,5 @@ public class MarkWorkItemAsDoneAction implements ClickListener {
 					new InformationDialogComponent("Please select an item",
 							"Information"));
 		}
-
 	}
-
 }

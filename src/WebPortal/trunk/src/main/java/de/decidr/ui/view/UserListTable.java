@@ -36,9 +36,9 @@ public class UserListTable extends Table {
 	private Container userListContainer = null;
 
 	public static final Object[] NAT_COL_ORDER = new Object[] { "username",
-			"firstName", "email"};
+			"firstName", "lastName", "email"};
 
-	public static final String[] COL_HEADERS = new String[] { "Username", "Read name",
+	public static final String[] COL_HEADERS = new String[] { "Username", "Read name", "Last name",
 			"Email"};
 
 	/**
@@ -60,8 +60,9 @@ public class UserListTable extends Table {
 
 		addContainerProperty("username", String.class, null);
 		addContainerProperty("firstName", String.class, null);
+		addContainerProperty("lastName", String.class, null);
 		addContainerProperty("email", String.class, null);
-		addContainerProperty("Edit", Button.class, null); //Add button to component
+		//addContainerProperty("Edit", Button.class, null); //Add button to component
 		
 		setVisibleColumns(NAT_COL_ORDER);
 		setColumnHeaders(COL_HEADERS);

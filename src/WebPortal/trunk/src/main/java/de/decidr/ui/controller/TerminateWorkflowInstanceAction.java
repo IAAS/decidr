@@ -18,12 +18,13 @@ package de.decidr.ui.controller;
 
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowInstanceFacade;
+import de.decidr.ui.view.InformationDialogComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
@@ -34,37 +35,45 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  */
 public class TerminateWorkflowInstanceAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+	private HttpSession session = Main.getCurrent().getSession();
 
-    private Long userId = (Long) session.getAttribute("userId");
-    private WorkflowInstanceFacade wfiFacade = new WorkflowInstanceFacade(
-            new UserRole(userId));
+	private Long userId = (Long) session.getAttribute("userId");
+	private WorkflowInstanceFacade wfiFacade = new WorkflowInstanceFacade(
+			new WorkflowAdminRole(userId));
 
-    private Long instanceId = null;
+	private Table table = null;
 
-    /**
-     * Constructor, requires id of the instance to be terminated
-     * 
-     * @param id
-     */
-    public TerminateWorkflowInstanceAction(Long id) {
-        instanceId = id;
-    }
+	/**
+	 * Constructor, requires id of the instance to be terminated
+	 * 
+	 * @param id
+	 */
+	public TerminateWorkflowInstanceAction(Table table) {
+		this.table = table;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		if (table.getValue() == null) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new InformationDialogComponent("Please select an item",
+							"Information"));
+		} else {
+			Long instanceId = (Long) table.getItem(table.getValue())
+					.getItemProperty("id").getValue();
+			try {
+				wfiFacade.stopWorkflowInstance(instanceId);
+			} catch (TransactionException e) {
+				Main.getCurrent().getMainWindow().addWindow(
+						new TransactionErrorDialogComponent(e));
+			}
+		}
 
-        try {
-            wfiFacade.stopWorkflowInstance(instanceId);
-        } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
-        }
-    }
+	}
 }

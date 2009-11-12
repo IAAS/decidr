@@ -61,12 +61,12 @@ public class RunningInstanceTable extends Table {
 		addContainerProperty("model", String.class, null);
 		addContainerProperty("startedDate", Date.class, null);
 		addContainerProperty("completedDate", Date.class, null);
-		addContainerProperty("Terminate", Button.class, null);
 		
 		setVisibleColumns(NAT_COL_ORDER);
 		setColumnHeaders(COL_HEADERS);
 		setSelectable(true);
-		setMultiSelect(true);
+		setMultiSelect(false);
+		setPageLength(8);
 	}
 
 }

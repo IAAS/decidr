@@ -15,12 +15,17 @@
  */
 package de.decidr.ui.view;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.ui.data.TenantContainer;
+import de.decidr.ui.controller.SwitchTenantAction;
+import de.decidr.ui.data.CurrentTenantContainer;
 
 public class ChangeTenantComponent extends CustomComponent {
 
@@ -32,12 +37,18 @@ public class ChangeTenantComponent extends CustomComponent {
      */
     private static final long serialVersionUID = 5599429204495615788L;
 
-    private TenantContainer tenantContainer = null;
+    private CurrentTenantContainer tenantContainer = null;
 
     private VerticalLayout verticalLayout = null;
 
     private Label changeTenantLabel = null;
     private Label waitingForApprovalLabel = null;
+    
+    private ButtonPanel buttonPanel = null;
+    
+    private Button changeTenantButton = null;
+    
+    private List<Button> buttonList = new LinkedList<Button>();
 
     private TenantTable tenantTable = null;
     private Table approvalTable = null;
@@ -55,27 +66,36 @@ public class ChangeTenantComponent extends CustomComponent {
      * 
      */
     private void init() {
-        tenantContainer = new TenantContainer();
+        tenantContainer = new CurrentTenantContainer();
 
         verticalLayout = new VerticalLayout();
 
         changeTenantLabel = new Label("<h2> Change Tenant </h2>");
         changeTenantLabel.setContentMode(Label.CONTENT_XHTML);
-        waitingForApprovalLabel = new Label("<h2> Waiting for approval </h2>");
-        waitingForApprovalLabel.setContentMode(Label.CONTENT_XHTML);
+        //waitingForApprovalLabel = new Label("<h2> Waiting for approval </h2>");
+        //waitingForApprovalLabel.setContentMode(Label.CONTENT_XHTML);
 
         tenantTable = new TenantTable(tenantContainer);
-        //tenantTable.setVisibleColumns(new Object[] { "Tenant", "Status" });
-        approvalTable = new Table();
-        approvalTable.addContainerProperty("Tenant", String.class, null);
+        //approvalTable = new Table(); TODO: table mit approval anlegen
+        
+        initButtonPanel();
 
         setCompositionRoot(verticalLayout);
 
         verticalLayout.setSpacing(true);
         verticalLayout.addComponent(changeTenantLabel);
         verticalLayout.addComponent(tenantTable);
-        verticalLayout.addComponent(waitingForApprovalLabel);
-        verticalLayout.addComponent(approvalTable);
+        //verticalLayout.addComponent(waitingForApprovalLabel);
+        //verticalLayout.addComponent(approvalTable);
+        verticalLayout.addComponent(buttonPanel);
+    }
+    
+    private void initButtonPanel(){
+    	changeTenantButton = new Button("Change tenant", new SwitchTenantAction(tenantTable));
+    	
+    	buttonList.add(changeTenantButton);
+    	
+    	buttonPanel = new ButtonPanel(buttonList);
     }
 
 }

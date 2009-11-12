@@ -18,6 +18,7 @@ package de.decidr.ui.controller;
 
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -38,8 +39,8 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  */
 public class SwitchTenantAction implements ClickListener {
 
-    private String tenant = null;
-
+	private String tenantName = null;
+	
     private HttpSession session = null;
     private Class<? extends Role> role = null;
 
@@ -48,14 +49,16 @@ public class SwitchTenantAction implements ClickListener {
     private UserFacade userFacade = null;
 
     private Long tenantId = null;
+    
+    private Table table = null;
 
     /**
      * Constructor which is given a tenant name to determine to which tenant the
      * user wants to switch
      * 
      */
-    public SwitchTenantAction(String tenantName) {
-        tenant = tenantName;
+    public SwitchTenantAction(Table table) {
+        this.table = table;
     }
 
     /*
@@ -69,13 +72,16 @@ public class SwitchTenantAction implements ClickListener {
         try {
             session = Main.getCurrent().getSession();
             userId = (Long) session.getAttribute("userId");
+            
             tenantFacade = new TenantFacade(new UserRole(userId));
             userFacade = new UserFacade(new UserRole(userId));
-            tenantId = tenantFacade.getTenantId(tenant);
+            
+            tenantName = table.getItem(table.getValue()).getItemProperty("name").getValue().toString();
+            tenantId = tenantFacade.getTenantId(tenantName);
             role = userFacade.getUserRoleForTenant(userId, tenantId);
-            Main.getCurrent().setTheme(tenant);
+            Main.getCurrent().setTheme(tenantName);
             userFacade.setCurrentTenantId(userId, tenantId);
-            session.setAttribute("tenant", tenant);
+            session.setAttribute("tenant", tenantName);
             session.setAttribute("role", role);
         } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().addWindow(

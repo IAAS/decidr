@@ -29,7 +29,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
@@ -41,14 +41,13 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  * 
  * @author AT
  */
-public class TenantContainer implements Container,
-         Container.Ordered {
+public class TenantContainer implements Container{
 
     private HttpSession session = Main.getCurrent().getSession();
 
     private Long userId = (Long) session.getAttribute("userId");
 
-    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+    private TenantFacade tenantFacade = new TenantFacade(new SuperAdminRole(userId));
 
     List<Item> tenantList = null;
 
@@ -83,11 +82,9 @@ public class TenantContainer implements Container,
     public boolean addContainerProperty(Object propertyId, Class<?> type,
             Object defaultValue) throws UnsupportedOperationException {
         if (propertyIds.contains(propertyId)) {
-            propertyIds.add(propertyId);
             return false;
-
         }
-
+        propertyIds.add(propertyId);
         return true;
     }
 
@@ -112,30 +109,7 @@ public class TenantContainer implements Container,
         return getItem(itemId);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object)
-     */
-    @Override
-    public Object addItemAfter(Object previousItemId)
-            throws UnsupportedOperationException {
-        new UnsupportedOperationException();
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object,
-     * java.lang.Object)
-     */
-    @Override
-    public Item addItemAfter(Object previousItemId, Object newItemId)
-            throws UnsupportedOperationException {
-        new UnsupportedOperationException();
-        return null;
-    }
+    
 
     /*
      * (non-Javadoc)
@@ -147,16 +121,7 @@ public class TenantContainer implements Container,
         return items.containsKey(itemId);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container.Ordered#firstItemId()
-     */
-    @Override
-    public Object firstItemId() {
-        Object[] itemsArray = getItemIds().toArray();
-        return itemsArray[0];
-    }
+    
 
     /*
      * (non-Javadoc)
@@ -210,14 +175,9 @@ public class TenantContainer implements Container,
     @Override
     public Class<?> getType(Object propertyId) {
         if (getContainerPropertyIds().contains(propertyId)) {
-            if (propertyId.equals("adminFirstName")
-                    || propertyId.equals("adminLastName")
-                    || propertyId.equals("tenantName")) {
+            if ( propertyId.equals("name")) {
                 return String.class;
-            } else if (propertyId.equals("numDeployedWorkflowModels")
-                    || propertyId.equals("numMembers")
-                    || propertyId.equals("numWorkflowInstance")
-                    || propertyId.equals("id")) {
+            } else if (propertyId.equals("id")) {
                 return Long.class;
             } else {
                 return null;
@@ -227,66 +187,7 @@ public class TenantContainer implements Container,
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container.Ordered#isFirstId(java.lang.Object)
-     */
-    @Override
-    public boolean isFirstId(Object itemId) {
-        if (firstItemId().equals(itemId)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container.Ordered#isLastId(java.lang.Object)
-     */
-    @Override
-    public boolean isLastId(Object itemId) {
-        if (lastItemId().equals(itemId)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container.Ordered#lastItemId()
-     */
-    @Override
-    public Object lastItemId() {
-        Object[] itemsArray = getItemIds().toArray();
-        return itemsArray[getItemIds().size()];
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container.Ordered#nextItemId(java.lang.Object)
-     */
-    @Override
-    public Object nextItemId(Object itemId) {
-        // Aleks, GH Auto-generated method stub
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container.Ordered#prevItemId(java.lang.Object)
-     */
-    @Override
-    public Object prevItemId(Object itemId) {
-        // Aleks, GH Auto-generated method stub
-        return null;
-    }
+   
 
     
     /*

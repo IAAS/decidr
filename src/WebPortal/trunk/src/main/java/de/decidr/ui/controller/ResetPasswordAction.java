@@ -22,8 +22,6 @@ package de.decidr.ui.controller;
  * @author Geoffrey-Alexeij Heinze
  */
 
-import javax.servlet.http.HttpSession;
-
 import com.vaadin.data.Item;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -31,43 +29,40 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
+import de.decidr.ui.view.InformationDialogComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ResetPasswordComponent;
 import de.decidr.ui.view.TransactionErrorDialogComponent;
 
 public class ResetPasswordAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+	// private Long userId = (Long) session.getAttribute("userId");
+	private UserFacade userFacade = new UserFacade(new UserRole());
 
-    //private Long userId = (Long) session.getAttribute("userId");
-    private UserFacade userFacade = new UserFacade(new UserRole());
+	private Item request = null;
 
-    private Item request = null;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		request = ((ResetPasswordComponent) event.getButton().getWindow())
+				.getRequestForm();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        request = ((ResetPasswordComponent) event.getButton().getWindow())
-                .getRequestForm();
-
-        try {
-            userFacade.requestPasswordReset(request.getItemProperty("email")
-                    .getValue().toString());
-        } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
-        }
-        Main.getCurrent().getMainWindow().showNotification(
-                "new password sent to: "
-                        + request.getItemProperty("email").getValue()
-                                .toString());
-        Main.getCurrent().getMainWindow().removeWindow(
-                event.getButton().getWindow());
-
-    }
+		try {
+			userFacade.requestPasswordReset(request.getItemProperty("email")
+					.getValue().toString());
+			Main.getCurrent().getMainWindow().addWindow(
+					new InformationDialogComponent("New password sent to: "
+							+ request.getItemProperty("email").getValue()
+									.toString(), "Information"));
+			new HideDialogWindowAction();
+		} catch (TransactionException e) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent(e));
+		}
+	}
 }

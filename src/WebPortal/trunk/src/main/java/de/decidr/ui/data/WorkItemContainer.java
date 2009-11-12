@@ -23,12 +23,12 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
+
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
@@ -44,8 +44,7 @@ import de.decidr.ui.view.TransactionErrorDialogComponent;
  * 
  * @author AT
  */
-public class WorkItemContainer implements Container,
-		Container.Filterable {
+public class WorkItemContainer implements Container, Container.Filterable {
 
 	private HttpSession session = Main.getCurrent().getSession();
 

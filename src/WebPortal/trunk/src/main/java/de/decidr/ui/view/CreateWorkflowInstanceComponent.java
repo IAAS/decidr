@@ -15,11 +15,14 @@
  */
 package de.decidr.ui.view;
 
-import com.vaadin.ui.Alignment;
+import java.util.LinkedList;
+import java.util.List;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.ui.controller.ShowStartConfigurationWindowAction;
 import de.decidr.ui.data.WorkflowInstanceContainer;
 
 /**
@@ -42,6 +45,12 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
     private Label createWorkflowInstanceLabel = null;
 
     private WorkflowInstanceTable instanceTable = null;
+    
+    private List<Button> buttonList = new LinkedList<Button>();
+    
+    private Button createInstanceButton = null;
+    
+    private ButtonPanel buttonPanel = null;
 
     /**
      * Default constructor
@@ -66,9 +75,9 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
      * 
      */
     private void init() {
-        workflowInstanceContainer = new WorkflowInstanceContainer();
-
-        verticalLayout = new VerticalLayout();
+    	verticalLayout = new VerticalLayout();
+    	
+        workflowInstanceContainer = new WorkflowInstanceContainer();        
 
         createWorkflowInstanceLabel = new Label(
                 "<h2> Create Workflow Instance </h2>");
@@ -79,15 +88,24 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
         searchPanel = new SearchPanel(instanceTable);
 
         setCompositionRoot(verticalLayout);
+        
+        initButtonPanel();
 
         verticalLayout.setSpacing(true);
         verticalLayout.addComponent(createWorkflowInstanceLabel);
         verticalLayout.addComponent(searchPanel);
 
         verticalLayout.addComponent(instanceTable);
-        verticalLayout.setComponentAlignment(instanceTable,
-                Alignment.MIDDLE_CENTER);
+        verticalLayout.addComponent(buttonPanel);
 
+    }
+    
+    private void initButtonPanel(){
+    	createInstanceButton = new Button("Create instance", new ShowStartConfigurationWindowAction());
+    	
+    	buttonList.add(createInstanceButton);
+    	
+    	buttonPanel = new ButtonPanel(buttonList);
     }
 
 }
