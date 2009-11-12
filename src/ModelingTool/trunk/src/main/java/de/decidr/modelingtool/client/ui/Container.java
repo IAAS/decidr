@@ -21,9 +21,11 @@ import java.util.HashSet;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.CommandList;
 import de.decidr.modelingtool.client.command.RemoveNodeCommand;
 import de.decidr.modelingtool.client.command.UndoableCommand;
@@ -35,7 +37,7 @@ import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 /**
- * The basic class of every container. Provides attriutes to manage children.
+ * The basic class of every container. Provides attributes to manage children.
  * 
  * @author Johannes Engelhardt
  */
@@ -163,7 +165,8 @@ public abstract class Container extends Node implements HasChildren {
             try {
                 cmdList.addCommand(new RemoveNodeCommand(node));
             } catch (OperationNotAllowedException e) {
-                // JS: node is not deletable: fix it!
+                Window.alert(ModelingToolWidget.getMessages()
+                        .operationNotAllowedMessage());
             }
         }
 

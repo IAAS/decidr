@@ -33,6 +33,8 @@ public interface Messages extends Constants {
 
     String propertiesMenuItem();
 
+    String operationNotAllowedMessage();
+
     /* Workflow */
     String workflowProperty();
 
