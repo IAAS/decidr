@@ -27,6 +27,7 @@ import de.decidr.ui.controller.DeactivateAccountAction;
 import de.decidr.ui.controller.RemoveUserFromTenantAction;
 import de.decidr.ui.controller.ShowInviteUserToTenantAction;
 import de.decidr.ui.data.UserListContainer;
+import de.decidr.ui.view.tables.UserListTable;
 
 /**
  * The user are managed in a table and can be invited, removed, promoted to a

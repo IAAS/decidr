@@ -27,6 +27,7 @@ import de.decidr.ui.controller.ApproveTenantAction;
 import de.decidr.ui.controller.DeclineTenantAction;
 import de.decidr.ui.controller.DeleteTenantAction;
 import de.decidr.ui.data.TenantContainer;
+import de.decidr.ui.view.tables.TenantTable;
 
 /**
  * The tenants can be edited. By selecting a tenant from the table, a tenant can

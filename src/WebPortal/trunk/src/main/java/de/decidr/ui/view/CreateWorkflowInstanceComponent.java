@@ -24,6 +24,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.ShowStartConfigurationWindowAction;
 import de.decidr.ui.data.WorkflowInstanceContainer;
+import de.decidr.ui.view.tables.WorkflowInstanceTable;
 
 /**
  * In this component the user can create a workflow instance from a workflow

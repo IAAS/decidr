@@ -25,6 +25,8 @@ import de.decidr.ui.controller.ConfirmationParameterHandler;
 import de.decidr.ui.controller.InvitationParameterHandler;
 import de.decidr.ui.controller.TenantParameterHandler;
 import de.decidr.ui.controller.UIDirector;
+import de.decidr.ui.view.uibuilder.UIBuilder;
+import de.decidr.ui.view.uibuilder.UnregisteredUserViewBuilder;
 
 /**
  * This is the main class. When calling the DecidR web site this class is called

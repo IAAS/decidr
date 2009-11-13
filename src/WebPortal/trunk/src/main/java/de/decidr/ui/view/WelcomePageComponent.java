@@ -32,6 +32,7 @@ import com.vaadin.ui.VerticalLayout;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 public class WelcomePageComponent extends CustomComponent {
 

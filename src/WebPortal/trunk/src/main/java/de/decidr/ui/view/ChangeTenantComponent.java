@@ -26,6 +26,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.SwitchTenantAction;
 import de.decidr.ui.data.CurrentTenantContainer;
+import de.decidr.ui.view.tables.TenantTable;
 
 public class ChangeTenantComponent extends CustomComponent {
 

@@ -30,6 +30,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.RegisterUserAction;
 import de.decidr.ui.controller.RegisterUserWithInvitationAction;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 
 /**
  * A new user can be registered by entering some information. This information

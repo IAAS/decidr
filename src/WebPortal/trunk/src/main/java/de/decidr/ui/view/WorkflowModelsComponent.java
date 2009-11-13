@@ -36,6 +36,8 @@ import de.decidr.ui.controller.UnlockWorkflowModelAction;
 import de.decidr.ui.controller.UnpublishWorkflowModelAction;
 import de.decidr.ui.data.CurrentTenantContainer;
 import de.decidr.ui.data.PublicModelContainer;
+import de.decidr.ui.view.tables.CurrentTenantModelTable;
+import de.decidr.ui.view.tables.PublicModelTable;
 
 /**
  * This component represents the workflow models. They are stored in a table.

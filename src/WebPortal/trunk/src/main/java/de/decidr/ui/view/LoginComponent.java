@@ -26,6 +26,7 @@ import de.decidr.ui.controller.LoginAction;
 import de.decidr.ui.controller.LoginWithInvitationAction;
 import de.decidr.ui.controller.ShowRegistrationAction;
 import de.decidr.ui.controller.ShowResetPasswordAction;
+import de.decidr.ui.view.windows.InvitationDialogComponent;
 
 /**
  * With the login component the user is able to authenticate himself to the

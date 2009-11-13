@@ -23,6 +23,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Upload;
 
 import de.decidr.ui.controller.UploadFileStartConfigurationAction;
+import de.decidr.ui.view.windows.StartConfigurationWindow;
 
 /**
  * This component represents the filename and a button to delete the uploaded

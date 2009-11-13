@@ -27,6 +27,8 @@ import com.vaadin.ui.VerticalLayout;
 import de.decidr.ui.controller.TerminateWorkflowInstanceAction;
 import de.decidr.ui.data.CompletedInstancesContainer;
 import de.decidr.ui.data.RunningInstanceContainer;
+import de.decidr.ui.view.tables.CompletedInstanceTable;
+import de.decidr.ui.view.tables.RunningInstanceTable;
 
 /**
  * In this component all workflow instances are represent. These instances are

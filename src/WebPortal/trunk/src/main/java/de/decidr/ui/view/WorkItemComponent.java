@@ -36,6 +36,8 @@ import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.filters.EqualsFilter;
 import de.decidr.ui.controller.MarkWorkItemAsDoneAction;
 import de.decidr.ui.data.WorkItemContainer;
+import de.decidr.ui.view.tables.WorkItemTable;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 public class WorkItemComponent extends CustomComponent {
 
