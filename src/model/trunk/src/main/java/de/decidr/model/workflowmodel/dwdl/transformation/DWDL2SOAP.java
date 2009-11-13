@@ -87,39 +87,31 @@ public class DWDL2SOAP {
                 Element element = findElement(elementName.getLocalPart(),
                         getSchemaElement(definition));
 
+                Element typeElement = findElement("complexType", element
+                        .getAttribute("type").getValue().toString(),
+                        getSchemaElement(definition));
+
                 // Iterate over all children of the element for further
                 // construction of the soap message
-                Iterator<?> iter = element.getChildren().iterator();
+                Iterator<?> iter = typeElement.getChildren().iterator();
 
                 while (iter.hasNext()) {
                     Element child = (Element) iter.next();
 
-                    // Only if the child is a complex type go ahead
-                    if (isComplexType(child)) {
+                    // Only if the complex type contains a sequence or
+                    // all element go ahead
+                    if (isSequence(child) || isAll(child)) {
 
-                        // Iterate over all children of the complex type
-                        Iterator<?> childIter = child.getChildren().iterator();
-                        while (childIter.hasNext()) {
-                            Element complexChild = (Element) childIter.next();
+                        // Iterate over all children of the sequence or
+                        // all element
+                        Iterator<?> lastIter = child.getChildren().iterator();
+                        while (lastIter.hasNext()) {
+                            Element sequenceOrAllChild = (Element) lastIter
+                                    .next();
 
-                            // Only if the complex type contains a sequence or
-                            // all element go ahead
-                            if (isSequence(complexChild) || isAll(complexChild)) {
-
-                                // Iterate over all children of the sequence or
-                                // all element
-                                Iterator<?> lastIter = complexChild
-                                        .getChildren().iterator();
-                                while (lastIter.hasNext()) {
-                                    Element sequenceOrAllChild = (Element) lastIter
-                                            .next();
-
-                                    // Only add elements
-                                    if (sequenceOrAllChild.getName().equals(
-                                            "element")) {
-                                        soapElements.add(sequenceOrAllChild);
-                                    }
-                                }
+                            // Only add elements
+                            if (sequenceOrAllChild.getName().equals("element")) {
+                                soapElements.add(sequenceOrAllChild);
                             }
                         }
                     }
@@ -127,7 +119,9 @@ public class DWDL2SOAP {
                 soapMessage = buildMessage(soapElements, element);
 
             }
+
         }
+
         return soapMessage;
     }
 
@@ -172,16 +166,27 @@ public class DWDL2SOAP {
         return complexChild.getName().equals("sequence");
     }
 
-    private boolean isComplexType(Element child) {
-        return child.getName().equals("complexType");
-    }
-
     private Element findElement(String elementName, Element parentElement) {
         Iterator<?> iterator = parentElement.getChildren("element",
                 Constants.XML_SCHEMA_NS).iterator();
         while (iterator.hasNext()) {
             Element element = (Element) iterator.next();
             if (element.getAttribute("name").getValue().equals(elementName)) {
+                return element;
+            }
+        }
+        log.warn("Element " + elementName + " nicht gefunden in "
+                + parentElement.getName());
+        return null;
+    }
+
+    private Element findElement(String elementName, String typeName,
+            Element parentElement) {
+        Iterator<?> iterator = parentElement.getChildren(elementName,
+                Constants.XML_SCHEMA_NS).iterator();
+        while (iterator.hasNext()) {
+            Element element = (Element) iterator.next();
+            if (element.getAttribute("name").getValue().equals(typeName)) {
                 return element;
             }
         }
