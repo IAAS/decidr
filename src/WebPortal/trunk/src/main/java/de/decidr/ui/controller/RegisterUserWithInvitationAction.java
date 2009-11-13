@@ -25,9 +25,9 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.ui.view.InvitationDialogComponent;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.InvitationDialogComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This action creates a new user and performs the given invitation.

@@ -28,7 +28,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * If a user switches the tenant this action is called. The session attributes

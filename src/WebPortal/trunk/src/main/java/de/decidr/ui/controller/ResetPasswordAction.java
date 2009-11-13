@@ -29,10 +29,10 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.ui.view.InformationDialogComponent;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.ResetPasswordComponent;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.InformationDialogComponent;
+import de.decidr.ui.view.windows.ResetPasswordWindow;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 public class ResetPasswordAction implements ClickListener {
 
@@ -49,7 +49,7 @@ public class ResetPasswordAction implements ClickListener {
 	 */
 	@Override
 	public void buttonClick(ClickEvent event) {
-		request = ((ResetPasswordComponent) event.getButton().getWindow())
+		request = ((ResetPasswordWindow) event.getButton().getWindow())
 				.getRequestForm();
 
 		try {

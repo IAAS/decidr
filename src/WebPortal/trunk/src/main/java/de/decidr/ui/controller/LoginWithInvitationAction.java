@@ -20,10 +20,10 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.ui.view.HorizontalNavigationMenu;
-import de.decidr.ui.view.InvitationDialogComponent;
 import de.decidr.ui.view.LoginComponent;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
+import de.decidr.ui.view.windows.InvitationDialogComponent;
 
 /**
  * This action implements the login. It calls the authenticate method and logs

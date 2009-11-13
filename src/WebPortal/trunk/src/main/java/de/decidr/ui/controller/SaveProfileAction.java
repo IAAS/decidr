@@ -37,7 +37,7 @@ import de.decidr.model.facades.UserFacade;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 public class SaveProfileAction implements ClickListener {
 

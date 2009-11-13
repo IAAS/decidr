@@ -24,9 +24,9 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowInstanceFacade;
-import de.decidr.ui.view.InformationDialogComponent;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.InformationDialogComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This action terminates a workflow instance

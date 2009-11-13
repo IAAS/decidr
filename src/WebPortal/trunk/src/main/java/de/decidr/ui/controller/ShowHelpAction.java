@@ -19,7 +19,7 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.view.HelpWindow;
+import de.decidr.ui.view.HelpComponent;
 import de.decidr.ui.view.SiteFrame;
 
 /**
@@ -41,7 +41,7 @@ public class ShowHelpAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(new HelpWindow());
+        siteFrame.setContent(new HelpComponent());
 
     }
 

@@ -28,7 +28,7 @@ import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 import de.decidr.model.workflowmodel.humantask.TTaskItem;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This action saves the entered information from the user in his work item.

@@ -31,8 +31,8 @@ import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.ui.view.CreateWorkflowInstanceComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.StartConfigurationWindow;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.StartConfigurationWindow;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This action takes the configuration file and unmarshall it to an object. This

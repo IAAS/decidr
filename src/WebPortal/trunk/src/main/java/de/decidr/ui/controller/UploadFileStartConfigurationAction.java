@@ -36,8 +36,8 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
 import de.decidr.ui.view.DeleteUploadComponent;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.StartConfigurationWindow;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.StartConfigurationWindow;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This class handles the actions when the upload for a human task is started,

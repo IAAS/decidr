@@ -19,8 +19,8 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.view.ChangePasswordComponent;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.windows.ChangePasswordWindow;
 
 /**
  * This action shows the ChangePasswordComponent
@@ -38,6 +38,6 @@ public class ShowChangePasswordAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         Main.getCurrent().getMainWindow().addWindow(
-                new ChangePasswordComponent());
+                new ChangePasswordWindow());
     }
 }

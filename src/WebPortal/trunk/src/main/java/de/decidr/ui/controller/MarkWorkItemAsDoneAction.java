@@ -29,9 +29,9 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
-import de.decidr.ui.view.InformationDialogComponent;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.InformationDialogComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * Marks a selected work item as done.

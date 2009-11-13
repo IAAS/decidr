@@ -21,8 +21,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.DecidrGlobals;
-import de.decidr.ui.view.HorizontalNavigationMenu;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
 
 /**
  * This action logs a user out, invalidates the session, makes the logout button

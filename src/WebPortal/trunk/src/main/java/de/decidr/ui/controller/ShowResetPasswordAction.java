@@ -20,7 +20,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.ResetPasswordComponent;
+import de.decidr.ui.view.windows.ResetPasswordWindow;
 
 /**
  * This action displays the ResetPasswordComponent
@@ -38,6 +38,6 @@ public class ShowResetPasswordAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         Main.getCurrent().getMainWindow().addWindow(
-                new ResetPasswordComponent());
+                new ResetPasswordWindow());
     }
 }

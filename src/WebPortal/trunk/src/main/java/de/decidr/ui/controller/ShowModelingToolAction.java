@@ -20,7 +20,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.ModelingToolWindow;
+import de.decidr.ui.view.windows.ModelingToolWindow;
 
 /**
  * Opens the modeling tool.

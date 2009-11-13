@@ -43,7 +43,7 @@ import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TenantSettingsComponent;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This class handles the css saving

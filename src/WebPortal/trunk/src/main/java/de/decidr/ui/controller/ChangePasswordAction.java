@@ -25,9 +25,9 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.ui.view.ChangePasswordComponent;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.ChangePasswordWindow;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This actions changes password of a user.
@@ -51,7 +51,7 @@ public class ChangePasswordAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        passwords = ((ChangePasswordComponent) event.getButton().getWindow())
+        passwords = ((ChangePasswordWindow) event.getButton().getWindow())
                 .getPasswords();
 
         String passwd = passwords.getItemProperty("newPassword").getValue()

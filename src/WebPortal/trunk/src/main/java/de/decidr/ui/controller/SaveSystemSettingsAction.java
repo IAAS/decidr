@@ -35,7 +35,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.SystemFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SystemSettingComponent;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 public class SaveSystemSettingsAction implements ClickListener {
 

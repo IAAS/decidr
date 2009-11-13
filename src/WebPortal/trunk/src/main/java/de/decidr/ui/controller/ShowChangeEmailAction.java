@@ -19,8 +19,8 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.view.ChangeEmailComponent;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.windows.ChangeEmailWindow;
 
 /**
  * This action shows the ChangeEmailComponent
@@ -37,6 +37,6 @@ public class ShowChangeEmailAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        Main.getCurrent().getMainWindow().addWindow(new ChangeEmailComponent());
+        Main.getCurrent().getMainWindow().addWindow(new ChangeEmailWindow());
     }
 }

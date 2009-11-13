@@ -26,8 +26,8 @@ import com.vaadin.terminal.ParameterHandler;
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.ui.view.InformationDialogComponent;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 
 /**
  * This class handles URL parameters for tenants

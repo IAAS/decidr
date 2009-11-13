@@ -35,8 +35,8 @@ import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.model.workflowmodel.wsc.TRole;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.StartConfigurationWindow;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.StartConfigurationWindow;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This actions saves the start configuration. It goes through the window and

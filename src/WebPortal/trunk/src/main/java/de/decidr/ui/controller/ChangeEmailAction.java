@@ -31,9 +31,9 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.ui.view.ChangeEmailComponent;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.ChangeEmailWindow;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 public class ChangeEmailAction implements ClickListener {
 
@@ -52,7 +52,7 @@ public class ChangeEmailAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        email = ((ChangeEmailComponent) event.getButton().getWindow())
+        email = ((ChangeEmailWindow) event.getButton().getWindow())
                 .getNewEmail();
 
         try {

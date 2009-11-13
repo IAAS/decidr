@@ -33,11 +33,11 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.SuperAdminViewBuilder;
-import de.decidr.ui.view.TenantAdminViewBuilder;
-import de.decidr.ui.view.UIBuilder;
-import de.decidr.ui.view.UserViewBuilder;
-import de.decidr.ui.view.WorkflowAdminViewBuilder;
+import de.decidr.ui.view.uibuilder.SuperAdminViewBuilder;
+import de.decidr.ui.view.uibuilder.TenantAdminViewBuilder;
+import de.decidr.ui.view.uibuilder.UIBuilder;
+import de.decidr.ui.view.uibuilder.UserViewBuilder;
+import de.decidr.ui.view.uibuilder.WorkflowAdminViewBuilder;
 
 /**
  * This class handles the login for the web application. If a user logs in one

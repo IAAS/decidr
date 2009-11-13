@@ -25,10 +25,10 @@ import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.DefaultWelcomeComponent;
-import de.decidr.ui.view.InformationDialogComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.RegisterUserComponent;
 import de.decidr.ui.view.SiteFrame;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 
 /**
  * This action creates a new user.

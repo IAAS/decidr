@@ -30,9 +30,9 @@ import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
 import de.decidr.ui.view.WorkItemComponent;
-import de.decidr.ui.view.WorkItemWindow;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.WorkItemWindow;
 
 /**
  * This action opens a window for representing the work item the user has

@@ -17,7 +17,7 @@
 package de.decidr.ui.controller;
 
 import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.UIBuilder;
+import de.decidr.ui.view.uibuilder.UIBuilder;
 
 /**
  * This class is the director for building the ui. In the DecidR application

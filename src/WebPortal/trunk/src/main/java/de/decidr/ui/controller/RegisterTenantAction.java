@@ -26,11 +26,11 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.DefaultWelcomeComponent;
-import de.decidr.ui.view.InformationDialogComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.RegisterTenantComponent;
 import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.InformationDialogComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This action first creates a new user, then a new tenant

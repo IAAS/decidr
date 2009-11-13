@@ -28,12 +28,12 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.ui.view.InformationDialogComponent;
-import de.decidr.ui.view.InvitationDialogComponent;
 import de.decidr.ui.view.LoginComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.RegisterUserComponent;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.InformationDialogComponent;
+import de.decidr.ui.view.windows.InvitationDialogComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This class handles URL parameters for invitation tasks,

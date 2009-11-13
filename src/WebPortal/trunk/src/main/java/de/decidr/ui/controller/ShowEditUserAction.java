@@ -27,8 +27,8 @@ import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
 import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
 import de.decidr.ui.view.UserListComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This action gets the user profile which belong to the user selected from the

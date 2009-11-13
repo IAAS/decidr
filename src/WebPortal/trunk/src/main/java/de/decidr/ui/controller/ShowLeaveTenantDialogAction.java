@@ -30,9 +30,9 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
-import de.decidr.ui.view.ConfirmDialogComponent;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.ConfirmDialogWindow;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 public class ShowLeaveTenantDialogAction implements ClickListener {
 
@@ -60,7 +60,7 @@ public class ShowLeaveTenantDialogAction implements ClickListener {
                     .getCurrent()
                     .getMainWindow()
                     .addWindow(
-                            new ConfirmDialogComponent(
+                            new ConfirmDialogWindow(
                                     "Please confirm that you want to leave your tenant.",
                                     new LeaveTenantAction(tenantId)));
         } catch (TransactionException e) {

@@ -27,8 +27,8 @@ import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
 import de.decidr.ui.view.UserListComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This actions shows the UserListComponent in the content area

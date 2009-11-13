@@ -26,7 +26,7 @@ import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
 import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This action shows the ProfileSettingsComponent in the content area

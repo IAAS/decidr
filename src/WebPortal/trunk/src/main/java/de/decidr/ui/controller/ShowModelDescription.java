@@ -21,7 +21,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.WorkflowDescriptionWindow;
+import de.decidr.ui.view.windows.WorkflowDescriptionWindow;
 
 /**
  * Opens the window so that the user can enter a name and a description for the
