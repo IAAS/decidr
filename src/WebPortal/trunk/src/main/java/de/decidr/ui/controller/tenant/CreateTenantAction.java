@@ -26,7 +26,12 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.SiteFrame;
+import de.decidr.ui.view.TenantSettingsComponent;
+import de.decidr.ui.view.uibuilder.TenantAdminViewBuilder;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -36,58 +41,51 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class CreateTenantAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+	private HttpSession session = Main.getCurrent().getSession();
 
-    private Long userId = (Long) session.getAttribute("userId");
-    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+	private Long userId = (Long) session.getAttribute("userId");
+	private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+	
+	private UIDirector uiDirector = UIDirector.getInstance();
+	private TenantAdminViewBuilder tenantAdminViewBuilder = new TenantAdminViewBuilder();
+	private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-    private Form createForm = null;
+	private Form createForm = null;
 
-    public CreateTenantAction(Form form) {
-        createForm = form;
-    }
+	public CreateTenantAction(Form form) {
+		createForm = form;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        createForm
-                .getField("tenantName")
-                .addValidator(
-                        new RegexpValidator(
-                                "\\w{2,50}",
-                                "Der Tenant-Name darf 2-50 Zeichen lang sein und darf keine Sonderzeichen enthalten"));
-        createForm.commit();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		createForm
+				.getField("tenantName")
+				.addValidator(
+						new RegexpValidator(
+								"\\w{2,50}",
+								"The tenant name must have 2 and up to 50 characters and mustn't contain additional characters"));
+		createForm.commit();
 
-        Long tId = null;
-        try {
-            tId = tenantFacade.getTenantId(createForm.getItemProperty(
-                    "tenantName").getValue().toString());
+		try {
+			tenantFacade.createTenant(createForm.getItemProperty("tenantName")
+					.getValue().toString(), createForm.getItemProperty(
+					"tenantDescription").getValue().toString(), userId);
+			Main.getCurrent().getMainWindow().addWindow(
+					new InformationDialogComponent(
+							"Tenant successfully created", "Success"));
+			uiDirector.setUiBuilder(tenantAdminViewBuilder);
+			uiDirector.constructView();
+			siteFrame.setContent(new TenantSettingsComponent());
+		} catch (TransactionException e) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent(e));
+		}
 
-            if (tId != null) {
-                createForm.getField("tenantName").setValue(
-                        Main.getCurrent().getSession().getAttribute("tenant"));
-                createForm.getField("tenantDescription").setValue(
-                        tenantFacade.getTenantSettings(tId).getItemProperty(
-                                "description").getValue());
-            } else {
-                try {
-                    tenantFacade.createTenant(createForm.getItemProperty(
-                            "tenantName").getValue().toString(), createForm
-                            .getItemProperty("tenantDescription").getValue()
-                            .toString(), userId);
-                } catch (TransactionException e) {
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent(e));
-                }
-            }
-        } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
-        }
-    }
+	}
 }

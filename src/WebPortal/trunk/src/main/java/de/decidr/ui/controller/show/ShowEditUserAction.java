@@ -32,7 +32,7 @@ import de.decidr.ui.view.UserListComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action gets the user profile which belong to the user selected from the
+ * This action gets the user profile which belongs to the user selected from the
  * table and shows up the profile settings component with the values of the
  * selected user.
  * 

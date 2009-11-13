@@ -30,7 +30,7 @@ import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action shows the ProfileSettingsComponent in the content area
+ * This action shows the profile of the current user.
  * 
  * @author AT
  */
