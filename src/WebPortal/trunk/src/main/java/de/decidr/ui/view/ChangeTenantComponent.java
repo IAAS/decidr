@@ -24,7 +24,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.ui.controller.SwitchTenantAction;
+import de.decidr.ui.controller.tenant.SwitchTenantAction;
 import de.decidr.ui.data.CurrentTenantContainer;
 import de.decidr.ui.view.tables.TenantTable;
 

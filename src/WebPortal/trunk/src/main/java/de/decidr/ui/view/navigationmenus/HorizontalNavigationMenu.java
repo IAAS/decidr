@@ -20,11 +20,11 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 
-import de.decidr.ui.controller.LogoutAction;
-import de.decidr.ui.controller.ShowHelpAction;
-import de.decidr.ui.controller.ShowImpressumAction;
-import de.decidr.ui.controller.ShowTermsOfServiceAction;
-import de.decidr.ui.controller.ShowWelcomePageAction;
+import de.decidr.ui.controller.authentication.LogoutAction;
+import de.decidr.ui.controller.show.ShowHelpAction;
+import de.decidr.ui.controller.show.ShowImpressumAction;
+import de.decidr.ui.controller.show.ShowTermsOfServiceAction;
+import de.decidr.ui.controller.show.ShowWelcomePageAction;
 
 /**
  * This menu represents five button links. The home button, the help button,

@@ -22,10 +22,10 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.ui.controller.ActivateAccountAction;
-import de.decidr.ui.controller.DeactivateAccountAction;
-import de.decidr.ui.controller.RemoveUserFromTenantAction;
-import de.decidr.ui.controller.ShowInviteUserToTenantAction;
+import de.decidr.ui.controller.show.ShowInviteUserToTenantAction;
+import de.decidr.ui.controller.user.ActivateAccountAction;
+import de.decidr.ui.controller.user.DeactivateAccountAction;
+import de.decidr.ui.controller.user.RemoveUserFromTenantAction;
 import de.decidr.ui.data.UserListContainer;
 import de.decidr.ui.view.tables.UserListTable;
 

@@ -23,9 +23,9 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.ui.controller.ApproveTenantAction;
-import de.decidr.ui.controller.DeclineTenantAction;
-import de.decidr.ui.controller.DeleteTenantAction;
+import de.decidr.ui.controller.tenant.ApproveTenantAction;
+import de.decidr.ui.controller.tenant.DeclineTenantAction;
+import de.decidr.ui.controller.tenant.DeleteTenantAction;
 import de.decidr.ui.data.TenantContainer;
 import de.decidr.ui.view.tables.TenantTable;
 

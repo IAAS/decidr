@@ -31,8 +31,8 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-import de.decidr.ui.controller.ChangePasswordAction;
 import de.decidr.ui.controller.HideDialogWindowAction;
+import de.decidr.ui.controller.user.ChangePasswordAction;
 
 public class ChangePasswordWindow extends Window {
 

@@ -22,7 +22,7 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.ui.controller.ShowStartConfigurationWindowAction;
+import de.decidr.ui.controller.show.ShowStartConfigurationWindowAction;
 import de.decidr.ui.data.WorkflowInstanceContainer;
 import de.decidr.ui.view.tables.WorkflowInstanceTable;
 

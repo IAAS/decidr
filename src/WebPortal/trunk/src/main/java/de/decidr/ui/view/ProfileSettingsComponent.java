@@ -34,12 +34,12 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import de.decidr.ui.controller.ChangeStatusAction;
 import de.decidr.ui.controller.SaveProfileAction;
-import de.decidr.ui.controller.ShowCancelMembershipAction;
-import de.decidr.ui.controller.ShowChangeEmailAction;
-import de.decidr.ui.controller.ShowChangePasswordAction;
-import de.decidr.ui.controller.ShowLeaveTenantDialogAction;
+import de.decidr.ui.controller.show.ShowCancelMembershipAction;
+import de.decidr.ui.controller.show.ShowChangeEmailAction;
+import de.decidr.ui.controller.show.ShowChangePasswordAction;
+import de.decidr.ui.controller.show.ShowLeaveTenantDialogAction;
+import de.decidr.ui.controller.user.ChangeStatusAction;
 
 /**
  * The user can change his profile by inserting his personnel information.

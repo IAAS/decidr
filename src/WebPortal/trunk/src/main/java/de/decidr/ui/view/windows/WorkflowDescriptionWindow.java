@@ -24,8 +24,8 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-import de.decidr.ui.controller.CreateWorkflowModelAction;
 import de.decidr.ui.controller.HideDialogWindowAction;
+import de.decidr.ui.controller.workflowmodel.CreateWorkflowModelAction;
 
 /**
  * This window is called when a user wants to create a new workflow model. He

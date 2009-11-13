@@ -31,7 +31,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 import de.decidr.ui.controller.ConfirmInvitationAction;
-import de.decidr.ui.controller.RefuseInvitationAction;
+import de.decidr.ui.controller.user.RefuseInvitationAction;
 
 public class InvitationDialogComponent extends Window {
 

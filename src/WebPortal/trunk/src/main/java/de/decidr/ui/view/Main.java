@@ -21,10 +21,10 @@ import com.vaadin.Application;
 import com.vaadin.service.ApplicationContext.TransactionListener;
 import com.vaadin.ui.Window;
 
-import de.decidr.ui.controller.ConfirmationParameterHandler;
-import de.decidr.ui.controller.InvitationParameterHandler;
-import de.decidr.ui.controller.TenantParameterHandler;
 import de.decidr.ui.controller.UIDirector;
+import de.decidr.ui.controller.parameterhandler.ConfirmationParameterHandler;
+import de.decidr.ui.controller.parameterhandler.InvitationParameterHandler;
+import de.decidr.ui.controller.parameterhandler.TenantParameterHandler;
 import de.decidr.ui.view.uibuilder.UIBuilder;
 import de.decidr.ui.view.uibuilder.UnregisteredUserViewBuilder;
 

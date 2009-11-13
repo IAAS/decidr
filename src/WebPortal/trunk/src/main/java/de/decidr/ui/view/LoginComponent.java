@@ -22,10 +22,10 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.ui.controller.LoginAction;
-import de.decidr.ui.controller.LoginWithInvitationAction;
-import de.decidr.ui.controller.ShowRegistrationAction;
-import de.decidr.ui.controller.ShowResetPasswordAction;
+import de.decidr.ui.controller.authentication.LoginAction;
+import de.decidr.ui.controller.authentication.LoginWithInvitationAction;
+import de.decidr.ui.controller.show.ShowRegistrationAction;
+import de.decidr.ui.controller.show.ShowResetPasswordAction;
 import de.decidr.ui.view.windows.InvitationDialogComponent;
 
 /**

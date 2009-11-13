@@ -31,9 +31,9 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 
 import de.decidr.ui.controller.CssHandler;
-import de.decidr.ui.controller.RestoreDefaultTenantSettingsAction;
-import de.decidr.ui.controller.SaveTenantSettingsAction;
-import de.decidr.ui.controller.UploadTenantLogoAction;
+import de.decidr.ui.controller.tenant.RestoreDefaultTenantSettingsAction;
+import de.decidr.ui.controller.tenant.SaveTenantSettingsAction;
+import de.decidr.ui.controller.tenant.UploadTenantLogoAction;
 
 /**
  * The tenant can change his settings. He change his theme by choosing a given

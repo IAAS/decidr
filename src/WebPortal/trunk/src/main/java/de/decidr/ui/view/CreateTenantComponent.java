@@ -23,7 +23,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.ui.controller.CreateTenantAction;
+import de.decidr.ui.controller.tenant.CreateTenantAction;
 
 /**
  * A tenant will be created by entering some information about the tenant. The

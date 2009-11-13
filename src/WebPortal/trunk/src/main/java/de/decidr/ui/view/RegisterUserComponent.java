@@ -28,8 +28,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.ui.controller.RegisterUserAction;
-import de.decidr.ui.controller.RegisterUserWithInvitationAction;
+import de.decidr.ui.controller.user.RegisterUserAction;
+import de.decidr.ui.controller.user.RegisterUserWithInvitationAction;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 
 /**

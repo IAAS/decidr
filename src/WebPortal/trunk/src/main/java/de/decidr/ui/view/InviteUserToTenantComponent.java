@@ -24,7 +24,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.ui.controller.InviteUserToTenantAction;
+import de.decidr.ui.controller.user.InviteUserToTenantAction;
 
 /**
  * In this component a user can be invited to a tenant. The tenant has to insert

@@ -34,8 +34,8 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-import de.decidr.ui.controller.ChangeEmailAction;
 import de.decidr.ui.controller.HideDialogWindowAction;
+import de.decidr.ui.controller.user.ChangeEmailAction;
 
 public class ChangeEmailWindow extends Window {
 

@@ -22,8 +22,8 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.ui.controller.ShowRegisterTenantAction;
-import de.decidr.ui.controller.ShowRegisterUserAction;
+import de.decidr.ui.controller.show.ShowRegisterTenantAction;
+import de.decidr.ui.controller.show.ShowRegisterUserAction;
 
 /**
  * Here the user can choose if he wants to register a new tenant or a new user.

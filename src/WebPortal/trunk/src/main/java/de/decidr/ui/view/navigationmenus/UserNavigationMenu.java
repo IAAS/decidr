@@ -20,10 +20,10 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.ui.controller.ShowChangeTenantAction;
-import de.decidr.ui.controller.ShowCreateTenantAction;
-import de.decidr.ui.controller.ShowMyWorkitemsAction;
-import de.decidr.ui.controller.ShowProfileSettingsAction;
+import de.decidr.ui.controller.show.ShowChangeTenantAction;
+import de.decidr.ui.controller.show.ShowCreateTenantAction;
+import de.decidr.ui.controller.show.ShowMyWorkitemsAction;
+import de.decidr.ui.controller.show.ShowProfileSettingsAction;
 
 /**
  * The navigation menu for the user. He has less functionality than the super

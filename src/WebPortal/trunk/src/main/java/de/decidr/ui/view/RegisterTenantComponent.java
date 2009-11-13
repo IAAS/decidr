@@ -27,7 +27,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.ui.controller.RegisterTenantAction;
+import de.decidr.ui.controller.tenant.RegisterTenantAction;
 
 /**
  * A tenant can be registered by inserting information about the tenant. These

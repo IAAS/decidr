@@ -32,7 +32,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 import de.decidr.ui.controller.HideDialogWindowAction;
-import de.decidr.ui.controller.ResetPasswordAction;
+import de.decidr.ui.controller.user.ResetPasswordAction;
 
 public class ResetPasswordWindow extends Window {
 
