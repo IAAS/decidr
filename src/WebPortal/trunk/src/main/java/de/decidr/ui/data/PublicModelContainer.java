@@ -37,7 +37,7 @@ import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.KeywordFilter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This container holds the workflow models which are public. The models are

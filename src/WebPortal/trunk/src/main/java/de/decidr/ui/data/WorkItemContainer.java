@@ -36,7 +36,7 @@ import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.KeywordFilter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * The container holds the work items. The work items are represented as items

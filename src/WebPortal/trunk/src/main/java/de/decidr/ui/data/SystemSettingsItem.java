@@ -32,7 +32,7 @@ import com.vaadin.data.Property;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.facades.SystemFacade;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 public class SystemSettingsItem implements Item {
 

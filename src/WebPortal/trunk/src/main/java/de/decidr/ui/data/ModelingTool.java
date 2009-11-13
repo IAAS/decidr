@@ -35,11 +35,11 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.ui.controller.UIDirector;
-import de.decidr.ui.view.CurrentTenantModelTable;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.TransactionErrorDialogComponent;
 import de.decidr.ui.view.WorkflowModelsComponent;
+import de.decidr.ui.view.tables.CurrentTenantModelTable;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This class represents the server side component of the modeling tool widget
