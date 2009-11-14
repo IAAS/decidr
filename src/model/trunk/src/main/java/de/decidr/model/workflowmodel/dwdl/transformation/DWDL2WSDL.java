@@ -303,28 +303,35 @@ public class DWDL2WSDL {
     private void setTypes() throws JDOMException {
         Types types = new TypesImpl();
 
-        schemaElement = new Element("schema", "xsd",
+        schemaElement = new Element("schema", wsdl
+                .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI),
                 XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-        Element messageRoot = new Element("element", "xsd",
+        Element messageRoot = new Element("element", wsdl
+                .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI),
                 XMLConstants.W3C_XML_SCHEMA_NS_URI);
         messageRoot.setAttribute("name", WSDLConstants.PROCESS_MESSAGE_ELEMENT);
         messageRoot.setAttribute("type", WSDLConstants.PROCESS_MESSAGE_TYPE);
 
-        Element messageType = new Element("complexType", "xsd",
+        Element messageType = new Element("complexType", wsdl
+                .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI),
                 XMLConstants.W3C_XML_SCHEMA_NS_URI);
         messageType.setAttribute("name", WSDLConstants.PROCESS_MESSAGE_TYPE);
-        Element all = new Element("all", "xsd",
+        Element all = new Element("all", wsdl
+                .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI),
                 XMLConstants.W3C_XML_SCHEMA_NS_URI);
         if (dwdl.isSetVariables()) {
             for (Variable variable : dwdl.getVariables().getVariable()) {
                 if (variable.isSetConfigurationVariable()
                         && variable.getConfigurationVariable().equals(
                                 Boolean.YES)) {
-                    Element variableElement = new Element("element", "xsd",
+                    Element variableElement = new Element("element", wsdl
+                            .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI),
                             XMLConstants.W3C_XML_SCHEMA_NS_URI);
                     variableElement.setAttribute("name", variable.getName());
-                    variableElement.setAttribute("type", variable.getType());
+                    variableElement.setAttribute("type", wsdl
+                            .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI)
+                            + ":" + variable.getType());
                     all.addContent(variableElement);
                 }
             }
@@ -333,7 +340,8 @@ public class DWDL2WSDL {
             for (Role role : dwdl.getRoles().getRole()) {
                 if (role.isSetConfigurationVariable()
                         && role.getConfigurationVariable().equals(Boolean.YES)) {
-                    Element roleElement = new Element("element", "xsd",
+                    Element roleElement = new Element("element", wsdl
+                            .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI),
                             XMLConstants.W3C_XML_SCHEMA_NS_URI);
                     roleElement.setAttribute("name", "role");
                     roleElement.setAttribute("type", wsdl
@@ -345,7 +353,8 @@ public class DWDL2WSDL {
             for (Actor actor : dwdl.getRoles().getActor()) {
                 if (actor.isSetConfigurationVariable()
                         && actor.getConfigurationVariable().equals(Boolean.YES)) {
-                    Element actorElement = new Element("element", "xsd",
+                    Element actorElement = new Element("element", wsdl
+                            .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI),
                             XMLConstants.W3C_XML_SCHEMA_NS_URI);
                     actorElement.setAttribute("name", "actor");
                     actorElement.setAttribute("type", "tActor", Namespace
