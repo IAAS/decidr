@@ -18,6 +18,7 @@ package de.decidr.ui.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -28,16 +29,18 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
 import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.acl.roles.WorkflowAdminRole;
 
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This container holds the workflow models. The models are
- * represented as items in a table
+ * This container holds the workflow models. The models are represented as items
+ * in a table
  * 
  * @author AT
  */
@@ -47,8 +50,7 @@ public class WorkflowModelContainer implements Container {
 
 	private Long userId = (Long) session.getAttribute("userId");
 
-	UserFacade userFacade = new UserFacade(
-			new TenantAdminRole(userId));
+	TenantFacade tenantFacade = new TenantFacade(new TenantAdminRole(userId));
 
 	List<Item> workflowModelList = null;
 
@@ -57,17 +59,18 @@ public class WorkflowModelContainer implements Container {
 
 	/**
 	 * Default constructor. The workflow model items are added to the container
-	 *
+	 * 
 	 */
 	public WorkflowModelContainer() {
 		try {
-			workflowModelList = userFacade.getAdministratedWorkflowModels(userId);
-			for(Item item : workflowModelList){
+			workflowModelList = tenantFacade.getWorkflowModels(userId, null,
+					null);
+			for (Item item : workflowModelList) {
 				addItem(item);
 			}
 		} catch (TransactionException e) {
-			 Main.getCurrent().getMainWindow().addWindow(
-	                    new TransactionErrorDialogComponent(e));
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent(e));
 		}
 	}
 
@@ -170,10 +173,12 @@ public class WorkflowModelContainer implements Container {
 	@Override
 	public Class<?> getType(Object propertyId) {
 		if (getContainerPropertyIds().contains(propertyId)) {
-			if (propertyId.equals("name") || propertyId.equals("description")) {
+			if (propertyId.equals("name")) {
 				return String.class;
 			} else if (propertyId.equals("id")) {
 				return Long.class;
+			} else if (propertyId.equals("creationDate")) {
+				return Date.class;
 			} else {
 				return null;
 			}

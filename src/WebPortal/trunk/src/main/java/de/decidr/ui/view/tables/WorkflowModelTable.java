@@ -20,7 +20,8 @@ import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 
 /**
- * TODO: add comment
+ * This class represents the workflow model ui component. It will be
+ * connected with data from the database.
  *
  * @author AT
  */
@@ -28,13 +29,13 @@ public class WorkflowModelTable extends Table {
 
 	private Container container = null;
 	
-	public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name", "description"};
+	public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name", "creationDate"};
 
-	public static final String[] COL_HEADERS = new String[] { "ID", "Name", "Description" };
+	public static final String[] COL_HEADERS = new String[] { "ID", "Name", "Creation Date" };
 
 	
 	/**
-	 * TODO: add comment
+	 * Default constructor.
 	 *
 	 */
 	public WorkflowModelTable(Container container) {
@@ -43,7 +44,7 @@ public class WorkflowModelTable extends Table {
 	}
 
 	/**
-	 * TODO: add comment
+	 * This method initializes the components for the workflow instance table.
 	 *
 	 */
 	private void init() {
@@ -52,7 +53,7 @@ public class WorkflowModelTable extends Table {
 
 		addContainerProperty("id", Long.class, null);
 		addContainerProperty("name", String.class, null);
-		addContainerProperty("description", String.class, null);
+		addContainerProperty("creationDate", String.class, null);
 
 		setVisibleColumns(NAT_COL_ORDER);
 		setColumnHeaders(COL_HEADERS);

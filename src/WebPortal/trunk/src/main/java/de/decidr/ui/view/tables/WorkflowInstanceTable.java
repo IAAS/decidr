@@ -16,8 +16,6 @@
 
 package de.decidr.ui.view.tables;
 
-import java.util.Date;
-
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 /**
@@ -35,9 +33,9 @@ public class WorkflowInstanceTable extends Table {
 
 	private Container workflowInstanceContainer = null;
 
-	public static final Object[] NAT_COL_ORDER = new Object[] { "id", "startedDate", "completedDate", "model" };
+	public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name", "description"};
 
-	public static final String[] COL_HEADERS = new String[] {  "ID", "Started date", "Completed date", "Model" };
+	public static final String[] COL_HEADERS = new String[] { "ID", "Name", "Description" };
 
 	/**
 	 * Default constructor.
@@ -57,9 +55,8 @@ public class WorkflowInstanceTable extends Table {
 		setContainerDataSource(workflowInstanceContainer);
 
 		addContainerProperty("id", Long.class, null);
-		addContainerProperty("startedDate", Date.class, null);
-		addContainerProperty("completedDate", Date.class, null);
-		addContainerProperty("model", String.class, null);
+		addContainerProperty("name", String.class, null);
+		addContainerProperty("description", String.class, null);
 		
 		setVisibleColumns(NAT_COL_ORDER);
 		setColumnHeaders(COL_HEADERS);

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -27,9 +28,13 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import de.decidr.model.acl.roles.WorkflowAdminRole;
+
+import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.UserFacade;
+import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.filters.Filter;
+import de.decidr.model.filters.Paginator;
+import de.decidr.model.filters.StartableWorkflowModelFilter;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
@@ -44,22 +49,32 @@ public class WorkflowInstanceContainer implements Container {
 	private HttpSession session = Main.getCurrent().getSession();
 
 	private Long userId = (Long) session.getAttribute("userId");
+	private String tenant = (String) session.getAttribute("tenant");
 
-	UserFacade userFacade = new UserFacade(new WorkflowAdminRole(userId));
+	TenantFacade tenantFacade = new TenantFacade(new TenantAdminRole(userId));
+	Long tenantId = null;
 
 	List<Item> workflowInstanceList = null;
 
 	private ArrayList<Object> propertyIds = new ArrayList<Object>();
 	private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
+	
+	private Filter filter = new StartableWorkflowModelFilter();
+	private List<Filter> filterList = new LinkedList<Filter>();
+	
+	private Paginator paginator = new Paginator();
 
 	/**
 	 * Default constructor. The instance items are added to the container.
 	 * 
 	 */
 	public WorkflowInstanceContainer() {
+		filterList.add(filter);
+		paginator.setItemsPerPage(10);
 		try {
-			workflowInstanceList = userFacade
-					.getAdministratedWorkflowInstances(userId);
+			tenantId = tenantFacade.getTenantId(tenant);
+			workflowInstanceList = tenantFacade.getWorkflowModels(tenantId,
+					filterList, paginator);
 			for (Item item : workflowInstanceList) {
 				addItem(item);
 			}
