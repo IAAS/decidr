@@ -56,6 +56,7 @@ import de.decidr.model.storage.StorageProvider;
 public interface EmailInterface {
 
     public static final String PORT_NAME = "EmailSOAP11";
+    public static final String BINDING_NAME = "EmailSOAP11Binding";
     public static final String SERVICE_NAME = "Email";
     public static final String PORT_TYPE_NAME = "EmailPT";
     public static final String TARGET_NAMESPACE = "http://decidr.de/webservices/Email";

@@ -46,6 +46,7 @@ import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 public interface HumanTaskInterface {
 
     public static final String SERVICE_NAME = "HumanTask";
+    public static final String BINDING_NAME = "HumanTaskSOAP11";
     public static final String PORT_TYPE_NAME = "HumanTaskPT";
     public static final String PORT_NAME = "HumanTaskSOAP11";
     public static final String TARGET_NAMESPACE = "http://decidr.de/webservices/HumanTask";

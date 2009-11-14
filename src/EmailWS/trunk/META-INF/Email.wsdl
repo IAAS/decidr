@@ -124,6 +124,7 @@
 			<wsdl:fault name="messagingException" message="tns:messagingException" />
 		</wsdl:operation>
 	</wsdl:portType>
+
 	<plnk:partnerLinkType name="EmailPLT">
 		<plnk:role name="EmailProvider" portType="tns:EmailPT" />
 	</plnk:partnerLinkType>

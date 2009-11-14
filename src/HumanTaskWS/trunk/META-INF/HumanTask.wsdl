@@ -183,6 +183,7 @@
 			<wsdl:fault name="transactionException" message="tns:transactionException" />
 		</wsdl:operation>
 	</wsdl:portType>
+
 	<plnk:partnerLinkType name="HumanTaskPLT">
 		<plnk:role name="HumanTaskProvider" portType="tns:HumanTaskPT" />
 		<plnk:role name="HumanTaskClient" portType="dwsdl:basicProcessPT" />
