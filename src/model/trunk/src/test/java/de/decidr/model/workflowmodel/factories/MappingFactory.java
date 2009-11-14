@@ -28,6 +28,7 @@ import de.decidr.model.workflowmodel.webservices.PLTInfo;
 import de.decidr.model.workflowmodel.webservices.Properties;
 import de.decidr.model.workflowmodel.bpel.varprop.Property;
 import de.decidr.model.workflowmodel.bpel.varprop.PropertyAlias;
+import de.decidr.model.workflowmodel.bpel.varprop.Query;
 import de.decidr.model.workflowmodel.webservices.PropertyAliases;
 import de.decidr.model.workflowmodel.webservices.WebserviceMapping;
 
@@ -99,10 +100,40 @@ public class MappingFactory {
         bodyHTML
                 .setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"));
 
-        Property attachement = new Property();
-        attachement.setName("attachement");
-        attachement.setType(new QName("http://decidr.de/schema/DecidrTypes",
+        Property attachments = new Property();
+        attachments.setName("attachments");
+        attachments.setType(new QName("http://decidr.de/schema/DecidrTypes",
                 "tIDList"));
+
+        Query to_Query = new Query();
+        to_Query.getContent().add("/tns:sendEmail/tns:to");
+
+        Query cc_Query = new Query();
+        to_Query.getContent().add("/tns:sendEmail/tns:cc");
+
+        Query bcc_Query = new Query();
+        to_Query.getContent().add("/tns:sendEmail/tns:bcc");
+
+        Query fromName_Query = new Query();
+        to_Query.getContent().add("/tns:sendEmail/tns:fromName");
+
+        Query fromAddress_Query = new Query();
+        to_Query.getContent().add("/tns:sendEmail/tns:fromAddress");
+
+        Query subject_Query = new Query();
+        to_Query.getContent().add("/tns:sendEmail/tns:subject");
+
+        Query headers_Query = new Query();
+        to_Query.getContent().add("/tns:sendEmail/tns:headers");
+
+        Query bodyTXT_Query = new Query();
+        to_Query.getContent().add("/tns:sendEmail/tns:bodyTXT");
+
+        Query bodyHTML_Query = new Query();
+        to_Query.getContent().add("/tns:sendEmail/tns:bodyHTML");
+
+        Query attachments_Query = new Query();
+        to_Query.getContent().add("/tns:sendEmail/tns:attachments");
 
         QName createEmailRequest = new QName(EmailInterface.TARGET_NAMESPACE,
                 "sendEmailRequest");
@@ -110,51 +141,61 @@ public class MappingFactory {
         to_Alias.setPropertyName(new QName(to.getName()));
         to_Alias.setMessageType(createEmailRequest);
         to_Alias.setType(to.getType());
+        to_Alias.setQuery(to_Query);
 
         PropertyAlias cc_Alias = new PropertyAlias();
         cc_Alias.setPropertyName(new QName(cc.getName()));
         cc_Alias.setMessageType(createEmailRequest);
         cc_Alias.setType(cc.getType());
+        cc_Alias.setQuery(cc_Query);
 
         PropertyAlias bcc_Alias = new PropertyAlias();
         bcc_Alias.setPropertyName(new QName(bcc.getName()));
         bcc_Alias.setMessageType(createEmailRequest);
         bcc_Alias.setType(bcc.getType());
+        bcc_Alias.setQuery(bcc_Query);
 
         PropertyAlias fromName_Alias = new PropertyAlias();
         fromName_Alias.setPropertyName(new QName(fromName.getName()));
         fromName_Alias.setMessageType(createEmailRequest);
         fromName_Alias.setType(fromName.getType());
+        fromName_Alias.setQuery(fromName_Query);
 
         PropertyAlias fromAddress_Alias = new PropertyAlias();
         fromAddress_Alias.setPropertyName(new QName(fromAddress.getName()));
         fromAddress_Alias.setMessageType(createEmailRequest);
         fromAddress_Alias.setType(fromAddress.getType());
+        fromAddress_Alias.setQuery(fromAddress_Query);
 
         PropertyAlias subject_Alias = new PropertyAlias();
         subject_Alias.setPropertyName(new QName(subject.getName()));
         subject_Alias.setMessageType(createEmailRequest);
         subject_Alias.setType(subject.getType());
+        subject_Alias.setQuery(subject_Query);
 
         PropertyAlias headers_Alias = new PropertyAlias();
         headers_Alias.setPropertyName(new QName(headers.getName()));
         headers_Alias.setMessageType(createEmailRequest);
         headers_Alias.setType(headers.getType());
+        headers_Alias.setQuery(headers_Query);
 
         PropertyAlias bodyTXT_Alias = new PropertyAlias();
         bodyTXT_Alias.setPropertyName(new QName(bodyTXT.getName()));
         bodyTXT_Alias.setMessageType(createEmailRequest);
         bodyTXT_Alias.setType(bodyTXT.getType());
+        bodyTXT_Alias.setQuery(bodyTXT_Query);
 
         PropertyAlias bodyHTML_Alias = new PropertyAlias();
         bodyHTML_Alias.setPropertyName(new QName(bodyHTML.getName()));
         bodyHTML_Alias.setMessageType(createEmailRequest);
         bodyHTML_Alias.setType(bodyHTML.getType());
+        bodyHTML_Alias.setQuery(bodyHTML_Query);
 
-        PropertyAlias attachement_Alias = new PropertyAlias();
-        attachement_Alias.setPropertyName(new QName(attachement.getName()));
-        attachement_Alias.setMessageType(createEmailRequest);
-        attachement_Alias.setType(attachement.getType());
+        PropertyAlias attachments_Alias = new PropertyAlias();
+        attachments_Alias.setPropertyName(new QName(attachments.getName()));
+        attachments_Alias.setMessageType(createEmailRequest);
+        attachments_Alias.setType(attachments.getType());
+        attachments_Alias.setQuery(attachments_Query);
 
         Properties emailProperties = new Properties();
         emailProperties.getProperty().add(to);
@@ -166,7 +207,7 @@ public class MappingFactory {
         emailProperties.getProperty().add(headers);
         emailProperties.getProperty().add(bodyTXT);
         emailProperties.getProperty().add(bodyHTML);
-        emailProperties.getProperty().add(attachement);
+        emailProperties.getProperty().add(attachments);
 
         PropertyAliases emailPropertyAliases = new PropertyAliases();
         emailPropertyAliases.getPropertyAlias().add(to_Alias);
@@ -178,7 +219,7 @@ public class MappingFactory {
         emailPropertyAliases.getPropertyAlias().add(headers_Alias);
         emailPropertyAliases.getPropertyAlias().add(bodyTXT_Alias);
         emailPropertyAliases.getPropertyAlias().add(bodyHTML_Alias);
-        emailPropertyAliases.getPropertyAlias().add(attachement_Alias);
+        emailPropertyAliases.getPropertyAlias().add(attachments_Alias);
 
         email.getProperties().add(emailProperties);
         email.getPropertyAliases().add(emailPropertyAliases);
@@ -245,49 +286,81 @@ public class MappingFactory {
         taskID.setName("taskID");
         taskID.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "long"));
 
+        Query wfmID_Query = new Query();
+        wfmID_Query.getContent().add("/tns:createTask/tns:wfmID");
+
+        Query processID_Query = new Query();
+        processID_Query.getContent().add("/tns:createTask/tns:processID");
+
+        Query userID_Query = new Query();
+        userID_Query.getContent().add("/tns:createTask/tns:userID");
+
+        Query taskName_Query = new Query();
+        taskName_Query.getContent().add("/tns:createTask/tns:taskName");
+
+        Query userNotification_Query = new Query();
+        userNotification_Query.getContent().add("/tns:createTask/tns:userNotification");
+
+        Query description_Query = new Query();
+        description_Query.getContent().add("/tns:createTask/tns:description");
+
+        Query taskData_Query = new Query();
+        taskData_Query.getContent().add("/tns:createTask/tns:taskData");
+
+        Query taskID_Query = new Query();
+        taskID_Query.getContent().add("/tns:createTask/tns:taskID");
+
         QName createTaskRequest = new QName(
                 HumanTaskInterface.TARGET_NAMESPACE, "createTaskRequest");
         PropertyAlias wfmID_Alias = new PropertyAlias();
         wfmID_Alias.setPropertyName(new QName(wfmID.getName()));
         wfmID_Alias.setMessageType(createTaskRequest);
         wfmID_Alias.setType(wfmID.getType());
+        wfmID_Alias.setQuery(wfmID_Query);
 
         PropertyAlias processID_Alias = new PropertyAlias();
         processID_Alias.setPropertyName(new QName(processID.getName()));
         processID_Alias.setMessageType(createTaskRequest);
         processID_Alias.setType(processID.getType());
+        processID_Alias.setQuery(processID_Query);
 
         PropertyAlias userID_Alias = new PropertyAlias();
         userID_Alias.setPropertyName(new QName(userID.getName()));
         userID_Alias.setMessageType(createTaskRequest);
         userID_Alias.setType(userID.getType());
+        userID_Alias.setQuery(userID_Query);
 
         PropertyAlias taskName_Alias = new PropertyAlias();
         taskName_Alias.setPropertyName(new QName(taskName.getName()));
         taskName_Alias.setMessageType(createTaskRequest);
         taskName_Alias.setType(taskName.getType());
+        taskName_Alias.setQuery(taskName_Query);
 
         PropertyAlias userNotification_Alias = new PropertyAlias();
         userNotification_Alias.setPropertyName(new QName(userNotification
                 .getName()));
         userNotification_Alias.setMessageType(createTaskRequest);
         userNotification_Alias.setType(userNotification.getType());
+        userNotification_Alias.setQuery(userNotification_Query);
 
         PropertyAlias description_Alias = new PropertyAlias();
         description_Alias.setPropertyName(new QName(description.getName()));
         description_Alias.setMessageType(createTaskRequest);
         description_Alias.setType(description.getType());
+        description_Alias.setQuery(description_Query);
 
         PropertyAlias taskData_Alias = new PropertyAlias();
         taskData_Alias.setPropertyName(new QName(taskData.getName()));
         taskData_Alias.setMessageType(createTaskRequest);
         taskData_Alias.setType(taskData.getType());
+        taskData_Alias.setQuery(taskData_Query);
 
         PropertyAlias taskID_Alias = new PropertyAlias();
         taskID_Alias.setPropertyName(new QName(taskID.getName()));
         taskID_Alias.setMessageType(new QName(
                 HumanTaskInterface.TARGET_NAMESPACE, "createTaskResponse"));
         taskID_Alias.setType(taskID.getType());
+        taskID_Alias.setQuery(taskID_Query);
 
         Properties humanTaskProperties = factory.createProperties();
         humanTaskProperties.getProperty().add(wfmID);
