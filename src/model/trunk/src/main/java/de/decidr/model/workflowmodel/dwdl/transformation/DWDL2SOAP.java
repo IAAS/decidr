@@ -86,13 +86,13 @@ public class DWDL2SOAP {
                 // Find the element in the schema declaration in types
                 Element element = findElement(elementName.getLocalPart(),
                         getSchemaElement(definition));
-
+                
+                // Find the corresponding complexType
                 Element typeElement = findElement("complexType", element
                         .getAttribute("type").getValue().toString(),
                         getSchemaElement(definition));
 
-                // Iterate over all children of the element for further
-                // construction of the soap message
+                // Iterate over all children of the complexType 
                 Iterator<?> iter = typeElement.getChildren().iterator();
 
                 while (iter.hasNext()) {
@@ -109,7 +109,7 @@ public class DWDL2SOAP {
                             Element sequenceOrAllChild = (Element) lastIter
                                     .next();
 
-                            // Only add elements
+                            // Only add elements, ignore attributes
                             if (sequenceOrAllChild.getName().equals("element")) {
                                 soapElements.add(sequenceOrAllChild);
                             }
@@ -129,7 +129,7 @@ public class DWDL2SOAP {
         return complexChild.getName().equals("all");
     }
 
-    private SOAPMessage buildMessage(List<Element> soapElements, Element element)
+    private SOAPMessage buildMessage(List<Element> soapElements, Element jdomBodyElement)
             throws UnsupportedOperationException, SOAPException {
 
         MessageFactory messageFactory = MessageFactory.newInstance();
@@ -140,13 +140,13 @@ public class DWDL2SOAP {
         SOAPHeader header = envelope.getHeader();
         SOAPBody body = envelope.getBody();
 
-        header.addAttribute(envelope.createName("bodyElementName"), element
+        header.addAttribute(envelope.createName("bodyElementName"), jdomBodyElement
                 .getAttributeValue("name"));
         header.addAttribute(envelope.createName("targetNamespace"), definition
                 .getTargetNamespace());
 
         SOAPElement bodyElement = body.addChildElement(envelope.createName(
-                element.getAttributeValue("name"), "decidr", definition
+                jdomBodyElement.getAttributeValue("name"), "decidr", definition
                         .getTargetNamespace()));
 
         for (Element soapElement : soapElements) {
