@@ -44,8 +44,9 @@ import de.decidr.model.workflowmodel.bpel.partnerlinktype.Role;
  * @version 0.1
  */
 public class DecidrWebserviceAdapter {
-    
-    private static Logger log = DefaultLogger.getLogger(DecidrWebserviceAdapter.class);
+
+    private static Logger log = DefaultLogger
+            .getLogger(DecidrWebserviceAdapter.class);
 
     WebserviceMapping mapping = null;
     Definition definition = null;
@@ -61,28 +62,33 @@ public class DecidrWebserviceAdapter {
     }
 
     public PartnerLink getPartnerLink() {
+
         PartnerLink partnerLink = new PartnerLink();
         partnerLink.setName(definition.getQName().getLocalPart() + "PL");
-        partnerLink.setMyRole(mapping.getActivity() + "Requestor");
-        partnerLink.setPartnerRole(mapping.getActivity() + "Provider");
+        if (mapping.getPartnerLinkType().getMyRole() != null) {
+            partnerLink.setMyRole(mapping.getPartnerLinkType().getMyRole());
+        }
+        if (mapping.getPartnerLinkType().getPartnerRole() != null) {
+            partnerLink.setPartnerRole(mapping.getActivity() + "Provider");
+        }
         partnerLink.setPartnerLinkType(new QName(definition
-                .getTargetNamespace(), definition.getQName().getLocalPart()
-                + "PLT"));
+                .getTargetNamespace(), getPartnerLinkType().getName()));
         return partnerLink;
     }
 
     public PartnerLinkType getPartnerLinkType() {
-        
+
         // get all partner link elements in the wsdl definition
         List<PartnerLinkType> partnerLinkTypes = getPartnerLinksElements(definition);
-        
+
         // return only the partner link type that contains a role element
         // that itself references to the port type specified in the mapping
-        for (PartnerLinkType plnk : partnerLinkTypes){
-            if(plnk.isSetRole()){
-                for (Role role : plnk.getRole()){
-                    if (role.isSetPortType()){
-                        if (role.getPortType().getLocalPart().equals(mapping.getPortType())){
+        for (PartnerLinkType plnk : partnerLinkTypes) {
+            if (plnk.isSetRole()) {
+                for (Role role : plnk.getRole()) {
+                    if (role.isSetPortType()) {
+                        if (role.getPortType().getLocalPart().equals(
+                                mapping.getPortType())) {
                             return plnk;
                         }
                     }
@@ -90,7 +96,8 @@ public class DecidrWebserviceAdapter {
             }
         }
         // otherwise return null
-        log.warn("Partner link type in "+definition.getTargetNamespace()+" DecidrWebserviceAdapter is null");
+        log.warn("Partner link type in " + definition.getTargetNamespace()
+                + " DecidrWebserviceAdapter is null");
         return null;
     }
 
@@ -103,12 +110,13 @@ public class DecidrWebserviceAdapter {
                 .getExtensibilityElements().iterator();
         while (iter.hasNext()) {
             ExtensibilityElement element = (ExtensibilityElement) iter.next();
-            if (element instanceof SOAP12Address){
+            if (element instanceof SOAP12Address) {
                 SOAP12Address adress = (SOAP12Address) element;
                 return adress.getLocationURI();
             }
         }
-        log.warn("Location in "+definition.getTargetNamespace()+" DecidrWebserviceAdapter is null");
+        log.warn("Location in " + definition.getTargetNamespace()
+                + " DecidrWebserviceAdapter is null");
         return null;
 
     }
@@ -138,14 +146,14 @@ public class DecidrWebserviceAdapter {
         return definition.getService(new QName(definition.getTargetNamespace(),
                 mapping.getService()));
     }
-    
-    private List<PartnerLinkType> getPartnerLinksElements(Definition def){
+
+    private List<PartnerLinkType> getPartnerLinksElements(Definition def) {
         List<PartnerLinkType> list = new ArrayList<PartnerLinkType>();
         Iterator<?> extElementIter = def.getExtensibilityElements().iterator();
-        while (extElementIter.hasNext()){
+        while (extElementIter.hasNext()) {
             ExtensibilityElement extElement = (ExtensibilityElement) extElementIter
-            .next();
-            if (extElement instanceof PartnerLinkType){
+                    .next();
+            if (extElement instanceof PartnerLinkType) {
                 list.add((PartnerLinkType) extElement);
             }
         }

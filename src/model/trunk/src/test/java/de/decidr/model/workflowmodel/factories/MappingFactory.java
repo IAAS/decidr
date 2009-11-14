@@ -22,6 +22,7 @@ import javax.xml.namespace.QName;
 
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.webservices.ObjectFactory;
+import de.decidr.model.workflowmodel.webservices.PLTInfo;
 import de.decidr.model.workflowmodel.webservices.Properties;
 import de.decidr.model.workflowmodel.bpel.varprop.Property;
 import de.decidr.model.workflowmodel.bpel.varprop.PropertyAlias;
@@ -45,7 +46,10 @@ public class MappingFactory {
         email.setPortType("EmailPT");
         email.setOperation("sendEmail");
         email.setBinding("EmailSOAP");
-        email.setPartnerLinkTyp("EmailPLT");
+        PLTInfo partnerlinktype = new PLTInfo();
+        partnerlinktype.setName("EmailPLT");
+        partnerlinktype.setPartnerRole("EmailProvider");
+        email.setPartnerLinkType(partnerlinktype);
         email.setService("Email");
         email.setServicePort("EmailSOAP");
         Property to = new Property();
@@ -145,7 +149,11 @@ public class MappingFactory {
         humanTask.setPortType("HumanTaskPT");
         humanTask.setOperation("createTask");
         humanTask.setBinding("HumanTaskSOAP");
-        humanTask.setPartnerLinkTyp("HumanTaskPLT");
+        PLTInfo partnerlinktype = new PLTInfo();
+        partnerlinktype.setName("HumanTaskPLT");
+        partnerlinktype.setMyRole("HumanTaskClient");
+        partnerlinktype.setPartnerRole("HumanTaskProvider");
+        humanTask.setPartnerLinkType(partnerlinktype);
         humanTask.setService("HumanTask");
         humanTask.setServicePort("HumanTaskSOAP");
 

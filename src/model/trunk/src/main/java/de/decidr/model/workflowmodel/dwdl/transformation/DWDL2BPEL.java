@@ -618,23 +618,17 @@ public class DWDL2BPEL {
     }
 
     private void setProcessAttributes() {
-
         // sets the targetNamespace and name of the process
         if (dwdl.getName() != null) {
             process.setName(dwdl.getName());
             process.setTargetNamespace(dwdl.getTargetNamespace());
         }
-
-        // add id attribute to process element
-        process.getOtherAttributes().put(
-                new QName(Constants.DECIDRTYPES_NAMESPACE, "id",
-                        BPELConstants.DECIDRTYPES_PREFIX), String.valueOf(dwdl.getId()));
     }
 
     private void setProcessDocumentation() {
-        Documentation documentation = null;
+        // sets the documentation part
         if (dwdl.getDescription() != null) {
-            documentation = factory.createDocumentation();
+            Documentation documentation = factory.createDocumentation();
             documentation.getContent().add(dwdl.getDescription());
             process.getDocumentation().add(documentation);
         }
