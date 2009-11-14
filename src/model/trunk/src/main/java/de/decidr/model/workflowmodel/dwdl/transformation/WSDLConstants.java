@@ -23,11 +23,25 @@ package de.decidr.model.workflowmodel.dwdl.transformation;
  */
 public final class WSDLConstants {
     
-    public static String PROCESS_MESSAGE_NAME = "processIn";
+    public static final String PROCESS_MESSAGE_IN = "startMessageRequest";
+    public static final String PROCESS_MESSAGE_OUT = "startMessageResponse";
     public static final String PROCESS_PARTNERLINKTYPE = "ProcessPLT";
-    public static final String PROCESS_MESSAGE_ELEMENT = "startProcess";
-    public static final String PROCESS_MESSAGE_TYPE = "startMessage";
+    public static final String PROCESS_MESSAGE_IN_ELEMENT = "startProcess";
+    public static final String PROCESS_MESSAGE_OUT_ELEMENT = "startProcessResponse";
+    public static final String PROCESS_MESSAGE_ELEMENT_TYPE = "startMessageType";
     public static final String PROCESS_OPERATION = "startProcess";
+    
+    // HumanTask callback message type in 
+    public static final String HUMANTASK_CALLBACK_MESSAGETYPE_IN = "taskCompletedRequest";
+    
+    // HumanTask callback message type out
+    public static final String HUMANTASK_CALLBACK_MESSAGETYPE_OUT = "taskCompletedResponse";
+    
+    // HumanTask callback port
+    public static final String HUMANTASK_CALLBACK_PORT = "basicProcessPT";
+    
+    // HumanTask callback namespace
+    public static final String HUMANTASK_CALLBACK_NAMESPACE = "http://decidr.de/wsdl/basicProcess";
     
     private WSDLConstants(){
         // do nothing

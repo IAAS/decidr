@@ -91,7 +91,8 @@ public class DWDL2WSDL {
     private Definition wsdl = null;
     private String serverLocation = null;
     private Element schemaElement = null;
-    private Message startMessage = null;
+    private Message startMessageRequest = null;
+    private Message startMessageResponse = null;
     private PortType processPortType = null;
     private Binding processBinding = null;
     private Operation startOperation = null;
@@ -187,16 +188,28 @@ public class DWDL2WSDL {
     }
 
     private void setMessages() {
-        startMessage = new MessageImpl();
-        startMessage.setQName(new QName(wsdl.getTargetNamespace(),
-                WSDLConstants.PROCESS_MESSAGE_NAME));
-        Part messagePart = new PartImpl();
-        messagePart.setName("payload");
-        messagePart.setElementName(new QName(wsdl.getTargetNamespace(),
-                WSDLConstants.PROCESS_MESSAGE_ELEMENT, "tns"));
-        startMessage.addPart(messagePart);
-        startMessage.setUndefined(false);
-        wsdl.addMessage(startMessage);
+        startMessageRequest = new MessageImpl();
+        startMessageRequest.setQName(new QName(wsdl.getTargetNamespace(),
+                WSDLConstants.PROCESS_MESSAGE_IN));
+        Part messagePart1 = new PartImpl();
+        messagePart1.setName("payload");
+        messagePart1.setElementName(new QName(wsdl.getTargetNamespace(),
+                WSDLConstants.PROCESS_MESSAGE_IN_ELEMENT, "tns"));
+        startMessageRequest.addPart(messagePart1);
+        startMessageRequest.setUndefined(false);
+        
+        startMessageResponse = new MessageImpl();
+        startMessageResponse.setQName(new QName(wsdl.getTargetNamespace(),
+                WSDLConstants.PROCESS_MESSAGE_OUT));
+        Part messagePart2 = new PartImpl();
+        messagePart2.setName("payload");
+        messagePart2.setElementName(new QName(wsdl.getTargetNamespace(),
+                WSDLConstants.PROCESS_MESSAGE_OUT_ELEMENT, "tns"));
+        startMessageResponse.addPart(messagePart2);
+        startMessageResponse.setUndefined(false);
+        
+        wsdl.addMessage(startMessageRequest);
+        wsdl.addMessage(startMessageResponse);
     }
 
     private void setNamespaces() {
@@ -234,7 +247,7 @@ public class DWDL2WSDL {
         startOperation.setName(WSDLConstants.PROCESS_OPERATION);
         Input input = new InputImpl();
         input.setName("input");
-        input.setMessage(startMessage);
+        input.setMessage(startMessageRequest);
         startOperation.setInput(input);
         startOperation.setUndefined(false);
         processPortType.addOperation(startOperation);
@@ -260,8 +273,8 @@ public class DWDL2WSDL {
 
                     propertyAlias.setPropertyName(new QName(dwdl
                             .getTargetNamespace(), property.getName()));
-                    propertyAlias.setMessageType(startMessage.getQName());
-                    propertyAlias.setPart(startMessage.getPart("payload")
+                    propertyAlias.setMessageType(startMessageRequest.getQName());
+                    propertyAlias.setPart(startMessageRequest.getPart("payload")
                             .getName());
 
                     query
@@ -271,7 +284,7 @@ public class DWDL2WSDL {
                                             + wsdl.getPrefix(wsdl
                                                     .getTargetNamespace())
                                             + ":"
-                                            + WSDLConstants.PROCESS_MESSAGE_ELEMENT
+                                            + WSDLConstants.PROCESS_MESSAGE_IN_ELEMENT
                                             + "/"
                                             + wsdl
                                                     .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI)
@@ -310,13 +323,13 @@ public class DWDL2WSDL {
         Element messageRoot = new Element("element", wsdl
                 .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI),
                 XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        messageRoot.setAttribute("name", WSDLConstants.PROCESS_MESSAGE_ELEMENT);
-        messageRoot.setAttribute("type", WSDLConstants.PROCESS_MESSAGE_TYPE);
+        messageRoot.setAttribute("name", WSDLConstants.PROCESS_MESSAGE_IN_ELEMENT);
+        messageRoot.setAttribute("type", WSDLConstants.PROCESS_MESSAGE_ELEMENT_TYPE);
 
         Element messageType = new Element("complexType", wsdl
                 .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI),
                 XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        messageType.setAttribute("name", WSDLConstants.PROCESS_MESSAGE_TYPE);
+        messageType.setAttribute("name", WSDLConstants.PROCESS_MESSAGE_ELEMENT_TYPE);
         Element all = new Element("all", wsdl
                 .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI),
                 XMLConstants.W3C_XML_SCHEMA_NS_URI);

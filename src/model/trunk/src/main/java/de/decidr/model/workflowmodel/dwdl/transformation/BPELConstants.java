@@ -28,17 +28,14 @@ public final class BPELConstants {
     public static final String SUCCESS_MESSAGE_RESPONSE = "successMessageResponse";
     public static final String FAULT_MESSAGE_REQUEST = "faultMessageRequest";
     public static final String FAULT_MESSAGE_RESPONSE = "faultMessageResponse";
-    public static final String PROCESS_HUMANTASK_INPUT_VARIABLE = "taskDataMessageRequest";
-    public static final String PROCESS_INPUT_VARIABLE = "startConfigurations";
+    public static final String HUMANTASK_RESPONSE = "humanTaskResponse";
+    public static final String PROCESS_INPUT_VARIABLE = "processIn";
+    public static final String PROCESS_OUTPUT_VARIABLE = "processOut";
 
     // namespace prefixes
     public static final String DECIDRTYPES_PREFIX = "decidr";
     public static final String DECIDRPROCESSTYPES_PREFIX = "pdecidr";
     public static final String PROCESS_PREFIX = "tns";
-
-    // process message types and operations
-    public static final String PROCESS_REQUEST_MESSAGE = "startMessage";
-    public static final String PROCESS_HUMANTASK_REQUEST_MESSAGE = "taskCompletedRequest";
 
     // process partner link names and types
     public static final String PROCESS_PARTNERLINK = "ProcessPL";
@@ -47,6 +44,7 @@ public final class BPELConstants {
     // Decidr web services' names
     public static final String EMAIL_ACTIVITY_NAME = "Decidr-Email";
     public static final String HUMANTASK_ACTIVITY_NAME = "Decidr-HumanTask";
+    
     
     // correlation properties used
     public static final String[] CORRELATION_PROPERTIES = {"processID", "userID", "taskID"};

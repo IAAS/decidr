@@ -85,7 +85,11 @@ import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
 
 /**
- * This class transforms a given {@link Workflow} object into {@link Process} object.
+ * This class transforms a given {@link Workflow} object into {@link Process}
+ * object. Following naming convention are used: <br>
+ * <li>WSDL import location = WSDL local name + ".wsdl"</li> <li>Process WSDL
+ * location = Process name + ".wsdl"</li> <li>Web service input/ output variable
+ * name = Web service operation name + "In"/"Out"</li>
  * 
  * @author Modood Alvi
  * @version 0.1
@@ -103,8 +107,6 @@ public class DWDL2BPEL {
     // will be initialized in setProcessVariables()
     private Map<DecidrWebserviceAdapter, Variable> webserviceInputVariables = null;
     private Map<DecidrWebserviceAdapter, Variable> webserviceOutputVariables = null;
-    // will be initialized in setImports()
-    private Map<DecidrWebserviceAdapter, String> webservicePrefixes = null;
 
     private void addCopyStatement(Assign assign, SetProperty property,
             String toVariable) {
@@ -187,19 +189,22 @@ public class DWDL2BPEL {
         if (node.isSetNotificationOfSuccess()) {
             for (SetProperty property : node.getNotificationOfSuccess()
                     .getSetProperty()) {
-                addCopyStatement(assign, property, BPELConstants.SUCCESS_MESSAGE_REQUEST);
+                addCopyStatement(assign, property,
+                        BPELConstants.SUCCESS_MESSAGE_REQUEST);
             }
             for (Recipient recipient : node.getNotificationOfSuccess()
                     .getRecipient()) {
                 for (SetProperty property : recipient.getSetProperty()) {
-                    addCopyStatement(assign, property, BPELConstants.SUCCESS_MESSAGE_REQUEST);
+                    addCopyStatement(assign, property,
+                            BPELConstants.SUCCESS_MESSAGE_REQUEST);
                 }
             }
         }
-        emailInvoke.setPartnerLink(adapters.get(BPELConstants.EMAIL_ACTIVITY_NAME)
-                .getPartnerLink().getName());
-        emailInvoke.setOperation(adapters.get(BPELConstants.EMAIL_ACTIVITY_NAME)
-                .getOpertation().getName());
+        emailInvoke.setPartnerLink(adapters.get(
+                BPELConstants.EMAIL_ACTIVITY_NAME).getPartnerLink().getName());
+        emailInvoke.setOperation(adapters
+                .get(BPELConstants.EMAIL_ACTIVITY_NAME).getOpertation()
+                .getName());
         emailInvoke.setInputVariable(BPELConstants.SUCCESS_MESSAGE_REQUEST);
         emailInvoke.setOutputVariable(BPELConstants.SUCCESS_MESSAGE_RESPONSE);
         sequence.getActivity().add(assign);
@@ -300,14 +305,14 @@ public class DWDL2BPEL {
         if (node.getActivity().equals(BPELConstants.HUMANTASK_ACTIVITY_NAME)) {
             de.decidr.model.workflowmodel.dwdl.Literal lit = new de.decidr.model.workflowmodel.dwdl.Literal();
             lit.getContent().add(node.getParameter().getContent());
-            for (SetProperty prop : node.getSetProperty()){
+            for (SetProperty prop : node.getSetProperty()) {
                 addCopyStatement(assign, prop, webserviceInputVariables.get(
                         adapters.get(node.getActivity())).getName());
             }
         }
         sequence.getActivity().add(assign);
-        invoke.setPartnerLink(adapters.get(node.getActivity())
-                .getPartnerLink().getName());
+        invoke.setPartnerLink(adapters.get(node.getActivity()).getPartnerLink()
+                .getName());
         invoke.setOperation(adapters.get(node.getActivity()).getOpertation()
                 .getName());
         invoke.setInputVariable(webserviceInputVariables.get(
@@ -431,11 +436,12 @@ public class DWDL2BPEL {
         Links links = factory.createLinks();
         mainFlow.setName("mainFlow");
         mainFlow.setLinks(links);
-        if (dwdl.isSetArcs()){
+        if (dwdl.isSetArcs()) {
             setArcs(dwdl.getArcs().getArc(), mainFlow.getLinks().getLink());
         }
-        if (dwdl.isSetNodes()){
-            setActivityNode(mainFlow.getActivity(), dwdl.getNodes().getAllNodes());
+        if (dwdl.isSetNodes()) {
+            setActivityNode(mainFlow.getActivity(), dwdl.getNodes()
+                    .getAllNodes());
         }
         mainSequence.getActivity().add(mainFlow);
         process.setSequence(mainSequence);
@@ -506,7 +512,8 @@ public class DWDL2BPEL {
         if (dwdl.isSetFaultHandler()
                 && dwdl.getFaultHandler().isSetSetProperty()) {
             for (SetProperty property : dwdl.getFaultHandler().getSetProperty()) {
-                addCopyStatement(assign, property, BPELConstants.FAULT_MESSAGE_REQUEST);
+                addCopyStatement(assign, property,
+                        BPELConstants.FAULT_MESSAGE_REQUEST);
             }
             if (dwdl.getFaultHandler().isSetRecipient()) {
                 for (Recipient recipient : dwdl.getFaultHandler()
@@ -517,10 +524,12 @@ public class DWDL2BPEL {
                     }
                 }
             }
-            emailInvoke.setPartnerLink(adapters.get(BPELConstants.EMAIL_ACTIVITY_NAME)
-                    .getPartnerLink().getName());
-            emailInvoke.setOperation(adapters.get(BPELConstants.EMAIL_ACTIVITY_NAME)
-                    .getOpertation().getName());
+            emailInvoke.setPartnerLink(adapters.get(
+                    BPELConstants.EMAIL_ACTIVITY_NAME).getPartnerLink()
+                    .getName());
+            emailInvoke.setOperation(adapters.get(
+                    BPELConstants.EMAIL_ACTIVITY_NAME).getOpertation()
+                    .getName());
             emailInvoke.setInputVariable(BPELConstants.FAULT_MESSAGE_REQUEST);
             emailInvoke.setOutputVariable(BPELConstants.FAULT_MESSAGE_RESPONSE);
             sequence.getActivity().add(assign);
@@ -534,18 +543,17 @@ public class DWDL2BPEL {
 
     private void setImports() {
         Import dtImport = factory.createImport();
+        Import dtpImport = factory.createImport();
         Import odeImport = factory.createImport();
         Import processImport = factory.createImport();
-        webservicePrefixes = new HashMap<DecidrWebserviceAdapter, String>();
         // import all known web services
         byte wsPrefixNumber = 1;
         for (DecidrWebserviceAdapter adapter : adapters.values()) {
             Import wsImport = factory.createImport();
             wsImport.setNamespace(adapter.getTargetNamespace());
-            wsImport.setLocation(adapter.getLocation());
-            wsImport.setImportType(org.apache.axis2.namespace.Constants.NS_URI_WSDL11);
+            wsImport.setLocation(adapter.getName().getLocalPart() + ".wsdl");
+            wsImport.setImportType(Constants.WSDL_NAMESPACE);
             // initialize web service prefixes
-            webservicePrefixes.put(adapter, "ws" + wsPrefixNumber);
             process.getImport().add(wsImport);
             wsPrefixNumber++;
         }
@@ -555,20 +563,24 @@ public class DWDL2BPEL {
         dtImport.setImportType(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         dtImport.setLocation(Constants.DECIDRTYPES_LOCATION);
 
+        // setting import for DecidrTypes
+        dtpImport.setNamespace(Constants.DECIDRPROCESSTYPES_NAMESPACE);
+        dtpImport.setImportType(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        dtpImport.setLocation(Constants.DECIDRPROCESSTYPES_LOCATION);
+
         // setting import for Ode extension
         odeImport.setNamespace(Constants.ODE_NAMESPACE);
         odeImport.setImportType(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
         // setting import for process WSDL
         processImport.setNamespace(process.getTargetNamespace());
-        processImport.setImportType(org.apache.axis2.namespace.Constants.NS_URI_WSDL11);
-        // setting location with space replaced with underscore
-        processImport
-                .setLocation(process.getName().replace(" ", "_") + ".wsdl");
+        processImport.setImportType(Constants.WSDL_NAMESPACE);
+        processImport.setLocation(process.getName() + ".wsdl");
 
         // adding imports to process
         process.getImport().add(odeImport);
         process.getImport().add(dtImport);
+        process.getImport().add(dtpImport);
         process.getImport().add(processImport);
     }
 
@@ -582,39 +594,33 @@ public class DWDL2BPEL {
     }
 
     private void setPartnerLinks() {
-        PartnerLinks pls = factory.createPartnerLinks();
-        process.setPartnerLinks(pls);
+        PartnerLinks partnerLinks = factory.createPartnerLinks();
 
         // create partner links for all known web services
         for (DecidrWebserviceAdapter adapter : adapters.values()) {
             PartnerLink wsPL = factory.createPartnerLink();
             wsPL.setName(adapter.getPartnerLink().getName());
-
+            if (adapter.getPartnerLink().isSetMyRole()) {
+                wsPL.setMyRole(adapter.getPartnerLink().getMyRole());
+            }
+            if (adapter.getPartnerLink().isSetPartnerRole()) {
+                wsPL.setPartnerRole(adapter.getPartnerLink().getPartnerRole());
+            }
             wsPL.setPartnerLinkType(new QName(adapter.getTargetNamespace(),
-                    adapter.getPartnerLinkType().getName(), webservicePrefixes
-                            .get(adapter)));
-            wsPL.setPartnerRole(adapter.getName().getLocalPart() + "Provider");
-            // MA How to integrate callback-potential adapters?
+                    adapter.getPartnerLinkType().getName()));
 
-            process.getPartnerLinks().getPartnerLink().add(wsPL);
+            partnerLinks.getPartnerLink().add(wsPL);
         }
-        
-        // Decidr HumanTask web service callback
-        // MA Think about it!
-        PartnerLink humanTaskPL = factory.createPartnerLink();
-        humanTaskPL.setName(adapters.get(BPELConstants.HUMANTASK_ACTIVITY_NAME).getName().getLocalPart()+"Callback");
-        humanTaskPL.setPartnerLinkType(new QName(adapters.get(BPELConstants.HUMANTASK_ACTIVITY_NAME).getTargetNamespace(),
-                adapters.get(BPELConstants.HUMANTASK_ACTIVITY_NAME).getPartnerLinkType().getName(), webservicePrefixes
-                .get(adapters.get(BPELConstants.HUMANTASK_ACTIVITY_NAME))));
-        humanTaskPL.setMyRole(BPELConstants.PROCESS_MYROLE);
 
         // create process client partner link
         PartnerLink processPL = factory.createPartnerLink();
         processPL.setName(BPELConstants.PROCESS_PARTNERLINK);
         processPL.setPartnerLinkType(new QName(process.getTargetNamespace(),
-                WSDLConstants.PROCESS_PARTNERLINKTYPE, BPELConstants.PROCESS_PREFIX));
+                WSDLConstants.PROCESS_PARTNERLINKTYPE));
         processPL.setMyRole(BPELConstants.PROCESS_MYROLE);
-        process.getPartnerLinks().getPartnerLink().add(processPL);
+        partnerLinks.getPartnerLink().add(processPL);
+
+        process.setPartnerLinks(partnerLinks);
     }
 
     private void setProcessAttributes() {
@@ -640,7 +646,8 @@ public class DWDL2BPEL {
         webserviceOutputVariables = new HashMap<DecidrWebserviceAdapter, Variable>();
 
         // create global process variables
-        Variable startConfigurations = factory.createVariable();
+        Variable processIn = factory.createVariable();
+        Variable processOut = factory.createVariable();
         Variable wfmid = factory.createVariable();
         Variable faultMessage = factory.createVariable();
         Variable faultMessageResponse = factory.createVariable();
@@ -652,70 +659,58 @@ public class DWDL2BPEL {
         for (DecidrWebserviceAdapter adapter : adapters.values()) {
             Variable inputVariable = factory.createVariable();
             Variable outputVariable = factory.createVariable();
-            inputVariable.setName(webservicePrefixes.get(adapter)
-                    + adapter.getOpertation().getName() + "Input");
-            inputVariable.setMessageType(new QName(
-                    adapter.getTargetNamespace(),
-                    adapter.getInputMessageType().getLocalPart(), webservicePrefixes
-                            .get(adapter)));
-            outputVariable.setName(webservicePrefixes.get(adapter)
-                    + adapter.getOpertation() + "Output");
-            outputVariable.setMessageType(new QName(adapter
-                    .getTargetNamespace(), adapter.getOutputMessageType().getLocalPart(),
-                    webservicePrefixes.get(adapter)));
+            inputVariable.setName(adapter.getOpertation().getName() + "In");
+            inputVariable.setMessageType(adapter.getInputMessageType());
+            outputVariable.setName(adapter.getOpertation().getName() + "Out");
+            outputVariable.setMessageType(adapter.getOutputMessageType());
 
             webserviceInputVariables.put(adapter, inputVariable);
             webserviceOutputVariables.put(adapter, outputVariable);
         }
 
         // setting process start variable
-        startConfigurations.setName(BPELConstants.PROCESS_INPUT_VARIABLE);
-        startConfigurations
-                .setMessageType(new QName(process.getTargetNamespace(),
-                        BPELConstants.PROCESS_REQUEST_MESSAGE, BPELConstants.PROCESS_PREFIX));
+        processIn.setName(BPELConstants.PROCESS_INPUT_VARIABLE);
+        processIn.setMessageType(new QName(process.getTargetNamespace(),
+                WSDLConstants.PROCESS_MESSAGE_IN));
 
-        // setting process id variable
-        wfmid.setName("WFMID");
-        wfmid.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "long",
-                "xsd"));
+        processOut.setName(BPELConstants.PROCESS_OUTPUT_VARIABLE);
+        processOut.setMessageType(new QName(process.getTargetNamespace(),
+                WSDLConstants.PROCESS_MESSAGE_OUT));
+
+        // create process id variable
+        wfmid.setName("wfmid");
+        wfmid.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "long"));
 
         // setting fault handler variables
         faultMessage.setName(BPELConstants.FAULT_MESSAGE_REQUEST);
-        faultMessage.setMessageType(new QName(adapters.get(
-                BPELConstants.EMAIL_ACTIVITY_NAME).getTargetNamespace(), adapters.get(
-                        BPELConstants.EMAIL_ACTIVITY_NAME).getInputMessageType().getLocalPart(), webservicePrefixes
-                .get(adapters.get(BPELConstants.EMAIL_ACTIVITY_NAME))));
+        faultMessage.setMessageType(adapters.get(
+                BPELConstants.EMAIL_ACTIVITY_NAME).getInputMessageType());
         faultMessageResponse.setName(BPELConstants.FAULT_MESSAGE_RESPONSE);
-        faultMessageResponse.setMessageType(new QName(adapters.get(
-                BPELConstants.EMAIL_ACTIVITY_NAME).getTargetNamespace(), adapters.get(
-                        BPELConstants.EMAIL_ACTIVITY_NAME).getOutputMessageType().getLocalPart(), webservicePrefixes
-                .get(adapters.get(BPELConstants.EMAIL_ACTIVITY_NAME))));
+        faultMessageResponse.setMessageType(adapters.get(
+                BPELConstants.EMAIL_ACTIVITY_NAME).getOutputMessageType());
 
         // setting success notification variables
         successMessage.setName(BPELConstants.SUCCESS_MESSAGE_REQUEST);
-        successMessage.setMessageType(new QName(adapters.get(
-                BPELConstants.EMAIL_ACTIVITY_NAME).getTargetNamespace(), adapters.get(
-                        BPELConstants.EMAIL_ACTIVITY_NAME).getInputMessageType().getLocalPart(), webservicePrefixes
-                .get(adapters.get(BPELConstants.EMAIL_ACTIVITY_NAME))));
+        successMessage.setMessageType(adapters.get(
+                BPELConstants.EMAIL_ACTIVITY_NAME).getInputMessageType());
         successMessageResponse.setName(BPELConstants.SUCCESS_MESSAGE_RESPONSE);
-        successMessageResponse.setMessageType(new QName(adapters.get(
-                BPELConstants.EMAIL_ACTIVITY_NAME).getTargetNamespace(), adapters.get(
-                        BPELConstants.EMAIL_ACTIVITY_NAME).getOutputMessageType().getLocalPart(), webservicePrefixes
-                .get(adapters.get(BPELConstants.EMAIL_ACTIVITY_NAME))));
+        successMessageResponse.setMessageType(adapters.get(
+                BPELConstants.EMAIL_ACTIVITY_NAME).getOutputMessageType());
 
         // setting process human task data receiving variable
-        taskDataMessage.setName(BPELConstants.PROCESS_HUMANTASK_INPUT_VARIABLE);
-        taskDataMessage.setMessageType(new QName(process.getTargetNamespace(),
-                BPELConstants.PROCESS_HUMANTASK_REQUEST_MESSAGE, BPELConstants.PROCESS_PREFIX));
+        taskDataMessage.setName(BPELConstants.HUMANTASK_RESPONSE);
+        taskDataMessage.setType(new QName(
+                WSDLConstants.HUMANTASK_CALLBACK_NAMESPACE,
+                WSDLConstants.HUMANTASK_CALLBACK_MESSAGETYPE_IN));
 
         // add variables to process
+        variables.getVariable().add(processIn);
+        variables.getVariable().add(faultMessage);
+        variables.getVariable().add(faultMessageResponse);
+        variables.getVariable().add(successMessage);
+        variables.getVariable().add(successMessageResponse);
+        variables.getVariable().add(taskDataMessage);
         process.setVariables(variables);
-        process.getVariables().getVariable().add(startConfigurations);
-        process.getVariables().getVariable().add(faultMessage);
-        process.getVariables().getVariable().add(faultMessageResponse);
-        process.getVariables().getVariable().add(successMessage);
-        process.getVariables().getVariable().add(successMessageResponse);
-        process.getVariables().getVariable().add(taskDataMessage);
     }
 
     private void setSourceAndTargets(BasicNode fromNode, Activity toActivity) {
@@ -750,14 +745,17 @@ public class DWDL2BPEL {
                 de.decidr.model.workflowmodel.bpel.Variable bpelVariable = factory
                         .createVariable();
                 bpelVariable.setName(dwdlVariable.getName());
-                if (Arrays.asList(SimpleType.values()).contains(dwdlVariable.getType())) {
+                if (Arrays.asList(SimpleType.values()).contains(
+                        dwdlVariable.getType())) {
                     bpelVariable.setType(new QName(
                             XMLConstants.W3C_XML_SCHEMA_NS_URI, dwdlVariable
                                     .getType(), "xsd"));
-                } else if (Arrays.asList(ComplexType.values()).contains(dwdlVariable.getType())) {
+                } else if (Arrays.asList(ComplexType.values()).contains(
+                        dwdlVariable.getType())) {
                     bpelVariable.setType(new QName(
                             Constants.DECIDRTYPES_NAMESPACE, dwdlVariable
-                                    .getType(), BPELConstants.DECIDRTYPES_PREFIX));
+                                    .getType(),
+                            BPELConstants.DECIDRTYPES_PREFIX));
 
                 } else {
                     bpelVariable.setType(new QName(
@@ -777,9 +775,8 @@ public class DWDL2BPEL {
                     de.decidr.model.workflowmodel.bpel.Variable role = factory
                             .createVariable();
                     role.setName(r.getName());
-                    role.setElement(new QName(
-                            Constants.DECIDRTYPES_NAMESPACE, "role",
-                            BPELConstants.DECIDRTYPES_PREFIX));
+                    role.setElement(new QName(Constants.DECIDRTYPES_NAMESPACE,
+                            "role", BPELConstants.DECIDRTYPES_PREFIX));
                     process.getVariables().getVariable().add(role);
                 }
             }
@@ -788,9 +785,8 @@ public class DWDL2BPEL {
                     de.decidr.model.workflowmodel.bpel.Variable actor = factory
                             .createVariable();
                     actor.setName(a.getName());
-                    actor.setElement(new QName(
-                            Constants.DECIDRTYPES_NAMESPACE, "actor",
-                            BPELConstants.DECIDRTYPES_PREFIX));
+                    actor.setElement(new QName(Constants.DECIDRTYPES_NAMESPACE,
+                            "actor", BPELConstants.DECIDRTYPES_PREFIX));
                     process.getVariables().getVariable().add(actor);
                 }
             }

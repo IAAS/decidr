@@ -133,6 +133,10 @@ public class DecidrWebserviceAdapter {
     public Definition getDefinition() {
         return definition;
     }
+    
+    public WebserviceMapping getMapping(){
+        return mapping;
+    }
 
     public QName getInputMessageType() {
         return getOpertation().getInput().getMessage().getQName();
