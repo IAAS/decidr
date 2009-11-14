@@ -38,7 +38,7 @@ import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.WorkflowModelsComponent;
-import de.decidr.ui.view.tables.CurrentTenantModelTable;
+import de.decidr.ui.view.tables.WorkflowModelTable;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -113,8 +113,8 @@ public class ModelingTool extends AbstractComponent {
     }
 
     private String getDWDL() {
-        CurrentTenantModelTable table = ((WorkflowModelsComponent) siteFrame
-                .getContent()).getCurrentTenantTable();
+        WorkflowModelTable table = ((WorkflowModelsComponent) siteFrame
+                .getContent()).getWorkflowModelTable();
         workflowModelId = (Long) table.getItem(table.getValue())
                 .getItemProperty("id").getValue();
         try {

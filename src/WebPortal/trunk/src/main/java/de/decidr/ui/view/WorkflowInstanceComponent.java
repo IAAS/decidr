@@ -138,6 +138,7 @@ public class WorkflowInstanceComponent extends CustomComponent {
 		buttonList.add(terminateButton);
 		
 		buttonPanel = new ButtonPanel(buttonList);
+		buttonPanel.setCaption("Edit instance");
 	}
 
 }

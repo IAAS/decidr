@@ -30,6 +30,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Container.Filterable;
 
+import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
@@ -53,7 +54,7 @@ public class PublicModelContainer implements Container,
     private Long userId = (Long) session.getAttribute("userId");
 
     WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
-            new UserRole(userId));
+            new TenantAdminRole(userId));
 
     List<Item> publishedModelList = null;
 

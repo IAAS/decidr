@@ -93,7 +93,7 @@ public class Login {
 		userFacade = new UserFacade(new UserRole(userId));
 
 		tenantId = userFacade.getCurrentTenantId(userId);
-
+		
 		if (tenantId == null) {
 			tenant = DecidrGlobals.getDefaultTenant();
 			tenantId = tenant.getId();

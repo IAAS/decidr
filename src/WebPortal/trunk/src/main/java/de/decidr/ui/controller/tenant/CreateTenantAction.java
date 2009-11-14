@@ -17,19 +17,21 @@
 package de.decidr.ui.controller.tenant;
 
 import javax.servlet.http.HttpSession;
-
-import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.TenantSettingsComponent;
+import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
 import de.decidr.ui.view.uibuilder.TenantAdminViewBuilder;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -45,7 +47,8 @@ public class CreateTenantAction implements ClickListener {
 
 	private Long userId = (Long) session.getAttribute("userId");
 	private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
-	
+	private UserFacade userFacade = new UserFacade(new UserRole(userId));
+
 	private UIDirector uiDirector = UIDirector.getInstance();
 	private TenantAdminViewBuilder tenantAdminViewBuilder = new TenantAdminViewBuilder();
 	private SiteFrame siteFrame = uiDirector.getTemplateView();
@@ -64,27 +67,47 @@ public class CreateTenantAction implements ClickListener {
 	 */
 	@Override
 	public void buttonClick(ClickEvent event) {
-		createForm
-				.getField("tenantName")
-				.addValidator(
-						new RegexpValidator(
-								"\\w{2,50}",
-								"The tenant name must have 2 and up to 50 characters and mustn't contain additional characters"));
-		createForm.commit();
+		boolean notEmpty = true;
 
-		try {
-			tenantFacade.createTenant(createForm.getItemProperty("tenantName")
-					.getValue().toString(), createForm.getItemProperty(
-					"tenantDescription").getValue().toString(), userId);
+		for (Object id : createForm.getItemPropertyIds()) {
+			if (notEmpty) {
+				if (createForm.getField(id).getValue().toString().equals("")
+						&& createForm.getField(id).isRequired()) {
+					notEmpty = false;
+				}
+			}
+		}
+
+		if (notEmpty) {
+			createForm.commit();
+
+			try {
+				Long tenantId = tenantFacade.createTenant(createForm.getItemProperty(
+						"tenantName").getValue().toString(), createForm
+						.getItemProperty("tenantDescription").getValue()
+						.toString(), userId);
+				//TODO: Wie kann ich die rolle neu setzen
+				Class<? extends Role> role = userFacade.getHighestUserRole(userId);
+				System.out.println(role);
+				System.out.println(userFacade.getUserRoleForTenant(userId, tenantId));
+				Main.getCurrent().getSession().setAttribute("role", role);
+				Main.getCurrent().getMainWindow().addWindow(
+						new InformationDialogComponent(
+								"Tenant successfully created", "Success"));
+				uiDirector.setUiBuilder(tenantAdminViewBuilder);
+				uiDirector.constructView();
+				siteFrame.setContent(new TenantSettingsComponent());
+				((HorizontalNavigationMenu) uiDirector.getTemplateView()
+						.getHNavigation()).getLogoutButton().setVisible(true);
+			} catch (TransactionException e) {
+				Main.getCurrent().getMainWindow().addWindow(
+						new TransactionErrorDialogComponent(e));
+			}
+		} else {
 			Main.getCurrent().getMainWindow().addWindow(
 					new InformationDialogComponent(
-							"Tenant successfully created", "Success"));
-			uiDirector.setUiBuilder(tenantAdminViewBuilder);
-			uiDirector.constructView();
-			siteFrame.setContent(new TenantSettingsComponent());
-		} catch (TransactionException e) {
-			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent(e));
+							"Please enter the required information",
+							"Form not complete"));
 		}
 
 	}

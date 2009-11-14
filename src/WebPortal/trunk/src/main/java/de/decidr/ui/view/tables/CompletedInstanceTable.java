@@ -68,7 +68,7 @@ public class CompletedInstanceTable extends Table {
 		setColumnHeaders(COL_HEADERS);
 		setSelectable(true);
 		setMultiSelect(true);
-		setPageLength(8);
+		setPageLength(7);
 	}
 
 }

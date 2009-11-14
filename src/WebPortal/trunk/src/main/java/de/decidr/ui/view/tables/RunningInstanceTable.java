@@ -17,8 +17,6 @@ package de.decidr.ui.view.tables;
 
 import java.util.Date;
 import com.vaadin.data.Container;
-
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 
 public class RunningInstanceTable extends Table {
@@ -33,10 +31,10 @@ public class RunningInstanceTable extends Table {
 	private Container runningInstanceContainer = null;
 
 	public static final Object[] NAT_COL_ORDER = new Object[] { "model",
-			"startedDate", "completedDate" };
+			"startedDate" };
 
 	public static final String[] COL_HEADERS = new String[] { "Model",
-			"Started date", "Completed date" };
+			"Started date" };
 
 	/**
 	 * Default construtctor.
@@ -60,7 +58,6 @@ public class RunningInstanceTable extends Table {
 
 		addContainerProperty("model", String.class, null);
 		addContainerProperty("startedDate", Date.class, null);
-		addContainerProperty("completedDate", Date.class, null);
 		
 		setVisibleColumns(NAT_COL_ORDER);
 		setColumnHeaders(COL_HEADERS);

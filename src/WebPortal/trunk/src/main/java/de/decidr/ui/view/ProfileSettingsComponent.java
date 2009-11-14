@@ -106,9 +106,7 @@ public class ProfileSettingsComponent extends CustomComponent {
 	 * 
 	 */
     private static final long serialVersionUID = 1L;
-    private Panel profilePanel = null;
     private Panel addressPanel = null;
-    private Panel formPanel = null;
     private Panel buttonPanel = null;
     private Panel usernamePanel = null;
 
@@ -116,8 +114,6 @@ public class ProfileSettingsComponent extends CustomComponent {
     private VerticalLayout verticalLayout = null;
     private GridLayout usernameGridLayout = null;
     private VerticalLayout addressVerticalLayout = null;
-    private VerticalLayout profileVerticalLayout = null;
-    private VerticalLayout formVerticalLayout = null;
     private HorizontalLayout buttonHorizontalLayout = null;
 
     private HorizontalLayout profileButtonHorizontalLayout = null;
@@ -177,9 +173,7 @@ public class ProfileSettingsComponent extends CustomComponent {
         settingsForm.setVisibleItemProperties(Arrays.asList(new String[] {
                 "firstName", "lastName", "street", "postalCode", "city" }));
 
-        profilePanel = new Panel();
         addressPanel = new Panel();
-        formPanel = new Panel();
         buttonPanel = new Panel();
         usernamePanel = new Panel();
         profileButtonPanel = new Panel();
@@ -187,8 +181,6 @@ public class ProfileSettingsComponent extends CustomComponent {
         usernameGridLayout = new GridLayout(2, 2);
         verticalLayout = new VerticalLayout();
         addressVerticalLayout = new VerticalLayout();
-        profileVerticalLayout = new VerticalLayout();
-        formVerticalLayout = new VerticalLayout();
         buttonHorizontalLayout = new HorizontalLayout();
         profileButtonHorizontalLayout = new HorizontalLayout();
 
@@ -224,13 +216,9 @@ public class ProfileSettingsComponent extends CustomComponent {
 
         this.setCompositionRoot(verticalLayout);
 
-        verticalLayout.addComponent(profilePanel);
-        verticalLayout.setComponentAlignment(profilePanel, Alignment.TOP_LEFT);
-
-        profilePanel.setContent(profileVerticalLayout);
-        profileVerticalLayout.setSpacing(true);
-        profileVerticalLayout.addComponent(myProfileLabel);
-        profileVerticalLayout.addComponent(usernamePanel);
+        verticalLayout.setSpacing(true);
+        verticalLayout.addComponent(myProfileLabel);
+        verticalLayout.addComponent(usernamePanel);
 
         usernamePanel.addComponent(usernameGridLayout);
         usernameGridLayout.setSpacing(true);
@@ -239,7 +227,7 @@ public class ProfileSettingsComponent extends CustomComponent {
         usernameGridLayout.addComponent(emailLabel, 0, 1);
         usernameGridLayout.addComponent(emailNameLabel, 1, 1);
 
-        profileVerticalLayout.addComponent(profileButtonPanel);
+        verticalLayout.addComponent(profileButtonPanel);
 
         profileButtonPanel.addComponent(profileButtonHorizontalLayout);
         profileButtonHorizontalLayout.setSpacing(true);
@@ -247,17 +235,11 @@ public class ProfileSettingsComponent extends CustomComponent {
         profileButtonHorizontalLayout.addComponent(changePasswordLink);
 
         verticalLayout.addComponent(addressPanel);
-        verticalLayout.setComponentAlignment(addressPanel,
-                Alignment.MIDDLE_LEFT);
-
+        
         addressPanel.addComponent(addressVerticalLayout);
+        
         addressVerticalLayout.setSpacing(true);
-        addressVerticalLayout.addComponent(addressDataLabel);
-        addressVerticalLayout.addComponent(formPanel);
-
-        formPanel.addComponent(formVerticalLayout);
-        formVerticalLayout.setSpacing(true);
-        formVerticalLayout.addComponent(settingsForm);
+        addressVerticalLayout.addComponent(settingsForm);
 
         addressVerticalLayout.addComponent(statusCheckBox);
         statusCheckBox.setCaption("Set my status to unavailable");

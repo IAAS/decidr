@@ -161,8 +161,6 @@ public class WorkItemComponent extends CustomComponent {
 
 		initButtonList();
 
-		buttonPanel = new ButtonPanel(buttonList);
-
 		setCompositionRoot(verticalLayout);
 
 		verticalLayout.addComponent(headerLabel);
@@ -185,6 +183,9 @@ public class WorkItemComponent extends CustomComponent {
 				new MarkWorkItemAsDoneAction(workItemTable));
 
 		buttonList.add(markAsDoneButton);
+		
+		buttonPanel = new ButtonPanel(buttonList);
+		buttonPanel.setCaption("Edit work item");
 	}
 
 }

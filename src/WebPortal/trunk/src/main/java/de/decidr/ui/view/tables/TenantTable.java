@@ -33,9 +33,13 @@ public class TenantTable extends Table {
 
 	private Container tenantContainer = null;
 
-	public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name" };
+	public static final Object[] NAT_COL_ORDER = new Object[] { "id",
+			"firstName", "lastName", "numDeployedWorkflowModels", "numMembers",
+			"numWorkflowInstance" };
 
-	public static final String[] COL_HEADERS = new String[] { "ID", "Name" };
+	public static final String[] COL_HEADERS = new String[] { "ID", "Name",
+			"First name", "Last name", "#Deployed Models", "#Instances",
+			"#Members" };
 
 	/**
 	 * Default constructor.
@@ -58,11 +62,16 @@ public class TenantTable extends Table {
 
 		addContainerProperty("id", Long.class, null);
 		addContainerProperty("name", String.class, null);
+		addContainerProperty("firstName", String.class, null);
+		addContainerProperty("lastName", String.class, null);
+		addContainerProperty("numDeployedWorkflowModels", Long.class, null);
+		addContainerProperty("numWorkflowInstance", Long.class, null);
+		addContainerProperty("numMembers", Long.class, null);
 
 		setVisibleColumns(NAT_COL_ORDER);
 		setColumnHeaders(COL_HEADERS);
 		setSelectable(true);
-		setMultiSelect(true);
+		setMultiSelect(false);
 		setPageLength(10);
 	}
 

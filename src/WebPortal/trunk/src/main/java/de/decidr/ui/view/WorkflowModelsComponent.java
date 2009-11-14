@@ -34,10 +34,10 @@ import de.decidr.ui.controller.workflowmodel.PublishWorkflowModelAction;
 import de.decidr.ui.controller.workflowmodel.RemoveWorkflowModelsAction;
 import de.decidr.ui.controller.workflowmodel.UnlockWorkflowModelAction;
 import de.decidr.ui.controller.workflowmodel.UnpublishWorkflowModelAction;
-import de.decidr.ui.data.CurrentTenantContainer;
 import de.decidr.ui.data.PublicModelContainer;
-import de.decidr.ui.view.tables.CurrentTenantModelTable;
+import de.decidr.ui.data.WorkflowModelContainer;
 import de.decidr.ui.view.tables.PublicModelTable;
+import de.decidr.ui.view.tables.WorkflowModelTable;
 
 /**
  * This component represents the workflow models. They are stored in a table.
@@ -50,242 +50,244 @@ import de.decidr.ui.view.tables.PublicModelTable;
  */
 public class WorkflowModelsComponent extends CustomComponent {
 
-    /**
-     * Serial Version UID
-     */
-    private static final long serialVersionUID = -8284535233079548635L;
+	/**
+	 * Serial Version UID
+	 */
+	private static final long serialVersionUID = -8284535233079548635L;
 
-    private PublicModelContainer publicModelContainer = null;
+	private PublicModelContainer publicModelContainer = null;
 
-    private CurrentTenantContainer currentTenantContainer = null;
+	private WorkflowModelContainer workflowModelContainer = null;
 
-    private VerticalLayout verticalLayout = null;
-    private HorizontalLayout buttonHorizontalLayout = null;
+	private VerticalLayout verticalLayout = null;
+	private HorizontalLayout buttonHorizontalLayout = null;
 
-    private Label workflowModelLabel = null;
-    private Label showModelsFromLabel = null;
+	private Label workflowModelLabel = null;
+	private Label showModelsFromLabel = null;
 
-    private SearchPanel searchPanel = null;
-    private Panel buttonPanel = null;
+	private SearchPanel searchPanel = null;
+	private Panel buttonPanel = null;
 
-    private CurrentTenantModelTable currentTenantTable = null;
-    private PublicModelTable publicModelTable = null;
+	private WorkflowModelTable workflowModelTable = null;
+	private PublicModelTable publicModelTable = null;
 
-    private NativeSelect nativeSelect = null;
+	private NativeSelect nativeSelect = null;
 
-    private Button createNewModelButton = null;
-    private Button editWorkflowModelButton = null;
-    private Button removeModelButton = null;
-    private Button lockModelButton = null;
-    private Button unlockModelButton = null;
-    private Button publishModelButton = null;
-    private Button unpublishModelButton = null;
-    private Button appointWorkflowAdminButton = null;
-    private Button importModelButton = null;
+	private Button createNewModelButton = null;
+	private Button editWorkflowModelButton = null;
+	private Button removeModelButton = null;
+	private Button lockModelButton = null;
+	private Button unlockModelButton = null;
+	private Button publishModelButton = null;
+	private Button unpublishModelButton = null;
+	private Button appointWorkflowAdminButton = null;
+	private Button importModelButton = null;
 
-    private String[] models = new String[] { "Current tenant", "Public models" };
+	private String[] models = new String[] { "Current tenant", "Public models" };
 
-    /**
-     * Default constructor
-     * 
-     */
-    public WorkflowModelsComponent() {
-        init();
-    }
+	/**
+	 * Default constructor
+	 * 
+	 */
+	public WorkflowModelsComponent() {
+		init();
+	}
 
-    /**
-     * Changes the view if public models are selected.
-     * 
-     */
-    private void changeToPublic() {
-        publicModelContainer = new PublicModelContainer();
-        publicModelTable = new PublicModelTable(publicModelContainer);
-        importModelButton = new Button("Import");
-        if (!getNativeSelect().isSelected("Public models")) {
-            init();
-        } else {
-            getVerticalLayout().removeComponent(getCreateNewModelButton());
-            getVerticalLayout().removeComponent(getEditWorkflowModelButton());
-            getVerticalLayout().replaceComponent(getCurrentTenantTable(),
-                    publicModelTable);
-            getButtonPanel().removeAllComponents();
-            getButtonPanel().addComponent(importModelButton);
-        }
-    }
+	/**
+	 * This method initializes the components for the workflow model component.
+	 * 
+	 */
+	private void init() {
 
-    /**
-     * Gets the button panel from the component.
-     * 
-     * @return buttonPanel
-     */
-    public Panel getButtonPanel() {
-        return buttonPanel;
-    }
+		workflowModelContainer = new WorkflowModelContainer();
 
-    /**
-     * Gets the create new model button from the component.
-     * 
-     * @return createNewModelButton
-     */
-    public Button getCreateNewModelButton() {
-        return createNewModelButton;
-    }
+		verticalLayout = new VerticalLayout();
+		buttonHorizontalLayout = new HorizontalLayout();
 
-    /**
-     * Gets the current tenant table from the component.
-     * 
-     * @return currentTenantTable
-     */
-    public CurrentTenantModelTable getCurrentTenantTable() {
-        return currentTenantTable;
-    }
+		workflowModelLabel = new Label("<h2> Workflow models </h2>");
+		workflowModelLabel.setContentMode(Label.CONTENT_XHTML);
+		showModelsFromLabel = new Label("Show models from: ");
 
-    public Button getEditWorkflowModelButton() {
-        return editWorkflowModelButton;
-    }
+		buttonPanel = new Panel();
 
-    /**
-     * Gets the native select component.
-     * 
-     * @return nativeSelect
-     */
-    public NativeSelect getNativeSelect() {
-        return nativeSelect;
-    }
+		workflowModelTable = new WorkflowModelTable(workflowModelContainer);
 
-    /**
-     * Gets the vertical layout from the component.
-     * 
-     * @return verticalLayout
-     */
-    public VerticalLayout getVerticalLayout() {
-        return verticalLayout;
-    }
+		searchPanel = new SearchPanel(workflowModelTable);
 
-    /**
-     * This method initializes the components for the workflow model component.
-     * 
-     */
-    private void init() {
+		nativeSelect = new NativeSelect();
+		for (int i = 0; i < models.length; i++) {
+			nativeSelect.addItem(models[i]);
+		}
+		nativeSelect.setNullSelectionAllowed(false);
+		nativeSelect.setValue("Current tenant");
+		nativeSelect.setImmediate(true);
+		nativeSelect.addListener(new Property.ValueChangeListener() {
 
-        currentTenantContainer = new CurrentTenantContainer();
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				changeToPublic();
 
-        verticalLayout = new VerticalLayout();
-        buttonHorizontalLayout = new HorizontalLayout();
+			}
 
-        workflowModelLabel = new Label("<h2> Workflow models </h2>");
-        workflowModelLabel.setContentMode(Label.CONTENT_XHTML);
-        showModelsFromLabel = new Label("Show models from: ");
+		});
 
-        buttonPanel = new Panel();
+		createNewModelButton = new Button("Create new model",
+				new ShowModelDescription(publicModelTable));
+		//editWorkflowModelButton = new Button("Edit model",
+			//	new ShowModelingToolAction());
+		removeModelButton = new Button("Remove",
+				new RemoveWorkflowModelsAction(workflowModelTable));
+		lockModelButton = new Button("Lock", new LockWorkflowModelAction(
+				workflowModelTable));
+		unlockModelButton = new Button("Unlock", new UnlockWorkflowModelAction(
+				workflowModelTable));
+		publishModelButton = new Button("Publish",
+				new PublishWorkflowModelAction(workflowModelTable,
+						publicModelTable));
+		unpublishModelButton = new Button("Un-publish",
+				new UnpublishWorkflowModelAction(workflowModelTable,
+						publicModelTable));
+		appointWorkflowAdminButton = new Button("Appoint workflow admin",
+				new ShowAppointWorkflowAdminAction(workflowModelTable));
 
-        currentTenantTable = new CurrentTenantModelTable(currentTenantContainer);
+		setCompositionRoot(verticalLayout);
 
-        searchPanel = new SearchPanel(currentTenantTable);
+		verticalLayout.setSpacing(true);
+		verticalLayout.addComponent(workflowModelLabel);
+		verticalLayout.addComponent(searchPanel);
 
-        nativeSelect = new NativeSelect();
-        for (int i = 0; i < models.length; i++) {
-            nativeSelect.addItem(models[i]);
-        }
-        nativeSelect.setNullSelectionAllowed(false);
-        nativeSelect.setValue("Current tenant");
-        nativeSelect.setImmediate(true);
-        nativeSelect.addListener(new Property.ValueChangeListener() {
+		searchPanel.getSearchHorizontalLayout().addComponent(
+				showModelsFromLabel);
+		searchPanel.getSearchHorizontalLayout().addComponent(nativeSelect);
 
-            @Override
-            public void valueChange(ValueChangeEvent event) {
-                changeToPublic();
+		verticalLayout.addComponent(createNewModelButton);
+		//verticalLayout.addComponent(editWorkflowModelButton);
+		verticalLayout.addComponent(workflowModelTable);
+		verticalLayout.addComponent(buttonPanel);
 
-            }
+		buttonPanel.addComponent(buttonHorizontalLayout);
+		buttonPanel.setCaption("Selected models: ");
+		buttonHorizontalLayout.setSpacing(true);
+		buttonHorizontalLayout.addComponent(removeModelButton);
+		buttonHorizontalLayout.addComponent(lockModelButton);
+		buttonHorizontalLayout.addComponent(unlockModelButton);
+		buttonHorizontalLayout.addComponent(publishModelButton);
+		buttonHorizontalLayout.addComponent(unpublishModelButton);
+		buttonHorizontalLayout.addComponent(appointWorkflowAdminButton);
+	}
 
-        });
+	/**
+	 * Changes the view if public models are selected.
+	 * 
+	 */
+	private void changeToPublic() {
+		publicModelContainer = new PublicModelContainer();
+		publicModelTable = new PublicModelTable(publicModelContainer);
+		importModelButton = new Button("Import");
+		if (!getNativeSelect().isSelected("Public models")) {
+			init();
+		} else {
+			// getVerticalLayout().removeComponent(getCreateNewModelButton());
+			// getVerticalLayout().removeComponent(getEditWorkflowModelButton());
+			getVerticalLayout().replaceComponent(getWorkflowModelTable(),
+					publicModelTable);
+			getButtonPanel().removeAllComponents();
+			getButtonPanel().addComponent(importModelButton);
+		}
+	}
 
-        createNewModelButton = new Button("Create new model",
-                new ShowModelDescription(publicModelTable));
-        editWorkflowModelButton = new Button("Edit model",
-                new ShowModelingToolAction());
-        removeModelButton = new Button("Remove", new RemoveWorkflowModelsAction(
-                currentTenantTable));
-        lockModelButton = new Button("Lock", new LockWorkflowModelAction(
-                currentTenantTable));
-        unlockModelButton = new Button("Unlock", new UnlockWorkflowModelAction(
-                currentTenantTable));
-        publishModelButton = new Button("Publish",
-                new PublishWorkflowModelAction(currentTenantTable, publicModelTable));
-        unpublishModelButton = new Button("Un-publish",
-                new UnpublishWorkflowModelAction(currentTenantTable, publicModelTable));
-        appointWorkflowAdminButton = new Button("Appoint workflow admin",
-                new ShowAppointWorkflowAdminAction(currentTenantTable));
+	/**
+	 * Sets the button panel for the component.
+	 * 
+	 * @param buttonPanel
+	 */
+	public void setButtonPanel(Panel buttonPanel) {
+		this.buttonPanel = buttonPanel;
+	}
 
-        setCompositionRoot(verticalLayout);
+	/**
+	 * Sets the create new model button for the component.
+	 * 
+	 * @param createNewModelButton
+	 */
+	public void setCreateNewModelButton(Button createNewModelButton) {
+		this.createNewModelButton = createNewModelButton;
+	}
 
-        verticalLayout.setSpacing(true);
-        verticalLayout.addComponent(workflowModelLabel);
-        verticalLayout.addComponent(searchPanel);
+	/**
+	 * Sets the current tenant table for the component.
+	 * 
+	 * @param currentTenantTable
+	 */
+	public void setWorkflowModelTable(WorkflowModelTable workflowModelTable) {
+		this.workflowModelTable = workflowModelTable;
+	}
 
-        searchPanel.getSearchHorizontalLayout().addComponent(
-                showModelsFromLabel);
-        searchPanel.getSearchHorizontalLayout().addComponent(nativeSelect);
+	/**
+	 * Sets the native select component.
+	 * 
+	 * @param nativeSelect
+	 */
+	public void setNativeSelect(NativeSelect nativeSelect) {
+		this.nativeSelect = nativeSelect;
+	}
 
-        verticalLayout.addComponent(createNewModelButton);
-        verticalLayout.addComponent(editWorkflowModelButton);
-        verticalLayout.addComponent(currentTenantTable);
-        verticalLayout.addComponent(buttonPanel);
+	/**
+	 * Sets the vertical layout for the component.
+	 * 
+	 * @param verticalLayout
+	 */
+	public void setVerticalLayout(VerticalLayout verticalLayout) {
+		this.verticalLayout = verticalLayout;
+	}
 
-        buttonPanel.addComponent(buttonHorizontalLayout);
-        buttonPanel.setCaption("Selected models: ");
-        buttonHorizontalLayout.setSpacing(true);
-        buttonHorizontalLayout.addComponent(removeModelButton);
-        buttonHorizontalLayout.addComponent(lockModelButton);
-        buttonHorizontalLayout.addComponent(unlockModelButton);
-        buttonHorizontalLayout.addComponent(publishModelButton);
-        buttonHorizontalLayout.addComponent(unpublishModelButton);
-        buttonHorizontalLayout.addComponent(appointWorkflowAdminButton);
-    }
+	/**
+	 * Gets the button panel from the component.
+	 * 
+	 * @return buttonPanel
+	 */
+	public Panel getButtonPanel() {
+		return buttonPanel;
+	}
 
-    /**
-     * Sets the button panel for the component.
-     * 
-     * @param buttonPanel
-     */
-    public void setButtonPanel(Panel buttonPanel) {
-        this.buttonPanel = buttonPanel;
-    }
+	/**
+	 * Gets the create new model button from the component.
+	 * 
+	 * @return createNewModelButton
+	 */
+	public Button getCreateNewModelButton() {
+		return createNewModelButton;
+	}
 
-    /**
-     * Sets the create new model button for the component.
-     * 
-     * @param createNewModelButton
-     */
-    public void setCreateNewModelButton(Button createNewModelButton) {
-        this.createNewModelButton = createNewModelButton;
-    }
+	/**
+	 * Gets the current tenant table from the component.
+	 * 
+	 * @return currentTenantTable
+	 */
+	public WorkflowModelTable getWorkflowModelTable() {
+		return workflowModelTable;
+	}
 
-    /**
-     * Sets the current tenant table for the component.
-     * 
-     * @param currentTenantTable
-     */
-    public void setCurrentTenantTable(CurrentTenantModelTable currentTenantTable) {
-        this.currentTenantTable = currentTenantTable;
-    }
+	public Button getEditWorkflowModelButton() {
+		return editWorkflowModelButton;
+	}
 
-    /**
-     * Sets the native select component.
-     * 
-     * @param nativeSelect
-     */
-    public void setNativeSelect(NativeSelect nativeSelect) {
-        this.nativeSelect = nativeSelect;
-    }
+	/**
+	 * Gets the native select component.
+	 * 
+	 * @return nativeSelect
+	 */
+	public NativeSelect getNativeSelect() {
+		return nativeSelect;
+	}
 
-    /**
-     * Sets the vertical layout for the component.
-     * 
-     * @param verticalLayout
-     */
-    public void setVerticalLayout(VerticalLayout verticalLayout) {
-        this.verticalLayout = verticalLayout;
-    }
+	/**
+	 * Gets the vertical layout from the component.
+	 * 
+	 * @return verticalLayout
+	 */
+	public VerticalLayout getVerticalLayout() {
+		return verticalLayout;
+	}
 
 }

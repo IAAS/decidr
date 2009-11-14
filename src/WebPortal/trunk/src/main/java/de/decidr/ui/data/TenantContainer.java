@@ -29,6 +29,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
+import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
@@ -48,7 +49,7 @@ public class TenantContainer implements Container,
 
     private Long userId = (Long) session.getAttribute("userId");
 
-    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+    private TenantFacade tenantFacade = new TenantFacade(new SuperAdminRole(userId));
 
     List<Item> tenantList = null;
 
