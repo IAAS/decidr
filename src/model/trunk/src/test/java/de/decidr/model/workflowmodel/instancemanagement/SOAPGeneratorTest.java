@@ -80,15 +80,21 @@ public class SOAPGeneratorTest {
         // Aleks, bitte hier entsprechen der template befüllen
         TAssignment a1 = new TAssignment();
         TAssignment a2 = new TAssignment();
-        TAssignment a3 = new TAssignment();
+        a1.setKey("partydate");
+        a1.getValue().add("11.04.1987");
+        a2.setKey("faultMessage");
+        a2.getValue().add("False");
         TRoles roles = new TRoles();
         TRole role = new TRole();
         TActor actor1 = new TActor();
+        actor1.setEmail("test@lol.de");
+        actor1.setName("Aleks");
+        actor1.setUserId("10L");
+        role.setName("student");
         role.getActor().add(actor1);
         roles.getRole().add(role);
         startConfiguration.getAssignment().add(a1);
         startConfiguration.getAssignment().add(a2);
-        startConfiguration.getAssignment().add(a3);
         startConfiguration.setRoles(roles);
     }
 
