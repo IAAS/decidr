@@ -69,8 +69,6 @@ public class Validator {
 
             validator = schema.newValidator();
         } catch (SAXException e) {
-            // MA here and every other catch: please re-throw after logging -
-            // the caller needs to know something went wrong! ~rr,dh
             log.error("Couldn't parse dwdl schema file for validation purpose",
                     e);
         }
@@ -168,17 +166,13 @@ public class Validator {
     private List<IProblem> checkUsers(Workflow dwdl) {
         List<IProblem> userErr = new ArrayList<IProblem>();
         UserFacade userFacade = new UserFacade(new UserRole());
-        // where to find the users:
-        // - Actors
-        // - EMail Activity
-        // - Human Task
-        if (dwdl.isSetRoles()){
+        if (dwdl.isSetRoles()) {
             for (Actor actor : dwdl.getRoles().getActor()) {
                 try {
                     if (!userFacade.isRegistered(actor.getUserId())) {
                         userErr.add(new Problem("User " + actor.getName() + "("
-                                + actor.getEmail() + "" + "does not exist!", actor
-                                .getEmail()));
+                                + actor.getEmail() + "" + "does not exist!",
+                                actor.getEmail()));
                     }
                 } catch (TransactionException e) {
                     userErr.add(new Problem("Connection to Database failed!",
@@ -187,7 +181,7 @@ public class Validator {
                 }
             }
         }
-        
+
         return userErr;
     }
 

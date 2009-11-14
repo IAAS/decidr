@@ -32,7 +32,7 @@ public class ApacheODEDeployment {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        location_remote = "http://ec2-174-129-24-232.compute-1.amazonaws.com:8080";
+        location_remote = "http://129.69.214.90:8080";
         location_local = "http://localhost:8080";
         deployer = new DeployerImpl();
         InputStream inLocal = ApacheODEDeployment.class

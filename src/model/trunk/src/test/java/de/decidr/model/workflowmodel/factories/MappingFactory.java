@@ -37,8 +37,7 @@ public class MappingFactory {
 
     public static WebserviceMapping getEmailMapping() {
 
-        ObjectFactory factory = new ObjectFactory();
-        WebserviceMapping email = factory.createWebserviceMapping();
+        WebserviceMapping email = new WebserviceMapping();
 
         // setting email mappings
 
@@ -109,7 +108,7 @@ public class MappingFactory {
         attachement_Alias.setMessageType(new QName("sendEmailRequest"));
         attachement_Alias.setType(attachement.getType());
 
-        Properties emailProperties = factory.createProperties();
+        Properties emailProperties = new Properties();
         emailProperties.getProperty().add(to);
         emailProperties.getProperty().add(cc);
         emailProperties.getProperty().add(bcc);
@@ -117,7 +116,7 @@ public class MappingFactory {
         emailProperties.getProperty().add(message);
         emailProperties.getProperty().add(attachement);
 
-        PropertyAliases emailPropertyAliases = factory.createPropertyAliases();
+        PropertyAliases emailPropertyAliases = new PropertyAliases();
         emailPropertyAliases.getPropertyAlias().add(to_Alias);
         emailPropertyAliases.getPropertyAlias().add(cc_Alias);
         emailPropertyAliases.getPropertyAlias().add(bcc_Alias);

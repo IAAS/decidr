@@ -39,7 +39,6 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
-        // MA: document: why is this empty
     }
 
     /**
