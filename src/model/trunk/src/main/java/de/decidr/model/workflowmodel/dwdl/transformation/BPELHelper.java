@@ -56,7 +56,7 @@ public class BPELHelper {
         }
     }
 
-    public static Element getActorEelment(Actor actor) {
+    public static Element getActorElement(Actor actor) {
         Element returnElement = null;
         try {
             returnElement = marshalToElement(
@@ -120,8 +120,6 @@ public class BPELHelper {
      *            the validator to use in converting the element
      * @param o
      *            the JAXB element to be converted
-     * @throws IndivoException
-     *             if there is a marshalling error during the conversion
      */
     @SuppressWarnings("unchecked")
     public static org.w3c.dom.Element marshalToElement(

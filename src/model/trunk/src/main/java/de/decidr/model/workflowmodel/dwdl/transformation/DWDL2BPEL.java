@@ -140,7 +140,7 @@ public class DWDL2BPEL {
         if (actor.isSetUserId()) {
             decidrActor.setUserid(actor.getUserId());
         }
-        return BPELHelper.getActorEelment(decidrActor);
+        return BPELHelper.getActorElement(decidrActor);
     }
 
     private Element createRoleElement(Role role) {

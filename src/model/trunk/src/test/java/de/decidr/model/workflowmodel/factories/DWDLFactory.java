@@ -35,7 +35,7 @@ public class DWDLFactory {
     static String dwdlSampleName = "/dwdl/sampleProcess.xml";
 
     public static byte[] getDWDLWorkflowByteArray() throws IOException {
-        InputStream in = DWDLFactory.class.getResourceAsStream(dwdlSimpleName);
+        InputStream in = DWDLFactory.class.getResourceAsStream(dwdlSampleName);
         byte[] bytesDWDL = new byte[in.available()];
         in.read(bytesDWDL, 0, in.available());
         in.close();
