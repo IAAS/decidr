@@ -1,5 +1,5 @@
 #summary Configuration used by the Web Services team
-#labels webservices,configuration,unfinished
+#labels webservices,configuration,unfinished,Deprecated
 
 = Software & Versions =
 
