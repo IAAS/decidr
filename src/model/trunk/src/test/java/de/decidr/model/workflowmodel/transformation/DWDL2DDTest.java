@@ -54,7 +54,7 @@ public class DWDL2DDTest {
         adapters.put("Decidr-HumanTask", humanTask);
         adapters.put("Decidr-Email", email);
         DWDL2BPEL bpelConverter = new DWDL2BPEL();
-        bpel = bpelConverter.getBPEL(dwdl, tenant, adapters);
+        bpel = bpelConverter.getBPEL(dwdl, adapters);
 
     }
 

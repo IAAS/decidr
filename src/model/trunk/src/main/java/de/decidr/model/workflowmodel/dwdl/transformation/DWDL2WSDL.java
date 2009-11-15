@@ -19,11 +19,13 @@ package de.decidr.model.workflowmodel.dwdl.transformation;
 import javax.wsdl.Binding;
 import javax.wsdl.BindingInput;
 import javax.wsdl.BindingOperation;
+import javax.wsdl.BindingOutput;
 import javax.wsdl.Definition;
 import javax.wsdl.Import;
 import javax.wsdl.Input;
 import javax.wsdl.Message;
 import javax.wsdl.Operation;
+import javax.wsdl.Output;
 import javax.wsdl.Part;
 import javax.wsdl.Port;
 import javax.wsdl.PortType;
@@ -45,11 +47,13 @@ import org.jdom.Text;
 import com.ibm.wsdl.BindingImpl;
 import com.ibm.wsdl.BindingInputImpl;
 import com.ibm.wsdl.BindingOperationImpl;
+import com.ibm.wsdl.BindingOutputImpl;
 import com.ibm.wsdl.DefinitionImpl;
 import com.ibm.wsdl.ImportImpl;
 import com.ibm.wsdl.InputImpl;
 import com.ibm.wsdl.MessageImpl;
 import com.ibm.wsdl.OperationImpl;
+import com.ibm.wsdl.OutputImpl;
 import com.ibm.wsdl.PartImpl;
 import com.ibm.wsdl.PortImpl;
 import com.ibm.wsdl.PortTypeImpl;
@@ -165,10 +169,16 @@ public class DWDL2WSDL {
         bindingOperation.setName(WSDLConstants.PROCESS_OPERATION);
         bindingOperation.setOperation(startOperation);
         BindingInput bindingInput = new BindingInputImpl();
-        SOAPBody soapBody = new SOAPBodyImpl();
-        soapBody.setUse("literal");
-        bindingInput.addExtensibilityElement(soapBody);
+        SOAPBody soapBodyIn = new SOAPBodyImpl();
+        soapBodyIn.setUse("literal");
+        bindingInput.addExtensibilityElement(soapBodyIn);
+        BindingOutput bindingOutput = new BindingOutputImpl();
+        SOAPBody soapBodyOut = new SOAPBodyImpl();
+        soapBodyOut.setUse("literal");
+        bindingOutput.addExtensibilityElement(soapBodyOut);
+
         bindingOperation.setBindingInput(bindingInput);
+        bindingOperation.setBindingOutput(bindingOutput);
         processBinding.addBindingOperation(bindingOperation);
         processBinding.setUndefined(false);
         wsdl.addBinding(processBinding);
@@ -197,7 +207,7 @@ public class DWDL2WSDL {
                 WSDLConstants.PROCESS_MESSAGE_IN_ELEMENT, "tns"));
         startMessageRequest.addPart(messagePart1);
         startMessageRequest.setUndefined(false);
-        
+
         startMessageResponse = new MessageImpl();
         startMessageResponse.setQName(new QName(wsdl.getTargetNamespace(),
                 WSDLConstants.PROCESS_MESSAGE_OUT));
@@ -207,7 +217,7 @@ public class DWDL2WSDL {
                 WSDLConstants.PROCESS_MESSAGE_OUT_ELEMENT, "tns"));
         startMessageResponse.addPart(messagePart2);
         startMessageResponse.setUndefined(false);
-        
+
         wsdl.addMessage(startMessageRequest);
         wsdl.addMessage(startMessageResponse);
     }
@@ -248,7 +258,11 @@ public class DWDL2WSDL {
         Input input = new InputImpl();
         input.setName("input");
         input.setMessage(startMessageRequest);
+        Output output = new OutputImpl();
+        output.setName("output");
+        output.setMessage(startMessageResponse);
         startOperation.setInput(input);
+        startOperation.setOutput(output);
         startOperation.setUndefined(false);
         processPortType.addOperation(startOperation);
         processPortType.setUndefined(false);
@@ -273,9 +287,10 @@ public class DWDL2WSDL {
 
                     propertyAlias.setPropertyName(new QName(dwdl
                             .getTargetNamespace(), property.getName()));
-                    propertyAlias.setMessageType(startMessageRequest.getQName());
-                    propertyAlias.setPart(startMessageRequest.getPart("payload")
-                            .getName());
+                    propertyAlias
+                            .setMessageType(startMessageRequest.getQName());
+                    propertyAlias.setPart(startMessageRequest
+                            .getPart("payload").getName());
 
                     query
                             .getContent()
@@ -320,16 +335,26 @@ public class DWDL2WSDL {
                 .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI),
                 XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-        Element messageRoot = new Element("element", wsdl
+        Element messageElementIn = new Element("element", wsdl
                 .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI),
                 XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        messageRoot.setAttribute("name", WSDLConstants.PROCESS_MESSAGE_IN_ELEMENT);
-        messageRoot.setAttribute("type", WSDLConstants.PROCESS_MESSAGE_ELEMENT_TYPE);
+        messageElementIn.setAttribute("name",
+                WSDLConstants.PROCESS_MESSAGE_IN_ELEMENT);
+        messageElementIn.setAttribute("type",
+                WSDLConstants.PROCESS_MESSAGE_ELEMENT_TYPE);
+
+        Element messageElementOut = new Element("element", wsdl
+                .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI),
+                XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        messageElementOut.setAttribute("name",
+                WSDLConstants.PROCESS_MESSAGE_OUT_ELEMENT);
+        messageElementOut.setAttribute("type", "xsd:string");
 
         Element messageType = new Element("complexType", wsdl
                 .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI),
                 XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        messageType.setAttribute("name", WSDLConstants.PROCESS_MESSAGE_ELEMENT_TYPE);
+        messageType.setAttribute("name",
+                WSDLConstants.PROCESS_MESSAGE_ELEMENT_TYPE);
         Element all = new Element("all", wsdl
                 .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI),
                 XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -380,8 +405,9 @@ public class DWDL2WSDL {
 
         messageType.addContent(all);
 
-        schemaElement.addContent(messageRoot);
+        schemaElement.addContent(messageElementIn);
         schemaElement.addContent(messageType);
+        schemaElement.addContent(messageElementOut);
 
         Schema schema = new SchemaImpl();
         schema.setElement(TransformUtil.jdomToW3c(schemaElement));

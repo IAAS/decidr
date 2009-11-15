@@ -73,12 +73,12 @@ public class TransformUtil {
 
     static {
         try {
-            dwdlCntxt = JAXBContext.newInstance(Workflow.class);
-            wscCntxt = JAXBContext.newInstance(TConfiguration.class);
-            mappingCntxt = JAXBContext.newInstance(WebserviceMapping.class);
-            htaskCntxt = JAXBContext.newInstance(THumanTaskData.class);
-            bpelCntxt = JAXBContext.newInstance(Process.class);
-            ddCntxt = JAXBContext.newInstance(TDeployment.class);
+            dwdlCntxt = JAXBContext.newInstance("de.decidr.model.workflowmodel.dwdl");
+            wscCntxt = JAXBContext.newInstance("de.decidr.model.workflowmodel.wsc");
+            mappingCntxt = JAXBContext.newInstance("de.decidr.model.workflowmodel.webservices");
+            htaskCntxt = JAXBContext.newInstance("de.decidr.model.workflowmodel.humantask");
+            bpelCntxt = JAXBContext.newInstance("de.decidr.model.workflowmodel.bpel");
+            ddCntxt = JAXBContext.newInstance("de.decidr.model.workflowmodel.dd");
         } catch (JAXBException e) {
             log.error("Couldn't create JAXBContext", e);
         }

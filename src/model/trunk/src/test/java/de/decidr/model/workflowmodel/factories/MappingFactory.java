@@ -91,7 +91,7 @@ public class MappingFactory {
                 "tStringMap"));
 
         Property bodyTXT = new Property();
-        bodyTXT.setName("bodyTXT");
+        bodyTXT.setName("message");
         bodyTXT
                 .setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"));
 

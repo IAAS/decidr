@@ -16,7 +16,6 @@
 
 package de.decidr.model.workflowmodel.dwdl.transformation;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +55,7 @@ import de.decidr.model.workflowmodel.bpel.PartnerLink;
 import de.decidr.model.workflowmodel.bpel.PartnerLinks;
 import de.decidr.model.workflowmodel.bpel.Process;
 import de.decidr.model.workflowmodel.bpel.Receive;
+import de.decidr.model.workflowmodel.bpel.Reply;
 import de.decidr.model.workflowmodel.bpel.Scope;
 import de.decidr.model.workflowmodel.bpel.Sequence;
 import de.decidr.model.workflowmodel.bpel.Sources;
@@ -102,7 +102,6 @@ public class DWDL2BPEL {
     private Process process = null;
     private Workflow dwdl = null;
     private ObjectFactory factory = null;
-    private String tenantName = null;
     private Map<String, DecidrWebserviceAdapter> adapters = null;
     // will be initialized in setProcessVariables()
     private Map<DecidrWebserviceAdapter, Variable> webserviceInputVariables = null;
@@ -129,22 +128,39 @@ public class DWDL2BPEL {
         assign.getCopyOrExtensionAssignOperation().add(copy);
     }
 
-    private org.jdom.Element createActorElement(Actor actor) {
-        return null;
+    private de.decidr.model.soap.types.Actor createActorElement(Actor actor) {
+        de.decidr.model.soap.types.Actor decidrActor = new de.decidr.model.soap.types.Actor();
+        if (actor.isSetEmail()){
+            decidrActor.setEmail(actor.getEmail());
+        }
+        if (actor.isSetName()){
+            decidrActor.setName(actor.getName());
+        }
+        if (actor.isSetUserId()){
+            decidrActor.setUserid(actor.getUserId());
+        }
+        return decidrActor;
     }
 
-    private org.jdom.Element createRoleElement(Role role) {
-        return null;
+    private  de.decidr.model.soap.types.Role createRoleElement(Role role) {
+        de.decidr.model.soap.types.Role decidrRole = new de.decidr.model.soap.types.Role();
+        if (role.isSetName()){
+            decidrRole.setName(role.getName());
+        }
+        for (Actor actor: role.getActor()){
+            de.decidr.model.soap.types.Actor decidrActor = createActorElement(actor);
+            decidrRole.getActor().add(decidrActor);
+        }
+        return decidrRole;
     }
 
-    public Process getBPEL(Workflow dwdl, String tenantName,
+    public Process getBPEL(Workflow dwdl,
             Map<String, DecidrWebserviceAdapter> adapters)
             throws TransformerException {
 
         this.dwdl = dwdl;
         factory = new ObjectFactory();
         process = factory.createProcess();
-        this.tenantName = tenantName;
         this.adapters = adapters;
 
         log.trace("setting process attributes");
@@ -324,17 +340,22 @@ public class DWDL2BPEL {
         return sequence;
     }
 
-    private Receive getReceiveActivity(StartNode node) {
+    private Sequence getReceiveSequence(StartNode startNode) {
+        Sequence sequence = factory.createSequence();
         Receive receive = factory.createReceive();
-        setNameAndDocumentation(node, receive);
-        receive.setPartnerLink(tenantName);
+        Reply reply = factory.createReply();
+        setNameAndDocumentation(startNode, receive);
+        receive.setPartnerLink(BPELConstants.PROCESS_PARTNERLINK);
         receive.setOperation(WSDLConstants.PROCESS_OPERATION);
         receive.setVariable(BPELConstants.PROCESS_INPUT_VARIABLE);
-        receive
-                .setCreateInstance(de.decidr.model.workflowmodel.bpel.Boolean.YES);
-        setSourceAndTargets(node, receive);
+        reply.setPartnerLink(BPELConstants.PROCESS_PARTNERLINK);
+        reply.setOperation(WSDLConstants.PROCESS_OPERATION);
+        reply.setVariable(BPELConstants.PROCESS_OUTPUT_VARIABLE);
+        sequence.getActivity().add(receive);
+        sequence.getActivity().add(reply);
+        setSourceAndTargets(startNode, sequence);
 
-        return receive;
+        return sequence;
     }
 
     private Assign initRoles() throws TransformerException {
@@ -344,7 +365,7 @@ public class DWDL2BPEL {
             assign.setName("initRoles");
             Copy copyRole = null;
             for (Role role : dwdl.getRoles().getRole()) {
-                if (role.isSetActor()
+                if (!role.getActor().isEmpty()
                         && (!role.isSetConfigurationVariable() || role
                                 .getConfigurationVariable().value()
                                 .equals("no"))) {
@@ -352,9 +373,8 @@ public class DWDL2BPEL {
                     From from = factory.createFrom();
                     To to = factory.createTo();
                     Literal literal = factory.createLiteral();
-                    org.jdom.Element roleElement = createRoleElement(role);
-                    literal.getContent().add(roleElement);
-                    from.getContent().add(literal);
+                    literal.getContent().add(createRoleElement(role).toString());
+                    from.getContent().add(createRoleElement(role));
                     to.setVariable(role.getName());
                     copyRole.setFrom(from);
                     copyRole.setTo(to);
@@ -362,25 +382,21 @@ public class DWDL2BPEL {
                 }
 
             }
-            if (dwdl.getRoles().isSetActor()) {
-                Copy copyActor = null;
-                for (Actor actor : dwdl.getRoles().getActor()) {
-                    if (!actor.isSetConfigurationVariable()
-                            || actor.getConfigurationVariable().value().equals(
-                                    "no")) {
-                        copyActor = factory.createCopy();
-                        From from = factory.createFrom();
-                        To to = factory.createTo();
-                        Literal literal = factory.createLiteral();
-                        org.jdom.Element actorElement = createActorElement(actor);
-                        literal.getContent().add(actorElement);
-                        from.getContent().add(literal);
-                        to.setVariable(actor.getName());
-                        copyActor.setFrom(from);
-                        copyActor.setTo(to);
-                        assign.getCopyOrExtensionAssignOperation().add(
-                                copyActor);
-                    }
+
+            for (Actor actor : dwdl.getRoles().getActor()) {
+                if (!actor.isSetConfigurationVariable()
+                        || actor.getConfigurationVariable().value()
+                                .equals("no")) {
+                    Copy copyActor = factory.createCopy();
+                    From from = factory.createFrom();
+                    To to = factory.createTo();
+                    Literal literal = factory.createLiteral();
+                    literal.getContent().add(createActorElement(actor).toString());
+                    from.getContent().add(createActorElement(actor));
+                    to.setVariable(actor.getName());
+                    copyActor.setFrom(from);
+                    copyActor.setTo(to);
+                    assign.getCopyOrExtensionAssignOperation().add(copyActor);
                 }
             }
         }
@@ -388,15 +404,15 @@ public class DWDL2BPEL {
     }
 
     private Assign initVariables() {
-        Assign assign = null;
-        assign = factory.createAssign();
+        Assign assign = factory.createAssign();
         assign.setName("initVariables");
-        if (dwdl.isSetVariables() && dwdl.getVariables().isSetVariable()) {
-            Copy copy = factory.createCopy();
+
+        if (dwdl.isSetVariables()) {
             for (de.decidr.model.workflowmodel.dwdl.Variable dwdlVariable : dwdl
                     .getVariables().getVariable()) {
                 if (dwdlVariable.isSetInitialValue()
                         && !dwdlVariable.isSetInitialValues()) {
+                    Copy copy = factory.createCopy();
                     From from = factory.createFrom();
                     To to = factory.createTo();
                     Literal literal = factory.createLiteral();
@@ -409,6 +425,7 @@ public class DWDL2BPEL {
                     assign.getCopyOrExtensionAssignOperation().add(copy);
                 } else if (dwdlVariable.isSetInitialValues()
                         && !dwdlVariable.isSetInitialValue()) {
+                    Copy copy = factory.createCopy();
                     Literal literal = factory.createLiteral();
                     for (de.decidr.model.workflowmodel.dwdl.Literal initialValue : dwdlVariable
                             .getInitialValues().getInitialValue()) {
@@ -418,10 +435,21 @@ public class DWDL2BPEL {
                     To to = factory.createTo();
                     from.getContent().add(literal);
                     to.setVariable(dwdlVariable.getName());
+                    copy.setFrom(from);
+                    copy.setTo(to);
                     assign.getCopyOrExtensionAssignOperation().add(copy);
                 }
             }
         }
+        // save pid in PROCESS_OUTPUT_VARIABLE
+        From from = factory.createFrom();
+        from.getContent().add("$ode:pid");
+        To to = factory.createTo();
+        to.setVariable(BPELConstants.PROCESS_OUTPUT_VARIABLE);
+        Copy copy = factory.createCopy();
+        copy.setFrom(from);
+        copy.setTo(to);
+        assign.getCopyOrExtensionAssignOperation().add(copy);
         return assign;
     }
 
@@ -433,12 +461,14 @@ public class DWDL2BPEL {
         mainSequence.getActivity().add(initVariables);
         mainSequence.getActivity().add(initRoles);
         Flow mainFlow = factory.createFlow();
-        Links links = factory.createLinks();
         mainFlow.setName("mainFlow");
-        mainFlow.setLinks(links);
+
         if (dwdl.isSetArcs()) {
-            setArcs(dwdl.getArcs().getArc(), mainFlow.getLinks().getLink());
+            Links links = factory.createLinks();
+            setArcs(dwdl.getArcs().getArc(), links.getLink());
+            mainFlow.setLinks(links);
         }
+
         if (dwdl.isSetNodes()) {
             setActivityNode(mainFlow.getActivity(), dwdl.getNodes()
                     .getAllNodes());
@@ -451,8 +481,8 @@ public class DWDL2BPEL {
             List<BasicNode> nodes) {
         for (BasicNode node : nodes) {
             if (node instanceof StartNode) {
-                Receive receive = getReceiveActivity((StartNode) node);
-                activityList.add(receive);
+                Sequence receiveSequence = getReceiveSequence((StartNode) node);
+                activityList.add(receiveSequence);
             } else if (node instanceof EndNode) {
                 Sequence replySequence = getEndActivity((EndNode) node);
                 activityList.add(replySequence);
@@ -477,7 +507,7 @@ public class DWDL2BPEL {
         if (arcs != null && !arcs.isEmpty()) {
             for (Arc arc : arcs) {
                 Link link = factory.createLink();
-                link.setName("a" + String.valueOf(arc.getId()));
+                link.setName("link" + String.valueOf(arc.getId()));
                 links.add(link);
             }
         }
@@ -485,28 +515,32 @@ public class DWDL2BPEL {
 
     private void setCorrelationSets() {
         CorrelationSets correlationSets = factory.createCorrelationSets();
-        process.setCorrelationSets(correlationSets);
         CorrelationSet correlation = factory.createCorrelationSet();
-        correlation.setName("standard-correlation");
+        correlation.setName(BPELConstants.HUMANTASK_CORRELATION_NAME);
         for (String propertyName : BPELConstants.CORRELATION_PROPERTIES) {
             correlation.getProperties().add(
-                    new QName(process.getTargetNamespace(), propertyName,
-                            BPELConstants.PROCESS_PREFIX));
+                    new QName(adapters.get(
+                            BPELConstants.HUMANTASK_ACTIVITY_NAME)
+                            .getTargetNamespace(), propertyName));
         }
+        process.setCorrelationSets(correlationSets);
         process.getCorrelationSets().getCorrelationSet().add(correlation);
     }
 
     private void setDocumentation(BasicNode fromNode,
             ExtensibleElements toActivity) {
-        Documentation documentation = factory.createDocumentation();
-        documentation.getContent().add(fromNode.getDescription());
-        toActivity.getDocumentation().add(documentation);
+        if (fromNode.isSetDescription()) {
+            Documentation documentation = factory.createDocumentation();
+            documentation.getContent().add(fromNode.getDescription());
+            toActivity.getDocumentation().add(documentation);
+        }
     }
 
     private void setFaultHandler() {
         FaultHandlers faultHandlers = factory.createFaultHandlers();
         ActivityContainer activityContainer = factory.createActivityContainer();
         Sequence sequence = factory.createSequence();
+        sequence.setName("fault handler");
         Assign assign = factory.createAssign();
         Invoke emailInvoke = factory.createInvoke();
         if (dwdl.isSetFaultHandler()
@@ -536,7 +570,10 @@ public class DWDL2BPEL {
             sequence.getActivity().add(emailInvoke);
             activityContainer.setSequence(sequence);
             faultHandlers.setCatchAll(activityContainer);
-            process.setFaultHandlers(faultHandlers);
+
+            // For the first take off, we have to spare of the faultHandler :-(
+
+            // process.setFaultHandlers(faultHandlers);
         }
 
     }
@@ -547,7 +584,6 @@ public class DWDL2BPEL {
         Import odeImport = factory.createImport();
         Import processImport = factory.createImport();
         // import all known web services
-        byte wsPrefixNumber = 1;
         for (DecidrWebserviceAdapter adapter : adapters.values()) {
             Import wsImport = factory.createImport();
             wsImport.setNamespace(adapter.getTargetNamespace());
@@ -555,7 +591,6 @@ public class DWDL2BPEL {
             wsImport.setImportType(Constants.WSDL_NAMESPACE);
             // initialize web service prefixes
             process.getImport().add(wsImport);
-            wsPrefixNumber++;
         }
 
         // setting import for DecidrTypes
@@ -585,10 +620,10 @@ public class DWDL2BPEL {
     }
 
     private void setNameAndDocumentation(BasicNode fromNode, Activity toNode) {
-        if (fromNode.getName() != null) {
+        if (fromNode.isSetName()) {
             toNode.setName(fromNode.getName());
         }
-        if (fromNode.getDescription() != null) {
+        if (fromNode.isSetDescription()) {
             setDocumentation(fromNode, toNode);
         }
     }
@@ -705,6 +740,7 @@ public class DWDL2BPEL {
 
         // add variables to process
         variables.getVariable().add(processIn);
+        variables.getVariable().add(processOut);
         variables.getVariable().add(faultMessage);
         variables.getVariable().add(faultMessageResponse);
         variables.getVariable().add(successMessage);
@@ -714,24 +750,24 @@ public class DWDL2BPEL {
     }
 
     private void setSourceAndTargets(BasicNode fromNode, Activity toActivity) {
-        if (fromNode.getSources() != null
+        if (fromNode.isSetSources()
                 && !fromNode.getSources().getSource().isEmpty()) {
             Sources sources = factory.createSources();
             for (Source src : fromNode.getSources().getSource()) {
                 de.decidr.model.workflowmodel.bpel.Source source = factory
                         .createSource();
-                source.setLinkName("a" + String.valueOf(src.getArcId()));
+                source.setLinkName("link" + String.valueOf(src.getArcId()));
                 sources.getSource().add(source);
             }
             toActivity.setSources(sources);
         }
-        if (fromNode.getTargets() != null
+        if (fromNode.isSetTargets()
                 && !fromNode.getTargets().getTarget().isEmpty()) {
             Targets targets = factory.createTargets();
             for (Target trg : fromNode.getTargets().getTarget()) {
                 de.decidr.model.workflowmodel.bpel.Target target = factory
                         .createTarget();
-                target.setLinkName("a" + String.valueOf(trg.getArcId()));
+                target.setLinkName("link" + String.valueOf(trg.getArcId()));
                 targets.getTarget().add(target);
             }
             toActivity.setTargets(targets);
@@ -745,38 +781,52 @@ public class DWDL2BPEL {
                 de.decidr.model.workflowmodel.bpel.Variable bpelVariable = factory
                         .createVariable();
                 bpelVariable.setName(dwdlVariable.getName());
-                if (Arrays.asList(SimpleType.values()).contains(
-                        dwdlVariable.getType())) {
+                if (isSimpleType(dwdlVariable.getType())) {
                     bpelVariable.setType(new QName(
                             XMLConstants.W3C_XML_SCHEMA_NS_URI, dwdlVariable
-                                    .getType(), "xsd"));
-                } else if (Arrays.asList(ComplexType.values()).contains(
-                        dwdlVariable.getType())) {
+                                    .getType()));
+                } else if (isComplexType(dwdlVariable.getType())) {
                     bpelVariable.setType(new QName(
-                            Constants.DECIDRTYPES_NAMESPACE, dwdlVariable
-                                    .getType(),
-                            BPELConstants.DECIDRTYPES_PREFIX));
-
+                            Constants.DECIDRPROCESSTYPES_NAMESPACE,
+                            dwdlVariable.getType()));
                 } else {
                     bpelVariable.setType(new QName(
-                            XMLConstants.W3C_XML_SCHEMA_NS_URI, "anyType",
-                            "xsd"));
+                            XMLConstants.W3C_XML_SCHEMA_NS_URI, "anyType"));
                 }
-                // MA please - for god sake - change decidr types
                 process.getVariables().getVariable().add(bpelVariable);
             }
         }
     }
 
+    private boolean isComplexType(String type) {
+        boolean result = false;
+        for (ComplexType c : ComplexType.values()) {
+            if (c.value().equals(type)) {
+                return true;
+            }
+        }
+        return result;
+    }
+
+    private boolean isSimpleType(String type) {
+        boolean result = false;
+        for (SimpleType s : SimpleType.values()) {
+            if (s.value().equals(type)) {
+                return true;
+            }
+        }
+        return result;
+    }
+
     private void setVariablesFromRoles() {
         if (dwdl.isSetRoles()) {
-            if (!dwdl.getRoles().isSetRole()) {
+            if (dwdl.getRoles().isSetRole()) {
                 for (Role r : dwdl.getRoles().getRole()) {
                     de.decidr.model.workflowmodel.bpel.Variable role = factory
                             .createVariable();
                     role.setName(r.getName());
                     role.setElement(new QName(Constants.DECIDRTYPES_NAMESPACE,
-                            "role", BPELConstants.DECIDRTYPES_PREFIX));
+                            "role"));
                     process.getVariables().getVariable().add(role);
                 }
             }
@@ -786,7 +836,7 @@ public class DWDL2BPEL {
                             .createVariable();
                     actor.setName(a.getName());
                     actor.setElement(new QName(Constants.DECIDRTYPES_NAMESPACE,
-                            "actor", BPELConstants.DECIDRTYPES_PREFIX));
+                            "actor"));
                     process.getVariables().getVariable().add(actor);
                 }
             }

@@ -74,14 +74,14 @@ public class DWDL2BPELTest {
 
     /**
      * Test method for
-     * {@link de.decidr.model.workflowmodel.dwdl.transformation.DWDL2BPEL#getBPEL(de.decidr.model.workflowmodel.dwdl.Workflow, java.lang.String, java.util.Map)}
+     * {@link de.decidr.model.workflowmodel.dwdl.transformation.DWDL2BPEL#getBPEL(de.decidr.model.workflowmodel.dwdl.Workflow, java.util.Map)}
      * .
      */
     @Test
     public void testGetBPEL() {
         Process process = null;
         try {
-            process = translater.getBPEL(dwdl, tenant, adapters);
+            process = translater.getBPEL(dwdl, adapters);
             assertNotNull(process);
             JAXBContext cntx = JAXBContext.newInstance(Process.class);
             Marshaller m = cntx.createMarshaller();

@@ -47,7 +47,9 @@ public final class BPELConstants {
     
     
     // correlation properties used
-    public static final String[] CORRELATION_PROPERTIES = {"processID", "userID", "taskID"};
+    public static final String HUMANTASK_CORRELATION_NAME = "standard-correlation";
+    public static final String[] CORRELATION_PROPERTIES = {"taskID"};
+    public static final String PROPERTY_TASKID = "taskID";
     
     
     private BPELConstants(){

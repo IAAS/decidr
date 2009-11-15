@@ -76,8 +76,7 @@ public class Translator {
     public Process getBPEL() {
         DWDL2BPEL bpelConverter = new DWDL2BPEL();
         try {
-            bpelProcess = bpelConverter.getBPEL(dwdlWorkflow, tenantName,
-                    webserviceAdapters);
+            bpelProcess = bpelConverter.getBPEL(dwdlWorkflow, webserviceAdapters);
         } catch (TransformerException e) {
             log.error("Can't translate dwdl to bpel", e);
         }

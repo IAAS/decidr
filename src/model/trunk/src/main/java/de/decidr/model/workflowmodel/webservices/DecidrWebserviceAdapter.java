@@ -25,6 +25,7 @@ import javax.wsdl.Operation;
 import javax.wsdl.PortType;
 import javax.wsdl.Service;
 import javax.wsdl.extensions.ExtensibilityElement;
+import javax.wsdl.extensions.soap.SOAPAddress;
 import javax.wsdl.extensions.soap12.SOAP12Address;
 import javax.xml.namespace.QName;
 
@@ -112,6 +113,10 @@ public class DecidrWebserviceAdapter {
             ExtensibilityElement element = (ExtensibilityElement) iter.next();
             if (element instanceof SOAP12Address) {
                 SOAP12Address adress = (SOAP12Address) element;
+                return adress.getLocationURI();
+            }
+            else if (element instanceof SOAPAddress){
+                SOAPAddress adress = (SOAPAddress) element;
                 return adress.getLocationURI();
             }
         }
