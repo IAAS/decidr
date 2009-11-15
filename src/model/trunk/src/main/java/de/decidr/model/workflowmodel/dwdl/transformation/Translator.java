@@ -41,7 +41,8 @@ import de.decidr.model.workflowmodel.webservices.WebserviceMapping;
 
 /**
  * This class provides the functionality to translate a given DWDL into
- * different formats
+ * different formats. The order of translation is important. You can't create
+ * e.g. create a SOAP Message without having built a WSDL.
  * 
  * @author Modood Alvi
  * @version 0.1
@@ -76,7 +77,8 @@ public class Translator {
     public Process getBPEL() {
         DWDL2BPEL bpelConverter = new DWDL2BPEL();
         try {
-            bpelProcess = bpelConverter.getBPEL(dwdlWorkflow, webserviceAdapters);
+            bpelProcess = bpelConverter.getBPEL(dwdlWorkflow,
+                    webserviceAdapters);
         } catch (TransformerException e) {
             log.error("Can't translate dwdl to bpel", e);
         }
@@ -96,7 +98,8 @@ public class Translator {
             soap = soapConverter.getSOAP(wsdl, wsdl.getQName().getLocalPart()
                     + "PT", WSDLConstants.PROCESS_OPERATION);
         } catch (UnsupportedOperationException e) {
-            log.error("Can't find operation "+ WSDLConstants.PROCESS_OPERATION+" for dwdl to soap translation", e);
+            log.error("Can't find operation " + WSDLConstants.PROCESS_OPERATION
+                    + " for dwdl to soap translation", e);
         } catch (SOAPException e) {
             log.error("Can't translate dwdl to soap", e);
         }
@@ -106,7 +109,8 @@ public class Translator {
     public Definition getWSDL(String serverLocation) {
         DWDL2WSDL wsdlConverter = new DWDL2WSDL();
         try {
-            wsdl = wsdlConverter.getWSDL(dwdlWorkflow, serverLocation, tenantName);
+            wsdl = wsdlConverter.getWSDL(dwdlWorkflow, serverLocation,
+                    tenantName);
         } catch (JDOMException e) {
             log.error("Can't translate dwdl to wsdl", e);
         }

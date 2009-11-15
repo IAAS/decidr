@@ -41,6 +41,7 @@ public final class Constants {
     public static final Namespace XML_SCHEMA_NS = Namespace.getNamespace("xsd",
     "http://www.w3.org/2001/XMLSchema");
     public static final String DOCUMENT_BASE_URI = "resources/xsd/";
+    public static final String DOCUMENT_BASE_DIRECTORY  = "/xsd/";
     public static final String DECIDRTYPES_LOCATION = "DecidrTypes.xsd";
     public static final String DECIDRWSTYPES_LOCATION = "DecidrWSTypes.xsd";
     public static final String DECIDRPROCESSTYPES_LOCATION = "DecidrProcessTypes.xsd";

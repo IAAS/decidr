@@ -25,6 +25,7 @@ import javax.xml.namespace.QName;
 import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
+import org.w3c.dom.Element;
 
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.bpel.Activity;
@@ -128,30 +129,39 @@ public class DWDL2BPEL {
         assign.getCopyOrExtensionAssignOperation().add(copy);
     }
 
-    private de.decidr.model.soap.types.Actor createActorElement(Actor actor) {
+    private Element createActorElement(Actor actor) {
         de.decidr.model.soap.types.Actor decidrActor = new de.decidr.model.soap.types.Actor();
-        if (actor.isSetEmail()){
+        if (actor.isSetEmail()) {
             decidrActor.setEmail(actor.getEmail());
         }
-        if (actor.isSetName()){
+        if (actor.isSetName()) {
             decidrActor.setName(actor.getName());
         }
-        if (actor.isSetUserId()){
+        if (actor.isSetUserId()) {
             decidrActor.setUserid(actor.getUserId());
         }
-        return decidrActor;
+        return BPELHelper.getActorEelment(decidrActor);
     }
 
-    private  de.decidr.model.soap.types.Role createRoleElement(Role role) {
+    private Element createRoleElement(Role role) {
         de.decidr.model.soap.types.Role decidrRole = new de.decidr.model.soap.types.Role();
-        if (role.isSetName()){
+        if (role.isSetName()) {
             decidrRole.setName(role.getName());
         }
-        for (Actor actor: role.getActor()){
-            de.decidr.model.soap.types.Actor decidrActor = createActorElement(actor);
+        for (Actor actor : role.getActor()) {
+            de.decidr.model.soap.types.Actor decidrActor = new de.decidr.model.soap.types.Actor();
+            if (actor.isSetEmail()) {
+                decidrActor.setEmail(actor.getEmail());
+            }
+            if (actor.isSetName()) {
+                decidrActor.setName(actor.getName());
+            }
+            if (actor.isSetUserId()) {
+                decidrActor.setUserid(actor.getUserId());
+            }
             decidrRole.getActor().add(decidrActor);
         }
-        return decidrRole;
+        return BPELHelper.getRoleElement(decidrRole);
     }
 
     public Process getBPEL(Workflow dwdl,
@@ -373,8 +383,8 @@ public class DWDL2BPEL {
                     From from = factory.createFrom();
                     To to = factory.createTo();
                     Literal literal = factory.createLiteral();
-                    literal.getContent().add(createRoleElement(role).toString());
-                    from.getContent().add(createRoleElement(role));
+                    literal.getContent().add(createRoleElement(role));
+                    from.getContent().addAll(literal.getContent());
                     to.setVariable(role.getName());
                     copyRole.setFrom(from);
                     copyRole.setTo(to);
@@ -391,8 +401,8 @@ public class DWDL2BPEL {
                     From from = factory.createFrom();
                     To to = factory.createTo();
                     Literal literal = factory.createLiteral();
-                    literal.getContent().add(createActorElement(actor).toString());
-                    from.getContent().add(createActorElement(actor));
+                    literal.getContent().add(createActorElement(actor));
+                    from.getContent().addAll(literal.getContent());
                     to.setVariable(actor.getName());
                     copyActor.setFrom(from);
                     copyActor.setTo(to);

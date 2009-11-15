@@ -31,10 +31,11 @@ import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
  */
 public class DWDLFactory {
 
-    static String dwdlName = "/dwdl/sampleProcess.xml";
+    static String dwdlSimpleName = "/dwdl/verySimpleProcess.xml";
+    static String dwdlSampleName = "/dwdl/sampleProcess.xml";
 
     public static byte[] getDWDLWorkflowByteArray() throws IOException {
-        InputStream in = DWDLFactory.class.getResourceAsStream(dwdlName);
+        InputStream in = DWDLFactory.class.getResourceAsStream(dwdlSimpleName);
         byte[] bytesDWDL = new byte[in.available()];
         in.read(bytesDWDL, 0, in.available());
         in.close();

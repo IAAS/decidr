@@ -26,7 +26,7 @@ public class DeployerTest {
     static List<ServerLoadView> serverStatistics = null;
     static byte[] dwdl = null;
     static String tenantName = null;
-    static String location = "http://localhost:8080";
+    static String location = "http://129.69.214.90:8080";
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {

@@ -43,9 +43,9 @@ import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
  */
 public class PackageBuilder {
     
-    private final String DECIDRTYPES_URI = Constants.DOCUMENT_BASE_URI+Constants.DECIDRTYPES_LOCATION;
-    private final String DECIDRWSTYPES_URI = Constants.DOCUMENT_BASE_URI+Constants.DECIDRWSTYPES_LOCATION;
-    private final String DECIDRPROCESSTYPES_URI = Constants.DOCUMENT_BASE_URI+Constants.DECIDRPROCESSTYPES_LOCATION;
+    private final String DECIDRTYPES_URI = Constants.DOCUMENT_BASE_DIRECTORY+Constants.DECIDRTYPES_LOCATION;
+    private final String DECIDRWSTYPES_URI = Constants.DOCUMENT_BASE_DIRECTORY+Constants.DECIDRWSTYPES_LOCATION;
+    private final String DECIDRPROCESSTYPES_URI = Constants.DOCUMENT_BASE_DIRECTORY+Constants.DECIDRPROCESSTYPES_LOCATION;
 
     public byte[] getPackage(String name, Process bpel, Definition wsdl,
             TDeployment dd, List<KnownWebService> knownWebservices)

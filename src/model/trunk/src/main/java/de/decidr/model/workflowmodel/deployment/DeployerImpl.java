@@ -105,7 +105,7 @@ public class DeployerImpl implements Deployer {
         translator = new Translator();
         translator.load(dwdl, tenantName, knownWebservices);
         Process bpel = translator.getBPEL();
-        SOAPMessage soap = translator.getSOAPTemplate();
+        
         PackageBuilder builder = new PackageBuilder();
 
         // deploy on each selected server
@@ -123,6 +123,7 @@ public class DeployerImpl implements Deployer {
         result = new DeploymentResultImpl();
         result.setDoplementDate(DecidrGlobals.getTime().getTime());
         try {
+            SOAPMessage soap = translator.getSOAPTemplate();
             result.setSOAPTemplate(TransformUtil.SOAPMessagetoBytes(soap));
         } catch (SOAPException e) {
             log.error("Can't transform soap to byte array", e);

@@ -292,18 +292,13 @@ public class DWDL2WSDL {
                     propertyAlias.setPart(startMessageRequest
                             .getPart("payload").getName());
 
-                    query
-                            .getContent()
-                            .add(
-                                    "/"
-                                            + wsdl.getPrefix(wsdl
-                                                    .getTargetNamespace())
-                                            + ":"
-                                            + WSDLConstants.PROCESS_MESSAGE_IN_ELEMENT
-                                            + "/"
-                                            + wsdl
-                                                    .getPrefix(XMLConstants.W3C_XML_SCHEMA_NS_URI)
-                                            + ":" + variable.getName());
+                    query.getContent().add(
+                            "/" + wsdl.getPrefix(wsdl.getTargetNamespace())
+                                    + ":"
+                                    + WSDLConstants.PROCESS_MESSAGE_IN_ELEMENT
+                                    + "/"
+                                    + wsdl.getPrefix(wsdl.getTargetNamespace())
+                                    + ":" + variable.getName());
 
                     propertyAlias.setQuery(query);
 
