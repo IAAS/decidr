@@ -29,6 +29,7 @@ import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
 import javax.xml.bind.JAXBException;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.workflowmodel.bpel.Process;
 import de.decidr.model.workflowmodel.dd.TDeployment;
@@ -42,10 +43,13 @@ import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
  * @version 0.1
  */
 public class PackageBuilder {
-    
-    private final String DECIDRTYPES_URI = Constants.DOCUMENT_BASE_DIRECTORY+Constants.DECIDRTYPES_LOCATION;
-    private final String DECIDRWSTYPES_URI = Constants.DOCUMENT_BASE_DIRECTORY+Constants.DECIDRWSTYPES_LOCATION;
-    private final String DECIDRPROCESSTYPES_URI = Constants.DOCUMENT_BASE_DIRECTORY+Constants.DECIDRPROCESSTYPES_LOCATION;
+
+    private final String DECIDRTYPES_URI = Constants.DOCUMENT_BASE_DIRECTORY
+            + Constants.DECIDRTYPES_LOCATION;
+    private final String DECIDRWSTYPES_URI = Constants.DOCUMENT_BASE_DIRECTORY
+            + Constants.DECIDRWSTYPES_LOCATION;
+    private final String DECIDRPROCESSTYPES_URI = Constants.DOCUMENT_BASE_DIRECTORY
+            + Constants.DECIDRPROCESSTYPES_LOCATION;
 
     public byte[] getPackage(String name, Process bpel, Definition wsdl,
             TDeployment dd, List<KnownWebService> knownWebservices)
@@ -67,13 +71,16 @@ public class PackageBuilder {
         zip_out_stream.putNextEntry(new ZipEntry(ddFilename));
         zip_out_stream.write(TransformUtil.ddToBytes(dd));
         zip_out_stream.closeEntry();
-        zip_out_stream.putNextEntry(new ZipEntry(Constants.DECIDRTYPES_LOCATION));
+        zip_out_stream
+                .putNextEntry(new ZipEntry(Constants.DECIDRTYPES_LOCATION));
         zip_out_stream.write(loadSchema(DECIDRTYPES_URI));
         zip_out_stream.closeEntry();
-        zip_out_stream.putNextEntry(new ZipEntry(Constants.DECIDRWSTYPES_LOCATION));
+        zip_out_stream.putNextEntry(new ZipEntry(
+                Constants.DECIDRWSTYPES_LOCATION));
         zip_out_stream.write(loadSchema(DECIDRWSTYPES_URI));
         zip_out_stream.closeEntry();
-        zip_out_stream.putNextEntry(new ZipEntry(Constants.DECIDRPROCESSTYPES_LOCATION));
+        zip_out_stream.putNextEntry(new ZipEntry(
+                Constants.DECIDRPROCESSTYPES_LOCATION));
         zip_out_stream.write(loadSchema(DECIDRPROCESSTYPES_URI));
         zip_out_stream.closeEntry();
         Map<KnownWebService, Definition> definitions = retrieveWSDLs(knownWebservices);
@@ -81,7 +88,8 @@ public class PackageBuilder {
             zip_out_stream.putNextEntry(new ZipEntry(definitions
                     .get(webservice).getQName().getLocalPart()
                     + ".wsdl"));
-            zip_out_stream.write(webservice.getWsdl());
+            zip_out_stream.write(DecidrGlobals.getWebServiceWsdl(webservice
+                    .getName()));
             zip_out_stream.closeEntry();
         }
         zip_out_stream.close();
@@ -94,17 +102,19 @@ public class PackageBuilder {
             List<KnownWebService> webservices) throws WSDLException {
         Map<KnownWebService, Definition> definitions = new HashMap<KnownWebService, Definition>();
         for (KnownWebService webservice : webservices) {
-            Definition webserviceDefinition = TransformUtil.bytesToDefinition(webservice.getWsdl());
+            Definition webserviceDefinition = TransformUtil
+                    .bytesToDefinition(DecidrGlobals
+                            .getWebServiceWsdl(webservice.getName()));
             definitions.put(webservice, webserviceDefinition);
         }
         return definitions;
     }
-    
+
     private byte[] loadSchema(String location) throws IOException {
         InputStream in = PackageBuilder.class.getResourceAsStream(location);
         byte[] data = new byte[in.available()];
         in.read(data, 0, in.available());
-     
+
         return data;
     }
 

@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 30.10.2009 13:07:36 by Hibernate Tools 3.2.4.GA
+// Generated 16.11.2009 18:35:09 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -33,13 +33,13 @@ public class WorkflowModel implements java.io.Serializable {
             0);
 
     public WorkflowModel() {
-        // default empty JavaBean constructor
+        //default empty JavaBean constructor
     }
 
     public WorkflowModel(Tenant tenant, String name, String description,
             boolean published, boolean executable, Date creationDate,
             Date modifiedDate, byte[] dwdl) {
-        // generated minimal constructor
+        //generated minimal constructor
         this.tenant = tenant;
         this.name = name;
         this.description = description;
@@ -63,7 +63,7 @@ public class WorkflowModel implements java.io.Serializable {
             Set<Invitation> invitations,
             Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels,
             Set<DeployedWorkflowModel> deployedWorkflowModels) {
-        // generated full constructor
+        //generated full constructor
         this.tenant = tenant;
         this.modifiedByUser = modifiedByUser;
         this.name = name;

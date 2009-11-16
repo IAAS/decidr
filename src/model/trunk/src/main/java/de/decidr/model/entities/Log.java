@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 30.10.2009 13:07:36 by Hibernate Tools 3.2.4.GA
+// Generated 16.11.2009 18:35:09 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -30,11 +30,11 @@ public class Log implements java.io.Serializable {
     private String thread;
 
     public Log() {
-        // default empty JavaBean constructor
+        //default empty JavaBean constructor
     }
 
     public Log(String prio) {
-        // generated minimal constructor
+        //generated minimal constructor
         this.prio = prio;
     }
 
@@ -42,7 +42,7 @@ public class Log implements java.io.Serializable {
             String layoutMsg, String throwable, String ndc, String mdc,
             String mdc2, String info, String addon, Date logDate,
             String createdBy, String thread) {
-        // generated full constructor
+        //generated full constructor
         this.prio = prio;
         this.iprio = iprio;
         this.category = category;

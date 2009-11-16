@@ -30,6 +30,7 @@ import javax.xml.transform.TransformerException;
 import org.apache.log4j.Logger;
 import org.jdom.JDOMException;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.Activity;
 import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.logging.DefaultLogger;
@@ -128,7 +129,8 @@ public class Translator {
 
     private Definition parseDefinition(KnownWebService knownWebservice)
             throws WSDLException {
-        return TransformUtil.bytesToDefinition(knownWebservice.getWsdl());
+        return TransformUtil.bytesToDefinition(DecidrGlobals
+                .getWebServiceWsdl(knownWebservice.getName()));
     }
 
     private Workflow parseDWDLWorkflow(byte[] dwdl) throws JAXBException {

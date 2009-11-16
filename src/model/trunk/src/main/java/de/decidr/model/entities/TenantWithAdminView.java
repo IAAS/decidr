@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 30.10.2009 13:07:36 by Hibernate Tools 3.2.4.GA
+// Generated 16.11.2009 18:35:09 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -27,12 +27,12 @@ public class TenantWithAdminView implements java.io.Serializable {
     private String adminLastName;
 
     public TenantWithAdminView() {
-        // default empty JavaBean constructor
+        //default empty JavaBean constructor
     }
 
     public TenantWithAdminView(long id, String name, String description,
             long adminId) {
-        // generated minimal constructor
+        //generated minimal constructor
         this.id = id;
         this.name = name;
         this.description = description;
@@ -43,7 +43,7 @@ public class TenantWithAdminView implements java.io.Serializable {
             Long logoId, Long simpleColorSchemeId, Long advancedColorSchemeId,
             Long currentColorSchemeId, Date approvedSince, long adminId,
             String adminUsername, String adminFirstName, String adminLastName) {
-        // generated full constructor
+        //generated full constructor
         this.id = id;
         this.name = name;
         this.description = description;

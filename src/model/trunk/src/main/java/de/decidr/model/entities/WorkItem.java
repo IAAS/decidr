@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 30.10.2009 13:07:36 by Hibernate Tools 3.2.4.GA
+// Generated 16.11.2009 18:35:09 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -27,13 +27,13 @@ public class WorkItem implements java.io.Serializable {
             0);
 
     public WorkItem() {
-        // default empty JavaBean constructor
+        //default empty JavaBean constructor
     }
 
     public WorkItem(WorkflowInstance workflowInstance, User user,
             Date creationDate, String status, byte[] data, String name,
             String description) {
-        // generated minimal constructor
+        //generated minimal constructor
         this.workflowInstance = workflowInstance;
         this.user = user;
         this.creationDate = creationDate;
@@ -46,7 +46,7 @@ public class WorkItem implements java.io.Serializable {
     public WorkItem(WorkflowInstance workflowInstance, User user,
             Date creationDate, String status, byte[] data, String name,
             String description, Set<WorkItemContainsFile> workItemContainsFiles) {
-        // generated full constructor
+        //generated full constructor
         this.workflowInstance = workflowInstance;
         this.user = user;
         this.creationDate = creationDate;

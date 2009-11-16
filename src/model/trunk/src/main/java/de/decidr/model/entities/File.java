@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 30.10.2009 13:07:36 by Hibernate Tools 3.2.4.GA
+// Generated 16.11.2009 18:35:09 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -35,13 +35,13 @@ public class File implements java.io.Serializable {
             0);
 
     public File() {
-        // default empty JavaBean constructor
+        //default empty JavaBean constructor
     }
 
     public File(String fileName, String mimeType, boolean mayPublicRead,
             boolean mayPublicReplace, boolean mayPublicDelete,
             long fileSizeBytes, Date creationDate, boolean temporary) {
-        // generated minimal constructor
+        //generated minimal constructor
         this.fileName = fileName;
         this.mimeType = mimeType;
         this.mayPublicRead = mayPublicRead;
@@ -61,7 +61,7 @@ public class File implements java.io.Serializable {
             Set<Tenant> tenantsForCurrentColorSchemeId,
             Set<WorkItemContainsFile> workItemContainsFiles,
             Set<UserHasFileAccess> userHasFileAccess) {
-        // generated full constructor
+        //generated full constructor
         this.fileName = fileName;
         this.mimeType = mimeType;
         this.mayPublicRead = mayPublicRead;

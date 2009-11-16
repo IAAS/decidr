@@ -39,7 +39,7 @@ public class KnownWebserviceFactory {
             throws IOException, JAXBException, WSDLException {
         List<KnownWebService> knownWebServices = new ArrayList<KnownWebService>();
         KnownWebService humanTaskWS = new KnownWebService();
-        humanTaskWS.setWsdl(WSDLFactory.getHumanTaskDefinitionByteArray());
+        humanTaskWS.setName("HumanTaskProxy");
         Set<Activity> htactivities = new HashSet<Activity>();
         Activity htactiviy = new Activity();
         htactiviy.setName(MappingFactory.getHumanTaskMapping().getActivity());
@@ -47,7 +47,7 @@ public class KnownWebserviceFactory {
         htactivities.add(htactiviy);
         humanTaskWS.setActivities(htactivities);
         KnownWebService emailWS = new KnownWebService();
-        emailWS.setWsdl(WSDLFactory.getEmailDefinitionByteArray());
+        emailWS.setName("EmailProxy");
         Set<Activity> emailactivities = new HashSet<Activity>();
         Activity emailactivity = new Activity();
         emailactivity.setName(MappingFactory.getEmailMapping().getActivity());

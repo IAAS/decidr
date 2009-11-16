@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 30.10.2009 13:07:36 by Hibernate Tools 3.2.4.GA
+// Generated 16.11.2009 18:35:09 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -22,11 +22,11 @@ public class Invitation implements java.io.Serializable {
     private Date creationDate;
 
     public Invitation() {
-        // default empty JavaBean constructor
+        //default empty JavaBean constructor
     }
 
     public Invitation(User sender, User receiver, Date creationDate) {
-        // generated minimal constructor
+        //generated minimal constructor
         this.sender = sender;
         this.receiver = receiver;
         this.creationDate = creationDate;
@@ -35,7 +35,7 @@ public class Invitation implements java.io.Serializable {
     public Invitation(WorkflowModel administrateWorkflowModel, User sender,
             User receiver, Tenant joinTenant,
             WorkflowInstance participateInWorkflowInstance, Date creationDate) {
-        // generated full constructor
+        //generated full constructor
         this.administrateWorkflowModel = administrateWorkflowModel;
         this.sender = sender;
         this.receiver = receiver;

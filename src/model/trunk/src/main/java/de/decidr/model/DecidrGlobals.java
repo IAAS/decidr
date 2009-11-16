@@ -16,9 +16,13 @@
 
 package de.decidr.model;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import org.apache.commons.io.IOUtils;
 import org.hibernate.Session;
 
 import de.decidr.model.commands.AbstractTransactionalCommand;
@@ -75,16 +79,16 @@ public class DecidrGlobals {
     /**
      * The official DecidR disclaimer
      */
-    public static String DISCLAIMER = "The DecidR Development Team licenses " +
-    		"this file to you under the Apache License, Version 2.0 (the " +
-    		"\"License\"); you may not use this file except in compliance " +
-    		"with the License. You may obtain a copy of the License at " +
-    		"http://www.apache.org/licenses/LICENSE-2.0. Unless required " +
-    		"by applicable law or agreed to in writing, software " +
-    		"distributed under the License is distributed on an \"AS IS\" " +
-    		"BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either " +
-    		"express or implied. See the License for the specific language" +
-    		" governing permissions and limitations under the License.";
+    public static String DISCLAIMER = "The DecidR Development Team licenses "
+            + "this file to you under the Apache License, Version 2.0 (the "
+            + "\"License\"); you may not use this file except in compliance "
+            + "with the License. You may obtain a copy of the License at "
+            + "http://www.apache.org/licenses/LICENSE-2.0. Unless required "
+            + "by applicable law or agreed to in writing, software "
+            + "distributed under the License is distributed on an \"AS IS\" "
+            + "BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either "
+            + "express or implied. See the License for the specific language"
+            + " governing permissions and limitations under the License.";
 
     /**
      * URL parameter name that indicates that the user has to be registered to
@@ -312,5 +316,31 @@ public class DecidrGlobals {
         }
         return "http://" + getEsb().getLocation() + "/soap/" + webServiceName
                 + "?wsdl";
+    }
+
+    /**
+     * Retrieves the WSDL for the given known Web service by performing a HTTP
+     * request to the URL returned by {@link #getWebServiceWsdlUrl()}
+     * 
+     * @param webServiceName
+     *            name of the Web service whose WSDL should be retrieved.
+     * @return a byte array containing the raw XML of the WSDL file.
+     * @throws RuntimeException
+     *             if retrieving the WSDL fails
+     */
+    public static byte[] getWebServiceWsdl(String webServiceName) {
+        try {
+            URL url = new URL(getWebServiceWsdlUrl(webServiceName));
+            ByteArrayOutputStream result = new ByteArrayOutputStream();
+            InputStream urlStream = url.openStream();
+            try {
+                IOUtils.copy(urlStream, result);
+            } finally {
+                urlStream.close();
+            }
+            return result.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

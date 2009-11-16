@@ -110,7 +110,7 @@ import de.decidr.model.commands.user.SetCurrentTenantCommand;
 import de.decidr.model.commands.user.SetPasswordCommand;
 import de.decidr.model.commands.user.SetUserProfileCommand;
 import de.decidr.model.commands.user.SetUserPropertyCommand;
-import de.decidr.model.commands.workflowinstance.GetAllWorkitemsCommand;
+import de.decidr.model.commands.workflowinstance.GetAllWorkItemsCommand;
 import de.decidr.model.commands.workflowinstance.GetParticipatingUsersCommand;
 import de.decidr.model.commands.workflowinstance.RemoveAllWorkItemsCommand;
 import de.decidr.model.commands.workflowinstance.StopWorkflowInstanceCommand;
@@ -656,7 +656,7 @@ public class DefaultAccessControlList implements AccessControlList {
                 alwaysTrueAsserter);
 
         setRule(new WorkflowAdminRole(), new CommandPermission(
-                GetAllWorkitemsCommand.class), SatisfyAll,
+                GetAllWorkItemsCommand.class), SatisfyAll,
                 new UserAdministratesWorkflowInstanceAsserter(),
                 new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
 
