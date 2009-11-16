@@ -32,7 +32,7 @@
 					Boss
 		        </propertyValue>
 			</setProperty>
-			<setProperty name="email">
+			<setProperty name="to">
 				<propertyValue>
 					boss@example.com
 		        </propertyValue>
@@ -156,7 +156,7 @@
 				<target arcId="238746123985" />
 			</targets>
 			<notificationOfSuccess>
-				<setProperty name="successMessage" variable="successOrganizationMessage">
+				<setProperty name="message" variable="successOrganizationMessage">
 				</setProperty>
 				<setProperty name="to" variable="host">
 				</setProperty>

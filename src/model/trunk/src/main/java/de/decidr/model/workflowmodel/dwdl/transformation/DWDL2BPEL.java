@@ -109,20 +109,6 @@ public class DWDL2BPEL {
     private Map<DecidrWebserviceAdapter, Variable> webserviceOutputVariables = null;
 
     private void addCopyStatement(Assign assign, Element element,
-            String toVariable) {
-        Copy copy = factory.createCopy();
-        From from = factory.createFrom();
-        To to = factory.createTo();
-        Literal literal = factory.createLiteral();
-        literal.getContent().add(element);
-        from.getContent().add(literal);
-        to.setVariable(toVariable);
-        copy.setFrom(from);
-        copy.setTo(to);
-        assign.getCopyOrExtensionAssignOperation().add(copy);
-    }
-
-    private void addCopyStatement(Assign assign, Element element,
             SetProperty property, String toVariable) {
         Copy copy = factory.createCopy();
         From from = factory.createFrom();
@@ -173,16 +159,10 @@ public class DWDL2BPEL {
         return BPELHelper.getActorElement(decidrActor);
     }
 
-    private Element createRecipientElement(Recipient recipient) {
+    private Element createRecipientElement(Recipient recipient,
+            SetProperty property) {
         de.decidr.model.soap.types.Actor decidrActor = new de.decidr.model.soap.types.Actor();
-        for (SetProperty property : recipient.getSetProperty()) {
-            if (property.getName().equals("email")) {
-                if (property.isSetPropertyValue()) {
-                    decidrActor
-                            .setEmail(property.getPropertyValue().toString());
-                }
-            }
-        }
+        decidrActor.setEmail(property.getPropertyValue().toString());
         return BPELHelper.getActorElement(decidrActor);
     }
 
@@ -258,13 +238,27 @@ public class DWDL2BPEL {
         if (node.isSetNotificationOfSuccess()) {
             for (SetProperty property : node.getNotificationOfSuccess()
                     .getSetProperty()) {
-                addCopyStatement(assign, property,
-                        BPELConstants.SUCCESS_MESSAGE_REQUEST);
+                if (property.getName().equals(
+                        PropertyConstants.Notification.MESSAGE)) {
+                    addCopyStatement(assign, property,
+                            BPELConstants.SUCCESS_MESSAGE_REQUEST);
+                }
             }
             for (Recipient recipient : node.getNotificationOfSuccess()
                     .getRecipient()) {
-                addCopyStatement(assign, createRecipientElement(recipient),
-                        BPELConstants.SUCCESS_MESSAGE_REQUEST);
+                for (SetProperty property : recipient.getSetProperty()) {
+                    if (property.getName().equals(
+                            PropertyConstants.Recipient.TO)) {
+                        if (property.isSetPropertyValue()) {
+                            addCopyStatement(assign, createRecipientElement(
+                                    recipient, property), property,
+                                    BPELConstants.FAULT_MESSAGE_REQUEST);
+                        } else if (property.isSetVariable()) {
+                            addCopyStatement(assign, property,
+                                    BPELConstants.FAULT_MESSAGE_REQUEST);
+                        }
+                    }
+                }
             }
         }
         emailInvoke.setPartnerLink(adapters.get(
@@ -415,24 +409,59 @@ public class DWDL2BPEL {
             assign = factory.createAssign();
             assign.setName("initRoles");
             for (Role role : dwdl.getRoles().getRole()) {
-                if (!role.getActor().isEmpty()
-                        && (!role.isSetConfigurationVariable() || role
-                                .getConfigurationVariable().value()
-                                .equals("no"))) {
+                if (!role.isSetConfigurationVariable()
+                        || role.getConfigurationVariable().equals(Boolean.NO)) {
                     addCopyStatement(assign, createRoleElement(role), role
                             .getName());
+                } else if (role.isSetConfigurationVariable()
+                        && role.getConfigurationVariable().equals(Boolean.YES)) {
+                    Copy copy = factory.createCopy();
+                    From from = factory.createFrom();
+                    To to = factory.createTo();
+                    from.setVariable(BPELConstants.PROCESS_INPUT_VARIABLE);
+                    from.setProperty(new QName(process.getTargetNamespace(),
+                            role.getName()));
+                    to.setVariable(role.getName());
+                    copy.setFrom(from);
+                    copy.setTo(to);
+                    assign.getCopyOrExtensionAssignOperation().add(copy);
                 }
             }
             for (Actor actor : dwdl.getRoles().getActor()) {
                 if (!actor.isSetConfigurationVariable()
-                        || actor.getConfigurationVariable().value()
-                                .equals("no")) {
+                        || actor.getConfigurationVariable().equals(Boolean.NO)) {
                     addCopyStatement(assign, createActorElement(actor), actor
                             .getName());
+                } else if (actor.isSetConfigurationVariable()
+                        && actor.getConfigurationVariable().equals(Boolean.YES)) {
+                    Copy copy = factory.createCopy();
+                    From from = factory.createFrom();
+                    To to = factory.createTo();
+                    from.setVariable(BPELConstants.PROCESS_INPUT_VARIABLE);
+                    from.setProperty(new QName(process.getTargetNamespace(),
+                            actor.getName()));
+                    to.setVariable(actor.getName());
+                    copy.setFrom(from);
+                    copy.setTo(to);
+                    assign.getCopyOrExtensionAssignOperation().add(copy);
                 }
             }
         }
         return assign;
+    }
+
+    private void addCopyStatement(Assign assign, Element element,
+            String toVariable) {
+        Copy copy = factory.createCopy();
+        From from = factory.createFrom();
+        To to = factory.createTo();
+        Literal literal = factory.createLiteral();
+        literal.getContent().add(element);
+        from.getContent().add(literal);
+        to.setVariable(toVariable);
+        copy.setFrom(from);
+        copy.setTo(to);
+        assign.getCopyOrExtensionAssignOperation().add(copy);
     }
 
     private Assign initVariables() {
@@ -442,35 +471,54 @@ public class DWDL2BPEL {
         if (dwdl.isSetVariables()) {
             for (de.decidr.model.workflowmodel.dwdl.Variable dwdlVariable : dwdl
                     .getVariables().getVariable()) {
-                if (dwdlVariable.isSetInitialValue()
-                        && !dwdlVariable.isSetInitialValues()) {
-                    Copy copy = factory.createCopy();
-                    From from = factory.createFrom();
-                    To to = factory.createTo();
-                    Literal literal = factory.createLiteral();
-                    literal.getContent().addAll(
-                            dwdlVariable.getInitialValue().getContent());
-                    from.getContent().add(literal);
-                    to.setVariable(dwdlVariable.getName());
-                    copy.setFrom(from);
-                    copy.setTo(to);
-                    assign.getCopyOrExtensionAssignOperation().add(copy);
-                } else if (dwdlVariable.isSetInitialValues()
-                        && !dwdlVariable.isSetInitialValue()) {
-                    Copy copy = factory.createCopy();
-                    Literal literal = factory.createLiteral();
-                    for (de.decidr.model.workflowmodel.dwdl.Literal initialValue : dwdlVariable
-                            .getInitialValues().getInitialValue()) {
-                        literal.getContent().addAll(initialValue.getContent());
+                if (!dwdlVariable.isSetConfigurationVariable()
+                        || dwdlVariable.getConfigurationVariable().equals(
+                                Boolean.NO)) {
+                    if (dwdlVariable.isSetInitialValue()
+                            && !dwdlVariable.isSetInitialValues()) {
+                        Copy copy = factory.createCopy();
+                        From from = factory.createFrom();
+                        To to = factory.createTo();
+                        Literal literal = factory.createLiteral();
+                        literal.getContent().addAll(
+                                dwdlVariable.getInitialValue().getContent());
+                        from.getContent().add(literal);
+                        to.setVariable(dwdlVariable.getName());
+                        copy.setFrom(from);
+                        copy.setTo(to);
+                        assign.getCopyOrExtensionAssignOperation().add(copy);
+                    } else if (dwdlVariable.isSetInitialValues()
+                            && !dwdlVariable.isSetInitialValue()) {
+                        Copy copy = factory.createCopy();
+                        Literal literal = factory.createLiteral();
+                        for (de.decidr.model.workflowmodel.dwdl.Literal initialValue : dwdlVariable
+                                .getInitialValues().getInitialValue()) {
+                            literal.getContent().addAll(
+                                    initialValue.getContent());
+                        }
+                        From from = factory.createFrom();
+                        To to = factory.createTo();
+                        from.getContent().add(literal);
+                        to.setVariable(dwdlVariable.getName());
+                        copy.setFrom(from);
+                        copy.setTo(to);
+                        assign.getCopyOrExtensionAssignOperation().add(copy);
                     }
+                } else if (dwdlVariable.isSetConfigurationVariable()
+                        && dwdlVariable.getConfigurationVariable().equals(
+                                Boolean.YES)) {
+                    Copy copy = factory.createCopy();
                     From from = factory.createFrom();
                     To to = factory.createTo();
-                    from.getContent().add(literal);
+                    from.setVariable(BPELConstants.PROCESS_INPUT_VARIABLE);
+                    from.setProperty(new QName(process.getTargetNamespace(),
+                            dwdlVariable.getName()));
                     to.setVariable(dwdlVariable.getName());
                     copy.setFrom(from);
                     copy.setTo(to);
                     assign.getCopyOrExtensionAssignOperation().add(copy);
                 }
+
             }
         }
         // save pid in PROCESS_OUTPUT_VARIABLE
@@ -556,12 +604,10 @@ public class DWDL2BPEL {
     }
 
     private void setArcs(List<Arc> arcs, List<Link> links) {
-        if (arcs != null && !arcs.isEmpty()) {
-            for (Arc arc : arcs) {
-                Link link = factory.createLink();
-                link.setName("link" + String.valueOf(arc.getId()));
-                links.add(link);
-            }
+        for (Arc arc : arcs) {
+            Link link = factory.createLink();
+            link.setName("link" + String.valueOf(arc.getId()));
+            links.add(link);
         }
     }
 
@@ -592,18 +638,30 @@ public class DWDL2BPEL {
         FaultHandlers faultHandlers = factory.createFaultHandlers();
         ActivityContainer activityContainer = factory.createActivityContainer();
         Sequence sequence = factory.createSequence();
-        sequence.setName("fault handler");
         Assign assign = factory.createAssign();
         Invoke emailInvoke = factory.createInvoke();
-        if (dwdl.isSetFaultHandler()
-                && dwdl.getFaultHandler().isSetSetProperty()) {
+        if (dwdl.isSetFaultHandler()) {
             for (SetProperty property : dwdl.getFaultHandler().getSetProperty()) {
-                addCopyStatement(assign, property,
-                        BPELConstants.FAULT_MESSAGE_REQUEST);
+                if (property.getName().equals(
+                        PropertyConstants.FaultHandler.MESSAGE)) {
+                    addCopyStatement(assign, property,
+                            BPELConstants.FAULT_MESSAGE_REQUEST);
+                }
             }
             for (Recipient recipient : dwdl.getFaultHandler().getRecipient()) {
-                addCopyStatement(assign, createRecipientElement(recipient),
-                        BPELConstants.FAULT_MESSAGE_REQUEST);
+                for (SetProperty property : recipient.getSetProperty()) {
+                    if (property.getName().equals(
+                            PropertyConstants.Recipient.TO)) {
+                        if (property.isSetPropertyValue()) {
+                            addCopyStatement(assign, createRecipientElement(
+                                    recipient, property), property,
+                                    BPELConstants.FAULT_MESSAGE_REQUEST);
+                        } else if (property.isSetVariable()) {
+                            addCopyStatement(assign, property,
+                                    BPELConstants.FAULT_MESSAGE_REQUEST);
+                        }
+                    }
+                }
             }
         }
         emailInvoke.setPartnerLink(adapters.get(
@@ -703,7 +761,7 @@ public class DWDL2BPEL {
 
     private void setProcessAttributes() {
         // sets the targetNamespace and name of the process
-        if (dwdl.getName() != null) {
+        if (dwdl.isSetName()) {
             process.setName(dwdl.getName());
             process.setTargetNamespace(dwdl.getTargetNamespace());
         }
@@ -711,7 +769,7 @@ public class DWDL2BPEL {
 
     private void setProcessDocumentation() {
         // sets the documentation part
-        if (dwdl.getDescription() != null) {
+        if (dwdl.isSetDescription()) {
             Documentation documentation = factory.createDocumentation();
             documentation.getContent().add(dwdl.getDescription());
             process.getDocumentation().add(documentation);
