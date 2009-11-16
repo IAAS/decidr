@@ -30,7 +30,6 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
 import de.decidr.model.acl.roles.SuperAdminRole;
-import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;

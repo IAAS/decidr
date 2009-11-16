@@ -22,7 +22,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
@@ -80,23 +79,26 @@ public class CreateTenantAction implements ClickListener {
 
 		if (notEmpty) {
 			createForm.commit();
+			
+			String tenantName = createForm.getItemProperty(
+			"tenantName").getValue().toString();
 
-			try {
-				Long tenantId = tenantFacade.createTenant(createForm.getItemProperty(
-						"tenantName").getValue().toString(), createForm
+			try {				
+				Long tenantId = tenantFacade.createTenant(tenantName, createForm
 						.getItemProperty("tenantDescription").getValue()
 						.toString(), userId);
-				//TODO: Wie kann ich die rolle neu setzen
+				userFacade.setCurrentTenantId(userId, tenantId);
+				
 				Class<? extends Role> role = userFacade.getHighestUserRole(userId);
-				System.out.println(role);
-				System.out.println(userFacade.getUserRoleForTenant(userId, tenantId));
+				
 				Main.getCurrent().getSession().setAttribute("role", role);
+				Main.getCurrent().getSession().setAttribute("tenant", tenantName);
+				
 				Main.getCurrent().getMainWindow().addWindow(
 						new InformationDialogComponent(
 								"Tenant successfully created", "Success"));
-				uiDirector.setUiBuilder(tenantAdminViewBuilder);
-				uiDirector.constructView();
-				siteFrame.setContent(new TenantSettingsComponent());
+				uiDirector.switchView(tenantAdminViewBuilder);
+				siteFrame.setContent(new TenantSettingsComponent("", "decidrlogo.png"));
 				((HorizontalNavigationMenu) uiDirector.getTemplateView()
 						.getHNavigation()).getLogoutButton().setVisible(true);
 			} catch (TransactionException e) {

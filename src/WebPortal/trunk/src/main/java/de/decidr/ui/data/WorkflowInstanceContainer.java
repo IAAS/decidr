@@ -30,8 +30,10 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
 import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.facades.UserFacade;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.filters.StartableWorkflowModelFilter;
@@ -52,9 +54,10 @@ public class WorkflowInstanceContainer implements Container {
 	private String tenant = (String) session.getAttribute("tenant");
 
 	TenantFacade tenantFacade = new TenantFacade(new TenantAdminRole(userId));
+	UserFacade userFacade = new UserFacade(new TenantAdminRole(userId));
 	Long tenantId = null;
 
-	List<Item> workflowInstanceList = null;
+	List<Item> workflowModelList = null;
 
 	private ArrayList<Object> propertyIds = new ArrayList<Object>();
 	private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
@@ -73,9 +76,8 @@ public class WorkflowInstanceContainer implements Container {
 		paginator.setItemsPerPage(10);
 		try {
 			tenantId = tenantFacade.getTenantId(tenant);
-			workflowInstanceList = tenantFacade.getWorkflowModels(tenantId,
-					filterList, paginator);
-			for (Item item : workflowInstanceList) {
+			workflowModelList = userFacade.getAdministratedWorkflowModels(userId);
+			for (Item item : workflowModelList) {
 				addItem(item);
 			}
 		} catch (TransactionException exception) {

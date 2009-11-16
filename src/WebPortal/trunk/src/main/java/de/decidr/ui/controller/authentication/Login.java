@@ -108,11 +108,11 @@ public class Login {
 		tenantName = tenant.getName();
 
 		role = userFacade.getUserRoleForTenant(userId, tenantId);
-
+		
 		session.setAttribute("userId", userId);
 		session.setAttribute("tenant", tenantName);
 		session.setAttribute("role", role);
-		Main.getCurrent().setUser(username);
+		//Main.getCurrent().setUser(username);
 
 		loadProtectedResources();
 

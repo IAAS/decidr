@@ -24,6 +24,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
@@ -32,6 +34,7 @@ import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
@@ -42,6 +45,8 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * @author AT
  */
 public class RunningInstanceContainer implements Container{
+	
+	private static Logger logger = DefaultLogger.getLogger(RunningInstanceContainer.class); 
 
     private HttpSession session = Main.getCurrent().getSession();
 
@@ -59,6 +64,7 @@ public class RunningInstanceContainer implements Container{
      * 
      */
     public RunningInstanceContainer() {
+    	logger.debug("Create running instance container for : " +userId);
         try {
             runningInstanceList = userFacade
                     .getAdministratedWorkflowInstances(userId);

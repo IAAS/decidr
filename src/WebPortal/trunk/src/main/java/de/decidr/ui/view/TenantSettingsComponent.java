@@ -30,6 +30,7 @@ import com.vaadin.ui.Upload;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 
+import de.decidr.model.entities.File;
 import de.decidr.ui.controller.CssHandler;
 import de.decidr.ui.controller.tenant.RestoreDefaultTenantSettingsAction;
 import de.decidr.ui.controller.tenant.SaveTenantSettingsAction;
@@ -87,12 +88,17 @@ public class TenantSettingsComponent extends CustomComponent {
 
 	final String[] fonts = new String[] { "Times New Roman", "Arial",
 			"Courier New", "Verdana" };
+	
+	private String description;
+	private String logo;
 
 	/**
 	 * Default constructor.
 	 * 
 	 */
-	public TenantSettingsComponent() {
+	public TenantSettingsComponent(String description, String logo) {
+		this.description = description;
+		this.logo = logo;
 		init();
 	}
 
@@ -118,6 +124,7 @@ public class TenantSettingsComponent extends CustomComponent {
 		textArea.setRows(10);
 		textArea.setColumns(30);
 		textArea.setCaption("Description");
+		textArea.setValue(description);
 
 		logoUpload = new Upload("Upload Logo", new UploadTenantLogoAction());
 		logoUpload.setButtonCaption("Upload Logo");
@@ -127,7 +134,7 @@ public class TenantSettingsComponent extends CustomComponent {
 		restoreDefaultSettingsButton = new Button("Restore default settings",
 				new RestoreDefaultTenantSettingsAction());
 
-		logoEmbedded = new Embedded("", new ThemeResource("img/decidrlogo.png"));
+		logoEmbedded = new Embedded("", new ThemeResource("img/"+logo));
 		logoEmbedded.setCaption("Logo");
 		logoEmbedded.setImmediate(true);
 

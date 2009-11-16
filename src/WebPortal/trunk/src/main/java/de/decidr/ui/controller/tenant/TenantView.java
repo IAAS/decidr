@@ -24,10 +24,13 @@ import java.io.OutputStream;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
@@ -38,6 +41,8 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * @author AT
  */
 public class TenantView {
+	
+	Logger logger = DefaultLogger.getLogger(TenantView.class);
 
 	private HttpSession session = Main.getCurrent().getSession();
 
@@ -60,6 +65,8 @@ public class TenantView {
 	 * 
 	 */
 	public void synchronize() {
+		logger.debug("Tenant name im tenantView: "+tenantName);
+		
 		cssFile = new File("themes" + File.separator + tenantName
 				+ File.separator + "styles.css");
 		logoFile = new File("themes" + File.separator + tenantName

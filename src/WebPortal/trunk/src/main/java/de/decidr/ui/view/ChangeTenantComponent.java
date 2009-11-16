@@ -21,83 +21,106 @@ import java.util.List;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.ui.controller.tenant.SwitchTenantAction;
 import de.decidr.ui.data.CurrentTenantContainer;
+import de.decidr.ui.data.TenantContainer;
+import de.decidr.ui.view.tables.CurrentTenantModelTable;
 import de.decidr.ui.view.tables.TenantTable;
 
 public class ChangeTenantComponent extends CustomComponent {
 
-    /**
-     * The user can change the tenant if he wants. He has to choose one tenant
-     * from the table and push the switch tenant button.
-     * 
-     * @author AT
-     */
-    private static final long serialVersionUID = 5599429204495615788L;
+	/**
+	 * The user can change the tenant if he wants. He has to choose one tenant
+	 * from the table and push the switch tenant button.
+	 * 
+	 * @author AT
+	 */
+	private static final long serialVersionUID = 5599429204495615788L;
 
-    private CurrentTenantContainer tenantContainer = null;
+	private CurrentTenantContainer currentTenantContainer = null;
+	private TenantContainer tenantContainer = null;
 
-    private VerticalLayout verticalLayout = null;
+	private VerticalLayout verticalLayout = null;
 
-    private Label changeTenantLabel = null;
-    private Label waitingForApprovalLabel = null;
-    
-    private ButtonPanel buttonPanel = null;
-    
-    private Button changeTenantButton = null;
-    
-    private List<Button> buttonList = new LinkedList<Button>();
+	private Label changeTenantLabel = null;
+	private Label waitingForApprovalLabel = null;
 
-    private TenantTable tenantTable = null;
-    private Table approvalTable = null;
+	private ButtonPanel buttonPanel = null;
 
-    /**
-     * Default constructor
-     * 
-     */
-    public ChangeTenantComponent() {
-        init();
-    }
+	private Button changeTenantButton = null;
 
-    /**
-     * This method initializes the components of the change tenant component
-     * 
-     */
-    private void init() {
-        tenantContainer = new CurrentTenantContainer();
+	private List<Button> buttonList = new LinkedList<Button>();
 
-        verticalLayout = new VerticalLayout();
+	private CurrentTenantModelTable tenantTable = null;
+	private TenantTable approvalTable = null;
 
-        changeTenantLabel = new Label("<h2> Change Tenant </h2>");
-        changeTenantLabel.setContentMode(Label.CONTENT_XHTML);
-        //waitingForApprovalLabel = new Label("<h2> Waiting for approval </h2>");
-        //waitingForApprovalLabel.setContentMode(Label.CONTENT_XHTML);
+	/**
+	 * Default constructor
+	 * 
+	 */
+	public ChangeTenantComponent(Class<? extends Role> role) {
+		init();
+		if (role.equals(SuperAdminRole.class)) {
+			changeToSuperAdmin();
+		}
+	}
 
-        tenantTable = new TenantTable(tenantContainer);
-        //approvalTable = new Table(); TODO: table mit approval anlegen
-        
-        initButtonPanel();
+	/**
+	 * This method initializes the components of the change tenant component
+	 * 
+	 */
+	private void init() {
+		currentTenantContainer = new CurrentTenantContainer();
 
-        setCompositionRoot(verticalLayout);
+		verticalLayout = new VerticalLayout();
 
-        verticalLayout.setSpacing(true);
-        verticalLayout.addComponent(changeTenantLabel);
-        verticalLayout.addComponent(tenantTable);
-        //verticalLayout.addComponent(waitingForApprovalLabel);
-        //verticalLayout.addComponent(approvalTable);
-        verticalLayout.addComponent(buttonPanel);
-    }
-    
-    private void initButtonPanel(){
-    	changeTenantButton = new Button("Change tenant", new SwitchTenantAction(tenantTable));
-    	
-    	buttonList.add(changeTenantButton);
-    	
-    	buttonPanel = new ButtonPanel(buttonList);
-    	buttonPanel.setCaption("Edit tenant");
-    }
+		changeTenantLabel = new Label("<h2> Change Tenant </h2>");
+		changeTenantLabel.setContentMode(Label.CONTENT_XHTML);
+
+		tenantTable = new CurrentTenantModelTable(currentTenantContainer);
+
+		initButtonPanel();
+
+		setCompositionRoot(verticalLayout);
+
+		verticalLayout.setSpacing(true);
+		verticalLayout.addComponent(changeTenantLabel);
+		verticalLayout.addComponent(tenantTable);
+		verticalLayout.addComponent(buttonPanel);
+	}
+
+	/**
+	 * Inititalizes the button panel
+	 *
+	 */
+	private void initButtonPanel() {
+		changeTenantButton = new Button("Change tenant",
+				new SwitchTenantAction(tenantTable));
+
+		buttonList.add(changeTenantButton);
+
+		buttonPanel = new ButtonPanel(buttonList);
+		buttonPanel.setCaption("Edit tenant");
+	}
+
+	/**
+	 * Adds a table to the component with all tenants for the super admin
+	 * 
+	 */
+	private void changeToSuperAdmin() {
+		waitingForApprovalLabel = new Label("<h2> Waiting for approval </h2>");
+		waitingForApprovalLabel.setContentMode(Label.CONTENT_XHTML);
+
+		tenantContainer = new TenantContainer();
+
+		approvalTable = new TenantTable(tenantContainer);
+
+		verticalLayout.addComponent(waitingForApprovalLabel, 3);
+		verticalLayout.addComponent(approvalTable, 4);
+	}
 
 }

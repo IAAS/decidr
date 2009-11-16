@@ -19,8 +19,10 @@ package de.decidr.ui.controller.show;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.acl.roles.Role;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.ChangeTenantComponent;
+import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 
 /**
@@ -42,7 +44,8 @@ public class ShowChangeTenantAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(new ChangeTenantComponent());
+    	Class<? extends Role> role = (Class<Role>) Main.getCurrent().getSession().getAttribute("role");
+        siteFrame.setContent(new ChangeTenantComponent(role));
 
     }
 

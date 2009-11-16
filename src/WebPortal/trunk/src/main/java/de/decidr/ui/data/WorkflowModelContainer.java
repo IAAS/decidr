@@ -24,16 +24,17 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
 import de.decidr.model.acl.roles.TenantAdminRole;
-import de.decidr.model.acl.roles.WorkflowAdminRole;
 
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
-import de.decidr.model.facades.UserFacade;
+import de.decidr.model.logging.DefaultLogger;
 
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -45,10 +46,14 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * @author AT
  */
 public class WorkflowModelContainer implements Container {
+	
+	private static Logger logger = DefaultLogger.getLogger(WorkflowModelContainer.class);
 
 	private HttpSession session = Main.getCurrent().getSession();
 
 	private Long userId = (Long) session.getAttribute("userId");
+	
+	private String tenantName = (String) session.getAttribute("tenant");
 
 	TenantFacade tenantFacade = new TenantFacade(new TenantAdminRole(userId));
 
@@ -62,8 +67,11 @@ public class WorkflowModelContainer implements Container {
 	 * 
 	 */
 	public WorkflowModelContainer() {
+		logger.debug("Create workflow model container for: "+tenantName);
+		logger.debug("USERID: "+userId);
 		try {
-			workflowModelList = tenantFacade.getWorkflowModels(userId, null,
+			Long tenantId = tenantFacade.getTenantId(tenantName);
+			workflowModelList = tenantFacade.getWorkflowModels(tenantId, null,
 					null);
 			for (Item item : workflowModelList) {
 				addItem(item);

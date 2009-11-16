@@ -71,9 +71,9 @@ public class TenantParameterHandler implements ParameterHandler {
                                         "Invitation Error"));
             }
         }
-
+        //TODO: anderes verhalten, weil sonst immer default tenant gesetzt wird
         session = Main.getCurrent().getSession();
-        if (tenantName != "") {
+       /* if (tenantName != "") {
         	//specific tenant selected
             
             if (session != null)
@@ -89,7 +89,7 @@ public class TenantParameterHandler implements ParameterHandler {
             }
 
             Main.getCurrent().setTheme("decidr");
-        }
+        }*/
 
     }
 

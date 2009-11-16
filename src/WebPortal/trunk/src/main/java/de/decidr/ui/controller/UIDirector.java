@@ -37,65 +37,75 @@ import de.decidr.ui.view.uibuilder.UIBuilder;
  */
 public class UIDirector {
 
-    public static UIDirector getInstance() {
-        if (uiDirector == null) {
-            uiDirector = new UIDirector();
-        }
-        return uiDirector;
+	public static UIDirector getInstance() {
+		if (uiDirector == null) {
+			uiDirector = new UIDirector();
+		}
+		return uiDirector;
 
-    }
+	}
 
-    private UIBuilder uiBuilder = null;
+	private UIBuilder uiBuilder = null;
 
-    private static UIDirector uiDirector = null;
-    
-    private SiteFrame siteFrame = null;
+	private static UIDirector uiDirector = null;
 
-    /**
-     * The default constructor
-     * 
-     */
-    private UIDirector() {
-        // Aleks, GH: document: why is this empty
-    }
+	private SiteFrame siteFrame = null;
 
-    /**
-     * Constructs the view which is shown to the user. Here the header, the
-     * specific content and the specific vertical navigation menu is build
-     * depending on which role the user has.
-     * 
-     */
-    public void constructView() {
-        uiBuilder.buildHeader();
-        uiBuilder.buildContent();
-        uiBuilder.buildNavigation();
-    }
+	/**
+	 * The default constructor
+	 * 
+	 */
+	private UIDirector() {
+		// Aleks, GH: document: why is this empty
+	}
 
-    /**
-     * Sets the ui builder which determines how the user interface is built.
-     * 
-     * @param uiBuilder
-     */
-    public void setUiBuilder(UIBuilder uiBuilder) {
-        this.uiBuilder = uiBuilder;
-    }
-    
-    /**
-     * This method creates a new SiteFrame object, where the header, content and
-     * navigation is set.
-     * 
-     */
-    public void createNewView() {
-        siteFrame = new SiteFrame();
-    }
+	/**
+	 * Constructs the view which is shown to the user. Here the header, the
+	 * specific content and the specific vertical navigation menu is build
+	 * depending on which role the user has.
+	 * 
+	 */
+	public void constructView() {
+		uiBuilder.buildHeader();
+		uiBuilder.buildContent();
+		uiBuilder.buildNavigation();
+	}
 
-    /**
-     * This method returns the SiteFrame object.
-     * 
-     * @return templateView
-     */
-    public SiteFrame getTemplateView() {
-        return siteFrame;
-    }
+	/**
+	 * Sets the ui builder which determines how the user interface is built.
+	 * 
+	 * @param uiBuilder
+	 */
+	public void setUiBuilder(UIBuilder uiBuilder) {
+		this.uiBuilder = uiBuilder;
+	}
+
+	/**
+	 * This method creates a new SiteFrame object, where the header, content and
+	 * navigation is set.
+	 * 
+	 */
+	public void createNewView() {
+		siteFrame = new SiteFrame();
+	}
+
+	/**
+	 * This method returns the SiteFrame object.
+	 * 
+	 * @return templateView
+	 */
+	public SiteFrame getTemplateView() {
+		return siteFrame;
+	}
+
+	/**
+	 * Sets the given uiBuilder and constructs the belonging user interface
+	 * 
+	 * @param uiBuilder
+	 */
+	public void switchView(UIBuilder uiBuilder) {
+		setUiBuilder(uiBuilder);
+		constructView();
+	}
 
 }
