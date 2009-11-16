@@ -22,24 +22,26 @@ package de.decidr.model.workflowmodel.dwdl.transformation;
  * 
  * @author Modood Alvi
  */
+// MA: You've used that outdated definition of the email an HT WS' again. Please
+// update both them and the contents of this file!
 public class PropertyConstants {
 
     static class Email {
         /**
-         * This property accepts an actor, a role or an email addresses. The
-         * email address can be set with the propertyValue element.
+         * This property accepts an actor, a role or an email address. The email
+         * address can be set with the propertyValue element.
          */
         public static final String TO = "to";
 
         /**
-         * This property accepts an actor, a role or an email addresses. The
-         * email address can be set with the propertyValue element.
+         * This property accepts an actor, a role or an email address. The email
+         * address can be set with the propertyValue element.
          */
         public static final String CC = "cc";
 
         /**
-         * This property accepts an actor, a role or an email addresses. The
-         * email address can be set with the propertyValue element.
+         * This property accepts an actor, a role or an email address. The email
+         * address can be set with the propertyValue element.
          */
         public static final String BCC = "bcc";
 
@@ -49,13 +51,16 @@ public class PropertyConstants {
         public static final String SUBJECT = "subject";
 
         /**
-         * The message of the email
+         * The message of the email<br>
+         * MA: There is no "message" parameter in the EmailWS
          */
         public static final String MESSAGE = "message";
 
         /**
          * This property accepts an actor, a role or an email addresses. The
-         * email address can be set with the propertyValue element.
+         * email address can be set with the propertyValue element.<br>
+         * MA: I'm pretty sure it doesn't - only a fileID - and it's
+         * "attachments" as it is a list
          */
         public static final String ATTACHEMENT = "attachment";
     }
@@ -101,7 +106,6 @@ public class PropertyConstants {
          * and names.
          */
         public static final String TASKRESULT = "taskResult";
-
     }
 
     static class FaultHandler {
@@ -127,19 +131,16 @@ public class PropertyConstants {
     }
 
     static class Notification {
-        
+
         /**
          * The message sent when the workflow completes successfully.
          */
         public static final String MESSAGE = "message";
-        
+
         /**
          * This property accepts an actor, a role or an email addresses. The
          * email address can be set with the propertyValue element.
          */
         public static final String TO = "to";
-        
-
     }
-
 }
