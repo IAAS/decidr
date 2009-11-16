@@ -359,19 +359,26 @@ public class DWDL2BPEL {
         Sequence sequence = factory.createSequence();
         setSourceAndTargets(node, sequence);
         Assign assign = factory.createAssign();
-        for (SetProperty property : node.getSetProperty()) {
-            addCopyStatement(assign, property, webserviceInputVariables.get(
-                    adapters.get(node.getActivity())).getName());
-        }
         if (node.getActivity().equals(BPELConstants.HUMANTASK_ACTIVITY_NAME)) {
-            de.decidr.model.workflowmodel.dwdl.Literal lit = new de.decidr.model.workflowmodel.dwdl.Literal();
-            lit.getContent().add(node.getParameter().getContent());
-            for (SetProperty prop : node.getSetProperty()) {
-                addCopyStatement(assign, prop, webserviceInputVariables.get(
-                        adapters.get(node.getActivity())).getName());
+            for (SetProperty property : node.getSetProperty()) {
+                addCopyStatement(assign, property, webserviceInputVariables
+                        .get(adapters.get(node.getActivity())).getName());
             }
+            Copy copy = factory.createCopy();
+            From from = factory.createFrom();
+            To to = factory.createTo();
+            Literal literal = factory.createLiteral();
+            literal.getContent().addAll(node.getParameter().getContent());
+            from.getContent().add(literal);
+            to.setVariable(webserviceInputVariables.get(
+                    adapters.get(node.getActivity())).getName());
+            to.setProperty(new QName(process.getTargetNamespace(),
+                    PropertyConstants.Humantask.TASKDESCRIPTION));
+            copy.setFrom(from);
+            copy.setTo(to);
+            assign.getCopyOrExtensionAssignOperation().add(copy);
         }
-        sequence.getActivity().add(assign);
+
         invoke.setPartnerLink(adapters.get(node.getActivity()).getPartnerLink()
                 .getName());
         invoke.setOperation(adapters.get(node.getActivity()).getOpertation()
@@ -381,6 +388,7 @@ public class DWDL2BPEL {
         invoke.setOutputVariable(webserviceOutputVariables.get(
                 adapters.get(node.getActivity())).getName());
         setNameAndDocumentation(node, invoke);
+        sequence.getActivity().add(assign);
         sequence.getActivity().add(invoke);
         return sequence;
     }
