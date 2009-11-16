@@ -235,7 +235,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`server_type` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(100) NOT NULL ,
+  `name` VARCHAR(100) NOT NULL COMMENT 'unique web service identifier such as \"EmailProxy\"' ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `unique_name` (`name` ASC) )
 ENGINE = InnoDB;
@@ -563,10 +563,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`known_web_service` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
-  `namespace` VARCHAR(255) NOT NULL COMMENT 'This is the unique namespace of the web service' ,
-  `wsdl` LONGBLOB NOT NULL ,
+  `name` VARCHAR(255) NOT NULL COMMENT 'This is the unique namespace of the web service' ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `unique_name` (`namespace` ASC) )
+  UNIQUE INDEX `unique_name` (`name` ASC) )
 ENGINE = InnoDB;
 
 
@@ -1114,15 +1113,3 @@ DELIMITER ;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
--- -----------------------------------------------------
--- Data for table `decidrdb`.`server_type`
--- -----------------------------------------------------
-SET AUTOCOMMIT=0;
-USE `decidrdb`;
-INSERT INTO `server_type` (`id`, `name`) VALUES (1, 'Ode');
-INSERT INTO `server_type` (`id`, `name`) VALUES (2, 'WebPortal');
-INSERT INTO `server_type` (`id`, `name`) VALUES (3, 'Esb');
-INSERT INTO `server_type` (`id`, `name`) VALUES (4, 'Storage');
-
-COMMIT;
