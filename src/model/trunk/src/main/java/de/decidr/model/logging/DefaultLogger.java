@@ -22,6 +22,9 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
+import de.decidr.model.DecidrGlobals;
+import de.decidr.model.entities.SystemSettings;
+
 /**
  * Provides a common logging configuration for the DecidR components and
  * subsystems.
@@ -45,13 +48,24 @@ public class DefaultLogger {
         BasicConfigurator.resetConfiguration();
         BasicConfigurator.configure(defaultAppender);
 
+        // XXX Hibernate log level is hardcoded.
         Logger.getLogger(HIBERNATE_LOGGER).setLevel(Level.WARN);
 
-        Logger.getLogger(DEFAULT_LOGGER).addAppender(defaultAppender);
-        // set default logging options
-        Logger.getLogger(DEFAULT_LOGGER).setLevel(Level.DEBUG);
-        // Don't pass messages to higher-level loggers
-        Logger.getLogger(DEFAULT_LOGGER).setAdditivity(false);
+        // configure the default logger
+        Logger defaultLogger = Logger.getLogger(DEFAULT_LOGGER);
+        defaultLogger.addAppender(defaultAppender);
+        // don't pass messages to higher-level loggers
+        defaultLogger.setAdditivity(false);
+        // try to get the default log level from system settings
+        Level globalLogLevel = Level.DEBUG;
+        try {
+            SystemSettings settings = DecidrGlobals.getSettings();
+            globalLogLevel = Level.toLevel(settings.getLogLevel());
+        } catch (Exception e) {
+            defaultLogger.fatal(
+                    "Cannot retrieve global log level from database.", e);
+        }
+        defaultLogger.setLevel(globalLogLevel);
     }
 
     /**
