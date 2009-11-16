@@ -182,18 +182,22 @@ public class DecidrReverseEngineeringStrategy extends
     @Override
     public Map columnToMetaAttributes(TableIdentifier identifier, String column) {
         /*
-         * All primary key columns must be tagged with use-in-equals
+         * XXX All primary key columns should be tagged with use-in-equals, but
+         * how do we know which column is part of the primary key? :-(
          */
         Map attribs = super.columnToMetaAttributes(identifier, column);
         if (attribs == null) {
             attribs = new HashMap();
         }
-        
-        MetaAttribute attrib = new  MetaAttribute("use-in-equals");
-        attrib.addValue("true");
-        
-        attribs.put("use-in-equals", attrib);
-        
+
+        // Uncommenting the following lines would result in all columns being
+        // used in equals (which is terribly wrong, only primary key columns
+        // should be included)
+        //
+        // MetaAttribute attrib = new MetaAttribute("use-in-equals");
+        // attrib.addValue("true");
+        // attribs.put("use-in-equals", attrib);
+
         return attribs;
     }
 
