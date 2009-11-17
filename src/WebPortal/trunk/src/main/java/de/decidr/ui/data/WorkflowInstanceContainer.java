@@ -71,7 +71,7 @@ public class WorkflowInstanceContainer implements Container {
      */
     public WorkflowInstanceContainer() {
         try {
-            // AT Please review my changes: ~dh
+            // Aleks Please review my changes: ~dh
             filterList = new ArrayList<Filter>();
             filterList.add(new StartableWorkflowModelFilter());
             filterList.add(new EqualsFilter(true, "tenant.id", tenantId));
@@ -249,5 +249,4 @@ public class WorkflowInstanceContainer implements Container {
     public int size() {
         return items.size();
     }
-
 }
