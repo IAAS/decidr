@@ -34,7 +34,9 @@
 			<headers xsi:nil="true" />
 			<bodyTXT>ddddddddassdf</bodyTXT>
 			<bodyHTML xsi:nil="true" />
-			<attachments xsi:nil="true" />
+			<attachments>
+				<dec1:id>10</dec1:id>
+			</attachments>
 		</ema:sendEmail>
 	</soap:Body>
 </soap:Envelope>
