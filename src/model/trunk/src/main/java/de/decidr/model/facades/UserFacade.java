@@ -923,6 +923,10 @@ public class UserFacade extends AbstractFacade {
      * @param userId
      *            the ID of the user whose administrated workflow models should
      *            be requested
+     * @param filters
+     *            optional (nullable) list of filters to apply
+     * @param paginator
+     *            optional (nullable) paginator
      * @return list of workflow models which are administrated by the given user
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
@@ -931,12 +935,13 @@ public class UserFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             if the user does not exist.
      */
-    @AllowedRole(TenantAdminRole.class)
-    public List<Item> getAdministratedWorkflowModels(Long userId)
+    @AllowedRole(WorkflowAdminRole.class)
+    public List<Item> getAdministratedWorkflowModels(Long userId,
+            List<Filter> filters, Paginator paginator)
             throws TransactionException {
 
         GetAdministratedWorkflowModelsCommand command = new GetAdministratedWorkflowModelsCommand(
-                actor, userId);
+                actor, userId, filters, paginator);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
 

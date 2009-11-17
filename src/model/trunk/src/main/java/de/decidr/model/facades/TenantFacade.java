@@ -615,7 +615,7 @@ public class TenantFacade extends AbstractFacade {
      * </ul>
      * 
      * @param tenantId
-     *            ID of the tenant whose workflow models should be requested
+     *            ID of the tenant whose workflow models should be returned
      * @param filters
      *            {@link Filter}
      * @param paginator

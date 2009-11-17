@@ -40,6 +40,7 @@ import de.decidr.model.acl.asserters.UserIsInvitationReceiverAsserter;
 import de.decidr.model.acl.asserters.UserIsLoggedInAsserter;
 import de.decidr.model.acl.asserters.UserIsSuperAdminAsserter;
 import de.decidr.model.acl.asserters.UserIsTenantAdminAsserter;
+import de.decidr.model.acl.asserters.UserIsWorkflowAdminWithinTenantAsserter;
 import de.decidr.model.acl.asserters.UserNotParticipatingInAnyWorkflowAsserter;
 import de.decidr.model.acl.asserters.UserOwnsWorkItemAsserter;
 import de.decidr.model.acl.asserters.UserOwnsWorkflowModelAsserter;
@@ -607,9 +608,9 @@ public class DefaultAccessControlList implements AccessControlList {
                 new IsRoleEqualToAccessedUserAsserter(),
                 new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
 
-        setRule(new TenantAdminRole(), new CommandPermission(
+        setRule(new WorkflowAdminRole(), new CommandPermission(
                 GetAdministratedWorkflowModelsCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+                new UserIsWorkflowAdminWithinTenantAsserter(), new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
         setRule(new UserRole(),

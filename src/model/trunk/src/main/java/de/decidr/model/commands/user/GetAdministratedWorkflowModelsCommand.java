@@ -18,16 +18,25 @@ package de.decidr.model.commands.user;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Subqueries;
+
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.User;
+import de.decidr.model.entities.UserAdministratesWorkflowModel;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.filters.Filter;
+import de.decidr.model.filters.Filters;
+import de.decidr.model.filters.PaginatingCriteria;
+import de.decidr.model.filters.Paginator;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Retrieves all {@link WorkflowModel}s that are administrated by a given user.
- * 
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -35,8 +44,9 @@ import de.decidr.model.transactions.TransactionEvent;
  */
 public class GetAdministratedWorkflowModelsCommand extends UserCommand {
 
-    private Long userId;
     private List<WorkflowModel> result;
+    private List<Filter> filters;
+    private Paginator paginator;
 
     /**
      * Creates a new GetAdministratedWorkflowModelCommand. This command will
@@ -48,13 +58,19 @@ public class GetAdministratedWorkflowModelsCommand extends UserCommand {
      * @param userId
      *            the ID of the user whose administrated wokflow models should
      *            be requested
+     * @param filters
+     *            optional (nullable) list of filters to apply to the query
+     * @param paginator
+     *            optional (nullable) paginator
      * @throws IllegalArgumentException
      *             if userId is <code>null</code>.
      */
-    public GetAdministratedWorkflowModelsCommand(Role role, Long userId) {
+    public GetAdministratedWorkflowModelsCommand(Role role, Long userId,
+            List<Filter> filters, Paginator paginator) {
         super(role, userId);
         requireUserId();
-        this.userId = userId;
+        this.filters = filters;
+        this.paginator = paginator;
     }
 
     @SuppressWarnings("unchecked")
@@ -72,12 +88,29 @@ public class GetAdministratedWorkflowModelsCommand extends UserCommand {
             throw new EntityNotFoundException(User.class, getUserId());
         }
 
-        hql = "from WorkflowModel m where "
-                + "exists(from UserAdministratesWorkflowModel rel "
-                + "where rel.workflowModel = m and rel.user.id = :userId)";
+        /*
+         * Criteria that represent the following query:
+         * 
+         * "from WorkflowModel w where exists(from
+         * UserAdministratesWorkflowModel rel where rel.workflowModel = w and
+         * rel.user.id = :userId)"
+         */
+        PaginatingCriteria criteria = new PaginatingCriteria(
+                WorkflowModel.class, "m", evt.getSession());
 
-        result = evt.getSession().createQuery(hql).setLong("userId", userId)
-                .list();
+        DetachedCriteria adminCriteria = DetachedCriteria.forClass(
+                UserAdministratesWorkflowModel.class, "rel");
+
+        adminCriteria.add(Restrictions.eqProperty("rel.workflowModel", "m"))
+                .add(Restrictions.eq("rel.user.id", getUserId()));
+
+        criteria.add(Subqueries.exists(adminCriteria));
+
+        criteria.setResultTransformer(Criteria.ROOT_ENTITY);
+
+        Filters.apply(criteria, filters, paginator);
+
+        result = criteria.list();
     }
 
     /**

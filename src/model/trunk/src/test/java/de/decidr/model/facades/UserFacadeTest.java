@@ -466,32 +466,32 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         Long invalidID = getInvalidUserID();
 
         try {
-            userFacade.getAdministratedWorkflowModels(testUserID);
+            userFacade.getAdministratedWorkflowModels(testUserID, null, null);
             fail("succeeded getting administrated workflow models as normal user");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
 
         try {
-            userFacade.getAdministratedWorkflowModels(invalidID);
+            userFacade.getAdministratedWorkflowModels(invalidID, null, null);
             fail("succeeded getting administrated workflow models as normal user with invalid ID");
         } catch (TransactionException e) {
             // supposed to be thrown
         }
         try {
-            adminFacade.getAdministratedWorkflowModels(invalidID);
+            adminFacade.getAdministratedWorkflowModels(invalidID, null, null);
         } catch (EntityNotFoundException e) {
             // supposed to be thrown
         }
 
         List<Item> WFIs = adminFacade
-                .getAdministratedWorkflowModels(testUserID);
+                .getAdministratedWorkflowModels(testUserID, null, null);
         assertNotNull(WFIs);
         assertTrue(WFIs.isEmpty());
 
         User u = ((UserAdministratesWorkflowModel) session.createQuery(
                 "from UserAdministratesWorkflowModel").list().get(0)).getUser();
-        WFIs = adminFacade.getAdministratedWorkflowModels(u.getId());
+        WFIs = adminFacade.getAdministratedWorkflowModels(u.getId(), null, null);
         assertNotNull(WFIs);
         assertFalse(WFIs.isEmpty());
     }
