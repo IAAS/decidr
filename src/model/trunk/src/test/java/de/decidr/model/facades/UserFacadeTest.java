@@ -484,14 +484,15 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             // supposed to be thrown
         }
 
-        List<Item> WFIs = adminFacade
-                .getAdministratedWorkflowModels(testUserID, null, null);
+        List<Item> WFIs = adminFacade.getAdministratedWorkflowModels(
+                testUserID, null, null);
         assertNotNull(WFIs);
         assertTrue(WFIs.isEmpty());
 
         User u = ((UserAdministratesWorkflowModel) session.createQuery(
                 "from UserAdministratesWorkflowModel").list().get(0)).getUser();
-        WFIs = adminFacade.getAdministratedWorkflowModels(u.getId(), null, null);
+        WFIs = adminFacade
+                .getAdministratedWorkflowModels(u.getId(), null, null);
         assertNotNull(WFIs);
         assertFalse(WFIs.isEmpty());
     }
@@ -1034,9 +1035,9 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         List<Item> joinedTenants;
 
         // find first tenant with a user and get that user's ID
-        for (Tenant t : (List<Tenant>) session.createQuery("FROM Tenant")
+        for (Tenant t : (List<Tenant>) session.createQuery(
+                "FROM Tenant where id != " + DecidrGlobals.DEFAULT_TENANT_ID)
                 .list()) {
-            // DH how do I make sure I don't select the default tenant?
             if (t.getUserIsMemberOfTenants().iterator().hasNext()) {
                 tenantID = t.getId();
                 tenantUserID = t.getUserIsMemberOfTenants().iterator().next()

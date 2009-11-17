@@ -16,11 +16,16 @@
 
 package de.decidr.model.commands.workitem;
 
+import java.net.MalformedURLException;
+
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.enums.WorkItemStatus;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.soap.exceptions.ReportingException;
 import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.webservices.HumanTaskClientStatic;
+import de.decidr.model.webservices.HumanTaskInterface;
 
 /**
  * Sets the status of a work item to the given value. If the status is set to
@@ -80,7 +85,15 @@ public class SetStatusCommand extends WorkItemCommand {
 
             if (newStatus.equals(WorkItemStatus.Done)) {
                 // Notifiy human task web service
-                // FIXME DH if the status is "done", invoke Human Task WS
+                try {
+                    HumanTaskInterface humanTask = new HumanTaskClientStatic()
+                            .getEmailSOAP();
+                    humanTask.taskCompleted(workItem.getId());
+                } catch (ReportingException e) {
+                    throw new TransactionException(e);
+                } catch (MalformedURLException e) {
+                    throw new TransactionException(e);
+                }
             }
         }
     }

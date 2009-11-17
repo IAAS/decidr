@@ -62,7 +62,7 @@ public class DefaultLogger {
             SystemSettings settings = DecidrGlobals.getSettings();
             globalLogLevel = Level.toLevel(settings.getLogLevel());
         } catch (Exception e) {
-            defaultLogger.fatal(
+            defaultLogger.warn(
                     "Cannot retrieve global log level from database.", e);
         }
         defaultLogger.setLevel(globalLogLevel);

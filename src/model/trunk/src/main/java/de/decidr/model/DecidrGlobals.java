@@ -211,7 +211,7 @@ public class DecidrGlobals {
         public void transactionStarted(TransactionEvent evt)
                 throws TransactionException {
             settings = (SystemSettings) evt.getSession().createQuery(
-                    "from SystemSettings s join fetch s.superAdmin")
+                    "select s from SystemSettings s join fetch s.superAdmin")
                     .setMaxResults(1).uniqueResult();
 
             if (settings == null) {
@@ -230,7 +230,7 @@ public class DecidrGlobals {
         public void transactionStarted(TransactionEvent evt)
                 throws TransactionException {
             esb = (Server) evt.getSession().createQuery(
-                    "from Server s join fetch s.serverType where "
+                    "select s from Server s join fetch s.serverType where "
                             + "s.serverType.name = :serverType").setMaxResults(
                     1).setString("serverType", ServerTypeEnum.Esb.toString())
                     .uniqueResult();
