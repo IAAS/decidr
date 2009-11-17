@@ -25,6 +25,8 @@ package de.decidr.ui.view;
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Item;
+import com.vaadin.service.ApplicationContext;
+import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
@@ -61,6 +63,15 @@ public class WelcomePageComponent extends CustomComponent {
      * 
      */
     private void init() {
+
+        // Aleks, GH: quick & dirty fix to get the "clicking on home" error
+        // resolved ~rr
+        if (Main.getCurrent().getSession() == null) {
+            ApplicationContext ctx = Main.getCurrent().getContext();
+            WebApplicationContext webCtx = (WebApplicationContext) ctx;
+            HttpSession session = webCtx.getHttpSession();
+            Main.getCurrent().setSession(session);
+        }
 
         session = Main.getCurrent().getSession();
         userId = (Long) session.getAttribute("userId");
