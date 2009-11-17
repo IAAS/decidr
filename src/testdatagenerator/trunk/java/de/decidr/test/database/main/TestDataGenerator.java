@@ -335,8 +335,47 @@ public class TestDataGenerator {
      * and properties
      */
     private void displayHelp() {
-        // TODO print help
-        System.out.println("Help: TODO");
+        // TODO actually describe the properties and switches instead of just
+        // listing them. ~dh
+        StringBuffer help = new StringBuffer(10000);
+
+        help.append("DecidR test data generator\n\n");
+        help.append(DecidrGlobals.DISCLAIMER);
+        help.append("\n\n");
+        help.append("Usage: java -jar testdatagenerator.jar "
+                + "[--property=value]+ [--switch]\n");
+
+        help.append("\n\nProperties:\n--------------------\n");
+        help.append(PROPERTY_CONNECTION_URL);
+        help.append("\n");
+        help.append(PROPERTY_USERS);
+        help.append("\n");
+        help.append(PROPERTY_TENANTS);
+        help.append("\n");
+        help.append(PROPERTY_MODELS);
+        help.append("\n");
+        help.append(PROPERTY_MODELS_PER_TENANT);
+        help.append("\n");
+        help.append(PROPERTY_INSTANCES);
+        help.append("\n");
+        help.append(PROPERTY_WORKITEMS);
+        help.append("\n");
+        help.append(PROPERTY_INVITATIONS);
+        help.append("\n");
+        help.append(PROPERTY_MAX_USERS_PER_TENANT);
+        help.append("\n");
+
+        help.append("\nSwitches:\n--------------------\n");
+        help.append(SWITCH_HELP);
+        help.append("\n");
+        help.append(SWITCH_NON_INTERACTIVE);
+        help.append("\n");
+        help.append(SWITCH_NO_STDOUT);
+        help.append("\n");
+        help.append(SWITCH_NO_STDERR);
+        help.append("\n");
+
+        System.out.println(help.toString());
     }
 
     /**
