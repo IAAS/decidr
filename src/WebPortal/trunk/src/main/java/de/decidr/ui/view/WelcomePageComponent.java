@@ -75,6 +75,8 @@ public class WelcomePageComponent extends CustomComponent {
             verticalLayout = new VerticalLayout();
             this.setCompositionRoot(verticalLayout);
 
+            // Aleks, GH: ein paar Zeilen weiter oben war das noch ein String
+            // ~rr
             Item tenant = (Item) session.getAttribute("tenant");
             if (tenant != null) {
                 labelDesc = new Label(tenantDescription, Label.CONTENT_XHTML);
@@ -91,6 +93,5 @@ public class WelcomePageComponent extends CustomComponent {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(exception));
         }
-
     }
 }
