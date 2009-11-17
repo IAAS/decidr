@@ -23,8 +23,6 @@ import org.hibernate.Session;
 
 import de.decidr.model.entities.Activity;
 import de.decidr.model.entities.KnownWebService;
-import de.decidr.model.webservices.EmailInterface;
-import de.decidr.model.webservices.HumanTaskInterface;
 import de.decidr.test.database.main.ProgressListener;
 
 /**
@@ -63,13 +61,11 @@ public class ActivityFactory extends EntityFactory {
 
         // create known web services
         KnownWebService emailWS = new KnownWebService();
-        emailWS.setWsdl(xml.getWsdl("email"));
-        emailWS.setNamespace(EmailInterface.TARGET_NAMESPACE);
+        emailWS.setName("EmailProxy");
         session.save(emailWS);
 
         KnownWebService humanTaskWS = new KnownWebService();
-        humanTaskWS.setWsdl(xml.getWsdl("humanTask"));
-        humanTaskWS.setNamespace(HumanTaskInterface.TARGET_NAMESPACE);
+        humanTaskWS.setName("HumanTaskProxy");
         session.save(humanTaskWS);
 
         // create activities that use the known web services
