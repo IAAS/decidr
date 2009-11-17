@@ -97,8 +97,8 @@ public class RegisterUserAction implements ClickListener {
 			} catch (TransactionException e) {
 				Main.getCurrent().getMainWindow().addWindow(
 						new InformationDialogComponent(
-								"The transaction was arboted",
-								"Transaction arbotion"));
+								"The transaction was aborted",
+								"Transaction abortion"));
 			}
 		} else {
 			Main.getCurrent().getMainWindow().addWindow(

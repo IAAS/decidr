@@ -62,6 +62,8 @@ public class WelcomePageComponent extends CustomComponent {
      * This method initializes the components of the help component
      */
     private void init() {
+        verticalLayout = new VerticalLayout();
+        this.setCompositionRoot(verticalLayout);
 
         session = Main.getCurrent().getSession();
         userId = (Long) session.getAttribute("userId");
@@ -73,9 +75,6 @@ public class WelcomePageComponent extends CustomComponent {
             // settings ~rr
             tenantDescription = (String) tenantFacade.getTenantSettings(
                     tenantId).getItemProperty("description").getValue();
-
-            verticalLayout = new VerticalLayout();
-            this.setCompositionRoot(verticalLayout);
 
             // Aleks, GH: ein paar Zeilen weiter oben war das noch ein String
             // ~rr

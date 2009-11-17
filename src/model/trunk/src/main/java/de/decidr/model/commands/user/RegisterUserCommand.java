@@ -98,6 +98,8 @@ public class RegisterUserCommand extends AclEnabledCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+        // DH: send email to new user
+        
         registeredUser = null;
         /*
          * Does a user who has the given email or username already exist?
