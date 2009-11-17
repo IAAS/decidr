@@ -22,6 +22,9 @@ package de.decidr.ui.view;
  *
  * @author Geoffrey-Alexeij Heinze
  */
+// Aleks, GH: what if no tenant is stored, as the user isn't logged in yet?
+// Also, do you mean "welcome page for a specific tenant"? If so, you also
+// need a generic welcome page ~rr
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Item;
@@ -49,8 +52,7 @@ public class WelcomePageComponent extends CustomComponent {
     private Label labelDesc = null;
 
     /**
-     * Default constructor
-     * 
+     * TODO document
      */
     public WelcomePageComponent() {
         init();

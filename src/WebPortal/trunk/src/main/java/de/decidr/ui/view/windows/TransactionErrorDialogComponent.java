@@ -16,8 +16,6 @@
 
 package de.decidr.ui.view.windows;
 
-import de.decidr.model.exceptions.TransactionException;
-
 /**
  * This component displays an error message. Should be used if an Action failed.
  * 
@@ -32,9 +30,11 @@ public class TransactionErrorDialogComponent extends InformationDialogComponent 
     public TransactionErrorDialogComponent(Exception e) {
         super(
                 "An error occured while performing your request."
+                        // GH, Aleks can the following line ever be the reason?
+                        // ~rr
                         + "<br/>Please check your internet connection and try again later."
-                        + "<br/>Error descrition:<br/>"
-                        + e.getMessage(),
+                        + "<br/>Error description:<br/>"
+                        + e.getClass().getSimpleName() + ": " + e.getMessage(),
                 "Transaction Error");
     }
 }
